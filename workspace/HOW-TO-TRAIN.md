@@ -10,13 +10,11 @@ Every training session follows this pipeline. Steps 1–3 are preparation and ex
 
 ---
 
-## Repo layout
+## Relevant repo layout
 
 ```
 knowledge/
   classcad-skill/            ← THE SKILL you are training (SKILL.md + references/*.md)
-  classcad-cli-skill/        ← WebSocket protocol (SKILL.md + protocol.md)
-  classcad-api/              ← raw API docs from @classcad/api-js (read-only reference)
 scripts/                     ← harness code (do not edit)
 workspace/
   training/                  ← your training sessions
@@ -33,8 +31,6 @@ The 7 API domains and their reference files (all under `knowledge/classcad-skill
 | Part      | `part.md`      | `v1.part.*`      |
 | Sketch    | `sketch.md`    | `v1.sketch.*`    |
 | Solid     | `solid.md`     | `v1.solid.*`     |
-
-If a reference file is unclear, cross-check with `knowledge/classcad-api/<domain>.md` (upstream API docs).
 
 ## The harness
 
@@ -74,8 +70,6 @@ Read `knowledge/classcad-skill/references/<domain>.md` for every method you plan
 3. **Related methods in the same domain** — understand the neighborhood.
 4. **`AGENT NOTE` blocks** — supplementary findings from prior training. Helpful but secondary. The raw docs are ground truth; notes are annotations on top.
 
-If a reference file is unclear, cross-check with `knowledge/classcad-api/<domain>.md` (upstream API docs).
-
 ## Step 2 — Create the session folder and journal
 
 ```
@@ -113,11 +107,11 @@ Testing `v1.part.boolean` and `v1.part.updateBoolean`.
 
 ## Step 3 — Write, run, and journal (the loop)
 
-This is an iterative loop. For each test:
+This is an iterative loop. Each iteration: write a script → run it → journal the result → check if you're done. **Stop iterating** when the coverage checklist below is satisfied, or when you've written 25 scripts — whichever comes first. If you hit the cap, move to Step 4 with what you have and note any gaps in the journal.
 
 ### 3a. Write a focused script
 
-Each script tests ONE question or behavior. Keep scripts small and specific — but write as many as you need. If the reference docs describe 6 methods with 5 parameters each, expect 15–25 scripts, not 4.
+Each script tests ONE question or behavior. Keep scripts small and specific — write as many as you need to satisfy the coverage checklist.
 
 ```js
 export default async function ({ execute }, { snapshot }) {
@@ -140,7 +134,8 @@ export default async function ({ execute }, { snapshot }) {
 **`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
 
 **Snapshot design rule:** The renderer uses an isometric projection with per-body coloring (each body gets a distinct color). To make before/after differences visible:
-- Offset tools/cuts asymmetrically (e.g., shift in X *and* Y, not just X)
+
+- Offset tools/cuts asymmetrically (e.g., shift in X _and_ Y, not just X)
 - Use different-sized bodies (e.g., a 100³ box and a 60×40×80 box)
 - Place cuts/additions where the silhouette changes (corners, off-center)
 - For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face)
@@ -158,7 +153,7 @@ Read the stdout output. Look at snapshot PNGs in `files/`.
 
 ### 3c. Write a journal entry
 
-After each run, append a section to `journal.md`:
+After each run, append a section to `journal.md`. This is an example template:
 
 ```markdown
 ## Trying basic extrusion (UP)
@@ -167,10 +162,11 @@ Script: `scripts/01-up.mjs` — create rectangle, sketchRegion, extrude UP with 
 
 **Results:**
 
-- `extrusion` returned feature ID 96
-- ❌ level-51 `Sketch.GetNormal` error appeared but extrusion succeeded — benign
-- Solid rendered correctly: 80×50×60 box
+- `extrusion` returned ...
+- ❌ level-51 `Sketch.GetNormal` error appeared ...
+- Solid rendered correctly: ...
 
+![before extrusion](files/01-up-before-extrusion-solid.png)
 ![after extrusion](files/01-up-after-extrusion-solid.png)
 
 **Learned:** The `GetNormal` error is always present on extrusions. Safe to ignore.
@@ -178,33 +174,23 @@ Script: `scripts/01-up.mjs` — create rectangle, sketchRegion, extrude UP with 
 **📌 Skill update:** GetNormal error is undocumented — add AGENT NOTE to extrusion section.
 ```
 
-The journal should read like a lab notebook. Include:
+The journal should read like a lab notebook. Every entry must include:
 
-- What you were testing and why
+- What you tested and why
 - The script filename
-- Key return values and whether they matched the docs
-- ❌ Errors and ⚠️ warnings — with your interpretation
-- Snapshot images (`![label](files/filename.png)`)
-- What you learned or what surprised you
-- What to try next
-- **📌 Skill update flags** — when you discover something that belongs in the skill files, mark it with `📌 Skill update:` right there in the journal entry. This is your TODO list for Step 4.
+- Key return values (did they match docs?)
+- Errors/warnings with your interpretation
+- **Snapshot images as markdown embeds** — `![label](files/filename.png)`. If the script produced snapshots, they MUST appear in the journal entry. If no snapshot was taken (e.g., error-only test), note that explicitly.
+- What you learned
+- **📌 Skill update:** flags for findings that belong in the skill files — these are your canonical TODO list for Step 4
 
-**Before/after snapshots:** When you take before and after snapshots, compare them and reason about the visual result. Do the images show a visible difference? Does the difference match what the operation should have produced? If the before and after look identical, either the geometry was set up poorly for visual verification, or something unexpected happened. If you're not satisfied, write another script with better geometry. The snapshots are evidence — if the evidence is ambiguous, gather better evidence.
+**Before/after snapshots:** Compare them and reason about the visual result. If before and after look identical, either the geometry was set up poorly or something unexpected happened. If the evidence is ambiguous, write another script with better geometry.
 
-### 3d. Cover the full API surface
+### 3d. Check: am I done?
 
-**Progression for each method:**
+**After each journal entry**, check the coverage checklist. If all boxes are satisfied, move to Step 4. If you've written 25 scripts, move to Step 4 regardless.
 
-1. **Basic happy path** — does it work at all with minimal required params?
-2. **Every parameter** — test each optional parameter individually. If the docs list 8 parameters, test all 8.
-3. **Parameter combinations** — do parameters interact?
-4. **Edge cases and boundaries** — zero values, negative values, very large values, empty arrays, duplicate IDs.
-5. **Error cases** — wrong ID types, missing required params, invalid enum values.
-6. **Update methods** — if there's an `updateX` paired with the method, test it: open feature, change each parameter, close feature.
-7. **Combinations with related methods** — boolean after extrusion? Pattern after boolean? These cross-method interactions are where the most valuable findings live.
-8. **Realistic workflows** — build something non-trivial that a real user would make.
-
-**Coverage checklist — before moving to Step 4, verify:**
+**Coverage checklist:**
 
 - [ ] Every method in the topic has been called at least once
 - [ ] Every documented parameter has been tested
@@ -213,13 +199,17 @@ The journal should read like a lab notebook. Include:
 - [ ] At least one cross-method combination tested
 - [ ] At least one realistic multi-step workflow
 
+If not done, pick the next gap and loop back to 3a. Follow this progression for each method: basic happy path → each optional parameter → parameter combinations → edge cases → error cases → update methods → cross-method combinations → realistic workflows.
+
+**When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. Do not keep retrying — the failure itself is a finding.
+
 Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
 
 ## Step 4 — Update the skill files
 
 **This is the deliverable.** The journal is working notes. The skill files are what persist and help future agents.
 
-Review your journal. Look for every `📌 Skill update` flag and every finding where the docs are wrong, misleading, or missing critical information. Then edit the skill files:
+Review your journal. Every finding that needs a skill update should already be flagged with `📌 Skill update:` — work through that list. Then edit the skill files:
 
 **Where to write:**
 
@@ -248,10 +238,20 @@ cd knowledge/classcad-skill && git diff references/ SKILL.md
 Copy the full output into `workspace/training/<session>/changes.md`. This is the record of what you changed and the proof that Step 4 happened.
 
 **A session is complete when:**
+
 - `changes.md` exists with the diff of your skill updates, OR
 - `journal.md` ends with a `## Skill Updates` section explaining why no changes were needed.
 
 There is no third option. One of these two must be true before you stop.
+
+## Completion checklist
+
+Before declaring a session done, verify every item:
+
+- [ ] Every journal entry that produced a snapshot embeds it as `![label](files/...png)`
+- [ ] Every `📌 Skill update:` flag in the journal has been addressed in Step 4
+- [ ] `changes.md` exists with diff, OR journal has `## Skill Updates` section justifying no changes
+- [ ] Journal goal/checklist has no uncovered items (or gaps are explicitly noted)
 
 ---
 

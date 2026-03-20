@@ -1,0 +1,14 @@
+{
+  "name": "classcad-skill-harness",
+  "version": "1.0.0",
+  "description": "Training harness and monorepo for the ClassCAD skill",
+  "license": "UNLICENSED",
+  "scripts": {
+    "postinstall": "node scripts/sync-submodule.mjs"
+  },
+  "dependencies": {
+    "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz",
+    "sharp": "^0.34.5",
+    "ws": "^8.19.0"
+  }
+}

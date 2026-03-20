@@ -6,6 +6,10 @@
 
 Create a MIL-STD-1913 Picatinny rail section using the ClassCAD Part and Sketch APIs. Dimensions sourced from the official standard (MIL-STD-1913 (AR), 3 February 1995).
 
+### Reference Spec
+
+![MIL-STD-1913 Picatinny Rail Spec](files/picatinny-spec.jpg)
+
 ## Dimensions Used
 
 All from MIL-STD-1913, converted to millimeters:

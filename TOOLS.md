@@ -8,7 +8,7 @@ The harness (`node scripts/run.mjs`) is a thin test runner. It connects to Class
 node scripts/run.mjs <script-path> --outdir <session-folder> [ws-url]
 ```
 
-- Default WebSocket: `ws://localhost:35007`
+- Default WebSocket: `ws://0.0.0.0:9094/`
 - Each `execute()` call prints one line with ✓/❌ markers
 - `snapshot('label')` saves PNG + STEP + OFB to `files/`
 - Harness clears the drawing after each run — every script starts fresh

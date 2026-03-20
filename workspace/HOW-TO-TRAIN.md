@@ -1,8 +1,14 @@
 # How to Train
 
-You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn in a journal. The journal is YOUR writing — your exploration, your reasoning, your findings.
+You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn. Your deliverable is **updated skill files** — AGENT NOTEs added to `knowledge/classcad-skill/` where the docs are wrong, misleading, or incomplete. The journal is your working notebook. The skill updates are the point.
 
 **Golden rule: read the reference docs before writing any code. Do not guess parameter names, ID types, or return values.**
+
+**Pipeline: Read → Script → Run → Journal → Apply to skill files → changes.md**
+
+Every training session follows this pipeline. Steps 1–3 are preparation and exploration. Steps 4–5 are the deliverable. When you find something the docs get wrong, miss, or underexplain, you edit it **in place** in `knowledge/classcad-skill/SKILL.md` or `knowledge/classcad-skill/references/<domain>.md` — at the exact location where that method or topic is documented. Then you record the git diff in `changes.md`. A session is not complete until you have either applied your findings to the skill files and written `changes.md`, or explicitly justified in the journal why no updates are needed.
+
+---
 
 ## Repo layout
 
@@ -61,12 +67,12 @@ Snapshots (`snapshot('label')`) save PNGs + STEP + OFB to `files/`. The harness 
 
 ## Step 1 — Read the reference docs
 
-Read `knowledge/classcad-skill/references/<domain>.md` for every method you plan to test. Study the documentation in this order:
+Read `knowledge/classcad-skill/references/<domain>.md` for every method you plan to test. Study in this order:
 
 1. **Method signatures and parameter tables** — exact parameter names, types, and which are optional.
 2. **Return value structure** — what the method gives back and how to use it.
 3. **Related methods in the same domain** — understand the neighborhood.
-4. **`AGENT NOTE` blocks** — supplementary findings from prior training. These are helpful but secondary. The raw docs are the ground truth; notes are annotations on top.
+4. **`AGENT NOTE` blocks** — supplementary findings from prior training. Helpful but secondary. The raw docs are ground truth; notes are annotations on top.
 
 If a reference file is unclear, cross-check with `knowledge/classcad-api/<domain>.md` (upstream API docs).
 
@@ -76,8 +82,8 @@ If a reference file is unclear, cross-check with `knowledge/classcad-api/<domain
 workspace/training/YYYY-MM-DD_HH-MM-SS_<topic>/
   scripts/      ← your test scripts (one focused test per file)
   files/        ← harness output (PNGs, STEP, OFB)
-  journal.md    ← YOU write this — your exploration log
-  changes.md    ← YOU write this IF you modify skill files (must contain git diff)
+  journal.md    ← your exploration log (written during Step 3)
+  changes.md    ← skill update diff (written during Step 5)
 ```
 
 Create `journal.md` with a title, date, and a goal section. The goal should list every method and parameter you intend to cover — this becomes your checklist. Write it after reading the reference docs so it reflects the actual API surface.
@@ -111,7 +117,7 @@ This is an iterative loop. For each test:
 
 ### 3a. Write a focused script
 
-Each script tests ONE question or behavior. Keep scripts small and specific — but write as many as you need. A training session for `part.boolean` might have 10–20 scripts. A session covering `sketch.line` + `sketch.arc` + `sketch.circle` might have 30+. The goal is full coverage of every parameter, mode, and edge case in the topic's API surface.
+Each script tests ONE question or behavior. Keep scripts small and specific — but write as many as you need. If the reference docs describe 6 methods with 5 parameters each, expect 15–25 scripts, not 4.
 
 ```js
 export default async function ({ execute }, { snapshot }) {
@@ -133,6 +139,12 @@ export default async function ({ execute }, { snapshot }) {
 
 **`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
 
+**Snapshot design rule:** The renderer uses an isometric projection with per-body coloring (each body gets a distinct color). To make before/after differences visible:
+- Offset tools/cuts asymmetrically (e.g., shift in X *and* Y, not just X)
+- Use different-sized bodies (e.g., a 100³ box and a 60×40×80 box)
+- Place cuts/additions where the silhouette changes (corners, off-center)
+- For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face)
+
 **Return value** — return `{ partId }` at minimum, or any object. The harness prints it.
 
 ### 3b. Run it
@@ -146,7 +158,7 @@ Read the stdout output. Look at snapshot PNGs in `files/`.
 
 ### 3c. Write a journal entry
 
-After each run, append a section to `journal.md`. Write what you tried, what happened, what you learned:
+After each run, append a section to `journal.md`:
 
 ```markdown
 ## Trying basic extrusion (UP)
@@ -162,6 +174,8 @@ Script: `scripts/01-up.mjs` — create rectangle, sketchRegion, extrude UP with 
 ![after extrusion](files/01-up-after-extrusion-solid.png)
 
 **Learned:** The `GetNormal` error is always present on extrusions. Safe to ignore.
+
+**📌 Skill update:** GetNormal error is undocumented — add AGENT NOTE to extrusion section.
 ```
 
 The journal should read like a lab notebook. Include:
@@ -169,55 +183,48 @@ The journal should read like a lab notebook. Include:
 - What you were testing and why
 - The script filename
 - Key return values and whether they matched the docs
-- ❌ Errors and ⚠️ warnings — with your interpretation of what they mean
+- ❌ Errors and ⚠️ warnings — with your interpretation
 - Snapshot images (`![label](files/filename.png)`)
 - What you learned or what surprised you
 - What to try next
+- **📌 Skill update flags** — when you discover something that belongs in the skill files, mark it with `📌 Skill update:` right there in the journal entry. This is your TODO list for Step 4.
 
-### 3d. Keep going — cover the full API surface
+**Before/after snapshots:** When you take before and after snapshots, compare them and reason about the visual result. Do the images show a visible difference? Does the difference match what the operation should have produced? If the before and after look identical, either the geometry was set up poorly for visual verification, or something unexpected happened. If you're not satisfied, write another script with better geometry. The snapshots are evidence — if the evidence is ambiguous, gather better evidence.
 
-A training session is not done after 3–4 scripts. You are building a **complete understanding** of every method, parameter, and behavior in the topic. Go back to the reference docs frequently — every parameter you haven't tested is a gap.
+### 3d. Cover the full API surface
 
 **Progression for each method:**
 
 1. **Basic happy path** — does it work at all with minimal required params?
-2. **Every parameter** — test each optional parameter individually. What does `taper` do? What does `symmetric` change? What does `name` accept? If the docs list 8 parameters, you should have tested all 8.
-3. **Parameter combinations** — do parameters interact? Does `symmetric: true` change how `limit1`/`limit2` work? Does `direction` affect `taper`?
-4. **Edge cases and boundaries** — zero values, negative values, very large values, empty arrays, duplicate IDs. What breaks? What silently succeeds?
-5. **Error cases** — wrong ID types, missing required params, invalid enum values. What error messages does ClassCAD return? Are they descriptive?
-6. **Update methods** — if there's an `updateX` paired with the method, test it: open feature, change each parameter, close feature. What does it return? Can you change type after creation?
-7. **Combinations with related methods** — how does this method interact with nearby features? Boolean after extrusion? Pattern after boolean? Fillet on a filleted edge? These cross-method interactions are where the most valuable findings live.
-8. **Realistic workflows** — build something non-trivial that a real user would make. A bracket, a housing, a plate with holes. This tests the method in context and often reveals issues that isolated tests miss.
+2. **Every parameter** — test each optional parameter individually. If the docs list 8 parameters, test all 8.
+3. **Parameter combinations** — do parameters interact?
+4. **Edge cases and boundaries** — zero values, negative values, very large values, empty arrays, duplicate IDs.
+5. **Error cases** — wrong ID types, missing required params, invalid enum values.
+6. **Update methods** — if there's an `updateX` paired with the method, test it: open feature, change each parameter, close feature.
+7. **Combinations with related methods** — boolean after extrusion? Pattern after boolean? These cross-method interactions are where the most valuable findings live.
+8. **Realistic workflows** — build something non-trivial that a real user would make.
 
-**Coverage checklist — before ending a session, verify:**
+**Coverage checklist — before moving to Step 4, verify:**
 
 - [ ] Every method in the topic has been called at least once
 - [ ] Every documented parameter has been tested
-- [ ] Every enum value / type variant has been exercised (e.g., all three boolean types, all extrusion directions)
+- [ ] Every enum value / type variant has been exercised
 - [ ] `update*` and `delete*` methods tested if they exist
 - [ ] At least one cross-method combination tested
 - [ ] At least one realistic multi-step workflow
 
-If the reference docs describe 6 methods with 5 parameters each, expect 15–25 scripts, not 4.
+Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
 
-Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, `04-taper.mjs`, etc.
+## Step 4 — Update the skill files
 
-## Step 4 — Update the skill
+**This is the deliverable.** The journal is working notes. The skill files are what persist and help future agents.
 
-**This is the deliverable.** The journal is your working notes. The skill files are what persist and help future agents.
-
-After your exploration, review your journal and update the skill docs. Update when:
-
-- The docs are wrong or misleading
-- You found critical undocumented behavior (gotchas, edge cases, actual return structure)
-- An existing `AGENT NOTE` is incorrect
-
-Do not skip this step. If you ran tests and learned nothing new, say so explicitly in the journal — but verify that claim first.
+Review your journal. Look for every `📌 Skill update` flag and every finding where the docs are wrong, misleading, or missing critical information. Then edit the skill files:
 
 **Where to write:**
 
-- **`knowledge/classcad-skill/SKILL.md`** — generic cross-domain findings (conventions, patterns, architectural insights).
 - **`knowledge/classcad-skill/references/<domain>.md`** — domain-specific findings (method behavior, return values, edge cases).
+- **`knowledge/classcad-skill/SKILL.md`** — cross-domain findings (conventions, patterns, architectural insights).
 
 **How to write:**
 
@@ -228,13 +235,23 @@ Do not skip this step. If you ran tests and learned nothing new, say so explicit
   ```
 - If an existing note is wrong, fix or remove it in place.
 
-**Record the diff:**
+**If you found nothing new:** Write a `## Skill Updates` section at the end of `journal.md` explaining why — which existing AGENT NOTEs you verified, what you tested that matched the docs exactly, and why no changes are needed. Be specific. "Nothing new" is a valid outcome but requires justification, not silence.
+
+## Step 5 — Write changes.md
+
+If you modified any skill files in Step 4, run:
 
 ```bash
 cd knowledge/classcad-skill && git diff references/ SKILL.md
 ```
 
-Copy the output into `workspace/training/<session>/changes.md`. Only create `changes.md` if you actually modified skill files. It must contain the raw diff.
+Copy the full output into `workspace/training/<session>/changes.md`. This is the record of what you changed and the proof that Step 4 happened.
+
+**A session is complete when:**
+- `changes.md` exists with the diff of your skill updates, OR
+- `journal.md` ends with a `## Skill Updates` section explaining why no changes were needed.
+
+There is no third option. One of these two must be true before you stop.
 
 ---
 

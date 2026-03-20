@@ -29,19 +29,6 @@
 - Journal is a lab notebook — write entries after each run, not at the end.
 - `changes.md` records the git diff of any skill file modifications.
 
-## Training Progress
-
-### Completed Sessions
-
-- **2026-03-20 `part-boolean`** — UNION, SUBTRACTION, INTERSECTION tested. Multiple tools array works. `updateBoolean` returns feature ID (not null). `openFeature`/`closeFeature` bracket confirmed for update methods. 4 scripts.
-
-### Known Patterns (from training)
-
-- `openFeature`/`closeFeature` bracket is required for ALL `update*` functions in Part API. Without it, updates silently fail with "not active and open" error.
-- `updateExtrusion` and `updateBoolean` return the feature ID on success. `updateBox` returns null.
-- Benign `Sketch.GetNormal` error (level 51) always appears on extrusions — safe to ignore.
-- `part.workCSys` is the correct name (not `workCoordinateSystem`).
-
 ## Feedback from ph
 
 - Training sessions must be thorough — cover the full API surface, not just 3-4 happy-path scripts.

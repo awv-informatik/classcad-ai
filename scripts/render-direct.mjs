@@ -87,17 +87,171 @@ function tessellateArc(start, end, center, n = 64, mid = null) {
 // SOLID RENDERER — from graphic data
 // ═══════════════════════════════════════════════════════════════════════════
 
+// Per-body color palettes: [r, g, b] base multipliers for distinct body identification
+const BODY_PALETTES = [
+  [0.55, 0.65, 1.0],   // blue
+  [1.0,  0.55, 0.3],   // orange
+  [0.4,  0.85, 0.5],   // green
+  [0.9,  0.4,  0.65],  // pink
+  [0.75, 0.7,  0.35],  // olive
+  [0.5,  0.8,  0.85],  // teal
+  [0.85, 0.55, 0.85],  // purple
+  [0.9,  0.8,  0.4],   // gold
+]
+
+/**
+ * Z-buffer rasterizer for solid rendering. Eliminates all Z-fighting artifacts.
+ * Returns { pixels: Buffer (RGBA), width, height } or null if no geometry.
+ */
+function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H) {
+  const allPts2d = []
+  const tris = []  // { v0, v1, v2 (screen+depth), r, g, b }
+  const edgeLines = []
+
+  const containers = graphic.containers || []
+  for (let ci = 0; ci < containers.length; ci++) {
+    const container = containers[ci]
+    const palette = BODY_PALETTES[ci % BODY_PALETTES.length]
+    for (const mesh of (container.meshes || [])) {
+      const verts = mesh.vertices, norms = mesh.normals, indices = mesh.indices
+      for (let i = 0; i < indices.length; i += 3) {
+        const tv = []
+        for (let j = 0; j < 3; j++) {
+          const idx = indices[i + j]
+          const [px, py, pz] = projectIso(verts[idx*3], verts[idx*3+1], verts[idx*3+2])
+          tv.push({ px, py, pz })
+          allPts2d.push([px, py])
+        }
+        const [, , lz] = projectIso(norms[indices[i]*3], norms[indices[i]*3+1], norms[indices[i]*3+2])
+        if (lz < 0) continue  // back-face cull
+        const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * lz))
+        const shade = 100 + 130 * brightness
+        tris.push({
+          v: tv,
+          r: Math.round(shade * palette[0]),
+          g: Math.round(shade * palette[1]),
+          b: Math.round(shade * palette[2]),
+        })
+      }
+    }
+    for (const edge of (container.edges || [])) {
+      const pts = edge.points
+      const projPts = []
+      for (let i = 0; i < pts.length; i += 3) {
+        const [px, py, pz] = projectIso(pts[i], pts[i+1], pts[i+2])
+        projPts.push({ px, py, pz })
+        allPts2d.push([px, py])
+      }
+      edgeLines.push(projPts)
+    }
+  }
+
+  if (allPts2d.length === 0) return null
+  const xf = viewTransform(allPts2d, width, height)
+
+  // Allocate pixel + depth buffers
+  const pixels = Buffer.alloc(width * height * 4, 255) // white RGBA
+  const zBuf = new Float64Array(width * height).fill(-Infinity)
+
+  // Rasterize triangles
+  for (const tri of tris) {
+    const sv = tri.v.map(v => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+    _rasterTri(pixels, zBuf, width, height, sv[0], sv[1], sv[2], tri.r, tri.g, tri.b)
+  }
+
+  // Draw edges on top (2px, dark color, with depth test)
+  const edgeColor = { r: 26, g: 26, b: 58 }
+  for (const epts of edgeLines) {
+    const sv = epts.map(v => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+    for (let i = 0; i < sv.length - 1; i++) {
+      _rasterLine(pixels, zBuf, width, height, sv[i], sv[i+1], edgeColor, 0.5)
+    }
+  }
+
+  return { pixels, width, height }
+}
+
+/** Rasterize a single triangle with per-pixel depth test */
+function _rasterTri(pixels, zBuf, w, h, v0, v1, v2, r, g, b) {
+  // Bounding box
+  let minX = Math.floor(Math.min(v0.sx, v1.sx, v2.sx))
+  let maxX = Math.ceil(Math.max(v0.sx, v1.sx, v2.sx))
+  let minY = Math.floor(Math.min(v0.sy, v1.sy, v2.sy))
+  let maxY = Math.ceil(Math.max(v0.sy, v1.sy, v2.sy))
+  minX = Math.max(0, minX); maxX = Math.min(w - 1, maxX)
+  minY = Math.max(0, minY); maxY = Math.min(h - 1, maxY)
+
+  const denom = (v1.sy - v2.sy) * (v0.sx - v2.sx) + (v2.sx - v1.sx) * (v0.sy - v2.sy)
+  if (Math.abs(denom) < 1e-10) return  // degenerate
+
+  for (let y = minY; y <= maxY; y++) {
+    for (let x = minX; x <= maxX; x++) {
+      const w0 = ((v1.sy - v2.sy) * (x - v2.sx) + (v2.sx - v1.sx) * (y - v2.sy)) / denom
+      const w1 = ((v2.sy - v0.sy) * (x - v2.sx) + (v0.sx - v2.sx) * (y - v2.sy)) / denom
+      const w2 = 1 - w0 - w1
+      if (w0 < -0.001 || w1 < -0.001 || w2 < -0.001) continue  // outside
+      const z = w0 * v0.sz + w1 * v1.sz + w2 * v2.sz
+      const idx = y * w + x
+      if (z >= zBuf[idx]) {  // larger z = closer to camera in isometric projection
+        zBuf[idx] = z
+        const pi = idx * 4
+        pixels[pi] = r; pixels[pi+1] = g; pixels[pi+2] = b; pixels[pi+3] = 255
+      }
+    }
+  }
+}
+
+/** Rasterize a line with per-pixel depth test (Bresenham + interpolated Z) */
+function _rasterLine(pixels, zBuf, w, h, p0, p1, color, zBias = 0) {
+  let x0 = Math.round(p0.sx), y0 = Math.round(p0.sy)
+  let x1 = Math.round(p1.sx), y1 = Math.round(p1.sy)
+  const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0)
+  const sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1
+  let err = dx - dy
+  const steps = Math.max(dx, dy) || 1
+  const totalDist = Math.sqrt((p1.sx-p0.sx)**2 + (p1.sy-p0.sy)**2) || 1
+  for (let i = 0; i <= steps + 1; i++) {
+    if (x0 >= 0 && x0 < w && y0 >= 0 && y0 < h) {
+      const t = Math.sqrt((x0-p0.sx)**2 + (y0-p0.sy)**2) / totalDist
+      const z = p0.sz + t * (p1.sz - p0.sz) + zBias
+      const idx = y0 * w + x0
+      if (z >= zBuf[idx] - 0.01) {  // small bias to draw edges on surfaces
+        const pi = idx * 4
+        pixels[pi] = color.r; pixels[pi+1] = color.g; pixels[pi+2] = color.b; pixels[pi+3] = 255
+        // Also draw neighboring pixels for ~2px width
+        for (const [ox, oy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+          const nx = x0+ox, ny = y0+oy
+          if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
+            const ni = ny * w + nx
+            if (z >= zBuf[ni] - 0.01) {
+              const npi = ni * 4
+              pixels[npi] = color.r; pixels[npi+1] = color.g; pixels[npi+2] = color.b; pixels[npi+3] = 255
+            }
+          }
+        }
+      }
+    }
+    if (x0 === x1 && y0 === y1) break
+    const e2 = 2 * err
+    if (e2 > -dy) { err -= dy; x0 += sx }
+    if (e2 < dx) { err += dx; y0 += sy }
+  }
+}
+
+// Legacy SVG renderer (kept for sketch/curve paths)
 function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
   const allPts2d = []
   const triangles = []
   const edges = []
 
-  for (const container of (graphic.containers || [])) {
-    // Meshes → triangles
+  const containers = graphic.containers || []
+  for (let ci = 0; ci < containers.length; ci++) {
+    const container = containers[ci]
+    const palette = BODY_PALETTES[ci % BODY_PALETTES.length]
     for (const mesh of (container.meshes || [])) {
       const verts = mesh.vertices, norms = mesh.normals, indices = mesh.indices
       for (let i = 0; i < indices.length; i += 3) {
-        const triVerts = [], triNorm = []
+        const triVerts = []
         for (let j = 0; j < 3; j++) {
           const idx = indices[i + j]
           const [px, py, pz] = projectIso(verts[idx*3], verts[idx*3+1], verts[idx*3+2])
@@ -105,12 +259,12 @@ function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
           allPts2d.push([px, py])
         }
         const [, , lz] = projectIso(norms[indices[i]*3], norms[indices[i]*3+1], norms[indices[i]*3+2])
-        const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * Math.abs(lz)))
+        if (lz < 0) continue
+        const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * lz))
         const avgDepth = (triVerts[0].pz + triVerts[1].pz + triVerts[2].pz) / 3
-        triangles.push({ verts: triVerts, brightness, avgDepth })
+        triangles.push({ verts: triVerts, brightness, avgDepth, palette })
       }
     }
-    // Edges
     for (const edge of (container.edges || [])) {
       const pts = edge.points
       const projPts = []
@@ -122,17 +276,16 @@ function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
       edges.push(projPts)
     }
   }
-
   if (allPts2d.length === 0) return null
   triangles.sort((a, b) => a.avgDepth - b.avgDepth)
   const xf = viewTransform(allPts2d, width, height)
-
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\n`
   svg += `<rect width="100%" height="100%" fill="white"/>\n`
   for (const tri of triangles) {
     const pts = tri.verts.map(v => xf(v.px, v.py))
     const shade = Math.round(100 + 130 * tri.brightness)
-    const r = Math.round(shade * 0.65), g = Math.round(shade * 0.75), b = shade
+    const [pr, pg, pb] = tri.palette
+    const r = Math.round(shade * pr), g = Math.round(shade * pg), b = Math.round(shade * pb)
     svg += `<polygon points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="rgb(${r},${g},${b})" stroke="none"/>\n`
   }
   for (const edgePts of edges) {
@@ -341,23 +494,25 @@ export async function renderSession(client, prefix, outDir, options = {}) {
 
   // ── SOLIDS ──
   if (content.solids.length > 0) {
-    // Try: 1) last cached graphic, 2) recalc, 3) skip
-    let solidGraphic = getLastGraphic?.()
+    // Always recalc to get accurate container state (cached graphic may be stale/intermediate)
+    let solidGraphic = null
+    try {
+      const recalcResult = await execute({ 'v1.common.recalc': [{}] })
+      if (recalcResult.graphic?.containers?.some(c => c.meshes?.length > 0)) {
+        solidGraphic = recalcResult.graphic
+      }
+    } catch (e) { /* skip */ }
+    // Fallback to cached graphic if recalc failed
     if (!solidGraphic || !solidGraphic.containers?.some(c => c.meshes?.length > 0)) {
-      try {
-        const recalcResult = await execute({ 'v1.common.recalc': [{}] })
-        if (recalcResult.graphic?.containers?.some(c => c.meshes?.length > 0)) {
-          solidGraphic = recalcResult.graphic
-        }
-      } catch (e) { /* skip */ }
+      solidGraphic = getLastGraphic?.()
     }
     // Filter to solid containers (type 1) only
     if (solidGraphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)) {
       const solidOnly = { ...solidGraphic, containers: solidGraphic.containers.filter(c => c.type === 1 && c.meshes?.length > 0) }
-      const svg = renderSolidSVG(solidOnly, width, height)
-      if (svg) {
+      const zbuf = renderSolidZBuffer(solidOnly, width, height)
+      if (zbuf) {
         const file = `${prefix}-solid.png`
-        await svgToPng(svg, `${outDir}/${file}`)
+        await sharp(zbuf.pixels, { raw: { width: zbuf.width, height: zbuf.height, channels: 4 } }).png().toFile(`${outDir}/${file}`)
         rendered.push({ type: 'solid', file })
       }
     }
@@ -388,13 +543,14 @@ export async function renderSession(client, prefix, outDir, options = {}) {
 
   // ── CURVES ──
   if (content.curves.length > 0) {
-    // Try last graphic first, then recalc
-    let curveGraphic = getLastGraphic?.()
+    // Reuse the recalc graphic from solids path if available, else recalc
+    let curveGraphic = null
+    try {
+      const r = await execute({ 'v1.common.recalc': [{}] })
+      if (r.graphic?.containers?.some(c => c.type === 2)) curveGraphic = r.graphic
+    } catch (e) { /* skip */ }
     if (!curveGraphic?.containers?.some(c => c.type === 2 && c.edges?.length > 0)) {
-      try {
-        const r = await execute({ 'v1.common.recalc': [{}] })
-        if (r.graphic?.containers?.some(c => c.type === 2)) curveGraphic = r.graphic
-      } catch (e) { /* skip */ }
+      curveGraphic = getLastGraphic?.()
     }
     if (curveGraphic) {
       const svg = renderCurveSVG(curveGraphic, width, height)

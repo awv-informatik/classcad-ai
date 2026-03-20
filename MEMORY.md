@@ -36,3 +36,19 @@
 - The journal should read like a lab notebook with real findings, not generic summaries.
 - The harness is a thin runner — cc writes the journal, not the harness.
 - One focused test per script. Never cram multiple tests into one file.
+- **Don't get stuck in the scripting loop** — finish journal + skill updates + changes.md promptly, not after being asked.
+
+## Training Log
+
+### 2026-03-20: Booleans (Deep)
+- Session: `workspace/training/2026-03-20_13-00-00_booleans/`
+- Scripts: 20 (01–20, with b/c variants for retries)
+- Coverage: `v1.part.boolean` (all 3 types, all params, indices, chaining, errors, cross-method) + `v1.part.updateBoolean` (type/name/target/tools changes, open/close workflow, wrong feature type dispatch)
+- Key findings:
+  - Non-overlapping INTERSECTION → ERROR "blank solid was removed" (UNION/SUBTRACTION silent)
+  - Same feature as target+tool: succeeds with no error
+  - `updateBoolean` returns feature ID (not null), dispatches to open feature's actual type
+  - `indices` are 0-based for both target and tools
+  - Boolean features can be chained, patterned, and queried for brep edges
+  - `linearPattern` uses `targets` (plural array) + `dir1.references` is required
+- Skill updates: 2 AGENT NOTEs updated in `references/part.md`

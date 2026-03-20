@@ -5,6 +5,7 @@ node_modules/
 
 # Claude Code local config
 .claude/
+.openclaw/
 
 # Lock file (keep package.json, ignore lock)
 package-lock.json

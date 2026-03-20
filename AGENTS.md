@@ -40,8 +40,6 @@ knowledge/
   classcad-skill/            ← THE SKILL (git submodule) — your deliverable
     SKILL.md                 ← master skill definition
     references/*.md          ← per-domain API docs with AGENT NOTEs
-  classcad-cli-skill/        ← WebSocket protocol skill
-  classcad-api/              ← upstream API docs (read-only reference)
 scripts/                     ← harness code (do not edit)
 workspace/
   training/                  ← your training sessions

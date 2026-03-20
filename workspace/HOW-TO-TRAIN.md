@@ -133,12 +133,19 @@ export default async function ({ execute }, { snapshot }) {
 
 **`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
 
-**Snapshot design rule:** The renderer uses an isometric projection with per-body coloring (each body gets a distinct color). To make before/after differences visible:
+**Snapshot design rule:** The renderer uses a fixed isometric projection with per-body coloring (each body gets a distinct color). To make before/after differences visible:
 
 - Offset tools/cuts asymmetrically (e.g., shift in X _and_ Y, not just X)
 - Use different-sized bodies (e.g., a 100³ box and a 60×40×80 box)
 - Place cuts/additions where the silhouette changes (corners, off-center)
 - For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face)
+
+**Viewer-facing rule (from `scripts/render-direct.mjs`):** solids are rendered with `projectIso` (rotate 45° around Y, then ~35.264° around X). Depth is `d = (-x + y + z)/√3`, and larger `d` is closer to camera.
+
+- Think of the camera as viewing from roughly **(-X, +Y, +Z)** toward the origin.
+- The opposite side **(+X, -Y, -Z)** is the “back” side and easiest to hide cuts/fillets on.
+- When testing cuts/fillets/chamfers, bias geometry so the modified region is on the viewer-facing side (lower X and/or higher Y/Z).
+- If a before/after pair looks unchanged, assume view placement may be wrong first: reposition and re-run.
 
 **Return value** — return `{ partId }` at minimum, or any object. The harness prints it.
 
@@ -166,8 +173,8 @@ Script: `scripts/01-up.mjs` — create rectangle, sketchRegion, extrude UP with 
 - ❌ level-51 `Sketch.GetNormal` error appeared ...
 - Solid rendered correctly: ...
 
-![before extrusion](files/01-up-before-extrusion-solid.png)
-![after extrusion](files/01-up-after-extrusion-solid.png)
+| ![before extrusion](files/01-up-before-extrusion-solid.png) | ![after extrusion](files/01-up-after-extrusion-solid.png) |
+|---|---|
 
 **Learned:** The `GetNormal` error is always present on extrusions. Safe to ignore.
 
@@ -180,7 +187,11 @@ The journal should read like a lab notebook. Every entry must include:
 - The script filename
 - Key return values (did they match docs?)
 - Errors/warnings with your interpretation
-- **Snapshot images as markdown embeds** — `![label](files/filename.png)`. If the script produced snapshots, they MUST appear in the journal entry. If no snapshot was taken (e.g., error-only test), note that explicitly.
+- **Snapshot images as markdown embeds** — if the script produced snapshots, they MUST appear in the journal entry. If no snapshot was taken (e.g., error-only test), note that explicitly. **When there are multiple images (e.g., before/after), embed them in a single row using a markdown table, not stacked vertically:**
+  ```markdown
+  | ![before](files/01-before-solid.png) | ![after](files/01-after-solid.png) |
+  |---|---|
+  ```
 - What you learned
 - **📌 Skill update:** flags for findings that belong in the skill files — these are your canonical TODO list for Step 4
 

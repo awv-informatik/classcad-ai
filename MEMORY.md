@@ -17,7 +17,14 @@ Core rules and training discipline are in `SOUL.md`. This file tracks **learned 
 
 ## Training Progress
 
-_(No topics trained yet.)_
+- 2026-03-20 — **Solid / fillet refresher (partial, paused)**
+  - Session: `workspace/training/2026-03-20_17-13-00_solid-fillets-again/`
+  - Reconfirmed: baseline fillet behavior, decimal radius support, oversize-radius silent no-op, empty `geomIds` returns `[]`, strict EIF id type requirement.
+
+- 2026-03-20 — **Part / linearPattern (completed)**
+  - Session: `workspace/training/2026-03-20_17-26-30_part-linearpattern/`
+  - Covered create + update flows, target forms (`id`, `{id}`, `{id, indices}`), `dir1/dir2`, inverted, merged, multi-target, and error cases.
+  - Key findings added to skill: `merged=true` fuses overlaps (union-like), `updateLinearPattern` can add `dir2` post-creation, success returns feature id while failures return null.
 
 ## Feedback from ph
 
@@ -25,3 +32,4 @@ _(No topics trained yet.)_
 - The journal should read like a lab notebook with real findings, not generic summaries.
 - The harness is a thin runner — cc writes the journal, not the harness.
 - **Don't get stuck in the scripting loop** — finish journal + skill updates + changes.md promptly, not after being asked.
+- Mind the viewer/camera when placing cuts/fillets/etc. If modifications are on the hidden/back side, before/after snapshots become ambiguous. Use renderer projection direction intentionally.

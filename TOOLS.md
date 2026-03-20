@@ -30,10 +30,9 @@ cd knowledge/classcad-skill && git diff references/ SKILL.md
 
 ## Reference Docs
 
-| Source            | Location                                  | Purpose                                      |
-| ----------------- | ----------------------------------------- | -------------------------------------------- |
-| Skill references  | `knowledge/classcad-skill/references/*.md` | Primary — your working docs with AGENT NOTEs |
-| Upstream API docs | `knowledge/classcad-api/*.md`                   | Cross-reference when skill refs are unclear  |
+| Source           | Location                                   | Purpose                                      |
+| ---------------- | ------------------------------------------ | -------------------------------------------- |
+| Skill references | `knowledge/classcad-skill/references/*.md` | Primary — your working docs with AGENT NOTEs |
 
 ## Rendering
 

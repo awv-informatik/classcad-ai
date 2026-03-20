@@ -160,46 +160,42 @@ Read the stdout output. Look at snapshot PNGs in `files/`.
 
 ### 3c. Write a journal entry
 
-After each run, append a section to `journal.md`. This is an example template:
+After each run, append a section to `journal.md`. Use **two tiers** — brief for confirmations, full for findings:
+
+**Brief entry** — when behavior matches the docs and nothing surprising happened:
 
 ```markdown
-## Trying basic extrusion (UP)
+## 03 — symmetric extrusion
 
-Script: `scripts/01-up.mjs` — create rectangle, sketchRegion, extrude UP with limit2=60.
-
-**Results:**
-
-- `extrusion` returned ...
-- ❌ level-51 `Sketch.GetNormal` error appeared ...
-- Solid rendered correctly: ...
-
-| ![before extrusion](files/01-up-before-extrusion-solid.png) | ![after extrusion](files/01-up-after-extrusion-solid.png) |
-|---|---|
-
-**Learned:** The `GetNormal` error is always present on extrusions. Safe to ignore.
-
-**📌 Skill update:** GetNormal error is undocumented — add AGENT NOTE to extrusion section.
+Script: `scripts/03-symmetric.mjs` — ✅ as documented, limit1=-30 limit2=30 produces centered box.
+| ![result](files/03-symmetric-solid.png) |
+|---|
 ```
 
-The journal should read like a lab notebook. Every entry must include:
+**Full entry** — when you find errors, doc discrepancies, unexpected, surprising or interesting behavior:
 
-- What you tested and why
-- The script filename
-- Key return values (did they match docs?)
-- Errors/warnings with your interpretation
-- **Snapshot images as markdown embeds** — if the script produced snapshots, they MUST appear in the journal entry. If no snapshot was taken (e.g., error-only test), note that explicitly. **When there are multiple images (e.g., before/after), embed them in a single row using a markdown table, not stacked vertically:**
-  ```markdown
-  | ![before](files/01-before-solid.png) | ![after](files/01-after-solid.png) |
-  |---|---|
-  ```
-- What you learned
-- **📌 Skill update:** flags for findings that belong in the skill files — these are your canonical TODO list for Step 4
+```markdown
+## 04 — negative limit2 (unexpected)
 
-**Before/after snapshots:** Compare them and reason about the visual result. If before and after look identical, either the geometry was set up poorly or something unexpected happened. If the evidence is ambiguous, write another script with better geometry.
+Script: `scripts/04-neg-limit.mjs` — limit2=-10 silently produces no geometry. No error returned.
+
+| ![before](files/04-before-solid.png) | ![after](files/04-after-solid.png) |
+| ------------------------------------ | ---------------------------------- |
+
+**Learned:** Negative limit2 is a silent no-op, not documented.
+**📌 Skill update:** Add AGENT NOTE to extrusion section — negative limit2 behavior.
+```
+
+**Rules for both tiers:**
+
+- Every entry gets the script filename and a one-line result summary
+- If the script produced snapshots, they MUST appear as markdown embeds. Multiple images go in a single row using a markdown table, not stacked vertically.
+- **📌 Skill update:** flags only on full entries — these are your TODO list for Step 4
+- If before/after snapshots look identical, the geometry placement may be wrong — reposition and re-run before concluding "no change"
 
 ### 3d. Check: am I done?
 
-**After each journal entry**, check the coverage checklist. If all boxes are satisfied, move to Step 4. If you've written 25 scripts, move to Step 4 regardless.
+**Every 5 scripts** (and after the last script), check the coverage checklist. If all boxes are satisfied, move to Step 4. If you've written 20 scripts (or more), move to Step 4 regardless.
 
 **Coverage checklist:**
 

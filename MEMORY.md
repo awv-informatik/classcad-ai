@@ -26,6 +26,11 @@ Core rules and training discipline are in `SOUL.md`. This file tracks **learned 
   - Covered create + update flows, target forms (`id`, `{id}`, `{id, indices}`), `dir1/dir2`, inverted, merged, multi-target, and error cases.
   - Key findings added to skill: `merged=true` fuses overlaps (union-like), `updateLinearPattern` can add `dir2` post-creation, success returns feature id while failures return null.
 
+- 2026-03-20 — **Curve / polyline2d (completed)**
+  - Session: `workspace/training/2026-03-20_17-53-07_curve-polyline2d/`
+  - Ran 20 scripts across happy paths, strict length/type validation, close semantics, batch calls, id-type validation, and bulge sign behavior.
+  - Key findings added to skill: strict `bulges.length === points.length` enforcement (short/long/points-1 all fail), shape-id-only requirement for `id`, `closed` is silently ignored (must use `close`), batch input works, and trailing bulge on open polyline appears geometrically inactive.
+
 ## Feedback from ph
 
 - Expect 15-25 scripts per topic, not 4. Cover the full API surface.

@@ -110,7 +110,7 @@ All paths below are relative to `knowledge/classcad-skill/`. Read in this order:
    - Return value structure — what comes back and how to use it.
    - Related methods in the same domain — understand the neighborhood.
 
-3. **`references/<domain>/<apiName>.md`** — check if an LLM doc already exists for the API you are training on.
+3. **`references/<domain>/*.md`** — check if an LLM doc already exists for the task you are training on (`<apiName>.md` for API tasks, `generic.md` for conceptual topics).
    - **If it exists:** read it. This contains findings from a prior session. Verify, extend, or correct it.
    - **If it does not exist:** you will create it in Step 5. That's expected — this is what you are here to build.
 
@@ -367,15 +367,31 @@ For conceptual study tasks (protocol, data model, etc.), write the LLM doc to a 
 - **API does not exist or is broken:** Document that in the LLM doc — "this API returned error X on every attempt" is a valid and useful finding.
 - **Conceptual task with no API to test:** Write the LLM doc from the source docs alone. This is expected for protocol/data-model tasks.
 
-## Step 6 — Write changes.md
+## Step 6 — Commit skill changes and write changes.md
 
-If you created or modified any LLM doc files in Step 5, run:
+If you created or modified any LLM doc files in Step 5, you **must** commit them inside the `knowledge/classcad-skill` submodule. This gives the next session a clean baseline for `git diff`.
+
+**6a. Get the diff** (before committing):
 
 ```bash
 cd knowledge/classcad-skill && git diff references/ && git status references/
 ```
 
-Copy the full output (diff for modified files, status for new files) into `workspace/training/<session>/changes.md`. This is the record of what you changed and the proof that Step 5 happened.
+For new (untracked) files, `git diff` won't show content. Stage them first to get a diff:
+
+```bash
+cd knowledge/classcad-skill && git add references/ && git diff --cached references/
+```
+
+**6b. Copy the diff** into `workspace/training/<session>/changes.md`. This is the record of what you changed — it must show actual `+`/`-` lines, not just a file listing.
+
+**6c. Commit** inside the submodule:
+
+```bash
+cd knowledge/classcad-skill && git add references/ && git commit -m "train: <topic> — <one-line summary>"
+```
+
+Then return to the repo root. The outer repo will show the submodule pointer as modified — that's expected and correct.
 
 **A session is complete when** Steps 6 and 7 are both done.
 
@@ -413,7 +429,8 @@ Before declaring a session done, verify every item:
 
 - [ ] Every journal entry that produced a snapshot embeds it as `![label](files/...png)`
 - [ ] Every `📌 LLM doc:` flag in the journal has been addressed in Step 5 (LLM doc created/updated)
-- [ ] `changes.md` exists with diff, OR journal has `## Skill Updates` section justifying no changes
+- [ ] `changes.md` exists with `+`/`-` diff lines, OR journal has `## Skill Updates` section justifying no changes
+- [ ] Skill changes committed inside `knowledge/classcad-skill` submodule
 - [ ] Journal goal/checklist has no uncovered items (or gaps are explicitly noted)
 - [ ] The task row in `workspace/PLAN.md` is marked `[✅]`
 

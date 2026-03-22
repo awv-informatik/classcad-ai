@@ -67,7 +67,7 @@ Step 1: I/O Protocol & API Fundamentals
 | --- | ------------------------------------------------------------------------------------------------------------------------- | -------- | ------- |
 | 1   | Study of the JSON request/response protocol envelope: `{ result, messages?, maxLevel? }`                                  | all docs | [✅]    |
 | 2   | Study of result types: `id`, `VOID`, `real`, `point`, `string`, `boolean`, `Array<id>`                                    | all docs | [✅]    |
-| 3   | Study of the message system: `{ message, level, code, api }` — warning levels, error codes, how to detect failures        | all docs | [ ]     |
+| 3   | Study of the message system: `{ message, level, code, api }` — warning levels, error codes, how to detect failures        | all docs | [✅]    |
 | 4   | Study of the ID system: opaque references, how IDs are returned from creation APIs and consumed by subsequent APIs        | all docs | [ ]     |
 | 5   | Study of data types: `point` as `[x, y, z]`, coordinate conventions, angle units (radians), transformation matrices (4x4) | all docs | [ ]     |
 
@@ -92,11 +92,11 @@ export default async function ({ execute }) {
 
 **Summary:** These APIs work without any objects in the drawing. They are safe to call immediately and help verify the API connection is working.
 
-| #   | Task                                                                  | Source                                                                 | Studied |
-| --- | --------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.getAppVersion`                                   | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 2   | Api study of `common.getClassFileVersion`                             | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 3   | Api study of `common.evaluateExpression` — standalone math evaluation | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                                                  | Source                                                            | Studied |
+| --- | --------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.getAppVersion`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 2   | Api study of `common.getClassFileVersion`                             | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 3   | Api study of `common.evaluateExpression` — standalone math evaluation | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #1: Api study of `common.getAppVersion`**
 
@@ -142,9 +142,9 @@ export default async function ({ execute }) {
 
 **Summary:** Understanding how `batch` works — sequencing multiple API calls into one request. Each job in the `jobs` array is an API call; results are returned per-job.
 
-| #   | Task                                                                                 | Source                                                                 | Studied |
-| --- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.batch` — how jobs array works, how results are returned per-job | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                                                                 | Source                                                            | Studied |
+| --- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.batch` — how jobs array works, how results are returned per-job | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #1: Api study of `common.batch`**
 
@@ -182,9 +182,9 @@ export default async function ({ execute }) {
 
 **Essentials:** `part.create` clears the drawing and initializes a new part. This is the first API that creates a real object. After this call, you have an ID — the part ID.
 
-| #   | Task                       | Source                                                             | Studied |
-| --- | -------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.create` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                       | Source                                                        | Studied |
+| --- | -------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.create` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 **Task #1: Api study of `part.create`**
 
@@ -204,17 +204,17 @@ export default async function ({ execute }) {
 
 **Essentials:** Work geometry defines invisible construction references. Work planes are where sketches are drawn. Work axes define rotation centers. Work coordinate systems define local reference frames. Work points mark positions.
 
-| #   | Task                                                                   | Source                                                             | Studied |
-| --- | ---------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.workPlane`                                          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateWorkPlane`                                    | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.workAxis`                                           | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateWorkAxis`                                     | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.workCSys`                                           | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.updateWorkCSys`                                     | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 7   | Api study of `part.workPoint`                                          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 8   | Api study of `part.updateWorkPoint`                                    | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 9   | Api study of `part.getWorkGeometry` — retrieving work geometry by name | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                                                                   | Source                                                        | Studied |
+| --- | ---------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.workPlane`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateWorkPlane`                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.workAxis`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateWorkAxis`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.workCSys`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.updateWorkCSys`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 7   | Api study of `part.workPoint`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 8   | Api study of `part.updateWorkPoint`                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 9   | Api study of `part.getWorkGeometry` — retrieving work geometry by name | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 **Task #1-8: Work geometry creation**
 
@@ -256,10 +256,10 @@ const gwId = (await execute({ 'v1.part.getWorkGeometry': [{ id: partId, name: 'W
 
 **Essentials:** An Entity Injection is a special feature that acts as a container for direct geometry (curves from Step 3, solids from Step 5). Created inside a part.
 
-| #   | Task                                                                                 | Source                                                             | Studied |
-| --- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.entityInjection`                                                  | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Study: relationship between entity injection IDs and curve/solid API `id` parameters | all docs                                                           | [ ]     |
+| #   | Task                                                                                 | Source                                                        | Studied |
+| --- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.entityInjection`                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Study: relationship between entity injection IDs and curve/solid API `id` parameters | all docs                                                      | [ ]     |
 
 **Task #1: Api study of `part.entityInjection`**
 
@@ -278,9 +278,9 @@ export default async function ({ execute }) {
 
 ### Category 2.4: Object Naming (first use)
 
-| #   | Task                                | Source                                                                 | Studied |
-| --- | ----------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.setObjectName` | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                | Source                                                            | Studied |
+| --- | ----------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.setObjectName` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #1: Api study of `common.setObjectName`**
 
@@ -304,11 +304,11 @@ await execute({ 'v1.common.setObjectName': [{ id: eifId, name: 'RenamedEIF' }] }
 
 **Essentials:** A Shape is a named container for curves, created inside an entity injection feature. All curve creation APIs require a shape ID.
 
-| #   | Task                                                                     | Source                                                               | Studied |
-| --- | ------------------------------------------------------------------------ | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.shape`                                               | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 2   | Api study of `curve.deleteShape`                                         | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 3   | Api study of `curve.cleanShape` — deletes curves but keeps the container | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
+| #   | Task                                                                     | Source                                                          | Studied |
+| --- | ------------------------------------------------------------------------ | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `curve.shape`                                               | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 2   | Api study of `curve.deleteShape`                                         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 3   | Api study of `curve.cleanShape` — deletes curves but keeps the container | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1: Api study of `curve.shape`**
 
@@ -326,13 +326,13 @@ const shapeId = (await execute({ 'v1.curve.shape': [{ id: eifId, name: 'S1' }] }
 
 ### Category 3.2: Basic Curves
 
-| #   | Task                                     | Source                                                               | Studied |
-| --- | ---------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.line`                | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 2   | Api study of `curve.circle`              | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 3   | Api study of `curve.arcBy3Points`        | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 4   | Api study of `curve.arcByCenter`         | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 5   | Api study of `curve.arcByCenterRadAngle` | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
+| #   | Task                                     | Source                                                          | Studied |
+| --- | ---------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `curve.line`                | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 2   | Api study of `curve.circle`              | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 3   | Api study of `curve.arcBy3Points`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 4   | Api study of `curve.arcByCenter`         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 5   | Api study of `curve.arcByCenterRadAngle` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1-3: Basic curve creation**
 
@@ -354,12 +354,12 @@ await execute({ 'v1.curve.arcBy3Points': [{ id: shapeId, startPos: [0, 50, 0], m
 
 ### Category 3.3: Advanced Curves
 
-| #   | Task                                    | Source                                                               | Studied |
-| --- | --------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.ellipse`            | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 2   | Api study of `curve.ellipticArc`        | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 3   | Api study of `curve.bezierCurve`        | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 4   | Api study of `curve.interpolationCurve` | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
+| #   | Task                                    | Source                                                          | Studied |
+| --- | --------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `curve.ellipse`            | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 2   | Api study of `curve.ellipticArc`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 3   | Api study of `curve.bezierCurve`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 4   | Api study of `curve.interpolationCurve` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1-4: Advanced curve types**
 
@@ -401,12 +401,12 @@ await execute({
 
 ### Category 3.4: Polylines
 
-| #   | Task                                                                                                       | Source                                                               | Studied |
-| --- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.polyline2d` — points + bulges                                                          | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 2   | Api study of `curve.advancedPolyline` — PLD system                                                         | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 3   | Study: bulge values — `tan(a/4)`, 0=line, 1=semicircle, negative=clockwise                                 | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 4   | Study: advanced polyline PLD modes — `xa/ya` vs `xr/yr` vs `l/a` vs `l/ar`, radius `r`, chamfer `c`, close | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
+| #   | Task                                                                                                       | Source                                                          | Studied |
+| --- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `curve.polyline2d` — points + bulges                                                          | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 2   | Api study of `curve.advancedPolyline` — PLD system                                                         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 3   | Study: bulge values — `tan(a/4)`, 0=line, 1=semicircle, negative=clockwise                                 | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 4   | Study: advanced polyline PLD modes — `xa/ya` vs `xr/yr` vs `l/a` vs `l/ar`, radius `r`, chamfer `c`, close | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1: Api study of `curve.polyline2d`**
 
@@ -460,12 +460,12 @@ await execute({
 
 ### Category 3.5: Shape Transformations
 
-| #   | Task                                                                      | Source                                                               | Studied |
-| --- | ------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.translateShape`                                       | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 2   | Api study of `curve.rotateShape`                                          | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 3   | Api study of `curve.transformShape` — 4x4 matrix (orthogonal, no scaling) | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 4   | Api study of `curve.scaleShape`                                           | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
+| #   | Task                                                                      | Source                                                          | Studied |
+| --- | ------------------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `curve.translateShape`                                       | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 2   | Api study of `curve.rotateShape`                                          | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 3   | Api study of `curve.transformShape` — 4x4 matrix (orthogonal, no scaling) | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 4   | Api study of `curve.scaleShape`                                           | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1-4: Shape transforms**
 
@@ -494,11 +494,11 @@ await execute({
 
 ### Category 3.6: 2D Boolean Operations on Shapes
 
-| #   | Task                                | Source                                                               | Studied |
-| --- | ----------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.union2d`        | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 2   | Api study of `curve.subtraction2d`  | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
-| 3   | Api study of `curve.intersection2d` | [curve.md](../../node_modules/@classcad/api-js/doc/apis/v1/curve.md) | [ ]     |
+| #   | Task                                | Source                                                          | Studied |
+| --- | ----------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `curve.union2d`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 2   | Api study of `curve.subtraction2d`  | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 3   | Api study of `curve.intersection2d` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1-3: 2D booleans**
 
@@ -522,13 +522,13 @@ await execute({ 'v1.curve.union2d': [{ target: s1, tool: s2 }] })
 
 ### Category 4.1: Sketch Lifecycle
 
-| #   | Task                                                    | Source                                                                 | Studied |
-| --- | ------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.create`                            | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.setWorkPlane`                      | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.deleteSketch`                      | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Api study of `part.sketch` — creating from part context | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md)     | [ ]     |
-| 5   | Api study of `part.getSketch`                           | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md)     | [ ]     |
+| #   | Task                                                    | Source                                                            | Studied |
+| --- | ------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.create`                            | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.setWorkPlane`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.deleteSketch`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `part.sketch` — creating from part context | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [ ]     |
+| 5   | Api study of `part.getSketch`                           | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [ ]     |
 
 **Task #1: Api study of `sketch.create`**
 
@@ -556,15 +556,15 @@ const skId = (await execute({ 'v1.part.sketch': [{ id: partId, name: 'Sk1' }] })
 
 ### Category 4.2: Basic Sketch Geometry
 
-| #   | Task                                                                  | Source                                                                 | Studied |
-| --- | --------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.point`                                           | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.line`                                            | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.circle`                                          | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Api study of `sketch.arcByCenter`                                     | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 5   | Api study of `sketch.arcBy3Points`                                    | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 6   | Api study of `sketch.rectangle`                                       | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 7   | Api study of `sketch.geometry` — generic multi-type geometry creation | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                                                                  | Source                                                            | Studied |
+| --- | --------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.point`                                           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.line`                                            | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.circle`                                          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.arcByCenter`                                     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 5   | Api study of `sketch.arcBy3Points`                                    | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 6   | Api study of `sketch.rectangle`                                       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 7   | Api study of `sketch.geometry` — generic multi-type geometry creation | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 **Task #2: Api study of `sketch.line`**
 
@@ -589,11 +589,11 @@ const rectIds = (await execute({ 'v1.sketch.rectangle': [{ id: skId, startPos: [
 
 ### Category 4.3: Geometric Constraints
 
-| #   | Task                                                                                                                            | Source                                                                 | Studied |
-| --- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.constraint` — all constraint types                                                                         | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.generateAutoConstraints`                                                                                   | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Study: constraint types — coincident, parallel, perpendicular, tangent, equal, horizontal, vertical, symmetric, fixed, midpoint | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                                                                                                                            | Source                                                            | Studied |
+| --- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.constraint` — all constraint types                                                                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.generateAutoConstraints`                                                                                   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Study: constraint types — coincident, parallel, perpendicular, tangent, equal, horizontal, vertical, symmetric, fixed, midpoint | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 **Task #1:** Study the `constraint` API and all its type variants in the reference docs. This requires careful reading of parameter structures per constraint type.
 
@@ -601,12 +601,12 @@ const rectIds = (await execute({ 'v1.sketch.rectangle': [{ id: skId, startPos: [
 
 ### Category 4.4: Dimensional Constraints
 
-| #   | Task                                                                                                      | Source                                                                 | Studied |
-| --- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.dimension`                                                                           | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.updateDimension`                                                                     | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.updateDimensionPosition`                                                             | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Study: dimension types — RADIUS, DIAMETER, OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE, ANGLE, ANGLEOX | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                                                                                                      | Source                                                            | Studied |
+| --- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.dimension`                                                                           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.updateDimension`                                                                     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.updateDimensionPosition`                                                             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Study: dimension types — RADIUS, DIAMETER, OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE, ANGLE, ANGLEOX | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 **Task #1: Api study of `sketch.dimension`**
 
@@ -622,12 +622,12 @@ const dimId = (await execute({ 'v1.sketch.dimension': [{ id: skId, type: 'OFFSET
 
 ### Category 4.5: Sketch Regions
 
-| #   | Task                                     | Source                                                                 | Studied |
-| --- | ---------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.sketchRegion`       | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.updateSketchRegion` | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.getSketchRegion`    | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Api study of `part.getSketchRegion`      | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md)     | [ ]     |
+| #   | Task                                     | Source                                                            | Studied |
+| --- | ---------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.sketchRegion`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.updateSketchRegion` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.getSketchRegion`    | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `part.getSketchRegion`      | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [ ]     |
 
 **Task #1: Api study of `sketch.sketchRegion`**
 
@@ -643,13 +643,13 @@ const regionId = (await execute({ 'v1.sketch.sketchRegion': [{ id: skId, geomIds
 
 ### Category 4.6: Updating & Querying Sketch Geometry
 
-| #   | Task                                                       | Source                                                                 | Studied |
-| --- | ---------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.updateGeometry`                       | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.getGeometry`                          | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.getPoints` — get point IDs of a curve | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Api study of `sketch.getPositions`                         | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 5   | Api study of `sketch.moveGeometry`                         | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                                                       | Source                                                            | Studied |
+| --- | ---------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.updateGeometry`                       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.getGeometry`                          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.getPoints` — get point IDs of a curve | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.getPositions`                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 5   | Api study of `sketch.moveGeometry`                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 **Task #2: Api study of `sketch.getGeometry`**
 
@@ -673,12 +673,12 @@ const pts = (await execute({ 'v1.sketch.getPoints': [{ id: rectIds[0] }] })).res
 
 ### Category 4.7: Reference Geometry
 
-| #   | Task                                          | Source                                                                 | Studied |
-| --- | --------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.referenceGeometry`       | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.changeReferenceGeometry` | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.unlinkReferenceGeometry` | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Api study of `sketch.setReferences`           | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                                          | Source                                                            | Studied |
+| --- | --------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.referenceGeometry`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.changeReferenceGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.unlinkReferenceGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.setReferences`           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 **Task #1-4:** Reference geometry projects 3D edges/faces into a sketch for constraining. Study the docs for parameter details — these require existing 3D geometry from prior features.
 
@@ -686,36 +686,36 @@ const pts = (await execute({ 'v1.sketch.getPoints': [{ id: rectIds[0] }] })).res
 
 ### Category 4.8: Patterns & Rigid Sets
 
-| #   | Task                                  | Source                                                                 | Studied |
-| --- | ------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.rigidSet`        | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.linearPattern`   | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.circularPattern` | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Api study of `sketch.mirrorPattern`   | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                                  | Source                                                            | Studied |
+| --- | ------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.rigidSet`        | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.linearPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.circularPattern` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.mirrorPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 ---
 
 ### Category 4.9: Sketch Fillets
 
-| #   | Task                             | Source                                                                 | Studied |
-| --- | -------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.fillet`     | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.undoFillet` | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                             | Source                                                            | Studied |
+| --- | -------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.fillet`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.undoFillet` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 ---
 
 ### Category 4.10: Trimming, Splitting & Curve Management
 
-| #   | Task                                       | Source                                                                 | Studied |
-| --- | ------------------------------------------ | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.trimCurves`           | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.splitAllCurves`       | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.splitCurves`          | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 4   | Api study of `sketch.splitCurvesMergeBack` | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 5   | Api study of `sketch.copyGeometry`         | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 6   | Api study of `sketch.copyFrom`             | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 7   | Api study of `sketch.loadFrom`             | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
-| 8   | Api study of `sketch.deleteObject`         | [sketch.md](../../node_modules/@classcad/api-js/doc/apis/v1/sketch.md) | [ ]     |
+| #   | Task                                       | Source                                                            | Studied |
+| --- | ------------------------------------------ | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.trimCurves`           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 2   | Api study of `sketch.splitAllCurves`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.splitCurves`          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.splitCurvesMergeBack` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 5   | Api study of `sketch.copyGeometry`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 6   | Api study of `sketch.copyFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 7   | Api study of `sketch.loadFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 8   | Api study of `sketch.deleteObject`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 ---
 
@@ -727,13 +727,13 @@ const pts = (await execute({ 'v1.sketch.getPoints': [{ id: rectIds[0] }] })).res
 
 ### Category 5.1: Primitive Solids
 
-| #   | Task                                                                | Source                                                               | Studied |
-| --- | ------------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.box`                                            | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 2   | Api study of `solid.sphere`                                         | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 3   | Api study of `solid.cylinder`                                       | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 4   | Api study of `solid.cone`                                           | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 5   | Study: common parameters — `rotation`, `translation`, `rotateFirst` | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
+| #   | Task                                                                | Source                                                          | Studied |
+| --- | ------------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `solid.box`                                            | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 2   | Api study of `solid.sphere`                                         | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 3   | Api study of `solid.cylinder`                                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 4   | Api study of `solid.cone`                                           | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 5   | Study: common parameters — `rotation`, `translation`, `rotateFirst` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 
 **Task #1-4: Primitive solids**
 
@@ -757,11 +757,11 @@ export default async function ({ execute }, { snapshot }) {
 
 ### Category 5.2: Profile-Based Solids
 
-| #   | Task                                                                          | Source                                                               | Studied |
-| --- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.extrusion`                                                | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 2   | Api study of `solid.revolve`                                                  | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 3   | Study: how `curves` parameter works — shape ID vs array of sketch element IDs | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
+| #   | Task                                                                          | Source                                                          | Studied |
+| --- | ----------------------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `solid.extrusion`                                                | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 2   | Api study of `solid.revolve`                                                  | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 3   | Study: how `curves` parameter works — shape ID vs array of sketch element IDs | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 
 **Task #1-2: Extrusion + revolve from curve shapes**
 
@@ -811,13 +811,13 @@ const revId = (
 
 ### Category 5.3: Boolean Operations
 
-| #   | Task                                                           | Source                                                               | Studied |
-| --- | -------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.union`                                     | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 2   | Api study of `solid.subtraction`                               | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 3   | Api study of `solid.intersection`                              | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 4   | Api study of `solid.merge` — NOT a union                       | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 5   | Study: target/tools pattern — `target`, `tools[]`, `keepTools` | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
+| #   | Task                                                           | Source                                                          | Studied |
+| --- | -------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `solid.union`                                     | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 2   | Api study of `solid.subtraction`                               | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 3   | Api study of `solid.intersection`                              | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 4   | Api study of `solid.merge` — NOT a union                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 5   | Study: target/tools pattern — `target`, `tools[]`, `keepTools` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 
 **Task #1-2: Union + subtraction**
 
@@ -838,12 +838,12 @@ await execute({ 'v1.solid.subtraction': [{ id: eifId, target: b1, tools: [cyl] }
 
 ### Category 5.4: Solid Transformations
 
-| #   | Task                             | Source                                                               | Studied |
-| --- | -------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.translation` | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 2   | Api study of `solid.rotation`    | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 3   | Api study of `solid.scale`       | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 4   | Api study of `solid.mirror`      | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
+| #   | Task                             | Source                                                          | Studied |
+| --- | -------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `solid.translation` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 2   | Api study of `solid.rotation`    | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 3   | Api study of `solid.scale`       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 4   | Api study of `solid.mirror`      | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 
 **Task #1-2: Translation + rotation**
 
@@ -858,12 +858,12 @@ await execute({ 'v1.solid.rotation': [{ id: eifId, target: box2Id, rotation: [0,
 
 ### Category 5.5: Cutting, Sectioning & Edge Operations
 
-| #   | Task                                                  | Source                                                               | Studied |
-| --- | ----------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.offset` — fragile, use with care  | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 2   | Api study of `solid.slice` — cut at plane             | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 3   | Api study of `solid.section` — cross-section curves   | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 4   | Api study of `solid.fillet` — fillet at brep edge IDs | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
+| #   | Task                                                  | Source                                                          | Studied |
+| --- | ----------------------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `solid.offset` — fragile, use with care  | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 2   | Api study of `solid.slice` — cut at plane             | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 3   | Api study of `solid.section` — cross-section curves   | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 4   | Api study of `solid.fillet` — fillet at brep edge IDs | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 
 **Task #2-4:** Slice, section, and fillet require careful edge/face ID selection. Study the docs for the exact patterns.
 
@@ -871,11 +871,11 @@ await execute({ 'v1.solid.rotation': [{ id: eifId, target: box2Id, rotation: [0,
 
 ### Category 5.6: Solid Management
 
-| #   | Task                                                              | Source                                                               | Studied |
-| --- | ----------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.copy`                                         | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 2   | Api study of `solid.deleteSolid`                                  | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
-| 3   | Api study of `solid.useSolid` — access solids from other features | [solid.md](../../node_modules/@classcad/api-js/doc/apis/v1/solid.md) | [ ]     |
+| #   | Task                                                              | Source                                                          | Studied |
+| --- | ----------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
+| 1   | Api study of `solid.copy`                                         | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 2   | Api study of `solid.deleteSolid`                                  | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 3   | Api study of `solid.useSolid` — access solids from other features | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 
 **Task #1: Api study of `solid.copy`**
 
@@ -896,14 +896,14 @@ const copyId = (await execute({ 'v1.solid.copy': [{ id: eifId, target: boxId, tr
 
 ### Category 6.1: Persistence — Save, Load, Clear
 
-| #   | Task                                                           | Source                                                                 | Studied |
-| --- | -------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.save`                                     | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 2   | Api study of `common.load`                                     | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 3   | Api study of `common.clear`                                    | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 4   | Api study of `common.recalc`                                   | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 5   | Study: format comparison — OFB vs STP vs STL vs DXF            | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 6   | Study: encoding/compression pipeline — data ↔ deflate ↔ base64 | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                                           | Source                                                            | Studied |
+| --- | -------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.save`                                     | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 2   | Api study of `common.load`                                     | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 3   | Api study of `common.clear`                                    | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 4   | Api study of `common.recalc`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 5   | Study: format comparison — OFB vs STP vs STL vs DXF            | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 6   | Study: encoding/compression pipeline — data ↔ deflate ↔ base64 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #1-4: Save/load/clear/recalc cycle**
 
@@ -932,10 +932,10 @@ export default async function ({ execute }) {
 
 ### Category 6.2: Appearance & Visualisation
 
-| #   | Task                                       | Source                                                                 | Studied |
-| --- | ------------------------------------------ | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.setAppearance`        | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 2   | Api study of `common.requestVisualisation` | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                       | Source                                                            | Studied |
+| --- | ------------------------------------------ | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.setAppearance`        | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 2   | Api study of `common.requestVisualisation` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #1: Api study of `common.setAppearance`**
 
@@ -951,13 +951,13 @@ await execute({ 'v1.common.setAppearance': [{ target: eifId, color: [255, 100, 0
 
 ### Category 6.3: Faceting / Tessellation Control
 
-| #   | Task                                                                        | Source                                                                 | Studied |
-| --- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.getDatabaseSettings`                                   | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 2   | Api study of `common.setDatabaseSettings`                                   | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 3   | Api study of `common.getFacetingParameters`                                 | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 4   | Api study of `common.setFacetingParameters`                                 | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 5   | Study: faceting concepts — chordHeightTol, angleTol, quality vs performance | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                                                        | Source                                                            | Studied |
+| --- | --------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.getDatabaseSettings`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 2   | Api study of `common.setDatabaseSettings`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 3   | Api study of `common.getFacetingParameters`                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 4   | Api study of `common.setFacetingParameters`                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 5   | Study: faceting concepts — chordHeightTol, angleTol, quality vs performance | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #3-4: Faceting parameters**
 
@@ -973,23 +973,23 @@ await execute({ 'v1.common.setFacetingParameters': [{ angleTol: 15, chordHeightT
 
 ### Category 6.4: Object Coordinate Systems & Transforms
 
-| #   | Task                                            | Source                                                                 | Studied |
-| --- | ----------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.setObjectCoordSystem`      | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 2   | Api study of `common.transformObjectWithMatrix` | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                            | Source                                                            | Studied |
+| --- | ----------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.setObjectCoordSystem`      | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 2   | Api study of `common.transformObjectWithMatrix` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 ---
 
 ### Category 6.5: User Data (Custom Metadata)
 
-| #   | Task                                                                              | Source                                                                 | Studied |
-| --- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.setUserData`                                                 | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 2   | Api study of `common.getUserData`                                                 | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 3   | Api study of `common.removeUserData`                                              | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 4   | Api study of `common.clearUserData`                                               | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 5   | Api study of `common.getUserDataKeys`                                             | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
-| 6   | Study: user data limitations — string keys/values only, not copied on duplication | [common.md](../../node_modules/@classcad/api-js/doc/apis/v1/common.md) | [ ]     |
+| #   | Task                                                                              | Source                                                            | Studied |
+| --- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.setUserData`                                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 2   | Api study of `common.getUserData`                                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 3   | Api study of `common.removeUserData`                                              | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 4   | Api study of `common.clearUserData`                                               | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 5   | Api study of `common.getUserDataKeys`                                             | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 6   | Study: user data limitations — string keys/values only, not copied on duplication | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #1-5: User data CRUD**
 
@@ -1019,17 +1019,17 @@ export default async function ({ execute }) {
 
 ### Category 7.1: Primitive Features
 
-| #   | Task                                                                    | Source                                                             | Studied |
-| --- | ----------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.box`                                                 | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateBox`                                           | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.cone`                                                | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateCone`                                          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.cylinder`                                            | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.updateCylinder`                                      | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 7   | Api study of `part.sphere`                                              | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 8   | Api study of `part.updateSphere`                                        | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 9   | Study: `part.box` (feature) vs `solid.box` (direct) — when to use which | part.md, solid.md                                                  | [ ]     |
+| #   | Task                                                                    | Source                                                        | Studied |
+| --- | ----------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.box`                                                 | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateBox`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.cone`                                                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateCone`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.cylinder`                                            | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.updateCylinder`                                      | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 7   | Api study of `part.sphere`                                              | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 8   | Api study of `part.updateSphere`                                        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 9   | Study: `part.box` (feature) vs `solid.box` (direct) — when to use which | part.md, solid.md                                             | [ ]     |
 
 **Task #1: Api study of `part.box`**
 
@@ -1045,14 +1045,14 @@ const boxFeat = (await execute({ 'v1.part.box': [{ id: partId, name: 'Box1', len
 
 ### Category 7.2: Profile-Based Features
 
-| #   | Task                                | Source                                                             | Studied |
-| --- | ----------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.extrusion`       | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateExtrusion` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.revolve`         | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateRevolve`   | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.twist`           | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.updateTwist`     | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                                | Source                                                        | Studied |
+| --- | ----------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.extrusion`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateExtrusion` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.revolve`         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateRevolve`   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.twist`           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.updateTwist`     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 **Task #1: Api study of `part.extrusion`**
 
@@ -1084,27 +1084,27 @@ const extFeat = (
 
 ### Category 7.3: Boolean & Cutting Features
 
-| #   | Task                                     | Source                                                             | Studied |
-| --- | ---------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.boolean`              | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateBoolean`        | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.slice`                | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateSlice`          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.sliceBySheet`         | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.updateSliceBySheet`   | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 7   | Api study of `part.entityDeletion`       | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 8   | Api study of `part.updateEntityDeletion` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                                     | Source                                                        | Studied |
+| --- | ---------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.boolean`              | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateBoolean`        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.slice`                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateSlice`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.sliceBySheet`         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.updateSliceBySheet`   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 7   | Api study of `part.entityDeletion`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 8   | Api study of `part.updateEntityDeletion` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 ---
 
 ### Category 7.4: Edge Features (Chamfer & Fillet)
 
-| #   | Task                              | Source                                                             | Studied |
-| --- | --------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.chamfer`       | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateChamfer` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.fillet`        | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateFillet`  | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                              | Source                                                        | Studied |
+| --- | --------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.chamfer`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateChamfer` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.fillet`        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateFillet`  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 **Task #3: Api study of `part.fillet`**
 
@@ -1124,14 +1124,14 @@ const filletFeat = (await execute({ 'v1.part.fillet': [{ id: partId, name: 'Fill
 
 ### Category 7.5: Mirror & Pattern Features
 
-| #   | Task                                      | Source                                                             | Studied |
-| --- | ----------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.mirror`                | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateMirror`          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.linearPattern`         | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateLinearPattern`   | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.circularPattern`       | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.updateCircularPattern` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                                      | Source                                                        | Studied |
+| --- | ----------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.mirror`                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateMirror`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.linearPattern`         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateLinearPattern`   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.circularPattern`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.updateCircularPattern` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 **Task #3: Api study of `part.linearPattern`**
 
@@ -1159,29 +1159,29 @@ const lpFeat = (
 
 ### Category 7.6: Transformation Features
 
-| #   | Task                                           | Source                                                             | Studied |
-| --- | ---------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.translation`                | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateTranslation`          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.rotation`                   | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateRotation`             | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.transformationByCSys`       | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.updateTransformationByCSys` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                                           | Source                                                        | Studied |
+| --- | ---------------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.translation`                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateTranslation`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.rotation`                   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateRotation`             | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.transformationByCSys`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.updateTransformationByCSys` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 ---
 
 ### Category 7.7: Expressions (Parametric Control)
 
-| #   | Task                                                          | Source                                                             | Studied |
-| --- | ------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.expression` — create expressions           | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.getExpression`                             | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.updateExpression`                          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.deleteExpression`                          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.renameExpression`                          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.linkWithExpression`                        | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 7   | Api study of `part.unlinkExpression`                          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 8   | Study: expression workflow — create → link → update → observe | part.md                                                            | [ ]     |
+| #   | Task                                                          | Source                                                        | Studied |
+| --- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.expression` — create expressions           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.getExpression`                             | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.updateExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.deleteExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.renameExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.linkWithExpression`                        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 7   | Api study of `part.unlinkExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 8   | Study: expression workflow — create → link → update → observe | part.md                                                       | [ ]     |
 
 **Task #1-3: Expression CRUD**
 
@@ -1214,41 +1214,41 @@ await execute({ 'v1.part.updateExpression': [{ id: partId, name: 'width', value:
 
 ### Category 7.8: Import Features & Composite Curves
 
-| #   | Task                                     | Source                                                             | Studied |
-| --- | ---------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.importFeature`        | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.updateImportFeature`  | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.compositeCurve`       | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.updateCompositeCurve` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
+| #   | Task                                     | Source                                                        | Studied |
+| --- | ---------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.importFeature`        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.updateImportFeature`  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.compositeCurve`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateCompositeCurve` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 
 ---
 
 ### Category 7.9: Feature Management & Design History
 
-| #   | Task                                       | Source                                                             | Studied |
-| --- | ------------------------------------------ | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.openFeature`            | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.closeFeature`           | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.operationMoveBefore`    | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.operationMoveToEnd`     | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.getFeature`             | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.deleteFeature`          | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 7   | Api study of `part.createUncommitedObject` | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 8   | Study: RollbackBar vs GhostRollbackBar     | part.md                                                            | [ ]     |
+| #   | Task                                       | Source                                                        | Studied |
+| --- | ------------------------------------------ | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.openFeature`            | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.closeFeature`           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.operationMoveBefore`    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.operationMoveToEnd`     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.getFeature`             | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.deleteFeature`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 7   | Api study of `part.createUncommitedObject` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 8   | Study: RollbackBar vs GhostRollbackBar     | part.md                                                       | [ ]     |
 
 ---
 
 ### Category 7.10: Appearance, Mass Properties & Geometry Queries
 
-| #   | Task                                                                      | Source                                                             | Studied |
-| --- | ------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| 1   | Api study of `part.setAppearance`                                         | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 2   | Api study of `part.calculateMassProperties`                               | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 3   | Api study of `part.getGeometryIds`                                        | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 4   | Api study of `part.getGeometryPositions`                                  | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 5   | Api study of `part.getBrepGeometryIndex`                                  | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 6   | Api study of `part.getBrepGeometryByIndex`                                | [part.md](../../node_modules/@classcad/api-js/doc/apis/v1/part.md) | [ ]     |
-| 7   | Study: brep geometry access pattern — finding edge IDs for chamfer/fillet | part.md                                                            | [ ]     |
+| #   | Task                                                                      | Source                                                        | Studied |
+| --- | ------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.setAppearance`                                         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.calculateMassProperties`                               | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.getGeometryIds`                                        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.getGeometryPositions`                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.getBrepGeometryIndex`                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Api study of `part.getBrepGeometryByIndex`                                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 7   | Study: brep geometry access pattern — finding edge IDs for chamfer/fillet | part.md                                                       | [ ]     |
 
 **Task #3: Api study of `part.getGeometryIds`**
 
@@ -1278,16 +1278,16 @@ const geoIds = (
 
 ### Category 8.1: Assembly Creation & Templates
 
-| #   | Task                                        | Source                                                                     | Studied |
-| --- | ------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.create`              | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.partTemplate`        | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.assemblyTemplate`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.getPartTemplate`     | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.getAssemblyTemplate` | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.deleteTemplate`      | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 7   | Api study of `assembly.convertToTemplate`   | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 8   | Study: template vs instance paradigm        | assembly.md                                                                | [ ]     |
+| #   | Task                                        | Source                                                                | Studied |
+| --- | ------------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.create`              | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.partTemplate`        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.assemblyTemplate`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.getPartTemplate`     | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 5   | Api study of `assembly.getAssemblyTemplate` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 6   | Api study of `assembly.deleteTemplate`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 7   | Api study of `assembly.convertToTemplate`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 8   | Study: template vs instance paradigm        | assembly.md                                                           | [ ]     |
 
 **Task #1-2: Assembly + part template creation**
 
@@ -1312,11 +1312,11 @@ await execute({ 'v1.assembly.setCurrentProduct': [{ id: asmId }] })
 
 ### Category 8.2: Instances
 
-| #   | Task                                   | Source                                                                     | Studied |
-| --- | -------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.instance`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.getInstance`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.deleteInstance` | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
+| #   | Task                                   | Source                                                                | Studied |
+| --- | -------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.instance`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.getInstance`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.deleteInstance` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 
 **Task #1: Api study of `assembly.instance`**
 
@@ -1359,14 +1359,14 @@ const inst2 = (
 
 ### Category 8.3: Basic Constraints (Fastened)
 
-| #   | Task                                         | Source                                                                     | Studied |
-| --- | -------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.fastened`             | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.updateFastened`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.getFastened`          | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.fastenedOrigin`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.updateFastenedOrigin` | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.getFastenedOrigin`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
+| #   | Task                                         | Source                                                                | Studied |
+| --- | -------------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.fastened`             | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.updateFastened`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.getFastened`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.fastenedOrigin`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 5   | Api study of `assembly.updateFastenedOrigin` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 6   | Api study of `assembly.getFastenedOrigin`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 
 **Task #4: Api study of `assembly.fastenedOrigin`**
 
@@ -1390,26 +1390,26 @@ await execute({
 
 ### Category 8.4: Kinematic Constraints
 
-| #   | Task                                      | Source                                                                     | Studied |
-| --- | ----------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.revolute`          | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.updateRevolute`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.getRevolute`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.cylindrical`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.updateCylindrical` | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.getCylindrical`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 7   | Api study of `assembly.planar`            | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 8   | Api study of `assembly.updatePlanar`      | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 9   | Api study of `assembly.getPlanar`         | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 10  | Api study of `assembly.parallel`          | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 11  | Api study of `assembly.updateParallel`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 12  | Api study of `assembly.getParallel`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 13  | Api study of `assembly.slider`            | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 14  | Api study of `assembly.updateSlider`      | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 15  | Api study of `assembly.getSlider`         | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 16  | Api study of `assembly.spherical`         | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 17  | Api study of `assembly.updateSpherical`   | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 18  | Api study of `assembly.getSpherical`      | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
+| #   | Task                                      | Source                                                                | Studied |
+| --- | ----------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.revolute`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.updateRevolute`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.getRevolute`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.cylindrical`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 5   | Api study of `assembly.updateCylindrical` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 6   | Api study of `assembly.getCylindrical`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 7   | Api study of `assembly.planar`            | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 8   | Api study of `assembly.updatePlanar`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 9   | Api study of `assembly.getPlanar`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 10  | Api study of `assembly.parallel`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 11  | Api study of `assembly.updateParallel`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 12  | Api study of `assembly.getParallel`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 13  | Api study of `assembly.slider`            | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 14  | Api study of `assembly.updateSlider`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 15  | Api study of `assembly.getSlider`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 16  | Api study of `assembly.spherical`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 17  | Api study of `assembly.updateSpherical`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 18  | Api study of `assembly.getSpherical`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 
 **Task #1-18:** All kinematic constraints follow the mate1/mate2 pattern. Study the specific DOF (degrees of freedom) each type provides. Requires careful reading of the assembly reference docs.
 
@@ -1417,65 +1417,65 @@ await execute({
 
 ### Category 8.5: Relations (Gear & Group)
 
-| #   | Task                                | Source                                                                     | Studied |
-| --- | ----------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.gear`        | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.updateGear`  | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.getGear`     | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.group`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.updateGroup` | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.getGroup`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
+| #   | Task                                | Source                                                                | Studied |
+| --- | ----------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.gear`        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.updateGear`  | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.getGear`     | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.group`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 5   | Api study of `assembly.updateGroup` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 6   | Api study of `assembly.getGroup`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 
 ---
 
 ### Category 8.6: Constraint Management
 
-| #   | Task                                            | Source                                                                     | Studied |
-| --- | ----------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.deleteConstraint`        | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.update3DConstraintValue` | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
+| #   | Task                                            | Source                                                                | Studied |
+| --- | ----------------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.deleteConstraint`        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.update3DConstraintValue` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 
 ---
 
 ### Category 8.7: Assembly Patterns
 
-| #   | Task                                          | Source                                                                     | Studied |
-| --- | --------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.linearPattern`         | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.updateLinearPattern`   | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.getLinearPattern`      | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.circularPattern`       | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.updateCircularPattern` | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.getCircularPattern`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
+| #   | Task                                          | Source                                                                | Studied |
+| --- | --------------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.linearPattern`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.updateLinearPattern`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.getLinearPattern`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.circularPattern`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 5   | Api study of `assembly.updateCircularPattern` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 6   | Api study of `assembly.getCircularPattern`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 
 ---
 
 ### Category 8.8: Instance Transforms & Constraint-Driven Motion
 
-| #   | Task                                                             | Source                                                                     | Studied |
-| --- | ---------------------------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.transformInstance`                        | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.transformInstanceTo`                      | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.startMovingUnderConstraints`              | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.moveUnderConstraints`                     | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.finishMovingUnderConstraints`             | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 6   | Study: constraint-driven motion workflow — start → move → finish | assembly.md                                                                | [ ]     |
+| #   | Task                                                             | Source                                                                | Studied |
+| --- | ---------------------------------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.transformInstance`                        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.transformInstanceTo`                      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.startMovingUnderConstraints`              | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.moveUnderConstraints`                     | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 5   | Api study of `assembly.finishMovingUnderConstraints`             | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 6   | Study: constraint-driven motion workflow — start → move → finish | assembly.md                                                           | [ ]     |
 
 ---
 
 ### Category 8.9: Assembly Management
 
-| #   | Task                                               | Source                                                                     | Studied |
-| --- | -------------------------------------------------- | -------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.setCurrentInstance`         | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.setCurrentProduct`          | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.setIdent`                   | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.from` — JSON/ECXML assembly | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.loadProduct`                | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.exportNode`                 | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 7   | Api study of `assembly.getWorkGeometry`            | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 8   | Api study of `assembly.calculateMassProperties`    | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
-| 9   | Api study of `assembly.createUncommitedObject`     | [assembly.md](../../node_modules/@classcad/api-js/doc/apis/v1/assembly.md) | [ ]     |
+| #   | Task                                               | Source                                                                | Studied |
+| --- | -------------------------------------------------- | --------------------------------------------------------------------- | ------- |
+| 1   | Api study of `assembly.setCurrentInstance`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 2   | Api study of `assembly.setCurrentProduct`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 3   | Api study of `assembly.setIdent`                   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.from` — JSON/ECXML assembly | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 5   | Api study of `assembly.loadProduct`                | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 6   | Api study of `assembly.exportNode`                 | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 7   | Api study of `assembly.getWorkGeometry`            | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 8   | Api study of `assembly.calculateMassProperties`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 9   | Api study of `assembly.createUncommitedObject`     | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 
 ---
 
@@ -1487,12 +1487,12 @@ await execute({
 
 ### Category 9.1: View Creation & Layout
 
-| #   | Task                                            | Source                                                                       | Studied |
-| --- | ----------------------------------------------- | ---------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `drawing2d.view`                   | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 2   | Api study of `drawing2d.centerView`             | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 3   | Api study of `drawing2d.placeView`              | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 4   | Api study of `drawing2d.getBoundaryBoxFromView` | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
+| #   | Task                                            | Source                                                                  | Studied |
+| --- | ----------------------------------------------- | ----------------------------------------------------------------------- | ------- |
+| 1   | Api study of `drawing2d.view`                   | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 2   | Api study of `drawing2d.centerView`             | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 3   | Api study of `drawing2d.placeView`              | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 4   | Api study of `drawing2d.getBoundaryBoxFromView` | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
 
 **Task #1: Api study of `drawing2d.view`**
 
@@ -1517,22 +1517,22 @@ const viewIds = (
 
 ### Category 9.2: Dimensions
 
-| #   | Task                                             | Source                                                                       | Studied |
-| --- | ------------------------------------------------ | ---------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `drawing2d.dimension`               | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 2   | Api study of `drawing2d.deleteDimension`         | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 3   | Api study of `drawing2d.updateDimensionPosition` | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
+| #   | Task                                             | Source                                                                  | Studied |
+| --- | ------------------------------------------------ | ----------------------------------------------------------------------- | ------- |
+| 1   | Api study of `drawing2d.dimension`               | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 2   | Api study of `drawing2d.deleteDimension`         | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 3   | Api study of `drawing2d.updateDimensionPosition` | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
 
 ---
 
 ### Category 9.3: Export & Availability
 
-| #   | Task                                    | Source                                                                       | Studied |
-| --- | --------------------------------------- | ---------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `drawing2d.exportDXF`      | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 2   | Api study of `drawing2d.exportSVG`      | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 3   | Api study of `drawing2d.isDXFAvailable` | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
-| 4   | Api study of `drawing2d.isSVGAvailable` | [drawing2d.md](../../node_modules/@classcad/api-js/doc/apis/v1/drawing2d.md) | [ ]     |
+| #   | Task                                    | Source                                                                  | Studied |
+| --- | --------------------------------------- | ----------------------------------------------------------------------- | ------- |
+| 1   | Api study of `drawing2d.exportDXF`      | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 2   | Api study of `drawing2d.exportSVG`      | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 3   | Api study of `drawing2d.isDXFAvailable` | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
+| 4   | Api study of `drawing2d.isSVGAvailable` | [drawing2d.md](../knowledge/classcad-skill/references/api/drawing2d.md) | [ ]     |
 
 **Task #3-4: Export availability checks**
 

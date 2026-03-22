@@ -66,7 +66,7 @@ Step 1: I/O Protocol & API Fundamentals
 | #   | Task                                                                                                                      | Source   | Studied |
 | --- | ------------------------------------------------------------------------------------------------------------------------- | -------- | ------- |
 | 1   | Study of the JSON request/response protocol envelope: `{ result, messages?, maxLevel? }`                                  | all docs | [✅]    |
-| 2   | Study of result types: `id`, `VOID`, `real`, `point`, `string`, `boolean`, `Array<id>`                                    | all docs | [ ]     |
+| 2   | Study of result types: `id`, `VOID`, `real`, `point`, `string`, `boolean`, `Array<id>`                                    | all docs | [✅]    |
 | 3   | Study of the message system: `{ message, level, code, api }` — warning levels, error codes, how to detect failures        | all docs | [ ]     |
 | 4   | Study of the ID system: opaque references, how IDs are returned from creation APIs and consumed by subsequent APIs        | all docs | [ ]     |
 | 5   | Study of data types: `point` as `[x, y, z]`, coordinate conventions, angle units (radians), transformation matrices (4x4) | all docs | [ ]     |

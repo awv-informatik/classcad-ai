@@ -51,35 +51,13 @@ All paths below are relative to **`knowledge/classcad-skill/`** (the skill root)
 | `references/api/<domain>.md`       | Source API documentation (parameters, types, return values) | **NO** — read-only                 |
 | `references/<domain>/<apiName>.md` | LLM-oriented docs (hints, findings, gotchas, examples)      | **YES** — this is your deliverable |
 
-The 7 API domains:
-
-| Domain    | Source docs (read-only)       | LLM docs (you write)    | Namespace        |
-| --------- | ----------------------------- | ----------------------- | ---------------- |
-| Assembly  | `references/api/assembly.md`  | `references/assembly/`  | `v1.assembly.*`  |
-| Common    | `references/api/common.md`    | `references/common/`    | `v1.common.*`    |
-| Curve     | `references/api/curve.md`     | `references/curve/`     | `v1.curve.*`     |
-| Drawing2D | `references/api/drawing2d.md` | `references/drawing2d/` | `v1.drawing2d.*` |
-| Part      | `references/api/part.md`      | `references/part/`      | `v1.part.*`      |
-| Sketch    | `references/api/sketch.md`    | `references/sketch/`    | `v1.sketch.*`    |
-| Solid     | `references/api/solid.md`     | `references/solid/`     | `v1.solid.*`     |
+The 7 API domains and their namespaces are listed in `SKILL.md` (the domain index table). The pattern: source docs live at `references/api/<domain>.md` (read-only), your LLM docs go into `references/<domain>/<apiName>.md` (you create these).
 
 ## Read-only files — DO NOT EDIT
 
-You must **never modify** these files during training:
+- **`SKILL.md`** and **`references/api/*.md`** — never modify. Source docs are ground truth.
 
-- **`SKILL.md`** — the skill overview. Read for context only.
-- **`references/api/*.md`** — the source API documentation. Copied from `@classcad/api-js`. Ground truth. Never edit.
-
-Your deliverable goes exclusively into `references/<domain>/<apiName>.md` files that **you create and own**:
-
-```
-references/api/common.md          ← READ this (source docs, never edit)
-references/common/                ← WRITE here (your LLM docs)
-  getAppVersion.md
-  evaluateExpression.md
-  batch.md
-  generic.md                     ← conceptual topics that span multiple APIs
-```
+Your deliverable goes exclusively into `references/<domain>/<apiName>.md` files that **you create and own**. Use `generic.md` for conceptual topics that span multiple APIs.
 
 ---
 
@@ -140,7 +118,9 @@ All paths below are relative to `knowledge/classcad-skill/`. Read in this order:
 
 Create the session folder as shown in the repo layout above (`workspace/training/YYYY-MM-DD_HH-MM-SS_<topic>/`) with its `scripts/` and `files/` subdirectories.
 
-Then create `journal.md` with a title, date, and a goal section. The goal should list every method and parameter you intend to cover — this becomes your checklist. Write it after reading the reference docs so it reflects the actual API surface.
+Then create `journal.md` with a title, date, and a goal section. Write it after reading the reference docs so it reflects the actual scope. The format depends on your task type:
+
+**For API tasks** ("Api study of ...") — list methods and parameters to cover:
 
 ```markdown
 # Training: <topic>
@@ -162,18 +142,114 @@ Testing `v1.part.boolean` and `v1.part.updateBoolean`.
 - How do target/tools params work? Can you pass multiple tools at once?
 - What does `updateBoolean` return?
 - What happens with non-overlapping bodies?
-- How does boolean interact with patterns (tools with indices)?
+```
+
+**For conceptual tasks** ("Study of ...") — list questions to answer:
+
+```markdown
+# Training: <topic>
+
+**Date:** YYYY-MM-DD
+
+## Goal
+
+Studying the message system: `{ message, level, code, api }`.
+
+**Questions to answer:**
+
+- What levels exist and what do they mean?
+- When does maxLevel differ from individual message levels?
+- Do all APIs return messages, or only some?
+- How do error messages differ from warning messages?
+- Can a call succeed (valid result) but still have error-level messages?
 ```
 
 ## Step 4 — Write, run, and journal (the loop)
 
-This is an iterative loop. Each iteration: write a script → run it → journal the result → check if you're done. **Stop iterating** when the coverage checklist below is satisfied, or when you've written 20 scripts — whichever comes first. If you hit the cap, move to Step 5 with what you have and note any gaps in the journal.
+This is an iterative loop. Each iteration: write a script → run it → journal the result → check if you're done. **Stop iterating** when the coverage checklist is satisfied, or when you've written 20 scripts — whichever comes first. If you hit the cap, move to Step 5 with what you have and note any gaps in the journal.
 
-### 4a. Write a focused script
+**Two task types — pick the right track:**
 
-Each script tests ONE question or behavior. Keep scripts small and specific — write as many as you need to satisfy the coverage checklist.
+```
+  ┌─ Is this an "Api study of ..." task?
+  │
+  ├─ YES → Step 4A (API tasks)
+  │         │
+  │         ├─ write script (one method/param per script)
+  │         ├─ run → journal
+  │         ├─ done? → check API coverage checklist
+  │         │          (params, enums, update/delete, realistic usage)
+  │         └─ not done → next param/variant → loop
+  │
+  └─ NO → Step 4B (Conceptual tasks)
+           │
+           ├─ write script (one question per script, APIs are probes)
+           ├─ run → journal
+           ├─ done? → check conceptual coverage checklist
+           │          (questions answered, edge cases, cross-API)
+           └─ not done → next question → loop
+```
+
+- **API task** — prefixed with "Api study of" in PLAN.md. You are testing one specific API endpoint: its parameters, return values, edge cases.
+- **Conceptual task** — prefixed with "Study of" or any non-API prefix. You are exploring a cross-cutting concept (protocol envelope, data types, ID system). APIs are tools you use to probe the concept, not the subject itself.
+
+Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
+
+---
+
+### `execute()` and `snapshot()`
+
+**`execute()`** — sends one API call: `{ 'v1.domain.method': [{ params }] }`. Returns the **full server envelope**:
 
 ```js
+const r = await execute({ 'v1.part.create': [{ name: 'Test' }] })
+// r.result    — the API return value (ID, object, array, void, etc.)
+// r.messages  — array of { message, level } server messages
+// r.maxLevel  — highest message level (0=ok, 41-50=warning, 51+=error)
+// r.structure — full object tree of the drawing (huge — thousands of nodes)
+// r.graphic   — rendering data (usually null in CLI context)
+```
+
+**All data is in `r`.** Process it in your script and return structured findings. Do not `console.log` raw data — the script has the envelope directly.
+
+**`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
+
+**Snapshot placement:** When your task involves 3D geometry (solids, booleans, fillets, etc.), see [Appendix: Snapshot Rules](#appendix-snapshot-rules) for camera orientation and geometry placement tips.
+
+---
+
+### Run it
+
+```bash
+node scripts/run.mjs workspace/training/<session>/scripts/01-basic.mjs \
+  --outdir workspace/training/<session>
+```
+
+Look at snapshot PNGs in `files/`.
+
+---
+
+### Write a journal entry
+
+After each run, append a section to `journal.md`. Two tiers — **brief** (behavior matches docs) or **full** (surprising findings). See [Appendix: Journal Entry Format](#appendix-journal-format) for templates.
+
+**Rules:**
+
+- Every entry gets the script filename and a one-line result summary
+- Snapshots MUST appear as markdown image embeds in a single-row table
+- **📌 LLM doc:** flags only on full entries — these are your TODO list for Step 5
+- If before/after snapshots look identical, reposition geometry and re-run before concluding "no change"
+
+---
+
+### Step 4A — API tasks
+
+> Use this track when your task is prefixed with "Api study of" in PLAN.md.
+
+**Script guidance:** Each script tests ONE parameter, variant, or behavior of the target API. Keep scripts small and specific.
+
+```js
+// API task — testing one API endpoint
 export default async function ({ execute }, { snapshot }) {
   const partId = (await execute({ 'v1.part.create': [{ name: 'Test' }] })).result
   const skId = (await execute({ 'v1.sketch.create': [{ id: partId }] })).result
@@ -189,88 +265,11 @@ export default async function ({ execute }, { snapshot }) {
 }
 ```
 
-**`execute()`** — sends one API call: `{ 'v1.domain.method': [{ params }] }`. Returns the **full server envelope**:
+**Return value** — return `{ partId }` at minimum, plus any IDs or values relevant to your test.
 
-```js
-const r = await execute({ 'v1.part.create': [{ name: 'Test' }] })
-// r.result    — the API return value (ID, object, array, void, etc.)
-// r.messages  — array of { message, level } server messages
-// r.maxLevel  — highest message level (0=ok, 41-50=warning, 51+=error)
-// r.structure — full object tree of the drawing (huge — thousands of nodes)
-// r.graphic   — rendering data (usually null in CLI context)
-```
+**Progression:** basic happy path → each optional parameter → parameter combinations → edge cases → error cases → update methods → cross-method combinations → realistic workflows.
 
-**All data is in `r`.** Process it in your script. Do **not** use `console.log` to dump data and then read stdout — the script has the envelope directly. Analyze what you need, return structured findings:
-
-```js
-// ✅ Good — process in-script, return what matters
-const r = await execute({ 'v1.common.getAppVersion': [{}] })
-return {
-  version: r.result,
-  maxLevel: r.maxLevel,
-  messageCount: r.messages?.length ?? 0,
-  hasStructure: r.structure != null,
-}
-
-// ❌ Bad — dumping to stdout and reading it back
-console.log(JSON.stringify(r)) // don't do this
-```
-
-**`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
-
-**Snapshot placement:** When your task involves 3D geometry (solids, booleans, fillets, etc.), see [Appendix: Snapshot Rules](#appendix-snapshot-rules) for camera orientation and geometry placement tips.
-
-**Return value** — return an object with your findings. For geometry scripts, include `{ partId }` at minimum. For exploration scripts, return whatever you discovered. The harness prints it.
-
-### 4b. Run it
-
-```bash
-node scripts/run.mjs workspace/training/<session>/scripts/01-basic.mjs \
-  --outdir workspace/training/<session>
-```
-
-Read the stdout output. Look at snapshot PNGs in `files/`.
-
-### 4c. Write a journal entry
-
-After each run, append a section to `journal.md`. Use **two tiers** — brief for confirmations, full for findings:
-
-**Brief entry** — when behavior matches the docs and nothing surprising happened:
-
-```markdown
-## 03 — symmetric extrusion
-
-Script: `scripts/03-symmetric.mjs` — ✅ as documented, limit1=-30 limit2=30 produces centered box.
-| ![result](files/03-symmetric-solid.png) |
-|---|
-```
-
-**Full entry** — when you find errors, doc discrepancies, unexpected, surprising or interesting behavior:
-
-```markdown
-## 04 — negative limit2 (unexpected)
-
-Script: `scripts/04-neg-limit.mjs` — limit2=-10 silently produces no geometry. No error returned.
-
-| ![before](files/04-before-solid.png) | ![after](files/04-after-solid.png) |
-| ------------------------------------ | ---------------------------------- |
-
-**Learned:** Negative limit2 is a silent no-op, not documented.
-**📌 LLM doc:** Write to `references/part/extrusion.md` — document negative limit2 behavior.
-```
-
-**Rules for both tiers:**
-
-- Every entry gets the script filename and a one-line result summary
-- If the script produced snapshots, they MUST appear as markdown embeds. Multiple images go in a single row using a markdown table, not stacked vertically.
-- **📌 LLM doc:** flags only on full entries — these are your TODO list for Step 5
-- If before/after snapshots look identical, the geometry placement may be wrong — reposition and re-run before concluding "no change"
-
-### 4d. Check: am I done?
-
-**Every 5 scripts** (and after the last script), check the coverage checklist. If all boxes are satisfied, move to Step 5. If you've written 20 scripts (or more), move to Step 5 regardless.
-
-**Coverage checklist** (scoped to the single API/task you picked in Step 1):
+**Coverage checklist** (check every 5 scripts and after the last script):
 
 - [ ] The API has been called at least once successfully
 - [ ] Every required parameter has been tested
@@ -279,11 +278,42 @@ Script: `scripts/04-neg-limit.mjs` — limit2=-10 silently produces no geometry.
 - [ ] The corresponding `update*` / `delete*` method tested (if it exists)
 - [ ] At least one realistic usage combining this API with its prerequisites
 
-If not done, pick the next gap and loop back to 4a. Follow this progression for each method: basic happy path → each optional parameter → parameter combinations → edge cases → error cases → update methods → cross-method combinations → realistic workflows.
+If not done, pick the next gap and loop back. **When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. The failure itself is a finding.
 
-**When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. Do not keep retrying — the failure itself is a finding.
+---
 
-Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
+### Step 4B — Conceptual tasks
+
+> Use this track when your task is prefixed with "Study of" or any non-API prefix in PLAN.md.
+
+**Script guidance:** Each script tests ONE question about the concept. Use APIs as probes — the APIs aren't the subject, the concept is. Call multiple different APIs to test whether behavior is universal.
+
+```js
+// Conceptual task — probing the protocol envelope
+export default async function ({ execute }) {
+  // Use different APIs as probes to study the concept
+  const r1 = await execute({ 'v1.common.getAppVersion': [{}] })
+  const r2 = await execute({ 'v1.common.getClassFileVersion': [{}] })
+
+  return {
+    envelopeKeys: Object.keys(r1),
+    hasMessages: Array.isArray(r1.messages),
+    maxLevel: r1.maxLevel,
+    sameShape: Object.keys(r1).join() === Object.keys(r2).join(),
+  }
+}
+```
+
+**Return value** — return your findings as a structured object. There is no `partId` to return — return whatever answers your question.
+
+**Progression:** observe the default/simple case → test each documented variant → probe edge cases → test cross-API consistency → synthesize rules.
+
+**Coverage checklist** (check every 5 scripts and after the last script):
+
+- [ ] Each stated question in the journal goal has been answered with evidence
+- [ ] At least one edge case or unexpected behavior has been probed
+- [ ] Findings are grounded in observed server responses, not assumptions from docs
+- [ ] The concept has been tested across at least 2 different APIs (to confirm it's universal, not API-specific)
 
 ## Step 5 — Write the LLM doc
 
@@ -320,52 +350,7 @@ These docs are written **for LLMs**, not humans. They complement the source API 
 - **Working example** — a minimal, tested script that demonstrates correct usage.
 - **Related APIs** — what pairs with this API, what to call next.
 
-**Tone:** Direct, concise, opinionated. Write what an agent needs to know to get it right on the first try. Skip ceremony.
-
-````markdown
-# part.extrusion
-
-Creates an extrusion feature by sweeping a 2D profile along a direction vector.
-
-## Prerequisites
-
-- A part (`part.create`)
-- A sketch with a sketch region, OR an entity injection with a shape
-
-## Key Parameters
-
-- `profile` — sketch region ID (from `sketch.sketchRegion`) or shape ID
-- `direction` — `[x, y, z]` vector. Length matters — it defines the extrusion distance
-- `limit1` / `limit2` — override direction length. Negative `limit2` is a **silent no-op** (no error, no geometry)
-
-## Gotchas
-
-- If `direction` is `[0,0,0]`, you get an unhelpful error about topology
-- Passing a sketch ID instead of a sketch _region_ ID fails silently
-
-## Working Example
-
-```js
-const partId = (await execute({ 'v1.part.create': [{}] })).result
-// ... sketch setup ...
-const extId = (
-  await execute({
-    'v1.part.extrusion': [
-      {
-        id: partId,
-        profile: regionId,
-        direction: [0, 0, 50],
-      },
-    ],
-  })
-).result
-```
-
-## Related
-
-- `part.updateExtrusion` — modify after creation
-- `sketch.sketchRegion` — create the profile this consumes
-````
+**Tone:** Direct, concise, opinionated. Write what an agent needs to know to get it right on the first try. Skip ceremony. See [Appendix: LLM Doc Template](#appendix-llm-doc-template) for a full example.
 
 ### When no API-specific file applies
 
@@ -462,3 +447,84 @@ Before declaring a session done, verify every item:
 - Bias modified regions toward the viewer-facing side (lower X and/or higher Y/Z)
 - The opposite side **(+X, -Y, -Z)** is the "back" — easiest to accidentally hide geometry there
 - If a before/after pair looks identical, assume view placement is wrong first: reposition and re-run
+
+---
+
+<a name="appendix-journal-format"></a>
+
+## Appendix: Journal Entry Format
+
+**Brief entry** — behavior matches docs, nothing surprising:
+
+```markdown
+## 03 — symmetric extrusion
+
+Script: `scripts/03-symmetric.mjs` — ✅ as documented, limit1=-30 limit2=30 produces centered box.
+| ![result](files/03-symmetric-solid.png) |
+|---|
+```
+
+**Full entry** — errors, doc discrepancies, unexpected behavior:
+
+```markdown
+## 04 — negative limit2 (unexpected)
+
+Script: `scripts/04-neg-limit.mjs` — limit2=-10 silently produces no geometry. No error returned.
+
+| ![before](files/04-before-solid.png) | ![after](files/04-after-solid.png) |
+| ------------------------------------ | ---------------------------------- |
+
+**Learned:** Negative limit2 is a silent no-op, not documented.
+**📌 LLM doc:** Write to `references/part/extrusion.md` — document negative limit2 behavior.
+```
+
+---
+
+<a name="appendix-llm-doc-template"></a>
+
+## Appendix: LLM Doc Template
+
+````markdown
+# part.extrusion
+
+Creates an extrusion feature by sweeping a 2D profile along a direction vector.
+
+## Prerequisites
+
+- A part (`part.create`)
+- A sketch with a sketch region, OR an entity injection with a shape
+
+## Key Parameters
+
+- `profile` — sketch region ID (from `sketch.sketchRegion`) or shape ID
+- `direction` — `[x, y, z]` vector. Length matters — it defines the extrusion distance
+- `limit1` / `limit2` — override direction length. Negative `limit2` is a **silent no-op** (no error, no geometry)
+
+## Gotchas
+
+- If `direction` is `[0,0,0]`, you get an unhelpful error about topology
+- Passing a sketch ID instead of a sketch _region_ ID fails silently
+
+## Working Example
+
+```js
+const partId = (await execute({ 'v1.part.create': [{}] })).result
+// ... sketch setup ...
+const extId = (
+  await execute({
+    'v1.part.extrusion': [
+      {
+        id: partId,
+        profile: regionId,
+        direction: [0, 0, 50],
+      },
+    ],
+  })
+).result
+```
+
+## Related
+
+- `part.updateExtrusion` — modify after creation
+- `sketch.sketchRegion` — create the profile this consumes
+````

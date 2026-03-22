@@ -1,0 +1,20 @@
+# First steps, learning from raw docs
+
+- just letting it run over docs doesn't produce useful data, it either just halicunates or repeats the same thing. at best it finds some relevant external data but it is not reliable.
+
+# First break-through, connecting it to a live CC worker
+
+- the biggest impact was making it run everything through classcad directly, being able to inspect results and triage errors in real time. now it can actually know that something is wrong, and that keeps it from halucinating.
+
+# LLMs trying to follow instructions is not easy
+
+- the prompt has to be very carefully structured or else it kept straying off path, placing files anywhere, forgetting to write out, or straight up ignoring instructions. In the worst case it started to loop, never finishing the task.
+
+# Iterating on the prompt and instructions
+
+- the data output quality kept getting better. it genuinely found surprising edge cases and documented them. it even spotted a real bug in the documentation (slice keepBoth was reversed).
+    - but there is still too much noise. it was missing api priorities and requirements. for instance that in order to do A, B and C are required. without this knowledge it was just trying random calls and getting errors, which was not useful data.
+
+# Moving from domain by domain to a multi step plan
+
+- the api was then re-structured into a multi step plan (PLAN.md), beginning with fundamentals and then building up to more complex interactions. instead of going domain by domain it is now going api by api. the data already looked much more promising.

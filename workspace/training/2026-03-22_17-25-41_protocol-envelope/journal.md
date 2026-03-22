@@ -236,14 +236,13 @@ Could not trigger a warning-only scenario (level 41 without level 51). Warnings 
 
 ## Coverage check
 
-- [x] Envelope structure documented (5 keys, not 3)
-- [x] All result types tested (string, number, null/VOID, object, array)
-- [x] Message structure documented (level, levelStr, code, api, message)
-- [x] maxLevel baseline (31) and error levels documented
-- [x] Error detection pattern (check `maxLevel >= 51`)
-- [x] Batch envelope (nested, minimal for success, continues past errors)
-- [x] Error codes cataloged (1001, 1004, 1006, 1007, 1201)
-- [x] Edge cases (missing params, wrong types, wrong IDs, unknown APIs, param passing)
+- [✅] Envelope structure documented (5 keys, not 3)
+- [✅] All result types tested (string, number, null/VOID, object, array)
+- [✅] Message structure documented (level, levelStr, code, api, message)
+- [✅] maxLevel baseline (31) and error levels documented
+- [✅] Error detection pattern (check `maxLevel >= 51`)
+- [✅] Batch envelope (nested, minimal for success, continues past errors)
+- [✅] Error codes cataloged (1001, 1004, 1006, 1007, 1201)
+- [✅] Edge cases (missing params, wrong types, wrong IDs, unknown APIs, param passing)
 
 All aspects covered. Moving to Step 5.
-

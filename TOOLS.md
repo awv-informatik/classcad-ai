@@ -9,8 +9,9 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [ws-url]
 ```
 
 - Default WebSocket: `ws://0.0.0.0:9094/`
-- Each `execute()` call prints one line with ✓/❌ markers
+- Scripts receive `{ execute }` and `{ snapshot, filewrite }`
 - `snapshot('label')` saves PNG + STEP + OFB to `files/`
+- `filewrite(data, 'label')` dumps objects → `.json`, strings → `.txt`, buffers → `.bin` to `files/`
 - Harness clears the drawing after each run — every script starts fresh
 
 **The harness does NOT write your journal.** You write it. See `workspace/HOW-TO-TRAIN.md` for the full methodology.

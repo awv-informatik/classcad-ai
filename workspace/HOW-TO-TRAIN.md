@@ -71,14 +71,44 @@ node scripts/run.mjs <script-path> --outdir <session-folder>
 
 **What the harness does:**
 
-- Connects to ClassCAD and passes `{ execute }` and `{ snapshot }` to your script
+- Connects to ClassCAD and passes `{ execute }` and `{ snapshot, filewrite }` to your script
 - Runs your script's default export function
 - Saves snapshots (`snapshot('label')`) as PNGs + STEP + OFB to `files/`
+- Saves data dumps (`filewrite(data, 'label')`) as JSON/TXT/BIN to `files/`
 - Clears the drawing and disconnects after each run
 
-**Your script is the data channel.** Everything you need comes from `execute()` return values — process data in-script and return structured findings. Do not use `console.log` to dump raw data and then try to parse stdout.
-
 **The harness does NOT write your journal.** You write it.
+
+### Logging results
+
+Use `console.log` for compact, one-line findings that fit in stdout:
+
+```js
+console.log('[08] setObjectName:', r.maxLevel <= 31 ? '✓' : '❌')
+console.log('[08] partId:', partId, 'boxId:', boxId)
+console.log('[08] result:', r.result)
+```
+
+**Keep logs short and flat.** Do not `console.log(JSON.stringify(hugeObject))` — large structure trees (20KB+), graphic data, or base64 save content will blow up stdout and make it unreadable. If you need to inspect big or complex data, use `filewrite` instead:
+
+```js
+// Dump structure tree to files/05-my-script-structure.json
+filewrite(r.structure, 'structure')
+
+// Dump graphic mesh data
+filewrite(r.graphic, 'meshes')
+
+// Dump a base64 string
+filewrite(saveResult.content, 'ofb-data')
+```
+
+`filewrite(data, label)` auto-detects the format:
+- **Objects/arrays** → `.json` (pretty-printed)
+- **Strings** → `.txt`
+- **Buffers** → `.bin`
+- Falls back to `util.inspect` if JSON serialization fails (circular refs, etc.)
+
+Returns the relative path (`files/...`) and logs the file size to stdout.
 
 ---
 
@@ -197,7 +227,7 @@ Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
 
 ---
 
-### `execute()` and `snapshot()`
+### `execute()`, `snapshot()`, and `filewrite()`
 
 **`execute()`** — sends one API call: `{ 'v1.domain.method': [{ params }] }`. Returns the **full server envelope**:
 
@@ -210,9 +240,11 @@ const r = await execute({ 'v1.part.create': [{ name: 'Test' }] })
 // r.graphic   — rendering data (usually null in CLI context)
 ```
 
-**All data is in `r`.** Process it in your script and return structured findings. Do not `console.log` raw data — the script has the envelope directly.
+**All data is in `r`.** Log compact findings with `console.log`. For large data (structure trees, graphic payloads, base64 content), use `filewrite` instead.
 
 **`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
+
+**`filewrite(data, 'label')`** — writes data to `files/`. Objects → `.json`, strings → `.txt`, buffers → `.bin`. Use for anything too large for stdout (structure trees, graphic data, save content).
 
 **Snapshot placement:** When your task involves 3D geometry (solids, booleans, fillets, etc.), see [Appendix: Snapshot Rules](#appendix-snapshot-rules) for camera orientation and geometry placement tips.
 
@@ -250,7 +282,7 @@ After each run, append a section to `journal.md`. Two tiers — **brief** (behav
 
 ```js
 // API task — testing one API endpoint
-export default async function ({ execute }, { snapshot }) {
+export default async function ({ execute }, { snapshot, filewrite }) {
   const partId = (await execute({ 'v1.part.create': [{ name: 'Test' }] })).result
   const skId = (await execute({ 'v1.sketch.create': [{ id: partId }] })).result
 

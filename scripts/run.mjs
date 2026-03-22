@@ -16,6 +16,7 @@
 import { join, basename } from 'path'
 import { mkdirSync, writeFileSync } from 'fs'
 import { pathToFileURL } from 'url'
+import { inspect } from 'util'
 import { connect } from './client.mjs'
 import { renderIsometric, savePNG } from './render.mjs'
 import { renderSession } from './render-direct.mjs'
@@ -115,9 +116,38 @@ async function main() {
     return pngs
   }
 
+  // File-write helper — dumps data to files/ when console.log isn't enough
+  function filewrite(data, label = 'dump') {
+    const safeName = label.replace(/[^a-zA-Z0-9_-]/g, '_')
+    const prefix = `${scriptName}-${safeName}`
+    let file, content
+
+    if (typeof data === 'string') {
+      file = `${prefix}.txt`
+      content = data
+    } else if (Buffer.isBuffer(data)) {
+      file = `${prefix}.bin`
+      content = data
+    } else {
+      file = `${prefix}.json`
+      try {
+        content = JSON.stringify(data, null, 2)
+      } catch {
+        // Circular reference or serialization error — use util.inspect
+        file = `${prefix}.txt`
+        content = inspect(data, { depth: 10, maxArrayLength: Infinity })
+      }
+    }
+
+    const outPath = join(filesDir, file)
+    writeFileSync(outPath, content)
+    console.log(`[filewrite] files/${file} (${Buffer.byteLength(content)} bytes)`)
+    return `files/${file}`
+  }
+
   // 2. Execute script
   try {
-    await scriptFn(client, { snapshot })
+    await scriptFn(client, { snapshot, filewrite })
   } catch (e) {
     console.error(`[run] Script error: ${e.message}`)
   }

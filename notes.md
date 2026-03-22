@@ -56,3 +56,7 @@ Step 1: I/O Protocol & API Fundamentals
 # 3rd Break-through, PLAN.md and user input
 
 - the PLAN.md structure allowed it to keep better track of where it was and what it was doing. but the prompt now allows the user to make it target, or re-target specific tasts. this is very useful to nudge it into certain directions.
+
+# New let-down, output handling
+
+- it tries to do JSON.stringify on the execute() output, which is a problem because it may contain circular references, or the data may be too large. we need something better.

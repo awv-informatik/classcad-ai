@@ -4,20 +4,17 @@
  *
  * Usage:  node scripts/run.mjs <script-path> [--outdir <path>] [ws-url]
  *
- * Runs one focused test script, captures snapshots + exports, prints
- * a compact results summary to stdout. The agent reads the output and
- * writes the journal itself.
+ * Connects to ClassCAD, runs one script, captures snapshots, cleans up.
+ * The script receives the raw client — all data processing happens in-script.
  *
  * Pipeline:
  *   1. Connect to ClassCAD
- *   2. Execute script (creates geometry, returns IDs)
- *   3. Render + export snapshots
- *   4. Print results summary
- *   5. Clear drawing + disconnect
+ *   2. Execute script (receives raw client + snapshot helper)
+ *   3. Clear drawing + disconnect
  */
 
 import { join, basename } from 'path'
-import { mkdirSync, readFileSync, writeFileSync } from 'fs'
+import { mkdirSync, writeFileSync } from 'fs'
 import { pathToFileURL } from 'url'
 import { connect } from './client.mjs'
 import { renderIsometric, savePNG } from './render.mjs'
@@ -38,56 +35,6 @@ function parseArgs(argv) {
     if (!scriptPath) { scriptPath = args[i]; continue }
   }
   return { scriptPath, wsUrl, outDir }
-}
-
-/**
- * Wrap the client's execute to log every command and print results inline.
- */
-function withLogging(client) {
-  const commandLog = []
-  const origExecute = client.execute.bind(client)
-
-  /** Strip bulky keys (structure, graphic) so output stays readable. */
-  function trimResult(val) {
-    if (val == null || typeof val !== 'object') return val
-    if (Array.isArray(val)) return val
-    const { structure, graphic, ...rest } = val
-    return Object.keys(rest).length ? rest : val
-  }
-
-  async function loggedExecute(task) {
-    const api = Object.keys(task)[0]
-    const params = task[api]
-    const start = Date.now()
-    try {
-      const r = await origExecute(task)
-      const trimmed = trimResult(r.result)
-      const ms = Date.now() - start
-      commandLog.push({ api, params, result: trimmed, messages: r.messages, ms })
-
-      // Print compact result line
-      const resultStr = JSON.stringify(trimmed)
-      const resultPreview = resultStr.length > 120 ? resultStr.slice(0, 120) + '…' : resultStr
-      let line = `  ✓ ${api} → ${resultPreview} (${ms}ms)`
-
-      // Print warnings/errors from messages
-      if (r.messages?.length) {
-        for (const m of r.messages) {
-          if (m.level >= 51) line += `\n    ❌ ${m.message.trim().split('\n')[0]}`
-          else if (m.level >= 41) line += `\n    ⚠️ ${m.message.trim().split('\n')[0]}`
-        }
-      }
-      console.log(line)
-      return r
-    } catch (e) {
-      const ms = Date.now() - start
-      commandLog.push({ api, params, error: e.message, ms })
-      console.log(`  ❌ ${api} → ERROR: ${e.message} (${ms}ms)`)
-      throw e
-    }
-  }
-
-  return { ...client, execute: loggedExecute, commandLog }
 }
 
 async function main() {
@@ -119,9 +66,7 @@ async function main() {
   mkdirSync(filesDir, { recursive: true })
 
   // 1. Connect
-  const rawClient = await connect(wsUrl)
-  const client = withLogging(rawClient)
-  console.log('[run] Connected')
+  const client = await connect(wsUrl)
 
   // Snapshot helper — captures PNGs + exports to files/
   async function snapshot(label = `snapshot`) {
@@ -130,14 +75,14 @@ async function main() {
     const pngs = []
 
     try {
-      await rawClient.execute({ 'v1.common.setDatabaseSettings': [{ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }] })
-      const renders = await renderSession(rawClient, prefix, filesDir, { width: IMG_W, height: IMG_H })
+      await client.execute({ 'v1.common.setDatabaseSettings': [{ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }] })
+      const renders = await renderSession(client, prefix, filesDir, { width: IMG_W, height: IMG_H })
       for (const r of renders) pngs.push(`files/${r.file}`)
     } catch (e) {
       // Fallback: try STL-based render
       try {
         const { parseSTL } = await import('./export.mjs')
-        const stlR = await rawClient.execute({
+        const stlR = await client.execute({
           'v1.common.save': [{ format: 'STL', encoding: 'base64', stl: { binary: true, facetingTol: 0.1, angleTol: 6 } }],
         })
         if (stlR.result?.success && stlR.result?.content) {
@@ -155,40 +100,31 @@ async function main() {
 
     // Export STEP + OFB
     try {
-      const stepR = await rawClient.execute({ 'v1.common.save': [{ format: 'STP', encoding: 'base64', stp: { version: 2 } }] })
+      const stepR = await client.execute({ 'v1.common.save': [{ format: 'STP', encoding: 'base64', stp: { version: 2 } }] })
       if (stepR.result?.success && stepR.result?.content) {
         writeFileSync(join(filesDir, `${prefix}.stp`), Buffer.from(stepR.result.content, 'base64'))
       }
     } catch (_) {}
     try {
-      const ofbR = await rawClient.execute({ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] })
+      const ofbR = await client.execute({ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] })
       if (ofbR.result?.success && ofbR.result?.content) {
         writeFileSync(join(filesDir, `${prefix}.ofb`), Buffer.from(ofbR.result.content, 'base64'))
       }
     } catch (_) {}
 
-    if (pngs.length) console.log(`  📸 ${label}: ${pngs.join(', ')}`)
     return pngs
   }
 
   // 2. Execute script
-  console.log(`[run] ${scriptPath}`)
   try {
-    const result = await scriptFn(client, { snapshot })
-
-    // Print script return value
-    if (result && typeof result === 'object') {
-      const { partId, eifId, solidIds } = result
-      if (partId !== undefined) console.log(`[run] partId=${partId} eifId=${eifId} solidIds=${JSON.stringify(solidIds || [])}`)
-    }
+    await scriptFn(client, { snapshot })
   } catch (e) {
-    console.error(`[run] ❌ Script error: ${e.message}`)
+    console.error(`[run] Script error: ${e.message}`)
   }
 
   // 3. Clear + disconnect
-  try { await rawClient.execute({ 'v1.common.clear': [{}] }) } catch (_) {}
-  rawClient.close()
-  console.log('[run] Done')
+  try { await client.execute({ 'v1.common.clear': [{}] }) } catch (_) {}
+  client.close()
 }
 
 main().catch(err => {

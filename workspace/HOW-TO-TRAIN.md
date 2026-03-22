@@ -1,12 +1,14 @@
 # How to Train
 
-You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn. Your deliverable is **updated skill files** — AGENT NOTEs added to `knowledge/classcad-skill/` where the docs are wrong, misleading, or incomplete. The journal is your working notebook. The skill updates are the point.
+You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn. Your deliverable is **per-API LLM documentation** — practical, agent-oriented docs written to `knowledge/classcad-skill/references/<domain>/<apiName>.md`. The journal is your working notebook. The LLM docs are the point.
 
-**Golden rule: read the reference docs before writing any code. Do not guess parameter names, ID types, or return values.**
+**Golden rule #1: Every task is LIVE.** You connect to the ClassCAD CLI and run real API calls. If a script fails, you debug it. If the docs are wrong, you note it. Nothing is theoretical.
 
-**Pipeline: Read → Script → Run → Journal → Apply to skill files → changes.md**
+**Golden rule #2: Read the reference docs before writing any code.** Do not guess parameter names, ID types, or return values.
 
-Every training session follows this pipeline. Steps 1–3 are preparation and exploration. Steps 4–5 are the deliverable. When you find something the docs get wrong, miss, or underexplain, you edit it **in place** in `knowledge/classcad-skill/SKILL.md` or `knowledge/classcad-skill/references/<domain>.md` — at the exact location where that method or topic is documented. Then you record the git diff in `changes.md`. A session is not complete until you have either applied your findings to the skill files and written `changes.md`, or explicitly justified in the journal why no updates are needed.
+**Pipeline: Plan → Read → Script → Run → Journal → Write LLM docs → changes.md → Checkpoint**
+
+Every training session follows this pipeline. Unless the user gives you different instructions, you pick **one task** from `workspace/PLAN.md` and train on that task alone. Steps 1–2 are task selection and preparation. Steps 3–4 are exploration. Step 5 is the deliverable — writing or updating per-API LLM docs. Steps 6–7 are bookkeeping. A session is not complete until you have written the LLM doc file, recorded changes in `changes.md` (or justified why none were needed), **and** marked the task complete in PLAN.md.
 
 ---
 
@@ -14,73 +16,131 @@ Every training session follows this pipeline. Steps 1–3 are preparation and ex
 
 ```
 knowledge/
-  classcad-skill/            ← THE SKILL you are training (SKILL.md + references/*.md)
-scripts/                     ← harness code (do not edit)
+  classcad-skill/
+    SKILL.md                          ← skill overview (read first for context)
+    references/
+      api/                            ← SOURCE docs (read-only, copied from @classcad/api-js)
+        assembly.md
+        common.md
+        curve.md
+        drawing2d.md
+        part.md
+        sketch.md
+        solid.md
+      <domain>/                       ← YOUR LLM docs (one file per API — this is what you write)
+        <apiName>.md
+        ...
+scripts/                              ← harness code (do not edit)
 workspace/
-  training/                  ← your training sessions
+  HOW-TO-TRAIN.md                     ← this file
+  PLAN.md                             ← learning plan with checkboxes
+  training/                           ← your training sessions go here!
+    YYYY-MM-DD_HH-MM-SS_<topic>/
+      scripts/                        ← your test scripts (one focused test per file)
+      files/                          ← harness output (PNGs, STEP, OFB)
+      journal.md                      ← your exploration log (written during Step 4)
+      changes.md                      ← LLM doc diff (written during Step 6)
 ```
 
-The 7 API domains and their reference files (all under `knowledge/classcad-skill/references/`):
+All paths below are relative to **`knowledge/classcad-skill/`** (the skill root).
 
-| Domain    | Reference      | Namespace        |
-| --------- | -------------- | ---------------- |
-| Assembly  | `assembly.md`  | `v1.assembly.*`  |
-| Common    | `common.md`    | `v1.common.*`    |
-| Curve     | `curve.md`     | `v1.curve.*`     |
-| Drawing2D | `drawing2d.md` | `v1.drawing2d.*` |
-| Part      | `part.md`      | `v1.part.*`      |
-| Sketch    | `sketch.md`    | `v1.sketch.*`    |
-| Solid     | `solid.md`     | `v1.solid.*`     |
+**Two kinds of reference files — do not confuse them:**
+
+| Path                               | Purpose                                                     | You edit?                          |
+| ---------------------------------- | ----------------------------------------------------------- | ---------------------------------- |
+| `references/api/<domain>.md`       | Source API documentation (parameters, types, return values) | **NO** — read-only                 |
+| `references/<domain>/<apiName>.md` | LLM-oriented docs (hints, findings, gotchas, examples)      | **YES** — this is your deliverable |
+
+The 7 API domains:
+
+| Domain    | Source docs (read-only)       | LLM docs (you write)    | Namespace        |
+| --------- | ----------------------------- | ----------------------- | ---------------- |
+| Assembly  | `references/api/assembly.md`  | `references/assembly/`  | `v1.assembly.*`  |
+| Common    | `references/api/common.md`    | `references/common/`    | `v1.common.*`    |
+| Curve     | `references/api/curve.md`     | `references/curve/`     | `v1.curve.*`     |
+| Drawing2D | `references/api/drawing2d.md` | `references/drawing2d/` | `v1.drawing2d.*` |
+| Part      | `references/api/part.md`      | `references/part/`      | `v1.part.*`      |
+| Sketch    | `references/api/sketch.md`    | `references/sketch/`    | `v1.sketch.*`    |
+| Solid     | `references/api/solid.md`     | `references/solid/`     | `v1.solid.*`     |
+
+## Read-only files — DO NOT EDIT
+
+You must **never modify** these files during training:
+
+- **`SKILL.md`** — the skill overview. Read for context only.
+- **`references/api/*.md`** — the source API documentation. Copied from `@classcad/api-js`. Ground truth. Never edit.
+
+Your deliverable goes exclusively into `references/<domain>/<apiName>.md` files that **you create and own**:
+
+```
+references/api/common.md          ← READ this (source docs, never edit)
+references/common/                ← WRITE here (your LLM docs)
+  getAppVersion.md
+  evaluateExpression.md
+  batch.md
+  generic.md                     ← conceptual topics that span multiple APIs
+```
+
+---
 
 ## The harness
 
-The harness (`node scripts/run.mjs`) is a thin test runner. It connects to ClassCAD, runs your script, and prints results to stdout:
+The harness (`node scripts/run.mjs`) is a thin test runner. It connects to ClassCAD, runs your script, captures snapshots, and cleans up.
 
 ```bash
 node scripts/run.mjs <script-path> --outdir <session-folder>
 ```
 
-It prints each API call with its result inline:
+**What the harness does:**
 
-```
-[run] Connected
-[run] scripts/01-basic.mjs
-  ✓ v1.part.create → 4 (20ms)
-  ✓ v1.sketch.create → 52 (4ms)
-  ✓ v1.sketch.rectangle → [58,64,70,76] (9ms)
-  ✓ v1.part.extrusion → 96 (13ms)
-    ❌ [Evaluation error in Sketch.GetNormal:CCObject can not be opened...]
-  📸 after-extrusion: files/01-basic-after-extrusion-solid.png
-[run] partId=4 eifId=null solidIds=[]
-[run] Done
-```
+- Connects to ClassCAD and passes `{ execute }` and `{ snapshot }` to your script
+- Runs your script's default export function
+- Saves snapshots (`snapshot('label')`) as PNGs + STEP + OFB to `files/`
+- Clears the drawing and disconnects after each run
 
-Snapshots (`snapshot('label')`) save PNGs + STEP + OFB to `files/`. The harness clears the drawing and disconnects after each run.
+**Your script is the data channel.** Everything you need comes from `execute()` return values — process data in-script and return structured findings. Do not use `console.log` to dump raw data and then try to parse stdout.
 
 **The harness does NOT write your journal.** You write it.
 
 ---
 
-## Step 1 — Read the reference docs
+## Step 1 — Pick the task from PLAN.md
 
-Read `knowledge/classcad-skill/references/<domain>.md` for every method you plan to test. Study in this order:
+Read `workspace/PLAN.md` in full. Scan the tables **in document order** (top to bottom). Find the **first row** where the `Studied` column contains `[ ]` (unchecked). This is your task for this session.
 
-1. **Method signatures and parameter tables** — exact parameter names, types, and which are optional.
-2. **Return value structure** — what the method gives back and how to use it.
-3. **Related methods in the same domain** — understand the neighborhood.
-4. **`AGENT NOTE` blocks** — supplementary findings from prior training. Helpful but secondary. The raw docs are ground truth; notes are annotations on top.
+**Rules:**
 
-## Step 2 — Create the session folder and journal
+- **One task per session.** Do not plow through multiple tasks. Depth over breadth.
+- **No skipping.** Tasks are ordered by dependency. If a task in an earlier step or category is still `[ ]`, you must complete it first. Do not jump ahead.
+- **Verify prerequisites.** All tasks above your target (in earlier categories and steps) must be `[✅]`. If any prerequisite is still `[ ]`, **stop and report the gap** — do not proceed.
+- **If all tasks are `[✅]`**, report "All tasks completed." and stop.
 
-```
-workspace/training/YYYY-MM-DD_HH-MM-SS_<topic>/
-  scripts/      ← your test scripts (one focused test per file)
-  files/        ← harness output (PNGs, STEP, OFB)
-  journal.md    ← your exploration log (written during Step 3)
-  changes.md    ← skill update diff (written during Step 5)
-```
+Once you have identified the task, note its step, category, task number, and name. This scopes the rest of the session.
 
-Create `journal.md` with a title, date, and a goal section. The goal should list every method and parameter you intend to cover — this becomes your checklist. Write it after reading the reference docs so it reflects the actual API surface.
+**Override:** If the user says "train on task X.Y.Z" or "skip to step N" or "do the next 3 tasks" — follow their instruction instead.
+
+---
+
+## Step 2 — Read the reference docs
+
+All paths below are relative to `knowledge/classcad-skill/`. Read in this order:
+
+1. **`SKILL.md`** — skim for overall context (domain index, conventions). You don't need to re-read this every session, but be familiar with it.
+
+2. **`references/api/<domain>.md`** — the source API documentation for the domain your task belongs to. This is ground truth. Study:
+   - Method signature and parameter table for your specific API — exact names, types, which are optional.
+   - Return value structure — what comes back and how to use it.
+   - Related methods in the same domain — understand the neighborhood.
+
+3. **`references/<domain>/<apiName>.md`** — check if an LLM doc already exists for the API you are training on.
+   - **If it exists:** read it. This contains findings from a prior session. Verify, extend, or correct it.
+   - **If it does not exist:** you will create it in Step 5. That's expected — this is what you are here to build.
+
+## Step 3 — Create the session folder and journal
+
+Create the session folder as shown in the repo layout above (`workspace/training/YYYY-MM-DD_HH-MM-SS_<topic>/`) with its `scripts/` and `files/` subdirectories.
+
+Then create `journal.md` with a title, date, and a goal section. The goal should list every method and parameter you intend to cover — this becomes your checklist. Write it after reading the reference docs so it reflects the actual API surface.
 
 ```markdown
 # Training: <topic>
@@ -105,11 +165,11 @@ Testing `v1.part.boolean` and `v1.part.updateBoolean`.
 - How does boolean interact with patterns (tools with indices)?
 ```
 
-## Step 3 — Write, run, and journal (the loop)
+## Step 4 — Write, run, and journal (the loop)
 
-This is an iterative loop. Each iteration: write a script → run it → journal the result → check if you're done. **Stop iterating** when the coverage checklist below is satisfied, or when you've written 25 scripts — whichever comes first. If you hit the cap, move to Step 4 with what you have and note any gaps in the journal.
+This is an iterative loop. Each iteration: write a script → run it → journal the result → check if you're done. **Stop iterating** when the coverage checklist below is satisfied, or when you've written 20 scripts — whichever comes first. If you hit the cap, move to Step 5 with what you have and note any gaps in the journal.
 
-### 3a. Write a focused script
+### 4a. Write a focused script
 
 Each script tests ONE question or behavior. Keep scripts small and specific — write as many as you need to satisfy the coverage checklist.
 
@@ -129,27 +189,40 @@ export default async function ({ execute }, { snapshot }) {
 }
 ```
 
-**`execute()`** — sends one API call: `{ 'v1.domain.method': [{ params }] }`. Returns `{ result, messages, maxLevel }`.
+**`execute()`** — sends one API call: `{ 'v1.domain.method': [{ params }] }`. Returns the **full server envelope**:
+
+```js
+const r = await execute({ 'v1.part.create': [{ name: 'Test' }] })
+// r.result    — the API return value (ID, object, array, void, etc.)
+// r.messages  — array of { message, level } server messages
+// r.maxLevel  — highest message level (0=ok, 41-50=warning, 51+=error)
+// r.structure — full object tree of the drawing (huge — thousands of nodes)
+// r.graphic   — rendering data (usually null in CLI context)
+```
+
+**All data is in `r`.** Process it in your script. Do **not** use `console.log` to dump data and then read stdout — the script has the envelope directly. Analyze what you need, return structured findings:
+
+```js
+// ✅ Good — process in-script, return what matters
+const r = await execute({ 'v1.common.getAppVersion': [{}] })
+return {
+  version: r.result,
+  maxLevel: r.maxLevel,
+  messageCount: r.messages?.length ?? 0,
+  hasStructure: r.structure != null,
+}
+
+// ❌ Bad — dumping to stdout and reading it back
+console.log(JSON.stringify(r)) // don't do this
+```
 
 **`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
 
-**Snapshot design rule:** The renderer uses a fixed isometric projection with per-body coloring (each body gets a distinct color). To make before/after differences visible:
+**Snapshot placement:** When your task involves 3D geometry (solids, booleans, fillets, etc.), see [Appendix: Snapshot Rules](#appendix-snapshot-rules) for camera orientation and geometry placement tips.
 
-- Offset tools/cuts asymmetrically (e.g., shift in X _and_ Y, not just X)
-- Use different-sized bodies (e.g., a 100³ box and a 60×40×80 box)
-- Place cuts/additions where the silhouette changes (corners, off-center)
-- For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face)
+**Return value** — return an object with your findings. For geometry scripts, include `{ partId }` at minimum. For exploration scripts, return whatever you discovered. The harness prints it.
 
-**Viewer-facing rule (from `scripts/render-direct.mjs`):** solids are rendered with `projectIso` (rotate 45° around Y, then ~35.264° around X). Depth is `d = (-x + y + z)/√3`, and larger `d` is closer to camera.
-
-- Think of the camera as viewing from roughly **(-X, +Y, +Z)** toward the origin.
-- The opposite side **(+X, -Y, -Z)** is the “back” side and easiest to hide cuts/fillets on.
-- When testing cuts/fillets/chamfers, bias geometry so the modified region is on the viewer-facing side (lower X and/or higher Y/Z).
-- If a before/after pair looks unchanged, assume view placement may be wrong first: reposition and re-run.
-
-**Return value** — return `{ partId }` at minimum, or any object. The harness prints it.
-
-### 3b. Run it
+### 4b. Run it
 
 ```bash
 node scripts/run.mjs workspace/training/<session>/scripts/01-basic.mjs \
@@ -158,7 +231,7 @@ node scripts/run.mjs workspace/training/<session>/scripts/01-basic.mjs \
 
 Read the stdout output. Look at snapshot PNGs in `files/`.
 
-### 3c. Write a journal entry
+### 4c. Write a journal entry
 
 After each run, append a section to `journal.md`. Use **two tiers** — brief for confirmations, full for findings:
 
@@ -183,88 +256,209 @@ Script: `scripts/04-neg-limit.mjs` — limit2=-10 silently produces no geometry.
 | ------------------------------------ | ---------------------------------- |
 
 **Learned:** Negative limit2 is a silent no-op, not documented.
-**📌 Skill update:** Add AGENT NOTE to extrusion section — negative limit2 behavior.
+**📌 LLM doc:** Write to `references/part/extrusion.md` — document negative limit2 behavior.
 ```
 
 **Rules for both tiers:**
 
 - Every entry gets the script filename and a one-line result summary
 - If the script produced snapshots, they MUST appear as markdown embeds. Multiple images go in a single row using a markdown table, not stacked vertically.
-- **📌 Skill update:** flags only on full entries — these are your TODO list for Step 4
+- **📌 LLM doc:** flags only on full entries — these are your TODO list for Step 5
 - If before/after snapshots look identical, the geometry placement may be wrong — reposition and re-run before concluding "no change"
 
-### 3d. Check: am I done?
+### 4d. Check: am I done?
 
-**Every 5 scripts** (and after the last script), check the coverage checklist. If all boxes are satisfied, move to Step 4. If you've written 20 scripts (or more), move to Step 4 regardless.
+**Every 5 scripts** (and after the last script), check the coverage checklist. If all boxes are satisfied, move to Step 5. If you've written 20 scripts (or more), move to Step 5 regardless.
 
-**Coverage checklist:**
+**Coverage checklist** (scoped to the single API/task you picked in Step 1):
 
-- [ ] Every method in the topic has been called at least once
-- [ ] Every documented parameter has been tested
-- [ ] Every enum value / type variant has been exercised
-- [ ] `update*` and `delete*` methods tested if they exist
-- [ ] At least one cross-method combination tested
-- [ ] At least one realistic multi-step workflow
+- [ ] The API has been called at least once successfully
+- [ ] Every required parameter has been tested
+- [ ] Key optional parameters have been exercised
+- [ ] Every enum value / type variant has been exercised (if applicable)
+- [ ] The corresponding `update*` / `delete*` method tested (if it exists)
+- [ ] At least one realistic usage combining this API with its prerequisites
 
-If not done, pick the next gap and loop back to 3a. Follow this progression for each method: basic happy path → each optional parameter → parameter combinations → edge cases → error cases → update methods → cross-method combinations → realistic workflows.
+If not done, pick the next gap and loop back to 4a. Follow this progression for each method: basic happy path → each optional parameter → parameter combinations → edge cases → error cases → update methods → cross-method combinations → realistic workflows.
 
 **When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. Do not keep retrying — the failure itself is a finding.
 
 Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
 
-## Step 4 — Update the skill files
+## Step 5 — Write the LLM doc
 
-**This is the deliverable.** The journal is working notes. The skill files are what persist and help future agents.
+**This is the deliverable.** The journal is working notes. The LLM docs are what persist and help future agents.
 
-Review your journal. Every finding that needs a skill update should already be flagged with `📌 Skill update:` — work through that list. Then edit the skill files:
+Review your journal. Every finding flagged with `📌 LLM doc:` feeds into this step.
 
-**Where to write:**
+### Where to write
 
-- **`knowledge/classcad-skill/references/<domain>.md`** — domain-specific findings (method behavior, return values, edge cases).
-- **`knowledge/classcad-skill/SKILL.md`** — cross-domain findings (conventions, patterns, architectural insights).
+Create or update: `knowledge/classcad-skill/references/<domain>/<apiName>.md`
 
-**How to write:**
+- If the `references/<domain>/` folder does not exist, create it.
+- If the `<apiName>.md` file does not exist, create it.
+- If it already exists, update it with new findings.
 
-- **Edit in place.** Find the exact location where the API or topic is documented. Add, update, or remove information right there. Never summarize at the top or append at the bottom.
-- Use `AGENT NOTE` blocks placed directly after the relevant method or paragraph:
-  ```markdown
-  > **AGENT NOTE (trained YYYY-MM-DD):** <verified finding>
-  ```
-- If an existing note is wrong, fix or remove it in place.
+**Example paths:**
 
-**If you found nothing new:** Write a `## Skill Updates` section at the end of `journal.md` explaining why — which existing AGENT NOTEs you verified, what you tested that matched the docs exactly, and why no changes are needed. Be specific. "Nothing new" is a valid outcome but requires justification, not silence.
+- `references/common/getAppVersion.md`
+- `references/part/extrusion.md`
+- `references/solid/box.md`
+- `references/sketch/constraint.md`
 
-## Step 5 — Write changes.md
+### What to write
 
-If you modified any skill files in Step 4, run:
+These docs are written **for LLMs**, not humans. They complement the source API docs (`references/api/`) with practical, hard-won knowledge that an agent needs to actually use the API successfully. Include:
 
-```bash
-cd knowledge/classcad-skill && git diff references/ SKILL.md
+- **Summary** — what this API does in plain language (1–3 sentences).
+- **Key parameters** — which matter most, what values to use, what to avoid. Don't repeat the full parameter table from the source docs — focus on what's non-obvious.
+- **Return value** — what comes back and how to use it. Especially note if the result is an ID, array, VOID, etc.
+- **Gotchas & dead ends** — silent failures, undocumented behavior, parameter combinations that break, misleading names.
+- **Common errors** — error messages you hit and what they mean. What the fix is.
+- **Usage hints** — practical tips: "always call X before Y", "pass `keepTools: true` or you lose the tool solid", "angles are in radians not degrees".
+- **Prerequisites** — what must exist before calling this API (e.g., "requires a part created with `part.create`").
+- **Working example** — a minimal, tested script that demonstrates correct usage.
+- **Related APIs** — what pairs with this API, what to call next.
+
+**Tone:** Direct, concise, opinionated. Write what an agent needs to know to get it right on the first try. Skip ceremony.
+
+````markdown
+# part.extrusion
+
+Creates an extrusion feature by sweeping a 2D profile along a direction vector.
+
+## Prerequisites
+
+- A part (`part.create`)
+- A sketch with a sketch region, OR an entity injection with a shape
+
+## Key Parameters
+
+- `profile` — sketch region ID (from `sketch.sketchRegion`) or shape ID
+- `direction` — `[x, y, z]` vector. Length matters — it defines the extrusion distance
+- `limit1` / `limit2` — override direction length. Negative `limit2` is a **silent no-op** (no error, no geometry)
+
+## Gotchas
+
+- If `direction` is `[0,0,0]`, you get an unhelpful error about topology
+- Passing a sketch ID instead of a sketch _region_ ID fails silently
+
+## Working Example
+
+```js
+const partId = (await execute({ 'v1.part.create': [{}] })).result
+// ... sketch setup ...
+const extId = (
+  await execute({
+    'v1.part.extrusion': [
+      {
+        id: partId,
+        profile: regionId,
+        direction: [0, 0, 50],
+      },
+    ],
+  })
+).result
 ```
 
-Copy the full output into `workspace/training/<session>/changes.md`. This is the record of what you changed and the proof that Step 4 happened.
+## Related
 
-**A session is complete when:**
+- `part.updateExtrusion` — modify after creation
+- `sketch.sketchRegion` — create the profile this consumes
+````
 
-- `changes.md` exists with the diff of your skill updates, OR
-- `journal.md` ends with a `## Skill Updates` section explaining why no changes were needed.
+### When no API-specific file applies
 
-There is no third option. One of these two must be true before you stop.
+For conceptual study tasks (protocol, data model, etc.), write the LLM doc to a generic.md in the relevant domain folder:
+
+- `references/common/generic.md`
+- `references/part/generic.md`
+
+**If you found nothing new** (the existing LLM doc is already complete and correct): Write a `## Skill Updates` section at the end of `journal.md` explaining what you verified and why no changes are needed. Be specific — "nothing new" requires justification, not silence.
+
+### If you cannot complete Step 5
+
+- **Server unreachable / harness crash:** Write the LLM doc based on what you learned from the source docs and any scripts that did run. Mark clearly which sections are verified vs. unverified: `<!-- UNVERIFIED: could not connect to server -->`. The next session can pick up where you left off.
+- **API does not exist or is broken:** Document that in the LLM doc — "this API returned error X on every attempt" is a valid and useful finding.
+- **Conceptual task with no API to test:** Write the LLM doc from the source docs alone. This is expected for protocol/data-model tasks.
+
+## Step 6 — Write changes.md
+
+If you created or modified any LLM doc files in Step 5, run:
+
+```bash
+cd knowledge/classcad-skill && git diff references/ && git status references/
+```
+
+Copy the full output (diff for modified files, status for new files) into `workspace/training/<session>/changes.md`. This is the record of what you changed and the proof that Step 5 happened.
+
+**A session is complete when** Steps 6 and 7 are both done.
+
+---
+
+## Step 7 — Mark the task complete in PLAN.md
+
+Open `workspace/PLAN.md` and change the task's `Studied` column from `[ ]` to `[✅]`.
+
+**Before:**
+
+```
+| 1 | Api study of `common.getAppVersion` | [common.md](...) | [ ] |
+```
+
+**After:**
+
+```
+| 1 | Api study of `common.getAppVersion` | [common.md](...) | [✅] |
+```
+
+Use the Edit tool — find the exact row and replace `[ ]` with `[✅]`. Do **not** mark any other tasks. Only the one you trained on.
+
+Then report:
+
+- Which task was completed (step, category, task number and name)
+- A one-line summary of what was learned
+- Whether the next task has its prerequisites met (ready for next session)
+
+---
 
 ## Completion checklist
 
 Before declaring a session done, verify every item:
 
 - [ ] Every journal entry that produced a snapshot embeds it as `![label](files/...png)`
-- [ ] Every `📌 Skill update:` flag in the journal has been addressed in Step 4
+- [ ] Every `📌 LLM doc:` flag in the journal has been addressed in Step 5 (LLM doc created/updated)
 - [ ] `changes.md` exists with diff, OR journal has `## Skill Updates` section justifying no changes
 - [ ] Journal goal/checklist has no uncovered items (or gaps are explicitly noted)
+- [ ] The task row in `workspace/PLAN.md` is marked `[✅]`
 
 ---
 
 ## Debugging
 
 1. **Read the error** — ClassCAD errors are descriptive. They tell you exactly what's wrong.
-2. **Check parameter names** — compare against the reference docs character by character.
-3. **Check ID types** — most failures come from passing the wrong ID. The reference docs specify which ID each method expects.
-4. **Cross-reference** `knowledge/classcad-api/<domain>.md` if the skill reference is ambiguous.
+2. **Check parameter names** — compare against `references/api/<domain>.md` character by character.
+3. **Check ID types** — most failures come from passing the wrong ID. The source docs specify which ID each method expects.
+4. **Check your own LLM docs** — if `references/<domain>/<apiName>.md` exists, prior findings may explain the issue.
+
+---
+
+<a name="appendix-snapshot-rules"></a>
+
+## Appendix: Snapshot Rules
+
+> Only relevant when your task involves 3D geometry (solids, booleans, fillets, chamfers, etc.). Skip for protocol, sketch, or curve-only tasks.
+
+**Renderer:** Fixed isometric projection with per-body coloring (each body gets a distinct color).
+
+**Camera orientation (from `scripts/render-direct.mjs`):** `projectIso` rotates 45° around Y, then ~35.264° around X. Depth: `d = (-x + y + z)/√3`, larger `d` = closer to camera. Think of the camera as viewing from roughly **(-X, +Y, +Z)** toward the origin.
+
+**Geometry placement tips:**
+
+- Offset tools/cuts asymmetrically (shift in X _and_ Y, not just X)
+- Use different-sized bodies (e.g., a 100³ box and a 60×40×80 box)
+- Place cuts/additions where the silhouette changes (corners, off-center)
+- For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face)
+- Bias modified regions toward the viewer-facing side (lower X and/or higher Y/Z)
+- The opposite side **(+X, -Y, -Z)** is the "back" — easiest to accidentally hide geometry there
+- If a before/after pair looks identical, assume view placement is wrong first: reposition and re-run

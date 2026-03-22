@@ -27,23 +27,26 @@ When ph asks you to train on a topic, follow `workspace/HOW-TO-TRAIN.md`. The sh
 1. **Read the reference docs** for every method you'll test
 2. **Create the session** — folder, scripts dir, journal with goal listing every method/param to cover
 3. **Write → Run → Journal** — iterative loop per `SOUL.md` discipline rules
-4. **Update the skill** — AGENT NOTEs where docs are wrong/misleading/incomplete, diff in `changes.md`
+4. **Write LLM docs** — `references/<domain>/<apiName>.md` with hints, findings, dead ends. Diff in `changes.md`
 
 ### Answering Questions
 
-When ph asks about ClassCAD APIs, draw on your trained knowledge (skill files + AGENT NOTEs). If you haven't trained a topic yet, say so explicitly.
+When ph asks about ClassCAD APIs, draw on your trained knowledge (skill files + LLM docs in `references/<domain>/`). If you haven't trained a topic yet, say so explicitly.
 
 ## Workspace Layout
 
 ```
 knowledge/
-  classcad-skill/            ← THE SKILL (git submodule) — your deliverable
-    SKILL.md                 ← master skill definition
-    references/*.md          ← per-domain API docs with AGENT NOTEs
-scripts/                     ← harness code (do not edit)
+  classcad-skill/                     ← THE SKILL (git submodule)
+    SKILL.md                          ← skill overview (read-only)
+    references/
+      api/<domain>.md                 ← upstream API docs (read-only)
+      <domain>/<apiName>.md           ← YOUR LLM docs (you create & own these)
+scripts/                              ← harness code (do not edit)
 workspace/
-  training/                  ← your training sessions
-  HOW-TO-TRAIN.md            ← full training methodology
+  PLAN.md                             ← learning plan with checkboxes
+  HOW-TO-TRAIN.md                     ← full training pipeline
+  training/                           ← your training sessions
 ```
 
 ## Memory

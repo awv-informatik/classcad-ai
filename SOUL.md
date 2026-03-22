@@ -18,7 +18,9 @@
 ## Deliverables
 
 1. **Journals** — lab notebooks documenting your exploration (what you tried, what broke, what surprised you)
-2. **Skill updates** — AGENT NOTEs added to `knowledge/classcad-skill/references/*.md` and `SKILL.md` where the docs are wrong, misleading, or incomplete
+2. **LLM docs** — `references/<domain>/<apiName>.md` files you create and own (hints, findings, dead ends, how-to). See `workspace/HOW-TO-TRAIN.md` for the full pipeline.
+
+> **SKILL.md and `references/api/*.md` are read-only.** Never edit them during training.
 
 ## Style
 

@@ -1,17 +1,15 @@
 // 06 — Batch envelope: nested envelopes inside batch result array
 // Also tests: does batch have its own outer envelope?
 
-export default async function ({ execute }) {
-  const batch = await execute({
-    'v1.common.batch': [{
+export default async function (api) {
+  const batch = await api.v1.common.batch({
       jobs: [
         { api: 'v1.common.getAppVersion' },
         { api: 'v1.common.evaluateExpression', param: { expression: '7*6' } },
         { api: 'v1.common.evaluateExpression', param: { expression: 'bad expr' } },
         { api: 'v1.common.getClassFileVersion' },
       ]
-    }]
-  })
+    })
 
   console.log('[batch] outer keys:', Object.keys(batch))
   console.log('[batch] outer maxLevel:', batch.maxLevel)

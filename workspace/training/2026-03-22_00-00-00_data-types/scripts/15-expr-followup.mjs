@@ -1,5 +1,5 @@
 // Follow-up: test ln with known values, and check available constants
-export default async function ({ execute }) {
+export default async function (api) {
   const tests = [
     ['ln(1)', 0, 'ln(1) should be 0'],
     ['ln(exp(1))', 1, 'ln(e) should be 1'],
@@ -26,9 +26,7 @@ export default async function ({ execute }) {
   ]
 
   for (const [expr, expected, label] of tests) {
-    const r = await execute({
-      'v1.common.evaluateExpression': [{ expression: expr, silent: 1 }]
-    })
+    const r = await api.v1.common.evaluateExpression({ expression: expr, silent: 1 })
     const match = expected !== null && r.result !== null && Math.abs(r.result - expected) < 0.0001 ? '=' : ''
     console.log(`[15] ${label}: ${expr} → ${JSON.stringify(r.result)} ${match}`)
   }

@@ -1,21 +1,21 @@
 // Test: id result type — are IDs always integers? Positive? Sequential?
-export default async function ({ execute }) {
+export default async function (api) {
   const ids = []
   const labels = []
 
   // Create multiple objects
   for (const name of ['Part1', 'Part2', 'Part3']) {
-    const r = await execute({ 'v1.part.create': [{ name }] })
+    const r = await api.v1.part.create({ name })
     ids.push(r.result)
     labels.push(name)
   }
 
   // Create sketches
-  const sk1 = (await execute({ 'v1.sketch.create': [{ id: ids[0] }] })).result
+  const sk1 = (await api.v1.sketch.create({ id: ids[0] })).result
   ids.push(sk1)
   labels.push('Sketch1')
 
-  const sk2 = (await execute({ 'v1.sketch.create': [{ id: ids[1] }] })).result
+  const sk2 = (await api.v1.sketch.create({ id: ids[1] })).result
   ids.push(sk2)
   labels.push('Sketch2')
 

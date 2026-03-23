@@ -1,6 +1,6 @@
 // Q: What does the structure tree reveal about IDs? What objects does part.create produce?
-export default async function ({ execute }) {
-  const r1 = await execute({ 'v1.part.create': [{ name: 'TestPart' }] })
+export default async function (api) {
+  const r1 = await api.v1.part.create({ name: 'TestPart' })
   const partId = r1.result
 
   // Examine the structure tree — it should show the full object hierarchy
@@ -38,9 +38,9 @@ export default async function ({ execute }) {
   console.log('[05] partId returned:', partId)
 
   // Now add a box and see the structure delta
-  const boxId = (await execute({ 'v1.part.box': [{ id: partId }] })).result
+  const boxId = (await api.v1.part.box({ id: partId })).result
   // Need to get fresh structure — execute another call
-  const r3 = await execute({ 'v1.common.getAppVersion': [{}] })
+  const r3 = await api.v1.common.getAppVersion({})
   const tree2 = r3.structure
   console.log('[05] total objects after box:', tree2 ? countNodes(tree2) : 'no structure')
   console.log('[05] boxId returned:', boxId)

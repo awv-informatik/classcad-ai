@@ -1,6 +1,6 @@
 // Test: real result type from evaluateExpression
 // Questions: Is it a JS number? Float vs integer? Precision?
-export default async function ({ execute }) {
+export default async function (api) {
   const tests = [
     ['integer', '2+3'],
     ['float', '1/3'],
@@ -14,7 +14,7 @@ export default async function ({ execute }) {
   ]
 
   for (const [label, expr] of tests) {
-    const r = await execute({ 'v1.common.evaluateExpression': [{ expression: expr }] })
+    const r = await api.v1.common.evaluateExpression({ expression: expr })
     console.log(`[${label}] expr="${expr}" result=${r.result} type=${typeof r.result} isInteger=${Number.isInteger(r.result)} isFinite=${Number.isFinite(r.result)}`)
   }
 

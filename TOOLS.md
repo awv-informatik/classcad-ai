@@ -9,7 +9,7 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [ws-url]
 ```
 
 - Default WebSocket: `ws://0.0.0.0:9094/`
-- Scripts receive `{ execute }` and `{ snapshot, filewrite }`
+- Scripts receive `api` (typed @classcad/api-js wrapper) and `{ snapshot, filewrite }`
 - `snapshot('label')` saves PNG + STEP + OFB to `files/`
 - `filewrite(data, 'label')` dumps objects → `.json`, strings → `.txt`, buffers → `.bin` to `files/`
 - Harness clears the drawing after each run — every script starts fresh

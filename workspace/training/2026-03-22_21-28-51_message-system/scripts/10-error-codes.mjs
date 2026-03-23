@@ -1,12 +1,12 @@
 // Q: Are error codes consistent across APIs? Do the same error types always get the same code?
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'Test' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'Test' })).result
 
   // Code 1004: missing required param — test across domains
-  const e1 = await execute({ 'v1.part.box': [{}] })                                 // part domain
-  const e2 = await execute({ 'v1.sketch.create': [{}] })                             // sketch domain
-  const e3 = await execute({ 'v1.part.extrusion': [{}] })                            // part domain, different api
-  const e4 = await execute({ 'v1.common.setAppearance': [{}] })                      // common domain
+  const e1 = await api.v1.part.box({})                                 // part domain
+  const e2 = await api.v1.sketch.create({})                             // sketch domain
+  const e3 = await api.v1.part.extrusion({})                            // part domain, different api
+  const e4 = await api.v1.common.setAppearance({})                      // common domain
 
   console.log('[10] missing param codes:')
   for (const [label, r] of [['part.box', e1], ['sketch.create', e2], ['part.extrusion', e3], ['common.setAppearance', e4]]) {
@@ -16,8 +16,8 @@ export default async function ({ execute }) {
   }
 
   // Code 1006: invalid ID — test across domains
-  const e5 = await execute({ 'v1.part.box': [{ id: 999999 }] })
-  const e6 = await execute({ 'v1.common.setObjectName': [{ id: 999999, name: 'x' }] })
+  const e5 = await api.v1.part.box({ id: 999999 })
+  const e6 = await api.v1.common.setObjectName({ id: 999999, name: 'x' })
 
   console.log('[10] invalid ID codes:')
   for (const [label, r] of [['part.box', e5], ['setObjectName', e6]]) {
@@ -27,8 +27,8 @@ export default async function ({ execute }) {
   }
 
   // Code 1201: unknown command
-  const e7 = await execute({ 'v1.part.nonexistent': [{}] })
-  const e8 = await execute({ 'v1.common.nonexistent': [{}] })
+  const e7 = await api.v1.part.nonexistent({})
+  const e8 = await api.v1.common.nonexistent({})
   console.log('[10] unknown command codes:')
   for (const [label, r] of [['part.fake', e7], ['common.fake', e8]]) {
     for (const m of r.messages) {

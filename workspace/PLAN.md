@@ -77,8 +77,8 @@ Every API call wraps its result in a standard envelope: `{ result, messages?, ma
 
 ```js
 // Observe the envelope by calling any stateless API:
-export default async function ({ execute }) {
-  const res = await execute({ 'v1.common.getAppVersion': [{}] })
+export default async function (api) {
+  const res = await api.v1.common.getAppVersion({})
   // res = { result: "", messages: [...], maxLevel: 0 }
   return { fullEnvelope: res }
 }
@@ -102,8 +102,8 @@ export default async function ({ execute }) {
 Returns the application version string. Takes no parameters. Useful as a connection health check.
 
 ```js
-export default async function ({ execute }) {
-  const res = await execute({ 'v1.common.getAppVersion': [{}] })
+export default async function (api) {
+  const res = await api.v1.common.getAppVersion({})
   // ✓ result → "" (version string)
   return { version: res.result }
 }
@@ -114,8 +114,8 @@ export default async function ({ execute }) {
 Returns the class file version string. Takes no parameters.
 
 ```js
-export default async function ({ execute }) {
-  const res = await execute({ 'v1.common.getClassFileVersion': [{}] })
+export default async function (api) {
+  const res = await api.v1.common.getClassFileVersion({})
   // ✓ result → "" (file version string)
   return { fileVersion: res.result }
 }
@@ -136,16 +136,12 @@ export default async function ({ execute }) {
 Batch sends multiple API calls in a single request. Each job has `api` (string) and optional `param` (object). Results come back as an array, one entry per job.
 
 ```js
-export default async function ({ execute }) {
-  const res = await execute({
-    'v1.common.batch': [
-      {
-        jobs: [
-          { api: 'v1.common.getAppVersion' },
-          { api: 'v1.common.getClassFileVersion' },
-          { api: 'v1.common.evaluateExpression', param: { expression: '6*7' } },
-        ],
-      },
+export default async function (api) {
+  const res = await api.v1.common.batch({
+    jobs: [
+      { api: 'v1.common.getAppVersion' },
+      { api: 'v1.common.getClassFileVersion' },
+      { api: 'v1.common.evaluateExpression', param: { expression: '6*7' } },
     ],
   })
   // ✓ result → [{ result: "" }, { result: "" }, { result: 42 }]
@@ -176,8 +172,8 @@ export default async function ({ execute }) {
 Creates a new part and returns its ID. The optional `name` parameter names it. This clears any existing drawing content.
 
 ```js
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'MyPart' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'MyPart' })).result
   // ✓ partId → 4 (numeric ID, varies per session)
   return { partId }
 }
@@ -209,10 +205,10 @@ export default async function ({ execute }) {
 Evaluates a math expression string. Supports ClassCAD constants like `C:PI`. Can optionally reference a part/assembly via `id`. The `silent` param suppresses error messages.
 
 ```js
-export default async function ({ execute }) {
-  const r1 = await execute({ 'v1.common.evaluateExpression': [{ expression: 'sin(C:PI/2)' }] })
-  const r2 = await execute({ 'v1.common.evaluateExpression': [{ expression: '2+3*4' }] })
-  const r3 = await execute({ 'v1.common.evaluateExpression': [{ expression: 'sqrt(144)' }] })
+export default async function (api) {
+  const r1 = await api.v1.common.evaluateExpression({ expression: 'sin(C:PI/2)' })
+  const r2 = await api.v1.common.evaluateExpression({ expression: '2+3*4' })
+  const r3 = await api.v1.common.evaluateExpression({ expression: 'sqrt(144)' })
   // ✓ r1.result → 1, r2.result → 14, r3.result → 12
   return { sinPiOver2: r1.result, mathExpr: r2.result, sqrt144: r3.result }
 }
@@ -224,23 +220,19 @@ Expressions use `toCreate` array to batch-create, and `getExpression` to read ba
 
 ```js
 // ...after part.create...
-await execute({
-  'v1.part.expression': [
-    {
-      id: partId,
-      toCreate: [
-        { name: 'width', value: 50 },
-        { name: 'height', value: 'width * 0.6' },
-      ],
-    },
+await api.v1.part.expression({
+  id: partId,
+  toCreate: [
+    { name: 'width', value: 50 },
+    { name: 'height', value: 'width * 0.6' },
   ],
 })
 // ✓ result → 1 (boolean true = success)
 
-const val = (await execute({ 'v1.part.getExpression': [{ id: partId, name: 'height' }] })).result
+const val = (await api.v1.part.getExpression({ id: partId, name: 'height' })).result
 // ✓ val → { expression: "width * 0.6", value: 30 }
 
-await execute({ 'v1.part.updateExpression': [{ id: partId, name: 'width', value: '80' }] })
+await api.v1.part.updateExpression({ id: partId, name: 'width', value: '80' })
 // After update + recalc, height becomes 48
 ```
 
@@ -261,16 +253,16 @@ await execute({ 'v1.part.updateExpression': [{ id: partId, name: 'width', value:
 Opens a feature for editing (sets the GhostRollbackBar), then closes it. Every `update*` call must be wrapped in this pattern.
 
 ```js
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'OpenCloseTest' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'OpenCloseTest' })).result
   const wpId = (
-    await execute({ 'v1.part.workPlane': [{ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] }] })
+    await api.v1.part.workPlane({ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] })
   ).result
 
   // open → update → close
-  await execute({ 'v1.part.openFeature': [{ id: wpId }] })
-  await execute({ 'v1.part.updateWorkPlane': [{ id: wpId, origin: [0, 0, 100] }] })
-  await execute({ 'v1.part.closeFeature': [{ id: wpId }] })
+  await api.v1.part.openFeature({ id: wpId })
+  await api.v1.part.updateWorkPlane({ id: wpId, origin: [0, 0, 100] })
+  await api.v1.part.closeFeature({ id: wpId })
 
   // ✓ work plane now at z=100
   return { wpId }
@@ -300,19 +292,17 @@ export default async function ({ execute }) {
 Each work geometry type takes the part ID, a name, and positioning parameters. All return the feature ID of the created work geometry.
 
 ```js
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'WGTest' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'WGTest' })).result
 
   const wpId = (
-    await execute({ 'v1.part.workPlane': [{ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] }] })
+    await api.v1.part.workPlane({ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] })
   ).result
-  const waId = (await execute({ 'v1.part.workAxis': [{ id: partId, name: 'WA1', origin: [0, 0, 0], direction: [0, 1, 0] }] })).result
+  const waId = (await api.v1.part.workAxis({ id: partId, name: 'WA1', origin: [0, 0, 0], direction: [0, 1, 0] })).result
   const wcsId = (
-    await execute({
-      'v1.part.workCSys': [{ id: partId, name: 'WCS1', origin: [10, 20, 30], xDirection: [1, 0, 0], yDirection: [0, 1, 0] }],
-    })
+    await api.v1.part.workCSys({ id: partId, name: 'WCS1', origin: [10, 20, 30], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })
   ).result
-  const wptId = (await execute({ 'v1.part.workPoint': [{ id: partId, name: 'WPt1', position: [5, 5, 5] }] })).result
+  const wptId = (await api.v1.part.workPoint({ id: partId, name: 'WPt1', position: [5, 5, 5] })).result
 
   // ✓ wpId → 54, waId → 62, wcsId → 70, wptId → 78
   return { wpId, waId, wcsId, wptId }
@@ -325,7 +315,7 @@ Retrieves a work geometry ID by name. Useful for finding default planes (XY, XZ,
 
 ```js
 // ...after part.create and workPlane creation...
-const gwId = (await execute({ 'v1.part.getWorkGeometry': [{ id: partId, name: 'WP1' }] })).result
+const gwId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'WP1' })).result
 // ✓ gwId → same as wpId (54)
 ```
 
@@ -345,9 +335,9 @@ const gwId = (await execute({ 'v1.part.getWorkGeometry': [{ id: partId, name: 'W
 Creates an entity injection feature inside a part. The returned ID is what you pass as `id` to all `solid.*` and `curve.shape()` calls.
 
 ```js
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'EITest' }] })).result
-  const eifId = (await execute({ 'v1.part.entityInjection': [{ id: partId, name: 'EIF1' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'EITest' })).result
+  const eifId = (await api.v1.part.entityInjection({ id: partId, name: 'EIF1' })).result
   // ✓ eifId → 54 (this ID goes into solid.box({ id: eifId, ... }))
   return { partId, eifId }
 }
@@ -367,7 +357,7 @@ Renames any object by ID. Now that we have parts and features, we can name them.
 
 ```js
 // ...after creating an entity injection feature...
-await execute({ 'v1.common.setObjectName': [{ id: eifId, name: 'RenamedEIF' }] })
+await api.v1.common.setObjectName({ id: eifId, name: 'RenamedEIF' })
 // ✓ result → null (VOID)
 ```
 
@@ -395,7 +385,7 @@ Creates a shape container inside an entity injection. Returns the shape ID that 
 
 ```js
 // ...after part.create + entityInjection setup...
-const shapeId = (await execute({ 'v1.curve.shape': [{ id: eifId, name: 'S1' }] })).result
+const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'S1' })).result
 // ✓ shapeId → 60
 ```
 
@@ -419,9 +409,9 @@ All curve APIs take `id` = shape ID and return VOID. The curves are added to the
 
 ```js
 // ...after part + eif + shape setup...
-await execute({ 'v1.curve.line': [{ id: shapeId, startPos: [0, 0, 0], endPos: [50, 0, 0] }] })
-await execute({ 'v1.curve.circle': [{ id: shapeId, centerPos: [25, 25, 0], radius: 10 }] })
-await execute({ 'v1.curve.arcBy3Points': [{ id: shapeId, startPos: [0, 50, 0], midPos: [25, 60, 0], endPos: [50, 50, 0] }] })
+await api.v1.curve.line({ id: shapeId, startPos: [0, 0, 0], endPos: [50, 0, 0] })
+await api.v1.curve.circle({ id: shapeId, centerPos: [25, 25, 0], radius: 10 })
+await api.v1.curve.arcBy3Points({ id: shapeId, startPos: [0, 50, 0], midPos: [25, 60, 0], endPos: [50, 50, 0] })
 // ✓ all return null (VOID) — curves are added to the shape
 ```
 
@@ -444,33 +434,25 @@ await execute({ 'v1.curve.arcBy3Points': [{ id: shapeId, startPos: [0, 50, 0], m
 
 ```js
 // ...after part + eif setup...
-const s1 = (await execute({ 'v1.curve.shape': [{ id: eifId, name: 'AdvCurves' }] })).result
-await execute({ 'v1.curve.ellipse': [{ id: s1, centerPos: [0, 0, 0], radius1: 20, radius2: 10 }] })
-await execute({
-  'v1.curve.bezierCurve': [
-    {
-      id: s1,
-      points: [
-        [40, 0, 0],
-        [45, 20, 0],
-        [55, 20, 0],
-        [60, 0, 0],
-      ],
-    },
+const s1 = (await api.v1.curve.shape({ id: eifId, name: 'AdvCurves' })).result
+await api.v1.curve.ellipse({ id: s1, centerPos: [0, 0, 0], radius1: 20, radius2: 10 })
+await api.v1.curve.bezierCurve({
+  id: s1,
+  points: [
+    [40, 0, 0],
+    [45, 20, 0],
+    [55, 20, 0],
+    [60, 0, 0],
   ],
 })
-await execute({
-  'v1.curve.interpolationCurve': [
-    {
-      id: s1,
-      points: [
-        [0, 40, 0],
-        [10, 55, 0],
-        [20, 40, 0],
-        [30, 55, 0],
-        [40, 40, 0],
-      ],
-    },
+await api.v1.curve.interpolationCurve({
+  id: s1,
+  points: [
+    [0, 40, 0],
+    [10, 55, 0],
+    [20, 40, 0],
+    [30, 55, 0],
+    [40, 40, 0],
   ],
 })
 // ✓ all return null — curves added to shape
@@ -493,21 +475,17 @@ Points + optional bulges (arc control per segment). `close: true` connects last 
 
 ```js
 // ...after setup...
-const s2 = (await execute({ 'v1.curve.shape': [{ id: eifId, name: 'Poly' }] })).result
-await execute({
-  'v1.curve.polyline2d': [
-    {
-      id: s2,
-      points: [
-        [0, 0, 0],
-        [20, 0, 0],
-        [20, 20, 0],
-        [0, 20, 0],
-      ],
-      bulges: [0, 0.414, 0, 0], // 0.414 ≈ tan(π/8) → 90° arc on 2nd segment
-      close: true,
-    },
+const s2 = (await api.v1.curve.shape({ id: eifId, name: 'Poly' })).result
+await api.v1.curve.polyline2d({
+  id: s2,
+  points: [
+    [0, 0, 0],
+    [20, 0, 0],
+    [20, 20, 0],
+    [0, 20, 0],
   ],
+  bulges: [0, 0.414, 0, 0], // 0.414 ≈ tan(π/8) → 90° arc on 2nd segment
+  close: true,
 })
 // ✓ result → null
 ```
@@ -517,20 +495,16 @@ await execute({
 The PLD (PointLineDefinition) system — absolute coords (`xa/ya`), relative (`xr/yr`), angle+length (`l/a`), radius fillet (`r`), chamfer (`c`), and `close`.
 
 ```js
-const s3 = (await execute({ 'v1.curve.shape': [{ id: eifId, name: 'AdvPoly' }] })).result
-await execute({
-  'v1.curve.advancedPolyline': [
-    {
-      id: s3,
-      pld: [
-        { xa: 0, ya: 0 }, // start at absolute (0,0)
-        { xa: 30, ya: 0, r: 5 }, // to (30,0) with 5mm radius fillet
-        { xa: 30, ya: 20, r: 5 }, // to (30,20) with fillet
-        { xa: 0, ya: 20 }, // to (0,20)
-      ],
-      close: true,
-    },
+const s3 = (await api.v1.curve.shape({ id: eifId, name: 'AdvPoly' })).result
+await api.v1.curve.advancedPolyline({
+  id: s3,
+  pld: [
+    { xa: 0, ya: 0 }, // start at absolute (0,0)
+    { xa: 30, ya: 0, r: 5 }, // to (30,0) with 5mm radius fillet
+    { xa: 30, ya: 20, r: 5 }, // to (30,20) with fillet
+    { xa: 0, ya: 20 }, // to (0,20)
   ],
+  close: true,
 })
 // ✓ result → null — closed rounded rectangle
 ```
@@ -550,21 +524,17 @@ await execute({
 
 ```js
 // ...after creating a shape with curves...
-await execute({ 'v1.curve.translateShape': [{ id: shapeId, translation: [25, 0, 0] }] })
-await execute({ 'v1.curve.rotateShape': [{ id: shapeId, rotation: [0, 0, 1.57] }] }) // 90° around Z
-await execute({ 'v1.curve.scaleShape': [{ id: shapeId, factor: 2.0 }] })
+await api.v1.curve.translateShape({ id: shapeId, translation: [25, 0, 0] })
+await api.v1.curve.rotateShape({ id: shapeId, rotation: [0, 0, 1.57] }) // 90° around Z
+await api.v1.curve.scaleShape({ id: shapeId, factor: 2.0 })
 // transformShape needs orthogonal 4x4 matrix (no scaling in the matrix)
-await execute({
-  'v1.curve.transformShape': [
-    {
-      id: shapeId,
-      matrix: [
-        [0, 1, 0, 100],
-        [-1, 0, 0, 50],
-        [0, 0, 1, 0],
-        [0, 0, 0, 1],
-      ],
-    },
+await api.v1.curve.transformShape({
+  id: shapeId,
+  matrix: [
+    [0, 1, 0, 100],
+    [-1, 0, 0, 50],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1],
   ],
 })
 ```
@@ -585,10 +555,10 @@ Operate on two closed shapes. `target` is modified, `tool` is consumed (unless `
 
 ```js
 // ...after creating two overlapping closed shapes s1 and s2...
-await execute({ 'v1.curve.union2d': [{ target: s1, tool: s2 }] })
+await api.v1.curve.union2d({ target: s1, tool: s2 })
 // ✓ result → null — s1 now contains the union, s2 is consumed
 // For subtraction/intersection: same pattern
-// await execute({ 'v1.curve.subtraction2d': [{ target: s1, tool: s2, keepShape: true }] })
+// await api.v1.curve.subtraction2d({ target: s1, tool: s2, keepShape: true })
 ```
 
 ---
@@ -614,9 +584,9 @@ await execute({ 'v1.curve.union2d': [{ target: s1, tool: s2 }] })
 Creates a sketch inside a part. Returns the sketch ID. By default placed on XY plane.
 
 ```js
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'SketchTest' }] })).result
-  const skId = (await execute({ 'v1.sketch.create': [{ id: partId }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'SketchTest' })).result
+  const skId = (await api.v1.sketch.create({ id: partId })).result
   // ✓ skId → 52
   return { partId, skId }
 }
@@ -627,7 +597,7 @@ export default async function ({ execute }) {
 Alternative way to create a sketch — from the part API. Returns sketch ID.
 
 ```js
-const skId = (await execute({ 'v1.part.sketch': [{ id: partId, name: 'Sk1' }] })).result
+const skId = (await api.v1.part.sketch({ id: partId, name: 'Sk1' })).result
 // ✓ skId → 89
 ```
 
@@ -651,7 +621,7 @@ Creates a line in the sketch. Returns the line's sketch-curve ID.
 
 ```js
 // ...after sketch.create...
-const lineId = (await execute({ 'v1.sketch.line': [{ id: skId, startPos: [0, 0, 0], endPos: [50, 0, 0] }] })).result
+const lineId = (await api.v1.sketch.line({ id: skId, startPos: [0, 0, 0], endPos: [50, 0, 0] })).result
 // ✓ lineId → 58
 ```
 
@@ -660,7 +630,7 @@ const lineId = (await execute({ 'v1.sketch.line': [{ id: skId, startPos: [0, 0, 
 Creates 4 lines forming a rectangle. Returns an array of 4 sketch-curve IDs.
 
 ```js
-const rectIds = (await execute({ 'v1.sketch.rectangle': [{ id: skId, startPos: [0, 0, 0], endPos: [60, 40, 0] }] })).result
+const rectIds = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [60, 40, 0] })).result
 // ✓ rectIds → [58, 64, 70, 76] (four line IDs)
 ```
 
@@ -693,7 +663,7 @@ Creates a dimension. Requires `type` and `geomIds` (the sketch curve IDs to dime
 
 ```js
 // ...after creating a rectangle...
-const dimId = (await execute({ 'v1.sketch.dimension': [{ id: skId, type: 'OFFSET', geomIds: [rectIds[0]] }] })).result
+const dimId = (await api.v1.sketch.dimension({ id: skId, type: 'OFFSET', geomIds: [rectIds[0]] })).result
 // ✓ dimId → 94
 ```
 
@@ -714,7 +684,7 @@ Creates a closed region from sketch curves. The `geomIds` array must form a clos
 
 ```js
 // ...after creating a rectangle [58,64,70,76]...
-const regionId = (await execute({ 'v1.sketch.sketchRegion': [{ id: skId, geomIds: rectIds }] })).result
+const regionId = (await api.v1.sketch.sketchRegion({ id: skId, geomIds: rectIds })).result
 // ✓ regionId → 92
 ```
 
@@ -735,7 +705,7 @@ const regionId = (await execute({ 'v1.sketch.sketchRegion': [{ id: skId, geomIds
 Returns all geometry IDs grouped by type from a sketch.
 
 ```js
-const geo = (await execute({ 'v1.sketch.getGeometry': [{ id: skId }] })).result
+const geo = (await api.v1.sketch.getGeometry({ id: skId })).result
 // ✓ geo → { arcs: [], circles: [95], lines: [], points: [] }
 ```
 
@@ -744,7 +714,7 @@ const geo = (await execute({ 'v1.sketch.getGeometry': [{ id: skId }] })).result
 Returns start/end point IDs of a sketch curve. The `id` param must be a sketch-curve ID (not the sketch ID).
 
 ```js
-const pts = (await execute({ 'v1.sketch.getPoints': [{ id: rectIds[0] }] })).result
+const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 // ✓ pts → { startId: 59, endId: 60 }
 ```
 
@@ -819,12 +789,12 @@ const pts = (await execute({ 'v1.sketch.getPoints': [{ id: rectIds[0] }] })).res
 All primitives take `id` = entity injection feature ID. They return the created solid's ID. Optional `translation` and `rotation` position the solid.
 
 ```js
-export default async function ({ execute }, { snapshot }) {
+export default async function (api, { snapshot }) {
   // ...after part + entityInjection setup...
-  const boxId = (await execute({ 'v1.solid.box': [{ id: eifId, length: 40, width: 30, height: 20 }] })).result
-  const sphId = (await execute({ 'v1.solid.sphere': [{ id: eifId, radius: 15, translation: [60, 0, 0] }] })).result
-  const cylId = (await execute({ 'v1.solid.cylinder': [{ id: eifId, height: 30, diameter: 20, translation: [0, 60, 0] }] })).result
-  const coneId = (await execute({ 'v1.solid.cone': [{ id: eifId, height: 25, bDiameter: 20, tDiameter: 5, translation: [60, 60, 0] }] }))
+  const boxId = (await api.v1.solid.box({ id: eifId, length: 40, width: 30, height: 20 })).result
+  const sphId = (await api.v1.solid.sphere({ id: eifId, radius: 15, translation: [60, 0, 0] })).result
+  const cylId = (await api.v1.solid.cylinder({ id: eifId, height: 30, diameter: 20, translation: [0, 60, 0] })).result
+  const coneId = (await api.v1.solid.cone({ id: eifId, height: 25, bDiameter: 20, tDiameter: 5, translation: [60, 60, 0] }))
     .result
   // ✓ boxId → 61, sphId → 63, cylId → 67, coneId → 70
   await snapshot('solid-primitives')
@@ -846,42 +816,34 @@ export default async function ({ execute }, { snapshot }) {
 
 ```js
 // Extrusion — sweep a closed profile along direction vector
-const s1 = (await execute({ 'v1.curve.shape': [{ id: eifId, name: 'Profile' }] })).result
-await execute({
-  'v1.curve.advancedPolyline': [
-    {
-      id: s1,
-      pld: [
-        { xa: 0, ya: 0 },
-        { xa: 30, ya: 0 },
-        { xa: 30, ya: 20 },
-        { xa: 0, ya: 20 },
-      ],
-      close: true,
-    },
+const s1 = (await api.v1.curve.shape({ id: eifId, name: 'Profile' })).result
+await api.v1.curve.advancedPolyline({
+  id: s1,
+  pld: [
+    { xa: 0, ya: 0 },
+    { xa: 30, ya: 0 },
+    { xa: 30, ya: 20 },
+    { xa: 0, ya: 20 },
   ],
+  close: true,
 })
-const extId = (await execute({ 'v1.solid.extrusion': [{ id: eifId, direction: [0, 0, 40], curves: s1 }] })).result
+const extId = (await api.v1.solid.extrusion({ id: eifId, direction: [0, 0, 40], curves: s1 })).result
 // ✓ extId → 64
 
 // Revolve — rotate profile around axis
-const s2 = (await execute({ 'v1.curve.shape': [{ id: eifId, name: 'RevProfile' }] })).result
-await execute({
-  'v1.curve.advancedPolyline': [
-    {
-      id: s2,
-      pld: [
-        { xa: 50, ya: 0 },
-        { xa: 65, ya: 0 },
-        { xa: 65, ya: 15 },
-        { xa: 50, ya: 15 },
-      ],
-      close: true,
-    },
+const s2 = (await api.v1.curve.shape({ id: eifId, name: 'RevProfile' })).result
+await api.v1.curve.advancedPolyline({
+  id: s2,
+  pld: [
+    { xa: 50, ya: 0 },
+    { xa: 65, ya: 0 },
+    { xa: 65, ya: 15 },
+    { xa: 50, ya: 15 },
   ],
+  close: true,
 })
 const revId = (
-  await execute({ 'v1.solid.revolve': [{ id: eifId, originPos: [50, 0, 0], direction: [0, 1, 0], angle: 6.283, curves: s2 }] })
+  await api.v1.solid.revolve({ id: eifId, originPos: [50, 0, 0], direction: [0, 1, 0], angle: 6.283, curves: s2 })
 ).result
 // ✓ revId → 70 (full 360° revolve = torus-like shape)
 ```
@@ -904,12 +866,12 @@ const revId = (
 
 ```js
 // ...after creating two overlapping boxes b1 and b2...
-await execute({ 'v1.solid.union': [{ id: eifId, target: b1, tools: [b2] }] })
+await api.v1.solid.union({ id: eifId, target: b1, tools: [b2] })
 // ✓ result → b1 ID (b2 consumed into b1)
 
 // Subtract a cylinder from the result
-const cyl = (await execute({ 'v1.solid.cylinder': [{ id: eifId, height: 60, diameter: 15, translation: [20, 20, -5] }] })).result
-await execute({ 'v1.solid.subtraction': [{ id: eifId, target: b1, tools: [cyl] }] })
+const cyl = (await api.v1.solid.cylinder({ id: eifId, height: 60, diameter: 15, translation: [20, 20, -5] })).result
+await api.v1.solid.subtraction({ id: eifId, target: b1, tools: [cyl] })
 // ✓ result → b1 ID (cylinder hole cut through)
 ```
 
@@ -928,8 +890,8 @@ await execute({ 'v1.solid.subtraction': [{ id: eifId, target: b1, tools: [cyl] }
 
 ```js
 // ...after creating a box...
-await execute({ 'v1.solid.translation': [{ id: eifId, target: boxId, translation: [50, 0, 0] }] })
-await execute({ 'v1.solid.rotation': [{ id: eifId, target: box2Id, rotation: [0, 0, 0.785] }] }) // 45° around Z
+await api.v1.solid.translation({ id: eifId, target: boxId, translation: [50, 0, 0] })
+await api.v1.solid.rotation({ id: eifId, target: box2Id, rotation: [0, 0, 0.785] }) // 45° around Z
 // ✓ both return the solid ID
 ```
 
@@ -961,7 +923,7 @@ await execute({ 'v1.solid.rotation': [{ id: eifId, target: box2Id, rotation: [0,
 Copies a solid with optional translation/rotation.
 
 ```js
-const copyId = (await execute({ 'v1.solid.copy': [{ id: eifId, target: boxId, translation: [0, 60, 0] }] })).result
+const copyId = (await api.v1.solid.copy({ id: eifId, target: boxId, translation: [0, 60, 0] })).result
 // ✓ copyId → 63
 ```
 
@@ -987,22 +949,22 @@ const copyId = (await execute({ 'v1.solid.copy': [{ id: eifId, target: boxId, tr
 **Task #1-4: Save/load/clear/recalc cycle**
 
 ```js
-export default async function ({ execute }) {
+export default async function (api) {
   // ...after creating part + entityInjection + solid.box...
   // Save to OFB as base64 data
-  const saveRes = (await execute({ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] })).result
+  const saveRes = (await api.v1.common.save({ format: 'OFB', encoding: 'base64' })).result
   // ✓ saveRes.content → "AQJjbGFzc2NhZAIB..." (base64 string)
 
   // Clear the drawing
-  await execute({ 'v1.common.clear': [{}] })
+  await api.v1.common.clear({})
   // ✓ drawing is now empty
 
   // Load back from saved data
-  const loadRes = (await execute({ 'v1.common.load': [{ data: saveRes.content, format: 'OFB', encoding: 'base64' }] })).result
+  const loadRes = (await api.v1.common.load({ data: saveRes.content, format: 'OFB', encoding: 'base64' })).result
   // ✓ loadRes → { id: 4 } (root part ID)
 
   // Force recalculation
-  await execute({ 'v1.common.recalc': [{}] })
+  await api.v1.common.recalc({})
   // ✓ result → null (VOID)
 }
 ```
@@ -1022,7 +984,7 @@ Sets color (RGB 0-255) and transparency (0-1) on a feature or specific solid ind
 
 ```js
 // ...after creating geometry...
-await execute({ 'v1.common.setAppearance': [{ target: eifId, color: [255, 100, 0], transparency: 0.3 }] })
+await api.v1.common.setAppearance({ target: eifId, color: [255, 100, 0], transparency: 0.3 })
 // ✓ result → null — feature now renders orange at 70% opacity
 ```
 
@@ -1041,10 +1003,10 @@ await execute({ 'v1.common.setAppearance': [{ target: eifId, color: [255, 100, 0
 **Task #3-4: Faceting parameters**
 
 ```js
-const fp = (await execute({ 'v1.common.getFacetingParameters': [{}] })).result
+const fp = (await api.v1.common.getFacetingParameters({})).result
 // ✓ fp → { angleTol: 0, chordHeightTol: 0.1 }
 
-await execute({ 'v1.common.setFacetingParameters': [{ angleTol: 15, chordHeightTol: 0.2 }] })
+await api.v1.common.setFacetingParameters({ angleTol: 15, chordHeightTol: 0.2 })
 // ✓ result → null — tessellation quality updated
 ```
 
@@ -1075,14 +1037,14 @@ await execute({ 'v1.common.setFacetingParameters': [{ angleTol: 15, chordHeightT
 String key-value store on any object. Not copied when objects are duplicated.
 
 ```js
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'UDTest' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'UDTest' })).result
 
-  await execute({ 'v1.common.setUserData': [{ id: partId, key: 'material', value: 'steel' }] })
-  const ud = (await execute({ 'v1.common.getUserData': [{ id: partId, key: 'material' }] })).result
-  const keys = (await execute({ 'v1.common.getUserDataKeys': [{ id: partId }] })).result
-  await execute({ 'v1.common.removeUserData': [{ id: partId, key: 'material' }] })
-  const after = (await execute({ 'v1.common.getUserData': [{ id: partId, key: 'material', defaultValue: 'none' }] })).result
+  await api.v1.common.setUserData({ id: partId, key: 'material', value: 'steel' })
+  const ud = (await api.v1.common.getUserData({ id: partId, key: 'material' })).result
+  const keys = (await api.v1.common.getUserDataKeys({ id: partId })).result
+  await api.v1.common.removeUserData({ id: partId, key: 'material' })
+  const after = (await api.v1.common.getUserData({ id: partId, key: 'material', defaultValue: 'none' })).result
   // ✓ ud → "steel", keys → ["material"], after → "none"
   return { ud, keys, after }
 }
@@ -1115,8 +1077,8 @@ export default async function ({ execute }) {
 Creates a box as a parametric feature. Unlike `solid.box`, this lives in the feature tree and supports `updateBox`. Optional `references` positions via a work coordinate system.
 
 ```js
-const partId = (await execute({ 'v1.part.create': [{ name: 'FeatTest' }] })).result
-const boxFeat = (await execute({ 'v1.part.box': [{ id: partId, name: 'Box1', length: 60, width: 40, height: 30 }] })).result
+const partId = (await api.v1.part.create({ name: 'FeatTest' })).result
+const boxFeat = (await api.v1.part.box({ id: partId, name: 'Box1', length: 60, width: 40, height: 30 })).result
 // ✓ boxFeat → 54 (feature ID in the design tree)
 ```
 
@@ -1139,21 +1101,17 @@ Feature-level extrusion from a sketch region. Key param: `references` = array of
 
 ```js
 // ...after creating part + box feature...
-const skId = (await execute({ 'v1.part.sketch': [{ id: partId, name: 'Sk1' }] })).result
-const circleId = (await execute({ 'v1.sketch.circle': [{ id: skId, centerPos: [30, 20, 0], radius: 10 }] })).result
-const regionId = (await execute({ 'v1.sketch.sketchRegion': [{ id: skId, geomIds: [circleId] }] })).result
+const skId = (await api.v1.part.sketch({ id: partId, name: 'Sk1' })).result
+const circleId = (await api.v1.sketch.circle({ id: skId, centerPos: [30, 20, 0], radius: 10 })).result
+const regionId = (await api.v1.sketch.sketchRegion({ id: skId, geomIds: [circleId] })).result
 
 const extFeat = (
-  await execute({
-    'v1.part.extrusion': [
-      {
-        id: partId,
-        name: 'Hole',
-        references: [regionId],
-        type: 'UP',
-        limit2: 35,
-      },
-    ],
+  await api.v1.part.extrusion({
+    id: partId,
+    name: 'Hole',
+    references: [regionId],
+    type: 'UP',
+    limit2: 35,
   })
 ).result
 // ✓ extFeat → 102 (extrusion feature ID)
@@ -1192,10 +1150,10 @@ Creates a fillet feature. Param `references` = array of brep edge IDs (found via
 ```js
 // ...after creating a box feature...
 // First find the edge ID by providing a position ON the edge
-const geoIds = (await execute({ 'v1.part.getGeometryIds': [{ id: partId, lines: [{ pos: [30, 0, 30] }] }] })).result
+const geoIds = (await api.v1.part.getGeometryIds({ id: partId, lines: [{ pos: [30, 0, 30] }] })).result
 // ✓ geoIds → { lines: [75], ... }
 
-const filletFeat = (await execute({ 'v1.part.fillet': [{ id: partId, name: 'Fillet1', references: geoIds.lines, radius: 5 }] })).result
+const filletFeat = (await api.v1.part.fillet({ id: partId, name: 'Fillet1', references: geoIds.lines, radius: 5 })).result
 // ✓ filletFeat → 91
 ```
 
@@ -1218,17 +1176,13 @@ Creates a linear pattern of features. Requires `targets` (feature IDs) and `dir1
 
 ```js
 // ...after creating a box feature + work axis...
-const waId = (await execute({ 'v1.part.workAxis': [{ id: partId, name: 'PatAxis', origin: [0, 0, 0], direction: [1, 0, 0] }] })).result
+const waId = (await api.v1.part.workAxis({ id: partId, name: 'PatAxis', origin: [0, 0, 0], direction: [1, 0, 0] })).result
 const lpFeat = (
-  await execute({
-    'v1.part.linearPattern': [
-      {
-        id: partId,
-        name: 'LP1',
-        targets: [boxFeat],
-        dir1: { references: [waId], distance: 30, count: 3 },
-      },
-    ],
+  await api.v1.part.linearPattern({
+    id: partId,
+    name: 'LP1',
+    targets: [boxFeat],
+    dir1: { references: [waId], distance: 30, count: 3 },
   })
 ).result
 // ✓ lpFeat → 99
@@ -1293,13 +1247,9 @@ Finds brep geometry (edges, faces) by providing positions on or near them. Retur
 
 ```js
 const geoIds = (
-  await execute({
-    'v1.part.getGeometryIds': [
-      {
-        id: partId,
-        lines: [{ pos: [30, 0, 30] }], // position ON the edge you want
-      },
-    ],
+  await api.v1.part.getGeometryIds({
+    id: partId,
+    lines: [{ pos: [30, 0, 30] }], // position ON the edge you want
   })
 ).result
 // ✓ geoIds → { lines: [75], arcs: [], circles: [], ... }
@@ -1329,20 +1279,20 @@ const geoIds = (
 **Task #1-2: Assembly + part template creation**
 
 ```js
-const asmId = (await execute({ 'v1.assembly.create': [{}] })).result
+const asmId = (await api.v1.assembly.create({})).result
 // ✓ asmId → 12 (root assembly ID)
 
-const tplId = (await execute({ 'v1.assembly.partTemplate': [{}] })).result
+const tplId = (await api.v1.assembly.partTemplate({})).result
 // ✓ tplId → 22 (part template — now in part context, build geometry here)
 
 // Build geometry inside the template
-const boxFeat = (await execute({ 'v1.part.box': [{ id: tplId, name: 'Box1', length: 40, width: 30, height: 20 }] })).result
+const boxFeat = (await api.v1.part.box({ id: tplId, name: 'Box1', length: 40, width: 30, height: 20 })).result
 const wcsId = (
-  await execute({ 'v1.part.workCSys': [{ id: tplId, name: 'WCS1', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] }] })
+  await api.v1.part.workCSys({ id: tplId, name: 'WCS1', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })
 ).result
 
 // Return to assembly context
-await execute({ 'v1.assembly.setCurrentProduct': [{ id: asmId }] })
+await api.v1.assembly.setCurrentProduct({ id: asmId })
 ```
 
 ---
@@ -1361,32 +1311,24 @@ Creates an instance of a template. Requires `productId` (template) and `ownerId`
 
 ```js
 const inst1 = (
-  await execute({
-    'v1.assembly.instance': [
-      {
-        productId: tplId,
-        ownerId: asmId,
-        name: 'Inst1',
-      },
-    ],
+  await api.v1.assembly.instance({
+    productId: tplId,
+    ownerId: asmId,
+    name: 'Inst1',
   })
 ).result
 // ✓ inst1 → 113
 
 const inst2 = (
-  await execute({
-    'v1.assembly.instance': [
-      {
-        productId: tplId,
-        ownerId: asmId,
-        name: 'Inst2',
-        transformation: [
-          [50, 0, 0],
-          [1, 0, 0],
-          [0, 1, 0],
-        ], // offset by 50 in X
-      },
-    ],
+  await api.v1.assembly.instance({
+    productId: tplId,
+    ownerId: asmId,
+    name: 'Inst2',
+    transformation: [
+      [50, 0, 0],
+      [1, 0, 0],
+      [0, 1, 0],
+    ], // offset by 50 in X
   })
 ).result
 // ✓ inst2 → 115
@@ -1410,15 +1352,11 @@ const inst2 = (
 Locks an instance at the assembly origin. Requires `mate1` with `path` (array with instance ID) and `csys` (work coordinate system from the template).
 
 ```js
-await execute({
-  'v1.assembly.fastenedOrigin': [
-    {
-      id: asmId,
-      instance: inst1,
-      name: 'FO1',
-      mate1: { path: [inst1], csys: wcsId },
-    },
-  ],
+await api.v1.assembly.fastenedOrigin({
+  id: asmId,
+  instance: inst1,
+  name: 'FO1',
+  mate1: { path: [inst1], csys: wcsId },
 })
 // ✓ result → 121 (constraint ID)
 ```
@@ -1538,13 +1476,9 @@ Creates 2D projections. `types` array defines which views (TOP, FRONT, RIGHT, LE
 ```js
 // ...after creating a part with a box feature...
 const viewIds = (
-  await execute({
-    'v1.drawing2d.view': [
-      {
-        id: partId,
-        types: ['TOP', 'FRONT', 'ISO'],
-      },
-    ],
+  await api.v1.drawing2d.view({
+    id: partId,
+    types: ['TOP', 'FRONT', 'ISO'],
   })
 ).result
 // ✓ viewIds → [91, 101, 96] (one ID per view)
@@ -1574,8 +1508,8 @@ const viewIds = (
 **Task #3-4: Export availability checks**
 
 ```js
-const dxfOk = (await execute({ 'v1.drawing2d.isDXFAvailable': [{}] })).result
-const svgOk = (await execute({ 'v1.drawing2d.isSVGAvailable': [{}] })).result
+const dxfOk = (await api.v1.drawing2d.isDXFAvailable({})).result
+const svgOk = (await api.v1.drawing2d.isSVGAvailable({})).result
 // ✓ dxfOk → 0 (or 1 if DXF module loaded), svgOk → 0
 ```
 

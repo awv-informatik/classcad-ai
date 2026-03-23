@@ -1,17 +1,15 @@
 // Q: How do per-job messages work in batch? Each job should have its own result+messages.
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'Test' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'Test' })).result
 
   // Batch with proper failing job (invalid ID, not empty param)
-  const r1 = await execute({
-    'v1.common.batch': [{
+  const r1 = await api.v1.common.batch({
       jobs: [
         { api: 'v1.common.getAppVersion' },
         { api: 'v1.part.box', param: { id: 999999 } },  // invalid ID
         { api: 'v1.common.getClassFileVersion' },
       ]
-    }]
-  })
+    })
 
   // Check if result is array of sub-results
   console.log('[14] batch result type:', typeof r1.result, Array.isArray(r1.result))

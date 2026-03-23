@@ -259,39 +259,31 @@ Points come back as `{"x":50,"y":30,"z":20}` — not `[50,30,20]`. Format accord
 
 ```js
 // 1. Create part (clears drawing, returns part ID)
-const partId = (await execute({ 'v1.part.create': [{ name: 'MyPart' }] })).result
+const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 
 // 2. Create entity injection feature (required for solid/curve APIs)
-const eifId = (await execute({ 'v1.part.entityInjection': [{ id: partId }] })).result
+const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 
 // 3. Create solid inside the entity injection
-const boxId = (await execute({
-  'v1.solid.box': [{ id: eifId, length: 100, width: 60, height: 40 }]
-})).result
+const boxId = (await api.v1.solid.box({ id: eifId, length: 100, width: 60, height: 40 })).result
 
 // 4. Query volume + center of gravity
-const mass = (await execute({
-  'v1.part.calculateMassProperties': [{ id: partId }]
-})).result
+const mass = (await api.v1.part.calculateMassProperties({ id: partId })).result
 // → { cog: {x:0, y:0, z:0}, volume: 240000 }
 
 // 5. Enumerate BRep faces (box has 6)
 for (let i = 0; i < 10; i++) {
-  const r = await execute({
-    'v1.part.getBrepGeometryByIndex': [{ id: eifId, faceIndex: i }]
-  })
+  const r = await api.v1.part.getBrepGeometryByIndex({ id: eifId, faceIndex: i })
   if (!r.result) break
   console.log('Face', i, '→ id', r.result)
 }
 // Similarly: lineIndex for edges, pointIndex for vertices
 
 // 6. Get positions for BRep elements
-const positions = (await execute({
-  'v1.part.getGeometryPositions': [{ elems: [faceId1, edgeId2, ...] }]
-})).result
+const positions = (await api.v1.part.getGeometryPositions({ elems: [faceId1, edgeId2] })).result
 // → [{ id: -1, positions: [{x,y,z}, ...] }, ...]
 
-// 7. Get full structure tree
+// 7. Get full structure tree (raw protocol — not available through api.v1.*)
 const tree = await request('GetTree')
 // → tree.structure.tree has all objects with members, children, etc.
 ```

@@ -10,13 +10,13 @@ export default async function ({ execute, request, ws }) {
   // and test what maxLevel tells us about filtered messages.
 
   // If maxLevel=31 and messages=[] after filtering, there must be INFO messages that were removed
-  const r1 = await execute({ 'v1.common.getAppVersion': [{}] })
+  const r1 = await api.v1.common.getAppVersion({})
   console.log('[16] success: maxLevel=', r1.maxLevel, 'visible msgs:', r1.messages.length)
   console.log('[16] maxLevel=31 implies INFO-level messages exist but were filtered by client')
 
   // Create a part and do something — check if server sends INFO traces
-  const partId = (await execute({ 'v1.part.create': [{ name: 'Test' }] })).result
-  const r2 = await execute({ 'v1.part.box': [{ id: partId, xLen: 50, yLen: 50, zLen: 50 }] })
+  const partId = (await api.v1.part.create({ name: 'Test' })).result
+  const r2 = await api.v1.part.box({ id: partId, xLen: 50, yLen: 50, zLen: 50 })
   console.log('[16] box create: maxLevel=', r2.maxLevel, 'visible msgs:', r2.messages.length)
 
   // Summary of what we know about levels:

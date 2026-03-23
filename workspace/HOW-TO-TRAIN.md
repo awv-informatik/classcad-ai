@@ -231,10 +231,10 @@ Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
 
 ### `execute()`, `snapshot()`, and `filewrite()`
 
-**`execute()`** — sends one API call: `{ 'v1.domain.method': [{ params }] }`. Returns the **full server envelope**:
+**`api.v1.<domain>.<method>()`** — sends one API call using the typed @classcad/api-js wrapper. Returns the **full server envelope**:
 
 ```js
-const r = await execute({ 'v1.part.create': [{ name: 'Test' }] })
+const r = await api.v1.part.create({ name: 'Test' })
 // r.result    — the API return value (ID, object, array, void, etc.)
 // r.messages  — array of { message, level } server messages
 // r.maxLevel  — highest message level (0=ok, 41-50=warning, 51+=error)
@@ -284,14 +284,12 @@ After each run, append a section to `journal.md`. Two tiers — **brief** (behav
 
 ```js
 // API task — testing one API endpoint
-export default async function ({ execute }, { snapshot, filewrite }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'Test' }] })).result
-  const skId = (await execute({ 'v1.sketch.create': [{ id: partId }] })).result
+export default async function (api, { snapshot, filewrite }) {
+  const partId = (await api.v1.part.create({ name: 'Test' })).result
+  const skId = (await api.v1.sketch.create({ id: partId })).result
 
   const lines = (
-    await execute({
-      'v1.sketch.rectangle': [{ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] }],
-    })
+    await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })
   ).result
 
   await snapshot('rectangle')
@@ -324,10 +322,10 @@ If not done, pick the next gap and loop back. **When to move on from a failing m
 
 ```js
 // Conceptual task — probing the protocol envelope
-export default async function ({ execute }) {
+export default async function (api) {
   // Use different APIs as probes to study the concept
-  const r1 = await execute({ 'v1.common.getAppVersion': [{}] })
-  const r2 = await execute({ 'v1.common.getClassFileVersion': [{}] })
+  const r1 = await api.v1.common.getAppVersion({})
+  const r2 = await api.v1.common.getClassFileVersion({})
 
   return {
     envelopeKeys: Object.keys(r1),
@@ -559,17 +557,13 @@ Creates an extrusion feature by sweeping a 2D profile along a direction vector.
 ## Working Example
 
 ```js
-const partId = (await execute({ 'v1.part.create': [{}] })).result
+const partId = (await api.v1.part.create({})).result
 // ... sketch setup ...
 const extId = (
-  await execute({
-    'v1.part.extrusion': [
-      {
-        id: partId,
-        profile: regionId,
-        direction: [0, 0, 50],
-      },
-    ],
+  await api.v1.part.extrusion({
+    id: partId,
+    profile: regionId,
+    direction: [0, 0, 50],
   })
 ).result
 ```

@@ -1,10 +1,10 @@
 // Test: How do points appear in the structure tree? The protocol session noted
 // {x,y,z} in members. Are they always objects? Compare with API param format [x,y,z].
-export default async function ({ execute }) {
-  const partId = (await execute({ 'v1.part.create': [{ name: 'PtStruct' }] })).result
+export default async function (api) {
+  const partId = (await api.v1.part.create({ name: 'PtStruct' })).result
 
   // Get structure and look at point members
-  const r = await execute({ 'v1.common.getAppVersion': [{}] })
+  const r = await api.v1.common.getAppVersion({})
   const tree = r.structure?.tree
   if (!tree) {
     console.log('[struct] No structure tree available')

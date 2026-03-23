@@ -5,11 +5,11 @@
  * Usage:  node scripts/run.mjs <script-path> [--outdir <path>] [ws-url]
  *
  * Connects to ClassCAD, runs one script, captures snapshots, cleans up.
- * The script receives the raw client — all data processing happens in-script.
+ * The script receives a typed api object (from @classcad/api-js) + helpers.
  *
  * Pipeline:
  *   1. Connect to ClassCAD
- *   2. Execute script (receives raw client + snapshot helper)
+ *   2. Execute script (receives api + snapshot/filewrite helpers)
  *   3. Clear drawing + disconnect
  */
 
@@ -20,6 +20,7 @@ import { inspect } from 'util'
 import { connect } from './client.mjs'
 import { renderIsometric, savePNG } from './render.mjs'
 import { renderSession } from './render-direct.mjs'
+import { v1 } from '@classcad/api-js'
 
 const IMG_W = 800
 const IMG_H = 600
@@ -68,6 +69,23 @@ async function main() {
 
   // 1. Connect
   const client = await connect(wsUrl)
+
+  // Facade adapter: bridges @classcad/api-js → client.request()
+  const facade = {
+    callSafeApiV(version, namespace, func, args, options) {
+      const key = `${version}.${namespace}.${func}`
+      return client.request('Execute', {
+        task: [{ [key]: args != null ? [args] : [{}] }],
+        options: { undoable: options?.undoable ?? false },
+      })
+    },
+    callSafeApi(namespace, func, args, options) {
+      return this.callSafeApiV('v1', namespace, func, args, options)
+    },
+    fetchTree: () => Promise.resolve(),
+  }
+
+  const api = { v1: v1(facade) }
 
   // Snapshot helper — captures PNGs + exports to files/
   async function snapshot(label = `snapshot`) {
@@ -147,7 +165,7 @@ async function main() {
 
   // 2. Execute script
   try {
-    await scriptFn(client, { snapshot, filewrite })
+    await scriptFn(api, { snapshot, filewrite })
   } catch (e) {
     console.error(`[run] Script error: ${e.message}`)
   }

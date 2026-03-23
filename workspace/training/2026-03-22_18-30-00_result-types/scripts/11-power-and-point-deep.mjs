@@ -1,6 +1,6 @@
 // Follow-up: 10^15 failed — is ^ not power? What is the power operator?
 // Also: deeper point investigation — {1,2,3} returned {x,y,z}
-export default async function ({ execute }) {
+export default async function (api) {
   // Power operator investigation
   const powTests = [
     '10^15',       // failed — ^ might be XOR or something else
@@ -13,7 +13,7 @@ export default async function ({ execute }) {
   ]
 
   for (const expr of powTests) {
-    const r = await execute({ 'v1.common.evaluateExpression': [{ expression: expr, silent: true }] })
+    const r = await api.v1.common.evaluateExpression({ expression: expr, silent: true })
     console.log(`[power] "${expr}" result=${r.result} type=${typeof r.result} maxLevel=${r.maxLevel}`)
   }
 
@@ -32,7 +32,7 @@ export default async function ({ execute }) {
   ]
 
   for (const expr of ptTests) {
-    const r = await execute({ 'v1.common.evaluateExpression': [{ expression: expr, silent: true }] })
+    const r = await api.v1.common.evaluateExpression({ expression: expr, silent: true })
     console.log(`[point] "${expr}" result=${JSON.stringify(r.result)} type=${typeof r.result} maxLevel=${r.maxLevel}`)
   }
 

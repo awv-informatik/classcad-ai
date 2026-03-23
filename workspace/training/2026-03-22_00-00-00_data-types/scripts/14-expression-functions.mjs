@@ -1,6 +1,6 @@
 // Q: What math functions exist? Test trig, logarithmic, etc.
 // Also verify deg suffix behavior more thoroughly
-export default async function ({ execute }) {
+export default async function (api) {
   const tests = [
     // Trig functions
     ['sin(C:PI/6)', 0.5, 'sin'],
@@ -39,9 +39,7 @@ export default async function ({ execute }) {
   ]
 
   for (const [expr, expected, label] of tests) {
-    const r = await execute({
-      'v1.common.evaluateExpression': [{ expression: expr, silent: 1 }]
-    })
+    const r = await api.v1.common.evaluateExpression({ expression: expr, silent: 1 })
     const status = r.maxLevel <= 31 ? '✓' : '❌'
     const match = expected !== null && Math.abs(r.result - expected) < 0.0001 ? '=' : ''
     console.log(`[14] ${status} ${label}: ${expr} → ${r.result} ${match}`)

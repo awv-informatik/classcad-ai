@@ -9,10 +9,6 @@ Beyond simple values, expressions support full mathematical formulas. For exampl
 - `width` = a simple changeable value
 - `height` = `width * 2` (a mathematical expression referencing another expression by name)
 
-![Mathematical Expression Example](https://buerligons.io/doc/assets/expressions/BoxWithExpression.png)
-
-In the input field of the expressions, you can access other expressions **by their name**. The gray/disabled field next to the expression always shows the **solved value**.
-
 ### Mathematical Functions and Constants
 
 Below is the full list of mathematical functions and constants available in expression input fields:

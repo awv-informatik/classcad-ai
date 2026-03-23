@@ -1,46 +1,3 @@
-# Common API Reference — `api.v1.common.*`
-
-> Session management, load/save, database settings, faceting, appearance, user data, batch operations, and recalculation.
-
-## Table of Contents
-
-### Session Management
-- [clear](#clear) — Delete all objects in current drawing
-- [recalc](#recalc) — Recalculate and update the whole drawing
-- [batch](#batch) — Run multiple API calls in a single sequence
-- [requestVisualisation](#requestvisualisation) — Request visualisation of entities
-
-### Load & Save
-- [load](#load) — Read drawing from file, URL or data string (OFB, STP, IWP, STL)
-- [save](#save) — Store the current model (OFB, SCG, STP, IWP, STL, DXF)
-
-### Settings
-- [getDatabaseSettings](#getdatabasesettings) — Get current database settings
-- [setDatabaseSettings](#setdatabasesettings) — Set database settings
-- [getFacetingParameters](#getfacetingparameters) — Get tessellation parameters
-- [setFacetingParameters](#setfacetingparameters) — Set tessellation parameters
-
-### Appearance
-- [setAppearance](#setappearance) — Set color/transparency on features
-
-### Object Management
-- [transformObjectWithMatrix](#transformobjectwithmatrix) — Transform an object with a 4×4 matrix
-- [setObjectCoordSystem](#setobjectcoordsystem) — Set object coordinate system
-- [setObjectName](#setobjectname) — Set object name
-- [evaluateExpression](#evaluateexpression) — Evaluate a ClassCAD expression
-
-### User Data
-- [setUserData](#setuserdata) — Set custom key-value data on an object
-- [getUserData](#getuserdata) — Get user data value by key
-- [removeUserData](#removeuserdata) — Remove a user data entry
-- [clearUserData](#clearuserdata) — Clear all user data from an object
-- [getUserDataKeys](#getuserdatakeys) — Get all user data keys
-
-### Version Info
-- [getClassFileVersion](#getclassfileversion) — Get class file version
-- [getAppVersion](#getappversion) — Get app version
-
----
 <a name="clear"></a>
 
 ## clear([param])
@@ -68,8 +25,6 @@ Deletes all objects in the current drawing
 ```js
 api.v1.common.clear()
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** `clear()` removes all objects. `clear({ keepIds: [id] })` selectively keeps specified objects. Only one root part/assembly exists at a time — creating a second fails unless you clear first.
 
 <a name="evaluateExpression"></a>
 
@@ -100,8 +55,6 @@ Evaluates an expression.
 ```js
 api.v1.common.evaluateExpression({ expression: 'sin(C:PI/2)' })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Supports math functions (`sin`, `sqrt`, etc.). Constants use `C:` prefix (e.g. `C:PI`). `silent: true` suppresses errors, returns null. Evaluating named part expressions via `id` param returned null — may need different syntax.
 
 <a name="getDatabaseSettings"></a>
 
@@ -135,8 +88,6 @@ Returns the current general settings from the database
 api.v1.common.getDatabaseSettings()
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Defaults: `{ angleTol: 0, chordHeightTol: 0.1, facetingParamsMode: 1, isGraphicEnabled: 1, isCCGraphicEnabled: 1, isInvisibleGraphicEnabled: 0, isSketchGraphicEnabled: 1, doCurveTessellation: 1 }`. Note booleans returned as 0/1.
-
 <a name="getFacetingParameters"></a>
 
 ## getFacetingParameters()
@@ -159,8 +110,6 @@ Returns the faceting parameters used to tessellate surfaces and curves.
 ```js
 api.v1.common.getFacetingParameters()
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Defaults: `{ angleTol: 0, chordHeightTol: 0.1 }`. This is a subset of database settings focused on tessellation quality.
 
 <a name="setAppearance"></a>
 
@@ -202,8 +151,6 @@ api.v1.common.setAppearance([
 ])
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** `target` must be a valid feature ID (not null/VOID) — fails silently with error if target is invalid. Array form works for batch assignment. Color is RGB [0-255], transparency [0-1].
-
 <a name="setDatabaseSettings"></a>
 
 ## setDatabaseSettings(param)
@@ -239,8 +186,6 @@ Sets the current and initial general settings on the database.
 api.v1.common.setDatabaseSettings({ chordHeightTol: 0.5 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Round-trips correctly. Only specify fields you want to change; others are preserved.
-
 <a name="setFacetingParameters"></a>
 
 ## setFacetingParameters(param)
@@ -269,8 +214,6 @@ Sets the faceting parameters of current drawing.
 ```js
 api.v1.common.setFacetingParameters({ angleTol: 20 })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Round-trips correctly. Lower chordHeightTol = finer mesh. angleTol in degrees.
 
 <a name="transformObjectWithMatrix"></a>
 
@@ -310,8 +253,6 @@ api.v1.common.transformObjectWithMatrix({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Works on part IDs directly. Matrix is row-major 4×4; last column of top 3 rows = translation [tx, ty, tz]. `isGlobal` defaults to TRUE.
-
 <a name="setObjectCoordSystem"></a>
 
 ## setObjectCoordSystem(param)
@@ -343,8 +284,6 @@ Calls "SetObjectCoordSystem" on object or sets object coord system if function d
 api.v1.common.setObjectCoordSystem({ id: sketch, origin: [0, 150, 0], xVec: [0, 1, 0], yVec: [0, 0, 1] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Repositions object origin. Works on part IDs. xVec/yVec define the new coordinate frame orientation; zVec is derived as cross product.
-
 <a name="setObjectName"></a>
 
 ## setObjectName(param)
@@ -374,8 +313,6 @@ Calls "SetObjectName" on object or sets object name if function does not exist
 api.v1.common.setObjectName({ id: instance, name: 'Obj_23' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Simple rename. Works on part IDs.
-
 <a name="getClassFileVersion"></a>
 
 ## getClassFileVersion()
@@ -399,8 +336,6 @@ Returns the class file version
 api.v1.common.getClassFileVersion()
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns empty string in ClassCAD 21.0.1-dev build.
-
 <a name="getAppVersion"></a>
 
 ## getAppVersion()
@@ -423,8 +358,6 @@ Returns the app version
 ```js
 api.v1.common.getAppVersion()
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns empty string in ClassCAD 21.0.1-dev build.
 
 <a name="setUserData"></a>
 
@@ -457,8 +390,6 @@ If the given object will be copied later, the user data is not copied as well.
 api.v1.common.setUserData({ id: part, key: 'material', value: 'aluminum-1060' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** User data is NOT copied when objects are copied. Applies to all userData APIs.
-
 <a name="getUserData"></a>
 
 ## getUserData(param)
@@ -490,8 +421,6 @@ If the key or map does not exist the defaultValue will be returned.
 api.v1.common.getUserData({ id: part, key: 'material', defaultValue: 'none' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns the defaultValue (default: empty string) when key doesn't exist. Values are always strings.
-
 <a name="removeUserData"></a>
 
 ## removeUserData(param)
@@ -521,8 +450,6 @@ Removes the user data entry identified by given key
 api.v1.common.removeUserData({ id: part, key: 'material' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Removes a single key. Silent if key doesn't exist.
-
 <a name="clearUserData"></a>
 
 ## clearUserData(param)
@@ -551,8 +478,6 @@ Clears all entries from user data of given object
 api.v1.common.clearUserData({ id: part })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Removes ALL user data keys at once. After calling, `getUserDataKeys` returns `[]`.
-
 <a name="getUserDataKeys"></a>
 
 ## getUserDataKeys(param)
@@ -580,8 +505,6 @@ Returns all the keys of user data map of given object
 ```js
 api.v1.common.getUserDataKeys({ id: part })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns alphabetically sorted array of key strings.
 
 <a name="batch"></a>
 
@@ -614,10 +537,10 @@ Runs the given api calls in a sequence.
 **Example**
 
 ```js
-api.v1.common.batch({ jobs: [{ api: 'v1.common.clear' }, { api: 'v1.part.create' }, { api: 'v1.common.save', param: { format: 'OFB', encoding: 'base64' } }] })
+api.v1.common.batch({
+  jobs: [{ api: 'v1.common.clear' }, { api: 'v1.part.create' }, { api: 'v1.common.save', param: { format: 'OFB', encoding: 'base64' } }],
+})
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Wrap multiple API calls as `{ jobs: [{ api: 'v1.part.create' }, ...] }` for single round-trip execution.
 
 <a name="requestVisualisation"></a>
 
@@ -646,8 +569,6 @@ Requests the visualisation of the entities/cad entities from the classcad server
 ```js
 api.v1.common.requestVisualisation({ ids: [solid1, solid2] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Triggers tessellation refresh. Accepts part IDs in the array. Returns VOID on success.
 
 <a name="load"></a>
 
@@ -692,8 +613,6 @@ api.v1.common.load({ file: '/var/models/file.stp' })
 api.v1.common.load({ file: '/var/models/file.stp', stp: { asPart: TRUE } })
 api.v1.common.load({ data: 'xx124b', format: 'OFB' })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Use `doClear: true` if the drawing isn't empty. Supports OFB, STP, IWP formats from `url`, `file`, or `data`.
 
 <a name="save"></a>
 
@@ -756,8 +675,6 @@ api.v1.common.save({ file: '/var/models/file.stp', stp: { asPart: TRUE, version:
 api.v1.common.save({ format: 'STL', stl: { facetingTol: 0.5, binary: FALSE } })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `{ success, content? }`. `content` is only present when saving to data (no `file`/`url`).
-
 <a name="recalc"></a>
 
 ## recalc()
@@ -780,5 +697,3 @@ Recalculates and updates the whole drawing with all its objects
 ```js
 api.v1.common.recalc()
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Forces full recalculation of all objects. No return value. Use after parameter changes or when geometry may be stale.

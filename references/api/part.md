@@ -1,127 +1,6 @@
-# Part API Reference — `api.v1.part.*`
-
-> Feature-based part modeling: primitives, extrusions, revolves, booleans, patterns, fillets, chamfers, work geometry, expressions, sketches, and more.
-
-## Table of Contents
-
-### Part Lifecycle
-- [create](#create) — Create a new part
-- [openFeature](#openfeature) — Open a feature for editing
-- [closeFeature](#closefeature) — Close a feature after editing
-- [deleteFeature](#deletefeature) — Delete a feature
-- [getFeature](#getfeature) — Get feature by name
-- [operationMoveBefore](#operationmovebefore) — Move feature before another in history
-- [operationMoveToEnd](#operationmovetoend) — Move feature to end of history
-- [createUncommitedObject](#createuncommitedobject) — Create uncommitted object
-
-### Primitives
-- [box](#box) — Create a box feature
-- [updateBox](#updatebox) — Update box dimensions
-- [cone](#cone) — Create a cone feature
-- [updateCone](#updatecone) — Update cone dimensions
-- [cylinder](#cylinder) — Create a cylinder feature
-- [updateCylinder](#updatecylinder) — Update cylinder dimensions
-- [sphere](#sphere) — Create a sphere feature
-- [updateSphere](#updatesphere) — Update sphere dimensions
-
-### Sketch-based Features
-- [sketch](#sketch) — Create a sketch feature (alternative entry point)
-- [getSketch](#getsketch) — Get sketch by name
-- [getSketchRegion](#getsketchregion) — Get sketch region by name
-- [extrusion](#extrusion) — Extrude a sketch or curves
-- [updateExtrusion](#updateextrusion) — Update extrusion parameters
-- [revolve](#revolve) — Revolve a sketch or curves
-- [updateRevolve](#updaterevolve) — Update revolve parameters
-- [twist](#twist) — Create twist feature
-- [updateTwist](#updatetwist) — Update twist feature
-
-### Boolean Operations
-- [boolean](#boolean) — Create boolean operation (union/subtraction/intersection)
-- [updateBoolean](#updateboolean) — Update boolean operation
-
-### Edge Features
-- [chamfer](#chamfer) — Create chamfer on edges
-- [updateChamfer](#updatechamfer) — Update chamfer
-- [fillet](#fillet) — Create fillet on edges
-- [updateFillet](#updatefillet) — Update fillet
-
-### Patterns
-- [linearPattern](#linearpattern) — Create linear pattern
-- [updateLinearPattern](#updatelinearpattern) — Update linear pattern
-- [circularPattern](#circularpattern) — Create circular pattern
-- [updateCircularPattern](#updatecircularpattern) — Update circular pattern
-
-### Mirror & Slice
-- [mirror](#mirror) — Mirror feature about a plane
-- [updateMirror](#updatemirror) — Update mirror
-- [slice](#slice) — Slice part with a plane
-- [updateSlice](#updateslice) — Update slice
-- [sliceBySheet](#slicebysheet) — Slice part with a sheet body
-- [updateSliceBySheet](#updateslicebysheet) — Update slice by sheet
-
-### Work Geometry
-- [workPlane](#workplane) — Create a work plane
-- [updateWorkPlane](#updateworkplane) — Update work plane
-- [workCSys](#workcsys) — Create a work coordinate system
-- [updateWorkCSys](#updateworkcsys) — Update work coordinate system
-- [workAxis](#workaxis) — Create a work axis
-- [updateWorkAxis](#updateworkaxis) — Update work axis
-- [workPoint](#workpoint) — Create a work point
-- [updateWorkPoint](#updateworkpoint) — Update work point
-- [getWorkGeometry](#getworkgeometry) — Get work geometry by name
-
-### Expressions (Parametric)
-- [expression](#expression) — Create a named expression
-- [getExpression](#getexpression) — Get expression value
-- [updateExpression](#updateexpression) — Update expression value
-- [deleteExpression](#deleteexpression) — Delete an expression
-- [renameExpression](#renameexpression) — Rename an expression
-- [linkWithExpression](#linkwithexpression) — Link a parameter to an expression
-- [unlinkExpression](#unlinkexpression) — Unlink a parameter from an expression
-
-### Transforms
-- [translation](#translation) — Create translation feature
-- [updateTranslation](#updatetranslation) — Update translation
-- [rotation](#rotation) — Create rotation feature
-- [updateRotation](#updaterotation) — Update rotation
-- [transformationByCSys](#transformationbycsys) — Transform by coordinate system
-- [updateTransformationByCSys](#updatetransformationbycsys) — Update CSys transformation
-
-### Import & Injection
-- [importFeature](#importfeature) — Import external geometry as feature
-- [updateImportFeature](#updateimportfeature) — Update import feature
-- [entityInjection](#entityinjection) — Create entity injection feature (for solid/curve APIs)
-- [entityDeletion](#entitydeletion) — Create entity deletion feature
-- [updateEntityDeletion](#updateentitydeletion) — Update entity deletion
-- [compositeCurve](#compositecurve) — Create composite curve feature
-- [updateCompositeCurve](#updatecompositecurve) — Update composite curve
-
-### Appearance
-- [setAppearance](#setappearance) — Set appearance on part features
-
-### Geometry Queries
-- [getGeometryIds](#getgeometryids) — Get B-rep geometry IDs (edges, faces, vertices)
-- [getGeometryPositions](#getgeometrypositions) — Get positions of geometry elements
-- [getBrepGeometryIndex](#getbrepgeometryindex) — Get B-rep geometry index
-- [getBrepGeometryByIndex](#getbrepgeometrybyindex) — Get B-rep geometry by index
-
-### Mass Properties
-- [calculateMassProperties](#calculatemassproperties) — Calculate mass properties
-
----
-
-> **AGENT HINTS**:
-> - **Feature order matters** — features are evaluated sequentially. Use `operationMoveBefore`/`operationMoveToEnd` to reorder.
-> - **`entityInjection`** is the bridge to `api.v1.solid.*` and `api.v1.curve.*` APIs. Create one first, then use its ID.
-> - **Expressions** enable parametric design: create with `expression()`, link with `linkWithExpression()`, reference as `'@expr.name'`.
-> - **Work geometry** (planes, axes, CSys, points) is used as references for sketches, patterns, and constraints.
-
----
 <a name="box"></a>
 
 ## box(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Creates a feature in the part's feature tree. Returns the feature id (e.g. 54). The first feature in a fresh part always gets the same id. Box is **corner-aligned** (origin at corner, NOT centered like solid.box) — CoG of default 100³ box is [50,50,50]. Default 100×100×100 verified (volume=1,000,000). Inline math expression strings work (e.g. `'2*50'`, `'30+20'`). **WARNING: `@expressionName` syntax does NOT work** — it causes "Could not convert api params" error. Use `linkWithExpression` instead for parametric binding. Zero or negative dimensions: returns feature ID but emits ERROR (level 51) and produces no geometry (mass calculation fails). Multiple features coexist additively — no boolean needed for additive composition. Use `references: [wcsId]` to place at a workCSys offset.
 
 Creates or updates a box feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -158,8 +37,6 @@ api.v1.part.box({ id: part, name: 'BoxTop', references: [wcs], height: '3*65' })
 
 ## updateBox(param)
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: You MUST call `openFeature({ id: featureId })` before calling updateBox, and `closeFeature({ id: featureId })` after. Without openFeature, updateBox returns null and emits "The provided feature is not allowed to update. It's not active and open." The `id` param is the **feature** id (returned by `box()`), NOT the part id. Returns null even on success (unlike box() which returns the feature id). Can change dimensions (partial update OK — only changed params update), name, and references. Empty `references: []` does NOT reset to origin — the box stays where it was placed.
-
 Updates a box feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -194,14 +71,6 @@ api.v1.part.updateBox({ id: feature, references: [wcs], height: '3*65' })
 <a name="extrusion"></a>
 
 ## extrusion(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Workflow: `part.create` → `sketch.create` → sketch geometry → `sketch.sketchRegion` → `part.extrusion`. References accept both sketch regions AND raw sketch lines.
-
-> **AGENT NOTE (trained 2026-03-19):** Types: UP = +Z (default), DOWN = -Z, SYMMETRIC = ±limit2/2 (total height = limit2, NOT 2×limit2), CUSTOM = limit1/limit2 + direction. Non-unit direction vectors are auto-normalized.
-
-> **AGENT NOTE (trained 2026-03-19):** Taper: positive angle = tapers INWARD (volume decreases). Negative angle = expands OUTWARD. capEnds=FALSE creates sheet body (no volume for mass calc). Expression strings work for limit2 (e.g. `'50 + 25'`). Zero height returns an id but errors.
-
-> **AGENT NOTE (trained 2026-03-19):** Benign `Profile.GetNormal` errors appear on most extrusions but don't prevent geometry creation — safe to ignore.
 
 Creates an extrusion feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -240,10 +109,6 @@ api.v1.part.extrusion({ id: part, references: [sketchLine1, sketchLine2, sketchL
 
 ## updateExtrusion(param)
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature` after. Without this, all updates silently fail with "not active and open" error. This applies to ALL update* functions in the Part API.
-
-> **AGENT NOTE (trained 2026-03-20):** Unlike `updateBox` (which returns null on success), `updateExtrusion` returns the feature ID. Benign `Sketch.GetNormal` error (level 51) always appears but the update succeeds — safe to ignore.
-
 Updates an extrusion feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -281,8 +146,6 @@ api.v1.part.updateExtrusion({ id: feature, references: [sketchLine1, sketchLine2
 
 ## mirror(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Mirror works with USERDEFINED workPlanes as references (e.g. YZ plane: normal=[1,0,0], XZ plane: normal=[0,1,0]). Supports multiple targets in one call. Volume doubles correctly; CoG centers on symmetry axis. Bodies touching the mirror plane work fine. Offset workplanes (non-origin position) work correctly — result is symmetric about the plane's position. **WARNING:** The mirror feature ID becomes "consumed" and cannot be referenced in subsequent boolean operations.
-
 Creates a mirror feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -317,8 +180,6 @@ api.v1.part.mirror({ id: part, targets: [{ id: pattern, indices: [2, 4] }, { id:
 <a name="updateMirror"></a>
 
 ## updateMirror(param)
-
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature({ id: featureId })` after. Without this, fails with "not active and open" error. Can change references, targets, and name when feature is open.
 
 Updates a mirror feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -381,8 +242,6 @@ Work geometry can be a workpoint, -axis, -plane or -coordinate system.
 api.v1.part.getWorkGeometry({ id: part, name: 'WorkCSys_Top' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Name-based lookup works reliably for all work geometry types (workPlane, workCSys, workAxis, workPoint). Returns the feature id matching the name, or `null` with level-51 message "Couldn't find work geometry with name: ..." when not found. Names must match exactly.
-
 <a name="closeFeature"></a>
 
 ## closeFeature(param)
@@ -410,8 +269,6 @@ Moves GhostRollbackBar back to RollbackBar, sets relevant entities' visibility.
 ```js
 api.v1.part.closeFeature({ id: feature })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** `closeFeature` moves GhostRollbackBar back to RollbackBar, restoring visibility of all features. Returns null (VOID). Must be called after `openFeature` to resume normal state.
 
 <a name="create"></a>
 
@@ -441,13 +298,9 @@ Clears the drawing and creates a new part
 api.v1.part.create({ name: 'NewPart' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** `part.create` does NOT clear the drawing. If a part/assembly already exists, it returns `null` with error "There is already a root assembly or part which must be removed first." Always call `common.clear()` before `part.create`. Returns numeric part ID (e.g. 4). Part ID and feature IDs are distinct numeric values. Default name is "Part" when omitted.
-
 <a name="cone"></a>
 
 ## cone(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Uses `bDiameter` (bottom) and `tDiameter` (top). Default bD=50, tD=0.1 (near-point cone, not zero), h=100 (volume≈65,579). CoG at z≈25 (bottom-heavy). Set tDiameter > 0 for a truncated cone (frustum). Extends along +Z. Can be placed at a workCSys via `references: [wcsId]`.
 
 Creates a cone feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -484,8 +337,6 @@ api.v1.part.cone({ id: part, references: [52], height: '3*diameter' })
 
 ## updateCone(param)
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: You MUST call `openFeature({ id: featureId })` before calling updateCone, and `closeFeature({ id: featureId })` after. Same open/close requirement as all update* functions. Returns null.
-
 Updates a cone feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -521,8 +372,6 @@ api.v1.part.updateCone({ id: feature, height: '3*diameter' })
 
 ## cylinder(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Uses `diameter` (not radius). Default d=100 h=100 (volume≈785,383). Cylinder extends along +Z from origin (CoG at [0, 0, h/2]). Can be placed at a workCSys via `references: [wcsId]`. Re-referencing via updateCylinder requires openFeature/closeFeature.
-
 Creates a cylinder feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -556,8 +405,6 @@ api.v1.part.cylinder({ id: part, references: [52], height: '2*diam' })
 <a name="updateCylinder"></a>
 
 ## updateCylinder(param)
-
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: You MUST call `openFeature({ id: featureId })` before calling updateCylinder, and `closeFeature({ id: featureId })` after. Same open/close requirement as all update* functions. Returns null.
 
 Updates a cylinder feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -593,8 +440,6 @@ api.v1.part.updateCylinder({ id: feature, references: [wcs], height: '2*diam' })
 
 ## sphere(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Default radius=100 (volume≈4,189,405). Sphere is centered at the reference coordinate system origin (CoG ≈ [0,0,0]). Takes noticeably longer than box to create (~90ms vs ~6ms) due to curved geometry tessellation. STL is much larger (14080 triangles vs 12 for box). Can be placed at a workCSys via `references: [wcsId]`. Multiple spheres at different WCS positions produce expected composite CoG.
-
 Creates a sphere feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -626,8 +471,6 @@ api.v1.part.sphere({ id: part, name: 'SphereCenter', references: [52] })
 <a name="updateSphere"></a>
 
 ## updateSphere(param)
-
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: You MUST call `openFeature({ id: featureId })` before calling updateSphere, and `closeFeature({ id: featureId })` after. Same open/close requirement as all update* functions. Returns null.
 
 Updates a sphere feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -693,8 +536,6 @@ api.v1.part.workCSys({ id: part, offset: [100, 100, 0] })
 api.v1.part.workCSys({ id: part, type: 'CUSTOM', rotation: [0, 0, 1.57] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** CUSTOM type: offset, rotation (radians [rx,ry,rz]), and inverted all work. XYAXISORIGIN: references=[workPoint, workAxis, workAxis] — origin at point, X along first axis, Y along second. Rotation uses Euler angles in radians.
-
 <a name="updateWorkCSys"></a>
 
 ## updateWorkCSys(param)
@@ -730,8 +571,6 @@ If optional parameters are not set, the feature will keep the existing values.
 api.v1.part.updateWorkCSys({ id: wcs, offset: [100, 100, 0] })
 api.v1.part.updateWorkCSys({ id: wcs, type: 'CUSTOM', rotation: [0, 0, 1.57] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature({ id: featureId })` after. Without this, fails with "The provided feature is not allowed to update. It's not active and open." Works even when other features have been created after the work CSys.
 
 <a name="workPlane"></a>
 
@@ -770,8 +609,6 @@ api.v1.part.workPlane({ id: part, offset: 100 })
 api.v1.part.workPlane({ id: part, type: 'LINEPLANEANGLE', references: [74, 82], angle: '45deg' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** USERDEFINED: position + normal + offset all work. Default normal is [1,0,0]. PLANE: works with brep face id from `getGeometryIds` + offset. POINTNORMAL: refs=[workPoint, workAxis]. 3POINTS: refs=[wp1, wp2, wp3]. Work planes are valid as sketch references (`sketch.create({ references: [wpId] })`), enabling sketching on arbitrary planes. Also usable as `translation` direction references.
-
 <a name="updateWorkPlane"></a>
 
 ## updateWorkPlane(param)
@@ -809,15 +646,9 @@ api.v1.part.updateWorkPlane({ id: workPlane, offset: 100 })
 api.v1.part.updateWorkPlane({ id: workPlane, type: 'LINEPLANEANGLE', angle: '45deg' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature({ id: featureId })` after. Without this, fails with "not active and open" error. Same pattern as all update* APIs.
-
 <a name="boolean"></a>
 
 ## boolean(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Confirmed workflow: create two sketches on same part, extrude both, then `boolean({ id: partId, type: 'SUBTRACTION', target: baseFeatureId, tools: [holeFeatureId] })`. target = feature to keep, tools = features to subtract/union/intersect.
-
-> **AGENT NOTE (trained 2026-03-19):** All three boolean types (UNION, SUBTRACTION, INTERSECTION) produce accurate geometry — volumes match mathematical expectations. Multiple tools supported in one call (e.g. subtract 3 holes at once). Object-style `{ id: featureId }` syntax works for target/tools alongside plain IDs. Empty tools array fails with error. Non-overlapping subtraction succeeds silently (tool body disappears, no error). **CRITICAL:** Mirror feature IDs cannot be used as boolean tools — error "Entity 'Mirror' is not available. It has already been consumed/used in another operation." Restructure workflows to avoid using mirror IDs in subsequent booleans.
 
 Creates a boolean feature.
 
@@ -855,10 +686,6 @@ api.v1.part.boolean({ id: part, target: feature, tools: [{ id: pattern, indices:
 
 ## updateBoolean(param)
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature({ id: featureId })` after. Without this, fails with "not active and open" error. Can change type, name, target, or tools when feature is open.
-
-> **AGENT NOTE (trained 2026-03-20):** Returns the feature ID on success (not null). Same as `updateExtrusion`, unlike `updateBox` which returns null.
-
 Updates a boolean feature.
 
 **Kind**: v1.part function  
@@ -895,8 +722,6 @@ api.v1.part.updateBoolean({ id: feature, type: 'INTERSECTION', name: 'intersecti
 
 ## expression(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns 1 (true) on success. Takes `toCreate` array — batch creation of multiple expressions in one call works. Values can be numeric literals OR string formulas referencing other expressions (e.g. `value: 'baseLen * baseWid'`). Simple arithmetic (`*`,`+`,`-`,`/`,`^`) works in formulas. However, `sqrt()` and `C:PI` FAIL inside formula strings — the expression parser doesn't resolve variable references inside function calls. Dependent formula expressions auto-recalculate when referenced expressions change.
-
 Creates expressions in different products
 
 **Kind**: v1.part function  
@@ -927,10 +752,6 @@ api.v1.part.expression({ id: part, toCreate: [{ name: 'height', value: 50 }] })
 <a name="revolve"></a>
 
 ## revolve(param)
-
-> **AGENT NOTE (trained 2026-03-19):** axisIds accepts work axis IDs or sketch line IDs — both work. Default is full 360° (endAngle=2π). Partial revolve via startAngle/endAngle in radians. inverted=TRUE flips CW/CCW direction. Profile crossing the axis is allowed (no self-intersection error).
-
-> **AGENT NOTE (trained 2026-03-19):** Same benign `Profile.GetNormal` errors as extrusion — safe to ignore.
 
 Creates or updates a revolve feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -967,8 +788,6 @@ api.v1.part.revolve({ id: part, references: sketchLines, axisIds: [workAxis], st
 <a name="updateRevolve"></a>
 
 ## updateRevolve(param)
-
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature` after. Same as updateExtrusion — all Part update functions need open/close bracket.
 
 Updates a revolve feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -1036,8 +855,6 @@ If optional parameters are not set, the default values will be used, see (defaul
 api.v1.part.workAxis({ id: part, position: [0, 50, 0], direction: [1, 0, 0] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** USERDEFINED: position + direction work. 2POINTS: refs=[workPoint1, workPoint2]. 2PLANES: refs=[workPlane1, workPlane2] creates axis at their intersection. CURVE: refs=[brepEdgeId] from `getGeometryIds`. Work axes are usable as `translation` references (defines direction for distance-based copy).
-
 <a name="updateWorkAxis"></a>
 
 ## updateWorkAxis(param)
@@ -1072,13 +889,9 @@ If optional parameters are not set, the feature will keep the existing values.
 api.v1.part.updateWorkAxis({ id: workAxis, position: [0, 150, 0], direction: [1, 1, 0] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature({ id: featureId })` after. Without this, fails with "not active and open" error. Same pattern as all update* APIs.
-
 <a name="linearPattern"></a>
 
 ## linearPattern(param)
-
-> **AGENT NOTE (trained 2026-03-19):** `count` includes the original — count=4 produces 4 total instances (original + 3 copies). `distance` is per-instance spacing, not total span (count=4, distance=50 → instances at 0, 50, 100, 150). Expression distances work (e.g. `'150/3'`). Two workPoints can define direction: `references: [wp1, wp2]`. 2D grid via dir1+dir2 works (e.g. 5×5 grid). Boolean params (`inverted`, `merged`) must be actual boolean type, NOT strings — passing `'TRUE'` fails with "wrong type" error. Boolean subtraction features can be patterned (pass the boolean feature id as target).
 
 Creates a linear pattern feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -1125,8 +938,6 @@ api.v1.part.linearPattern({ id: part, targets: [feature], dir1: { references: [w
 
 ## updateLinearPattern(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Requires `openFeature`/`closeFeature` around the update call — without it, returns "feature is not active and open" error. Can update distance, count, references, and merged independently. The `id` param is the linearPattern feature id (not the part id).
-
 Updates a linear pattern feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -1172,8 +983,6 @@ api.v1.part.updateLinearPattern({ id: feature, dir1: { merged: FALSE } })
 
 ## circularPattern(param)
 
-> **AGENT NOTE (trained 2026-03-19):** `count` includes the original — count=6 at angle=PI/3 produces 6 instances (full 360° circle). `angle` is per-instance spacing in radians (angle=PI/3, count=6 → 0°, 60°, 120°, 180°, 240°, 300°). For evenly-spaced full circle: angle = 2*PI/count. Works with workAxis as rotation axis reference. Boolean params (`inverted`, `merged`) must be actual boolean type, not strings. Expression angle syntax `'C:2*PI/5'` did NOT work in testing — use numeric radians instead (e.g. `Math.PI * 2 / 5`).
-
 Creates a circular pattern feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -1211,8 +1020,6 @@ api.v1.part.circularPattern({ id: part, targets: [{ id: feature }], references: 
 <a name="updateCircularPattern"></a>
 
 ## updateCircularPattern(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Requires `openFeature`/`closeFeature` around the update call. Can update angle, count, references, merged, and inverted independently. The `id` param is the circularPattern feature id (not the part id).
 
 Updates a circular pattern feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -1252,8 +1059,6 @@ api.v1.part.updateCircularPattern({ id: feature, angle: 0.785, count: 8, merged:
 
 ## chamfer(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Three types: EQUAL_DISTANCE (default), TWO_DISTANCES, DISTANCE_ANGLE. Defaults: type=EQUAL_DISTANCE, distance1=2. DISTANCE_ANGLE angle uses `'C:PI/6'` expression syntax. Works on both line edges and arc edges (cylinder rims). Supports expression distances (e.g. `'10/3'`). EQUAL_DISTANCE chamfer on 4 edges of 60×60×40 box at d=5: vol 144000→141167. References come from `getBrepGeometryByIndex` same as fillet.
-
 Creates a chamfer feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -1289,8 +1094,6 @@ api.v1.part.chamfer({ id: part, type: 'DISTANCE_ANGLE', references: [edge], dist
 <a name="updateChamfer"></a>
 
 ## updateChamfer(param)
-
-> **AGENT NOTE (trained 2026-03-19):** **CRITICAL: Requires `openFeature(id)` before calling!** Same pattern as updateFillet — without openFeature, returns null with "The provided feature is not allowed to update. It's not active and open." Can change type, distances, and angle after opening the feature.
 
 Updates a chamfer feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -1328,8 +1131,6 @@ api.v1.part.updateChamfer({ id: feature, type: 'DISTANCE_ANGLE', distance1: 10, 
 
 ## fillet(param)
 
-> **AGENT NOTE (trained 2026-03-19):** References must be brep edge IDs obtained via `getBrepGeometryByIndex` (lineIndex for straight edges, arcIndex for circular edges like hole rims or cylinder tops). A box extrusion has 12 line edges. Fillet 4 edges of a 60×60×40 box at r=8 reduces volume from 144000→140901. Fillet all 12 edges of a 60³ cube at r=10: 216000→201887. Supports expression radius (e.g. `'10/2'`). Works on arc edges after booleans. **Failure is non-throwing**: radius too large returns the feature ID but with ERROR message "Fillet could not be applied to all edges" — always check `messages`. Empty references also returns ID with error. After filleting, re-query edges before subsequent operations (topology changes). Can stack fillet + chamfer on same part.
-
 Creates a fillet feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -1362,8 +1163,6 @@ api.v1.part.fillet({ id: part, name: 'FilletTop', references: [edge1, edge2, edg
 <a name="updateFillet"></a>
 
 ## updateFillet(param)
-
-> **AGENT NOTE (trained 2026-03-19):** **CRITICAL: Requires `openFeature(id)` before calling!** Without it, returns null with error "The provided feature is not allowed to update. It's not active and open." followed by "id must be provided for update." After openFeature, call updateFillet, then closeFeature. Same pattern as all part update APIs.
 
 Updates a fillet feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -1398,8 +1197,6 @@ api.v1.part.updateFillet({ id: feature, radius: '5/2' })
 
 ## entityDeletion(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Works on pattern features (linear/circular) to delete specific instances by 0-based index. `targets: [{ id: patternId, indices: [0, 2] }]` removes the 1st and 3rd pattern copies. Deleting without indices (`targets: [pat]`) removes ALL instances including original, resulting in empty geometry. Each pattern copy has equal volume.
-
 Creates a entity deletion feature.
 
 **Kind**: v1.part function  
@@ -1431,8 +1228,6 @@ api.v1.part.entityDeletion({ id: part, targets: [{ id: pattern, indices: [0, 2, 
 <a name="updateEntityDeletion"></a>
 
 ## updateEntityDeletion(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Can change which indices are deleted post-creation. Switching from deleting [0] to [1,2,3] works — the feature parametrically recomputes.
 
 Updates an existing entity deletion feature.
 
@@ -1490,8 +1285,6 @@ Moves GhostRollbackBar to the position before passed feature, sets relevant enti
 api.v1.part.openFeature({ id: feature })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** `openFeature` moves the GhostRollbackBar before the specified feature, hiding features after it. The snapshot showed 0 files when opened (no visible geometry when rolled back past all features). Returns null (VOID). Use `closeFeature` to restore. Paired with `closeFeature` — always close after opening.
-
 <a name="operationMoveBefore"></a>
 
 ## operationMoveBefore(param)
@@ -1523,8 +1316,6 @@ rollback bar will be forwarded (to end direction), a recalculation of the featur
 api.v1.part.operationMoveBefore({ id: part, featureId: feature })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Moves the RollbackBar before the specified feature. Features at and after `featureId` become inactive/invisible. `id` is the part ID, `featureId` is the feature to roll back before. Returns null (VOID). Use `operationMoveToEnd` to restore all features.
-
 <a name="operationMoveToEnd"></a>
 
 ## operationMoveToEnd(param)
@@ -1553,8 +1344,6 @@ If changes on a feature have been made, a recalculation of the features will be 
 ```js
 api.v1.part.operationMoveToEnd({ id: part })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Moves RollbackBar to end, reactivating all features. Takes only the part ID. Returns null (VOID). Use after `operationMoveBefore` to restore full feature history.
 
 <a name="getFeature"></a>
 
@@ -1585,15 +1374,9 @@ Returns the id of the feature with the given name from the given part.
 api.v1.part.getFeature({ id: part, name: 'Chamfer' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns the feature ID matching the name, or `null` if not found (with error message "Feature with name X does not exist"). Name matching is exact. Confirmed: returned ID matches the original feature ID from creation. Useful for referencing features by name instead of storing IDs.
-
 <a name="slice"></a>
 
 ## slice(param)
-
-> **AGENT NOTE (trained 2026-03-19):** `targets` takes feature IDs (e.g. extrusion ID), internally mapped to CC_Solid children via `bodiesToCut`. Multiple targets supported — pass array of `{id}` objects. `reference` is a workPlane ID. Without `reference`, slices at default XY plane (origin). `inverted=false` (default) keeps the half along the workplane normal direction (cutDirection=0); `inverted=true` flips (cutDirection=1). Slicing a 60×60×80 box at Z=40 yields exactly half volume (288000→144000). Diagonal workplanes (e.g. normal=[1,0,1]) work for angled cuts. Can slice after twist — targets the twist feature ID.
-
-> **AGENT NOTE (trained 2026-03-19):** `updateSlice` can toggle `inverted` to flip which half is kept without recreating the feature.
 
 Creates a slice feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -1630,8 +1413,6 @@ api.v1.part.slice({ id: part, targets: [{ id: feature }], reference: 25 })
 
 ## updateSlice(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Partial updates work — can change just `inverted` without re-specifying targets/reference. The feature retains existing values for unspecified params.
-
 Updates a slice feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -1666,8 +1447,6 @@ api.v1.part.updateSlice({ id: feature, inverted: TRUE })
 <a name="sliceBySheet"></a>
 
 ## sliceBySheet(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Uses a sheet body (thin extrusion) as cutting tool instead of a workplane. `target` is the feature to cut (singular, not array like slice). `tool` is the feature containing the sheet. A very thin extrusion (limit2=0.01) on a sketch works as a sheet tool. `inverted` controls which side to keep, same as slice. Note: `target` and `tool` are singular objects `{id}`, not arrays.
 
 Creates a slice by sheet feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -1706,8 +1485,6 @@ api.v1.part.sliceBySheet({ id: part, target: feature1, tool: feature2 })
 
 ## updateSliceBySheet(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Partial updates work — can toggle `inverted` without re-specifying target/tool.
-
 Updates a slice by sheet feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -1744,8 +1521,6 @@ api.v1.part.updateSliceBySheet({ id: feature, inverted: TRUE })
 <a name="importFeature"></a>
 
 ## importFeature(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns feature ID on success. The `data` param must be a raw string — passing an object (like `common.save()` result) fails with type error. Extract `.content` from save result first. Inline STP strings work fine. Without any source (no data/file/url), returns clear error. Bad URLs return error code 500. Only one root part/assembly can exist — clear or use existing part.
 
 Creates an import feature. This allows to import other data like STP into the part.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -1784,8 +1559,6 @@ api.v1.part.importFeature({ id: part, file: '/var/models/file.stp', name: 'Impor
 <a name="updateImportFeature"></a>
 
 ## updateImportFeature(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Same pattern as other feature updates. Can rename the feature or replace the imported data/url/file. Not fully tested due to save/import chain issue in training (data must be string, not object).
 
 Updates an import feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -1865,13 +1638,9 @@ api.v1.part.setAppearance([
 ])
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Color [r,g,b] range 0-255. Transparency 0-1 float. Batch mode works: pass array of `{target, color, ...}`. `chordHeightTol`/`angleTol` control tessellation refinement (visual quality, not geometry). Per-solid via `{id: featureId, indices: [n]}`. Returns null (VOID) on success with no messages. Can set color and transparency together.
-
 <a name="twist"></a>
 
 ## twist(param)
-
-> **AGENT NOTE (trained 2026-03-19):** `references` takes sketch region IDs (from sketchRegion). `twistAngle` is in radians — PI=180°. Types: UP extrudes upward from sketch plane, DOWN goes downward, SYMMETRIC goes both directions (limit2 split evenly), CUSTOM uses explicit limit1/limit2/direction/twistCenter. `capEnds=true` (default) creates solid; `capEnds=false` creates sheet. String expressions work for twistAngle and limit2 (e.g. `'2*0.785'`, `'2*50'`). Off-center profiles create helix-like geometry (circle at [20,0,0] with full 2PI twist = helical tube, 2236 triangles). Custom direction [0,1,1] works for non-Z-axis twists. Twist can be sliced afterward using the twist feature ID as target.
 
 Creates a twist feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -1913,8 +1682,6 @@ api.v1.part.twist({ id: part, references: sketchLines, twistAngle: '2*0.785', li
 <a name="updateTwist"></a>
 
 ## updateTwist(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Partial updates work — can change twistAngle, limit2, capEnds independently. Changing capEnds from true to false converts solid to sheet.
 
 Updates a twist feature.
 If optional parameters are not set, the feature will keep the existing values.
@@ -1986,8 +1753,6 @@ If optional parameters are not set, the default values will be used, see (defaul
 api.v1.part.workPoint({ id: part, position: [0, 50, 0] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** USERDEFINED: position works. EDGEMIDPOINT: refs=[brepEdgeId] works (midpoint of edge). BARYCENTER: refs=[brepFaceId] works (centroid of face). ⚠️ 2POINTS type requires `sketch-point` or `vertex` brep ids — work point feature ids are NOT valid references (error: "references has a wrong id type"). Use brep vertices from `getGeometryIds` instead.
-
 <a name="updateWorkPoint"></a>
 
 ## updateWorkPoint(param)
@@ -2021,13 +1786,9 @@ If optional parameters are not set, the feature will keep the existing values.
 api.v1.part.updateWorkPoint({ id: workPoint, position: [60, 50, 0] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: Requires `openFeature({ id: featureId })` before calling, then `closeFeature({ id: featureId })` after. Without this, fails with "not active and open" error. Same pattern as all update* APIs.
-
 <a name="compositeCurve"></a>
 
 ## compositeCurve(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns feature ID on success. Accepts sketch curves as references — non-contiguous curves (with gaps) are accepted without error. To update after creation, must call `openFeature` on the composite curve first, otherwise get "not active and open" error from `updateCompositeCurve`.
 
 Creates a composite curve feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -2060,8 +1821,6 @@ api.v1.part.compositeCurve({ id: part, references: curves })
 
 ## updateCompositeCurve(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Requires `openFeature` on the composite curve feature BEFORE calling update — otherwise errors with "not active and open" and "id must be provided for update". Same pattern as other feature updates that need the feature to be in edit mode.
-
 Updates a composite curve feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -2093,8 +1852,6 @@ api.v1.part.updateCompositeCurve({ id: feature, references: [edge1, edge2, edge3
 
 ## unlinkExpression(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID) on success. After unlinking, updating the expression no longer affects the feature's parameter value.
-
 Unlinks expression from dimensional constraints in sketcher or parameter in feature
 
 **Kind**: v1.part function  
@@ -2123,8 +1880,6 @@ api.v1.part.unlinkExpression({ id: feature, name: 'height' })
 <a name="linkWithExpression"></a>
 
 ## linkWithExpression(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID) on success — not a boolean. Links a named expression to a feature parameter. The `name` param is the feature's internal parameter name (e.g. `limit2` for extrusion height). After linking, the feature structure shows `"expression":"ExpressionSet.<exprName>"` on that parameter. Updating the expression then auto-recalculates the feature geometry. Benign `GetNormal:CCObject can not be opened` errors may appear but linking still succeeds.
 
 Connects an expression with a dimensional constraint in a sketch or a parameter in a feature
 
@@ -2181,8 +1936,6 @@ Returns the id of the sketch with the given name from the given part.
 api.v1.part.getSketch({ id: part, name: 'Sketch_Front' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Name-based lookup — returns sketch ID or null. Non-existent name returns null + ERROR message "Sketch with name X does not exist" (code 1015). Name must match exactly as created.
-
 <a name="entityInjection"></a>
 
 ## entityInjection(param)
@@ -2212,8 +1965,6 @@ into a part, created with the Solid- and CurveAPI.
 ```js
 api.v1.part.entityInjection({ id: part })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** `param.id` is listed as optional in docs but IS required — omitting it gives error `"id" must be provided to create CC_EntityInjection`. Multiple EIFs can exist per part (tested 3), each gets a distinct feature ID (e.g. 54, 62, 70). Each EIF is an independent container — solids added to different EIFs are all additive in the part. EIFs are the bridge from solid/curve APIs into feature-based part modeling.
 
 <a name="createUncommitedObject"></a>
 
@@ -2246,13 +1997,9 @@ Creates a new uncommited (empty) feature in the given part.
 api.v1.part.createUncommitedObject({ id: part, type: 'CC_Box', name: 'Box' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Creates an empty feature shell. Returns a feature ID (e.g. 52). CRITICAL: only ONE uncommitted object can exist at a time — attempting a second gives error "There is still an uncommited feature called X, please commit or decline the feature first." Must commit/decline before creating another. Use with caution as docs warn.
-
 <a name="translation"></a>
 
 ## translation(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Moves target solid(s) along a reference direction. Reference can be a single line (work-axis, edge) or two points defining direction. Two-point ref: direction is normalized from pt1→pt2, then distance applied. CoG shifted exactly by distance along that vector. Volume preserved (use approximate comparison, not ===).
 
 Creates a translation feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -2290,8 +2037,6 @@ api.v1.part.translation({ id: part, targets: [{ id: feature }], references: [wor
 
 ## updateTranslation(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Partial update supported — can change distance, inverted, targets, or references independently. The feature recomputes parametrically.
-
 Updates a translation feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -2327,8 +2072,6 @@ api.v1.part.updateTranslation({ id: feature, distance: 520 })
 <a name="rotation"></a>
 
 ## rotation(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Rotates target solid(s) around a reference axis by the given angle (radians). Reference is a line (work-axis, edge). May return null/void feature id even when geometry is transformed. Angle is in radians. The `inverted` flag reverses rotation direction (CW vs CCW).
 
 Creates a rotation feature.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -2366,8 +2109,6 @@ api.v1.part.rotation({ id: part, targets: [{ id: feature }], references: [15], a
 
 ## updateRotation(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Partial update — can change angle, inverted, targets, references independently. Parametric recompute confirmed.
-
 Updates a rotation feature.
 If optional parameters are not set, the feature will keep the existing values.
 
@@ -2404,8 +2145,6 @@ api.v1.part.updateRotation({ id: feature1, targets: [{ id: feature2 }], referenc
 
 ## transformationByCSys(param)
 
-> **AGENT NOTE (trained 2026-03-19):** References order: `[toCSys, fromCSys]` — first ref is destination, second is source. Computes the transformation matrix between the two coordinate systems and applies it to targets. Supports combined translation+rotation in one operation. For pure translation: use same-orientation CSys at different offsets. For pure rotation: use same-offset CSys with different rotations.
-
 Creates a transformation by csys feature. The transformation is the matrix between first and second work coordinate system.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -2439,8 +2178,6 @@ api.v1.part.transformationByCSys({ id: part, targets: [{ id: feature }], referen
 <a name="updateTransformationByCSys"></a>
 
 ## updateTransformationByCSys(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Can change references (swap destination CSys) and targets. Parametric recompute confirmed.
 
 Updates a transformation by csys feature. The transformation is the matrix between first and second work coordinate system.
 If optional parameters are not set, the feature will keep the existing values.
@@ -2476,8 +2213,6 @@ api.v1.part.updateTransformationByCSys({ id: feature1, targets: [{ id: feature2 
 
 ## getExpression(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `{expression: "", value: <num>}` for plain numeric expressions — the `expression` field is empty string for literals, and contains the formula string for formula-based expressions. Non-existent expression names return `{expression: "", value: null}` with NO error — check for null value to detect missing expressions.
-
 Returns the value and the expression
 
 **Kind**: v1.part function  
@@ -2510,8 +2245,6 @@ api.v1.part.getExpression({ id: part, name: 'height' })
 
 ## updateExpression(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns 1 on success. Batch update via `toUpdate` array works. Updating a base expression auto-recalculates all dependent formula expressions. When linked to features via `linkWithExpression`, model geometry also recalculates (though benign GetNormal errors may appear).
-
 Updates an existing expressions in different products
 
 **Kind**: v1.part function  
@@ -2542,8 +2275,6 @@ api.v1.part.updateExpression({ id: part, toUpdate: [{ name: 'lenght', value: 40 
 <a name="deleteExpression"></a>
 
 ## deleteExpression(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns 1 on success. Batch delete via `toDelete` string array works. After deletion, `getExpression` returns `{expression:"", value:null}`.
 
 Deletes expressions in different products
 
@@ -2605,8 +2336,6 @@ api.v1.part.sketch({ id: part, planeId: workPlane })
 api.v1.part.sketch({ id: part, name: 'Sketch4' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Three modes: (1) No planeId → sketch on default XY plane. (2) planeId=workPlane ID → placed directly on it. (3) planeId=brep face ID → auto-creates a work plane on that face, then places sketch. All three return a sketch ID. Default name is "Sketch".
-
 <a name="getSketchRegion"></a>
 
 ## getSketchRegion(param)
@@ -2635,8 +2364,6 @@ Returns the id of the sketch region with the given name from the given part or i
 ```js
 api.v1.part.getSketchRegion({ id: part, name: 'SketchRegion_Left' })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Name-based lookup — returns sketch region ID or null. Default region name from `sketch.sketchRegion` is "SketchRegion" (NOT "SketchRegion_1"). Non-existent returns null + ERROR. Also works with instance IDs (per docs).
 
 <a name="calculateMassProperties"></a>
 
@@ -2670,8 +2397,6 @@ over the whole assembly structure. If a solid is given, the center of gravity wi
 api.v1.part.calculateMassProperties({ id: part })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Only accepts part, assembly, instance, or solid IDs — NOT feature IDs (error: "wrong id type"). Returns `{cog: {x,y,z}, volume: number}`. Box 60×40×30 → vol=72000, cog=(0,0,15). After boolean subtraction, volume correctly reflects removed material. CoG is local to the part when a solid is given.
-
 <a name="deleteFeature"></a>
 
 ## deleteFeature(param)
@@ -2699,8 +2424,6 @@ Deletes existing features, work geometries and sketches
 ```js
 api.v1.part.deleteFeature({ ids: [15] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Accepts array of feature IDs. Can delete multiple features in one call (tested: deleted b1+b3, b2 survived). Returns null (VOID). After deletion, `getFeature` returns null for deleted names. Works on features, work geometries, and sketches.
 
 <a name="getGeometryIds"></a>
 
@@ -2761,8 +2484,6 @@ api.v1.part.getGeometryIds({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Position-based brep lookup. Planes use `positions` array (even one point can work for flat faces). Lines/arcs/circles use `pos` (single point on/near element). Multi-type query in one call works — pass planes + lines + points etc. together, returns only the requested types as arrays of IDs. Cylinders/cones/spheres use `positions` array.
-
 <a name="getGeometryPositions"></a>
 
 ## getGeometryPositions(param)
@@ -2795,13 +2516,9 @@ Returns the positions which uniquely identifying the geometries (brep element li
 api.v1.part.getGeometryPositions({ elems: [15, 89] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `[{id, positions: [...]}]`. Edges (lines) return 1 position (midpoint). Faces (planes) return multiple positions (midpoints of adjacent edges — 4 for a box face). Vertices return 1 position (exact point). These positions can be fed back to `getGeometryIds` for round-trip identification.
-
 <a name="renameExpression"></a>
 
 ## renameExpression(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns 1 on success. Batch rename via `toRename` array with `{name, newName}` pairs works. Old name becomes immediately inaccessible (returns null value).
 
 Renames expressions in different products
 
@@ -2867,8 +2584,6 @@ Points, lines, arcs, NURBS curves and faces are indexed separately.
 api.v1.part.getBrepGeometryIndex({ id: feature, geomId: edge1 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Round-trip stable: `getBrepGeometryByIndex(lineIndex:0)` → id, then `getBrepGeometryIndex(geomId:id)` → 0. Indexing is per-type (lines, arcs, faces, points counted separately within same feature).
-
 <a name="getBrepGeometryByIndex"></a>
 
 ## getBrepGeometryByIndex(param)
@@ -2903,5 +2618,3 @@ Points, lines, arcs, NURBS curves and faces are indexed separately, and there sh
 ```js
 api.v1.part.getBrepGeometryByIndex({ id: feature, lineIndex: 6 })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Box extrusion topology: 12 lines, 6 faces, 8 vertices, 0 arcs. Cylinder extrusion topology: 2 arcs (top/bottom circles), 3 faces (top/bottom planes + cylindrical surface), 1 line (seam edge), 0 vertices. Out-of-range index returns null + ERROR message (e.g. "Line element indexed as 12 does not exist"). Takes feature ID (not part ID).

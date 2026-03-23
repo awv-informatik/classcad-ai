@@ -1,55 +1,3 @@
-# Curve API Reference — `api.v1.curve.*`
-
-> 2D/3D curve creation within shape containers. Shapes live inside entity injection features and serve as input for extrusions, revolves, and 2D boolean operations.
-
-## Table of Contents
-
-### Shape Management
-- [shape](#shape) — Create a shape container for curves
-- [deleteShape](#deleteshape) — Delete shapes
-- [cleanShape](#cleanshape) — Clear curves from shapes (keep container)
-
-### Lines & Polylines
-- [line](#line) — Create line(s) in a shape
-- [polyline2d](#polyline2d) — Create polyline from points and bulges
-- [advancedPolyline](#advancedpolyline) — Create polyline from point-line definitions (PLD)
-
-### Arcs
-- [arcBy3Points](#arcby3points) — Create arc by start, end, and mid point
-- [arcByCenterRadAngle](#arcbycenterradangle) — Create arc by center, radius, and angle
-- [arcByCenter](#arcbycenter) — Create arc by start, end, and center point
-
-### Circles & Ellipses
-- [circle](#circle) — Create circle(s) in a shape
-- [ellipse](#ellipse) — Create ellipse(s)
-- [ellipticArc](#ellipticarc) — Create elliptic arc(s)
-
-### Splines
-- [bezierCurve](#beziercurve) — Create Bezier curve from control points
-- [interpolationCurve](#interpolationcurve) — Create interpolation curve through points
-
-### 2D Boolean Operations
-- [union2d](#union2d) — Union two shapes
-- [subtraction2d](#subtraction2d) — Subtract tool shape from target
-- [intersection2d](#intersection2d) — Intersect two shapes
-
-### Transforms
-- [translateShape](#translateshape) — Translate a shape by vector
-- [rotateShape](#rotateshape) — Rotate a shape by rotation vector
-- [transformShape](#transformshape) — Transform shape with 4×4 matrix
-- [scaleShape](#scaleshape) — Scale a shape by factor
-
----
-
-> **AGENT HINTS**:
-> - **Shapes** are containers for curves. Create a shape first, then add curves to it.
-> - **`advancedPolyline`** is the most flexible tool: supports absolute/relative coords, angles, lengths, fillets (`r`), and chamfers (`c`).
-> - Bulge in `polyline2d`: `tan(a/4)` where `a` is the included angle. Semicircle = 1, straight = 0.
-> - All curve coordinates are in the **part's local coordinate system**.
->
-> **AGENT NOTE (trained 2026-03-19):** Extrusion takes EIF id, NOT shape id (shape id gives "wrong id type" error).
-
----
 <a name="arcBy3Points"></a>
 
 ## arcBy3Points(param)
@@ -80,8 +28,6 @@ Creates one or multiple arcs defined by start-, end- and mid point.
 ```js
 api.v1.curve.arcBy3Points({ id: shape, midPos: [0, 0, 0], startPos: [10, 0, 0], endPos: [0, 10, 0] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** midPos controls curvature — closer to chord = shallower arc.
 
 <a name="arcByCenterRadAngle"></a>
 
@@ -117,8 +63,6 @@ Creates one or multiple arcs defined by center, radius and angle
 api.v1.curve.arcByCenterRadAngle({ id: shape, centerPos: [0, 0, 0], startAngle: 0, endAngle: 1.57, radius: 5 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Angles in radians. xAxis defines the 0-angle direction.
-
 <a name="arcByCenter"></a>
 
 ## arcByCenter(param)
@@ -150,8 +94,6 @@ Creates one or multiple arcs defined by start-, end- and center point.
 ```js
 api.v1.curve.arcByCenter({ id: shape, centerPos: [0, 0, 0], startPos: [10, 0, 0], endPos: [0, 10, 0] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** isClockwise defaults TRUE; FALSE gives the longer (CCW) arc.
 
 <a name="bezierCurve"></a>
 
@@ -190,8 +132,6 @@ api.v1.curve.bezierCurve({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** n+1 points → degree n curve. Curve passes through first and last control points only (intermediate points influence shape but are not interpolated).
-
 <a name="ellipticArc"></a>
 
 ## ellipticArc(param)
@@ -227,8 +167,6 @@ Creates one or multiple elliptic arc curves
 api.v1.curve.ellipticArc({ id: shape, centerPos: [0, 0, 0], startAngle: 0, endAngle: 1.57, radius1: 5, radius2: 10 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** xAxis rotates major axis direction. radius1=major, radius2=minor.
-
 <a name="ellipse"></a>
 
 ## ellipse(param)
@@ -261,8 +199,6 @@ Creates one or multiple ellipse curves
 ```js
 api.v1.curve.ellipse({ id: shape, centerPos: [0, 0, 0], radius1: 5, radius2: 10 })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** xAxis rotates major axis direction. radius1=major, radius2=minor.
 
 <a name="interpolationCurve"></a>
 
@@ -300,8 +236,6 @@ api.v1.curve.interpolationCurve({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Passes THROUGH all given points (unlike bezierCurve which only passes through first/last).
-
 <a name="line"></a>
 
 ## line(param)
@@ -331,8 +265,6 @@ Creates one or multiple lines in a shape container
 ```js
 api.v1.curve.line({ id: shape, startPos: [0, 0, 0], endPos: [10, 10, 0] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Supports batch creation (array of params).
 
 <a name="polyline2d"></a>
 
@@ -379,8 +311,6 @@ api.v1.curve.polyline2d({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** `points` MUST be `Array<point>` format: `[[x,y,z], [x,y,z], ...]`. A flat array `[x1,y1,x2,y2,...]` will fail with "wrong type" error. Close param is `close` (not `closed`). All points must be coplanar.
-
 <a name="deleteShape"></a>
 
 ## deleteShape(param)
@@ -408,8 +338,6 @@ Deletes shapes
 ```js
 api.v1.curve.deleteShape({ ids: [52, 25, 68] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Removes shape + all its curves. Compare with `cleanShape` which removes only curves but keeps the container reusable.
 
 <a name="shape"></a>
 
@@ -440,8 +368,6 @@ Creates a shape in a container
 api.v1.curve.shape({ id: entityInjectionFeature })
 api.v1.curve.shape({ id: entityInjectionFeature, name: 'SpecialShape' })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns a shape id. Multiple shapes in one EIF get auto-numbered names (Shape, Shape0, Shape1...).
 
 <a name="circle"></a>
 
@@ -474,8 +400,6 @@ Creates one or multiple circles in a shape container
 api.v1.curve.circle({ id: shape, centerPos: [0, 0, 0], radius: 5 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** `normal` param controls plane: `[0,1,0]`→XZ plane, `[1,0,0]`→YZ plane.
-
 <a name="translateShape"></a>
 
 ## translateShape(param)
@@ -505,8 +429,6 @@ where the provided shape belongs to.
 ```js
 api.v1.curve.translateShape({ id: shape, translation: [25, 0, 0] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Works in part coordinates. Successive translations compound.
 
 <a name="rotateShape"></a>
 
@@ -538,8 +460,6 @@ where the provided shape belongs to.
 api.v1.curve.rotateShape({ id: shape, rotation: [3.14, 0, 0] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Works in part coordinates. Successive rotations compound.
-
 <a name="union2d"></a>
 
 ## union2d(param)
@@ -569,8 +489,6 @@ Creates an union between two shapes
 ```js
 api.v1.curve.union2d({ target: shape1, tool: shape2 })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Target/tool pattern. Tool is consumed unless `keepShape=true`.
 
 <a name="subtraction2d"></a>
 
@@ -602,8 +520,6 @@ Creates an subtraction between two shapes
 api.v1.curve.subtraction2d({ target: shape1, tool: shape2, keepShape: TRUE })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Target/tool pattern. Tool is consumed unless `keepShape=true`.
-
 <a name="intersection2d"></a>
 
 ## intersection2d(param)
@@ -633,8 +549,6 @@ Creates an intersection between two shapes
 ```js
 api.v1.curve.intersection2d({ target: shape1, tool: shape2, keepShape: TRUE })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Target/tool pattern. Tool is consumed unless `keepShape=true`.
 
 <a name="advancedPolyline"></a>
 
@@ -839,8 +753,6 @@ api.v1.curve.transformShape({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** 4×4 matrix: scaling part is ignored, must be orthogonal, no left-handed matrices.
-
 <a name="scaleShape"></a>
 
 ## scaleShape(param)
@@ -870,8 +782,6 @@ Scales the given shape with a factor
 api.v1.curve.scaleShape({ id: shape, factor: 3.5 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Uniform scale by factor.
-
 <a name="cleanShape"></a>
 
 ## cleanShape(param)
@@ -900,5 +810,3 @@ but not the shape itself. It can be used again for appending curves.
 ```js
 api.v1.curve.cleanShape({ ids: [52, 25, 68] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Removes only curves from shapes, containers stay reusable. Compare with `deleteShape` which removes the shape entirely.

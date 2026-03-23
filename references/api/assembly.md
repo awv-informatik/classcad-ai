@@ -1,112 +1,3 @@
-# Assembly API Reference — `api.v1.assembly.*`
-
-> Assembly building: templates, instances, constraints (fastened, revolute, cylindrical, parallel, planar, slider, spherical, gear, group), patterns (linear, circular), and assembly management.
-
-## Table of Contents
-
-### Templates & Instances
-- [partTemplate](#parttemplate) — Create a new part template
-- [assemblyTemplate](#assemblytemplate) — Create a new assembly template
-- [instance](#instance) — Create instances of products
-- [deleteInstance](#deleteinstance) — Delete instances
-- [getPartTemplate](#getparttemplate) — Get part template(s) by name
-- [getAssemblyTemplate](#getassemblytemplate) — Get assembly template(s) by name
-- [getInstance](#getinstance) — Get instance(s) by owner and name
-- [convertToTemplate](#converttotemplate) — Convert instance to template
-
-### Assembly Lifecycle
-- [create](#create) — Create a root assembly
-- [loadProduct](#loadproduct) — Load a product into the assembly
-- [exportNode](#exportnode) — Export an assembly node
-- [setCurrentInstance](#setcurrentinstance) — Set the active instance
-- [setCurrentProduct](#setcurrentproduct) — Set the active product
-- [setIdent](#setident) — Set custom identifier
-- [from](#from) — Create assembly from existing data
-- [createUncommitedObject](#createuncommitedobject) — Create uncommitted object
-- [deleteTemplate](#deletetemplate) — Delete a template
-- [getWorkGeometry](#getworkgeometry) — Get work geometry from assembly
-
-### Fastened Constraints
-- [fastened](#fastened) — Create fastened constraint (fully locked)
-- [updateFastened](#updatefastened) — Update fastened constraint
-- [getFastened](#getfastened) — Get fastened constraint info
-- [fastenedOrigin](#fastenedorigin) — Create fastened-to-origin constraint
-- [updateFastenedOrigin](#updatefastenedorigin) — Update fastened origin constraint
-- [getFastenedOrigin](#getfastenedorigin) — Get fastened origin constraint info
-
-### Revolute Constraints
-- [revolute](#revolute) — Create revolute constraint (rotation around Z)
-- [updateRevolute](#updaterevolute) — Update revolute constraint
-- [getRevolute](#getrevolute) — Get revolute constraint info
-
-### Cylindrical Constraints
-- [cylindrical](#cylindrical) — Create cylindrical constraint (rotation + slide along Z)
-- [updateCylindrical](#updatecylindrical) — Update cylindrical constraint
-- [getCylindrical](#getcylindrical) — Get cylindrical constraint info
-
-### Parallel Constraints
-- [parallel](#parallel) — Create parallel constraint (Z-axes aligned)
-- [updateParallel](#updateparallel) — Update parallel constraint
-- [getParallel](#getparallel) — Get parallel constraint info
-
-### Planar Constraints
-- [planar](#planar) — Create planar constraint
-- [updatePlanar](#updateplanar) — Update planar constraint
-- [getPlanar](#getplanar) — Get planar constraint info
-
-### Slider Constraints
-- [slider](#slider) — Create slider constraint (slide along Z)
-- [updateSlider](#updateslider) — Update slider constraint
-- [getSlider](#getslider) — Get slider constraint info
-
-### Spherical Constraints
-- [spherical](#spherical) — Create spherical constraint
-- [updateSpherical](#updatespherical) — Update spherical constraint
-- [getSpherical](#getspherical) — Get spherical constraint info
-
-### Gear Constraints
-- [gear](#gear) — Create gear constraint
-- [updateGear](#updategear) — Update gear constraint
-- [getGear](#getgear) — Get gear constraint info
-
-### Group Constraints
-- [group](#group) — Create group constraint
-- [updateGroup](#updategroup) — Update group constraint
-- [getGroup](#getgroup) — Get group constraint info
-
-### Patterns
-- [linearPattern](#linearpattern) — Create linear pattern constraint
-- [updateLinearPattern](#updatelinearpattern) — Update linear pattern
-- [getLinearPattern](#getlinearpattern) — Get linear pattern info
-- [circularPattern](#circularpattern) — Create circular pattern constraint
-- [updateCircularPattern](#updatecircularpattern) — Update circular pattern
-- [getCircularPattern](#getcircularpattern) — Get circular pattern info
-
-### Constraint Management
-- [update3DConstraintValue](#update3dconstraintvalue) — Update a constraint driven value
-- [deleteConstraint](#deleteconstraint) — Delete a constraint
-
-### Transform & Motion
-- [transformInstance](#transforminstance) — Transform an instance (relative)
-- [transformInstanceTo](#transforminstanceto) — Transform an instance (absolute)
-- [startMovingUnderConstraints](#startmovingunderconstraints) — Begin constrained drag
-- [moveUnderConstraints](#moveunderconstraints) — Move during constrained drag
-- [finishMovingUnderConstraints](#finishmovingunderconstraints) — End constrained drag
-
-### Mass Properties
-- [calculateMassProperties](#calculatemassproperties) — Calculate mass properties
-
----
-
-> **AGENT HINTS**:
-> - **Mate objects**: Most assembly constraints use `mate1`/`mate2` objects with `{ path, csys, flip?, reorient? }`.
-> - `path`: array of instance IDs forming the path in the assembly tree.
-> - `csys`: a work coordinate system ID on the part.
-> - `flip`: `"X"|"-X"|"Y"|"-Y"|"Z"|"-Z"` — default `"Z"`.
-> - `reorient`: `"0"|"90"|"180"|"270"` — default `"0"`.
-> - **Transformations**: `instance()` accepts either `[origin, xDir, yDir]` or a 4×4 matrix. Set `isLocal: true` for transforms relative to the owner.
-
----
 <a name="partTemplate"></a>
 
 ## partTemplate([param])
@@ -136,8 +27,6 @@ This part can be used for assembly building.
 api.v1.assembly.partTemplate()
 api.v1.assembly.partTemplate({ name: 'Part_152' })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric id. Default name is "Part". Requires assembly.create() first — without it returns null + "Assembly building is not initialized!" Can create multiple part templates per session. IDs are unique, incrementing (gaps due to internal objects).
 
 <a name="instance"></a>
 
@@ -195,8 +84,6 @@ api.v1.assembly.instance({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns single numeric id (e.g. 112). Batch mode (array of params) creates all instances but result is only the FIRST id, not an array. Both transformation formats work: `[[origin],[xDir],[yDir]]` (3-point) and 4x4 matrix `[[r00,r01,r02,tx],[r10,r11,r12,ty],[r20,r21,r22,tz],[0,0,0,1]]`. `isLocal: true` is critical for sub-assemblies — makes transformation relative to owner's coordinate system. Works with ownerId = root assembly, assembly template, or instance.
-
 <a name="create"></a>
 
 ## create([param])
@@ -225,8 +112,6 @@ Creates a new root assembly. This is the top level assembly.
 ```js
 api.v1.assembly.create()
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric id (e.g. 12). Only ONE root assembly allowed per session — calling create() a second time returns null with error "There is already a root assembly or part which must be removed first." Must be called before partTemplate()/assemblyTemplate() or those will fail with "Assembly building is not initialized!"
 
 <a name="getPartTemplate"></a>
 
@@ -258,13 +143,9 @@ api.v1.assembly.getPartTemplate()
 api.v1.assembly.getPartTemplate({ name: 'Part_125' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** With `{name:'X'}` returns single id or null + error if not found. With no params `[]` returns array of ALL part template ids. Non-existent name → null + "Part with name = "X" could not be found".
-
 <a name="linearPattern"></a>
 
 ## linearPattern(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `{constraint: id, instances: [id, ...]}`. `count=3` creates 3 new instances (4 total incl. original). Default dir2 is `{count:1, distance:100}` (unused). dir1 follows mate1.csys flip axis (Z default). Flip X/Y/Z changes pattern direction. Negative distances work. 2D grid requires mate2 for dir2 to take effect — without mate2, dir2 is ignored. Batch array param works but returns only the last result.
 
 Creates a new linear pattern constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -313,8 +194,6 @@ api.v1.assembly.linearPattern({ id: assembly, instanceId: instance4, mate1: { pa
 
 ## updateLinearPattern(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Takes `{id: constraintId, ...}` — id is the constraint id from linearPattern result, NOT the assembly id. Can update dir1/dir2 count+distance and mate1 (including flip). Returns `{constraint, instances}` with updated instance list.
-
 Updates an existing linear pattern constraint.
 If optional parameters are not set, the constraint will keep the existing values.
 
@@ -361,8 +240,6 @@ api.v1.assembly.updateLinearPattern({ id: pattern, instanceId: instance, dir1: {
 <a name="getLinearPattern"></a>
 
 ## getLinearPattern(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `{id, instanceId, name, mate1:{csys, flip, path, reorient}, dir1:{count, distance}, dir2:{count, distance}}`. Query by assembly/instance id + constraint name. Default flip is "Z", default reorient is "0".
 
 Returns the linear pattern constraint of given reference with specified name.
 
@@ -467,8 +344,6 @@ api.v1.assembly.getAssemblyTemplate()
 api.v1.assembly.getAssemblyTemplate({ name: 'Assembly_02' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Same pattern as getPartTemplate. With `{name:'X'}` returns single id or null. With no params returns array of all assembly template ids.
-
 <a name="getInstance"></a>
 
 ## getInstance(param)
@@ -505,8 +380,6 @@ api.v1.assembly.getInstance([
 api.v1.assembly.getInstance({ ownerId: assemblyTemplate }) // return value = [10, 15, 20]
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** By name → returns single numeric id. No name → returns array of ALL child instance ids. Non-existent name → returns empty array `[]` (no error, no messages).
-
 <a name="deleteInstance"></a>
 
 ## deleteInstance(param)
@@ -535,16 +408,12 @@ Deletes instances from root assembly, other instances or assembly templates.
 api.v1.assembly.deleteInstance({ ids: [instance1, instance2, instance3] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Takes `{ ids: [...] }` — array of ids. Multiple ids in one call works. Returns null. Template is NOT deleted, only the instances.
-
 <a name="fastened"></a>
 
 ## fastened(param)
 
 Creates a new fastened constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
-
-> **AGENT NOTE (trained 2026-03-19):** Returns constraint ID (integer). Creates `CC_FastenedConstraint` under ConstraintSet. `mate.csys` requires a `CC_WorkCSys` ID created via `v1.part.workCSys` — `getWorkGeometry` does NOT work on part templates. `mate.path` is `[instanceId]` for single-level assemblies. Offsets map directly to instance coordinateSystem translation (e.g. xOffset=80, zOffset=50 → origin at [80,0,50]). Batch creation works: pass array of constraint objects. `useCurrentTransform: true` stored offsets as [0,0,0] even with pre-positioned instance — may capture relative transform between mates, not absolute position. **Rotation params** (zRotation with `'45deg'` string or radians number) stored as 0 in constraint members — needs further investigation.
 
 **Kind**: v1.assembly function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -584,7 +453,12 @@ If optional parameters are not set, the default values will be used, see (defaul
 
 ```js
 api.v1.assembly.fastened({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance3], csys: wcs } })
-api.v1.assembly.fastened({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance3], csys: wcs }, xRotation: '45deg' })
+api.v1.assembly.fastened({
+  id: assembly,
+  mate1: { path: [instance], csys: wcs },
+  mate2: { path: [instance3], csys: wcs },
+  xRotation: '45deg',
+})
 ```
 
 <a name="updateFastened"></a>
@@ -593,8 +467,6 @@ api.v1.assembly.fastened({ id: assembly, mate1: { path: [instance], csys: wcs },
 
 Updates an existing fastened constraint.
 If optional parameters are not set, the constraint will keep the existing values.
-
-> **AGENT NOTE (trained 2026-03-19):** Takes the constraint ID (returned from `fastened`), NOT assembly ID + name. Partial updates work: can change just offsets without re-specifying mates. Rotation update with `'90deg'` string stored zRotation as 0 — same rotation issue as creation.
 
 **Kind**: v1.assembly function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -642,8 +514,6 @@ api.v1.assembly.updateFastened({ id: constraint, xRotation: '45deg', yRotation: 
 ## getFastened(param)
 
 Returns the fastened constraint of given reference with specified name.
-
-> **AGENT NOTE (trained 2026-03-19):** Takes assembly ID + constraint name. Returns full constraint data including offsets, rotations, and mate references. Non-existent name returns `null` with level 51 ERROR: "There couldn't be found a constraint with name X".
 
 **Kind**: v1.assembly function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -716,8 +586,6 @@ api.v1.assembly.getFastened({ id: assembly, name: 'Fastened3' })
 
 Returns the fastened origin constraint of given reference with specified name.
 
-> **AGENT NOTE (trained 2026-03-19):** Same pattern as `getFastened` but returns `CC_FastenedOriginConstraint` data. Takes assembly ID + name.
-
 **Kind**: v1.assembly function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -778,8 +646,6 @@ api.v1.assembly.getFastenedOrigin({ id: assembly, name: 'FO_5' })
 Creates a new fastened origin constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
-> **AGENT NOTE (trained 2026-03-19):** Creates `CC_FastenedOriginConstraint` (distinct class from `CC_FastenedConstraint`). Only takes `mate1` — anchors instance to assembly global origin. Offsets and flip/reorient accepted same as `fastened`. `useCurrentTransform` stored offsets as [0,0,0] despite pre-positioned instance.
-
 **Kind**: v1.assembly function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -822,8 +688,6 @@ api.v1.assembly.fastenedOrigin({ id: assembly, mate1: { path: [instance], csys: 
 Updates an existing fastened origin constraint.
 If optional parameters are not set, the constraint will keep the existing values.
 
-> **AGENT NOTE (trained 2026-03-19):** Same pattern as `updateFastened` — takes constraint ID, supports partial updates of offsets/rotations.
-
 **Kind**: v1.assembly function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -863,8 +727,6 @@ api.v1.assembly.updateFastenedOrigin({ id: constraint, xOffset: 150, zOffset: 58
 <a name="revolute"></a>
 
 ## revolute(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns a numeric constraint ID. 1-DOF rotation around the main axis (default Z). `zOffset` shifts mate2 along the rotation axis. `zRotationLimits` accepts degree expressions like `'-90deg'`, `'270deg'` — stored internally as radians. `flip` changes which WCS axis becomes the rotation axis (e.g. `flip: 'X'` rotates around X). Batch array params return a single ID (appears to be the last), NOT an array — do NOT rely on batch for multiple constraints, create them one at a time.
 
 Creates a new revolute constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -910,8 +772,6 @@ api.v1.assembly.revolute({ id: assembly, mate1: { path: [instance], csys: wcs },
 
 ## updateRevolute(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Supports partial updates — can change just `zOffset` or `zRotationLimits` without re-specifying mates. Degree expressions work in limits. Returns the same constraint ID on success.
-
 Updates a revolute constraint.
 If optional parameters are not set, the constraint will keep the existing values.
 
@@ -956,8 +816,6 @@ api.v1.assembly.updateRevolute({ id: constraint, zRotationLimits: { min: '-180de
 <a name="getRevolute"></a>
 
 ## getRevolute(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Takes `{ id: assemblyId, name: constraintName }`. Returns full constraint state including mate paths, csys, flip, reorient, zOffset, and zRotationLimits (in radians). Returns `null` with ERROR message if name not found.
 
 Returns the revolute constraint of given reference with specified name.
 
@@ -1026,8 +884,6 @@ api.v1.assembly.getRevolute({ id: assembly, name: 'Rev_12' })
 
 ## circularPattern(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `{constraint: id, instances: [id, ...]}`. `instanceCount=4` creates 4 new instances (5 total incl. original). Angle accepts both "90deg" string and raw radians — always stored/returned as radians. Negative angles reverse rotation direction. `offset` = Z-axis displacement per copy (helical pattern). Rotation axis = mate1.csys flip axis (Z by default).
-
 Creates a new circular pattern constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -1060,15 +916,25 @@ If optional parameters are not set, the default values will be used, see (defaul
 **Example**
 
 ```js
-api.v1.assembly.circularPattern({ id: assembly, instanceId: instance, mate1: { path: [instance], csys: wcs }, instanceCount: 4, angle: 1.57 })
-api.v1.assembly.circularPattern({ id: assembly, instanceId: instance, mate1: { path: [instance], csys: wcs }, instanceCount: 4, angle: '90deg' })
+api.v1.assembly.circularPattern({
+  id: assembly,
+  instanceId: instance,
+  mate1: { path: [instance], csys: wcs },
+  instanceCount: 4,
+  angle: 1.57,
+})
+api.v1.assembly.circularPattern({
+  id: assembly,
+  instanceId: instance,
+  mate1: { path: [instance], csys: wcs },
+  instanceCount: 4,
+  angle: '90deg',
+})
 ```
 
 <a name="updateCircularPattern"></a>
 
 ## updateCircularPattern(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Takes `{id: constraintId, ...}`. Can update instanceCount, angle, offset independently. Changing instanceCount grows/shrinks instances array. Returns `{constraint, instances}`.
 
 Updates an existing circular pattern constraint.
 If optional parameters are not set, the feature will keep the existing values.
@@ -1108,8 +974,6 @@ api.v1.assembly.updateCircularPattern({ id: constraint, instanceCount: 3, angle:
 <a name="cylindrical"></a>
 
 ## cylindrical(param)
-
-> **AGENT NOTE (trained 2026-03-19):** 2-DOF constraint: rotation + translation along Z axis. Has both `zOffsetLimits` (translation range) and `zRotationLimits` (rotation range) — can be set simultaneously. Degree expressions work. Same mate structure as revolute.
 
 Creates a new cylindrical constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -1157,8 +1021,6 @@ api.v1.assembly.cylindrical({ id: assembly, mate1: { path: [instance], csys: wcs
 
 ## updateCylindrical(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Supports partial updates. Passing `null` for limits clears them (restores unlimited motion). Can set both `zOffsetLimits` and `zRotationLimits` in one call.
-
 Updates an existing cylindrical constraint.
 If optional parameters are not set, the constraint will keep the existing values.
 
@@ -1204,8 +1066,6 @@ api.v1.assembly.updateCylindrical({ id: constraint, zRotationLimits: { min: 0, m
 <a name="parallel"></a>
 
 ## parallel(param)
-
-> **AGENT NOTE (trained 2026-03-19):** 5-DOF constraint: aligns Z axes, leaves 3 translations + Z rotation free. Has `xOffsetLimits`, `yOffsetLimits`, `zOffsetLimits`, and `zRotationLimits`. Set `zOffsetLimits: { min: 0, max: 0 }` to lock Z translation for planar sliding. All limits support partial updates.
 
 Creates a new parallel constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -1259,8 +1119,6 @@ api.v1.assembly.parallel({ id: assembly, mate1: { path: [instance], csys: wcs },
 
 ## updateParallel(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Supports partial updates — can add/change individual limit sets (x/y/z offset, zRotation) without touching others. Degree expressions work in zRotationLimits.
-
 Updates an existing parallel constraint.
 If optional parameters are not set, the constraint will keep the existing values.
 
@@ -1313,8 +1171,6 @@ api.v1.assembly.updateParallel({ id: constraint, zRotationLimits: { min: 0, max:
 
 ## planar(param)
 
-> **AGENT NOTE (trained 2026-03-19):** 3-DOF constraint: slide on XY plane + rotate around Z normal. `zOffset` fixes perpendicular distance (default 0). `xOffsetLimits`/`yOffsetLimits` constrain sliding range (default null = unconstrained). `zRotationLimits` accepts "45deg" string expressions — stored internally as radians. flip Z/-Z on mate2 flips normal direction (face-to-face vs face-away). reorient "90" rotates mate frame. Batch array param returns single id (only first created — needs investigation).
-
 Creates a new planar constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -1364,8 +1220,6 @@ api.v1.assembly.planar({ id: assembly, mate1: { path: [instance], csys: wcs }, m
 <a name="updatePlanar"></a>
 
 ## updatePlanar(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Works with partial params — can update just limits without mates. Accepts "90deg" string expressions in zRotationLimits. Returns the constraint id. Takes constraint id (not assembly+name).
 
 Updates an existing planar constraint.
 If optional parameters are not set, the constraint will keep the existing values.
@@ -1418,8 +1272,6 @@ api.v1.assembly.updatePlanar({ id: constraint, zRotationLimits: { min: '-90deg',
 
 ## slider(param)
 
-> **AGENT NOTE (trained 2026-03-19):** 1-DOF constraint: translate along Z only. `xOffset`/`yOffset` are fixed lateral offsets (not free DOFs, default 0). `zOffsetLimits` constrains slide range (default null = unconstrained). Axes aligned via flip/reorient on mates.
-
 Creates a new slider constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -1465,8 +1317,6 @@ api.v1.assembly.slider({ id: assembly, mate1: { path: [instance], csys: wcs }, m
 
 ## updateSlider(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Works with partial params — can update offsets and limits independently without re-specifying mates. Takes constraint id, returns same id.
-
 Updates an existing slider constraint.
 If optional parameters are not set, the constraint will keep the existing values.
 
@@ -1511,8 +1361,6 @@ api.v1.assembly.updateSlider({ id: constraint, mate1: { path: [instance], csys: 
 <a name="getCircularPattern"></a>
 
 ## getCircularPattern(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `{id, instanceId, name, mate1:{csys, flip, path, reorient}, instanceCount, angle, offset}`. Angle in radians. Offset defaults to 0. Query by assembly/instance id + constraint name.
 
 Returns the circular pattern constraint of given reference with specified name.
 
@@ -1568,8 +1416,6 @@ api.v1.assembly.getCircularPattern({ id: 111, name: 'CP1' })
 <a name="getSlider"></a>
 
 ## getSlider(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `{id, name, mate1, mate2, xOffset, yOffset, zOffsetLimits}`. Unconstrained zOffsetLimits shows as `{min: null, max: null}`. Takes `{id: assemblyId, name}`.
 
 Returns the slider constraint of given reference with specified name.
 
@@ -1639,8 +1485,6 @@ api.v1.assembly.getSlider({ id: assembly, name: 'Slider_2' })
 <a name="getParallel"></a>
 
 ## getParallel(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Same pattern as other get* constraint APIs — takes `{ id, name }`, returns full state with all 4 limit sets in radians/mm. Returns `null` if not found.
 
 Returns the parallel constraint of given reference with specified name.
 
@@ -1725,8 +1569,6 @@ api.v1.assembly.getParallel({ id: assembly, name: 'Parallel_12' })
 
 ## getPlanar(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `{id, name, mate1, mate2, zOffset, xOffsetLimits, yOffsetLimits, zRotationLimits}`. Unconstrained limits show as `{min: null, max: null}`. Rotation limits returned in radians. Returns `null` with error message if name not found.
-
 Returns the planar constraint of given reference with specified name.
 
 **Kind**: v1.assembly function  
@@ -1806,8 +1648,6 @@ api.v1.assembly.getPlanar({ id: assembly, name: 'Planar' })
 
 ## getCylindrical(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Same pattern as getRevolute — takes `{ id, name }`, returns full state with mate paths, limits in radians. Returns `null` if not found.
-
 Returns the cylindrical constraint of given reference with specified name.
 
 **Kind**: v1.assembly function  
@@ -1879,8 +1719,6 @@ api.v1.assembly.getCylindrical({ id: instance, name: 'Cylindrical' })
 
 ## update3DConstraintValue(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null result (VOID). Works on any constraint with offset/rotation values (tested on planar). Supports `X_OFFSET`, `Y_OFFSET`, `Z_OFFSET`, `Z_ROTATION`. Z_ROTATION accepts "45deg" string (stored as radians with expression). Batch update via array param — pass multiple `{id, name, value}` objects. Result returns full structure tree (verbose).
-
 Updates multiple limited values of constraints
 
 **Kind**: v1.assembly function  
@@ -1938,13 +1776,9 @@ to create instances from.
 api.v1.assembly.convertToTemplate()
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Always returns null (VOID). Converts the root assembly into an assembly template and creates a new empty root. After conversion, the original root's id appears in getAssemblyTemplate() results. Part templates survive the conversion. The `name` param sets the template name (default "Subassembly").
-
 <a name="exportNode"></a>
 
 ## exportNode(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Works on instances, assembly roots, and templates. Returns `{success: 1, content: string}` as data string when no file/url specified. OFB content is binary (use base64 encoding for safe transport). Supports `compression: 'deflate'` + `encoding: 'base64'` combo — ~6x size reduction for OFB. STP export also works. Template export gives just the part, not instances.
 
 Exports a node from the assembly tree or a template from containers.
 A node can be any instance (part or assembly) in the tree.
@@ -1987,8 +1821,6 @@ api.v1.assembly.exportNode({ id: instance, format: 'STP' })
 
 ## finishMovingUnderConstraints(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Final step of 3-step MUC workflow. Only needs the assembly id. Returns VOID. Must be called after startMovingUnderConstraints + moveUnderConstraints sequence.
-
 Finishes moving the constrained objects.
 
 **Kind**: v1.assembly function  
@@ -2016,8 +1848,6 @@ api.v1.assembly.finishMovingUnderConstraints({ id: assembly })
 <a name="moveUnderConstraints"></a>
 
 ## moveUnderConstraints(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Middle step of the 3-step MUC workflow (start→move→finish). Pass `offset` for translation or `rotation` (basis matrix) for rotation. Can be called multiple times between start/finish. Returns VOID (null). Offsets are absolute from the start position, not cumulative.
 
 Attempts to move constrained objects.
 
@@ -2052,8 +1882,6 @@ api.v1.assembly.moveUnderConstraints({ id: assembly, offset: [20, 150, 30] })
 <a name="startMovingUnderConstraints"></a>
 
 ## startMovingUnderConstraints(param)
-
-> **AGENT NOTE (trained 2026-03-19):** First step of 3-step MUC workflow. `mucType` options: `TRANSLATION_1D`, `TRANSLATION_2D`, `ROTATION`. `pivotInfo` is the fixed point for rotation. `instanceIds` specifies which instances to move. Returns VOID. Must be followed by moveUnderConstraints calls and finishMovingUnderConstraints.
 
 Prepares to move constrained objects.
 
@@ -2126,8 +1954,6 @@ api.v1.assembly.transformInstance({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Relative 4x4 matrix transform — transforms accumulate (two successive calls compound). `isLocal: true` transforms in owner's local coordinate space. Returns null. WARNING: transforming an instance affects ALL instances sharing the same template.
-
 <a name="transformInstanceTo"></a>
 
 ## transformInstanceTo(param)
@@ -2165,8 +1991,6 @@ api.v1.assembly.transformInstanceTo({
 })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Absolute placement via `[[origin],[xDir],[yDir]]` — replaces current transform entirely (not additive, unlike transformInstance). Returns null.
-
 <a name="loadProduct"></a>
 
 ## loadProduct(param)
@@ -2203,8 +2027,6 @@ api.v1.assembly.loadProduct({ url: 'https://.../file.ofb', format: 'OFB' })
 api.v1.assembly.loadProduct({ data: 'abc123', format: 'OFB' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** `data` param MUST be a string. If using `common.save()` result, pass `result.content` (not the whole object). `common.save({format:'OFB'})` returns `{content: "...", success: 1}`. Supports OFB and STP formats. Returns `{id: ...}` on success.
-
 <a name="setCurrentInstance"></a>
 
 ## setCurrentInstance(param)
@@ -2234,13 +2056,9 @@ will also be set to the current instance's product template.
 api.v1.assembly.setCurrentInstance({ id: instance })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null (not previous instance). Sets which instance is "active" — the current product will auto-switch to that instance's template. Can pass root assembly id to return to top level.
-
 <a name="setIdent"></a>
 
 ## setIdent(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns VOID. Works on instances, assemblies, and part templates. Ident must be unique — but duplicates don't throw errors (silently succeeds, may overwrite). Can change an existing ident by calling again with new value. Useful for stable string-based lookups instead of numeric ids.
 
 Sets a string identifier for an existing object
 
@@ -2270,8 +2088,6 @@ api.v1.assembly.setIdent({ id: instance, ident: 'ident_526' })
 <a name="gear"></a>
 
 ## gear(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric id. Links two revolute/cylindrical constraints via Z_ROTATION coupling. `ratio=2` means constr2 rotates 2× as fast as constr1. `offset` stored in radians; accepts "60deg" string. Negative ratio reverses rotation direction. Default ratio=1, offset=0.
 
 Creates a new gear relation.
 If optional parameters are not set, the default values will be used, see (default=xy).
@@ -2308,8 +2124,6 @@ api.v1.assembly.gear({ id: assembly, constr1Id: constraint1, constr2Id: constrai
 
 ## updateGear(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns the gear id (same as input). Partial update — can change just ratio or just offset without touching the other. Accepts "90deg" string for offset. All params optional except id.
-
 Updates an existing gear relation.
 If optional parameters are not set, the constraint will keep the existing values.
 
@@ -2345,8 +2159,6 @@ api.v1.assembly.updateGear({ id: gear, offset: '90deg' })
 
 ## group(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric id. Logical grouping of instances — does NOT add physical constraints between them. `instanceIds` is the full member list. Default name "Group".
-
 Creates a new group constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -2377,8 +2189,6 @@ api.v1.assembly.group({ id: assembly, instanceIds: [114, 125, 129] })
 <a name="updateGroup"></a>
 
 ## updateGroup(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns the group id. `instanceIds` replaces the entire member list (not additive). Can rename via `name` param. Partial update supported — just name, just instanceIds, or both.
 
 Updates an existing group constraint.
 If optional parameters are not set, the constraint will keep the existing values.
@@ -2436,8 +2246,6 @@ This assembly can be used for assembly building.
 api.v1.assembly.assemblyTemplate()
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric id. Default name "Assembly". Used for sub-assembly definitions (hierarchical assemblies). Requires assembly.create() first. Can create multiple assembly templates per session.
-
 <a name="from"></a>
 
 ## from(param)
@@ -2471,13 +2279,9 @@ api.v1.assembly.from({ url: 'https://.../file.ecxml', format: 'ECXML' })
 api.v1.assembly.from({ data: 'abc123', format: 'JSON' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns root assembly id even on partial errors. JSON format requires ClassCAD's specific assembly schema (not arbitrary JSON) — ad-hoc structures cause template/instance/constraint creation errors. ECXML is the most reliable format. Creates a complete assembly (including root), so do NOT call `assembly.create()` first.
-
 <a name="getSpherical"></a>
 
 ## getSpherical(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `{id, name, mate1, mate2, yRotationLimits: {max}}`. Only `max` (no min) — cone-of-freedom model. Unconstrained shows `{max: null}`. Rotation in radians. Takes `{id: assemblyId, name}`.
 
 Returns the spherical constraint of given reference with specified name.
 
@@ -2544,8 +2348,6 @@ api.v1.assembly.getSpherical({ id: assembly, name: 'Spherical2' })
 
 ## getGroup(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `{id, instanceIds, name}`. Lookup by assembly id + group name.
-
 Returns the group constraint of given reference with specified name.
 
 **Kind**: v1.assembly function  
@@ -2583,8 +2385,6 @@ api.v1.assembly.getGroup({ id: assembly, name: 'Group_Left' })
 
 ## createUncommitedObject(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Creates empty placeholder constraint objects. Valid types: CC_FastenedConstraint, CC_RevoluteConstraint, CC_CylindricalConstraint, CC_PlanarConstraint, CC_SliderConstraint, CC_SphericalConstraint, CC_ParallelConstraint. Returns the object id. Invalid type → null + ERROR with C++ trace. Use case: pre-creating constraint shells for later population via update APIs.
-
 Attention: This method should only be used, if the intention is very clear.
 Creates a new uncommited (empty) object in the given assembly.
 
@@ -2615,8 +2415,6 @@ api.v1.assembly.createUncommitedObject({ id: assembly, type: 'CC_FastenedConstra
 <a name="getGear"></a>
 
 ## getGear(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `{id, name, constr1Id, constr2Id, ratio, offset}`. Offset always returned as radians (even if set via "60deg"). Lookup by assembly id + gear name.
 
 Returns the gear relation of given reference with specified name.
 
@@ -2661,8 +2459,6 @@ api.v1.assembly.getGear({ id: assembly, name: 'Gear_Left' })
 
 ## spherical(param)
 
-> **AGENT NOTE (trained 2026-03-19):** 3-DOF ball joint constraint. `yRotationLimits.max` defines cone half-angle from Z axis (no min — symmetric cone). Accepts "45deg" string or raw radians (1.0472). Stored as radians. Default max=null (unconstrained = full sphere of rotation).
-
 Creates a new spherical constraint.
 If optional parameters are not set, the default values will be used, see (default=xy).
 
@@ -2699,14 +2495,17 @@ If optional parameters are not set, the default values will be used, see (defaul
 
 ```js
 api.v1.assembly.spherical({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance2], csys: wcs } })
-api.v1.assembly.spherical({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance2], csys: wcs }, yRotationLimits: { max: '45deg' } })
+api.v1.assembly.spherical({
+  id: assembly,
+  mate1: { path: [instance], csys: wcs },
+  mate2: { path: [instance2], csys: wcs },
+  yRotationLimits: { max: '45deg' },
+})
 ```
 
 <a name="updateSpherical"></a>
 
 ## updateSpherical(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Works with partial params — can update just yRotationLimits without mates. Takes constraint id, returns same id. Accepts "90deg" strings.
 
 Updates an existing spherical constraint.
 If optional parameters are not set, the constraint will keep the existing values.
@@ -2775,13 +2574,9 @@ Sets the current product. The current product is exported in the save commando.
 api.v1.assembly.setCurrentProduct({ id: assembly })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns the PREVIOUS current product id — useful for save/restore patterns. The current product is what gets exported by `common.save`.
-
 <a name="calculateMassProperties"></a>
 
 ## calculateMassProperties(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `{cog: {x,y,z}, volume: real}`. COG in world coordinates. Works on instances, assembly roots, and templates. Assembly-level = sum of all solids (volume additive, COG weighted average). Cylinder πr²h matches to ~0.01% (tessellation-dependent). No mass/density — volume only.
 
 Calculates the center of gravity (cog) and the volume of the given object.
 Depending on the input parameter the calculations were made
@@ -2839,13 +2634,9 @@ Deletes a part or assembly template.
 api.v1.assembly.deleteTemplate({ ids: [796, 852, 963] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Always returns null. Works on both part and assembly templates. **WARNING: Deletes templates even if they have active instances — no error, no protection, cascade-deletes silently.** Supports batch deletion via ids array.
-
 <a name="getWorkGeometry"></a>
 
 ## getWorkGeometry(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Looks up work geometry (WCS, work plane, work axis, work point) by name string. Works on **instances** (returns the id from the underlying template). Does NOT work on assembly root — returns null + ERROR code 1015. Returns null + error for non-existent names.
 
 Returns the id of the work geometry object with the given name from the given assembly or instance.
 Work geometry can be a workpoint, -axis, -plane or -coordinate system.
@@ -2876,8 +2667,6 @@ api.v1.assembly.getWorkGeometry({ id: instance, name: 'WorkCSys_Top' })
 <a name="deleteConstraint"></a>
 
 ## deleteConstraint(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns VOID. Works on constraints, gear relations, and group constraints — all are deletable via `ids` array. Batch delete supported. Instances remain after their constraints are deleted (they become unconstrained).
 
 Deletes constraints/ relations from assemblies.
 

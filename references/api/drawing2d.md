@@ -1,35 +1,3 @@
-# Drawing2D API Reference — `api.v1.drawing2d.*`
-
-> 2D technical drawing views, dimensions, and DXF/SVG export from 3D models.
-
-## Table of Contents
-
-### Views
-- [view](#view) — Create 2D views of a product (TOP, FRONT, RIGHT, etc.)
-- [centerView](#centerview) — Center views to origin based on boundary boxes
-- [placeView](#placeview) — Place views with relative offset
-- [getBoundaryBoxFromView](#getboundaryboxfromview) — Get min/max boundary box of views
-
-### Dimensions
-- [dimension](#dimension) — Create dimensions (LINEAR, ANGULAR, RADIAL, DIAMETER)
-- [deleteDimension](#deletedimension) — Delete dimensions
-- [updateDimensionPosition](#updatedimensionposition) — Update dimension text position
-
-### Export
-- [exportDXF](#exportdxf) — Export views to DXF format
-- [exportSVG](#exportsvg) — Export views to SVG format
-- [isDXFAvailable](#isdxfavailable) — Check if DXF export is available
-- [isSVGAvailable](#issvgavailable) — Check if SVG export is available
-
----
-
-> **AGENT HINTS**:
-> - **Workflow**: Create dimensions → create views → center views → place views → export DXF/SVG.
-> - Dimensions are tied to a `viewType` (e.g., `"FRONT"`, `"TOP"`) and appear only in matching views.
-> - View types: `TOP`, `FRONT`, `RIGHT`, `LEFT`, `BOTTOM`, `RIGHT_90`, `LEFT_90`, `BACK`, `ISO`.
-> - **`dimension` value placeholders**: `"<>"` is replaced by auto-calculated value. `"%%d"` → °, `"%%c"` → Ø.
-
----
 <a name="dimension"></a>
 
 ## dimension(param)
@@ -81,18 +49,13 @@ The dimensions will be visible after creating and exporting the views to svg or 
 **Example**
 
 ```js
-api.v1.drawing2d.dimension({ id: part, common: { type: 'LINEAR', textPos: [25, 20, 0] }, linear: { startPos: [0, 0, 0], endPos: [50, 0, 0], orientation: 'HORIZONTAL' }, viewType: 'FRONT' })
+api.v1.drawing2d.dimension({
+  id: part,
+  common: { type: 'LINEAR', textPos: [25, 20, 0] },
+  linear: { startPos: [0, 0, 0], endPos: [50, 0, 0], orientation: 'HORIZONTAL' },
+  viewType: 'FRONT',
+})
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns a numeric ID for a single dimension, or an array of IDs for batch (array param) input. All dimension types (LINEAR, RADIAL, DIAMETER, ANGULAR) confirmed working.
-
-> **AGENT NOTE (trained 2026-03-19):** VERTICAL orientation warns (level 41) if start/end points have no separation along the measured axis — "dimension could not be calculated or the dimension value is 0". The dimension is still created.
-
-> **AGENT NOTE (trained 2026-03-19):** DIAMETER type: if `textPos` projects to the same XY as `centerPos`, ClassCAD auto-offsets textPos by 0.001 in X (level-51 warning). Avoid placing textPos directly above/below center.
-
-> **AGENT NOTE (trained 2026-03-19):** `label` + `value: '<>'` works as documented — `<>` is replaced by the auto-calculated value in the exported view.
-
-> **AGENT NOTE (trained 2026-03-19):** Internal storage: dimensions become `CC_LinearDimension`, `CC_AngularDimension`, etc. under the part's `DimensionSet`. The `dxfView` member maps viewType to an integer (TOP=1, FRONT=2).
 
 <a name="centerView"></a>
 
@@ -123,8 +86,6 @@ This can be useful after creating the views and before placing them
 ```js
 api.v1.drawing2d.centerView({ id: part, types: ['TOP', 'ISO'] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (void). Centers views symmetrically around origin based on their bounding boxes. E.g., a TOP view with bbox [(−50, 0), (50, 60)] becomes [(−50, −30), (50, 30)] after centering. Call after `view()` and before `placeView()`.
 
 <a name="view"></a>
 
@@ -158,10 +119,6 @@ e.g. a dimension with viewType = "TOP", will appear in the "TOP" view
 ```js
 api.v1.drawing2d.view({ id: part, types: ['RIGHT', 'BOTTOM'], color: 125, layer: '5' })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns an array of IDs even for a single view type (e.g. `[97]`). View creation requires actual BRep geometry (solids) on the part — without solids, a level-51 error fires: "There must be at least one brep to perform a projection".
-
-> **AGENT NOTE (trained 2026-03-19):** Views are stored as `CC_View2D` objects under `CC_ViewSet`. Each view gets its own `DimensionSet` child containing copies of dimensions matching that viewType. Dimensions must be created BEFORE views for them to appear.
 
 <a name="exportDXF"></a>
 
@@ -198,8 +155,6 @@ Exports all the views from given product into dxf. By default the model is writt
 api.v1.drawing2d.exportDXF({ id: part, file: '/var/models/file.dxf' })
 api.v1.drawing2d.exportDXF({ id: part, compression: 'deflate', encoding: 'base64' })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** When DXF export is not available (isDXFAvailable=0), this returns `0` (not the documented `{success, content}` object) with message "Export DXF is not supported." Check `isDXFAvailable()` first.
 
 <a name="exportSVG"></a>
 
@@ -241,8 +196,6 @@ api.v1.drawing2d.exportSVG({ id: part, file: '/var/models/file.svg' })
 api.v1.drawing2d.exportSVG({ id: part, compression: 'deflate', encoding: 'base64' })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Same behavior as exportDXF when unavailable — returns `0` with "Export SVG is not supported." Check `isSVGAvailable()` first.
-
 <a name="getBoundaryBoxFromView"></a>
 
 ## getBoundaryBoxFromView(param)
@@ -271,8 +224,6 @@ This method returns min and max point for each given view.
 ```js
 api.v1.drawing2d.getBoundaryBoxFromView({ id: part, types: ['LEFT'] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns array of `{min, max}` objects. Only returns entries for views that actually exist — if you request 4 types but only 3 exist, you get 3 entries (no null/VOID placeholders). Bbox Z values are effectively 0 (2D plane).
 
 <a name="placeView"></a>
 
@@ -305,8 +256,6 @@ Places each view relatively to its current position in xy-plane
 api.v1.drawing2d.placeView({ id: part, placements: [{ type: 'TOP', offset: [0, 150, 0] }] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null (void). Offsets are RELATIVE to current position. If a requested view type doesn't exist, a level-51 warning fires ("View of type: X does not exist in ViewSet!") but doesn't fail the call.
-
 <a name="deleteDimension"></a>
 
 ## deleteDimension(param)
@@ -334,8 +283,6 @@ Deletes one or multiple dimensions of the 2d view
 ```js
 api.v1.drawing2d.deleteDimension({ ids: [58, 96] })
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (void). Successfully removes dimensions by ID. Views must be recreated after deletion for the change to be reflected in exports.
 
 <a name="updateDimensionPosition"></a>
 
@@ -367,8 +314,6 @@ Attention: The view needs to be recreated to have updated positions in the view
 api.v1.drawing2d.updateDimensionPosition({ id: dimension, pos: [50, 60, 0] })
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null (void). Updates the textPos of the dimension. As documented, views MUST be recreated (call `view()` again) for the updated position to appear in exports.
-
 <a name="isDXFAvailable"></a>
 
 ## isDXFAvailable()
@@ -392,8 +337,6 @@ Returns true if DXF functionality is available, false if not.
 api.v1.drawing2d.isDXFAvailable()
 ```
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `0` (falsy) when DXF is not available on the instance. This is a build/license-dependent feature — always check before attempting export.
-
 <a name="isSVGAvailable"></a>
 
 ## isSVGAvailable()
@@ -416,5 +359,3 @@ Returns true if SVG functionality is available, false if not.
 ```js
 api.v1.drawing2d.isSVGAvailable()
 ```
-
-> **AGENT NOTE (trained 2026-03-19):** Returns `0` (falsy) when SVG is not available. Same as isDXFAvailable — build/license-dependent.

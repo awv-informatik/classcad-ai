@@ -1,87 +1,6 @@
-# Sketch API Reference — `api.v1.sketch.*`
-
-> 2D constrained sketches: geometry creation, dimensional/geometric constraints, patterns, regions, and reference geometry.
-
-## Table of Contents
-
-### Sketch Lifecycle
-- [create](#create) — Create a new sketch on a part
-- [setWorkPlane](#setworkplane) — Set the work plane for a sketch
-- [setReferences](#setreferences) — Set plane, axis, and origin references
-- [deleteSketch](#deletesketch) — Delete sketches
-- [copyFrom](#copyfrom) — Copy geometry from one sketch to another
-- [loadFrom](#loadfrom) — Load sketch from OFB file
-
-### Geometry Creation
-- [point](#point) — Create point(s)
-- [line](#line) — Create line(s)
-- [circle](#circle) — Create circle(s)
-- [arcByCenter](#arcbycenter) — Create arc(s) by center, start, end
-- [arcBy3Points](#arcby3points) — Create arc(s) by 3 points
-- [rectangle](#rectangle) — Create a rectangle
-- [geometry](#geometry) — Create multiple geometry in one call
-
-### Geometry Modification
-- [updateGeometry](#updategeometry) — Update positions/sizes of existing geometry
-- [moveGeometry](#movegeometry) — Move geometry by translation vector
-- [copyGeometry](#copygeometry) — Copy geometry with offset
-- [deleteObject](#deleteobject) — Delete geometry, constraints, dimensions, etc.
-- [fillet](#fillet) — Create fillet between two lines
-- [undoFillet](#undofillet) — Remove a fillet
-
-### Constraints
-- [constraint](#constraint) — Create geometric constraint (COINCIDENT, PARALLEL, TANGENT, ...)
-- [generateAutoConstraints](#generateautoconstraints) — Auto-generate constraints
-
-### Dimensions
-- [dimension](#dimension) — Create dimensional constraint (RADIUS, OFFSET, ANGLE, ...)
-- [updateDimension](#updatedimension) — Update dimension value
-- [updateDimensionPosition](#updatedimensionposition) — Update dimension text position
-
-### Regions
-- [sketchRegion](#sketchregion) — Create a sketch region from geometry
-- [updateSketchRegion](#updatesketchregion) — Update a sketch region
-- [getSketchRegion](#getsketchregion) — Get sketch region by name
-
-### Patterns
-- [linearPattern](#linearpattern) — Create linear pattern from rigid set
-- [circularPattern](#circularpattern) — Create circular pattern from rigid set
-- [mirrorPattern](#mirrorpattern) — Create mirror pattern from rigid set
-
-### Reference Geometry
-- [referenceGeometry](#referencegeometry) — Create Use-geometry from B-rep edges/vertices
-- [changeReferenceGeometry](#changereferencegeometry) — Re-link Use-geometry to different B-rep
-- [unlinkReferenceGeometry](#unlinkreferencegeometry) — Unlink Use-geometry from reference
-
-### Rigid Sets
-- [rigidSet](#rigidset) — Create rigid set from geometry
-
-### Curve Operations
-- [splitAllCurves](#splitallcurves) — Split all curves at intersections
-- [splitCurves](#splitcurves) — Split curves at specific parameters
-- [splitCurvesMergeBack](#splitcurvesmergeback) — Merge split curves back
-- [trimCurves](#trimcurves) — Trim away curves
-
-### Queries
-- [getGeometry](#getgeometry) — Get all geometry from sketch/region/rigid set
-- [getPoints](#getpoints) — Get point IDs of a line/arc/circle
-- [getPositions](#getpositions) — Get positions of geometry elements
-
----
-
-> **AGENT HINTS**:
-> - **Constraint types**: COINCIDENT, COLINEAR, CONCENTRIC, EQUAL_LENGTH, EQUAL_RADIUS, FIXATION, HORIZONTAL, MIDPOINT, PARALLEL, PERPENDICULAR, SPLINE_FIT_POINT, SYMMETRY, TANGENT, VERTICAL.
-> - **Dimension types**: RADIUS, DIAMETER, OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE, ANGLE, ANGLEOX.
-> - **Auto-constraint flags** (`genFixation`, `genIncidence`, `genTangency`, `genVertAndHoriz`) default to `TRUE` — set to `FALSE` if you want manual control.
-> - **Sketch regions** define closed areas for extrusion/revolve. Create from geometry IDs that form a closed loop.
-> - **Rigid sets** group geometry for pattern operations (linear, circular, mirror).
-
----
 <a name="create"></a>
 
 ## create(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric sketch ID. Multiple sketches per part OK. planeId with a workPlane ID works directly. Creating on a face requires a valid face ID from `getGeometryIds` called with the **part** ID (not feature ID). `getGeometryIds({id: featureId, type:'FACE'})` returns null with error "wrong id type".
 
 Creates a new sketch and places it optionally on a face or work plane
 
@@ -117,8 +36,6 @@ api.v1.sketch.create({ id: part, planeId: workPlane, name: 'Sketch_Top' })
 
 ## setWorkPlane(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null, no messages on success. Can reassign a sketch to a different workPlane — silent operation.
-
 Sets workplane for the sketch
 
 **Kind**: v1.sketch function  
@@ -147,8 +64,6 @@ api.v1.sketch.setWorkPlane({ id: sketch, planeId: workPlane })
 <a name="constraint"></a>
 
 ## constraint(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric constraint ID (single) or array of IDs (batch). Batch: pass array of objects as param. All 14 constraint types tested and working. **SYMMETRY gotcha:** `geomIds` must be `[lineId, point1, point2]` — the line must be FIRST, not last. Passing points first errors with "First geometry id of a symmetry constraint must be a line." MIDPOINT order: `[pointId, lineId]`. FIXATION takes a single geomId. Constraints are declarative — the solver won't move under-constrained geometry immediately; sufficient constraints must exist for the solver to resolve positions. Named constraints work via `name` param.
 
 Creates one or multiple constraints in the sketch
 
@@ -182,8 +97,6 @@ api.v1.sketch.constraint({ id: sketch, name: 'A', type: 'COINCIDENT', geomIds: [
 <a name="dimension"></a>
 
 ## dimension(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric dimension ID. Types: RADIUS, DIAMETER, OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE, ANGLE, ANGLEOX. **Critical gotcha:** Setting `value` at creation time often fails with "Couldn't set the value" ERROR when the sketch is over-constrained or auto-fixations interfere. **Best practice:** Create dimension WITHOUT value (auto-calculates from current geometry), then call `updateDimension` to set the desired value. ANGLE uses `dimPos` to select which angular sector to constrain. ANGLEOX measures a single line's angle relative to X-axis (single geomId). Named dimensions work via `name` param. `reflex: true` for angles > 180°.
 
 Creates one or multiple dimensional constraints in the sketch
 
@@ -220,8 +133,6 @@ api.v1.sketch.dimension({ id: sketch, type: 'OFFSET', geomIds: [line1, line2] })
 
 ## sketchRegion(param)
 
-> **AGENT NOTE (trained 2026-03-19):** `{ id: sketchId, name, geomIds: [...curveIds] }`. Returns numeric region ID. The geomIds must be curve IDs (lines, arcs, circles) that form a closed loop. Needed as input for sketch-based extrusion. Note: `part.extrusion` requires a `references` parameter — the exact format for sketch→extrusion needs further investigation.
-
 Creates a sketch region for a given sketch from sketch geometry
 
 **Kind**: v1.sketch function  
@@ -251,8 +162,6 @@ api.v1.sketch.sketchRegion({ id: sketch, geomIds: [arc, line1, line2, line2] })
 <a name="changeReferenceGeometry"></a>
 
 ## changeReferenceGeometry(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Could not fully test — requires valid B-rep IDs which are hard to obtain without point-query params in `getGeometryIds`. Re-links existing use-geometry to a different B-rep element.
 
 Re-links "Use"-Geometry in sketch - the same geometry will be connected to another reference
 
@@ -285,8 +194,6 @@ api.v1.sketch.changeReferenceGeometry({ id: sketch, geomId: circle, refId: edge 
 ## circularPattern(param)
 
 Patterns a rigidset (or single object) in circular arrange/order
-
-> **AGENT NOTE (trained 2026-03-19):** Requires rigidSet, centerId (sketch point), angle (radians, per-instance spacing), count (number of ADDITIONAL copies). Original is included in the pattern. count=3 + angle=90° → 3 copies at 90° intervals. count=5 + angle=60° → 5 copies (full circle with original = 6 instances). Returns `{ constraint, dimension, geometry }` where geometry is array of rigid set IDs. The original circle becomes part of the first rigid set.
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -324,8 +231,6 @@ api.v1.sketch.circularPattern({ id: sketch, rigidSetId: rigidSet, centerId: id, 
 
 Patterns a rigidset (or single object) in mirror arrange/order
 
-> **AGENT NOTE (trained 2026-03-19):** Requires rigidSet and symmetryLineId (a sketch line as mirror axis). Returns `{ constraint, geometry }` with 2 rigid set entries (original + mirrored). Creates mirrored copies of all geometry in the rigid set. Confirmed: 4-line rectangle mirrored across vertical axis produces 4 new lines (9 total = 1 axis + 4 orig + 4 mirrored).
-
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -359,8 +264,6 @@ api.v1.sketch.mirrorPattern({ id: sketch, rigidSetId: rigidSet, symmetryLineId: 
 
 Copies sketch geometry
 
-> **AGENT NOTE (trained 2026-03-19):** CRITICAL: With default doCopyConstraints=true, returns **null** (no IDs). With doCopyConstraints=false, returns **array of new geometry IDs**. To get IDs of copied geometry, always set doCopyConstraints=false. Translation is [x, y, z] offset.
-
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -391,8 +294,6 @@ api.v1.sketch.copyGeometry({ id: sketch, geomIds: [line1, line2, line, arc], tra
 ## linearPattern(param)
 
 Patterns a rigidset (or single object) in linear/rectangular arrange/order. Copy count number over at least one dimension should be specified.
-
-> **AGENT NOTE (trained 2026-03-19):** count = TOTAL instances INCLUDING original. xCount=4 → 4 total (not 4 copies). Supports 2D grid via xCount+xDistance + yCount+yDistance (3×3 = 9 total). Returns `{ constraint, dimensions: [xDim, yDim], geometry }`. yDim is null if only 1D pattern. geometry array length = total instances.
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -432,8 +333,6 @@ api.v1.sketch.linearPattern({ id: sketch, rigidSetId: rigidSet, xCount: 3, xDist
 
 Copies the sketch geometry from one sketch to another
 
-> **AGENT NOTE (trained 2026-03-19):** `{ id: targetSketchId, toCopyId: sourceSketchId }`. Copies ALL geometry (lines, circles, arcs, points) from source to target with new IDs. Returns null. Confirmed: 4 lines + 1 circle copied successfully between sketches on the same part.
-
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -460,28 +359,6 @@ api.v1.sketch.copyFrom({ id: sketch1, toCopyId: sketch2 })
 <a name="fillet"></a>
 
 ## fillet(param)
-
-> **AGENT NOTE (trained 2026-03-20, 13 tests):**
-> - Returns `[arcId, controlPointId, startPointId, endPointId]`
->   - `arcId`: CC_Arc inserted between the two lines
->   - `controlPointId`: CC_Point at the original corner position (becomes a standalone point in getGeometry)
->   - `startPointId`/`endPointId`: tangent points on the arc (coincident with shortened line endpoints)
-> - **lineIds MUST be sketch-line type** — passing circle/arc IDs → ERROR "lineIds has a wrong id type"
-> - Lines MUST share an incident point → ERROR "Lines don't have incident points!" if disconnected
-> - **offset vs radius**: `offset` takes absolute priority if both set. For 90° angle, offset=radius. For other angles: offset = distance along each line from corner; radius = arc radius
-> - **Offset-radius formula** (non-90°): For angle θ between lines, `offset = radius / tan(θ/2)` — confirmed at 60° and 150°
-> - **Default** (no offset/radius): uses `offset = (1/4) × length_of_shortest_line` — confirmed
-> - **Sequential filleting works**: all 4 corners of a rectangle can be filleted sequentially with same radius. Adjacent corners on a 3-line path also work
-> - **Edge cases**:
->   - `offset: 0` → ERROR "Invalid arc parameters" (degenerate)
->   - `offset: -5` → **silently accepted**, creates a fillet (negative offset = ???)
->   - offset > line length → ERROR "Can't create a fillet with offset larger than line length!"
->   - radius too large (maps to offset > line) → same error about offset
->   - Collinear lines (180°) → ERROR "Can't create a fillet between parallel lines!"
->   - `radius: 0.001` → works, creates valid micro-fillet
-> - **Constraints created**: Fillet_Coinc (3×: line→controlPt, lineEnd→arcStart, lineStart→arcEnd) + Fillet_Tan (2×: arc tangent to each line)
-> - **undoFillet({id, arcId})**: removes arc + fillet constraints, restores original line endpoints to shared corner position. Returns null (void), lines regain original endpoint positions
-> - **v1.sketch.arc does NOT exist** — "Unknown command v1.sketch.arc" (use arcByThreePoints or arcByCenterStartEnd per docs)
 
 Creates a fillet in place of a point and its connecting two lines
 
@@ -514,8 +391,6 @@ api.v1.sketch.fillet({ id: sketch, lineIds: [line1, line2], radius: 8 })
 <a name="rectangle"></a>
 
 ## rectangle(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Always returns array of 4 line IDs. `isCentered: true` makes startPos the center and endPos a corner. Auto-generates parallel, perpendicular, horizontal, and coincident constraints.
 
 Creates a rectangle formed by two positions
 
@@ -558,8 +433,6 @@ api.v1.sketch.rectangle({ id: sketch, startPos: [0, 0, 0], endPos: [20, 20, 0], 
 
 ## referenceGeometry(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Creates projected sketch geometry from B-rep elements. Requires valid B-rep edge/vertex IDs in brepIds. Note: `part.getGeometryIds` without point-query params returns empty arrays — you need to query with specific points or use other means to obtain B-rep IDs. keepReference=false creates geometry without maintaining the associative link.
-
 Creates new "Use"-Geometry in sketch. The sketch geometry will be created at the given brep elements
 and projected into sketch plane. It also creates a reference to the given brep element.
 
@@ -592,8 +465,6 @@ api.v1.sketch.referenceGeometry({ id: sketch, brepIds: [edge1], keepReference: F
 
 ## rigidSet(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns the rigid set ID (numeric). Works with lines, circles, arcs — any sketch geometry type. The rigid set locks relative positions of included geometry. Can be deleted via `deleteObject({ ids: [rigidSetId] })`. Used as input for `linearPattern`, `circularPattern`, and `mirrorPattern`.
-
 Creates a rigid set from given sketch geometry in the sketch
 
 **Kind**: v1.sketch function  
@@ -623,8 +494,6 @@ api.v1.sketch.rigidSet({ id: sketch, geomIds: [line1, arc, line2] })
 
 ## undoFillet(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Removes the fillet arc and reconnects the original lines at their intersection point. Use the arcId from fillet's return tuple (index 0). Clean undo — restores original sketch topology.
-
 Deletes an existing fillet by removing the arc and its constraints and connect lines again
 
 **Kind**: v1.sketch function  
@@ -653,8 +522,6 @@ api.v1.sketch.undoFillet({ id: sketch, arcId: arc })
 <a name="generateAutoConstraints"></a>
 
 ## generateAutoConstraints(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Pure side-effect that adds constraints to the sketch. Pass `geomId: sketchId` to auto-constrain ALL geometry in the sketch, or pass a specific geometry ID. Flags: `genFixation`, `genVertAndHoriz`, `genIncidence`, `genTangency` (all default TRUE). Useful after creating geometry with `genConstraints: false` to selectively add constraints later.
 
 Automatically generates constraints whenever it makes sense and doesn't add up redundancy
 
@@ -690,8 +557,6 @@ api.v1.sketch.generateAutoConstraints({ id: sketch, geomId: line })
 ## loadFrom(param)
 
 Loads an ofb file by filename, data or url and copies the sketch geometry from loaded sketch to the existing sketch
-
-> **AGENT NOTE (trained 2026-03-19):** The `data` parameter must be a **string** (raw OFB content), NOT an object. Passing `{ content, success }` from common.save fails with "data has the wrong type". To use loadFrom with save output, extract `saveResult.result.content` as a string. Also requires partId parameter. Needs more testing with correct string data.
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -731,8 +596,6 @@ api.v1.sketch.loadFrom({ id: sketch, partId: part, data: 'xx124b', format: 'OFB'
 
 Moves the given sketch geometry by translation vector
 
-> **AGENT NOTE (trained 2026-03-19):** Returns solved state as integer: 1 = solver succeeded (constraints intact), 0 = solver failed (constraints broken by move). Moving constrained geometry that conflicts with existing constraints returns 0. Translation is [x, y, z]. Note: `getPositions` does not work on circle geometry IDs (returns null with "objId not found" error).
-
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -760,8 +623,6 @@ api.v1.sketch.moveGeometry({ id: sketch, geomIds: [circle, line2], translation: 
 <a name="setReferences"></a>
 
 ## setReferences(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Sets sketch coordinate system references. planeId works with workPlane IDs. invertPlane=true flips Y and Z axes (coord system becomes `[origin, X, -Y, -Z]`). axisId with user-created workAxis may error — built-in part axes work. Sketch local positions (getPositions) unchanged after setReferences — affects world coordinate mapping only.
 
 Creates and sets the plane, axis and origin reference of the sketch
 
@@ -797,8 +658,6 @@ api.v1.sketch.setReferences({ id: sketch, planeId: workPlane })
 
 ## splitAllCurves(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns array of IDs representing trimmable curve segments. For a closed triangle (3 connected lines, no intersections), returns 3 IDs matching the original lines and getGeometry shows 0 lines/points after — the curves become "split" internal objects. For crossing lines (X shape), 2 lines → 4 segments. Line+circle intersection → 5 segments. After splitting, original geometry IDs may still appear in `getGeometry` but the split segments are separate trimmable entities. Use `splitCurvesMergeBack` to undo.
-
 Splits all curves in the given sketch
 
 **Kind**: v1.sketch function  
@@ -826,8 +685,6 @@ api.v1.sketch.splitAllCurves({ id: sketch })
 <a name="splitCurves"></a>
 
 ## splitCurves(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Parameterized split at exact positions [0,1] along a curve. Values are normalized: 0 = start, 1 = end (or 0 to 2π mapped for circles). Splitting a line at [0.3, 0.7] produces 3 new line segments with new IDs (original ID gone). Splitting a circle at [0.25, 0.75] produces 2 arcs (circle is consumed). Return: array of arrays — `result[i]` has `N+1` IDs for `N` split values. The original geometry ID is replaced by the new segment IDs.
 
 Splits curves in specified parameterized positions
 
@@ -867,8 +724,6 @@ api.v1.sketch.splitCurves({ id: sketch, splits: [{ geomId: line, values: [0.236,
 
 ## splitCurvesMergeBack(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Intended to merge split curves back to originals, but in testing the line count stayed the same after merge (2 lines remained after splitting 1 line at 0.5, then merging). The split segment IDs persist. May only work with `splitAllCurves` splits, not `splitCurves` — needs further investigation.
-
 Merges the splitted curves back
 
 **Kind**: v1.sketch function  
@@ -896,8 +751,6 @@ api.v1.sketch.splitCurvesMergeBack({ id: sketch })
 <a name="unlinkReferenceGeometry"></a>
 
 ## unlinkReferenceGeometry(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Could not fully test — requires reference geometry to first be created via referenceGeometry (which needs B-rep IDs). Geometry is expected to survive after unlinking, but the associative link to the B-rep is removed.
 
 Unlinks "Use"-Geometry in sketch - sketch geometry still exists, but it is not connected to reference anymore
 
@@ -928,8 +781,6 @@ api.v1.sketch.unlinkReferenceGeometry({ id: sketch, geomId: circle })
 
 ## updateDimension(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Takes dimension ID (not sketch ID) as `id`. Returns numeric 0 when sketch is solved (docs say boolean, but it's actually a number). Supports expression strings like `'@expr.myRadius'` for parametric linking. This is the preferred way to set dimension values — create dimension with auto-value first, then updateDimension.
-
 Updates the dimension of sketch geometry and recalculates the sketch
 
 **Kind**: v1.sketch function  
@@ -959,8 +810,6 @@ api.v1.sketch.updateDimension({ id: dimension, value: '@expr.distance1' })
 <a name="updateGeometry"></a>
 
 ## updateGeometry(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Supports batch updates: points, lines, circles, arcs all in one call. Does NOT enforce constraints — if you move a horizontal-constrained line to a diagonal position, the call succeeds silently (null result) but the solver will apply constraints on next solve. `getGeometry` after update returns IDs only (not positions). Use `getPositions` to verify actual positions.
 
 Updates the sketch geometry
 
@@ -1021,8 +870,6 @@ api.v1.sketch.updateGeometry({ id: sketch, circles: [{ id: circle, centerPos: [4
 
 Updates sketch regions with new sketch geometry
 
-> **AGENT NOTE (trained 2026-03-19):** Batch interface: `{ regions: [{ id, geomIds }] }`. Replaces the region's geometry completely. Returns null on success. Parametric: if a region is referenced by an extrusion, updating the region + `common.recalc` updates the solid (confirmed circle→rectangle extrusion update). The region's `getGeometry` reflects new geometry immediately.
-
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -1050,8 +897,6 @@ api.v1.sketch.updateSketchRegion({ regions: [{ id: sketchRegion, geomIds: [line1
 <a name="getPoints"></a>
 
 ## getPoints(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Line → `{startId, endId}`. Circle → `{centerId}`. Arc → `{startId, endId, centerId}`. Standalone points ERROR — only accepts sketch-curve IDs (lines, arcs, circles). Use the returned point IDs with `getPositions` to get actual coordinates.
 
 Get the specific point ids of lines, arcs or circles
 
@@ -1089,8 +934,6 @@ api.v1.sketch.getPoints({ id: lineId })
 <a name="getPositions"></a>
 
 ## getPositions(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Line → `{startPos, endPos}`. Arc → `{startPos, endPos, centerPos}`. Point → `{pos}`. **Circle → returns null.** Workaround: use `getPoints(circleId).centerId` then `getPositions(centerId)` → `{pos}`. All positions are `{x,y,z}` objects, not arrays. Reflects current state (updated after moveGeometry).
 
 Get the specific positions of points, lines, arcs or circles
 
@@ -1131,8 +974,6 @@ api.v1.sketch.getPositions({ id: lineId })
 
 ## point(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns numeric ID for single call, array of IDs for batch. Batch: pass array of objects as first arg `[[{id, pos}, ...]]`. `genFixation: false` suppresses auto-fixation constraint on the point.
-
 Creates one or multiple points in the sketch
 
 **Kind**: v1.sketch function  
@@ -1164,7 +1005,7 @@ api.v1.sketch.point({ id: sketch, pos: [0, 0, 0] })
 
 ## line(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Same batch pattern as point. Auto-constraint flags: `genFixation`, `genIncidence`, `genTangency`, `genVertAndHoriz` — all default true. Set to false to suppress. Batch lines with shared endpoints auto-generate coincident constraints (genIncidence).Creates one or multiple lines in the sketch
+Creates one or multiple lines in the sketch
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -1198,7 +1039,7 @@ api.v1.sketch.line({ id: sketch, startPos: [0, 0, 0], endPos: [10, 10, 0] })
 
 ## circle(param)
 
-> **AGENT NOTE (trained 2026-03-19):** `{ id, centerPos, radius }`. Returns single ID or array for batch. Same batch pattern as point/line.Creates one or multiple circles in the sketch
+Creates one or multiple circles in the sketch
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -1230,8 +1071,6 @@ api.v1.sketch.circle({ id: sketch, centerPos: [40, 0, 0], radius: 20 })
 
 ## getGeometry(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Returns `{ arcs: id[], circles: id[], lines: id[], points: id[] }` — always these 4 keys. Works on sketch ID (all geometry), region ID (only region curves, no standalone points), or rigidSet ID (only geometry in the set). Does NOT include constraints or dimensions.
-
 Get all the sketch geometry from a sketch, sketch region or rigid set
 
 **Kind**: v1.sketch function  
@@ -1260,7 +1099,7 @@ api.v1.sketch.getGeometry({ id: sketchRegion })
 
 ## arcByCenter(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Default is clockwise. Use `isClockwise: false` for CCW. Center, start, end must be geometrically consistent (equal radius from center).Creates one or multiple arcs by center in the sketch. Arc is defined by start-, end- and center-position.
+Creates one or multiple arcs by center in the sketch. Arc is defined by start-, end- and center-position.
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -1294,7 +1133,7 @@ api.v1.sketch.arcByCenter({ id: sketch, startPos: [-40, 0, 0], centerPos: [0, 10
 
 ## arcBy3Points(param)
 
-> **AGENT NOTE (trained 2026-03-19):** `midPos` is a point ON the arc, not the center. `genTangency: true` creates tangent constraint with adjacent geometry sharing an endpoint.Creates one or multiple arcs by 3 points in the sketch. Arc is defined by start-, end- and mid-position.
+Creates one or multiple arcs by 3 points in the sketch. Arc is defined by start-, end- and mid-position.
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -1329,7 +1168,7 @@ api.v1.sketch.arcBy3Points({ id: sketch, startPos: [0, 0, 0], midPos: [20, 20, 0
 
 ## geometry(param)
 
-> **AGENT NOTE (trained 2026-03-19):** Single call to create mixed geometry. Takes `{ id, points, lines, circles, arcsByCenter, arcsBy3Points }`. Returns `{ points: [...ids], lines: [...ids], circles: [...ids], arcsByCenter: [...ids], arcsBy3Points: [...ids] }`. Supports same auto-constraint flags (`genFixation`, `genIncidence`, `genTangency`, `genVertAndHoriz`) at top level. Most efficient way to create complex sketch geometry.Creates one or multiple sketch geometry in the sketch
+Creates one or multiple sketch geometry in the sketch
 
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
@@ -1375,7 +1214,10 @@ api.v1.sketch.arcBy3Points({ id: sketch, startPos: [0, 0, 0], midPos: [20, 20, 0
 api.v1.sketch.geometry({ id: sketch, points: [{ pos: [0, 0, 0] }, { pos: [10, 10, 0] }, { pos: [20, 0, 0] }] })
 api.v1.sketch.geometry({ id: sketch, lines: [{ startPos: [0, 0, 0], endPos: [0, 20, 0] }] })
 api.v1.sketch.geometry({ id: sketch, arcsBy3Points: [{ startPos: [0, 20, 0], endPos: [20, 20, 0], midPos: [10, 30, 0] }] })
-api.v1.sketch.geometry({ id: sketch, arcsByCenter: [{ startPos: [0, 20, 0], endPos: [20, 20, 0], centerPos: [10, 20, 0], isClockwise: FALSE }] })
+api.v1.sketch.geometry({
+  id: sketch,
+  arcsByCenter: [{ startPos: [0, 20, 0], endPos: [20, 20, 0], centerPos: [10, 20, 0], isClockwise: FALSE }],
+})
 api.v1.sketch.geometry({
   id: sketch,
   circles: [
@@ -1388,8 +1230,6 @@ api.v1.sketch.geometry({
 <a name="deleteObject"></a>
 
 ## deleteObject(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Universally deletes any sketch object type: geometry (lines, circles), constraints, dimensions, rigid sets. Supports batch deletion via `ids` array. Does NOT require sketch ID — just pass the object IDs directly. No errors when deleting valid IDs.
 
 Deletes dimensions, constraints, sketch geometry, sketch region or rigid sets from sketch
 
@@ -1418,8 +1258,6 @@ api.v1.sketch.deleteObject({ ids: [15, 25, 23] })
 <a name="deleteSketch"></a>
 
 ## deleteSketch(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Takes `{ ids: [id1, id2, ...] }` for batch deletion. Returns null, no messages. Other sketches on same part survive.
 
 Deletes existing sketches
 
@@ -1451,8 +1289,6 @@ api.v1.sketch.deleteSketch({ ids: [6, 8] })
 
 Returns the id of the sketch region with the given name which belongs to the given sketch id.
 
-> **AGENT NOTE (trained 2026-03-19):** Looks up region by exact name within a sketch. Returns the region ID if found, `null` if not found (with maxLevel=51 warning "Couldn't find sketch region with name..."). Works reliably for retrieving previously-created named regions.
-
 **Kind**: v1.sketch function  
 **Returns**: <code>object</code> - object containing result and optional messages
 
@@ -1479,8 +1315,6 @@ api.v1.sketch.getSketchRegion({ id: sketch, name: 'SketchRegion_Left' })
 <a name="trimCurves"></a>
 
 ## trimCurves(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Removes curve segments. Works on split segments from `splitAllCurves` — trimming one of the 4 segments from crossed lines succeeds silently. Also succeeds on unsplit lines (silently removes them). No error messages in either case. The "suitable for trimming" requirement from docs seems lenient — most curves can be trimmed.
 
 Trims away curves, if they are suitable for trimming
 
@@ -1510,8 +1344,6 @@ api.v1.sketch.trimCurves({ id: sketch, curveIds: [circle, line] })
 <a name="updateDimensionPosition"></a>
 
 ## updateDimensionPosition(param)
-
-> **AGENT NOTE (trained 2026-03-19):** Returns null (VOID). Pure side-effect — moves the dimension text label to the specified position. Takes dimension ID as `id` (not sketch ID).
 
 Updates the position of the dimension text
 

@@ -1,6 +1,6 @@
 # How to Train
 
-You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn. Your deliverable is **per-API LLM documentation** — practical, agent-oriented docs written to `knowledge/classcad-skill/references/<domain>/<apiName>.md`. The journal is your working notebook. The LLM docs are the point.
+You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn. Your deliverable is **per-API LLM documentation** — practical, agent-oriented docs written to `knowledge/classcad-skill/references/<domain>/*.md`. The journal is your working notebook. The LLM docs are the point.
 
 **Golden rule #1: Every task is LIVE.** You connect to the ClassCAD CLI and run real API calls. If a script fails, you debug it. If the docs are wrong, you note it. Nothing is theoretical.
 
@@ -27,8 +27,9 @@ knowledge/
         part.md
         sketch.md
         solid.md
+        expressions.md
       <domain>/                       ← YOUR LLM docs (one file per API — this is what you write)
-        <apiName>.md
+        *.md                          ← <apiName>.md or generic.md
         ...
 scripts/                              ← harness code (do not edit)
 workspace/
@@ -46,18 +47,18 @@ All paths below are relative to **`knowledge/classcad-skill/`** (the skill root)
 
 **Two kinds of reference files — do not confuse them:**
 
-| Path                               | Purpose                                                     | You edit?                          |
-| ---------------------------------- | ----------------------------------------------------------- | ---------------------------------- |
-| `references/api/<domain>.md`       | Source API documentation (parameters, types, return values) | **NO** — read-only                 |
-| `references/<domain>/<apiName>.md` | LLM-oriented docs (hints, findings, gotchas, examples)      | **YES** — this is your deliverable |
+| Path                         | Purpose                                                     | You edit?                          |
+| ---------------------------- | ----------------------------------------------------------- | ---------------------------------- |
+| `references/api/<domain>.md` | Source API documentation (parameters, types, return values) | **NO** — read-only                 |
+| `references/<domain>/*.md`   | LLM-oriented docs (hints, findings, gotchas, examples)      | **YES** — this is your deliverable |
 
-The 7 API domains and their namespaces are listed in `SKILL.md` (the domain index table). The pattern: source docs live at `references/api/<domain>.md` (read-only), your LLM docs go into `references/<domain>/<apiName>.md` (you create these).
+The 7 API domains and their namespaces are listed in `SKILL.md` (the domain index table). The pattern: source docs live at `references/api/<domain>.md` (read-only), your LLM docs go into `references/<domain>/*.md` (you create these).
 
 ## Read-only files — DO NOT EDIT
 
 - **`SKILL.md`** and **`references/api/*.md`** — never modify. Source docs are ground truth.
 
-Your deliverable goes exclusively into `references/<domain>/<apiName>.md` files that **you create and own**. Use `generic.md` for conceptual topics that span multiple APIs.
+Your deliverable goes exclusively into `references/<domain>/*.md` files that **you create and own**. Use `<apiName>.md` for API-specific docs, `generic.md` for conceptual topics that span multiple APIs.
 
 ---
 
@@ -103,6 +104,7 @@ filewrite(saveResult.content, 'ofb-data')
 ```
 
 `filewrite(data, label)` auto-detects the format:
+
 - **Objects/arrays** → `.json` (pretty-printed)
 - **Strings** → `.txt`
 - **Buffers** → `.bin`
@@ -355,10 +357,10 @@ Review your journal. Every finding flagged with `📌 LLM doc:` feeds into this 
 
 ### Where to write
 
-Create or update: `knowledge/classcad-skill/references/<domain>/<apiName>.md`
+Create or update: `knowledge/classcad-skill/references/<domain>/*.md`
 
 - If the `references/<domain>/` folder does not exist, create it.
-- If the `<apiName>.md` file does not exist, create it.
+- If the `<apiName>.md` (or `generic.md`, if applicable) file does not exist, create it.
 - If it already exists, update it with new findings.
 
 **Example paths:**
@@ -473,7 +475,7 @@ Before declaring a session done, verify every item:
 1. **Read the error** — ClassCAD errors are descriptive. They tell you exactly what's wrong.
 2. **Check parameter names** — compare against `references/api/<domain>.md` character by character.
 3. **Check ID types** — most failures come from passing the wrong ID. The source docs specify which ID each method expects.
-4. **Check your own LLM docs** — if `references/<domain>/<apiName>.md` exists, prior findings may explain the issue.
+4. **Check your own LLM docs** — if `references/<domain>/<apiName>.md` (or `generic.md`, if applicable) exists, prior findings may explain the issue.
 
 ---
 

@@ -60,3 +60,7 @@ Step 1: I/O Protocol & API Fundamentals
 # New let-down, output handling
 
 - it tries to do JSON.stringify on the execute() output, which is a problem because it may contain circular references, or the data may be too large. we need something better.
+
+# Break-through, filewrite()
+
+- this is fixed by introducing filewrite() as alternative output methods. now it can write out large data or complex data without trying to stringify it. this is a huge improvement in the quality of the data it produces, and it allows it to actually inspect the results of the API calls and to learn from them.

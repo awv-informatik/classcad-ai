@@ -1,0 +1,43 @@
+{
+  "name": "Origin",
+  "class": "CC_WorkPoint",
+  "id": 22,
+  "flags": 4096,
+  "parent": 10,
+  "members": {
+    "_VERSION": {
+      "value": "1/2018_10_9_13:37",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "References": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "Type": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "Position": {
+      "value": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "Defined": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

@@ -24,7 +24,7 @@ Step 1: I/O Protocol & API Fundamentals
    │   (no geometry yet — pure protocol understanding)
    │
    └─► Step 2: Part Foundations
-        │   (part creation → work geometry → entity injection)
+        │   (part creation → expressions → open/close gate → work geometry → entity injection)
         │   (now we HAVE objects — IDs become real)
         │
         ├─► Step 3: 2D Curves & Shapes
@@ -40,7 +40,7 @@ Step 1: I/O Protocol & API Fundamentals
                           │  (NOW we have geometry: save/load, appearance, faceting, user data)
                           │
                           └─► Step 7: Part Features (Parametric Modeling)
-                               │  (feature history, expressions, design intent)
+                               │  (feature history, design intent)
                                │
                                └─► Step 8: Assemblies
                                     │  (multi-part structures, constraints, kinematics)
@@ -69,7 +69,7 @@ Step 1: I/O Protocol & API Fundamentals
 | 2   | Study of result types: `id`, `VOID`, `real`, `point`, `string`, `boolean`, `Array<id>`                                    | all docs | [✅]    |
 | 3   | Study of the message system: `{ message, level, code, api }` — warning levels, error codes, how to detect failures        | all docs | [✅]    |
 | 4   | Study of the ID system: opaque references, how IDs are returned from creation APIs and consumed by subsequent APIs        | all docs | [✅]    |
-| 5   | Study of data types: `point` as `[x, y, z]`, coordinate conventions, angle units (radians), transformation matrices (4x4) | all docs | [ ]     |
+| 5   | Study of data types: `point` as `[x, y, z]`, coordinate conventions, angle units (radians), transformation matrices (4x4) | all docs | [✅]    |
 
 **Task #1: Study of the JSON request/response protocol envelope**
 
@@ -92,11 +92,10 @@ export default async function ({ execute }) {
 
 **Summary:** These APIs work without any objects in the drawing. They are safe to call immediately and help verify the API connection is working.
 
-| #   | Task                                                                  | Source                                                            | Studied |
-| --- | --------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.getAppVersion`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 2   | Api study of `common.getClassFileVersion`                             | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 3   | Api study of `common.evaluateExpression` — standalone math evaluation | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| #   | Task                                      | Source                                                            | Studied |
+| --- | ----------------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.getAppVersion`       | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 2   | Api study of `common.getClassFileVersion` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
 
 **Task #1: Api study of `common.getAppVersion`**
 
@@ -119,20 +118,6 @@ export default async function ({ execute }) {
   const res = await execute({ 'v1.common.getClassFileVersion': [{}] })
   // ✓ result → "" (file version string)
   return { fileVersion: res.result }
-}
-```
-
-**Task #3: Api study of `common.evaluateExpression`**
-
-Evaluates a math expression string. Supports ClassCAD constants like `C:PI`. Can optionally reference a part/assembly via `id`. The `silent` param suppresses error messages.
-
-```js
-export default async function ({ execute }) {
-  const r1 = await execute({ 'v1.common.evaluateExpression': [{ expression: 'sin(C:PI/2)' }] })
-  const r2 = await execute({ 'v1.common.evaluateExpression': [{ expression: '2+3*4' }] })
-  const r3 = await execute({ 'v1.common.evaluateExpression': [{ expression: 'sqrt(144)' }] })
-  // ✓ r1.result → 1, r2.result → 14, r3.result → 12
-  return { sinPiOver2: r1.result, mathExpr: r2.result, sqrt144: r3.result }
 }
 ```
 
@@ -172,11 +157,11 @@ export default async function ({ execute }) {
 
 ## Step 2: Part Foundations
 
-**What you will learn:** How to create the foundational container for all 3D modeling — the Part. Then how to define construction geometry (work planes, axes, coordinate systems, points) that positions everything else. Finally, how to create Entity Injection features — the containers where low-level curves and solids live.
+**What you will learn:** How to create the foundational container for all 3D modeling — the Part. Then the expression system (named parametric variables that drive every feature). Then the open/close feature editing pattern (required for all `update*` calls). Then construction geometry (work planes, axes, coordinate systems, points). Finally, Entity Injection features — the containers where low-level curves and solids live.
 
 **Prerequisites:** Step 1 (Protocol — you need to understand IDs and return values)
 
-**Why this order:** Part must come first because everything lives inside a part. Work geometry comes second because sketches and features are placed relative to work planes/axes. Entity injection comes last because it's the bridge to direct curve/solid operations (Steps 3 & 5).
+**Why this order:** Part must come first because everything lives inside a part. Expressions come second because even work geometry parameters can be expression-driven. Open/close comes third because every `update*` API needs it. Work geometry comes fourth because sketches and features are placed relative to work planes/axes. Entity injection comes last because it's the bridge to direct curve/solid operations (Steps 3 & 5).
 
 ### Category 2.1: Part Creation
 
@@ -200,7 +185,101 @@ export default async function ({ execute }) {
 
 ---
 
-### Category 2.2: Work Geometry
+### Category 2.2: Expressions & Parametric Control
+
+**Essentials:** Expressions are named variables that drive feature parameters. `common.evaluateExpression` is the standalone math engine. `part.expression` creates named variables inside a part. `part.linkWithExpression` connects those variables to feature parameters. When you update an expression, all linked features recalculate automatically. Learn this now because work geometry, sketches, and every feature type from here on can be expression-driven.
+
+**Foundations:** The expression syntax is documented in [expessions.md](../knowledge/classcad-skill/references/api/expessions.md). Supports constants (`C:PI`), functions (`sin`, `sqrt`, `abs`), and references to other expressions by name.
+
+| #   | Task                                                                                          | Source                                                                    | Studied |
+| --- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
+| 1   | Api study of `common.evaluateExpression` — standalone math evaluation                         | [common.md](../knowledge/classcad-skill/references/api/common.md)         | [ ]     |
+| 2   | Api study of `part.expression` — create named expressions                                     | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 3   | Api study of `part.getExpression`                                                             | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 4   | Api study of `part.updateExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 5   | Api study of `part.deleteExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 6   | Api study of `part.renameExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 7   | Api study of `part.linkWithExpression`                                                        | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 8   | Api study of `part.unlinkExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 9   | Study: expression syntax — constants, functions, inter-expression references                  | [expessions.md](../knowledge/classcad-skill/references/api/expessions.md) | [ ]     |
+| 10  | Study: expression workflow — create → link to feature param → update → observe feature change | part.md                                                                   | [ ]     |
+
+**Task #1: Api study of `common.evaluateExpression`**
+
+Evaluates a math expression string. Supports ClassCAD constants like `C:PI`. Can optionally reference a part/assembly via `id`. The `silent` param suppresses error messages.
+
+```js
+export default async function ({ execute }) {
+  const r1 = await execute({ 'v1.common.evaluateExpression': [{ expression: 'sin(C:PI/2)' }] })
+  const r2 = await execute({ 'v1.common.evaluateExpression': [{ expression: '2+3*4' }] })
+  const r3 = await execute({ 'v1.common.evaluateExpression': [{ expression: 'sqrt(144)' }] })
+  // ✓ r1.result → 1, r2.result → 14, r3.result → 12
+  return { sinPiOver2: r1.result, mathExpr: r2.result, sqrt144: r3.result }
+}
+```
+
+**Task #2-5: Expression CRUD**
+
+Expressions use `toCreate` array to batch-create, and `getExpression` to read back.
+
+```js
+// ...after part.create...
+await execute({
+  'v1.part.expression': [
+    {
+      id: partId,
+      toCreate: [
+        { name: 'width', value: 50 },
+        { name: 'height', value: 'width * 0.6' },
+      ],
+    },
+  ],
+})
+// ✓ result → 1 (boolean true = success)
+
+const val = (await execute({ 'v1.part.getExpression': [{ id: partId, name: 'height' }] })).result
+// ✓ val → { expression: "width * 0.6", value: 30 }
+
+await execute({ 'v1.part.updateExpression': [{ id: partId, name: 'width', value: '80' }] })
+// After update + recalc, height becomes 48
+```
+
+---
+
+### Category 2.3: Feature Editing Gate (openFeature / closeFeature)
+
+**Essentials:** Before you can call ANY `update*` API on an existing feature, you must first open it with `part.openFeature`. After the update, you must close it with `part.closeFeature`. This is a hard requirement — update calls will fail without it. Learn this now because `update*` APIs appear throughout the rest of the plan.
+
+| #   | Task                                                                                | Source                                                        | Studied |
+| --- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.openFeature`                                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.closeFeature`                                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Study: the open → update → close pattern — why it exists and what breaks without it | part.md                                                       | [ ]     |
+
+**Task #1-2: Api study of `part.openFeature` / `part.closeFeature`**
+
+Opens a feature for editing (sets the GhostRollbackBar), then closes it. Every `update*` call must be wrapped in this pattern.
+
+```js
+export default async function ({ execute }) {
+  const partId = (await execute({ 'v1.part.create': [{ name: 'OpenCloseTest' }] })).result
+  const wpId = (
+    await execute({ 'v1.part.workPlane': [{ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] }] })
+  ).result
+
+  // open → update → close
+  await execute({ 'v1.part.openFeature': [{ id: wpId }] })
+  await execute({ 'v1.part.updateWorkPlane': [{ id: wpId, origin: [0, 0, 100] }] })
+  await execute({ 'v1.part.closeFeature': [{ id: wpId }] })
+
+  // ✓ work plane now at z=100
+  return { wpId }
+}
+```
+
+---
+
+### Category 2.4: Work Geometry
 
 **Essentials:** Work geometry defines invisible construction references. Work planes are where sketches are drawn. Work axes define rotation centers. Work coordinate systems define local reference frames. Work points mark positions.
 
@@ -252,7 +331,7 @@ const gwId = (await execute({ 'v1.part.getWorkGeometry': [{ id: partId, name: 'W
 
 ---
 
-### Category 2.3: Entity Injection
+### Category 2.5: Entity Injection
 
 **Essentials:** An Entity Injection is a special feature that acts as a container for direct geometry (curves from Step 3, solids from Step 5). Created inside a part.
 
@@ -276,7 +355,7 @@ export default async function ({ execute }) {
 
 ---
 
-### Category 2.4: Object Naming (first use)
+### Category 2.6: Object Naming (first use)
 
 | #   | Task                                | Source                                                            | Studied |
 | --- | ----------------------------------- | ----------------------------------------------------------------- | ------- |
@@ -1170,49 +1249,7 @@ const lpFeat = (
 
 ---
 
-### Category 7.7: Expressions (Parametric Control)
-
-| #   | Task                                                          | Source                                                        | Studied |
-| --- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.expression` — create expressions           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.getExpression`                             | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.updateExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.deleteExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 5   | Api study of `part.renameExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 6   | Api study of `part.linkWithExpression`                        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 7   | Api study of `part.unlinkExpression`                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 8   | Study: expression workflow — create → link → update → observe | part.md                                                       | [ ]     |
-
-**Task #1-3: Expression CRUD**
-
-Expressions use `toCreate` array to batch-create, and `getExpression` to read back.
-
-```js
-const partId = (await execute({ 'v1.part.create': [{ name: 'ExprTest' }] })).result
-
-await execute({
-  'v1.part.expression': [
-    {
-      id: partId,
-      toCreate: [
-        { name: 'width', value: 50 },
-        { name: 'height', value: 'width * 0.6' },
-      ],
-    },
-  ],
-})
-// ✓ result → 1 (boolean true = success)
-
-const val = (await execute({ 'v1.part.getExpression': [{ id: partId, name: 'height' }] })).result
-// ✓ val → { expression: "width * 0.6", value: 30 }
-
-await execute({ 'v1.part.updateExpression': [{ id: partId, name: 'width', value: '80' }] })
-// After update + recalc, height would become 48
-```
-
----
-
-### Category 7.8: Import Features & Composite Curves
+### Category 7.7: Import Features & Composite Curves
 
 | #   | Task                                     | Source                                                        | Studied |
 | --- | ---------------------------------------- | ------------------------------------------------------------- | ------- |
@@ -1223,22 +1260,22 @@ await execute({ 'v1.part.updateExpression': [{ id: partId, name: 'width', value:
 
 ---
 
-### Category 7.9: Feature Management & Design History
+### Category 7.8: Feature Management & Design History
 
-| #   | Task                                       | Source                                                        | Studied |
-| --- | ------------------------------------------ | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.openFeature`            | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.closeFeature`           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.operationMoveBefore`    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.operationMoveToEnd`     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 5   | Api study of `part.getFeature`             | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 6   | Api study of `part.deleteFeature`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 7   | Api study of `part.createUncommitedObject` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 8   | Study: RollbackBar vs GhostRollbackBar     | part.md                                                       | [ ]     |
+> **Note:** `openFeature`/`closeFeature` basics were covered in Category 2.3. This section covers advanced design-history operations that build on that foundation.
+
+| #   | Task                                                                                                                    | Source                                                        | Studied |
+| --- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| 1   | Api study of `part.operationMoveBefore`                                                                                 | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 2   | Api study of `part.operationMoveToEnd`                                                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.getFeature`                                                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.deleteFeature`                                                                                       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.createUncommitedObject`                                                                              | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 6   | Study: RollbackBar vs GhostRollbackBar — how open/close enables mid-tree editing without destroying downstream features | part.md                                                       | [ ]     |
 
 ---
 
-### Category 7.10: Appearance, Mass Properties & Geometry Queries
+### Category 7.9: Appearance, Mass Properties & Geometry Queries
 
 | #   | Task                                                                      | Source                                                        | Studied |
 | --- | ------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |

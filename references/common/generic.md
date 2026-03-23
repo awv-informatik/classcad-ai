@@ -52,7 +52,7 @@ Every ClassCAD API call returns a response envelope. The docs describe it as `{ 
 Check `maxLevel` to detect errors:
 
 ```js
-const res = await execute({ 'v1.some.api': [{ ... }] })
+const res = await api.v1.some.api({ ... })
 if (res.maxLevel >= 51) {
   // ERROR — result is likely null, check messages for details
 }
@@ -117,15 +117,12 @@ Batch does NOT stop on error. All jobs execute regardless of earlier failures.
 
 ## Parameter Passing
 
-Always pass params as `[{ ... }]` or at minimum `[{}]`/`[]`:
+Pass params as `{ ... }` or `{}` for parameterless calls:
 
 ```js
 // Good
-await execute({ 'v1.common.getAppVersion': [{}] })
-await execute({ 'v1.common.getAppVersion': [] })
-
-// Bad — produces broken envelope (result: null, maxLevel: undefined)
-await execute({ 'v1.common.getAppVersion': undefined })
+await api.v1.common.getAppVersion({})
+await api.v1.common.getAppVersion()
 ```
 
 Extra/unknown parameters are silently ignored — no warning.
@@ -268,7 +265,7 @@ Use `structure.root` to find the part ID. Use `structure.tree[String(id)]` to in
 
 ### Batch and IDs
 
-`common.batch` has no dynamic ID forwarding — you cannot reference the result of job 0 in job 1's parameters. Since `part.create` always returns ID 4 on a clean drawing, you can hardcode it. For anything else, use sequential `execute()` calls.
+`common.batch` has no dynamic ID forwarding — you cannot reference the result of job 0 in job 1's parameters. Since `part.create` always returns ID 4 on a clean drawing, you can hardcode it. For anything else, use sequential `api.v1.*` calls.
 
 ## Coordinate System
 

@@ -1,0 +1,86 @@
+[
+  {
+    "expr": "INVALID!!!",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.evaluateExpression",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Expression \"INVALID!!!\" could not be evaluated."
+      }
+    ]
+  },
+  {
+    "expr": "1/0",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.evaluateExpression",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Expression \"1/0\" could not be evaluated."
+      }
+    ]
+  },
+  {
+    "expr": "sqrt(-1)",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.evaluateExpression",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Expression \"sqrt(-1)\" could not be evaluated."
+      }
+    ]
+  },
+  {
+    "expr": "unknown_func(5)",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.evaluateExpression",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Expression \"unknown_func(5)\" could not be evaluated."
+      }
+    ]
+  },
+  {
+    "expr": "",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.evaluateExpression",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Expression \"\" could not be evaluated."
+      }
+    ]
+  },
+  {
+    "expr": "2++3",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.evaluateExpression",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Expression \"2++3\" could not be evaluated."
+      }
+    ]
+  }
+]

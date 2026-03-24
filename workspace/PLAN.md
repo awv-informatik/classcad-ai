@@ -94,8 +94,8 @@ export default async function (api) {
 
 | #   | Task                                      | Source                                                            | Studied |
 | --- | ----------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.getAppVersion`       | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 2   | Api study of `common.getClassFileVersion` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 1   | Api study of `common.getAppVersion`       | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 2   | Api study of `common.getClassFileVersion` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
 
 **Task #1: Api study of `common.getAppVersion`**
 
@@ -129,7 +129,7 @@ export default async function (api) {
 
 | #   | Task                                                                                 | Source                                                            | Studied |
 | --- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.batch` — how jobs array works, how results are returned per-job | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 1   | Api study of `common.batch` — how jobs array works, how results are returned per-job | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
 
 **Task #1: Api study of `common.batch`**
 
@@ -165,7 +165,7 @@ export default async function (api) {
 
 | #   | Task                       | Source                                                        | Studied |
 | --- | -------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.create` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.create` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 
 **Task #1: Api study of `part.create`**
 
@@ -189,8 +189,8 @@ export default async function (api) {
 
 | #   | Task                                                                                          | Source                                                                    | Studied |
 | --- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.evaluateExpression` — standalone math evaluation                         | [common.md](../knowledge/classcad-skill/references/api/common.md)         | [ ]     |
-| 2   | Api study of `part.expression` — create named expressions                                     | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 1   | Api study of `common.evaluateExpression` — standalone math evaluation                         | [common.md](../knowledge/classcad-skill/references/api/common.md)         | [✅]     |
+| 2   | Api study of `part.expression` — create named expressions                                     | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]     |
 | 3   | Api study of `part.getExpression`                                                             | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
 | 4   | Api study of `part.updateExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
 | 5   | Api study of `part.deleteExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |

@@ -1,0 +1,26 @@
+{
+  "base": {
+    "value": 50,
+    "type": "real",
+    "visible": 1,
+    "expression": ""
+  },
+  "derived": {
+    "value": 110,
+    "type": "real",
+    "visible": 1,
+    "expression": "base * 2 + 10"
+  },
+  "piExpr": {
+    "value": 3.141592653589793,
+    "type": "real",
+    "visible": 1,
+    "expression": "C:PI"
+  },
+  "dummy": {
+    "value": 0,
+    "type": "real",
+    "visible": 1,
+    "expression": ""
+  }
+}

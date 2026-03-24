@@ -1,0 +1,49 @@
+{
+  "result": [
+    {
+      "result": ""
+    },
+    {
+      "maxLevel": 51,
+      "messages": [
+        {
+          "api": "v1.common.evaluateExpression",
+          "code": 0,
+          "level": 51,
+          "levelStr": "ERROR",
+          "message": "Expression \"INVALID!!!\" could not be evaluated."
+        }
+      ],
+      "result": null
+    },
+    {
+      "result": ""
+    }
+  ],
+  "messages": [
+    {
+      "api": "v1.common.batch",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Expression \"INVALID!!!\" could not be evaluated."
+    }
+  ],
+  "maxLevel": 51,
+  "structure": {
+    "root": 1,
+    "currentProduct": 0,
+    "currentInstance": 0,
+    "testRoot": 0,
+    "tree": {
+      "1": {
+        "name": "AllObjects",
+        "class": "AllObjects",
+        "id": 1,
+        "flags": 0,
+        "parent": null
+      }
+    }
+  },
+  "graphic": null
+}

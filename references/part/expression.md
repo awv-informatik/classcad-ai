@@ -142,7 +142,7 @@ await api.v1.common.recalc()  // ← required for features to update
 ## Usage Hints
 
 - Pass numeric values as numbers (`value: 50`), not strings (`value: '50'`) — both work, but numbers are cleaner.
-- `getExpression` returns `{ expression: "<formula>", value: <number> }`. For plain numeric values, `expression` is empty string.
+- `getExpression` returns `{ expression: "<formula>", value: <number|null> }`. For plain numeric values, `expression` is empty string. For non-existent names, `value` is `null` (not an error). See `references/part/getExpression.md` for full details.
 - Empty `toCreate: []` or omitted `toCreate` is a no-op (result=1, no error).
 - 50+ expressions in a single batch works fine — no practical limit observed.
 - Negative expression results are validated by the feature — e.g., box requires length > 0.

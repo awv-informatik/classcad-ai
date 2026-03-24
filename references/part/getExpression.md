@@ -1,71 +1,90 @@
 # part.getExpression
 
-Returns a single expression entry from a part by name, including both the stored expression text and its current evaluated numeric value.
+Returns the current value and formula string of a named expression in a part.
 
 ## Prerequisites
 
 - A part (`part.create`)
-- At least one expression created via `part.expression` (otherwise lookup can soft-miss)
+- An expression created via `part.expression` (otherwise returns "not found" — see below)
 
 ## Key Parameters
 
-- `id` — **part ID** (required). Must be an ID of type `part`.
-- `name` — expression name (required, case-sensitive).
+- `id` — part ID (required). Invalid or missing → `result: null`, maxLevel=51.
+- `name` — expression name string (required). Case-sensitive — `MyVar` and `myvar` are different lookups.
 
 ## Return Value
 
-`result` is either:
+**Two distinct result shapes:**
 
-- `{ expression: string, value: real|VOID }`
-- or `null` on hard parameter/type errors
+1. **Success / not found:** `result: { expression: string, value: number|null }`
+   - Found (numeric value): `{ expression: "", value: 50 }`
+   - Found (formula): `{ expression: "base * 2 + 10", value: 210 }`
+   - Found (constant): `{ expression: "C:PI", value: 3.14159... }`
+   - **Not found:** `{ expression: "", value: null }` — maxLevel=31, no error messages
 
-Observed payload patterns:
+2. **Parameter error:** `result: null` — maxLevel=51, with error messages (missing `id` or `name`, invalid ID)
 
-- Literal numeric expression (`value: 42` at creation): `{ expression: "", value: 42 }`
-- Formula expression (`value: 'base * 2 + 5'`): `{ expression: "base * 2 + 5", value: 25 }`
-- Missing expression name: `{ expression: "", value: null }` (soft miss)
+## How to Detect "Not Found"
+
+Check `result.value === null`. The result object is always returned (never null/VOID at the top level for valid params), and there is **no error** for non-existent names. This means:
+- `value: null` → expression does not exist (or was deleted, or part has no expressions)
+- `value: 0` → expression exists with value zero
+
+Zero is a valid expression value. Do not confuse `value: 0` with "not found".
+
+## Expression Field Behavior
+
+| Created with | `expression` field | `value` field |
+|---|---|---|
+| Numeric (`value: 50`) | `""` (empty string) | `50` |
+| Formula (`value: 'base * 2'`) | `"base * 2"` | evaluated result |
+| Constant (`value: 'C:PI'`) | `"C:PI"` | `3.14159...` |
+| Broken formula (`value: 'undefinedVar + 5'`) | `"undefinedVar + 5"` | `1` (seed value) |
+| Circular ref (`value: 'b + 1'`) | `"b + 1"` | seed-pass result |
+
+Constants like `C:PI` are stored as formula strings, not resolved to numeric at creation time.
+
+## Timing: Values Update Immediately
+
+`getExpression` reflects changes **immediately** after `updateExpression` — no `recalc()` needed. This includes:
+- Direct value changes
+- Formula changes (both `expression` and `value` update)
+- Cascaded derived expressions (e.g., updating `base` immediately updates `derived = base * 2`)
+
+`recalc()` is only needed for feature geometry recalculation, not expression value reads.
 
 ## Gotchas
 
-- **Missing expression is not treated as an error.** You get `value: null` with success severity (`maxLevel: 31`) and no error messages.
-- **Name lookup is case-sensitive.** `Width` and `width` are different names.
-- **Wrong ID type hard-fails.** If you pass a feature ID instead of a part ID, the call fails with code `1001`.
-
-## Common Errors
-
-| Error | Code | Meaning |
-|---|---:|---|
-| `The parameter "id" has a wrong id type! Provide only following id types: ["part"]` | 1001 | `id` is not a part ID |
-
-## Usage Hints
-
-- Treat `value: null` as "expression not found" (soft miss), not success with numeric zero.
-- If you need strict existence checks, add an explicit null check on `result.value`.
-- For lifecycle checks, `getExpression` is useful right after `updateExpression`, `renameExpression`, and `deleteExpression`.
+- **No error for non-existent names.** Returns `{ expression: "", value: null }` with maxLevel=31. You must check `value === null` yourself.
+- **Broken formulas are readable.** A formula referencing an undefined variable returns `value: 1` (seed value) with NO error on GET — only the original `expression()` call returned an error.
+- **Empty string name is "not found", not an error.** `name: ''` returns `{ expression: "", value: null }` silently.
+- **Case-sensitive.** `MyVar` ≠ `myvar` ≠ `MYVAR`.
+- **After delete/rename:** Deleted or renamed-away names return the same "not found" response — no way to distinguish "never existed" from "was deleted" from "was renamed".
 
 ## Working Example
 
 ```js
-const partId = (await api.v1.part.create({ name: 'ExprReadback' })).result
-
+const partId = (await api.v1.part.create({ name: 'Test' })).result
 await api.v1.part.expression({
   id: partId,
   toCreate: [
-    { name: 'base', value: 10 },
-    { name: 'height', value: 'base * 2 + 5' },
+    { name: 'width', value: 100 },
+    { name: 'halfWidth', value: 'width / 2' },
   ],
 })
 
-const r = await api.v1.part.getExpression({ id: partId, name: 'height' })
-// r.result -> { expression: 'base * 2 + 5', value: 25 }
+const r = await api.v1.part.getExpression({ id: partId, name: 'halfWidth' })
+// r.result = { expression: "width / 2", value: 50 }
 
-const miss = await api.v1.part.getExpression({ id: partId, name: 'HEIGHT' })
-// miss.result -> { expression: '', value: null }  (soft miss)
+// Check if exists:
+if (r.result.value === null) {
+  console.log('Expression not found')
+}
 ```
 
 ## Related
 
-- `part.expression` — create expressions
-- `part.updateExpression` — update expression values/formulas
-- `part.renameExpression` — rename expression symbols
-- `part.deleteExpression` — remove expressions
+- `part.expression` — create expressions (returns result=1/0, not the value)
+- `part.updateExpression` — change value/formula (uses `toUpdate` array)
+- `part.deleteExpression` — remove (uses `toDelete` array)
+- `part.renameExpression` — rename (uses `toRename` array with `{ name, newName }`)

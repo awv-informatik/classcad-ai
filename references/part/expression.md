@@ -19,9 +19,33 @@ Creates named expressions (parametric variables) inside a part. Expressions can 
 - `result` — numeric `1` on success, `0` on failure. **Not boolean** despite docs saying `boolean`.
 - On certain errors (missing required params), `result` is `null`.
 
+## Using Expressions in Feature Parameters — `@expr.NAME`
+
+To reference a named expression in a feature parameter, use the **`@expr.NAME`** prefix syntax:
+
+```js
+await api.v1.part.box({
+  id: partId,
+  length: '@expr.L',          // simple reference
+  width: '@expr.W * 1.5',     // formula with expression ref
+  height: '@expr.H + 10',     // arithmetic with expression ref
+})
+```
+
+This also works in string-encoded arrays (e.g., offsets/positions):
+
+```js
+await api.v1.part.workCSys({
+  id: partId,
+  offset: '[@expr.thickness, 0, @expr.thickness]',
+})
+```
+
+**Bare expression names do NOT work** — `length: 'L'` fails with "Could not convert api params." Always use `@expr.` prefix.
+
 ## Gotchas
 
-- **Named expressions CANNOT be used directly in feature parameters.** Passing `'myExpr'` as a box `length` fails with "Could not convert api params." Inline formulas (`'3*40'`) work, but named references require `linkWithExpression`.
+- **Use `@expr.NAME` in feature params** — bare expression names fail. See section above.
 - **Duplicate names fail** with error code 1014. Use `updateExpression` to change an existing expression's value.
 - **Empty or missing `toCreate`** is a silent no-op (returns 1, no error).
 - **Dependent formulas work in one call** — if `toCreate: [{ name: 'w', value: 50 }, { name: 'h', value: 'w * 2' }]`, the dependency is resolved in array order.
@@ -73,6 +97,16 @@ const r = await api.v1.part.expression({
   ],
 })
 // r.result → 1 (success)
+
+// r.result → 1 (success)
+
+// Use expressions in feature params with @expr. prefix
+await api.v1.part.box({
+  id: partId,
+  length: '@expr.width',
+  height: '@expr.height',
+  width: '@expr.width / 2',
+})
 
 // Read back via evaluateExpression (use ExpressionSet ID 6, not partId)
 const val = await api.v1.common.evaluateExpression({ expression: 'height', id: 6 })

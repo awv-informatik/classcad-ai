@@ -94,8 +94,8 @@ export default async function (api) {
 
 | #   | Task                                      | Source                                                            | Studied |
 | --- | ----------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.getAppVersion`       | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
-| 2   | Api study of `common.getClassFileVersion` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 1   | Api study of `common.getAppVersion`       | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]    |
+| 2   | Api study of `common.getClassFileVersion` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]    |
 
 **Task #1: Api study of `common.getAppVersion`**
 
@@ -129,7 +129,7 @@ export default async function (api) {
 
 | #   | Task                                                                                 | Source                                                            | Studied |
 | --- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.batch` — how jobs array works, how results are returned per-job | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 1   | Api study of `common.batch` — how jobs array works, how results are returned per-job | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]    |
 
 **Task #1: Api study of `common.batch`**
 
@@ -165,7 +165,7 @@ export default async function (api) {
 
 | #   | Task                       | Source                                                        | Studied |
 | --- | -------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.create` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 1   | Api study of `part.create` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]    |
 
 **Task #1: Api study of `part.create`**
 
@@ -183,14 +183,14 @@ export default async function (api) {
 
 ### Category 2.2: Expressions & Parametric Control
 
-**Essentials:** Expressions are named variables that drive feature parameters. `common.evaluateExpression` is the standalone math engine. `part.expression` creates named variables inside a part. `part.linkWithExpression` connects those variables to feature parameters. When you update an expression, all linked features recalculate automatically. Learn this now because work geometry, sketches, and every feature type from here on can be expression-driven.
+**Essentials:** Expressions are named variables that drive feature parameters. `common.evaluateExpression` is the standalone math engine. `part.expression` creates named variables inside a part. To use a named expression in a feature parameter, use the **`@expr.NAME`** syntax (e.g., `length: '@expr.width'`). Bare expression names do NOT work in feature params — `linkWithExpression` is a separate mechanism for programmatic binding. When you update an expression, all features referencing it via `@expr.` recalculate automatically. Learn this now because work geometry, sketches, and every feature type from here on can be expression-driven.
 
-**Foundations:** The expression syntax is documented in [expessions.md](../knowledge/classcad-skill/references/api/expessions.md). Supports constants (`C:PI`), functions (`sin`, `sqrt`, `abs`), and references to other expressions by name.
+**Foundations:** The expression syntax is documented in [expessions.md](../knowledge/classcad-skill/references/api/expessions.md). Supports constants (`C:PI`), functions (`sin`, `sqrt`, `abs`), references to other expressions by name, and the `@expr.NAME` prefix for use in feature parameters. Formulas can combine `@expr.` refs with arithmetic (e.g., `'@expr.height + 10'`) and work inside string-encoded arrays (e.g., `'[@expr.x, 0, @expr.z]'`).
 
 | #   | Task                                                                                          | Source                                                                    | Studied |
 | --- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.evaluateExpression` — standalone math evaluation                         | [common.md](../knowledge/classcad-skill/references/api/common.md)         | [✅]     |
-| 2   | Api study of `part.expression` — create named expressions                                     | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]     |
+| 1   | Api study of `common.evaluateExpression` — standalone math evaluation                         | [common.md](../knowledge/classcad-skill/references/api/common.md)         | [✅]    |
+| 2   | Api study of `part.expression` — create named expressions                                     | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
 | 3   | Api study of `part.getExpression`                                                             | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
 | 4   | Api study of `part.updateExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
 | 5   | Api study of `part.deleteExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
@@ -234,6 +234,16 @@ const val = (await api.v1.part.getExpression({ id: partId, name: 'height' })).re
 
 await api.v1.part.updateExpression({ id: partId, name: 'width', value: '80' })
 // After update + recalc, height becomes 48
+
+// Use expressions in feature params with @expr. prefix
+await api.v1.part.box({
+  id: partId,
+  length: '@expr.width',
+  height: '@expr.height',
+  width: '@expr.width / 2',
+})
+// Box dimensions are now driven by the expressions
+// Updating 'width' will recalculate the box automatically
 ```
 
 ---
@@ -255,9 +265,8 @@ Opens a feature for editing (sets the GhostRollbackBar), then closes it. Every `
 ```js
 export default async function (api) {
   const partId = (await api.v1.part.create({ name: 'OpenCloseTest' })).result
-  const wpId = (
-    await api.v1.part.workPlane({ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] })
-  ).result
+  const wpId = (await api.v1.part.workPlane({ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] }))
+    .result
 
   // open → update → close
   await api.v1.part.openFeature({ id: wpId })
@@ -295,9 +304,8 @@ Each work geometry type takes the part ID, a name, and positioning parameters. A
 export default async function (api) {
   const partId = (await api.v1.part.create({ name: 'WGTest' })).result
 
-  const wpId = (
-    await api.v1.part.workPlane({ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] })
-  ).result
+  const wpId = (await api.v1.part.workPlane({ id: partId, name: 'WP1', origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0] }))
+    .result
   const waId = (await api.v1.part.workAxis({ id: partId, name: 'WA1', origin: [0, 0, 0], direction: [0, 1, 0] })).result
   const wcsId = (
     await api.v1.part.workCSys({ id: partId, name: 'WCS1', origin: [10, 20, 30], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })
@@ -794,8 +802,7 @@ export default async function (api, { snapshot }) {
   const boxId = (await api.v1.solid.box({ id: eifId, length: 40, width: 30, height: 20 })).result
   const sphId = (await api.v1.solid.sphere({ id: eifId, radius: 15, translation: [60, 0, 0] })).result
   const cylId = (await api.v1.solid.cylinder({ id: eifId, height: 30, diameter: 20, translation: [0, 60, 0] })).result
-  const coneId = (await api.v1.solid.cone({ id: eifId, height: 25, bDiameter: 20, tDiameter: 5, translation: [60, 60, 0] }))
-    .result
+  const coneId = (await api.v1.solid.cone({ id: eifId, height: 25, bDiameter: 20, tDiameter: 5, translation: [60, 60, 0] })).result
   // ✓ boxId → 61, sphId → 63, cylId → 67, coneId → 70
   await snapshot('solid-primitives')
   return { boxId, sphId, cylId, coneId }
@@ -842,9 +849,7 @@ await api.v1.curve.advancedPolyline({
   ],
   close: true,
 })
-const revId = (
-  await api.v1.solid.revolve({ id: eifId, originPos: [50, 0, 0], direction: [0, 1, 0], angle: 6.283, curves: s2 })
-).result
+const revId = (await api.v1.solid.revolve({ id: eifId, originPos: [50, 0, 0], direction: [0, 1, 0], angle: 6.283, curves: s2 })).result
 // ✓ revId → 70 (full 360° revolve = torus-like shape)
 ```
 
@@ -1287,9 +1292,8 @@ const tplId = (await api.v1.assembly.partTemplate({})).result
 
 // Build geometry inside the template
 const boxFeat = (await api.v1.part.box({ id: tplId, name: 'Box1', length: 40, width: 30, height: 20 })).result
-const wcsId = (
-  await api.v1.part.workCSys({ id: tplId, name: 'WCS1', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })
-).result
+const wcsId = (await api.v1.part.workCSys({ id: tplId, name: 'WCS1', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] }))
+  .result
 
 // Return to assembly context
 await api.v1.assembly.setCurrentProduct({ id: asmId })

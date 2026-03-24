@@ -53,45 +53,149 @@ The `param` argument accepts both a single object and an array of objects (each 
 | "Division by zero!" | 0 | Formula divides by zero |
 | "evaluates to the type String" | 0 | Formula returns a string, not a number |
 
-## Usage Hints
+## Using Expressions in Feature Parameters
 
-- Pass numeric values as numbers (`value: 50`), not strings (`value: '50'`) — both work, but numbers are cleaner and don't need parsing.
-- Use `@expr.NAME` in feature params: `await api.v1.part.box({ id: partId, length: '@expr.L' })`. The `@expr.` prefix is mandatory — bare names don't work in feature params.
-- `getExpression` returns `{ expression: "<formula>", value: <number> }`. For plain numeric values, the `expression` field is an empty string.
-- Empty `toCreate: []` or omitted `toCreate` is a no-op (result=1, no error).
-- 50+ expressions in a single batch works fine — no practical limit observed.
+### `@expr.NAME` syntax
 
-## Working Example
+Reference named expressions in any feature param that accepts `expression` type:
 
 ```js
-const partId = (await api.v1.part.create({ name: 'Test' })).result
+await api.v1.part.box({ id: partId, length: '@expr.L', width: '@expr.W', height: '@expr.H' })
+await api.v1.part.cylinder({ id: partId, diameter: '@expr.cylDiam', height: '@expr.cylHt' })
+```
 
-// Create expressions — order doesn't matter, cross-refs resolve automatically
+**The `@expr.` prefix is mandatory.** Bare names (`'L'`, `'L + 10'`) fail with error 1000 "Could not convert api params."
+
+### Inline formulas (no named expressions)
+
+Feature params also accept raw formula strings — no `@expr.` or named expressions needed:
+
+```js
+await api.v1.part.box({ id: partId, length: '3 * 40', width: 'sqrt(2500)', height: 'C:PI * 20' })
+```
+
+### Mixing `@expr.` with arithmetic and functions
+
+Full expression syntax works:
+
+```js
+length: '@expr.base + 20'                    // @expr + constant
+diameter: '@expr.base - 2 * @expr.margin'    // two @expr refs + arithmetic
+length: 'sqrt(@expr.base)'                   // function wrapping @expr
+height: 'max(@expr.base, @expr.margin) / 2'  // multi-arg function
+length: 'min(max(@expr.val, 50), 200)'       // clamp pattern
+```
+
+### String-encoded point arrays
+
+`@expr.` works inside string-encoded arrays for offset/position params:
+
+```js
+await api.v1.part.workCSys({
+  id: partId,
+  offset: '[@expr.offsetX, @expr.offsetY, @expr.offsetZ]',
+})
+```
+
+## Updating Expressions & Recalculation
+
+### updateExpression syntax
+
+**CRITICAL:** `updateExpression` uses a `toUpdate` array, NOT direct `name`/`value` params:
+
+```js
+// ✅ CORRECT
+await api.v1.part.updateExpression({
+  id: partId,
+  toUpdate: [{ name: 'size', value: 120 }],
+})
+
+// ❌ WRONG — silently ignored (result=1, no error, value unchanged)
+await api.v1.part.updateExpression({ id: partId, name: 'size', value: 120 })
+```
+
+`updateExpression` can change both numeric values and formula strings:
+
+```js
+await api.v1.part.updateExpression({
+  id: partId,
+  toUpdate: [{ name: 'y', value: 'x * 3 + 5' }],  // change formula
+})
+```
+
+### Recalculation: always call `common.recalc()` after updates
+
+`updateExpression` updates the expression value immediately (`getExpression` returns the new value). But **feature geometry does NOT recalculate** until you call `common.recalc()`:
+
+```js
+await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'S', value: 100 }] })
+await api.v1.common.recalc()  // ← required for features to update
+```
+
+### Cascade behavior
+
+- Derived expressions auto-cascade: updating `base` propagates to `doubled = base * 2`
+- Multiple features sharing one expression all recalculate
+- WCS offsets with `@expr.` in string-encoded arrays also recalculate
+- The full chain works: base expr → derived expr → feature param → geometry
+
+## Usage Hints
+
+- Pass numeric values as numbers (`value: 50`), not strings (`value: '50'`) — both work, but numbers are cleaner.
+- `getExpression` returns `{ expression: "<formula>", value: <number> }`. For plain numeric values, `expression` is empty string.
+- Empty `toCreate: []` or omitted `toCreate` is a no-op (result=1, no error).
+- 50+ expressions in a single batch works fine — no practical limit observed.
+- Negative expression results are validated by the feature — e.g., box requires length > 0.
+
+## Working Example: Parametric Model
+
+```js
+const partId = (await api.v1.part.create({ name: 'FlangedBlock' })).result
+
+// Define master dimensions and derived values
 await api.v1.part.expression({
   id: partId,
   toCreate: [
-    { name: 'L', value: 120 },
-    { name: 'W', value: 80 },
-    { name: 'H', value: 'L / 2' },               // formula referencing L
-    { name: 'area', value: 'L * W' },             // formula referencing L and W
-    { name: 'circ', value: '2 * C:PI * L / 2' },  // math functions + constants
+    { name: 'baseL', value: 120 },
+    { name: 'baseW', value: 80 },
+    { name: 'baseH', value: 30 },
+    { name: 'towerL', value: 'baseL * 0.5' },
+    { name: 'towerW', value: 'baseW * 0.5' },
+    { name: 'towerH', value: 'baseL * 0.8' },
   ],
 })
 
-// Use in a box feature via @expr. prefix
+// Base plate
 await api.v1.part.box({
-  id: partId,
-  length: '@expr.L',
-  width: '@expr.W',
-  height: '@expr.H',
+  id: partId, name: 'BasePlate',
+  length: '@expr.baseL', width: '@expr.baseW', height: '@expr.baseH',
 })
+
+// Tower placed on top via expression-driven WCS
+const wcsId = (await api.v1.part.workCSys({
+  id: partId, name: 'TowerOrigin',
+  offset: '[@expr.baseL/4, @expr.baseW/4, @expr.baseH]',
+})).result
+
+await api.v1.part.box({
+  id: partId, name: 'Tower', references: [wcsId],
+  length: '@expr.towerL', width: '@expr.towerW', height: '@expr.towerH',
+})
+
+// Change master dimension — everything scales
+await api.v1.part.updateExpression({
+  id: partId, toUpdate: [{ name: 'baseL', value: 200 }],
+})
+await api.v1.common.recalc()
+// towerL=100, towerH=160, WCS offset updated — full cascade
 ```
 
 ## Related
 
 - `part.getExpression` — read back an expression's formula and current value
-- `part.updateExpression` — change an existing expression's value
+- `part.updateExpression` — change an existing expression's value (uses `toUpdate` array!)
 - `part.deleteExpression` — remove an expression
 - `part.renameExpression` — rename an expression
-- `part.linkWithExpression` — programmatically bind an expression to a feature parameter
+- `part.linkWithExpression` — programmatically bind an expression to a feature parameter (`{ id: featureId, exprName, name }`)
 - `common.evaluateExpression` — evaluate a formula (pass ExpressionSet ID 6 to reference named expressions)
+- `common.recalc` — recalculate all features after expression updates

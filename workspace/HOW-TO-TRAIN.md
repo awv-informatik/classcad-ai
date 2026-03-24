@@ -483,9 +483,16 @@ Before declaring a session done, verify every item:
 
 > Only relevant when your task involves 3D geometry (solids, booleans, fillets, chamfers, etc.). Skip for protocol, sketch, or curve-only tasks.
 
-**Renderer:** Fixed isometric projection with per-body coloring (each body gets a distinct color).
+**Renderer:** Fixed isometric projection with per-body coloring (each body gets a distinct color). **The renderer auto-scales to fit the viewport** — all geometry is normalized to fill the image regardless of absolute size. This means a 60³ cube and a 120³ cube produce identical-looking snapshots.
 
 **Camera orientation (from `scripts/render-direct.mjs`):** `projectIso` rotates 45° around Y, then ~35.264° around X. Depth: `d = (-x + y + z)/√3`, larger `d` = closer to camera. Think of the camera as viewing from roughly **(-X, +Y, +Z)** toward the origin.
+
+**Auto-scaling implications:**
+
+- **Uniform scaling is invisible.** Doubling all dimensions of a single body produces the same image. Before/after snapshots that only differ in size look identical.
+- **To show a size change visually**, include a fixed-size reference body (e.g., a small cylinder that doesn't change). The reference body's relative size reveals whether the target body grew or shrank.
+- **Shape changes are always visible.** Changing proportions (e.g., a cube → a tall box), adding/removing bodies, or cutting geometry always shows up because the silhouette changes.
+- When comparing before/after snapshots, ask: "does the _shape_ differ, or only the _scale_?" If only scale differs, you need a reference object or must verify dimensions numerically (via `getExpression`, bounding box, etc.).
 
 **Geometry placement tips:**
 
@@ -496,6 +503,7 @@ Before declaring a session done, verify every item:
 - Bias modified regions toward the viewer-facing side (lower X and/or higher Y/Z)
 - The opposite side **(+X, -Y, -Z)** is the "back" — easiest to accidentally hide geometry there
 - If a before/after pair looks identical, assume view placement is wrong first: reposition and re-run
+- **For parametric update tests:** always include a fixed-size reference body so scale changes are visible
 
 ---
 

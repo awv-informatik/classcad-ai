@@ -191,7 +191,7 @@ export default async function (api) {
 | --- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
 | 1   | Api study of `common.evaluateExpression` — standalone math evaluation                         | [common.md](../knowledge/classcad-skill/references/api/common.md)         | [✅]    |
 | 2   | Api study of `part.expression` — create named expressions                                     | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
-| 3   | Api study of `part.getExpression`                                                             | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 3   | Api study of `part.getExpression`                                                             | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
 | 4   | Api study of `part.updateExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
 | 5   | Api study of `part.deleteExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
 | 6   | Api study of `part.renameExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |

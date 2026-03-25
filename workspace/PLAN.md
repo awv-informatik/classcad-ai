@@ -197,7 +197,7 @@ export default async function (api) {
 | 6   | Api study of `part.renameExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
 | 7   | Api study of `part.linkWithExpression`                                                        | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
 | 8   | Api study of `part.unlinkExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
-| 9   | Study: expression syntax — constants, functions, inter-expression references                  | [expessions.md](../knowledge/classcad-skill/references/api/expessions.md) | [ ]     |
+| 9   | Study: expression syntax — constants, functions, inter-expression references                  | [expessions.md](../knowledge/classcad-skill/references/api/expessions.md) | [✅]    |
 | 10  | Study: expression workflow — create → link to feature param → update → observe feature change | part.md                                                                   | [ ]     |
 
 **Task #1: Api study of `common.evaluateExpression`**

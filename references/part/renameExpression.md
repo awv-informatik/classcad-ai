@@ -68,6 +68,19 @@ Same rules as `expression()` creation:
 - **Cannot rename to an existing name** — error 1014 "X already exists"
 - **Cannot rename to the same name** — treated as a collision with itself (error, not a no-op)
 
+## WARNING: Rename Breaks @expr Feature Bindings
+
+Renaming auto-updates **formula references** (other expressions), but does **NOT** update `@expr.NAME` bindings on features. Features that were created with `@expr.oldName` or linked via `linkWithExpression` to the old name will **freeze at the last value** — they do NOT follow the rename. No warning is emitted.
+
+**Workaround:** After renaming, re-link affected features:
+
+```js
+await api.v1.part.renameExpression({ id: partId, toRename: [{ name: 'H', newName: 'height' }] })
+// Box still frozen at old H value — must re-link
+await api.v1.part.linkWithExpression({ id: boxId, exprName: 'height', name: 'height' })
+await api.v1.common.recalc()
+```
+
 ## Edge Cases
 
 - **Empty `toRename: []`** — no-op, result=1.

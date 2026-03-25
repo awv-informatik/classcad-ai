@@ -66,7 +66,7 @@ This means derived expressions **survive** deletion of their dependencies. The f
 
 ## Feature Survival
 
-Deleting an expression used by a feature via `@expr.NAME` does NOT destroy the feature. The value is baked into the feature parameter. After `recalc()`, the geometry is preserved with the last known value.
+Deleting an expression used by a feature via `@expr.NAME` or `linkWithExpression` does NOT destroy the feature. The parameter freezes at the expression's last value (same as unlink behavior). No warning is emitted about orphaned feature bindings.
 
 ## Edge Cases
 

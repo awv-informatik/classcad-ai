@@ -124,3 +124,56 @@ await api.v1.part.box({ id: partId, length: '@expr.L + 0' })
 ```
 
 > **Note:** Inline formulas that do NOT reference named expressions work without the prefix (e.g., `length: '3*40'`). The `@expr.` prefix is only needed when referencing expressions created with `part.expression`.
+
+## Linking and Unlinking Expressions (Post-Hoc Binding)
+
+There are **two ways** to connect a named expression to a feature parameter:
+
+1. **At creation time** — pass `@expr.NAME` as the parameter value (see above).
+2. **After creation** — use `part.linkWithExpression` to bind an expression to an existing feature parameter that was originally set with a plain value.
+
+`part.unlinkExpression` disconnects an expression from a feature parameter.
+
+### linkWithExpression
+
+Connects a named expression to a feature parameter or sketch dimension **after** the feature was already created with a plain value.
+
+```js
+// Box created with plain height=40
+const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
+
+// Later, bind 'height' param to expression 'H' (which has value 120)
+await api.v1.part.linkWithExpression({ id: boxId, exprName: 'H', name: 'height' })
+await api.v1.common.recalc()
+// Box height is now 120, driven by expression H
+```
+
+**Parameters:**
+
+- `id` — feature or sketch dimension ID (NOT the part ID)
+- `exprName` — name of the expression to link (must exist in the part's expression set)
+- `name` — feature parameter name to bind (e.g., `'height'`, `'length'`, `'diameter'`, `'limit2'`)
+
+Can also re-link a param that is already expression-driven (via `@expr.` at creation) to a different expression.
+
+### unlinkExpression
+
+Disconnects an expression from a feature parameter. The parameter **freezes at the expression's current value** — it does NOT revert to the original hard-coded value.
+
+```js
+// Box height is linked to expression H=120
+await api.v1.part.unlinkExpression({ id: boxId, name: 'height' })
+await api.v1.common.recalc()
+// Box height is now a plain value of 120 (frozen). Changing H has no effect.
+```
+
+**Parameters:**
+
+- `id` — feature or sketch dimension ID
+- `name` — parameter name to disconnect
+
+### Key behavior
+
+- Both return `result: VOID` (null), maxLevel=31 on success
+- Both require `common.recalc()` afterward for geometry to update
+- **Unlink freezes the current expression value** — the param becomes a plain value equal to whatever the expression evaluated to at the moment of unlinking. The original hard-coded value (from feature creation) is NOT restored.

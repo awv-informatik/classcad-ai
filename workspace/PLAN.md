@@ -192,11 +192,11 @@ export default async function (api) {
 | 1   | Api study of `common.evaluateExpression` — standalone math evaluation                         | [common.md](../knowledge/classcad-skill/references/api/common.md)         | [✅]    |
 | 2   | Api study of `part.expression` — create named expressions                                     | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
 | 3   | Api study of `part.getExpression`                                                             | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
-| 4   | Api study of `part.updateExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
-| 5   | Api study of `part.deleteExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
-| 6   | Api study of `part.renameExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
-| 7   | Api study of `part.linkWithExpression`                                                        | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
-| 8   | Api study of `part.unlinkExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [ ]     |
+| 4   | Api study of `part.updateExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
+| 5   | Api study of `part.deleteExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
+| 6   | Api study of `part.renameExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
+| 7   | Api study of `part.linkWithExpression`                                                        | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
+| 8   | Api study of `part.unlinkExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
 | 9   | Study: expression syntax — constants, functions, inter-expression references                  | [expessions.md](../knowledge/classcad-skill/references/api/expessions.md) | [ ]     |
 | 10  | Study: expression workflow — create → link to feature param → update → observe feature change | part.md                                                                   | [ ]     |
 
@@ -244,6 +244,23 @@ await api.v1.part.box({
 })
 // Box dimensions are now driven by the expressions
 // Updating 'width' will recalculate the box automatically
+```
+
+**Task #7-8: linkWithExpression / unlinkExpression (post-hoc binding)**
+
+These APIs bind/unbind a named expression to a feature parameter **after** the feature was already created with a plain value. `linkWithExpression` takes the **feature ID** (not the part ID), the expression name, and the parameter name. `unlinkExpression` disconnects the binding — the parameter **freezes at the current expression value** (it does NOT revert to the original hard-coded value).
+
+```js
+// Box created with plain height=40
+const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
+
+// Later, bind height to expression H=120
+await api.v1.part.linkWithExpression({ id: boxId, exprName: 'H', name: 'height' })
+await api.v1.common.recalc()  // box height is now 120
+
+// Unbind — height freezes at 120 (NOT 40)
+await api.v1.part.unlinkExpression({ id: boxId, name: 'height' })
+await api.v1.common.recalc()  // box height stays 120, changing H has no effect
 ```
 
 ---

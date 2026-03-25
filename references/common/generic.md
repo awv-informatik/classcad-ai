@@ -96,7 +96,7 @@ In practice, `maxLevel == 31` means success, `maxLevel >= 51` means failure. War
 | 1007 | Wrong ID type                    | Part ID where feature ID expected, vice versa|
 | 1013 | Invalid parameter value          | Invalid enum value — message lists valid options |
 | 1200 | Root already exists / not editable | Second `part.create`, or `update*` on locked feature |
-| 1201 | Unknown command                  | `v1.common.doesNotExist`, `sketch.isSolved`  |
+| 1201 | Unknown command                  | `v1.common.doesNotExist` (any non-existent API) |
 
 **Multiple messages per call:** A single call can return multiple messages. Typically a WARNING (41) precedes the ERROR (51) — e.g. "couldn't convert to id" (warning) then "invalid id" (error).
 
@@ -311,10 +311,6 @@ matrix: [
 **`isGlobal` parameter** (default: `TRUE`): When `TRUE`, the matrix is in global coordinates. When `FALSE`, it's in the object's local coordinate system.
 
 **Behavior:** Transforms the part's global coordinate system — internal geometry positions remain in local coordinates. The structure tree always shows local coordinates, so work axis directions do not visibly change. Matrices compose — applying the same transform twice doubles the effect.
-
-## Known Doc Discrepancies
-
-- `v1.sketch.isSolved` — listed in API docs but returns code 1201 (unknown command) on the server.
 
 ## Related
 

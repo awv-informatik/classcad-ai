@@ -8,7 +8,7 @@ You are training the ClassCAD API skill by writing test scripts, running them ag
 
 **Pipeline: Plan → Read → Script → Run → Journal → Write LLM docs → changes.md → Checkpoint**
 
-Every training session follows this pipeline. Unless the user gives you different instructions, you pick **one task** from `workspace/PLAN.md` and train on that task alone. Steps 1–2 are task selection and preparation. Steps 3–4 are exploration. Step 5 is the deliverable — writing or updating per-API LLM docs. Steps 6–7 are bookkeeping. A session is not complete until you have written the LLM doc file, recorded changes in `changes.md` (or justified why none were needed), **and** marked the task complete in PLAN.md.
+Every training session follows this pipeline. Unless the user gives you different instructions, you pick **one task** from `workspace/PLAN.md` and train on that task alone. Steps 1–2 are task selection and preparation. Steps 3–4 are exploration. Step 5 is the deliverable — writing or updating per-API LLM docs. Steps 6–7 are bookkeeping. A session is not complete until you have written the LLM doc file, recorded git diff changes in `changes.md` (or justified why none were needed), **and** marked the task complete in PLAN.md.
 
 ---
 
@@ -288,9 +288,7 @@ export default async function (api, { snapshot, filewrite }) {
   const partId = (await api.v1.part.create({ name: 'Test' })).result
   const skId = (await api.v1.sketch.create({ id: partId })).result
 
-  const lines = (
-    await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })
-  ).result
+  const lines = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })).result
 
   await snapshot('rectangle')
   return { partId }

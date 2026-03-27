@@ -445,6 +445,232 @@ function renderCurveSVG(graphic, width = IMG_W, height = IMG_H) {
 
 
 // ═══════════════════════════════════════════════════════════════════════════
+// WORK GEOMETRY RENDERER — from structure tree members
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Colors for work geometry types
+const WG_COLORS = {
+  plane:  { fill: 'rgba(0,120,255,0.12)', stroke: '#0078ff', label: '#0060cc' },
+  axis:   { stroke: '#cc4400', label: '#cc4400' },
+  point:  { fill: '#cc0044', stroke: '#cc0044', label: '#cc0044' },
+  csys:   { x: '#cc0000', y: '#00aa00', z: '#0044cc' },
+}
+
+/**
+ * Extract work geometry definitions from the structure tree.
+ * Returns arrays of { id, name, ...params } for each type.
+ */
+function extractWorkGeometry(tree) {
+  const planes = [], axes = [], points = [], csyses = []
+
+  // Default/built-in work geometry names to skip (they clutter the view)
+  const builtins = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
+
+  for (const [id, obj] of Object.entries(tree)) {
+    // Skip built-in work geometry
+    if (builtins.has(obj.name)) continue
+    const m = obj.members || {}
+
+    if (obj.class === 'CC_WorkPlane') {
+      const pos = m.curPosition?.value || m.Position?.value || { x: 0, y: 0, z: 0 }
+      const normal = m.Normal?.value || { x: 0, y: 0, z: 1 }
+      const size = m.Size?.value ?? 200
+      const offset = m.Offset?.value ?? 0
+      planes.push({ id: Number(id), name: obj.name, pos, normal, size, offset })
+    }
+    if (obj.class === 'CC_WorkAxis') {
+      const pos = m.Position?.value || { x: 0, y: 0, z: 0 }
+      const dir = m.Direction?.value || { x: 0, y: 0, z: 1 }
+      const length = m.Length?.value ?? 50
+      axes.push({ id: Number(id), name: obj.name, pos, dir, length })
+    }
+    if (obj.class === 'CC_WorkPoint') {
+      const pos = m.Position?.value || { x: 0, y: 0, z: 0 }
+      points.push({ id: Number(id), name: obj.name, pos })
+    }
+    if (obj.class === 'CC_WorkCSys') {
+      const cs = obj.coordinateSystem || [[0,0,0],[1,0,0],[0,1,0],[0,0,1]]
+      const origin = { x: cs[0][0], y: cs[0][1], z: cs[0][2] }
+      const xDir = { x: cs[1][0], y: cs[1][1], z: cs[1][2] }
+      const yDir = { x: cs[2][0], y: cs[2][1], z: cs[2][2] }
+      const zDir = { x: cs[3][0], y: cs[3][1], z: cs[3][2] }
+      const off = m.offset?.value || { x: 0, y: 0, z: 0 }
+      csyses.push({ id: Number(id), name: obj.name, origin, xDir, yDir, zDir, offset: off })
+    }
+  }
+  return { planes, axes, points, csyses }
+}
+
+/**
+ * Compute the four corners of a work plane quad in 3D.
+ * Given center position, normal, and size, returns [c0, c1, c2, c3].
+ */
+function workPlaneCorners(pos, normal, size, offset) {
+  const n = { x: normal.x, y: normal.y, z: normal.z }
+  const len = Math.sqrt(n.x*n.x + n.y*n.y + n.z*n.z) || 1
+  n.x /= len; n.y /= len; n.z /= len
+
+  // Apply offset along normal
+  const cx = pos.x + n.x * offset
+  const cy = pos.y + n.y * offset
+  const cz = pos.z + n.z * offset
+
+  // Build two tangent vectors perpendicular to normal
+  let up = { x: 0, y: 0, z: 1 }
+  if (Math.abs(n.x * up.x + n.y * up.y + n.z * up.z) > 0.9) {
+    up = { x: 0, y: 1, z: 0 }
+  }
+  // u = normalize(cross(normal, up))
+  const ux = n.y * up.z - n.z * up.y
+  const uy = n.z * up.x - n.x * up.z
+  const uz = n.x * up.y - n.y * up.x
+  const uLen = Math.sqrt(ux*ux + uy*uy + uz*uz) || 1
+  const u = { x: ux/uLen, y: uy/uLen, z: uz/uLen }
+  // v = cross(normal, u)
+  const v = { x: n.y * u.z - n.z * u.y, y: n.z * u.x - n.x * u.z, z: n.x * u.y - n.y * u.x }
+
+  const half = size / 2
+  return [
+    [cx - u.x*half - v.x*half, cy - u.y*half - v.y*half, cz - u.z*half - v.z*half],
+    [cx + u.x*half - v.x*half, cy + u.y*half - v.y*half, cz + u.z*half - v.z*half],
+    [cx + u.x*half + v.x*half, cy + u.y*half + v.y*half, cz + u.z*half + v.z*half],
+    [cx - u.x*half + v.x*half, cy - u.y*half + v.y*half, cz - u.z*half + v.z*half],
+  ]
+}
+
+/**
+ * Render work geometry as isometric SVG overlay.
+ * @param {object} workGeo — from extractWorkGeometry()
+ * @param {number} width
+ * @param {number} height
+ * @param {Array} [extraPts2d] — additional 2D points for fitting the view (from solid rendering)
+ * @returns {string|null} SVG string, or null if nothing to render
+ */
+function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = []) {
+  const { planes, axes, points, csyses } = workGeo
+  if (!planes.length && !axes.length && !points.length && !csyses.length) return null
+
+  // Collect all 3D points for view fitting
+  const allPts2d = [...extraPts2d]
+
+  // Pre-project all geometry
+  const projPlanes = planes.map(p => {
+    const corners = workPlaneCorners(p.pos, p.normal, p.size, p.offset)
+    const proj = corners.map(([x,y,z]) => {
+      const [px, py] = projectIso(x, y, z)
+      allPts2d.push([px, py])
+      return [px, py]
+    })
+    // Center for label
+    const center = projectIso(
+      p.pos.x + p.normal.x * p.offset,
+      p.pos.y + p.normal.y * p.offset,
+      p.pos.z + p.normal.z * p.offset
+    )
+    return { ...p, proj, center: [center[0], center[1]] }
+  })
+
+  const projAxes = axes.map(a => {
+    const start = [a.pos.x, a.pos.y, a.pos.z]
+    const end = [a.pos.x + a.dir.x * a.length, a.pos.y + a.dir.y * a.length, a.pos.z + a.dir.z * a.length]
+    const ps = projectIso(...start)
+    const pe = projectIso(...end)
+    allPts2d.push([ps[0], ps[1]], [pe[0], pe[1]])
+    return { ...a, start: [ps[0], ps[1]], end: [pe[0], pe[1]] }
+  })
+
+  const projPoints = points.map(p => {
+    const [px, py] = projectIso(p.pos.x, p.pos.y, p.pos.z)
+    allPts2d.push([px, py])
+    return { ...p, proj: [px, py] }
+  })
+
+  const csysArmLen = 30  // screen-space arm length will be scaled
+  const projCsyses = csyses.map(cs => {
+    const o = [cs.origin.x + cs.offset.x, cs.origin.y + cs.offset.y, cs.origin.z + cs.offset.z]
+    const armLen = 25  // world units
+    const xEnd = [o[0] + cs.xDir.x * armLen, o[1] + cs.xDir.y * armLen, o[2] + cs.xDir.z * armLen]
+    const yEnd = [o[0] + cs.yDir.x * armLen, o[1] + cs.yDir.y * armLen, o[2] + cs.yDir.z * armLen]
+    const zEnd = [o[0] + cs.zDir.x * armLen, o[1] + cs.zDir.y * armLen, o[2] + cs.zDir.z * armLen]
+    const po = projectIso(...o)
+    const px = projectIso(...xEnd)
+    const py = projectIso(...yEnd)
+    const pz = projectIso(...zEnd)
+    for (const p of [po, px, py, pz]) allPts2d.push([p[0], p[1]])
+    return { ...cs, origin: [po[0], po[1]], xEnd: [px[0], px[1]], yEnd: [py[0], py[1]], zEnd: [pz[0], pz[1]] }
+  })
+
+  if (allPts2d.length === 0) return null
+  const xf = viewTransform(allPts2d, width, height)
+  const f = (x, y) => { const [sx, sy] = xf(x, y); return `${sx.toFixed(1)},${sy.toFixed(1)}` }
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\n`
+  svg += `<rect width="100%" height="100%" fill="white"/>\n`
+  svg += `<style>text { font: 11px sans-serif; }</style>\n`
+
+  // Draw planes (semi-transparent quads with dashed border)
+  for (const p of projPlanes) {
+    const pts = p.proj.map(([x,y]) => f(x, y)).join(' ')
+    svg += `<polygon points="${pts}" fill="${WG_COLORS.plane.fill}" stroke="${WG_COLORS.plane.stroke}" stroke-width="1.5" stroke-dasharray="6,3"/>\n`
+    // Label
+    const [lx, ly] = xf(p.center[0], p.center[1])
+    svg += `<text x="${lx.toFixed(1)}" y="${(ly - 6).toFixed(1)}" text-anchor="middle" fill="${WG_COLORS.plane.label}" font-weight="bold">${p.name}</text>\n`
+  }
+
+  // Draw axes (colored lines with arrow)
+  for (const a of projAxes) {
+    const [sx, sy] = xf(a.start[0], a.start[1])
+    const [ex, ey] = xf(a.end[0], a.end[1])
+    svg += `<line x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="${WG_COLORS.axis.stroke}" stroke-width="2" stroke-dasharray="8,4"/>\n`
+    // Arrowhead
+    const dx = ex - sx, dy = ey - sy
+    const alen = Math.sqrt(dx*dx + dy*dy) || 1
+    const ux = dx/alen, uy = dy/alen
+    const arrowSize = 8
+    svg += `<polygon points="${ex.toFixed(1)},${ey.toFixed(1)} ${(ex - arrowSize*ux + arrowSize*0.4*uy).toFixed(1)},${(ey - arrowSize*uy - arrowSize*0.4*ux).toFixed(1)} ${(ex - arrowSize*ux - arrowSize*0.4*uy).toFixed(1)},${(ey - arrowSize*uy + arrowSize*0.4*ux).toFixed(1)}" fill="${WG_COLORS.axis.stroke}"/>\n`
+    // Label
+    const mx = (sx + ex) / 2, my = (sy + ey) / 2
+    svg += `<text x="${(mx + 8).toFixed(1)}" y="${(my - 4).toFixed(1)}" fill="${WG_COLORS.axis.label}" font-weight="bold">${a.name}</text>\n`
+  }
+
+  // Draw points (diamond markers)
+  for (const p of projPoints) {
+    const [cx, cy] = xf(p.proj[0], p.proj[1])
+    const s = 5
+    svg += `<polygon points="${cx.toFixed(1)},${(cy-s).toFixed(1)} ${(cx+s).toFixed(1)},${cy.toFixed(1)} ${cx.toFixed(1)},${(cy+s).toFixed(1)} ${(cx-s).toFixed(1)},${cy.toFixed(1)}" fill="${WG_COLORS.point.fill}" stroke="${WG_COLORS.point.stroke}" stroke-width="1.5"/>\n`
+    svg += `<text x="${(cx + 8).toFixed(1)}" y="${(cy - 4).toFixed(1)}" fill="${WG_COLORS.point.label}" font-weight="bold">${p.name}</text>\n`
+  }
+
+  // Draw coordinate systems (RGB axis triads)
+  for (const cs of projCsyses) {
+    const [ox, oy] = xf(cs.origin[0], cs.origin[1])
+    const arms = [
+      { end: cs.xEnd, color: WG_COLORS.csys.x, label: 'X' },
+      { end: cs.yEnd, color: WG_COLORS.csys.y, label: 'Y' },
+      { end: cs.zEnd, color: WG_COLORS.csys.z, label: 'Z' },
+    ]
+    for (const arm of arms) {
+      const [ex, ey] = xf(arm.end[0], arm.end[1])
+      svg += `<line x1="${ox.toFixed(1)}" y1="${oy.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="${arm.color}" stroke-width="2.5"/>\n`
+      // Small arrowhead
+      const dx = ex - ox, dy = ey - oy
+      const alen = Math.sqrt(dx*dx + dy*dy) || 1
+      const ux = dx/alen, uy = dy/alen
+      const as = 6
+      svg += `<polygon points="${ex.toFixed(1)},${ey.toFixed(1)} ${(ex - as*ux + as*0.35*uy).toFixed(1)},${(ey - as*uy - as*0.35*ux).toFixed(1)} ${(ex - as*ux - as*0.35*uy).toFixed(1)},${(ey - as*uy + as*0.35*ux).toFixed(1)}" fill="${arm.color}"/>\n`
+      svg += `<text x="${(ex + 4*ux).toFixed(1)}" y="${(ey + 4*uy).toFixed(1)}" fill="${arm.color}" font-size="10" font-weight="bold">${arm.label}</text>\n`
+    }
+    // Origin dot
+    svg += `<circle cx="${ox.toFixed(1)}" cy="${oy.toFixed(1)}" r="3" fill="#333"/>\n`
+    svg += `<text x="${(ox + 8).toFixed(1)}" y="${(oy - 6).toFixed(1)}" fill="#333" font-weight="bold">${cs.name}</text>\n`
+  }
+
+  svg += '</svg>'
+  return svg
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
 // SESSION ANALYZER — detect content types from structure tree
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -454,13 +680,17 @@ function renderCurveSVG(graphic, width = IMG_W, height = IMG_H) {
  * @returns {{ solids: number[], sketches: number[], curves: number[], eifs: number[] }}
  */
 export function analyzeSession(tree) {
-  const result = { solids: [], sketches: [], curves: [], eifs: [] }
+  const builtinNames = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
+  const result = { solids: [], sketches: [], curves: [], eifs: [], workGeo: [] }
   for (const [id, obj] of Object.entries(tree)) {
     const nid = Number(id)
     if (obj.class === 'CC_Solid') result.solids.push(nid)
     if (obj.class === 'CC_Sketch') result.sketches.push(nid)
     if (obj.class === 'CC_CurveEntity') result.curves.push(nid)
     if (obj.class === 'CC_EntityInjection') result.eifs.push(nid)
+    if ((obj.class === 'CC_WorkPlane' || obj.class === 'CC_WorkAxis' || obj.class === 'CC_WorkPoint' || obj.class === 'CC_WorkCSys') && !builtinNames.has(obj.name)) {
+      result.workGeo.push(nid)
+    }
   }
   return result
 }
@@ -559,6 +789,21 @@ export async function renderSession(client, prefix, outDir, options = {}) {
         await svgToPng(svg, `${outDir}/${file}`)
         rendered.push({ type: 'curves', file })
       }
+    }
+  }
+
+  // ── WORK GEOMETRY ──
+  if (content.workGeo.length > 0) {
+    const workGeo = extractWorkGeometry(tree)
+    // Collect 2D points from solid geometry (if any) so view fits both together
+    const extraPts = []
+    // If we already rendered solids, we want the work geo to use a compatible view.
+    // For now, render work geo standalone with its own fitting.
+    const svg = renderWorkGeoSVG(workGeo, width, height, extraPts)
+    if (svg) {
+      const file = `${prefix}-workgeo.png`
+      await svgToPng(svg, `${outDir}/${file}`)
+      rendered.push({ type: 'workgeo', file })
     }
   }
 

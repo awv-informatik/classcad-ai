@@ -271,9 +271,9 @@ await api.v1.common.recalc()  // box height stays 120, changing H has no effect
 
 | #   | Task                                                                                | Source                                                        | Studied |
 | --- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.openFeature`                                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.closeFeature`                                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Study: the open → update → close pattern — why it exists and what breaks without it | part.md                                                       | [ ]     |
+| 1   | Api study of `part.openFeature`                                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]    |
+| 2   | Api study of `part.closeFeature`                                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]    |
+| 3   | Study: the open → update → close pattern — why it exists and what breaks without it | part.md                                                       | [✅]    |
 
 **Task #1-2: Api study of `part.openFeature` / `part.closeFeature`**
 
@@ -303,7 +303,7 @@ export default async function (api) {
 
 | #   | Task                                                                   | Source                                                        | Studied |
 | --- | ---------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.workPlane`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.workPlane`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 2   | Api study of `part.updateWorkPlane`                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 | 3   | Api study of `part.workAxis`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 | 4   | Api study of `part.updateWorkAxis`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |

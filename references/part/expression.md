@@ -123,20 +123,20 @@ await api.v1.part.updateExpression({
 })
 ```
 
-### Recalculation: always call `common.recalc()` after updates
+### Immediate geometry update
 
-`updateExpression` updates the expression value immediately (`getExpression` returns the new value). But **feature geometry does NOT recalculate** until you call `common.recalc()`:
+`updateExpression` updates everything in one call — expression values, derived expressions, and feature geometry. No `common.recalc()` needed:
 
 ```js
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'S', value: 100 }] })
-await api.v1.common.recalc()  // ← required for features to update
+// Expression value, derived expressions, and all bound feature geometry are already updated
 ```
 
 ### Cascade behavior
 
 - Derived expressions auto-cascade: updating `base` propagates to `doubled = base * 2`
-- Multiple features sharing one expression all recalculate
-- WCS offsets with `@expr.` in string-encoded arrays also recalculate
+- Multiple features sharing one expression all update
+- WCS offsets with `@expr.` in string-encoded arrays also update
 - The full chain works: base expr → derived expr → feature param → geometry
 
 ## Usage Hints
@@ -186,8 +186,7 @@ await api.v1.part.box({
 await api.v1.part.updateExpression({
   id: partId, toUpdate: [{ name: 'baseL', value: 200 }],
 })
-await api.v1.common.recalc()
-// towerL=100, towerH=160, WCS offset updated — full cascade
+// towerL=100, towerH=160, WCS offset updated — full cascade (geometry updates immediately)
 ```
 
 ## Related
@@ -198,4 +197,4 @@ await api.v1.common.recalc()
 - `part.renameExpression` — rename an expression
 - `part.linkWithExpression` — programmatically bind an expression to a feature parameter (`{ id: featureId, exprName, name }`)
 - `common.evaluateExpression` — evaluate a formula (pass ExpressionSet ID 6 to reference named expressions)
-- `common.recalc` — recalculate all features after expression updates
+- `common.recalc` — full drawing recalculation (not needed after `updateExpression` — geometry auto-updates)

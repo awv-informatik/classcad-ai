@@ -78,7 +78,6 @@ Renaming auto-updates **formula references** (other expressions), but does **NOT
 await api.v1.part.renameExpression({ id: partId, toRename: [{ name: 'H', newName: 'height' }] })
 // Box still frozen at old H value — must re-link
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'height', name: 'height' })
-await api.v1.common.recalc()
 ```
 
 ## Edge Cases

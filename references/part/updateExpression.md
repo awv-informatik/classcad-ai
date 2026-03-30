@@ -80,16 +80,15 @@ This differs from `expression()` creation, where broken formulas get seed value 
 
 ## Cascade & Timing
 
-- **Expression values update immediately.** `getExpression` reflects changes right after `updateExpression` — no `recalc()` needed for reading expression values.
+- **Everything updates immediately.** Expression values, derived expressions, and feature geometry all update in a single `updateExpression` call — no `recalc()` needed.
 - **Derived expressions auto-cascade.** Updating `base` immediately propagates to `doubled = base * 2`.
 - **Cross-references in same call work.** Updating `base` and `derived = 'base * 3'` in one `toUpdate` array correctly resolves: derived sees the new base value.
-- **Feature geometry does NOT recalculate** until `common.recalc()` is called.
+- **Feature geometry recalculates automatically.** Features bound via `@expr.NAME` or `linkWithExpression` update their geometry as part of the `updateExpression` response.
 
 ```js
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'S', value: 100 }] })
 // getExpression('S') → 100 immediately
-// But box using @expr.S is still at old size
-await api.v1.common.recalc()  // ← NOW geometry updates
+// Box using @expr.S has already updated geometry
 ```
 
 ## Edge Cases
@@ -148,4 +147,4 @@ await api.v1.part.updateExpression({
 - `part.getExpression` — read expression value and formula
 - `part.deleteExpression` — remove expressions (uses `toDelete` array)
 - `part.renameExpression` — rename expressions (uses `toRename` array)
-- `common.recalc` — recalculate feature geometry after expression updates
+- `common.recalc` — full drawing recalculation (not needed after `updateExpression` — geometry auto-updates)

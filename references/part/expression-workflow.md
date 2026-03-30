@@ -10,7 +10,7 @@ How to build fully parametric models using expressions. This doc covers the comp
 | @expr reference | `height: '@expr.H'` | **Yes** — tracks expression updates | Bind at feature creation time |
 | linkWithExpression | `linkWithExpression({ id: featureId, exprName: 'H', name: 'height' })` | **Yes** — tracks expression updates | Bind after feature creation (post-hoc) |
 
-**@expr and linkWithExpression are functionally equivalent** for live bindings. Both respond to `updateExpression` + `recalc()`. Inline formulas are static — changing expressions has no effect on them.
+**@expr and linkWithExpression are functionally equivalent** for live bindings. Both respond to `updateExpression` immediately (geometry auto-updates, no `recalc()` needed). Inline formulas are static — changing expressions has no effect on them.
 
 ## Basic Lifecycle
 
@@ -35,12 +35,11 @@ await api.v1.part.box({
   length: '@expr.baseL', width: '@expr.baseW', height: '@expr.thick',
 })
 
-// 4. Update expression → recalc → geometry changes
+// 4. Update expression → geometry changes immediately
 await api.v1.part.updateExpression({
   id: partId, toUpdate: [{ name: 'baseL', value: 200 }],
 })
-await api.v1.common.recalc()  // ← REQUIRED for geometry to update
-// wallH auto-cascades to 120, all features update
+// wallH auto-cascades to 120, all features update (geometry recalculates automatically)
 ```
 
 ## Post-Hoc Linking
@@ -54,13 +53,11 @@ const boxId = (await api.v1.part.box({
 
 // Later, bind height to expression H=120
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'H', name: 'height' })
-await api.v1.common.recalc()
 // Box height is now 120
 
 // Can link multiple params
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'L', name: 'length' })
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'W', name: 'width' })
-await api.v1.common.recalc()
 ```
 
 ## Unlinking (Freeze)
@@ -70,7 +67,6 @@ Unlink freezes the parameter at the expression's **current** value (NOT the orig
 ```js
 // Box created with height=40, then linked to H=120
 await api.v1.part.unlinkExpression({ id: boxId, name: 'height' })
-await api.v1.common.recalc()
 // height is now plain value 120 (frozen), NOT 40
 // Updating H no longer affects this box
 ```
@@ -79,7 +75,6 @@ After unlinking, you can re-link to a different expression:
 
 ```js
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'B', name: 'height' })
-await api.v1.common.recalc()
 ```
 
 ## Cascade Chain
@@ -101,10 +96,9 @@ await api.v1.part.box({
   length: '@expr.tripled', width: '@expr.doubled', height: '@expr.base',
 })
 
-// Update base → derived exprs recalculate → features update
+// Update base → derived exprs + features all update immediately
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'base', value: 80 }] })
-await api.v1.common.recalc()
-// doubled=160, tripled=240 — full chain
+// doubled=160, tripled=240 — full chain (geometry updates automatically)
 ```
 
 ## Expression-Driven WCS
@@ -129,31 +123,27 @@ One expression can drive multiple features simultaneously:
 await api.v1.part.box({ id: partId, name: 'Box1', height: '@expr.size', ... })
 await api.v1.part.box({ id: partId, name: 'Box2', height: '@expr.size', ... })
 
-// Single update → both features change
+// Single update → both features change immediately
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'size', value: 120 }] })
-await api.v1.common.recalc()
 ```
 
 Works across feature types — box and cylinder can share the same expression.
 
-## Critical: Always Call recalc()
+## Geometry Updates Immediately
 
-`updateExpression` updates the expression value immediately (`getExpression` returns the new value). But **feature geometry does NOT recalculate** until `common.recalc()` is called.
+`updateExpression` updates expression values, derived expressions, and feature geometry in a single call. No `common.recalc()` needed:
 
 ```js
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 200 }] })
-// getExpression('H') → 200 ✓  (expression updated)
-// But box geometry is still stale!
-await api.v1.common.recalc()  // ← geometry updates now
+// getExpression('H') → 200 ✓
+// Box geometry using @expr.H is already updated ✓
 ```
-
-**Note:** Rendering/snapshot may auto-recalc geometry, masking the issue. Always call recalc explicitly — don't rely on visual confirmation.
 
 ## Gotchas
 
 - **Deleting a linked expression does NOT destroy the feature.** The parameter freezes at the expression's last value (same as unlink). No warning is emitted.
 - **Renaming a linked expression BREAKS the binding.** Features that referenced the old name via @expr freeze at the last value. The feature does NOT auto-update to the new name. No warning. If you rename, you must re-link features afterward.
-- **Inline formulas are dead strings.** `height: '30 + 30'` is evaluated once at creation and never recalculated. Use @expr for live bindings.
+- **Inline formulas are dead strings.** `height: '30 + 30'` is evaluated once at creation and never updated. Use @expr for live bindings.
 - **linkWithExpression silently accepts bad param names.** Linking to `'fakeParam'` returns success. Always verify parameter names.
 - **unlinkExpression freezes at current value, not original.** A box created with height=40, linked to H=120, then unlinked → height=120 (not 40).
 
@@ -184,11 +174,10 @@ const wcs = (await api.v1.part.workCSys({ id: partId, name: 'WallOrigin',
 await api.v1.part.box({ id: partId, name: 'Wall', references: [wcs],
   length: '@expr.thick', width: '@expr.plateW', height: '@expr.wallH' })
 
-// 4. To resize: update master expressions → recalc
+// 4. To resize: update master expressions (geometry updates automatically)
 await api.v1.part.updateExpression({
   id: partId, toUpdate: [{ name: 'plateL', value: 200 }],
 })
-await api.v1.common.recalc()
 // Everything scales: wallH→120, WCS moves, wall resizes
 ```
 
@@ -201,4 +190,4 @@ await api.v1.common.recalc()
 - `part.renameExpression` — rename expression (BREAKS @expr bindings!)
 - `part.linkWithExpression` — post-hoc binding
 - `part.unlinkExpression` — disconnect (freezes current value)
-- `common.recalc` — recalculate features after expression changes
+- `common.recalc` — full drawing recalculation (not needed after `updateExpression` — geometry auto-updates)

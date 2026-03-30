@@ -23,7 +23,7 @@ Always returns `result: null` (VOID). Check `maxLevel` for success/failure:
 
 - **No validation on param name.** Linking to a non-existent parameter name (`'fakeParam'`) returns maxLevel=31 (success) with NO error. The link silently does nothing. Always double-check parameter names.
 - **Non-existent expression name** gives maxLevel=51 with "Datamember X not found" but still returns VOID (not a distinct error shape).
-- **Requires `common.recalc()`** for geometry to update reliably. The link may appear to take effect during rendering, but always call recalc explicitly.
+- **Geometry updates immediately** after linking — no `common.recalc()` needed.
 
 ## Re-linking
 
@@ -43,7 +43,6 @@ Can link multiple params of the same feature to different (or the same) expressi
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'L', name: 'length' })
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'W', name: 'width' })
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'S', name: 'height' })
-await api.v1.common.recalc()
 ```
 
 Same expression can drive multiple params: `{ exprName: 'S', name: 'length' }` and `{ exprName: 'S', name: 'height' }` both work.
@@ -78,12 +77,10 @@ const boxId = (await api.v1.part.box({
 
 // Later, bind height to expression H
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'H', name: 'height' })
-await api.v1.common.recalc()
 // Box height is now 120, driven by expression H
 
 // Update H → box updates too
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 200 }] })
-await api.v1.common.recalc()
 // Box height is now 200
 ```
 

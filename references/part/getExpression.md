@@ -46,12 +46,12 @@ Constants like `C:PI` are stored as formula strings, not resolved to numeric at 
 
 ## Timing: Values Update Immediately
 
-`getExpression` reflects changes **immediately** after `updateExpression` — no `recalc()` needed. This includes:
+`getExpression` reflects changes **immediately** after `updateExpression`. This includes:
 - Direct value changes
 - Formula changes (both `expression` and `value` update)
 - Cascaded derived expressions (e.g., updating `base` immediately updates `derived = base * 2`)
 
-`recalc()` is only needed for feature geometry recalculation, not expression value reads.
+Both expression values and feature geometry update immediately after `updateExpression` — no `recalc()` needed for either.
 
 ## Gotchas
 

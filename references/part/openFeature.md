@@ -75,4 +75,4 @@ await api.v1.part.closeFeature({ id: cylId })
 ## Related
 
 - Every `update*` API (updateBox, updateCylinder, updateWorkPlane, updateExtrusion, etc.) requires this pattern
-- `common.recalc` — NOT needed after closeFeature (it auto-recalcs), but useful after expression changes outside the gate
+- `common.recalc` — NOT needed after closeFeature (it auto-recalcs) or after `updateExpression` (also auto-recalcs)

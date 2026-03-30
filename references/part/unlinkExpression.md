@@ -24,7 +24,6 @@ After unlinking, the parameter becomes a plain value equal to the expression's v
 ```js
 // Box created with height=40, then linked to H=120
 await api.v1.part.unlinkExpression({ id: boxId, name: 'height' })
-await api.v1.common.recalc()
 // Box height is now plain value 120 (NOT 40)
 // Updating H has no effect on the box anymore
 ```
@@ -36,7 +35,7 @@ This applies equally to params set with `@expr.NAME` at creation or linked via `
 - **No validation on param name.** Unlinking a non-existent parameter (`'fakeParam'`) returns maxLevel=31 with no error. Silent no-op.
 - **Unlinking a never-linked param** is also a silent success (maxLevel=31). No way to detect this.
 - **Idempotent.** Double-unlinking (unlink an already-unlinked param) succeeds silently.
-- **Requires `common.recalc()`** for geometry to update reliably after unlink.
+- **Geometry updates immediately** after unlinking — no `common.recalc()` needed.
 
 ## Re-linking After Unlink
 
@@ -45,7 +44,6 @@ After unlinking, you can re-link the same param to a different (or the same) exp
 ```js
 await api.v1.part.unlinkExpression({ id: boxId, name: 'height' })
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'B', name: 'height' })
-await api.v1.common.recalc()
 ```
 
 ## Common Errors
@@ -73,11 +71,9 @@ const boxId = (await api.v1.part.box({
 
 // Disconnect — height freezes at 120
 await api.v1.part.unlinkExpression({ id: boxId, name: 'height' })
-await api.v1.common.recalc()
 
 // Updating H no longer affects the box
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 999 }] })
-await api.v1.common.recalc()
 // Box height is still 120
 ```
 

@@ -64,3 +64,9 @@ Step 1: I/O Protocol & API Fundamentals
 # Break-through, filewrite()
 
 - this is fixed by introducing filewrite() as alternative output methods. now it can write out large data or complex data without trying to stringify it. this is a huge improvement in the quality of the data it produces, and it allows it to actually inspect the results of the API calls and to learn from them.
+
+# Data verification > visual inspection
+
+- discovered that cc was drawing conclusions from screenshots alone and ignoring the structured data available from API responses. the renderer auto-scales geometry to fit the viewport, which means a 60³ cube and a 120³ cube produce identical PNGs. cc concluded that `updateExpression` required `common.recalc()` to update geometry — but the geometry had already updated, the pictures just looked the same because of auto-zoom.
+- the fix is methodological, not technical: scripts should `filewrite` API responses (graphic data, structure trees) and compare values numerically. console output is now auto-captured to `.log` files. the prompt, SOUL, MEMORY, and TOOLS docs were all updated to enforce "verify with data, not screenshots."
+- this is arguably the biggest quality improvement since live testing — it turns cc from "looks right" into "proves right."

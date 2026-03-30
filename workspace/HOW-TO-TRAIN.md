@@ -67,7 +67,7 @@ Your deliverable goes exclusively into `references/<domain>/*.md` files that **y
 The harness (`node scripts/run.mjs`) is a thin test runner. It connects to ClassCAD, runs your script, captures snapshots, and cleans up.
 
 ```bash
-node scripts/run.mjs <script-path> --outdir <session-folder>
+node scripts/run.mjs <script-path> --outdir <session-folder> [--debug]
 ```
 
 **What the harness does:**
@@ -76,7 +76,9 @@ node scripts/run.mjs <script-path> --outdir <session-folder>
 - Runs your script's default export function
 - Saves snapshots (`snapshot('label')`) as PNGs + STEP + OFB to `files/`
 - Saves data dumps (`filewrite(data, 'label')`) as JSON/TXT/BIN to `files/`
+- Auto-captures all `console.log`/`.error`/`.warn` output to `<scriptName>.log`
 - Clears the drawing and disconnects after each run
+- `--debug` disables all timeouts (connection + request) — useful for debugging
 
 **The harness does NOT write your journal.** You write it.
 
@@ -242,11 +244,17 @@ const r = await api.v1.part.create({ name: 'Test' })
 // r.graphic   — rendering data (usually null in CLI context)
 ```
 
-**All data is in `r`.** Log compact findings with `console.log`. For large data (structure trees, graphic payloads, base64 content), use `filewrite` instead.
+**All data is in `r`.** Log compact findings with `console.log`. For large data (structure trees, graphic payloads, base64 content), use `filewrite` instead. All console output is auto-captured to `<scriptName>.log` alongside your `files/` directory.
 
-**`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`.
+**`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`. Snapshots are visual aids for the journal, **not proof of behavior**. The renderer auto-scales geometry to fill the viewport, so size-only changes produce identical-looking images.
 
-**`filewrite(data, 'label')`** — writes data to `files/`. Objects → `.json`, strings → `.txt`, buffers → `.bin`. Use for anything too large for stdout (structure trees, graphic data, save content).
+**`filewrite(data, 'label')`** — writes data to `files/`. Objects → `.json`, strings → `.txt`, buffers → `.bin`. **This is your primary verification tool.** Use it to persist:
+- API responses (`r.result`, `r.messages`, `r.maxLevel`) — to verify what the server actually returned
+- Graphic data (`r.graphic`) — to compare vertex counts, bounding boxes, mesh data before/after
+- Structure trees (`r.structure`) — to verify feature tree state, parameter values, object properties
+- Computed comparisons — e.g., `{ vertsBefore: N, vertsAfter: M, boundingBox: [...] }`
+
+When studying whether an operation changes geometry, **always `filewrite` the evidence**. Do not rely on snapshots alone — they can mislead (auto-zoom, hidden geometry, back-face changes).
 
 **Snapshot placement:** When your task involves 3D geometry (solids, booleans, fillets, etc.), see [Appendix: Snapshot Rules](#appendix-snapshot-rules) for camera orientation and geometry placement tips.
 
@@ -259,7 +267,7 @@ node scripts/run.mjs workspace/training/<session>/scripts/01-basic.mjs \
   --outdir workspace/training/<session>
 ```
 
-Look at snapshot PNGs in `files/`.
+Read the `.log` file for console output and return values. Check `files/` for snapshots (PNGs) and data dumps (`.json`). When verifying behavior changes, prioritize data from `filewrite` dumps over visual inspection of PNGs.
 
 ---
 
@@ -271,8 +279,9 @@ After each run, append a section to `journal.md`. Two tiers — **brief** (behav
 
 - Every entry gets the script filename and a one-line result summary
 - Snapshots MUST appear as markdown image embeds in a single-row table
+- **Cite data, not just images.** When a script `filewrite`s data or logs return values, reference the findings in the journal entry — vertex counts, bounding box deltas, return values, error messages. The `.log` file and `.json` dumps are primary evidence.
 - **📌 LLM doc:** flags only on full entries — these are your TODO list for Step 5
-- If before/after snapshots look identical, reposition geometry and re-run before concluding "no change"
+- If before/after snapshots look identical, **check the data first** (vertex counts, bounding box from `filewrite` dumps). Only reposition and re-run if the data also shows no change.
 
 ---
 
@@ -288,7 +297,11 @@ export default async function (api, { snapshot, filewrite }) {
   const partId = (await api.v1.part.create({ name: 'Test' })).result
   const skId = (await api.v1.sketch.create({ id: partId })).result
 
-  const lines = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })).result
+  const r = await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })
+  console.log('[01] rectangle result:', r.result, 'maxLevel:', r.maxLevel)
+
+  // Persist the full response for analysis
+  filewrite({ result: r.result, messages: r.messages, maxLevel: r.maxLevel }, 'rectangle-response')
 
   await snapshot('rectangle')
   return { partId }
@@ -307,6 +320,7 @@ export default async function (api, { snapshot, filewrite }) {
 - [ ] Every enum value / type variant has been exercised (if applicable)
 - [ ] The corresponding `update*` / `delete*` method tested (if it exists)
 - [ ] At least one realistic usage combining this API with its prerequisites
+- [ ] Behavioral claims verified with data (`filewrite` dumps, log values), not just screenshots
 
 If not done, pick the next gap and loop back. **When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. The failure itself is a finding.
 
@@ -344,6 +358,7 @@ export default async function (api) {
 - [ ] At least one edge case or unexpected behavior has been probed
 - [ ] Findings are grounded in observed server responses, not assumptions from docs
 - [ ] The concept has been tested across at least 2 different APIs (to confirm it's universal, not API-specific)
+- [ ] Key findings backed by `filewrite` data or logged return values, not just visual inspection
 
 ## Step 5 — Write the LLM doc
 
@@ -529,9 +544,13 @@ Script: `scripts/04-neg-limit.mjs` — limit2=-10 silently produces no geometry.
 | ![before](files/04-before-solid.png) | ![after](files/04-after-solid.png) |
 | ------------------------------------ | ---------------------------------- |
 
+**Data:** maxLevel=0 (no error). Vertex count before: 36, after: 36 (unchanged — see `files/04-neg-limit-comparison.json`).
+
 **Learned:** Negative limit2 is a silent no-op, not documented.
 **📌 LLM doc:** Write to `references/part/extrusion.md` — document negative limit2 behavior.
 ```
+
+> **Data over pictures.** When a script `filewrite`s comparison data or logs return values, the journal entry must cite them. "The snapshots look the same" is not a finding — "vertex count unchanged at 36, bounding box identical (see `files/04-comparison.json`)" is.
 
 ---
 

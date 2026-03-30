@@ -17,10 +17,12 @@ const REQUEST_TIMEOUT = 30_000
  * @param {string} [url] WebSocket URL (default ws://0.0.0.0:9094/)
  * @param {object} [opts] Options
  * @param {boolean} [opts.graphics=true] Enable server-side graphic push
+ * @param {boolean} [opts.debug=false] Disable all timeouts
  * @returns {Promise<Client>}
  */
 export async function connect(url = DEFAULT_URL, opts = {}) {
   const graphics = opts.graphics !== false  // default: enabled
+  const debug = opts.debug === true
   const pending = new Map()
   let ws
 
@@ -36,12 +38,14 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
       const entry = { resolve, reject, frames: [] }
       pending.set(transactionID, entry)
       send({ command, commandVersion: 'v1', transactionID, ...extra })
-      setTimeout(() => {
-        if (pending.has(transactionID)) {
-          pending.delete(transactionID)
-          reject(new Error(`Timeout (${REQUEST_TIMEOUT}ms): ${command}`))
-        }
-      }, REQUEST_TIMEOUT)
+      if (!debug) {
+        setTimeout(() => {
+          if (pending.has(transactionID)) {
+            pending.delete(transactionID)
+            reject(new Error(`Timeout (${REQUEST_TIMEOUT}ms): ${command}`))
+          }
+        }, REQUEST_TIMEOUT)
+      }
     })
   }
 
@@ -99,7 +103,7 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
   await new Promise((resolve, reject) => {
     ws.on('open', resolve)
     ws.on('error', reject)
-    setTimeout(() => reject(new Error('Connection timeout')), 5000)
+    if (!debug) setTimeout(() => reject(new Error('Connection timeout')), 5000)
   })
   ws.on('message', (d, b) => handleFrame(d, b))
 

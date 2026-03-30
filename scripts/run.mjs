@@ -30,20 +30,22 @@ function parseArgs(argv) {
   let scriptPath = null
   let wsUrl = undefined
   let outDir = null
+  let debug = false
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--outdir') { outDir = args[++i]; continue }
+    if (args[i] === '--debug') { debug = true; continue }
     if (args[i].startsWith('ws://') || args[i].startsWith('wss://')) { wsUrl = args[i]; continue }
     if (!scriptPath) { scriptPath = args[i]; continue }
   }
-  return { scriptPath, wsUrl, outDir }
+  return { scriptPath, wsUrl, outDir, debug }
 }
 
 async function main() {
-  const { scriptPath, wsUrl, outDir: userOutDir } = parseArgs(process.argv)
+  const { scriptPath, wsUrl, outDir: userOutDir, debug } = parseArgs(process.argv)
 
   if (!scriptPath) {
-    console.error('Usage: node scripts/run.mjs <script-path> [--outdir <path>] [ws-url]')
+    console.error('Usage: node scripts/run.mjs <script-path> [--outdir <path>] [--debug] [ws-url]')
     process.exit(1)
   }
 
@@ -68,7 +70,7 @@ async function main() {
   mkdirSync(filesDir, { recursive: true })
 
   // 1. Connect
-  const client = await connect(wsUrl)
+  const client = await connect(wsUrl, { debug })
 
   // Facade adapter: bridges @classcad/api-js → client.request()
   const facade = {
@@ -163,11 +165,43 @@ async function main() {
     return `files/${file}`
   }
 
-  // 2. Execute script
+  // 2. Execute script — capture all console output to a log file
+  const logLines = []
+  const origLog = console.log
+  const origErr = console.error
+  const origWarn = console.warn
+
+  console.log = (...args) => {
+    const line = args.map(a => typeof a === 'string' ? a : inspect(a, { depth: 8, maxArrayLength: 200 })).join(' ')
+    logLines.push(line)
+    origLog(...args)
+  }
+  console.error = (...args) => {
+    const line = '[stderr] ' + args.map(a => typeof a === 'string' ? a : inspect(a, { depth: 8, maxArrayLength: 200 })).join(' ')
+    logLines.push(line)
+    origErr(...args)
+  }
+  console.warn = (...args) => {
+    const line = '[warn] ' + args.map(a => typeof a === 'string' ? a : inspect(a, { depth: 8, maxArrayLength: 200 })).join(' ')
+    logLines.push(line)
+    origWarn(...args)
+  }
+
   try {
     await scriptFn(api, { snapshot, filewrite })
   } catch (e) {
     console.error(`[run] Script error: ${e.message}`)
+  }
+
+  // Restore console + persist log
+  console.log = origLog
+  console.error = origErr
+  console.warn = origWarn
+
+  if (logLines.length > 0) {
+    const logFile = join(outDir, `${scriptName}.log`)
+    writeFileSync(logFile, logLines.join('\n') + '\n')
+    console.log(`[run] Log saved: ${logFile} (${logLines.length} lines)`)
   }
 
   // 3. Clear + disconnect

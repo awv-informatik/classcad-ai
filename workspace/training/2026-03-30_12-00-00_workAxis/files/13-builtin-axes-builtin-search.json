@@ -1,0 +1,42 @@
+{
+  "X": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "Y": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "Z": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "XAxis": {
+    "result": 26,
+    "maxLevel": 31
+  },
+  "YAxis": {
+    "result": 30,
+    "maxLevel": 31
+  },
+  "ZAxis": {
+    "result": 34,
+    "maxLevel": 31
+  },
+  "WorkAxis": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "Axis1": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "Axis2": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "Axis3": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

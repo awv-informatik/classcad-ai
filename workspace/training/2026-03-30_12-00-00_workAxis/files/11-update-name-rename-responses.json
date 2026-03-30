@@ -1,0 +1,15 @@
+{
+  "rename": {
+    "result": 54,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "oldNameFind": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "newNameFind": {
+    "result": 54,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,7 @@
+[09] created waId: 91
+[09] update pos result: 91 maxLevel: 31
+[filewrite] files/09-update-pos-dir-update-pos.json (54 bytes)
+[09] update dir result: 91 maxLevel: 31
+[filewrite] files/09-update-pos-dir-update-dir.json (54 bytes)
+[09] update both result: 91 maxLevel: 31
+[filewrite] files/09-update-pos-dir-update-both.json (54 bytes)

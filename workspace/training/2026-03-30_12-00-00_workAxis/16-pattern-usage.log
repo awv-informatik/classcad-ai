@@ -1,0 +1,4 @@
+[16] box: 54
+[16] workAxis: 91
+[16] linearPattern result: 128 maxLevel: 31
+[filewrite] files/16-pattern-usage-pattern-response.json (55 bytes)

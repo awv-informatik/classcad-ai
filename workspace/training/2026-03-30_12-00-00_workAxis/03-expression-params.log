@@ -1,0 +1,5 @@
+[03] @expr result: null maxLevel: 51
+[03] @expr messages: [{"api":"v1.part.workAxis","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in AbstractAPI.ToPoint:[Type error: A variable  of the type String (\"@expr.posX\") has been defined as type Gleitkommazahl addressed.] ] "}]
+[03] inline result: null maxLevel: 51
+[03] inline messages: [{"api":"v1.part.workAxis","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in AbstractAPI.ToPoint:[Type error: A variable  of the type String (\"10+20\") has been defined as type Gleitkommazahl addressed.] ] "}]
+[filewrite] files/03-expression-params-expr-responses.json (759 bytes)

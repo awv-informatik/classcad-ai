@@ -1,0 +1,8 @@
+[08] default name result: 54 maxLevel: 31
+[08] dup default result: 62 maxLevel: 31
+[08] custom name result: 70 maxLevel: 31
+[08] dup custom result: 78 maxLevel: 31
+[08] empty name result: 86 maxLevel: 31
+[08] empty name msgs: []
+[08] getWorkGeometry MyAxis: 70
+[filewrite] files/08-name-dup-name-responses.json (346 bytes)

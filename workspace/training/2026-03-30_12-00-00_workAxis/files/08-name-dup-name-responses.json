@@ -1,0 +1,26 @@
+{
+  "default1": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "default2": {
+    "result": 62,
+    "maxLevel": 31
+  },
+  "custom1": {
+    "result": 70,
+    "maxLevel": 31
+  },
+  "custom2": {
+    "result": 78,
+    "maxLevel": 31
+  },
+  "empty": {
+    "result": 86,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "getByName": {
+    "result": 70
+  }
+}

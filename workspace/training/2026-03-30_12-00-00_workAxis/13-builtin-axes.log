@@ -1,0 +1,6 @@
+[13] found built-in axis: XAxis = 26
+[13] found built-in axis: YAxis = 30
+[13] found built-in axis: ZAxis = 34
+[filewrite] files/13-builtin-axes-structure-with-axis.json (20979 bytes)
+[13] results: {"X":{"result":null,"maxLevel":51},"Y":{"result":null,"maxLevel":51},"Z":{"result":null,"maxLevel":51},"XAxis":{"result":26,"maxLevel":31},"YAxis":{"result":30,"maxLevel":31},"ZAxis":{"result":34,"maxLevel":31},"WorkAxis":{"result":null,"maxLevel":51},"Axis1":{"result":null,"maxLevel":51},"Axis2":{"result":null,"maxLevel":51},"Axis3":{"result":null,"maxLevel":51}}
+[filewrite] files/13-builtin-axes-builtin-search.json (557 bytes)

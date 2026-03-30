@@ -305,7 +305,7 @@ export default async function (api) {
 | --- | ---------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
 | 1   | Api study of `part.workPlane`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 2   | Api study of `part.updateWorkPlane`                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
-| 3   | Api study of `part.workAxis`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 3   | Api study of `part.workAxis`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 4   | Api study of `part.updateWorkAxis`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 | 5   | Api study of `part.workCSys`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 | 6   | Api study of `part.updateWorkCSys`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |

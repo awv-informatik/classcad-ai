@@ -1,0 +1,6 @@
+[03] created — plane: 54 axis: 62 csys: 70 point: 78
+[03] name="MyPlane" → result: 54 expected: 54 match: true
+[03] name="MyAxis" → result: 62 expected: 62 match: true
+[03] name="MyCSys" → result: 70 expected: 70 match: true
+[03] name="MyPoint" → result: 78 expected: 78 match: true
+[filewrite] files/03-user-created-user-created.json (384 bytes)

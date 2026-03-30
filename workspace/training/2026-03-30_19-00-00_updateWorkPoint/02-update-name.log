@@ -1,0 +1,6 @@
+[02] created wpId: 54 name: OriginalName
+[02] rename without openFeature — result: null maxLevel: 51
+[02] rename with openFeature — result: 54 maxLevel: 31
+[02] getWorkGeometry RenamedAgain — result: 54 maxLevel: 31
+[02] getWorkGeometry OriginalName (old) — result: null maxLevel: 51
+[filewrite] files/02-update-name-name-update.json (700 bytes)

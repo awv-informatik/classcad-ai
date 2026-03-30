@@ -1,0 +1,4 @@
+[01] default result: 54 maxLevel: 31
+[01] custom result: 62 maxLevel: 31
+[01] neg result: 70 maxLevel: 31
+[filewrite] files/01-defaults-responses.json (168 bytes)

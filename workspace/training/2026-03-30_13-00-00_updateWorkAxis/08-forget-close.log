@@ -1,0 +1,7 @@
+[08] wa1: 54 wa2: 62
+[08] update wa1: 54 31
+[08] open wa2 result: null maxLevel: 51
+[08] open wa2 messages: [{"api":"v1.part.openFeature","code":0,"level":51,"levelStr":"ERROR","message":"There is still an open feature, \r\n\t\t\tplease commit or decline the feature first."}]
+[08] update wa2: null 51
+[08] wa2 messages: [{"api":"v1.part.updateWorkAxis","code":1200,"level":51,"levelStr":"ERROR","message":"The provided feature is not allowed to update. It's not active and open."},{"api":"v1.part.updateWorkAxis","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[filewrite] files/08-forget-close-forget-close.json (871 bytes)

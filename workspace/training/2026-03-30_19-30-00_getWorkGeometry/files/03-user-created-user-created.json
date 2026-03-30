@@ -1,0 +1,26 @@
+{
+  "MyPlane": {
+    "result": 54,
+    "maxLevel": 31,
+    "expected": 54,
+    "match": true
+  },
+  "MyAxis": {
+    "result": 62,
+    "maxLevel": 31,
+    "expected": 62,
+    "match": true
+  },
+  "MyCSys": {
+    "result": 70,
+    "maxLevel": 31,
+    "expected": 70,
+    "match": true
+  },
+  "MyPoint": {
+    "result": 78,
+    "maxLevel": 31,
+    "expected": 78,
+    "match": true
+  }
+}

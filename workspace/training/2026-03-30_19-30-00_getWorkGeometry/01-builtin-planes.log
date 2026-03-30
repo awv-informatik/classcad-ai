@@ -1,0 +1,11 @@
+[01] partId: 4
+[01] name="Top" → result: 38 maxLevel: 31
+[01] name="Front" → result: 42 maxLevel: 31
+[01] name="Right" → result: 46 maxLevel: 31
+[01] name="WorkPlane_Top" → result: null maxLevel: 51
+[01] name="WorkPlane_Front" → result: null maxLevel: 51
+[01] name="WorkPlane_Right" → result: null maxLevel: 51
+[01] name="XY" → result: null maxLevel: 51
+[01] name="XZ" → result: null maxLevel: 51
+[01] name="YZ" → result: null maxLevel: 51
+[filewrite] files/01-builtin-planes-builtin-planes.json (526 bytes)

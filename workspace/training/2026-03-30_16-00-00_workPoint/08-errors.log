@@ -1,0 +1,8 @@
+[08] no id: null 51 [{"api":"v1.part.workPoint","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_WorkPoint"}]
+[08] bad type: null 51 [{"api":"v1.part.workPoint","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"type\" is not valid. Possible values are: [\"USERDEFINED\",\"BREPVERTEX\",\"EDGEMIDPOINT\",\"CENTER\",\"BARYCENTER\",\"INTERSECTION\",\"INNERCIRCLE\",\"2POINTS\"]"}]
+[08] no refs: null 51 [{"api":"v1.part.workPoint","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" must be provided in the api call!"}]
+[08] expr pos: null 51
+[08] dup1: 74 dup2: 82
+[08] find Dup: 74
+[08] built-in: Origin = 22
+[filewrite] files/08-errors-errors-and-edges.json (1060 bytes)

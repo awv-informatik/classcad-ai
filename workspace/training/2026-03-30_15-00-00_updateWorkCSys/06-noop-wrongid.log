@@ -1,0 +1,9 @@
+[06] noop result: 54 maxLevel: 31
+[06] noop messages: []
+[06] result === csId: true
+[06] envelope keys: result, messages, maxLevel, structure, graphic
+[06] partId result: null 51
+[06] partId msgs: [{"api":"v1.part.updateWorkCSys","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the feature is not a feature or work geometry id."},{"api":"v1.part.updateWorkCSys","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[06] no id result: null 51
+[06] no id msgs: [{"api":"v1.part.updateWorkCSys","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[filewrite] files/06-noop-wrongid-edge-cases.json (941 bytes)

@@ -1,0 +1,75 @@
+{
+  "bogusId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "The string \"bogus\" couldn't be converted to an id. Error message: stol: no conversion"
+      },
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided feature id does not exist."
+      },
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  "partId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the feature is not a feature or work geometry id."
+      },
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  "invalidType": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"type\" is not valid. Possible values are: [\"USERDEFINED\",\"BREPVERTEX\",\"EDGEMIDPOINT\",\"CENTER\",\"BARYCENTER\",\"INTERSECTION\",\"INNERCIRCLE\",\"2POINTS\"]"
+      }
+    ]
+  },
+  "noRefs": {
+    "result": 58,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1111,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There are missing references for WP_err (CC_WorkPoint)."
+      }
+    ]
+  }
+}

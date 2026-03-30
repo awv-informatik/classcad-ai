@@ -1,0 +1,7 @@
+[04] XAxis: 26 YAxis: 30
+[04] update XAxis direction result: 26 maxLevel: 51
+[04] messages: [{"api":"v1.part.updateWorkAxis","code":0,"level":51,"levelStr":"ERROR","message":"WorkGeometry created by the system cannot be changed!"}]
+[04] rename XAxis result: 26 maxLevel: 51
+[04] rename messages: [{"api":"v1.part.updateWorkAxis","code":0,"level":51,"levelStr":"ERROR","message":"WorkGeometry created by the system cannot be changed!"}]
+[04] find XAxis: null find MyXAxis: 26
+[filewrite] files/04-builtin-update-builtin-responses.json (605 bytes)

@@ -1,0 +1,20 @@
+{
+  "brokenUpdate": {
+    "result": 54,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkAxis",
+        "code": 1111,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There are missing references for WA1 (CC_WorkAxis)."
+      }
+    ]
+  },
+  "recovery": {
+    "result": 54,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "cycle1": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "cycle2": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "cycle3": {
+    "name": 31,
+    "dir": 31,
+    "pos": 31
+  },
+  "finalFind": 54
+}

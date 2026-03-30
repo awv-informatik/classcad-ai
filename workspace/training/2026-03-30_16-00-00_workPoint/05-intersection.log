@@ -1,0 +1,4 @@
+[05] e1: 67 e2: 70
+[05] INTERSECTION result: 91 maxLevel: 31
+[05] messages: []
+[filewrite] files/05-intersection-intersection.json (54 bytes)

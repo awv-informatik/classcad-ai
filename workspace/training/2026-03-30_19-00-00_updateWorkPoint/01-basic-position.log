@@ -1,0 +1,6 @@
+[01] created wpId: 54
+[01] update without openFeature — result: null maxLevel: 51
+[01] messages: [{"api":"v1.part.updateWorkPoint","code":1200,"level":51,"levelStr":"ERROR","message":"The provided feature is not allowed to update. It's not active and open."},{"api":"v1.part.updateWorkPoint","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[01] created wpId2: 64
+[01] update with openFeature — result: 64 maxLevel: 31
+[filewrite] files/01-basic-position-position-update.json (580 bytes)

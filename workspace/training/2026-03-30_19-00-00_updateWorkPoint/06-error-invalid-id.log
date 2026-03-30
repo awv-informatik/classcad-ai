@@ -1,0 +1,9 @@
+[06] bogus id — result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.updateWorkPoint","code":0,"level":41,"levelStr":"WARNING","message":"The string \"bogus\" couldn't be converted to an id. Error message: stol: no conversion"},{"api":"v1.part.updateWorkPoint","code":1006,"level":51,"levelStr":"ERROR","message":"The provided feature id does not exist."},{"api":"v1.part.updateWorkPoint","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[06] part id — result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.updateWorkPoint","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the feature is not a feature or work geometry id."},{"api":"v1.part.updateWorkPoint","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[06] invalid type — result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.updateWorkPoint","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"type\" is not valid. Possible values are: [\"USERDEFINED\",\"BREPVERTEX\",\"EDGEMIDPOINT\",\"CENTER\",\"BARYCENTER\",\"INTERSECTION\",\"INNERCIRCLE\",\"2POINTS\"]"}]
+[06] BREPVERTEX no refs — result: 58 maxLevel: 51
+[06] messages: [{"api":"v1.part.updateWorkPoint","code":1111,"level":51,"levelStr":"ERROR","message":"There are missing references for WP_err (CC_WorkPoint)."}]
+[filewrite] files/06-error-invalid-id-error-cases.json (1921 bytes)

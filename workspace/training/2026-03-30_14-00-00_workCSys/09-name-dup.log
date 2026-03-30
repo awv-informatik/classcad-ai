@@ -1,0 +1,5 @@
+[09] first: 54 31
+[09] dup: 62 31
+[09] empty: 70 31
+[09] getWorkGeometry MyCSys: 54
+[filewrite] files/09-name-dup-name-responses.json (180 bytes)

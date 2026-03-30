@@ -1,0 +1,47 @@
+{
+  "noop": {
+    "result": 54,
+    "maxLevel": 31,
+    "sameId": true,
+    "keys": [
+      "result",
+      "messages",
+      "maxLevel",
+      "structure",
+      "graphic"
+    ]
+  },
+  "partId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkCSys",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the feature is not a feature or work geometry id."
+      },
+      {
+        "api": "v1.part.updateWorkCSys",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  "noId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkCSys",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  }
+}

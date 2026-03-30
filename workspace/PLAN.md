@@ -306,12 +306,12 @@ export default async function (api) {
 | 1   | Api study of `part.workPlane`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 2   | Api study of `part.updateWorkPlane`                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 3   | Api study of `part.workAxis`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
-| 4   | Api study of `part.updateWorkAxis`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 5   | Api study of `part.workCSys`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 6   | Api study of `part.updateWorkCSys`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 7   | Api study of `part.workPoint`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 8   | Api study of `part.updateWorkPoint`                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 9   | Api study of `part.getWorkGeometry` — retrieving work geometry by name | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 4   | Api study of `part.updateWorkAxis`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 5   | Api study of `part.workCSys`                                           | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 6   | Api study of `part.updateWorkCSys`                                     | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 7   | Api study of `part.workPoint`                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 8   | Api study of `part.updateWorkPoint`                                    | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 9   | Api study of `part.getWorkGeometry` — retrieving work geometry by name | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 
 **Task #1-8: Work geometry creation**
 

@@ -1,0 +1,14 @@
+{
+  "result": 54,
+  "resultType": "number",
+  "sameAsInput": true,
+  "maxLevel": 31,
+  "messages": [],
+  "envelopeKeys": [
+    "result",
+    "messages",
+    "maxLevel",
+    "structure",
+    "graphic"
+  ]
+}

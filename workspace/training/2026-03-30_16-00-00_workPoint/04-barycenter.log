@@ -1,0 +1,7 @@
+[04] face: 84
+[04] BARYCENTER result: 91 maxLevel: 31
+[04] messages: []
+[filewrite] files/04-barycenter-barycenter.json (54 bytes)
+[04] BARYCENTER(workPlane) result: null maxLevel: 51
+[04] messages: [{"api":"v1.part.workPoint","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has a wrong id type! Provide only following id types: [\"face-plane\"]"}]
+[filewrite] files/04-barycenter-barycenter-wp.json (290 bytes)

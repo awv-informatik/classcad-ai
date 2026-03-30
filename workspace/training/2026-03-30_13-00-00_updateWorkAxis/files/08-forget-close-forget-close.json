@@ -1,0 +1,39 @@
+{
+  "updateWa1": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "openWa2": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.openFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an open feature, \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "updateWa2": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkAxis",
+        "code": 1200,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided feature is not allowed to update. It's not active and open."
+      },
+      {
+        "api": "v1.part.updateWorkAxis",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  }
+}

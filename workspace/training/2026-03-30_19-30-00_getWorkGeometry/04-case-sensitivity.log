@@ -1,0 +1,8 @@
+[04] name="CamelCasePlane" → result: 54 maxLevel: 31
+[04] name="camelcaseplane" → result: null maxLevel: 51
+[04] name="CAMELCASEPLANE" → result: null maxLevel: 51
+[04] name="camelCasePlane" → result: null maxLevel: 51
+[04] builtin "Top" → result: 38 maxLevel: 31
+[04] builtin "top" → result: null maxLevel: 51
+[04] builtin "TOP" → result: null maxLevel: 51
+[filewrite] files/04-case-sensitivity-case-sensitivity.json (427 bytes)

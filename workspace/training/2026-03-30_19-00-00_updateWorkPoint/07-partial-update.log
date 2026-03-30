@@ -1,0 +1,6 @@
+[07] created wpId: 54
+[07] name-only update — result: 54 maxLevel: 31
+[07] getWorkGeometry NewName — result: 54 maxLevel: 31
+[07] position-only update — result: 54 maxLevel: 31
+[07] getWorkGeometry NewName after position-only — result: 54 maxLevel: 31
+[filewrite] files/07-partial-update-partial-update.json (182 bytes)

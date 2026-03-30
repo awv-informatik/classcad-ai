@@ -1,0 +1,14 @@
+{
+  "offX": {
+    "result": 91,
+    "maxLevel": 31
+  },
+  "offXYZ": {
+    "result": 99,
+    "maxLevel": 31
+  },
+  "neg": {
+    "result": 107,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "nonExistent": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getWorkGeometry",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find work geometry with name: \"DoesNotExist\""
+      }
+    ]
+  },
+  "emptyString": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getWorkGeometry",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find work geometry with name: \"\""
+      }
+    ]
+  },
+  "missingName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getWorkGeometry",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"name\" must be provided in the api call!"
+      }
+    ]
+  },
+  "bogusId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getWorkGeometry",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "The string \"bogus\" couldn't be converted to an id. Error message: stol: no conversion"
+      },
+      {
+        "api": "v1.part.getWorkGeometry",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  }
+}

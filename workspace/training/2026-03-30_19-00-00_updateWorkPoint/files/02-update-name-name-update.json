@@ -1,0 +1,35 @@
+{
+  "withoutOpen": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1200,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided feature is not allowed to update. It's not active and open."
+      },
+      {
+        "api": "v1.part.updateWorkPoint",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  "withOpen": {
+    "result": 54,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "verifyNew": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "verifyOld": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

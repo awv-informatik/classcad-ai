@@ -1,0 +1,7 @@
+[05] Origin: 22
+[05] update offset: null 51
+[05] messages: [{"api":"v1.part.updateWorkCSys","code":0,"level":51,"levelStr":"ERROR","message":"offset: param must have the format: [value_any, isExpression_bl]"},{"api":"v1.part.updateWorkCSys","code":1000,"level":51,"levelStr":"ERROR","message":"Could not convert api params."}]
+[05] rename: 22 51
+[05] messages: [{"api":"v1.part.updateWorkCSys","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in OperationsHelper.UpdateWorkCSys:[CCVM::lcm: Function SetCSysParams not found]] "}]
+[05] find Origin: null find MyOrigin: 22
+[filewrite] files/05-builtin-origin-builtin-responses.json (849 bytes)

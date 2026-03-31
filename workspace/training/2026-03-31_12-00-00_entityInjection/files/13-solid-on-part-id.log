@@ -1,0 +1,4 @@
+[13] partId: 4
+[13] solid.box on partId — result: null maxLevel: 51
+[13] messages: [{"api":"v1.solid.box","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"}]
+[filewrite] files/13-solid-on-part-id-solid-on-part.json (282 bytes)

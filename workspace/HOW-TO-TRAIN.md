@@ -38,7 +38,7 @@ workspace/
   training/                           ← your training sessions go here!
     YYYY-MM-DD_HH-MM-SS_<topic>/
       scripts/                        ← your test scripts (one focused test per file)
-      files/                          ← harness output (PNGs, STEP, OFB)
+      files/                          ← harness output (PNGs, STEP, OFB, logs, JSON dumps)
       journal.md                      ← your exploration log (written during Step 4)
       changes.md                      ← LLM doc diff (written during Step 6)
 ```
@@ -76,7 +76,7 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug]
 - Runs your script's default export function
 - Saves snapshots (`snapshot('label')`) as PNGs + STEP + OFB to `files/`
 - Saves data dumps (`filewrite(data, 'label')`) as JSON/TXT/BIN to `files/`
-- Auto-captures all `console.log`/`.error`/`.warn` output to `<scriptName>.log`
+- Auto-captures all `console.log`/`.error`/`.warn` output to `files/<scriptName>.log`
 - Clears the drawing and disconnects after each run
 - `--debug` disables all timeouts (connection + request) — useful for debugging
 
@@ -244,7 +244,7 @@ const r = await api.v1.part.create({ name: 'Test' })
 // r.graphic   — rendering data (usually null in CLI context)
 ```
 
-**All data is in `r`.** Log compact findings with `console.log`. For large data (structure trees, graphic payloads, base64 content), use `filewrite` instead. All console output is auto-captured to `<scriptName>.log` alongside your `files/` directory.
+**All data is in `r`.** Log compact findings with `console.log`. For large data (structure trees, graphic payloads, base64 content), use `filewrite` instead. All console output is auto-captured to `files/<scriptName>.log`.
 
 **`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`. Snapshots are visual aids for the journal, **not proof of behavior**. The renderer auto-scales geometry to fill the viewport, so size-only changes produce identical-looking images.
 
@@ -267,7 +267,7 @@ node scripts/run.mjs workspace/training/<session>/scripts/01-basic.mjs \
   --outdir workspace/training/<session>
 ```
 
-Read the `.log` file for console output and return values. Check `files/` for snapshots (PNGs) and data dumps (`.json`). When verifying behavior changes, prioritize data from `filewrite` dumps over visual inspection of PNGs.
+Read `files/<scriptName>.log` for console output and return values. Check `files/` for snapshots (PNGs) and data dumps (`.json`). When verifying behavior changes, prioritize data from `filewrite` dumps over visual inspection of PNGs.
 
 ---
 

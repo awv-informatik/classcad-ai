@@ -1,0 +1,6 @@
+[03] partId: 4
+[03] ei1: 54 maxLevel: 31
+[03] ei2: 62 maxLevel: 31
+[03] ei3: 70 maxLevel: 31
+[03] nodes: [{"id":54,"name":"EI_One","class":"CC_EntityInjection","parent":16},{"id":62,"name":"EI_Two","class":"CC_EntityInjection","parent":16},{"id":70,"name":"EI_Three","class":"CC_EntityInjection","parent":16}]
+[filewrite] files/03-multiple-ei-multi-ei-nodes.json (295 bytes)

@@ -1,0 +1,8 @@
+[15] eifId: 54
+[15] refNode id: 56 exists: true
+[15] refNode name: EntityInjectionRef
+[15] refNode class: CC_OperationReference
+[15] refNode parent: 18
+[filewrite] files/15-ei-ref-node-ref-node.json (368 bytes)
+[15] EI parent id: 16 class: CC_EntitySet name: EntitySet
+[15] Ref parent id: 18 class: CC_OperationSequence name: OperationSequence

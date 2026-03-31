@@ -1,0 +1,20 @@
+[
+  {
+    "id": 54,
+    "name": "EI_One",
+    "class": "CC_EntityInjection",
+    "parent": 16
+  },
+  {
+    "id": 62,
+    "name": "EI_Two",
+    "class": "CC_EntityInjection",
+    "parent": 16
+  },
+  {
+    "id": 70,
+    "name": "EI_Three",
+    "class": "CC_EntityInjection",
+    "parent": 16
+  }
+]

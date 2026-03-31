@@ -1,0 +1,5 @@
+[07] r1: 54 maxLevel: 31
+[07] r2: 62 maxLevel: 31
+[07] r3: 70 maxLevel: 31
+[07] names: [{"id":54,"name":"Same"},{"id":62,"name":"Same0"},{"id":70,"name":"Same1"}]
+[filewrite] files/07-duplicate-names-duplicate-names.json (130 bytes)

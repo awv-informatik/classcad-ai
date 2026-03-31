@@ -199,7 +199,7 @@ async function main() {
   console.warn = origWarn
 
   if (logLines.length > 0) {
-    const logFile = join(outDir, `${scriptName}.log`)
+    const logFile = join(outDir, 'files', `${scriptName}.log`)
     writeFileSync(logFile, logLines.join('\n') + '\n')
     console.log(`[run] Log saved: ${logFile} (${logLines.length} lines)`)
   }

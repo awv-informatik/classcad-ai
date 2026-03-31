@@ -1,0 +1,6 @@
+[08] partId: 4 eifId: 54
+[08] box1: 61 box2: 64
+[filewrite] files/08-ei-bodies-inspect-ei-node-after-solids.json (513 bytes)
+[08] EI members.bodies: {"members":[],"type":"array","visible":1,"expression":""}
+[08] EI children: [61,64]
+[08] part.solids: [59,62]

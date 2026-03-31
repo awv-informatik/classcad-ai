@@ -352,7 +352,7 @@ const gwId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'WP1' })).re
 
 | #   | Task                                                                                 | Source                                                        | Studied |
 | --- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.entityInjection`                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.entityInjection`                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 2   | Study: relationship between entity injection IDs and curve/solid API `id` parameters | all docs                                                      | [ ]     |
 
 **Task #1: Api study of `part.entityInjection`**

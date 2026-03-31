@@ -1,0 +1,4 @@
+[05] partId: 4 eifId: 54
+[05] box result: 61 maxLevel: 31
+[filewrite] files/05-ei-with-solid-box-response.json (54 bytes)
+[05] EI bodies: {"members":[],"type":"array","visible":1,"expression":""}

@@ -1,0 +1,7 @@
+[11] eifId: 54
+[11] boxId: 61
+[11] delete result: null maxLevel: 31
+[11] delete messages: []
+[filewrite] files/11-delete-feature-v2-delete-v2-response.json (56 bytes)
+[11] EI after delete: GONE
+[11] Box after delete: GONE

@@ -1,0 +1,6 @@
+[16] partId: 4 eifId: 54
+[16] boxId: 61
+[16] cylId: 64 maxLevel: 31
+[16] EI children: [61,64]
+[16] part.solids: [59,62]
+[filewrite] files/16-realistic-workflow-workflow-ids.json (78 bytes)

@@ -1,0 +1,40 @@
+{
+  "bogusId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setObjectName",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.common.setObjectName",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  },
+  "zeroId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setObjectName",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  },
+  "negativeId": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

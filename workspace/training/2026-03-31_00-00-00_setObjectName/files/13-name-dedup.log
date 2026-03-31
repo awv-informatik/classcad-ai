@@ -1,0 +1,5 @@
+[13] eif1: 54 eif2: 62 eif3: 70
+[13] rename eif2 → "Foo": maxLevel: 31
+[13] rename eif3 → "Foo": maxLevel: 31
+[13] final names: [{"id":54,"name":"Foo"},{"id":62,"name":"Foo0"},{"id":70,"name":"Foo1"}]
+[filewrite] files/13-name-dedup-dedup-names.json (127 bytes)

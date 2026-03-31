@@ -1,0 +1,47 @@
+{
+  "before": {
+    "members": {
+      "consumed": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2003_11_25_10:10",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    }
+  },
+  "after": {
+    "members": {
+      "consumed": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2003_11_25_10:10",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    }
+  },
+  "result": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.cleanShape",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CurveAPI_v1.cleanShape::PROC:Trying to open database which does not exist\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CCDatabase.cpp,     Line: 79\nFunction: CADH_EraseEntity\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CCDatabase.cpp,     Line: 79] "
+      }
+    ]
+  }
+}

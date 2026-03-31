@@ -1,0 +1,41 @@
+{
+  "missingName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setObjectName",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"name\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setObjectName",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  },
+  "emptyParams": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setObjectName",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  }
+}

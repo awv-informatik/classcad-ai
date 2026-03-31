@@ -1,0 +1,4 @@
+[15] ei1: 54 ei2: 62 s1: 68 s2: 70
+[15] s1 parent: 54 (should be 54 )
+[15] s2 parent: 62 (should be 62 )
+[filewrite] files/15-shape-in-multiple-ei-cross-ei.json (94 bytes)

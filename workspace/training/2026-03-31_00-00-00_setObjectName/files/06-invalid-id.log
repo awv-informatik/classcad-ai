@@ -1,0 +1,6 @@
+[06] bogus ID 99999 → result: null maxLevel: 51
+[06] messages: [{"api":"v1.common.setObjectName","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.setObjectName","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[06] ID 0 → result: null maxLevel: 51
+[06] messages: [{"api":"v1.common.setObjectName","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[06] ID -1 → result: null maxLevel: 31
+[filewrite] files/06-invalid-id-invalid-id-results.json (854 bytes)

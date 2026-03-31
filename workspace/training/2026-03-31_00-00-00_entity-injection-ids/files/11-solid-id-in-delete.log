@@ -1,0 +1,3 @@
+[11] box1 (feature ID): 61 box2 (feature ID): 64
+[11] deleteSolid with feature ID — result: null maxLevel: 31
+[filewrite] files/11-solid-id-in-delete-delete-result.json (56 bytes)

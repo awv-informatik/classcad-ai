@@ -1,0 +1,9 @@
+[05] partId: 4
+[05] name="Hello World" → result:null maxLevel:31
+[05] name="Part_With-Dashes" → result:null maxLevel:31
+[05] name="Part.With.Dots" → result:null maxLevel:31
+[05] name="Part/With/Slashes" → result:null maxLevel:31
+[05] name="123NumericStart" → result:null maxLevel:31
+[05] name="Unicode: äöü" → result:null maxLevel:31
+[05] name="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..." → result:null maxLevel:31
+[filewrite] files/05-rename-special-chars-special-chars-results.json (711 bytes)

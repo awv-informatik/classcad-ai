@@ -353,7 +353,7 @@ const gwId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'WP1' })).re
 | #   | Task                                                                                 | Source                                                        | Studied |
 | --- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- | ------- |
 | 1   | Api study of `part.entityInjection`                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
-| 2   | Study: relationship between entity injection IDs and curve/solid API `id` parameters | all docs                                                      | [ ]     |
+| 2   | Study: relationship between entity injection IDs and curve/solid API `id` parameters | all docs                                                      | [✅]     |
 
 **Task #1: Api study of `part.entityInjection`**
 
@@ -374,7 +374,7 @@ export default async function (api) {
 
 | #   | Task                                | Source                                                            | Studied |
 | --- | ----------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.setObjectName` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 1   | Api study of `common.setObjectName` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
 
 **Task #1: Api study of `common.setObjectName`**
 
@@ -400,9 +400,9 @@ await api.v1.common.setObjectName({ id: eifId, name: 'RenamedEIF' })
 
 | #   | Task                                                                     | Source                                                          | Studied |
 | --- | ------------------------------------------------------------------------ | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.shape`                                               | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 2   | Api study of `curve.deleteShape`                                         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 3   | Api study of `curve.cleanShape` — deletes curves but keeps the container | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 1   | Api study of `curve.shape`                                               | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 2   | Api study of `curve.deleteShape`                                         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 3   | Api study of `curve.cleanShape` — deletes curves but keeps the container | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 
 **Task #1: Api study of `curve.shape`**
 
@@ -422,8 +422,8 @@ const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'S1' })).result
 
 | #   | Task                                     | Source                                                          | Studied |
 | --- | ---------------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.line`                | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 2   | Api study of `curve.circle`              | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 1   | Api study of `curve.line`                | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 2   | Api study of `curve.circle`              | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 3   | Api study of `curve.arcBy3Points`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 | 4   | Api study of `curve.arcByCenter`         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 | 5   | Api study of `curve.arcByCenterRadAngle` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |

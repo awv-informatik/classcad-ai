@@ -1,0 +1,5 @@
+[06] shape node keys: name, class, id, flags, geometryIdList, parent, members
+[06] shape children: undefined
+[06] nodes parented to shape: {}
+[06] part geometrySet: 10
+[filewrite] files/06-curve-structure-curve-structure.json (473 bytes)

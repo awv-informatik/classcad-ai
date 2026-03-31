@@ -1,0 +1,17 @@
+{
+  "negativeCoords": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "largeCoords": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "tinyCoords": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

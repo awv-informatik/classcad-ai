@@ -1,0 +1,12 @@
+{
+  "reuse": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "shapeAfter": {
+    "geometryIdList": [
+      66
+    ],
+    "name": "Reuse"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "twoElement": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "If point is defined as array, it must have exactly 3 real values"
+      }
+    ]
+  },
+  "fourElement": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "If point is defined as array, it must have exactly 3 real values"
+      }
+    ]
+  },
+  "oneElement": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "If point is defined as array, it must have exactly 3 real values"
+      }
+    ]
+  }
+}

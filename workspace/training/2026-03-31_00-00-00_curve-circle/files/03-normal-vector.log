@@ -1,0 +1,5 @@
+[03] XY plane circle maxLevel: 31
+[03] explicit [0,0,1] maxLevel: 31
+[03] YZ plane [1,0,0] maxLevel: 31
+[03] XZ plane [0,1,0] maxLevel: 31
+[03] tilted [1,1,1] maxLevel: 31

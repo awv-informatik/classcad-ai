@@ -1,0 +1,6 @@
+[07] created shapes: 60 62 64
+[07] deleteShape result: null maxLevel: 31
+[07] messages: []
+[07] remaining: [{"id":60,"exists":true,"name":"Keep"},{"id":62,"exists":false},{"id":64,"exists":false}]
+[07] EI children after delete: [{"id":60,"class":"CC_CurveEntity","name":"Keep"}]
+[filewrite] files/07-deleteShape-deleteShape-result.json (386 bytes)

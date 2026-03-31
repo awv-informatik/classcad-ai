@@ -1,0 +1,10 @@
+[11] first delete — result: null maxLevel: 31
+[11] double delete — result: null maxLevel: 51
+[11] double delete msgs: [{"api":"v1.curve.deleteShape","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.curve.deleteShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[11] empty array — result: null maxLevel: 31
+[11] empty array msgs: []
+[11] partId — result: null maxLevel: 51
+[11] partId msgs: [{"api":"v1.curve.deleteShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[11] eifId — result: null maxLevel: 51
+[11] eifId msgs: [{"api":"v1.curve.deleteShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/11-deleteShape-errors-deleteShape-errors.json (1302 bytes)

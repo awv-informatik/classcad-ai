@@ -1,0 +1,4 @@
+[06] shape1: 60 shape2: 62 both in EI: 54
+[06] line in shape1: null maxLevel: 31
+[06] line in shape2: null maxLevel: 31
+[filewrite] files/06-multiple-shapes-one-ei-multiple-shapes-ids.json (49 bytes)

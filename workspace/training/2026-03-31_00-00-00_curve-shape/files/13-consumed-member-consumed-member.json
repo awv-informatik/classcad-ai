@@ -1,0 +1,20 @@
+{
+  "before": {
+    "value": 1,
+    "type": "real",
+    "visible": 1,
+    "expression": ""
+  },
+  "afterCurve": {
+    "value": 1,
+    "type": "real",
+    "visible": 1,
+    "expression": ""
+  },
+  "afterClean": {
+    "value": 1,
+    "type": "real",
+    "visible": 1,
+    "expression": ""
+  }
+}

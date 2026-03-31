@@ -1,0 +1,23 @@
+[
+  {
+    "id": 60,
+    "name": "Foo",
+    "class": "CC_CurveEntity"
+  },
+  {
+    "id": 62,
+    "name": "Foo0",
+    "class": "CC_CurveEntity"
+  },
+  {
+    "id": 64,
+    "name": "Foo1",
+    "class": "CC_CurveEntity"
+  },
+  {
+    "id": 66
+  },
+  {
+    "id": 68
+  }
+]

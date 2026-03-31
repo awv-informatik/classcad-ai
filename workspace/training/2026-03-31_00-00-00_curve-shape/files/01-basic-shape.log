@@ -1,0 +1,6 @@
+[01] partId: 4 eifId: 54
+[01] default shape result: 60 maxLevel: 31
+[01] messages: []
+[01] named shape result: 62 maxLevel: 31
+[filewrite] files/01-basic-shape-shape-responses.json (146 bytes)
+[filewrite] files/01-basic-shape-structure-after-two-shapes.json (21153 bytes)

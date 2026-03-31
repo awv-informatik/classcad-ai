@@ -1,0 +1,5 @@
+[09] non-unit [0,0,5] maxLevel: 31
+[09] tiny [0,0,0.001] maxLevel: 31
+[09] zero normal [0,0,0] maxLevel: 31 messages: []
+[09] negative [0,0,-1] maxLevel: 31
+[filewrite] files/09-non-unit-normal-normal-edge-cases.json (233 bytes)

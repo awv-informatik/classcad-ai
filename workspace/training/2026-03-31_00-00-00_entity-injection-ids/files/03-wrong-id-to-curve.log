@@ -1,0 +1,6 @@
+[03] partId: 4 eifId: 54
+[03] curve.line with eifId — result: null maxLevel: 51
+[03] ei msg: The parameter "id" has a wrong id type! Provide only following id types: ["shape"] level: 51
+[03] curve.line with partId — result: null maxLevel: 51
+[03] part msg: The parameter "id" has a wrong id type! Provide only following id types: ["shape"] level: 51
+[filewrite] files/03-wrong-id-to-curve-curve-line-wrong-ids.json (631 bytes)

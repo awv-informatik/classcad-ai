@@ -1,0 +1,4 @@
+[07] partId: 4
+[07] rename to "Second" → result: null maxLevel: 31
+[07] rename to "Third" → result: null maxLevel: 31
+[filewrite] files/07-rename-twice-structure-after-double-rename.json (19128 bytes)

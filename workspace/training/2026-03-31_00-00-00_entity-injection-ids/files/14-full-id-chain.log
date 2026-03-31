@@ -1,0 +1,12 @@
+[14] ID chain:
+[14]   partId: 4
+[14]   eifId: 54 (child of part)
+[14]   shapeId: 60 (child of EI, for curves)
+[14]   boxId: 63 (child of EI, a solid)
+[14] curve.line(eifId): ❌ rejected
+[14] solid.box(shapeId): ❌ rejected
+[14] solid.box(partId): ❌ rejected
+[14] curve.shape(partId): ❌ rejected
+[14] curve.line(boxId): ❌ rejected
+[14] curve.shape(eifId): ✓ accepted shapeId: 65
+[filewrite] files/14-full-id-chain-id-type-validation.json (940 bytes)

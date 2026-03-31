@@ -1,0 +1,7 @@
+[11] missing name → result: null maxLevel: 51
+[11] messages: [{"api":"v1.common.setObjectName","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"name\" must be provided in the api call!"}]
+[11] missing id → result: null maxLevel: 51
+[11] messages: [{"api":"v1.common.setObjectName","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[11] empty params → result: null maxLevel: 51
+[11] messages: [{"api":"v1.common.setObjectName","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/11-missing-params-missing-params.json (884 bytes)

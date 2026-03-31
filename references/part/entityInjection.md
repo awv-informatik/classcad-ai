@@ -62,6 +62,17 @@ const boxId = (await api.v1.solid.box({
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Outline' })).result
 ```
 
+## Cross-EI Operations
+
+Boolean and copy operations work across EI boundaries:
+
+- `solid.subtraction({ id: ei1, target: solidInEi1, tools: [solidInEi2] })` — the `id` specifies the owning EI, but `target`/`tools` can reference solids from any EI.
+- `solid.copy({ id: destEI, target: solidFromOtherEI })` — copies into `destEI`, source is unchanged.
+
+Solids and shapes can coexist in the same entity injection.
+
+See `references/part/id-hierarchy.md` for the full ID type mapping across domains.
+
 ## Related
 
 - `solid.box`, `solid.cylinder`, etc. — consume the EI ID
@@ -69,3 +80,4 @@ const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Outline' })).resul
 - `solid.deleteSolid` — delete individual solids from within an EI
 - `part.deleteFeature` — delete the entire EI (cascades)
 - `common.setObjectName` — rename the EI after creation
+- `references/part/id-hierarchy.md` — full ID hierarchy documentation

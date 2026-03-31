@@ -4,13 +4,7 @@ An AI agent that trains itself on the ClassCAD CAD engine API through structured
 
 ## OpenClaw
 
-cc is one of several agents running inside [OpenClaw](https://github.com/openclaw), a local-first AI agent orchestration platform. OpenClaw manages agent lifecycles, scheduling, channels (Telegram, Slack), plugins (Bambu printer, Reolink cameras, Slack monitor), memory, and multi-model routing.
-
-The platform runs local and currently hosts a single agent:
-
-| Agent  | Role                             | Model           |
-| ------ | -------------------------------- | --------------- |
-| **cc** | ClassCAD API trainer (this repo) | Claude Opus 4.6 |
+cc is an agent running inside [OpenClaw](https://github.com/openclaw), a local-first AI agent orchestration platform. OpenClaw manages agent lifecycles, scheduling, channels (Telegram, Slack), plugins (Bambu printer, Reolink cameras, Slack monitor), memory, and multi-model routing.
 
 cc's training sessions are triggered by cron jobs inside OpenClaw. Each job spawns an isolated session, picks the next unchecked task from `PLAN.md`, runs the full training pipeline, and commits the results — no human intervention required. ph reviews the output and provides feedback between runs.
 

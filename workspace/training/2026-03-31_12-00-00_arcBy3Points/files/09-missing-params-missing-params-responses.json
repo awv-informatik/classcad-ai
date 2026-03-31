@@ -1,0 +1,50 @@
+{
+  "noMidPos": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcBy3Points",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"midPos\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noStartPos": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcBy3Points",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"startPos\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noEndPos": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcBy3Points",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"endPos\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcBy3Points",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  }
+}

@@ -424,8 +424,8 @@ const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'S1' })).result
 | --- | ---------------------------------------- | --------------------------------------------------------------- | ------- |
 | 1   | Api study of `curve.line`                | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 2   | Api study of `curve.circle`              | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
-| 3   | Api study of `curve.arcBy3Points`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 4   | Api study of `curve.arcByCenter`         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 3   | Api study of `curve.arcBy3Points`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 4   | Api study of `curve.arcByCenter`         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 5   | Api study of `curve.arcByCenterRadAngle` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1-3: Basic curve creation**

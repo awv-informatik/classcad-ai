@@ -1,0 +1,3 @@
+[09a] partId as id: 51 [{"api":"v1.curve.arcByCenter","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[09b] eifId as id: 51 [{"api":"v1.curve.arcByCenter","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/09-wrong-id-wrong-id-results.json (607 bytes)

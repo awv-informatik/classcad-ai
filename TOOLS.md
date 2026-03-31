@@ -49,6 +49,27 @@ cd knowledge/classcad-skill && git diff references/ SKILL.md
 | ---------------- | ------------------------------------------ | -------------------------------------------- |
 | Skill references | `knowledge/classcad-skill/references/*.md` | Primary — your working docs with AGENT NOTEs |
 
+## ClassCAD Server (classcad-cli)
+
+The server should already be running — ph starts it manually. **Do not restart it unless the worker is confirmed hung** (100% CPU, calls timing out with no output).
+
+If you must restart as a last resort:
+
+```bash
+# 1. Kill the hung worker
+kill -9 $(ps aux | grep 'classcad-cli worker' | grep -v grep | awk '{print $2}')
+
+# 2. Wait for it to die
+sleep 2
+
+# 3. Restart from its install directory
+cd /Users/dev/dev/osx && ./arm64-osx-release/classcad-cli worker &
+```
+
+The worker listens on `ws://0.0.0.0:9094/` (the harness default). Give it ~3 seconds to initialize before running scripts.
+
+**Common cause of hangs:** passing invalid values to APIs (e.g., `radius <= 0` to `curve.circle`). Diagnose with `ps aux | grep classcad` — a hung worker shows 100% CPU.
+
 ## Rendering
 
 The harness uses a direct renderer (`scripts/render-direct.mjs`) that auto-detects content:

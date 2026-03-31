@@ -1,0 +1,26 @@
+{
+  "partIdError": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcByCenter",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+      }
+    ]
+  },
+  "eifIdError": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcByCenter",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+      }
+    ]
+  }
+}

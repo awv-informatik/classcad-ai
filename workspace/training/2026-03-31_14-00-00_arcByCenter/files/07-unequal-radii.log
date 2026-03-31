@@ -1,0 +1,3 @@
+[07] unequal radii: null maxLevel: 51
+[07] messages: [{"api":"v1.curve.arcByCenter","code":0,"level":51,"levelStr":"ERROR","message":"_C.CurveAPI_v1::arcByCenter\nCreated end point differs from the input values: {10,0,0} Offset: 10"}]
+[filewrite] files/07-unequal-radii-response.json (288 bytes)

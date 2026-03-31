@@ -1,0 +1,3 @@
+[04] collinear result: null maxLevel: 51
+[04] messages: [{"api":"v1.curve.arcBy3Points","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveAPI_v1.arcBy3Points::PROC:[Index 2 ausserhalb des Arraybereichs] not defined !] "}]
+[filewrite] files/04-collinear-points-collinear-response.json (298 bytes)

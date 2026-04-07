@@ -17,19 +17,46 @@ Creates a polyline (sequence of lines and arcs) from an array of points with opt
 
 ## Bulge Values
 
-The bulge is `tan(a/4)` where `a` is the included arc angle between two consecutive points.
+The bulge is `tan(a/4)` where `a` is the included arc angle between two consecutive points. The inverse formula: `angle = 4 * atan(bulge)`.
 
-| Bulge value | Meaning |
-|---|---|
-| `0` | Straight line segment |
-| `0.41421` (`tan(π/8)`) | 90° arc |
-| `1` | 180° semicircle |
-| `> 1` (e.g. `2`) | Arc > 180° (major arc) |
-| negative | Clockwise arc (same magnitude = same angle, opposite direction) |
+### Quick Reference Table
 
-- Positive bulge → arc directed **counterclockwise** when looking in opposite direction of the normal
+| Angle | Bulge value | Notes |
+|-------|-------------|-------|
+| 0° | `0` | Straight line segment |
+| 10° | `0.04366` | Barely curved |
+| 30° | `0.13165` | Gentle arc |
+| 45° | `0.19891` | |
+| 60° | `0.26795` | |
+| **90°** | **`0.41421`** (`tan(π/8)`) | Most common — corner fillets, rounded rects |
+| 120° | `0.57735` | |
+| **180°** | **`1.0`** | Semicircle — sagitta equals half the chord |
+| 270° | `2.41421` | Major arc (> half circle) |
+| 360° | `∞` (`tan(90°)`) | **Cannot represent a full circle** — use `curve.circle` instead |
+
+### Direction
+
+- **Positive bulge** → arc directed **counterclockwise** when looking in opposite direction of the normal
+- **Negative bulge** → **clockwise** arc. Same magnitude = same angle, just mirrored direction
+- Each segment's bulge is independent — you can mix positive, negative, and zero bulges in one polyline
+
+### Closing segment
+
 - The bulge on the **last point** is ignored for open polylines (no next point to arc to)
 - With `close: true`, the last bulge controls the arc from last point back to first point
+
+### Geometry relationship
+
+- Bulge is a pure **angle** parameter — independent of segment length
+- Same bulge on a short or long segment produces the same arc angle; the radius scales with chord length
+- Sagitta (arc height) = `bulge * chord_length / 2`
+- For a 180° semicircle: sagitta = chord/2 (the arc radius equals half the chord)
+
+### Extreme values
+
+- Very small bulges (e.g. `0.001`) produce barely-visible curves — no error
+- Very large bulges (e.g. `100`) produce nearly-full-circle arcs — no error or clamping
+- Bulge on a zero-length segment (duplicate points) is silently accepted (degenerate geometry)
 
 ## Return Value
 
@@ -64,6 +91,26 @@ await api.v1.curve.polyline2d({
     [0, 50, 0],
   ],
   bulges: [0, 0, 0, b90, 0, 0],
+  close: true,
+})
+```
+
+## Common Pattern: Rounded Rectangle
+
+Offset each corner by the fillet radius, use 90° bulge at corners, close with `close: true`:
+
+```js
+const b90 = Math.tan(Math.PI / 8) // ≈ 0.41421
+const w = 80, h = 40, r = 5       // width, height, corner radius
+await api.v1.curve.polyline2d({
+  id: shapeId,
+  points: [
+    [r, 0, 0],     [w - r, 0, 0],   // bottom edge
+    [w, r, 0],     [w, h - r, 0],    // right edge
+    [w - r, h, 0], [r, h, 0],        // top edge
+    [0, h - r, 0], [0, r, 0],        // left edge
+  ],
+  bulges: [0, b90, 0, b90, 0, b90, 0, b90],
   close: true,
 })
 ```

@@ -1,0 +1,18 @@
+[19] === Single arc graphic ===
+  arc: 1 containers
+  container[0] type=2 edges=1
+    edge[0] verts=17
+      first3: (0.00,20.00) -> (1.80,19.92) -> (3.64,19.67)
+      last3:  (19.67,3.64) -> (19.92,1.80) -> (20.00,0.00)
+[filewrite] files/19-dump-edge-data-single-arc-graphic.json (1676 bytes)
+[19] === After adding line ===
+  line: no graphic
+[filewrite] files/19-dump-edge-data-arc-plus-line-graphic.json (4 bytes)
+[19] === After adding second line ===
+  line2: no graphic
+[filewrite] files/19-dump-edge-data-arc-plus-2lines-graphic.json (4 bytes)
+[19] === setDatabaseSettings graphic ===
+  graphic?: false maxLevel: 31
+[19] === recalc graphic ===
+  graphic?: false maxLevel: 31
+[19] sendGraphic error: api.v1.common.sendGraphic is not a function

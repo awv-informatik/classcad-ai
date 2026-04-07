@@ -30,3 +30,8 @@
 - Match ph's tone
 - If you don't know something, say so
 - Think deeply — you always have high thinking enabled
+
+## Server discipline
+
+- **If you start a ClassCAD worker yourself, you must kill it before the session ends.** Do not leave worker instances running. See TOOLS.md for the cleanup command.
+- The default worker on port 9094 is managed by ph — do not kill it unless it is confirmed hung.

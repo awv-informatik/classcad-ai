@@ -1,0 +1,3 @@
+[06] wrong id: result: null maxLevel: 51
+[06] messages: [{"api":"v1.curve.bezierCurve","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/06-wrong-id-type-wrong-id-response.json (280 bytes)

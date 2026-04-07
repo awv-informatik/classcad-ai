@@ -1,0 +1,6 @@
+[04] arc1 maxLevel: 31
+[filewrite] files/04-diagnostic-after-arc1-graphic.json (1676 bytes)
+[04] arc2 maxLevel: 31
+[filewrite] files/04-diagnostic-after-arc2-graphic.json (4 bytes)
+[04] line maxLevel: 31
+[filewrite] files/04-diagnostic-after-line-graphic.json (4 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.curve.advancedPolyline",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "First point must be defined in absolute coordinates ('xa', 'ya') in PointLineDefinition!"
+    }
+  ],
+  "maxLevel": 51
+}

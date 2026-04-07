@@ -1,0 +1,5 @@
+[20] arc1: containers=1 edges=1
+[20] arc2: containers=undefined edges=undefined
+[20] line: graphic=false
+[20] arc3: containers=undefined edges=undefined
+[filewrite] files/20-cumulative-graphic-arc3-graphic.json (4 bytes)

@@ -1,0 +1,5 @@
+[filewrite] files/16-edge-data-forward-graphic.json (1658 bytes)
+[filewrite] files/16-edge-data-forward-structure.json (20782 bytes)
+[filewrite] files/16-edge-data-reversed-graphic.json (2650 bytes)
+[filewrite] files/16-edge-data-xaxis-y-graphic.json (1676 bytes)
+[16] Forward maxLevel: 31 Reversed maxLevel: 31 xAxisY maxLevel: 31

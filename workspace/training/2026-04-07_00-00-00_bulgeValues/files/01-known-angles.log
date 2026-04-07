@@ -1,0 +1,7 @@
+[01] 45° → bulge=0.198912, maxLevel=31
+[01] 90° → bulge=0.414214, maxLevel=31
+[01] 120° → bulge=0.577350, maxLevel=31
+[01] 180° → bulge=1.000000, maxLevel=31
+[01] 270° → bulge=2.414214, maxLevel=31
+[01] 359.9° → bulge=2291.831035, maxLevel=31
+[filewrite] files/01-known-angles-known-angles.json (765 bytes)

@@ -1,0 +1,3 @@
+[17] no-abs-start - result: null maxLevel: 51
+[17] messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"First point must be defined in absolute coordinates ('xa', 'ya') in PointLineDefinition!"}]
+[filewrite] files/17-no-start-absolute-no-start-response.json (284 bytes)

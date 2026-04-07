@@ -1,0 +1,13 @@
+[05] 90° arc: bulge = 0.414214 sagitta = 8.284
+[05] 180° arc: bulge = 1.000000 sagitta = 20.000
+[05] 180° sagitta should be 20 (radius = half chord): 20.000
+[05] 360° bulge would be tan(90°) = infinity: 16331239353195370
+[05] inverse formula check:
+  bulge=0 → 0°
+  bulge=0.2 → 45.24°
+  bulge=0.41421 → 90°
+  bulge=0.5773 → 119.99°
+  bulge=1 → 180°
+  bulge=2 → 253.74°
+  bulge=5 → 314.76°
+[filewrite] files/05-bulge-formula-verify-formula-verify.json (338 bytes)

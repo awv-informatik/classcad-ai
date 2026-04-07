@@ -1,0 +1,10 @@
+[08] missing r1: maxLevel: 51
+[filewrite] files/08-error-cases-missing-r1.json (249 bytes)
+[08] missing r2: maxLevel: 51
+[filewrite] files/08-error-cases-missing-r2.json (249 bytes)
+[08] missing centerPos: maxLevel: 51
+[filewrite] files/08-error-cases-missing-center.json (251 bytes)
+[08] wrong id type: maxLevel: 51
+[filewrite] files/08-error-cases-wrong-id.json (276 bytes)
+[08] 2D point: maxLevel: 51
+[filewrite] files/08-error-cases-2d-point.json (251 bytes)

@@ -1,0 +1,3 @@
+[07] 1-point result: null maxLevel: 51
+[07] messages: [{"api":"v1.curve.polyline2d","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveAPI_v1.polyline2d::PROC:Uninitialized MemberPTR\nFunction: CADH_CreatePolyline\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[filewrite] files/07-one-point-one-point-response.json (394 bytes)

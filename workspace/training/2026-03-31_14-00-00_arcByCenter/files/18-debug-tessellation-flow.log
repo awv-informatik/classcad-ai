@@ -1,0 +1,5 @@
+[18] arc graphic?: true
+[18] arc graphic containers: 1
+  type=2 edges=1
+[18] setDatabaseSettings graphic?: false
+[18] recalc graphic?: false

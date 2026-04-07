@@ -53,7 +53,11 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
     return request('Execute', { task: [task], options: { undoable: false } })
   }
 
-  // Track the latest graphic payload for direct rendering
+  // Track the latest graphic payload for direct rendering.
+  // Curve containers (type 2) are accumulated across responses because the
+  // server only pushes graphic data for the FIRST curve added to each shape.
+  // Subsequent curve operations in the same shape return no graphic.
+  // Non-curve containers (type 1 = solids) are replaced entirely each time.
   let lastGraphic = null
 
   function handleFrame(data, isBinary) {
@@ -75,9 +79,32 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
       }
       // Filter INFO traces (level 31)
       const messages = (frame.messages || []).filter(m => m.level > 31)
-      // Track latest graphic
+      // Track latest graphic — accumulate curve containers (type 2)
       if (frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
-        lastGraphic = frame.graphic
+        if (!lastGraphic) {
+          lastGraphic = frame.graphic
+        } else {
+          // Merge: replace non-curve containers, accumulate curve containers by ID
+          const incoming = frame.graphic.containers || []
+          const existing = lastGraphic.containers || []
+          const curveById = new Map()
+          // Index existing curve containers
+          for (const c of existing) {
+            if (c.type === 2) curveById.set(c.id, c)
+          }
+          // Merge incoming containers
+          for (const c of incoming) {
+            if (c.type === 2) curveById.set(c.id, c) // add or replace by ID
+          }
+          // Rebuild: non-curve from incoming (latest), all accumulated curves
+          const nonCurve = incoming.filter(c => c.type !== 2)
+          // Keep old non-curve containers only if incoming has none
+          const oldNonCurve = nonCurve.length > 0 ? [] : existing.filter(c => c.type !== 2)
+          lastGraphic = {
+            ...frame.graphic,
+            containers: [...oldNonCurve, ...nonCurve, ...curveById.values()],
+          }
+        }
       }
       entry.resolve({
         result,

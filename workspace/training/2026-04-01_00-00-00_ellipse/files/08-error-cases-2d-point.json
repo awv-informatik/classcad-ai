@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.curve.ellipse",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "If point is defined as array, it must have exactly 3 real values"
+    }
+  ],
+  "maxLevel": 51
+}

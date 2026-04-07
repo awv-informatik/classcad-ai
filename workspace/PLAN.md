@@ -426,7 +426,7 @@ const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'S1' })).result
 | 2   | Api study of `curve.circle`              | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 3   | Api study of `curve.arcBy3Points`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 4   | Api study of `curve.arcByCenter`         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
-| 5   | Api study of `curve.arcByCenterRadAngle` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 5   | Api study of `curve.arcByCenterRadAngle` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 
 **Task #1-3: Basic curve creation**
 
@@ -450,10 +450,10 @@ await api.v1.curve.arcBy3Points({ id: shapeId, startPos: [0, 50, 0], midPos: [25
 
 | #   | Task                                    | Source                                                          | Studied |
 | --- | --------------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.ellipse`            | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 2   | Api study of `curve.ellipticArc`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 3   | Api study of `curve.bezierCurve`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 4   | Api study of `curve.interpolationCurve` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 1   | Api study of `curve.ellipse`            | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 2   | Api study of `curve.ellipticArc`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 3   | Api study of `curve.bezierCurve`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 4   | Api study of `curve.interpolationCurve` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 
 **Task #1-4: Advanced curve types**
 
@@ -489,9 +489,9 @@ await api.v1.curve.interpolationCurve({
 
 | #   | Task                                                                                                       | Source                                                          | Studied |
 | --- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.polyline2d` — points + bulges                                                          | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 2   | Api study of `curve.advancedPolyline` — PLD system                                                         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 3   | Study: bulge values — `tan(a/4)`, 0=line, 1=semicircle, negative=clockwise                                 | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 1   | Api study of `curve.polyline2d` — points + bulges                                                          | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 2   | Api study of `curve.advancedPolyline` — PLD system                                                         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 3   | Study: bulge values — `tan(a/4)`, 0=line, 1=semicircle, negative=clockwise                                 | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 4   | Study: advanced polyline PLD modes — `xa/ya` vs `xr/yr` vs `l/a` vs `l/ar`, radius `r`, chamfer `c`, close | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
 
 **Task #1: Api study of `curve.polyline2d`**

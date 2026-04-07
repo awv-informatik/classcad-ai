@@ -773,7 +773,15 @@ export async function renderSession(client, prefix, outDir, options = {}) {
 
   // ── CURVES ──
   if (content.curves.length > 0) {
-    // Reuse the recalc graphic from solids path if available, else recalc
+    // The server only pushes graphic data for the FIRST curve added to each
+    // shape container.  Subsequent curve ops in the same shape return no
+    // graphic.  The client accumulates all type-2 containers it ever received,
+    // so getLastGraphic() has at least one edge per shape.
+    //
+    // Known limitation: for shapes with multiple curves (e.g., a rounded
+    // rectangle built from lines + arcs in one shape), only the first curve
+    // is rendered.  Workaround: use a separate shape per curve when visual
+    // verification is important.
     let curveGraphic = null
     try {
       const r = await execute({ 'v1.common.recalc': [{}] })

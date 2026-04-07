@@ -2,7 +2,7 @@
 /**
  * run.mjs — Test runner for ClassCAD API training.
  *
- * Usage:  node scripts/run.mjs <script-path> [--outdir <path>] [ws-url]
+ * Usage:  node scripts/run.mjs <script-path> [--outdir <path>] [--port <port>] [ws-url]
  *
  * Connects to ClassCAD, runs one script, captures snapshots, cleans up.
  * The script receives a typed api object (from @classcad/api-js) + helpers.
@@ -31,13 +31,17 @@ function parseArgs(argv) {
   let wsUrl = undefined
   let outDir = null
   let debug = false
+  let port = null
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--outdir') { outDir = args[++i]; continue }
     if (args[i] === '--debug') { debug = true; continue }
+    if (args[i] === '--port') { port = args[++i]; continue }
     if (args[i].startsWith('ws://') || args[i].startsWith('wss://')) { wsUrl = args[i]; continue }
     if (!scriptPath) { scriptPath = args[i]; continue }
   }
+  // --port overrides the default URL (but explicit ws-url takes precedence)
+  if (port && !wsUrl) wsUrl = `ws://0.0.0.0:${port}/`
   return { scriptPath, wsUrl, outDir, debug }
 }
 

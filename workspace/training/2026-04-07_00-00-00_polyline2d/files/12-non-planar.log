@@ -1,0 +1,3 @@
+[12] non-planar result: null maxLevel: 51
+[12] messages: [{"api":"v1.curve.polyline2d","code":1014,"level":51,"levelStr":"ERROR","message":"polyline2d is not planar!"}]
+[filewrite] files/12-non-planar-non-planar-response.json (218 bytes)

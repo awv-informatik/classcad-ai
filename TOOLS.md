@@ -5,10 +5,11 @@
 The harness (`node scripts/run.mjs`) is a thin test runner. It connects to ClassCAD, runs your script, prints compact results to stdout, then clears and disconnects.
 
 ```bash
-node scripts/run.mjs <script-path> --outdir <session-folder> [--debug] [ws-url]
+node scripts/run.mjs <script-path> --outdir <session-folder> [--debug] [--port <port>] [ws-url]
 ```
 
 - Default WebSocket: `ws://0.0.0.0:9094/`
+- `--port <port>` overrides the default port (e.g., `--port 9095`). Useful when the default port is occupied by a zombie worker.
 - `--debug` disables all timeouts (connection + request) — useful when pausing in a debugger
 - Scripts receive `api` (typed @classcad/api-js wrapper) and `{ snapshot, filewrite }`
 - `snapshot('label')` saves PNG + STEP + OFB to `files/`
@@ -68,7 +69,32 @@ cd /Users/dev/dev/osx && ./arm64-osx-release/classcad-cli worker &
 
 The worker listens on `ws://0.0.0.0:9094/` (the harness default). Give it ~3 seconds to initialize before running scripts.
 
-**Common cause of hangs:** passing invalid values to APIs (e.g., `radius <= 0` to `curve.circle`). Diagnose with `ps aux | grep classcad` — a hung worker shows 100% CPU.
+**Common cause of hangs:** passing invalid values to APIs (e.g., `radius <= 0` to `curve.circle`, single/duplicate points to `interpolationCurve`). Diagnose with `ps aux | grep classcad` — a hung worker shows 100% CPU.
+
+### Zombie worker recovery (alternate port)
+
+If `kill -9` leaves the worker in UE (uninterruptible) state and the port stays occupied, start a new worker on an alternate port using the alternate INI file:
+
+```bash
+# Start worker on port 9095 instead
+cd /Users/dev/dev/osx && ./arm64-osx-release/classcad-cli worker -i .classcad-alt.ini &
+
+# Run scripts against it
+node scripts/run.mjs <script> --outdir <dir> --port 9095
+```
+
+The file `/Users/dev/dev/osx/.classcad-alt.ini` is a copy of `.classcad.ini` with `wport=9095` and `hport=9095`. The zombie on port 9094 will clear when the machine reboots.
+
+### Cleanup rule
+
+**If you start a worker yourself, you must kill it when done.** Do not leave worker instances running after the session ends. Always:
+
+```bash
+# After all scripts are done, kill the worker you started
+kill $(ps aux | grep 'classcad-cli worker' | grep -v grep | grep -v ' UE ' | awk '{print $2}')
+```
+
+The default worker on port 9094 is started by ph and should be left running. Only kill workers you explicitly started (typically on alternate ports).
 
 ## Rendering
 

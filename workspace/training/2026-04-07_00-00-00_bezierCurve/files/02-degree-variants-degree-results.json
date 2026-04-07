@@ -1,0 +1,17 @@
+{
+  "linear": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "quadratic": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "quintic": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

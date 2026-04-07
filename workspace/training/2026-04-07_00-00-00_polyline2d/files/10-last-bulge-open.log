@@ -1,0 +1,4 @@
+[10a] last bulge=0 (open): null maxLevel: 31
+[10b] last bulge=1 (open): null maxLevel: 31
+[10c] last bulge=1 (closed): null maxLevel: 31
+[filewrite] files/10-last-bulge-open-last-bulge-response.json (198 bytes)

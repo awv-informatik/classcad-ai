@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.curve.bezierCurve",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in CurveAPI_v1.bezierCurve::PROC:CurveBuilder::CreateNurbsCurve: creation of nurbs curve failed with error: 1007\nFunction: CADH_CreateBezierCurve\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/CurveBuilder.cpp,     Line: 1862] "
+    }
+  ],
+  "maxLevel": 51
+}

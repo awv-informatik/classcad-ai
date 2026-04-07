@@ -1,0 +1,14 @@
+{
+  "xAxisY": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "xAxisDiag": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "xAxisNegX": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

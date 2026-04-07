@@ -1,0 +1,4 @@
+[02] linear (2 pts): result: null maxLevel: 31
+[02] quadratic (3 pts): result: null maxLevel: 31
+[02] quintic (6 pts): result: null maxLevel: 31
+[filewrite] files/02-degree-variants-degree-results.json (240 bytes)

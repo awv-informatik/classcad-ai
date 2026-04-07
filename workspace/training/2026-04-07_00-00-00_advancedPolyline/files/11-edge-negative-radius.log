@@ -1,0 +1,7 @@
+[11a] zero radius - result: null maxLevel: 51
+[11a] messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveHelper.ComputeFillet:[Index 2 ausserhalb des Arraybereichs] not defined !] "}]
+[11b] negative radius - result: null maxLevel: 31
+[11b] messages: []
+[11c] oversized radius - result: null maxLevel: 51
+[11c] messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Can't create a fillet with offset larger than line length!"}]
+[filewrite] files/11-edge-negative-radius-edge-radius-response.json (728 bytes)

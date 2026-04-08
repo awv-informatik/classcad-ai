@@ -1,0 +1,4 @@
+[04] point: 58
+[04] circle1 (coincident, genInc=true): 60
+[04] circle2 (coincident, genInc=false): 65
+[04] constraint: 63 CC_2DCoincidentConstraint Auto_Coinc

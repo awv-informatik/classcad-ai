@@ -1,0 +1,5 @@
+[08] line1: 58 line2: 66
+[08] delete result: null maxLevel: 31
+[08] getPoints of deleted line: null maxLevel: 51
+[08] line2 still exists: {"endId":68,"startId":67}
+[filewrite] files/08-delete-line-delete-results.json (132 bytes)

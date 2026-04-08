@@ -1,0 +1,11 @@
+[10] skId: 52
+[10] line0: id=58 start=59 end=60
+[10] line1: id=62 start=63 end=64
+[10] line2: id=66 start=67 end=68
+[10] line3: id=70 start=71 end=72
+[10] line4: id=74 start=75 end=76
+[10] gap between line0→line1: 4
+[10] gap between line1→line2: 4
+[10] gap between line2→line3: 4
+[10] gap between line3→line4: 4
+[filewrite] files/10-id-increment-id-pattern.json (312 bytes)

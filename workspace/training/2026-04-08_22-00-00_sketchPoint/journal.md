@@ -33,7 +33,7 @@ Testing `v1.sketch.point` — creating points in a sketch.
 
 Script: `scripts/01-basic-point.mjs` — ✅ Three points created successfully.
 
-| ![three-points](files/01-basic-point-three-points.png) |
+| ![three-points](files/01-basic-point-three-points-sketch-Sketch.png) |
 |---|
 
 **Data:** First point at origin → ID 58, maxLevel=31, no messages. Second at (50,30,0) → ID 62 (Δ4). Third at (-25,-15,0) → ID 64 (Δ2). `getPositions` returns `{ pos: { x, y, z } }` — note the object format with named fields, not an array. All positions match input exactly (see `files/01-basic-point-all-positions.json`).
@@ -133,7 +133,7 @@ Script: `scripts/08-nonzero-z.mjs` — ❌ Error.
 
 Script: `scripts/09-delete-point.mjs` — ✅ Delete middle point from 3.
 
-| ![before-delete](files/09-delete-point-before-delete.png) | ![after-delete](files/09-delete-point-after-delete.png) |
+| ![before-delete](files/09-delete-point-before-delete-sketch-Sketch.png) | ![after-delete](files/09-delete-point-after-delete-sketch-Sketch.png) |
 | --- | --- |
 
 **Data:** deleteObject returns null (VOID), maxLevel=31. getPositions on deleted point returns null/maxLevel=51. Surviving points unaffected (see `files/09-delete-point-delete-response.json`).
@@ -182,7 +182,7 @@ Script: `scripts/17-point-naming.mjs` — ✅
 
 Script: `scripts/18-workplane-sketch.mjs` — ✅
 
-| ![point-on-yz-plane](files/18-workplane-sketch-point-on-yz-plane.png) |
+| ![point-on-yz-plane](files/18-workplane-sketch-point-on-yz-plane-sketch-Sketch.png) |
 |---|
 
 **Data:** Point at (30,20,0) in sketch on YZ plane → stored as world coords `{x:0, y:-20, z:30}`. Input is in **sketch-local coordinates**, Z must be 0 in local space. (See `files/18-workplane-sketch-yz-plane-point.json`.)

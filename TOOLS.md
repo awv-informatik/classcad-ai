@@ -105,3 +105,16 @@ The harness uses a direct renderer (`scripts/render-direct.mjs`) that auto-detec
 - Curves → edge data plot
 
 Snapshots are PNG files in `files/`. They show wireframe/outline views — not photorealistic. Interior cavities (e.g., subtraction holes) may not be visible from all angles.
+
+### Snapshot filename convention
+
+`snapshot('label')` does NOT produce `{scriptName}-{label}.png`. The renderer appends a **content-type suffix** based on what it finds in the drawing:
+
+| Content type | Suffix | Example |
+|---|---|---|
+| Solids | `-solid` | `01-basic-solid.png` |
+| Sketches | `-sketch-{SketchName}` | `01-basic-sketch-Sketch.png` |
+| Curves | `-curves` | `01-basic-curves.png` |
+| Work geometry | `-workgeo` | `01-basic-workgeo.png` |
+
+A single `snapshot()` call may produce **multiple PNGs** (e.g., one for the solid and one for work geometry). The actual filenames are logged to stdout (captured in the `.log` file). **Always check the `.log` file or `ls files/*.png` before writing image links in the journal.**

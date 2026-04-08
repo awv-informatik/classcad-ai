@@ -1,0 +1,5 @@
+[06] arc: 58 maxLevel: 31
+[06] tangent line: 65 maxLevel: 31
+[06] noTangency line: 75
+[06] constraints: [{"id":63,"name":"Auto_Fix","class":"CC_2DFixationConstraint"},{"id":69,"name":"Auto_Tan","class":"CC_2DTangentSketchConstraint"},{"id":71,"name":"Auto_Coinc","class":"CC_2DCoincidentConstraint"},{"id":73,"name":"Auto_H","class":"CC_2DHorizontalConstraint"},{"id":79,"name":"Auto_Coinc0","class":"CC_2DCoincidentConstraint"},{"id":81,"name":"Auto_V","class":"CC_2DVerticalConstraint"}]
+[filewrite] files/06-genTangency-tangency-constraints.json (530 bytes)

@@ -1,0 +1,8 @@
+[07] lineId: 58
+[07] before - start: {"pos":{"x":0,"y":0,"z":0}} end: {"pos":{"x":50,"y":30,"z":0}}
+[07] update both: null maxLevel: 31
+[07] after - start: {"pos":{"x":10,"y":10,"z":0}} end: {"pos":{"x":80,"y":60,"z":0}}
+[07] partial update (startPos only): null maxLevel: 51
+[07] messages: [{"api":"v1.sketch.updateGeometry","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"endPos\" must be provided in the api call!"}]
+[07] after partial - start: {"pos":{"x":10,"y":10,"z":0}} end: {"pos":{"x":80,"y":60,"z":0}}
+[filewrite] files/07-update-geometry-update-comparison.json (621 bytes)

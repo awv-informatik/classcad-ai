@@ -1,0 +1,6 @@
+[01] circleId: 58 maxLevel: 31
+[01] getPoints: {"centerId":59}
+[01] getPositions(circle): null maxLevel: 51
+[01] getPositions(centerId): {"pos":{"x":30,"y":20,"z":0}}
+[01] getGeometry: {"arcs":[],"circles":[58],"lines":[],"points":[]}
+[filewrite] files/01-basic-circle-structure.json (24771 bytes)

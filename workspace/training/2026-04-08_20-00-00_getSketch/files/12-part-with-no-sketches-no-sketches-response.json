@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.part.getSketch",
+      "code": 1015,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Sketch with name \"Anything\" does not exist"
+    }
+  ]
+}

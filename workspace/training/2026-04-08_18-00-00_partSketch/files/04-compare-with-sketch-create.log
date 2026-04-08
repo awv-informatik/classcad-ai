@@ -1,0 +1,6 @@
+[04] part.sketch result: 52 maxLevel: 31
+[04] sketch.create result: 58 maxLevel: 31
+[04] part.sketch keys: graphic,maxLevel,messages,result,structure
+[04] sketch.create keys: graphic,maxLevel,messages,result,structure
+[04] same keys? true
+[filewrite] files/04-compare-with-sketch-create-structure-both-sketches.json (27905 bytes)

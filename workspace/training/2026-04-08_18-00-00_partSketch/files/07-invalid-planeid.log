@@ -1,0 +1,5 @@
+[07] bad planeId — maxLevel: 51 result: null
+[07] bad planeId — msgs: [{"levelStr":"WARN","level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"levelStr":"ERROR","level":51,"code":1006,"message":"An element of parameter \"planeId\" has an invalid id!"},{"levelStr":"ERROR","level":51,"code":0,"message":"[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "}]
+[07] partId as planeId — maxLevel: 51 result: null
+[07] partId as planeId — msgs: [{"levelStr":"ERROR","level":51,"code":1001,"message":"The parameter \"planeId\" has a wrong id type! Provide only following id types: [\"workplane\",\"face-plane\"]"},{"levelStr":"ERROR","level":51,"code":0,"message":"[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "}]
+[filewrite] files/07-invalid-planeid-planeid-errors.json (881 bytes)

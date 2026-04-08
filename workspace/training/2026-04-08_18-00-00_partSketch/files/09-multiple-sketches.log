@@ -1,0 +1,10 @@
+[09] sketch 1: id=52 maxLevel=31
+[09] sketch 2: id=58 maxLevel=31
+[09] sketch 3: id=64 maxLevel=31
+[09] sketch 4: id=70 maxLevel=31
+[09] sketch 5: id=76 maxLevel=31
+[09] id gap 0→1: 6
+[09] id gap 1→2: 6
+[09] id gap 2→3: 6
+[09] id gap 3→4: 6
+[filewrite] files/09-multiple-sketches-structure-5-sketches.json (40883 bytes)

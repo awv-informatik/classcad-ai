@@ -1,0 +1,6 @@
+[06] bogus id — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.getSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[06] id=0 — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[06] no id — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[06] no name — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"name\" must be provided in the api call!"}]
+[06] both missing — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/06-invalid-id-invalid-id-response.json (1608 bytes)

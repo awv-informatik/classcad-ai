@@ -600,9 +600,9 @@ await api.v1.curve.union2d({ target: s1, tool: s2 })
 | --- | ------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
 | 1   | Api study of `sketch.create`                            | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 2   | Api study of `sketch.setWorkPlane`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
-| 3   | Api study of `sketch.deleteSketch`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 4   | Api study of `part.sketch` — creating from part context | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [ ]     |
-| 5   | Api study of `part.getSketch`                           | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [ ]     |
+| 3   | Api study of `sketch.deleteSketch`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 4   | Api study of `part.sketch` — creating from part context | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [✅]     |
+| 5   | Api study of `part.getSketch`                           | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [✅]     |
 
 **Task #1: Api study of `sketch.create`**
 

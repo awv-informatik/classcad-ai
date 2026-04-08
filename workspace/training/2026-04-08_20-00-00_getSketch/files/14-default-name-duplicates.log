@@ -1,0 +1,9 @@
+[14] sketch IDs: 52 58 64
+[14] sketch nodes from structure:
+  id=52 name="Sketch"
+  id=58 name="Sketch0"
+  id=64 name="Sketch1"
+[14] getSketch("Sketch") -> 52 (expected 52, match=true)
+[14] getSketch("Sketch0") -> 58 (expected 58, match=true)
+[14] getSketch("Sketch1") -> 64 (expected 64, match=true)
+[filewrite] files/14-default-name-duplicates-sketch-nodes.json (136 bytes)

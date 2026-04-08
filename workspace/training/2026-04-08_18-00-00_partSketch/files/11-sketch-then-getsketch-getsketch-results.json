@@ -1,0 +1,23 @@
+{
+  "created": {
+    "result": 52,
+    "maxLevel": 31
+  },
+  "found": {
+    "result": 52,
+    "maxLevel": 31
+  },
+  "notFound": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getSketch",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Sketch with name \"DoesNotExist\" does not exist"
+      }
+    ]
+  }
+}

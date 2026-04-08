@@ -1,0 +1,6 @@
+[03] created sketch IDs: 52 58 64
+[03] getSketch result: 52
+[03] matches sk1? true
+[03] matches sk2? false
+[03] matches sk3? false
+[filewrite] files/03-duplicate-names-duplicate-response.json (87 bytes)

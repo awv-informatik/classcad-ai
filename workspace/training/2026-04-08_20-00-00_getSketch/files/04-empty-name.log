@@ -1,0 +1,5 @@
+[04] created sketch with empty name, id: 52
+[04] getSketch("") result: 52
+[04] maxLevel: 31
+[04] match: true
+[filewrite] files/04-empty-name-empty-name-response.json (91 bytes)

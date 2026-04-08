@@ -1,0 +1,5 @@
+[06] origin point, genFixation=TRUE — result: 58 maxLevel: 31
+[06] genFixation=TRUE nodes: [{"id":52,"name":"Sketch","class":"CC_Sketch"},{"id":54,"name":"SketchRef","class":"CC_SketchReference"},{"id":56,"name":"Sketch","class":"CC_SketchDimensionSet"},{"id":58,"name":"Point","class":"CC_Point"},{"id":60,"name":"Auto_Fix","class":"CC_2DFixationConstraint"}]
+[06] origin point, genFixation=FALSE — result: null maxLevel: 51
+[06] genFixation=FALSE nodes: []
+[filewrite] files/06-point-at-origin-fixation-fixation-comparison.json (489 bytes)

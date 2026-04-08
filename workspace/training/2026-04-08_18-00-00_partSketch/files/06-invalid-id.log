@@ -1,0 +1,7 @@
+[06] no id — maxLevel: 51 result: null
+[06] no id — messages: [{"levelStr":"ERROR","level":51,"code":1004,"message":"The parameter \"id\" must be provided in the api call!"},{"levelStr":"ERROR","level":51,"code":0,"message":"[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "}]
+[06] bad id — maxLevel: 51 result: null
+[06] bad id — messages: [{"levelStr":"WARN","level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"levelStr":"ERROR","level":51,"code":1006,"message":"An element of parameter \"id\" has an invalid id!"},{"levelStr":"ERROR","level":51,"code":0,"message":"[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "}]
+[06] negative id — maxLevel: 51 result: null
+[06] negative id — messages: [{"levelStr":"ERROR","level":51,"code":1001,"message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part\"]"},{"levelStr":"ERROR","level":51,"code":0,"message":"[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "}]
+[filewrite] files/06-invalid-id-error-messages.json (1176 bytes)

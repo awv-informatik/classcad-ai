@@ -1,0 +1,6 @@
+[07] created sketch id: 52 name: MySketch
+[07] exact "MySketch": 52 match: true
+[07] lowercase "mysketch": null maxLevel: 51
+[07] uppercase "MYSKETCH": null maxLevel: 51
+[07] mixed "mySketch": null maxLevel: 51
+[filewrite] files/07-case-sensitivity-case-sensitivity-response.json (873 bytes)

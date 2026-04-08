@@ -632,7 +632,7 @@ const skId = (await api.v1.part.sketch({ id: partId, name: 'Sk1' })).result
 
 | #   | Task                                                                  | Source                                                            | Studied |
 | --- | --------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.point`                                           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.point`                                           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 2   | Api study of `sketch.line`                                            | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 | 3   | Api study of `sketch.circle`                                          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 | 4   | Api study of `sketch.arcByCenter`                                     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |

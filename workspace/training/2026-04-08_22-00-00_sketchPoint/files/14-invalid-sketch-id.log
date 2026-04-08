@@ -1,0 +1,9 @@
+[14] partId as sketch — result: null maxLevel: 51
+[14] messages: [{"api":"v1.sketch.point","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[14] invalid id — result: null maxLevel: 51
+[14] messages: [{"api":"v1.sketch.point","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.point","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[14] missing pos — result: null maxLevel: 51
+[14] messages: [{"api":"v1.sketch.point","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"pos\" must be provided in the api call!"}]
+[14] missing id — result: null maxLevel: 51
+[14] messages: [{"api":"v1.sketch.point","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/14-invalid-sketch-id-error-cases.json (1366 bytes)

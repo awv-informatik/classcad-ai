@@ -1,0 +1,35 @@
+[20] full point node: {
+  "name": "Point",
+  "class": "CC_Point",
+  "id": 58,
+  "flags": 4097,
+  "parent": 52,
+  "members": {
+    "pos": {
+      "value": {
+        "x": 30,
+        "y": 20,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2006_12_21_10:58",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "rigidSetId": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}
+[20] sketch children: [58]
+[20] sketch members: ["_VERSION","lgsContext","planeReference","axisInverted","solverState","boundingBox","axisReference","originReference","planeInverted","axisIsX","layerName"]
+[filewrite] files/20-point-structure-members-point-node-detail.json (506 bytes)
+[filewrite] files/20-point-structure-members-sketch-node-detail.json (2062 bytes)

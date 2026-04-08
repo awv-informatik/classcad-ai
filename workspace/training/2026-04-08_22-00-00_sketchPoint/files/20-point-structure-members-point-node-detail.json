@@ -1,0 +1,31 @@
+{
+  "name": "Point",
+  "class": "CC_Point",
+  "id": 58,
+  "flags": 4097,
+  "parent": 52,
+  "members": {
+    "pos": {
+      "value": {
+        "x": 30,
+        "y": 20,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2006_12_21_10:58",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "rigidSetId": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

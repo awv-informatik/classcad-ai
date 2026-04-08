@@ -1,0 +1,71 @@
+{
+  "withIncidence": [
+    {
+      "id": 52,
+      "name": "Sketch",
+      "class": "CC_Sketch"
+    },
+    {
+      "id": 54,
+      "name": "SketchRef",
+      "class": "CC_SketchReference"
+    },
+    {
+      "id": 56,
+      "name": "Sketch",
+      "class": "CC_SketchDimensionSet"
+    },
+    {
+      "id": 58,
+      "name": "Point",
+      "class": "CC_Point"
+    },
+    {
+      "id": 60,
+      "name": "Point0",
+      "class": "CC_Point"
+    },
+    {
+      "id": 62,
+      "name": "Auto_Coinc",
+      "class": "CC_2DCoincidentConstraint"
+    }
+  ],
+  "withoutIncidence": [
+    {
+      "id": 52,
+      "name": "Sketch",
+      "class": "CC_Sketch"
+    },
+    {
+      "id": 54,
+      "name": "SketchRef",
+      "class": "CC_SketchReference"
+    },
+    {
+      "id": 56,
+      "name": "Sketch",
+      "class": "CC_SketchDimensionSet"
+    },
+    {
+      "id": 58,
+      "name": "Point",
+      "class": "CC_Point"
+    },
+    {
+      "id": 60,
+      "name": "Point0",
+      "class": "CC_Point"
+    },
+    {
+      "id": 62,
+      "name": "Auto_Coinc",
+      "class": "CC_2DCoincidentConstraint"
+    },
+    {
+      "id": 64,
+      "name": "Point1",
+      "class": "CC_Point"
+    }
+  ]
+}

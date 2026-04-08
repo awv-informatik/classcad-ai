@@ -1,0 +1,127 @@
+{
+  "name": "Sketch",
+  "class": "CC_Sketch",
+  "id": 52,
+  "flags": 4096,
+  "coordinateSystem": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "isLocal": 1,
+  "parent": 14,
+  "members": {
+    "_VERSION": {
+      "value": "1/2011_6_17_14:15",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "lgsContext": {
+      "members": [
+        {
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "planeReference": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "axisInverted": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "solverState": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "boundingBox": {
+      "members": [
+        {
+          "value": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "type": "point",
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "value": {
+            "x": 100,
+            "y": 100,
+            "z": 0
+          },
+          "type": "point",
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 0,
+      "expression": ""
+    },
+    "axisReference": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "originReference": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "planeInverted": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "axisIsX": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "layerName": {
+      "value": "",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "children": [
+    58
+  ]
+}

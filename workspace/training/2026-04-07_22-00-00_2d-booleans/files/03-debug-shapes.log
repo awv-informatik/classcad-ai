@@ -1,0 +1,15 @@
+[03] shape1 ID: 60 number
+[03] circle1 result: null maxLevel: 31
+[03] shape2 ID: 63 number
+[03] circle2 result: null maxLevel: 31
+[filewrite] files/03-debug-shapes-structure-after-shapes.json (21290 bytes)
+[03] Trying with EI IDs...
+[03] union2d(eif,eif) result: null maxLevel: 51
+[03] messages: The parameter "target" has a wrong id type! Provide only following id types: ["shape"]
+[03] Trying with part IDs...
+[03] union2d(part,part) result: null maxLevel: 51
+[03] messages: The parameter "target" has a wrong id type! Provide only following id types: ["shape"]
+[03] Trying shapes in separate EIs...
+[03] union2d(s1,s3 diff EIs) result: null maxLevel: 51
+[03] messages: [Evaluation error in CurveAPI_v1.union2d::PROC:NULLID not allowed.
+File: /Users/daniel/awv/classcad/

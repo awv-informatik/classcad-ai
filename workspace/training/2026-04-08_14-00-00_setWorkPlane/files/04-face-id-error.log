@@ -1,0 +1,6 @@
+[04] boxId: 54
+[04] faceId: 79
+[04] skId: 89
+[04] face as plane — result: null maxLevel: 51
+[04] messages: [{"api":"v1.sketch.setWorkPlane","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"planeId\" has a wrong id type! Provide only following id types: [\"workplane\"]"}]
+[filewrite] files/04-face-id-error-face-id-error.json (291 bytes)

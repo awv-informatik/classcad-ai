@@ -1,0 +1,4 @@
+[14a] pentagon: maxLevel 31
+[14b] hexagon: maxLevel 31
+[14c] 5-point star: maxLevel 31
+[filewrite] files/14-regular-polygons-polygon-results.json (177 bytes)

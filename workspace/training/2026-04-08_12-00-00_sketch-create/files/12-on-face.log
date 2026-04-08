@@ -1,0 +1,6 @@
+[12] box result: 54 maxLevel: 31
+[12] face IDs: [ 79, 80, 84, 81, 82, 83 ]
+[12] placing sketch on face: 79
+[12] sketch.create on face result: 89 maxLevel: 31
+[12] messages: []
+[filewrite] files/12-on-face-on-face-response.json (141 bytes)

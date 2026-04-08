@@ -1,0 +1,6 @@
+[12] sub keepShape: maxLevel: 31
+[12] s1 exists: true
+[12] s2 exists: true geoIds: [ 64 ]
+[12] int keepShape: maxLevel: 31
+[12] s3 exists: true
+[12] s4 exists: true geoIds: [ 80 ]

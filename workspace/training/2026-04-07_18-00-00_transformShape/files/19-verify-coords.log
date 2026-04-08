@@ -1,0 +1,8 @@
+[19] translate +20x +10y:
+  result: null maxLevel: 31
+  edge points: [30,15,0,30,5,0]
+[filewrite] files/19-verify-coords-after-translate-graphic.json (765 bytes)
+[19] then rotate 90° Z:
+  result: null maxLevel: 31
+  edge points: [-15,30,0,30,5,0]
+[filewrite] files/19-verify-coords-after-rotate-graphic.json (768 bytes)

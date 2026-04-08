@@ -1,0 +1,7 @@
+[09] zero vector: 31 []
+[09] negative: 31 []
+[09] empty shape: 51 [{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[09] missing translation: 51 [{"api":"v1.curve.translateShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"translation\" must be provided in the api call!"}]
+[09] invalid id: 51 [{"api":"v1.curve.translateShape","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[09] large values: 31 []
+[filewrite] files/09-edge-cases-edge-cases.json (1214 bytes)

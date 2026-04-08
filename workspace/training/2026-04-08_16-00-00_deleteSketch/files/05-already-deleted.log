@@ -1,0 +1,5 @@
+[05] created sketch: 52
+[05] first delete maxLevel: 31
+[05] second delete result: null maxLevel: 51
+[05] messages: [{"api":"v1.sketch.deleteSketch","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.deleteSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/05-already-deleted-double-delete-response.json (432 bytes)

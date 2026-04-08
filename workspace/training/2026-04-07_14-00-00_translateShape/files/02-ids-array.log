@@ -1,0 +1,4 @@
+[02] translateShape result: null
+[02] maxLevel: 51
+[02] messages: [{"api":"v1.curve.translateShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/02-ids-array-translate-ids-response.json (251 bytes)

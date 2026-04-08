@@ -1,0 +1,57 @@
+{
+  "zeroVector": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "negative": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "emptyShape": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.translateShape",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "missingTranslation": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.translateShape",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"translation\" must be provided in the api call!"
+      }
+    ]
+  },
+  "invalidId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.translateShape",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.curve.translateShape",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  },
+  "largeValues": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "result": 96,
+  "messages": [
+    {
+      "api": "v1.part.extrusion",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in ExtProfile.GetNormal:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "
+    }
+  ],
+  "maxLevel": 51
+}

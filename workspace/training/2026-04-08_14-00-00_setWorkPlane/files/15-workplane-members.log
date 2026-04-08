@@ -1,0 +1,93 @@
+[15] wpId: 54
+[15] wp node: {
+  "name": "MyPlane",
+  "class": "CC_WorkPlane",
+  "id": 54,
+  "flags": 4096,
+  "parent": 10,
+  "members": {
+    "Offset": {
+      "value": 15,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "Normal": {
+      "value": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "Size": {
+      "value": 200,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "Inverted": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "Angle": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "curPosition": {
+      "value": {
+        "x": 10,
+        "y": 35,
+        "z": 30
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "2/2020_11_17_17:00",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "References": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "Type": {
+      "value": 3,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "Position": {
+      "value": {
+        "x": 10,
+        "y": 20,
+        "z": 30
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "Defined": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}
+[filewrite] files/15-workplane-members-workplane-node.json (1493 bytes)
+[filewrite] files/15-workplane-members-std-plane-nodes.json (4980 bytes)
+[15] std: 38 Top coordSys: undefined
+[15] std: 42 Front coordSys: undefined
+[15] std: 46 Right coordSys: undefined

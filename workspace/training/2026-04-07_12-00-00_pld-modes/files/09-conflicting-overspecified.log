@@ -1,0 +1,5 @@
+[09a] xa+xr → maxLevel: 51 messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Both 'xa' and 'xr' must not be specified for the same point in PointLineDefinition!"}]
+[09b] ya+yr → maxLevel: 51 messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Both 'ya' and 'yr' must not be specified for the same point in PointLineDefinition!"}]
+[09c] l+a+xa+ya → maxLevel: 51 messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"'l' must be used without 'xa' / 'xr' / 'ya' / 'yr' in PointLineDefinition!"}]
+[09d] a+ar → maxLevel: 51 messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Both 'a' and 'ar' must not be specified for the same point in PointLineDefinition!"}]
+[filewrite] files/09-conflicting-overspecified-overspecified-results.json (1177 bytes)

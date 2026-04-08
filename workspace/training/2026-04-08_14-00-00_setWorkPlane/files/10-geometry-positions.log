@@ -1,0 +1,4 @@
+[10] line result: 58 maxLevel: 31
+[10] setWorkPlane maxLevel: 31
+[10] new coordSys: [[0,0,100],[1,0,0],[0,1,0],[0,0,1]]
+[filewrite] files/10-geometry-positions-geometry-positions.json (198 bytes)

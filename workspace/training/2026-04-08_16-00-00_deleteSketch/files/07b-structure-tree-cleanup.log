@@ -1,0 +1,7 @@
+[07b] created sketch: 52
+[07b] sketch nodes after create: []
+[filewrite] files/07b-structure-tree-cleanup-sketch-nodes-before-delete.json (2 bytes)
+[07b] delete maxLevel: 31
+[07b] sketch nodes after delete: []
+[filewrite] files/07b-structure-tree-cleanup-sketch-nodes-after-delete.json (2 bytes)
+[07b] nodes removed: 0

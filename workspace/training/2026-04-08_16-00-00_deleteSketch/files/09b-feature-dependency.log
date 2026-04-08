@@ -1,0 +1,4 @@
+[09b] rectangle: [ 58, 64, 70, 76 ] maxLevel: 31
+[09b] regions found: []
+[filewrite] files/09b-feature-dependency-regions.json (2 bytes)
+[09b] no regions found at all — cannot test feature dependency

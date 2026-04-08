@@ -1,0 +1,6 @@
+[11] delete invalid result: null maxLevel: 51
+[11] delete invalid messages: [{"api":"v1.sketch.deleteSketch","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.deleteSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[11] delete already-deleted result: null maxLevel: 51
+[11] delete already-deleted messages: [{"api":"v1.sketch.deleteSketch","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.deleteSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[11] delete empty result: null maxLevel: 31
+[filewrite] files/11-delete-invalid-delete-invalid.json (1063 bytes)

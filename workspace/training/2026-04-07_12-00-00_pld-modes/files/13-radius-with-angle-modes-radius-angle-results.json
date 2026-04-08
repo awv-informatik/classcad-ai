@@ -1,0 +1,18 @@
+{
+  "radiusLA": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "radiusLAr": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "chamferLA": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "radiusMvAngle": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

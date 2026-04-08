@@ -1,0 +1,8 @@
+[15] open target + closed tool: maxLevel: 51
+[15] msg: [Evaluation error in CurveAPI_v1.union2d::PROC:Could not create plane with 3D curves.
+Function: CADH_AddSolid
+File: /Use
+[15] closed target + open tool (line): maxLevel: 51
+[15] msg: [Evaluation error in CurveAPI_v1.union2d::PROC:Could not create plane with 3D curves.
+Function: CADH_AddSolid
+File: /Use

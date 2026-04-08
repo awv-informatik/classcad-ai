@@ -1,0 +1,5 @@
+[13a] radius on l/a vertex → maxLevel: 31
+[13b] radius on l/ar vertex → maxLevel: 31
+[13c] chamfer on l/a vertex → maxLevel: 31
+[13d] radius on movement+angle → maxLevel: 31
+[filewrite] files/13-radius-with-angle-modes-radius-angle-results.json (249 bytes)

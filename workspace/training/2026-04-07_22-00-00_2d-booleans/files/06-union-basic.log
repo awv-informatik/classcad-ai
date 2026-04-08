@@ -1,0 +1,7 @@
+[06] result: null
+[06] maxLevel: 31
+[06] messages: []
+[filewrite] files/06-union-basic-union-response.json (56 bytes)
+[06] s1 exists: true name: Target geoIds: [ 61 ]
+[06] s2 exists: false name: undefined geoIds: undefined
+[filewrite] files/06-union-basic-shape-nodes-after.json (441 bytes)

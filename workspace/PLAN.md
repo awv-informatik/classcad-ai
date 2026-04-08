@@ -492,7 +492,7 @@ await api.v1.curve.interpolationCurve({
 | 1   | Api study of `curve.polyline2d` — points + bulges                                                          | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 2   | Api study of `curve.advancedPolyline` — PLD system                                                         | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 | 3   | Study: bulge values — `tan(a/4)`, 0=line, 1=semicircle, negative=clockwise                                 | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
-| 4   | Study: advanced polyline PLD modes — `xa/ya` vs `xr/yr` vs `l/a` vs `l/ar`, radius `r`, chamfer `c`, close | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 4   | Study: advanced polyline PLD modes — `xa/ya` vs `xr/yr` vs `l/a` vs `l/ar`, radius `r`, chamfer `c`, close | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 
 **Task #1: Api study of `curve.polyline2d`**
 
@@ -540,10 +540,10 @@ await api.v1.curve.advancedPolyline({
 
 | #   | Task                                                                      | Source                                                          | Studied |
 | --- | ------------------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.translateShape`                                       | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 2   | Api study of `curve.rotateShape`                                          | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 3   | Api study of `curve.transformShape` — 4x4 matrix (orthogonal, no scaling) | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 4   | Api study of `curve.scaleShape`                                           | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 1   | Api study of `curve.translateShape`                                       | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 2   | Api study of `curve.rotateShape`                                          | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 3   | Api study of `curve.transformShape` — 4x4 matrix (orthogonal, no scaling) | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 4   | Api study of `curve.scaleShape`                                           | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 
 **Task #1-4: Shape transforms**
 
@@ -570,9 +570,9 @@ await api.v1.curve.transformShape({
 
 | #   | Task                                | Source                                                          | Studied |
 | --- | ----------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `curve.union2d`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 2   | Api study of `curve.subtraction2d`  | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
-| 3   | Api study of `curve.intersection2d` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [ ]     |
+| 1   | Api study of `curve.union2d`        | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 2   | Api study of `curve.subtraction2d`  | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
+| 3   | Api study of `curve.intersection2d` | [curve.md](../knowledge/classcad-skill/references/api/curve.md) | [✅]     |
 
 **Task #1-3: 2D booleans**
 
@@ -598,8 +598,8 @@ await api.v1.curve.union2d({ target: s1, tool: s2 })
 
 | #   | Task                                                    | Source                                                            | Studied |
 | --- | ------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.create`                            | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.setWorkPlane`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.create`                            | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 2   | Api study of `sketch.setWorkPlane`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 3   | Api study of `sketch.deleteSketch`                      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 | 4   | Api study of `part.sketch` — creating from part context | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [ ]     |
 | 5   | Api study of `part.getSketch`                           | [part.md](../knowledge/classcad-skill/references/api/part.md)     | [ ]     |

@@ -1,0 +1,5 @@
+[09] original planeRef: 0 (default XY)
+[09] after move — planeRef: 60
+[09] after return — planeRef: 68
+[09] after return coordSys: [[0,50,0],[1,0,0],[0,1,0],[0,0,1]]
+[filewrite] files/09-reassign-back-to-default-back-to-default.json (529 bytes)

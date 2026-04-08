@@ -1,0 +1,11 @@
+[11] string id result: null maxLevel: 51
+[11] string messages: [{"api":"v1.sketch.deleteSketch","code":0,"level":41,"levelStr":"WARNING","message":"The string \"not-an-id\" couldn't be converted to an id. Error message: stol: no conversion"},{"api":"v1.sketch.deleteSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/11-wrong-id-types-string-id-response.json (474 bytes)
+[11] zero id result: null maxLevel: 51
+[11] zero messages: [{"api":"v1.sketch.deleteSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/11-wrong-id-types-zero-id-response.json (246 bytes)
+[11] negative id result: null maxLevel: 51
+[11] negative messages: [{"api":"v1.sketch.deleteSketch","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[11] no ids result: null maxLevel: 51
+[11] no ids messages: [{"api":"v1.sketch.deleteSketch","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" must be provided in the api call!"}]
+[filewrite] files/11-wrong-id-types-no-ids-response.json (251 bytes)

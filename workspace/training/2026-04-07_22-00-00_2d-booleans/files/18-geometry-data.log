@@ -1,0 +1,9 @@
+[filewrite] files/18-geometry-data-before-union.json (176 bytes)
+[18] graphic edges count before: undefined
+[filewrite] files/18-geometry-data-graphic-before.json (1474 bytes)
+[18] union maxLevel: 31
+[filewrite] files/18-geometry-data-after-union.json (121 bytes)
+[18] graphic edges count after: undefined
+[filewrite] files/18-geometry-data-graphic-after.json (2429 bytes)
+[18] subtraction maxLevel: 31
+[18] s3 geoIds after sub: [ 75 ]

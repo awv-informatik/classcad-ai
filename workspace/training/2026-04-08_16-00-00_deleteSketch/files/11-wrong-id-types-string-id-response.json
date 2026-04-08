@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.sketch.deleteSketch",
+      "code": 0,
+      "level": 41,
+      "levelStr": "WARNING",
+      "message": "The string \"not-an-id\" couldn't be converted to an id. Error message: stol: no conversion"
+    },
+    {
+      "api": "v1.sketch.deleteSketch",
+      "code": 1006,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"ids\" has an invalid id!"
+    }
+  ],
+  "maxLevel": 51
+}

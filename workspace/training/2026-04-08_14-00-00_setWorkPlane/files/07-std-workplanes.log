@@ -1,0 +1,10 @@
+[07] partId: 4
+[07] standard work planes:
+   38 Top
+   42 Front
+   46 Right
+[filewrite] files/07-std-workplanes-std-workplanes.json (4980 bytes)
+[07] skId: 52
+[07] move to Top — maxLevel: 31 coordSys: [[0,0,0],[1,0,0],[0,1,0],[0,0,1]]
+[07] move to Front — maxLevel: 31 coordSys: [[0,0,0],[1,0,0],[0,0,-1],[0,1,0]]
+[07] move to Right — maxLevel: 31 coordSys: [[0,0,0],[0,1,0],[0,0,1],[1,0,0]]

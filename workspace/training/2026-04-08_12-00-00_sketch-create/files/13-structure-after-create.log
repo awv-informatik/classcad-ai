@@ -1,0 +1,8 @@
+[filewrite] files/13-structure-after-create-structure-before.json (19133 bytes)
+[13] sketchId: 52
+[filewrite] files/13-structure-after-create-structure-after.json (23535 bytes)
+[13] new IDs after sketch creation: [ 52, 54, 56 ]
+[13]   id: 52 class: CC_Sketch name: InspectMe parent: 14
+[13]   id: 54 class: CC_SketchReference name: InspectMeRef parent: 18
+[13]   id: 56 class: CC_SketchDimensionSet name: InspectMe parent: 8
+[filewrite] files/13-structure-after-create-new-objects.json (274 bytes)

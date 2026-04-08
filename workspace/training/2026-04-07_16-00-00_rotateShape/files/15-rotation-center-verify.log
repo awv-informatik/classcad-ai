@@ -1,0 +1,4 @@
+[15] rotateShape result: null maxLevel: 31
+[15] Expected if origin rotation: (0,20,0)→(0,30,0)
+[15] Expected if center rotation: (25,-5,0)→(25,5,0)
+[filewrite] files/15-rotation-center-verify-recalc-graphic.json (4 bytes)

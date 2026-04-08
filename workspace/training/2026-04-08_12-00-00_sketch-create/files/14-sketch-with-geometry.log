@@ -1,0 +1,4 @@
+[14] sketchId: 52
+[14] rectangle result: [ 58, 64, 70, 76 ] maxLevel: 31
+[14] circle result: null maxLevel: 51
+[filewrite] files/14-sketch-with-geometry-geometry-response.json (163 bytes)

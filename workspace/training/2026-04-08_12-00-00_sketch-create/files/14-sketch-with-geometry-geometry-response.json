@@ -1,0 +1,15 @@
+{
+  "rectangle": {
+    "result": [
+      58,
+      64,
+      70,
+      76
+    ],
+    "maxLevel": 31
+  },
+  "circle": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

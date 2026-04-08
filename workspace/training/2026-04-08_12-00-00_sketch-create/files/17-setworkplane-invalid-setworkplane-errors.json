@@ -1,0 +1,48 @@
+{
+  "invalidPlane": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.setWorkPlane",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.sketch.setWorkPlane",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"planeId\" has an invalid id!"
+      }
+    ]
+  },
+  "selfRef": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.setWorkPlane",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"planeId\" has a wrong id type! Provide only following id types: [\"workplane\"]"
+      }
+    ]
+  },
+  "partAsPlane": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.setWorkPlane",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"planeId\" has a wrong id type! Provide only following id types: [\"workplane\"]"
+      }
+    ]
+  }
+}

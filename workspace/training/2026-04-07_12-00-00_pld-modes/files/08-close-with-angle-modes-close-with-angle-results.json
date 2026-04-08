@@ -1,0 +1,22 @@
+{
+  "closeAfterAr": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "closeArRadius": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "closeFirstR": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.advancedPolyline",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Can't create a fillet between parallel lines!"
+      }
+    ]
+  }
+}

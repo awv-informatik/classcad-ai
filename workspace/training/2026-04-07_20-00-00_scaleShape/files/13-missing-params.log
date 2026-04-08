@@ -1,0 +1,9 @@
+[13] missing factor result: null maxLevel: 51
+[13] missing factor messages: [{"api":"v1.curve.scaleShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"factor\" must be provided in the api call!"}]
+[filewrite] files/13-missing-params-missing-factor-response.json (251 bytes)
+[13] missing id result: null maxLevel: 51
+[13] missing id messages: [{"api":"v1.curve.scaleShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/13-missing-params-missing-id-response.json (247 bytes)
+[13] empty obj result: null maxLevel: 51
+[13] empty obj messages: [{"api":"v1.curve.scaleShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/13-missing-params-empty-obj-response.json (247 bytes)

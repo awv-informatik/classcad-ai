@@ -1,0 +1,5 @@
+[06a] ar:0 first → maxLevel: 31 messages: []
+[06b] ar:PI/2 first → maxLevel: 31
+[06c] ar:PI first → maxLevel: 31
+[06d] a:0 reference → maxLevel: 31
+[filewrite] files/06-ar-without-prior-direction-ar-without-prior.json (252 bytes)

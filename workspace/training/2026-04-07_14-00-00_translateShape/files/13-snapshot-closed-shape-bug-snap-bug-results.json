@@ -1,0 +1,38 @@
+{
+  "open3": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.translateShape",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "closed4": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.translateShape",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "circle": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.translateShape",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  }
+}

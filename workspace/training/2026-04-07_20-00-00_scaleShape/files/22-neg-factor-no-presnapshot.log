@@ -1,0 +1,9 @@
+[22] scaleShape -1.0 result: null maxLevel: 31
+[22] messages: []
+[filewrite] files/22-neg-factor-no-presnapshot-neg1-no-snap-response.json (56 bytes)
+[22] scaleShape -2.0 result: null maxLevel: 31
+[22] messages -2: []
+[filewrite] files/22-neg-factor-no-presnapshot-neg2-no-snap-response.json (56 bytes)
+[22] scaleShape -0.5 result: null maxLevel: 31
+[22] messages -0.5: []
+[filewrite] files/22-neg-factor-no-presnapshot-neg05-no-snap-response.json (56 bytes)

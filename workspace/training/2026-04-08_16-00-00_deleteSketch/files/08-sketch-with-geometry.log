@@ -1,0 +1,6 @@
+[08] sketch: 52
+[08] rectangle result: [ 58, 64, 70, 76 ] maxLevel: 31
+[08] line result: 92 maxLevel: 31
+[08] delete result: null maxLevel: 31
+[08] messages: []
+[filewrite] files/08-sketch-with-geometry-delete-with-geo-response.json (56 bytes)

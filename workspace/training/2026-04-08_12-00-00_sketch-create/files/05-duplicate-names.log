@@ -1,0 +1,5 @@
+[05] sketch1: 52 maxLevel: 31
+[05] sketch2: 58 maxLevel: 31
+[05] sketch3: 64 maxLevel: 31
+[05] all different IDs: true
+[filewrite] files/05-duplicate-names-duplicate-names.json (65 bytes)

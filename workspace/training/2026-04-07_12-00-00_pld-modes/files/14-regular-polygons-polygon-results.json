@@ -1,0 +1,14 @@
+{
+  "pentagon": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "hexagon": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "star": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

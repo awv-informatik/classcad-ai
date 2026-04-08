@@ -1,0 +1,7 @@
+[05] partId: 4 skId: 52
+[05] bogus planeId — maxLevel: 51 msg: ToId()/TOID() didn't get an existing or valid id.
+[05] self-ref — maxLevel: 51 msg: The parameter "planeId" has a wrong id type! Provide only following id types: ["workplane"]
+[05] partId as plane — maxLevel: 51 msg: The parameter "planeId" has a wrong id type! Provide only following id types: ["workplane"]
+[05] no planeId — maxLevel: 51 msg: The parameter "planeId" must be provided in the api call!
+[05] invalid skId — maxLevel: 51 msg: ToId()/TOID() didn't get an existing or valid id.
+[filewrite] files/05-invalid-ids-error-cases.json (1837 bytes)

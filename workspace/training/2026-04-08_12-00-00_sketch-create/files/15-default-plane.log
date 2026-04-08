@@ -1,0 +1,17 @@
+[15] sketchId: 52
+[15] sketch node class: CC_Sketch
+[15] sketch node members keys: [
+  '_VERSION',
+  'lgsContext',
+  'planeReference',
+  'axisInverted',
+  'solverState',
+  'boundingBox',
+  'axisReference',
+  'originReference',
+  'planeInverted',
+  'axisIsX',
+  'layerName'
+]
+[15] sketch coordinateSystem: [[0,0,0],[1,0,0],[0,1,0],[0,0,1]]
+[filewrite] files/15-default-plane-sketch-node.json (1962 bytes)

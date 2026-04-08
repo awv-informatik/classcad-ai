@@ -1,0 +1,5 @@
+[09] maxLevel: 31
+[09] messages: []
+[09] s1 exists: true geoIds: [ 61 ]
+[09] s2 exists: false
+[filewrite] files/09-intersection-basic-int-response.json (56 bytes)

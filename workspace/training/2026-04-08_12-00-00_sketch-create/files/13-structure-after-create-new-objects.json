@@ -1,0 +1,17 @@
+{
+  "52": {
+    "class": "CC_Sketch",
+    "name": "InspectMe",
+    "parent": 14
+  },
+  "54": {
+    "class": "CC_SketchReference",
+    "name": "InspectMeRef",
+    "parent": 18
+  },
+  "56": {
+    "class": "CC_SketchDimensionSet",
+    "name": "InspectMe",
+    "parent": 8
+  }
+}

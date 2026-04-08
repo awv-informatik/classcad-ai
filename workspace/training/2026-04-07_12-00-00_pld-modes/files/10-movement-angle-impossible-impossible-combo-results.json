@@ -1,0 +1,34 @@
+{
+  "impossibleYA": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.advancedPolyline",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Angle must not be too close (<1e-6) to 0 or PI if 'xa' / 'xr' is undefined in PointLineDefinition!"
+      }
+    ]
+  },
+  "impossibleXA": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.advancedPolyline",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Angle must not be too close (<1e-6) to PI/2 or 3PI/2 if 'ya' / 'yr' is undefined in PointLineDefinition!"
+      }
+    ]
+  },
+  "oppositeYrA": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "negYrUpAngle": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

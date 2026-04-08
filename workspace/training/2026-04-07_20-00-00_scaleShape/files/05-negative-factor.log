@@ -1,0 +1,4 @@
+[05] scaleShape -1.0 result: null maxLevel: 51
+[05] messages: [{"api":"v1.curve.scaleShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/05-negative-factor-neg-factor-response.json (243 bytes)
+[filewrite] files/05-negative-factor-neg-factor-graphic.json (4 bytes)

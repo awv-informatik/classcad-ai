@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.curve.union2d",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in CurveAPI_v1.union2d::PROC:NULLID not allowed.\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/CADEntity.cpp,     Line: 396\nFunction: CADH_AddSolid\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/CADEntity.cpp,     Line: 396] "
+    }
+  ],
+  "maxLevel": 51
+}

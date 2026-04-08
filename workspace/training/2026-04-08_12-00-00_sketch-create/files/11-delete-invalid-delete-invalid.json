@@ -1,0 +1,47 @@
+{
+  "invalidId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.deleteSketch",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.sketch.deleteSketch",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "alreadyDeleted": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.deleteSketch",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.sketch.deleteSketch",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "emptyArray": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

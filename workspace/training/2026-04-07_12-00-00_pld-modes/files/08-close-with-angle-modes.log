@@ -1,0 +1,4 @@
+[08a] close after ar → maxLevel: 31
+[08b] close with ar+radius → maxLevel: 31
+[08c] close with first-point radius + ar → maxLevel: 51
+[filewrite] files/08-close-with-angle-modes-close-with-angle-results.json (395 bytes)

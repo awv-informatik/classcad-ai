@@ -1,0 +1,35 @@
+{
+  "noId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.create",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  },
+  "invalidId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.create",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.sketch.create",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  }
+}

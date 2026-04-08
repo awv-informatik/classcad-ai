@@ -1,0 +1,7 @@
+[02] created sketches: 52 58 64
+[02] deleteSketch result: null maxLevel: 31
+[02] messages: []
+[filewrite] files/02-multiple-delete-multi-delete-response.json (56 bytes)
+[02] getSketch('Sk1') after: null maxLevel: 51
+[02] getSketch('Sk2') after: null maxLevel: 51
+[02] getSketch('Sk3') after: null maxLevel: 51

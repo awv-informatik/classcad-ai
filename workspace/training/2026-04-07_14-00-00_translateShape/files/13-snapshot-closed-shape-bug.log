@@ -1,0 +1,4 @@
+[13] open 3-line + snap: 51
+[13] closed 4-line + snap: 51 [{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[13] circle + snap: 51 [{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/13-snapshot-closed-shape-bug-snap-bug-results.json (797 bytes)

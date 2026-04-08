@@ -1,0 +1,8 @@
+[06] sk1: 52 sk2: 58
+[06] wpId: 66
+[06] sk1 → wp — maxLevel: 31
+[06] sk2 → wp — maxLevel: 31
+[06] sk1 planeRef: 66
+[06] sk2 planeRef: 66
+[06] same? true
+[filewrite] files/06-multiple-sketches-same-plane-shared-plane.json (518 bytes)

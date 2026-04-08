@@ -1,0 +1,5 @@
+[10a] ya:50 a:0 (impossible) → maxLevel: 51 msgs: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Angle must not be too close (<1e-6) to 0 or PI if 'xa' / 'xr' is undefined in PointLineDefinition!"}]
+[10b] xa:50 a:PI/2 (impossible) → maxLevel: 51 msgs: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Angle must not be too close (<1e-6) to PI/2 or 3PI/2 if 'ya' / 'yr' is undefined in PointLineDefinition!"}]
+[10c] yr:30 a:-PI/4 (conflicting) → maxLevel: 31 msgs: []
+[10d] yr:-20 a:PI/2 (impossible) → maxLevel: 31 msgs: []
+[filewrite] files/10-movement-angle-impossible-impossible-combo-results.json (771 bytes)

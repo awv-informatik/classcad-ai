@@ -1,0 +1,5 @@
+[26] s1 scale: 31 s2 scale: 31
+[filewrite] files/26-coord-dump-structure-after-scale.json (21163 bytes)
+[filewrite] files/26-coord-dump-graphic-after-scale.json (4 bytes)
+[filewrite] files/26-coord-dump-r1-incremental-graphic.json (765 bytes)
+[filewrite] files/26-coord-dump-r2-incremental-graphic.json (759 bytes)

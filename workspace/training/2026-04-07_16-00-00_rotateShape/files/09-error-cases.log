@@ -1,0 +1,11 @@
+[09] missing rotation — result: null maxLevel: 51
+[09] missing rotation — messages: [{"api":"v1.curve.rotateShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"rotation\" must be provided in the api call!"}]
+[09] missing id — result: null maxLevel: 51
+[09] missing id — messages: [{"api":"v1.curve.rotateShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[09] part id — result: null maxLevel: 51
+[09] part id — messages: [{"api":"v1.curve.rotateShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[09] ei id — result: null maxLevel: 51
+[09] ei id — messages: [{"api":"v1.curve.rotateShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[09] garbage id — result: null maxLevel: 51
+[09] garbage id — messages: [{"api":"v1.curve.rotateShape","code":0,"level":41,"levelStr":"WARNING","message":"The string \"garbage\" couldn't be converted to an id. Error message: stol: no conversion"},{"api":"v1.curve.rotateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/09-error-cases-error-cases.json (1748 bytes)

@@ -1,0 +1,15 @@
+{
+  "named": {
+    "result": 66,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "batch": {
+    "result": [
+      68,
+      70
+    ],
+    "messages": [],
+    "maxLevel": 31
+  }
+}

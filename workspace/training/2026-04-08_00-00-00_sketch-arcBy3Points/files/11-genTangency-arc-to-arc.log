@@ -1,0 +1,3 @@
+[11] arc1: 58
+[11] arc2 (genTangency=TRUE): 65 maxLevel: 31
+[filewrite] files/11-genTangency-arc-to-arc-struct-arc-to-arc.json (31200 bytes)

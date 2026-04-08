@@ -1,0 +1,52 @@
+{
+  "allDefaults": {
+    "label": "all-defaults",
+    "count": 4,
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  },
+  "noFixation": {
+    "label": "no-fixation",
+    "count": 4,
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  },
+  "noIncidence": {
+    "label": "no-incidence",
+    "count": 4,
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  },
+  "noVertHoriz": {
+    "label": "no-vert-horiz",
+    "count": 4,
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  },
+  "allOff": {
+    "label": "all-off",
+    "count": 4,
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+[07] Collinear: null maxLevel: 51
+[07] Collinear msgs: [{"api":"v1.sketch.arcBy3Points","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[07] start==mid: null maxLevel: 51
+[07] start==mid msgs: [{"api":"v1.sketch.arcBy3Points","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[07] start==end: null maxLevel: 51
+[07] start==end msgs: [{"api":"v1.sketch.arcBy3Points","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[07] all equal: null maxLevel: 51
+[07] all equal msgs: [{"api":"v1.sketch.arcBy3Points","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[filewrite] files/07-collinear-coincident-edge-cases.json (1743 bytes)

@@ -1,0 +1,3 @@
+[03] result: {"arcsBy3Points":[58,65],"arcsByCenter":[],"circles":[],"lines":[],"points":[]}
+[03] maxLevel: 31
+[filewrite] files/03-arcsBy3Points-arcs3p-response.json (183 bytes)

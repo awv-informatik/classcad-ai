@@ -1,0 +1,6 @@
+[03] Arc A (origin, genFix=default): 58 maxLevel: 31
+[filewrite] files/03-genFixation-structA-with-fixation.json (26835 bytes)
+[03] Arc B (origin, genFix=FALSE): 71 maxLevel: 31
+[filewrite] files/03-genFixation-structB-no-fixation.json (33736 bytes)
+[03] Arc C (off-origin, genFix=default): 82 maxLevel: 31
+[filewrite] files/03-genFixation-structC-off-origin.json (40647 bytes)

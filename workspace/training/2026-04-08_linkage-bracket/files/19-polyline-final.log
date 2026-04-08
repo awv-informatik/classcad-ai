@@ -1,0 +1,8 @@
+[19] Points: 10 Bulges: 10
+[19] Bulges: 0.000, 0.414, 0.199, 0.000, 0.717, 0.535, -0.276, 0.434, -0.401, 0.678
+[19] polyline2d maxLevel: 31 ok
+[19] Attempting subtraction2d (slot from outline)...
+[19] subtract slot: 51 [Evaluation error in CurveAPI_v1.subtraction2d::PROC:Could not create plane with 3D curves.
+Function: CADH_SubSolid
+File: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/SMLibService.cpp,     Line: 8939] 
+[19] Done

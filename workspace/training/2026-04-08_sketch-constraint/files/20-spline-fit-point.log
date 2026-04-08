@@ -1,0 +1,5 @@
+[20] geometry-splines result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[],"points":[]} maxLevel: 31
+[20] geometry-splines messages: []
+[20] geometry-type-spline result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[],"points":[58,60,62]} maxLevel: 31
+[20] geometry-type-spline messages: []
+[filewrite] files/20-spline-fit-point-spline-fit-point-response.json (451 bytes)

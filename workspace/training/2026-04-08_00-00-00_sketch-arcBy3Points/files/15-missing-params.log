@@ -1,0 +1,5 @@
+[15] no midPos: null maxLevel: 51 msgs: [{"api":"v1.sketch.arcBy3Points","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"midPos\" must be provided in the api call!"}]
+[15] no startPos: null maxLevel: 51 msgs: [{"api":"v1.sketch.arcBy3Points","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"startPos\" must be provided in the api call!"}]
+[15] no endPos: null maxLevel: 51 msgs: [{"api":"v1.sketch.arcBy3Points","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"endPos\" must be provided in the api call!"}]
+[15] no id: null maxLevel: 51 msgs: [{"api":"v1.sketch.arcBy3Points","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/15-missing-params-missing-params.json (1174 bytes)

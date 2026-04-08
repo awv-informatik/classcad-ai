@@ -1,0 +1,6 @@
+[11] all defaults (TRUE): 0 constraint nodes
+[11] genFixation=false: 0 constraint nodes
+[11] genIncidence=false: 0 constraint nodes
+[11] genVertAndHoriz=false: 0 constraint nodes
+[11] all gen flags OFF: 0 constraint nodes
+[filewrite] files/11-constraint-analysis-constraint-comparison.json (276 bytes)

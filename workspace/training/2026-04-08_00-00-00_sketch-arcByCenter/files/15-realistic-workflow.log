@@ -1,0 +1,4 @@
+[15] arc: 58 line: 65
+[15] region: 75 (null means auto-detect needed)
+[15] geometry: {"arcs":[58],"circles":[],"lines":[65],"points":[]}
+[filewrite] files/15-realistic-workflow-geometry.json (84 bytes)

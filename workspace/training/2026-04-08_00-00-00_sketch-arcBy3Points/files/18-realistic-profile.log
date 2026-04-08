@@ -1,0 +1,4 @@
+[18] l1: 58 l2: 66 arc: 74 l3: 81
+[18] geometry: {"arcs":[74],"circles":[],"lines":[58,66,81],"points":[]}
+[18] regionId: 93
+[filewrite] files/18-realistic-profile-profile-data.json (212 bytes)

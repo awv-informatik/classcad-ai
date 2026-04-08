@@ -1,0 +1,47 @@
+{
+  "zeroSize": {
+    "result": [
+      58,
+      66,
+      80,
+      90
+    ],
+    "maxLevel": 31
+  },
+  "zeroWidth": {
+    "result": [
+      106,
+      110,
+      118,
+      124
+    ],
+    "maxLevel": 31
+  },
+  "zeroHeight": {
+    "result": [
+      140,
+      144,
+      150,
+      160
+    ],
+    "maxLevel": 31
+  },
+  "negativeCoords": {
+    "result": [
+      176,
+      180,
+      186,
+      192
+    ],
+    "maxLevel": 31
+  },
+  "swappedCorners": {
+    "result": [
+      208,
+      212,
+      218,
+      224
+    ],
+    "maxLevel": 31
+  }
+}

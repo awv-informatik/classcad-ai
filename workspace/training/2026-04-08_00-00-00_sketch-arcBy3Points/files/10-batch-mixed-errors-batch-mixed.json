@@ -1,0 +1,17 @@
+{
+  "result": [
+    58,
+    null,
+    70
+  ],
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.sketch.arcBy3Points",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "
+    }
+  ]
+}

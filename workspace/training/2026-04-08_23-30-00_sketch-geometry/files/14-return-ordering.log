@@ -1,0 +1,7 @@
+[14] points: [58,62,64] (expect 3 IDs, ascending)
+[14] lines: [66,78] (expect 2 IDs, ascending)
+[14] circles: [86,89] (expect 2 IDs, ascending)
+[14] points ascending: true
+[14] lines ascending: true
+[14] circles ascending: true
+[filewrite] files/14-return-ordering-return-ordering.json (268 bytes)

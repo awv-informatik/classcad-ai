@@ -1,0 +1,5 @@
+[04] rect at origin, default genFixation — IDs: [ 58, 64, 70, 76 ]
+[04] line[0] point IDs: {"endId":60,"startId":59}
+[04] rect off-origin, default genFixation — IDs: [ 92, 96, 102, 108 ]
+[04] rect at origin, genFixation=FALSE — IDs: [ 124, 128, 134, 140 ]
+[filewrite] files/04-genFixation-structure.json (69519 bytes)

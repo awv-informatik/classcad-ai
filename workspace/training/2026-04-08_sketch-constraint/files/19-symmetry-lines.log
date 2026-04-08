@@ -1,0 +1,5 @@
+[19] axisId: 58 l1Id: 62 l2Id: 66
+[19] symmetry-lines result: 70 maxLevel: 31
+[19] messages: []
+[19] after - l1: {"endPos":{"x":30,"y":40,"z":0},"startPos":{"x":10,"y":10,"z":0}} l2: {"endPos":{"x":70,"y":45,"z":0},"startPos":{"x":55,"y":15,"z":0}}
+[filewrite] files/19-symmetry-lines-symmetry-lines-response.json (415 bytes)

@@ -1,0 +1,14 @@
+[22] R1.375 center: [ '4.0607', '-2.0757' ]
+[22] R.437 center: [ '1.5290', '-1.0832' ]
+[22] Verify: R875-R1375 dist= 2.2500 expected= 2.2500
+[22] Verify: R1375-D1750 dist= 2.2500 expected= 2.2500
+[22] Verify: D1750-R437 dist= 1.3120 expected= 1.3120
+[22] Verify: R437-R750 dist= 1.1870 expected= 1.1870
+[22] Outline: 10 pts, bulges: 0.000, 0.414, 0.199, 0.000, 0.717, 0.536, -0.280, 0.445, -0.451, 0.710
+[22] Outline polyline2d maxLevel: 31
+[22] Boolean operations...
+[22] - slot: OK
+[22] - H1625: OK
+[22] - H0750: OK
+[22] - H1125: OK
+[22] Complete bracket built!

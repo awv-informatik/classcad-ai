@@ -1,0 +1,10 @@
+{
+  "default": {
+    "label": "default (genTangency=TRUE)",
+    "tangents": []
+  },
+  "off": {
+    "label": "genTangency=false",
+    "tangents": []
+  }
+}

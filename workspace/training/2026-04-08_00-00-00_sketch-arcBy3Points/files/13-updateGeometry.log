@@ -1,0 +1,6 @@
+[13] arcId: 58
+[13] before: {"centerPos":{"x":20,"y":0,"z":0},"endPos":{"x":40,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[13] update via arcsByCenter: null maxLevel: 31
+[13] update msgs: []
+[13] after: {"centerPos":{"x":0,"y":0,"z":0},"endPos":{"x":20,"y":0,"z":0},"startPos":{"x":-20,"y":0,"z":0}}
+[filewrite] files/13-updateGeometry-update-result.json (520 bytes)

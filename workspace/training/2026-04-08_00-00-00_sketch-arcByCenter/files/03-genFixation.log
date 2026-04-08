@@ -1,0 +1,4 @@
+[03] arc at origin, genFix=default: 58
+[03] arc off origin, genFix=default: 65
+[03] arc, genFix=false: 70
+[filewrite] files/03-genFixation-structure-after-all.json (26836 bytes)

@@ -1,0 +1,8 @@
+[06] result: {"arcsBy3Points":[84],"arcsByCenter":[91],"circles":[102],"lines":[64,74],"points":[58,62]}
+[06] maxLevel: 31
+[06] points count: 2
+[06] lines count: 2
+[06] arcsBy3Points count: 1
+[06] arcsByCenter count: 1
+[06] circles count: 1
+[filewrite] files/06-mixed-types-mixed-response.json (232 bytes)

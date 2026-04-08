@@ -1,0 +1,3 @@
+[17] wrong id: null maxLevel: 51
+[17] msgs: [{"api":"v1.sketch.arcBy3Points","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[filewrite] files/17-wrong-id-type-wrong-id.json (283 bytes)

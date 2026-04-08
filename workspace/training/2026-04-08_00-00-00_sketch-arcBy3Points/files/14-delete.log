@@ -1,0 +1,6 @@
+[14] arc1: 58 arc2: 65
+[14] arcs before: [58,65]
+[14] delete result: null maxLevel: 31
+[14] arcs after: [65]
+[14] getPositions(deleted): null maxLevel: 51
+[filewrite] files/14-delete-delete-result.json (200 bytes)

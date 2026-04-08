@@ -1,0 +1,22 @@
+{
+  "allDefaults": {
+    "count": 0,
+    "names": []
+  },
+  "noFixation": {
+    "count": 0,
+    "names": []
+  },
+  "noIncidence": {
+    "count": 0,
+    "names": []
+  },
+  "noVertHoriz": {
+    "count": 0,
+    "names": []
+  },
+  "allOff": {
+    "count": 0,
+    "names": []
+  }
+}

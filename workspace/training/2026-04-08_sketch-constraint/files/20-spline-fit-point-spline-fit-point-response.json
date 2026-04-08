@@ -1,0 +1,28 @@
+{
+  "geometrySplines": {
+    "result": {
+      "arcsBy3Points": [],
+      "arcsByCenter": [],
+      "circles": [],
+      "lines": [],
+      "points": []
+    },
+    "messages": [],
+    "maxLevel": 31
+  },
+  "geometryTypeSpline": {
+    "result": {
+      "arcsBy3Points": [],
+      "arcsByCenter": [],
+      "circles": [],
+      "lines": [],
+      "points": [
+        58,
+        60,
+        62
+      ]
+    },
+    "messages": [],
+    "maxLevel": 31
+  }
+}

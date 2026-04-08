@@ -1,0 +1,6 @@
+[20] ALL flags ON (defaults), isolated: found 4 constraints
+  - CC_2DFixationConstraint (Auto_Fix) id=62
+  - CC_2DHorizontalConstraint (Auto_H) id=64
+  - CC_2DCoincidentConstraint (Auto_Coinc) id=70
+  - CC_2DVerticalConstraint (Auto_V) id=72
+[filewrite] files/20-allflags-on-isolated-allflags-on-isolated.json (425 bytes)

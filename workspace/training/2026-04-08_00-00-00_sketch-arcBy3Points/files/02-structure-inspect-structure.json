@@ -1,0 +1,33 @@
+{
+  "arcId": 58,
+  "getPoints": {
+    "centerId": 61,
+    "endId": 59,
+    "startId": 60
+  },
+  "getPositions": {
+    "centerPos": {
+      "x": 20,
+      "y": 0,
+      "z": 0
+    },
+    "endPos": {
+      "x": 40,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "getGeometry": {
+    "arcs": [
+      58
+    ],
+    "circles": [],
+    "lines": [],
+    "points": []
+  }
+}

@@ -1,0 +1,5 @@
+[13] lineId: 58 ptId: 62
+[13] midpoint result: 64 maxLevel: 31
+[13] messages: []
+[13] point position after: {"pos":{"x":30,"y":20,"z":0}}
+[filewrite] files/13-midpoint-midpoint-response.json (142 bytes)

@@ -1,0 +1,17 @@
+{
+  "arcsBefore": [
+    58,
+    65
+  ],
+  "arcsAfter": [
+    65
+  ],
+  "deleteResult": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "deletedPosQuery": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

@@ -1,0 +1,8 @@
+[09] geometry before: {"arcs":[],"circles":[],"lines":[],"points":[]}
+[09] arc id: 58
+[09] getPoints: {"centerId":61,"endId":59,"startId":60}
+[09] IDs: arc= 58 start= 60 end= 59 center= 61
+[09] ID gap: arc→start= 2 arc→end= 1 arc→center= 3
+[09] arc2 id: 65 points: {"centerId":68,"endId":66,"startId":67}
+[09] ID gap between arcs: 7
+[filewrite] files/09-structure-full-structure.json (29282 bytes)

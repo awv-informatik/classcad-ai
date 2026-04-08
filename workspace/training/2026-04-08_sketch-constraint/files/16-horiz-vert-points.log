@@ -1,0 +1,7 @@
+[16] pt1Id: 58 pt2Id: 60
+[16] horiz-points result: 62 maxLevel: 31
+[16] horiz-points messages: []
+[16] after horiz - pt1: {"pos":{"x":10,"y":20,"z":0}} pt2: {"pos":{"x":50,"y":35,"z":0}}
+[16] vert-points result: 68 maxLevel: 31
+[16] after vert - pt3: {"pos":{"x":70,"y":10,"z":0}} pt4: {"pos":{"x":80,"y":50,"z":0}}
+[filewrite] files/16-horiz-vert-points-horiz-vert-points-response.json (589 bytes)

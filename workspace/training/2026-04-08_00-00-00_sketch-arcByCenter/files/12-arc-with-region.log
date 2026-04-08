@@ -1,0 +1,5 @@
+[12] arc: 58
+[12] line: 65
+[12] sketchRegion result: null maxLevel: 51
+[12] sketchRegion messages: [{"api":"v1.sketch.sketchRegion","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"geomIds\" must be provided in the api call!"}]
+[filewrite] files/12-arc-with-region-region-test.json (81 bytes)

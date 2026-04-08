@@ -1,0 +1,6 @@
+[07] created arc: 58
+[07] geometry before delete: {"arcs":[58],"circles":[],"lines":[],"points":[]}
+[07] delete result: null maxLevel: 31
+[07] geometry after delete: {"arcs":[],"circles":[],"lines":[],"points":[]}
+[07] getPoints on deleted arc: null maxLevel: 51
+[filewrite] files/07-delete-delete-verification.json (221 bytes)

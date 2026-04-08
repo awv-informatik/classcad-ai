@@ -635,10 +635,10 @@ const skId = (await api.v1.part.sketch({ id: partId, name: 'Sk1' })).result
 | 1   | Api study of `sketch.point`                                           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 2   | Api study of `sketch.line`                                            | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 3   | Api study of `sketch.circle`                                          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
-| 4   | Api study of `sketch.arcByCenter`                                     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 5   | Api study of `sketch.arcBy3Points`                                    | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 6   | Api study of `sketch.rectangle`                                       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 7   | Api study of `sketch.geometry` — generic multi-type geometry creation | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.arcByCenter`                                     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 5   | Api study of `sketch.arcBy3Points`                                    | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 6   | Api study of `sketch.rectangle`                                       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 7   | Api study of `sketch.geometry` — generic multi-type geometry creation | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 **Task #2: Api study of `sketch.line`**
 
@@ -665,7 +665,7 @@ const rectIds = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], 
 
 | #   | Task                                                                                                                            | Source                                                            | Studied |
 | --- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.constraint` — all constraint types                                                                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.constraint` — all constraint types                                                                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 2   | Api study of `sketch.generateAutoConstraints`                                                                                   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 | 3   | Study: constraint types — coincident, parallel, perpendicular, tangent, equal, horizontal, vertical, symmetric, fixed, midpoint | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 

@@ -1,0 +1,4 @@
+[01] result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[],"points":[58,62,64]}
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-points-points-response.json (193 bytes)

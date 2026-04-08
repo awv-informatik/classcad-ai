@@ -1,0 +1,6 @@
+[07] rect IDs: [ 58, 62, 68, 74 ]
+[filewrite] files/07-constraints-structure.json (38649 bytes)
+[07] line[0] geometry: {"arcs":[],"circles":[],"lines":[58],"points":[]}
+[07] line[1] geometry: {"arcs":[],"circles":[],"lines":[62],"points":[]}
+[07] line[2] geometry: {"arcs":[],"circles":[],"lines":[68],"points":[]}
+[07] line[3] geometry: {"arcs":[],"circles":[],"lines":[74],"points":[]}

@@ -1,0 +1,6 @@
+[08] rect IDs: [ 58, 64, 70, 76 ]
+[08] region result: 92 maxLevel: 31
+[08] extrusion result: 96 maxLevel: 51
+[08] extrusion messages: [{"api":"v1.part.extrusion","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Sketch.GetNormal:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "}]
+[08] rect2 IDs: [ 178, 182, 188, 194 ]
+[08] extrusion from lines result: 212 maxLevel: 31

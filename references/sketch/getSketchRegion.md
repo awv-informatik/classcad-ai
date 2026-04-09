@@ -59,4 +59,4 @@ const r2 = await api.v1.sketch.getSketchRegion({ id: skId, name: 'Nonexistent' }
 
 - `sketch.sketchRegion` — creates the region this API looks up
 - `sketch.updateSketchRegion` — updates geometry of an existing region
-- `part.getSketchRegion` — same lookup but takes a part ID instead of sketch ID (searches across all sketches in the part)
+- [`part.getSketchRegion`](../part/getSketchRegion.md) — same lookup but takes a part ID instead of sketch ID (searches across all sketches in the part). Returns the first match if multiple sketches have regions with the same name.

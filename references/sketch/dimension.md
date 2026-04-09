@@ -89,11 +89,14 @@ See [updateDimension.md](./updateDimension.md) for full documentation. Key facts
 
 ## updateDimensionPosition
 
-Moves the dimension text/annotation position.
+See [updateDimensionPosition.md](./updateDimensionPosition.md) for full documentation. Key facts:
 
-- **`id`** — the dimension ID.
-- **`pos`** — `[x, y, z]` position.
+- **`id`** — the dimension ID (not sketch ID). Must be type `"dimension"`.
+- **`pos`** — `[x, y, z]` position. **Z must be exactly 0** (code 1014 error otherwise).
 - Returns VOID (null) with maxLevel=31 on success.
+- Works on all 7 dimension types.
+- Feature-state independent (works with open or closed features).
+- **Replaces auto-positioning permanently** — the computed `GetSE(...)` expression on `dimPt` is replaced with a literal `{x,y,z}` string.
 
 ## Structure Tree
 

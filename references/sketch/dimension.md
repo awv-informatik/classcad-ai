@@ -26,11 +26,25 @@ Creates dimensional constraints in a sketch. Unlike geometric constraints, dimen
 | `HORIZONTAL_DISTANCE` | 1 (line) or 2 (point+point only) | lines (1), points (2) | Horizontal (X) distance |
 | `VERTICAL_DISTANCE` | 1 (line) or 2 (point+point only) | lines (1), points (2) | Vertical (Y) distance |
 | `RADIUS` | 1 | circle, arc | Radius |
-| `DIAMETER` | 1 | circle, arc | Diameter |
-| `ANGLE` | 2 | lines | Angle between two lines |
-| `ANGLEOX` | 1 | line | Angle of line relative to X axis |
+| `DIAMETER` | 1 | circle, arc | Diameter (2 × radius) |
+| `ANGLE` | 2 (non-parallel lines) | lines | Angle between two lines |
+| `ANGLEOX` | 1 (non-horizontal line) | line | Angle of line relative to X axis |
 
-**Critical rule for HORIZONTAL_DISTANCE/VERTICAL_DISTANCE with 2 geomIds:** Both must be points. Passing 2 lines fails with "both must be points."
+**Critical rule for HORIZONTAL_DISTANCE/VERTICAL_DISTANCE with 2 geomIds:** Both must be points. Passing 2 lines or line+point fails with "both must be points."
+
+### Type-Specific Details
+
+**OFFSET** — measures distance along/between geometry. Works with 2 perpendicular lines (not just parallel). With 1 geomId, measures the line's length. With 2 geomIds, measures the perpendicular distance between them. Line+point order doesn't matter.
+
+**HORIZONTAL_DISTANCE** — always measures X-axis projection regardless of line orientation. A vertical line produces a valid dimension measuring 0. No error for degenerate cases.
+
+**VERTICAL_DISTANCE** — always measures Y-axis projection. A horizontal line produces a valid dimension measuring 0.
+
+**RADIUS vs DIAMETER** — both require exactly 1 circle or arc. RADIUS stores value = radius, DIAMETER stores value = 2 × radius. They use different structure classes: `CC_RadialFeatureDimension` (RADIUS) vs `CC_DiameterFeatureDimension` (DIAMETER).
+
+**ANGLE** — requires exactly 2 different, non-parallel lines. Parallel lines and same-line-twice both fail with NullMem evaluation error. Use `dimPos` to select which of the 4 angle sectors to constrain (sector 0-3). Without `dimPos`, auto-selects sector 0 (the acute angle). The `reflex` parameter must be boolean `true`/`false` (NOT string `'TRUE'`); selects the reflex (>180°) sector.
+
+**ANGLEOX** — measures angle from positive X-axis to the line's direction vector (start→end), counter-clockwise. Line direction matters — reversing start/end changes the angle. **Known bug: ANGLEOX at exactly 0° (horizontal line) causes "Division by zero!" error.** The dimension is created but flagged with maxLevel=51. Near-zero angles work fine.
 
 ## Return Value
 
@@ -100,12 +114,29 @@ See [updateDimensionPosition.md](./updateDimensionPosition.md) for full document
 
 ## Structure Tree
 
-Dimensions appear as child nodes under the sketch:
+Dimensions appear as child nodes under the sketch's `CC_SketchDimensionSet`:
 
-- OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE → class `CC_LinearFeatureDimension`
-  - Members: `startPt`, `endPt`, `angle`, `orientationType`, `dimPt`, `paramName`
-- RADIUS, DIAMETER → class `CC_RadialFeatureDimension`
-  - Members: `value`, `radius`, `center`, `dimPt`, `paramName`
+- **OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE** → `CC_LinearFeatureDimension`
+  - `orientationType`: 0=VD, 1=HD, 2=OFFSET
+  - `startPt`, `endPt`: measurement endpoints (line endpoints or point positions)
+  - `angle`: measurement direction in radians (0=horizontal, π/2=vertical, line angle for OFFSET)
+  - `dimPt`: label position (auto-computed by `GetSE(...)` expression, replaced by literal after `updateDimensionPosition`)
+  - `paramName`: `"@value"` (auto-calculated), `""` (numeric set via updateDimension), or expression string (e.g., `"30deg"`)
+- **RADIUS** → `CC_RadialFeatureDimension`
+  - `value`, `radius`: both reflect actual geometry radius (NOT updated by `updateDimension`)
+  - `center`: circle/arc center point
+  - `paramName`: same semantics as linear
+- **DIAMETER** → `CC_DiameterFeatureDimension`
+  - `value`: 2 × radius (reflects geometry, NOT updated by `updateDimension`)
+  - `radius`, `center`: same as RADIUS
+- **ANGLE, ANGLEOX** → `CC_AngularFeatureDimension`
+  - `startPt`, `endPt`, `cornerPt`: angle geometry (for ANGLEOX, startPt = cornerPt + [1,0,0] = X-axis reference)
+  - `ccw`: 1=counter-clockwise, 0=clockwise measurement direction
+  - `sector`: (ANGLE only) 0-3, which quadrant around the intersection
+  - `extendToCorner`: (ANGLEOX only) always 1
+  - `paramName`: ANGLE uses `"@userValue"`, ANGLEOX uses `"@value"`
+
+**Reading dimension values:** There is no API to read back the numeric constraint value. `getExpression` does not work on dimension IDs. The `value`/`radius` members in RADIUS/DIAMETER reflect geometry, not the constraint. The `paramName` member indicates whether a value has been set (empty string = set, `"@value"`/`"@userValue"` = auto-calculated).
 
 ## Common Errors
 
@@ -117,6 +148,9 @@ Dimensions appear as child nodes under the sketch:
 | "Couldn't set the value for dimension" | Using `value` param at creation | Use `updateDimension` after creation |
 | "Function InitDimensionByPosition not found" | Using `dimPos` on non-ANGLE type | Only use `dimPos` with ANGLE |
 | code 1013 "value for parameter type is not valid" | Invalid type string | Use one of the 7 valid type strings |
+| "Division by zero!" (in SetSE) | ANGLEOX on a perfectly horizontal line (0°) | Avoid ANGLEOX on horizontal lines; use ANGLE with explicit X-axis reference |
+| NullMem evaluation error | ANGLE between parallel lines, or same line twice | Lines must be non-parallel and distinct |
+| "parameter reflex has wrong type" | `reflex: 'TRUE'` (string) | Use boolean `true`/`false`, not strings |
 
 ## Related
 

@@ -24,6 +24,7 @@ Creates a sketch region from sketch geometry (curves/points). A region represent
 - **Empty geomIds is allowed.** Passing `[]` creates an empty region with no geometry (no error).
 - **Do NOT pass region IDs to `part.extrusion`.** Extrusion with a region ID as `references` fails with `"CCObject can not be opened"`. Always pass the raw curve IDs (line, arc, circle IDs) directly.
 - **Default naming quirk.** First region is `SketchRegion` (no number). Second is `SketchRegion0`, third is `SketchRegion1`, etc. The numbering starts at 0 from the second region onward.
+- **Name collision with existing objects.** If you pass a `name` that matches an existing object in the drawing (e.g., default work planes "Top", "Front", "Right"), the system silently auto-suffixes with "0" (e.g., "Right" → "Right0"). The name you pass to `sketchRegion` is NOT necessarily the name stored. This affects subsequent `getSketchRegion` lookups — you must use the actual stored name.
 
 ## Common Errors
 
@@ -48,9 +49,11 @@ Replaces region geometry. See [updateSketchRegion.md](updateSketchRegion.md) for
 
 ### sketch.getSketchRegion
 
-Finds a region by name within a sketch. Returns the region ID or `null` if not found.
+Finds a region by name within a sketch. Returns the region ID or `null` if not found. See [getSketchRegion.md](getSketchRegion.md) for full details.
 
+- Name matching is **case-sensitive**
 - Not found → `result: null`, `maxLevel: 51`, error code 1015
+- Beware name collisions — the stored name may differ from the name you passed to `sketchRegion` (see Gotchas above)
 
 ```js
 const r = await api.v1.sketch.getSketchRegion({ id: sketchId, name: 'SketchRegion' })

@@ -44,14 +44,7 @@ A region appears as `CC_SketchRegion` under `CC_GeometrySet`. Key members:
 
 ### sketch.updateSketchRegion
 
-Updates one or more regions with new geometry. Takes a `regions` array where each entry has `id` (region ID) and `geomIds` (new curve IDs). Returns VOID. Supports batch updates (multiple regions in one call).
-
-```js
-await api.v1.sketch.updateSketchRegion({
-  regions: [{ id: regionId, geomIds: newCurveIds }],
-})
-// result: null (VOID), maxLevel: 31
-```
+Replaces region geometry. See [updateSketchRegion.md](updateSketchRegion.md) for full details. Key differences from creation: only accepts `sketch-curve` (not points), batches are atomic, empty `geomIds` errors.
 
 ### sketch.getSketchRegion
 

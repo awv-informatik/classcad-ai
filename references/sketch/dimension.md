@@ -78,11 +78,14 @@ const r = await api.v1.sketch.dimension([
 
 ## updateDimension
 
-Updates the stored value of a dimension. Accepts numeric or expression values.
+See [updateDimension.md](./updateDimension.md) for full documentation. Key facts:
 
-- **`id`** — the dimension ID (not sketch ID).
-- **`value`** — numeric (e.g. `50`) or expression string (e.g. `'@expr.myWidth'`).
-- Returns `result: boolean` — always 0 (false = sketch not solved). maxLevel=31 on success.
+- **`id`** — the dimension ID (not sketch ID). Must be type `"dimension"`.
+- **`value`** — numeric, expression (`'@expr.name'`), degree string (`'45deg'`), or unit string (`'50mm'`). No server-side validation — even nonsense strings are accepted.
+- Returns `result: 0` (number, sketch unsolved). maxLevel=31 on success.
+- Does NOT support batch/array mode.
+- Does NOT trigger the sketch solver — geometry stays in place.
+- Works regardless of feature open/close state.
 
 ## updateDimensionPosition
 

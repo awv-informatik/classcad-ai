@@ -1,0 +1,5 @@
+[06] before: {"endPos":{"x":50,"y":30,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[06] moveGeometry result: 1 maxLevel: 31
+[06] messages: []
+[06] after: {"endPos":{"x":50,"y":30,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[filewrite] files/06-zero-translation-zero-translation-result.json (360 bytes)

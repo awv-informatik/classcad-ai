@@ -1,0 +1,8 @@
+[16] HD line+pt: null maxLevel= 51
+[16] HD line+pt msgs: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"If two geometry ids are provided for a horizontal- or vertical distance constraint, then both must be points."}]
+[16] VD line+pt: null maxLevel= 51
+[16] VD line+pt msgs: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"If two geometry ids are provided for a horizontal- or vertical distance constraint, then both must be points."}]
+[16] HD pt+line: null maxLevel= 51
+[16] HD pt+line msgs: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"If two geometry ids are provided for a horizontal- or vertical distance constraint, then both must be points."}]
+[16] OFFSET line+pt: 76 maxLevel= 31
+[16] OFFSET pt+line: 80 maxLevel= 31

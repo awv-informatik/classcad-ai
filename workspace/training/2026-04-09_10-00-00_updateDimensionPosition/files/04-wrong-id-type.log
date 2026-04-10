@@ -1,0 +1,6 @@
+[04] sketch ID → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"dimension\"]"}]
+[04] part ID → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"dimension\"]"}]
+[04] line ID → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"dimension\"]"}]
+[04] constraint ID: 92
+[04] constraint ID → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"dimension\"]"}]
+[filewrite] files/04-wrong-id-type-wrong-id-errors.json (1350 bytes)

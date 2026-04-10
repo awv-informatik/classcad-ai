@@ -1,0 +1,6 @@
+[11] created region: 92
+[11] part.getSketchRegion result: 92 maxLevel: 31
+[11] IDs match: true
+[11] sketch.getSketchRegion result: 92
+[11] all three match: true
+[filewrite] files/11-part-get-region-part-lookup.json (86 bytes)

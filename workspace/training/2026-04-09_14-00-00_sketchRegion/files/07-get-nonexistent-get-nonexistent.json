@@ -1,0 +1,32 @@
+{
+  "nonexistent": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.getSketchRegion",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find sketch region with name: \"DoesNotExist\" which belongs to the provided sketch."
+      }
+    ]
+  },
+  "wrongName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.getSketchRegion",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find sketch region with name: \"WrongName\" which belongs to the provided sketch."
+      }
+    ]
+  },
+  "correctName": {
+    "result": 92,
+    "match": true
+  }
+}

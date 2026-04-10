@@ -1,0 +1,5 @@
+[05] arcBy3Points id: 58
+[05] getPositions result: {"centerPos":{"x":20,"y":0,"z":0},"endPos":{"x":40,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[05] maxLevel: 31
+[05] result keys: [ 'centerPos', 'endPos', 'startPos' ]
+[filewrite] files/05-arc-by-3points-arcBy3Points-response.json (255 bytes)

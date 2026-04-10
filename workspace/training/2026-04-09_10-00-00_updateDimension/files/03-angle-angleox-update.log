@@ -1,0 +1,8 @@
+[03] angleDimId: 76
+[03] ANGLE update result: 0 maxLevel: 31
+[filewrite] files/03-angle-angleox-update-angle-update.json (53 bytes)
+[03] angleoxDimId: 84
+[03] ANGLEOX update result: 0 maxLevel: 31
+[filewrite] files/03-angle-angleox-update-angleox-update.json (53 bytes)
+[03] ANGLE string update result: 0 maxLevel: 31
+[filewrite] files/03-angle-angleox-update-angle-string-update.json (53 bytes)

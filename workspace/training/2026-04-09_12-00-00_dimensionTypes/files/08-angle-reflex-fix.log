@@ -1,0 +1,7 @@
+[08] normal angle: 76 maxLevel= 31
+[08] reflex (bool true): 80 maxLevel= 31
+[08] reflex (str TRUE): null maxLevel= 51
+[08] reflex str messages: [{"api":"v1.sketch.dimension","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"reflex\" has the wrong type! It should be of type (boolean)"}]
+[08] sector below: 84 maxLevel= 31
+[filewrite] files/08-angle-reflex-fix-reflex-summary.json (331 bytes)
+[08] Nodes: [{"id":76,"name":"normal","sector":0,"ccw":1,"paramName":"@userValue"},{"id":80,"name":"reflex-bool","sector":2,"ccw":0,"paramName":"@userValue"},{"id":84,"name":"sector-below","sector":2,"ccw":1,"paramName":"@userValue"}]

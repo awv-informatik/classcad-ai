@@ -1,0 +1,16 @@
+[19] l2 BEFORE dimension: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 50, y: -30, z: 0 } }
+}
+[19] dimension result: 74 maxLevel: 51
+[19] dim messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $74 of type \"OFFSET\""}]
+[19] l2 AFTER dimension: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 50, y: -30, z: 0 } }
+}
+[19] updateDimension result: 0 maxLevel: 31
+[19] l2 AFTER updateDimension: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 50, y: -30, z: 0 } }
+}
+[filewrite] files/19-dimension-solver-dimension-solver.json (676 bytes)

@@ -1,0 +1,22 @@
+{
+  "ptOnCircle": {
+    "result": 63,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "ptOnCircleReversed": {
+    "result": 67,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "ptOnArc": {
+    "result": 76,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "lineEndOnCircle": {
+    "result": 82,
+    "maxLevel": 31
+  },
+  "ptGetPoints": null
+}

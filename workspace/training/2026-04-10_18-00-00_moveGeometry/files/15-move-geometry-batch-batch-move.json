@@ -1,0 +1,16 @@
+{
+  "moveResult": 0,
+  "maxLevel": 31,
+  "lineAfter": {
+    "endPos": {
+      "x": 65,
+      "y": 25,
+      "z": 0
+    },
+    "startPos": {
+      "x": 25,
+      "y": 25,
+      "z": 0
+    }
+  }
+}

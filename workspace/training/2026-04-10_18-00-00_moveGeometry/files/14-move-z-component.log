@@ -1,0 +1,6 @@
+[14] before: {"endPos":{"x":50,"y":10,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[14] moveGeometry with Z result: null maxLevel: 51
+[14] messages: [{"api":"v1.sketch.moveGeometry","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"translation\" which is a 2D point, must have a z-value of 0!"}]
+[14] after: {"endPos":{"x":50,"y":10,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[14] Z changed? false
+[filewrite] files/14-move-z-component-z-component.json (579 bytes)

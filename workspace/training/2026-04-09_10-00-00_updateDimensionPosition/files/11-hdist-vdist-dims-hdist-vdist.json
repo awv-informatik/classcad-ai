@@ -1,0 +1,28 @@
+{
+  "hDist": {
+    "dimPt": {
+      "value": {
+        "x": 40,
+        "y": -15,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "{40,-15,0}"
+    },
+    "maxLevel": 31
+  },
+  "vDist": {
+    "dimPt": {
+      "value": {
+        "x": 95,
+        "y": 25,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "{95,25,0}"
+    },
+    "maxLevel": 31
+  }
+}

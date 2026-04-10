@@ -1,0 +1,3 @@
+[02] not-found result: null maxLevel: 51
+[02] messages: [{"api":"v1.part.getSketchRegion","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't find sketch region with name: \"DoesNotExist\""}]
+[filewrite] files/02-not-found-not-found.json (249 bytes)

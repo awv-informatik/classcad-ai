@@ -1,0 +1,30 @@
+{
+  "exprSetup": {
+    "result": 1,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "dimWithExpr": {
+    "result": 96,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $96 of type \"OFFSET\""
+      }
+    ]
+  },
+  "updateNumeric": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "updateExpr": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

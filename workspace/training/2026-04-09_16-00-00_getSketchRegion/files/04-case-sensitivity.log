@@ -1,0 +1,5 @@
+[04] exact "MyProfile": 92 match: true
+[04] lowercase "myprofile": null maxLevel: 51
+[04] uppercase "MYPROFILE": null maxLevel: 51
+[04] camel "myProfile": null maxLevel: 51
+[filewrite] files/04-case-sensitivity-case-sensitivity.json (253 bytes)

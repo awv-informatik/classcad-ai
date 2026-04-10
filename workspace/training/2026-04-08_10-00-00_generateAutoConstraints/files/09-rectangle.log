@@ -1,0 +1,10 @@
+[09] rectIds: [ 58, 62, 68, 74 ]
+[09] auto on rect line 0 (id=58): maxLevel=31
+  new: ID 122 → CC_2DFixationConstraint "Auto_Fix"
+[09] auto on rect line 1 (id=62): maxLevel=31
+  new: ID 124 → CC_2DVerticalConstraint "Auto_V"
+[09] auto on rect line 2 (id=68): maxLevel=31
+  new: ID 126 → CC_2DHorizontalConstraint "Auto_H"
+[09] auto on rect line 3 (id=74): maxLevel=31
+  new: ID 128 → CC_2DFixationConstraint "Auto_Fix0"
+  new: ID 130 → CC_2DVerticalConstraint "Auto_V0"

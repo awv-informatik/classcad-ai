@@ -1,0 +1,25 @@
+{
+  "horizDist1Line": {
+    "result": 92,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "vertDist1Line": {
+    "result": 96,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "horizDist2Lines": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "If two geometry ids are provided for a horizontal- or vertical distance constraint, then both must be points."
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+[12] dimId: 74
+[12] expr before: {"expression":"","value":null} maxLevel: 31
+[filewrite] files/12-structure-tree-dim-value-expr-before.json (97 bytes)
+[12] expr after: {"expression":"","value":null} maxLevel: 31
+[filewrite] files/12-structure-tree-dim-value-expr-after.json (97 bytes)
+[12] expr linked: {"expression":"","value":null} maxLevel: 31
+[filewrite] files/12-structure-tree-dim-value-expr-linked.json (97 bytes)

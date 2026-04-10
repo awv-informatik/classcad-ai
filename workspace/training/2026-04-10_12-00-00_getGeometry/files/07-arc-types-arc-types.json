@@ -1,0 +1,24 @@
+{
+  "arcCenterId": 58,
+  "arc3PtId": 65,
+  "result": {
+    "arcs": [
+      58,
+      65
+    ],
+    "circles": [],
+    "lines": [],
+    "points": []
+  },
+  "resultKeys": [
+    "arcs",
+    "circles",
+    "lines",
+    "points"
+  ],
+  "arcsArray": [
+    58,
+    65
+  ],
+  "bothInArcs": true
+}

@@ -1,0 +1,24 @@
+[03] l1 BEFORE horizontal: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 60, y: 20, z: 0 } }
+}
+[03] HORIZONTAL on line result: 62 maxLevel: 31
+[03] l1 AFTER horizontal: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 60, y: 20, z: 0 } }
+}
+[03] l2 BEFORE vertical: {
+  start: { pos: { x: 80, y: 0, z: 0 } },
+  end: { pos: { x: 100, y: 40, z: 0 } }
+}
+[03] l2 AFTER vertical: {
+  start: { pos: { x: 80, y: 0, z: 0 } },
+  end: { pos: { x: 100, y: 40, z: 0 } }
+}
+[03] VERTICAL on line result: 68 maxLevel: 31
+[03] HORIZONTAL on 2 points result: 74 maxLevel: 31
+[03] pt1 before: { pos: { x: 0, y: 50, z: 0 } } after: { pos: { x: 0, y: 50, z: 0 } }
+[03] pt2 before: { pos: { x: 40, y: 70, z: 0 } } after: { pos: { x: 40, y: 70, z: 0 } }
+[03] VERTICAL on 2 points result: 80 maxLevel: 31
+[03] pt3 after: { pos: { x: 60, y: 50, z: 0 } } | pt4 after: { pos: { x: 80, y: 70, z: 0 } }
+[filewrite] files/03-horizontal-vertical-horiz-vert-data.json (1808 bytes)

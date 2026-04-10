@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.sketch.updateSketchRegion",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"geomIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"
+    }
+  ]
+}

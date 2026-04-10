@@ -1,0 +1,11 @@
+{
+  "circId": 58,
+  "directFails": true,
+  "viaGetPoints": {
+    "pos": {
+      "x": 30,
+      "y": 30,
+      "z": 0
+    }
+  }
+}

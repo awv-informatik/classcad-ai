@@ -1,0 +1,24 @@
+{
+  "before": {
+    "arcs": [],
+    "circles": [
+      72
+    ],
+    "lines": [
+      58,
+      64
+    ],
+    "points": []
+  },
+  "after": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58,
+      64
+    ],
+    "points": []
+  },
+  "circleRemoved": true,
+  "deletedId": 72
+}

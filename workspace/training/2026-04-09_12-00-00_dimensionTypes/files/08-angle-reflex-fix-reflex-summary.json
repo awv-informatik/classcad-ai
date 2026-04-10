@@ -1,0 +1,23 @@
+[
+  {
+    "id": 76,
+    "name": "normal",
+    "sector": 0,
+    "ccw": 1,
+    "paramName": "@userValue"
+  },
+  {
+    "id": 80,
+    "name": "reflex-bool",
+    "sector": 2,
+    "ccw": 0,
+    "paramName": "@userValue"
+  },
+  {
+    "id": 84,
+    "name": "sector-below",
+    "sector": 2,
+    "ccw": 1,
+    "paramName": "@userValue"
+  }
+]

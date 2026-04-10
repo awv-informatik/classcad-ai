@@ -1,0 +1,15 @@
+{
+  "result": 0,
+  "resultType": "number",
+  "messages": [],
+  "maxLevel": 31,
+  "hasStructure": true,
+  "hasGraphic": false,
+  "envelopeKeys": [
+    "result",
+    "messages",
+    "maxLevel",
+    "structure",
+    "graphic"
+  ]
+}

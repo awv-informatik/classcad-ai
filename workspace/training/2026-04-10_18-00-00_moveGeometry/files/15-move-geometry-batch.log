@@ -1,0 +1,6 @@
+[15] batch geo: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[74],"lines":[60,66],"points":[58]}
+[15] allIds: [ 58, 60, 66, 74 ]
+[15] moveGeometry result: 0 maxLevel: 31
+[15] line0 after: {"endPos":{"x":65,"y":25,"z":0},"startPos":{"x":25,"y":25,"z":0}}
+[15] expected start: [25,25,0]
+[filewrite] files/15-move-geometry-batch-batch-move.json (194 bytes)

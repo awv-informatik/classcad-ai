@@ -1,0 +1,87 @@
+[
+  {
+    "id": 94,
+    "name": "w",
+    "orientationType": 2,
+    "angle": 0,
+    "paramName": "",
+    "startPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "id": 98,
+    "name": "h",
+    "orientationType": 2,
+    "angle": 1.5707963267948966,
+    "paramName": "",
+    "startPt": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 100,
+      "y": 60,
+      "z": 0
+    }
+  },
+  {
+    "id": 102,
+    "name": "gap",
+    "orientationType": 2,
+    "angle": 1.5707963267948966,
+    "paramName": "",
+    "startPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 0,
+      "y": 60,
+      "z": 0
+    }
+  },
+  {
+    "id": 106,
+    "name": "hd",
+    "orientationType": 1,
+    "angle": 0,
+    "paramName": "",
+    "startPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "id": 110,
+    "name": "vd",
+    "orientationType": 0,
+    "angle": 1.5707963267948966,
+    "paramName": "",
+    "startPt": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 100,
+      "y": 60,
+      "z": 0
+    }
+  }
+]

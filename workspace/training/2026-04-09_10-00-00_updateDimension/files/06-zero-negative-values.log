@@ -1,0 +1,13 @@
+[06] dimId: 74
+[06] zero result: 0 maxLevel: 31
+[filewrite] files/06-zero-negative-values-zero.json (53 bytes)
+[06] negative result: 0 maxLevel: 31
+[filewrite] files/06-zero-negative-values-negative.json (53 bytes)
+[06] very-large result: 0 maxLevel: 31
+[filewrite] files/06-zero-negative-values-very-large.json (53 bytes)
+[06] very-small result: 0 maxLevel: 31
+[filewrite] files/06-zero-negative-values-very-small.json (53 bytes)
+[06] RADIUS zero result: 0 maxLevel: 31
+[filewrite] files/06-zero-negative-values-radius-zero.json (53 bytes)
+[06] RADIUS negative result: 0 maxLevel: 31
+[filewrite] files/06-zero-negative-values-radius-negative.json (53 bytes)

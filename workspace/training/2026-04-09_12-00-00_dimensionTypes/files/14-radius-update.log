@@ -1,0 +1,8 @@
+[14] radDim: 63 diaDim: 67
+[14] update RADIUS to 50: 0 maxLevel= 31
+[14] RADIUS after update: value= 35 radius= 35 paramName= 
+[14] update DIAMETER to 120: 0 maxLevel= 31
+[14] DIAMETER after update: value= 70 radius= 35 paramName= 
+[14] RADIUS after DIAMETER update: value= 35 radius= 35
+[14] update RADIUS to 25mm: 0 maxLevel= 31
+[14] RADIUS after 25mm: value= 35 paramName= 

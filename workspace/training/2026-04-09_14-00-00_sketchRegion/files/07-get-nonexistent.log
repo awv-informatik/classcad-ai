@@ -1,0 +1,5 @@
+[07] nonexistent result: null maxLevel: 51
+[07] messages: [{"api":"v1.sketch.getSketchRegion","code":1015,"level":51,"levelStr":"ERROR","message":"Couldn't find sketch region with name: \"DoesNotExist\" which belongs to the provided sketch."}]
+[07] wrong name result: null maxLevel: 51
+[07] correct name result: 92 match: true
+[filewrite] files/07-get-nonexistent-get-nonexistent.json (727 bytes)

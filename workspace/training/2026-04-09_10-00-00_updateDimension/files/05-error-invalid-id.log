@@ -1,0 +1,13 @@
+[05] valid dimId: 68
+[05] sketchId-as-dimId result: null maxLevel: 51
+[filewrite] files/05-error-invalid-id-sketch-id-error.json (289 bytes)
+[05] partId-as-dimId result: null maxLevel: 51
+[filewrite] files/05-error-invalid-id-part-id-error.json (289 bytes)
+[05] lineId-as-dimId result: null maxLevel: 51
+[filewrite] files/05-error-invalid-id-line-id-error.json (289 bytes)
+[05] bogusId result: null maxLevel: 51
+[filewrite] files/05-error-invalid-id-bogus-id-error.json (437 bytes)
+[05] no-value result: null maxLevel: 51
+[filewrite] files/05-error-invalid-id-no-value-error.json (256 bytes)
+[05] no-id result: null maxLevel: 51
+[filewrite] files/05-error-invalid-id-no-id-error.json (253 bytes)

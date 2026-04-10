@@ -1,0 +1,13 @@
+[06] l2 BEFORE equal_length: {
+  start: { pos: { x: 0, y: 30, z: 0 } },
+  end: { pos: { x: 30, y: 30, z: 0 } }
+}
+[06] EQUAL_LENGTH result: 68 maxLevel: 31
+[06] l2 AFTER equal_length: {
+  start: { pos: { x: 0, y: 30, z: 0 } },
+  end: { pos: { x: 30, y: 30, z: 0 } }
+}
+[06] l1 length: 60 | l2 length: 30
+[filewrite] files/06-equal-length-radius-equal-length.json (556 bytes)
+[06] EQUAL_RADIUS result: null maxLevel: 51
+[filewrite] files/06-equal-length-radius-equal-radius.json (65 bytes)

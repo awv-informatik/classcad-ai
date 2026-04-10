@@ -1,0 +1,19 @@
+[04] l2 BEFORE parallel: {
+  start: { pos: { x: 0, y: 30, z: 0 } },
+  end: { pos: { x: 60, y: 50, z: 0 } }
+}
+[04] PARALLEL result: 68 maxLevel: 31
+[04] l2 AFTER parallel: {
+  start: { pos: { x: 0, y: 30, z: 0 } },
+  end: { pos: { x: 60, y: 50, z: 0 } }
+}
+[04] PERPENDICULAR result: 74 maxLevel: 31
+[04] l3 BEFORE perp: {
+  start: { pos: { x: 70, y: 0, z: 0 } },
+  end: { pos: { x: 100, y: 30, z: 0 } }
+}
+[04] l3 AFTER perp: {
+  start: { pos: { x: 70, y: 0, z: 0 } },
+  end: { pos: { x: 100, y: 30, z: 0 } }
+}
+[filewrite] files/04-parallel-perpendicular-parallel-perp-data.json (1023 bytes)

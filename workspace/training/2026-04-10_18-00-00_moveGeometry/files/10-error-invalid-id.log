@@ -1,0 +1,9 @@
+[10] wrong sketch id - result: null maxLevel: 51
+[10] wrong sketch id - messages: [{"api":"v1.sketch.moveGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[10] invalid geomId - result: null maxLevel: 51
+[10] invalid geomId - messages: [{"api":"v1.sketch.moveGeometry","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.moveGeometry","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"geomIds\" has an invalid id!"}]
+[10] empty geomIds - result: 0 maxLevel: 31
+[10] empty geomIds - messages: []
+[10] sketch in geomIds - result: null maxLevel: 51
+[10] sketch in geomIds - messages: [{"api":"v1.sketch.moveGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"geomIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\",\"sketch-point\"]"}]
+[filewrite] files/10-error-invalid-id-error-cases.json (1264 bytes)

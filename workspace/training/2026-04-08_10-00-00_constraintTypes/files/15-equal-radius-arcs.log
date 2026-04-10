@@ -1,0 +1,8 @@
+[15] arc1 ID: 58
+[15] arc2 ID: 63
+[15] FIXATION arc1: 68 maxLevel: 31
+[15] EQUAL_RADIUS arcs: 70 maxLevel: 31
+[15] circle ID: 72
+[15] FIXATION circle: 75 maxLevel: 31
+[15] TANGENT circle-line: 81 maxLevel: 31
+[filewrite] files/15-equal-radius-arcs-fix-equal-tangent.json (245 bytes)

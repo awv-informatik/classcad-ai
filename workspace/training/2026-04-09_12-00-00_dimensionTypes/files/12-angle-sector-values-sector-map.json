@@ -1,0 +1,112 @@
+[
+  {
+    "id": 76,
+    "name": "between-above",
+    "sector": 0,
+    "ccw": 1,
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "startPt": {
+      "x": 67.08203932499369,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 33.5417575892811,
+      "y": 58.094324144634854,
+      "z": 0
+    },
+    "paramName": "@userValue"
+  },
+  {
+    "id": 80,
+    "name": "above-line2",
+    "sector": 1,
+    "ccw": 0,
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "startPt": {
+      "x": -0.1,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 29.15540090010207,
+      "y": 50.497154358976786,
+      "z": 0
+    },
+    "paramName": "@userValue"
+  },
+  {
+    "id": 84,
+    "name": "below-left",
+    "sector": 2,
+    "ccw": 1,
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "startPt": {
+      "x": -0.1,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": -0.05000110003630133,
+      "y": -0.0866019052628739,
+      "z": 0
+    },
+    "paramName": "@userValue"
+  },
+  {
+    "id": 88,
+    "name": "below-right",
+    "sector": 3,
+    "ccw": 0,
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "startPt": {
+      "x": 67.08203932499369,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": -0.050001100036301344,
+      "y": -0.08660190526287392,
+      "z": 0
+    },
+    "paramName": "@userValue"
+  },
+  {
+    "id": 92,
+    "name": "reflex-true",
+    "sector": 2,
+    "ccw": 0,
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "startPt": {
+      "x": -0.1,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": -0.050001100036301344,
+      "y": -0.08660190526287391,
+      "z": 0
+    },
+    "paramName": "@userValue"
+  }
+]

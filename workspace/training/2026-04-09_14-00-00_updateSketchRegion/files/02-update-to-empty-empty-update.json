@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.sketch.updateSketchRegion",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketcherHelper.UpdateSketchRegions:[Index 0 ausserhalb des Arraybereichs] not defined !] "
+    }
+  ]
+}

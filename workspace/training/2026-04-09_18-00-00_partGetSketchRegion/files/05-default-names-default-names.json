@@ -1,0 +1,16 @@
+{
+  "region1": 92,
+  "region2": 126,
+  "lookupSketchRegion": {
+    "result": 92,
+    "maxLevel": 31
+  },
+  "lookupSketchRegion0": {
+    "result": 126,
+    "maxLevel": 31
+  },
+  "lookupSketchRegion1": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

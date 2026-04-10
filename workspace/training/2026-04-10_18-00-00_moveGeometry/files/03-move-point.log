@@ -1,0 +1,6 @@
+[03] ptId: 58
+[03] before: {"pos":{"x":20,"y":20,"z":0}}
+[03] moveGeometry result: 1 maxLevel: 31
+[03] messages: []
+[03] after: {"pos":{"x":35,"y":45,"z":0}}
+[filewrite] files/03-move-point-move-point-result.json (218 bytes)

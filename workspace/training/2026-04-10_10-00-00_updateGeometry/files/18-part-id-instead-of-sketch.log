@@ -1,0 +1,4 @@
+[18] created line: 58 partId: 4 skId: 52
+[18] partId result: null maxLevel: 51
+[18] messages: [{"api":"v1.sketch.updateGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[filewrite] files/18-part-id-instead-of-sketch-part-id-response.json (285 bytes)

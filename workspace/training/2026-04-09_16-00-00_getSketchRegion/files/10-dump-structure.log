@@ -1,0 +1,4 @@
+[10] region IDs: 156 158 160
+[filewrite] files/10-dump-structure-structure.json (75183 bytes)
+[10] rename result: null maxLevel: 31
+[10] lookup Right after rename: null match: false

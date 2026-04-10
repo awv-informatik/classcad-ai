@@ -1,0 +1,64 @@
+{
+  "bottomLineBefore": {
+    "endPos": {
+      "x": 60,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "positionsAfter": {
+    "line0": {
+      "endPos": {
+        "x": 60,
+        "y": 10,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      }
+    },
+    "line1": {
+      "endPos": {
+        "x": 60,
+        "y": 40,
+        "z": 0
+      },
+      "startPos": {
+        "x": 60,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "line2": {
+      "endPos": {
+        "x": 0,
+        "y": 40,
+        "z": 0
+      },
+      "startPos": {
+        "x": 60,
+        "y": 40,
+        "z": 0
+      }
+    },
+    "line3": {
+      "endPos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 40,
+        "z": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+[05] region1: 124 region2: 126
+[05] tri: [ 128, 134, 140 ] circle: 148
+[05] batch result: null maxLevel: 31
+[05] messages: []
+[filewrite] files/05-batch-update-batch-response.json (56 bytes)
+[05] region1 geom: {"arcs":[],"circles":[],"lines":[128,134,140],"points":[]}
+[05] region2 geom: {"arcs":[],"circles":[148],"lines":[],"points":[]}
+[filewrite] files/05-batch-update-batch-geom.json (232 bytes)

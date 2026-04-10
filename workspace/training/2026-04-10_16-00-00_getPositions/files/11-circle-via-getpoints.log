@@ -1,0 +1,5 @@
+[11] circleId: 58
+[11] direct getPositions maxLevel: 51 result: null
+[11] getPoints result: {"centerId":59}
+[11] via centerId getPositions: {"pos":{"x":30,"y":30,"z":0}}
+[filewrite] files/11-circle-via-getpoints-circle-workaround.json (128 bytes)

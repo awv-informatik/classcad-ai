@@ -1,0 +1,4 @@
+[10] line1 points: {"endId":60,"startId":59}
+[10] line2 points: {"endId":66,"startId":65}
+[10] shared? line1.endId === line2.startId: false
+[filewrite] files/10-shared-points-shared-points.json (257 bytes)

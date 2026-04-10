@@ -1,0 +1,4 @@
+[10] sketch version: 92 maxLevel: 31
+[10] part version: 92 maxLevel: 31
+[10] same result: true
+[filewrite] files/10-compare-sketch-vs-part-compare.json (206 bytes)

@@ -1,0 +1,11 @@
+[12] RADIUS on line result: null maxLevel: 51
+[12] RADIUS on line messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddConstraint_v1:[CCVM::ldm: Datamember radius not found]] "}]
+[12] ANGLE 1-geomId result: null maxLevel: 51
+[12] ANGLE 1-geomId messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in ConstraintHelper.CalculateAngleProperties:[Index 1 ausserhalb des Arraybereichs] not defined !] "},{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddConstraint_v1:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "}]
+[12] OFFSET on circle result: null maxLevel: 51
+[12] OFFSET on circle messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Wrong number of geometry ids provided for an offset constraint."}]
+[12] INVALID_TYPE result: null maxLevel: 51
+[12] INVALID_TYPE messages: [{"api":"v1.sketch.dimension","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"type\" is not valid. Possible values are: [\"RADIUS\",\"DIAMETER\",\"OFFSET\",\"HORIZONTAL_DISTANCE\",\"VERTICAL_DISTANCE\",\"ANGLE\",\"ANGLEOX\"]"}]
+[12] empty geomIds result: null maxLevel: 51
+[12] empty geomIds messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Wrong number of geometry ids provided for an offset constraint."}]
+[filewrite] files/12-error-cases-error-responses.json (2025 bytes)

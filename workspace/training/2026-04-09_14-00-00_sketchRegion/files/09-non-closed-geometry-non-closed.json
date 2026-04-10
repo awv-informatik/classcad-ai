@@ -1,0 +1,17 @@
+{
+  "singleLine": {
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "disconnected": {
+    "result": 76,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "openU": {
+    "result": 100,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

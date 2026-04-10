@@ -1,0 +1,4 @@
+[17] line ENDING at origin - maxLevel: 31
+[17] new objects:
+  ID 62 → CC_2DFixationConstraint "Auto_Fix" entities: [60]
+[17] line points: {"endId":60,"startId":59}

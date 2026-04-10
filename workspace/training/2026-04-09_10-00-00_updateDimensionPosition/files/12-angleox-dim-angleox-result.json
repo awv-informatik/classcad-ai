@@ -1,0 +1,23 @@
+{
+  "before": {
+    "value": {
+      "x": 45,
+      "y": 0,
+      "z": 0
+    },
+    "type": "point",
+    "visible": 1,
+    "expression": "GetSE([0,45,[0,0]])"
+  },
+  "after": {
+    "value": {
+      "x": 30,
+      "y": -10,
+      "z": 0
+    },
+    "type": "point",
+    "visible": 1,
+    "expression": "{30,-10,0}"
+  },
+  "className": "CC_AngularFeatureDimension"
+}

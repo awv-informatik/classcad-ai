@@ -1,0 +1,19 @@
+{
+  "regionId": 92,
+  "exact": {
+    "result": 92,
+    "found": true
+  },
+  "lowercase": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "uppercase": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "camel": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

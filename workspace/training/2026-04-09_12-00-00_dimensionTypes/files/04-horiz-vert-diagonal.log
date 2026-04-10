@@ -1,0 +1,10 @@
+[04] diagLine: 58
+[04] HD on diagonal: 86 maxLevel= 31
+[04] VD on diagonal: 90 maxLevel= 31
+[04] HD on horizontal: 94 maxLevel= 31
+[04] VD on vertical: 98 maxLevel= 31
+[04] HD on vertical line: 102 maxLevel= 31
+[04] VD on horizontal line: 106 maxLevel= 31
+[04] HD 2 points: 110 maxLevel= 31
+[04] VD 2 points: 114 maxLevel= 31
+[filewrite] files/04-horiz-vert-diagonal-hd-vd-summary.json (1824 bytes)

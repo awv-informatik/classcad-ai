@@ -1,0 +1,4 @@
+[02] created IDs: {"arcsBy3Points":[],"arcsByCenter":[68],"circles":[73],"lines":[60,64],"points":[58]}
+[02] getGeometry result: {"arcs":[68],"circles":[73],"lines":[60,64],"points":[58]}
+[02] maxLevel: 31
+[filewrite] files/02-mixed-geometry-comparison.json (414 bytes)

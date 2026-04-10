@@ -1,0 +1,17 @@
+{
+  "emptyPoints": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "noArrays": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "allEmpty": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

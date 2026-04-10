@@ -1,0 +1,7 @@
+[11] created "Right" -> id: 92
+[11] lookup "Right": null (expect null)
+[11] lookup "Right0": 92 match: true
+[11] created "Top" -> id: 126
+[11] lookup "Top": null | lookup "Top0": 126
+[11] lookup "UniqueProfile": 160 match: true
+[filewrite] files/11-name-collision-name-collision.json (234 bytes)

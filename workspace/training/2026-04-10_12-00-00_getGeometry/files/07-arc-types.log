@@ -1,0 +1,5 @@
+[07] arcByCenter ID: 58
+[07] arcBy3Points ID: 65
+[07] getGeometry result: {"arcs":[58,65],"circles":[],"lines":[],"points":[]}
+[07] result keys: [ 'arcs', 'circles', 'lines', 'points' ]
+[filewrite] files/07-arc-types-arc-types.json (288 bytes)

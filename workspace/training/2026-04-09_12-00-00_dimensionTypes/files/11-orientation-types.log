@@ -1,0 +1,5 @@
+[11] OFFSET: 64 HD: 68 VD: 72
+[filewrite] files/11-orientation-types-orientation-summary.json (760 bytes)
+[11] off: orient=2 angle=0.5191 dx=70 dy=40
+[11] hd: orient=1 angle=0.0000 dx=70 dy=40
+[11] vd: orient=0 angle=1.5708 dx=70 dy=40

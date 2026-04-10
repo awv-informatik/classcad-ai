@@ -1,0 +1,5 @@
+[12] lineId: 58
+[12] dimId: 66 maxLevel: 31
+[12] BEFORE class: CC_AngularFeatureDimension dimPt: {"x":45,"y":0,"z":0}
+[12] AFTER dimPt: {"x":30,"y":-10,"z":0} maxLevel: 31
+[filewrite] files/12-angleox-dim-angleox-result.json (363 bytes)

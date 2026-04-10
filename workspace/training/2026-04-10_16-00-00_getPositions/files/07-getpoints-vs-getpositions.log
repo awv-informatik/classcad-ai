@@ -1,0 +1,5 @@
+[07] direct: {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[07] via getPoints start: {"pos":{"x":10,"y":20,"z":0}}
+[07] via getPoints end: {"pos":{"x":70,"y":60,"z":0}}
+[07] startPos match: true | endPos match: true
+[filewrite] files/07-getpoints-vs-getpositions-comparison.json (406 bytes)

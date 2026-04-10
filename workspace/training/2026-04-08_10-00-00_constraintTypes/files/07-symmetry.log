@@ -1,0 +1,13 @@
+[07] BEFORE sym pts — pt1: { pos: { x: 10, y: 20, z: 0 } } pt2: { pos: { x: 60, y: 25, z: 0 } }
+[07] SYMMETRY points result: 68 maxLevel: 31
+[07] AFTER sym pts — pt1: { pos: { x: 10, y: 20, z: 0 } } pt2: { pos: { x: 60, y: 25, z: 0 } }
+[filewrite] files/07-symmetry-symmetry-points.json (513 bytes)
+[07] SYMMETRY lines result: 78 maxLevel: 31
+[07] AFTER sym lines — l1: {
+  start: { pos: { x: 10, y: 40, z: 0 } },
+  end: { pos: { x: 30, y: 50, z: 0 } }
+} l2: {
+  start: { pos: { x: 55, y: 42, z: 0 } },
+  end: { pos: { x: 70, y: 48, z: 0 } }
+}
+[filewrite] files/07-symmetry-symmetry-lines.json (1144 bytes)

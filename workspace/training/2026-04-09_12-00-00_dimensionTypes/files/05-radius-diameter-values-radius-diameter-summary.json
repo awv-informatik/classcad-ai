@@ -1,0 +1,54 @@
+[
+  {
+    "id": 68,
+    "name": "rad-circle",
+    "class": "CC_RadialFeatureDimension",
+    "value": 35,
+    "radius": 35,
+    "center": {
+      "x": 50,
+      "y": 50,
+      "z": 0
+    },
+    "paramName": "@value"
+  },
+  {
+    "id": 72,
+    "name": "dia-circle",
+    "class": "CC_DiameterFeatureDimension",
+    "value": 70,
+    "radius": 35,
+    "center": {
+      "x": 50,
+      "y": 50,
+      "z": 0
+    },
+    "paramName": "@value"
+  },
+  {
+    "id": 76,
+    "name": "rad-arc",
+    "class": "CC_RadialFeatureDimension",
+    "value": 30,
+    "radius": 30,
+    "center": {
+      "x": -50,
+      "y": 50,
+      "z": 0
+    },
+    "paramName": "@value"
+  },
+  {
+    "id": 80,
+    "name": "dia-arc",
+    "class": "CC_DiameterFeatureDimension",
+    "value": 60,
+    "radius": 30,
+    "center": {
+      "x": -50,
+      "y": 50,
+      "z": 0
+    },
+    "paramName": "@value"
+  }
+]

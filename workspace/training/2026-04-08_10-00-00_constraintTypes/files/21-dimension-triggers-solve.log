@@ -1,0 +1,15 @@
+[21] EQUAL_LENGTH result: 92
+[21] dimension result: 96 maxLevel: 31
+[21] HORIZONTAL_DISTANCE result: 100 maxLevel: 31
+[21] BEFORE updateDimension:
+  rect[0] [0,0] → [60,0]
+  rect[1] [60,0] → [60,40]
+  rect[2] [60,40] → [0,40]
+  rect[3] [0,40] → [0,0]
+[21] updateDimension result: 0 maxLevel: 31
+[21] AFTER updateDimension:
+  rect[0] [0,0] → [60,0]
+  rect[1] [60,0] → [60,40]
+  rect[2] [60,40] → [0,40]
+  rect[3] [0,40] → [0,0]
+[filewrite] files/21-dimension-triggers-solve-dim-solver.json (43 bytes)

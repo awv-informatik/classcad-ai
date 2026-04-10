@@ -1,0 +1,22 @@
+{
+  "rectIds": [
+    58,
+    64,
+    70,
+    76
+  ],
+  "queried": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58,
+      64,
+      70,
+      76
+    ],
+    "points": []
+  },
+  "rectIdsAreLines": true,
+  "pointCount": 0,
+  "lineCount": 4
+}

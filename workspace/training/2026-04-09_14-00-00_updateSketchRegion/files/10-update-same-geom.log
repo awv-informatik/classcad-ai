@@ -1,0 +1,4 @@
+[10] same-geom update result: null maxLevel: 31
+[10] messages: []
+[filewrite] files/10-update-same-geom-same-geom.json (56 bytes)
+[10] geom after same-update: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}

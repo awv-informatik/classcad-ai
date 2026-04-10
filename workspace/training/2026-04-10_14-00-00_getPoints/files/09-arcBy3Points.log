@@ -1,0 +1,6 @@
+[09] arcBy3Points arcId: 58
+[09] getPoints result: {"centerId":61,"endId":59,"startId":60}
+[09] maxLevel: 31
+[filewrite] files/09-arcBy3Points-arcBy3Points-getPoints.json (94 bytes)
+[09] center position: {"pos":{"x":30,"y":8.75,"z":0}}
+[filewrite] files/09-arcBy3Points-arcBy3Points-centerPos.json (57 bytes)

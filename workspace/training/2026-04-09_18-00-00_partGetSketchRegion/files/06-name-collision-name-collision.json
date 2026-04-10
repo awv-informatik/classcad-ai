@@ -1,0 +1,21 @@
+{
+  "regionId": 92,
+  "byIntendedName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getSketchRegion",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find sketch region with name: \"Right\""
+      }
+    ]
+  },
+  "byActualName": {
+    "result": 92,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

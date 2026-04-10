@@ -1,0 +1,8 @@
+[10] dimId: 74
+[10] result type: number value: 0
+[10] envelope keys: result, messages, maxLevel, structure, graphic
+[10] has structure: true
+[10] has graphic: false
+[10] messages count: 0
+[filewrite] files/10-return-value-structure-full-envelope.json (228 bytes)
+[filewrite] files/10-return-value-structure-structure-after-update.json (34538 bytes)

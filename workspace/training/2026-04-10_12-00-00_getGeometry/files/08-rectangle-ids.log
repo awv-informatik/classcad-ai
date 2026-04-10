@@ -1,0 +1,3 @@
+[08] rectangle returned IDs: [58,64,70,76]
+[08] getGeometry result: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[filewrite] files/08-rectangle-ids-rectangle-ids.json (250 bytes)

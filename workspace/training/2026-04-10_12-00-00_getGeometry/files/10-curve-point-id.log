@@ -1,0 +1,6 @@
+[10] lineId: 58 circId: 66
+[10] getGeometry(lineId): {"arcs":[],"circles":[],"lines":[58],"points":[]} maxLevel: 31
+[10] getGeometry(circId): {"arcs":[],"circles":[66],"lines":[],"points":[]} maxLevel: 31
+[10] line points: {"endId":60,"startId":59}
+[10] getGeometry(pointId): {"arcs":[],"circles":[],"lines":[],"points":[59]} maxLevel: 31
+[filewrite] files/10-curve-point-id-curve-point-ids.json (500 bytes)

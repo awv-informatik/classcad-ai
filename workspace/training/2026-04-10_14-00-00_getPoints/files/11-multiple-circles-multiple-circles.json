@@ -1,0 +1,15 @@
+{
+  "circle1": {
+    "id": 58,
+    "points": {
+      "centerId": 59
+    }
+  },
+  "circle2": {
+    "id": 61,
+    "points": {
+      "centerId": 62
+    }
+  },
+  "distinctCenters": true
+}

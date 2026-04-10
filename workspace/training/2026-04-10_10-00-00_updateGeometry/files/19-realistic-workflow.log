@@ -1,0 +1,11 @@
+[19] rectangle line IDs: [58,64,70,76]
+[19] line0 points: {"endId":60,"startId":59}
+[19] line1 points: {"endId":66,"startId":65}
+[19] line2 points: {"endId":72,"startId":71}
+[19] line3 points: {"endId":78,"startId":77}
+[19] resize result: null maxLevel: 31
+[19] line0 after: {"endPos":{"x":80,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[19] line1 after: {"endPos":{"x":80,"y":60,"z":0},"startPos":{"x":80,"y":0,"z":0}}
+[19] line2 after: {"endPos":{"x":0,"y":60,"z":0},"startPos":{"x":80,"y":60,"z":0}}
+[19] line3 after: {"endPos":{"x":0,"y":0,"z":0},"startPos":{"x":0,"y":60,"z":0}}
+[filewrite] files/19-realistic-workflow-resize-response.json (56 bytes)

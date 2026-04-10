@@ -1,0 +1,5 @@
+[10] first auto — new objects: 2
+   CC_2DFixationConstraint Auto_Fix
+   CC_2DHorizontalConstraint Auto_H
+[10] second auto — new objects: 0
+[10] redundancy test: PASS (no duplicates)

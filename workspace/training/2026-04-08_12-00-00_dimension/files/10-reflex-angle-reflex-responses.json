@@ -1,0 +1,12 @@
+{
+  "normalAngle": {
+    "result": 76,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "reflexAngle": {
+    "result": 80,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

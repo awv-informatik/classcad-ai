@@ -1,0 +1,4 @@
+[02] arcId: 58
+[02] getPoints result: {"centerId":61,"endId":59,"startId":60}
+[02] maxLevel: 31
+[filewrite] files/02-arc-arc-getPoints.json (112 bytes)

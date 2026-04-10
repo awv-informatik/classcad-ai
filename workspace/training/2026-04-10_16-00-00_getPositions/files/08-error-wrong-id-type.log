@@ -1,0 +1,9 @@
+[08a] sketch ID — maxLevel: 51 result: null
+[08a] messages: [{"api":"v1.sketch.getPositions","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch-curve\",\"sketch-point\"]"}]
+[08b] part ID — maxLevel: 51 result: null
+[08b] messages: [{"api":"v1.sketch.getPositions","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch-curve\",\"sketch-point\"]"}]
+[08c] bogus ID — maxLevel: 51 result: null
+[08c] messages: [{"api":"v1.sketch.getPositions","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.getPositions","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[08d] missing ID — maxLevel: 51 result: null
+[08d] messages: [{"api":"v1.sketch.getPositions","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/08-error-wrong-id-type-error-cases.json (1467 bytes)

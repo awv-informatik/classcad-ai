@@ -1,0 +1,26 @@
+{
+  "individualIds": {
+    "ptId": 58,
+    "lineId": 60,
+    "circId": 68,
+    "arcId": 71
+  },
+  "queried": {
+    "arcs": [
+      71
+    ],
+    "circles": [
+      68
+    ],
+    "lines": [
+      60
+    ],
+    "points": [
+      58
+    ]
+  },
+  "pointInList": true,
+  "lineInList": true,
+  "circleInList": true,
+  "arcInList": true
+}

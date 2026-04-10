@@ -1,0 +1,5 @@
+[07] dimId: 94
+[07] closeFeature result: null maxLevel: 31
+[07] closed feature → result: null maxLevel: 31 msgs: []
+[07] dimPt after (closed): {"x":50,"y":60,"z":0}
+[filewrite] files/07-closed-feature-closed-feature-result.json (111 bytes)

@@ -1,0 +1,8 @@
+[13] lineId: 58
+[13] points: {"endId":60,"startId":59}
+[13] fix start: null maxLevel: 51
+[13] fix end: null maxLevel: 51
+[13] moveGeometry result: 0 maxLevel: 31
+[13] messages: []
+[13] line after: {"endPos":{"x":70,"y":30,"z":0},"startPos":{"x":30,"y":30,"z":0}}
+[filewrite] files/13-return-value-unsolved-fixed-line-move.json (212 bytes)

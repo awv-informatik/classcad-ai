@@ -1,0 +1,14 @@
+[02] rect lines: [ 58, 64, 70, 76 ]
+[02] off-bottom: id=96 maxLevel=31
+[02] off-right: id=100 maxLevel=31
+[02] off-bot-top: id=104 maxLevel=31
+[02] off-perp: id=108 maxLevel=31
+[02] off-line-pt: id=112 maxLevel=31
+[02] off-top: id=116 maxLevel=31
+[filewrite] files/02-offset-read-values-dim-nodes.json (17304 bytes)
+[02] getExpression(96): null maxLevel= 51
+[02] getExpression(100): null maxLevel= 51
+[02] getExpression(104): null maxLevel= 51
+[02] getExpression(108): null maxLevel= 51
+[02] getExpression(112): null maxLevel= 51
+[02] getExpression(116): null maxLevel= 51

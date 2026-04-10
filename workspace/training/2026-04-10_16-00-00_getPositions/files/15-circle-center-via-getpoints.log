@@ -1,0 +1,4 @@
+[15] circleId: 58
+[15] getPoints: {"centerId":59}
+[15] center pos: {"pos":{"x":50,"y":50,"z":0}} maxLevel: 31
+[filewrite] files/15-circle-center-via-getpoints-circle-center-resolved.json (122 bytes)

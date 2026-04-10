@@ -1,0 +1,23 @@
+{
+  "lineId": 58,
+  "pointIds": {
+    "endId": 60,
+    "startId": 59
+  },
+  "startPosition": {
+    "pos": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "endPosition": {
+    "pos": {
+      "x": 70,
+      "y": 60,
+      "z": 0
+    }
+  },
+  "startMaxLevel": 31,
+  "endMaxLevel": 31
+}

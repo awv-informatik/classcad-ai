@@ -1,0 +1,6 @@
+[04] lineId: 58 circId: 66 ptId: 69
+[04] moveGeometry result: 0 maxLevel: 31
+[04] line after: {"endPos":{"x":50,"y":20,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[04] circle center after: {"pos":{"x":70,"y":50,"z":0}}
+[04] point after: {"pos":{"x":90,"y":70,"z":0}}
+[filewrite] files/04-move-multiple-move-multiple-result.json (366 bytes)

@@ -1,0 +1,6 @@
+[04] rectangle IDs: [58,64,70,76]
+[04] circle ID: 92
+[04] region ID: 95
+[04] getGeometry(sketch): {"arcs":[],"circles":[92],"lines":[58,64,70,76],"points":[]}
+[04] getGeometry(region): {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[filewrite] files/04-sketch-region-sketch-vs-region.json (464 bytes)

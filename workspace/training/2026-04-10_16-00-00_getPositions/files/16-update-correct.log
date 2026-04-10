@@ -1,0 +1,7 @@
+[16] line before: {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[16] point before: {"pos":{"x":5,"y":5,"z":0}}
+[16] updateGeometry maxLevel: 31
+[16] line after: {"endPos":{"x":100,"y":80,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[16] point after: {"pos":{"x":50,"y":50,"z":0}}
+[16] line changed: true | point changed: true
+[filewrite] files/16-update-correct-correct-update.json (614 bytes)

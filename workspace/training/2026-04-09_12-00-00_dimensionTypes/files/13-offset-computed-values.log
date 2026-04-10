@@ -1,0 +1,6 @@
+[filewrite] files/13-offset-computed-values-offset-values.json (1225 bytes)
+[13] w: paramName="" orient=2 angle=0.0000 computed_dist=100.00 dx=100 dy=0
+[13] h: paramName="" orient=2 angle=1.5708 computed_dist=60.00 dx=0 dy=60
+[13] gap: paramName="" orient=2 angle=1.5708 computed_dist=60.00 dx=0 dy=60
+[13] hd: paramName="" orient=1 angle=0.0000 computed_dist=100.00 dx=100 dy=0
+[13] vd: paramName="" orient=0 angle=1.5708 computed_dist=60.00 dx=0 dy=60

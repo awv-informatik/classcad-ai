@@ -1,0 +1,16 @@
+[18] l2 BEFORE updateGeometry: {
+  start: { pos: { x: 0, y: 30, z: 0 } },
+  end: { pos: { x: 60, y: 50, z: 0 } }
+}
+[18] updateGeometry result: null maxLevel: 31
+[18] l2 AFTER updateGeometry: {
+  start: { pos: { x: 0, y: 40, z: 0 } },
+  end: { pos: { x: 60, y: 50, z: 0 } }
+}
+[18] l2 is horizontal after updateGeometry: false
+[18] additional HORIZONTAL on l2: 72 maxLevel: 31
+[18] l2 AFTER additional HORIZONTAL: {
+  start: { pos: { x: 0, y: 40, z: 0 } },
+  end: { pos: { x: 60, y: 50, z: 0 } }
+}
+[filewrite] files/18-updateGeometry-solver-updateGeometry-solver.json (711 bytes)

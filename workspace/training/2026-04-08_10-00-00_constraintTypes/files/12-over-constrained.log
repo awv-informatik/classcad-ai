@@ -1,0 +1,9 @@
+[12] HORIZONTAL result: 62 maxLevel: 31
+[12] VERTICAL (conflict) result: 64 maxLevel: 31
+[12] 2nd HORIZONTAL result: 66 maxLevel: 31
+[12] moveGeometry on conflicted line: 0 maxLevel: 31
+[12] final position: {
+  start: { pos: { x: 10, y: 0, z: 0 } },
+  end: { pos: { x: 60, y: 50, z: 0 } }
+}
+[filewrite] files/12-over-constrained-over-constrained.json (483 bytes)

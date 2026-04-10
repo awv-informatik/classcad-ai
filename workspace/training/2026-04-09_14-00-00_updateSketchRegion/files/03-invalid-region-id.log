@@ -1,0 +1,9 @@
+[03] sketchId as region — result: null maxLevel: 51
+[03] messages: [{"api":"v1.sketch.updateSketchRegion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketchregion\"]"}]
+[filewrite] files/03-invalid-region-id-sketch-id-error.json (345 bytes)
+[03] partId as region — result: null maxLevel: 51
+[03] messages: [{"api":"v1.sketch.updateSketchRegion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketchregion\"]"}]
+[filewrite] files/03-invalid-region-id-part-id-error.json (343 bytes)
+[03] fakeId — result: null maxLevel: 51
+[03] messages: [{"api":"v1.sketch.updateSketchRegion","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.updateSketchRegion","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/03-invalid-region-id-fake-id-error.json (497 bytes)

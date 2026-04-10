@@ -1,0 +1,5 @@
+[12] before: {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[12] updateGeometry maxLevel: 51 messages: [{"api":"v1.sketch.updateGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[12] after: {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[12] positions changed: false
+[filewrite] files/12-update-then-getpos-update-line-comparison.json (349 bytes)

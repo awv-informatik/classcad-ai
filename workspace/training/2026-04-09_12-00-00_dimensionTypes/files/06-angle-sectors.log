@@ -1,0 +1,146 @@
+[06] line1: 58 line2: 66
+[06] ANGLE auto: 76 maxLevel= 31
+[06] ANGLE acute dimPos: 80 maxLevel= 31
+[06] ANGLE obtuse dimPos: 84 maxLevel= 31
+[06] ANGLE reflex: null maxLevel= 51
+[filewrite] files/06-angle-sectors-angle-sectors.json (2489 bytes)
+[06] Summary: [
+  {
+    "id": 76,
+    "name": "angle-auto",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo",
+      "sector"
+    ],
+    "startPt": {
+      "x": 10,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 7.071067811865475,
+      "y": 7.071067811865475,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 0,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 9.238795325112868,
+      "y": 3.826834323650897,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@userValue",
+    "sector": 0
+  },
+  {
+    "id": 80,
+    "name": "angle-acute",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo",
+      "sector"
+    ],
+    "startPt": {
+      "x": 53.85164807134504,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 38.078865529319536,
+      "y": 38.078865529319536,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 0,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 50,
+      "y": 20,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@userValue",
+    "sector": 0
+  },
+  {
+    "id": 84,
+    "name": "angle-obtuse",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo",
+      "sector"
+    ],
+    "startPt": {
+      "x": 53.85164807134504,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": -0.07071067811865477,
+      "y": -0.07071067811865477,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "ccw": 0,
+    "extendToCorner": 0,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 50,
+      "y": -20,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@userValue",
+    "sector": 3
+  }
+]

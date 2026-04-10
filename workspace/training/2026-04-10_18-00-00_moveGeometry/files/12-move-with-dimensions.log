@@ -1,0 +1,6 @@
+[12] lineId: 58
+[12] dimension result: null maxLevel: 51
+[12] moveGeometry result: 0 maxLevel: 31
+[12] messages: []
+[12] line after: {"endPos":{"x":80,"y":40,"z":0},"startPos":{"x":30,"y":40,"z":0}}
+[filewrite] files/12-move-with-dimensions-move-with-dimension.json (212 bytes)

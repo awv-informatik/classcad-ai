@@ -1,0 +1,5 @@
+[04] pointId: 58
+[04] getPoints result: null
+[04] maxLevel: 51
+[04] messages: [{"api":"v1.sketch.getPoints","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]
+[filewrite] files/04-point-point-getPoints.json (286 bytes)

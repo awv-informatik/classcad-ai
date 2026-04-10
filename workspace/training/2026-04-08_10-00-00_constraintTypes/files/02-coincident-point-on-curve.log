@@ -1,0 +1,8 @@
+[02] BEFORE — point pos: { pos: { x: 40, y: 30, z: 0 } }
+[02] COINCIDENT pt-on-line result: 64 maxLevel: 31
+[02] AFTER — point pos: { pos: { x: 40, y: 30, z: 0 } }
+[filewrite] files/02-coincident-point-on-curve-pt-on-line.json (197 bytes)
+[02] BEFORE — pt2 pos: null
+[02] COINCIDENT pt-on-circle result: null maxLevel: 51
+[02] AFTER — pt2 pos: null
+[filewrite] files/02-coincident-point-on-curve-pt-on-circle.json (73 bytes)

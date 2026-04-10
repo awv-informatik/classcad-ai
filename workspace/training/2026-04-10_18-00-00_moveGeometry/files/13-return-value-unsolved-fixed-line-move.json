@@ -1,0 +1,17 @@
+{
+  "moveResult": 0,
+  "maxLevel": 31,
+  "messages": [],
+  "lineAfter": {
+    "endPos": {
+      "x": 70,
+      "y": 30,
+      "z": 0
+    },
+    "startPos": {
+      "x": 30,
+      "y": 30,
+      "z": 0
+    }
+  }
+}

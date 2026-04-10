@@ -1,0 +1,29 @@
+{
+  "before": {
+    "endPos": {
+      "x": 50,
+      "y": 10,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 10,
+      "z": 0
+    }
+  },
+  "after": {
+    "endPos": {
+      "x": 70,
+      "y": 40,
+      "z": 0
+    },
+    "startPos": {
+      "x": 30,
+      "y": 40,
+      "z": 0
+    }
+  },
+  "moveResult": 0,
+  "maxLevel": 31,
+  "messages": []
+}

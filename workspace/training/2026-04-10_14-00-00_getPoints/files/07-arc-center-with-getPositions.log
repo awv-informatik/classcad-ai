@@ -1,0 +1,6 @@
+[07] arc getPoints: {"centerId":61,"endId":59,"startId":60}
+[07] startPos: {"pos":{"x":80,"y":40,"z":0}}
+[07] endPos: {"pos":{"x":50,"y":70,"z":0}}
+[07] centerPos: {"pos":{"x":50,"y":39.99999999999999,"z":0}}
+[07] arcPos (direct): {"centerPos":{"x":50,"y":39.99999999999999,"z":0},"endPos":{"x":50,"y":70,"z":0},"startPos":{"x":80,"y":40,"z":0}}
+[filewrite] files/07-arc-center-with-getPositions-arc-points-positions.json (666 bytes)

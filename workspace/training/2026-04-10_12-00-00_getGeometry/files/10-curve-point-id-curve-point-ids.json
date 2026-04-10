@@ -1,0 +1,36 @@
+{
+  "lineResult": {
+    "result": {
+      "arcs": [],
+      "circles": [],
+      "lines": [
+        58
+      ],
+      "points": []
+    },
+    "maxLevel": 31
+  },
+  "circResult": {
+    "result": {
+      "arcs": [],
+      "circles": [
+        66
+      ],
+      "lines": [],
+      "points": []
+    },
+    "maxLevel": 31
+  },
+  "pointResult": {
+    "result": {
+      "arcs": [],
+      "circles": [],
+      "lines": [],
+      "points": [
+        59
+      ]
+    },
+    "maxLevel": 31
+  },
+  "pointId": 59
+}

@@ -1,0 +1,9 @@
+[12] rectangle line IDs: [58,64,70,76]
+[12] bottom line before: {"endPos":{"x":60,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[12] updateGeometry result: null maxLevel: 31
+[12] messages: []
+[12] line0 after: {"endPos":{"x":60,"y":10,"z":0},"startPos":{"x":0,"y":10,"z":0}}
+[12] line1 after: {"endPos":{"x":60,"y":40,"z":0},"startPos":{"x":60,"y":0,"z":0}}
+[12] line2 after: {"endPos":{"x":0,"y":40,"z":0},"startPos":{"x":60,"y":40,"z":0}}
+[12] line3 after: {"endPos":{"x":0,"y":0,"z":0},"startPos":{"x":0,"y":40,"z":0}}
+[filewrite] files/12-update-with-constraints-constraint-interaction.json (881 bytes)

@@ -1,0 +1,7 @@
+[03] circle ID: 58
+[03] arc ID: 61
+[03] RADIUS circle result: 68 maxLevel: 31
+[03] DIAMETER circle result: 72 maxLevel: 31
+[03] RADIUS arc result: 76 maxLevel: 31
+[03] DIAMETER arc result: 80 maxLevel: 31
+[filewrite] files/03-radius-diameter-radius-diameter-responses.json (328 bytes)

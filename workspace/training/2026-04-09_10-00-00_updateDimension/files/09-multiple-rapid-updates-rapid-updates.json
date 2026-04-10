@@ -1,0 +1,52 @@
+[
+  {
+    "value": 10,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 20,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 30,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 40,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 50,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 60,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 70,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 80,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 90,
+    "result": 0,
+    "maxLevel": 31
+  },
+  {
+    "value": 100,
+    "result": 0,
+    "maxLevel": 31
+  }
+]

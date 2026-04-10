@@ -1,0 +1,21 @@
+{
+  "created": {
+    "reg1": 156,
+    "reg2": 158,
+    "reg3": 160
+  },
+  "lookups": {
+    "Left": {
+      "result": 156,
+      "match": true
+    },
+    "Center": {
+      "result": 158,
+      "match": true
+    },
+    "Right": {
+      "result": null,
+      "match": false
+    }
+  }
+}

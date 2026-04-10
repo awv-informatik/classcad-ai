@@ -1,0 +1,10 @@
+[09] created lines: 58 62
+[09] line1 points: {"endId":60,"startId":59}
+[09] line2 points: {"endId":64,"startId":63}
+[09] line1 pos before: {"endPos":{"x":50,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[09] line2 pos before: {"endPos":{"x":50,"y":40,"z":0},"startPos":{"x":50,"y":0,"z":0}}
+[09] moving shared point (line1 endPt): 60
+[09] updateGeometry result: null maxLevel: 31
+[09] line1 pos after: {"endPos":{"x":70,"y":20,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[09] line2 pos after: {"endPos":{"x":50,"y":40,"z":0},"startPos":{"x":50,"y":0,"z":0}}
+[filewrite] files/09-shared-point-move-shared-point-comparison.json (683 bytes)

@@ -1,0 +1,4 @@
+[09] before delete: {"arcs":[],"circles":[72],"lines":[58,64],"points":[]}
+[09] delete maxLevel: 31
+[09] after delete: {"arcs":[],"circles":[],"lines":[58,64],"points":[]}
+[filewrite] files/09-after-delete-fix-delete-fixed.json (283 bytes)

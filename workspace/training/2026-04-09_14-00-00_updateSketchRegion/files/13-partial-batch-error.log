@@ -1,0 +1,6 @@
+[13] batch result: null maxLevel: 51
+[13] messages: [{"api":"v1.sketch.updateSketchRegion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"geomIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]
+[filewrite] files/13-partial-batch-error-partial-batch.json (300 bytes)
+[13] region1 geom: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[13] region2 geom: {"arcs":[],"circles":[],"lines":[92,96,102,108],"points":[]}
+[filewrite] files/13-partial-batch-error-partial-batch-geom.json (270 bytes)

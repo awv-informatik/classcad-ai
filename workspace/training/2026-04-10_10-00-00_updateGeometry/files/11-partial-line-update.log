@@ -1,0 +1,8 @@
+[11] created line: 58
+[11] pos before: {"endPos":{"x":50,"y":50,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[11] startPos-only result: null maxLevel: 51
+[11] startPos-only messages: [{"api":"v1.sketch.updateGeometry","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"endPos\" must be provided in the api call!"}]
+[11] pos after startPos-only: {"endPos":{"x":50,"y":50,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[11] endPos-only result: null maxLevel: 51
+[11] pos after endPos-only: {"endPos":{"x":50,"y":50,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[filewrite] files/11-partial-line-update-partial-line.json (466 bytes)

@@ -1,0 +1,7 @@
+[08] created — line: 58 circle: 64
+[08] line-as-circle result: null maxLevel: 51
+[08] line-as-circle messages: [{"api":"v1.sketch.updateGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch-circle\"]"}]
+[filewrite] files/08-wrong-type-id-wrong-type-response.json (292 bytes)
+[08] circle-as-line result: null maxLevel: 51
+[08] circle-as-line messages: [{"api":"v1.sketch.updateGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch-line\"]"}]
+[filewrite] files/08-wrong-type-id-wrong-type-response2.json (290 bytes)

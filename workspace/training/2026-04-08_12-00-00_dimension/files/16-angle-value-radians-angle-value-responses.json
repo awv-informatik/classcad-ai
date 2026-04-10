@@ -1,0 +1,51 @@
+{
+  "angleNumeric": {
+    "result": 76,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $76 of type \"ANGLE\""
+      }
+    ]
+  },
+  "angleStringDeg": {
+    "result": 80,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $80 of type \"ANGLE\""
+      }
+    ]
+  },
+  "angleMatchingRad": {
+    "result": 84,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $84 of type \"ANGLE\""
+      }
+    ]
+  },
+  "angleNoValue": {
+    "result": 88,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "updateAngle": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

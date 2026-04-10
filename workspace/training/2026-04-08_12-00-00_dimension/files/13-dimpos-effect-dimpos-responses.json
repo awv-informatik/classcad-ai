@@ -1,0 +1,28 @@
+{
+  "offsetDimPos": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in Sketch.CreateDimension:[CCVM::lcm: Function InitDimensionByPosition not found]] "
+      }
+    ]
+  },
+  "hDistDimPos": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in Sketch.CreateDimension:[CCVM::lcm: Function InitDimensionByPosition not found]] "
+      }
+    ]
+  }
+}

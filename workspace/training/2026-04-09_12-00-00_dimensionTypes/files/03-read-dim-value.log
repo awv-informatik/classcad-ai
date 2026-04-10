@@ -1,0 +1,8 @@
+[03] dimId: 94
+[03] getExpression(part, @value): { expression: '', value: null } maxLevel= 31
+[03] getExpression(dim, @value): null maxLevel= 51
+[03] getExpression(dim, no name): null maxLevel= 51
+[03] getExpression(sketch, @value): null maxLevel= 51
+[03] updateDimension(75): 0 maxLevel= 31
+[03] getExpression after update: null maxLevel= 51
+[03] getExpression(part, myWidth): { expression: '', value: null } maxLevel= 31

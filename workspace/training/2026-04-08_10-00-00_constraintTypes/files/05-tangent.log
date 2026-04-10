@@ -1,0 +1,11 @@
+[05] arc ID: 64
+[05] arc getPoints: { centerId: 67, endId: 65, startId: 66 }
+[05] arc center BEFORE: { pos: { x: 40, y: 25, z: 0 } }
+[05] arc start BEFORE: { pos: { x: 15, y: 25, z: 0 } }
+[05] TANGENT arc-line result: 69 maxLevel: 31
+[05] moveGeometry result: 0
+[05] arc center AFTER: { pos: { x: 40, y: 20, z: 0 } }
+[filewrite] files/05-tangent-tangent-arc-line.json (258 bytes)
+[05] TANGENT arc-arc result: null maxLevel: 51
+[05] arc-arc messages: [{"api":"v1.sketch.constraint","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[filewrite] files/05-tangent-tangent-arc-arc.json (60 bytes)

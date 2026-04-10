@@ -1,0 +1,11 @@
+[16] dimId: 74
+[16] no Dimension node in creation structure
+[filewrite] files/16-verify-stored-value-structure-classes.json (2 bytes)
+[16] getExpression('myDim'): {"expression":"","value":null} maxLevel: 31
+[16] getExpression('Sketch.myDim'): {"expression":"","value":null} maxLevel: 31
+[16] getExpression('Dim1'): {"expression":"","value":null} maxLevel: 31
+[16] getExpression('distance1'): {"expression":"","value":null} maxLevel: 31
+[16] after update getExpression('myDim'): {"expression":"","value":null} maxLevel: 31
+[16] after update getExpression('Sketch.myDim'): {"expression":"","value":null} maxLevel: 31
+[16] after update getExpression('Dim1'): {"expression":"","value":null} maxLevel: 31
+[16] after update getExpression('distance1'): {"expression":"","value":null} maxLevel: 31

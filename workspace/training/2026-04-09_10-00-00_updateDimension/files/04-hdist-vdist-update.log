@@ -1,0 +1,6 @@
+[04] hdistDimId: 64
+[04] HDIST update result: 0 maxLevel: 31
+[filewrite] files/04-hdist-vdist-update-hdist-update.json (53 bytes)
+[04] vdistDimId: 74
+[04] VDIST update result: 0 maxLevel: 31
+[filewrite] files/04-hdist-vdist-update-vdist-update.json (53 bytes)

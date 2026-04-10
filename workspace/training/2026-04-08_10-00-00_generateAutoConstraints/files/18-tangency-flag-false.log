@@ -1,0 +1,8 @@
+[18] genTangency=false - maxLevel: 31
+[18] new objects:
+  ID 67 → CC_2DCoincidentConstraint "Auto_Coinc"
+[18] genTangency=true - maxLevel: 31
+[18] new objects (tangency=true):
+  ID 74 → CC_2DTangentSketchConstraint "Auto_Tan"
+  ID 76 → CC_2DCoincidentConstraint "Auto_Coinc0"
+  ID 78 → CC_2DCoincidentConstraint "Auto_Coinc1"

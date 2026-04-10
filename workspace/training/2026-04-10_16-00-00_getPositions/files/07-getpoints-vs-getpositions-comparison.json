@@ -1,0 +1,32 @@
+{
+  "direct": {
+    "endPos": {
+      "x": 70,
+      "y": 60,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "viaGetPoints": {
+    "start": {
+      "pos": {
+        "x": 10,
+        "y": 20,
+        "z": 0
+      }
+    },
+    "end": {
+      "pos": {
+        "x": 70,
+        "y": 60,
+        "z": 0
+      }
+    }
+  },
+  "startMatch": true,
+  "endMatch": true
+}

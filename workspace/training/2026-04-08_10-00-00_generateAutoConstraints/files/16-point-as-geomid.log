@@ -1,0 +1,7 @@
+[16] line points: {"endId":60,"startId":59}
+[16] auto on startPoint (at origin): null maxLevel: 31
+[16] messages: []
+[16] new objects:
+  ID 62 → CC_2DFixationConstraint "Auto_Fix"
+[16] auto on endPoint (off origin): null maxLevel: 31
+[16] new objects (end point):

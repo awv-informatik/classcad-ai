@@ -1,0 +1,45 @@
+{
+  "direct": {
+    "centerPos": {
+      "x": 0,
+      "y": -4.440892098500626e-16,
+      "z": 0
+    },
+    "endPos": {
+      "x": 0,
+      "y": 10,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "viaGetPoints": {
+    "start": {
+      "pos": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "end": {
+      "pos": {
+        "x": 0,
+        "y": 10,
+        "z": 0
+      }
+    },
+    "center": {
+      "pos": {
+        "x": 0,
+        "y": -4.440892098500626e-16,
+        "z": 0
+      }
+    }
+  },
+  "startMatch": true,
+  "endMatch": true,
+  "centerMatch": true
+}

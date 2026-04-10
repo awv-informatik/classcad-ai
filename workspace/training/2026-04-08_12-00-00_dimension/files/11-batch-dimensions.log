@@ -1,0 +1,5 @@
+[11] rectIds: [ 58, 64, 70, 76 ]
+[11] batch result: [94,98]
+[11] batch maxLevel: 31
+[11] batch messages: []
+[filewrite] files/11-batch-dimensions-batch-response.json (72 bytes)

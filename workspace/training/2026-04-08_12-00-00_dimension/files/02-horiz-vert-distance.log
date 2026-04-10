@@ -1,0 +1,8 @@
+[02] rectIds: [ 58, 62, 68, 74 ]
+[02] HORIZONTAL_DISTANCE 1-line result: 92 maxLevel: 31
+[02] messages: []
+[02] VERTICAL_DISTANCE 1-line result: 96 maxLevel: 31
+[02] messages: []
+[02] HORIZONTAL_DISTANCE 2-lines result: null maxLevel: 51
+[02] h-dist-2lines messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"If two geometry ids are provided for a horizontal- or vertical distance constraint, then both must be points."}]
+[filewrite] files/02-horiz-vert-distance-horiz-vert-responses.json (515 bytes)

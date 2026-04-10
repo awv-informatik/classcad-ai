@@ -38,12 +38,13 @@ Returns `null` (VOID) on failure.
 
 ## undoFillet
 
-`sketch.undoFillet({ id, arcId })` — removes the fillet arc and reconnects the original lines.
+See **[undoFillet.md](undoFillet.md)** for full documentation. Key facts:
 
-- `arcId` — the arc ID from the fillet return tuple (first element).
+- `sketch.undoFillet({ id, arcId })` — pass the `arcId` from the fillet result tuple (first element).
 - Returns VOID (null), maxLevel=31 on success.
-- Invalid `arcId` produces error code 1006.
-- After undo, the same lines can be re-filleted — new IDs are assigned (not the originals).
+- Restores original lines to full length (same line IDs preserved).
+- Each undo is independent — order doesn't matter on multi-filleted sketches.
+- After undo, re-filleting produces new IDs (not the originals).
 
 ## Common Errors
 

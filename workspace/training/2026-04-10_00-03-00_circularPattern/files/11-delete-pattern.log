@@ -1,0 +1,6 @@
+[11] pattern geometry: [ 68, 73, 78, 83 ]
+[11] constraint: 85 dimension: 87
+[11] positions before delete count: undefined
+[11] delete maxLevel: 31
+[11] positions after delete count: undefined
+[filewrite] files/11-delete-pattern-delete-pattern.json (212 bytes)

@@ -1,0 +1,14 @@
+[07] topFace: 84 frontEdge: 67 backEdge: 69
+[07] projected line from front edge: 105
+[07] position before change: {"endPos":{"x":80,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[07] changeReferenceGeometry — result: null maxLevel: 31
+[07] changeRef messages: []
+[filewrite] files/07-change-unlink-change-ref.json (56 bytes)
+[07] position after change: {"endPos":{"x":80,"y":60,"z":40},"startPos":{"x":0,"y":60,"z":40}}
+[filewrite] files/07-change-unlink-positions-change.json (305 bytes)
+[07] unlinkReferenceGeometry — result: null maxLevel: 31
+[07] unlink messages: []
+[filewrite] files/07-change-unlink-unlink-ref.json (56 bytes)
+[07] sketch geometry after unlink: {"arcs":[],"circles":[],"lines":[105],"points":[]}
+[filewrite] files/07-change-unlink-sketch-geometry-after-unlink.json (75 bytes)
+[07] position after unlink: {"endPos":{"x":80,"y":60,"z":40},"startPos":{"x":0,"y":60,"z":40}}

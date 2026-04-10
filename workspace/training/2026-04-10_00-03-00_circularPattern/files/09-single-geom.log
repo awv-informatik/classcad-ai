@@ -1,0 +1,3 @@
+[09] line id: 58 centerPt: 64
+[09] maxLevel: 31 result: { constraint: 95, dimension: 97, geometry: [ 68, 73, 78, 83, 88, 93 ] }
+[filewrite] files/09-single-geom-single-geom.json (183 bytes)

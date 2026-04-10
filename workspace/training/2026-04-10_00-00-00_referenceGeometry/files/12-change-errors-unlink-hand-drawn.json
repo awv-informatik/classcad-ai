@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.sketch.unlinkReferenceGeometry",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Set the parameter \"geomId\" = VOID is not allowed in this situation!"
+    }
+  ],
+  "maxLevel": 51
+}

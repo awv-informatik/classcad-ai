@@ -1,0 +1,3 @@
+[02] line1: 58 arc1: 66 circle1: 71 pt1: 74
+[02] rigidSet all types — result: 76 maxLevel: 31
+[filewrite] files/02-mixed-geom-mixed-response.json (54 bytes)

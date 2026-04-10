@@ -1,0 +1,3 @@
+[05] count=3.7 maxLevel: 31 geometry: 3
+[05] result: { constraint: 80, dimension: 82, geometry: [ 68, 73, 78 ] }
+[filewrite] files/05-count-fractional-count-fractional.json (153 bytes)

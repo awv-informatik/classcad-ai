@@ -1,0 +1,20 @@
+[12] referenced line: 105
+[12] unreferenced line: 117
+[12] change referenced line — result: null maxLevel: 31
+[12] change ref messages: []
+[filewrite] files/12-change-errors-change-referenced.json (56 bytes)
+[12] change unreferenced line — result: null maxLevel: 31
+[12] change unref messages: []
+[filewrite] files/12-change-errors-change-unreferenced.json (56 bytes)
+[12] fresh referenced line: 127
+[12] unlink — maxLevel: 31
+[12] change after unlink — result: null maxLevel: 31
+[12] change-after-unlink messages: []
+[filewrite] files/12-change-errors-change-after-unlink.json (56 bytes)
+[12] unlink again (already unlinked) — result: null maxLevel: 31
+[12] re-unlink messages: []
+[filewrite] files/12-change-errors-unlink-twice.json (56 bytes)
+[12] hand-drawn line: null
+[12] unlink hand-drawn — result: null maxLevel: 51
+[12] unlink hand-drawn messages: [{"api":"v1.sketch.unlinkReferenceGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"geomId\" = VOID is not allowed in this situation!"}]
+[filewrite] files/12-change-errors-unlink-hand-drawn.json (276 bytes)

@@ -1,0 +1,39 @@
+{
+  "noRefBefore": {
+    "endPos": {
+      "x": 120,
+      "y": 60,
+      "z": 40
+    },
+    "startPos": {
+      "x": 0,
+      "y": 60,
+      "z": 40
+    }
+  },
+  "noRefAfter": {
+    "endPos": {
+      "x": 120,
+      "y": 60,
+      "z": 40
+    },
+    "startPos": {
+      "x": 0,
+      "y": 60,
+      "z": 40
+    }
+  },
+  "noRefChanged": false,
+  "refAfterWidthUpdate": {
+    "endPos": {
+      "x": 120,
+      "y": 0,
+      "z": 40
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 40
+    }
+  }
+}

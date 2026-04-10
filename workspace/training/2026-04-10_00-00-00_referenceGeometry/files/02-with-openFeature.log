@@ -1,0 +1,10 @@
+[02] boxId: 54
+[02] edgeId: 75
+[02] sketchId: 89
+[02] openFeature result: null maxLevel: 31
+[02] referenceGeometry result: null
+[02] referenceGeometry maxLevel: 51
+[02] referenceGeometry messages: [{"api":"v1.sketch.referenceGeometry","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in RefSketch2.CreateUseGeometry:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "}]
+[filewrite] files/02-with-openFeature-refgeo-open.json (381 bytes)
+[02] sketch geometry: {"arcs":[],"circles":[],"lines":[],"points":[]}
+[filewrite] files/02-with-openFeature-sketch-geometry.json (64 bytes)

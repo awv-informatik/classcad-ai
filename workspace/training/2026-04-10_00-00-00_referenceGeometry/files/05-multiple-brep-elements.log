@@ -1,0 +1,17 @@
+[05] brep IDs: {"lines":[67,69,71],"planes":[80],"points":[59,65]}
+[filewrite] files/05-multiple-brep-elements-brep-ids.json (103 bytes)
+[05] edges: [ 67, 69, 71 ] vertices: [ 59, 65 ] frontFace: 80
+[05] sketchId: 89
+[05] refGeo 3 edges — result: [ 105, 117, 127 ] maxLevel: 31
+[filewrite] files/05-multiple-brep-elements-refgeo-3-edges.json (83 bytes)
+[05] refGeo vertex — result: [ 133 ] maxLevel: 31
+[05] refGeo vertex messages: []
+[filewrite] files/05-multiple-brep-elements-refgeo-vertex.json (65 bytes)
+[05] refGeo face — result: null maxLevel: 51
+[05] refGeo face messages: [{"api":"v1.sketch.referenceGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"brepIds\" has a wrong id type! Provide only following id types: [\"edge-line\",\"vertex\",\"edge-arc\",\"edge-circle\"]"}]
+[filewrite] files/05-multiple-brep-elements-refgeo-face.json (336 bytes)
+[05] refGeo mixed (edge+vertex) — result: [ 139, 149 ] maxLevel: 31
+[05] refGeo mixed messages: []
+[filewrite] files/05-multiple-brep-elements-refgeo-mixed.json (74 bytes)
+[05] final sketch geometry: {"arcs":[],"circles":[],"lines":[105,117,139],"points":[127,133,149]}
+[filewrite] files/05-multiple-brep-elements-sketch-geometry-final.json (122 bytes)

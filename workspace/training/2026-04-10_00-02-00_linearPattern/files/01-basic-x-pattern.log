@@ -1,0 +1,10 @@
+[01] l1: 58 l2: 66
+[01] rigidSet: 74
+[01] maxLevel: 31
+[01] result keys: [ 'constraint', 'dimensions', 'geometry' ]
+[01] constraint: 92
+[01] dimensions: [ 94, null ]
+[01] geometry count: 3
+[01] geometry: [ 74, 82, 90 ]
+[filewrite] files/01-basic-x-pattern-x-pattern-result.json (106 bytes)
+[filewrite] files/01-basic-x-pattern-x-pattern-messages.json (2 bytes)

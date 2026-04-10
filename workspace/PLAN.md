@@ -749,10 +749,10 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 
 | #   | Task                                          | Source                                                            | Studied |
 | --- | --------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.referenceGeometry`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.changeReferenceGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.unlinkReferenceGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 4   | Api study of `sketch.setReferences`           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.referenceGeometry`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 2   | Api study of `sketch.changeReferenceGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 3   | Api study of `sketch.unlinkReferenceGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 4   | Api study of `sketch.setReferences`           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 **Task #1-4:** Reference geometry projects 3D edges/faces into a sketch for constraining. Study the docs for parameter details — these require existing 3D geometry from prior features.
 
@@ -762,9 +762,9 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 
 | #   | Task                                  | Source                                                            | Studied |
 | --- | ------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.rigidSet`        | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.linearPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.circularPattern` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.rigidSet`        | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 2   | Api study of `sketch.linearPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 3   | Api study of `sketch.circularPattern` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 4   | Api study of `sketch.mirrorPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 ---

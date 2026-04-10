@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.sketch.referenceGeometry",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"brepIds\" has a wrong id type! Provide only following id types: [\"edge-line\",\"vertex\",\"edge-arc\",\"edge-circle\"]"
+    }
+  ],
+  "maxLevel": 51
+}

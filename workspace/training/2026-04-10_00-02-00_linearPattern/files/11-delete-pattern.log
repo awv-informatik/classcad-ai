@@ -1,0 +1,5 @@
+[11] constraint: 76 dimId: 78 geomIds: [ 64, 69, 74 ]
+[11] delete constraint: maxLevel: 31
+[filewrite] files/11-delete-pattern-delete-constraint.json (38 bytes)
+[11] remaining geometry count: undefined
+[filewrite] files/11-delete-pattern-remaining-geometry.json (90 bytes)

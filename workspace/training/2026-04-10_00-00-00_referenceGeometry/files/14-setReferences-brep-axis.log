@@ -1,0 +1,11 @@
+[14] topFace: 84 frontEdge: 75 leftEdge: 78
+[14] vertex1: 63 vertex2: 65
+[14] tracker line ID: 105
+[14] baseline position: {"endPos":{"x":80,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[14] setRef with brep edge axis — maxLevel: 31 messages: []
+[14] after brep edge axis: {"endPos":{"x":80,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[14] setRef with brep vertex origin — maxLevel: 31 messages: []
+[14] after brep vertex origin: {"endPos":{"x":80,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[14] setRef with invertAxis — maxLevel: 31 messages: []
+[14] after invertAxis: {"endPos":{"x":80,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[filewrite] files/14-setReferences-brep-axis-positions.json (643 bytes)

@@ -1,0 +1,12 @@
+[08] wp1: 91 topFaceId: 84
+[08] sk1 (no planeId): 97
+[08] line position before setReferences: {"endPos":{"x":50,"y":30,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[08] setReferences (WP) — result: null maxLevel: 31 messages: []
+[filewrite] files/08-setReferences-plane-setref-wp.json (56 bytes)
+[08] line position after setReferences(WP): {"endPos":{"x":50,"y":30,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[08] setReferences (face) — result: null maxLevel: 31 messages: []
+[filewrite] files/08-setReferences-plane-setref-face.json (56 bytes)
+[08] line position after setReferences(face): {"endPos":{"x":50,"y":30,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[08] setReferences (invertPlane) — result: null maxLevel: 31 messages: []
+[filewrite] files/08-setReferences-plane-setref-invert.json (56 bytes)
+[filewrite] files/08-setReferences-plane-positions-comparison.json (458 bytes)

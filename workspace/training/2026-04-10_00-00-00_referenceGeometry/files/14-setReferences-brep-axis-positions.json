@@ -1,0 +1,50 @@
+{
+  "baseline": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 40
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 40
+    }
+  },
+  "afterBrepEdgeAxis": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 40
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 40
+    }
+  },
+  "afterBrepVertexOrigin": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 40
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 40
+    }
+  },
+  "afterInvertAxis": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 40
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 40
+    }
+  }
+}

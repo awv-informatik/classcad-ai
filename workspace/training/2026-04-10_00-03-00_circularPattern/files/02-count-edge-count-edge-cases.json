@@ -1,0 +1,60 @@
+{
+  "count1": {
+    "maxLevel": 51,
+    "result": {
+      "constraint": 70,
+      "dimension": 72,
+      "geometry": [
+        68
+      ]
+    },
+    "messages": [
+      {
+        "api": "v1.sketch.circularPattern",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CP.SetSE:Division by zero!] "
+      }
+    ]
+  },
+  "count0": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.circularPattern",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  "countNeg1": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.circularPattern",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  "countFrac": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.circularPattern",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  }
+}

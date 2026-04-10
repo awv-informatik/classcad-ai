@@ -1,0 +1,8 @@
+[04a] negative xDistance: maxLevel: 31 geometry count: 3
+[filewrite] files/04-edge-cases-negative-dist-result.json (106 bytes)
+[04b] zero xDistance: maxLevel: 51 geometry count: undefined
+[filewrite] files/04-edge-cases-zero-dist-result.json (4 bytes)
+[04c] count=1,1: maxLevel: 51 result: null
+[filewrite] files/04-edge-cases-count1-full.json (262 bytes)
+[04d] no params: maxLevel: 51 result: null
+[filewrite] files/04-edge-cases-defaults-full.json (262 bytes)

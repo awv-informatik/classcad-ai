@@ -1,0 +1,17 @@
+{
+  "pattern": {
+    "constraint": 85,
+    "dimension": 87,
+    "geometry": [
+      68,
+      73,
+      78,
+      83
+    ]
+  },
+  "deleteResult": {
+    "result": null,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "result": {
+    "constraint": 95,
+    "dimension": 97,
+    "geometry": [
+      65,
+      69,
+      73,
+      77,
+      81,
+      85,
+      89,
+      93
+    ]
+  },
+  "messages": [],
+  "maxLevel": 31
+}

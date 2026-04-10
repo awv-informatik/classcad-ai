@@ -1,0 +1,6 @@
+[10a] count=0: maxLevel: 31 result: { constraint: 66, dimensions: [ null, null ], geometry: [ 64 ] }
+[filewrite] files/10-count-zero-fractional-count-zero.json (162 bytes)
+[10b] count=2.5: maxLevel: 31 geometry: 2
+[filewrite] files/10-count-zero-fractional-count-fractional.json (170 bytes)
+[10c] count=-2: maxLevel: 31 result: { constraint: 77, dimensions: [ null, null ], geometry: [ 64 ] }
+[filewrite] files/10-count-zero-fractional-count-negative.json (162 bytes)

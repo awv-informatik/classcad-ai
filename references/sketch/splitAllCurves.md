@@ -22,7 +22,7 @@ Does not modify visible geometry. It creates an internal `SplittedCurves` contai
 - **Points** are excluded. Only curves appear in the result.
 - **Empty sketch** → returns `[]` with maxLevel=31.
 
-Result ordering is **deterministic**: segments are grouped by original curve in creation order, then by part number (`_part0`, `_part1`, ...) within each curve.
+Result ordering is **deterministic**: segments are grouped by original curve in **creation order** (the order you called the curve-creation APIs), then by part number (`_part0`, `_part1`, ...) within each curve. If you created a line first and a circle second, the line's segments appear before the circle's segments in the result array.
 
 ## Segment Naming Convention
 

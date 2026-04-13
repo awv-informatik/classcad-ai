@@ -112,8 +112,8 @@ Added Ø26 (r=13) as third concentric circle at hub center. All three hub rings 
 
 Script: `scripts/05-bracket-complete.mjs` — ✅ All geometry, constraints, and dimensions.
 
-| ![result](files/05-bracket-complete-bracket-complete-sketch-Sketch.png) |
-| ----------------------------------------------------------------------- |
+| ![result](files/06-bracket-clean-bracket-clean-sketch-Sketch.png) |
+| ----------------------------------------------------------------- |
 
 **Added constraints (12):**
 

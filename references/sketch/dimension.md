@@ -152,6 +152,30 @@ Dimensions appear as child nodes under the sketch's `CC_SketchDimensionSet`:
 | NullMem evaluation error | ANGLE between parallel lines, or same line twice | Lines must be non-parallel and distinct |
 | "parameter reflex has wrong type" | `reflex: 'TRUE'` (string) | Use boolean `true`/`false`, not strings |
 
+## Practical Patterns
+
+### Distance Between Circle Centers
+
+HORIZONTAL_DISTANCE and VERTICAL_DISTANCE with 2 geomIds require both to be **points**. To dimension the distance between two circle centers, extract center point IDs first:
+
+```js
+const centerA = (await api.v1.sketch.getPoints({ id: circleA })).result.centerId
+const centerB = (await api.v1.sketch.getPoints({ id: circleB })).result.centerId
+await api.v1.sketch.dimension({
+  id: skId, type: 'HORIZONTAL_DISTANCE', geomIds: [centerA, centerB]
+})
+```
+
+This also works for mixing circle centers with line endpoints (from `getPoints` on a line → `startId`/`endId`).
+
+### ANGLE Between Non-Intersecting Lines
+
+ANGLE does **not** require lines to intersect — only that they are non-parallel and distinct. The solver extends both lines to find their virtual intersection and measures the angle there. Confirmed working with lines in completely different parts of the sketch (e.g., a bottom tangent line and a distant arm wall).
+
+### OFFSET Between Parallel Non-Intersecting Lines
+
+OFFSET with 2 parallel lines measures the perpendicular distance between them, even if the lines don't share endpoints or overlap in projection. Useful for measuring arm/slot widths defined by two offset parallel walls.
+
 ## Related
 
 - `sketch.constraint` — geometric (non-dimensional) constraints

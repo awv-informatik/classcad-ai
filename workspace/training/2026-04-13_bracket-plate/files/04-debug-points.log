@@ -1,0 +1,7 @@
+[04] line: 58 circle: 66
+[04] line getPoints result: {"endId":60,"startId":59}
+[04] line getPoints maxLevel: 31
+[04] circle getPoints result: {"centerId":67}
+[04] circle getPoints maxLevel: 31
+[04] sketch getPoints result: null
+[04] sketch geometry: {"arcs":[],"circles":[66],"lines":[58],"points":[]}

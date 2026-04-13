@@ -1,0 +1,10 @@
+[09] lines: [ 58, 66, 74 ] circle: 84
+[09] HORIZONTAL: 87 maxLevel: 31
+[09] VERTICAL: 89 maxLevel: 31
+[09] PERPENDICULAR: 91 maxLevel: 31
+[09] PARALLEL: 93 maxLevel: 31
+[09] EQUAL_LENGTH: 95 maxLevel: 31
+[09] FIXATION: 97 maxLevel: 31
+[filewrite] files/09-dump-constraints-constraint-nodes.json (10596 bytes)
+[09] all classes: AllObjects, CC_2DCoincidentConstraint, CC_2DEqualLengthConstraint, CC_2DFixationConstraint, CC_2DHorizontalConstraint, CC_2DParallelConstraint, CC_2DPerpendicularConstraint, CC_2DVerticalConstraint, CC_Circle, CC_DimensionSet, CC_EntitySet, CC_ExpressionSet, CC_GeometrySet, CC_Line, CC_OperationSequence, CC_Part, CC_Point, CC_ReferenceSet, CC_RollbackBar, CC_Sketch, CC_SketchDimensionSet, CC_SketchReference, CC_SketchSet, CC_WorkAxis, CC_WorkAxisReference, CC_WorkPlane, CC_WorkPlaneReference, CC_WorkPoint, CC_WorkPointReference
+[filewrite] files/09-dump-constraints-sketch-node.json (2190 bytes)

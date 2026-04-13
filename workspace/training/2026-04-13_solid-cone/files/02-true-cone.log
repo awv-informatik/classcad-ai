@@ -1,0 +1,4 @@
+[02] tDiameter=0.1 result: 61 maxLevel: 31
+[02] tDiameter=0 result: 66 maxLevel: 31
+[02] tDiameter=0 messages: []
+[filewrite] files/02-true-cone-true-cone-results.json (139 bytes)

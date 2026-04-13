@@ -1,0 +1,26 @@
+[02] ✓ D1 Ø38 hub outer: expected=38, actual=38.0000
+[02] ✓ D2 Ø25 bore: expected=25, actual=25.0000
+[02] D3 Ø26: UNRESOLVED — not modeled
+[02] ✓ D4 Ø17 BL boss: expected=17, actual=17.0000
+[02] ✓ D4 Ø17 BR boss: expected=17, actual=17.0000
+[02] ✓ D4 Ø17 T boss: expected=17, actual=17.0000
+[02] ✓ D5 Ø6.6 holes: expected=6.6, actual=6.6000
+[02] ✓ D6 48 left: expected=48, actual=48.0000
+[02] ✓ D7 48 right: expected=48, actual=48.0000
+[02] ✓ D8 49.73 bottom-to-top: expected=49.73, actual=49.7300
+[02] ✓ D9 20.5 bottom-to-hub: expected=20.5, actual=20.5000
+[02] ✓ D10 6.75 top offset: expected=6.75, actual=6.7500
+[02] ✓ D11 13° top angle: expected=13, actual=13.0032
+[02] ✓ D12 14° left: expected=14, actual=14.0362
+[02] ✓ D13 14° right: expected=14, actual=14.0362
+[02] ✓ D14 arm width (top): expected=2, actual=2.0000
+[02] ✓ D15 arm width (left): expected=2, actual=2.0000
+[02] ✓ D16 arm width (right): expected=2, actual=2.0000
+[02] Hub→BL: 49.48, Hub→BR: 49.48, Hub→T: 30.00
+[02] Gap BL: 21.98, BR: 21.98, T: 2.50
+[02] Arm BL: length=22.06
+[02] Arm BR: length=22.06
+[02] Arm T: length=2.58
+
+[02] RESULT: 17 passed, 0 failed out of 17
+[filewrite] files/02-verify-dims-dimension-checks.json (2019 bytes)

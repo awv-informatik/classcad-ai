@@ -22,8 +22,8 @@ import { renderIsometric, savePNG } from './render.mjs'
 import { renderSession } from './render-direct.mjs'
 import { v1 } from '@classcad/api-js'
 
-const IMG_W = 800
-const IMG_H = 600
+const IMG_W = 1600
+const IMG_H = 1200
 
 function parseArgs(argv) {
   const args = argv.slice(2)

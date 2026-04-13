@@ -1,0 +1,534 @@
+{
+  "62": {
+    "name": "Auto_Fix",
+    "class": "CC_2DFixationConstraint",
+    "id": 62,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "entities": {
+        "members": [
+          {
+            "value": 59,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2004_2_20_9:22",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    }
+  },
+  "64": {
+    "name": "Auto_H",
+    "class": "CC_2DHorizontalConstraint",
+    "id": 64,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:13",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 58,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "70": {
+    "name": "Auto_Coinc",
+    "class": "CC_2DCoincidentConstraint",
+    "id": 70,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "0/2002_6_7_18:51",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 67,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 60,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "72": {
+    "name": "Auto_V",
+    "class": "CC_2DVerticalConstraint",
+    "id": 72,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:16",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 66,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "78": {
+    "name": "Auto_Fix0",
+    "class": "CC_2DFixationConstraint",
+    "id": 78,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "entities": {
+        "members": [
+          {
+            "value": 75,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2004_2_20_9:22",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    }
+  },
+  "80": {
+    "name": "Auto_Coinc0",
+    "class": "CC_2DCoincidentConstraint",
+    "id": 80,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "0/2002_6_7_18:51",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 75,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 59,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "82": {
+    "name": "Auto_V0",
+    "class": "CC_2DVerticalConstraint",
+    "id": 82,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:16",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 74,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "87": {
+    "name": "H",
+    "class": "CC_2DHorizontalConstraint",
+    "id": 87,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:13",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 58,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "89": {
+    "name": "V",
+    "class": "CC_2DVerticalConstraint",
+    "id": 89,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:16",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 66,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "91": {
+    "name": "Perp",
+    "class": "CC_2DPerpendicularConstraint",
+    "id": 91,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:14",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 58,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 66,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "93": {
+    "name": "Par",
+    "class": "CC_2DParallelConstraint",
+    "id": 93,
+    "flags": 4096,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:13",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 66,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 74,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "95": {
+    "name": "EL",
+    "class": "CC_2DEqualLengthConstraint",
+    "id": 95,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:12",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": 4,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 67,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 68,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 75,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 76,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "97": {
+    "name": "Fix",
+    "class": "CC_2DFixationConstraint",
+    "id": 97,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "entities": {
+        "members": [
+          {
+            "value": 58,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2004_2_20_9:22",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    }
+  }
+}

@@ -14,8 +14,8 @@
 
 import sharp from 'sharp'
 
-const IMG_W = 800
-const IMG_H = 600
+const IMG_W = 1600
+const IMG_H = 1200
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Projection & Transform
@@ -298,6 +298,394 @@ function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
 
 
 // ═══════════════════════════════════════════════════════════════════════════
+// DIMENSION EXTRACTION — from structure tree
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Extract dimension data from the structure tree for a given sketch.
+ * Walks the tree looking for CC_SketchDimensionSet with owner === sketchId,
+ * then collects all CC_*FeatureDimension children.
+ */
+export function extractDimensions(tree, sketchId) {
+  const dims = []
+
+  // Find the CC_SketchDimensionSet that owns this sketch
+  let dimSetId = null
+  for (const [id, obj] of Object.entries(tree)) {
+    if (obj.class === 'CC_SketchDimensionSet' && obj.members?.owner?.value === sketchId) {
+      dimSetId = Number(id)
+      break
+    }
+  }
+  if (dimSetId == null) return dims
+
+  const dimSet = tree[String(dimSetId)]
+  for (const childId of (dimSet.children || [])) {
+    const obj = tree[String(childId)]
+    if (!obj) continue
+    const m = obj.members || {}
+
+    if (obj.class === 'CC_LinearFeatureDimension') {
+      const startPt = m.startPt?.value
+      const endPt = m.endPt?.value
+      const angle = m.angle?.value ?? 0
+      const orientationType = m.orientationType?.value ?? 2
+      const dimPt = m.dimPt?.value
+      // Compute value from geometry
+      if (startPt && endPt) {
+        const dx = endPt.x - startPt.x, dy = endPt.y - startPt.y
+        const value = Math.abs(dx * Math.cos(angle) + dy * Math.sin(angle))
+        dims.push({ kind: 'linear', startPt, endPt, angle, orientationType, dimPt, value })
+      }
+    } else if (obj.class === 'CC_RadialFeatureDimension') {
+      const center = m.center?.value
+      const radius = m.radius?.value ?? m.value?.value
+      const dimPt = m.dimPt?.value
+      if (center != null && radius != null) {
+        dims.push({ kind: 'radial', center, radius, value: radius, dimPt })
+      }
+    } else if (obj.class === 'CC_DiameterFeatureDimension') {
+      const center = m.center?.value
+      const radius = m.radius?.value
+      const dimPt = m.dimPt?.value
+      if (center != null && radius != null) {
+        dims.push({ kind: 'diameter', center, radius, value: 2 * radius, dimPt })
+      }
+    } else if (obj.class === 'CC_AngularFeatureDimension') {
+      const startPt = m.startPt?.value
+      const endPt = m.endPt?.value
+      const cornerPt = m.cornerPt?.value
+      const ccw = m.ccw?.value ?? 1
+      const dimPt = m.dimPt?.value
+      if (startPt && endPt && cornerPt) {
+        const a0 = Math.atan2(startPt.y - cornerPt.y, startPt.x - cornerPt.x)
+        const a1 = Math.atan2(endPt.y - cornerPt.y, endPt.x - cornerPt.x)
+        let angle = a1 - a0
+        if (ccw && angle < 0) angle += 2 * Math.PI
+        if (!ccw && angle > 0) angle -= 2 * Math.PI
+        dims.push({ kind: 'angular', startPt, endPt, cornerPt, ccw, value: Math.abs(angle) * 180 / Math.PI, dimPt })
+      }
+    }
+  }
+  return dims
+}
+
+/**
+ * Render dimension annotations as SVG elements.
+ * @param {Array} dims — from extractDimensions()
+ * @param {Function} xf — viewTransform function (world → screen)
+ * @returns {string} SVG elements string
+ */
+function renderDimensionsSVG(dims, xf) {
+  let svg = ''
+  const DIM_COLOR = '#555'
+  const EXT_COLOR = '#999'
+  const ARROW_LEN = 10
+  const EXT_GAP = 5  // gap between geometry and extension line start (screen px)
+  const EXT_OVERSHOOT = 6  // overshoot past dimension line (screen px)
+
+  for (const dim of dims) {
+    if (dim.kind === 'linear') {
+      svg += _renderLinearDim(dim, xf, DIM_COLOR, EXT_COLOR, ARROW_LEN, EXT_GAP, EXT_OVERSHOOT)
+    } else if (dim.kind === 'radial') {
+      svg += _renderRadialDim(dim, xf, DIM_COLOR, ARROW_LEN, 'R')
+    } else if (dim.kind === 'diameter') {
+      svg += _renderRadialDim(dim, xf, DIM_COLOR, ARROW_LEN, '⌀')
+    } else if (dim.kind === 'angular') {
+      svg += _renderAngularDim(dim, xf, DIM_COLOR)
+    }
+  }
+  return svg
+}
+
+function _renderLinearDim(dim, xf, color, extColor, arrowLen, extGap, extOver) {
+  const { startPt, endPt, angle, dimPt, value } = dim
+
+  // Transform measurement points to screen
+  const [sx1, sy1] = xf(startPt.x, startPt.y)
+  const [sx2, sy2] = xf(endPt.x, endPt.y)
+
+  // Dimension direction (along measurement) and perpendicular
+  const dirX = Math.cos(angle), dirY = Math.sin(angle)
+  // In screen space, Y is flipped
+  const perpX = -dirY, perpY = dirX  // perpendicular in world space
+
+  // Determine dimension line offset from geometry
+  // Use dimPt if available, otherwise auto-offset
+  let dimLineY  // offset distance in screen coords along perpendicular
+  if (dimPt) {
+    const [dx, dy] = xf(dimPt.x, dimPt.y)
+    // Project dimPt onto the perpendicular direction from the midpoint
+    const midSx = (sx1 + sx2) / 2, midSy = (sy1 + sy2) / 2
+    // Use dimPt directly as the label position
+    const [dimSx, dimSy] = [dx, dy]
+
+    // Compute the dimension line endpoints — project measurement points along perpendicular to dimPt level
+    // For H_DIST (orientationType=1): dimension line is horizontal at dimPt.y
+    // For V_DIST (orientationType=0): dimension line is vertical at dimPt.x
+    // For OFFSET (orientationType=2): dimension line is parallel to measured line at dimPt offset
+
+    let d1, d2, labelPos
+    if (dim.orientationType === 1) {
+      // HORIZONTAL_DISTANCE — horizontal dim line at dimPt.y
+      d1 = xf(startPt.x, dimPt.y)
+      d2 = xf(endPt.x, dimPt.y)
+      labelPos = [dx, dy]
+    } else if (dim.orientationType === 0) {
+      // VERTICAL_DISTANCE — vertical dim line at dimPt.x
+      d1 = xf(dimPt.x, startPt.y)
+      d2 = xf(dimPt.x, endPt.y)
+      labelPos = [dx, dy]
+    } else {
+      // OFFSET — parallel to measurement direction at dimPt offset
+      d1 = xf(startPt.x + (dimPt.y - startPt.y) * perpX / (perpY || 1) * 0,
+              dimPt.y)
+      // Simpler: project start/end onto a line through dimPt perpendicular to angle
+      const offsetDist = (dimPt.x - startPt.x) * (-dirY) + (dimPt.y - startPt.y) * dirX
+      d1 = xf(startPt.x + offsetDist * (-dirY), startPt.y + offsetDist * dirX)
+      d2 = xf(endPt.x + offsetDist * (-dirY), endPt.y + offsetDist * dirX)
+      labelPos = [dx, dy]
+    }
+
+    const svg = _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, extColor, arrowLen, extGap, extOver)
+    return svg
+  }
+
+  // Fallback: auto-offset 20px perpendicular to the line
+  const offset = 20
+  const psx = perpX * offset, psy = -perpY * offset  // screen-space perpendicular (Y flipped)
+  const d1 = [sx1 + psx, sy1 + psy]
+  const d2 = [sx2 + psx, sy2 + psy]
+  const labelPos = [(d1[0] + d2[0]) / 2, (d1[1] + d2[1]) / 2]
+  return _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, extColor, arrowLen, extGap, extOver)
+}
+
+function _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, extColor, arrowLen, extGap, extOver) {
+  let svg = ''
+
+  // Extension lines from geometry points to dimension line endpoints
+  // With gap at geometry end and overshoot past dimension line
+  const ext1Dir = [d1[0] - sx1, d1[1] - sy1]
+  const ext1Len = Math.sqrt(ext1Dir[0] ** 2 + ext1Dir[1] ** 2)
+  if (ext1Len > 1) {
+    const nx = ext1Dir[0] / ext1Len, ny = ext1Dir[1] / ext1Len
+    svg += `<line x1="${(sx1 + nx * extGap).toFixed(1)}" y1="${(sy1 + ny * extGap).toFixed(1)}" x2="${(d1[0] + nx * extOver).toFixed(1)}" y2="${(d1[1] + ny * extOver).toFixed(1)}" stroke="${extColor}" stroke-width="0.5"/>\n`
+  }
+  const ext2Dir = [d2[0] - sx2, d2[1] - sy2]
+  const ext2Len = Math.sqrt(ext2Dir[0] ** 2 + ext2Dir[1] ** 2)
+  if (ext2Len > 1) {
+    const nx = ext2Dir[0] / ext2Len, ny = ext2Dir[1] / ext2Len
+    svg += `<line x1="${(sx2 + nx * extGap).toFixed(1)}" y1="${(sy2 + ny * extGap).toFixed(1)}" x2="${(d2[0] + nx * extOver).toFixed(1)}" y2="${(d2[1] + ny * extOver).toFixed(1)}" stroke="${extColor}" stroke-width="0.5"/>\n`
+  }
+
+  // Dimension line with arrowheads
+  svg += `<line x1="${d1[0].toFixed(1)}" y1="${d1[1].toFixed(1)}" x2="${d2[0].toFixed(1)}" y2="${d2[1].toFixed(1)}" stroke="${color}" stroke-width="1"/>\n`
+
+  // Arrowheads
+  const dx = d2[0] - d1[0], dy = d2[1] - d1[1]
+  const len = Math.sqrt(dx * dx + dy * dy)
+  if (len > 2 * arrowLen) {
+    const ux = dx / len, uy = dy / len
+    const px = -uy, py = ux  // perpendicular
+    // Arrow at d1 (pointing toward d1)
+    svg += `<polygon points="${d1[0].toFixed(1)},${d1[1].toFixed(1)} ${(d1[0] + ux * arrowLen + px * 2.5).toFixed(1)},${(d1[1] + uy * arrowLen + py * 2.5).toFixed(1)} ${(d1[0] + ux * arrowLen - px * 2.5).toFixed(1)},${(d1[1] + uy * arrowLen - py * 2.5).toFixed(1)}" fill="${color}"/>\n`
+    // Arrow at d2 (pointing toward d2)
+    svg += `<polygon points="${d2[0].toFixed(1)},${d2[1].toFixed(1)} ${(d2[0] - ux * arrowLen + px * 2.5).toFixed(1)},${(d2[1] - uy * arrowLen + py * 2.5).toFixed(1)} ${(d2[0] - ux * arrowLen - px * 2.5).toFixed(1)},${(d2[1] - uy * arrowLen - py * 2.5).toFixed(1)}" fill="${color}"/>\n`
+  }
+
+  // Value text with white background
+  const text = _formatValue(value)
+  const textWidth = text.length * 10.5 + 6
+  svg += `<rect x="${(labelPos[0] - textWidth / 2).toFixed(1)}" y="${(labelPos[1] - 11).toFixed(1)}" width="${textWidth.toFixed(1)}" height="22" fill="white" rx="3"/>\n`
+  svg += `<text x="${labelPos[0].toFixed(1)}" y="${(labelPos[1] + 6).toFixed(1)}" text-anchor="middle" fill="${color}" font-family="sans-serif" font-size="18" font-weight="bold">${text}</text>\n`
+
+  return svg
+}
+
+function _renderRadialDim(dim, xf, color, arrowLen, prefix) {
+  const { center, radius, value, dimPt } = dim
+  let svg = ''
+
+  const [cx, cy] = xf(center.x, center.y)
+
+  // Leader direction: toward dimPt if available, otherwise 45°
+  let angle = Math.PI / 4
+  if (dimPt) {
+    const [dx, dy] = xf(dimPt.x, dimPt.y)
+    angle = Math.atan2(cy - dy, dx - cx)  // screen Y is flipped
+  }
+
+  // Point on circumference
+  const circumPt = xf(center.x + radius * Math.cos(angle), center.y + radius * Math.sin(angle))
+
+  // Leader extends outward from circumference
+  const leaderLen = 30
+  const ux = Math.cos(angle), uy = -Math.sin(angle)  // screen Y flipped
+  const leaderEnd = [circumPt[0] + ux * leaderLen, circumPt[1] + uy * leaderLen]
+
+  // Leader line
+  svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${leaderEnd[0].toFixed(1)}" y2="${leaderEnd[1].toFixed(1)}" stroke="${color}" stroke-width="1"/>\n`
+
+  // Arrow at circumference
+  const px = -uy, py = ux
+  svg += `<polygon points="${circumPt[0].toFixed(1)},${circumPt[1].toFixed(1)} ${(circumPt[0] + ux * arrowLen + px * 2.5).toFixed(1)},${(circumPt[1] + uy * arrowLen + py * 2.5).toFixed(1)} ${(circumPt[0] + ux * arrowLen - px * 2.5).toFixed(1)},${(circumPt[1] + uy * arrowLen - py * 2.5).toFixed(1)}" fill="${color}"/>\n`
+
+  // Text at end of leader
+  const text = `${prefix}${_formatValue(value)}`
+  const textWidth = text.length * 10.5 + 6
+  const textX = leaderEnd[0] + (ux > 0 ? textWidth / 2 + 2 : -textWidth / 2 - 2)
+  svg += `<rect x="${(textX - textWidth / 2).toFixed(1)}" y="${(leaderEnd[1] - 11).toFixed(1)}" width="${textWidth.toFixed(1)}" height="22" fill="white" rx="3"/>\n`
+  svg += `<text x="${textX.toFixed(1)}" y="${(leaderEnd[1] + 6).toFixed(1)}" text-anchor="middle" fill="${color}" font-family="sans-serif" font-size="18" font-weight="bold">${text}</text>\n`
+
+  return svg
+}
+
+function _renderAngularDim(dim, xf, color) {
+  const { startPt, endPt, cornerPt, value, dimPt } = dim
+  let svg = ''
+
+  const [cx, cy] = xf(cornerPt.x, cornerPt.y)
+  const [sx, sy] = xf(startPt.x, startPt.y)
+  const [ex, ey] = xf(endPt.x, endPt.y)
+
+  // Draw arc at a fixed radius from corner
+  const arcRadius = 25  // screen pixels
+  const a0 = Math.atan2(-(sy - cy), sx - cx)  // screen Y flipped
+  const a1 = Math.atan2(-(ey - cy), ex - cx)
+
+  let sweep = a1 - a0
+  if (sweep < 0) sweep += 2 * Math.PI
+  if (sweep > Math.PI) sweep = sweep - 2 * Math.PI
+
+  const pts = []
+  const n = 32
+  for (let i = 0; i <= n; i++) {
+    const a = a0 + sweep * i / n
+    pts.push([cx + arcRadius * Math.cos(a), cy - arcRadius * Math.sin(a)])
+  }
+
+  svg += `<polyline points="${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke="${color}" stroke-width="1"/>\n`
+
+  // Text at arc midpoint
+  const midA = a0 + sweep / 2
+  const textR = arcRadius + 12
+  const textX = cx + textR * Math.cos(midA)
+  const textY = cy - textR * Math.sin(midA)
+  const text = `${_formatValue(value)}°`
+  const textWidth = text.length * 10.5 + 6
+  svg += `<rect x="${(textX - textWidth / 2).toFixed(1)}" y="${(textY - 11).toFixed(1)}" width="${textWidth.toFixed(1)}" height="22" fill="white" rx="3"/>\n`
+  svg += `<text x="${textX.toFixed(1)}" y="${(textY + 6).toFixed(1)}" text-anchor="middle" fill="${color}" font-family="sans-serif" font-size="18" font-weight="bold">${text}</text>\n`
+
+  return svg
+}
+
+function _formatValue(v) {
+  if (v == null) return '?'
+  // Show integer if close to one, otherwise 1 decimal
+  return Math.abs(v - Math.round(v)) < 0.01 ? String(Math.round(v)) : v.toFixed(1)
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONSTRAINT EXTRACTION — from structure tree
+// ═══════════════════════════════════════════════════════════════════════════
+
+const CONSTRAINT_SYMBOLS = {
+  Horizontal: 'H',
+  Vertical: 'V',
+  Perpendicular: '⊥',
+  Parallel: '∥',
+  EqualLength: '=',
+  EqualRadius: '=',
+  Tangent: 'T',
+  Concentric: '⊙',
+  Coincident: '•',
+  Fixation: '⚓',
+  Midpoint: 'M',
+  Symmetry: 'S',
+  Colinear: '⫽',
+}
+
+/**
+ * Extract constraint data from the structure tree for a given sketch.
+ * Skips auto-generated constraints (name starts with "Auto_").
+ */
+export function extractConstraints(tree, sketchId) {
+  const constraints = []
+
+  for (const [id, obj] of Object.entries(tree)) {
+    if (obj.parent !== sketchId) continue
+    if (!obj.class?.startsWith('CC_2D') || !obj.class?.endsWith('Constraint')) continue
+    // Skip auto-generated constraints (from genFixation, genIncidence, genTangency, genVertAndHoriz)
+    // and fillet-generated constraints. Only show user-created constraints.
+    if (obj.name?.startsWith('Auto_')) continue
+    if (obj.flags === 0) continue  // auto-generated constraints typically have flags=0
+
+    // Extract type from class: CC_2D{Type}Constraint → Type
+    const typeMatch = obj.class.match(/^CC_2D(.+)Constraint$/)
+    if (!typeMatch) continue
+    const type = typeMatch[1]
+
+    // Extract entity IDs
+    const entities = (obj.members?.entities?.members || [])
+      .map(m => m.value)
+      .filter(v => v != null)
+
+    const symbol = CONSTRAINT_SYMBOLS[type] || type.charAt(0)
+    constraints.push({ type, symbol, entities, name: obj.name, id: Number(id) })
+  }
+
+  return constraints
+}
+
+/**
+ * Render constraint badges as SVG elements.
+ * Places small labeled pills near the midpoint of constrained geometry.
+ */
+function renderConstraintsSVG(constraints, xf, posMap) {
+  if (!constraints.length) return ''
+  let svg = ''
+
+  const BADGE_COLOR = '#448844'
+  const BADGE_BG = 'rgba(68, 136, 68, 0.15)'
+  const FONT_SIZE = 9
+
+  // Group constraints by their first entity to stack badges
+  const byEntity = {}
+  for (const c of constraints) {
+    const primaryEntity = c.entities[0]
+    if (primaryEntity == null) continue
+    if (!byEntity[primaryEntity]) byEntity[primaryEntity] = []
+    byEntity[primaryEntity].push(c)
+  }
+
+  for (const [entityId, cList] of Object.entries(byEntity)) {
+    const pos = posMap[entityId]
+    if (!pos?.midpoint) continue
+
+    const [sx, sy] = xf(pos.midpoint.x, pos.midpoint.y)
+
+    // Stack badges vertically, offset from geometry
+    for (let i = 0; i < cList.length; i++) {
+      const c = cList[i]
+      const bx = sx + 8
+      const by = sy - 8 - i * 14
+
+      const text = c.symbol
+      const textWidth = Math.max(text.length * 6, 10) + 6
+
+      // Rounded pill background
+      svg += `<rect x="${(bx - textWidth / 2).toFixed(1)}" y="${(by - 6).toFixed(1)}" width="${textWidth.toFixed(1)}" height="12" rx="6" fill="${BADGE_BG}" stroke="${BADGE_COLOR}" stroke-width="0.5"/>\n`
+      // Symbol text
+      svg += `<text x="${bx.toFixed(1)}" y="${(by + 3).toFixed(1)}" text-anchor="middle" fill="${BADGE_COLOR}" font-family="sans-serif" font-size="${FONT_SIZE}" font-weight="bold">${text}</text>\n`
+    }
+  }
+
+  return svg
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
 // SKETCH RENDERER — from API queries
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -311,10 +699,20 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
   const geom = (await execute({ 'v1.sketch.getGeometry': [{ id: sketchId }] })).result
   if (!geom) return null
   const items = []
+  const posMap = {}  // geomId → { midpoint: {x, y} } for constraint rendering
 
   for (const lineId of (geom.lines || [])) {
     const pos = (await execute({ 'v1.sketch.getPositions': [{ id: lineId }] })).result
-    if (pos) items.push({ type: 'line', startPos: pos.startPos, endPos: pos.endPos })
+    if (pos) {
+      items.push({ type: 'line', startPos: pos.startPos, endPos: pos.endPos })
+      posMap[lineId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
+      // Also map endpoint IDs if available via getPoints
+      const pts = (await execute({ 'v1.sketch.getPoints': [{ id: lineId }] })).result
+      if (pts) {
+        posMap[pts.startId] = { midpoint: pos.startPos }
+        posMap[pts.endId] = { midpoint: pos.endPos }
+      }
+    }
   }
 
   for (const circleId of (geom.circles || [])) {
@@ -327,22 +725,36 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
     const radiusMember = obj?.members?.Radius || obj?.members?.radius
     const radius = radiusMember?.value ?? null
     items.push({ type: 'circle', center: centerPos.pos, radius })
+    posMap[circleId] = { midpoint: centerPos.pos }
+    posMap[pts.centerId] = { midpoint: centerPos.pos }
   }
 
   for (const arcId of (geom.arcs || [])) {
     const pos = (await execute({ 'v1.sketch.getPositions': [{ id: arcId }] })).result
-    if (pos) items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos })
+    if (pos) {
+      items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos })
+      posMap[arcId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
+      const pts = (await execute({ 'v1.sketch.getPoints': [{ id: arcId }] })).result
+      if (pts) {
+        if (pts.startId) posMap[pts.startId] = { midpoint: pos.startPos }
+        if (pts.endId) posMap[pts.endId] = { midpoint: pos.endPos }
+        if (pts.centerId) posMap[pts.centerId] = { midpoint: pos.centerPos }
+      }
+    }
   }
 
   for (const ptId of (geom.points || [])) {
     const pos = (await execute({ 'v1.sketch.getPositions': [{ id: ptId }] })).result
-    if (pos?.pos) items.push({ type: 'point', pos: pos.pos })
+    if (pos?.pos) {
+      items.push({ type: 'point', pos: pos.pos })
+      posMap[ptId] = { midpoint: pos.pos }
+    }
   }
 
-  return items
+  return { items, posMap }
 }
 
-function renderSketchSVG(items, width = IMG_W, height = IMG_H) {
+function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], constraints = [], posMap = {}) {
   const allPts2d = []
   const drawOps = []
 
@@ -383,15 +795,26 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H) {
   for (const op of drawOps) {
     if (op.kind === 'line') {
       const [s, e] = op.pts.map(p => xf(p[0], p[1]))
-      svg += `<line x1="${s[0].toFixed(1)}" y1="${s[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}" stroke="#0044aa" stroke-width="2"/>\n`
+      svg += `<line x1="${s[0].toFixed(1)}" y1="${s[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}" stroke="#0044aa" stroke-width="3"/>\n`
     } else if (op.kind === 'polyline') {
       const pts = op.pts.map(p => xf(p[0], p[1]))
-      svg += `<polyline points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${op.color||'#0044aa'}" stroke-width="2"/>\n`
+      svg += `<polyline points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${op.color||'#0044aa'}" stroke-width="3"/>\n`
     } else if (op.kind === 'point') {
       const [px, py] = xf(op.pos[0], op.pos[1])
-      svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3" fill="#cc0000"/>\n`
+      svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="#cc0000"/>\n`
     }
   }
+
+  // Dimension annotations (rendered on top of geometry)
+  if (dimensions.length > 0) {
+    svg += renderDimensionsSVG(dimensions, xf)
+  }
+
+  // Constraint badges (rendered on top of everything)
+  if (constraints.length > 0) {
+    svg += renderConstraintsSVG(constraints, xf, posMap)
+  }
+
   svg += '</svg>'
   return svg
 }
@@ -751,13 +1174,17 @@ export async function renderSession(client, prefix, outDir, options = {}) {
   // ── SKETCHES ──
   for (const sketchId of content.sketches) {
     try {
-      const items = await fetchSketchData(
+      const sketchData = await fetchSketchData(
         (task) => execute(task),
         sketchId,
         tree
       )
+      const items = sketchData?.items
+      const posMap = sketchData?.posMap || {}
       if (items && items.length > 0) {
-        const svg = renderSketchSVG(items, width, height)
+        const dimensions = extractDimensions(tree, sketchId)
+        const constraints = extractConstraints(tree, sketchId)
+        const svg = renderSketchSVG(items, width, height, dimensions, constraints, posMap)
         if (svg) {
           const sketchName = tree[String(sketchId)]?.name || `sketch-${sketchId}`
           const safeName = sketchName.replace(/[^a-zA-Z0-9_-]/g, '_')

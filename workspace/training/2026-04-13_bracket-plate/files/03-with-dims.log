@@ -1,0 +1,26 @@
+[03] lines: [
+  58,  64,  72,  82,
+  92, 100, 108, 116
+]
+[03] fillet1: [ 128, 126, 130, 129 ] fillet2: [ 147, 145, 149, 148 ]
+[03] holes: 164 167
+[03] upper hole center pt: undefined
+[03] lower hole center pt: undefined
+[03] top-left pt: undefined
+[03] left notch top pt: undefined
+[03] bottom-left pt: undefined
+[03] bottom-right pt: undefined
+[03] notch bottom pt: undefined
+[03] dim top-width: 172 maxLevel: 31
+[03] dim right-height: 176 maxLevel: 31
+[03] dim bottom-width: 180 maxLevel: 31
+[03] dim left-bottom=25: 184 maxLevel: 31
+[03] dim left-top=20: 188 maxLevel: 31
+[03] dim notch-depth=20: 192 maxLevel: 31
+[03] dim hole1-X=30: null maxLevel: 51
+[03] dim hole1-Y=20: null maxLevel: 51
+[03] dim hole2-Y=10: null maxLevel: 51
+[03] dim fillet1-R10: 196 maxLevel: 31
+[03] dim fillet2-R10: 200 maxLevel: 31
+[03] dim hole1-R5: 204 maxLevel: 31
+[03] dim hole2-R5: 208 maxLevel: 31

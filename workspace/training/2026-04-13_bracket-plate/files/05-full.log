@@ -1,0 +1,11 @@
+[05] pts: { h1center: 165, h2center: 168, topLeftPt: 59, botLeftPt: 83 }
+[05] top-width: 172 31
+[05] bot-width: 176 31
+[05] left-top=20: 180 31
+[05] left-bot=25: 184 31
+[05] hole1-X=30: 188 31
+[05] hole1-Y=20: 192 31
+[05] hole2-Y=10: 196 31
+[05] fillet-R: 200 204
+[05] hole-R: 208 212
+[05] notch-bottom-len: 216 31

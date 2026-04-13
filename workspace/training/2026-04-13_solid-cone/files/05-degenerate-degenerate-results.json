@@ -1,0 +1,22 @@
+{
+  "zeroHeight": {
+    "result": 61,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "negHeight": {
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "negBDiam": {
+    "result": 67,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "bothZero": {
+    "result": 70,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

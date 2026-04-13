@@ -806,8 +806,8 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 | 1   | Api study of `solid.box`                                            | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
 | 2   | Api study of `solid.sphere`                                         | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
 | 3   | Api study of `solid.cylinder`                                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
-| 4   | Api study of `solid.cone`                                           | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 5   | Study: common parameters — `rotation`, `translation`, `rotateFirst` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 4   | Api study of `solid.cone`                                           | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 5   | Study: common parameters — `rotation`, `translation`, `rotateFirst` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
 
 **Task #1-4: Primitive solids**
 

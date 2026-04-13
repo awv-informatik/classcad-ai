@@ -1,0 +1,4 @@
+[04] inverted frustum result: 61 maxLevel: 31
+[04] bDiameter=0 result: 66 maxLevel: 31
+[04] bDiameter=0 messages: []
+[filewrite] files/04-inverted-inverted-results.json (140 bytes)

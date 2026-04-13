@@ -1,0 +1,5 @@
+[05] height=0 result: 61 maxLevel: 31 messages: []
+[05] height=-50 result: 64 maxLevel: 31 messages: []
+[05] bDiam=-60 result: 67 maxLevel: 31 messages: []
+[05] both diam=0 result: 70 maxLevel: 31 messages: []
+[filewrite] files/05-degenerate-degenerate-results.json (317 bytes)

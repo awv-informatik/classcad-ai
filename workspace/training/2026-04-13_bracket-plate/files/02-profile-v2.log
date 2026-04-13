@@ -1,0 +1,14 @@
+[02] partId: 4 skId: 52
+[02] L0: 58 maxLevel:31
+[02] L1: 64 maxLevel:31
+[02] L2: 72 maxLevel:31
+[02] L3: 82 maxLevel:31
+[02] L4: 92 maxLevel:31
+[02] L5: 100 maxLevel:31
+[02] L6: 108 maxLevel:31
+[02] L7: 116 maxLevel:31
+[02] fillet1: [ 128, 126, 130, 129 ] maxLevel: 31
+[02] fillet2: [ 147, 145, 149, 148 ] maxLevel: 31
+[02] upper hole: 164 maxLevel: 31
+[02] lower hole: 167 maxLevel: 31
+[filewrite] files/02-profile-v2-ids.json (230 bytes)

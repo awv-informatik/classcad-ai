@@ -1,0 +1,8 @@
+[03] line ID: 58
+[03] empty ids result: null maxLevel: 31
+[filewrite] files/03-invalid-ids-empty-ids-response.json (56 bytes)
+[03] invalid id result: null maxLevel: 51
+[filewrite] files/03-invalid-ids-invalid-id-response.json (432 bytes)
+[03] first delete result: null maxLevel: 31
+[03] double delete result: null maxLevel: 51
+[filewrite] files/03-invalid-ids-double-delete-response.json (432 bytes)

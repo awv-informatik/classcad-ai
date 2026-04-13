@@ -1,0 +1,5 @@
+[02] circle: 58
+[02] result: {"constraint":73,"geometry":[67,71]}
+[02] maxLevel: 31
+[02] geometry length: 2
+[filewrite] files/02-single-geom-single-geom-response.json (122 bytes)

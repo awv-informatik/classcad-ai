@@ -1,0 +1,7 @@
+[12] result: {"constraint":77,"geometry":[70,75]}
+[12] original positions: {"endPos":{"x":20,"y":5,"z":0},"startPos":{"x":10,"y":5,"z":0}}
+[12] copy RS positions: null
+[12] copy RS maxLevel: 51
+[12] copy RS getGeometry: {"arcs":[],"circles":[],"lines":[71],"points":[]}
+[12] copy RS getGeometry maxLevel: 31
+[filewrite] files/12-verify-positions-positions.json (366 bytes)

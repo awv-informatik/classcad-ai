@@ -1,0 +1,54 @@
+{
+  "missingHeight": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.solid.cylinder",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"height\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingDiameter": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.solid.cylinder",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"diameter\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.solid.cylinder",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  },
+  "wrongIdType": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.solid.cylinder",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+      }
+    ]
+  }
+}

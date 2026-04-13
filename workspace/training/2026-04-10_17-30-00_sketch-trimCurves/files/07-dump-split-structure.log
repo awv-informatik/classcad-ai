@@ -1,0 +1,12 @@
+[07] circle: 58 line: 63
+[07] split IDs: [80,85,90,94,98]
+[filewrite] files/07-dump-split-structure-split-structure.json (42390 bytes)
+[07] structure type: object
+[07] structure is array: false
+[07] NOT found as direct key: 80
+[07] NOT found as direct key: 85
+[07] NOT found as direct key: 90
+[07] NOT found as direct key: 94
+[07] NOT found as direct key: 98
+[07] top-level structure keys (first 10): ["root","currentProduct","currentInstance","testRoot","tree"]
+[07] trimmed id 80 maxLevel: 31

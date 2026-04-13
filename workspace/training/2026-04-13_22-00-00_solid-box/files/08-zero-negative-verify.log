@@ -1,0 +1,5 @@
+[08] zero-length box id: 61
+[08] zero-length has graphic: false
+[08] negative-length box id: 66
+[08] all-negative box id: 69
+[filewrite] files/08-zero-negative-verify-zero-neg-verify.json (246 bytes)

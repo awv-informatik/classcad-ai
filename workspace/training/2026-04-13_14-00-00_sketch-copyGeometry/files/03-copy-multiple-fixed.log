@@ -1,0 +1,4 @@
+[03] line1: 58 line2: 66 circ: 76
+[03] copyGeometry result: null maxLevel: 31
+[03] messages: []
+[filewrite] files/03-copy-multiple-fixed-copy-response.json (56 bytes)

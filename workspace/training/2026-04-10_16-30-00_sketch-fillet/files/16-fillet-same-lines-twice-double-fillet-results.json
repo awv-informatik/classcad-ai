@@ -1,0 +1,19 @@
+{
+  "first": [
+    94,
+    92,
+    96,
+    95
+  ],
+  "second": null,
+  "secondMessages": [
+    {
+      "api": "v1.sketch.fillet",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Lines don't have incident points!"
+    }
+  ],
+  "secondMaxLevel": 51
+}

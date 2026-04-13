@@ -1,0 +1,4 @@
+[06] neg fillet result: [94,92,96,95] maxLevel: 31
+[06] undo result: null maxLevel: 31
+[06] geo after undo: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[filewrite] files/06-undo-negative-offset-fillet-geo-after-undo-neg.json (98 bytes)

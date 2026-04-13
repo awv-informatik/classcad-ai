@@ -1,0 +1,7 @@
+[01] rectangle result: [58,64,70,76]
+[01] rectangle maxLevel: 31
+[01] lineIds count: 4
+[01] fillet result: [94,92,96,95]
+[01] fillet maxLevel: 31
+[01] fillet messages: []
+[filewrite] files/01-basic-offset-fillet-response.json (88 bytes)

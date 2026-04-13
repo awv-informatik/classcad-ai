@@ -1,0 +1,8 @@
+[08] circle: 58 line: 63
+[08] result: [58,78,82]
+[08] maxLevel: 31
+[08] result length: 3
+[08] segment 58 : CC_Circle Circle
+[08] segment 78 : CC_Line Line_part0
+[08] segment 82 : CC_Line Line_part1
+[filewrite] files/08-tangent-tangent-response.json (100 bytes)

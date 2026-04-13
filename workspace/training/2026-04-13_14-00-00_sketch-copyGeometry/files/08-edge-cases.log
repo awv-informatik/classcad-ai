@@ -1,0 +1,6 @@
+[08] line1: 58
+[08] empty geomIds: null maxLevel: 31 messages: []
+[08] invalid ID: null maxLevel: 51 messages: [{"api":"v1.sketch.copyGeometry","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.copyGeometry","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"geomIds\" has an invalid id!"}]
+[08] zero translation: [ 65 ] maxLevel: 31
+[08] no translation: null maxLevel: 51 messages: [{"api":"v1.sketch.copyGeometry","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"translation\" must be provided in the api call!"}]
+[filewrite] files/08-edge-cases-edge-cases.json (656 bytes)

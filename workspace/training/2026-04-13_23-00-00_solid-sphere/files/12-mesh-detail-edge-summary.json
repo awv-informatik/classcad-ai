@@ -1,0 +1,8 @@
+{
+  "edgeCount": 1,
+  "firstEdgeKeys": [
+    "id",
+    "points",
+    "pointIds"
+  ]
+}

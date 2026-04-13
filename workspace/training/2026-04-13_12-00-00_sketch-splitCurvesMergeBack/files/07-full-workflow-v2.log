@@ -1,0 +1,9 @@
+[07] circleId: 58 lineId: 63
+[07] geomBefore: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[07] splitIds: [80,85,90,94,98] count: 5
+[07] Trimming ids: 80 (upper arc) and 94 (middle line)
+[07] trimCurves maxLevel: 31
+[07] mergeBack result: null maxLevel: 31
+[07] geomAfter: {"arcs":[103],"circles":[],"lines":[110,114],"points":[]}
+[filewrite] files/07-full-workflow-v2-getGeom-after-mergeBack.json (95 bytes)
+[07] geometry count before: undefined after: undefined

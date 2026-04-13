@@ -1,0 +1,5 @@
+[01] created: line1= 58 line2= 66 circ= 74
+[01] delete line1 result: null maxLevel: 31
+[filewrite] files/01-delete-geometry-delete-line1-response.json (56 bytes)
+[01] delete circ result: null maxLevel: 31
+[filewrite] files/01-delete-geometry-delete-circ-response.json (56 bytes)

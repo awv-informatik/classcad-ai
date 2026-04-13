@@ -1,0 +1,7 @@
+{
+  "root": "number",
+  "currentProduct": "number",
+  "currentInstance": "number",
+  "testRoot": "number",
+  "tree": "object"
+}

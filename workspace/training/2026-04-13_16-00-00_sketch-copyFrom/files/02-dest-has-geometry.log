@@ -1,0 +1,3 @@
+[02] dest circle before copy: 98
+[02] copyFrom result: null maxLevel: 31
+[stderr] [run] Script error: api.v1.common.getStructure is not a function

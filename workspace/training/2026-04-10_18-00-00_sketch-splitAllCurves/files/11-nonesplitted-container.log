@@ -1,0 +1,13 @@
+[11] l1: 58 l2: 64 l3 (isolated): 70
+[11] result: [88,92,96,100,70]
+[11] result length: 5
+[11] NoneSplitted (id: 76 ) children: Line1 (70, CC_Line)
+[11] SplittedCurves (id: 86 ) children: Line_part0 (88, CC_Line), Line_part1 (92, CC_Line), Line0_part0 (96, CC_Line), Line0_part1 (100, CC_Line)
+[11] segment 88 : CC_Line Line_part0 → container: SplittedCurves
+[11] segment 92 : CC_Line Line_part1 → container: SplittedCurves
+[11] segment 96 : CC_Line Line0_part0 → container: SplittedCurves
+[11] segment 100 : CC_Line Line0_part1 → container: SplittedCurves
+[11] segment 70 : CC_Line Line1 → container: NoneSplitted
+[11] l3 in result? true
+[filewrite] files/11-nonesplitted-container-containers-response.json (140 bytes)
+[filewrite] files/11-nonesplitted-container-containers-structure.json (42507 bytes)

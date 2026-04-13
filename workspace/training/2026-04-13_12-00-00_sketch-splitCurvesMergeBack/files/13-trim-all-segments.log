@@ -1,0 +1,5 @@
+[13] splitIds: [80,85,90,94,98] count: 5
+[13] trimCurves maxLevel: 31
+[13] mergeBack result: null maxLevel: 31
+[13] geomAfter: {"arcs":[],"circles":[],"lines":[],"points":[]}
+[filewrite] files/13-trim-all-segments-geometry-after-trim-all.json (64 bytes)

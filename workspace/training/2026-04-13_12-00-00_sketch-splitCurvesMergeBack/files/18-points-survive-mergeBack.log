@@ -1,0 +1,6 @@
+[18] pt: 58 l1: 60 l2: 66
+[18] geomBefore: {"arcs":[],"circles":[],"lines":[60,66],"points":[58]}
+[18] splitIds: [82,86,90,94]
+[18] geomAfter: {"arcs":[],"circles":[],"lines":[66,99],"points":[58]}
+[18] points survived: true
+[filewrite] files/18-points-survive-mergeBack-points-comparison.json (279 bytes)

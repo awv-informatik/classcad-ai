@@ -1,0 +1,4 @@
+[13] invalid undoFillet result: null
+[13] maxLevel: 51
+[13] messages: [{"api":"v1.sketch.undoFillet","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.undoFillet","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"arcId\" has an invalid id!"}]
+[filewrite] files/13-undo-invalid-arc-undo-invalid-response.json (430 bytes)

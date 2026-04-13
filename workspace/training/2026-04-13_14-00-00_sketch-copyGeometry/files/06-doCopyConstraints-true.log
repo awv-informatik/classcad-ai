@@ -1,0 +1,3 @@
+[06] rectangle lines: [ 58, 64, 70, 76 ]
+[06] doCopyConstraints=true result: null maxLevel: 31
+[filewrite] files/06-doCopyConstraints-true-copy-true-response.json (56 bytes)

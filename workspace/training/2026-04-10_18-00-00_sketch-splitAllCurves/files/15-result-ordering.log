@@ -1,0 +1,16 @@
+[15] circle: 58 hLine: 63 vLine: 69
+[15] result: [94,99,104,109,114,118,122,126,130,134,138,142]
+[15] segment ordering:
+[15]   94 Circle_part0 (CC_Arc)
+[15]   99 Circle_part1 (CC_Arc)
+[15]   104 Circle_part2 (CC_Arc)
+[15]   109 Circle_part3 (CC_Arc)
+[15]   114 Line_part0 (CC_Line)
+[15]   118 Line_part1 (CC_Line)
+[15]   122 Line_part2 (CC_Line)
+[15]   126 Line_part3 (CC_Line)
+[15]   130 Line0_part0 (CC_Line)
+[15]   134 Line0_part1 (CC_Line)
+[15]   138 Line0_part2 (CC_Line)
+[15]   142 Line0_part3 (CC_Line)
+[filewrite] files/15-result-ordering-ordering.json (884 bytes)

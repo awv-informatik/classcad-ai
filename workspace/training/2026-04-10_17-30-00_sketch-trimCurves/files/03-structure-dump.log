@@ -1,0 +1,15 @@
+[03] line1: 58 line2: 64
+[filewrite] files/03-structure-dump-structure-before-split.json (36057 bytes)
+[03] splitAllCurves result: [96,100,104,108]
+[filewrite] files/03-structure-dump-structure-after-split.json (46683 bytes)
+[03] positions for id 96 : null
+[03] positions for id 100 : null
+[03] positions for id 104 : null
+[03] positions for id 108 : null
+[03] trimming curve: 96
+[03] trimCurves maxLevel: 31
+[filewrite] files/03-structure-dump-structure-after-trim.json (44267 bytes)
+[03] after-trim positions for id 96 : null
+[03] after-trim positions for id 100 : null
+[03] after-trim positions for id 104 : null
+[03] after-trim positions for id 108 : null

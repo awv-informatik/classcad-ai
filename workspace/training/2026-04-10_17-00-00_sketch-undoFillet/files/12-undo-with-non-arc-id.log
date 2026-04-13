@@ -1,0 +1,4 @@
+[12] undo with line ID: result= null maxLevel= 51 messages= [{"api":"v1.sketch.undoFillet","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"arcId\" has a wrong id type! Provide only following id types: [\"sketch-arc\"]"}]
+[12] undo with sketch ID: result= null maxLevel= 51 messages= [{"api":"v1.sketch.undoFillet","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"arcId\" has a wrong id type! Provide only following id types: [\"sketch-arc\"]"}]
+[12] undo with part ID: result= null maxLevel= 51 messages= [{"api":"v1.sketch.undoFillet","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"arcId\" has a wrong id type! Provide only following id types: [\"sketch-arc\"]"}]
+[filewrite] files/12-undo-with-non-arc-id-non-arc-undo-results.json (982 bytes)

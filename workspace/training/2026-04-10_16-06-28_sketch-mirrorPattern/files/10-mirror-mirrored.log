@@ -1,0 +1,5 @@
+[10] mirror1 geometry: [72,86]
+[10] copyRsId: 86
+[10] mirror2 result: {"constraint":104,"geometry":[86,102]}
+[10] mirror2 maxLevel: 31
+[filewrite] files/10-mirror-mirrored-chained-mirror.json (174 bytes)

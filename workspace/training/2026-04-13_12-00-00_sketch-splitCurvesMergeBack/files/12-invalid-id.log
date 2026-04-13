@@ -1,0 +1,3 @@
+[12] invalid id result: null maxLevel: 51
+[12] messages: [{"api":"v1.sketch.splitCurvesMergeBack","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.splitCurvesMergeBack","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/12-invalid-id-invalid-id.json (447 bytes)

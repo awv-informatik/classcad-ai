@@ -1,0 +1,30 @@
+{
+  "original": {
+    "endPos": {
+      "x": 20,
+      "y": 5,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 5,
+      "z": 0
+    }
+  },
+  "copyRs": null,
+  "copyGeom": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      71
+    ],
+    "points": []
+  },
+  "mirrorResult": {
+    "constraint": 77,
+    "geometry": [
+      70,
+      75
+    ]
+  }
+}

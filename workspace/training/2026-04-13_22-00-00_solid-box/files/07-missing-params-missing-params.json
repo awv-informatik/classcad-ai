@@ -1,0 +1,41 @@
+{
+  "missingHeight": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.box",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"height\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingAll": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.box",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"length\" must be provided in the api call!"
+      }
+    ]
+  },
+  "wrongId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.box",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+      }
+    ]
+  }
+}

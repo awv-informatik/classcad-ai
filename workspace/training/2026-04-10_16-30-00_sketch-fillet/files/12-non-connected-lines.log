@@ -1,0 +1,5 @@
+[12] line1: 58 line2: 66
+[12] non-connected fillet result: null
+[12] maxLevel: 51
+[12] messages: [{"api":"v1.sketch.fillet","code":0,"level":51,"levelStr":"ERROR","message":"Lines don't have incident points!"}]
+[filewrite] files/12-non-connected-lines-non-connected-response.json (220 bytes)

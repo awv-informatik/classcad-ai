@@ -1,0 +1,20 @@
+{
+  "dimension": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"type\" must be provided in the api call!"
+      }
+    ]
+  },
+  "undo": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,6 @@
+[15] l1: 58 l2: 64
+[15] splitIds: [58,64]
+[15] trimCurves maxLevel: 31
+[15] mergeBack result: null maxLevel: 31
+[15] geomAfter: {"arcs":[],"circles":[],"lines":[64],"points":[]}
+[filewrite] files/15-trim-non-intersecting-then-merge-geometry-after.json (74 bytes)

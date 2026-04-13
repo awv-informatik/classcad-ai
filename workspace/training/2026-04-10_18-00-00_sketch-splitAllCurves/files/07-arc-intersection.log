@@ -1,0 +1,7 @@
+[07] arc: 58 line: 65
+[07] result: [58,65]
+[07] maxLevel: 31
+[07] result length: 2
+[07] segment 58 : CC_Arc Arc
+[07] segment 65 : CC_Line Line
+[filewrite] files/07-arc-intersection-arc-response.json (54 bytes)

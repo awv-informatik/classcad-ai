@@ -1,0 +1,6 @@
+[13] result keys: [ 'constraint', 'geometry' ]
+[13] has dimension?: false
+[13] has dimensions?: false
+[13] full result: {"constraint":73,"geometry":[61,71]}
+[filewrite] files/13-no-dimension-result-keys.json (58 bytes)
+[13] updateMirrorPattern exists?: undefined

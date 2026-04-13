@@ -1,0 +1,3 @@
+[04] rotateFirst=true: 60 maxLevel: 31
+[04] rotateFirst=false: 63 maxLevel: 31
+[filewrite] files/04-rotateFirst-rotateFirst-response.json (53 bytes)

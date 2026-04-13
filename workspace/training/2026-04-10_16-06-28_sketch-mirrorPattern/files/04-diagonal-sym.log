@@ -1,0 +1,4 @@
+[04] rectangle: [58,62,68,74]
+[04] result: {"constraint":110,"geometry":[90,108]}
+[04] maxLevel: 31
+[filewrite] files/04-diagonal-sym-diagonal-mirror.json (124 bytes)

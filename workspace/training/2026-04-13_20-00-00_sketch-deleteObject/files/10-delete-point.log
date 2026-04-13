@@ -1,0 +1,5 @@
+[10] point: 58 line: 60
+[10] delete point result: null maxLevel: 31
+[filewrite] files/10-delete-point-delete-point-response.json (56 bytes)
+[10] geom after: {"arcs":[],"circles":[],"lines":[60],"points":[]}
+[filewrite] files/10-delete-point-geom-after-point-delete.json (74 bytes)

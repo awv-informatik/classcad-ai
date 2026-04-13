@@ -1,0 +1,13 @@
+[08] wrong sketch ID — maxLevel: 51 result: null
+[08] wrong sketch ID — msg: The parameter "id" has a wrong id type! Provide only following id types: ["sketch"]
+[filewrite] files/08-error-cases-error-wrong-sketch-id.json (282 bytes)
+[08] invalid geomId — maxLevel: 51 result: null
+[08] invalid geomId — msg: ToId()/TOID() didn't get an existing or valid id.
+[filewrite] files/08-error-cases-error-invalid-geomid.json (433 bytes)
+[08] empty splits — maxLevel: 31 result: []
+[filewrite] files/08-error-cases-error-empty-splits.json (54 bytes)
+[08] empty values — maxLevel: 31 result: [[64]]
+[filewrite] files/08-error-cases-error-empty-values.json (78 bytes)
+[08] point geomId — maxLevel: 51 result: null
+[08] point geomId — msg: The parameter "geomId" has a wrong id type! Provide only following id types: ["sketch-curve"]
+[filewrite] files/08-error-cases-error-point-geomid.json (292 bytes)

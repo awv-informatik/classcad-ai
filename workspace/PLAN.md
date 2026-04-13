@@ -765,7 +765,7 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 | 1   | Api study of `sketch.rigidSet`        | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 2   | Api study of `sketch.linearPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 3   | Api study of `sketch.circularPattern` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
-| 4   | Api study of `sketch.mirrorPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.mirrorPattern`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 ---
 
@@ -773,8 +773,8 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 
 | #   | Task                             | Source                                                            | Studied |
 | --- | -------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.fillet`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.undoFillet` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.fillet`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 2   | Api study of `sketch.undoFillet` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 ---
 
@@ -782,14 +782,14 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 
 | #   | Task                                       | Source                                                            | Studied |
 | --- | ------------------------------------------ | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.trimCurves`           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.splitAllCurves`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.splitCurves`          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 4   | Api study of `sketch.splitCurvesMergeBack` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 5   | Api study of `sketch.copyGeometry`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 6   | Api study of `sketch.copyFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 7   | Api study of `sketch.loadFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 8   | Api study of `sketch.deleteObject`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.trimCurves`           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 2   | Api study of `sketch.splitAllCurves`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 3   | Api study of `sketch.splitCurves`          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 4   | Api study of `sketch.splitCurvesMergeBack` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 5   | Api study of `sketch.copyGeometry`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 6   | Api study of `sketch.copyFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 7   | Api study of `sketch.loadFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 8   | Api study of `sketch.deleteObject`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 ---
 
@@ -803,9 +803,9 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 
 | #   | Task                                                                | Source                                                          | Studied |
 | --- | ------------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.box`                                            | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 2   | Api study of `solid.sphere`                                         | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 3   | Api study of `solid.cylinder`                                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 1   | Api study of `solid.box`                                            | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 2   | Api study of `solid.sphere`                                         | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 3   | Api study of `solid.cylinder`                                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
 | 4   | Api study of `solid.cone`                                           | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 | 5   | Study: common parameters — `rotation`, `translation`, `rotateFirst` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 

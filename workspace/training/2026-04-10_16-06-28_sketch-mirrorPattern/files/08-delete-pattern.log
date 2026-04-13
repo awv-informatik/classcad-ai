@@ -1,0 +1,6 @@
+[08] mirror result: {"constraint":73,"geometry":[61,71]}
+[08] geometry[0]: 61 geometry[1]: 71
+[08] delete result: null
+[08] delete maxLevel: 31
+[08] delete messages: []
+[filewrite] files/08-delete-pattern-delete-response.json (62 bytes)

@@ -1,0 +1,9 @@
+[filewrite] files/02-undo-restores-positions-positions-before.json (4 bytes)
+[filewrite] files/02-undo-restores-positions-points-before.json (4 bytes)
+[filewrite] files/02-undo-restores-positions-positions-after-fillet.json (4 bytes)
+[filewrite] files/02-undo-restores-positions-points-after-fillet.json (4 bytes)
+[02] undo result: null maxLevel: 31
+[filewrite] files/02-undo-restores-positions-positions-after-undo.json (4 bytes)
+[filewrite] files/02-undo-restores-positions-points-after-undo.json (4 bytes)
+[02] positions match before/after undo: true
+[02] point count before: 0 after fillet: 0 after undo: 0

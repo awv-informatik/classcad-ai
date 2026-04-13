@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.sketch.splitCurves",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"
+    }
+  ],
+  "maxLevel": 51
+}

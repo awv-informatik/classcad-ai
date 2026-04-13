@@ -1,0 +1,41 @@
+{
+  "lineId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.undoFillet",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"arcId\" has a wrong id type! Provide only following id types: [\"sketch-arc\"]"
+      }
+    ]
+  },
+  "sketchId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.undoFillet",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"arcId\" has a wrong id type! Provide only following id types: [\"sketch-arc\"]"
+      }
+    ]
+  },
+  "partId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.undoFillet",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"arcId\" has a wrong id type! Provide only following id types: [\"sketch-arc\"]"
+      }
+    ]
+  }
+}

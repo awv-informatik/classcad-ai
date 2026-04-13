@@ -1,0 +1,6 @@
+[19] lineId: 58 circleId: 64
+[19] splitIds: [82,86,90,94,99]
+[19] trimming index 3 (expected middle line segment)
+[19] geomAfter: {"arcs":[106],"circles":[],"lines":[58],"points":[]}
+[19] line 58 positions: {"endPos":{"x":50,"y":0,"z":0},"startPos":{"x":-50,"y":0,"z":0}}
+[19] arc 106 positions: {"centerPos":{"x":0,"y":0,"z":0},"endPos":{"x":30,"y":-5.510910596163089e-15,"z":0},"startPos":{"x":-30,"y":1.83697019872103e-15,"z":0}}

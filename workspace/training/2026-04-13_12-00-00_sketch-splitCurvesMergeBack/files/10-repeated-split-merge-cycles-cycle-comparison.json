@@ -1,0 +1,42 @@
+{
+  "start": {
+    "arcs": [],
+    "circles": [
+      58
+    ],
+    "lines": [
+      63
+    ],
+    "points": []
+  },
+  "afterCycle1": {
+    "arcs": [],
+    "circles": [
+      58
+    ],
+    "lines": [
+      63
+    ],
+    "points": []
+  },
+  "afterCycle2": {
+    "arcs": [],
+    "circles": [
+      58
+    ],
+    "lines": [
+      63
+    ],
+    "points": []
+  },
+  "afterCycle3": {
+    "arcs": [
+      177
+    ],
+    "circles": [],
+    "lines": [
+      63
+    ],
+    "points": []
+  }
+}

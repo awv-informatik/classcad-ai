@@ -1,0 +1,8 @@
+[15] circle: null extraLine: 92
+[filewrite] files/15-undo-preserves-other-geometry-geo-before.json (106 bytes)
+[filewrite] files/15-undo-preserves-other-geometry-geo-after-fillet.json (126 bytes)
+[filewrite] files/15-undo-preserves-other-geometry-geo-after-undo.json (106 bytes)
+[15] circle exists after undo: false extra line exists: true
+[15] before geo: {"arcs":[],"circles":[],"lines":[58,64,70,76,92],"points":[]}
+[15] after undo geo: {"arcs":[],"circles":[],"lines":[58,64,70,76,92],"points":[]}
+[15] geo matches: true

@@ -1,0 +1,5 @@
+[07] line1: 58 line2: 66 circ: 72 constr: 75
+[07] multi-delete result: null maxLevel: 31
+[filewrite] files/07-multi-delete-multi-delete-response.json (56 bytes)
+[07] geometry after multi-delete: {"arcs":[],"circles":[],"lines":[66],"points":[]}
+[filewrite] files/07-multi-delete-geom-after-multi-delete.json (74 bytes)

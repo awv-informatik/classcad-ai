@@ -1,0 +1,5 @@
+[04] line1: 58 line2: 64
+[04] trimCurves on unsplit line result: null
+[04] trimCurves maxLevel: 31
+[04] trimCurves messages: []
+[filewrite] files/04-trim-without-split-trim-no-split.json (56 bytes)

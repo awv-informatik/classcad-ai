@@ -1,0 +1,6 @@
+[13] first fillet (r=5): [94,92,96,95] maxLevel: 31
+[13] undo: maxLevel= 31
+[13] second fillet (r=25): [115,113,117,116] maxLevel: 31
+[13] second undo: maxLevel= 31
+[13] third fillet (offset=20): [136,134,138,137] maxLevel: 31
+[filewrite] files/13-undo-then-refillet-different-params-refillet-results.json (378 bytes)

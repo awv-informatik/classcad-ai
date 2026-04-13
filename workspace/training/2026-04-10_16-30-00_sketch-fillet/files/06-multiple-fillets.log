@@ -1,0 +1,6 @@
+[06] rect lineIds: [58,64,70,76]
+[06] fillet1 result: [94,92,96,95] maxLevel: 31
+[06] fillet2 result: [113,111,115,114] maxLevel: 31
+[06] fillet3 result: [132,130,134,133] maxLevel: 31
+[06] fillet4 result: [151,149,153,152] maxLevel: 31
+[filewrite] files/06-multiple-fillets-multi-fillet-results.json (198 bytes)

@@ -1,0 +1,8 @@
+[05] zero height — result: 61 maxLevel: 31
+[filewrite] files/05-degenerate-zero-height.json (54 bytes)
+[05] zero diameter — result: 64 maxLevel: 31
+[filewrite] files/05-degenerate-zero-diameter.json (54 bytes)
+[05] negative height — result: 67 maxLevel: 31
+[filewrite] files/05-degenerate-neg-height.json (54 bytes)
+[05] negative diameter — result: 70 maxLevel: 31
+[filewrite] files/05-degenerate-neg-diameter.json (54 bytes)

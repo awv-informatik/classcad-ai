@@ -1,0 +1,7 @@
+[01] l1: 58 l2: 66
+[01] rigidSet: 74
+[01] symmetryLine: 76
+[01] mirrorPattern result: {"constraint":90,"geometry":[74,88]}
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-mirror-mirror-response.json (122 bytes)

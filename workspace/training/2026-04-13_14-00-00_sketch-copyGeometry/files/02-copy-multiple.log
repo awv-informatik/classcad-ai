@@ -1,0 +1,7 @@
+[02] line1: 58 line2: 66 circ: null
+[02] geometry count before: undefined
+[filewrite] files/02-copy-multiple-geo-before.json (82 bytes)
+[02] copyGeometry result: null maxLevel: 51
+[filewrite] files/02-copy-multiple-copy-response.json (289 bytes)
+[02] geometry count after: undefined
+[filewrite] files/02-copy-multiple-geo-after.json (82 bytes)

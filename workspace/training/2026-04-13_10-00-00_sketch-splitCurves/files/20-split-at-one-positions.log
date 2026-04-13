@@ -1,0 +1,3 @@
+[20] split at 1.0 — result: [[64,68]]
+[20] seg 64: positions={"endPos":{"x":50,"y":0,"z":0},"startPos":{"x":-50,"y":0,"z":0}}
+[20] seg 68: positions={"endPos":{"x":50,"y":0,"z":0},"startPos":{"x":50,"y":0,"z":0}}

@@ -1,0 +1,9 @@
+[01] circleId: 58 lineId: 63
+[01] splitAllCurves result: [80,85,90,94,98]
+[01] splitAllCurves maxLevel: 31
+[01] mergeBack result: null
+[01] mergeBack maxLevel: 31
+[01] mergeBack messages: []
+[filewrite] files/01-basic-mergeBack-no-trim-mergeBack-response.json (56 bytes)
+[filewrite] files/01-basic-mergeBack-no-trim-geometry-after-mergeBack.json (95 bytes)
+[01] geometry count after mergeBack: undefined

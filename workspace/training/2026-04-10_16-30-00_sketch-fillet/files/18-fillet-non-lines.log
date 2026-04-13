@@ -1,0 +1,5 @@
+[18] line: 58 circle: 66
+[18] fillet line+circle result: null
+[18] maxLevel: 51
+[18] messages: [{"api":"v1.sketch.fillet","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"lineIds\" has a wrong id type! Provide only following id types: [\"sketch-line\"]"}]
+[filewrite] files/18-fillet-non-lines-fillet-nonline-response.json (287 bytes)

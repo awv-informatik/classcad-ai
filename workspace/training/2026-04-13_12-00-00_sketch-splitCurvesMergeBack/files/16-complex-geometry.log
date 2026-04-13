@@ -1,0 +1,8 @@
+[16] rect: [ 58, 62, 68, 74 ]
+[16] circle: 90
+[16] geomBefore: {"arcs":[],"circles":[90],"lines":[58,62,68,74],"points":[]}
+[16] splitIds count: 5
+[16] splitIds: [58,62,68,74,90]
+[16] mergeBack maxLevel: 31
+[16] geomAfter: {"arcs":[],"circles":[90],"lines":[68,74],"points":[]}
+[filewrite] files/16-complex-geometry-geometry-after.json (92 bytes)

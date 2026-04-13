@@ -1,0 +1,7 @@
+[04] line1: 58 line2: 64
+[04] result: [[70,74],[78,82,86]]
+[04] maxLevel: 31
+[04] outer length: 2
+[04] splits[0] length: 2
+[04] splits[1] length: 3
+[filewrite] files/04-split-multiple-curves-multi-curve-response.json (130 bytes)

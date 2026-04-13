@@ -1,0 +1,25 @@
+{
+  "before": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      60,
+      66
+    ],
+    "points": [
+      58
+    ]
+  },
+  "after": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      66,
+      99
+    ],
+    "points": [
+      58
+    ]
+  },
+  "pointsSurvived": true
+}

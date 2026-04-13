@@ -1,0 +1,5 @@
+[06] missing height — result: null maxLevel: 51 msg: The parameter "height" must be provided in the api call!
+[06] missing diameter — result: null maxLevel: 51 msg: The parameter "diameter" must be provided in the api call!
+[06] missing id — result: null maxLevel: 51 msg: The parameter "id" must be provided in the api call!
+[06] wrong id type — result: null maxLevel: 51 msg: The parameter "id" has a wrong id type! Provide only following id types: ["entityinjection"]
+[filewrite] files/06-missing-params-error-responses.json (1190 bytes)

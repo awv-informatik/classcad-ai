@@ -1,0 +1,11 @@
+[05] l1: 58 l2: 64 l3: 70
+[05] result: [87,91,95,99,103,107]
+[05] maxLevel: 31
+[05] result length: 6
+[filewrite] files/05-three-curves-crossing-triple-response.json (147 bytes)
+[05] segment 87 : CC_Line Line_part0
+[05] segment 91 : CC_Line Line_part1
+[05] segment 95 : CC_Line Line0_part0
+[05] segment 99 : CC_Line Line0_part1
+[05] segment 103 : CC_Line Line1_part0
+[05] segment 107 : CC_Line Line1_part1

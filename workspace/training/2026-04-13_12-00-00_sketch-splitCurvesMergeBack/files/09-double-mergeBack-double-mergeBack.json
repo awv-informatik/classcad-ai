@@ -1,0 +1,11 @@
+{
+  "merge1": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "merge2": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

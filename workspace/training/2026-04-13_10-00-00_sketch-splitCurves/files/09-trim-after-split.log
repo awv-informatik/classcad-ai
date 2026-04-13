@@ -1,0 +1,7 @@
+[09] lineId: 58
+[09] split result: [[64,68,72]]
+[09] segment IDs: [ 64, 68, 72 ]
+[09] trim result: null maxLevel: 31
+[filewrite] files/09-trim-after-split-trim-response.json (56 bytes)
+[09] mergeBack maxLevel: 31
+[filewrite] files/09-trim-after-split-structure-after-trim-merge.json (33712 bytes)

@@ -1,0 +1,20 @@
+{
+  "filletIds": {
+    "arcId": 94,
+    "controlPtId": 92,
+    "startPtId": 96,
+    "endPtId": 95
+  },
+  "arcExistsAfterUndo": false,
+  "geoAfterUndo": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58,
+      64,
+      70,
+      76
+    ],
+    "points": []
+  }
+}

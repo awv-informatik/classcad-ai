@@ -1,0 +1,5 @@
+[10] fillet IDs — arc: 94 controlPt: 92 startPt: 96 endPt: 95
+[10] undo maxLevel: 31
+[10] arc still exists after undo: false
+[10] arcs: [] lines: [ 58, 64, 70, 76 ]
+[filewrite] files/10-undo-structure-tree-undo-structure-check.json (272 bytes)

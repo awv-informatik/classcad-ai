@@ -1,0 +1,4 @@
+[05] fillet arcId: 94
+[05] first undo: result= null maxLevel= 31 messages= []
+[05] second undo: result= null maxLevel= 51 messages= [{"api":"v1.sketch.undoFillet","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.undoFillet","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"arcId\" has an invalid id!"}]
+[filewrite] files/05-undo-same-fillet-twice-double-undo.json (569 bytes)

@@ -1,0 +1,4 @@
+[06] source rect lines: [ 58, 64, 70, 76 ]
+[06] fixation constraint: null maxLevel: 51
+[06] copyFrom result: null maxLevel: 31
+[filewrite] files/06-copy-constraints-structure-after-copy.json (59855 bytes)

@@ -1,0 +1,5 @@
+[09] mirror1 result: {"constraint":88,"geometry":[72,86]}
+[09] mirror1 maxLevel: 31
+[09] mirror2 result: {"constraint":104,"geometry":[72,102]}
+[09] mirror2 maxLevel: 31
+[filewrite] files/09-multiple-mirrors-multiple-mirrors.json (174 bytes)

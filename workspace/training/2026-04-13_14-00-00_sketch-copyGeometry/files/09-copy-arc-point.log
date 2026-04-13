@@ -1,0 +1,5 @@
+[09] point: null
+[09] arc: 58
+[09] copy point result: null maxLevel: 51
+[09] copy arc result: [ 62 ] maxLevel: 31
+[filewrite] files/09-copy-arc-point-results.json (50 bytes)

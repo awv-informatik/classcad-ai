@@ -1,0 +1,5 @@
+[04] calling mergeBack on empty sketch
+[04] mergeBack result: null
+[04] mergeBack maxLevel: 31
+[04] mergeBack messages: []
+[filewrite] files/04-empty-sketch-mergeBack-empty.json (56 bytes)

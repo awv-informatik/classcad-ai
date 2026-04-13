@@ -1,0 +1,9 @@
+[filewrite] files/02-geometry-before-after-geom-before-split.json (82 bytes)
+[02] geometry before split — curve count: N/A
+[02] splitAllCurves result: [80,84,88,92]
+[filewrite] files/02-geometry-before-after-geom-after-split.json (82 bytes)
+[02] geometry after split — curve count: N/A
+[02] trimming curve id: 80
+[02] trimCurves maxLevel: 31
+[filewrite] files/02-geometry-before-after-geom-after-trim.json (82 bytes)
+[02] geometry after trim — curve count: N/A

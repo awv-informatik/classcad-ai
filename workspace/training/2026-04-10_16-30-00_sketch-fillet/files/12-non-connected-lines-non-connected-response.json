@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.sketch.fillet",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Lines don't have incident points!"
+    }
+  ],
+  "maxLevel": 51
+}

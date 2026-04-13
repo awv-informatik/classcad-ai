@@ -1,0 +1,4 @@
+[07] result: null
+[07] maxLevel: 51
+[07] messages: [{"api":"v1.sketch.mirrorPattern","code":0,"level":41,"levelStr":"WARNING","message":"The string \"bogus-id\" couldn't be converted to an id. Error message: stol: no conversion"},{"api":"v1.sketch.mirrorPattern","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"symmetryLineId\" has an invalid id!"}]
+[filewrite] files/07-invalid-sym-id-invalid-sym.json (486 bytes)

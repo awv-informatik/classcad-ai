@@ -1,0 +1,10 @@
+[02] circleId: 58 lineId: 63
+[filewrite] files/02-full-trim-workflow-geometry-before.json (95 bytes)
+[02] splitIds: [80,85,90,94,98]
+[02] splitIds count: 5
+[02] Trimming upper arc (index 0) and middle line (index 3)
+[02] trimCurves maxLevel: 31
+[02] mergeBack result: null
+[02] mergeBack maxLevel: 31
+[filewrite] files/02-full-trim-workflow-geometry-after.json (95 bytes)
+[02] geometry before count: undefined after count: undefined

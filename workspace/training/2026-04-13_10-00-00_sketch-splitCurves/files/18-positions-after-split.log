@@ -1,0 +1,6 @@
+[18] seg 64: positions={"endPos":{"x":-100,"y":0,"z":0},"startPos":{"x":-50,"y":0,"z":0}}
+[18] seg 68: positions={"endPos":{"x":0,"y":0,"z":0},"startPos":{"x":-100,"y":0,"z":0}}
+[18] seg 72: positions={"endPos":{"x":100,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[18] seg 76: positions={"endPos":{"x":50,"y":0,"z":0},"startPos":{"x":100,"y":0,"z":0}}
+[filewrite] files/18-positions-after-split-segment-positions.json (1059 bytes)
+[18] split at 0.0: null

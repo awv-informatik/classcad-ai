@@ -1,0 +1,3 @@
+[10] box: 61
+[10] sphere: 63
+[filewrite] files/10-sphere-with-box-sphere-box-ids.json (35 bytes)

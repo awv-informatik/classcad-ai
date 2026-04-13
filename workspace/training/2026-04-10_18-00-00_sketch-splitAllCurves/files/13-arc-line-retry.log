@@ -1,0 +1,11 @@
+[13] arc: 58 line: 65
+[13] result: [83,88,93,98,102,106]
+[13] maxLevel: 31
+[13] result length: 6
+[13] segment 83 : CC_Arc Arc_part0
+[13] segment 88 : CC_Arc Arc_part1
+[13] segment 93 : CC_Arc Arc_part2
+[13] segment 98 : CC_Line Line_part0
+[13] segment 102 : CC_Line Line_part1
+[13] segment 106 : CC_Line Line_part2
+[filewrite] files/13-arc-line-retry-arc-retry-response.json (88 bytes)

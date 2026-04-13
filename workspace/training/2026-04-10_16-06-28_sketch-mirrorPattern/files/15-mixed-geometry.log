@@ -1,0 +1,5 @@
+[15] rigidSet: 74
+[15] result: {"constraint":93,"geometry":[74,91]}
+[15] maxLevel: 31
+[15] geometry length: 2
+[filewrite] files/15-mixed-geometry-mixed-geometry.json (104 bytes)

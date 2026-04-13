@@ -1,0 +1,3 @@
+[06] box1: 61 box2: 64 box3: 67
+[06] delete box2 result: null maxLevel: 31
+[filewrite] files/06-multiple-boxes-multi-box.json (92 bytes)

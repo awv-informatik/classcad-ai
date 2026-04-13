@@ -1,0 +1,18 @@
+[
+  {
+    "index": 0,
+    "keys": [
+      "id",
+      "vertices",
+      "normals",
+      "indices",
+      "loops",
+      "properties"
+    ],
+    "verticesLength": 6051,
+    "normalsLength": 6051,
+    "indicesLength": 11328,
+    "triangleCount": 3776,
+    "vertexCount": 2017
+  }
+]

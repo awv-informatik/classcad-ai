@@ -1,0 +1,16 @@
+[16] first split: [94,99,104,109,114,118,122,126,130,134,138,142] count: 12
+[16] trim maxLevel: 31
+[16] mergeBack maxLevel: 31
+[16] second split: [183,187,191,195,199,203,207,211,215,220,225] count: 11
+[16] segment 183 : CC_Line Line_part0
+[16] segment 187 : CC_Line Line_part1
+[16] segment 191 : CC_Line Line_part2
+[16] segment 195 : CC_Line Line_part3
+[16] segment 199 : CC_Line Line0_part0
+[16] segment 203 : CC_Line Line0_part1
+[16] segment 207 : CC_Line Line0_part2
+[16] segment 211 : CC_Line Line0_part3
+[16] segment 215 : CC_Arc Circle0_part0
+[16] segment 220 : CC_Arc Circle0_part1
+[16] segment 225 : CC_Arc Circle0_part2
+[filewrite] files/16-split-trim-resplit-resplit.json (252 bytes)

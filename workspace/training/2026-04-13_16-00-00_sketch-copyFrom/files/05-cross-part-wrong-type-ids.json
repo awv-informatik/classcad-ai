@@ -1,0 +1,28 @@
+{
+  "toCopyIdAsPart": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.copyFrom",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"toCopyId\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+      }
+    ]
+  },
+  "idAsPart": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.copyFrom",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+      }
+    ]
+  }
+}

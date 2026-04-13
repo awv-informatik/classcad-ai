@@ -1,0 +1,10 @@
+[11] line: 58
+[11] splitAllCurves result: [58]
+[11] splitAllCurves maxLevel: 31
+[11] splitAllCurves messages: []
+[11] line2: 70
+[11] splitAllCurves (parallel) result: [70]
+[11] splitAllCurves (parallel) maxLevel: 31
+[11] trimCurves result maxLevel: 31
+[11] mergeBack maxLevel: 31
+[11] geom after merge: {"arcs":[],"circles":[],"lines":[58],"points":[]}

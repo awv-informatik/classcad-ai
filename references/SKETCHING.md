@@ -356,12 +356,12 @@ Subtract to get a linear equation, substitute back, solve the quadratic. Two sol
 
 ## Related
 
-- [constraint.md](constraint.md) — geometric constraints
-- [dimension.md](dimension.md) — dimensional constraints (with practical patterns)
-- [circle.md](circle.md) — circle creation and querying
-- [line.md](line.md) — line creation
-- [arcByCenter.md](arcByCenter.md) — arc creation
-- [geometry.md](geometry.md) — batch geometry creation
-- [trimCurves.md](trimCurves.md) — trim workflow
-- [splitAllCurves.md](splitAllCurves.md) — split at intersections
-- [splitCurvesMergeBack.md](splitCurvesMergeBack.md) — apply trims
+- [sketch/constraint.md](sketch/constraint.md) — geometric constraints
+- [sketch/dimension.md](sketch/dimension.md) — dimensional constraints (with practical patterns)
+- [sketch/circle.md](sketch/circle.md) — circle creation and querying
+- [sketch/line.md](sketch/line.md) — line creation
+- [sketch/arcByCenter.md](sketch/arcByCenter.md) — arc creation
+- [sketch/geometry.md](sketch/geometry.md) — batch geometry creation
+- [sketch/trimCurves.md](sketch/trimCurves.md) — trim workflow
+- [sketch/splitAllCurves.md](sketch/splitAllCurves.md) — split at intersections
+- [sketch/splitCurvesMergeBack.md](sketch/splitCurvesMergeBack.md) — apply trims

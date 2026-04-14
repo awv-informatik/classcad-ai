@@ -367,4 +367,4 @@ Practical workflow guides for complex multi-API tasks.
 
 | Guide | Description | Reference |
 |-------|-------------|-----------|
-| **Sketching** | Reproducing technical drawings: dimension analysis, circle-based construction, trim workflow, constraint placement, iterative evaluation | [SKETCHING.md](references/sketch/SKETCHING.md) |
+| **Sketching** | Reproducing technical drawings: dimension analysis, circle-based construction, trim workflow, constraint placement, iterative evaluation | [SKETCHING.md](references/SKETCHING.md) |

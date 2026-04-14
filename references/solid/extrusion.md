@@ -12,9 +12,11 @@ Creates a solid by sweeping a closed 2D profile along a direction vector. The pr
 
 - `id` — entity injection feature ID (not part ID, not shape ID)
 - `direction` — `[x, y, z]` vector. **The magnitude IS the extrusion distance.** `[0, 0, 40]` extrudes 40 units along Z. `[1, 1, 1]` extrudes ~1.73 units along the diagonal. This is NOT a unit direction + separate distance.
-- `curves` — the profile to extrude. Accepts TWO forms:
-  - **Shape ID** (single value) — from `curve.shape`. The shape must contain closed curves.
-  - **Array of sketch element IDs** — from sketch drawing APIs (`sketch.rectangle`, `sketch.line`, etc.). The elements must form a closed loop.
+- `curves` — the profile to extrude. Accepts IDs of type `"shape"` or `"sketch-curve"`. See `curves-parameter.md` for full details. Short version:
+  - **Shape ID** (scalar or in array) — from `curve.shape`. The shape must contain closed curves.
+  - **Array of sketch-curve IDs** — from `sketch.rectangle`, `sketch.line`, `sketch.circle`, etc. Must form a closed loop.
+  - **Mixed** — shape IDs and sketch-curve IDs can be combined in one array.
+  - **NOT accepted:** sketchRegion IDs (different type).
 - `rotation` — `[rx, ry, rz]` Euler angles in radians (optional). Same behavior as primitives.
 - `translation` — `[x, y, z]` offset (optional). Same behavior as primitives.
 - `rotateFirst` — boolean, default `true` (optional). Same behavior as primitives.
@@ -99,6 +101,7 @@ const extId3 = (await api.v1.solid.extrusion({
 
 ## Related
 
+- `curves-parameter.md` — full reference on the `curves` parameter (accepted types, mixing, edge cases)
 - `solid.revolve` — revolve a profile around an axis (instead of sweeping along a vector)
 - `solid.deleteSolid` — remove solids from an EIF
 - `curve.shape` + `curve.advancedPolyline` — create the profile for extrusion

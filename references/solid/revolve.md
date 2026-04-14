@@ -14,9 +14,11 @@ Creates a solid by revolving a closed 2D profile around an axis defined by a poi
 - `originPos` — `[x, y, z]` point that the rotation axis passes through. Does NOT have to be the world origin — any point works. This defines where the center of the ring/disc will be.
 - `direction` — `[x, y, z]` rotation axis direction. Does NOT need to be normalized — `[1, 1, 0]` works the same as `[0.707, 0.707, 0]`. Any non-zero vector works.
 - `angle` — rotation angle in **radians**. `Math.PI * 2` = full 360°. Partial values create arc-shaped solids.
-- `curves` — the profile to revolve. Accepts TWO forms:
-  - **Shape ID** (single value) — from `curve.shape`. Shape must contain closed curves.
-  - **Array of sketch element IDs** — from sketch drawing APIs. Elements must form a closed loop.
+- `curves` — the profile to revolve. Accepts IDs of type `"shape"` or `"sketch-curve"`. See `curves-parameter.md` for full details. Short version:
+  - **Shape ID** (scalar or in array) — from `curve.shape`. Shape must contain closed curves.
+  - **Array of sketch-curve IDs** — from `sketch.rectangle`, `sketch.line`, `sketch.circle`, etc. Must form a closed loop.
+  - **Mixed** — shape IDs and sketch-curve IDs can be combined in one array.
+  - **NOT accepted:** sketchRegion IDs (different type).
 - `rotation` — `[rx, ry, rz]` Euler angles in radians (optional). Post-creation transform.
 - `translation` — `[x, y, z]` offset (optional). Post-creation transform.
 - `rotateFirst` — boolean, default `true` (optional). When both rotation and translation are provided, determines ordering.
@@ -120,6 +122,7 @@ const torusId = (await api.v1.solid.revolve({
 
 ## Related
 
+- `curves-parameter.md` — full reference on the `curves` parameter (accepted types, mixing, edge cases)
 - `solid.extrusion` — sweep a profile along a vector (instead of revolving around an axis)
 - `solid.deleteSolid` — remove solids from an EIF (no `updateRevolve` exists)
 - `curve.shape` + `curve.advancedPolyline` — create rectangular/polygonal profiles

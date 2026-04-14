@@ -1,0 +1,5 @@
+[09] box1: 61 box2: 64 tool: 67
+[09] sub from box1 — result: 61 maxLevel: 31
+[09] sub from box2 (reuse tool) — result: 64 maxLevel: 31
+[09] messages: []
+[filewrite] files/09-keeptools-safe-keeptools-reuse.json (130 bytes)

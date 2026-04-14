@@ -1,0 +1,5 @@
+[04] c1: 58 c2: 65
+[04] TANGENT circle-circle result: 68 maxLevel: 31
+[04] c1 center: null
+[04] c2 center: null
+[stderr] [run] Script error: Cannot read properties of null (reading 'pos')

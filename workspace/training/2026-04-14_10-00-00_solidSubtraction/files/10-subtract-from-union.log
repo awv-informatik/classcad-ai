@@ -1,0 +1,3 @@
+[10] union done, compound solid: 61
+[10] subtraction from union — result: 61 maxLevel: 31
+[filewrite] files/10-subtract-from-union-union-then-subtract.json (36 bytes)

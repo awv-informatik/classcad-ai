@@ -1,0 +1,4 @@
+[04] before end: {"pos":{"x":0,"y":70,"z":0}}
+[04] V_DIST: result: 70 maxLevel: 31
+[04] after end: {"pos":{"x":0,"y":50,"z":0}}
+[filewrite] files/04-vertical-distance-vdist-data.json (281 bytes)

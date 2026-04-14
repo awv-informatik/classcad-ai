@@ -1,0 +1,48 @@
+{
+  "constraintResult": 76,
+  "maxLevel": 31,
+  "l1": {
+    "start": [
+      10,
+      10
+    ],
+    "end": [
+      25,
+      40
+    ]
+  },
+  "l2before": {
+    "start": [
+      60,
+      15
+    ],
+    "end": [
+      80,
+      35
+    ]
+  },
+  "l2after": {
+    "start": [
+      66,
+      18
+    ],
+    "end": [
+      53.35088935932649,
+      43.29822128134704
+    ]
+  },
+  "expected": {
+    "start": [
+      70,
+      10,
+      0
+    ],
+    "end": [
+      55,
+      40,
+      0
+    ]
+  },
+  "startMatch": false,
+  "endMatch": false
+}

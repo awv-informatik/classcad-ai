@@ -1,0 +1,6 @@
+[07] l1: 58 l2: 68 l3: 72
+[07] PARALLEL l1-l2: 76 maxLevel: 31
+[07] PARALLEL l2-l3: 78 maxLevel: 31
+[07] l2: 50 10 -> 94.7213595499958 10 horizontal: true
+[07] l3: 20 40 -> 62.720018726587654 40 horizontal: true
+[filewrite] files/07-chaining-chaining.json (295 bytes)

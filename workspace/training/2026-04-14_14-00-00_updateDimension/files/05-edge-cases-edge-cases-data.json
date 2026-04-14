@@ -1,0 +1,33 @@
+{
+  "zero": {
+    "result": 2,
+    "maxLevel": 31,
+    "messages": [],
+    "endX": 0
+  },
+  "negative": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": [],
+    "endX": 50
+  },
+  "veryLarge": {
+    "result": 2,
+    "maxLevel": 31,
+    "endX": 999998.9999999999
+  },
+  "sequential": {
+    "step1": {
+      "result": 2,
+      "endX": 50
+    },
+    "step2": {
+      "result": 2,
+      "endX": 100
+    },
+    "step3": {
+      "result": 2,
+      "endX": 200
+    }
+  }
+}

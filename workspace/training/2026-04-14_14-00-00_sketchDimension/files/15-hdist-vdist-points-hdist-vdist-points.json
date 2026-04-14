@@ -1,0 +1,26 @@
+{
+  "hdist": {
+    "id": 72,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "vdist": {
+    "id": 76,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "l1EndAfter": {
+    "pos": {
+      "x": 40,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "l2StartAfter": {
+    "pos": {
+      "x": 80,
+      "y": 10,
+      "z": 0
+    }
+  }
+}

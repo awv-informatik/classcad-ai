@@ -1,0 +1,4 @@
+[08] target: 61 tool1: 64
+[08] first intersection result: 61 maxLevel: 31
+[08] second intersection result: 61 maxLevel: 31
+[filewrite] files/08-chained-intersection-chained-response.json (113 bytes)

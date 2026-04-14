@@ -246,7 +246,7 @@ const r = await api.v1.part.create({ name: 'Test' })
 
 **All data is in `r`.** Log compact findings with `console.log`. For large data (structure trees, graphic payloads, base64 content), use `filewrite` instead. All console output is auto-captured to `files/<scriptName>.log`.
 
-**`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`. Snapshots are visual aids for the journal, **not proof of behavior**. The renderer auto-scales geometry to fill the viewport, so size-only changes produce identical-looking images.
+**`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`. Snapshots are real evidence — they show shape, topology, and spatial relationships that numbers alone can miss. The renderer auto-scales geometry to fill the viewport, so size-only changes on a single body produce identical-looking images. For size verification, use numeric data alongside snapshots. But **never dismiss a snapshot that contradicts your numbers** — if the picture shows something changed and your data says it didn't, your measurement is probably wrong.
 
 **`filewrite(data, 'label')`** — writes data to `files/`. Objects → `.json`, strings → `.txt`, buffers → `.bin`. **This is your primary verification tool.** Use it to persist:
 - API responses (`r.result`, `r.messages`, `r.maxLevel`) — to verify what the server actually returned
@@ -255,6 +255,8 @@ const r = await api.v1.part.create({ name: 'Test' })
 - Computed comparisons — e.g., `{ vertsBefore: N, vertsAfter: M, boundingBox: [...] }`
 
 When studying whether an operation changes geometry, **always `filewrite` the evidence**. Do not rely on snapshots alone — they can mislead (auto-zoom, hidden geometry, back-face changes).
+
+**Measure ALL geometry, not just the target.** When testing whether an operation changes element B, also measure element A. The solver may satisfy a constraint by changing the element you assumed was fixed. Example: EQUAL_LENGTH(fixedLine, freeLine) shrank the fixed line to match the free one — because FIXATION locks position/direction, not length. The script only checked the free line's length and concluded "no change", missing that the fixed line changed instead.
 
 **Snapshot placement:** When your task involves 3D geometry (solids, booleans, fillets, etc.), see [Appendix: Snapshot Rules](#appendix-snapshot-rules) for camera orientation and geometry placement tips.
 
@@ -267,7 +269,7 @@ node scripts/run.mjs workspace/training/<session>/scripts/01-basic.mjs \
   --outdir workspace/training/<session>
 ```
 
-Read `files/<scriptName>.log` for console output and return values. Check `files/` for snapshots (PNGs) and data dumps (`.json`). When verifying behavior changes, prioritize data from `filewrite` dumps over visual inspection of PNGs.
+Read `files/<scriptName>.log` for console output and return values. Check `files/` for snapshots (PNGs) and data dumps (`.json`). **Evaluate both visual and numeric evidence.** If snapshots and data agree, you have a solid finding. If they disagree — a snapshot shows a change but data says nothing moved, or vice versa — that's a red flag: investigate before journaling. The most common cause is measuring the wrong element or missing a side effect.
 
 ---
 
@@ -279,9 +281,8 @@ After each run, append a section to `journal.md`. Two tiers — **brief** (behav
 
 - Every entry gets the script filename and a one-line result summary
 - Snapshots MUST appear as markdown image embeds in a single-row table
-- **Cite data, not just images.** When a script `filewrite`s data or logs return values, reference the findings in the journal entry — vertex counts, bounding box deltas, return values, error messages. The `.log` file and `.json` dumps are primary evidence.
+- **Cross-check data and visuals.** Every finding should be supported by both numeric evidence (`filewrite` dumps, log values) and visual evidence (snapshots). When they agree, journal the finding. **When they disagree, do not journal — investigate.** Write another script, measure different elements, or re-examine your assumptions. A snapshot showing change + data showing none means you measured the wrong thing. Data showing change + identical snapshots means auto-scaling or view angle is hiding it.
 - **📌 LLM doc:** flags only on full entries — these are your TODO list for Step 5
-- If before/after snapshots look identical, **check the data first** (vertex counts, bounding box from `filewrite` dumps). Only reposition and re-run if the data also shows no change.
 
 ---
 
@@ -320,7 +321,7 @@ export default async function (api, { snapshot, filewrite }) {
 - [ ] Every enum value / type variant has been exercised (if applicable)
 - [ ] The corresponding `update*` / `delete*` method tested (if it exists)
 - [ ] At least one realistic usage combining this API with its prerequisites
-- [ ] Behavioral claims verified with data (`filewrite` dumps, log values), not just screenshots
+- [ ] Behavioral claims verified with data (`filewrite` dumps, log values) AND visual evidence (snapshots) — both must agree
 
 If not done, pick the next gap and loop back. **When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. The failure itself is a finding.
 
@@ -358,7 +359,7 @@ export default async function (api) {
 - [ ] At least one edge case or unexpected behavior has been probed
 - [ ] Findings are grounded in observed server responses, not assumptions from docs
 - [ ] The concept has been tested across at least 2 different APIs (to confirm it's universal, not API-specific)
-- [ ] Key findings backed by `filewrite` data or logged return values, not just visual inspection
+- [ ] Key findings backed by `filewrite` data or logged return values AND visual inspection — both must agree
 
 ## Step 5 — Write the LLM doc
 
@@ -550,7 +551,7 @@ Script: `scripts/04-neg-limit.mjs` — limit2=-10 silently produces no geometry.
 **📌 LLM doc:** Write to `references/part/extrusion.md` — document negative limit2 behavior.
 ```
 
-> **Data over pictures.** When a script `filewrite`s comparison data or logs return values, the journal entry must cite them. "The snapshots look the same" is not a finding — "vertex count unchanged at 36, bounding box identical (see `files/04-comparison.json`)" is.
+> **Data AND pictures.** Every journal entry must cite numeric evidence (`filewrite` data, log values) alongside snapshots. Neither alone is sufficient. "The snapshots look the same" is not a finding — but "the data says no change while the snapshots clearly show a difference" is a red flag that demands a follow-up script before you journal a conclusion.
 
 ---
 

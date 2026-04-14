@@ -1,0 +1,9 @@
+[07b2] BEFORE: l1 len: 60 l2 len: 30
+[07b2]   l1: {"x":0,"y":0,"z":0} -> {"x":60,"y":0,"z":0}
+[07b2]   l2: {"x":0,"y":30,"z":0} -> {"x":30,"y":30,"z":0}
+[07b2] constraint result: 78 maxLevel: 31
+[07b2] AFTER: l1 len: 30 l2 len: 30
+[07b2]   l1: {"x":0,"y":0,"z":0} -> {"x":30,"y":0,"z":0}
+[07b2]   l2: {"x":0,"y":30,"z":0} -> {"x":30,"y":30,"z":0}
+[07b2]   equal: true
+[filewrite] files/07b2-equal-length-verify-equal-length-7b2.json (761 bytes)

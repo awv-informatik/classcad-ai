@@ -669,7 +669,7 @@ const rectIds = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], 
 | --- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
 | 1   | Api study of `sketch.constraint` — all constraint types                                                                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 2   | Api study of `sketch.generateAutoConstraints`                                                                                   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
-| 3   | Study: constraint types — coincident, parallel, perpendicular, tangent, equal, horizontal, vertical, symmetric, fixed, midpoint | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Study: constraint types — coincident, parallel, perpendicular, tangent, equal, horizontal, vertical, symmetric, fixed, midpoint | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 **Task #1:** Study the `constraint` API and all its type variants in the reference docs. This requires careful reading of parameter structures per constraint type.
 
@@ -679,10 +679,10 @@ const rectIds = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], 
 
 | #   | Task                                                                                                      | Source                                                            | Studied |
 | --- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.dimension`                                                                           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 2   | Api study of `sketch.updateDimension`                                                                     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 3   | Api study of `sketch.updateDimensionPosition`                                                             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
-| 4   | Study: dimension types — RADIUS, DIAMETER, OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE, ANGLE, ANGLEOX | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.dimension`                                                                           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 2   | Api study of `sketch.updateDimension`                                                                     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 3   | Api study of `sketch.updateDimensionPosition`                                                             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
+| 4   | Study: dimension types — RADIUS, DIAMETER, OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE, ANGLE, ANGLEOX | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 **Task #1: Api study of `sketch.dimension`**
 
@@ -721,11 +721,11 @@ const regionId = (await api.v1.sketch.sketchRegion({ id: skId, geomIds: rectIds 
 
 | #   | Task                                                       | Source                                                            | Studied |
 | --- | ---------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.updateGeometry`                       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 1   | Api study of `sketch.updateGeometry`                       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 | 2   | Api study of `sketch.getGeometry`                          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
 | 3   | Api study of `sketch.getPoints` — get point IDs of a curve | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
 | 4   | Api study of `sketch.getPositions`                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 5   | Api study of `sketch.moveGeometry`                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 5   | Api study of `sketch.moveGeometry`                         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]     |
 
 **Task #2: Api study of `sketch.getGeometry`**
 
@@ -879,8 +879,8 @@ const revId = (await api.v1.solid.revolve({ id: eifId, originPos: [50, 0, 0], di
 | #   | Task                                                           | Source                                                          | Studied |
 | --- | -------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
 | 1   | Api study of `solid.union`                                     | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
-| 2   | Api study of `solid.subtraction`                               | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 3   | Api study of `solid.intersection`                              | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 2   | Api study of `solid.subtraction`                               | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
+| 3   | Api study of `solid.intersection`                              | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
 | 4   | Api study of `solid.merge` — NOT a union                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 | 5   | Study: target/tools pattern — `target`, `tools[]`, `keepTools` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
 

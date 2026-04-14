@@ -1,0 +1,4 @@
+[07] small target: 61 big tool: 64
+[07] result: null maxLevel: 51
+[07] messages: [{"api":"v1.solid.subtraction","code":1014,"level":51,"levelStr":"ERROR","message":"Target solid was removed by subtraction."}]
+[filewrite] files/07-tool-envelops-target-envelop-result.json (234 bytes)

@@ -1,0 +1,18 @@
+{
+  "radius": {
+    "dimId": 66,
+    "updateResult": 1,
+    "updateMaxLevel": 31,
+    "radiusBefore": 20,
+    "radiusAfter": 40,
+    "expected": 40
+  },
+  "diameter": {
+    "dimId": 70,
+    "updateResult": 1,
+    "updateMaxLevel": 31,
+    "radiusBefore": 15,
+    "radiusAfter": 30,
+    "expectedRadius": 30
+  }
+}

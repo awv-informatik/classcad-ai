@@ -1,0 +1,6 @@
+[03c] box1: 61 box2: 64
+[03c] intersection result: 61 maxLevel: 31
+[03c] attempting translate on kept tool (box2)...
+[03c] translate result: null maxLevel: 51
+[03c] translate messages: [{"api":"v1.solid.translation","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"target\" must be provided in the api call!"}]
+[filewrite] files/03c-keeptools-verify-tool-keeptools-verify-tool.json (307 bytes)

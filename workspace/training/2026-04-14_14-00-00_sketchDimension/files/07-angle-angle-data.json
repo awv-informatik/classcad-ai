@@ -1,0 +1,171 @@
+{
+  "dimId": 80,
+  "maxLevel": 31,
+  "dimClass": "CC_AngularFeatureDimension",
+  "dimName": "Ang",
+  "l2EndBefore": {
+    "pos": {
+      "x": 40,
+      "y": 40,
+      "z": 0
+    }
+  },
+  "l2EndAfter": {
+    "pos": {
+      "x": 28.28427124746191,
+      "y": 48.98979485566356,
+      "z": 0
+    }
+  },
+  "dimMembers": {
+    "master": {
+      "value": 78,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2017_5_15_11:59",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "startPt": {
+      "value": {
+        "x": 25,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "endPt": {
+      "value": {
+        "x": 12.500000000000004,
+        "y": 21.650635094610966,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "cornerPt": {
+      "value": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "ccw": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "extendToCorner": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "valHandlePos": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "valHandleBehaviour": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "dimPt": {
+      "value": {
+        "x": 20,
+        "y": 15,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "classification": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "paramName": {
+      "value": "60deg",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "displayInfo": {
+      "members": [
+        {
+          "members": [
+            {
+              "value": 58,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 2,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 0,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "members": [
+            {
+              "value": 66,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 2,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 0,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "sector": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

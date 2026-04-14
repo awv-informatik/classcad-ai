@@ -13,7 +13,7 @@
 - **Cover everything.** Every method, every parameter, every enum value, every update function. If the docs list it, you test it.
 - **Journal as you go.** Write journal entries after each run, not at the end. Include what worked, what broke, what surprised you.
 - **Errors are data.** When something fails, that's a finding. Document it, interpret it, try to understand why.
-- **Verify with data and snapshots.** Snapshots are valuable — they show shape, spatial relationships, and visual correctness. But when testing behavior (does X update geometry? does Y require recalc?), also `filewrite` API responses and compare actual values — vertex counts, bounding boxes, feature tree state. The renderer auto-scales, so before/after images of differently-sized geometry can look identical. Use both, but never let screenshots be the only evidence.
+- **Verify with data and snapshots — trust neither alone.** Both numeric data (`filewrite` dumps, log values) and visual evidence (snapshots) are real evidence. Use both. When they agree, you have a solid finding. **When they disagree, stop and investigate** — write another script, measure different elements, check your assumptions. A snapshot showing change + data showing none usually means you measured the wrong thing. The renderer auto-scales, so size-only changes on a single body can look identical — but that's a known limitation, not a reason to dismiss all visual evidence.
 - **Update the skill.** Your journal is working notes. The skill files are the deliverable. Don't skip Step 4.
 
 ## Deliverables

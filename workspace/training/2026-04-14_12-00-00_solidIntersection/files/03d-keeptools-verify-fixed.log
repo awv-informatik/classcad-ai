@@ -1,0 +1,6 @@
+[03d] box1: 61 box2: 64
+[03d] intersection result: 61 maxLevel: 31
+[03d] attempting translate on kept tool (box2)...
+[03d] translate result: null maxLevel: 51
+[03d] translate messages: [{"api":"v1.solid.translation","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"translation\" must be provided in the api call!"}]
+[filewrite] files/03d-keeptools-verify-fixed-keeptools-verify-fixed.json (312 bytes)

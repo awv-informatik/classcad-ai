@@ -1,0 +1,30 @@
+{
+  "dim1": {
+    "id": 82,
+    "maxLevel": 31,
+    "class": "CC_LinearFeatureDimension",
+    "name": "HD"
+  },
+  "dim2": {
+    "id": 86,
+    "maxLevel": 51,
+    "class": "CC_LinearFeatureDimension",
+    "name": "HD0"
+  },
+  "posAfter": {
+    "l1End": {
+      "pos": {
+        "x": 60,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2End": {
+      "pos": {
+        "x": 60,
+        "y": 40,
+        "z": 0
+      }
+    }
+  }
+}

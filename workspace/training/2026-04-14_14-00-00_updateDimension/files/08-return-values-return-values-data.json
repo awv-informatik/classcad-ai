@@ -1,0 +1,26 @@
+{
+  "sameValue": {
+    "result": 2,
+    "maxLevel": 31
+  },
+  "diffValue": {
+    "result": 2,
+    "maxLevel": 31
+  },
+  "overConstrained": {
+    "result": 0,
+    "maxLevel": 31,
+    "positions": {
+      "endPos": {
+        "x": 100,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  }
+}

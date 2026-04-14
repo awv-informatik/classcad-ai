@@ -1,0 +1,43 @@
+{
+  "dimId": 96,
+  "dimCreateMaxLevel": 31,
+  "updateResult": 2,
+  "updateMaxLevel": 31,
+  "updateMessages": [],
+  "bottomLineBefore": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "bottomLineAfter": {
+    "endPos": {
+      "x": 119.99999999999999,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "rightLineAfter": {
+    "endPos": {
+      "x": 119.99999999999999,
+      "y": 50,
+      "z": 0
+    },
+    "startPos": {
+      "x": 119.99999999999999,
+      "y": 0,
+      "z": 0
+    }
+  }
+}

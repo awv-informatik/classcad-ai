@@ -1,0 +1,8 @@
+[08] coincident results: [76,78,80,82] maxLevel: 31
+[08] H+V results: [84,86,88,90] maxLevel: 31
+[08] EQUAL_LENGTH result: 92 maxLevel: 31
+[08] l1: (10.0,5.0) -> (53.0,5.0) len=43.0
+[08] l2: (53.0,5.0) -> (53.0,48.0) len=43.0
+[08] l3: (53.0,48.0) -> (10.0,48.0) len=43.0
+[08] l4: (10.0,48.0) -> (10.0,5.0) len=43.0
+[filewrite] files/08-multi-constraint-multi-constraint.json (680 bytes)

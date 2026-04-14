@@ -1,0 +1,5 @@
+[11] bare "myLen": 0 31 endX: 80
+[11] "@expr.myLen": 0 31 endX: 80
+[11] "myLen + 10": 0 31 endX: 80
+[11] "$myLen": 0 31 endX: 80
+[filewrite] files/11-expr-syntax-expr-syntax-data.json (378 bytes)

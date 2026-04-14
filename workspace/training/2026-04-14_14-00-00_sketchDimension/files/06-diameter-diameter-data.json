@@ -1,0 +1,8 @@
+{
+  "dimId": 63,
+  "maxLevel": 31,
+  "dimClass": "CC_DiameterFeatureDimension",
+  "dimName": "D",
+  "circleRadiusAfter": 30,
+  "expectedRadius": 30
+}

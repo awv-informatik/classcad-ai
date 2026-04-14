@@ -1,0 +1,6 @@
+[03e] box1: 61 box2: 64
+[03e] intersection result: 61 maxLevel: 31
+[03e] translating kept tool (box2)...
+[03e] translate result: 64 maxLevel: 31
+[03e] translate messages: []
+[filewrite] files/03e-keeptools-verify-union-keeptools-union-verify.json (82 bytes)

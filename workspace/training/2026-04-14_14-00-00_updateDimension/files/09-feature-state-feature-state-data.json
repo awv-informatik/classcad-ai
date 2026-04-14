@@ -1,0 +1,28 @@
+{
+  "withoutOpenClose": {
+    "result": 2,
+    "endX": 100
+  },
+  "linkWithExpression": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.linkWithExpression",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"exprName\" must be provided in the api call!"
+      }
+    ]
+  },
+  "afterLink": {
+    "endX": 100
+  },
+  "afterExprUpdate200": {
+    "endX": 100
+  },
+  "afterExprUpdate80": {
+    "endX": 100
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "OFFSET": {
+    "result": 2,
+    "maxLevel": 31,
+    "endX": 100
+  },
+  "HORIZONTAL_DISTANCE": {
+    "result": 2,
+    "maxLevel": 31,
+    "endX": 90
+  },
+  "VERTICAL_DISTANCE": {
+    "result": 2,
+    "maxLevel": 31,
+    "endY": 0
+  },
+  "RADIUS": {
+    "result": 0,
+    "maxLevel": 31
+  },
+  "DIAMETER": {
+    "result": 0,
+    "maxLevel": 31
+  },
+  "ANGLE": {
+    "result": 0,
+    "maxLevel": 31,
+    "diagEnd": {
+      "x": 144.54731746795292,
+      "y": 32.015621187164236,
+      "z": 0
+    }
+  },
+  "ANGLEOX": {
+    "result": 0,
+    "maxLevel": 31,
+    "end": {
+      "x": 225,
+      "y": -6.698729810778069,
+      "z": 0
+    }
+  }
+}

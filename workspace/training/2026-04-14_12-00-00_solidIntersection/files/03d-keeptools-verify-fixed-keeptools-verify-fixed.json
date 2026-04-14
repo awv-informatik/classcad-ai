@@ -1,0 +1,14 @@
+{
+  "intersectionResult": 61,
+  "translateResult": null,
+  "translateMaxLevel": 51,
+  "translateMessages": [
+    {
+      "api": "v1.solid.translation",
+      "code": 1004,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"translation\" must be provided in the api call!"
+    }
+  ]
+}

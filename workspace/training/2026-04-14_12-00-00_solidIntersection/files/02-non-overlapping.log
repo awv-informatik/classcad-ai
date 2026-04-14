@@ -1,0 +1,5 @@
+[02] box1: 61 box2: 64
+[02] non-overlapping result: null
+[02] maxLevel: 51
+[02] messages: [{"api":"v1.solid.intersection","code":1014,"level":51,"levelStr":"ERROR","message":"Target solid was removed by intersection."}]
+[filewrite] files/02-non-overlapping-non-overlapping-response.json (236 bytes)

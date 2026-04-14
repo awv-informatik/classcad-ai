@@ -1,0 +1,10 @@
+[04] OFFSET: 2 31 endX: 100
+[04] H_DIST: 2 31 endX: 90
+[04] V_DIST: 2 31 endY: 0
+[04] RADIUS: 0 31
+[04] DIAMETER: 0 31
+[04] ANGLE dim created: 140
+[04] ANGLE: 0 31 diagEnd: {"x":144.54731746795292,"y":32.015621187164236,"z":0}
+[04] ANGLEOX dim created: 150
+[04] ANGLEOX: 0 31 end: {"x":225,"y":-6.698729810778069,"z":0}
+[filewrite] files/04-all-dim-types-all-types-data.json (640 bytes)

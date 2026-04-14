@@ -1,0 +1,7 @@
+[06] wrong ID type (sketch): null 51 [{"api":"v1.sketch.updateDimension","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"dimension\"]"}]
+[06] wrong ID type (line): null 51 [{"api":"v1.sketch.updateDimension","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"dimension\"]"}]
+[06] invalid ID: null 51 [{"api":"v1.sketch.updateDimension","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.updateDimension","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[06] missing value: null 51 [{"api":"v1.sketch.updateDimension","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"value\" must be provided in the api call!"}]
+[06] missing id: null 51 [{"api":"v1.sketch.updateDimension","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[06] constraint ID: null 51 [{"api":"v1.sketch.updateDimension","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"dimension\"]"}]
+[filewrite] files/06-error-cases-error-cases-data.json (2080 bytes)

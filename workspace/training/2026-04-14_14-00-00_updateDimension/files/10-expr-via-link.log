@@ -1,0 +1,7 @@
+[10] initial endX: 80
+[10] linkWithExpression result: null maxLevel: 51
+[10] linkWithExpression messages: [{"api":"v1.part.linkWithExpression","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in len.value:[CCVM::ldm: Datamember myLen not found]] "}]
+[10] after link endX: 80 (expect 150)
+[10] after expr→200 endX: 80 (expect 200)
+[10] after expr→50 endX: 80 (expect 50)
+[filewrite] files/10-expr-via-link-expr-via-link-data.json (402 bytes)

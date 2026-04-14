@@ -1,0 +1,6 @@
+[03b] box1: 61 box2: 64
+[03b] about to call intersection with keepTools:true...
+[03b] keepTools result: 61
+[03b] maxLevel: 31
+[03b] messages: []
+[filewrite] files/03b-keeptools-safe-keeptools-safe-response.json (54 bytes)

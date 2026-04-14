@@ -1,0 +1,7 @@
+[02] arcId: 58
+[02] pointId: 63
+[02] point before: {"x":10,"y":60,"z":0}
+[02] COINCIDENT result: 67 maxLevel: 31
+[02] point after: {"x":25.000000000000004,"y":40.00000000000001,"z":0}
+[02] dist from center: 25.000000000000004 radius: 25 on arc: true
+[filewrite] files/02-coincident-pt-on-arc-coincident-pt-arc.json (221 bytes)

@@ -1,0 +1,42 @@
+{
+  "dimId": 98,
+  "updateResult": 0,
+  "updateMaxLevel": 31,
+  "updateMessages": [],
+  "posBefore": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "posAfterLink": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "posAfterExprUpdate": {
+    "endPos": {
+      "x": 80,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  }
+}

@@ -1,0 +1,8 @@
+[14] RADIUS on line: null maxLevel: 51
+[14] OFFSET on circle: null maxLevel: 51
+[14] INVALID_TYPE: null maxLevel: 51
+[14] missing geomIds: null maxLevel: 51
+[14] missing type: null maxLevel: 51
+[14] ANGLE 1 line: null maxLevel: 51
+[14] negative value: 77 maxLevel: 51
+[filewrite] files/14-error-cases-error-cases.json (3405 bytes)

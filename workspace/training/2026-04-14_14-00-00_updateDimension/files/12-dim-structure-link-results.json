@@ -1,0 +1,62 @@
+{
+  "master": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "_VERSION": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "orientationType": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "startPt": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "endPt": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "angle": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "valHandlePos": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "valHandleBehaviour": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "dimPt": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "classification": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "paramName": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "displayInfo": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -97,40 +97,42 @@ Script: `scripts/06-tangent-arc-line.mjs` — ✅ Arc center moved from (40,25) 
 
 ---
 
-## 07 — EQUAL_LENGTH (unexpected: no resize)
+## 07 — EQUAL_LENGTH (CORRECTED: solver shrank the fixed line)
 
-Script: `scripts/07-equal-length.mjs` — ⚠️ Constraint created but l2 length unchanged (30, not 60).
+Script: `scripts/07-equal-length.mjs` — ⚠️ Original script only measured l2. Verification (`07c-equal-length-verify.mjs`) revealed the solver **shrank l1 from 60→30** to match l2.
 
 | ![before](files/07-equal-length-before-sketch-Sketch.png) | ![after](files/07-equal-length-after-sketch-Sketch.png) |
 |---|---|
 
-**Data:** l1 fixed, length 60. l2 free, length 30. After EQUAL_LENGTH: l2 still length 30. Constraint created (ID 74, maxLevel=31, no error). See `files/07-equal-length-equal-length-data.json`.
+**Data (from 07c verification):** Before: l1=60, l2=30. After: l1=30, l2=30. **equal=true**, lgsState=1 (solved). The solver chose to shrink the FIXATION-locked l1 rather than extend the free l2. Original script measured only l2 and concluded "no change" — **measurement bug**.
+
+**Learned:** EQUAL_LENGTH DOES work immediately. FIXATION on a line locks position/direction but NOT length — the solver can still shrink/extend a "fixed" line. Always measure ALL geometry in a test, not just the one you expect to change.
+
+📌 LLM doc: EQUAL_LENGTH works immediately. FIXATION does not lock length — fix both endpoints to truly freeze a line.
 
 ---
 
-## 07b — EQUAL_LENGTH with more constraints (still no resize)
+## 07b — EQUAL_LENGTH with constraints (CORRECTED: same — l1 shrank)
 
-Script: `scripts/07b-equal-length-constrained.mjs` — ⚠️ Even with l2.start fixed + HORIZONTAL, EQUAL_LENGTH didn't resize.
+Script: `scripts/07b-equal-length-constrained.mjs` / `07b2-equal-length-verify.mjs` — Same result: solver shrank l1 from 60→30.
 
-| ![before](files/07b-equal-length-constrained-before-sketch-Sketch.png) | ![after](files/07b-equal-length-constrained-after-sketch-Sketch.png) |
+| ![before](files/07b-equal-length-constrained-before-sketch-Sketch.png) | ![after](files/07b2-equal-length-verify-result-sketch-Sketch.png) |
 |---|---|
 
-**Data:** l2 start fixed at (0,30), HORIZONTAL applied, then EQUAL_LENGTH(l1, l2). l2 stayed at length 30, not 60. See `files/07b-equal-length-constrained-equal-length-constrained-data.json`.
-
-**Learned:** EQUAL_LENGTH creates the constraint but the solver does not retroactively resize lines. The constraint may only prevent future changes from breaking equality, or may need dimensions/updateDimension to trigger resizing. This contrasts with directional constraints (HORIZONTAL, PARALLEL, etc.) which DO reposition geometry immediately.
-
-📌 LLM doc: EQUAL_LENGTH does NOT resize lines at creation time. The constraint is stored but requires additional solver triggers (dimension changes) to enforce.
+**Data (from 07b2 verification):** Before: l1=60, l2=30. After: l1=30, l2=30. Even with l2.start fixed + HORIZONTAL + EQUAL_LENGTH, the solver still shrank l1 rather than extending l2. See `files/07b2-equal-length-verify-equal-length-7b2.json`.
 
 ---
 
-## 08 — EQUAL_RADIUS
+## 08 — EQUAL_RADIUS (CORRECTED: c2 radius grew to match c1)
 
-Script: `scripts/08-equal-radius.mjs` — Constraint created (ID 68, maxLevel=31). Radius change not numerically verified (getGeometry returns IDs only).
+Script: `scripts/08-equal-radius.mjs` / `08b-equal-radius-verify.mjs` — ✅ c2 radius changed from 15 to 30.
 
 | ![before](files/08-equal-radius-before-sketch-Sketch.png) | ![after](files/08-equal-radius-after-sketch-Sketch.png) |
 |---|---|
 
-**Data:** c1 radius 30 (fixed), c2 radius 15. After EQUAL_RADIUS: constraint created. See `files/08-equal-radius-equal-radius-data.json`. Likely same behavior as EQUAL_LENGTH — constraint stored but radius not changed immediately.
+**Data (from 08b verification):** c1 radius=30 (fixed), c2 radius=15. After EQUAL_RADIUS: c2 radius=30. Confirmed via structure tree — `c1.members.radius.value=30`, `c2.members.radius.value=30`. Unlike EQUAL_LENGTH, here the solver grew the free circle to match the fixed one. FIXATION on a circle does protect radius. See `files/08b-equal-radius-verify-equal-radius-verify.json`.
+
+📌 LLM doc: EQUAL_RADIUS works immediately. FIXATION on a circle protects its radius (unlike FIXATION on a line, which does NOT protect length).
 
 ---
 
@@ -329,7 +331,7 @@ See `files/20-named-constraint-named-constraint-data.json`.
 
 **All prior findings about "constraints being declarative only" were WRONG.** With `planeId` set on sketch creation:
 1. **Constraints reposition geometry immediately** at creation time for directional/positional types: HORIZONTAL, VERTICAL, PARALLEL, PERPENDICULAR, COINCIDENT, COLINEAR, CONCENTRIC, TANGENT, SYMMETRY
-2. **Length/radius equality constraints (EQUAL_LENGTH, EQUAL_RADIUS)** do NOT resize at creation time — the constraint is stored but length changes require other triggers
+2. **Equality constraints (EQUAL_LENGTH, EQUAL_RADIUS)** DO work immediately — but the solver may change EITHER element (even a "fixed" one for EQUAL_LENGTH). FIXATION on a line does not protect length; FIXATION on a circle does protect radius.
 3. **MIDPOINT** works for line endpoints but fails for free sketch.points
 4. **FIXATION** anchors geometry so other constraints affect only non-fixed elements
 5. **moveGeometry** is now constraint-aware — returns error (null, maxLevel=51) when move conflicts with constraints
@@ -350,6 +352,6 @@ See `files/20-named-constraint-named-constraint-data.json`.
 | SYMMETRY | ✅ | [axis, elem1, elem2] | ✅ Yes — mirrors unconstrained element |
 | FIXATION | ✅ | [any geometry] | N/A — prevents movement |
 | MIDPOINT | ⚠️ | [pt/lineEnd, line] | ✅ for line endpoints, ❌ for free points |
-| EQUAL_LENGTH | ⚠️ | [line1, line2] | ❌ No resize at creation |
-| EQUAL_RADIUS | ⚠️ | [circle1, circle2] | ❌ Likely no resize at creation |
+| EQUAL_LENGTH | ✅ | [line1, line2] | ✅ Yes — equalizes length, but may shrink the "fixed" line (FIXATION doesn't lock length) |
+| EQUAL_RADIUS | ✅ | [circle1, circle2] | ✅ Yes — equalizes radii. FIXATION on circle protects radius correctly. |
 | SPLINE_FIT_POINT | ❌ | — | Not tested (no spline creation API) |

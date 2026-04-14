@@ -1,0 +1,11 @@
+[07] c1: 58
+[07] c2: 61
+[07] RADIUS dim created: 66 maxLevel: 31
+[07] c1 radius before update: 20
+[07] RADIUS update: result: 1 maxLevel: 31
+[07] c1 radius after update: 40
+[07] DIAMETER dim created: 70 maxLevel: 31
+[07] c2 radius before update: 15
+[07] DIAMETER update: result: 1 maxLevel: 31
+[07] c2 radius after update: 30
+[filewrite] files/07-radius-no-fix-radius-no-fix-data.json (312 bytes)

@@ -1,0 +1,5 @@
+[01] lineId: 58
+[01] dimension result: 68 maxLevel: 31
+[01] dim class: CC_LinearFeatureDimension name: Offset
+[filewrite] files/01-offset-basic-offset-dim-node.json (2459 bytes)
+[filewrite] files/01-offset-basic-offset-basic.json (2474 bytes)

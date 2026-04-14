@@ -1,0 +1,6 @@
+[01] box1: 61 box2: 64
+[01] intersection result: 61
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-intersection-intersection-response.json (54 bytes)
+[01] box2 still valid after intersection: null maxLevel: 51

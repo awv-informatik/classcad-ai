@@ -1,0 +1,4 @@
+[02] before: start= {"pos":{"x":0,"y":0,"z":0}} end= {"pos":{"x":80,"y":0,"z":0}}
+[02] dim result: 70 maxLevel: 31
+[02] after: start= {"pos":{"x":0,"y":0,"z":0}} end= {"pos":{"x":50,"y":0,"z":0}}
+[filewrite] files/02-offset-with-value-offset-with-value.json (2857 bytes)

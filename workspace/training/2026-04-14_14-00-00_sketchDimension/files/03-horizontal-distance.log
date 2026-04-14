@@ -1,0 +1,4 @@
+[03] H_DIST on line: result: 82 maxLevel: 31
+[03] H_DIST 2pts: result: 86 maxLevel: 51
+[03] after: l1End= {"pos":{"x":60,"y":0,"z":0}} l2End= {"pos":{"x":60,"y":40,"z":0}}
+[filewrite] files/03-horizontal-distance-hdist-data.json (430 bytes)

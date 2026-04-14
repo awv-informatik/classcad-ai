@@ -1,0 +1,6 @@
+[12] Created 16 circles
+[12] splitAllCurves: 130 segments
+[12] Classification: 65 keep, 65 trim, 0 errors
+[12] trimCurves OK: 65 segments trimmed
+[12] mergeBack complete
+[filewrite] files/12-trim-trim-stats.json (48 bytes)

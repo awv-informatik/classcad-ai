@@ -1,0 +1,10 @@
+[06] constraints after 2 lines: 4
+[filewrite] files/06-coincident-detection-constraints-after-creation.json (348 bytes)
+[06] constraints after l3: 5
+[06] moveGeometry result: null maxLevel: 51
+[06] constraints after move: 5
+[06] autoGen l3 result: null maxLevel: 31
+[06] constraints final: 5
+[06] new constraints from autoGen: 0
+[filewrite] files/06-coincident-detection-new-constraints.json (2 bytes)
+[filewrite] files/06-coincident-detection-constraints-final.json (433 bytes)

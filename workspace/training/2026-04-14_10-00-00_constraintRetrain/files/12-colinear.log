@@ -1,0 +1,5 @@
+[12] before l2: {"l2Start":{"pos":{"x":60,"y":15,"z":0}},"l2End":{"pos":{"x":100,"y":10,"z":0}}}
+[12] constraint result: 72 maxLevel: 31
+[12] after l2: {"l2Start":{"pos":{"x":60,"y":0,"z":0}},"l2End":{"pos":{"x":100.31128874149275,"y":0,"z":0}}}
+[12] isColinear: true
+[filewrite] files/12-colinear-colinear-data.json (498 bytes)

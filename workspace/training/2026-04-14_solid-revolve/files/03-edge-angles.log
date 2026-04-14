@@ -1,0 +1,8 @@
+[03] angle=0: 64 maxLevel: 31
+[03] angle=0 messages: []
+[03] angle=-90°: 70 maxLevel: 31
+[03] angle=-90° messages: []
+[03] angle=3*PI: 76 maxLevel: 31
+[03] angle=3*PI messages: []
+[03] angle=0.01: 82 maxLevel: 31
+[filewrite] files/03-edge-angles-edge-angle-results.json (305 bytes)

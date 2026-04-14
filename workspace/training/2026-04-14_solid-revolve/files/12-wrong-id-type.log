@@ -1,0 +1,3 @@
+[12] wrong ID type result: null maxLevel: 51
+[12] messages: [{"api":"v1.solid.revolve","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"}]
+[filewrite] files/12-wrong-id-type-wrong-id-result.json (286 bytes)

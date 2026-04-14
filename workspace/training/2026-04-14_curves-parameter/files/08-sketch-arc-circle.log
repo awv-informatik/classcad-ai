@@ -1,0 +1,6 @@
+[08A] sketch.circle result: 66 maxLevel: 31
+[08A] circle type: number
+[08A] extrusion with circle result: 71 maxLevel: 31
+[filewrite] files/08-sketch-arc-circle-circle-extrusion.json (99 bytes)
+[08B] circle scalar result: 74 maxLevel: 31
+[filewrite] files/08-sketch-arc-circle-circle-scalar.json (103 bytes)

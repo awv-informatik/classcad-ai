@@ -1,0 +1,19 @@
+{
+  "before": {
+    "pos": {
+      "x": 30,
+      "y": 25,
+      "z": 0
+    }
+  },
+  "after": {
+    "pos": {
+      "x": 30,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "constraintResult": 70,
+  "maxLevel": 31,
+  "onLine": true
+}

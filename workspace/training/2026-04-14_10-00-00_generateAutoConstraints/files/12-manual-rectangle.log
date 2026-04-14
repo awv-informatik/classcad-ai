@@ -1,0 +1,10 @@
+[12] constraints from creation: 10
+[filewrite] files/12-manual-rectangle-constraints-from-creation.json (880 bytes)
+[12] autoGen bottom: maxLevel=31 totalCons=10
+[12] autoGen right: maxLevel=31 totalCons=10
+[12] autoGen top: maxLevel=31 totalCons=10
+[12] autoGen left: maxLevel=31 totalCons=10
+[12] constraints after all autoGen: 10
+[12] new constraints: 0
+[filewrite] files/12-manual-rectangle-new-constraints.json (2 bytes)
+[filewrite] files/12-manual-rectangle-constraints-after.json (880 bytes)

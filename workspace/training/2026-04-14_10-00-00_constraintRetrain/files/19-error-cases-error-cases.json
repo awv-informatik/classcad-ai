@@ -1,0 +1,88 @@
+{
+  "parallelOneLine": {
+    "result": 67,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.constraint",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "horizOnCircle": {
+    "result": 69,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.constraint",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "invalidType": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.constraint",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"type\" is not valid. Possible values are: [\"COINCIDENT\",\"COLINEAR\",\"CONCENTRIC\",\"EQUAL_LENGTH\",\"EQUAL_RADIUS\",\"FIXATION\",\"HORIZONTAL\",\"MIDPOINT\",\"PARALLEL\",\"PERPENDICULAR\",\"SPLINE_FIT_POINT\",\"SYMMETRY\",\"TANGENT\",\"VERTICAL\"]"
+      }
+    ]
+  },
+  "emptyGeomIds": {
+    "result": 71,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.constraint",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      },
+      {
+        "api": "v1.sketch.constraint",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitHorizontalConstraint:[Index 0 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "eqLenMismatch": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.constraint",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Wrong number of geometry ids provided for a equal length constraint."
+      },
+      {
+        "api": "v1.sketch.constraint",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      },
+      {
+        "api": "v1.sketch.constraint",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitHorizontalConstraint:[Index 0 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  }
+}

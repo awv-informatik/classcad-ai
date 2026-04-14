@@ -1,0 +1,20 @@
+{
+  "before": {
+    "arcs": [],
+    "circles": [
+      65
+    ],
+    "lines": [],
+    "points": []
+  },
+  "after": {
+    "arcs": [],
+    "circles": [
+      65
+    ],
+    "lines": [],
+    "points": []
+  },
+  "constraintResult": 68,
+  "maxLevel": 31
+}

@@ -1,0 +1,6 @@
+[07] base (no transforms): 64 maxLevel: 31
+[07] with translation: 70 maxLevel: 31
+[07] with rotation: 76 maxLevel: 31
+[07] rot+trans rotateFirst=true: 82 maxLevel: 31
+[07] rot+trans rotateFirst=false: 88 maxLevel: 31
+[filewrite] files/07-transforms-transform-results.json (299 bytes)

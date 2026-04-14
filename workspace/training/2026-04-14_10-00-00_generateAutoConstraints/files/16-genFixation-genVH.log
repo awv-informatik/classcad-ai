@@ -1,0 +1,11 @@
+[16] point at origin, constraints from creation: 1
+[filewrite] files/16-genFixation-genVH-fix-before.json (88 bytes)
+[16] genFixation=false: 1
+[16] genFixation=true: 1
+[filewrite] files/16-genFixation-genVH-fix-after.json (88 bytes)
+[16] diagonal line, constraints: 1
+[filewrite] files/16-genFixation-genVH-vh-before.json (88 bytes)
+[16] diagonal genVertAndHoriz=true: 1
+[16] after exactly-H line, constraints: 2
+[filewrite] files/16-genFixation-genVH-vh-mid.json (174 bytes)
+[16] exactly-H autoGen: 2

@@ -1,0 +1,4 @@
+[04] open profile result: null
+[04] maxLevel: 51
+[04] messages: [{"api":"v1.solid.extrusion","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SolidAPI_v1.extrusion::PROC:Brep after linear sweep not manifold\nFunction: CADH_ExtrudeHeightRegion\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/Extrusion.cpp,     Line: 444] "}]
+[filewrite] files/04-open-profile-open-profile.json (405 bytes)

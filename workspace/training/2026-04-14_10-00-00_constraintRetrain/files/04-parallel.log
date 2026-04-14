@@ -1,0 +1,5 @@
+[04] before l2: {"l2Start":{"pos":{"x":0,"y":30,"z":0}},"l2End":{"pos":{"x":60,"y":50,"z":0}}}
+[04] constraint result: 72 maxLevel: 31
+[04] after l2: {"l2Start":{"pos":{"x":0,"y":30,"z":0}},"l2End":{"pos":{"x":63.245553203367585,"y":30,"z":0}}}
+[04] isParallel: true
+[filewrite] files/04-parallel-parallel-data.json (497 bytes)

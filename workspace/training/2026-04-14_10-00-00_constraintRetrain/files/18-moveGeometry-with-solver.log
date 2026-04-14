@@ -1,0 +1,6 @@
+[18] rectIds: [ 58, 64, 70, 76 ]
+[18] before: {"p0start":{"pos":{"x":0,"y":0,"z":0}},"p0end":{"pos":{"x":60,"y":0,"z":0}}}
+[18] moveGeometry result: null maxLevel: 51
+[18] after: {"p0start":{"pos":{"x":0,"y":0,"z":0}},"p0end":{"pos":{"x":60,"y":0,"z":0}}}
+[18] still horizontal: true moveResult: null
+[filewrite] files/18-moveGeometry-with-solver-move-solver-data.json (479 bytes)

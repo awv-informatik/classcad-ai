@@ -1,0 +1,37 @@
+{
+  "before": {
+    "p0start": {
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "p0end": {
+      "pos": {
+        "x": 60,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "after": {
+    "p0start": {
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "p0end": {
+      "pos": {
+        "x": 60,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "moveResult": null,
+  "moveMaxLevel": 51,
+  "isHorizontal": true
+}

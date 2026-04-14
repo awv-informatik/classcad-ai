@@ -1,0 +1,13 @@
+=== TEST A: Rectangle resize via dimension ===
+[19A] rect lines: [ 58, 64, 70, 76 ]
+[19A] bottom line: (%s,%s)→(%s,%s) 0 0 60 0
+[19A] dimension ID: 94
+[19A] updateDimension(100) result: 0 (0=unsolved, 1=solved)
+[19A] after resize: (%s,%s)→(%s,%s) 0 0 60 0
+[19A] width before=%d, after=%d, changed=%s 60 60 false
+[19A] right line start after: (%s,%s) 60 0
+
+=== TEST B: recalc after updateDimension ===
+[19B] after recalc: (%s,%s)→(%s,%s) 0 0 60 0
+[19B] width after recalc: %d 60
+[filewrite] files/19-parametric-resize-parametric-resize.json (830 bytes)

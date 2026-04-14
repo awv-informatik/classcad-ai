@@ -1,0 +1,40 @@
+{
+  "freePoint": {
+    "before": {
+      "pos": {
+        "x": 10,
+        "y": 60,
+        "z": 0
+      }
+    },
+    "after": {
+      "pos": {
+        "x": 18.06492419291535,
+        "y": 63.870151614169295,
+        "z": 0
+      }
+    },
+    "constraintResult": 68
+  },
+  "lineEndpoint": {
+    "before": {
+      "pos": {
+        "x": 100,
+        "y": 50,
+        "z": 0
+      }
+    },
+    "after": {
+      "pos": {
+        "x": 40.00000000000002,
+        "y": 20.000000000000014,
+        "z": 0
+      }
+    },
+    "constraintResult": 74
+  },
+  "expectedMidpoint": {
+    "x": 40,
+    "y": 20
+  }
+}

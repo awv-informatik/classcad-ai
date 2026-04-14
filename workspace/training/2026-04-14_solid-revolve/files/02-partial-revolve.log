@@ -1,0 +1,4 @@
+[02] 90° revolve: 64 maxLevel: 31
+[02] 180° revolve: 70 maxLevel: 31
+[02] 270° revolve: 76 maxLevel: 31
+[filewrite] files/02-partial-revolve-partial-results.json (163 bytes)

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 4,
+    "class": "CC_Part",
+    "name": "CircleDbg"
+  },
+  {
+    "id": 6,
+    "class": "CC_ExpressionSet",
+    "name": "ExpressionSet"
+  },
+  {
+    "id": 8,
+    "class": "CC_DimensionSet",
+    "name": "DimensionSet"
+  },
+  {
+    "id": 10,
+    "class": "CC_GeometrySet",
+    "name": "GeometrySet"
+  },
+  {
+    "id": 12,
+    "class": "CC_ReferenceSet",
+    "name": "ReferenceSet"
+  },
+  {
+    "id": 14,
+    "class": "CC_SketchSet",
+    "name": "SketchSet"
+  },
+  {
+    "id": 16,
+    "class": "CC_EntitySet",
+    "name": "EntitySet"
+  },
+  {
+    "id": 18,
+    "class": "CC_OperationSequence",
+    "name": "OperationSequence"
+  },
+  {
+    "id": 20,
+    "class": "CC_RollbackBar",
+    "name": "RollbackBar"
+  },
+  {
+    "id": 52,
+    "class": "CC_Sketch",
+    "name": "Sketch"
+  },
+  {
+    "id": 54,
+    "class": "CC_SketchReference",
+    "name": "SketchRef"
+  },
+  {
+    "id": 56,
+    "class": "CC_SketchDimensionSet",
+    "name": "Sketch"
+  }
+]

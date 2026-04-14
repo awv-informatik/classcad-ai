@@ -1,0 +1,16 @@
+[17] constraint created: 66
+[17] after constraint: l1.end=(40, 0)  l2.start=(50, 10)  match=false
+[17] recalc maxLevel: 31
+[17] after recalc: l1.end=(40, 0)  l2.start=(50, 10)  match=false
+[17] moveGeometry(zero) result: 0 maxLevel: 31
+[17] after moveGeo(0): l1.end=(40, 0)  l2.start=(50, 10)  match=false
+[17] after nudge +0.001: l1.end=(40, 0)  l2.start=(50.001, 10)  match=false
+[17] after nudge back: l1.end=(40, 0)  l2.start=(50, 10)  match=false
+[17] dimension created: 74
+[17] updateDimension result: 0 maxLevel: 31
+[17] after updateDimension: l1.end=(40, 0)  l2.start=(50, 10)  match=false
+[17] after recalc #2: l1.end=(40, 0)  l2.start=(50, 10)  match=false
+[17] openFeature: 31
+[17] closeFeature: 31
+[17] after open/close feature: l1.end=(40, 0)  l2.start=(50, 10)  match=false
+[filewrite] files/17-solver-probe-solver-probe-results.json (1717 bytes)

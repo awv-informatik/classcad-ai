@@ -1,0 +1,7 @@
+[03] Through-holes placed
+[03] Left lobe placed
+[03] R1.750 tangent points: tp1=(1.443, -0.104), tp2=(1.653, 0.264)
+[03] R1.375 tangent with R1.750: (4.251, 0.497)
+[03] R1.375 left extent: (1.937, -0.508)
+[03] Profile arcs placed
+[filewrite] files/03-profile-v1-profile-data.json (456 bytes)

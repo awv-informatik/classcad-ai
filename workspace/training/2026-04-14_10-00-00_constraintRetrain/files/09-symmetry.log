@@ -1,0 +1,7 @@
+[09] before pt1: {"pos":{"x":10,"y":20,"z":0}}
+[09] before pt2: {"pos":{"x":60,"y":25,"z":0}}
+[09] constraint result: 72 maxLevel: 31
+[09] after pt1: {"pos":{"x":10,"y":20,"z":0}}
+[09] after pt2: {"pos":{"x":70,"y":20,"z":0}}
+[09] isSymmetric: true expectedX: 70 actualX: 70
+[filewrite] files/09-symmetry-symmetry-data.json (472 bytes)

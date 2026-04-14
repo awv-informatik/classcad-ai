@@ -1,0 +1,5 @@
+[05] before l2: {"l2Start":{"pos":{"x":30,"y":10,"z":0}},"l2End":{"pos":{"x":40,"y":60,"z":0}}}
+[05] constraint result: 72 maxLevel: 31
+[05] after l2: {"l2Start":{"pos":{"x":30,"y":10,"z":0}},"l2End":{"pos":{"x":30.000000000000004,"y":60.99019513592785,"z":0}}}
+[05] isPerp: true
+[filewrite] files/05-perpendicular-perp-data.json (510 bytes)

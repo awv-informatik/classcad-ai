@@ -1,0 +1,11 @@
+{
+  "shapeId": 60,
+  "testA": {
+    "curves": [
+      60
+    ],
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

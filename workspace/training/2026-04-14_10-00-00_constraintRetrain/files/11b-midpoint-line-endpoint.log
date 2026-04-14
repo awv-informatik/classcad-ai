@@ -1,0 +1,8 @@
+[11b] MIDPOINT free point result: 68 maxLevel: 31
+[11b] free point before: {"pos":{"x":10,"y":60,"z":0}}
+[11b] free point after: {"pos":{"x":18.06492419291535,"y":63.870151614169295,"z":0}}
+[11b] expected midpoint: (40, 20)
+[11b] MIDPOINT line endpoint result: 74 maxLevel: 31
+[11b] line endpoint before: {"pos":{"x":100,"y":50,"z":0}}
+[11b] line endpoint after: {"pos":{"x":40.00000000000002,"y":20.000000000000014,"z":0}}
+[filewrite] files/11b-midpoint-line-endpoint-midpoint-follow-up-data.json (598 bytes)

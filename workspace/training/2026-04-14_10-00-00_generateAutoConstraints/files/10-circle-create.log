@@ -1,0 +1,8 @@
+[10] circle result: null maxLevel: 51
+[10] circle messages: [{"api":"v1.sketch.circle","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"centerPos\" must be provided in the api call!"}]
+[10] arc result: null maxLevel: 51
+[10] arc messages: [{"api":"v1.sketch.arcByCenter","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"centerPos\" must be provided in the api call!"}]
+[10] circle/arc nodes: 0
+[filewrite] files/10-circle-create-circle-arc-nodes.json (2 bytes)
+[10] sketch children: undefined
+[filewrite] files/10-circle-create-all-geom.json (956 bytes)

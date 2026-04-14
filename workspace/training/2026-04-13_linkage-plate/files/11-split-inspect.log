@@ -1,0 +1,16 @@
+[11] Created 16 circles
+[11] splitAllCurves returned 130 segments
+[11] Segments per circle:
+  01_R750_top: 19 segments
+  unknown: 6 segments
+  02_R750_bot: 17 segments
+  05_D1625: 14 segments
+  07_D1750: 26 segments
+  10_R1375: 11 segments
+  11_R875_base: 13 segments
+  12_R875_tip: 12 segments
+  15_R625_upper: 6 segments
+  16_R625_lower: 6 segments
+[filewrite] files/11-split-inspect-split-segments.json (34791 bytes)
+[filewrite] files/11-split-inspect-segment-counts.json (201 bytes)
+[11] Segment data written to files

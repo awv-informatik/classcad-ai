@@ -1,0 +1,88 @@
+[
+  {
+    "type": "CONCENTRIC hub",
+    "ids": [
+      141,
+      143
+    ],
+    "maxLevel": 31
+  },
+  {
+    "type": "CONCENTRIC boss0",
+    "id": 145,
+    "maxLevel": 31
+  },
+  {
+    "type": "CONCENTRIC boss1",
+    "id": 147,
+    "maxLevel": 31
+  },
+  {
+    "type": "CONCENTRIC boss2",
+    "id": 149,
+    "maxLevel": 31
+  },
+  {
+    "type": "TANGENT",
+    "geomIds": [
+      85,
+      67
+    ],
+    "id": 151,
+    "maxLevel": 31
+  },
+  {
+    "type": "TANGENT",
+    "geomIds": [
+      85,
+      79
+    ],
+    "id": 153,
+    "maxLevel": 31
+  },
+  {
+    "type": "TANGENT",
+    "geomIds": [
+      89,
+      79
+    ],
+    "id": 155,
+    "maxLevel": 31
+  },
+  {
+    "type": "TANGENT",
+    "geomIds": [
+      89,
+      73
+    ],
+    "id": 157,
+    "maxLevel": 31
+  },
+  {
+    "type": "TANGENT",
+    "geomIds": [
+      93,
+      73
+    ],
+    "id": 159,
+    "maxLevel": 31
+  },
+  {
+    "type": "TANGENT",
+    "geomIds": [
+      93,
+      67
+    ],
+    "id": 161,
+    "maxLevel": 31
+  },
+  {
+    "type": "H+V",
+    "ids": [
+      163,
+      165,
+      167
+    ],
+    "maxLevel": 31
+  }
+]

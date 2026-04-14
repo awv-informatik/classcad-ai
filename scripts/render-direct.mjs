@@ -9,6 +9,26 @@
  *   2. SKETCHES — getGeometry + getPositions/getPoints → 2D SVG → PNG
  *   3. CURVES  — creation params from structure → 2D SVG → PNG
  *
+ * Annotation layers (sketches only):
+ *   - DIMENSIONS   — extracted from CC_SketchDimensionSet in the structure tree.
+ *                    Renders linear, radial, diameter, and angular dimensions with
+ *                    extension lines, arrowheads, and value labels.
+ *   - CONSTRAINTS  — extracted from CC_2D*Constraint nodes in the structure tree.
+ *                    Renders as colored pill badges (⊙ T H V ⊥ ∥ = etc.) near
+ *                    constrained geometry. Auto-generated constraints (Auto_*) are
+ *                    filtered out; only user-created constraints are shown.
+ *   - LABEL PLACEMENT — all dimension labels and constraint badges are collected
+ *                    into a shared pool and processed by a force-directed de-overlap
+ *                    pass before rendering. The pass applies three forces per iteration:
+ *                      (a) label–label repulsion (AABB overlap → push apart)
+ *                      (b) label–geometry repulsion (push labels away from sketch
+ *                          lines, circles, and arcs to keep annotations outside
+ *                          the model boundary)
+ *                      (c) outward bias (gentle push away from the geometry centroid,
+ *                          encouraging labels to migrate to the perimeter)
+ *                    A spring force pulls each label back toward its computed anchor
+ *                    position to prevent runaway drift. Converges in ~20 iterations.
+ *
  * Also exports a combined renderer that auto-detects and renders all content types.
  */
 
@@ -381,8 +401,8 @@ function renderDimensionsSVG(dims, xf) {
   const DIM_COLOR = '#555'
   const EXT_COLOR = '#999'
   const ARROW_LEN = 10
-  const EXT_GAP = 5  // gap between geometry and extension line start (screen px)
-  const EXT_OVERSHOOT = 6  // overshoot past dimension line (screen px)
+  const EXT_GAP = 5
+  const EXT_OVERSHOOT = 6
 
   for (const dim of dims) {
     if (dim.kind === 'linear') {
@@ -453,7 +473,7 @@ function _renderLinearDim(dim, xf, color, extColor, arrowLen, extGap, extOver) {
 
   // Fallback: auto-offset 20px perpendicular to the line
   const offset = 20
-  const psx = perpX * offset, psy = -perpY * offset  // screen-space perpendicular (Y flipped)
+  const psx = perpX * offset, psy = -perpY * offset
   const d1 = [sx1 + psx, sy1 + psy]
   const d2 = [sx2 + psx, sy2 + psy]
   const labelPos = [(d1[0] + d2[0]) / 2, (d1[1] + d2[1]) / 2]
@@ -463,8 +483,7 @@ function _renderLinearDim(dim, xf, color, extColor, arrowLen, extGap, extOver) {
 function _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, extColor, arrowLen, extGap, extOver) {
   let svg = ''
 
-  // Extension lines from geometry points to dimension line endpoints
-  // With gap at geometry end and overshoot past dimension line
+  // Extension lines
   const ext1Dir = [d1[0] - sx1, d1[1] - sy1]
   const ext1Len = Math.sqrt(ext1Dir[0] ** 2 + ext1Dir[1] ** 2)
   if (ext1Len > 1) {
@@ -481,15 +500,12 @@ function _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, e
   // Dimension line with arrowheads
   svg += `<line x1="${d1[0].toFixed(1)}" y1="${d1[1].toFixed(1)}" x2="${d2[0].toFixed(1)}" y2="${d2[1].toFixed(1)}" stroke="${color}" stroke-width="1"/>\n`
 
-  // Arrowheads
   const dx = d2[0] - d1[0], dy = d2[1] - d1[1]
   const len = Math.sqrt(dx * dx + dy * dy)
   if (len > 2 * arrowLen) {
     const ux = dx / len, uy = dy / len
-    const px = -uy, py = ux  // perpendicular
-    // Arrow at d1 (pointing toward d1)
+    const px = -uy, py = ux
     svg += `<polygon points="${d1[0].toFixed(1)},${d1[1].toFixed(1)} ${(d1[0] + ux * arrowLen + px * 2.5).toFixed(1)},${(d1[1] + uy * arrowLen + py * 2.5).toFixed(1)} ${(d1[0] + ux * arrowLen - px * 2.5).toFixed(1)},${(d1[1] + uy * arrowLen - py * 2.5).toFixed(1)}" fill="${color}"/>\n`
-    // Arrow at d2 (pointing toward d2)
     svg += `<polygon points="${d2[0].toFixed(1)},${d2[1].toFixed(1)} ${(d2[0] - ux * arrowLen + px * 2.5).toFixed(1)},${(d2[1] - uy * arrowLen + py * 2.5).toFixed(1)} ${(d2[0] - ux * arrowLen - px * 2.5).toFixed(1)},${(d2[1] - uy * arrowLen - py * 2.5).toFixed(1)}" fill="${color}"/>\n`
   }
 
@@ -508,29 +524,23 @@ function _renderRadialDim(dim, xf, color, arrowLen, prefix) {
 
   const [cx, cy] = xf(center.x, center.y)
 
-  // Leader direction: toward dimPt if available, otherwise 45°
   let angle = Math.PI / 4
   if (dimPt) {
     const [dx, dy] = xf(dimPt.x, dimPt.y)
-    angle = Math.atan2(cy - dy, dx - cx)  // screen Y is flipped
+    angle = Math.atan2(cy - dy, dx - cx)
   }
 
-  // Point on circumference
   const circumPt = xf(center.x + radius * Math.cos(angle), center.y + radius * Math.sin(angle))
 
-  // Leader extends outward from circumference
   const leaderLen = 30
-  const ux = Math.cos(angle), uy = -Math.sin(angle)  // screen Y flipped
+  const ux = Math.cos(angle), uy = -Math.sin(angle)
   const leaderEnd = [circumPt[0] + ux * leaderLen, circumPt[1] + uy * leaderLen]
 
-  // Leader line
   svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${leaderEnd[0].toFixed(1)}" y2="${leaderEnd[1].toFixed(1)}" stroke="${color}" stroke-width="1"/>\n`
 
-  // Arrow at circumference
   const px = -uy, py = ux
   svg += `<polygon points="${circumPt[0].toFixed(1)},${circumPt[1].toFixed(1)} ${(circumPt[0] + ux * arrowLen + px * 2.5).toFixed(1)},${(circumPt[1] + uy * arrowLen + py * 2.5).toFixed(1)} ${(circumPt[0] + ux * arrowLen - px * 2.5).toFixed(1)},${(circumPt[1] + uy * arrowLen - py * 2.5).toFixed(1)}" fill="${color}"/>\n`
 
-  // Text at end of leader
   const text = `${prefix}${_formatValue(value)}`
   const textWidth = text.length * 10.5 + 6
   const textX = leaderEnd[0] + (ux > 0 ? textWidth / 2 + 2 : -textWidth / 2 - 2)
@@ -548,9 +558,8 @@ function _renderAngularDim(dim, xf, color) {
   const [sx, sy] = xf(startPt.x, startPt.y)
   const [ex, ey] = xf(endPt.x, endPt.y)
 
-  // Draw arc at a fixed radius from corner
-  const arcRadius = 25  // screen pixels
-  const a0 = Math.atan2(-(sy - cy), sx - cx)  // screen Y flipped
+  const arcRadius = 25
+  const a0 = Math.atan2(-(sy - cy), sx - cx)
   const a1 = Math.atan2(-(ey - cy), ex - cx)
 
   let sweep = a1 - a0
@@ -566,7 +575,6 @@ function _renderAngularDim(dim, xf, color) {
 
   svg += `<polyline points="${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke="${color}" stroke-width="1"/>\n`
 
-  // Text at arc midpoint
   const midA = a0 + sweep / 2
   const textR = arcRadius + 12
   const textX = cx + textR * Math.cos(midA)
@@ -579,10 +587,181 @@ function _renderAngularDim(dim, xf, color) {
   return svg
 }
 
+/**
+ * Pre-adjust dimension dimPt positions to push entire dimensions outward from geometry.
+ * Modifies each dim's dimPt in place. Extension lines stretch; lines + arrows + label move as a unit.
+ * Uses geometry centroid to determine "outward" direction.
+ */
+function _adjustDimPositions(dims, xf, geoSegments, geoCircles) {
+  if (dims.length === 0) return
+
+  // Geometry centroid (screen-space)
+  let cx = 0, cy = 0, count = 0
+  for (const s of geoSegments) { cx += (s.x1 + s.x2) / 2; cy += (s.y1 + s.y2) / 2; count++ }
+  for (const c of geoCircles) { cx += c.cx; cy += c.cy; count++ }
+  if (count > 0) { cx /= count; cy /= count }
+
+  // Build label proxies for each dimension (screen-space position + size)
+  const proxies = []
+  for (const dim of dims) {
+    if (!dim.dimPt) continue
+
+    const [dx, dy] = xf(dim.dimPt.x, dim.dimPt.y)
+    const text = dim.kind === 'angular' ? `${_formatValue(dim.value)}°`
+              : dim.kind === 'radial' ? `R${_formatValue(dim.value)}`
+              : dim.kind === 'diameter' ? `⌀${_formatValue(dim.value)}`
+              : _formatValue(dim.value)
+    const w = text.length * 10.5 + 6
+    const h = 22
+
+    proxies.push({ dim, x: dx, y: dy, anchorX: dx, anchorY: dy, w, h })
+  }
+
+  if (proxies.length === 0) return
+
+  // Run de-overlap with geometry awareness on dimension positions
+  deOverlapLabels(proxies, geoSegments, geoCircles, {
+    iterations: 25, padding: 6, geoClearance: 14, outwardStrength: 3.0
+  })
+
+  // Write adjusted positions back to dim.dimPt (inverse transform)
+  // We need the inverse of xf. Approximate by using two known points to derive the inverse.
+  // xf maps world→screen. We need screen→world.
+  const [ox, oy] = xf(0, 0)
+  const [ux, uy] = xf(1, 0)
+  const [vx, vy] = xf(0, 1)
+  // xf is affine: screen = [ox,oy] + world.x*[ux-ox, uy-oy] + world.y*[vx-ox, vy-oy]
+  const ax = ux - ox, ay = uy - oy  // screen delta per world x
+  const bx = vx - ox, by = vy - oy  // screen delta per world y
+  const det = ax * by - ay * bx
+  if (Math.abs(det) < 1e-10) return  // degenerate transform
+
+  for (const p of proxies) {
+    const sdx = p.x - ox, sdy = p.y - oy
+    const wx = (sdx * by - sdy * bx) / det
+    const wy = (ax * sdy - ay * sdx) / det
+    p.dim.dimPt = { x: wx, y: wy, z: 0 }
+  }
+}
+
 function _formatValue(v) {
   if (v == null) return '?'
   // Show integer if close to one, otherwise 1 decimal
   return Math.abs(v - Math.round(v)) < 0.01 ? String(Math.round(v)) : v.toFixed(1)
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LABEL DE-OVERLAP — force-directed with geometry avoidance + outward bias
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Adjusts label positions to reduce overlaps and avoid geometry.
+ * Each label: { x, y, w, h, anchorX, anchorY, text, color, bg, ... }
+ * Modifies x, y in place.
+ *
+ * @param {Array} labels - label objects with position and size
+ * @param {Array} geoSegments - screen-space geometry: [{ x1,y1, x2,y2 }, ...] (line segments)
+ * @param {Array} geoCircles - screen-space circles: [{ cx, cy, r }, ...]
+ * @param {object} opts - { iterations, padding, geoClearance, outwardStrength }
+ */
+function deOverlapLabels(labels, geoSegments = [], geoCircles = [], opts = {}) {
+  if (labels.length === 0) return
+  const { iterations = 30, padding = 4, geoClearance = 12, outwardStrength = 2.5 } = opts
+
+  // Compute geometry centroid for outward bias
+  let cx = 0, cy = 0, count = 0
+  for (const s of geoSegments) {
+    cx += (s.x1 + s.x2) / 2; cy += (s.y1 + s.y2) / 2; count++
+  }
+  for (const c of geoCircles) {
+    cx += c.cx; cy += c.cy; count++
+  }
+  if (count > 0) { cx /= count; cy /= count }
+
+  for (let iter = 0; iter < iterations; iter++) {
+    let totalOverlap = 0
+
+    for (let i = 0; i < labels.length; i++) {
+      const a = labels[i]
+      let fx = 0, fy = 0  // accumulated force
+
+      // (a) Label–label repulsion
+      for (let j = 0; j < labels.length; j++) {
+        if (i === j) continue
+        const b = labels[j]
+        const ox = Math.min(a.x + a.w / 2 + padding, b.x + b.w / 2 + padding) -
+                   Math.max(a.x - a.w / 2 - padding, b.x - b.w / 2 - padding)
+        const oy = Math.min(a.y + a.h / 2 + padding, b.y + b.h / 2 + padding) -
+                   Math.max(a.y - a.h / 2 - padding, b.y - b.h / 2 - padding)
+
+        if (ox > 0 && oy > 0) {
+          totalOverlap += ox * oy
+          let dx = a.x - b.x, dy = a.y - b.y
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1
+          const push = Math.min(ox, oy) * 0.4
+          fx += (dx / dist) * push
+          fy += (dy / dist) * push
+        }
+      }
+
+      // (b) Label–geometry repulsion (push away from nearby geometry)
+      const hw = a.w / 2 + geoClearance, hh = a.h / 2 + geoClearance
+
+      // Repel from line segments
+      for (const seg of geoSegments) {
+        // Closest point on segment to label center
+        const sdx = seg.x2 - seg.x1, sdy = seg.y2 - seg.y1
+        const segLen2 = sdx * sdx + sdy * sdy
+        if (segLen2 < 1) continue
+        let t = ((a.x - seg.x1) * sdx + (a.y - seg.y1) * sdy) / segLen2
+        t = Math.max(0, Math.min(1, t))
+        const nearX = seg.x1 + t * sdx, nearY = seg.y1 + t * sdy
+        const dx = a.x - nearX, dy = a.y - nearY
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1
+
+        // Repel if within clearance zone (approximate with max of hw, hh)
+        const threshold = Math.max(hw, hh)
+        if (dist < threshold) {
+          const strength = (threshold - dist) / threshold * 4.0
+          fx += (dx / dist) * strength
+          fy += (dy / dist) * strength
+        }
+      }
+
+      // Repel from circles
+      for (const circ of geoCircles) {
+        const dx = a.x - circ.cx, dy = a.y - circ.cy
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1
+        const edgeDist = Math.abs(dist - circ.r)  // distance to the circle's edge
+        const threshold = Math.max(hw, hh)
+
+        if (edgeDist < threshold) {
+          // Push radially outward from circle center
+          const strength = (threshold - edgeDist) / threshold * 3.0
+          fx += (dx / dist) * strength
+          fy += (dy / dist) * strength
+        }
+      }
+
+      // (c) Outward bias — push away from geometry centroid
+      if (count > 0) {
+        const dx = a.x - cx, dy = a.y - cy
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1
+        fx += (dx / dist) * outwardStrength
+        fy += (dy / dist) * outwardStrength
+      }
+
+      // Apply accumulated forces
+      a.x += fx
+      a.y += fy
+
+      // Spring back toward anchor (weak — allows outward migration)
+      a.x += (a.anchorX - a.x) * 0.03
+      a.y += (a.anchorY - a.y) * 0.03
+    }
+
+    if (totalOverlap < 1 && iter > 5) break  // converged
+  }
 }
 
 
@@ -619,7 +798,6 @@ export function extractConstraints(tree, sketchId) {
     // Skip auto-generated constraints (from genFixation, genIncidence, genTangency, genVertAndHoriz)
     // and fillet-generated constraints. Only show user-created constraints.
     if (obj.name?.startsWith('Auto_')) continue
-    if (obj.flags === 0) continue  // auto-generated constraints typically have flags=0
 
     // Extract type from class: CC_2D{Type}Constraint → Type
     const typeMatch = obj.class.match(/^CC_2D(.+)Constraint$/)
@@ -642,15 +820,14 @@ export function extractConstraints(tree, sketchId) {
  * Render constraint badges as SVG elements.
  * Places small labeled pills near the midpoint of constrained geometry.
  */
-function renderConstraintsSVG(constraints, xf, posMap) {
+function renderConstraintsSVG(constraints, xf, posMap, labelCollector = []) {
   if (!constraints.length) return ''
   let svg = ''
 
   const BADGE_COLOR = '#448844'
   const BADGE_BG = 'rgba(68, 136, 68, 0.15)'
-  const FONT_SIZE = 9
+  const FONT_SIZE = 14
 
-  // Group constraints by their first entity to stack badges
   const byEntity = {}
   for (const c of constraints) {
     const primaryEntity = c.entities[0]
@@ -665,19 +842,20 @@ function renderConstraintsSVG(constraints, xf, posMap) {
 
     const [sx, sy] = xf(pos.midpoint.x, pos.midpoint.y)
 
-    // Stack badges vertically, offset from geometry
     for (let i = 0; i < cList.length; i++) {
       const c = cList[i]
       const bx = sx + 8
-      const by = sy - 8 - i * 14
+      const by = sy - 10 - i * 20
 
       const text = c.symbol
-      const textWidth = Math.max(text.length * 6, 10) + 6
+      const textWidth = Math.max(text.length * 10, 16) + 8
 
-      // Rounded pill background
-      svg += `<rect x="${(bx - textWidth / 2).toFixed(1)}" y="${(by - 6).toFixed(1)}" width="${textWidth.toFixed(1)}" height="12" rx="6" fill="${BADGE_BG}" stroke="${BADGE_COLOR}" stroke-width="0.5"/>\n`
-      // Symbol text
-      svg += `<text x="${bx.toFixed(1)}" y="${(by + 3).toFixed(1)}" text-anchor="middle" fill="${BADGE_COLOR}" font-family="sans-serif" font-size="${FONT_SIZE}" font-weight="bold">${text}</text>\n`
+      // Badge → collector (rendered after de-overlap)
+      labelCollector.push({
+        x: bx, y: by, anchorX: bx, anchorY: by,
+        w: textWidth, h: 20, text, color: BADGE_COLOR,
+        bg: BADGE_BG, fontSize: FONT_SIZE, rx: 10, stroke: BADGE_COLOR,
+      })
     }
   }
 
@@ -766,7 +944,7 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], 
     } else if (item.type === 'circle' && item.radius != null) {
       const pts = tessellateCircle(item.center.x, item.center.y, item.radius)
       allPts2d.push(...pts)
-      drawOps.push({ kind: 'polyline', pts, color: '#0066cc' })
+      drawOps.push({ kind: 'polyline', pts, color: '#0066cc', _circle: { cx: item.center.x, cy: item.center.y, r: item.radius } })
     } else if (item.type === 'circle') {
       // No radius — just mark center
       allPts2d.push([item.center.x, item.center.y])
@@ -805,14 +983,44 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], 
     }
   }
 
-  // Dimension annotations (rendered on top of geometry)
+  // Collect screen-space geometry for annotation placement
+  const geoSegments = [], geoCircles = []
+  for (const op of drawOps) {
+    if (op.kind === 'line') {
+      const [s, e] = op.pts.map(p => xf(p[0], p[1]))
+      geoSegments.push({ x1: s[0], y1: s[1], x2: e[0], y2: e[1] })
+    } else if (op.kind === 'polyline' && op.pts.length > 1) {
+      const txPts = op.pts.map(p => xf(p[0], p[1]))
+      for (let k = 0; k < txPts.length - 1; k++) {
+        geoSegments.push({ x1: txPts[k][0], y1: txPts[k][1], x2: txPts[k + 1][0], y2: txPts[k + 1][1] })
+      }
+      if (op._circle) {
+        const [ccx, ccy] = xf(op._circle.cx, op._circle.cy)
+        const edgePt = xf(op._circle.cx + op._circle.r, op._circle.cy)
+        geoCircles.push({ cx: ccx, cy: ccy, r: Math.abs(edgePt[0] - ccx) })
+      }
+    }
+  }
+
+  // DIMENSION ANNOTATIONS — whole-dimension de-overlap
+  // Adjust dimPt positions BEFORE rendering so dim lines + arrows + labels move together.
+  // Extension lines stretch naturally since the renderer computes them from geometry to dimPt.
   if (dimensions.length > 0) {
+    _adjustDimPositions(dimensions, xf, geoSegments, geoCircles)
     svg += renderDimensionsSVG(dimensions, xf)
   }
 
-  // Constraint badges (rendered on top of everything)
+  // CONSTRAINT BADGES — free-floating, use label collector + de-overlap
+  const badgeCollector = []
   if (constraints.length > 0) {
-    svg += renderConstraintsSVG(constraints, xf, posMap)
+    svg += renderConstraintsSVG(constraints, xf, posMap, badgeCollector)
+  }
+  if (badgeCollector.length > 0) {
+    deOverlapLabels(badgeCollector, geoSegments, geoCircles)
+    for (const lb of badgeCollector) {
+      svg += `<rect x="${(lb.x - lb.w / 2).toFixed(1)}" y="${(lb.y - lb.h / 2).toFixed(1)}" width="${lb.w.toFixed(1)}" height="${lb.h.toFixed(1)}" fill="${lb.bg || 'white'}" ${lb.rx ? `rx="${lb.rx}"` : 'rx="3"'} ${lb.stroke ? `stroke="${lb.stroke}" stroke-width="0.8"` : ''}/>\n`
+      svg += `<text x="${lb.x.toFixed(1)}" y="${(lb.y + lb.fontSize * 0.33).toFixed(1)}" text-anchor="middle" fill="${lb.color}" font-family="sans-serif" font-size="${lb.fontSize}" font-weight="bold">${lb.text}</text>\n`
+    }
   }
 
   svg += '</svg>'

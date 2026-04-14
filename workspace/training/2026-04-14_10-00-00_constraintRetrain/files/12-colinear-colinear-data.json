@@ -1,0 +1,37 @@
+{
+  "before": {
+    "l2Start": {
+      "pos": {
+        "x": 60,
+        "y": 15,
+        "z": 0
+      }
+    },
+    "l2End": {
+      "pos": {
+        "x": 100,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "after": {
+    "l2Start": {
+      "pos": {
+        "x": 60,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2End": {
+      "pos": {
+        "x": 100.31128874149275,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "constraintResult": 72,
+  "maxLevel": 31,
+  "isColinear": true
+}

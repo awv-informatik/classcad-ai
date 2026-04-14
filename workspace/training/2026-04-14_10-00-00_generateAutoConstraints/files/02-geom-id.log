@@ -1,0 +1,10 @@
+[02] constraints before autoGen: 5
+[filewrite] files/02-geom-id-constraints-before.json (443 bytes)
+[02] autoGen l1 result: null maxLevel: 31
+[02] autoGen l1 messages: []
+[02] constraints after autoGen l1: 5
+[02] autoGen l2 result: null maxLevel: 31
+[02] constraints after autoGen l2: 5
+[02] new constraints total: 0
+[filewrite] files/02-geom-id-new-constraints.json (2 bytes)
+[filewrite] files/02-geom-id-constraints-after.json (443 bytes)

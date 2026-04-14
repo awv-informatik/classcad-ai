@@ -1,0 +1,88 @@
+{
+  "named": {
+    "id": 64,
+    "node": {
+      "name": "MyHoriz",
+      "class": "CC_2DHorizontalConstraint",
+      "id": 64,
+      "flags": 0,
+      "parent": 52,
+      "members": {
+        "_VERSION": {
+          "value": "1/2011_4_7_12:13",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "alignment": {
+          "value": 1,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "entities": {
+          "members": [
+            {
+              "value": 58,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "type": "array",
+          "visible": 1,
+          "expression": ""
+        },
+        "lgsState": {
+          "value": 1,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        }
+      }
+    }
+  },
+  "unnamed": {
+    "id": 70,
+    "node": {
+      "name": "V",
+      "class": "CC_2DVerticalConstraint",
+      "id": 70,
+      "flags": 0,
+      "parent": 52,
+      "members": {
+        "_VERSION": {
+          "value": "1/2011_4_7_12:16",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "alignment": {
+          "value": 1,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "entities": {
+          "members": [
+            {
+              "value": 66,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "type": "array",
+          "visible": 1,
+          "expression": ""
+        },
+        "lgsState": {
+          "value": 1,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "id": 62,
+    "class": "CC_2DFixationConstraint",
+    "name": "Auto_Fix"
+  },
+  {
+    "id": 68,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Rect_Coinc"
+  },
+  {
+    "id": 74,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Rect_Coinc0"
+  },
+  {
+    "id": 80,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Rect_Coinc1"
+  },
+  {
+    "id": 82,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Rect_Coinc2"
+  },
+  {
+    "id": 84,
+    "class": "CC_2DParallelConstraint",
+    "name": "Rect_Par"
+  },
+  {
+    "id": 86,
+    "class": "CC_2DPerpendicularConstraint",
+    "name": "Rect_Perp"
+  },
+  {
+    "id": 88,
+    "class": "CC_2DPerpendicularConstraint",
+    "name": "Rect_Perp0"
+  },
+  {
+    "id": 90,
+    "class": "CC_2DHorizontalConstraint",
+    "name": "Rect_H"
+  }
+]

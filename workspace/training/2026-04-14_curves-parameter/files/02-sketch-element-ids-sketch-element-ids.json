@@ -1,0 +1,14 @@
+{
+  "sketchId": 60,
+  "lineIds": [
+    66,
+    72,
+    78,
+    84
+  ],
+  "extResult": {
+    "result": 105,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

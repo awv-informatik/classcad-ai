@@ -1,0 +1,4 @@
+[02] before: {"start":{"pos":{"x":10,"y":0,"z":0}},"end":{"pos":{"x":40,"y":50,"z":0}}}
+[02] constraint result: 62 maxLevel: 31
+[02] after: {"start":{"pos":{"x":10,"y":0,"z":0}},"end":{"pos":{"x":10.000000000000004,"y":58.309518948453004,"z":0}}}
+[filewrite] files/02-vertical-moves-vertical-data.json (500 bytes)

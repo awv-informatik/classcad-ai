@@ -1,0 +1,7 @@
+[05] R60 meets base at (%.2f, %d) -18.734993995195193 -57
+[05] arm crosses step_top at x=%.1f 88.38453719855114
+[05] upper tangent: (%.1f,%.1f)→(%.1f,%.1f) 16.18615540225296 57.77549976671874 153.93492364749275 19.18434991446354
+[05] lower tangent: (%.1f,%.1f)→(%.1f,%.1f) 8.794317243051882 -49.2205240141606 151.86949958694282 -23.657030566230663
+[05] Outer profile drawn
+[05] geometry: %d circles, %d arcs, %d lines 11 3 6
+[filewrite] files/05-profile-v2-positions.json (539 bytes)

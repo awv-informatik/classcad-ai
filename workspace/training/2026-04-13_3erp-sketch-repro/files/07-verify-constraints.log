@@ -1,0 +1,14 @@
+[07] Constraint CONCENTRIC hub: id=[141,143], maxLevel=31
+[07] Constraint CONCENTRIC boss0: id=145, maxLevel=31
+[07] Constraint CONCENTRIC boss1: id=147, maxLevel=31
+[07] Constraint CONCENTRIC boss2: id=149, maxLevel=31
+[07] Constraint TANGENT: id=151, maxLevel=31
+[07] Constraint TANGENT: id=153, maxLevel=31
+[07] Constraint TANGENT: id=155, maxLevel=31
+[07] Constraint TANGENT: id=157, maxLevel=31
+[07] Constraint TANGENT: id=159, maxLevel=31
+[07] Constraint TANGENT: id=161, maxLevel=31
+[07] Constraint H+V: id=[163,165,167], maxLevel=31
+[filewrite] files/07-verify-constraints-structure-tree.json (73814 bytes)
+[filewrite] files/07-verify-constraints-constraint-results.json (1079 bytes)
+[07] Found 0 constraints in structure tree:

@@ -1,0 +1,12 @@
+[
+  {
+    "id": 64,
+    "class": "CC_2DFixationConstraint",
+    "name": "Auto_Fix"
+  },
+  {
+    "id": 66,
+    "class": "CC_2DHorizontalConstraint",
+    "name": "Auto_H"
+  }
+]

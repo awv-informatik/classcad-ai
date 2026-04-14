@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('STEP'), '1');
-FILE_NAME('BracketPlate', '2026-04-13T17:27:05', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_NAME('BracketPlate', '2026-04-14T09:08:18', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
 FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
 ENDSEC;
 

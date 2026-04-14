@@ -1,0 +1,9 @@
+[07] constraints before autoGen: 1
+[filewrite] files/07-tangency-detection-constraints-before.json (88 bytes)
+[07] autoGen line: result= null maxLevel: 31
+[07] constraints after autoGen line: 1
+[07] autoGen circle: result= null maxLevel: 51
+[07] constraints after autoGen circle: 1
+[07] new constraints: 0
+[filewrite] files/07-tangency-detection-new-constraints.json (2 bytes)
+[filewrite] files/07-tangency-detection-constraints-final.json (88 bytes)

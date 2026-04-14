@@ -1,0 +1,5 @@
+[03] upper arm: (%.1f,%.1f)→(%.1f,%.1f) 16.18615540225296 57.77549976671874 153.93492364749275 19.18434991446354
+[03] lower arm: (%.1f,%.1f)→(%.1f,%.1f) 8.794317243051882 -49.2205240141606 151.86949958694282 -23.657030566230663
+[03] lower arm at x=108: y=%.2f -31.495270901715806
+[03] all IDs: {"hub":58,"outer":61,"bosses":[64,70,76,82],"holes":[67,73,79,85],"rbOuter":88,"rbInner":91,"midHole":94,"r25":97,"upperArm":100,"lowerArm":104,"leftWall":108,"baseBottom":112,"stepRise":116,"bodyBottom":120,"rightWall":124}
+[filewrite] files/03-full-construction-v2-geometry-data.json (535 bytes)

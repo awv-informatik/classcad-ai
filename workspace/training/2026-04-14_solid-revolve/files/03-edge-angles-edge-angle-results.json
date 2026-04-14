@@ -1,0 +1,22 @@
+{
+  "zero": {
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "negative": {
+    "result": 70,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "over2pi": {
+    "result": 76,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "tiny": {
+    "result": 82,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,6 @@
+[10] circle result: null maxLevel: 51
+[10] curves=shapeId: null maxLevel: 51
+[10] msg: [Evaluation error in SolidAPI_v1.revolve::PROC:NULLID not allowed.
+File: /Users/daniel/awv/classcad/
+[10] advancedPolyline circle: null maxLevel: 51
+[filewrite] files/10-circle-profile-fix-circle-fix-results.json (1056 bytes)

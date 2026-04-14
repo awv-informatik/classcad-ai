@@ -139,6 +139,42 @@ Script: `scripts/05-bracket-complete.mjs` — ✅ All geometry, constraints, and
 
 **Data:** `files/05-bracket-complete-complete-ids.json`
 
+## 07 — Constraint verification
+
+Script: `scripts/07-verify-constraints.mjs` — proved constraints exist in structure tree.
+
+All 14 constraints confirmed as real objects in the structure tree (dumped to `files/07-verify-constraints-structure-tree.json`). They were invisible because the renderer had a bug: `if (obj.flags === 0) continue` on line 622 of `render-direct.mjs` filtered out ALL constraints — both auto-generated and user-created have `flags=0`. The `Auto_` name prefix check was already sufficient. Removed the flags check → constraints now render as green badges.
+
+## 08 — Final bracket plate
+
+Script: `scripts/08-final.mjs` — ✅ Complete drawing with all elements visible.
+
+| ![result](files/08-final-final-sketch-Sketch.png) |
+|---|
+
+**Geometry (18 elements):**
+- 9 circles: 3 hub (Ø38, Ø26, Ø25) + 3 boss (Ø17) + 3 holes (Ø6.6)
+- 3 outer tangent lines (triangle edges)
+- 6 arm wall lines (2 per arm, from hub circle to boss circle)
+
+**Construction lines (5):**
+- 3 arm centerlines (hub → each boss center)
+- 1 horizontal reference line
+- 1 vertical reference line
+
+**Constraints (14) — now visible as green badges:**
+- 5× ⊙ CONCENTRIC (2 hub pairs + 3 boss/hole pairs)
+- 6× T TANGENT (tangent lines to boss circles)
+- 2× H HORIZONTAL (bottom tangent + horizontal ref)
+- 1× V VERTICAL (vertical ref)
+
+**Dimensions (16):**
+- 5× DIAMETER: Ø38, Ø26, Ø25, Ø17, Ø6.6
+- 3× HORIZONTAL_DISTANCE: 48L, 48R, 6.75
+- 2× VERTICAL_DISTANCE: 20.5, 49.73
+- 3× ANGLE: 14° (BL), 14° (BR), 13° (T)
+- 3× OFFSET: arm width 2 (BL, BR, T)
+
 ## Visual Comparison
 
 | Feature                  | Match | Notes                                    |

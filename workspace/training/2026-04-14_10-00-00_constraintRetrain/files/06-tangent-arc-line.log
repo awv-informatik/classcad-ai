@@ -1,0 +1,5 @@
+[06] arcId: 68
+[06] before center: {"pos":{"x":40,"y":25,"z":0}}
+[06] constraint result: 73 maxLevel: 31
+[06] after center: {"pos":{"x":40,"y":15,"z":0}}
+[filewrite] files/06-tangent-arc-line-tangent-data.json (643 bytes)

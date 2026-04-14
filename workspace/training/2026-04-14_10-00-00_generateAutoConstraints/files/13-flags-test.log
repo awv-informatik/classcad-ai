@@ -1,0 +1,13 @@
+[13] point created: 58
+[13] line created: 60
+[13] constraints from creation: 2
+[filewrite] files/13-flags-test-constraints-before.json (174 bytes)
+[13] all-default: maxLevel=31 cons=2 msgs=[]
+[13] no-fixation: maxLevel=31 cons=2 msgs=[]
+[13] no-incidence: maxLevel=31 cons=2 msgs=[]
+[13] no-tangency: maxLevel=31 cons=2 msgs=[]
+[13] no-hv: maxLevel=31 cons=2 msgs=[]
+[13] all-off: maxLevel=31 cons=2 msgs=[]
+[13] autoGen point: maxLevel= 31 cons= 3
+[13] new constraints total: 1
+[filewrite] files/13-flags-test-new-constraints.json (92 bytes)

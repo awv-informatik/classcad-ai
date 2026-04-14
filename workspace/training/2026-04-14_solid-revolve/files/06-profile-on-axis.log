@@ -1,0 +1,5 @@
+[06] profile crossing axis: 64 maxLevel: 31
+[06] crossing messages: []
+[06] profile touching axis: 70 maxLevel: 31
+[06] touching messages: []
+[filewrite] files/06-profile-on-axis-axis-intersection-results.json (158 bytes)

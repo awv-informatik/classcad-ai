@@ -1,0 +1,4 @@
+[06A] revolve with shapeId result: 64 maxLevel: 31
+[06] lineIds: [72,76,82,88]
+[06B] revolve with lineIds result: 109 maxLevel: 31
+[filewrite] files/06-revolve-sketch-elements-revolve-curves-forms.json (220 bytes)

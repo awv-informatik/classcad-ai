@@ -1,0 +1,4 @@
+[15] before pt2: {"pos":{"x":50,"y":35,"z":0}}
+[15] horiz result: 64 maxLevel: 31
+[15] after HORIZONTAL pt2: {"pos":{"x":52.720018726587654,"y":19.999999999999996,"z":0}} sameY: true
+[filewrite] files/15-horiz-vert-points-horiz-vert-points-data.json (503 bytes)

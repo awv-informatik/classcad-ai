@@ -1,0 +1,5 @@
+[11] before pt: {"pos":{"x":20,"y":30,"z":0}}
+[11] constraint result: 70 maxLevel: 31
+[11] after pt: {"pos":{"x":39.99999999999999,"y":27.733756620326734,"z":0}}
+[11] atMidpoint: false
+[filewrite] files/11-midpoint-midpoint-data.json (261 bytes)

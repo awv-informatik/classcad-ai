@@ -469,6 +469,34 @@ Then report:
 
 ---
 
+## Step 8 — Append issues to workspace/TODO.md
+
+If your session encountered **any** of the following, append them to `workspace/TODO.md`:
+
+- Errors, warnings, or unexpected error codes
+- Server crashes, hangs, or timeouts (especially 100% CPU / `kill -9` situations)
+- Silent failures or no-ops (API accepts params without error but does nothing)
+- Wrong, surprising, or undocumented behavior
+- Doc discrepancies (docs say X, server does Y)
+- Degenerate states (feature created but broken)
+
+**Format:** Add a new entry under the appropriate severity section (CRITICAL / HIGH / MEDIUM / LOW). Each entry needs:
+
+```markdown
+### N. `<api>` — short title
+
+- **Session:** `<session-folder-name>` (journal line ~N)
+- **Error:** What happened (error message, behavior observed)
+- **Trigger:** What input caused it
+- **Workaround:** If known
+```
+
+Increment the entry number. If a new finding fits an existing severity section, add it there. If unsure, default to MEDIUM.
+
+**If the session had no issues** — skip this step. Do not add a "no issues" entry.
+
+---
+
 ## Completion checklist
 
 Before declaring a session done, verify every item:
@@ -479,6 +507,7 @@ Before declaring a session done, verify every item:
 - [ ] Skill changes committed inside `knowledge/classcad-skill` submodule
 - [ ] Journal goal/checklist has no uncovered items (or gaps are explicitly noted)
 - [ ] The task row in `workspace/PLAN.md` is marked `[✅]`
+- [ ] Any errors, hangs, surprises, or doc discrepancies appended to `workspace/TODO.md` (Step 8)
 
 ---
 

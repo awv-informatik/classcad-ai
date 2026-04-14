@@ -1,85 +1,107 @@
 # sketch.generateAutoConstraints
 
-Automatically generates geometric constraints for a single sketch geometry element. Detects fixation at origin, horizontal/vertical alignment, coincidence with existing geometry, and tangency between curves.
+Detects and creates geometric constraints based on spatial relationships between sketch elements. Primarily useful when geometry was created in an order where creation-time auto-detection missed relationships.
 
 ## Prerequisites
 
 - A part (`part.create`)
-- A sketch (`sketch.create`)
-- At least one sketch geometry element (line, circle, arc, point)
+- A sketch with `planeId` set (`sketch.create`)
+- Existing sketch geometry to analyze
 
 ## Key Parameters
 
-- **`id`** (required) — sketch ID.
-- **`geomId`** (required) — ID of the sketch geometry to constrain. Accepts **sketch-curve** or **sketch-point** IDs only. **Does NOT accept the sketch ID itself** despite the source docs suggesting otherwise — passing a sketch ID gives error 1001: "wrong id type".
-- **`genFixation`** (optional, default true) — generate fixation constraint if any point of the geometry is at the sketch origin (0,0,0).
-- **`genIncidence`** (optional, default true) — generate coincidence constraints between overlapping/coincident points across geometries.
-- **`genTangency`** (optional, default true) — generate tangency constraints between curves (e.g., arc tangent to a line).
-- **`genVertAndHoriz`** (optional, default true) — generate horizontal/vertical constraints for exactly-aligned lines.
+- **`id`** (required) — sketch ID
+- **`geomId`** (required) — sketch-curve or sketch-point ID to analyze. **Sketch IDs are rejected** despite what the docs say ("The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\",\"sketch-point\"]").
+- **`genFixation`** (optional, default `true`) — generate fixation constraints at origin
+- **`genIncidence`** (optional, default `true`) — generate coincidence constraints (point-on-curve, point-on-point). **This is the most useful flag.**
+- **`genTangency`** (optional, default `true`) — generate tangency constraints. Not observed to produce tangent constraints in testing.
+- **`genVertAndHoriz`** (optional, default `true`) — generate horizontal/vertical constraints
 
 ## Return Value
 
-Always returns `null` (not a constraint ID). maxLevel=31 on success. The constraints are added as children of the sketch in the structure tree.
+Always `null` (VOID). No constraint IDs are returned. To detect what was created, diff constraint nodes in the structure tree before and after the call.
 
-## What Gets Generated
+```js
+const consBefore = Object.values(structureBefore.tree)
+  .filter(n => n.class?.includes('Constraint'))
+// call generateAutoConstraints
+const consAfter = Object.values(structureAfter.tree)
+  .filter(n => n.class?.includes('Constraint'))
+const newConstraints = consAfter.filter(c => !consBefore.find(b => b.id === c.id))
+```
 
-| Condition | Constraint class | Auto-name |
+## When Is It Useful?
+
+Geometry creation APIs (`sketch.line`, `sketch.point`, `sketch.circle`, etc.) already run auto-constraint detection at creation time. Calling `generateAutoConstraints` afterward is usually a **no-op** because constraints already exist and it respects the "doesn't add up redundancy" rule.
+
+**The API adds value when creation order prevents auto-detection:**
+
+- Create a point at (25, 0, 0), then a line from (0,0,0) to (50,0,0). Line creation doesn't retroactively check if pre-existing points lie on the new line. Calling `generateAutoConstraints` on the point then detects the point-on-curve coincidence.
+- Geometry loaded via `loadFrom` (external OFB files) may lack auto-constraints entirely.
+
+## Idempotent / No Duplicates
+
+Safe to call multiple times — never adds duplicate constraints. The redundancy check is robust.
+
+## Accepted Geometry Types
+
+| Type | Accepted? | Notes |
 |---|---|---|
-| Any point of geometry at exact origin (0,0,0) | `CC_2DFixationConstraint` | `Auto_Fix` |
-| Line exactly horizontal (all Y identical) | `CC_2DHorizontalConstraint` | `Auto_H` |
-| Line exactly vertical (all X identical) | `CC_2DVerticalConstraint` | `Auto_V` |
-| Point overlaps another geometry's point | `CC_2DCoincidentConstraint` | `Auto_Coinc` |
-| Arc tangent to a line/curve at shared point | `CC_2DTangentSketchConstraint` | `Auto_Tan` |
-
-Auto-names de-duplicate with numeric suffix: `Auto_Fix`, `Auto_Fix0`, `Auto_Fix1`, etc.
+| Line ID | Yes | From `sketch.line` |
+| Point ID | Yes | Both `sketch.point` and `getPoints().startId/endId` |
+| Circle ID | Yes | Must be created with `centerPos` (not `center`) |
+| Arc ID | Yes | Must be created with `centerPos` |
+| Sketch ID | **No** | Error: wrong id type |
 
 ## Gotchas
 
-- **Boolean flags must be JS `false`/`true`.** Passing string `'FALSE'` or `'TRUE'` causes error (maxLevel=51). Use `genFixation: false`, not `genFixation: 'FALSE'`.
-- **Sketch ID not accepted as geomId.** The source docs say you can pass the sketch ID to constrain all objects — this is wrong. You must pass individual geometry IDs and call the API once per geometry.
-- **Only exact alignment detected.** A line at 1° off horizontal does NOT get a HORIZONTAL constraint. Both endpoints must have identical Y coordinates.
-- **Fixation requires exact origin.** A point at (0.001, 0, 0) does NOT trigger fixation. Must be exactly (0, 0, 0).
-- **Fixation checks all points.** A line ending at origin (not starting) still gets fixation on the end point.
-- **Idempotent.** Calling twice on the same geometry produces no duplicate constraints. Redundancy detection works correctly.
-- **No return ID.** Unlike `sketch.constraint` which returns a constraint ID, this returns `null`. You cannot get the ID of the generated constraint from the return value — inspect `r.structure` to find new constraint objects.
-
-## Common Errors
-
-- **Error 1001** — wrong geomId type. You passed a sketch ID, part ID, or other non-geometry ID. Must be sketch-curve or sketch-point.
-- **maxLevel=51 with boolean flags** — you used string `'FALSE'`/`'TRUE'` instead of JS `false`/`true`.
-
-## Usage Hints
-
-- To auto-constrain all geometry in a sketch, loop over each geometry ID:
-  ```js
-  for (const geomId of allGeomIds) {
-    await api.v1.sketch.generateAutoConstraints({ id: skId, geomId })
-  }
-  ```
-- When creating geometry with `sketch.line`, `sketch.circle`, etc., those APIs have their own `genFixation`, `genVertAndHoriz`, `genIncidence`, `genTangency` flags that run auto-constraints at creation time. Use `generateAutoConstraints` only when you need to re-run auto-detection after the fact (e.g., after moving geometry).
-- Disable all flags to prevent any auto-constraint generation: `{ genFixation: false, genVertAndHoriz: false, genIncidence: false, genTangency: false }`.
+- **Sketch ID as geomId fails.** The docs claim it works ("the sketch id itself to autoconstraint each of sketch's objects") but it doesn't. You must pass individual geometry IDs.
+- **Tangency not detected.** In testing, geometrically tangent circle+line configurations did not produce tangent constraints via autoGen. The `genTangency` flag had no observable effect.
+- **Most calls are no-ops.** If you created geometry through standard APIs (line, circle, rectangle), constraints were already auto-generated. AutoGen won't find anything new unless creation order caused a miss.
+- **VOID error from null IDs.** If circle/arc creation fails (returns null) and you pass null to autoGen, you get the confusing error `"Set the parameter \"geomId\" = VOID is not allowed"`. Always check that creation succeeded before calling autoGen.
 
 ## Working Example
 
 ```js
-const partId = (await api.v1.part.create({ name: 'Test' })).result
-const skId = (await api.v1.sketch.create({ id: partId })).result
+const partR = await api.v1.part.create({ name: 'AutoGenDemo' })
+const partId = partR.result
+const topPlane = Object.values(partR.structure.tree)
+  .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
 
-// Create lines without auto-constraints
-const l1 = (await api.v1.sketch.line({
-  id: skId, startPos: [0, 0, 0], endPos: [50, 0, 0],
-  genFixation: false, genVertAndHoriz: false,
-})).result
+const skId = (await api.v1.sketch.create({ id: partId, planeId: topPlane.id })).result
 
-// Later, generate auto-constraints
-const r = await api.v1.sketch.generateAutoConstraints({ id: skId, geomId: l1 })
-// r.result → null
-// r.maxLevel → 31
-// Structure now contains Auto_Fix (origin) + Auto_H (horizontal)
+// Create point FIRST, then line through it
+const ptId = (await api.v1.sketch.point({ id: skId, pos: [25, 0, 0] })).result
+const lineId = (await api.v1.sketch.line({ id: skId, startPos: [0, 0, 0], endPos: [50, 0, 0] })).result
+// At this point, no coincidence between point and line exists
+
+// Auto-detect the point-on-line coincidence
+const r = await api.v1.sketch.generateAutoConstraints({ id: skId, geomId: ptId })
+// r.result = null (always VOID)
+// r.maxLevel = 31 (success)
+// A new CC_2DCoincidentConstraint "Auto_Coinc" is now in the structure tree
+```
+
+## Flag Control
+
+```js
+// Suppress coincidence detection
+await api.v1.sketch.generateAutoConstraints({
+  id: skId, geomId: ptId, genIncidence: false
+})
+// → No coincidence added
+
+// Only detect coincidence, skip fixation/H/V/tangency
+await api.v1.sketch.generateAutoConstraints({
+  id: skId, geomId: ptId,
+  genFixation: false, genVertAndHoriz: false, genTangency: false,
+  genIncidence: true
+})
 ```
 
 ## Related
 
-- `sketch.constraint` — manually create specific constraint types
-- `sketch.line` / `sketch.circle` / `sketch.rectangle` — geometry creation APIs with built-in auto-constraint flags
-- `sketch.dimension` — dimensional constraints (RADIUS, OFFSET, ANGLE, etc.)
+- `sketch.constraint` — manual constraint creation (explicit type + geomIds)
+- `sketch.line`, `sketch.circle`, etc. — auto-generate constraints at creation time
+- `sketch.loadFrom` — loads geometry that may lack auto-constraints (prime candidate for autoGen)
+- `sketch.getGeometry` — inspect the structure tree for constraint nodes

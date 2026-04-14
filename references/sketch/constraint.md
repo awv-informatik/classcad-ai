@@ -54,8 +54,8 @@ const ids = (await api.v1.sketch.constraint([
 | `COINCIDENT` | `[pt, pt]` or `[pt, curve]` | Points: snaps together. Point-on-curve: snaps point onto line/circle/arc. Order doesn't matter. |
 | `COLINEAR` | `[line1, line2]` | Moves unconstrained line onto the same infinite line as the other. |
 | `CONCENTRIC` | `[circ1, circ2]` or `[arc1, arc2]` | Moves unconstrained circle/arc center to match the other's center. |
-| `TANGENT` | `[arc/circle, line]` | Moves unconstrained arc/circle so its edge touches the line (distance from center to line = radius). |
-| `SYMMETRY` | `[axis, elem1, elem2]` | Mirrors the unconstrained element about the axis line. **Axis must be first in geomIds.** Works with points and lines. |
+| `TANGENT` | `[arc/circle, line]` or `[circle1, circle2]` | Arc/circle + line: moves so edge touches line (center-to-line distance = radius). Circle + circle: moves to external tangency (center distance = r1 + r2). |
+| `SYMMETRY` | `[axis, elem1, elem2]` | Mirrors the unconstrained element about the axis line. **Axis must be first in geomIds.** Works with points (exact) and lines (approximate if different lengths — solver mirrors orientation but preserves individual line lengths). |
 | `FIXATION` | `[geometry]` | Locks geometry in place. All geometry types (point, line, arc, circle). Use to anchor reference geometry before adding other constraints. |
 
 ### Equality — solver enforces immediately (may resize either element)
@@ -78,6 +78,9 @@ const ids = (await api.v1.sketch.constraint([
 - **FIXATION anchors geometry.** Fix reference elements first, then add constraints — the solver moves only non-fixed geometry.
 - **No conflict detection.** Conflicting constraints (e.g., HORIZONTAL + VERTICAL on the same line) are accepted silently (maxLevel=31, no error). The solver satisfies what it can and ignores the rest.
 - **No over-constraint warnings.** Duplicate and redundant constraints are also accepted silently.
+- **Constraint chaining propagates.** If PARALLEL(A,B) and PARALLEL(B,C), then C becomes parallel to A. The solver resolves transitive relationships automatically.
+- **Deleting a constraint does NOT revert geometry.** Geometry stays where the solver placed it. Only the constraint relationship is removed.
+- **Recommended application order:** FIXATION (anchor) → COINCIDENT (connect) → directional (H/V/PARALLEL/PERP) → equality/dimensional (EQUAL_LENGTH, dimensions).
 
 ## moveGeometry with Constraints
 
@@ -94,6 +97,9 @@ With an active solver (planeId set), `moveGeometry` is constraint-aware:
 - **Non-null result ≠ success.** A constraint can be created (get an ID) but produce solver errors (maxLevel=51). Always check maxLevel.
 - **Invalid geomIds are inconsistent.** Wrong count for some types → returns null. Wrong count for others → creates constraint but produces solver errors. Always validate before creating.
 - **`lgsState` in structure tree:** 1 = solved, 0 = unsolved. Check constraint nodes in the structure tree if you need to verify solver state.
+- **SYMMETRY on lines with different lengths is approximate.** The solver mirrors orientation but preserves each line's original length. For exact mirroring, ensure lines have equal length (add EQUAL_LENGTH) or constrain individual endpoints with SYMMETRY on point pairs.
+- **`getPositions` returns null for circles.** To read a circle's center position, use `getPoints({id: circleId}).result.centerId`, then `getPositions({id: centerId})`.
+- **Constraint deletion doesn't undo geometry changes.** After deleting a constraint, geometry stays where the solver moved it. There is no automatic revert.
 
 ## Common Errors
 

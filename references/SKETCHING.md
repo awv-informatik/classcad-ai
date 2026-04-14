@@ -74,24 +74,36 @@ This checklist serves three purposes:
 
 ---
 
-## Step 3 — Everything is Circles
+## Step 3 — Recognize the Original Shapes
 
-This is the key construction insight: **technical drawings are built from circles, not from complex curves.** The outer profile of a mechanical part is almost always a chain of circular arcs. What looks like a smooth, organic profile is just trimmed circles.
+The key insight: **what you see in a technical drawing is not what was drawn.** The visible profile is the result of trimming simpler, natural shapes — circles, lines, arcs — at their intersection points. An organic-looking contour is really just a handful of overlapping circles with the interior segments removed.
 
-### Identify the circles
+If you can recognize the original shapes BEFORE trimming, reconstruction becomes straightforward: place the shapes, then trim. If you try to trace the final profile directly, you're working backwards and errors compound.
 
-Count the center marks (+) in the drawing. Each one is a circle. A typical part:
+### How to see through the trim
 
-| Feature | Circle count |
-|---------|-------------|
-| Oblong/slot (like a left lobe) | 4 (2 outer radius + 2 inner slot radius, at 2 centers) |
-| Round boss with hole | 2 (boss Ø + hole Ø, concentric) |
-| Body contour | 1–2 large circles defining the outline |
-| Arm/extension at angle | 4–7 (end arcs + waist arcs + transition fillets) |
+Look for these clues:
+- **Center marks (+)**: every gray crosshair is the center of a circle or arc. Count them — that's your circle count.
+- **Radius annotations (R)**: each R value is a circle. R1.750 means there's a full circle of radius 1.750 somewhere, and only a portion of it survived trimming.
+- **Diameter annotations (Ø)**: through-holes and bosses. These are complete circles (untrimmed).
+- **Tangent transitions**: where two curves meet smoothly, two circles are tangent. The visible arc is the trimmed remainder of each.
+- **Fillet radii**: small R values at transitions are small circles tangent to two larger shapes.
 
-### Place ALL circles as full circles first
+### Decompose the drawing into natural shapes
 
-Don't draw arcs. Don't draw tangent lines. Just place every circle at its computed center with its annotated radius. Use `sketch.circle` with all `gen*` flags disabled:
+Before coding, list every original shape. A typical mechanical part:
+
+| Visible feature | Original shapes |
+|----------------|----------------|
+| Oblong/slot | 2 circles (ends) + 2 tangent lines (sides), or 4 circles if inner slot |
+| Smooth body contour | 1–2 large circles, trimmed to arcs |
+| Boss with hole | 2 concentric circles |
+| Arm at an angle | 2 circles (tip ends) + 2 circles (base/waist) + fillet circles at transitions |
+| Fillet between features | 1 small circle tangent to both adjacent shapes |
+
+### Place the full shapes first, trim later
+
+Don't draw arcs. Don't try to compute tangent points. Place every circle and line at its full extent:
 
 ```js
 const noGen = { genFixation: false, genIncidence: false,
@@ -103,9 +115,7 @@ await api.v1.sketch.circle({
 
 Disable auto-constraints — they interfere with precise programmatic placement.
 
-### Snapshot and compare
-
-With all circles drawn as full circles, you get a "skeleton" of the drawing. Compare this against the source. The circles should overlap in the right places, and you should be able to visually trace the profile through the outermost arcs.
+This gives you a "skeleton" of overlapping shapes. Compare it against the source — you should be able to visually trace the final profile through the outermost arcs. If the shapes don't overlap in the right places, your positions are wrong. Fix them before trimming.
 
 If the circles don't match the source proportions, your center positions are wrong. Fix positions before proceeding.
 

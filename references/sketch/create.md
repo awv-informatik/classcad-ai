@@ -36,8 +36,31 @@ Creating one sketch adds **3 objects** to the structure tree:
 
 IDs increment by ~6 per sketch (e.g., first sketch at 52, second at 58, third at 64).
 
+## Critical: Always Pass `planeId`
+
+**Sketches without an explicit `planeId` have a disabled constraint solver.** When `planeId` is omitted (`planeReference=0`), constraints and dimensions are stored in the structure tree but the 2D solver never runs — `updateDimension` returns `result: 0` (unsolved) and geometry does not move. No error is raised.
+
+When `planeId` is set (work plane or face ID), the solver works correctly:
+- `updateDimension` returns `result: 1` (solved) and repositions geometry
+- Geometric constraints (COINCIDENT, HORIZONTAL, etc.) actively enforce relationships
+- `moveGeometry` respects constraints during solving
+
+**Always create sketches with a plane.** Use a standard work plane (Top=38, Front=42, Right=46 on a fresh part), a custom work plane from `part.workPlane`, or a face ID:
+
+```js
+// ✅ Correct — solver works
+const partR = await api.v1.part.create({ name: 'MyPart' })
+const topPlane = Object.values(partR.structure.tree)
+  .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
+const skId = (await api.v1.sketch.create({ id: partR.result, planeId: topPlane.id })).result
+
+// ❌ Solver disabled — constraints/dimensions stored but never enforced
+const skId = (await api.v1.sketch.create({ id: partId })).result
+```
+
 ## Gotchas
 
+- **Without `planeId`, the constraint solver is off.** See section above.
 - **Duplicate names are silent.** No error, no warning. The second sketch with the same name just gets a different ID. `part.getSketch` returns the **first** match only — so duplicates make later sketches unreachable by name.
 - **`sketch.create` vs `part.sketch`** — these are the same API with identical params and behavior. Both live in different namespaces but do the same thing.
 - **Default plane is XY.** When `planeId` is omitted, the sketch lives on the XY plane at origin. The `planeReference` member is 0 (no explicit reference).

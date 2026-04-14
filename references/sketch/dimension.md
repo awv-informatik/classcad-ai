@@ -20,7 +20,7 @@ Creates dimensional constraints in a sketch. Dimensions are active constraints �
   - Numbers: `50`, `3.14`
   - Formula strings: `'60+10'`, `'sqrt(2)*50'`
   - Angle strings with `deg` suffix: `'60deg'`, `'45deg'`
-  - **`@expr.NAME` does NOT work** in this param — use `updateDimension` to link after creation
+  - **`@expr.NAME` does NOT work** in this param. It also does NOT work in `updateDimension`. Expression binding is not supported for dimensions — use `updateDimension` with computed numeric values instead.
 - **`name`** (optional) — custom name for the dimension in the structure tree. Default auto-names vary by type.
 - **`dimPos`** (optional) — `[x, y, 0]` position for the dimension text. For ANGLE, also selects which angular sector to constrain.
 - **`reflex`** (optional, ANGLE only) — `true` to constrain the outer angle (>180°). Default `false`.
@@ -64,7 +64,7 @@ const ids = (await api.v1.sketch.dimension([
 - **Auto-value (omit `value`)** locks the current measurement without resizing. The dimension constrains the geometry to its current size/angle.
 - **Fix an anchor first.** Without a FIXATION constraint, the solver may move geometry in unexpected ways. Always fix at least one reference point.
 - **Formulas work:** `'60+10'`, `'sqrt(2)*50'`, `'45deg'`. Evaluated at creation time.
-- **`@expr.NAME` does NOT work** in the `value` parameter. The dimension is created but with maxLevel=51 and geometry is not resized. Use `updateDimension` to link a dimension to an expression after creation.
+- **`@expr.NAME` does NOT work** in the `value` parameter. The dimension is created but with maxLevel=51 and geometry is not resized. Expression binding is not supported for dimensions at all — neither at creation nor via `updateDimension`. Use `updateDimension` with computed numeric values instead.
 
 ## Gotchas
 
@@ -119,7 +119,7 @@ const dims = (await api.v1.sketch.dimension([
 
 ## Related
 
-- `sketch.updateDimension` — change dimension value after creation (also supports `@expr.NAME`)
+- `sketch.updateDimension` — change dimension value after creation (numeric values and formula strings only — NOT `@expr.NAME`)
 - `sketch.updateDimensionPosition` — move dimension text position
 - `sketch.constraint` — geometric constraints (non-dimensional)
 - `sketch.deleteObject` — delete a dimension (`ids: [dimId]`)

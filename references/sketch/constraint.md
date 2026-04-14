@@ -58,12 +58,12 @@ const ids = (await api.v1.sketch.constraint([
 | `SYMMETRY` | `[axis, elem1, elem2]` | Mirrors the unconstrained element about the axis line. **Axis must be first in geomIds.** Works with points and lines. |
 | `FIXATION` | `[geometry]` | Locks geometry in place. All geometry types (point, line, arc, circle). Use to anchor reference geometry before adding other constraints. |
 
-### Equality — constraint stored but does NOT resize at creation time
+### Equality — solver enforces immediately (may resize either element)
 
 | Type | geomIds | What it does |
 |---|---|---|
-| `EQUAL_LENGTH` | `[line1, line2]` | Stores length equality constraint. Lines are NOT resized immediately. Requires dimension changes or other triggers. |
-| `EQUAL_RADIUS` | `[circ1, circ2]` or `[arc1, arc2]` | Stores radius equality constraint. Radii are NOT changed immediately. |
+| `EQUAL_LENGTH` | `[line1, line2]` | Equalizes line lengths immediately. **The solver may change either line** — even a "fixed" one. FIXATION on a line locks position/direction but does not fully prevent length changes. |
+| `EQUAL_RADIUS` | `[circ1, circ2]` or `[arc1, arc2]` | Equalizes radii immediately. Same caveat — the solver may change either circle. |
 
 ### Special
 
@@ -89,7 +89,7 @@ With an active solver (planeId set), `moveGeometry` is constraint-aware:
 ## Gotchas
 
 - **Without `planeId`, constraints do nothing.** The #1 mistake. Always create sketches with a plane.
-- **EQUAL_LENGTH/EQUAL_RADIUS don't resize immediately.** Don't expect geometry to change at constraint creation — these are stored for solver consistency during future modifications.
+- **EQUAL_LENGTH/EQUAL_RADIUS may change either element.** The solver equalizes by adjusting whichever line/circle it finds easier to move — even a "FIXATION"-constrained one. FIXATION locks position/direction but not length. To protect a line's length, fix both its endpoints individually.
 - **MIDPOINT fails on free sketch.points.** Use line endpoints (`getPoints().startId` or `.endId`) instead.
 - **Non-null result ≠ success.** A constraint can be created (get an ID) but produce solver errors (maxLevel=51). Always check maxLevel.
 - **Invalid geomIds are inconsistent.** Wrong count for some types → returns null. Wrong count for others → creates constraint but produces solver errors. Always validate before creating.

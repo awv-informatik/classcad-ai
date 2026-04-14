@@ -358,3 +358,13 @@ Direct solid body operations within entity injection features: primitive creatio
 | 9   | `exportSVG`               | Exports all the views from given product into SVG                   | [api](references/api/drawing2d.md) |
 | 10  | `isDXFAvailable`          | Returns true if DXF functionality is available                      | [api](references/api/drawing2d.md) |
 | 11  | `isSVGAvailable`          | Returns true if SVG functionality is available                      | [api](references/api/drawing2d.md) |
+
+---
+
+## Guides
+
+Practical workflow guides for complex multi-API tasks.
+
+| Guide | Description | Reference |
+|-------|-------------|-----------|
+| **Sketching** | Reproducing technical drawings: dimension analysis, circle-based construction, trim workflow, constraint placement, iterative evaluation | [SKETCHING.md](references/sketch/SKETCHING.md) |

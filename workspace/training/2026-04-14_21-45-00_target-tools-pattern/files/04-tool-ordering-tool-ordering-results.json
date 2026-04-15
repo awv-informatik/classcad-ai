@@ -1,0 +1,12 @@
+{
+  "subtraction": {
+    "vertsAB": 0,
+    "vertsBA": 0,
+    "same": true
+  },
+  "union": {
+    "vertsAB": 0,
+    "vertsBA": 0,
+    "same": true
+  }
+}

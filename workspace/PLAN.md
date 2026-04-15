@@ -881,8 +881,8 @@ const revId = (await api.v1.solid.revolve({ id: eifId, originPos: [50, 0, 0], di
 | 1   | Api study of `solid.union`                                     | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
 | 2   | Api study of `solid.subtraction`                               | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
 | 3   | Api study of `solid.intersection`                              | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
-| 4   | Api study of `solid.merge` — NOT a union                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 5   | Study: target/tools pattern — `target`, `tools[]`, `keepTools` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 4   | Api study of `solid.merge` — NOT a union                       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
+| 5   | Study: target/tools pattern — `target`, `tools[]`, `keepTools` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]    |
 
 **Task #1-2: Union + subtraction**
 
@@ -905,10 +905,10 @@ await api.v1.solid.subtraction({ id: eifId, target: b1, tools: [cyl] })
 
 | #   | Task                             | Source                                                          | Studied |
 | --- | -------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.translation` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 2   | Api study of `solid.rotation`    | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 3   | Api study of `solid.scale`       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 4   | Api study of `solid.mirror`      | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 1   | Api study of `solid.translation` | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 2   | Api study of `solid.rotation`    | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 3   | Api study of `solid.scale`       | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 4   | Api study of `solid.mirror`      | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
 
 **Task #1-2: Translation + rotation**
 

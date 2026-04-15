@@ -1,0 +1,28 @@
+{
+  "missingTranslation": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.translation",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"translation\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingTarget": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.translation",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"target\" must be provided in the api call!"
+      }
+    ]
+  }
+}

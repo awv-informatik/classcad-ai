@@ -1,0 +1,14 @@
+{
+  "box1_step1": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "box1_step2": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "box2_direct": {
+    "result": 64,
+    "maxLevel": 31
+  }
+}

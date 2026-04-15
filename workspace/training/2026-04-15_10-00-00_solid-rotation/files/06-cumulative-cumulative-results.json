@@ -1,0 +1,14 @@
+{
+  "box1_first": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "box1_second": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "box2_single": {
+    "result": 64,
+    "maxLevel": 31
+  }
+}

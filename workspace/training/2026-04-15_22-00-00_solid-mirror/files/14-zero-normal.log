@@ -1,0 +1,4 @@
+[14] zero normal: result= null maxLevel= 51
+[14] zero normal: bbox= null
+[14] zero normal: messages= [{"api":"v1.solid.mirror","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SolidAPI_v1.mirror::PROC:Invalid mirror normal!\nFunction: CADH_CADMirrorEntitys\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/Transformation.cpp,     Line: 48] "}]
+[filewrite] files/14-zero-normal-zero-normal.json (402 bytes)

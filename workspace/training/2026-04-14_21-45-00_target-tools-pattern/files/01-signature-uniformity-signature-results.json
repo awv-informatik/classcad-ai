@@ -1,0 +1,22 @@
+{
+  "union": {
+    "result": 61,
+    "maxLevel": 31,
+    "targetReturned": true
+  },
+  "subtraction": {
+    "result": 67,
+    "maxLevel": 31,
+    "targetReturned": true
+  },
+  "intersection": {
+    "result": 73,
+    "maxLevel": 31,
+    "targetReturned": true
+  },
+  "merge": {
+    "result": 79,
+    "maxLevel": 31,
+    "targetReturned": true
+  }
+}

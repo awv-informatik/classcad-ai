@@ -1,0 +1,10 @@
+[15] keepTools=false:
+[15]   result: 61 maxLevel: 31
+[15]   containers: 1
+[15]   container 59 : meshes= 12 edges= 24
+[15] keepTools=true:
+[15]   result: 75 maxLevel: 31
+[15]   containers: 1
+[15]   container 73 : meshes= 12 edges= 24
+[15]   copy tool (keepTools=true): null maxLevel: 51
+[15]   copy msgs: [{"api":"v1.solid.copy","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"target\" must be provided in the api call!"}]

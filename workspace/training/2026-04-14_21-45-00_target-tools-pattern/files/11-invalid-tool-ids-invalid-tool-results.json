@@ -1,0 +1,58 @@
+{
+  "union": {
+    "null": {
+      "maxLevel": 51,
+      "code": 1001
+    },
+    "nonExistent": {
+      "maxLevel": 51,
+      "code": 0
+    },
+    "wrongType": {
+      "maxLevel": 51,
+      "code": 0
+    }
+  },
+  "subtraction": {
+    "null": {
+      "maxLevel": 51,
+      "code": 1001
+    },
+    "nonExistent": {
+      "maxLevel": 51,
+      "code": 0
+    },
+    "wrongType": {
+      "maxLevel": 51,
+      "code": 0
+    }
+  },
+  "intersection": {
+    "null": {
+      "maxLevel": 51,
+      "code": 1001
+    },
+    "nonExistent": {
+      "maxLevel": 51,
+      "code": 0
+    },
+    "wrongType": {
+      "maxLevel": 51,
+      "code": 0
+    }
+  },
+  "merge": {
+    "null": {
+      "maxLevel": 51,
+      "code": 1001
+    },
+    "nonExistent": {
+      "maxLevel": 51,
+      "code": 0
+    },
+    "wrongType": {
+      "maxLevel": 51,
+      "code": 0
+    }
+  }
+}

@@ -1,0 +1,4 @@
+[06] first scale 2x result: 61 maxLevel: 31
+[06] second scale 3x result: 61 maxLevel: 31
+[06] direct scale 6x result: 64 maxLevel: 31
+[filewrite] files/06-scale-cumulative-cumulative-responses.json (183 bytes)

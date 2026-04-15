@@ -1,0 +1,9 @@
+[16] before min: [-20,-15,-10] max: [20,15,10]
+[16] after -1 min: [-20,-15,-10] max: [20,15,10]
+[16] normals before (first 12): [0,0,-1,0,0,-1,0,0,-1,0,0,-1]
+[16] normals after -1 (first 12): [0,0,1,0,0,1,0,0,1,0,0,1]
+[filewrite] files/16-zero-negative-data-neg-scale-comparison.json (519 bytes)
+[16] after -1*-1 min: [-20,-15,-10] max: [20,15,10]
+[16] after 0x — container count: 1
+[16] after 0x min: [-25,60,-15] max: [25,100,15]
+[filewrite] files/16-zero-negative-data-zero-scale-data.json (394 bytes)

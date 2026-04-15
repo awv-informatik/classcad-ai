@@ -1,0 +1,32 @@
+[05] merge containers count: 1
+[05] merge container[0]: keys=[id,owner,type,properties,meshes,edges,vertices], id=59
+[05]   meshes count: 12
+[05]   mesh[0]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[1]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[2]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[3]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[4]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[5]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[6]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[7]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[8]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[9]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[10]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[11]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   edges count: 24
+[05] union containers count: 1
+[05] union container[0]: keys=[id,owner,type,properties,meshes,edges,vertices], id=73
+[05]   meshes count: 12
+[05]   mesh[0]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[1]: 6 verts, 4 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[2]: 8 verts, 6 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[3]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[4]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[5]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[6]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[7]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[8]: 8 verts, 6 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[9]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[10]: 6 verts, 4 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   mesh[11]: 4 verts, 2 tris, keys=[id,vertices,normals,indices,loops,properties]
+[05]   edges count: 30

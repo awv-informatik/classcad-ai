@@ -1,0 +1,3 @@
+[04] subtraction [A,B] verts=0, [B,A] verts=0, same=true
+[04] union [A,B] verts=0, [B,A] verts=0, same=true
+[filewrite] files/04-tool-ordering-tool-ordering-results.json (150 bytes)

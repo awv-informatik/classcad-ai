@@ -1,0 +1,18 @@
+{
+  "half": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "oneAndHalf": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "twoAndHalf": {
+    "result": 67,
+    "maxLevel": 31
+  },
+  "third": {
+    "result": 70,
+    "maxLevel": 31
+  }
+}

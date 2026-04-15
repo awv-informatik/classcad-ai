@@ -36,6 +36,13 @@ Collected from all training journals. Ordered by severity.
 - **Session:** Documented in LLM doc `references/solid/subtraction.md`
 - **Error:** ❌ Referencing a consumed (keepTools=false) tool solid ID in any subsequent solid operation hangs the server.
 
+### 45. 💀 `solid.merge` — same solid as target and tool hangs server
+
+- **Session:** `2026-04-14_21-30-00_solid-merge` (journal script 10)
+- **Error:** ❌ 100% CPU, no response, infinite loop. Same behavior as self-union.
+- **Trigger:** `merge({ id, target: X, tools: [X] })`
+- **Recovery:** `kill -9` required.
+
 ---
 
 ## 🔥 CRITICAL — Recalc Invalidation Bug (affects multiple shape-transform APIs)
@@ -273,3 +280,24 @@ Collected from all training journals. Ordered by severity.
 
 - **Session:** `2026-03-22_17-25-41_protocol-envelope` (journal line ~175)
 - **Detail:** 💣 Missing `expression` param produces 2 error messages including `code: 0` internal error. `api` field missing from both messages.
+
+### 45. 🟡 Destroyed target — inconsistent behavior across operations
+
+- **Session:** `2026-04-14_21-45-00_target-tools-pattern` (journal entry 08)
+- **Error:** After intersection destroys target (code 1014), subsequent ops on that ID behave differently: `solid.translation` is a silent no-op (maxLevel=31, no error), `solid.union` returns null/error, `solid.merge` returns the dead target ID with error (misleading — looks like success if you only check result, not maxLevel).
+- **Trigger:** Any operation that destroys target (intersection of non-overlapping bodies, subtraction where tool envelops target), followed by further ops on the same ID.
+- **Workaround:** Always check `maxLevel` after boolean operations, not just the return value.
+
+### 46. 🟡 `solid.scale` — factor=0 is a silent no-op
+
+- **Session:** `2026-04-15_12-00-00_solid-scale` (journal entries 04, 16, 17)
+- **Error:** `scale({ ..., factor: 0 })` returns success (maxLevel=31, result=solidId) but the body is **completely unchanged** — bounding box, vertices, normals all stay the same. Subsequent operations work normally. Not documented anywhere. Very small non-zero factors (0.0001) do actually scale and produce degenerate geometry.
+- **Trigger:** `factor: 0` exactly.
+- **Workaround:** Avoid factor=0. If you need to check for zero before calling, do it yourself.
+
+### 47. 🟡 `solid.scale` — negative factor flips normals (inside-out solid)
+
+- **Session:** `2026-04-15_12-00-00_solid-scale` (journal entries 05, 16)
+- **Error:** Negative scale factors (e.g., -1) succeed but flip all face normals, producing an inside-out solid. Normals reverse direction (e.g., [0,0,-1] → [0,0,1]). Double negation (-1 then -1) restores. Not documented.
+- **Trigger:** Any negative `factor` value.
+- **Workaround:** Use `solid.mirror` for proper mirroring instead.

@@ -1,0 +1,11 @@
+[08] target ID: 61 tool ID: 64
+[08] intersection: result= null maxLevel= 51
+[08] intersection messages: [{"api":"v1.solid.intersection","code":1014,"level":51,"levelStr":"ERROR","message":"Target solid was removed by intersection."}]
+[08] translate destroyed: maxLevel= 31 msg= undefined
+[08] union on destroyed: result= null maxLevel= 51 msg= [Evaluation error in SolidAPI_v1.union::PROC:_C.SolidAPI_v1::union
+There must be two valid solids to perform a boolean operation
+Function: CADH_AddSolid
+File: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/BooleanOperations.cpp,     Line: 116] 
+[08] merge on destroyed: result= 61 maxLevel= 51 msg= _C.SolidAPI_v1::merge
+There must be two valid solids to perform a merge operation
+[filewrite] files/08-destroyed-target-reuse-destroyed-target-results.json (1124 bytes)

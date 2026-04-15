@@ -1,0 +1,6 @@
+[08] box1: 61 box2: 64 box3: 67
+[08] merge 3 solids result: 61 maxLevel: 31
+[08] msgs: []
+[08] container 59 : meshes= 18 edges= 36
+[08] copy box2: null maxLevel: 51
+[08] copy box3: null maxLevel: 51

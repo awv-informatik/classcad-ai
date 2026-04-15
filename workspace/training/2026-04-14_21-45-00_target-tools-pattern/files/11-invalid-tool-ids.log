@@ -1,0 +1,13 @@
+[11] union tools=[null]: maxLevel=51, code=1001
+[11] union tools=[99999]: maxLevel=51, code=0
+[11] union tools=["bad"]: maxLevel=51, code=0
+[11] subtraction tools=[null]: maxLevel=51, code=1001
+[11] subtraction tools=[99999]: maxLevel=51, code=0
+[11] subtraction tools=["bad"]: maxLevel=51, code=0
+[11] intersection tools=[null]: maxLevel=51, code=1001
+[11] intersection tools=[99999]: maxLevel=51, code=0
+[11] intersection tools=["bad"]: maxLevel=51, code=0
+[11] merge tools=[null]: maxLevel=51, code=1001
+[11] merge tools=[99999]: maxLevel=51, code=0
+[11] merge tools=["bad"]: maxLevel=51, code=0
+[filewrite] files/11-invalid-tool-ids-invalid-tool-results.json (851 bytes)

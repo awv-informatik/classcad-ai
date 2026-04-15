@@ -1,0 +1,14 @@
+{
+  "sphere": {
+    "result": 60,
+    "maxLevel": 31
+  },
+  "cylinder": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "cone": {
+    "result": 67,
+    "maxLevel": 31
+  }
+}

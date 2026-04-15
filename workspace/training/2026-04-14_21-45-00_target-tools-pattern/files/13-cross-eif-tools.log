@@ -1,0 +1,5 @@
+[13] union cross-EIF: result=69, maxLevel=31
+[13] subtraction cross-EIF: result=75, maxLevel=31
+[13] intersection cross-EIF: result=81, maxLevel=31
+[13] merge cross-EIF: result=87, maxLevel=31
+[filewrite] files/13-cross-eif-tools-cross-eif-results.json (315 bytes)

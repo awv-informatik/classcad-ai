@@ -1,0 +1,4 @@
+[21] unique normals before: [[-1,0,0],[0,-1,0],[0,0,-1],[0,0,1],[0,1,0],[1,0,0]]
+[21] unique normals after: [[-1,0,0],[0,-1,0],[0,0,-1],[0,0,1],[0,1,0],[1,0,0]]
+[21] same unique normal set: true
+[filewrite] files/21-normals-full-check-normals-full.json (530 bytes)

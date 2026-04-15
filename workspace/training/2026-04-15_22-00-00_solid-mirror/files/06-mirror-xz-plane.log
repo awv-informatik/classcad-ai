@@ -1,0 +1,4 @@
+[06] bbox before: {"min":[-20,10,-15],"max":[60,50,15]}
+[06] bbox after: {"min":[-20,-50,-15],"max":[60,-10,15]}
+[06] mirror result: 61 maxLevel: 31
+[filewrite] files/06-mirror-xz-plane-xz-mirror-comparison.json (239 bytes)

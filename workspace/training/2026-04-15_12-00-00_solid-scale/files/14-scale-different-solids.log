@@ -1,0 +1,4 @@
+[14] sphere scale result: 60 maxLevel: 31
+[14] cylinder scale result: 64 maxLevel: 31
+[14] cone scale result: 67 maxLevel: 31
+[filewrite] files/14-scale-different-solids-type-scale-responses.json (170 bytes)

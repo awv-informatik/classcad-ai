@@ -1,0 +1,4 @@
+[09] multi-tool union: maxLevel= 31 result= 61
+[filewrite] files/09-multi-vs-sequential-multi-structure.json (21055 bytes)
+[09] sequential union: maxLevel= 31 result= 75
+[filewrite] files/09-multi-vs-sequential-seq-structure.json (21055 bytes)

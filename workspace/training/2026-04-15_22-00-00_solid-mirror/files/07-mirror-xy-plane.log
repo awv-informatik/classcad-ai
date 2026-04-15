@@ -1,0 +1,4 @@
+[07] bbox before: {"min":[-40,-20,10],"max":[40,20,40]}
+[07] bbox after: {"min":[-40,-20,-40],"max":[40,20,-10]}
+[07] mirror result: 61 maxLevel: 31
+[filewrite] files/07-mirror-xy-plane-xy-mirror-comparison.json (239 bytes)

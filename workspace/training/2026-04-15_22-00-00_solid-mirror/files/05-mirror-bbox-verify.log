@@ -1,0 +1,4 @@
+[05] bbox before: {"min":[-20,-10,-15],"max":[60,30,15]}
+[05] bbox after: {"min":[-60,-10,-15],"max":[20,30,15]}
+[05] mirror result: 61 maxLevel: 31
+[filewrite] files/05-mirror-bbox-verify-mirror-bbox-comparison.json (293 bytes)

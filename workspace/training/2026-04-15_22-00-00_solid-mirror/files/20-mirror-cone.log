@@ -1,0 +1,4 @@
+[20] cone bbox before: {"min":[25,-15,-20],"max":[55,15,20]}
+[20] cone bbox after: {"min":[-55,-15,-20],"max":[-25,15,20]}
+[20] mirror result: 61 maxLevel: 31
+[filewrite] files/20-mirror-cone-cone-mirror.json (239 bytes)

@@ -1,0 +1,4 @@
+[03] boxId: 64
+[03] translate1 result: 64 maxLevel: 31
+[03] translate2 result: 64 maxLevel: 31
+[filewrite] files/03-cumulative-graphic-after-both.json (4 bytes)

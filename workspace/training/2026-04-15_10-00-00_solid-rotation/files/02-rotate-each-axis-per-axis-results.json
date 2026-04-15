@@ -1,0 +1,14 @@
+{
+  "rotateX": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "rotateY": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "rotateZ": {
+    "result": 67,
+    "maxLevel": 31
+  }
+}

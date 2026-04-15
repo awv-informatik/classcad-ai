@@ -1,0 +1,4 @@
+[08] bbox before: {"min":[-20,-15,-10],"max":[20,15,10]}
+[08] bbox after: {"min":[80,-15,-10],"max":[120,15,10]}
+[08] mirror result: 61 maxLevel: 31
+[filewrite] files/08-mirror-offset-plane-offset-mirror-comparison.json (239 bytes)

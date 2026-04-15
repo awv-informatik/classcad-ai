@@ -1,0 +1,3 @@
+[11] scale 100x result: 61 maxLevel: 31
+[11] scale 0.001x result: 64 maxLevel: 31
+[filewrite] files/11-scale-large-small-extreme-scale-responses.json (163 bytes)

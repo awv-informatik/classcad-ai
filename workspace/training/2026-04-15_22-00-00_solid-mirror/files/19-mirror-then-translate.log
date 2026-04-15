@@ -1,0 +1,4 @@
+[19] bbox original: {"min":[10,-15,-10],"max":[70,15,10]}
+[19] bbox after mirror: {"min":[-70,-15,-10],"max":[-10,15,10]}
+[19] bbox after translate: {"min":[30,-15,-10],"max":[90,15,10]}
+[filewrite] files/19-mirror-then-translate-mirror-translate-chain.json (373 bytes)

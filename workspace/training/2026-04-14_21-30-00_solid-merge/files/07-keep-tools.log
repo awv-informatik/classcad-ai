@@ -1,0 +1,6 @@
+[07] merge keepTools result: 61 maxLevel: 31
+[07] merge msgs: []
+[07] containers after merge: 1
+[07]   container id: 59 meshes: 12 edges: 24
+[07] copy box2 result: null maxLevel: 51
+[07] translate box2 result: null maxLevel: 51

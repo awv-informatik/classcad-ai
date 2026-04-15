@@ -1,0 +1,6 @@
+[02] merge result: 61 maxLevel: 31
+[filewrite] files/02-merge-vs-union-merge-graphic.json (21478 bytes)
+[02] union result: null maxLevel: 51
+[filewrite] files/02-merge-vs-union-union-graphic.json (4 bytes)
+[02] merge structure nodes: 1
+[02] union structure nodes: 1

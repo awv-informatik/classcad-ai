@@ -1,0 +1,4 @@
+[16] bbox after [1,0,0]: {"min":[-60,-10,-15],"max":[20,30,15]}
+[16] bbox after [-1,0,0]: {"min":[-60,-10,-15],"max":[20,30,15]}
+[16] same result: true
+[filewrite] files/16-normal-direction-normal-direction.json (278 bytes)

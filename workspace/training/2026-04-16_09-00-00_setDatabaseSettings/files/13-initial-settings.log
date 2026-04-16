@@ -1,0 +1,6 @@
+[13] after setDatabaseSettings: {"angleTol":12,"chordHeightTol":0.75,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":0,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":1,"isSketchGraphicEnabled":0}
+[13] after part.create: {"angleTol":12,"chordHeightTol":0.75,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":0,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":1,"isSketchGraphicEnabled":0}
+[13] after clear: {"angleTol":12,"chordHeightTol":0.75,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":0,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":1,"isSketchGraphicEnabled":0}
+[13] same after create: true
+[13] same after clear: true
+[filewrite] files/13-initial-settings-initial-settings.json (763 bytes)

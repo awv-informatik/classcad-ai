@@ -1,0 +1,6 @@
+[09] before clear: {"angleTol":12,"chordHeightTol":0.25}
+[09] after clear: {"angleTol":12,"chordHeightTol":0.25}
+[09] survived clear? true
+[09] after part.create: {"angleTol":12,"chordHeightTol":0.25}
+[09] survived part.create? true
+[filewrite] files/09-persist-clear-persist-clear.json (209 bytes)

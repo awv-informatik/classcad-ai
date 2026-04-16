@@ -1,0 +1,6 @@
+[04] with extra param: ✓ maxLevel: 31
+[04] readback: {"angleTol":15,"chordHeightTol":0.2}
+[04] with facetingParamsMode: ✓ maxLevel: 31
+[04] faceting readback: {"angleTol":10,"chordHeightTol":0.3}
+[04] facetingParamsMode: 0
+[filewrite] files/04-extra-params-extra-params.json (311 bytes)

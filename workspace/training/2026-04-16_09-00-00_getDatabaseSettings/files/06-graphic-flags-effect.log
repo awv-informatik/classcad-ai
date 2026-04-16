@@ -1,0 +1,5 @@
+[06] Initial isGraphicEnabled: 1
+[06] With graphic enabled: hasGraphic: true size: 2770
+[06] After disable: isGraphicEnabled: 0
+[06] With graphic disabled: hasGraphic: true size: 2689
+[filewrite] files/06-graphic-flags-effect-graphic-flags.json (692 bytes)

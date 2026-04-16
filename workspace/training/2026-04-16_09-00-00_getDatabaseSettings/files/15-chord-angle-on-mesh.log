@@ -1,0 +1,6 @@
+[15] chord=0.1 angle=0: 1697 verts, 9600 indices
+[15] chord=0.5 angle=0: 0 verts, 0 indices
+[15] chord=1 angle=0: 0 verts, 0 indices
+[15] chord=0.1 angle=10: 0 verts, 0 indices
+[15] chord=0.1 angle=30: 0 verts, 0 indices
+[filewrite] files/15-chord-angle-on-mesh-mesh-quality.json (493 bytes)

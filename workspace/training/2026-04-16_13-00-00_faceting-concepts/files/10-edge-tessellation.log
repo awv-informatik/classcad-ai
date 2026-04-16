@@ -1,0 +1,6 @@
+[10] cht=0.01, tess=true: 3 edges, 516 edge pts
+[10] cht=0.1, tess=true: 3 edges, 132 edge pts
+[10] cht=1, tess=true: 3 edges, 52 edge pts
+[10] cht=5, tess=true: 3 edges, 20 edge pts
+[10] tess=false: edges=false, lines=true(1), arcs=true(2)
+[filewrite] files/10-edge-tessellation-edge-tessellation.json (538 bytes)

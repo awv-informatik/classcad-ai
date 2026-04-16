@@ -1,0 +1,32 @@
+[
+  {
+    "chordHeightTol": 0.1,
+    "angleTol": 0,
+    "vertexCount": 1697,
+    "indexCount": 9600
+  },
+  {
+    "chordHeightTol": 0.5,
+    "angleTol": 0,
+    "vertexCount": 0,
+    "indexCount": 0
+  },
+  {
+    "chordHeightTol": 1,
+    "angleTol": 0,
+    "vertexCount": 0,
+    "indexCount": 0
+  },
+  {
+    "chordHeightTol": 0.1,
+    "angleTol": 10,
+    "vertexCount": 0,
+    "indexCount": 0
+  },
+  {
+    "chordHeightTol": 0.1,
+    "angleTol": 30,
+    "vertexCount": 0,
+    "indexCount": 0
+  }
+]

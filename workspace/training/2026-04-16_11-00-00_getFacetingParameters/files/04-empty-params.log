@@ -1,0 +1,6 @@
+[04] before: {"angleTol":10,"chordHeightTol":0.3}
+[04] empty set result: null
+[04] empty set maxLevel: 51
+[04] after empty set: {"angleTol":10,"chordHeightTol":0.3}
+[04] unchanged? true
+[filewrite] files/04-empty-params-empty-params.json (177 bytes)

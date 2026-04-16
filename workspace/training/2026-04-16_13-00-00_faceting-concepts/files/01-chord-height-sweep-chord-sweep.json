@@ -1,0 +1,72 @@
+[
+  {
+    "chordHeightTol": 0.001,
+    "reported": 0.001,
+    "vertices": 115461,
+    "indices": 688140,
+    "edgePoints": 405
+  },
+  {
+    "chordHeightTol": 0.01,
+    "reported": 0.01,
+    "vertices": 8385,
+    "indices": 48384,
+    "edgePoints": 129
+  },
+  {
+    "chordHeightTol": 0.05,
+    "reported": 0.05,
+    "vertices": 2017,
+    "indices": 11328,
+    "edgePoints": 65
+  },
+  {
+    "chordHeightTol": 0.1,
+    "reported": 0.1,
+    "vertices": 1697,
+    "indices": 9600,
+    "edgePoints": 33
+  },
+  {
+    "chordHeightTol": 0.25,
+    "reported": 0.25,
+    "vertices": 497,
+    "indices": 2688,
+    "edgePoints": 28
+  },
+  {
+    "chordHeightTol": 0.5,
+    "reported": 0.5,
+    "vertices": 277,
+    "indices": 1392,
+    "edgePoints": 17
+  },
+  {
+    "chordHeightTol": 1,
+    "reported": 1,
+    "vertices": 153,
+    "indices": 672,
+    "edgePoints": 13
+  },
+  {
+    "chordHeightTol": 2,
+    "reported": 2,
+    "vertices": 113,
+    "indices": 528,
+    "edgePoints": 9
+  },
+  {
+    "chordHeightTol": 5,
+    "reported": 5,
+    "vertices": 85,
+    "indices": 288,
+    "edgePoints": 5
+  },
+  {
+    "chordHeightTol": 10,
+    "reported": 10,
+    "vertices": 45,
+    "indices": 144,
+    "edgePoints": 5
+  }
+]

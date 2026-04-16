@@ -1,0 +1,4 @@
+[22] mode=0: box=2769, sphere=134823, cylinder=12294
+[22] mode=1: box=0, sphere=0, cylinder=0
+[22] mode=2: box=0, sphere=0, cylinder=0
+[filewrite] files/22-mode-box-vs-sphere-mode-shape-comparison.json (233 bytes)

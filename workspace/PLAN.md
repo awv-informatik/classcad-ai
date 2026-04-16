@@ -1018,11 +1018,11 @@ await api.v1.common.setAppearance({ target: eifId, color: [255, 100, 0], transpa
 
 | #   | Task                                                                        | Source                                                            | Studied |
 | --- | --------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.getDatabaseSettings`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 2   | Api study of `common.setDatabaseSettings`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 3   | Api study of `common.getFacetingParameters`                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 4   | Api study of `common.setFacetingParameters`                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 5   | Study: faceting concepts — chordHeightTol, angleTol, quality vs performance | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 1   | Api study of `common.getDatabaseSettings`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 2   | Api study of `common.setDatabaseSettings`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 3   | Api study of `common.getFacetingParameters`                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 4   | Api study of `common.setFacetingParameters`                                 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 5   | Study: faceting concepts — chordHeightTol, angleTol, quality vs performance | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
 
 **Task #3-4: Faceting parameters**
 

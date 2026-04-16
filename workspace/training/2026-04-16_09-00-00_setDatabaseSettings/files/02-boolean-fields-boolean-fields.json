@@ -1,0 +1,22 @@
+{
+  "afterJsBooleans": {
+    "angleTol": 0,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 0,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 0,
+    "isGraphicEnabled": 0,
+    "isInvisibleGraphicEnabled": 1,
+    "isSketchGraphicEnabled": 0
+  },
+  "afterIntBooleans": {
+    "angleTol": 0,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  }
+}

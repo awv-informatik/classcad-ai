@@ -1,0 +1,32 @@
+{
+  "withGraphic": {
+    "hasGraphic": true,
+    "size": 2770
+  },
+  "withoutGraphic": {
+    "hasGraphic": true,
+    "size": 2689
+  },
+  "settings": {
+    "before": {
+      "angleTol": 15,
+      "chordHeightTol": 0.5,
+      "doCurveTessellation": 1,
+      "facetingParamsMode": 2,
+      "isCCGraphicEnabled": 1,
+      "isGraphicEnabled": 1,
+      "isInvisibleGraphicEnabled": 0,
+      "isSketchGraphicEnabled": 1
+    },
+    "after": {
+      "angleTol": 15,
+      "chordHeightTol": 0.5,
+      "doCurveTessellation": 1,
+      "facetingParamsMode": 2,
+      "isCCGraphicEnabled": 1,
+      "isGraphicEnabled": 0,
+      "isInvisibleGraphicEnabled": 0,
+      "isSketchGraphicEnabled": 1
+    }
+  }
+}

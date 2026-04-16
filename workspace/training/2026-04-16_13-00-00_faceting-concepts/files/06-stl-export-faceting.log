@@ -1,0 +1,8 @@
+[06] fine: facetTol=0.01, angTol=6 → 0 triangles, 1075312 b64 chars
+[06] default: facetTol=0.1, angTol=6 → 0 triangles, 213448 b64 chars
+[06] medium: facetTol=0.5, angTol=6 → 0 triangles, 33712 b64 chars
+[06] coarse: facetTol=1, angTol=6 → 0 triangles, 18248 b64 chars
+[06] veryCoarse: facetTol=5, angTol=6 → 0 triangles, 18248 b64 chars
+[06] tightAngle: facetTol=0.1, angTol=1 → 0 triangles, 243312 b64 chars
+[06] looseAngle: facetTol=0.1, angTol=30 → 0 triangles, 213448 b64 chars
+[filewrite] files/06-stl-export-faceting-stl-export.json (863 bytes)

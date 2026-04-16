@@ -1,0 +1,5 @@
+[16] Before save: chord= 0.77 angle= 22 mode= 0
+[16] After reset: chord= 0.1 angle= 0 mode= 1
+[16] After load: chord= 0.77 angle= 22 mode= 1
+[16] Settings restored from file: true
+[filewrite] files/16-settings-save-load-save-load-settings.json (761 bytes)

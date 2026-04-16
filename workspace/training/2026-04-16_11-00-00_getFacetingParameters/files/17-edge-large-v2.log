@@ -1,0 +1,9 @@
+[17] large chordHeightTol — maxLevel: 31
+[17] after large chordHeightTol: {"angleTol":0,"chordHeightTol":1000}
+[17] large angleTol — maxLevel: 31
+[17] after large angleTol: {"angleTol":360,"chordHeightTol":0.1}
+[17] tiny chordHeightTol — maxLevel: 31
+[17] after tiny chordHeightTol: {"angleTol":0,"chordHeightTol":0.001}
+[17] fractional angleTol — maxLevel: 51
+[17] after fractional angleTol: {"angleTol":0,"chordHeightTol":0.001}
+[filewrite] files/17-edge-large-v2-edge-large-v2.json (265 bytes)

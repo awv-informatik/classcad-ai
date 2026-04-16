@@ -1,0 +1,5 @@
+[03] mode=1: hasGraphic: true hasMesh: true
+[03] verify mode set to: 0
+[03] mode=0: hasGraphic: true hasMesh: true
+[03] mesh vertex count: 4
+[filewrite] files/03-facetingParamsMode-faceting-mode.json (126 bytes)

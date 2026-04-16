@@ -1,0 +1,30 @@
+{
+  "mode1": {
+    "containers": 1,
+    "meshes": 3,
+    "edges": 3,
+    "containerKeys": [
+      "id",
+      "owner",
+      "type",
+      "properties",
+      "meshes",
+      "edges",
+      "vertices"
+    ]
+  },
+  "mode0": {
+    "containers": 1,
+    "meshes": 3,
+    "edges": 3,
+    "containerKeys": [
+      "id",
+      "owner",
+      "type",
+      "properties",
+      "meshes",
+      "edges",
+      "vertices"
+    ]
+  }
+}

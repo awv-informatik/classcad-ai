@@ -1,0 +1,7 @@
+[05] angleTol=0: vertices=1697, verify.angleTol=0
+[05] angleTol=5: vertices=8385, verify.angleTol=5
+[05] angleTol=15: vertices=1697, verify.angleTol=15
+[05] angleTol=30: vertices=1697, verify.angleTol=30
+[05] angleTol=45: vertices=1697, verify.angleTol=45
+[05] angleTol=90: vertices=1697, verify.angleTol=90
+[filewrite] files/05-angleTol-effect-angle-density.json (466 bytes)

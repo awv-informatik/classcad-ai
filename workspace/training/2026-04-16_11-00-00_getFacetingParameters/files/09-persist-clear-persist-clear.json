@@ -1,0 +1,14 @@
+{
+  "before": {
+    "angleTol": 12,
+    "chordHeightTol": 0.25
+  },
+  "afterClear": {
+    "angleTol": 12,
+    "chordHeightTol": 0.25
+  },
+  "afterCreate": {
+    "angleTol": 12,
+    "chordHeightTol": 0.25
+  }
+}

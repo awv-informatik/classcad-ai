@@ -1,0 +1,6 @@
+[07] before clear: {"angleTol":15,"chordHeightTol":0.5,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":1,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[07] after clear: {"angleTol":15,"chordHeightTol":0.5,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":1,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[07] clear survivors: angleTol:true, chordHeightTol:true, doCurveTessellation:true, facetingParamsMode:true, isCCGraphicEnabled:true, isGraphicEnabled:true, isInvisibleGraphicEnabled:true, isSketchGraphicEnabled:true
+[07] after part.create: {"angleTol":15,"chordHeightTol":0.5,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":1,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[07] create survivors: angleTol:true, chordHeightTol:true, doCurveTessellation:true, facetingParamsMode:true, isCCGraphicEnabled:true, isGraphicEnabled:true, isInvisibleGraphicEnabled:true, isSketchGraphicEnabled:true
+[filewrite] files/07-persistence-clear-create-persistence.json (2420 bytes)

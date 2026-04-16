@@ -1,0 +1,116 @@
+{
+  "beforeClear": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 0,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 0,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "afterClear": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 0,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 0,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "afterCreate": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 0,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 0,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "clearSurvivors": {
+    "angleTol": {
+      "before": 15,
+      "after": 15,
+      "survived": true
+    },
+    "chordHeightTol": {
+      "before": 0.5,
+      "after": 0.5,
+      "survived": true
+    },
+    "doCurveTessellation": {
+      "before": 0,
+      "after": 0,
+      "survived": true
+    },
+    "facetingParamsMode": {
+      "before": 0,
+      "after": 0,
+      "survived": true
+    },
+    "isCCGraphicEnabled": {
+      "before": 1,
+      "after": 1,
+      "survived": true
+    },
+    "isGraphicEnabled": {
+      "before": 0,
+      "after": 0,
+      "survived": true
+    },
+    "isInvisibleGraphicEnabled": {
+      "before": 0,
+      "after": 0,
+      "survived": true
+    },
+    "isSketchGraphicEnabled": {
+      "before": 1,
+      "after": 1,
+      "survived": true
+    }
+  },
+  "createSurvivors": {
+    "angleTol": {
+      "afterClear": 15,
+      "afterCreate": 15,
+      "survived": true
+    },
+    "chordHeightTol": {
+      "afterClear": 0.5,
+      "afterCreate": 0.5,
+      "survived": true
+    },
+    "doCurveTessellation": {
+      "afterClear": 0,
+      "afterCreate": 0,
+      "survived": true
+    },
+    "facetingParamsMode": {
+      "afterClear": 0,
+      "afterCreate": 0,
+      "survived": true
+    },
+    "isCCGraphicEnabled": {
+      "afterClear": 1,
+      "afterCreate": 1,
+      "survived": true
+    },
+    "isGraphicEnabled": {
+      "afterClear": 0,
+      "afterCreate": 0,
+      "survived": true
+    },
+    "isInvisibleGraphicEnabled": {
+      "afterClear": 0,
+      "afterCreate": 0,
+      "survived": true
+    },
+    "isSketchGraphicEnabled": {
+      "afterClear": 1,
+      "afterCreate": 1,
+      "survived": true
+    }
+  }
+}

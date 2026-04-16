@@ -1,0 +1,10 @@
+{
+  "mode1": {
+    "hasGraphic": true,
+    "hasMesh": true
+  },
+  "mode0": {
+    "hasGraphic": true,
+    "hasMesh": true
+  }
+}

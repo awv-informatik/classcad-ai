@@ -1,0 +1,7 @@
+[07] large chordHeightTol maxLevel: 51
+[07] after large chordHeightTol: {"angleTol":10,"chordHeightTol":0.3}
+[07] large angleTol maxLevel: 51
+[07] after large angleTol: {"angleTol":10,"chordHeightTol":0.3}
+[07] tiny chordHeightTol maxLevel: 51
+[07] after tiny chordHeightTol: {"angleTol":10,"chordHeightTol":0.3}
+[filewrite] files/07-edge-large-edge-large.json (218 bytes)

@@ -1,0 +1,8 @@
+[17] Settings after reset: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[17] fine: chord=0.1 angle=0: meshes=1, 1697 verts, 9600 indices, gfxSize=134610
+[17] coarse: chord=0.5 angle=0: meshes=0, 0 verts, 0 indices, gfxSize=0
+[17] very-coarse: chord=1 angle=0: meshes=0, 0 verts, 0 indices, gfxSize=0
+[17] ultra-fine: chord=0.01 angle=0: meshes=0, 0 verts, 0 indices, gfxSize=0
+[17] angle15: chord=0.1 angle=15: meshes=0, 0 verts, 0 indices, gfxSize=0
+[17] angle30: chord=0.1 angle=30: meshes=0, 0 verts, 0 indices, gfxSize=0
+[filewrite] files/17-mesh-quality-isolated-mesh-quality-isolated.json (1245 bytes)

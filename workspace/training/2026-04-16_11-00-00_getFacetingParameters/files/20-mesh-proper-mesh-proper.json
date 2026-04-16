@@ -1,0 +1,32 @@
+[
+  {
+    "chordHeightTol": 0.01,
+    "vertices": 8385,
+    "indices": 48384
+  },
+  {
+    "chordHeightTol": 0.05,
+    "vertices": 0,
+    "indices": 0
+  },
+  {
+    "chordHeightTol": 0.1,
+    "vertices": 0,
+    "indices": 0
+  },
+  {
+    "chordHeightTol": 0.5,
+    "vertices": 0,
+    "indices": 0
+  },
+  {
+    "chordHeightTol": 1,
+    "vertices": 0,
+    "indices": 0
+  },
+  {
+    "chordHeightTol": 5,
+    "vertices": 0,
+    "indices": 0
+  }
+]

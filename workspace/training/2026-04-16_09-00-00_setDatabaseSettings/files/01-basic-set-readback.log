@@ -1,0 +1,12 @@
+[01] defaults: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[01] setDatabaseSettings result: null maxLevel: 31
+[01] after set chordHeightTol=0.5: {"angleTol":0,"chordHeightTol":0.5,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[01] chordHeightTol changed: 0.1 -> 0.5
+[01] isGraphicEnabled unchanged: true (1 -> 1)
+[01] isCCGraphicEnabled unchanged: true (1 -> 1)
+[01] isInvisibleGraphicEnabled unchanged: true (0 -> 0)
+[01] isSketchGraphicEnabled unchanged: true (1 -> 1)
+[01] facetingParamsMode unchanged: true (1 -> 1)
+[01] angleTol unchanged: true (0 -> 0)
+[01] doCurveTessellation unchanged: true (1 -> 1)
+[filewrite] files/01-basic-set-readback-basic-readback.json (539 bytes)

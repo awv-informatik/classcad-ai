@@ -1,0 +1,8 @@
+[23] mode=2 chord=0.1 angle=0: gfxSize=2769
+[23] mode=2 chord=0.5 angle=15: gfxSize=0
+[23] mode=2 chord=0.5 angle=0: gfxSize=0
+[23] mode=2 chord=0.1 angle=15: gfxSize=0
+[23] mode=2 chord=1 angle=30: gfxSize=0
+[filewrite] files/23-mode2-with-different-tols-mode2-tol-values.json (381 bytes)
+[23] mode=2 after 0→2 sequence: gfxSize=0
+[filewrite] files/23-mode2-with-different-tols-mode2-tol-values-full.json (434 bytes)

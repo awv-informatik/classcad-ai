@@ -1,0 +1,17 @@
+[
+  {
+    "test": "mode0",
+    "mode": 0,
+    "gfxSize": 134610
+  },
+  {
+    "test": "mode1_after_create",
+    "mode": 1,
+    "gfxSize": 0
+  },
+  {
+    "test": "mode1_set_after",
+    "mode": 1,
+    "gfxSize": 0
+  }
+]

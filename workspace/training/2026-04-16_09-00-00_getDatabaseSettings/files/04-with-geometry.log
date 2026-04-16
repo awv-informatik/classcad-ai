@@ -1,0 +1,4 @@
+[04] Before geometry: {"angleTol":15,"chordHeightTol":0.5,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[04] After geometry: {"angleTol":15,"chordHeightTol":0.5,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[04] Settings changed: false
+[filewrite] files/04-with-geometry-with-geometry.json (502 bytes)

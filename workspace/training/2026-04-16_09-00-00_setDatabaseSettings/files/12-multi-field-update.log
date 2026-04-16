@@ -1,0 +1,5 @@
+[12] before: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[12] set all: maxLevel: 31
+[12] after: {"angleTol":10,"chordHeightTol":0.25,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":0,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":1,"isSketchGraphicEnabled":0}
+[12] all fields changed: true
+[filewrite] files/12-multi-field-update-multi-field.json (1272 bytes)

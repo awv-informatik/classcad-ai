@@ -237,6 +237,20 @@ Collected from all training journals. Ordered by severity.
 - **Session:** `2026-04-14_12-00-00_solidIntersection` (journal entry 03f)
 - **Error:** ❌ `solid.copy` on a modified target after intersection returns null (maxLevel=51). Does not hang.
 
+### 68. ⚠️ `common.setDatabaseSettings` — undocumented facetingParamsMode=2
+
+- **Session:** `2026-04-16_09-00-00_getDatabaseSettings` (journal entries 05, 21-23)
+- **Error:** Docs only document mode 0 and 1 for facetingParamsMode. Mode 2 is silently accepted (no error, maxLevel=31) but behaves unreliably — produces graphic data only at factory-default chord=0.1, angle=0.
+- **Trigger:** `setDatabaseSettings({ facetingParamsMode: 2 })`
+- **Workaround:** Use only mode 0 (for mesh data) or mode 1 (for per-entity tessellation).
+
+### 69. ⚠️ `common.getDatabaseSettings` — default mode=1 returns no graphic data
+
+- **Session:** `2026-04-16_09-00-00_getDatabaseSettings` (journal entries 17-22)
+- **Error:** The factory default facetingParamsMode=1 means API responses contain no mesh/graphic data. This is not documented as a side effect — the docs only say "specific parameters of each entity will be used" without mentioning that graphic data is suppressed.
+- **Trigger:** Creating geometry with default settings and checking `r.graphic`.
+- **Workaround:** Set `facetingParamsMode: 0` before creating geometry if you need graphic data.
+
 ---
 
 ## 🟡 LOW — Degenerate State Warnings
@@ -444,3 +458,45 @@ Collected from all training journals. Ordered by severity.
 - **Trigger:** `requestVisualisation({ ids: [-1] })` — any negative ID value.
 - **Recovery:** `kill -9` required.
 - **Workaround:** Validate all IDs are positive before calling.
+
+### 68. ⚠️ `common.setDatabaseSettings` — facetingParamsMode has no effect on graphic data
+
+- **Session:** `2026-04-16_09-00-00_setDatabaseSettings` (journal entries 03, 14)
+- **Error:** API docs say mode=0 uses "default parameters" and mode=1 uses "entity-specific parameters" for tessellation. In practice, both modes return identical mesh data (same vertex counts, same container structure). Mode does not control graphic data presence.
+- **Trigger:** Create solid with mode=1 vs mode=0, compare r.graphic — identical.
+- **Workaround:** None needed — graphic data is always available regardless of mode.
+
+### 69. ⚠️ `common.setDatabaseSettings` — invalid facetingParamsMode values accepted silently
+
+- **Session:** `2026-04-16_09-00-00_setDatabaseSettings` (journal entry 11)
+- **Error:** Mode values 3 and -1 are accepted without error (maxLevel=31) and stored. Only modes 0 and 1 are documented.
+- **Trigger:** `setDatabaseSettings({ facetingParamsMode: 3 })` or `{ facetingParamsMode: -1 }`.
+- **Workaround:** Only use mode 0 or 1.
+
+### 70. ⚠️ `common.setDatabaseSettings` — zero chordHeightTol leaks internal C++ path
+
+- **Session:** `2026-04-16_09-00-00_setDatabaseSettings` (journal entry 16)
+- **Error:** Setting `chordHeightTol: 0` returns maxLevel=51 with error message containing internal C++ file path (`/Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp, Line: 2762`).
+- **Trigger:** `setDatabaseSettings({ chordHeightTol: 0 })`.
+- **Workaround:** Don't set zero chord. Use small positive values (0.01+).
+
+### 71. ⚠️ `common.setFacetingParameters` — docs say params are optional, but both are mandatory
+
+- **Session:** `2026-04-16_11-00-00_getFacetingParameters` (journal entries 03, 14)
+- **Error:** Omitting either `angleTol` or `chordHeightTol` triggers internal NullMem error (maxLevel=51). Error message: "A variable of the type NullMem (nicht initialisiertes Member) has been defined as type Gleitkommazahl addressed." with internal C++ path.
+- **Trigger:** `setFacetingParameters({ angleTol: 25 })` or `setFacetingParameters({ chordHeightTol: 0.1 })` (only one param).
+- **Workaround:** Always pass both params. Read current values with `getFacetingParameters` first if you only want to change one.
+
+### 72. ⚠️ `common.setFacetingParameters` vs `setDatabaseSettings` — inconsistent zero chordHeightTol validation
+
+- **Session:** `2026-04-16_11-00-00_getFacetingParameters` (journal entry 15)
+- **Error:** `setFacetingParameters({ angleTol: 10, chordHeightTol: 0 })` succeeds (maxLevel=31), but `setDatabaseSettings({ chordHeightTol: 0 })` fails (maxLevel=51). Same backing store, different validation.
+- **Trigger:** Setting chordHeightTol to 0 via the two different APIs.
+- **Workaround:** Avoid setting chordHeightTol to 0 for consistency.
+
+### 73. ⚠️ `common.setFacetingParameters` — angleTol values in (0, 1) rejected without clear error
+
+- **Session:** `2026-04-16_11-00-00_getFacetingParameters` (journal entry 18)
+- **Error:** angleTol values like 0.1, 0.5, 0.9 are rejected (maxLevel=51) but the error message is generic, not explaining the minimum threshold.
+- **Trigger:** `setFacetingParameters({ angleTol: 0.5, chordHeightTol: 0.1 })`.
+- **Workaround:** Use angleTol=0 (disabled) or angleTol >= 1.0.

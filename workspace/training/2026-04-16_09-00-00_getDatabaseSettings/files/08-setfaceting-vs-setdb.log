@@ -1,0 +1,7 @@
+[08] Initial DB chord: 0.5 angle: 15
+[08] Initial FP chord: 0.5 angle: 15
+[08] After setFP -> DB chord: 0.7 angle: 25
+[08] After setFP -> FP chord: 0.7 angle: 25
+[08] After setDB -> DB chord: 0.9 angle: 30
+[08] After setDB -> FP chord: 0.9 angle: 30
+[filewrite] files/08-setfaceting-vs-setdb-cross-api.json (1067 bytes)

@@ -1,0 +1,27 @@
+[
+  {
+    "chordHeightTol": 0.01,
+    "boxVertices": 24,
+    "cylinderVertices": 514
+  },
+  {
+    "chordHeightTol": 0.1,
+    "boxVertices": 24,
+    "cylinderVertices": 130
+  },
+  {
+    "chordHeightTol": 0.5,
+    "boxVertices": 24,
+    "cylinderVertices": 66
+  },
+  {
+    "chordHeightTol": 1,
+    "boxVertices": 24,
+    "cylinderVertices": 66
+  },
+  {
+    "chordHeightTol": 5,
+    "boxVertices": 24,
+    "cylinderVertices": 34
+  }
+]

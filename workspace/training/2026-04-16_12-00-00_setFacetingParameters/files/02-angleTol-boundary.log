@@ -1,0 +1,6 @@
+[02] angleTol=0: ✓ (maxLevel=31, readback=0)
+[02] angleTol=0.5: ❌ (maxLevel=51, readback=0)
+[02] angleTol=0.99: ❌ (maxLevel=51, readback=0)
+[02] angleTol=1: ✓ (maxLevel=31, readback=1)
+[02] angleTol=1.5: ✓ (maxLevel=31, readback=1.5)
+[filewrite] files/02-angleTol-boundary-angleTol-boundary.json (812 bytes)

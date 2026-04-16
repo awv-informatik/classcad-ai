@@ -1,0 +1,3 @@
+[03] partId: 4 eifId: 54 boxId: 61 sphId: 63
+[03] setObjectCoordSystem on solid result: null maxLevel: 31
+[filewrite] files/03-on-solid-solid-response.json (56 bytes)

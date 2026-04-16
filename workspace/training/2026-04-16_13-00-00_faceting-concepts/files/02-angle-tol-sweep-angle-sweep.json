@@ -1,0 +1,62 @@
+[
+  {
+    "angleTol": 1,
+    "chordHeightTol": 100,
+    "vertices": 131845
+  },
+  {
+    "angleTol": 2,
+    "chordHeightTol": 100,
+    "vertices": 33153
+  },
+  {
+    "angleTol": 3,
+    "chordHeightTol": 100,
+    "vertices": 8385
+  },
+  {
+    "angleTol": 5,
+    "chordHeightTol": 100,
+    "vertices": 8385
+  },
+  {
+    "angleTol": 10,
+    "chordHeightTol": 100,
+    "vertices": 2145
+  },
+  {
+    "angleTol": 15,
+    "chordHeightTol": 100,
+    "vertices": 561
+  },
+  {
+    "angleTol": 20,
+    "chordHeightTol": 100,
+    "vertices": 561
+  },
+  {
+    "angleTol": 30,
+    "chordHeightTol": 100,
+    "vertices": 154
+  },
+  {
+    "angleTol": 45,
+    "chordHeightTol": 100,
+    "vertices": 126
+  },
+  {
+    "angleTol": 60,
+    "chordHeightTol": 100,
+    "vertices": 45
+  },
+  {
+    "angleTol": 90,
+    "chordHeightTol": 100,
+    "vertices": 20
+  },
+  {
+    "angleTol": 180,
+    "chordHeightTol": 100,
+    "vertices": 0
+  }
+]

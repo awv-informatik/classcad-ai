@@ -1,0 +1,6 @@
+[02] before: {"angleTol":0,"chordHeightTol":0.2}
+[02] set result: null
+[02] set maxLevel: 31
+[02] set messages: []
+[02] after: {"angleTol":15,"chordHeightTol":0.5}
+[filewrite] files/02-set-both-set-both.json (193 bytes)

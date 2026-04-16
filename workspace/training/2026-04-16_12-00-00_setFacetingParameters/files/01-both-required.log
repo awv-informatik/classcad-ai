@@ -1,0 +1,5 @@
+[01] onlyAngleTol: ❌ maxLevel=51
+[01] onlyChordHeight: ❌ maxLevel=51
+[01] both: ✓
+[01] after both: {"angleTol":15,"chordHeightTol":0.3}
+[filewrite] files/01-both-required-both-required.json (1457 bytes)

@@ -1,0 +1,12 @@
+[01] sphere created: 60
+[01] cht=0.001: verts=115461, idx=688140, edgePts=405, reported=0.001
+[01] cht=0.01: verts=8385, idx=48384, edgePts=129, reported=0.01
+[01] cht=0.05: verts=2017, idx=11328, edgePts=65, reported=0.05
+[01] cht=0.1: verts=1697, idx=9600, edgePts=33, reported=0.1
+[01] cht=0.25: verts=497, idx=2688, edgePts=28, reported=0.25
+[01] cht=0.5: verts=277, idx=1392, edgePts=17, reported=0.5
+[01] cht=1: verts=153, idx=672, edgePts=13, reported=1
+[01] cht=2: verts=113, idx=528, edgePts=9, reported=2
+[01] cht=5: verts=85, idx=288, edgePts=5, reported=5
+[01] cht=10: verts=45, idx=144, edgePts=5, reported=10
+[filewrite] files/01-chord-height-sweep-chord-sweep.json (1201 bytes)

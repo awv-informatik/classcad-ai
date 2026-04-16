@@ -1,0 +1,9 @@
+[16] success: result: null maxLevel: 31
+[16] messages count: 0
+[16] error: result: null maxLevel: 51
+[16]   msg: [Evaluation error in CommonHelper.SetDatabaseSettings:Unknown exception
+Function: CADH_SetDatabaseSettings
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2762]  level: 51 code: 0 api: v1.common.setDatabaseSettings
+[16] type error: result: null maxLevel: 51
+[16]   msg: The parameter "isGraphicEnabled" has the wrong type! It should be of type (boolean) level: 51 code: 1001 api: v1.common.setDatabaseSettings
+[filewrite] files/16-return-envelope-return-envelope.json (854 bytes)

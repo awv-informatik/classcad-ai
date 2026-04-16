@@ -1,0 +1,30 @@
+[
+  {
+    "chordHeightTol": 0.01,
+    "box": 24,
+    "cylinder": 514,
+    "sphere": 8385,
+    "cone": 514
+  },
+  {
+    "chordHeightTol": 0.1,
+    "box": 24,
+    "cylinder": 258,
+    "sphere": 1697,
+    "cone": 258
+  },
+  {
+    "chordHeightTol": 1,
+    "box": 24,
+    "cylinder": 66,
+    "sphere": 153,
+    "cone": 66
+  },
+  {
+    "chordHeightTol": 5,
+    "box": 24,
+    "cylinder": 34,
+    "sphere": 85,
+    "cone": 34
+  }
+]

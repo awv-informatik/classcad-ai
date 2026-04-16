@@ -1,0 +1,8 @@
+[14] ON Container[0]: id,owner,type,properties,meshes,edges,vertices
+[14] ON Container[0] edges: 3 items
+[14] ON   edge[0] keys: id,points,pointIds vertices: undefined
+[14] ON   edge[1] keys: id,points,pointIds vertices: undefined
+[14] ON   edge[2] keys: id,points,pointIds vertices: undefined
+[14] OFF Container[0]: id,owner,type,properties,meshes,lines,vertices,arcs
+[14] Total edge vertices ON: 0 OFF: 0
+[filewrite] files/14-curvetess-edge-diff-edge-vertex-counts.json (43 bytes)

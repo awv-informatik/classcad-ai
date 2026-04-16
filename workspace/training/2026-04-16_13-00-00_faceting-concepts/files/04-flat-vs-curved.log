@@ -1,0 +1,7 @@
+[04] box: 61 cyl: 64
+[04] cht=0.01: box=24 verts, cyl=514 verts
+[04] cht=0.1: box=24 verts, cyl=130 verts
+[04] cht=0.5: box=24 verts, cyl=66 verts
+[04] cht=1: box=24 verts, cyl=66 verts
+[04] cht=5: box=24 verts, cyl=34 verts
+[filewrite] files/04-flat-vs-curved-flat-vs-curved.json (431 bytes)

@@ -1,0 +1,6 @@
+[05] Initial facetingParamsMode: 1
+[05] After mode=0: facetingParamsMode: 0
+[05] After mode=1: facetingParamsMode: 1
+[05] mode=2 maxLevel: 31 messages: []
+[05] After mode=2: facetingParamsMode: 2
+[filewrite] files/05-facetingParamsMode-faceting-modes.json (1061 bytes)

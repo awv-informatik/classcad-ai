@@ -1,0 +1,58 @@
+[
+  {
+    "field": "isGraphicEnabled",
+    "original": 1,
+    "setValue": false,
+    "readBack": 0,
+    "reflected": true
+  },
+  {
+    "field": "isCCGraphicEnabled",
+    "original": 1,
+    "setValue": false,
+    "readBack": 0,
+    "reflected": true
+  },
+  {
+    "field": "isInvisibleGraphicEnabled",
+    "original": 0,
+    "setValue": true,
+    "readBack": 1,
+    "reflected": true
+  },
+  {
+    "field": "isSketchGraphicEnabled",
+    "original": 1,
+    "setValue": false,
+    "readBack": 0,
+    "reflected": true
+  },
+  {
+    "field": "doCurveTessellation",
+    "original": 1,
+    "setValue": false,
+    "readBack": 0,
+    "reflected": true
+  },
+  {
+    "field": "chordHeightTol",
+    "original": 0.5,
+    "setValue": 0.3,
+    "readBack": 0.3,
+    "reflected": true
+  },
+  {
+    "field": "angleTol",
+    "original": 15,
+    "setValue": 20,
+    "readBack": 20,
+    "reflected": true
+  },
+  {
+    "field": "facetingParamsMode",
+    "original": 2,
+    "setValue": 0,
+    "readBack": 0,
+    "reflected": true
+  }
+]

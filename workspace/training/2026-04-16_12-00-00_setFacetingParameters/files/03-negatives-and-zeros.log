@@ -1,0 +1,5 @@
+[03] neg angleTol: 31 unchanged: true
+[03] neg chordHeight: 31 unchanged: true
+[03] both zero: ❌ rejected as expected
+[03] zero cht + angleTol>0: ✓ cht= 0
+[filewrite] files/03-negatives-and-zeros-negatives-zeros.json (873 bytes)

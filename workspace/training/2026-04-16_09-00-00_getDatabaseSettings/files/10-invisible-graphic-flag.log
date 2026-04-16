@@ -1,0 +1,3 @@
+[10] isInvisibleGraphicEnabled: 0
+[10] After enable: isInvisibleGraphicEnabled: 1
+[filewrite] files/10-invisible-graphic-flag-invisible-graphic.json (497 bytes)

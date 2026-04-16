@@ -1,0 +1,5 @@
+[08] after setFacetingParameters — db angleTol: 20
+[08] after setFacetingParameters — db chordHeightTol: 0.05
+[08] after setDatabaseSettings — faceting angleTol: 5
+[08] after setDatabaseSettings — faceting chordHeightTol: 0.8
+[filewrite] files/08-crosstalk-crosstalk.json (284 bytes)

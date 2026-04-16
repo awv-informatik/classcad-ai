@@ -1,0 +1,14 @@
+{
+  "baseline": {
+    "angleTol": 0,
+    "chordHeightTol": 0.1
+  },
+  "afterAngle": {
+    "angleTol": 0,
+    "chordHeightTol": 0.1
+  },
+  "afterChord": {
+    "angleTol": 0,
+    "chordHeightTol": 0.1
+  }
+}

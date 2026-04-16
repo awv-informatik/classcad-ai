@@ -1,0 +1,6 @@
+[14] reset settings: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[14] mode=1: containers: 1 meshes: 3 edges: 3
+[14] mode=1: mesh has 66 vertices, 192 indices
+[14] mode=0: containers: 1 meshes: 3 edges: 3
+[14] mode=0: mesh has 66 vertices, 192 indices
+[filewrite] files/14-mode1-graphic-clean-mode1-graphic.json (422 bytes)

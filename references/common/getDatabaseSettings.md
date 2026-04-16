@@ -22,20 +22,15 @@ All booleans are stored/returned as `0`/`1` integers, not JS true/false.
 This is the most important setting for agents working with graphic data:
 
 - **mode=0** ("default parameters"): The server tessellates using the global `chordHeightTol` and `angleTol`. API responses include full mesh data in `r.graphic` (vertices, indices, edges). **Use this mode if you need mesh/graphic data.**
-- **mode=1** ("entity-specific", the default): The server expects per-entity tessellation parameters (set via `setAppearance` with `chordHeightTol`/`angleTol` per feature). API responses return **no mesh data** unless per-entity params are set.
-- **mode=2**: Undocumented. Accepted silently but unreliable — produces graphic only under narrow conditions (factory-default chord=0.1, angle=0). Do not use.
+- **mode=1** ("entity-specific", the default): The server uses per-entity tessellation parameters (set via `setAppearance` with `chordHeightTol`/`angleTol` per feature). In practice, API responses still include mesh data in `r.graphic` regardless of mode — mode does NOT suppress graphic data.
+- **mode=2**: Undocumented. Accepted silently but unreliable. Do not use.
 
-**The default mode is 1**, which means API responses do NOT include mesh data out of the box. To get graphic data:
-
-```js
-await api.v1.common.setDatabaseSettings({ facetingParamsMode: 0 })
-// Now all subsequent API responses include r.graphic with mesh data
-```
+**Note:** Despite mode differences, both mode=0 and mode=1 return identical mesh data in API responses (tested with cylinders and boxes — same vertex counts, same container structure). The mode may affect tessellation quality heuristics but does not control graphic data presence.
 
 ## Persistence
 
 - **Worker-level state.** Settings persist across `common.clear()` and `part.create()`. Neither resets them.
-- **Partial save/load.** `chordHeightTol` and `angleTol` are saved to OFB files and restored on `common.load()`. `facetingParamsMode` is NOT saved — it resets to default (1) on load.
+- **NOT saved to OFB files.** `common.load()` does not restore any database settings — not chordHeightTol, not angleTol, not facetingParamsMode, not any field. Values remain at whatever the worker had before the load. Re-apply settings after load if needed.
 - Settings do not change when geometry is created or modified. They are independent of drawing contents.
 
 ## Relationship to getFacetingParameters / setFacetingParameters
@@ -64,8 +59,7 @@ The harness `snapshot()` helper forcefully overrides these flags to `true` befor
 
 ## Gotchas
 
-- The default `facetingParamsMode=1` means you get **no graphic data** in API responses by default. Set to 0 first.
-- `facetingParamsMode` is NOT saved to OFB files. After `common.load()`, it resets to 1 (no graphic). You must re-set it to 0.
+- No database settings are saved to OFB files. After `common.load()`, re-apply any non-default settings.
 - Boolean fields accept JS `true`/`false` for writes but always return `0`/`1`.
 - Mode=2 is undocumented and unreliable. Stick to 0 or 1.
 

@@ -6,9 +6,9 @@ Returns the global database settings controlling tessellation, graphic generatio
 
 | Field | Default | Purpose |
 |---|---|---|
-| `facetingParamsMode` | 1 | **Critical.** 0 = use global chord/angle for tessellation (mesh data in responses). 1 = defer to per-entity params (no mesh in responses). |
-| `chordHeightTol` | 0.1 | Max distance between geometry and tessellated arc. Lower = finer mesh. |
-| `angleTol` | 0 | Max angle between adjacent tessellation surfaces. 0 = disabled (chord-only). |
+| `facetingParamsMode` | 1 | **Critical.** 0 = use global chord/angle for all entities. 1 = use per-entity params from `setAppearance` (default). See `faceting-concepts.md`. |
+| `chordHeightTol` | 0.1 | Max distance (model units) between curved surface and tessellation triangle. Lower = finer mesh. |
+| `angleTol` | 0 | Max angle (degrees) between adjacent facet normals. 0 = disabled. Independent constraint — see `faceting-concepts.md`. |
 | `isGraphicEnabled` | 1 | Client rendering hint. Does NOT suppress `r.graphic` in API responses. |
 | `isCCGraphicEnabled` | 1 | ClassCAD internal graphic hint. Same as above — does NOT suppress graphic data. |
 | `isInvisibleGraphicEnabled` | 0 | Whether invisible/hidden objects get tessellated. |

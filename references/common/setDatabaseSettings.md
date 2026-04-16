@@ -42,17 +42,20 @@ Tested on a sphere (r=20) with facetingParamsMode=0:
 
 100x range in tolerance → ~100x range in vertex count. 0.1 is a good balance. 0.01 for high quality. 1+ for fast/coarse.
 
-## angleTol — Threshold Behavior
+## angleTol — Independent Constraint
 
-Tested on a sphere (r=20) with chordHeightTol=0.1:
+angleTol is the max angle (degrees) between adjacent tessellation facet normals. It is a **fully independent constraint** — not just a chord modifier. When both are set, the tessellation engine satisfies whichever demands more triangles (MAX operation).
 
-| angleTol | Vertices |
-|---|---|
-| 0 (disabled) | 1697 |
-| 5 | 8385 |
-| 15+ | 1697 |
+The earlier finding that "only values <10° matter" was an artifact of testing with chordHeightTol=0.1 — chord was dominating at angleTol≥15°. With chord tolerance relaxed (cht=100), angleTol scales smoothly from 131K vertices (1°) to 0 (180°):
 
-Only very small values (<10°) tighten tessellation beyond what chord tolerance achieves. At 15° and above, chord tolerance dominates. The value is in degrees.
+| angleTol | Vertices (cht=100) | Vertices (cht=0.1) |
+|---|---|---|
+| 0 (disabled) | n/a | 1,697 |
+| 5 | 8,385 | 8,385 |
+| 15 | 561 | 1,697 |
+| 30 | 154 | 1,697 |
+
+At cht=0.1 + angleTol=30°, chord demands 1697 and angle demands 154 → result is 1,697 (chord wins). At cht=0.1 + angleTol=5°, chord demands 1697 and angle demands 8385 → result is 8,385 (angle wins). See `references/common/faceting-concepts.md` for the full interaction model.
 
 ## doCurveTessellation — Edge Schema Change
 

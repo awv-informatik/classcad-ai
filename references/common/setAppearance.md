@@ -56,7 +56,7 @@ Can mix plain target IDs and `{ id, indices }` objects in the array.
 
 - **No range validation** — out-of-range color values (>255, negative) and transparency values (>1, <0) are silently accepted. The API does not clamp.
 - **No getAppearance API** — there is no dedicated read-back method. Use `requestVisualisation({ ids: [solidId] })` to observe stored values. Color appears as `containers[].properties.material.color`, transparency as `material.opacity`.
-- **Transparency vs opacity naming** — `setAppearance` takes `transparency` (0=opaque, 1=transparent) but `requestVisualisation` returns `opacity` (0.5 transparency → 0.5 opacity). The sense is the same — `transparency` = `opacity`.
+- **Transparency vs opacity are inverses** — `setAppearance` takes `transparency` (0=opaque, 1=transparent) but `requestVisualisation` returns `opacity` (0=transparent, 1=opaque). They are **inverses**: transparency 0.3 → opacity 0.7. Formula: `opacity = 1 - transparency`.
 - **Harness renderer ignores color** — the snapshot renderer uses its own per-body color palette. Color/transparency are stored in the model but not visible in harness snapshots. Use `requestVisualisation` to verify.
 - **Calling with no properties** — `setAppearance({ target: id })` with no color, transparency, or faceting params is a silent no-op (maxLevel 31).
 - **Overwrite behavior** — successive calls on the same target all succeed. Whether unspecified properties are preserved or reset is unverified (no read-back tested between overwrites).

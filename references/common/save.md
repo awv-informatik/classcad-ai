@@ -131,3 +131,4 @@ const newPartId = loaded.result.id // use this ID going forward
 - `common.load` — load from data string or file
 - `common.clear` — clear the drawing before loading
 - `common.recalc` — recalculate after loading
+- `format-comparison.md` — detailed format comparison with size benchmarks and roundtrip fidelity

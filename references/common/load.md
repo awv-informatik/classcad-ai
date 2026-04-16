@@ -135,3 +135,4 @@ await api.v1.common.load({ file: '/path/to/model.stp', format: 'STP' })
 - `common.save` — save the model to data string or file
 - `common.clear` — clear the drawing (required before load, unless using `doClear`)
 - `common.recalc` — recalculate the drawing (not needed after basic load)
+- `format-comparison.md` — detailed format comparison with size benchmarks and roundtrip fidelity

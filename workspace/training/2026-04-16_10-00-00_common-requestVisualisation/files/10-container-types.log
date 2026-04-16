@@ -1,0 +1,14 @@
+[10] total containers: 3
+[10] container[0]: type=1 id=59 owner=61
+[10]   keys: id, owner, type, properties, meshes, edges, vertices
+[10]   meshes: 6, edges: 12, arcs: none, vertices: 8
+[10]   has lines: false
+[10] container[1]: type=1 id=62 owner=64
+[10]   keys: id, owner, type, properties, meshes, edges, vertices
+[10]   meshes: 3, edges: 3, arcs: none, vertices: 2
+[10]   has lines: false
+[10] container[2]: type=2 id=67 owner=66
+[10]   keys: id, owner, type, properties, edges
+[10]   meshes: none, edges: 1, arcs: none, vertices: none
+[10]   has lines: false
+[filewrite] files/10-container-types-container-types.json (665 bytes)

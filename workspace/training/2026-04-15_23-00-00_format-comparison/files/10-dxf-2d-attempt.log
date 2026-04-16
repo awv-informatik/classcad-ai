@@ -1,0 +1,7 @@
+[10] Created 2D shape with 4 lines
+[10] DXF save with 2D geometry — success: 0 maxLevel: 51
+[10] DXF content length: 0
+[10] msg: [Evaluation error in GeometryExportManager.StoreGeometryToStream:[CCVM::lcm: Function CADH_GetDxfTemplateFile not found]] 
+[10] DXF save with sketch — success: 0 maxLevel: 51
+[10] sketch msg: [Evaluation error in GeometryExportManager.StoreGeometryToStream:[CCVM::lcm: Function CADH_GetDxfTemplateFile not found]] 
+[filewrite] files/10-dxf-2d-attempt-dxf-2d.json (480 bytes)

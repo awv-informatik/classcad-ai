@@ -1,0 +1,4 @@
+[13] initial set result: null maxLevel: 31
+[13] color-only overwrite result: null maxLevel: 31
+[13] transparency-only overwrite result: null maxLevel: 31
+[13] all overwrite calls successful (maxLevel ≤ 31)

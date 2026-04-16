@@ -1,0 +1,7 @@
+[08] partId: 4 boxFeatId: 54
+[08] part.box feature: result: null maxLevel: 31
+[08] part.box feature: graphic? false containers: undefined
+[08] partId: graphic? false
+[08] eifId: 91 solidBoxId: 98
+[08] solid.box: graphic? true containers: 1
+[08] eifId: graphic? false

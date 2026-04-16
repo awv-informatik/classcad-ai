@@ -1,0 +1,34 @@
+{
+  "rawToB64": {
+    "success": false,
+    "maxLevel": 51,
+    "msgs": [
+      "Import has to contain a CC_Product.",
+      "Nothing could be loaded!"
+    ]
+  },
+  "b64ToRaw": {
+    "success": false,
+    "maxLevel": 51,
+    "msgs": [
+      "Import has to contain a CC_Product.",
+      "Nothing could be loaded!"
+    ]
+  },
+  "rawToBoth": {
+    "success": false,
+    "maxLevel": 51,
+    "msgs": [
+      "Import has to contain a CC_Product.",
+      "Nothing could be loaded!"
+    ]
+  },
+  "b64ToBoth": {
+    "success": false,
+    "maxLevel": 51,
+    "msgs": [
+      "Import has to contain a CC_Product.",
+      "Nothing could be loaded!"
+    ]
+  }
+}

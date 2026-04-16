@@ -301,3 +301,146 @@ Collected from all training journals. Ordered by severity.
 - **Error:** Negative scale factors (e.g., -1) succeed but flip all face normals, producing an inside-out solid. Normals reverse direction (e.g., [0,0,-1] → [0,0,1]). Double negation (-1 then -1) restores. Not documented.
 - **Trigger:** Any negative `factor` value.
 - **Workaround:** Use `solid.mirror` for proper mirroring instead.
+
+### 48. 💀 `solid.offset` — complex boolean topology hangs server
+
+- **Session:** `2026-04-15_09-00-00_solid-offset` (journal entry 13)
+- **Error:** ❌ 100% CPU hang. No error, no timeout, no response. Server completely unresponsive.
+- **Trigger:** Offsetting a box with 3 cylinder holes (subtraction). The complex topology from multiple booleans causes the offset algorithm to enter an infinite loop.
+- **Workaround:** Only use offset on simple-topology solids (primitives, single boolean cut). Always wrap in a timeout.
+
+### 49. 🟡 `solid.offset` — negative distance with extend: FALSE produces degenerate geometry
+
+- **Session:** `2026-04-15_09-00-00_solid-offset` (journal entry 02)
+- **Error:** Self-intersecting geometry. Faces protrude beyond corners. No error returned (maxLevel: 31).
+- **Trigger:** `distance: -5` with `extend: FALSE` (default) on a box.
+- **Workaround:** Always use `extend: TRUE` for negative (inward) offset.
+
+### 50. 🟡 `solid.offset` — excessive negative distance collapses geometry silently
+
+- **Session:** `2026-04-15_09-00-00_solid-offset` (journal entry 08)
+- **Error:** Box (60×40×30) with `distance: -20` collapsed into a degenerate flat sheet. No error (maxLevel: 31).
+- **Trigger:** `|distance|` exceeds half the smallest dimension.
+- **Workaround:** Caller must validate distance against solid dimensions before calling.
+
+### 51. 💀 `solid.slice` — `keepBoth: true` (the default) hangs server
+
+- **Session:** `2026-04-15_09-00-00_solid-slice` (journal entries 01, 03)
+- **Error:** ❌ 100% CPU, no response, infinite loop. Tested twice on simple box — both times hung.
+- **Trigger:** `slice({ ..., keepBoth: true })` or omitting `keepBoth` (defaults to `true`).
+- **Recovery:** `kill -9` required.
+- **Workaround:** Always pass `keepBoth: false` explicitly.
+
+### 52. 📖 `solid.slice` — docs say "negative side removed" but positive side is removed
+
+- **Session:** `2026-04-15_09-00-00_solid-slice` (journal entries 07, 08)
+- **Error:** Docs state "The part on the negative side of normal vector is removed." Actual behavior: the POSITIVE side (where the normal points) is removed.
+- **Trigger:** Any `slice` call. Verified with normals [0,0,1], [0,0,-1], [1,0,1], [0,1,0].
+- **Workaround:** Ignore docs — the normal points toward the material to discard.
+
+### 53. 🟡 `solid.slice` — zero normal is a silent no-op
+
+- **Session:** `2026-04-15_09-00-00_solid-slice` (journal entry 19)
+- **Error:** `normal: [0,0,0]` accepted without error, does nothing. maxLevel: 31.
+- **Trigger:** `slice({ ..., normal: [0,0,0] })`.
+- **Workaround:** Validate normal is non-zero before calling.
+
+### 54. 🔥 `solid.deleteSolid` on section entity — deletes the ORIGINAL solid
+
+- **Session:** `2026-04-15_14-06-15_solid-section` (journal entry 18)
+- **Error:** `deleteSolid(target: sectionId)` removes the source solid's geometry container, not the section curves. Part's solids array goes from `[59, 62]` to `[62]` — box (59) deleted, section curves (62) survive. The box becomes unusable (subsequent operations return maxLevel: 51).
+- **Trigger:** `solid.deleteSolid({ id: eifId, target: sectionId })` where `sectionId` is the CC_CurveEntity ID returned by `solid.section`.
+- **Workaround:** Do not use `deleteSolid` on section entities. No known safe way to remove section curves programmatically.
+
+### 55. 🟡 `solid.section` — non-intersecting plane and zero normal produce empty entities silently
+
+- **Session:** `2026-04-15_14-06-15_solid-section` (journal entries 05, 06)
+- **Error:** Section call succeeds (returns ID, maxLevel: 31) when the plane doesn't intersect the solid or normal is `[0,0,0]`. The created CC_CurveEntity contains no edges — an orphan entity with no geometry.
+- **Trigger:** `section({ ..., originPos: [0,0,50], normal: [0,0,1] })` on a box spanning z=-20 to z=20, or `normal: [0,0,0]`.
+- **Workaround:** Validate that the section plane intersects the solid before calling. Check graphic container edges after the call.
+
+### 56. 📖 `solid.fillet` — misleading error messages for multiple failure modes
+
+- **Session:** `2026-04-15_15-06-49_solid-fillet` (journal entries 06, 12, 19)
+- **Error:** Negative radius, nonexistent IDs, and radius-too-large all produce the same error: "Set the parameter \"id\" = VOID is not allowed in this situation!" — misleading since the issue is not about the `id` param.
+- **Trigger:** `fillet({ ..., radius: -5, ... })` or `fillet({ ..., geomIds: [999999] })` or radius exceeding geometry limits.
+- **Workaround:** Validate radius > 0 before calling. Test radius incrementally for geometry-dependent limits.
+
+### 57. ⚠️ `part.getBrepGeometryByIndex` — returns no line edges for extrusion solids
+
+- **Session:** `2026-04-15_15-06-49_solid-fillet` (journal entry 18)
+- **Error:** `getBrepGeometryByIndex({ id: eifId, lineIndex: 0 })` returns null/error for an L-shaped extrusion solid despite having visible straight edges. `getGeometryIds` with position-based lookup works.
+- **Trigger:** Extrusion solid created via `solid.extrusion` with an advancedPolyline profile.
+- **Workaround:** Use `part.getGeometryIds` (position-based) instead of `getBrepGeometryByIndex` for non-primitive solids.
+
+### 58. 🐛 `solid.useSolid` — part ID or solid ID in `from` causes internal server error
+
+- **Session:** `2026-04-15_18-00-00_solid-useSolid` (journal entry 15)
+- **Error:** `[Evaluation error in SolidAPI_v1.useSolid::PROC:[Die Funktion OBJ_ErrorMessage hat zwischen 2 und 4 Parameter.]]` — German error message, code 0. Not a clean error.
+- **Trigger:** `from: [partId]` or `from: [solidId]` — passing a part ID or raw solid ID instead of a feature ID (entity injection or part-level feature).
+- **Workaround:** Only pass feature IDs (entity injection IDs or part-level feature IDs like box, extrusion, etc.) in the `from` array.
+
+### 59. ⚠️ `common.save` — DXF format broken in classcad-cli
+
+- **Session:** `2026-04-15_19-00-00_common-save` (journal entry 07)
+- **Error:** `[Evaluation error in GeometryExportManager.StoreGeometryToStream:[CCVM::lcm: Function CADH_GetDxfTemplateFile not found]]` — maxLevel=51, success=0.
+- **Trigger:** Any `save({ format: 'DXF' })` call, regardless of geometry type (3D or 2D).
+- **Workaround:** None — DXF export is unavailable in CLI worker. May work in full application.
+
+### 60. ⚠️ `common.save` — `stp.header` options ignored in data-string mode
+
+- **Session:** `2026-04-15_19-00-00_common-save` (journal entry 16)
+- **Error:** Custom `stp.header.filename.name` and `stp.header.filename.organization` values do not appear in the STEP header. FILE_NAME always uses the part name.
+- **Trigger:** `save({ format: 'STP', stp: { header: { filename: { name: 'custom', organization: 'Org' } } } })` with data-string output (no `file` param).
+- **Workaround:** None known. May only work with file-based saves.
+
+### 61. ⚠️ `common.save` — `stp.analytic` produces error-level messages despite success
+
+- **Session:** `2026-04-15_19-00-00_common-save` (journal entry 13)
+- **Error:** `maxLevel=51` (ERROR) but `success=1` with valid content. Misleading — suggests failure when the operation actually succeeded.
+- **Trigger:** `save({ format: 'STP', stp: { analytic: 1 } })`.
+- **Workaround:** Check `result.success`, not `maxLevel`, for STP saves with analytic conversion.
+
+### 62. ⚠️ `common.load` — SCG format not loadable despite being saveable
+
+- **Session:** `2026-04-15_20-00-00_common-load` (journal entry 17)
+- **Error:** `code=1013`, `"The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\",\"IWP\"]"`. Load only accepts 3 formats, while save supports 6.
+- **Trigger:** `load({ data: scgContent, format: 'SCG' })`.
+- **Workaround:** None — SCG is export-only. Use OFB for roundtrip workflows.
+
+### 63. ⚠️ `common.load` — `stp.asPart` produces error-level messages on load
+
+- **Session:** `2026-04-15_20-00-00_common-load` (journal entry 05)
+- **Error:** `maxLevel=51`, `"CreateNamedPoint not found"`. Geometry loads fine despite the error.
+- **Trigger:** `load({ data: stpContent, format: 'STP', stp: { asPart: 1 } })`.
+- **Workaround:** Check `result.id` existence instead of maxLevel to detect real failures.
+
+### 64. 💀 `common.clear` with `keepIds` — STEP/OFB export hangs on partially-cleared state
+
+- **Session:** `2026-04-15_21-00-00_common-clear` (journal entries 04, 11)
+- **Error:** ❌ After `clear({ keepIds: [partId] })`, exporting to STEP/OFB (via `common.save` or snapshot's internal save) hangs the server (100% CPU). PNG rendering and `recalc` work fine.
+- **Trigger:** `clear({ keepIds: [...] })` followed by any STEP/OFB export before new valid geometry is added.
+- **Recovery:** `kill -9` required. After restart, creating new geometry in the kept containers before exporting avoids the hang.
+- **Workaround:** Create new valid geometry in kept containers before any STEP/OFB export.
+
+### 65. ⚠️ `common.load` — IWP roundtrip produces no renderable solid
+
+- **Session:** `2026-04-15_23-00-00_format-comparison` (journal entry 05)
+- **Error:** IWP load succeeds (maxLevel=31, returns valid id), but loaded model has no renderable solid geometry. Snapshot after load produces no solid PNG.
+- **Trigger:** Save as IWP binary + base64, clear, load back with same encoding.
+- **Workaround:** Use STP instead of IWP for geometry interchange.
+
+### 66. ⚠️ `part.updateExpression` — expression update may not propagate after OFB roundtrip
+
+- **Session:** `2026-04-15_23-00-00_format-comparison` (journal entry 09)
+- **Error:** After OFB save/load roundtrip of a parametric part (box with `@expr.L`), updating expression L from 100 to 120 + recalc() did not change the expression's reported value. `getExpression` still returned 100.
+- **Trigger:** `part.box` with `@expr.` bindings → save OFB → load OFB → `updateExpression` → `recalc` → `getExpression`.
+- **Workaround:** Not yet determined. May require openFeature/closeFeature or other recalc trigger.
+
+### 67. 💀 `common.requestVisualisation` — negative ID hangs server
+
+- **Session:** `2026-04-16_10-00-00_common-requestVisualisation` (journal entry 05)
+- **Error:** ❌ 100% CPU, no response, infinite loop. Same pattern as other negative-ID / self-reference hangs.
+- **Trigger:** `requestVisualisation({ ids: [-1] })` — any negative ID value.
+- **Recovery:** `kill -9` required.
+- **Workaround:** Validate all IDs are positive before calling.

@@ -1,0 +1,6 @@
+[05] Before save — partId: 4 eifId: 56
+[05] Saved IWP binary — size: 29800 success: 1
+[05] Loaded — id: 6 maxLevel: 31
+[05] ID preserved? NO — was 4, now 6
+[05] Expression "width" after IWP load: {"expression":"","value":null} maxLevel: 31
+[filewrite] files/05-roundtrip-iwp-iwp-roundtrip.json (87 bytes)

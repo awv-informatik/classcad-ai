@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.common.load",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "No product could be loaded, expected a CC_Product"
+    }
+  ]
+}

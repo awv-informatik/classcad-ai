@@ -1,0 +1,79 @@
+[03] box1: 61 box2: 64 sph: 66
+[03] result: null maxLevel: 31
+[03] container count: 3
+[03] containers summary: [
+  {
+    "index": 0,
+    "id": 59,
+    "owner": 61,
+    "type": 1,
+    "color": [
+      128,
+      128,
+      128
+    ],
+    "opacity": 1,
+    "min": [
+      -30,
+      -20,
+      -15
+    ],
+    "max": [
+      30,
+      20,
+      15
+    ],
+    "meshCount": 6,
+    "edgeCount": 12
+  },
+  {
+    "index": 1,
+    "id": 62,
+    "owner": 64,
+    "type": 1,
+    "color": [
+      128,
+      128,
+      128
+    ],
+    "opacity": 1,
+    "min": [
+      65,
+      -15,
+      -25
+    ],
+    "max": [
+      95,
+      15,
+      25
+    ],
+    "meshCount": 6,
+    "edgeCount": 12
+  },
+  {
+    "index": 2,
+    "id": 67,
+    "owner": 66,
+    "type": 1,
+    "color": [
+      128,
+      128,
+      128
+    ],
+    "opacity": 1,
+    "min": [
+      -20,
+      60,
+      -20
+    ],
+    "max": [
+      20,
+      100,
+      20
+    ],
+    "meshCount": 1,
+    "edgeCount": 1
+  }
+]
+[filewrite] files/03-multiple-ids-multi-containers.json (852 bytes)
+[stderr] [run] Script error: Cannot read properties of null (reading 'containers')

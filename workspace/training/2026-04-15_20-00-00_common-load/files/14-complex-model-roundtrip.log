@@ -1,0 +1,6 @@
+[14] Created model — part: 4 box: 63
+[14] Save success: 1 length: 7284
+[14] Loaded part ID: 4 (original: 4 )
+[14] Expression W: {"expression":"","value":80}
+[14] Expression H: {"expression":"","value":40}
+[filewrite] files/14-complex-model-roundtrip-complex-roundtrip.json (190 bytes)

@@ -1,0 +1,13 @@
+[02] OFB: b64len=36068
+[02] STP: b64len=16204
+[02] STL: b64len=255980
+[02] SCG: b64len=254444
+[02] IWP: b64len=42684
+[02] OFB+deflate: b64len=6632
+[02] STL tol=1: b64len=50380
+[02] STL tol=0.1: b64len=255980
+[02] STL tol=0.01: b64len=3670248
+[02] STL angleTol=30: b64len=249580
+[02] STL angleTol=6: b64len=255980
+[02] STL angleTol=1: b64len=402380
+[filewrite] files/02-curved-geometry-curved-formats.json (665 bytes)

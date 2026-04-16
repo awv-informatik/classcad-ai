@@ -1,0 +1,17 @@
+{
+  "scg": {
+    "success": 1,
+    "length": 19464,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "iwp": {
+    "success": 1,
+    "length": 48532,
+    "maxLevel": 31
+  },
+  "iwpBin": {
+    "success": 1,
+    "length": 22344
+  }
+}

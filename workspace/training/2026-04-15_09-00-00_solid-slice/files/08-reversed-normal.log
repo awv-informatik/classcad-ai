@@ -1,0 +1,5 @@
+[08] boxId: 61 refId: 64
+[08] slice result: null maxLevel: 31
+[08] AFTER min: [-40,-30,0]
+[08] AFTER max: [40,30,20]
+[filewrite] files/08-reversed-normal-slice-reversed-response.json (171 bytes)

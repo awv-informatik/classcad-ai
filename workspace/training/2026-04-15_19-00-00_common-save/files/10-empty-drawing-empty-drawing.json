@@ -1,0 +1,65 @@
+{
+  "ofb": {
+    "success": 0,
+    "length": 0,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.save",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "No root product could be found."
+      },
+      {
+        "api": "v1.common.save",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is nothing to be stored."
+      }
+    ]
+  },
+  "stp": {
+    "success": 0,
+    "length": 0,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.save",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "No root product could be found."
+      },
+      {
+        "api": "v1.common.save",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is nothing to be stored."
+      }
+    ]
+  },
+  "stl": {
+    "success": 0,
+    "length": 0,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.save",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "No root product could be found."
+      },
+      {
+        "api": "v1.common.save",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is nothing to be stored."
+      }
+    ]
+  }
+}

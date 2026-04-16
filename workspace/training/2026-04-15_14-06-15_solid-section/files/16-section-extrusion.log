@@ -1,0 +1,10 @@
+[16] extrusionId: 64
+[16] section result: 71 maxLevel: 31
+[filewrite] files/16-section-extrusion-graphic.json (1968 bytes)
+[16] edges: 6
+[16]   edge -53: 2 pts
+[16]   edge -54: 2 pts
+[16]   edge -55: 2 pts
+[16]   edge -56: 2 pts
+[16]   edge -57: 2 pts
+[16]   edge -58: 2 pts

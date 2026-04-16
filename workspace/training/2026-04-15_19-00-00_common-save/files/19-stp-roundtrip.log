@@ -1,0 +1,6 @@
+[19] STP save success: 1
+[19] STP content length: 13044
+[19] STP load result: {"id":11}
+[19] STP load maxLevel: 31
+[19] STP load messages: []
+[filewrite] files/19-stp-roundtrip-stp-roundtrip.json (106 bytes)

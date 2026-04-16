@@ -1,0 +1,18 @@
+[01] partId: 4 eifId: 54 boxId: 61
+[01] save result keys: [ 'content', 'success' ]
+[01] success: 1
+[01] content type: string
+[01] content length: 33246
+[01] content first 200 chars: classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+ApplicationExec=classcad-cli
+ApplicationStringEncoding=UTF-8
+ClassCadVersion=21.0.1-dev
+ClassFileVersion=
+ContentType=OFB
+Database_AngleTol=0
+Dat
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-ofb-save-save-result.json (708 bytes)

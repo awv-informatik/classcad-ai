@@ -1,0 +1,15 @@
+[09] raw length: 33216 decoded length: 33216
+[09] first diff at index: 371
+[09] raw[diff]: 51 '3'
+[09] decoded[diff]: 48 '0'
+[09] raw around diff: "2\nStateId=317dc673-7"
+[09] decoded around diff: "2\nStateId=067b588a-b"
+[09] compressed buffer first 4 bytes: 0xcd 0x1d 0x59 0x73
+[09] inflateSync failed: incorrect header check
+[09] inflateRawSync succeeded, length: 33216
+[09] inflated first 80 chars: classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+ApplicationExec=classcad-
+[09] inflated matches raw: false
+[filewrite] files/09-inflate-raw-inflate-raw.json (202 bytes)

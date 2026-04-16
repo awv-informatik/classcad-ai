@@ -1,0 +1,21 @@
+[18] OFB default version length: 44252
+[18] OFB version=-2 length: 44252
+[18] OFB version=-1 success: 1 length: 44252
+[18] OFB version=0 success: 1 length: 44252
+[18] OFB raw header:
+ classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+ApplicationExec=classcad-cli
+ApplicationStringEncoding=UTF-8
+ClassCadVersion=21.0.1-dev
+ClassFileVersion=
+ContentType=OFB
+Database_AngleTol=0
+Database_ChordHeightTol=0.1
+Entities=1
+FilerStringEncoding=UTF-8
+Graphics=0
+HeaderVersion=1
+KernelId=10
+[filewrite] files/18-ofb-version-ofb-version.json (508 bytes)

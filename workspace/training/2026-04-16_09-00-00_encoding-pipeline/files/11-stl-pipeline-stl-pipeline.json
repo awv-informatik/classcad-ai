@@ -1,0 +1,10 @@
+{
+  "rawLen": 32,
+  "b64Len": 912,
+  "bothLen": 228,
+  "rawNonPrintable": 0,
+  "decodedBufLen": 684,
+  "triangleCount": 12,
+  "expectedBinarySize": 684,
+  "compressionRatio": "0.250"
+}

@@ -1,0 +1,8 @@
+[03] boxId: 61
+[03] edgeId (lineIndex=0): -20
+[03] fillet result: [ 61 ]
+[03] fillet maxLevel: 31
+[03] fillet messages: []
+[filewrite] files/03-basic-fillet-fillet-response.json (64 bytes)
+[03] container count after fillet: 1
+[03] container: id=59, type=1, verts=10

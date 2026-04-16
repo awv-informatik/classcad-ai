@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.solid.deleteSolid",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"ids\" has a wrong id type! Provide only following id types: [\"solid\"]"
+    }
+  ]
+}

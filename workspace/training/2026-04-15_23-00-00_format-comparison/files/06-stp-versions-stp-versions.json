@@ -1,0 +1,35 @@
+{
+  "AP203": {
+    "success": 1,
+    "contentLength": 20908,
+    "maxLevel": 51,
+    "messageCount": 1
+  },
+  "AP214": {
+    "success": 1,
+    "contentLength": 20700,
+    "maxLevel": 51,
+    "messageCount": 1
+  },
+  "AP242": {
+    "success": 1,
+    "contentLength": 20724,
+    "maxLevel": 51,
+    "messageCount": 1
+  },
+  "AP203_asPart": {
+    "success": 1,
+    "contentLength": 20652,
+    "maxLevel": 51
+  },
+  "AP214_asPart": {
+    "success": 1,
+    "contentLength": 20440,
+    "maxLevel": 51
+  },
+  "AP242_asPart": {
+    "success": 1,
+    "contentLength": 20464,
+    "maxLevel": 51
+  }
+}

@@ -1,0 +1,7 @@
+[13] boxId: 61
+[13] container.id: 59 container.owner: 61 container.type: 1
+[13] with container.id: 59 → graphic? true containers: 1
+[13] with owner: 61 → graphic? true containers: 1
+[13] boxId === owner? true
+[13] boxId === containerId? false
+[filewrite] files/13-container-id-vs-owner-id-vs-owner.json (162 bytes)

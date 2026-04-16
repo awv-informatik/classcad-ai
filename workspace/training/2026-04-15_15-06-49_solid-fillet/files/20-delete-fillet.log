@@ -1,0 +1,4 @@
+[20] fillet result: [ 61 ]
+[20] containers after fillet: 1
+[20] container: id=59
+[filewrite] files/20-delete-fillet-delete-fillet-check.json (75 bytes)

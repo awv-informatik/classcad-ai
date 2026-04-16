@@ -1,0 +1,10 @@
+[12] SCG success: 1
+[12] SCG length: 19464
+[12] SCG maxLevel: 31
+[12] SCG messages: []
+[12] IWP success: 1
+[12] IWP length: 48532
+[12] IWP maxLevel: 31
+[12] IWP binary success: 1
+[12] IWP binary length: 22344
+[filewrite] files/12-scg-iwp-formats-scg-iwp.json (227 bytes)

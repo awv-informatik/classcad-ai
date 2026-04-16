@@ -1,0 +1,5 @@
+[14] original boxId: 61
+[14] offset result: 61 maxLevel: 31
+[14] offset result === boxId? true
+[14] translate offset result: 61 maxLevel: 31
+[14] approx body count after offset: 1

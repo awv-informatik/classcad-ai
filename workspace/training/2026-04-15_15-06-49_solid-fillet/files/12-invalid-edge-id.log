@@ -1,0 +1,11 @@
+[12] solid ID as edge: result: null maxLevel: 51
+[12] msg1: level=51 "[Evaluation error in SolidAPI_v1.fillet::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Objektidentifikator addressed.] 
+Function: CADH_IdToReal
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "
+[filewrite] files/12-invalid-edge-id-invalid-solid-id.json (521 bytes)
+[12] fake ID: result: null maxLevel: 51
+[12] msg2: level=51 "Set the parameter "id" = VOID is not allowed in this situation!"
+[filewrite] files/12-invalid-edge-id-invalid-fake-id.json (274 bytes)
+[12] part ID as edge: result: null maxLevel: 51
+[12] msg3: level=51 "Set the parameter "id" = VOID is not allowed in this situation!"
+[filewrite] files/12-invalid-edge-id-invalid-part-id.json (274 bytes)

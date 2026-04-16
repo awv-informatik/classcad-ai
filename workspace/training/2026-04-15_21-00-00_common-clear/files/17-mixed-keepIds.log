@@ -1,0 +1,8 @@
+[17] partId: 4 eifId: 54 boxId: 61
+[17] keepIds=[partId, 999999] — result: null maxLevel: 51
+[17] messages: [{"api":"v1.common.clear","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.clear","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"keepIds\" has an invalid id!"}]
+[filewrite] files/17-mixed-keepIds-mixed-keepids.json (422 bytes)
+[17] part.create — result: null maxLevel: 51
+[17] part.create messages: [{"api":"v1.part.create","code":1200,"level":51,"levelStr":"ERROR","message":"There is already a root assembly or part which must be removed first."}]
+[17] CLEAR ABORTED — drawing still has part
+[17] box in old eif — result: 64 maxLevel: 31

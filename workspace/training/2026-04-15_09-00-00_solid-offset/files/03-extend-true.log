@@ -1,0 +1,4 @@
+[03] box1: 61
+[03] extend=TRUE result: 61 maxLevel: 31
+[03] extend=TRUE messages: []
+[filewrite] files/03-extend-true-extend-true-response.json (54 bytes)

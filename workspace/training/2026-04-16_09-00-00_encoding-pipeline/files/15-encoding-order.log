@@ -1,0 +1,12 @@
+[15] step1 (b64 decode): length= 4186
+[15] step1 first 4 bytes: 0xcd 0x1d 0x59 0x53
+[15] step1 looks like deflate? true
+[15] step2 (inflate): length= 33207
+[15] step2 first 40 chars: classcad
+Version=11
+ApplicationClass
+[15] raw OFB length: 33207
+[15] manual compressed length: 4248
+[15] manual encoded length: 5664
+[15] manual encoded load: id= 4 maxLevel= 31
+[filewrite] files/15-encoding-order-encoding-order.json (525 bytes)

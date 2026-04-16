@@ -1,0 +1,5 @@
+[17] SCG save success: 1 content length: 19480
+[17] SCG load result: null
+[17] SCG load maxLevel: 51
+[17] SCG load messages: [{"api":"v1.common.load","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\",\"IWP\"]"}]
+[filewrite] files/17-scg-roundtrip-scg-load-response.json (292 bytes)

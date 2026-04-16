@@ -1,0 +1,9 @@
+[01] OFB: success=1, b64len=44376, maxLevel=31
+[01] STP: success=1, b64len=13036, maxLevel=31
+[01] STL: success=1, b64len=912, maxLevel=31
+[01] SCG: success=1, b64len=19480, maxLevel=31
+[01] IWP: success=1, b64len=48652, maxLevel=31
+[01] DXF: success=0, b64len=0, maxLevel=51
+[01] OFB+deflate: success=1, b64len=5712
+[01] IWP+binary: success=1, b64len=22412
+[filewrite] files/01-all-formats-box-all-formats.json (929 bytes)

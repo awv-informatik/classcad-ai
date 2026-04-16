@@ -1,0 +1,19 @@
+{
+  "binary": {
+    "success": 1,
+    "length": 32
+  },
+  "ascii": {
+    "success": 1,
+    "length": 32
+  },
+  "fine": {
+    "success": 1,
+    "length": 32
+  },
+  "coarse": {
+    "success": 1,
+    "length": 32
+  },
+  "asciiPreview": "STL Binary file created by SMLib"
+}

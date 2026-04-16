@@ -1,0 +1,30 @@
+{
+  "noParams": {
+    "success": false,
+    "maxLevel": 51,
+    "msgs": [
+      "Import has to contain a CC_Product.",
+      "Nothing could be loaded!"
+    ]
+  },
+  "b64Only": {
+    "success": false,
+    "maxLevel": 51,
+    "msgs": [
+      "Import has to contain a CC_Product.",
+      "Nothing could be loaded!"
+    ]
+  },
+  "deflateOnly": {
+    "success": false,
+    "maxLevel": 51,
+    "msgs": [
+      "Import has to contain a CC_Product.",
+      "Nothing could be loaded!"
+    ]
+  },
+  "correct": {
+    "success": true,
+    "maxLevel": 31
+  }
+}

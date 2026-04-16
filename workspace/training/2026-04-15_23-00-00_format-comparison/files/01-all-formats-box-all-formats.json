@@ -1,0 +1,50 @@
+{
+  "OFB": {
+    "success": 1,
+    "contentLength": 44376,
+    "maxLevel": 31,
+    "messageCount": 0
+  },
+  "STP": {
+    "success": 1,
+    "contentLength": 13036,
+    "maxLevel": 31,
+    "messageCount": 0
+  },
+  "STL": {
+    "success": 1,
+    "contentLength": 912,
+    "maxLevel": 31,
+    "messageCount": 0
+  },
+  "SCG": {
+    "success": 1,
+    "contentLength": 19480,
+    "maxLevel": 31,
+    "messageCount": 0
+  },
+  "IWP": {
+    "success": 1,
+    "contentLength": 48652,
+    "maxLevel": 31,
+    "messageCount": 0
+  },
+  "DXF": {
+    "success": 0,
+    "contentLength": 0,
+    "maxLevel": 51,
+    "messages": [
+      "[Evaluation error in GeometryExportManager.StoreGeometryToStream:[CCVM::lcm: Function CADH_GetDxfTemplateFile not found]] "
+    ]
+  },
+  "OFB_deflate": {
+    "success": 1,
+    "contentLength": 5712,
+    "maxLevel": 31
+  },
+  "IWP_binary": {
+    "success": 1,
+    "contentLength": 22412,
+    "maxLevel": 31
+  }
+}

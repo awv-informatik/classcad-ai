@@ -1,0 +1,7 @@
+[06] AP203 (v1): success=1, b64len=20908, maxLevel=51
+[06] AP214 (v2): success=1, b64len=20700, maxLevel=51
+[06] AP242 (v3): success=1, b64len=20724, maxLevel=51
+[06] AP203 asPart: b64len=20652, maxLevel=51
+[06] AP214 asPart: b64len=20440, maxLevel=51
+[06] AP242 asPart: b64len=20464, maxLevel=51
+[filewrite] files/06-stp-versions-stp-versions.json (590 bytes)

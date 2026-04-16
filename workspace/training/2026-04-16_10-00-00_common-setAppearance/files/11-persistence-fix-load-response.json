@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.load",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"doClear\" has the wrong type! It should be of type (boolean)"
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,5 @@
+[13] setup — partId: 4 eifId: 54 boxId: 61
+[13] clear() no args — result: null maxLevel: 31
+[13] messages: []
+[filewrite] files/13-no-arg-clear-clear-noarg.json (56 bytes)
+[13] partId after clear(): 4

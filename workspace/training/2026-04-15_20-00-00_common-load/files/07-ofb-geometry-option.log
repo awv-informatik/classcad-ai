@@ -1,0 +1,7 @@
+[07] Save content length: 44284
+[07] ofb.geometry=2 result: {"id":4} maxLevel: 31
+[filewrite] files/07-ofb-geometry-option-ofb-geo2-response.json (69 bytes)
+[07] ofb.geometry=3 result: {"id":4} maxLevel: 31
+[filewrite] files/07-ofb-geometry-option-ofb-geo3-response.json (69 bytes)
+[07] ofb.geometry=4 result: {"id":4} maxLevel: 31
+[filewrite] files/07-ofb-geometry-option-ofb-geo4-response.json (69 bytes)

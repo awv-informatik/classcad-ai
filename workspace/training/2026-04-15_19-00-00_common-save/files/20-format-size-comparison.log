@@ -1,0 +1,8 @@
+[20] OFB (raw b64): 44256 chars
+[20] OFB (deflate+b64): 5668 chars
+[20] SCG (b64): 19464 chars
+[20] STP (b64): 13040 chars
+[20] STL (b64): 912 chars
+[20] IWP ASCII (b64): 48652 chars
+[20] IWP Binary (b64): 22412 chars
+[filewrite] files/20-format-size-comparison-format-sizes.json (178 bytes)

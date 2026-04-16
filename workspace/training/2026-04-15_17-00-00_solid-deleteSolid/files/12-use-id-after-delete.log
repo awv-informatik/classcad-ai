@@ -1,0 +1,8 @@
+[12] boxId: 61 box2: 64
+[12] boxId deleted
+[12] copy deleted — result: null maxLevel: 51
+[filewrite] files/12-use-id-after-delete-copy-deleted.json (417 bytes)
+[12] translate deleted — result: null maxLevel: 51
+[filewrite] files/12-use-id-after-delete-translate-deleted.json (431 bytes)
+[12] subtract with deleted tool — result: null maxLevel: 51
+[filewrite] files/12-use-id-after-delete-subtract-deleted-tool.json (430 bytes)

@@ -1,0 +1,8 @@
+[09] section result: 69 maxLevel: 31
+[filewrite] files/09-section-boolean-graphic.json (5457 bytes)
+[09] container id: 67 edges: 5
+[09]   edge id: -53 points: 2
+[09]   edge id: -54 points: 2
+[09]   edge id: -55 points: 2
+[09]   edge id: -56 points: 2
+[09]   edge id: -57 points: 65

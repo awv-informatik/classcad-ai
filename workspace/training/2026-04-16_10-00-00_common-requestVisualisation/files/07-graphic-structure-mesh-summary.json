@@ -1,0 +1,19 @@
+[
+  {
+    "index": 0,
+    "id": -1,
+    "vertexCount": 1697,
+    "normalCount": 1697,
+    "indexCount": 9600,
+    "triangleCount": 3200,
+    "loopCount": 1,
+    "propertiesKeys": [
+      "operationId",
+      "surface"
+    ],
+    "surfaceType": "sphere",
+    "surfaceKeys": [
+      "type"
+    ]
+  }
+]

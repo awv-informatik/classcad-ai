@@ -1,0 +1,5 @@
+[09] box1: 61 box2: 64
+[09] clear result: null maxLevel: 31
+[09] recalc result: null maxLevel: 31
+[09] recalc messages: []
+[filewrite] files/09-after-clear-keepIds-clear-keepids-recalc.json (169 bytes)

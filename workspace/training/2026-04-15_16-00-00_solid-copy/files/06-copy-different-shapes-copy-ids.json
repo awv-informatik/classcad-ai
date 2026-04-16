@@ -1,0 +1,14 @@
+{
+  "sphere": {
+    "original": 60,
+    "copy": 69
+  },
+  "cylinder": {
+    "original": 64,
+    "copy": 72
+  },
+  "cone": {
+    "original": 67,
+    "copy": 75
+  }
+}

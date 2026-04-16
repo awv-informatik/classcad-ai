@@ -1,0 +1,4 @@
+[02] boxId: 61 refId: 64
+[02] negative offset result: 61 maxLevel: 31
+[02] messages: []
+[filewrite] files/02-negative-distance-neg-offset-response.json (54 bytes)

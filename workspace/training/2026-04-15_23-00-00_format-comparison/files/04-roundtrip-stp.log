@@ -1,0 +1,7 @@
+[04] Before save — partId: 4 eifId: 56 boxId: 63
+[04] Saved STP — size: 17424 success: 1
+[04] Loaded — id: 11 maxLevel: 31
+[04] ID preserved? NO — was 4, now 11
+[04] Expression "width" after STP load: {"expression":"","value":null} maxLevel: 31
+[04] OFB re-save after STP load — size: 8412
+[filewrite] files/04-roundtrip-stp-stp-roundtrip.json (88 bytes)

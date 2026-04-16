@@ -1,0 +1,5 @@
+[12] IWP save success: 1 content length: 48532
+[12] IWP load result: {"id":6}
+[12] IWP load maxLevel: 31
+[12] IWP load messages: []
+[filewrite] files/12-iwp-roundtrip-iwp-load-response.json (69 bytes)

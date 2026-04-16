@@ -1,0 +1,8 @@
+[08] OFB: b64len=137888
+[08] STP: b64len=49840
+[08] STL: b64len=36112
+[08] SCG: b64len=72180
+[08] IWP: b64len=205212
+[08] OFB+deflate: b64len=13104
+[08] IWP+binary: b64len=90476
+[filewrite] files/08-multi-body-formats-multi-body-sizes.json (131 bytes)

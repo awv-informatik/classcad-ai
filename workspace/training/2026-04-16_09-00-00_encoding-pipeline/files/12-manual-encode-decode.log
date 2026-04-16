@@ -1,0 +1,13 @@
+[12] raw OFB length: 33207
+[12] manual deflate+b64 length: 5584
+[12] deflated buffer size: 4187
+[12] server deflate+b64 length: 5664
+[12] server content decoded length: 33207
+[12] starts with classcad: false
+[12] first 60 chars: classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+Appli
+[12] manual encoded sphere OFB: 4596 chars
+[12] manual-encoded load: id= 4 maxLevel= 31
+[filewrite] files/12-manual-encode-decode-manual-encode.json (251 bytes)

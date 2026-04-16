@@ -1,0 +1,5 @@
+[12b] partId: 4 eifId: 54 boxId: 61
+[12b] cleared with keepIds=[partId,eifId,boxId]
+[12b] translation — result: 61 maxLevel: 51
+[12b] trans messages: [{"api":"v1.solid.translation","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.solid.translation","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[12b] new box — result: 64 maxLevel: 31

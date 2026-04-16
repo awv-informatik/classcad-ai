@@ -1,0 +1,4 @@
+[06] source solids: box1: 61 box2: 64 cyl: 67
+[06] useSolid indices [0] result: [ 78 ] maxLevel: 31
+[06] messages: []
+[filewrite] files/06-indices-fresh-indices-0-fresh.json (64 bytes)

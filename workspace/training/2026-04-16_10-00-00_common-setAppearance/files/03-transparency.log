@@ -1,0 +1,9 @@
+[03] transparency only result: null maxLevel: 31
+[03] transparency=0 result: null maxLevel: 31
+[03] transparency=1 result: null maxLevel: 31
+[03] transparency=2.0 result: null maxLevel: 31
+[filewrite] files/03-transparency-transparency-2.json (56 bytes)
+[03] transparency=-1 result: null maxLevel: 31
+[filewrite] files/03-transparency-transparency-neg.json (56 bytes)
+[03] empty setAppearance result: null maxLevel: 31
+[filewrite] files/03-transparency-empty-appearance.json (56 bytes)

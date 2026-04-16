@@ -1,0 +1,72 @@
+{
+  "OFB": {
+    "raw": {
+      "success": 1,
+      "contentLength": 33219
+    },
+    "base64": {
+      "success": 1,
+      "contentLength": 44292
+    },
+    "deflateBase64": {
+      "success": 1,
+      "contentLength": 5664
+    }
+  },
+  "STP": {
+    "raw": {
+      "success": 1,
+      "contentLength": 9781
+    },
+    "base64": {
+      "success": 1,
+      "contentLength": 13044
+    },
+    "deflateBase64": {
+      "success": 1,
+      "contentLength": 2996
+    }
+  },
+  "STL": {
+    "raw": {
+      "success": 1,
+      "contentLength": 32
+    },
+    "base64": {
+      "success": 1,
+      "contentLength": 912
+    },
+    "deflateBase64": {
+      "success": 1,
+      "contentLength": 228
+    }
+  },
+  "SCG": {
+    "raw": {
+      "success": 1,
+      "contentLength": 14611
+    },
+    "base64": {
+      "success": 1,
+      "contentLength": 19484
+    },
+    "deflateBase64": {
+      "success": 1,
+      "contentLength": 2876
+    }
+  },
+  "IWP": {
+    "raw": {
+      "success": 1,
+      "contentLength": 36489
+    },
+    "base64": {
+      "success": 1,
+      "contentLength": 48652
+    },
+    "deflateBase64": {
+      "success": 1,
+      "contentLength": 3768
+    }
+  }
+}

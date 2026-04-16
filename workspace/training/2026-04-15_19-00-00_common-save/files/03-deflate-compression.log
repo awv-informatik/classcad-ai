@@ -1,0 +1,8 @@
+[03] raw length: 33178
+[03] deflated length: 22
+[03] deflated success: 1
+[03] deflated content type: string
+[03] deflated first 100 chars: Ys:wG~E;i&7noqx8d
+[03] compression ratio: 0.001
+[03] maxLevel: 31
+[filewrite] files/03-deflate-compression-deflate-comparison.json (165 bytes)

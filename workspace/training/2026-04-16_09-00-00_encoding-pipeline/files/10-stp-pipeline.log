@@ -1,0 +1,14 @@
+[10] STP raw: len= 9778 first 80: ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('STPPipeline', 
+[10] STP b64: len= 13040
+[10] STP both: len= 2992
+[10] STP raw non-printable in first 1000: 0
+[10] STP roundtrip: id= 11 maxLevel= 31
+[10] raw inflate of STP: length= 9778 (raw was 9778 )
+[10] STP inflated first 80: ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('STPPipeline', 
+[filewrite] files/10-stp-pipeline-stp-pipeline.json (195 bytes)

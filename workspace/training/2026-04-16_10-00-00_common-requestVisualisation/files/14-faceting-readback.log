@@ -1,0 +1,4 @@
+[14] default faceting: {"chordHeightTol":0.1,"angleTol":0,"vertexCount":1889}
+[14] coarse faceting: {"chordHeightTol":5,"angleTol":45,"vertexCount":147}
+[14] fine faceting: {"chordHeightTol":0.01,"angleTol":1,"vertexCount":131845}
+[filewrite] files/14-faceting-readback-faceting-comparison.json (293 bytes)

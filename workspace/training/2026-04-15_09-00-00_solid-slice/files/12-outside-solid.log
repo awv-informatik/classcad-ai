@@ -1,0 +1,9 @@
+[12] boxId: 61
+[12] above: result: null maxLevel: 31
+[12] above: messages: []
+[12] above: bbox min: [-40,-30,-20] max: [40,30,20]
+[filewrite] files/12-outside-solid-above-response.json (56 bytes)
+[12] below: result: null maxLevel: 31
+[12] below: messages: []
+[12] below: bbox still exists
+[filewrite] files/12-outside-solid-below-response.json (56 bytes)

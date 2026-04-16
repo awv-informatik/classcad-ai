@@ -1,0 +1,7 @@
+[16] coneId: 61
+[16] lines: 1 [-7]
+[16] arcs: 2 [-8,-9]
+[16] arc -8: z=-30
+[16] arc -9: z=30.000000000000007
+[16] fillet result: [ 61 ] maxLevel: 31
+[filewrite] files/16-fillet-cone-cone-fillet-response.json (64 bytes)

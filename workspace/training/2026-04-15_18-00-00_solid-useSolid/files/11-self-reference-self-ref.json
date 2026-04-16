@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.solid.useSolid",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Entity of operation \"SelfEI\" is not available. Only entities of operations which have been created before the container can be used."
+    }
+  ],
+  "maxLevel": 51
+}

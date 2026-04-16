@@ -1,0 +1,5 @@
+[17] boxId: 61
+[17] BEFORE bbox: [-40,-30,-20] [40,30,20]
+[17] slice result: null (VOID, as documented for keepBoth: false)
+[17] translate result: 61 maxLevel: 31
+[17] AFTER translate bbox: [-40,-30,10] [40,30,30]

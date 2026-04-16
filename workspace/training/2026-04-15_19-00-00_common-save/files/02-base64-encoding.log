@@ -1,0 +1,7 @@
+[02] raw length: 33178
+[02] b64 length: 44240
+[02] b64 success: 1
+[02] b64 first 100 chars: AQJjbGFzc2NhZAIBClZlcnNpb249MTEKQXBwbGljYXRpb25DbGFzcz1CdWVybGlEZW1vQXBwCkFwcGxpY2F0aW9uRXhlYz1jbGFz
+[02] size ratio (b64/raw): 1.333
+[02] maxLevel: 31
+[filewrite] files/02-base64-encoding-encoding-comparison.json (301 bytes)

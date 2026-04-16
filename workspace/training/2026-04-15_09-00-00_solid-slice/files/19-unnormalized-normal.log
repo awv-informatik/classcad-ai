@@ -1,0 +1,7 @@
+[19] b1: 61
+[19] unnorm result: null maxLevel: 31
+[19] unnorm bbox: [-30,-20,-20] [30,20,0]
+[19] b2: 64
+[19] zero normal result: null maxLevel: 31
+[19] zero normal messages: []
+[filewrite] files/19-unnormalized-normal-normal-tests.json (288 bytes)

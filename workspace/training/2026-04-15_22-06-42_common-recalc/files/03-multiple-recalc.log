@@ -1,0 +1,6 @@
+[03] recalc #0: result=null maxLevel=31 msgs=0
+[03] recalc #1: result=null maxLevel=31 msgs=0
+[03] recalc #2: result=null maxLevel=31 msgs=0
+[03] recalc #3: result=null maxLevel=31 msgs=0
+[03] recalc #4: result=null maxLevel=31 msgs=0
+[filewrite] files/03-multiple-recalc-multi-recalc.json (397 bytes)

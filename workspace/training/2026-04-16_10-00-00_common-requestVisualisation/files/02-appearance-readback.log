@@ -1,0 +1,5 @@
+[02] BEFORE color: [128,128,128]
+[02] BEFORE opacity: 1
+[02] AFTER color: [255,0,0]
+[02] AFTER opacity: 0.5
+[filewrite] files/02-appearance-readback-appearance-readback.json (179 bytes)

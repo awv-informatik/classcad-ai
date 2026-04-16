@@ -1,0 +1,10 @@
+[04] cylinderId: 61
+[04] horizontal section result: 64 maxLevel: 31
+[filewrite] files/04-section-cylinder-graphic-horiz.json (4577 bytes)
+[04] horiz container edges: 1
+[04]   edge id: -12 points: 65
+[04] diagonal section result: 67 maxLevel: 31
+[filewrite] files/04-section-cylinder-graphic-diag.json (5268 bytes)
+[04] diag container id: 65 edges: 2
+[04]   edge id: -13 points: 33
+[04]   edge id: -14 points: 33

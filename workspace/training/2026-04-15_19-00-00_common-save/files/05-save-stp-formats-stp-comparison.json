@@ -1,0 +1,24 @@
+{
+  "ap214": {
+    "success": 1,
+    "length": 9766,
+    "maxLevel": 31
+  },
+  "ap203": {
+    "success": 1,
+    "length": 9923
+  },
+  "ap242": {
+    "success": 1,
+    "length": 9784
+  },
+  "asPart": {
+    "success": 1,
+    "length": 9584
+  },
+  "header": {
+    "success": 1,
+    "length": 9766
+  },
+  "preview214": "ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('STEP'), '1');\nFILE_NAME('SaveSTP', '2026-04-15T19:11:18', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');\nFILE_SCHEMA(('AUTOMOTIVE_DESIGN'));\nENDSEC;\n\nDATA;\n#1 = MANIFOLD_SOLID_BREP('Solid', #2);\n#2 = CLOSED_SHELL('', (#3, #39, #67, #95, #115, #127));\n#3 = ADVANCED_FACE('', (#4), #34, .T.);\n#4 = FACE_OUTER_BOUND('', #5, .T.);\n#5 = EDGE_LOOP('', (#6, #15, #22, #29));\n#6 = ORIENTED_EDGE('', *, *, #7, .T.);\n#7 = EDGE_CURVE('', #8, #10, #12, .T.);\n"
+}

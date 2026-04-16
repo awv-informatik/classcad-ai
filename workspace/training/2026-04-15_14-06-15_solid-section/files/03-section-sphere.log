@@ -1,0 +1,7 @@
+[03] sphereId: 60
+[03] sectionId: 66
+[03] maxLevel: 31
+[filewrite] files/03-section-sphere-graphic.json (6143 bytes)
+[03] container id: 64 edge count: 2
+[03]   edge id: -6 pointCount: 65
+[03]   edge id: -7 pointCount: 21

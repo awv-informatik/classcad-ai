@@ -1,0 +1,6 @@
+[12] box1: 61 box2: 64
+[12] before union: {"meshCount":6,"edgeCount":12,"vertexCount":8,"min":[-30,-20,-15],"max":[30,20,15]}
+[12] after union: {"meshCount":11,"edgeCount":27,"vertexCount":18,"min":[-30,-20,-35],"max":[45,25,15]}
+[filewrite] files/12-after-boolean-boolean-vis-comparison.json (367 bytes)
+[12] consumed tool (box2): graphic? false maxLevel: 51
+[12] consumed tool messages: [{"api":"v1.common.requestVisualisation","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.requestVisualisation","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]

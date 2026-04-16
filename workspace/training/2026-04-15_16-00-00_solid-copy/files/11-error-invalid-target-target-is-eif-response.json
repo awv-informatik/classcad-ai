@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.solid.copy",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"target\" has a wrong id type! Provide only following id types: [\"solid\"]"
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,23 @@
+{
+  "unnormalized": {
+    "result": null,
+    "maxLevel": 31,
+    "bbox": {
+      "min": [
+        -30,
+        -20,
+        -20
+      ],
+      "max": [
+        30,
+        20,
+        0
+      ]
+    }
+  },
+  "zeroNormal": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,28 @@
+[07] sphId: 60
+[07] mesh count: 1
+[07] mesh summary: [
+  {
+    "index": 0,
+    "id": -1,
+    "vertexCount": 1697,
+    "normalCount": 1697,
+    "indexCount": 9600,
+    "triangleCount": 3200,
+    "loopCount": 1,
+    "propertiesKeys": [
+      "operationId",
+      "surface"
+    ],
+    "surfaceType": "sphere",
+    "surfaceKeys": [
+      "type"
+    ]
+  }
+]
+[filewrite] files/07-graphic-structure-mesh-summary.json (299 bytes)
+[07] edge count: 1
+[filewrite] files/07-graphic-structure-edge-summary.json (128 bytes)
+[07] graphic.properties: {"version":11}
+[filewrite] files/07-graphic-structure-graphic-properties.json (19 bytes)
+[filewrite] files/07-graphic-structure-container-properties.json (233 bytes)
+[filewrite] files/07-graphic-structure-mesh0-detail.json (102 bytes)

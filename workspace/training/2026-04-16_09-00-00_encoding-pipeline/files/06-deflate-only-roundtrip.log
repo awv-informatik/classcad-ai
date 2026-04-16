@@ -1,0 +1,7 @@
+[06] deflate-only save: success= 1
+[06] content length: 405
+[06] content type: string
+[06] non-printable chars in first 500: 112 / 405
+[06] load: id= undefined maxLevel= 51
+[06] load messages: ["Import has to contain a CC_Product.","Nothing could be loaded!"]
+[filewrite] files/06-deflate-only-roundtrip-deflate-only.json (94 bytes)

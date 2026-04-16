@@ -1,0 +1,8 @@
+[18] boxId: 61
+[18] slice 1 (top z=20): maxLevel: 31
+[18] bbox after 1: [-50,-50,-50] [50,50,20]
+[18] slice 2 (right x=30): maxLevel: 31
+[18] bbox after 2: [-50,-50,-50] [30,50,20]
+[18] slice 3 (front y=10): maxLevel: 31
+[18] bbox after 3: [-50,-50,-50] [30,10,20]
+[filewrite] files/18-multi-slice-multi-slice-bboxes.json (359 bytes)

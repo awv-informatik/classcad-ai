@@ -1,0 +1,13 @@
+{
+  "defaultLen": 44252,
+  "v_minus2": 44252,
+  "v_minus1": {
+    "success": 1,
+    "length": 44252
+  },
+  "v0": {
+    "success": 1,
+    "length": 44252
+  },
+  "header": "\u0001\u0002classcad\u0002\u0001\nVersion=11\nApplicationClass=BuerliDemoApp\nApplicationExec=classcad-cli\nApplicationStringEncoding=UTF-8\nClassCadVersion=21.0.1-dev\nClassFileVersion=\nContentType=OFB\nDatabase_AngleTol=0\nDatabase_ChordHeightTol=0.1\nEntities=1\nFilerStringEncoding=UTF-8\nGraphics=0\nHeaderVersion=1\nKernelId=10"
+}

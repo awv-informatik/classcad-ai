@@ -1,0 +1,7 @@
+[12] original box vertices data length: N/A
+[filewrite] files/12-mesh-verification-graphic-original.json (11059 bytes)
+[12] copy vertices data length: N/A
+[filewrite] files/12-mesh-verification-graphic-after-copy.json (11068 bytes)
+[filewrite] files/12-mesh-verification-graphic-sphere-original.json (394191 bytes)
+[filewrite] files/12-mesh-verification-graphic-sphere-copy.json (396133 bytes)
+[12] sphere original id: 66 copy id: 69

@@ -1,0 +1,9 @@
+[17] normal [0,0,1] result: 64 maxLevel: 31
+[17] [0,0,1] edges: 4
+[17] [0,0,1] bbox: [-40,-30,5] [40,30,5]
+[17] normal [0,0,-1] result: 67 maxLevel: 31
+[17] [0,0,-1] edges: 4
+[17] [0,0,-1] bbox: [-40,-30,5] [40,30,5]
+[17] edge data identical: false
+[filewrite] files/17-normal-direction-edges-up.json (606 bytes)
+[filewrite] files/17-normal-direction-edges-down.json (606 bytes)

@@ -1,0 +1,7 @@
+[04] raw: 33178
+[04] b64 only: 44240
+[04] deflate only: 215
+[04] deflate+b64: 5664
+[04] both success: 1
+[04] both first 100: zR1Zc5s6d9JHfkXeO2kBAyadyTfjBbduE29xur14iK04JLbJxWT99Z8AIwk4Qhhsp6d3bgTazr5IdnL0Ybqw1+upPftwJP1E3tpx
+[filewrite] files/04-deflate-base64-combined-pipeline-comparison.json (321 bytes)

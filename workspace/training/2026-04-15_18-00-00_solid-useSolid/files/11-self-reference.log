@@ -1,0 +1,4 @@
+[11] eif: 54 box: 61
+[11] self-reference result: null maxLevel: 51
+[11] messages: [{"api":"v1.solid.useSolid","code":1014,"level":51,"levelStr":"ERROR","message":"Entity of operation \"SelfEI\" is not available. Only entities of operations which have been created before the container can be used."}]
+[filewrite] files/11-self-reference-self-ref.json (325 bytes)

@@ -1,0 +1,13 @@
+[10] empty OFB success: 0
+[10] empty OFB length: 0
+[10] empty OFB maxLevel: 51
+[10] empty OFB messages: [{"api":"v1.common.save","code":0,"level":51,"levelStr":"ERROR","message":"No root product could be found."},{"api":"v1.common.save","code":0,"level":51,"levelStr":"ERROR","message":"There is nothing to be stored."}]
+[10] empty STP success: 0
+[10] empty STP length: 0
+[10] empty STP maxLevel: 51
+[10] empty STP messages: [{"api":"v1.common.save","code":0,"level":51,"levelStr":"ERROR","message":"No root product could be found."},{"api":"v1.common.save","code":0,"level":51,"levelStr":"ERROR","message":"There is nothing to be stored."}]
+[10] empty STL success: 0
+[10] empty STL length: 0
+[10] empty STL maxLevel: 51
+[10] empty STL messages: [{"api":"v1.common.save","code":0,"level":51,"levelStr":"ERROR","message":"No root product could be found."},{"api":"v1.common.save","code":0,"level":51,"levelStr":"ERROR","message":"There is nothing to be stored."}]
+[filewrite] files/10-empty-drawing-empty-drawing.json (1313 bytes)

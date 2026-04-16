@@ -1,0 +1,7 @@
+[02] box1 feature: 54 box2 feature: 91
+[02] useSolid result: [ 135, 138 ] maxLevel: 31
+[filewrite] files/02-use-returned-ids-useSolid-two-features.json (74 bytes)
+[02] solid IDs from useSolid: 135 138
+[02] translation result: 138 maxLevel: 31
+[02] subtraction result: 135 maxLevel: 31
+[filewrite] files/02-use-returned-ids-ops-results.json (96 bytes)

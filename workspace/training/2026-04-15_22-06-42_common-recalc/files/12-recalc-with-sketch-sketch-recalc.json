@@ -1,0 +1,36 @@
+{
+  "geoBefore": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58,
+      64,
+      70,
+      76
+    ],
+    "points": []
+  },
+  "geoAfter": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58,
+      64,
+      70,
+      76
+    ],
+    "points": []
+  },
+  "geoMatch": true,
+  "getPointsAfterRecalc": {
+    "maxLevel": 31,
+    "result": {
+      "endId": 60,
+      "startId": 59
+    }
+  },
+  "recalc": {
+    "result": null,
+    "maxLevel": 31
+  }
+}

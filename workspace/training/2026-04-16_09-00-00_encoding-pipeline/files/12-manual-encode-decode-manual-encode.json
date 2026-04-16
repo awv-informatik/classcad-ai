@@ -1,0 +1,10 @@
+{
+  "rawLen": 33207,
+  "manualDeflateB64Len": 5584,
+  "serverDeflateB64Len": 5664,
+  "serverDecodedLen": 33207,
+  "serverDecodedStartsCorrectly": false,
+  "manualEncodedSphereLen": 4596,
+  "manualEncodedLoadSuccess": true,
+  "manualEncodedLoadId": 4
+}

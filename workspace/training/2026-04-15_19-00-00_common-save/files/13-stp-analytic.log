@@ -1,0 +1,5 @@
+[13] STP analytic=0 length: 9778
+[13] STP analytic=1 length: 8552
+[13] STP analytic=1 success: 1
+[13] STP analytic=1 maxLevel: 51
+[filewrite] files/13-stp-analytic-stp-analytic.json (106 bytes)

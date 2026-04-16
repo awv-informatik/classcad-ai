@@ -1,0 +1,34 @@
+{
+  "cylinder": {
+    "result": null,
+    "maxLevel": 31,
+    "bbox": {
+      "min": [
+        -15,
+        -15,
+        -30
+      ],
+      "max": [
+        15,
+        15,
+        0
+      ]
+    }
+  },
+  "cone": {
+    "result": null,
+    "maxLevel": 31,
+    "bbox": {
+      "min": [
+        45,
+        -15,
+        -25
+      ],
+      "max": [
+        75,
+        15,
+        0
+      ]
+    }
+  }
+}

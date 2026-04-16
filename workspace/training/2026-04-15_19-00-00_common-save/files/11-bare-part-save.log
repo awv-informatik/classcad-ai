@@ -1,0 +1,12 @@
+[11] partId: 4
+[11] bare OFB success: 1
+[11] bare OFB length: 12956
+[11] bare OFB maxLevel: 31
+[11] bare STP success: 1
+[11] bare STP length: 1794
+[11] bare STP maxLevel: 31
+[11] bare STP messages: []
+[11] bare STL success: 1
+[11] bare STL length: 0
+[11] bare STL maxLevel: 31
+[filewrite] files/11-bare-part-save-bare-part.json (239 bytes)

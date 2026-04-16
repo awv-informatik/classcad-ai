@@ -1,0 +1,6 @@
+[06] before clear — partId: 4 eifId: 54 boxId: 61
+[06] cleared with keepIds=[partId]
+[06] expression W: { expression: '', value: 42 } maxLevel: 31
+[06] new eifId2: 65
+[06] new boxId2: 72
+[06] copy from old eifId — result: null maxLevel: 51

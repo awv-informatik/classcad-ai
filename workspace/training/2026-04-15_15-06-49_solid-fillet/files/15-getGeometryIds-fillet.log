@@ -1,0 +1,6 @@
+[15] getGeometryIds result lines: [-21,-22]
+[15] maxLevel: 31
+[filewrite] files/15-getGeometryIds-fillet-geometry-ids.json (37 bytes)
+[15] edge IDs found: [-21,-22]
+[15] fillet result: [ 61 ] maxLevel: 31
+[filewrite] files/15-getGeometryIds-fillet-pos-fillet-response.json (64 bytes)

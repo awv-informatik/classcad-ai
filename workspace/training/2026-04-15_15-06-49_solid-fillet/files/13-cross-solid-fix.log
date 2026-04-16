@@ -1,0 +1,6 @@
+[13] box1: 61 box2: 64
+[13] solid0 lineIndex=0: -20
+[13] solid1 lineIndex=0: -52
+[13] geomIds: [-20,-52]
+[13] fillet result: [ 64, 61 ] maxLevel: 31
+[filewrite] files/13-cross-solid-fix-cross-solid-response.json (72 bytes)

@@ -1,0 +1,9 @@
+[08] source solids: 61 64
+[08] first indices [0]: result: [ 75 ] maxLevel: 31
+[filewrite] files/08-indices-twice-first-indices-0.json (64 bytes)
+[08] second indices [0]: result: [] maxLevel: 51
+[08] messages: [{"api":"v1.solid.useSolid","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"Source\" is not available. It has already been consumed/used in another operation."}]
+[filewrite] files/08-indices-twice-second-indices-0.json (280 bytes)
+[08] indices [1]: result: [ 94 ] maxLevel: 31
+[08] messages: []
+[filewrite] files/08-indices-twice-indices-1.json (64 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.common.load",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\",\"IWP\"]"
+    }
+  ]
+}

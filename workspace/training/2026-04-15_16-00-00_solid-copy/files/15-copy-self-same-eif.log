@@ -1,0 +1,4 @@
+[15] original: 61 copy: 63
+[15] translation result: 63 maxLevel: 31
+[15] rotation result: 61 maxLevel: 31
+[filewrite] files/15-copy-self-same-eif-ids.json (73 bytes)

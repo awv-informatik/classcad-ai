@@ -1,0 +1,7 @@
+[07] box feature: 54
+[07] indices [0] on part.box: result: [ 98 ] maxLevel: 31
+[07] messages: []
+[filewrite] files/07-indices-part-feature-indices-0-part-box.json (64 bytes)
+[07] indices [1] on part.box: result: [] maxLevel: 51
+[07] messages: [{"api":"v1.solid.useSolid","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in APIHelper.PrepareEntityObjs:[CCVM::ldm: objId not found]] "}]
+[filewrite] files/07-indices-part-feature-indices-1-part-box.json (265 bytes)

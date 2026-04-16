@@ -1,0 +1,11 @@
+{
+  "noArgs": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "emptyObj": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "identical": true
+}

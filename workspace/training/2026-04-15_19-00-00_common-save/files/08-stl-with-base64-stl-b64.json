@@ -1,0 +1,18 @@
+{
+  "binaryB64": {
+    "success": 1,
+    "length": 912
+  },
+  "asciiB64": {
+    "success": 1,
+    "length": 912
+  },
+  "deflateB64": {
+    "success": 1,
+    "length": 228
+  },
+  "fineB64": {
+    "success": 1,
+    "length": 912
+  }
+}

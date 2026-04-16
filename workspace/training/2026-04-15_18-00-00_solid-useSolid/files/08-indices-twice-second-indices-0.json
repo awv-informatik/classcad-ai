@@ -1,0 +1,13 @@
+{
+  "result": [],
+  "messages": [
+    {
+      "api": "v1.solid.useSolid",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Entity \"Source\" is not available. It has already been consumed/used in another operation."
+    }
+  ],
+  "maxLevel": 51
+}

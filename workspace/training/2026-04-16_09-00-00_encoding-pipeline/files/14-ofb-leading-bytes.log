@@ -1,0 +1,9 @@
+[14] first 20 chars: [{"index":0,"char":"\u0001","charCode":1,"hex":"0x01"},{"index":1,"char":"\u0002","charCode":2,"hex":"0x02"},{"index":2,"char":"c","charCode":99,"hex":"0x63"},{"index":3,"char":"l","charCode":108,"hex":"0x6c"},{"index":4,"char":"a","charCode":97,"hex":"0x61"},{"index":5,"char":"s","charCode":115,"hex":"0x73"},{"index":6,"char":"s","charCode":115,"hex":"0x73"},{"index":7,"char":"c","charCode":99,"hex":"0x63"},{"index":8,"char":"a","charCode":97,"hex":"0x61"},{"index":9,"char":"d","charCode":100,"hex":"0x64"},{"index":10,"char":"\u0002","charCode":2,"hex":"0x02"},{"index":11,"char":"\u0001","charCode":1,"hex":"0x01"},{"index":12,"char":"\n","charCode":10,"hex":"0x0a"},{"index":13,"char":"V","charCode":86,"hex":"0x56"},{"index":14,"char":"e","charCode":101,"hex":"0x65"},{"index":15,"char":"r","charCode":114,"hex":"0x72"},{"index":16,"char":"s","charCode":115,"hex":"0x73"},{"index":17,"char":"i","charCode":105,"hex":"0x69"},{"index":18,"char":"o","charCode":111,"hex":"0x6f"},{"index":19,"char":"n","charCode":110,"hex":"0x6e"}]
+[14] first 3 charCodes: 1 2 99
+[14] has BOM (FEFF): false
+[14] b64 decoded first 20 bytes: 0x01 0x02 0x63 0x6c 0x61 0x73 0x73 0x63 0x61 0x64 0x02 0x01 0x0a 0x56 0x65 0x72 0x73 0x69 0x6f 0x6e
+[14] b64 decoded first 20 as ascii: classcad
+Version
+[14] raw startsWith "classcad": false
+[14] raw indexOf "classcad": 2
+[filewrite] files/14-ofb-leading-bytes-leading-bytes.json (2161 bytes)

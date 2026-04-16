@@ -1,0 +1,6 @@
+[01] part.box feature ID: 54
+[01] entityInjection ID: 91
+[01] useSolid result: [ 98 ]
+[01] useSolid maxLevel: 31
+[01] useSolid messages: []
+[filewrite] files/01-basic-useSolid-useSolid-response.json (64 bytes)

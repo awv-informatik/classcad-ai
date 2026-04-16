@@ -1,0 +1,11 @@
+[07] DXF on 3D success: 0
+[07] DXF on 3D length: 0
+[07] DXF on 3D maxLevel: 51
+[07] DXF on 3D messages: [{"api":"v1.common.save","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in GeometryExportManager.StoreGeometryToStream:[CCVM::lcm: Function CADH_GetDxfTemplateFile not found]] "}]
+[07] DXF on 2D success: 0
+[07] DXF on 2D length: 0
+[07] DXF on 2D maxLevel: 51
+[07] DXF on 2D first 200: 
+[07] DXF v2013 success: 0
+[07] DXF v2013 length: 0
+[filewrite] files/07-save-dxf-dxf-comparison.json (502 bytes)

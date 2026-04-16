@@ -1,0 +1,13 @@
+{
+  "beforeRecalc": {
+    "maxLevel": 31,
+    "result": 61
+  },
+  "recalc": {
+    "maxLevel": 31
+  },
+  "afterRecalc": {
+    "maxLevel": 31,
+    "result": 61
+  }
+}

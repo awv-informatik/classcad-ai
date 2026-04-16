@@ -1,0 +1,4 @@
+[filewrite] files/09-copy-independence-graphic-before-modify.json (4 bytes)
+[filewrite] files/09-copy-independence-graphic-after-modify.json (4 bytes)
+[09] boxId: 61 copyId: 63
+[09] If copy is independent, after-snapshot should show: hole in original, intact copy

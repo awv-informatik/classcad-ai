@@ -925,10 +925,10 @@ await api.v1.solid.rotation({ id: eifId, target: box2Id, rotation: [0, 0, 0.785]
 
 | #   | Task                                                  | Source                                                          | Studied |
 | --- | ----------------------------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.offset` — fragile, use with care  | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 2   | Api study of `solid.slice` — cut at plane             | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 3   | Api study of `solid.section` — cross-section curves   | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 4   | Api study of `solid.fillet` — fillet at brep edge IDs | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 1   | Api study of `solid.offset` — fragile, use with care  | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 2   | Api study of `solid.slice` — cut at plane             | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 3   | Api study of `solid.section` — cross-section curves   | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 4   | Api study of `solid.fillet` — fillet at brep edge IDs | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
 
 **Task #2-4:** Slice, section, and fillet require careful edge/face ID selection. Study the docs for the exact patterns.
 
@@ -938,9 +938,9 @@ await api.v1.solid.rotation({ id: eifId, target: box2Id, rotation: [0, 0, 0.785]
 
 | #   | Task                                                              | Source                                                          | Studied |
 | --- | ----------------------------------------------------------------- | --------------------------------------------------------------- | ------- |
-| 1   | Api study of `solid.copy`                                         | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 2   | Api study of `solid.deleteSolid`                                  | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
-| 3   | Api study of `solid.useSolid` — access solids from other features | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [ ]     |
+| 1   | Api study of `solid.copy`                                         | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 2   | Api study of `solid.deleteSolid`                                  | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
+| 3   | Api study of `solid.useSolid` — access solids from other features | [solid.md](../knowledge/classcad-skill/references/api/solid.md) | [✅]     |
 
 **Task #1: Api study of `solid.copy`**
 
@@ -963,12 +963,12 @@ const copyId = (await api.v1.solid.copy({ id: eifId, target: boxId, translation:
 
 | #   | Task                                                           | Source                                                            | Studied |
 | --- | -------------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.save`                                     | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 2   | Api study of `common.load`                                     | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 3   | Api study of `common.clear`                                    | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 4   | Api study of `common.recalc`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 5   | Study: format comparison — OFB vs STP vs STL vs DXF            | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 6   | Study: encoding/compression pipeline — data ↔ deflate ↔ base64 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 1   | Api study of `common.save`                                     | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 2   | Api study of `common.load`                                     | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 3   | Api study of `common.clear`                                    | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 4   | Api study of `common.recalc`                                   | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 5   | Study: format comparison — OFB vs STP vs STL vs DXF            | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 6   | Study: encoding/compression pipeline — data ↔ deflate ↔ base64 | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
 
 **Task #1-4: Save/load/clear/recalc cycle**
 
@@ -999,8 +999,8 @@ export default async function (api) {
 
 | #   | Task                                       | Source                                                            | Studied |
 | --- | ------------------------------------------ | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `common.setAppearance`        | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
-| 2   | Api study of `common.requestVisualisation` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [ ]     |
+| 1   | Api study of `common.setAppearance`        | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
+| 2   | Api study of `common.requestVisualisation` | [common.md](../knowledge/classcad-skill/references/api/common.md) | [✅]     |
 
 **Task #1: Api study of `common.setAppearance`**
 

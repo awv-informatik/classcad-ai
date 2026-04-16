@@ -1,0 +1,6 @@
+[15] box1: 61 box2: 64 box3: 67
+[15] mixed delete — result: null maxLevel: 51
+[filewrite] files/15-mixed-atomicity-mixed-atomicity-response.json (428 bytes)
+[15] box1 (id 61) alive? YES
+[15] box2 (id 64) alive? YES
+[15] box3 (id 67) alive? YES

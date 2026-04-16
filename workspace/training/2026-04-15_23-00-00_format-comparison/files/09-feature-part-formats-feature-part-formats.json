@@ -1,0 +1,32 @@
+{
+  "sizes": {
+    "OFB": {
+      "success": 1,
+      "contentLength": 46524
+    },
+    "STP": {
+      "success": 1,
+      "contentLength": 12864
+    },
+    "STL": {
+      "success": 1,
+      "contentLength": 912
+    },
+    "SCG": {
+      "success": 1,
+      "contentLength": 19632
+    },
+    "IWP": {
+      "success": 1,
+      "contentLength": 48444
+    },
+    "OFB_deflate": {
+      "contentLength": 5988
+    }
+  },
+  "roundtrip": {
+    "idPreserved": true,
+    "expressionPreserved": true,
+    "parametricSurvived": false
+  }
+}

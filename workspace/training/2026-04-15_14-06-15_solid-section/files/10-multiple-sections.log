@@ -1,0 +1,8 @@
+[10] section1 (z=-10): 64 maxLevel: 31
+[10] section2 (z=0): 67 maxLevel: 31
+[10] section3 (z=10): 70 maxLevel: 31
+[10] section4 (y=0): 73 maxLevel: 31
+[10] all IDs: [ 64, 67, 70, 73 ]
+[filewrite] files/10-multiple-sections-graphic-final.json (1496 bytes)
+[10] total containers: 1
+[10]  id: 71 type: 2 edges: 4

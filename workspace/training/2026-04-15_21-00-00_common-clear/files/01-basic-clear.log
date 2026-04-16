@@ -1,0 +1,5 @@
+[01] partId: 4 eifId: 54 boxId: 61
+[01] clear result: null
+[01] clear maxLevel: 31
+[01] clear messages: []
+[filewrite] files/01-basic-clear-clear-response.json (56 bytes)

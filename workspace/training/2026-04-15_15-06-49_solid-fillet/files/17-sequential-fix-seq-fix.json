@@ -1,0 +1,15 @@
+{
+  "fillet1": {
+    "edge": -21,
+    "result": [
+      61
+    ]
+  },
+  "fillet2": {
+    "edge": -19,
+    "result": [
+      61
+    ],
+    "maxLevel": 31
+  }
+}

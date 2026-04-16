@@ -1,0 +1,11 @@
+[09] color > 255 result: null maxLevel: 31
+[filewrite] files/09-color-edge-cases-color-over-255.json (56 bytes)
+[09] negative color result: null maxLevel: 31
+[filewrite] files/09-color-edge-cases-color-negative.json (56 bytes)
+[09] float color result: null maxLevel: 31
+[09] 2-component color result: null maxLevel: 51
+[filewrite] files/09-color-edge-cases-color-2-comp.json (300 bytes)
+[09] 4-component color result: null maxLevel: 51
+[filewrite] files/09-color-edge-cases-color-4-comp.json (300 bytes)
+[09] empty color result: null maxLevel: 51
+[filewrite] files/09-color-edge-cases-color-empty.json (300 bytes)

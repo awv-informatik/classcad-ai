@@ -1,0 +1,5 @@
+[05] boxId: 61
+[05] first delete — result: null maxLevel: 31
+[filewrite] files/05-double-delete-first-delete.json (56 bytes)
+[05] second delete — result: null maxLevel: 51
+[filewrite] files/05-double-delete-second-delete.json (428 bytes)

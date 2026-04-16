@@ -1,0 +1,6 @@
+[05] boxId: 61
+[05] BEFORE vertCount: 0 bbox: {"x":[null,null],"y":[null,null],"z":[null,null]}
+[filewrite] files/05-verify-with-data-graphic-before.json (177 bytes)
+[05] slice result: null maxLevel: 31
+[05] AFTER vertCount: 0 bbox: {"x":[null,null],"y":[null,null],"z":[null,null]}
+[filewrite] files/05-verify-with-data-graphic-after.json (177 bytes)

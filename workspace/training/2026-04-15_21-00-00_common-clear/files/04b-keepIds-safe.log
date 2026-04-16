@@ -1,0 +1,5 @@
+[04b] partId: 4 eifId: 54 boxId: 61
+[04b] clear keepIds=[partId] — result: null maxLevel: 31
+[filewrite] files/04b-keepIds-safe-keep-part.json (56 bytes)
+[04b] server alive after clear — version: 
+[04b] getExpression partId after keep: { expression: '', value: null } maxLevel: 31

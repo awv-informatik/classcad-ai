@@ -1,0 +1,4 @@
+[07] SCG save — success: 1 size: 19476
+[07] SCG load — result: null maxLevel: 51
+[07] msg: The provided value for parameter "format" is not valid. Possible values are: ["OFB","STP","IWP"] level: 51 code: 1013
+[filewrite] files/07-scg-load-attempt-scg-load-attempt.json (324 bytes)

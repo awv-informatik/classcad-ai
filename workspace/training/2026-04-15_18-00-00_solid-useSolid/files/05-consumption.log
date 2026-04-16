@@ -1,0 +1,6 @@
+[05] source feature: 54
+[05] first useSolid result: [ 98 ] maxLevel: 31
+[filewrite] files/05-consumption-first-use.json (64 bytes)
+[05] second useSolid result: [] maxLevel: 51
+[05] second useSolid messages: [{"api":"v1.solid.useSolid","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"SourceBox\" is not available. It has already been consumed/used in another operation."}]
+[filewrite] files/05-consumption-second-use.json (283 bytes)

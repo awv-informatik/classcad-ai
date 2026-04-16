@@ -1,0 +1,15 @@
+{
+  "result": {
+    "id": 6
+  },
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.common.load",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in GeometryImportManager.CreateNamedPoint:[CCVM::lcm: Function CreateNamedPoint not found]] "
+    }
+  ]
+}

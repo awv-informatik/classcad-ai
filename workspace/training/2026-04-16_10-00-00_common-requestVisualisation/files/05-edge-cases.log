@@ -1,0 +1,10 @@
+[05] empty ids: result: null maxLevel: 31
+[05] empty ids: graphic? false containers: undefined
+[05] bad ID 999999: result: null maxLevel: 51
+[05] bad ID: graphic? false containers: undefined
+[05] bad ID messages: [{"api":"v1.common.requestVisualisation","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.requestVisualisation","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[05] zero ID: result: null maxLevel: 51
+[05] zero ID: graphic? false containers: undefined
+[05] neg ID: ERROR: Timeout (30000ms): Execute
+[05] mixed: ERROR: Timeout (30000ms): Execute
+[05] no ids: ERROR: Timeout (30000ms): Execute

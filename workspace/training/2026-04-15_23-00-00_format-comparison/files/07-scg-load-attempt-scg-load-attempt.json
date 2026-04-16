@@ -1,0 +1,14 @@
+{
+  "saveSuccess": 1,
+  "loadResult": null,
+  "loadMaxLevel": 51,
+  "loadMessages": [
+    {
+      "api": "v1.common.load",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\",\"IWP\"]"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+[06] sphere: 60 → copy: 69
+[06] cylinder: 64 → copy: 72
+[06] cone: 67 → copy: 75
+[filewrite] files/06-copy-different-shapes-copy-ids.json (164 bytes)

@@ -1,0 +1,12 @@
+[06] partId: 4 eifId: 54 boxId: 61 wpId: 65 skId: 71
+[06] part target result: null maxLevel: 51
+[filewrite] files/06-target-types-target-part.json (275 bytes)
+[06] eif target result: null maxLevel: 31
+[06] solid ID target result: null maxLevel: 31
+[filewrite] files/06-target-types-target-solid.json (56 bytes)
+[06] workplane target result: null maxLevel: 51
+[filewrite] files/06-target-types-target-workplane.json (275 bytes)
+[06] sketch target result: null maxLevel: 51
+[filewrite] files/06-target-types-target-sketch.json (275 bytes)
+[06] invalid ID result: null maxLevel: 51
+[filewrite] files/06-target-types-target-invalid.json (437 bytes)

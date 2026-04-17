@@ -95,11 +95,16 @@ await api.v1.part.closeFeature({ id: boxId })
 |---|---|---|
 | Container | Part (feature tree) | Entity injection |
 | `id` param | Part ID | Entity injection ID |
-| Update API | `updateBox` (via open/close) | None |
-| Positioning | `references` (workCSys) | `translation`, `rotation` |
-| Expressions | `@expr.` syntax in dims | Not supported |
-| Feature tree | Yes — full parametric history | No — direct geometry |
-| Use when | Parametric modeling, design intent | Direct geometry manipulation |
+| ID type returned | feature | solid |
+| Update API | `updateBox` (via open/close) | None (use `solid.translation`/`rotation`/`scale`) |
+| Positioning | `references` (workCSys) | `translation`, `rotation`, `rotateFirst` |
+| Expressions | `@expr.` syntax in dims | ❌ strictly `real` only |
+| Boolean system | `part.boolean` (feature IDs only) | `solid.*` booleans (solid IDs only) |
+| Mass properties | Via part ID (feature ID rejected) | Via solid ID or part ID |
+| Feature tree | Yes — full parametric history | No — flat inside EIF |
+| Cross-paradigm | Cannot mix in booleans | Cannot mix in booleans |
+
+See `references/part/feature-vs-direct.md` for a comprehensive comparison.
 
 ## Related
 

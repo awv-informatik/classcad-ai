@@ -43,6 +43,8 @@ On error: returns null or a feature ID with maxLevel=51 (degenerate feature).
 - **Negative `limit2` reverses direction.** UP with limit2=-30 extrudes downward. DOWN with limit2=-30 extrudes upward. This is valid, not an error.
 - **Feature parameters are not readable via `getExpression`.** Calling `getExpression({ id: featureId, name: 'limit2' })` returns null. Feature params are internal, not named expressions.
 - **Extrusions are additive.** Each extrusion creates a separate body. For subtraction (holes, cuts), create the extrusion then use `part.boolean`.
+- **Taper + non-normal custom direction fails.** With CUSTOM type, taperAngle only works when the direction is perpendicular to the sketch plane. A diagonal direction like `[1,0,2]` with taperAngle > 0 errors: "Extrudedirection with taper angle is not normal to curves."
+- **Multiple regions = multiple bodies.** Passing multiple sketch region IDs in `references` creates multiple independent bodies from one feature.
 
 ## Common Errors
 
@@ -128,7 +130,7 @@ const extId5 = (await api.v1.part.extrusion({
 
 ## Related
 
-- `part.updateExtrusion` — modify after creation (requires `openFeature`/`closeFeature`)
+- [`part.updateExtrusion`](updateExtrusion.md) — modify after creation (requires `openFeature`/`closeFeature`)
 - `part.boolean` — combine extrusion with other features (union, subtraction, intersection)
 - `sketch.sketchRegion` — create the region reference
 - `sketch.rectangle` / `sketch.line` / `sketch.circle` — create contour elements for references

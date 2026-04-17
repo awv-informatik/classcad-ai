@@ -76,4 +76,4 @@ const empty = (await api.v1.common.getUserData({ id: partId, key: 'color' })).re
 - `common.setUserData` — write a key-value pair (silent no-op if key exists)
 - `common.removeUserData` — delete a single key (required before re-setting)
 - `common.clearUserData` — delete all keys from an object
-- `common.getUserDataKeys` — list all keys (lexicographic order)
+- `common.getUserDataKeys` — list all keys (hash map order, not predictable)

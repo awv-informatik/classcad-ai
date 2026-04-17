@@ -35,14 +35,14 @@ Both return VOID (null). Check `maxLevel` for errors. maxLevel 31 = success.
 - **Multiple updates OK.** You can call `update*` multiple times within a single open/close session. Each call takes effect. Only one `closeFeature` needed at the end.
 - **closeFeature auto-recalculates.** No need to call `recalc()` after closing — geometry is immediately up to date.
 - **Close without open is harmless.** Calling `closeFeature` on a feature that isn't open is a silent no-op (maxLevel 31).
-- **Match update type to feature type.** Calling `updateCylinder` on a box ID produces a cryptic internal error ("Index ausserhalb des Arraybereichs"). Always use the matching update method.
+- **Match update type to feature type.** Calling a mismatched update method (e.g., `updateBox` on a cylinder) may NOT error — shared param names (`height`, `name`, `references`) silently apply to the wrong feature type. Feature-type-specific params are silently ignored. Always use the matching update method to avoid unintended side effects.
 - **Expressions work in updates.** `@expr.` syntax works in `update*` calls just like in creation calls.
 
 ## Gotchas
 
 - Passing the **part ID** instead of the **feature ID** to `openFeature` is a common mistake. The error message is clear: it lists the accepted ID types.
 - Forgetting `closeFeature` leaves the gate locked. All subsequent feature operations will fail with "still an open feature" until you close.
-- Wrong `update*` type on a feature gives an unhelpful German error about array index bounds — not a clear "wrong type" message.
+- Wrong `update*` type on a feature does NOT always error — shared params (height, name, references) silently apply. Use the matching update method.
 
 ## Common Errors
 
@@ -51,7 +51,7 @@ Both return VOID (null). Check `maxLevel` for errors. maxLevel 31 = success.
 | "not allowed to update. It's not active and open" | `update*` without `openFeature` | Add `openFeature` before the update |
 | "still an open feature" | Second `openFeature` without closing first | Close the previous feature first |
 | "wrong id type" | Part ID passed to `openFeature` | Pass the feature ID, not the part ID |
-| "Index ausserhalb des Arraybereichs" | Wrong `update*` method for feature type | Use matching method (updateBox for box, etc.) |
+| (no error — silent success) | Wrong `update*` method for feature type | Shared params apply silently; use matching method |
 
 ## Working Example
 

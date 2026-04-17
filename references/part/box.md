@@ -33,7 +33,7 @@ Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what
 
 ## updateBox
 
-Updates an existing box feature's dimensions, name, or references.
+Updates an existing box feature's dimensions, name, or references. See `references/part/updateBox.md` for full details.
 
 **Requires the open/close pattern:**
 ```js
@@ -43,11 +43,13 @@ await api.v1.part.closeFeature({ id: boxId })
 ```
 
 - `id` — the **feature ID** returned by `part.box` (not the part ID)
+- Returns feature ID on success, null on failure (not VOID)
 - Omitted params keep their existing values (partial update)
-- Supports expression strings in dimension params
+- Multiple updateBox calls within a single open/close all apply
+- Supports `@expr.NAME` references and inline math in dimension params
 - Can add (`references: [wcsId]`) or remove (`references: []`) coordinate system placement
 - Geometry regenerates on `closeFeature` — no separate `recalc` needed
-- Without `openFeature`: returns null with error code 1200
+- Without `openFeature`: returns null with errors 1200 + 1004
 
 ## Expression-Driven Dimensions
 

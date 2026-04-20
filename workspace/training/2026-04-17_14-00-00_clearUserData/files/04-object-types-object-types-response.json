@@ -1,0 +1,32 @@
+{
+  "part": {
+    "setMaxLevel": 31,
+    "clearMaxLevel": 31,
+    "keysAfterClear": []
+  },
+  "eif": {
+    "setMaxLevel": 31,
+    "clearMaxLevel": 31,
+    "keysAfterClear": []
+  },
+  "workPlane": {
+    "setMaxLevel": 31,
+    "clearMaxLevel": 31,
+    "keysAfterClear": []
+  },
+  "sketch": {
+    "setMaxLevel": 31,
+    "clearMaxLevel": 31,
+    "keysAfterClear": []
+  },
+  "sketchLine": {
+    "setMaxLevel": 31,
+    "clearMaxLevel": 31,
+    "keysAfterClear": []
+  },
+  "solidBox": {
+    "setMaxLevel": 31,
+    "clearMaxLevel": 31,
+    "keysAfterClear": []
+  }
+}

@@ -1,0 +1,9 @@
+[14] mass for partId: ok maxLevel: 31
+[filewrite] files/14-mass-properties-correct-mass-part-id.json (200 bytes)
+[14] mass for solidId: ok maxLevel: 31
+[filewrite] files/14-mass-properties-correct-mass-solid-id.json (168 bytes)
+[14] mass for featId: null maxLevel: 51
+[filewrite] files/14-mass-properties-correct-mass-feat-id.json (322 bytes)
+[14] mass for eifId: null maxLevel: 51
+[filewrite] files/14-mass-properties-correct-mass-eif-id.json (322 bytes)
+[14] Expected: feat=192000, solid=125000, total=317000

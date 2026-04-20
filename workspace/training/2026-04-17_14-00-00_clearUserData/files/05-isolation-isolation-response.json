@@ -1,0 +1,16 @@
+{
+  "partKeysBefore": [
+    "color",
+    "material"
+  ],
+  "eifKeysBefore": [
+    "weight",
+    "material"
+  ],
+  "partKeysAfter": [],
+  "eifKeysAfter": [
+    "weight",
+    "material"
+  ],
+  "eifMaterialAfterPartClear": "aluminum"
+}

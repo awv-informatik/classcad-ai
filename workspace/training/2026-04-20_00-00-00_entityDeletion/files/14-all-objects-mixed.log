@@ -1,0 +1,3 @@
+[14] cyl: 54 box: 81 pattern: 126
+[14] mixed obj result: 344 maxLevel: 31
+[filewrite] files/14-all-objects-mixed-mixed-obj-response.json (55 bytes)

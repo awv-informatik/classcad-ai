@@ -1,0 +1,9 @@
+[05] tDiameter=0 result: 54 maxLevel: 51
+[05] tDiameter=0 msgs: [{"api":"v1.part.cone","code":1122,"level":51,"levelStr":"ERROR","message":"Top diameter not valid for TDZero (CC_Cone). Value for top diameter must be greater than 0."}]
+[05] bDiameter=0 result: 64 maxLevel: 51
+[05] bDiameter=0 msgs: [{"api":"v1.part.cone","code":1122,"level":51,"levelStr":"ERROR","message":"Bottom Diameter not valid for BDZero (CC_Cone). Value for bottom diameter must be greater than 0."}]
+[05] height=0 result: 74 maxLevel: 51
+[05] height=0 msgs: [{"api":"v1.part.cone","code":1122,"level":51,"levelStr":"ERROR","message":"Height not valid for HZero (CC_Cone). Value for height must be greater than 0."}]
+[05] negative bD result: 84 maxLevel: 51
+[05] negative bD msgs: [{"api":"v1.part.cone","code":1122,"level":51,"levelStr":"ERROR","message":"Bottom Diameter not valid for Neg (CC_Cone). Value for bottom diameter must be greater than 0."}]
+[filewrite] files/05-zero-negative-dims-edge-dims-response.json (1248 bytes)

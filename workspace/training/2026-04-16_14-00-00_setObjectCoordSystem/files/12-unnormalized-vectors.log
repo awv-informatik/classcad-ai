@@ -1,0 +1,6 @@
+[12] partId: 4 eifId: 54 boxId: 61 sphId: 63
+[filewrite] files/12-unnormalized-vectors-step-before.txt (20160 bytes)
+[12] unnormalized result: null maxLevel: 31
+[filewrite] files/12-unnormalized-vectors-response.json (56 bytes)
+[filewrite] files/12-unnormalized-vectors-step-after.txt (20160 bytes)
+[12] STEP files differ: false

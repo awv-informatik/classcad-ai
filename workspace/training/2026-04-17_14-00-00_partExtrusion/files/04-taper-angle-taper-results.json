@@ -1,0 +1,22 @@
+{
+  "noTaper": {
+    "result": 96,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "taper10": {
+    "result": 181,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "taper30": {
+    "result": 266,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "taperNeg": {
+    "result": 343,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

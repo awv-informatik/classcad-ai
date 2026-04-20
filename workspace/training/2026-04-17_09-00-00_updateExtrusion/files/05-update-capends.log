@@ -1,0 +1,7 @@
+[05] extId: 96
+[05] capEnds=0: 96 maxLevel: 31
+[filewrite] files/05-update-capends-sheet-response.json (54 bytes)
+[05] capEnds=1: 96 maxLevel: 31
+[filewrite] files/05-update-capends-solid-again-response.json (54 bytes)
+[05] capEnds=TRUE (string): null maxLevel: 51
+[filewrite] files/05-update-capends-string-true-response.json (273 bytes)

@@ -1,0 +1,4 @@
+[13] wpId: 54
+[13] box with WP ref - result: null maxLevel: 51
+[13] messages: [{"api":"v1.part.box","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]"}]
+[filewrite] files/13-references-workplane-wp-ref-response.json (282 bytes)

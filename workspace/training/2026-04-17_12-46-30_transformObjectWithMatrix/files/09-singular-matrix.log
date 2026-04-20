@@ -1,0 +1,9 @@
+[09] zero matrix - result: null maxLevel: 51
+[09] zero matrix messages: [{"api":"v1.common.transformObjectWithMatrix","code":1014,"level":51,"levelStr":"ERROR","message":"The provided matrix is left-handed. This is not yet supported"}]
+[filewrite] files/09-singular-matrix-zero-matrix-response.json (270 bytes)
+[09] projection matrix - result: null maxLevel: 51
+[09] projection messages: [{"api":"v1.common.transformObjectWithMatrix","code":1014,"level":51,"levelStr":"ERROR","message":"The provided matrix is left-handed. This is not yet supported"}]
+[filewrite] files/09-singular-matrix-projection-matrix-response.json (270 bytes)
+[09] bad bottom row - result: null maxLevel: 51
+[09] bad bottom row messages: [{"api":"v1.common.transformObjectWithMatrix","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CommonAPI_v1.transformObjectWithMatrix::PROC:Matrix kann nicht invertiert werden\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericVectorMath.cpp,     Line: 244\nFunction: CADH_TransformWith\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericVectorMath.cpp,     Line: 244] "}]
+[filewrite] files/09-singular-matrix-bad-bottom-row-response.json (543 bytes)

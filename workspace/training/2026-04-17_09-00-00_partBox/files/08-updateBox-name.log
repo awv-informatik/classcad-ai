@@ -1,0 +1,5 @@
+[08] boxId: 54
+[filewrite] files/08-updateBox-name-structure-before.json (21147 bytes)
+[08] rename result: 54 maxLevel: 31
+[filewrite] files/08-updateBox-name-rename-response.json (54 bytes)
+[filewrite] files/08-updateBox-name-structure-after.json (21147 bytes)

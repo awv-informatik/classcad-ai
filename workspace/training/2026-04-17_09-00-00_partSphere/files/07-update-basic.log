@@ -1,0 +1,4 @@
+[07] sphereId: 91
+[filewrite] files/07-update-basic-graphic-before.json (4 bytes)
+[07] updateSphere result: 91 maxLevel: 31
+[filewrite] files/07-update-basic-update-response.json (54 bytes)

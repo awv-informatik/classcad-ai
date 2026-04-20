@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.part.boolean",
+      "code": 1004,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The type \"0\" is not supported in PrepareAPIParams!"
+    }
+  ]
+}

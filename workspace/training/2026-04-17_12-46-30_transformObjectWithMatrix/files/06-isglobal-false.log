@@ -1,0 +1,4 @@
+[filewrite] files/06-isglobal-false-step-after-global.txt (17817 bytes)
+[06] isGlobal=false result: null maxLevel: 31
+[filewrite] files/06-isglobal-false-isglobal-false-response.json (56 bytes)
+[filewrite] files/06-isglobal-false-step-after-local.txt (17789 bytes)

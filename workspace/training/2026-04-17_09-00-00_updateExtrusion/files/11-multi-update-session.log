@@ -1,0 +1,5 @@
+[11] extId: 96
+[11] update limit2: 96 maxLevel: 31
+[11] update taper: 96 maxLevel: 31
+[11] update name: 96 maxLevel: 31
+[filewrite] files/11-multi-update-session-multi-updates.json (173 bytes)

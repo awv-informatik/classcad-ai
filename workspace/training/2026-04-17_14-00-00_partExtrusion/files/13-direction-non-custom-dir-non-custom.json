@@ -1,0 +1,22 @@
+{
+  "upWithDir": {
+    "result": 96,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "downWithDir": {
+    "result": 181,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "upNeg": {
+    "result": 266,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "downNeg": {
+    "result": 351,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

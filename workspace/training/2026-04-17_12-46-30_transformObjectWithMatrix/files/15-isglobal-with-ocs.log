@@ -1,0 +1,5 @@
+[filewrite] files/15-isglobal-with-ocs-step-after-ocs.txt (17826 bytes)
+[15] global translate - maxLevel: 31
+[filewrite] files/15-isglobal-with-ocs-step-after-global-translate.txt (17798 bytes)
+[15] local translate - maxLevel: 31
+[filewrite] files/15-isglobal-with-ocs-step-after-local-translate.txt (17798 bytes)

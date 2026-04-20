@@ -1,0 +1,7 @@
+[03] boxId: 54 cylId: 91 sheetId: 150
+[03] sliceBySheet result: 260 maxLevel: 31
+[03] messages: []
+[filewrite] files/03-clean-slice-response.json (55 bytes)
+[03] can still create features: 31
+[03] boolean with sliceId+cylId result: 400 maxLevel: 51
+[03] boolean msgs: [{"api":"v1.part.boolean","code":1121,"level":51,"levelStr":"ERROR","message":"The body used for Union (CC_Union) is a Sheet, please select a solid."}]

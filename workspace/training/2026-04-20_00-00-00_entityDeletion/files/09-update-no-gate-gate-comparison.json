@@ -1,0 +1,27 @@
+{
+  "noGate": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateEntityDeletion",
+        "code": 1200,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided feature is not allowed to update. It's not active and open."
+      },
+      {
+        "api": "v1.part.updateEntityDeletion",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  "withGate": {
+    "result": 136,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

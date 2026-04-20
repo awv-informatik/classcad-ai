@@ -1,0 +1,3 @@
+[17] before bD: 60 tD: 10 h: 80
+[17] after bD: 60 tD: 10 h: 200
+[filewrite] files/17-verify-partial-update-partial-verify.json (158 bytes)

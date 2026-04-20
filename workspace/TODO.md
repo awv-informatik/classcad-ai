@@ -500,3 +500,136 @@ Collected from all training journals. Ordered by severity.
 - **Error:** angleTol values like 0.1, 0.5, 0.9 are rejected (maxLevel=51) but the error message is generic, not explaining the minimum threshold.
 - **Trigger:** `setFacetingParameters({ angleTol: 0.5, chordHeightTol: 0.1 })`.
 - **Workaround:** Use angleTol=0 (disabled) or angleTol >= 1.0.
+
+### 74. ⚠️ `common.transformObjectWithMatrix` — shear matrices silently auto-corrected
+
+- **Session:** `2026-04-17_12-46-30_transformObjectWithMatrix` (journal entry 08)
+- **Error:** Non-orthogonal (shear) matrix reports ERROR level 51: "Transformationmatrix of this object has been set to be uniformed scaled and orthogonal" — but geometry DOES change to the corrected (orthogonalized) matrix.
+- **Trigger:** Any matrix with non-perpendicular columns (e.g., `[[1,0.5,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]`).
+- **Workaround:** Only use orthogonal matrices. Check `maxLevel` after call.
+
+### 75. ⚠️ `common.transformObjectWithMatrix` — `isGlobal: FALSE` has no effect on standalone objects
+
+- **Session:** `2026-04-17_12-46-30_transformObjectWithMatrix` (journal entries 06, 15, 16)
+- **Error:** `isGlobal: FALSE` produces identical results to `isGlobal: TRUE` on solid bodies, EIFs, and features — even after explicitly setting OCS via `setObjectCoordSystem`.
+- **Trigger:** Using `isGlobal: false` on any non-assembly object.
+- **Workaround:** Ignore `isGlobal` for standalone objects. May only work in assembly context.
+
+### 76. 💀 `common.setUserData` — negative ID hangs server
+
+- **Session:** `2026-04-17_12-00-00_setUserData` (journal entry 07)
+- **Error:** ❌ 100% CPU hang, no response. `kill -9` required.
+- **Trigger:** `setUserData({ id: -1, key: 'test', value: 'val' })`
+- **Recovery:** `kill -9` and restart worker.
+
+### 77. ⚠️ `common.setUserData` — overwrite is a silent no-op
+
+- **Session:** `2026-04-17_12-00-00_setUserData` (journal entries 02, 05)
+- **Error:** Calling `setUserData` on a key that already exists does nothing — returns `maxLevel: 31` (success) but value is unchanged. No error or warning.
+- **Trigger:** `setUserData` with a key that was already set.
+- **Workaround:** `removeUserData` first, then `setUserData`.
+
+### 78. ⚠️ `common.setUserData` — user data not persisted in OFB save/load
+
+- **Session:** `2026-04-17_12-00-00_setUserData` (journal entry 08)
+- **Error:** All user data is lost after save → clear → load cycle. Not documented.
+- **Trigger:** Any save/load cycle.
+- **Workaround:** Re-set user data after loading.
+
+### 79. ⚠️ `part.box` — zero/negative dimensions create degenerate feature
+
+- **Session:** `2026-04-17_09-00-00_partBox` (journal entry 10)
+- **Error:** `part.box` with length=0, height=-30, or all-zero dimensions returns a feature ID (not null) with maxLevel 51 (ERROR), code 1122. The feature exists in the tree but has no valid geometry — a degenerate/broken feature node.
+- **Trigger:** Any dimension <= 0.
+- **Workaround:** Always validate dimensions > 0 before calling.
+
+### 80. ⚠️ `part.updateBox` on wrong feature type — silent success
+
+- **Session:** `2026-04-17_00-00-00_updateBox` (journal entry 13, 15)
+- **Error:** Calling `updateBox` on a cylinder feature does NOT error. Returns feature ID with maxLevel 31 (success). Shared param names (`height`, `name`, `references`) actually apply to the cylinder. Box-specific params (`length`, `width`) are silently ignored. The cylinder's height was visually confirmed to change.
+- **Trigger:** `updateBox({ id: cylinderFeatureId, height: 200 })` on a cylinder feature.
+- **Workaround:** Always use the matching update method (`updateCylinder` for cylinders, etc.).
+
+### 81. ⚠️ `part.extrusion` — `capEnds` rejects string booleans
+
+- **Session:** `2026-04-17_14-00-00_partExtrusion` (journal entry 05)
+- **Error:** `capEnds: 'TRUE'` or `capEnds: 'FALSE'` returns maxLevel=51: "The parameter 'capEnds' has the wrong type! It should be of type (boolean)". Other APIs may have the same issue with string-encoded booleans.
+- **Trigger:** Passing string `'TRUE'`/`'FALSE'` instead of integer `1`/`0`.
+- **Workaround:** Always use integer booleans (1 or 0) for ClassCAD boolean parameters.
+
+### 82. ⚠️ `part.extrusion` — missing `planeId` on sketch produces internal error
+
+- **Session:** `2026-04-17_14-00-00_partExtrusion` (journal entry 01)
+- **Error:** Extrusion from a sketch created without `planeId` returns maxLevel=51 with internal error: `Sketch.GetNormal:CCObject can not be opened` (leaks internal C++ path). Geometry IS still created despite the error.
+- **Trigger:** `sketch.create({ id: partId })` (no planeId) → `part.extrusion({ references: [regionId] })`.
+- **Workaround:** Always pass `planeId` to `sketch.create`.
+
+### 83. 🕳️ `part.extrusion` — empty `references: []` creates broken feature silently
+
+- **Session:** `2026-04-17_14-00-00_partExtrusion` (journal entry 12)
+- **Error:** Returns a feature ID (not null) with maxLevel=51: "Nothing was selected". A degenerate feature node exists in the tree but has no geometry.
+- **Trigger:** `extrusion({ id: partId, references: [], limit2: 40 })`.
+- **Workaround:** Validate references array is non-empty before calling.
+
+### 84. ⚠️ `part.revolve` — cross-part revolve fails with misleading error
+
+- **Session:** `2026-04-17_08-00-00_revolve` (journal entries 16-17)
+- **Error:** Creating revolve features in two different parts within the same drawing session fails. Second `part.revolve` returns null, maxLevel=51, error 1004: `"id" must be provided to create CC_Revolve"`. The id IS provided — error message is misleading.
+- **Trigger:** Create part A → revolve in A → create part B → revolve in B.
+- **Workaround:** Multiple revolves in the same part work fine. For cross-part revolves, clear the drawing between parts.
+
+### 85. ⚠️ `part.revolve` — `inverted` rejects JS boolean and string boolean
+
+- **Session:** `2026-04-17_08-00-00_revolve` (journal entries 05-06)
+- **Error:** `inverted: true` (JS boolean) and `inverted: 'TRUE'` (string) both fail with error 1004: `"id" must be provided to create CC_Revolve"`. Same misleading error as cross-part bug.
+- **Trigger:** Using anything other than integer 1/0 for `inverted` parameter.
+- **Workaround:** Use `inverted: 1` or `inverted: 0`.
+
+### 86. ⚠️ `part.revolve` — profile crossing axis creates degenerate feature
+
+- **Session:** `2026-04-17_08-00-00_revolve` (journal entry 14)
+- **Error:** Profile extending across the revolve axis returns a feature ID (94) but maxLevel=51: "The brep elements of at least one face are not well defined. Brep reference attribute is missing."
+- **Trigger:** Rectangle from [-10,0,0] to [40,30,0] revolved around YAxis (axis at x=0).
+- **Workaround:** Keep the profile entirely on one side of the revolve axis.
+
+### 87. 📖 `part.updateRevolve` — @expr. binding does not create live link
+
+- **Session:** `2026-04-18_08-00-00_updateRevolve` (journal entries 14-15)
+- **Error:** Using `@expr.ANG` in `updateRevolve({ endAngle: '@expr.ANG' })` bakes the current value at update time. Subsequent `updateExpression` changes the expression value but does NOT recalc the revolve geometry. In contrast, using `@expr.ANG` at creation time in `revolve({ endAngle: '@expr.ANG' })` DOES create a live link that auto-recalcs.
+- **Trigger:** Set @expr. binding via updateRevolve (not at creation time), then change expression value.
+- **Workaround:** Use `linkWithExpression` for live binding after creation, or set @expr. at creation time.
+
+### 88. 📖 `part.updateBoolean` — misleading error when new tool created after boolean
+
+- **Session:** `2026-04-18_00-00-00_updateBoolean` (journal entry 15)
+- **Error:** Swapping tools to a feature created AFTER the boolean returns error code 1014: "Entity \"Slot\" is not available. It has already been consumed/used in another operation." The real issue is `openFeature` rolls back the design tree, so the feature doesn't exist yet — not "consumed."
+- **Trigger:** Create feature B after boolean A, then `openFeature(A)` → `updateBoolean({ tools: [B] })`.
+- **Workaround:** Create replacement tools/targets BEFORE the boolean in the design tree.
+
+### 89. 📖 `part.slice` — `reference` parameter marked optional but is required
+
+- **Session:** `2026-04-18_00-00-00_partSlice` (journal entry 11)
+- **Error:** Omitting the `reference` parameter returns error code 1004: "The parameter \"reference\" must be provided in the api call!" despite the API docs marking it as optional with `(default=xy)`.
+- **Trigger:** Call `part.slice` without `reference`.
+- **Workaround:** Always provide a work plane ID for `reference`.
+
+### 90. ⚠️ `part.sliceBySheet` — Top (XY) plane sheet produces CC_Sheet instead of CC_Solid
+
+- **Session:** `2026-04-20_00-00-00_sliceBySheet` (journal entries 02–08)
+- **Error:** When the sheet tool is created by extruding from the Top (XY) plane, sliceBySheet produces a CC_Sheet body instead of a CC_Solid. The solid target is consumed but the result is an unusable sheet. Boolean operations on the result fail: "The body used for Union (CC_Union) is a Sheet, please select a solid."
+- **Trigger:** Create sheet via `part.extrusion` with `capEnds: 0` on the Top (XY) plane, then use it in `sliceBySheet`.
+- **Workaround:** Create the sheet from the Front (XZ) or Right (YZ) plane instead.
+
+### 91. ⚠️ `part.sliceBySheet` — `inverted` rejects JS boolean and string boolean
+
+- **Session:** `2026-04-20_00-00-00_sliceBySheet` (journal entries 09–11)
+- **Error:** Passing `inverted: true` or `inverted: 'TRUE'` fails with misleading error: `"\"id\" must be provided to create CC_SliceBySheet"` (code 1004). Only integer 0/1 works.
+- **Trigger:** `sliceBySheet({ ..., inverted: true })` or `inverted: 'TRUE'`.
+- **Workaround:** Use `inverted: 0` or `inverted: 1`.
+
+### 92. 📖 `part.entityDeletion` — renderer shows stale geometry after deletion
+
+- **Session:** `2026-04-20_00-00-00_entityDeletion` (journal entries 04, 06)
+- **Error:** PNG snapshots taken after entityDeletion (targeting a pattern with plain ID or `{ id }`) still show the deleted bodies. STEP export correctly shows 0 bodies.
+- **Trigger:** `entityDeletion({ targets: [patternId] })` or `{ id: patternId }` without indices, followed by `snapshot()`.
+- **Workaround:** Use STEP body count (`MANIFOLD_SOLID_BREP` count) as ground truth instead of PNG snapshots.

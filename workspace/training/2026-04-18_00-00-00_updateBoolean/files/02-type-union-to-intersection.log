@@ -1,0 +1,3 @@
+[02] boolean created: 128 type: UNION
+[02] updateBoolean result: 128 maxLevel: 31
+[filewrite] files/02-type-union-to-intersection-intersection-response.json (55 bytes)

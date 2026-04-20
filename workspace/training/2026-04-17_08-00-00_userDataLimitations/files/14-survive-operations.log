@@ -1,0 +1,6 @@
+[14] after recalc: original
+[14] after rename: original
+[14] after expression update: important
+[14] after adding second box: original
+[14] before delete box2: willBeDeleted
+[stderr] [run] Script error: api.v1.common.deleteObject is not a function

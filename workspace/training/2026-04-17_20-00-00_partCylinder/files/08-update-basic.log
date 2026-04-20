@@ -1,0 +1,4 @@
+[08] cylId: 91
+[08] updateCylinder result: 91 maxLevel: 31
+[08] updateCylinder msgs: []
+[filewrite] files/08-update-basic-update-response.json (54 bytes)

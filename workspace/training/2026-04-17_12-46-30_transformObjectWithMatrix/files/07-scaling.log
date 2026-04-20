@@ -1,0 +1,4 @@
+[filewrite] files/07-scaling-step-before.txt (17814 bytes)
+[07] scale result: null maxLevel: 31
+[filewrite] files/07-scaling-scale-response.json (56 bytes)
+[filewrite] files/07-scaling-step-after.txt (17814 bytes)

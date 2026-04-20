@@ -1,0 +1,6 @@
+[09] size=100: set maxLevel=31, get length=100, match=true
+[09] size=1000: set maxLevel=31, get length=1000, match=true
+[09] size=10000: set maxLevel=31, get length=10000, match=true
+[09] size=50000: set maxLevel=31, get length=50000, match=true
+[09] JSON roundtrip match: true
+[filewrite] files/09-large-values-large-values.json (572 bytes)

@@ -1,0 +1,5 @@
+[03] box: 54
+[03] workAxis: 91
+[03] pattern: 99
+[03] entityDeletion result: 364 maxLevel: 31
+[filewrite] files/03-pattern-indices-pattern-deletion-response.json (55 bytes)

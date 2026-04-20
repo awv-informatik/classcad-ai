@@ -1,0 +1,36 @@
+{
+  "noDefault": {
+    "result": "",
+    "maxLevel": 31,
+    "messages": []
+  },
+  "withDefault": {
+    "result": "fallback",
+    "maxLevel": 31
+  },
+  "emptyDefault": {
+    "result": "",
+    "maxLevel": 31
+  },
+  "removeNonExistent": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "clearEmpty": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "keysEmpty": [],
+  "numericKey": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setUserData",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"key\" has the wrong type! It should be of type (string)"
+      }
+    ]
+  }
+}

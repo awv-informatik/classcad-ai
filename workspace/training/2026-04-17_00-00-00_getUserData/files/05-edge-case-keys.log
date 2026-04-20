@@ -1,0 +1,8 @@
+[05] empty-key: set maxLevel=31, get result="empty", get maxLevel=31
+[05] spaces: set maxLevel=31, get result="padded", get maxLevel=31
+[05] unicode: set maxLevel=31, get result="unicode-val", get maxLevel=31
+[05] emoji: set maxLevel=31, get result="wrench", get maxLevel=31
+[05] special-chars: set maxLevel=31, get result="special", get maxLevel=31
+[05] long-key: set maxLevel=31, get result="long", get maxLevel=31
+[05] newline-key: set maxLevel=31, get result="newlined", get maxLevel=31
+[filewrite] files/05-edge-case-keys-edge-case-keys.json (808 bytes)

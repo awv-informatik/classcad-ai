@@ -1,0 +1,4 @@
+[03] wcsId: 54
+[03] sphere at origin: 62 maxLevel: 31
+[03] sphere at WCS: 77 maxLevel: 31
+[filewrite] files/03-references-workcsys-references-response.json (135 bytes)

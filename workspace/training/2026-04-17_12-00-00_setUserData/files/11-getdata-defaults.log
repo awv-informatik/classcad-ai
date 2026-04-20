@@ -1,0 +1,6 @@
+[11] no default — result: "" type: string maxLevel: 31
+[11] with default — result: "fallback" type: string
+[11] empty default — result: "" type: string
+[11] case sensitive? "material": "WRONG_CASE" "Material": "steel"
+[11] keys on empty: [] maxLevel: 31
+[filewrite] files/11-getdata-defaults-defaults.json (293 bytes)

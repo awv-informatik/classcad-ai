@@ -1,0 +1,8 @@
+[09] partId: 4
+[09] wpId: 54 waId: 62 wptId: 70
+[09] on workPlane result: null maxLevel: 31
+[filewrite] files/09-on-work-geometry-wp-response.json (56 bytes)
+[09] on workAxis result: null maxLevel: 31
+[filewrite] files/09-on-work-geometry-wa-response.json (56 bytes)
+[09] on workPoint result: null maxLevel: 31
+[filewrite] files/09-on-work-geometry-wpt-response.json (56 bytes)

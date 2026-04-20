@@ -1,0 +1,15 @@
+[06] partId1: 4 partId2: null
+[06] setUserData key10 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key9 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key8 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key7 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key6 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key5 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key4 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key3 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key2 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] setUserData key1 on part2 FAILED: 51 [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[06] part1 keys: ["b","a"] maxLevel: 31
+[06] part2 keys: null maxLevel: 51
+[06] part2 null? true
+[filewrite] files/06-two-parts-two-parts.json (409 bytes)

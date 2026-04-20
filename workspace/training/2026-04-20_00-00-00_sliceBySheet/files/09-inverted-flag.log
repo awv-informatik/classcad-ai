@@ -1,0 +1,6 @@
+[09] inv=0: result: 260 maxLevel: 31
+[filewrite] files/09-inverted-flag-inv0-response.json (55 bytes)
+[09] inv=1: result: null maxLevel: 51
+[filewrite] files/09-inverted-flag-inv1-response.json (243 bytes)
+[09] inv=0 body: CC_Solid
+[09] inv=1 body: CC_Solid

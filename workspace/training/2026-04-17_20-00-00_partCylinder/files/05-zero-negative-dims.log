@@ -1,0 +1,12 @@
+[05] zero diameter result: 54 maxLevel: 51
+[05] zero diameter msgs: [{"api":"v1.part.cylinder","code":1122,"level":51,"levelStr":"ERROR","message":"Diameter not valid for ZeroDiam (CC_Cylinder). Value for diameter must be greater than 0."}]
+[filewrite] files/05-zero-negative-dims-zero-diameter.json (277 bytes)
+[05] neg diameter result: 64 maxLevel: 51
+[05] neg diameter msgs: [{"api":"v1.part.cylinder","code":1122,"level":51,"levelStr":"ERROR","message":"Diameter not valid for NegDiam (CC_Cylinder). Value for diameter must be greater than 0."}]
+[filewrite] files/05-zero-negative-dims-neg-diameter.json (276 bytes)
+[05] zero height result: 74 maxLevel: 51
+[05] zero height msgs: [{"api":"v1.part.cylinder","code":1122,"level":51,"levelStr":"ERROR","message":"Height not valid for ZeroHeight (CC_Cylinder). Value for height must be greater than 0."}]
+[filewrite] files/05-zero-negative-dims-zero-height.json (275 bytes)
+[05] neg height result: 84 maxLevel: 51
+[05] neg height msgs: [{"api":"v1.part.cylinder","code":1122,"level":51,"levelStr":"ERROR","message":"Height not valid for NegHeight (CC_Cylinder). Value for height must be greater than 0."}]
+[filewrite] files/05-zero-negative-dims-neg-height.json (274 bytes)

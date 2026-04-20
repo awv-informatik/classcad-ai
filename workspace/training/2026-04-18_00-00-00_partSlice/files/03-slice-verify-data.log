@@ -1,0 +1,8 @@
+[03] boxId: 54
+[03] refId: 91
+[filewrite] files/03-slice-verify-data-graphic-box.json (10828 bytes)
+[03] sliceId: 148 maxLevel: 31
+[filewrite] files/03-slice-verify-data-graphic-after-slice.json (10904 bytes)
+[03] box height expression: {"expression":"","value":null}
+[03] slice height expression: {"expression":"","value":null}
+[03] box length (check consumed): {"expression":"","value":null} maxLevel: 31

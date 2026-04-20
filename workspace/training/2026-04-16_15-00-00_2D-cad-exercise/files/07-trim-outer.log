@@ -1,0 +1,7 @@
+[07] splitAllCurves returned 55 ids
+[filewrite] files/07-trim-outer-split-result.json (703 bytes)
+[07] trim 30 segments, keep 25
+[filewrite] files/07-trim-outer-classification.json (3371 bytes)
+[07] trimCurves maxLevel: 31 msg: 
+[07] mergeBack maxLevel: 31
+[filewrite] files/07-trim-outer-geometry-final.json (144 bytes)

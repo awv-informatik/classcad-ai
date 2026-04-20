@@ -1,0 +1,7 @@
+[01] boxId: 54
+[01] openFeature maxLevel: 31
+[01] updateBox result: 54 maxLevel: 31
+[filewrite] files/01-basic-dimension-update-update-response.json (54 bytes)
+[01] closeFeature maxLevel: 31
+[01] after update — length: null width: null height: null
+[filewrite] files/01-basic-dimension-update-dims-after.json (55 bytes)

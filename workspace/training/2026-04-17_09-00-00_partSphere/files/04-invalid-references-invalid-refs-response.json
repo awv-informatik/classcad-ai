@@ -1,0 +1,41 @@
+{
+  "workPlane": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.part.sphere",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "workAxis": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.part.sphere",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "workPoint": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.part.sphere",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

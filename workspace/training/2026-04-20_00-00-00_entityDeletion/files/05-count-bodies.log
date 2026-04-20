@@ -1,0 +1,5 @@
+[05] box: 54 pattern: 99
+[05] bodies before: no graphic
+[05] del plain ID result: 197 maxLevel: 31
+[05] bodies after plain ID deletion: no graphic
+[filewrite] files/05-count-bodies-plain-id-result.json (125 bytes)

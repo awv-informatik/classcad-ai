@@ -1,0 +1,12 @@
+{
+  "count": "42",
+  "pi": "3.14159",
+  "flag": "true",
+  "json": "{\"nested\":true,\"count\":42}",
+  "allKeys": [
+    "json",
+    "flag",
+    "pi",
+    "count"
+  ]
+}

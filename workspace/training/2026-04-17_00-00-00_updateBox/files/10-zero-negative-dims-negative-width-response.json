@@ -1,0 +1,20 @@
+{
+  "result": 54,
+  "messages": [
+    {
+      "api": "v1.part.updateBox",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Height not valid for Box (CC_Box). Value for height must be greater than 0."
+    },
+    {
+      "api": "v1.part.updateBox",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Width not valid for Box (CC_Box). Value for width must be greater than 0."
+    }
+  ],
+  "maxLevel": 51
+}

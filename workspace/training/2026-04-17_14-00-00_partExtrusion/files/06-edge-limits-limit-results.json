@@ -1,0 +1,35 @@
+{
+  "zero": {
+    "result": 96,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.extrusion",
+        "code": 1122,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Height not valid. Value for height must be greater than 0 for Lim0 (CC_Extrusion)."
+      }
+    ]
+  },
+  "negative": {
+    "result": 154,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "inverted": {
+    "result": 239,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "tiny": {
+    "result": 324,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "default": {
+    "result": 409,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

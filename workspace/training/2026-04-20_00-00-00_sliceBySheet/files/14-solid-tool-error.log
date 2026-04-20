@@ -1,0 +1,3 @@
+[14] solid tool: result: 110 maxLevel: 51
+[14] msgs: ["The solid selected as sheet body used for SliceBySheet (CC_SliceBySheet) is not a sheet"]
+[filewrite] files/14-solid-tool-error-solid-tool-response.json (280 bytes)

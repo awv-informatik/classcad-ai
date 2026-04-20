@@ -1,0 +1,10 @@
+[08] partId: 4 eifId: 54 boxId: 61
+[08] zero xVec result: null maxLevel: 51
+[08] zero xVec messages: [{"api":"v1.common.setObjectCoordSystem","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CommonAPI_v1.setObjectCoordSystem::PROC:Vectors for SetCoordSystem may not have length 0\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300\nFunction: OBJ_SetCoordSystem\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300] "}]
+[filewrite] files/08-zero-vectors-zero-xvec-response.json (538 bytes)
+[08] zero yVec result: null maxLevel: 51
+[08] zero yVec messages: [{"api":"v1.common.setObjectCoordSystem","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CommonAPI_v1.setObjectCoordSystem::PROC:Vectors for SetCoordSystem may not have length 0\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300\nFunction: OBJ_SetCoordSystem\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300] "}]
+[filewrite] files/08-zero-vectors-zero-yvec-response.json (538 bytes)
+[08] both zero result: null maxLevel: 51
+[08] both zero messages: [{"api":"v1.common.setObjectCoordSystem","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CommonAPI_v1.setObjectCoordSystem::PROC:Vectors for SetCoordSystem may not have length 0\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300\nFunction: OBJ_SetCoordSystem\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300] "}]
+[filewrite] files/08-zero-vectors-both-zero-response.json (538 bytes)

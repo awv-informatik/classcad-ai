@@ -1,0 +1,7 @@
+[08] region1 (rect): 92
+[08] region2 (circle): 97
+[08] extId: 101
+[08] update refs to circle: 101 maxLevel: 31
+[filewrite] files/08-update-references-refs-circle-response.json (55 bytes)
+[08] update refs to both: 101 maxLevel: 31
+[filewrite] files/08-update-references-refs-both-response.json (55 bytes)

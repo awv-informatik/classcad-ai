@@ -1,0 +1,5 @@
+[06] nonexistent id=9999: result= null maxLevel= 51
+[06] id=0: result= null maxLevel= 51
+[06] never-set key: result= "" maxLevel= 31
+[06] no key param: result= null maxLevel= 51
+[filewrite] files/06-error-cases-error-cases.json (24024 bytes)

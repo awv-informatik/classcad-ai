@@ -1,0 +1,9 @@
+[03] boxId: 61 maxLevel: 31
+[03] original box keys: [ 'weight', 'color', 'material' ]
+[03] copyId: 63 maxLevel: 31
+[03] copy keys: []
+[03] copy material: NOT_FOUND
+[03] copy color: NOT_FOUND
+[03] copy weight: NOT_FOUND
+[03] original material still: steel
+[filewrite] files/03-copy-not-preserved-copy-results.json (258 bytes)

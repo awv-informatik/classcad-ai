@@ -1,0 +1,22 @@
+{
+  "UP": {
+    "result": 216,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "DOWN": {
+    "result": 261,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "SYMMETRIC": {
+    "result": 306,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CUSTOM": {
+    "result": 351,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

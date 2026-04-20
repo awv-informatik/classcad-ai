@@ -1,0 +1,6 @@
+[09] expression angle: 100 maxLevel: 31
+[09] messages: []
+[filewrite] files/09-expression-angles-expression-angle-response.json (55 bytes)
+[09] inline expr: null maxLevel: 51
+[09] inline msgs: [{"api":"v1.part.revolve","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_Revolve"}]
+[filewrite] files/09-expression-angles-expression-comparison.json (124 bytes)

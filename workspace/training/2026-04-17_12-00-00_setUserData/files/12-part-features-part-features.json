@@ -1,0 +1,14 @@
+{
+  "boxFeature": {
+    "id": 54,
+    "value": "box"
+  },
+  "extrusion": {
+    "id": 102,
+    "value": "hole"
+  },
+  "workPlane": {
+    "id": 126,
+    "value": "reference"
+  }
+}

@@ -1,0 +1,4 @@
+[10] initial chamferId: 120
+[10] update to TWO_DISTANCES: 120 maxLevel: 31
+[10] update to DISTANCE_ANGLE: 120 maxLevel: 31
+[filewrite] files/10-update-type-update-results.json (160 bytes)

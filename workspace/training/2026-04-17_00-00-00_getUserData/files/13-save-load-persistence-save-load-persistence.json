@@ -1,0 +1,6 @@
+{
+  "beforeClear": "hello",
+  "newPartId": 4,
+  "afterLoad": "__LOST__",
+  "dataPersisted": false
+}

@@ -1,0 +1,13 @@
+{
+  "result": 94,
+  "messages": [
+    {
+      "api": "v1.part.revolve",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The brep elements of at least one face are not well defined. Brep reference attribute is missing."
+    }
+  ],
+  "maxLevel": 51
+}

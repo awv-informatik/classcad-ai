@@ -1,0 +1,6 @@
+[02] extId: 96
+[02] refBox: 141
+[02] update to DOWN: 96 maxLevel: 31
+[filewrite] files/02-update-type-down-down-response.json (54 bytes)
+[02] update to SYMMETRIC: 96 maxLevel: 31
+[filewrite] files/02-update-type-down-symmetric-response.json (54 bytes)

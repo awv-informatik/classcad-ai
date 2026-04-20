@@ -1,0 +1,4 @@
+[12] before recalc: original
+[12] recalc maxLevel: 31
+[12] after recalc: original
+[stderr] [run] Script error: api.v1.part.setExpression is not a function

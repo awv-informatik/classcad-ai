@@ -1,0 +1,13 @@
+{
+  "result": 94,
+  "messages": [
+    {
+      "api": "v1.part.twist",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Direction not valid. Direction can't be perpendicular to the normal vector of sketch plane for PerpTwist (CC_Twist)."
+    }
+  ],
+  "maxLevel": 51
+}

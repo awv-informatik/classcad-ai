@@ -1,0 +1,4 @@
+[14] boxId: 54
+[14] updateCylinder on box result: 54 maxLevel: 51
+[14] updateCylinder on box msgs: [{"api":"v1.part.updateCylinder","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Box1.SetOperationParams:[Index 3 ausserhalb des Arraybereichs] not defined !] "}]
+[filewrite] files/14-update-wrong-type-wrong-type.json (290 bytes)

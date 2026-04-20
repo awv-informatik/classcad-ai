@@ -1,0 +1,6 @@
+[08] before save: keys= [ 'unicode', 'author', 'material' ] material= steel
+[08] save maxLevel: 31 success: 1
+[08] load maxLevel: 31
+[08] loadedPartId: null
+[08] no object with user data found after load
+[filewrite] files/08-save-load-persistence-persistence-error.json (46 bytes)

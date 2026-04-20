@@ -1,0 +1,3 @@
+[05] solid boxes: 61 64
+[05] solid.subtraction result: 61 maxLevel: 31
+[filewrite] files/05-solid-boolean-in-eif-solid-subtraction-result.json (54 bytes)

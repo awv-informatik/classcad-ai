@@ -1,0 +1,4 @@
+[09] original box keys: ["tag"] tag: "original"
+[09] copy id: 63
+[09] copy box keys: [] tag: "NOT_COPIED"
+[filewrite] files/09-copy-not-copied-copy-behavior.json (163 bytes)

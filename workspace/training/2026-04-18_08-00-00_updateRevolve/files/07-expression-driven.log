@@ -1,0 +1,4 @@
+[07] revolve with expr: 96
+[07] update to ANG2 result: 96 maxLevel: 31
+[filewrite] files/07-expression-driven-expr-update-response.json (54 bytes)
+[07] ANG2 after update: {"expression":"","value":3.14159}

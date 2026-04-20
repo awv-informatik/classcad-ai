@@ -1,0 +1,8 @@
+[14] limit2=0: 94 maxLevel: 51
+[14]   msg: 51 1122 Height not valid. Value for height must be greater than 0 for ZeroLimit (CC_Twist).
+[14] empty refs: 112 maxLevel: 51
+[14]   msg: 51 0 Nothing was selected
+[14]   msg: 51 1111 There is no sketch region for EmptyRefs (CC_Twist)
+[14] 4π angle: 162 maxLevel: 31
+[14] limit2=-50: 247 maxLevel: 31
+[filewrite] files/14-edge-cases-edge-cases-response.json (874 bytes)

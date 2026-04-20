@@ -1,0 +1,6 @@
+[05] boxId: 54 cylId: 91 sheetId: 150
+[05] result: 260 maxLevel: 31
+[05] messages: []
+[filewrite] files/05-horizontal-sheet-response.json (55 bytes)
+[filewrite] files/05-horizontal-sheet-after-structure.json (53011 bytes)
+[05] boolean test result: 378 maxLevel: 31

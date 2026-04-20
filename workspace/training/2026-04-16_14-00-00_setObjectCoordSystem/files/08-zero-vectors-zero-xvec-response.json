@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.setObjectCoordSystem",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in CommonAPI_v1.setObjectCoordSystem::PROC:Vectors for SetCoordSystem may not have length 0\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300\nFunction: OBJ_SetCoordSystem\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 300] "
+    }
+  ],
+  "maxLevel": 51
+}

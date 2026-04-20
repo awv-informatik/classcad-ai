@@ -1,0 +1,17 @@
+{
+  "exprRef": {
+    "result": 56,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "inlineMath": {
+    "result": 71,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "combined": {
+    "result": 86,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

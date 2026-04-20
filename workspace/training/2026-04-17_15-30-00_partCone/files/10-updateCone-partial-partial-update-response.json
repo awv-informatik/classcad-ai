@@ -1,0 +1,16 @@
+{
+  "before": {
+    "bDiameter": null,
+    "tDiameter": null,
+    "height": null
+  },
+  "after": {
+    "bDiameter": null,
+    "tDiameter": null,
+    "height": null
+  },
+  "updateResult": {
+    "result": 54,
+    "maxLevel": 31
+  }
+}

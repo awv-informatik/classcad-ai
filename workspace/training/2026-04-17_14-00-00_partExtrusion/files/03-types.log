@@ -1,0 +1,6 @@
+[03] regions: 92 132 172 212
+[03] UP: 216 maxLevel: 31
+[03] DOWN: 261 maxLevel: 31
+[03] SYMMETRIC: 306 maxLevel: 31
+[03] CUSTOM: 351 maxLevel: 31
+[filewrite] files/03-types-type-results.json (307 bytes)

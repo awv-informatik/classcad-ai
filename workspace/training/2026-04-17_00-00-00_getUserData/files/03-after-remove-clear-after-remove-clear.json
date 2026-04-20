@@ -1,0 +1,14 @@
+{
+  "beforeRemove": {
+    "a": "alpha",
+    "b": "beta"
+  },
+  "afterRemoveA": {
+    "a": "__GONE__",
+    "b": "beta"
+  },
+  "afterClear": {
+    "b": "__GONE__",
+    "c": "__GONE__"
+  }
+}

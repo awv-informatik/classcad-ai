@@ -1,0 +1,51 @@
+[
+  {
+    "name": "part",
+    "id": 4,
+    "setMaxLevel": 31,
+    "getValue": "hello",
+    "ok": true
+  },
+  {
+    "name": "entityInjection",
+    "id": 54,
+    "setMaxLevel": 31,
+    "getValue": "hello",
+    "ok": true
+  },
+  {
+    "name": "workPlane",
+    "id": 62,
+    "setMaxLevel": 31,
+    "getValue": "hello",
+    "ok": true
+  },
+  {
+    "name": "workAxis",
+    "id": 70,
+    "setMaxLevel": 31,
+    "getValue": "hello",
+    "ok": true
+  },
+  {
+    "name": "sketch",
+    "id": 76,
+    "setMaxLevel": 31,
+    "getValue": "hello",
+    "ok": true
+  },
+  {
+    "name": "sketchLine",
+    "id": 82,
+    "setMaxLevel": 31,
+    "getValue": "hello",
+    "ok": true
+  },
+  {
+    "name": "solid",
+    "id": 91,
+    "setMaxLevel": 31,
+    "getValue": "hello",
+    "ok": true
+  }
+]

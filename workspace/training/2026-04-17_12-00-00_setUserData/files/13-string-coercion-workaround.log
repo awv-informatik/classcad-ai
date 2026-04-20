@@ -1,0 +1,6 @@
+[13] count: "42" → 42
+[13] pi: "3.14159" → 3.14159
+[13] flag: "true" → true
+[13] json: "{\"nested\":true,\"count\":42}" → { nested: true, count: 42 }
+[13] all keys: ["json","flag","pi","count"]
+[filewrite] files/13-string-coercion-workaround-coercion-workaround.json (166 bytes)

@@ -1,0 +1,4 @@
+[07] baseline edge IDs: [75]
+[07] after recalc edge IDs: [106]
+[07] after requestVisualisation edge IDs: [106]
+[stderr] [run] Script error: Cannot read properties of null (reading 'lines')

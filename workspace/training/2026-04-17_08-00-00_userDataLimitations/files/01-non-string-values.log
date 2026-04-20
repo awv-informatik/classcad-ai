@@ -1,0 +1,12 @@
+[01] number value: null maxLevel: 51
+[01] boolean value: null maxLevel: 51
+[01] object value: null maxLevel: 51
+[01] array value: null maxLevel: 51
+[01] null value: null maxLevel: 51
+[01] retrieved numVal: "" type: string
+[01] retrieved boolVal: "" type: string
+[01] retrieved objVal: "" type: string
+[01] retrieved arrVal: "" type: string
+[01] retrieved nullVal: "" type: string
+[01] all keys: []
+[filewrite] files/01-non-string-values-non-string-results.json (2033 bytes)

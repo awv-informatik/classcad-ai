@@ -1,0 +1,7 @@
+[05] partId: 4 eifId: 54 boxId: 61 skId: 63
+[05] part (id=4): ✓ get= testVal keys= [ 'testKey' ]
+[05] entityInjection (id=54): ✓ get= testVal keys= [ 'testKey' ]
+[05] solid (id=61): ✓ get= testVal keys= [ 'testKey' ]
+[05] sketch (id=63): ✓ get= testVal keys= [ 'testKey' ]
+[05] bogus id: 51 [{"api":"v1.common.setUserData","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.setUserData","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/05-different-object-types-object-type-results.json (1037 bytes)

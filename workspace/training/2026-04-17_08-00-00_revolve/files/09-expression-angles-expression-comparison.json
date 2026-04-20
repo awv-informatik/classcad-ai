@@ -1,0 +1,10 @@
+{
+  "namedExpr": {
+    "result": 100,
+    "maxLevel": 31
+  },
+  "inlineExpr": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

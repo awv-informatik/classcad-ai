@@ -1,0 +1,5 @@
+[01] setUserData maxLevel: 31
+[01] getUserData result: steel
+[01] getUserData maxLevel: 31
+[01] getUserData typeof result: string
+[filewrite] files/01-basic-read-basic-read-response.json (59 bytes)

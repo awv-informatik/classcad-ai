@@ -1,0 +1,5 @@
+[15] created: 94
+[15] update without open: null maxLevel: 51
+[15]   msg: 51 1200 The provided feature is not allowed to update. It's not active and open.
+[15]   msg: 51 1004 "id" must be provided for update.
+[filewrite] files/15-update-without-open-no-open-response.json (435 bytes)

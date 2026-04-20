@@ -1,0 +1,74 @@
+[
+  {
+    "label": "number value",
+    "input": 42,
+    "inputType": "number",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "label": "float value",
+    "input": 3.14,
+    "inputType": "number",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "label": "boolean true",
+    "input": true,
+    "inputType": "boolean",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "label": "boolean false",
+    "input": false,
+    "inputType": "boolean",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "label": "null value",
+    "input": null,
+    "inputType": "object",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "label": "undefined value",
+    "inputType": "undefined",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "label": "array value",
+    "input": [
+      1,
+      2,
+      3
+    ],
+    "inputType": "object",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "label": "object value",
+    "input": {
+      "a": 1
+    },
+    "inputType": "object",
+    "setMaxLevel": 51,
+    "getResult": "NOT_SET",
+    "getType": "string"
+  },
+  {
+    "finalKeys": []
+  }
+]

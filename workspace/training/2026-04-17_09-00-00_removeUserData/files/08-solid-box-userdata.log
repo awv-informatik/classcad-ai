@@ -1,0 +1,8 @@
+[08] partId: 4 boxId: null
+[08] set on solid — result: null maxLevel: 51
+[filewrite] files/08-solid-box-userdata-set-on-solid-response.json (260 bytes)
+[08] get from solid — result: null maxLevel: 51
+[filewrite] files/08-solid-box-userdata-get-from-solid-response.json (260 bytes)
+[08] keys on solid — result: null maxLevel: 51
+[08] remove from solid — result: null maxLevel: 51
+[filewrite] files/08-solid-box-userdata-remove-from-solid-response.json (263 bytes)

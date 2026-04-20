@@ -1,0 +1,8 @@
+[07] deleteFeature result: null maxLevel: 51
+[filewrite] files/07-delete-behavior-delete-feat-result.json (250 bytes)
+[07] deleteSolid result: null maxLevel: 31
+[filewrite] files/07-delete-behavior-delete-solid-result.json (56 bytes)
+[07] deleteSolid on feat box result: null maxLevel: 51
+[filewrite] files/07-delete-behavior-wrong-delete-result.json (259 bytes)
+[07] deleteFeature on solid box result: null maxLevel: 51
+[filewrite] files/07-delete-behavior-wrong-delete2-result.json (250 bytes)

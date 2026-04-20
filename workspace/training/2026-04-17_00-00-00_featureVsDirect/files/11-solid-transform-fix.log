@@ -1,0 +1,4 @@
+[11] solid.translation result: 61 maxLevel: 31
+[filewrite] files/11-solid-transform-fix-solid-translation-result.json (54 bytes)
+[11] solid.rotation result: 61 maxLevel: 31
+[filewrite] files/11-solid-transform-fix-solid-rotation-result.json (54 bytes)

@@ -1,0 +1,8 @@
+[04] partId: 4 eifId: 54 wpId: 62 skId: 68 lineId: 74 boxId: 83
+[04] part (id=4): set=31, clear=31, keys=[]
+[04] eif (id=54): set=31, clear=31, keys=[]
+[04] workPlane (id=62): set=31, clear=31, keys=[]
+[04] sketch (id=68): set=31, clear=31, keys=[]
+[04] sketchLine (id=74): set=31, clear=31, keys=[]
+[04] solidBox (id=83): set=31, clear=31, keys=[]
+[filewrite] files/04-object-types-object-types-response.json (558 bytes)

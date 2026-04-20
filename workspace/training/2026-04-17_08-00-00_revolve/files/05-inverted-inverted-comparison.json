@@ -1,0 +1,10 @@
+{
+  "normal": {
+    "result": 94,
+    "maxLevel": 31
+  },
+  "inverted": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

@@ -1,0 +1,9 @@
+[01] hub50: 58 hub30: 61
+[01] holeIds: [ 64, 67, 70 ]
+[01] dome R96: 73 pitch R64: 76
+[01] hole positions: [
+  [ 55.42562584220408, 31.999999999999996 ],
+  [ 0, 64 ],
+  [ -55.42562584220408, 31.999999999999996 ]
+]
+[filewrite] files/01-skeleton-top-geometry.json (122 bytes)

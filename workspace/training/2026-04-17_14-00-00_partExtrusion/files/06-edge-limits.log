@@ -1,0 +1,7 @@
+[06] limit2=0: 96 maxLevel: 51
+[06] limit2=0 msg: Height not valid. Value for height must be greater than 0 for Lim0 (CC_Extrusion).
+[06] limit2=-20: 154 maxLevel: 31
+[06] limit1>limit2: 239 maxLevel: 31
+[06] limit2=0.001: 324 maxLevel: 31
+[06] limit2 omitted: 409 maxLevel: 31
+[filewrite] files/06-edge-limits-limit-results.json (620 bytes)

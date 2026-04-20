@@ -1,0 +1,7 @@
+[05] partId: 4 eifId: 54
+[05] before clear — part keys: ["color","material"]
+[05] before clear — eif keys: ["weight","material"]
+[05] after clear part — part keys: []
+[05] after clear part — eif keys: ["weight","material"]
+[05] eif material still: aluminum
+[filewrite] files/05-isolation-isolation-response.json (232 bytes)

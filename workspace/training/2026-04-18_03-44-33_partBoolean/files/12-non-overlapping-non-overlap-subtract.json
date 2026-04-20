@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.part.boolean",
+      "code": 1004,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "\"id\" must be provided to create CC_Union"
+    }
+  ]
+}

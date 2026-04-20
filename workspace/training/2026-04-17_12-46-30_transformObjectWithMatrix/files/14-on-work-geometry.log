@@ -1,0 +1,7 @@
+[14] wpId: 54 waId: 62 wptId: 70
+[14] work plane transform - maxLevel: 31
+[filewrite] files/14-on-work-geometry-workplane-response.json (56 bytes)
+[14] work axis transform - maxLevel: 31
+[filewrite] files/14-on-work-geometry-workaxis-response.json (56 bytes)
+[14] work point transform - maxLevel: 31
+[filewrite] files/14-on-work-geometry-workpoint-response.json (56 bytes)

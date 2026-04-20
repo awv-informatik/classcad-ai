@@ -1,0 +1,68 @@
+{
+  "nonexistent": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.common.getUserDataKeys",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.common.getUserDataKeys",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "zero": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.common.getUserDataKeys",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "missing": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.common.getUserDataKeys",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "string": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.common.getUserDataKeys",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "The string \"not-a-real-id\" couldn't be converted to an id. Error message: stol: no conversion"
+      },
+      {
+        "api": "v1.common.getUserDataKeys",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

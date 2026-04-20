@@ -1,0 +1,9 @@
+[15] partId: 4 eifId: 54 boxId: 61
+[filewrite] files/15-non-orthogonal-with-data-step-0-initial.txt (13040 bytes)
+[15] non-orthogonal result: null maxLevel: 31
+[filewrite] files/15-non-orthogonal-with-data-step-1-after-non-orthogonal.txt (13040 bytes)
+[15] STEP files differ: false
+[15] step0 len: 13040 step1 len: 13040
+[filewrite] files/15-non-orthogonal-with-data-step-2-after-reset.txt (13040 bytes)
+[15] step1→step2 differ: false
+[15] step0==step2: true

@@ -1,0 +1,7 @@
+[13] partId: 4 eifId: 54 boxId: 61
+[filewrite] files/13-cumulative-or-absolute-step-0-initial.txt (13036 bytes)
+[filewrite] files/13-cumulative-or-absolute-step-1-after-first.txt (12996 bytes)
+[13] step0→step1 differ: true
+[filewrite] files/13-cumulative-or-absolute-step-2-after-second.txt (12996 bytes)
+[13] step1→step2 differ: false
+[13] step0 len: 13036 step1 len: 12996 step2 len: 12996

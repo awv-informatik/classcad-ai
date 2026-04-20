@@ -1,0 +1,23 @@
+[02] empty key: null maxLevel: 31
+[02] empty value: null maxLevel: 31
+[02] empty value retrieved: ""
+[02] case sensitivity: MyKey= upper mykey= lower MYKEY= allcaps
+[02] all keys: [ 'MyKey', 'MYKEY', 'emptyVal', 'mykey', '' ]
+[02] overwrite: before= first after= first
+[02] special key "key with spaces" : ✓ retrieved: "val"
+[02] special key "key/slash" : ✓ retrieved: "val"
+[02] special key "key.dot" : ✓ retrieved: "val"
+[02] special key "key:colon" : ✓ retrieved: "val"
+[02] special key "key\ttab" : ✓ retrieved: "val"
+[02] special key "key\nnewline" : ✓ retrieved: "val"
+[02] unicode: set maxLevel= 31 get= "値"
+[02] final key count: 13 keys: [
+  '日本語',          'key\ttab',
+  'key:colon',       'key/slash',
+  'key.dot',         'MyKey',
+  'key with spaces', 'key\nnewline',
+  'mykey',           'overwrite',
+  'MYKEY',           '',
+  'emptyVal'
+]
+[filewrite] files/02-key-edge-cases-key-edge-results.json (1170 bytes)

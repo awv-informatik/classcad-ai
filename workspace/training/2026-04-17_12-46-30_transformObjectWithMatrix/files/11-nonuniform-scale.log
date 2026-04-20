@@ -1,0 +1,4 @@
+[filewrite] files/11-nonuniform-scale-step-before.txt (17838 bytes)
+[11] non-uniform scale result: null maxLevel: 31
+[filewrite] files/11-nonuniform-scale-nonuniform-scale-response.json (56 bytes)
+[filewrite] files/11-nonuniform-scale-step-after.txt (17838 bytes)

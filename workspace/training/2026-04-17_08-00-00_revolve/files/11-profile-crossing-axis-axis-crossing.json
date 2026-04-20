@@ -1,0 +1,20 @@
+{
+  "touchAxis": {
+    "result": 96,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "crossAxis": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.revolve",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided to create CC_Revolve"
+      }
+    ]
+  }
+}

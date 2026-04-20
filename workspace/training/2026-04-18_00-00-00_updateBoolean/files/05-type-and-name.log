@@ -1,0 +1,3 @@
+[05] boolean created: 128 type: UNION, name: OrigBool
+[05] updateBoolean result: 128 maxLevel: 31
+[filewrite] files/05-type-and-name-type-name-response.json (55 bytes)

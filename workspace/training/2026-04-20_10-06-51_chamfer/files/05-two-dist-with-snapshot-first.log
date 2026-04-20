@@ -1,0 +1,4 @@
+[05] partId: 4 boxId: 54
+[05] edge IDs (after snapshot): [106]
+[05] TWO_DISTANCES result: 120 maxLevel: 31
+[filewrite] files/05-two-dist-with-snapshot-first-chamfer-response.json (55 bytes)

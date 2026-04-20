@@ -1,0 +1,12 @@
+{
+  "before": {
+    "bDiameter": 60,
+    "tDiameter": 10,
+    "height": 80
+  },
+  "after": {
+    "bDiameter": 60,
+    "tDiameter": 10,
+    "height": 200
+  }
+}

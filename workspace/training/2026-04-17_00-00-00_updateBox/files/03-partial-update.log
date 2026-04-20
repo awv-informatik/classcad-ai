@@ -1,0 +1,3 @@
+[03] refBoxId: 54 boxId: 91
+[03] updateBox(width=120) result: 91 maxLevel: 31
+[filewrite] files/03-partial-update-partial-response.json (54 bytes)

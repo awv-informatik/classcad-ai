@@ -1,0 +1,22 @@
+{
+  "beforeClear": 20,
+  "afterClear": [],
+  "afterFreshSet": [
+    "fresh"
+  ],
+  "multiKeysBeforeRemove": [
+    "multi_4",
+    "multi_0",
+    "multi_2",
+    "multi_3",
+    "multi_1",
+    "fresh"
+  ],
+  "multiKeysAfterRemove": [
+    "multi_4",
+    "multi_0",
+    "multi_3",
+    "multi_1",
+    "fresh"
+  ]
+}

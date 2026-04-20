@@ -1,0 +1,3 @@
+[04] cone with workPlane ref result: null maxLevel: 51
+[04] messages: [{"api":"v1.part.cone","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]"}]
+[filewrite] files/04-wrong-reference-type-wrong-ref-response.json (283 bytes)

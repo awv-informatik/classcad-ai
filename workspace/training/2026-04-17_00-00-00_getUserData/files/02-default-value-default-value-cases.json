@@ -1,0 +1,20 @@
+{
+  "existingNoDefault": {
+    "result": "hello",
+    "maxLevel": 31
+  },
+  "existingWithDefault": {
+    "result": "hello",
+    "maxLevel": 31
+  },
+  "missingNoDefault": {
+    "result": "",
+    "messages": [],
+    "maxLevel": 31
+  },
+  "missingWithDefault": {
+    "result": "fallback",
+    "messages": [],
+    "maxLevel": 31
+  }
+}

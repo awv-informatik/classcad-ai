@@ -1,0 +1,3 @@
+[04] expr box result: 56 maxLevel: 31
+[filewrite] files/04-expression-driven-expr-box-response.json (54 bytes)
+[04] H expression: {"expression":"L * 0.5","value":40}

@@ -1,0 +1,7 @@
+[08] boolId: 128
+[08] reuse consumed target — result: null maxLevel: 51
+[filewrite] files/08-consumption-reuse-target.json (278 bytes)
+[08] reuse consumed tool — result: null maxLevel: 51
+[filewrite] files/08-consumption-reuse-tool.json (278 bytes)
+[08] chain via boolId — result: 298 maxLevel: 31
+[filewrite] files/08-consumption-chain-bool.json (55 bytes)

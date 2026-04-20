@@ -1,0 +1,7 @@
+[17] partId: 4 skId: 52 lineId: 58 topPlane: 38
+[17] points: {"endId":60,"startId":59}
+[17] setObjectCoordSystem on sketch result: null maxLevel: 31
+[filewrite] files/17-sketch-with-getgeometry-sketch-response.json (56 bytes)
+[17] STEP files differ: false
+[filewrite] files/17-sketch-with-getgeometry-step-before.txt (2400 bytes)
+[filewrite] files/17-sketch-with-getgeometry-step-after.txt (2400 bytes)

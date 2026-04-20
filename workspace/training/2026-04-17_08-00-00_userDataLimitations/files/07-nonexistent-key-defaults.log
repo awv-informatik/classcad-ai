@@ -1,0 +1,8 @@
+[07] no default: result= "" maxLevel: 31
+[07] with default: result= "fallback" maxLevel: 31
+[07] empty default: result= "" maxLevel: 31
+[07] remove non-existent: maxLevel= 31 messages: []
+[07] clear empty: maxLevel= 31 messages: []
+[07] keys on empty: []
+[07] numeric key: maxLevel= 51 messages: [{"api":"v1.common.setUserData","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"key\" has the wrong type! It should be of type (string)"}]
+[filewrite] files/07-nonexistent-key-defaults-default-results.json (650 bytes)

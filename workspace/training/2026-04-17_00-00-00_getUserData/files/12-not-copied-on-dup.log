@@ -1,0 +1,5 @@
+[12] original solid userData: original
+[12] original boxId: 61 copyId: 63
+[12] copied solid userData: __NOT_COPIED__
+[12] original still has data: original
+[filewrite] files/12-not-copied-on-dup-not-copied-on-dup.json (120 bytes)

@@ -1,0 +1,5 @@
+[13] zero diam update result: 54 maxLevel: 51
+[13] zero diam msgs: [{"api":"v1.part.updateCylinder","code":1122,"level":51,"levelStr":"ERROR","message":"Diameter not valid for Cyl1 (CC_Cylinder). Value for diameter must be greater than 0."}]
+[filewrite] files/13-update-zero-dims-zero-diam-update.json (279 bytes)
+[13] recovery result: 54 maxLevel: 31
+[filewrite] files/13-update-zero-dims-recovery.json (54 bytes)

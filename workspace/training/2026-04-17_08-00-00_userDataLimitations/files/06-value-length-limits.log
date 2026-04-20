@@ -1,0 +1,9 @@
+[06] len=100: set maxLevel=31, retrieved 100 chars, match=true
+[06] len=1000: set maxLevel=31, retrieved 1000 chars, match=true
+[06] len=5000: set maxLevel=31, retrieved 5000 chars, match=true
+[06] len=10000: set maxLevel=31, retrieved 10000 chars, match=true
+[06] len=50000: set maxLevel=31, retrieved 50000 chars, match=true
+[06] len=100000: set maxLevel=31, retrieved 100000 chars, match=true
+[06] long key (1000 chars): set maxLevel=31, get="longkey"
+[06] JSON roundtrip: set maxLevel= 31 parsed: { name: 'test', count: 42, nested: { a: 1 } }
+[filewrite] files/06-value-length-limits-length-results.json (804 bytes)

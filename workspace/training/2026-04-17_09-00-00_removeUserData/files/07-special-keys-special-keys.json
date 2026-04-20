@@ -1,0 +1,31 @@
+{
+  "keysBefore": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "key\nwith\nnewlines",
+    "spaces in key",
+    "unicode-🔧"
+  ],
+  "keysAfter": [],
+  "results": [
+    {
+      "key": "unicode-🔧",
+      "maxLevel": 31,
+      "result": null
+    },
+    {
+      "key": "spaces in key",
+      "maxLevel": 31,
+      "result": null
+    },
+    {
+      "key": "key\\nwith\\nnewlines",
+      "maxLevel": 31,
+      "result": null
+    },
+    {
+      "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...",
+      "maxLevel": 31,
+      "result": null
+    }
+  ]
+}

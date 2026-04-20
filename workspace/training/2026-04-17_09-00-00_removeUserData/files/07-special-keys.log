@@ -1,0 +1,7 @@
+[07] keys before: 4 keys set
+[07] remove unicode-🔧 — maxLevel: 31
+[07] remove spaces in key — maxLevel: 31
+[07] remove key\nwith\nnewlines — maxLevel: 31
+[07] remove aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... — maxLevel: 31
+[07] keys after all removes: 0
+[filewrite] files/07-special-keys-special-keys.json (709 bytes)

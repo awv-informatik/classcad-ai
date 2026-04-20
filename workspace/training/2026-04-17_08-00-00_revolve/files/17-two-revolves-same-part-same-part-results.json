@@ -1,0 +1,11 @@
+{
+  "first": {
+    "result": 94,
+    "maxLevel": 31
+  },
+  "second": {
+    "result": 179,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

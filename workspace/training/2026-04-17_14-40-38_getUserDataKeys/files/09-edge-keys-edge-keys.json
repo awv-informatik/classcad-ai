@@ -1,0 +1,12 @@
+{
+  "result": [
+    "!@#$%^&*()",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "key\twith\ttabs",
+    "key with spaces",
+    "日本語",
+    "key\nwith\nnewlines",
+    ""
+  ],
+  "maxLevel": 31
+}

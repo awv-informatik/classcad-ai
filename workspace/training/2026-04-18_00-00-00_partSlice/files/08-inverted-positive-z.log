@@ -1,0 +1,4 @@
+[08] inverted=0 sliceId: 156 maxLevel: 31
+[filewrite] files/08-inverted-positive-z-inv-false-response.json (55 bytes)
+[08] inverted=1 sliceId: null maxLevel: 51
+[filewrite] files/08-inverted-positive-z-inv-true-response.json (229 bytes)

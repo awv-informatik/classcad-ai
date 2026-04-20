@@ -1,0 +1,5 @@
+[13] deleteFeature result: null maxLevel: 31
+[filewrite] files/13-delete-fix-delete-feature-result.json (56 bytes)
+[13] deleteSolid one: null maxLevel: 31
+[13] deleteFeature EIF: null maxLevel: 31
+[filewrite] files/13-delete-fix-delete-eif-result.json (56 bytes)

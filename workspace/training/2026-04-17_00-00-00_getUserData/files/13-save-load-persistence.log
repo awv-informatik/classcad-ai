@@ -1,0 +1,4 @@
+[13] before clear: hello
+[13] loaded, new partId: 4
+[13] after load: __LOST__
+[filewrite] files/13-save-load-persistence-save-load-persistence.json (99 bytes)

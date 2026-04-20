@@ -1,0 +1,4 @@
+[12] CUSTOM→UP: 96 maxLevel: 31
+[filewrite] files/12-custom-to-up-custom-to-up-response.json (54 bytes)
+[12] UP→CUSTOM (no dir): 96 maxLevel: 31
+[filewrite] files/12-custom-to-up-up-to-custom-response.json (54 bytes)

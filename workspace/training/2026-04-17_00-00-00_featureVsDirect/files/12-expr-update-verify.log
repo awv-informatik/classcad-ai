@@ -1,0 +1,6 @@
+[filewrite] files/12-expr-update-verify-graphic-before.json (4 bytes)
+[12] updateExpression result: 1 maxLevel: 31
+[filewrite] files/12-expr-update-verify-update-expr-result.json (53 bytes)
+[12] recalc result: null maxLevel: 31
+[12] H after update: {"expression":"","value":40}
+[filewrite] files/12-expr-update-verify-graphic-after.json (4 bytes)

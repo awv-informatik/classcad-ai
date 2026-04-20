@@ -1,0 +1,32 @@
+{
+  "part": {
+    "id": 4,
+    "setMaxLevel": 31,
+    "getResult": "part",
+    "getMaxLevel": 31
+  },
+  "eif": {
+    "id": 54,
+    "setMaxLevel": 31,
+    "getResult": "eif",
+    "getMaxLevel": 31
+  },
+  "workPlane": {
+    "id": 62,
+    "setMaxLevel": 31,
+    "getResult": "workPlane",
+    "getMaxLevel": 31
+  },
+  "sketch": {
+    "id": 68,
+    "setMaxLevel": 31,
+    "getResult": "sketch",
+    "getMaxLevel": 31
+  },
+  "solid": {
+    "id": 75,
+    "setMaxLevel": 31,
+    "getResult": "solid",
+    "getMaxLevel": 31
+  }
+}

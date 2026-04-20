@@ -1,0 +1,27 @@
+{
+  "result": 74,
+  "messages": [
+    {
+      "api": "v1.part.box",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Height not valid for AllZero (CC_Box). Value for height must be greater than 0."
+    },
+    {
+      "api": "v1.part.box",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Width not valid for AllZero (CC_Box). Value for width must be greater than 0."
+    },
+    {
+      "api": "v1.part.box",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Length not valid for AllZero (CC_Box). Value for length must be greater than 0."
+    }
+  ],
+  "maxLevel": 51
+}

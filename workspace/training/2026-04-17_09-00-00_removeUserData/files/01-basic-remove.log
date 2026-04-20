@@ -1,0 +1,5 @@
+[01] set result: null maxLevel: 31
+[01] get before remove: steel maxLevel: 31
+[01] remove result: null maxLevel: 31
+[filewrite] files/01-basic-remove-remove-response.json (56 bytes)
+[01] get after remove: __MISSING__ maxLevel: 31

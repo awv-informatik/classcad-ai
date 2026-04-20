@@ -1,0 +1,7 @@
+[06] boxId: 54 cylId: 91 sheetId: 150
+[06] inverted=0: result: 260 maxLevel: 31
+[06] inv=0 child: CC_Sheet SliceBySheet_0
+[filewrite] files/06-vertical-inverted-inv0-structure.json (53006 bytes)
+[06] inverted=1: result: null maxLevel: 51
+[06] inv=1 child: CC_Sheet SliceBySheet_0
+[filewrite] files/06-vertical-inverted-inv1-structure.json (53006 bytes)

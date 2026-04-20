@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.transformObjectWithMatrix",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in CommonAPI_v1.transformObjectWithMatrix::PROC:Matrix kann nicht invertiert werden\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericVectorMath.cpp,     Line: 244\nFunction: CADH_TransformWith\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericVectorMath.cpp,     Line: 244] "
+    }
+  ],
+  "maxLevel": 51
+}

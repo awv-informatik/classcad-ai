@@ -1,0 +1,21 @@
+{
+  "step1": {
+    "setMaxLevel": 31,
+    "value": "first"
+  },
+  "step2": {
+    "setMaxLevel": 31,
+    "messages": [],
+    "value": "first"
+  },
+  "step3": {
+    "setMaxLevel": 31,
+    "messages": [],
+    "value": "first"
+  },
+  "afterRemove": "GONE",
+  "step4": {
+    "setMaxLevel": 31,
+    "value": "new-value"
+  }
+}

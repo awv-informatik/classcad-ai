@@ -1,0 +1,3 @@
+[12] box: 54 pattern: 99
+[12] del source box result: null maxLevel: 51
+[filewrite] files/12-delete-source-box-source-deletion-response.json (285 bytes)

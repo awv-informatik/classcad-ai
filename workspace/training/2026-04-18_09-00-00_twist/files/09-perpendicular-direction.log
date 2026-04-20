@@ -1,0 +1,3 @@
+[09] perpendicular [1,0,0]: 94 maxLevel: 51
+[09]   msg: 51 1122 Direction not valid. Direction can't be perpendicular to the normal vector of sketch plane for PerpTwist (CC_Twist).
+[filewrite] files/09-perpendicular-direction-perpendicular-response.json (301 bytes)

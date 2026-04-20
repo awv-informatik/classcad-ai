@@ -1,0 +1,3 @@
+[03] boolean created: 110 name: OrigName
+[03] updateBoolean result: 110 maxLevel: 31
+[filewrite] files/03-name-change-name-response.json (55 bytes)

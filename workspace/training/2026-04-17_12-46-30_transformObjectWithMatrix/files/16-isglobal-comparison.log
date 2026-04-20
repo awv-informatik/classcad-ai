@@ -1,0 +1,5 @@
+[filewrite] files/16-isglobal-comparison-step-A-global.txt (9756 bytes)
+[filewrite] files/16-isglobal-comparison-step-B-local.txt (9756 bytes)
+[16] A (global) first point: CARTESIAN_POINT('', (40., -30., -15.)
+[16] B (local)  first point: CARTESIAN_POINT('', (40., -30., -15.)
+[16] Same? true

@@ -1,0 +1,13 @@
+{
+  "result": 110,
+  "messages": [
+    {
+      "api": "v1.part.sliceBySheet",
+      "code": 1111,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The solid selected as sheet body used for SliceBySheet (CC_SliceBySheet) is not a sheet"
+    }
+  ],
+  "maxLevel": 51
+}

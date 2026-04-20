@@ -1,0 +1,6 @@
+[11] after first set: red
+[11] overwrite attempt maxLevel: 31
+[11] after overwrite attempt: red
+[11] value changed: false
+[11] after remove+set: blue
+[filewrite] files/11-after-overwrite-attempt-overwrite-attempt.json (116 bytes)

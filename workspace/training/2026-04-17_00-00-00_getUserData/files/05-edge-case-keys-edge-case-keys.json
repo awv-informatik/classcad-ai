@@ -1,0 +1,44 @@
+{
+  "empty-key": {
+    "setMaxLevel": 31,
+    "getResult": "empty",
+    "getMaxLevel": 31,
+    "matches": true
+  },
+  "spaces": {
+    "setMaxLevel": 31,
+    "getResult": "padded",
+    "getMaxLevel": 31,
+    "matches": true
+  },
+  "unicode": {
+    "setMaxLevel": 31,
+    "getResult": "unicode-val",
+    "getMaxLevel": 31,
+    "matches": true
+  },
+  "emoji": {
+    "setMaxLevel": 31,
+    "getResult": "wrench",
+    "getMaxLevel": 31,
+    "matches": true
+  },
+  "special-chars": {
+    "setMaxLevel": 31,
+    "getResult": "special",
+    "getMaxLevel": 31,
+    "matches": true
+  },
+  "long-key": {
+    "setMaxLevel": 31,
+    "getResult": "long",
+    "getMaxLevel": 31,
+    "matches": true
+  },
+  "newline-key": {
+    "setMaxLevel": 31,
+    "getResult": "newlined",
+    "getMaxLevel": 31,
+    "matches": true
+  }
+}

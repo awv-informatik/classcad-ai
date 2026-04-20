@@ -1,0 +1,12 @@
+[08] setAppearance on feat box: null maxLevel: 51
+[08] setAppearance on solid box: null maxLevel: 51
+[08] mass feat box: null maxLevel: 51
+[filewrite] files/08-api-compatibility-mass-feat-result.json (322 bytes)
+[08] mass solid box: ok maxLevel: 31
+[filewrite] files/08-api-compatibility-mass-solid-result.json (168 bytes)
+[08] setObjectName feat: null maxLevel: 31
+[08] setObjectName solid: null maxLevel: 31
+[08] getGeometryIds feat: null maxLevel: 51
+[filewrite] files/08-api-compatibility-geo-feat-result.json (281 bytes)
+[08] getGeometryIds solid: null maxLevel: 51
+[filewrite] files/08-api-compatibility-geo-solid-result.json (281 bytes)

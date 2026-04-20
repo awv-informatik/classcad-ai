@@ -1,0 +1,4 @@
+[filewrite] files/02-slice-with-ref-graphic-before.json (4 bytes)
+[02] slice result: 140 maxLevel: 31
+[filewrite] files/02-slice-with-ref-slice-response.json (55 bytes)
+[filewrite] files/02-slice-with-ref-graphic-after.json (4 bytes)

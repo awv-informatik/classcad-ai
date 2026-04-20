@@ -1,0 +1,10 @@
+{
+  "first": {
+    "result": 94,
+    "maxLevel": 31
+  },
+  "second": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

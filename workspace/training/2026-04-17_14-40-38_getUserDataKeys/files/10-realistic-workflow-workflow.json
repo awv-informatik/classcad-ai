@@ -1,0 +1,21 @@
+{
+  "allKeys": [
+    "revision",
+    "weight",
+    "author",
+    "color",
+    "material"
+  ],
+  "metadata": {
+    "revision": "A",
+    "weight": "42.5",
+    "author": "cc",
+    "color": "blue",
+    "material": "steel"
+  },
+  "afterRemove": [
+    "revision",
+    "author",
+    "material"
+  ]
+}

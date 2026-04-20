@@ -1,0 +1,4 @@
+[02] boxId: 54
+[02] updateBox(name) result: 54 maxLevel: 31
+[filewrite] files/02-update-name-rename-response.json (54 bytes)
+[stderr] [run] Script error: api.v1.common.getObjectName is not a function

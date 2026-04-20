@@ -1,0 +1,48 @@
+{
+  "invalidTarget": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.entityDeletion",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.entityDeletion",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"targets\" has an invalid id!"
+      }
+    ]
+  },
+  "outOfRangeIndex": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.entityDeletion",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in APIHelper.PrepareEntityObjs:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "emptyTargets": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.entityDeletion",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The type \"0\" is not supported in PrepareAPIParams!"
+      }
+    ]
+  }
+}

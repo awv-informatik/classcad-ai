@@ -1,0 +1,4 @@
+[10] boolean feature: 128
+[filewrite] files/10-feature-tree-depth-feature-chain-structure.json (25119 bytes)
+[10] solid subtraction: null
+[filewrite] files/10-feature-tree-depth-direct-equiv-structure.json (25120 bytes)

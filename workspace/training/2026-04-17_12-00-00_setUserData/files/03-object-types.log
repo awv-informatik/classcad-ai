@@ -1,0 +1,8 @@
+[03] part (id=4): set maxLevel=31, get="hello" ✓
+[03] entityInjection (id=54): set maxLevel=31, get="hello" ✓
+[03] workPlane (id=62): set maxLevel=31, get="hello" ✓
+[03] workAxis (id=70): set maxLevel=31, get="hello" ✓
+[03] sketch (id=76): set maxLevel=31, get="hello" ✓
+[03] sketchLine (id=82): set maxLevel=31, get="hello" ✓
+[03] solid (id=91): set maxLevel=31, get="hello" ✓
+[filewrite] files/03-object-types-object-types.json (772 bytes)

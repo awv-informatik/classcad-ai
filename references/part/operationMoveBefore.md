@@ -106,6 +106,7 @@ await api.v1.part.operationMoveToEnd({ id: partId })
 
 ## Related
 
-- `part.openFeature` / `part.closeFeature` — the editing gate (different from the rollback bar)
+- `part.openFeature` / `part.closeFeature` — the editing gate (uses GhostRollbackBar, a different mechanism)
+- `rollback-bars.md` — RollbackBar vs GhostRollbackBar conceptual overview
 - `part.getFeature` — find features by name (works regardless of bar position)
 - `part.deleteFeature` — permanently removes features (vs moveBefore which just hides them)

@@ -72,7 +72,14 @@ await api.v1.part.updateCylinder({ id: cylId, radius: 15 })
 await api.v1.part.closeFeature({ id: cylId })
 ```
 
+## How It Works (GhostRollbackBar)
+
+`openFeature` moves an internal "GhostRollbackBar" to the position before the target feature. This is NOT a physical node in the structure tree — it's tracked by the `editFeatureIndex` member on the OperationSequence node. `closeFeature` moves the GhostRollbackBar back and recalculates downstream features.
+
+The GhostRollbackBar operates independently of the RollbackBar (`operationMoveBefore`). See `rollback-bars.md` for the full two-bar model.
+
 ## Related
 
 - Every `update*` API (updateBox, updateCylinder, updateWorkPlane, updateExtrusion, etc.) requires this pattern
 - `common.recalc` — NOT needed after closeFeature (it auto-recalcs) or after `updateExpression` (also auto-recalcs)
+- `rollback-bars.md` — RollbackBar vs GhostRollbackBar conceptual overview

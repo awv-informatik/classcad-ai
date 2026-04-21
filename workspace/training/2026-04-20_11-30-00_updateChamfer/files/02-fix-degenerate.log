@@ -1,0 +1,5 @@
+[02] edgeId: 106
+[02] oversized chamfer — result: 120 maxLevel: 51
+[filewrite] files/02-fix-degenerate-oversized-response.json (227 bytes)
+[02] fix update — result: 120 maxLevel: 31
+[filewrite] files/02-fix-degenerate-fix-response.json (55 bytes)

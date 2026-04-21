@@ -1,0 +1,5 @@
+[08] filletId: 120
+[08] update1 — result: 120 maxLevel: 31
+[08] update2 — result: 120 maxLevel: 31
+[08] update3 — result: 120 maxLevel: 31
+[filewrite] files/08-sequential-updates-sequential-results.json (188 bytes)

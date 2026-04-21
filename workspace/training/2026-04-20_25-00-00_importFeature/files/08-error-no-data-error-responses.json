@@ -1,0 +1,38 @@
+{
+  "noData": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.importFeature",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Either data, file or url must be provided to load content from."
+      }
+    ]
+  },
+  "badData": {
+    "result": 60,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "noFile": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.importFeature",
+        "code": 1008,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided file does not exist."
+      }
+    ]
+  },
+  "badFormat": {
+    "result": 74,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

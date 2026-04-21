@@ -1,0 +1,7 @@
+[02] partId: 4 boxId: 54
+[02] geo1 lines: [75]
+[02] geo2 lines: [76]
+[02] edge references: [75,76]
+[02] compositeCurve result: 91
+[02] maxLevel: 31
+[filewrite] files/02-from-brep-edges-cc-brep-response.json (89 bytes)

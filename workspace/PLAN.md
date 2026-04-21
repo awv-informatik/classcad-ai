@@ -1162,10 +1162,10 @@ const extFeat = (
 
 | #   | Task                              | Source                                                        | Studied |
 | --- | --------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.chamfer`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.updateChamfer` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.fillet`        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.updateFillet`  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.chamfer`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 2   | Api study of `part.updateChamfer` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 3   | Api study of `part.fillet`        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 4   | Api study of `part.updateFillet`  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 
 **Task #3: Api study of `part.fillet`**
 
@@ -1187,12 +1187,12 @@ const filletFeat = (await api.v1.part.fillet({ id: partId, name: 'Fillet1', refe
 
 | #   | Task                                      | Source                                                        | Studied |
 | --- | ----------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.mirror`                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.updateMirror`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.linearPattern`         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.updateLinearPattern`   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 5   | Api study of `part.circularPattern`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 6   | Api study of `part.updateCircularPattern` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.mirror`                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 2   | Api study of `part.updateMirror`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 3   | Api study of `part.linearPattern`         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 4   | Api study of `part.updateLinearPattern`   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 5   | Api study of `part.circularPattern`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 6   | Api study of `part.updateCircularPattern` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 
 **Task #3: Api study of `part.linearPattern`**
 
@@ -1218,12 +1218,12 @@ const lpFeat = (
 
 | #   | Task                                           | Source                                                        | Studied |
 | --- | ---------------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.translation`                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.updateTranslation`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.rotation`                   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.updateRotation`             | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 5   | Api study of `part.transformationByCSys`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 6   | Api study of `part.updateTransformationByCSys` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.translation`                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 2   | Api study of `part.updateTranslation`          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 3   | Api study of `part.rotation`                   | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 4   | Api study of `part.updateRotation`             | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 5   | Api study of `part.transformationByCSys`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 6   | Api study of `part.updateTransformationByCSys` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 
 ---
 
@@ -1231,10 +1231,10 @@ const lpFeat = (
 
 | #   | Task                                     | Source                                                        | Studied |
 | --- | ---------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.importFeature`        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.updateImportFeature`  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.compositeCurve`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.updateCompositeCurve` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.importFeature`        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 2   | Api study of `part.updateImportFeature`  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 3   | Api study of `part.compositeCurve`       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 4   | Api study of `part.updateCompositeCurve` | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 
 ---
 
@@ -1244,10 +1244,10 @@ const lpFeat = (
 
 | #   | Task                                                                                                                    | Source                                                        | Studied |
 | --- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.operationMoveBefore`                                                                                 | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.operationMoveToEnd`                                                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.getFeature`                                                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.deleteFeature`                                                                                       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 1   | Api study of `part.operationMoveBefore`                                                                                 | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 2   | Api study of `part.operationMoveToEnd`                                                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 3   | Api study of `part.getFeature`                                                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 4   | Api study of `part.deleteFeature`                                                                                       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 5   | Api study of `part.createUncommitedObject`                                                                              | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
 | 6   | Study: RollbackBar vs GhostRollbackBar — how open/close enables mid-tree editing without destroying downstream features | part.md                                                       | [ ]     |
 

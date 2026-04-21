@@ -1,0 +1,5 @@
+[01] boxId: 54
+[01] getFeature("Box") result: 54 maxLevel: 31
+[01] match boxId? true
+[01] getFeature("NonExistent") result: null maxLevel: 51
+[filewrite] files/01-basic-lookup-basic-lookup.json (369 bytes)

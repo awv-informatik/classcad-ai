@@ -1,0 +1,5 @@
+[17] before bbox min: undefined max: undefined
+[17] fillet result: 120 maxLevel: 31
+[17] after bbox min: [0,0,0] max: [80,60,40]
+[17] vertices: before=%d, after=%d, delta=%d 0 0 0
+[filewrite] files/17-bounding-box-comparison-bbox-comparison.json (207 bytes)

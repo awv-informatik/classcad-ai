@@ -1,0 +1,6 @@
+[01] boxId: 62 wcs: 54
+[01] rightWp: 46 frontWp: 42
+[01] mirrorId: 99
+[01] updateMirror result: 99 maxLevel: 31
+[01] updateMirror messages: []
+[filewrite] files/01-update-references-update-response.json (54 bytes)

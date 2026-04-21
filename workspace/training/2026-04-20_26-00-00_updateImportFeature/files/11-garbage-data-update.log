@@ -1,0 +1,6 @@
+[11] importFeature result: 54
+[11] solids before: 1
+[11] garbage update result: 54 maxLevel: 31
+[filewrite] files/11-garbage-data-update-garbage-response.json (54 bytes)
+[11] solids after: 0
+[filewrite] files/11-garbage-data-update-solid-counts.json (43 bytes)

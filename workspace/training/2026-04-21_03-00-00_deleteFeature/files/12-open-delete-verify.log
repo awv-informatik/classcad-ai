@@ -1,0 +1,5 @@
+[12] boxId: 54 cylId: 91
+[12] delete cyl while box open — maxLevel: 31
+[12] closeFeature after deleting other feature — maxLevel: 51
+[12] box: 54 cyl: null
+[filewrite] files/12-open-delete-verify-open-delete-verify.json (489 bytes)

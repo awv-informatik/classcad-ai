@@ -1,0 +1,6 @@
+[12] before rename "OriginalName": 54
+[12] after rename "OriginalName": null maxLevel: 51
+[12] after rename "NewName": 54 match: true
+[12] after updateBox "NewName": 54
+[12] after updateBox "UpdatedName": null match: false
+[filewrite] files/12-after-rename-after-rename.json (122 bytes)

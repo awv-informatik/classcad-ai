@@ -1,0 +1,7 @@
+[09] partId: 4
+[09] boxId: 54 cylId: 91
+[09] getFeature(Cyl1) while rolled back result: 91 maxLevel: 31
+[filewrite] files/09-getFeature-during-rollback-getFeature-rolledback.json (54 bytes)
+[09] getFeature(Box1) while visible result: 54 maxLevel: 31
+[09] getFeature(nonexistent) result: null maxLevel: 51
+[filewrite] files/09-getFeature-during-rollback-getFeature-nonexistent.json (238 bytes)

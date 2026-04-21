@@ -1,0 +1,12 @@
+{
+  "deleteCylWhileOpen": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "deleteOpenedBox": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

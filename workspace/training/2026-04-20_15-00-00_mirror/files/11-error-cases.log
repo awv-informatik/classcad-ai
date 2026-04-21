@@ -1,0 +1,9 @@
+[11] empty targets: null maxLevel: 51
+[11] empty targets msgs: [{"api":"v1.part.mirror","code":1004,"level":51,"levelStr":"ERROR","message":"The type \"0\" is not supported in PrepareAPIParams!"}]
+[11] empty refs: 97 maxLevel: 51
+[11] empty refs msgs: [{"api":"v1.part.mirror","code":1111,"level":51,"levelStr":"ERROR","message":"There is no reference found for Mirror (CC_Mirror)."}]
+[11] bad target: null maxLevel: 51
+[11] bad target msgs: [{"api":"v1.part.mirror","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.mirror","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"targets\" has an invalid id!"}]
+[11] no targets param: null maxLevel: 51
+[11] no targets msgs: [{"api":"v1.part.mirror","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"targets\" must be provided in the api call!"}]
+[filewrite] files/11-error-cases-error-cases.json (1039 bytes)

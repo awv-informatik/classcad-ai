@@ -1,0 +1,7 @@
+[05] box1: 54 box2: 91 box3: 128
+[filewrite] files/05-duplicate-names-structure-full-structure.json (27085 bytes)
+[05] found "Box": 54
+[05] found "Box1": 128
+[05] found "Box2": 165
+[05] "RenamedBox" after rename: 91 match box2? true
+[filewrite] files/05-duplicate-names-structure-duplicate-analysis.json (134 bytes)

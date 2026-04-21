@@ -1,0 +1,48 @@
+{
+  "emptyTargets": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.mirror",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The type \"0\" is not supported in PrepareAPIParams!"
+      }
+    ]
+  },
+  "emptyRefs": {
+    "result": 97,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.mirror",
+        "code": 1111,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is no reference found for Mirror (CC_Mirror)."
+      }
+    ]
+  },
+  "badTarget": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.mirror",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.mirror",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"targets\" has an invalid id!"
+      }
+    ]
+  }
+}

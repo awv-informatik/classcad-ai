@@ -1,0 +1,7 @@
+[01] boxId: 54
+[01] deleteFeature result: null
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-delete-delete-response.json (56 bytes)
+[01] getFeature after delete — result: null maxLevel: 51
+[01] getFeature messages: [{"api":"v1.part.getFeature","code":0,"level":51,"levelStr":"ERROR","message":"Feature with name \"Box\" does not exist"}]

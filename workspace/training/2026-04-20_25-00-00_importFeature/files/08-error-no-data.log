@@ -1,0 +1,7 @@
+[08-a] no data result: null maxLevel: 51
+[08-a] messages: [{"api":"v1.part.importFeature","code":1004,"level":51,"levelStr":"ERROR","message":"Either data, file or url must be provided to load content from."}]
+[08-b] bad data result: 60 maxLevel: 31
+[08-c] missing file result: null maxLevel: 51
+[08-c] messages: [{"api":"v1.part.importFeature","code":1008,"level":51,"levelStr":"ERROR","message":"The provided file does not exist."}]
+[08-d] bad format result: 74 maxLevel: 31
+[filewrite] files/08-error-no-data-error-responses.json (720 bytes)

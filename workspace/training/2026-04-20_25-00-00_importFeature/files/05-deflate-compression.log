@@ -1,0 +1,3 @@
+[05] save deflate success: 1 data length: 286
+[05] importFeature result: 54 maxLevel: 31
+[filewrite] files/05-deflate-compression-deflate-response.json (54 bytes)

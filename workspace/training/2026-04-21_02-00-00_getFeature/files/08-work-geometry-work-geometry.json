@@ -1,0 +1,45 @@
+{
+  "MyPlane": {
+    "result": null,
+    "match": false,
+    "maxLevel": 51
+  },
+  "MyAxis": {
+    "result": null,
+    "match": false,
+    "maxLevel": 51
+  },
+  "MyPoint": {
+    "result": null,
+    "match": false,
+    "maxLevel": 51
+  },
+  "default_Origin": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "default_Top": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "default_Front": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "default_Right": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "default_XAxis": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "default_YAxis": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "default_ZAxis": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

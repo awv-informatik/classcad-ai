@@ -1,0 +1,6 @@
+[11] skId: 52 regionId: null
+[11] extrusionId: null maxLevel: 51
+[11] "MyExtrusion": null match: true
+[11] "Sketch" via getFeature: null (expected null)
+[11] "Sketch" via getSketch: 52 match: true
+[filewrite] files/11-extrusion-proper-extrusion-proper.json (235 bytes)

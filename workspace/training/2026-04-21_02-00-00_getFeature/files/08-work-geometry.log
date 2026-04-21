@@ -1,0 +1,12 @@
+[08] wpId: 54 waId: 62 wptId: 70
+[08] "MyPlane": null match: false
+[08] "MyAxis": null match: false
+[08] "MyPoint": null match: false
+[08] default "Origin": null maxLevel: 51
+[08] default "Top": null maxLevel: 51
+[08] default "Front": null maxLevel: 51
+[08] default "Right": null maxLevel: 51
+[08] default "XAxis": null maxLevel: 51
+[08] default "YAxis": null maxLevel: 51
+[08] default "ZAxis": null maxLevel: 51
+[filewrite] files/08-work-geometry-work-geometry.json (692 bytes)

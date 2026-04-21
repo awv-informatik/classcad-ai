@@ -1,0 +1,22 @@
+{
+  "workPlane": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "workAxis": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "sketch": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "box": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

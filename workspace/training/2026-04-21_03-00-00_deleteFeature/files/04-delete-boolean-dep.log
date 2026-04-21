@@ -1,0 +1,5 @@
+[04] boxId: 54 cylId: 91
+[04] boolId: 110
+[04] delete box (boolean target) — result: null maxLevel: 51
+[04] messages: [{"api":"v1.part.deleteFeature","code":1111,"level":51,"levelStr":"ERROR","message":"There is unrecognized ID as an entity for Subtraction (CC_Subtraction)."}]
+[filewrite] files/04-delete-boolean-dep-delete-target-response.json (266 bytes)

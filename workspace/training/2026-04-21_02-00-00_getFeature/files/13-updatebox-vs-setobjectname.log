@@ -1,0 +1,10 @@
+[13] boxId: 54
+[13] initial "TestBox": 54
+[13] updateBox result: null maxLevel: 51
+[filewrite] files/13-updatebox-vs-setobjectname-structure-after-updateBox.json (21143 bytes)
+[13] after updateBox "TestBox": 54
+[13] after updateBox "BoxRenamed": null
+[13] after setObjectName "TestBox": null
+[13] after setObjectName "BoxRenamed": null
+[13] after setObjectName "SetObjName": 54
+[filewrite] files/13-updatebox-vs-setobjectname-rename-comparison.json (158 bytes)

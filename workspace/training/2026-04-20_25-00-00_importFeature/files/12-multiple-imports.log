@@ -1,0 +1,7 @@
+[12] import1 result: 54 maxLevel: 31
+[12] import2 result: 65 maxLevel: 31
+[12] part solids after 2 imports: 2
+[12] entity set children: [ 54, 65 ]
+[12]   entity 54 : CC_Import Import1_Box
+[12]   entity 65 : CC_Import Import2_Cyl
+[filewrite] files/12-multiple-imports-multi-import.json (74 bytes)

@@ -1,0 +1,21 @@
+{
+  "boxId": 54,
+  "found": {
+    "result": 54,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "notFound": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.part.getFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Feature with name \"NonExistent\" does not exist"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

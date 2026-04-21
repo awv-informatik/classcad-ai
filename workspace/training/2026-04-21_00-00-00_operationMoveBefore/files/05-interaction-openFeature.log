@@ -1,0 +1,10 @@
+[05] partId: 4
+[05] boxId: 54 cylId: 91
+[05] openFeature(rolledBack cyl) result: null maxLevel: 31
+[filewrite] files/05-interaction-openFeature-open-rolledback.json (56 bytes)
+[05] openFeature(visible box) result: null maxLevel: 31
+[filewrite] files/05-interaction-openFeature-open-visible.json (56 bytes)
+[05] updateBox result: 54 maxLevel: 31
+[05] openFeature(box at end) result: null maxLevel: 31
+[05] bar position after openFeature: 9 of 10
+[05] children: [24,28,32,36,40,44,48,56,93,20]

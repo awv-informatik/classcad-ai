@@ -1,0 +1,5 @@
+[13] fillet1 result: 120 maxLevel: 31
+[13] second edge IDs: [[]]
+[13] fillet2 result: null maxLevel: 51
+[13] messages: [{"api":"v1.part.fillet","code":1001,"level":51,"levelStr":"ERROR","message":"An element of parameter \"references\" has the wrong type! It should be of type (string|real|id)"}]
+[filewrite] files/13-sequential-fillets-sequential-results.json (111 bytes)

@@ -1,0 +1,4 @@
+[04] partId: 4 boxId: 54 cylId: 91
+[04] opened and closed box without changes
+[04] moveToEnd no changes — result: null maxLevel: 31
+[filewrite] files/04-moveToEnd-no-changes-moveToEnd-no-changes.json (56 bytes)

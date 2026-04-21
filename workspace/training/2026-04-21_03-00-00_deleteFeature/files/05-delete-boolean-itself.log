@@ -1,0 +1,6 @@
+[05] boxId: 54 cylId: 91 boolId: 110
+[05] delete boolean — result: null maxLevel: 31
+[05] messages: []
+[filewrite] files/05-delete-boolean-itself-delete-boolean-response.json (56 bytes)
+[05] box after bool delete — result: 54 maxLevel: 31
+[05] cyl after bool delete — result: 91 maxLevel: 31

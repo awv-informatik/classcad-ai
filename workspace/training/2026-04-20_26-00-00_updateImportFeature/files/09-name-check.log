@@ -1,0 +1,7 @@
+[09] importFeature result: 54
+[filewrite] files/09-name-check-structure-before.json (21056 bytes)
+[09] import node name: undefined
+[09] import node type: undefined
+[09] name after data-only update: undefined
+[09] name after name+data update: undefined
+[filewrite] files/09-name-check-name-results.json (2 bytes)

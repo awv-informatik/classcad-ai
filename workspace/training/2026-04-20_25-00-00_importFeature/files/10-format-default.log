@@ -1,0 +1,6 @@
+[10-a] no format+data result: 54 maxLevel: 31
+[10-a] children: [ 59 ]
+[10-a] part solids: [ 57 ]
+[10-b] file no format result: 54 maxLevel: 31
+[10-b] children: [ 59 ]
+[filewrite] files/10-format-default-format-defaults.json (208 bytes)

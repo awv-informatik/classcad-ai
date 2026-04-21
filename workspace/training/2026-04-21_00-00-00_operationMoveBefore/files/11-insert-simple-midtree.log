@@ -1,0 +1,16 @@
+[11] partId: 4
+[11] boxId: 54 cylId: 91 boolId: 110
+[11] sphereId (inserted mid-tree): 202
+[11] Operation sequence:
+[11]   24 CC_WorkPointReference OriginRef
+[11]   28 CC_WorkAxisReference XAxisRef
+[11]   32 CC_WorkAxisReference YAxisRef
+[11]   36 CC_WorkAxisReference ZAxisRef
+[11]   40 CC_WorkPlaneReference TopRef
+[11]   44 CC_WorkPlaneReference FrontRef
+[11]   48 CC_WorkPlaneReference RightRef
+[11]   56 CC_OperationReference BoxRef
+[11]   93 CC_OperationReference CylinderRef
+[11]   204 CC_OperationReference SphereRef
+[11]   112 CC_OperationReference SubtractionRef
+[11]   20 CC_RollbackBar RollbackBar

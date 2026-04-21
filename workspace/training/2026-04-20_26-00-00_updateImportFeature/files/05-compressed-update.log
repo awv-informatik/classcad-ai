@@ -1,0 +1,5 @@
+[05] box compressed STP length: 2964
+[05] cyl compressed STP length: 2656
+[05] importFeature result: 54
+[05] updateImportFeature result: 54 maxLevel: 31
+[filewrite] files/05-compressed-update-update-response.json (54 bytes)

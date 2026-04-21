@@ -1,0 +1,7 @@
+[11] boxId: 54 cylId: 91
+[11] getFeature for rolled-back cyl BEFORE delete: 91
+[11] delete rolled-back cyl — result: null maxLevel: 51
+[11] messages: [{"api":"v1.part.deleteFeature","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in OperationSequence.GetNextOperation:[Index 10 ausserhalb des Arraybereichs] not defined !] "},{"api":"v1.part.deleteFeature","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in BaseModelingCommonFuncs.DeleteObject::PROC:[CCVM::callsf: objId not found]] "}]
+[11] getFeature for cyl AFTER errored delete (still rolled back): null maxLevel: 51
+[11] getFeature for cyl AFTER moveToEnd: null maxLevel: 51
+[filewrite] files/11-rollback-verify-rollback-verify.json (663 bytes)

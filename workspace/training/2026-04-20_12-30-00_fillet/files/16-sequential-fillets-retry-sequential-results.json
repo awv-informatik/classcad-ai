@@ -1,0 +1,10 @@
+{
+  "fillet1": {
+    "id": 120,
+    "maxLevel": 31
+  },
+  "fillet2": {
+    "id": 220,
+    "maxLevel": 31
+  }
+}

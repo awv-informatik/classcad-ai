@@ -1,0 +1,7 @@
+[06] importFeature result: 54
+[06] wrong ID result: null maxLevel: 51
+[filewrite] files/06-error-cases-wrong-id-response.json (448 bytes)
+[06] garbage data result: 54 maxLevel: 31
+[filewrite] files/06-error-cases-garbage-data-response.json (54 bytes)
+[06] bad file result: null maxLevel: 51
+[filewrite] files/06-error-cases-bad-file-response.json (234 bytes)

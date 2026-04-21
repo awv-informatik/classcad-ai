@@ -1,0 +1,9 @@
+[03] box STP length: 9589
+[03] cylinder STP length: 7670
+[03] importFeature result: 54
+[filewrite] files/03-update-with-data-structure-before.json (21047 bytes)
+[03] openFeature result: null maxLevel: 31
+[03] updateImportFeature result: 54 maxLevel: 31
+[filewrite] files/03-update-with-data-update-response.json (54 bytes)
+[03] closeFeature result: null maxLevel: 31
+[filewrite] files/03-update-with-data-structure-after.json (21057 bytes)

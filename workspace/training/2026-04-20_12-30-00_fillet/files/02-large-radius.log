@@ -1,0 +1,6 @@
+[02] before vertex count: 0
+[02] edge IDs: [135]
+[02] fillet result: 149 maxLevel: 31
+[filewrite] files/02-large-radius-fillet-response.json (55 bytes)
+[02] after vertex count: 0
+[filewrite] files/02-large-radius-vertex-comparison.json (63 bytes)

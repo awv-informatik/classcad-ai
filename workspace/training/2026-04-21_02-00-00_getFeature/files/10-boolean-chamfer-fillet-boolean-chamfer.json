@@ -1,0 +1,10 @@
+{
+  "boolLookup": {
+    "result": 128,
+    "maxLevel": 31
+  },
+  "toolLookup": {
+    "result": 91,
+    "maxLevel": 31
+  }
+}

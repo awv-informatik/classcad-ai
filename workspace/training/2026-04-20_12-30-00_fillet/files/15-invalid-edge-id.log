@@ -1,0 +1,7 @@
+[15] invalid ID=99999 result: null maxLevel: 51
+[15] messages: [{"api":"v1.part.fillet","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.fillet","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"references\" has an invalid id!"}]
+[filewrite] files/15-invalid-edge-id-invalid-id.json (447 bytes)
+[15] empty refs result: 126 maxLevel: 51
+[15] empty messages: [{"api":"v1.part.fillet","code":1111,"level":51,"levelStr":"ERROR","message":"There is no entity for BadFillet2 (CC_ConstantRadiusFillet)."}]
+[filewrite] files/15-invalid-edge-id-empty-refs.json (271 bytes)
+[15] face IDs: undefined

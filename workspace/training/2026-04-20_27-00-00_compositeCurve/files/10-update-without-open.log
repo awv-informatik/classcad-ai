@@ -1,0 +1,5 @@
+[10] ccId: 84
+[10] update without open result: null
+[10] maxLevel: 51
+[10] messages: [{"api":"v1.part.updateCompositeCurve","code":1200,"level":51,"levelStr":"ERROR","message":"The provided feature is not allowed to update. It's not active and open."},{"api":"v1.part.updateCompositeCurve","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[filewrite] files/10-update-without-open-no-open-response.json (453 bytes)

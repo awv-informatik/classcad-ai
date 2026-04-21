@@ -1,0 +1,8 @@
+[03] normal result: 107 maxLevel: 31
+[03] normal msgs: []
+[03] inverted(true) result: null maxLevel: 51
+[03] inverted(true) msgs: [{"api":"v1.part.linearPattern","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_LinearPattern"}]
+[filewrite] files/03-inverted-inverted-true-response.json (245 bytes)
+[03] inverted(TRUE) result: null maxLevel: 51
+[03] inverted(TRUE) msgs: [{"api":"v1.part.linearPattern","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_LinearPattern"}]
+[filewrite] files/03-inverted-inverted-TRUE-response.json (245 bytes)

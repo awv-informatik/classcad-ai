@@ -1,0 +1,6 @@
+[07] importFeature result: 54
+[07] solids before: 1
+[07] updateImportFeature result: 54 maxLevel: 31
+[07] solids after: 3
+[filewrite] files/07-single-to-multi-structure-after.json (22630 bytes)
+[filewrite] files/07-single-to-multi-solid-counts.json (43 bytes)

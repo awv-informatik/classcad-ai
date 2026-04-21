@@ -1,0 +1,22 @@
+{
+  "deleteDuringOpen": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "closeAfterDelete": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.closeFeature",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"feature\",\"workgeometry\",\"sketch\",\"constraint\",\"relation\"]"
+      }
+    ]
+  },
+  "survivors": {
+    "box": 54,
+    "cyl": null
+  }
+}

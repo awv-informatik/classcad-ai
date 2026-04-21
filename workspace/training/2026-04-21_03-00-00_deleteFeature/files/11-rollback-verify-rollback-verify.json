@@ -1,0 +1,25 @@
+{
+  "deleteResponse": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationSequence.GetNextOperation:[Index 10 ausserhalb des Arraybereichs] not defined !] "
+      },
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in BaseModelingCommonFuncs.DeleteObject::PROC:[CCVM::callsf: objId not found]] "
+      }
+    ]
+  },
+  "preDelete": 91,
+  "postDelete": null,
+  "afterMoveToEnd": null
+}

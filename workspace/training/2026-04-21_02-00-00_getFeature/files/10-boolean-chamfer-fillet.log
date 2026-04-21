@@ -1,0 +1,5 @@
+[10] boolId: 128
+[10] "MyBool": 128 match: true
+[10] geoIds count: undefined
+[10] "ToolBox" (consumed): 91 match: true
+[filewrite] files/10-boolean-chamfer-fillet-boolean-chamfer.json (123 bytes)

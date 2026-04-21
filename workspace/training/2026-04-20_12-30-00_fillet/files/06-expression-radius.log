@@ -1,0 +1,6 @@
+[06] edge IDs: [135]
+[06] fillet result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.fillet","code":1000,"level":51,"levelStr":"ERROR","message":"Could not convert api params."}]
+[filewrite] files/06-expression-radius-expr-fillet-response.json (217 bytes)
+[06] updated filletR to 25
+[06] filletR value: { expression: '', value: null }

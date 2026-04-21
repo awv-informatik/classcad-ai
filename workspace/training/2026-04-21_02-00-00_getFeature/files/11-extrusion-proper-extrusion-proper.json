@@ -1,0 +1,16 @@
+{
+  "extrusion": {
+    "id": null,
+    "found": null,
+    "match": true,
+    "maxLevel": 51
+  },
+  "sketchViaGetFeature": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "sketchViaGetSketch": {
+    "result": 52,
+    "match": true
+  }
+}

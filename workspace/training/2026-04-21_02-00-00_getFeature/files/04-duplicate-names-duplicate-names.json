@@ -1,0 +1,48 @@
+{
+  "box1": 54,
+  "box2": 91,
+  "lookupBox": {
+    "result": 54,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "lookupBox_1": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Feature with name \"Box_1\" does not exist"
+      }
+    ]
+  },
+  "lookupBox2": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Feature with name \"Box 2\" does not exist"
+      }
+    ]
+  },
+  "lookupBox_2": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Feature with name \"Box_2\" does not exist"
+      }
+    ]
+  }
+}

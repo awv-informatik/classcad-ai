@@ -1,0 +1,13 @@
+{
+  "result": 120,
+  "messages": [
+    {
+      "api": "v1.part.updateChamfer",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Chamfer could not be applied to all edges."
+    }
+  ],
+  "maxLevel": 51
+}

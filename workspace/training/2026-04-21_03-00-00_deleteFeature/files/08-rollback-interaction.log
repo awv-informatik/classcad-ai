@@ -1,0 +1,8 @@
+[08] boxId: 54 cylId: 91 sphereId: 110
+[08] rolled back before sphere
+[08] delete rolled-back sphere — result: null maxLevel: 51
+[08] messages: [{"api":"v1.part.deleteFeature","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in OperationSequence.GetNextOperation:[Index 11 ausserhalb des Arraybereichs] not defined !] "},{"api":"v1.part.deleteFeature","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in BaseModelingCommonFuncs.DeleteObject::PROC:[CCVM::callsf: objId not found]] "}]
+[08] delete active cylinder while rolled back — result: null maxLevel: 31
+[08] messages: []
+[08] after moveToEnd — box: 54 cyl: null sphere: null
+[filewrite] files/08-rollback-interaction-rollback-interaction.json (755 bytes)

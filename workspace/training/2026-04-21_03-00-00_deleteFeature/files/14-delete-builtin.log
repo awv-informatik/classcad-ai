@@ -1,0 +1,4 @@
+[14] Top plane lookup — result: 38 maxLevel: 31
+[14] delete Top plane — result: null maxLevel: 31
+[14] messages: []
+[filewrite] files/14-delete-builtin-delete-builtin.json (56 bytes)

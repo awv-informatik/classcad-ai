@@ -1,0 +1,6 @@
+[17] mirrorId: null
+[17] transId: null
+[17] "MyMirror": null match: true
+[17] "MyTranslation": null match: true
+[17] "MainBox": 54 match: true
+[filewrite] files/17-transform-features-transform-features.json (216 bytes)

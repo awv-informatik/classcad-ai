@@ -1,0 +1,7 @@
+[07] box IDs: [ 54, 91, 128, 165, 202 ]
+[07] "Box" → 54 (expected: 54, match: true)
+[07] "Box0" → 91 (expected: 91, match: true)
+[07] "Box1" → 128 (expected: 128, match: true)
+[07] "Box2" → 165 (expected: 165, match: true)
+[07] "Box3" → 202 (expected: 202, match: true)
+[filewrite] files/07-naming-convention-naming-convention.json (144 bytes)

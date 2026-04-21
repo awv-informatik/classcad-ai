@@ -633,3 +633,115 @@ Collected from all training journals. Ordered by severity.
 - **Error:** PNG snapshots taken after entityDeletion (targeting a pattern with plain ID or `{ id }`) still show the deleted bodies. STEP export correctly shows 0 bodies.
 - **Trigger:** `entityDeletion({ targets: [patternId] })` or `{ id: patternId }` without indices, followed by `snapshot()`.
 - **Workaround:** Use STEP body count (`MANIFOLD_SOLID_BREP` count) as ground truth instead of PNG snapshots.
+
+### 93. ⚠️ `part.chamfer` — pre-recalc edge IDs fail for TWO_DISTANCES and DISTANCE_ANGLE
+
+- **Session:** `2026-04-20_10-06-51_chamfer` (journal entries 03–08)
+- **Error:** Edge IDs returned by `getGeometryIds` before `recalc()` (e.g., ID 75) work for EQUAL_DISTANCE chamfer but fail for TWO_DISTANCES and DISTANCE_ANGLE with: `"An element of parameter 'references' has an invalid id!"` (code 1006, maxLevel=51). After `recalc()`, the same position returns a different ID (e.g., 106) that works for all types.
+- **Trigger:** Create `part.box`, call `getGeometryIds` without `recalc()` first, then use those edge IDs for a non-default chamfer type.
+- **Workaround:** Always call `recalc()` before `getGeometryIds` when chamfering.
+
+### 94. ⚠️ `part.chamfer` — oversized distance creates degenerate feature
+
+- **Session:** `2026-04-20_10-06-51_chamfer` (journal entry 12)
+- **Error:** When `distance1` exceeds what adjacent faces can accommodate, the chamfer feature is still created (non-null result) but with maxLevel=51 and error `"Chamfer could not be applied to all edges."` The feature is in a broken state.
+- **Trigger:** `chamfer({ ..., distance1: 50 })` on an 80x60x40 box (distance exceeds 40mm face height).
+- **Workaround:** Check `maxLevel >= 51` after chamfer creation to detect degenerate features.
+
+### 95. ⚠️ `part.mirror` — docs say "planes or faces" but brep faces are rejected
+
+- **Session:** `2026-04-20_15-00-00_mirror` (journal entry 04)
+- **Error:** Passing a brep face ID (from `getGeometryIds`) as a mirror reference fails with code 1006: "An element of parameter 'references' has an invalid id!" preceded by warning "ToId()/TOID() didn't get an existing or valid id."
+- **Trigger:** `mirror({ ..., references: [brepFaceId] })` where `brepFaceId` comes from `getGeometryIds.planes`.
+- **Workaround:** Use work plane IDs only (`getWorkGeometry` or `workPlane`).
+
+### 96. ⚠️ `part.mirror` — empty references creates degenerate feature
+
+- **Session:** `2026-04-20_15-00-00_mirror` (journal entry 11)
+- **Error:** Passing `references: []` returns a non-null feature ID (97) but with maxLevel=51 and error 1111: "There is no reference found for Mirror (CC_Mirror)." The feature exists in the tree but has no geometry.
+- **Trigger:** `mirror({ id: partId, targets: [boxId], references: [] })`
+- **Workaround:** Always provide at least one valid work plane ID in references.
+
+### 97. ⚠️ `part.linearPattern` — count=0 produces misleading error
+
+- **Session:** `2026-04-20_17-00-00_linearPattern` (journal entry 02)
+- **Error:** Passing `count: 0` in dir1 fails with code 1004: "id must be provided to create CC_LinearPattern" — the `id` param IS provided; the real issue is count=0 being invalid.
+- **Trigger:** `linearPattern({ id: partId, targets: [boxId], dir1: { references: [waId], distance: 40, count: 0 } })`
+- **Workaround:** Use count ≥ 1.
+
+### 101. ⚠️ `part.circularPattern` — `merged: 1` always fails with boolean error 1001
+
+- **Session:** `2026-04-20_18-00-00_circularPattern` (journal entry 04)
+- **Error:** "Boolean operation failed with error 1001" — MergeBodies step fails. Feature is created (returns ID) but bodies remain separate.
+- **Trigger:** `circularPattern({ ..., merged: 1 })` — fails with both overlapping and non-overlapping geometries.
+- **Workaround:** Use `merged: 0` and then `part.boolean` with `type: 'UNION'` on the resulting bodies.
+
+### 102. 📖 `part.transformationByCSys` — empty targets gives confusing error
+
+- **Session:** `2026-04-20_24-00-00_transformationByCSys` (journal entry 13)
+- **Error:** Code 1004: "The type '0' is not supported in PrepareAPIParams!" — unclear message for an empty targets array.
+- **Trigger:** `transformationByCSys({ ..., targets: [] })` — empty array.
+- **Workaround:** Always pass at least one target.
+
+### 103. ⚠️ `part.importFeature` — invalid data/format silently creates empty import
+
+- **Session:** `2026-04-20_25-00-00_importFeature` (journal entries 08, 09)
+- **Error:** No error. maxLevel=31, valid feature ID returned. But CC_Import has no children and no solids.
+- **Trigger:** `importFeature({ ..., data: 'garbage', format: 'STP' })` or `importFeature({ ..., data: 'test', format: 'INVALID' })`.
+- **Workaround:** Always verify `part.solids` in the structure tree after import to confirm geometry was created.
+
+### 104. 🕳️ `part.updateImportFeature` — garbage data silently destroys existing geometry
+
+- **Session:** `2026-04-20_26-00-00_updateImportFeature` (journal entry 11)
+- **Error:** 🤫 Passing invalid STP data returns success (maxLevel=31, valid feature ID) but replaces existing geometry with nothing — 0 child solids. More destructive than `importFeature` because valid geometry is lost.
+- **Trigger:** `updateImportFeature({ id: importId, data: 'garbage', format: 'STP' })` with `openFeature`/`closeFeature`.
+- **Workaround:** Always validate STP data before calling `updateImportFeature`. Check solid count in structure tree after update.
+
+### 105. 📖 `part.updateImportFeature` — data source mandatory despite docs saying optional
+
+- **Session:** `2026-04-20_26-00-00_updateImportFeature` (journal entry 02)
+- **Error:** Docs say "If optional parameters are not set, the feature will keep the existing values." but omitting all data sources (`data`, `file`, `url`) errors with code 1004. Cannot rename without also providing data.
+- **Trigger:** `updateImportFeature({ id: importId, name: 'NewName' })` (name only, no data source).
+- **Workaround:** Always provide a data source. To rename, pass the same data back alongside the new name.
+
+### 106. 🟡 `part.updateImportFeature` — name-only update is partial-success bug
+
+- **Session:** `2026-04-20_26-00-00_updateImportFeature` (journal entry 10)
+- **Error:** Name-only update (no data source) returns null, maxLevel=51 (error), but the name change IS applied. Geometry survives unchanged. Partial success with error return is misleading.
+- **Trigger:** `updateImportFeature({ id: importId, name: 'OnlyName' })` with `openFeature` but no data source.
+- **Workaround:** Don't rely on this behavior — always provide data alongside name changes.
+
+### 107. 📖 `part.getFeature` — does not find sketches or work geometry
+
+- **Session:** `2026-04-21_02-00-00_getFeature` (journal entries 08, 09)
+- **Error:** Despite the generic name "getFeature", this API only searches the OperationSequence. Sketches, work geometry (planes/axes/points), and built-in origin features are all invisible to it.
+- **Trigger:** `getFeature({ id: partId, name: 'Sketch' })` or any work geometry name.
+- **Workaround:** Use `part.getSketch` for sketches, `part.getWorkGeometry` for work geometry.
+
+### 108. 📖 `part.updateBox` — name parameter does not update feature lookup name
+
+- **Session:** `2026-04-21_02-00-00_getFeature` (journal entries 12, 13)
+- **Error:** `updateBox({ id: boxId, name: 'NewName' })` returns maxLevel 51 (error). The feature's lookup name does not change. Only `common.setObjectName` can rename a feature for `getFeature` lookup.
+- **Trigger:** `updateBox({ id, name: 'X' })`.
+- **Workaround:** Use `common.setObjectName({ id, name: 'X' })` instead.
+
+### 109. ⚠️ `part.deleteFeature` — deleting rolled-back features produces errors but still deletes
+
+- **Session:** `2026-04-21_03-00-00_deleteFeature` (journal entries 08, 11)
+- **Error:** Deleting a feature that is behind the rollback bar returns maxLevel=51 with internal errors ("Index N ausserhalb des Arraybereichs", "objId not found"), BUT the feature is permanently removed from the tree. Errors are misleading — they suggest failure but deletion takes effect.
+- **Trigger:** `operationMoveBefore` to roll back, then `deleteFeature` on the rolled-back feature ID.
+- **Workaround:** Always `operationMoveToEnd` before calling `deleteFeature`.
+
+### 110. ⚠️ `part.deleteFeature` — deleting during openFeature corrupts editing context
+
+- **Session:** `2026-04-21_03-00-00_deleteFeature` (journal entries 10, 12)
+- **Error:** Calling `deleteFeature` while inside an `openFeature`/`closeFeature` editing session (even on an unrelated feature) corrupts the editing context. `closeFeature` subsequently fails with error 1001 ("wrong id type").
+- **Trigger:** `openFeature(boxId)` → `deleteFeature({ ids: [cylId] })` → `closeFeature(partId)` fails.
+- **Workaround:** Never call `deleteFeature` while inside an editing session. Close first, then delete.
+
+### 111. 🟡 `part.deleteFeature` — built-in origin geometry is deletable
+
+- **Session:** `2026-04-21_03-00-00_deleteFeature` (journal entry 14)
+- **Error:** Built-in origin work geometry (Top, Front, Right planes; X/Y/Z axes) can be deleted with maxLevel=31 (clean success). No protection or warning. This could break any features referencing origin planes.
+- **Trigger:** `getWorkGeometry({ id: partId, name: 'Top' })` → `deleteFeature({ ids: [topPlaneId] })`.
+- **Workaround:** Never pass built-in origin IDs to deleteFeature. Filter them out before batch deletes.

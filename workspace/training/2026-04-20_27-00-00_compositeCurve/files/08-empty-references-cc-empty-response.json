@@ -1,0 +1,13 @@
+{
+  "result": 54,
+  "messages": [
+    {
+      "api": "v1.part.compositeCurve",
+      "code": 1111,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There are missing references for CC_Empty (CC_CompositeCurve)."
+    }
+  ],
+  "maxLevel": 51
+}

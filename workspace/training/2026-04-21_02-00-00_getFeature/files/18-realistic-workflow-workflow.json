@@ -1,0 +1,14 @@
+{
+  "Base": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "Pillar": {
+    "result": 91,
+    "maxLevel": 31
+  },
+  "Assembly": {
+    "result": 110,
+    "maxLevel": 31
+  }
+}

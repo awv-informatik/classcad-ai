@@ -1,0 +1,32 @@
+{
+  "deleteRolledBack": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationSequence.GetNextOperation:[Index 11 ausserhalb des Arraybereichs] not defined !] "
+      },
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in BaseModelingCommonFuncs.DeleteObject::PROC:[CCVM::callsf: objId not found]] "
+      }
+    ]
+  },
+  "deleteActive": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "survivors": {
+    "box": 54,
+    "cyl": null,
+    "sphere": null
+  }
+}

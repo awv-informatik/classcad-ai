@@ -1,0 +1,4 @@
+[07] edge IDs: [106]
+[07] radius=35 result: 120 maxLevel: 31
+[filewrite] files/07-oversized-radius-radius-35.json (55 bytes)
+[stderr] [run] Script error: Cannot read properties of null (reading 'lines')

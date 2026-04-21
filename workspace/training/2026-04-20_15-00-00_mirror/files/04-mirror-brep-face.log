@@ -1,0 +1,4 @@
+[04] brep face IDs: {"planes":[112]}
+[04] faceId: 112
+[04] mirrorId: null maxLevel: 51
+[04] messages: [{"api":"v1.part.mirror","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.mirror","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"references\" has an invalid id!"}]

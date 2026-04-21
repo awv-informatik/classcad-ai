@@ -1,0 +1,20 @@
+{
+  "faceOnly": {
+    "result": 91,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "mixed": {
+    "result": 104,
+    "messages": [
+      {
+        "api": "v1.part.compositeCurve",
+        "code": 1121,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "At least at the position {0,0,30} more than two lines/edges meet each other in CC_Mixed (CC_CompositeCurve)."
+      }
+    ],
+    "maxLevel": 51
+  }
+}

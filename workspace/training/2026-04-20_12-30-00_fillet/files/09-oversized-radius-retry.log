@@ -1,0 +1,4 @@
+[09] edge IDs: [127]
+[09] radius=50 result: 149 maxLevel: 51
+[09] messages: [{"api":"v1.part.fillet","code":0,"level":51,"levelStr":"ERROR","message":"Fillet could not be applied to all edges."}]
+[filewrite] files/09-oversized-radius-retry-oversized-response.json (225 bytes)

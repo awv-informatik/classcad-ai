@@ -18,6 +18,9 @@ The `target` must be an **operation/feature ID**. Not all IDs work:
 | Part container ID | ❌ | Error 1007: "must be an operation id" |
 | Sketch ID | ❌ | Error 1007: "must be an operation id" |
 | Work geometry ID (work plane, axis, etc.) | ❌ | Error 1007: "must be an operation id" |
+| Pattern feature (`linearPattern`, `circularPattern`) | ✅ | Supports per-instance indexing |
+| Boolean feature result | ❌ | `part.boolean` returns VOID — no ID to target |
+| Consumed feature (has downstream features) | ❌ | Error 1014: feature consumed by later operation |
 | Invalid/nonexistent ID | ❌ | Error 1006: "invalid id" |
 
 ## Key Parameters
@@ -60,6 +63,7 @@ Can mix plain target IDs and `{ id, indices }` objects in the array.
 - **Harness renderer ignores color** — the snapshot renderer uses its own per-body color palette. Color/transparency are stored in the model but not visible in harness snapshots. Use `requestVisualisation` to verify.
 - **Calling with no properties** — `setAppearance({ target: id })` with no color, transparency, or faceting params is a silent no-op (maxLevel 31).
 - **Overwrite behavior** — successive calls on the same target all succeed. Whether unspecified properties are preserved or reset is unverified (no read-back tested between overwrites).
+- **Consumed features fail with error 1014** — if a downstream feature (fillet, chamfer, pattern) has consumed a base feature, `setAppearance` on the consumed feature returns error 1014 "Entity 'X' is not available." Only the **tip** (latest) feature in the chain accepts appearance. This applies to both `common.setAppearance` and `part.setAppearance`.
 
 ## Per-Feature Faceting
 
@@ -75,6 +79,8 @@ Faceting overrides persist through OFB save/load.
 | "invalid id" | 1006 | Target ID doesn't exist |
 | "color has invalid number of elements! There should be 3" | 1002 | Color array doesn't have exactly 3 elements |
 | "objId not found" | 0 | Index out of range for the feature's solids |
+| "Entity 'X' is not available. It has already been consumed/used in another operation." | 1014 | Target feature consumed by downstream feature |
+| "target = VOID is not allowed" | 1001 | Target is null (e.g., boolean feature returned VOID) |
 
 ## Working Example
 
@@ -112,6 +118,7 @@ Appearance properties (color, transparency, faceting) persist through OFB save/l
 
 ## Related
 
-- `common.requestVisualisation` — read back stored appearance data
+- `part.setAppearance` — identical behavior, different namespace
+- `common.requestVisualisation` — read back stored appearance data (returns null in CLI mode)
 - `common.setFacetingParameters` / `common.getFacetingParameters` — global faceting settings
 - `common.setDatabaseSettings` — global database settings

@@ -1,0 +1,58 @@
+[05] partId: 4
+[05] CC_Box: OK id=52 
+[05]   committed CC_Box
+[05] CC_Cylinder: OK id=56 
+[05]   committed CC_Cylinder
+[05] CC_Sphere: OK id=60 
+[05]   committed CC_Sphere
+[05] CC_Cone: OK id=64 
+[05]   committed CC_Cone
+[05] CC_Extrusion: OK id=68 
+[05]   committed CC_Extrusion
+[05] CC_Revolve: OK id=72 
+[05]   committed CC_Revolve
+[05] CC_Fillet: OK id=76 
+[05]   committed CC_Fillet
+[05] CC_Chamfer: OK id=80 
+[05]   committed CC_Chamfer
+[05] CC_Sketch: OK id=84 
+[05]   committed CC_Sketch
+[05] CC_WorkPlane: OK id=90 
+[05]   committed CC_WorkPlane
+[05] CC_WorkAxis: OK id=94 
+[05]   committed CC_WorkAxis
+[05] CC_WorkPoint: OK id=98 
+[05]   committed CC_WorkPoint
+[05] CC_WorkCSys: OK id=102 
+[05]   committed CC_WorkCSys
+[05] CC_Mirror: OK id=106 
+[05]   committed CC_Mirror
+[05] CC_LinearPattern: OK id=110 
+[05]   committed CC_LinearPattern
+[05] CC_CircularPattern: OK id=114 
+[05]   committed CC_CircularPattern
+[05] CC_Translation: OK id=118 
+[05]   committed CC_Translation
+[05] CC_Rotation: OK id=122 
+[05]   committed CC_Rotation
+[05] CC_EntityInjection: OK id=126 
+[05]   committed CC_EntityInjection
+[05] CC_Slice: OK id=130 
+[05]   committed CC_Slice
+[05] CC_Twist: OK id=134 
+[05]   committed CC_Twist
+[05] CC_Boolean: FAIL [Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_Boolean
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[05] CC_SliceBySheet: OK id=138 
+[05]   committed CC_SliceBySheet
+[05] CC_EntityDeletion: OK id=142 
+[05]   committed CC_EntityDeletion
+[05] CC_ImportFeature: FAIL [Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_ImportFeature
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[05] CC_CompositeCurve: OK id=146 
+[05]   committed CC_CompositeCurve
+[05] CC_TransformationByCSys: OK id=150 
+[05]   committed CC_TransformationByCSys
+[filewrite] files/05-types-sequential-sequential-types.json (3316 bytes)

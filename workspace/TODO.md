@@ -745,3 +745,17 @@ Collected from all training journals. Ordered by severity.
 - **Error:** Built-in origin work geometry (Top, Front, Right planes; X/Y/Z axes) can be deleted with maxLevel=31 (clean success). No protection or warning. This could break any features referencing origin planes.
 - **Trigger:** `getWorkGeometry({ id: partId, name: 'Top' })` → `deleteFeature({ ids: [topPlaneId] })`.
 - **Workaround:** Never pass built-in origin IDs to deleteFeature. Filter them out before batch deletes.
+
+### 112. 📖 `part.createUncommitedObject` — CC_Boolean is not a valid class name
+
+- **Session:** `2026-04-21_00-00-00_createUncommitedObject` (journal entry 06)
+- **Error:** `CC_Boolean` fails with "non-existent class." The docs use `part.boolean` for the API, but the internal class names are `CC_Union`, `CC_Subtraction`, `CC_Intersection` (per boolean type), or `CC_BooleanOperation` (generic).
+- **Trigger:** `createUncommitedObject({ type: 'CC_Boolean' })`.
+- **Workaround:** Use type-specific class names: CC_Union, CC_Subtraction, CC_Intersection.
+
+### 113. 📖 `part.createUncommitedObject` — CC_ImportFeature is not a valid class name
+
+- **Session:** `2026-04-21_00-00-00_createUncommitedObject` (journal entry 05)
+- **Error:** `CC_ImportFeature` fails with "non-existent class." The API is `part.importFeature` but the internal class is `CC_Import`.
+- **Trigger:** `createUncommitedObject({ type: 'CC_ImportFeature' })`.
+- **Workaround:** Use `CC_Import` as the type string.

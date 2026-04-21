@@ -1,0 +1,4 @@
+[01] createUncommitedObject result: 52 maxLevel: 31
+[filewrite] files/01-basic-cc-box-create-response.json (54 bytes)
+[filewrite] files/01-basic-cc-box-structure-after-create.json (20764 bytes)
+[01] getFeature result: null maxLevel: 51

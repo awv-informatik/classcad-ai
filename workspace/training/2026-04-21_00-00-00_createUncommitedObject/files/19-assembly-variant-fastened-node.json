@@ -1,0 +1,63 @@
+{
+  "name": "TestFastened",
+  "class": "CC_FastenedConstraint",
+  "id": 24,
+  "flags": 0,
+  "parent": 16,
+  "members": {
+    "xOffset": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "yOffset": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "zOffset": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "xRotation": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "yRotation": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "zRotation": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2023_10_20_17:00",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "firstRefMate": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "secondRefMate": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

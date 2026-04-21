@@ -1,0 +1,170 @@
+{
+  "CC_Box": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Cylinder": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Sphere": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Cone": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Extrusion": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Revolve": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Boolean": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Fillet": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Chamfer": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Sketch": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_WorkPlane": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_WorkAxis": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_WorkPoint": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_WorkCSys": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Mirror": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_LinearPattern": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_CircularPattern": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Translation": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Rotation": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_EntityInjection": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Slice": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Twist": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_SliceBySheet": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_EntityDeletion": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_ImportFeature": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_CompositeCurve": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_TransformationByCSys": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  },
+  "CC_Expression": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+  }
+}

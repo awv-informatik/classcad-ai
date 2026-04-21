@@ -1,0 +1,52 @@
+{
+  "boolean": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.boolean",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"PreCommitBox\", \r\n\t\t\tplease commit or decline the feature first."
+      },
+      {
+        "api": "v1.part.boolean",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in APIParamCheck.DoCheck:[CCVM::lcm: objId not found]] "
+      },
+      {
+        "api": "v1.part.boolean",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in APIHelper.Create::PROC:[CCVM::ldm: objId not found]] "
+      },
+      {
+        "api": "v1.part.boolean",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.boolean::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "link": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "mass": {
+    "result": {
+      "cog": {
+        "x": 40,
+        "y": 50,
+        "z": 50
+      },
+      "volume": 800000
+    },
+    "maxLevel": 31
+  }
+}

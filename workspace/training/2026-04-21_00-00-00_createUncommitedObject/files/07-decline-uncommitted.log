@@ -1,0 +1,5 @@
+[07] uncommitted boxId: 52
+[07] deleteFeature result: null maxLevel: 51
+[filewrite] files/07-decline-uncommitted-delete-response.json (250 bytes)
+[07] uncommitedObjectsIds after delete: {"members":[{"value":52,"type":"id","visible":1,"expression":""}],"type":"array","visible":0,"expression":""}
+[07] second create result: null

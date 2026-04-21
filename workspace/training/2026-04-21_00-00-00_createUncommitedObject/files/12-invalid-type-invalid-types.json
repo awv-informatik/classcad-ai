@@ -1,0 +1,42 @@
+{
+  "INVALID": {
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: INVALID\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "Box": {
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: Box\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "cc_box": {
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: cc_box\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "CC_BOX": {
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_BOX\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "CC_box": {
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_box\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "(empty)": {
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: \nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "CC_Part": {
+    "result": 52,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_OperationSequence": {
+    "result": null,
+    "maxLevel": 51,
+    "message": "There is still an uncommited feature called \"Test\", \r\n\t\t\tplease commit or decline the feature first."
+  }
+}

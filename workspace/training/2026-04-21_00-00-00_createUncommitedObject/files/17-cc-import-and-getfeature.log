@@ -1,0 +1,7 @@
+[17] CC_Import: 52 OK
+[17] import node class: CC_Import members: [ '_VERSION', 'solidOperation' ]
+[filewrite] files/17-cc-import-and-getfeature-import-node.json (351 bytes)
+[17] uncommitted box: 58
+[17] getFeature before recalc: null maxLevel: 51
+[17] getFeature after recalc: 58 maxLevel: 31
+[17] getFeature after commit: 58 maxLevel: 31

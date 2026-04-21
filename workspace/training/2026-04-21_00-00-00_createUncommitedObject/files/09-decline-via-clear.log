@@ -1,0 +1,8 @@
+[09] uncommitted boxId: 52
+[09] operationMoveToEnd: null maxLevel: 31
+[09] uncommitedObjectsIds after moveToEnd: [52]
+[09] Still uncommitted, committing via open+close with no update
+[09] committed
+[09] uncommitedObjectsIds after commit: []
+[09] getFeature: null maxLevel: 51
+[09] deleteFeature after commit: null maxLevel: 51 msg: ToId()/TOID() didn't get an existing or valid id.

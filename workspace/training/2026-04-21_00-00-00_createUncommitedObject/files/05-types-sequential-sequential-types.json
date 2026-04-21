@@ -1,0 +1,164 @@
+{
+  "CC_Box": {
+    "success": true,
+    "result": 52,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Cylinder": {
+    "success": true,
+    "result": 56,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Sphere": {
+    "success": true,
+    "result": 60,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Cone": {
+    "success": true,
+    "result": 64,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Extrusion": {
+    "success": true,
+    "result": 68,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Revolve": {
+    "success": true,
+    "result": 72,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Fillet": {
+    "success": true,
+    "result": 76,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Chamfer": {
+    "success": true,
+    "result": 80,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Sketch": {
+    "success": true,
+    "result": 84,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_WorkPlane": {
+    "success": true,
+    "result": 90,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_WorkAxis": {
+    "success": true,
+    "result": 94,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_WorkPoint": {
+    "success": true,
+    "result": 98,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_WorkCSys": {
+    "success": true,
+    "result": 102,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Mirror": {
+    "success": true,
+    "result": 106,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_LinearPattern": {
+    "success": true,
+    "result": 110,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_CircularPattern": {
+    "success": true,
+    "result": 114,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Translation": {
+    "success": true,
+    "result": 118,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Rotation": {
+    "success": true,
+    "result": 122,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_EntityInjection": {
+    "success": true,
+    "result": 126,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Slice": {
+    "success": true,
+    "result": 130,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Twist": {
+    "success": true,
+    "result": 134,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_Boolean": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_Boolean\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "CC_SliceBySheet": {
+    "success": true,
+    "result": 138,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_EntityDeletion": {
+    "success": true,
+    "result": 142,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_ImportFeature": {
+    "success": false,
+    "result": null,
+    "maxLevel": 51,
+    "message": "[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_ImportFeature\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+  },
+  "CC_CompositeCurve": {
+    "success": true,
+    "result": 146,
+    "maxLevel": 31,
+    "message": null
+  },
+  "CC_TransformationByCSys": {
+    "success": true,
+    "result": 150,
+    "maxLevel": 31,
+    "message": null
+  }
+}

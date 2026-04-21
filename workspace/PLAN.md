@@ -1248,7 +1248,7 @@ const lpFeat = (
 | 2   | Api study of `part.operationMoveToEnd`                                                                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 3   | Api study of `part.getFeature`                                                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 4   | Api study of `part.deleteFeature`                                                                                       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
-| 5   | Api study of `part.createUncommitedObject`                                                                              | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
+| 5   | Api study of `part.createUncommitedObject`                                                                              | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 6   | Study: RollbackBar vs GhostRollbackBar — how open/close enables mid-tree editing without destroying downstream features | part.md                                                       | [ ]     |
 
 ---

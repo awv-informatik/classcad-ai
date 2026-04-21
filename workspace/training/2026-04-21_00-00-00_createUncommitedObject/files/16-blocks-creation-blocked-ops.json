@@ -1,0 +1,31 @@
+{
+  "box": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "There is still an uncommited feature called \"PendingCyl\", \r\n\t\t\tplease commit or decline the feature first."
+  },
+  "cylinder": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "There is still an uncommited feature called \"PendingCyl\", \r\n\t\t\tplease commit or decline the feature first."
+  },
+  "sketch": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "There is still an uncommited feature called \"PendingCyl\", \r\n\t\t\tplease commit or decline the feature first."
+  },
+  "workPlane": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "There is still an uncommited feature called \"PendingCyl\", \r\n\t\t\tplease commit or decline the feature first."
+  },
+  "expression": {
+    "result": 1,
+    "maxLevel": 31
+  },
+  "entityInjection": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "There is still an uncommited feature called \"PendingCyl\", \r\n\t\t\tplease commit or decline the feature first."
+  }
+}

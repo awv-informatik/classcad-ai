@@ -1,0 +1,42 @@
+{
+  "name": "DefaultCyl",
+  "class": "CC_Cylinder",
+  "id": 176,
+  "flags": 0,
+  "parent": 16,
+  "members": {
+    "height": {
+      "value": 100,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2001_4_2_13:7",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "diameter": {
+      "value": 100,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "references": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "solidOperation": {
+      "value": 0,
+      "type": "real",
+      "visible": 0,
+      "expression": ""
+    }
+  },
+  "children": [
+    218
+  ]
+}

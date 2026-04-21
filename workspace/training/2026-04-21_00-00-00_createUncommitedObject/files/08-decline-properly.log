@@ -1,0 +1,7 @@
+[08] uncommitted boxId: 52
+[08] deleteFeature with ids: null maxLevel: 31 msg: none
+[08] uncommitedObjectsIds after deleteFeature: [52]
+[08] Uncommitted still present, trying open → delete...
+[08] delete after open: null maxLevel: 51 msg: ToId()/TOID() didn't get an existing or valid id.
+[08] uncommitedObjectsIds after open+delete: [52]
+[08] new create after decline: null

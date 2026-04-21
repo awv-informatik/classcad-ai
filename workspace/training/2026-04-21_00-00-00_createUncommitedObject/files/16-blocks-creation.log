@@ -1,0 +1,14 @@
+[16] normalBox: 54
+[16] uncommitted cyl: 89
+[16] part.box: null maxLevel: 51 msg: There is still an uncommited feature called "PendingCyl", 
+			please commit or decline the feature first.
+[16] part.cylinder: null maxLevel: 51 msg: There is still an uncommited feature called "PendingCyl", 
+			please commit or decline the feature first.
+[16] part.sketch: null maxLevel: 51 msg: There is still an uncommited feature called "PendingCyl", 
+			please commit or decline the feature first.
+[16] part.workPlane: null maxLevel: 51 msg: There is still an uncommited feature called "PendingCyl", 
+			please commit or decline the feature first.
+[16] expression: 1 maxLevel: 31 msg: none
+[16] entityInjection: null maxLevel: 51 msg: There is still an uncommited feature called "PendingCyl", 
+			please commit or decline the feature first.
+[filewrite] files/16-blocks-creation-blocked-ops.json (1002 bytes)

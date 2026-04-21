@@ -1,0 +1,21 @@
+{
+  "name": "MyImport",
+  "class": "CC_Import",
+  "id": 52,
+  "flags": 0,
+  "parent": 16,
+  "members": {
+    "_VERSION": {
+      "value": "0/2003_11_23_9:11",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "solidOperation": {
+      "value": 0,
+      "type": "real",
+      "visible": 0,
+      "expression": ""
+    }
+  }
+}

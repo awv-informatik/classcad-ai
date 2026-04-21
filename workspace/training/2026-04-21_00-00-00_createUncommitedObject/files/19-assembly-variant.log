@@ -1,0 +1,22 @@
+[19] asmId: 12
+[19] assembly.createUncommitedObject: 24 maxLevel: 31 msg: none
+[filewrite] files/19-assembly-variant-asm-uncommitted.json (54 bytes)
+[19] node class: CC_FastenedConstraint members: [
+  'xOffset',
+  'yOffset',
+  'zOffset',
+  'xRotation',
+  'yRotation',
+  'zRotation',
+  '_VERSION',
+  'firstRefMate',
+  'secondRefMate'
+]
+[filewrite] files/19-assembly-variant-fastened-node.json (1135 bytes)
+[19] committed fastened
+[19] CC_FastenedOriginConstraint: result=26 maxLevel=31
+[19] CC_RevoluteConstraint: result=28 maxLevel=31
+[19] CC_PrismaticConstraint: result=null maxLevel=51
+[19] CC_CylindricalConstraint: result=30 maxLevel=31
+[19] CC_PlanarConstraint: result=32 maxLevel=31
+[19] CC_BallConstraint: result=null maxLevel=51

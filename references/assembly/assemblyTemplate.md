@@ -56,7 +56,7 @@ Each assembly template consumes ~10 IDs for internal nodes (vs ~46 for part temp
 
 - **`partTemplate()` always creates in PartContainer**, regardless of whether `currentProduct` points to an assembly template. Part templates are global, not scoped to a sub-assembly.
 - **Has `originalName` member** (unlike `partTemplate`). Sanitized name goes to `name`, raw string to `originalName`.
-- **`getAssemblyTemplate({ name: '' })` fails** even if an empty-named template exists — returns error, not the template.
+- **`getAssemblyTemplate({ name: '' })` works** if an empty-named template exists — returns its ID. Only fails when no empty-named template exists.
 - **No `ident` param.** Unlike `assembly.create`, `assemblyTemplate` has no `ident` parameter.
 
 ## Working Example

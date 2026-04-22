@@ -11,7 +11,7 @@ Finds part templates by name or lists all part templates in the PartContainer. T
 - `name` (string, optional) — exact name of the part template to find.
   - **Case-sensitive, exact match only.** No partial matching, no case-insensitive search.
   - Omit (or pass `{}` or `undefined`) to list all templates.
-  - Empty string `''` works — finds a template created with `partTemplate({ name: '' })`. (Unlike `getAssemblyTemplate`, which fails on empty name.)
+  - Empty string `''` works — finds a template created with `partTemplate({ name: '' })`. (`getAssemblyTemplate` also works with empty name.)
   - Deduplicated names (e.g., "Bolt0", "Bolt1") are found by their actual name, not the originally requested name.
 
 ## Return Value

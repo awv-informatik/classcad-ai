@@ -1,0 +1,13 @@
+[03] create result: 12 maxLevel: 31
+[03] root name: IdentTest
+[03] root class: CC_AssemblyRoot
+[03] root members keys: [
+  '_VERSION',
+  'featureRootPath',
+  'cadRootPath',
+  'unit',
+  'activeDock',
+  'isFileAssemblyNode',
+  'originalName'
+]
+[filewrite] files/03-with-ident-ident-create.json (1196 bytes)

@@ -1,0 +1,73 @@
+{
+  "noProps": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "colorOnly": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "transpOnly": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "oorColor": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "oorTranspHigh": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "oorTranspLow": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "color2Elem": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1002,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"color\" has invalid number of elements! There should be 3 element(s) in this situation!"
+      }
+    ]
+  },
+  "color4Elem": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1002,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"color\" has invalid number of elements! There should be 3 element(s) in this situation!"
+      }
+    ]
+  },
+  "floatColor": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "invalidId": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"target\" has an invalid id!"
+      }
+    ]
+  }
+}

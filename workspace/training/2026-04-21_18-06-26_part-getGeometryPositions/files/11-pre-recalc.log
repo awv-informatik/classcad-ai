@@ -1,0 +1,8 @@
+[11] pre-recalc line IDs: [ 67 ] maxLevel: 31
+[11] pre-recalc positions maxLevel: 31
+[11] pre-recalc result: [{"id":67,"positions":[{"x":40,"y":0,"z":0}]}]
+[11] post-recalc line IDs: [ 98 ]
+[11] post-recalc positions maxLevel: 31
+[11] post-recalc result: [{"id":98,"positions":[{"x":40,"y":0,"z":0}]}]
+[11] same IDs? false
+[filewrite] files/11-pre-recalc-pre-recalc.json (412 bytes)

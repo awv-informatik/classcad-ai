@@ -1,0 +1,5 @@
+[05] box1: 54 box2: 91 cyl1: 128
+[05] batch result: null maxLevel: 31
+[filewrite] files/05-batch-form-batch-result.json (56 bytes)
+[05] mixed batch: null maxLevel: 31
+[filewrite] files/05-batch-form-mixed-batch-result.json (56 bytes)

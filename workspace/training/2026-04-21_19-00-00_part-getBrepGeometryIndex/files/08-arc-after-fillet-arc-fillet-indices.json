@@ -1,0 +1,14 @@
+[
+  {
+    "test": "arc→filletFeature",
+    "arcId": [],
+    "index": null,
+    "maxLevel": 51
+  },
+  {
+    "test": "arc→boxFeature",
+    "arcId": [],
+    "index": null,
+    "maxLevel": 51
+  }
+]

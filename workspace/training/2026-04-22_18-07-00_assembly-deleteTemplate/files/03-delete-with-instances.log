@@ -1,0 +1,6 @@
+[03] tpl1: 22 inst1: 105 inst2: 107
+[03] deleteTemplate result: null maxLevel: 31
+[03] messages: []
+[filewrite] files/03-delete-with-instances-delete-instanced-result.json (56 bytes)
+[03] templates after: []
+[filewrite] files/03-delete-with-instances-structure-after-delete.json (5935 bytes)

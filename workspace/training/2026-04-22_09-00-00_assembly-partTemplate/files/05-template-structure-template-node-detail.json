@@ -1,0 +1,34 @@
+{
+  "expressionSet": 24,
+  "dimensions": [],
+  "geometrySet": 28,
+  "solids": [],
+  "name": "FullPart",
+  "class": "CC_Part",
+  "id": 22,
+  "flags": 0,
+  "parent": 8,
+  "members": {
+    "_VERSION": {
+      "value": "3/2021_9_13_15:30",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "unit": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "children": [
+    24,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36
+  ]
+}

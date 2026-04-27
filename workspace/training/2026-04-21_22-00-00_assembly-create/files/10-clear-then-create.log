@@ -1,0 +1,5 @@
+[10] first create result: 12 maxLevel: 31
+[10] clear result: null maxLevel: 31
+[10] second create result: 12 maxLevel: 31
+[10] second root name: AfterClear
+[filewrite] files/10-clear-then-create-clear-then-create.json (170 bytes)

@@ -1,0 +1,12 @@
+[15] face index 0 → id: 73
+[15] face index 1 → id: 72
+[15] face index 2 → id: 74
+[15] total faces: 3
+[15] maxLevel: 31
+[15] id: 73 positions count: 1
+[15] positions: [{"x":-20,"y":2.4492935982947065e-15,"z":0}]
+[15] id: 72 positions count: 3
+[15] positions: [{"x":20,"y":0,"z":25},{"x":-20,"y":2.4492935982947065e-15,"z":0},{"x":-20,"y":2.4492935982947065e-15,"z":50}]
+[15] id: 74 positions count: 1
+[15] positions: [{"x":-20,"y":2.4492935982947065e-15,"z":50}]
+[filewrite] files/15-cylindrical-face-cylindrical-face.json (833 bytes)

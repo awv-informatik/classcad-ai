@@ -1,0 +1,8 @@
+[09] step1 top edges: 4 ids: [ 106, 107, 108, 109 ]
+[09] step1 fillet: ✓
+[09] step2 bottom edges: 4 ids: [ 178, 179, 180, 181 ] any empty? false
+[09] step2 chamfer: ✓
+[09] step3 vertical edges: 4 ids: [ 295, 296, 297, 298 ] any empty? false
+[09] step3 fillet verticals: ✓
+[09] final topology: lines: 28 arcs: 0 faces: 18
+[filewrite] files/09-multistep-chain-multistep.json (399 bytes)

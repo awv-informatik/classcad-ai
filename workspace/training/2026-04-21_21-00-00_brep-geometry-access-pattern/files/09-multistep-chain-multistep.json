@@ -1,0 +1,34 @@
+{
+  "step1": {
+    "topEdges": [
+      106,
+      107,
+      108,
+      109
+    ],
+    "filletId": 120
+  },
+  "step2": {
+    "bottomEdges": [
+      178,
+      179,
+      180,
+      181
+    ],
+    "chamferId": 233
+  },
+  "step3": {
+    "vertEdges": [
+      295,
+      296,
+      297,
+      298
+    ],
+    "filletId": 379
+  },
+  "finalTopology": {
+    "lines": 28,
+    "arcs": 0,
+    "faces": 18
+  }
+}

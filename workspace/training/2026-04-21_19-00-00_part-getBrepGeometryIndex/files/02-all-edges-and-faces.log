@@ -1,0 +1,7 @@
+[02] lines: [98,99,100,101,106,107,108,109,102,103,104,105]
+[02] planes: [111,112,113,114,110,115]
+[02] points: [90,91,92,93,94,95,96,97]
+[02] edge indices: [0,2,3,1,8,10,11,9,4,5,7,6]
+[02] face indices: [1,3,4,2,0,5]
+[02] vertex indices: [0,1,3,2,4,5,7,6]
+[filewrite] files/02-all-edges-and-faces-all-indices.json (1739 bytes)

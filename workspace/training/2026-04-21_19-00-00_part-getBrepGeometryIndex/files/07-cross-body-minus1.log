@@ -1,0 +1,7 @@
+[07] box1 edges: [139,135] maxLevel: 31
+[07] box2 edges: [[],[]] maxLevel: 51
+[07] box1_edge → box1: index 4 maxLevel: 31
+[07] box1_edge → box2: index -1 maxLevel: 31
+[07] box2_edge → box2: index null maxLevel: 51
+[07] box2_edge → box1: index null maxLevel: 51
+[filewrite] files/07-cross-body-minus1-cross-body-tests.json (313 bytes)

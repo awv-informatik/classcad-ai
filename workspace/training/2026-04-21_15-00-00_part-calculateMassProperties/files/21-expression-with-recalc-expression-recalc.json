@@ -1,0 +1,26 @@
+{
+  "before": {
+    "cog": {
+      "x": 25,
+      "y": 15,
+      "z": 10
+    },
+    "volume": 30000
+  },
+  "afterNoRecalc": {
+    "cog": {
+      "x": 25,
+      "y": 15,
+      "z": 10
+    },
+    "volume": 30000
+  },
+  "afterRecalc": {
+    "cog": {
+      "x": 25,
+      "y": 15,
+      "z": 10
+    },
+    "volume": 30000
+  }
+}

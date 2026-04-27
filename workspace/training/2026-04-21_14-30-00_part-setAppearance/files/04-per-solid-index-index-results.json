@@ -1,0 +1,26 @@
+{
+  "wholeFeature": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "indexZero": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "indexOneOOR": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in APIHelper.PrepareEntityObjs:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "emptyIndices": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

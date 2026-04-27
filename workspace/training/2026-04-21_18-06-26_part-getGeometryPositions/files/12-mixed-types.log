@@ -1,0 +1,16 @@
+[12] line IDs: [ 102, 98 ]
+[12] point IDs: [ 90, 96 ]
+[12] plane IDs: [ 111, 115 ]
+[12] querying 6 elements of mixed types: [ 102, 98, 90, 96, 111, 115 ]
+[12] maxLevel: 31
+[12] result count: 6
+[12] line id: 102 positions count: 1 positions: [{"x":0,"y":0,"z":20}]
+[12] line id: 98 positions count: 1 positions: [{"x":40,"y":0,"z":0}]
+[12] point id: 90 positions count: 1 positions: [{"x":0,"y":0,"z":0}]
+[12] point id: 96 positions count: 1 positions: [{"x":80,"y":60,"z":40}]
+[12] plane id: 111 positions count: 4 positions: [{"x":0,"y":0,"z":20},{"x":40,"y":0,"z":0},{"x":80,"y":0,"z":20},{"x":40,"y":0,"z":40}]
+[12] plane id: 115 positions count: 4 positions: [{"x":0,"y":30,"z":40},{"x":40,"y":0,"z":40},{"x":80,"y":30,"z":40},{"x":40,"y":60,"z":40}]
+[12] input order: [ 102, 98, 90, 96, 111, 115 ]
+[12] output order: [ 102, 98, 90, 96, 111, 115 ]
+[12] same order? true
+[filewrite] files/12-mixed-types-mixed-types.json (1461 bytes)

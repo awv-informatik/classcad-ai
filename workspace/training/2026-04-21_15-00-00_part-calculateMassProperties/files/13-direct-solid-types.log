@@ -1,0 +1,7 @@
+[13] sphere solid: {"cog":{"x":7.814142257741223e-16,"y":5.596496667529529e-15,"z":-1.1004352855212977e-15},"volume":33514.889354558196}
+[13] cylinder solid: {"cog":{"x":80.00887472310744,"y":-5.530212479626732e-15,"z":0},"volume":18095.383874119052}
+[13] box solid: {"cog":{"x":0,"y":80,"z":0},"volume":6000}
+[filewrite] files/13-direct-solid-types-solid-types.json (588 bytes)
+[13] expected sph vol: 33510.32 cyl vol: 18095.57 box vol: 6000
+[13] part total: {"cog":{"x":25.130783457736634,"y":8.331847309501487,"z":-6.401803839690755e-16},"volume":57610.27322867725}
+[13] expected total vol: 57605.90

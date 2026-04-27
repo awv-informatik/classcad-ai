@@ -1,0 +1,33 @@
+{
+  "solidIndex0": {
+    "result": 98,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "solidIndex1": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "solidIndexNeg": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:conversion from 'size_t' to 'int', possible loss of data.] "
+      }
+    ]
+  }
+}

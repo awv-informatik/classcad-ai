@@ -1,0 +1,10 @@
+[15] box before fillet: 31
+[15] filletId: 91
+[15] box after fillet: 51
+[15] box-after-fillet msgs: [{"api":"v1.part.setAppearance","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"Box1\" is not available. It has already been consumed/used in another operation."}]
+[15] fillet (latest): 31
+[15] fillet2Id: 113
+[15] fillet1 after fillet2: 51
+[15] fillet1 consumed msgs: [{"api":"v1.part.setAppearance","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"F1\" is not available. It has already been consumed/used in another operation."}]
+[15] fillet2 (latest): 31
+[filewrite] files/15-consumed-features-consumed-results.json (797 bytes)

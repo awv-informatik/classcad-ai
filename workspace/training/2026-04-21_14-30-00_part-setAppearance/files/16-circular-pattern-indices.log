@@ -1,0 +1,5 @@
+[16] cpId: null
+[16] idx0: 51 idx1: 51 idx2: 51 idx3: 51
+[16] idx4 (OOR): 51
+[16] idx4 msgs: [{"api":"v1.part.setAppearance","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[filewrite] files/16-circular-pattern-indices-circ-pattern-results.json (421 bytes)

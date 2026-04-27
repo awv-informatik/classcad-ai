@@ -1,0 +1,6 @@
+[11] sphere lines: 0
+[11] sphere arcs: 1
+[11] sphere faces: 1
+[11] sphere points: 2
+[11] sphere nurbs: 0
+[filewrite] files/11-sphere-nurbs-sphere-brep.json (267 bytes)

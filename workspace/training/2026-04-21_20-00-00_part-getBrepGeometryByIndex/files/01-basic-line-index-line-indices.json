@@ -1,0 +1,102 @@
+[
+  {
+    "lineIndex": 0,
+    "result": 98,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 1,
+    "result": 101,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 2,
+    "result": 99,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 3,
+    "result": 100,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 4,
+    "result": 102,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 5,
+    "result": 103,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 6,
+    "result": 105,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 7,
+    "result": 104,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 8,
+    "result": 106,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 9,
+    "result": 109,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 10,
+    "result": 107,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 11,
+    "result": 108,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "lineIndex": 12,
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Line element indexed as 12 does not exist."
+      }
+    ]
+  },
+  {
+    "lineIndex": 13,
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Line element indexed as 13 does not exist."
+      }
+    ]
+  }
+]

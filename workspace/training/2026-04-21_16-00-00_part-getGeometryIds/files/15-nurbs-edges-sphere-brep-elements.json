@@ -1,0 +1,22 @@
+[
+  {
+    "type": "arc",
+    "index": 0,
+    "id": 69
+  },
+  {
+    "type": "face",
+    "index": 0,
+    "id": 68
+  },
+  {
+    "type": "point",
+    "index": 0,
+    "id": 71
+  },
+  {
+    "type": "point",
+    "index": 1,
+    "id": 70
+  }
+]

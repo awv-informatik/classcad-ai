@@ -1,0 +1,5 @@
+[20] before: {"cog":{"x":25,"y":15,"z":10},"volume":30000}
+[20] after: {"cog":{"x":25,"y":15,"z":10},"volume":30000}
+[filewrite] files/20-expression-driven-expression-driven.json (207 bytes)
+[20] expected before: vol=30000, cog=[25,15,10]
+[20] expected after: vol=240000, cog=[50,30,20]

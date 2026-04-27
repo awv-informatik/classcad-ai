@@ -1,0 +1,7 @@
+[02] result: null maxLevel: 31
+[02] getAssemblyTemplate("MySubAsm"): 12 maxLevel: 31
+[02] getAssemblyTemplate("Subassembly"): null maxLevel: 51
+[02] new root id: 89
+[02] old root (12) name: MySubAsm class: CC_Assembly
+[filewrite] files/02-custom-name-convert-response.json (73 bytes)
+[filewrite] files/02-custom-name-get-template-check.json (75 bytes)

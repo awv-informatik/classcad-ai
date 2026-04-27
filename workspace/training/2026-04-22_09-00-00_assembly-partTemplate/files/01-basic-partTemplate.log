@@ -1,0 +1,8 @@
+[01] assembly.create: 12
+[01] partTemplate result: 22
+[01] partTemplate maxLevel: 31
+[01] partTemplate messages: []
+[filewrite] files/01-basic-partTemplate-partTemplate-response.json (54 bytes)
+[filewrite] files/01-basic-partTemplate-partTemplate-structure.json (24464 bytes)
+[01] structure.currentProduct: 12
+[01] structure.root: 12

@@ -1,0 +1,19 @@
+[04] box: 54 cyl: 91 sph: 110
+
+[04] === TEST 1: operationMoveBefore ===
+[04] Moved bar before Cyl1
+[04] Create feature during moveBefore: OK id=125 maxLevel: 31
+[04] Update box WITHOUT openFeature: null maxLevel: 51
+[04]   msg: The provided feature is not allowed to update. It's not active and open.
+[04] Moved bar back to end
+
+[04] === TEST 2: openFeature ===
+[04] Opened Cyl1
+[04] Create feature during openFeature: FAILED maxLevel: 51
+[04]   msg: There is still an open feature, 
+		please commit or decline the feature first.
+[04] Update Box1 while Cyl1 open: null maxLevel: 51
+[04]   msg: The provided feature is not allowed to update. It's not active and open.
+[04] Update Cyl1 (the open feature): 91 maxLevel: 31
+[04] Closed Cyl1
+[04] Cyl1 radius after update+close: null

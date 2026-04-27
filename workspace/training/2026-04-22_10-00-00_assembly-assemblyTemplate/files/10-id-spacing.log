@@ -1,0 +1,12 @@
+[10] asmId: 12
+[10] Sub0: 22
+[10] Sub1: 32
+[10] Sub2: 42
+[10] Sub3: 52
+[10] Sub4: 62
+[10] ID gaps: [ 10, 10, 10, 10 ]
+[10] Part0: 72
+[10] Part1: 118
+[10] Part2: 164
+[10] Part ID gaps: [ 46, 46 ]
+[filewrite] files/10-id-spacing-container-children.json (307 bytes)

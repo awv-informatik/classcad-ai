@@ -1,0 +1,5 @@
+[13] box edge: 129
+[13] cyl circle: [] maxLevel: 51
+[13] boxEdge → cylFeature: -1 (expect -1)
+[13] boolId: 156
+[13] post-union edge: [] circle: []

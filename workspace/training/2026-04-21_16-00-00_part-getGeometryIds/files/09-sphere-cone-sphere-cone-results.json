@@ -1,0 +1,32 @@
+{
+  "sphereFace1": {
+    "spheres": [
+      []
+    ]
+  },
+  "sphereFace2": {
+    "spheres": [
+      87
+    ]
+  },
+  "coneFace1": {
+    "cones": [
+      []
+    ]
+  },
+  "coneFace2": {
+    "cones": [
+      []
+    ]
+  },
+  "coneTopCircle": {
+    "circles": [
+      []
+    ]
+  },
+  "coneBottomCircle": {
+    "circles": [
+      []
+    ]
+  }
+}

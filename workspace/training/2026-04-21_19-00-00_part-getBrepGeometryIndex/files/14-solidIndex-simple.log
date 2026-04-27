@@ -1,0 +1,7 @@
+[14] solidIndex=0: 4 maxLevel: 31
+[14] solidIndex=1: null maxLevel: 51
+[14] solidIndex=1 messages: [{"api":"v1.part.getBrepGeometryIndex","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in PartAPI_v1.getBrepGeometryIndex::PROC:[Index 1 ausserhalb des Arraybereichs] not defined !] "}]
+[14] no solidIndex: 4 maxLevel: 31
+[14] solidIndex=-1: null maxLevel: 51
+[14] indices match: true
+[filewrite] files/14-solidIndex-simple-solidindex-simple.json (841 bytes)

@@ -1,0 +1,10 @@
+[03] target=partFeature: null maxLevel: 31
+[03] target=partId: null maxLevel: 51
+[03] partId messages: [{"api":"v1.part.setAppearance","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the target has the wrong type. It must be an operation id."}]
+[03] target=eifId: null maxLevel: 31
+[03] target=solidId: null maxLevel: 31
+[03] target=sketchId: null maxLevel: 51
+[03] sketchId messages: [{"api":"v1.part.setAppearance","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the target has the wrong type. It must be an operation id."}]
+[03] target=workPlane: null maxLevel: 51
+[03] workPlane messages: [{"api":"v1.part.setAppearance","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the target has the wrong type. It must be an operation id."}]
+[filewrite] files/03-target-types-target-types.json (1174 bytes)

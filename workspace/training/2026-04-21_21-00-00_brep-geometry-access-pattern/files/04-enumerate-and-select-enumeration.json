@@ -1,0 +1,150 @@
+{
+  "allEdges": [
+    {
+      "index": 0,
+      "id": 98,
+      "midpoint": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      },
+      "category": "bottom"
+    },
+    {
+      "index": 1,
+      "id": 101,
+      "midpoint": {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      },
+      "category": "bottom"
+    },
+    {
+      "index": 2,
+      "id": 99,
+      "midpoint": {
+        "x": 80,
+        "y": 30,
+        "z": 0
+      },
+      "category": "bottom"
+    },
+    {
+      "index": 3,
+      "id": 100,
+      "midpoint": {
+        "x": 40,
+        "y": 60,
+        "z": 0
+      },
+      "category": "bottom"
+    },
+    {
+      "index": 4,
+      "id": 102,
+      "midpoint": {
+        "x": 0,
+        "y": 0,
+        "z": 20
+      },
+      "category": "vertical"
+    },
+    {
+      "index": 5,
+      "id": 103,
+      "midpoint": {
+        "x": 80,
+        "y": 0,
+        "z": 20
+      },
+      "category": "vertical"
+    },
+    {
+      "index": 6,
+      "id": 105,
+      "midpoint": {
+        "x": 0,
+        "y": 60,
+        "z": 20
+      },
+      "category": "vertical"
+    },
+    {
+      "index": 7,
+      "id": 104,
+      "midpoint": {
+        "x": 80,
+        "y": 60,
+        "z": 20
+      },
+      "category": "vertical"
+    },
+    {
+      "index": 8,
+      "id": 106,
+      "midpoint": {
+        "x": 40,
+        "y": 0,
+        "z": 40
+      },
+      "category": "top"
+    },
+    {
+      "index": 9,
+      "id": 109,
+      "midpoint": {
+        "x": 0,
+        "y": 30,
+        "z": 40
+      },
+      "category": "top"
+    },
+    {
+      "index": 10,
+      "id": 107,
+      "midpoint": {
+        "x": 80,
+        "y": 30,
+        "z": 40
+      },
+      "category": "top"
+    },
+    {
+      "index": 11,
+      "id": 108,
+      "midpoint": {
+        "x": 40,
+        "y": 60,
+        "z": 40
+      },
+      "category": "top"
+    }
+  ],
+  "topEdgeIds": [
+    106,
+    109,
+    107,
+    108
+  ],
+  "bottomEdgeIds": [
+    98,
+    101,
+    99,
+    100
+  ],
+  "verticalEdgeIds": [
+    102,
+    103,
+    105,
+    104
+  ],
+  "reFountBottomIds": [
+    240,
+    243,
+    241,
+    242
+  ],
+  "filletId": 120,
+  "chamferId": 295
+}

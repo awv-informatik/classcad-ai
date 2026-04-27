@@ -1,0 +1,40 @@
+{
+  "featureId": {
+    "result": 98,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "partId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:[Index 0 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "invalidId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:[CCVM::callsf: objId not found]] "
+      }
+    ]
+  }
+}

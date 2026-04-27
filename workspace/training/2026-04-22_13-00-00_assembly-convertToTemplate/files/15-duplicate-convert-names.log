@@ -1,0 +1,7 @@
+[15] 1st convert: root = 107
+[15] 2nd convert: root = 120
+[15] all assembly templates: [ 12, 107 ]
+[15] find "Sub": 12
+[15] template 12 name: Sub
+[15] template 107 name: Sub0
+[filewrite] files/15-duplicate-convert-names-duplicate-names.json (120 bytes)

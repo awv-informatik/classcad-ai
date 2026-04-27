@@ -1,0 +1,7 @@
+[11] L-shape lines: 18
+[11] top: 6 bottom: 6 vertical: 6
+[11] vertical midpoints: [0,0,20] [80,0,20] [40,30,20] [80,30,20] [0,60,20] [40,60,20]
+[11] fillet verticals: ✓
+[11] inner top edges: [ 661, 664 ] any empty? false
+[11] chamfer inner corners: ✓
+[filewrite] files/11-extrusion-edges-l-shape-edges.json (2394 bytes)

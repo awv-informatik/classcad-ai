@@ -1,0 +1,4 @@
+[07] assembly created: 12
+[07] no templates getPartTemplate(): [] maxLevel: 31
+[07] no templates getPartTemplate({name}): null maxLevel: 51
+[filewrite] files/07-no-templates-no-templates.json (365 bytes)

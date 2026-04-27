@@ -1,0 +1,29 @@
+{
+  "noParams": {
+    "result": [
+      22,
+      68,
+      114
+    ],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "emptyObj": {
+    "result": [
+      22,
+      68,
+      114
+    ],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "undefName": {
+    "result": [
+      22,
+      68,
+      114
+    ],
+    "maxLevel": 31,
+    "messages": []
+  }
+}

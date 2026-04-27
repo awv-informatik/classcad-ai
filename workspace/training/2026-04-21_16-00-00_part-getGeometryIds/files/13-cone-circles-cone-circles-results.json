@@ -1,0 +1,32 @@
+{
+  "midBottom": {
+    "circles": [
+      76
+    ]
+  },
+  "midTop": {
+    "circles": [
+      77
+    ]
+  },
+  "centerBottom": {
+    "circles": [
+      76
+    ]
+  },
+  "centerTop": {
+    "circles": [
+      77
+    ]
+  },
+  "rim90": {
+    "circles": [
+      76
+    ]
+  },
+  "seam": {
+    "circles": [
+      []
+    ]
+  }
+}

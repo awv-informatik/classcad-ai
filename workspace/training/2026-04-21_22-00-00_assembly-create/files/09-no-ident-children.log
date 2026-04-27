@@ -1,0 +1,6 @@
+[09] no ident — result: 12
+[09] no ident — children: [14,16,18]
+[09] child 14 — name: ExpressionSet class: CC_ExpressionSet
+[09] child 16 — name: ConstraintSet class: CC_ConstraintSet
+[09] child 18 — name: GeometrySet class: CC_GeometrySet
+[filewrite] files/09-no-ident-children-full-structure-no-ident.json (5715 bytes)

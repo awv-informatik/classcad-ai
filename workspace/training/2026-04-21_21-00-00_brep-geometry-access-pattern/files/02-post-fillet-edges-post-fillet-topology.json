@@ -1,0 +1,108 @@
+{
+  "filletFeature": {
+    "lines": [
+      {
+        "index": 0,
+        "id": 149
+      },
+      {
+        "index": 1,
+        "id": 152
+      },
+      {
+        "index": 2,
+        "id": 150
+      },
+      {
+        "index": 3,
+        "id": 151
+      },
+      {
+        "index": 4,
+        "id": 153
+      },
+      {
+        "index": 5,
+        "id": 154
+      },
+      {
+        "index": 6,
+        "id": 156
+      },
+      {
+        "index": 7,
+        "id": 155
+      },
+      {
+        "index": 8,
+        "id": 171
+      },
+      {
+        "index": 9,
+        "id": 173
+      },
+      {
+        "index": 10,
+        "id": 160
+      },
+      {
+        "index": 11,
+        "id": 158
+      },
+      {
+        "index": 12,
+        "id": 159
+      }
+    ],
+    "arcs": [
+      {
+        "index": 0,
+        "id": 170
+      },
+      {
+        "index": 1,
+        "id": 172
+      }
+    ],
+    "faces": [
+      {
+        "index": 0,
+        "id": 161
+      },
+      {
+        "index": 1,
+        "id": 162
+      },
+      {
+        "index": 2,
+        "id": 165
+      },
+      {
+        "index": 3,
+        "id": 163
+      },
+      {
+        "index": 4,
+        "id": 164
+      },
+      {
+        "index": 5,
+        "id": 169
+      },
+      {
+        "index": 6,
+        "id": 166
+      }
+    ]
+  },
+  "remainingEdges": {
+    "lines": [
+      158,
+      159,
+      160,
+      149
+    ]
+  },
+  "chamferId": 181,
+  "arcPositions": null
+}

@@ -1,0 +1,7 @@
+[01] partId: 4 boxId: 54
+[01] bottom-front edge: {"lines":[98]} maxLevel: 31
+[01] right-bottom edge: {"lines":[99]} maxLevel: 31
+[01] top-front edge: {"lines":[106]} maxLevel: 31
+[01] vertical-front-left edge: {"lines":[102]} maxLevel: 31
+[01] multi-edge result: {"lines":[98,99,102]} maxLevel: 31
+[filewrite] files/01-box-edges-multi-edge-full-response.json (23336 bytes)

@@ -1,0 +1,30 @@
+{
+  "envelopeKeys": [
+    "result",
+    "messages",
+    "maxLevel",
+    "structure",
+    "graphic"
+  ],
+  "resultKeys": [
+    "cog",
+    "volume"
+  ],
+  "cogKeys": [
+    "x",
+    "y",
+    "z"
+  ],
+  "cogIsArray": false,
+  "cogIsObject": true,
+  "result": {
+    "cog": {
+      "x": 25,
+      "y": 25,
+      "z": 25
+    },
+    "volume": 125000
+  },
+  "maxLevel": 31,
+  "messagesLength": 0
+}

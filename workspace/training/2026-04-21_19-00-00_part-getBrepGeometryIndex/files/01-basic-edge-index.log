@@ -1,0 +1,6 @@
+[01] getGeometryIds lines: [102,103,98,106]
+[01] edge 102 → index: 4 maxLevel: 31
+[01] edge 103 → index: 5 maxLevel: 31
+[01] edge 98 → index: 0 maxLevel: 31
+[01] edge 106 → index: 8 maxLevel: 31
+[filewrite] files/01-basic-edge-index-edge-indices.json (253 bytes)

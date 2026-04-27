@@ -1249,7 +1249,7 @@ const lpFeat = (
 | 3   | Api study of `part.getFeature`                                                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 4   | Api study of `part.deleteFeature`                                                                                       | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
 | 5   | Api study of `part.createUncommitedObject`                                                                              | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
-| 6   | Study: RollbackBar vs GhostRollbackBar — how open/close enables mid-tree editing without destroying downstream features | part.md                                                       | [ ]     |
+| 6   | Study: RollbackBar vs GhostRollbackBar — how open/close enables mid-tree editing without destroying downstream features | part.md                                                       | [✅]     |
 
 ---
 
@@ -1257,13 +1257,13 @@ const lpFeat = (
 
 | #   | Task                                                                      | Source                                                        | Studied |
 | --- | ------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
-| 1   | Api study of `part.setAppearance`                                         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 2   | Api study of `part.calculateMassProperties`                               | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 3   | Api study of `part.getGeometryIds`                                        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 4   | Api study of `part.getGeometryPositions`                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 5   | Api study of `part.getBrepGeometryIndex`                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 6   | Api study of `part.getBrepGeometryByIndex`                                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [ ]     |
-| 7   | Study: brep geometry access pattern — finding edge IDs for chamfer/fillet | part.md                                                       | [ ]     |
+| 1   | Api study of `part.setAppearance`                                         | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 2   | Api study of `part.calculateMassProperties`                               | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 3   | Api study of `part.getGeometryIds`                                        | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 4   | Api study of `part.getGeometryPositions`                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 5   | Api study of `part.getBrepGeometryIndex`                                  | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 6   | Api study of `part.getBrepGeometryByIndex`                                | [part.md](../knowledge/classcad-skill/references/api/part.md) | [✅]     |
+| 7   | Study: brep geometry access pattern — finding edge IDs for chamfer/fillet | part.md                                                       | [✅]     |
 
 **Task #3: Api study of `part.getGeometryIds`**
 
@@ -1291,13 +1291,13 @@ const geoIds = (
 
 | #   | Task                                        | Source                                                                | Studied |
 | --- | ------------------------------------------- | --------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.create`              | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.partTemplate`        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.assemblyTemplate`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.getPartTemplate`     | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.getAssemblyTemplate` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.deleteTemplate`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 7   | Api study of `assembly.convertToTemplate`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 1   | Api study of `assembly.create`              | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 2   | Api study of `assembly.partTemplate`        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 3   | Api study of `assembly.assemblyTemplate`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 4   | Api study of `assembly.getPartTemplate`     | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 5   | Api study of `assembly.getAssemblyTemplate` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 6   | Api study of `assembly.deleteTemplate`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 7   | Api study of `assembly.convertToTemplate`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 | 8   | Study: template vs instance paradigm        | assembly.md                                                           | [ ]     |
 
 **Task #1-2: Assembly + part template creation**

@@ -1,0 +1,53 @@
+{
+  "alpha": {
+    "result": 22,
+    "maxLevel": 31
+  },
+  "beta": {
+    "result": 68,
+    "maxLevel": 31
+  },
+  "gamma": {
+    "result": 114,
+    "maxLevel": 31
+  },
+  "lowercase": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"alpha\" could not be found"
+      }
+    ]
+  },
+  "uppercase": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"ALPHA\" could not be found"
+      }
+    ]
+  },
+  "partial": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"Alp\" could not be found"
+      }
+    ]
+  }
+}

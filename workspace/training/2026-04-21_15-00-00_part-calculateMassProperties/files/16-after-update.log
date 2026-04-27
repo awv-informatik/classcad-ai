@@ -1,0 +1,5 @@
+[16] before update: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[16] after update: {"cog":{"x":60,"y":40,"z":30},"volume":576000}
+[filewrite] files/16-after-update-after-update.json (208 bytes)
+[16] expected before: vol=72000, cog=[30,20,15]
+[16] expected after: vol=576000, cog=[60,40,30]

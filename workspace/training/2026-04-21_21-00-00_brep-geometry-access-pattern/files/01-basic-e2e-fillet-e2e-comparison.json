@@ -1,0 +1,22 @@
+{
+  "preFillet": {
+    "edges": {
+      "lines": [
+        106,
+        102
+      ]
+    },
+    "maxLevel": 31
+  },
+  "postFillet": {
+    "edges": {
+      "lines": [
+        [],
+        []
+      ]
+    },
+    "maxLevel": 51
+  },
+  "originalIdsStillValid": false,
+  "originalIdsResult": null
+}

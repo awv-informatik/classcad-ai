@@ -1,0 +1,8 @@
+[09] asmId: 12
+[09] bracketId: 22
+[09] bracket built: base= 70 wall= 107 wcs= 144
+[09] pinId: 150
+[09] pin built: cyl= 198 wcs= 217
+[09] all templates: [22,150]
+[09] instances: b1= 223 b2= 225 p1= 227
+[09] assembly children: [14,16,18,223,225,227]

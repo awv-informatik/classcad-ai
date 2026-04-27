@@ -759,3 +759,52 @@ Collected from all training journals. Ordered by severity.
 - **Error:** `CC_ImportFeature` fails with "non-existent class." The API is `part.importFeature` but the internal class is `CC_Import`.
 - **Trigger:** `createUncommitedObject({ type: 'CC_ImportFeature' })`.
 - **Workaround:** Use `CC_Import` as the type string.
+
+### 114. ⚠️ `part.calculateMassProperties` — NullMem crash on empty part
+
+- **Session:** `2026-04-21_15-00-00_part-calculateMassProperties` (journal entry 07)
+- **Error:** Internal NullMem error: `"Type error: A variable of the type NullMem..."`. No graceful zero-volume return.
+- **Trigger:** `calculateMassProperties({ id: partId })` on a part with no solid geometry.
+- **Workaround:** Ensure part contains at least one solid before calling.
+
+### 115. ⚠️ `part.calculateMassProperties` — NullMem crash on degenerate cone (tDiameter=0)
+
+- **Session:** `2026-04-21_15-00-00_part-calculateMassProperties` (journal entries 04, 05)
+- **Error:** Same NullMem internal error. Also triggers with very small tDiameter (0.001).
+- **Trigger:** `part.cone({ ..., tDiameter: 0 })` followed by `calculateMassProperties`.
+- **Workaround:** Use `tDiameter >= 1` for cones that will be measured.
+
+### 116. 📖 `part.getGeometryIds` — `circles` lookup fails at seam vertex
+
+- **Session:** `2026-04-21_16-00-00_part-getGeometryIds` (journal entries 04, 06, 13)
+- **Error:** Querying `circles: [{pos: [+radius, 0, Z]}]` returns `{circles: [[]]}` maxLevel 51. The position is the brep seam vertex, not a point on the arc.
+- **Trigger:** Any cylinder, cone, or sphere — their seam line is always in the +X direction, seam vertex at [+radius, 0, Z].
+- **Workaround:** Use center of circle, or any other rim point (e.g., [-radius, 0, Z], [0, radius, Z]).
+
+### 117. 📖 `part.getGeometryIds` — `arcs` param cannot find circular edges on cylinders/cones
+
+- **Session:** `2026-04-21_16-00-00_part-getGeometryIds` (journal entries 11, 13)
+- **Error:** `arcs: [{pos: [-20,0,0]}]` fails despite the edge being classified as an arc in the brep (via `getBrepGeometryByIndex`). Must use `circles` param instead.
+- **Trigger:** Any circular edge on cylinder, cone, or sphere.
+- **Workaround:** Use `circles` param for circular/near-360° edges. Use `arcs` only for non-circular arcs (fillet arcs, partial arcs).
+
+### 119. 🕳️ `assembly.deleteTemplate` — assembly root ID is a silent no-op
+
+- **Session:** `2026-04-22_18-07-00_assembly-deleteTemplate` (journal entry 04)
+- **Error:** 🤫 Passing the assembly root ID returns maxLevel 31 (success), no messages, but nothing is deleted. The ID is type-valid (CC_AssemblyRoot) but it's not a template in any container.
+- **Trigger:** `deleteTemplate({ ids: [asmId] })`
+- **Workaround:** Only pass IDs from `getPartTemplate` / `getAssemblyTemplate`.
+
+### 120. ⚠️ `assembly.deleteTemplate` — stale currentProduct after deleting active template
+
+- **Session:** `2026-04-22_18-07-00_assembly-deleteTemplate` (journal entry 06)
+- **Error:** Deleting the template that is `currentProduct` succeeds (maxLevel 31) but leaves `structure.currentProduct` pointing to the now-deleted ID. Subsequent operations in template context may behave unpredictably.
+- **Trigger:** `deleteTemplate({ ids: [tplId] })` while `currentProduct === tplId`
+- **Workaround:** Always call `setCurrentProduct({ id: asmId })` before or immediately after deleting a template.
+
+### 118. 📖 `part.getBrepGeometryIndex` — docs say part ID accepted but it fails
+
+- **Session:** `2026-04-21_19-00-00_part-getBrepGeometryIndex` (journal entry 04)
+- **Error:** Docs say `id` is "id of a solid or a feature containing a solid" but passing a part ID returns "Not a brep!" (maxLevel 51). Only feature IDs work.
+- **Trigger:** `getBrepGeometryIndex({ id: partId, geomId: edgeId })`
+- **Workaround:** Always pass a feature ID (e.g., from `part.box`), not a part ID.

@@ -1,0 +1,40 @@
+{
+  "name": "OperationSequence",
+  "class": "CC_OperationSequence",
+  "id": 18,
+  "flags": 4096,
+  "parent": 4,
+  "members": {
+    "_VERSION": {
+      "value": "2/2020_3_12_11:41",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "isDirty": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "editFeatureIndex": {
+      "value": -1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "children": [
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    56,
+    93,
+    112,
+    20
+  ]
+}

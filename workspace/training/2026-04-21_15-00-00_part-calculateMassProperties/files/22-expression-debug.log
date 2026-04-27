@@ -1,0 +1,8 @@
+[22] initial: vol= 30000 L= {"expression":"","value":50}
+[22] after updateExpr: L= {"expression":"","value":50}
+[22] after updateExpr: vol= 30000
+[22] after recalc: vol= 30000
+[22] after open/close: vol= 30000
+[22] after recalc 2: vol= 30000
+[filewrite] files/22-expression-debug-expression-debug.json (333 bytes)
+[22] expected initial: 30000, after: 60000

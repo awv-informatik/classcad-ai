@@ -1,0 +1,20 @@
+{
+  "allEmpty": {
+    "result": [],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "nameLookup": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"Ghost\" could not be found"
+      }
+    ]
+  }
+}

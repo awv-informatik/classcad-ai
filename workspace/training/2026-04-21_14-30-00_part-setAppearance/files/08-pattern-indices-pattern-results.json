@@ -1,0 +1,34 @@
+{
+  "wholePattern": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "index0": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "index1": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "index2": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "index3OOR": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in APIHelper.PrepareEntityObjs:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "indices02": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

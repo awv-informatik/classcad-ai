@@ -1,0 +1,41 @@
+{
+  "edgeIds": [
+    102,
+    98,
+    99
+  ],
+  "geoPositionsResult": [
+    {
+      "id": 102,
+      "positions": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 20
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "positions": [
+        {
+          "x": 40,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "positions": [
+        {
+          "x": 80,
+          "y": 30,
+          "z": 0
+        }
+      ]
+    }
+  ],
+  "messages": [],
+  "maxLevel": 31
+}

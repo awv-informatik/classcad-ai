@@ -1,0 +1,68 @@
+{
+  "arcs": [
+    {
+      "arcIndex": 0,
+      "result": 76,
+      "maxLevel": 31
+    },
+    {
+      "arcIndex": 1,
+      "result": 77,
+      "maxLevel": 31
+    },
+    {
+      "arcIndex": 2,
+      "result": null,
+      "maxLevel": 51
+    },
+    {
+      "arcIndex": 3,
+      "result": null,
+      "maxLevel": 51
+    }
+  ],
+  "faces": [
+    {
+      "faceIndex": 0,
+      "result": 73,
+      "maxLevel": 31
+    },
+    {
+      "faceIndex": 1,
+      "result": 72,
+      "maxLevel": 31
+    },
+    {
+      "faceIndex": 2,
+      "result": 74,
+      "maxLevel": 31
+    },
+    {
+      "faceIndex": 3,
+      "result": null,
+      "maxLevel": 51
+    },
+    {
+      "faceIndex": 4,
+      "result": null,
+      "maxLevel": 51
+    }
+  ],
+  "lines": [
+    {
+      "lineIndex": 0,
+      "result": 75,
+      "maxLevel": 31
+    },
+    {
+      "lineIndex": 1,
+      "result": null,
+      "maxLevel": 51
+    },
+    {
+      "lineIndex": 2,
+      "result": null,
+      "maxLevel": 51
+    }
+  ]
+}

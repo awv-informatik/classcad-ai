@@ -1,0 +1,12 @@
+[05] circles: [76,77]
+[05] lines: [[]]
+[05] cylinders: [[]]
+[05] planes: [73,74]
+[05] maxLevel: 51
+[05] circle 0 id: 76 → index: 0 maxLevel: 31
+[05] circle 1 id: 77 → index: 1 maxLevel: 31
+[05] line 0 id: [] → index: null maxLevel: 51
+[05] cyl face 0 id: [] → index: null maxLevel: 51
+[05] plane face 0 id: 73 → index: 0 maxLevel: 31
+[05] plane face 1 id: 74 → index: 2 maxLevel: 31
+[filewrite] files/05-cylinder-circles-cylinder-indices.json (573 bytes)

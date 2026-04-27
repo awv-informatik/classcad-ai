@@ -1,0 +1,6 @@
+[12] boolId: null
+[12] boolean color: 51
+[12] bool msgs: [{"api":"v1.part.setAppearance","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"target\" = VOID is not allowed in this situation!"}]
+[12] consumed box1 color: 31
+[12] consumed cyl1 color: 31
+[filewrite] files/12-boolean-target-boolean-results.json (406 bytes)

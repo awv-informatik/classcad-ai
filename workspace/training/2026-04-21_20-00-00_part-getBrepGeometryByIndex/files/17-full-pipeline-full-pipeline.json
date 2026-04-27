@@ -1,0 +1,40 @@
+{
+  "lineRoundTrip": {
+    "index": 4,
+    "id": 102,
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": 20
+    },
+    "recoveredId": 102,
+    "recoveredIndex": 4
+  },
+  "faceRoundTrip": {
+    "index": 2,
+    "id": 114,
+    "positions": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 20
+      },
+      {
+        "x": 0,
+        "y": 30,
+        "z": 40
+      },
+      {
+        "x": 0,
+        "y": 60,
+        "z": 20
+      },
+      {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      }
+    ],
+    "recoveredFace": 114
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "booleanArcs": [
+    188,
+    194
+  ],
+  "arcPositions": [
+    {
+      "id": 188,
+      "positions": [
+        {
+          "x": 10.606601717798213,
+          "y": 10.606601717798213,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 194,
+      "positions": [
+        {
+          "x": 10.606601717798213,
+          "y": 10.606601717798213,
+          "z": 40
+        }
+      ]
+    }
+  ],
+  "strategies": {
+    "circles-center": {
+      "found": "[]",
+      "maxLevel": 51
+    },
+    "circles-rim+X": {
+      "found": "[]",
+      "maxLevel": 51
+    },
+    "circles-rim-X": {
+      "found": "[]",
+      "maxLevel": 51
+    },
+    "circles-rim+Y": {
+      "found": "[]",
+      "maxLevel": 51
+    },
+    "arcs-center": {
+      "found": 194,
+      "maxLevel": 31
+    },
+    "arcs-rim+X": {
+      "found": 194,
+      "maxLevel": 31
+    },
+    "arcs-rim-X": {
+      "found": 194,
+      "maxLevel": 31
+    },
+    "arcs-rim+Y": {
+      "found": 194,
+      "maxLevel": 31
+    }
+  },
+  "standaloneCylinder": {
+    "arcsByIndex": [],
+    "circleQuery": {
+      "result": null,
+      "maxLevel": 51
+    },
+    "arcQuery": {
+      "result": null,
+      "maxLevel": 51
+    }
+  }
+}

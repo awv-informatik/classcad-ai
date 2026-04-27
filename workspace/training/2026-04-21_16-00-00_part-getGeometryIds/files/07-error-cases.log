@@ -1,0 +1,9 @@
+[07] far-off position: {"lines":[[]]} maxLevel: 51
+[07] messages: [{"api":"v1.part.getGeometryIds","code":0,"level":51,"levelStr":"ERROR","message":"At the given position: [{500,500,500}] no geometry could be found for the type: \"line\". There might be no geometry or no geometry which best fits. It's also possible that there is too much geometry."}]
+[07] near-edge (0.001 off): {"lines":[102]} maxLevel: 31
+[07] near-edge (0.1 off): {"lines":[[]]} maxLevel: 51
+[07] near-edge (1.0 off): {"lines":[[]]} maxLevel: 51
+[07] near-edge (5.0 off): {"lines":[[]]} maxLevel: 51
+[07] face-center as line: {"lines":[109]} maxLevel: 31
+[07] edge-pos as plane: {"planes":[111]} maxLevel: 31
+[filewrite] files/07-error-cases-error-cases.json (179231 bytes)

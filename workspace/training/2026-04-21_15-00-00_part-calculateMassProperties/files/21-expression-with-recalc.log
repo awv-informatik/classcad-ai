@@ -1,0 +1,5 @@
+[21] before: {"cog":{"x":25,"y":15,"z":10},"volume":30000}
+[21] after update (no recalc): {"cog":{"x":25,"y":15,"z":10},"volume":30000}
+[21] after recalc: {"cog":{"x":25,"y":15,"z":10},"volume":30000}
+[filewrite] files/21-expression-with-recalc-expression-recalc.json (323 bytes)
+[21] expected after: vol=240000, cog=[50,30,20]

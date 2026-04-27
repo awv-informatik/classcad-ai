@@ -1,0 +1,5 @@
+[12] box1Id: 54 box2Id: 99
+[12] result: {"cog":{"x":49.682539682539684,"y":49.682539682539684,"z":49.682539682539684},"volume":1008000}
+[12] maxLevel: 31
+[filewrite] files/12-cog-weighted-weighted-cog.json (191 bytes)
+[12] expected vol: 1008000 cogX: 51.27 cogY: 49.68 cogZ: 49.68

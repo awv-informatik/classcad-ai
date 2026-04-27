@@ -1,0 +1,7 @@
+[07] circle IDs: [ 76, 77 ] maxLevel: 31
+[07] maxLevel: 31
+[07] id: 76 positions: [{"x":-20,"y":2.4492935982947065e-15,"z":0}]
+[07] id: 77 positions: [{"x":-20,"y":2.4492935982947065e-15,"z":50}]
+[07] Expected bottom midpoint at (-20, 0, 0)
+[07] Expected top midpoint at (-20, 0, 50)
+[filewrite] files/07-circle-verify-circle-verify.json (329 bytes)

@@ -1,0 +1,29 @@
+{
+  "createdIds": {
+    "tplC": 22,
+    "tplA": 32,
+    "tplB": 42
+  },
+  "listBefore": [
+    22,
+    32,
+    42
+  ],
+  "listAfter": [
+    22,
+    42
+  ],
+  "findDeleted": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"Alpha\" could not be found"
+      }
+    ]
+  }
+}

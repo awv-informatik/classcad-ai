@@ -1,0 +1,26 @@
+{
+  "part": {
+    "result": {
+      "cog": {
+        "x": 40.593655827302214,
+        "y": 30.42764432933612,
+        "z": 20.00008540570736
+      },
+      "volume": 188858.4050088609
+    },
+    "maxLevel": 31
+  },
+  "consumedBox": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.calculateMassProperties",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"
+      }
+    ]
+  }
+}

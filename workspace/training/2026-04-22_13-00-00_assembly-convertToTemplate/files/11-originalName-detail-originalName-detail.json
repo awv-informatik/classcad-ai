@@ -1,0 +1,15 @@
+{
+  "before": {
+    "name": "OrigRoot",
+    "originalName": "OrigRoot",
+    "class": "CC_AssemblyRoot"
+  },
+  "after": {
+    "name": "RenamedSub",
+    "originalName": "OrigRoot",
+    "class": "CC_Assembly"
+  },
+  "newRoot": {
+    "name": "AssemblyRoot"
+  }
+}

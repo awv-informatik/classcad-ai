@@ -1,0 +1,10 @@
+[10] edge to fillet: 102
+[10] filletId: 120
+[10] probing at arc midpoint: 5.657 5.657
+[10] arcs found: [170,172] maxLevel: 31
+[10] lines found: [171,173]
+[10] arc 0 id: 170 → index: 0 maxLevel: 31
+[10] round-trip: index 0 → id 170 ✓
+[10] arc 1 id: 172 → index: 1 maxLevel: 31
+[10] round-trip: index 1 → id 172 ✓
+[filewrite] files/10-fillet-arc-find-fillet-arc-indices.json (142 bytes)

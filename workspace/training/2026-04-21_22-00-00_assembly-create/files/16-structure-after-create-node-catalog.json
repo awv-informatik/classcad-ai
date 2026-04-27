@@ -1,0 +1,57 @@
+{
+  "1": {
+    "name": "AllObjects",
+    "class": "AllObjects",
+    "parent": null,
+    "children": [
+      4,
+      6,
+      8,
+      10,
+      12
+    ]
+  },
+  "8": {
+    "name": "PartContainer",
+    "class": "CC_PartContainer",
+    "parent": 1
+  },
+  "10": {
+    "name": "AssemblyContainer",
+    "class": "CC_AssemblyContainer",
+    "parent": 1
+  },
+  "12": {
+    "name": "StructureTest",
+    "class": "CC_AssemblyRoot",
+    "parent": 1,
+    "children": [
+      14,
+      16,
+      18
+    ]
+  },
+  "14": {
+    "name": "ExpressionSet",
+    "class": "CC_ExpressionSet",
+    "parent": 12
+  },
+  "16": {
+    "name": "ConstraintSet",
+    "class": "CC_ConstraintSet",
+    "parent": 12
+  },
+  "18": {
+    "name": "GeometrySet",
+    "class": "CC_GeometrySet",
+    "parent": 12,
+    "children": [
+      20
+    ]
+  },
+  "20": {
+    "name": "BaseWCSys",
+    "class": "CC_WorkCSys",
+    "parent": 18
+  }
+}

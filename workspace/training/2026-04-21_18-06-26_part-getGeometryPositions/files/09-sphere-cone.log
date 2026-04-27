@@ -1,0 +1,6 @@
+[09] sphere face IDs: [ [] ] maxLevel: 51
+[09] circle IDs: [ [] ] maxLevel: 51
+[09] vertex IDs: [ [] ] maxLevel: 51
+[09] all IDs: [ [], [], [] ]
+[09] maxLevel: 51
+[stderr] [run] Script error: r.result is not iterable

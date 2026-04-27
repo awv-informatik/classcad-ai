@@ -1,0 +1,15 @@
+[10] edge to fillet: 102
+[10] filletId: 120
+[10] fillet arcIndex=0: id=170
+[10] fillet arcIndex=1: id=172
+[10] fillet faceIndex=0: id=161
+[10] fillet faceIndex=1: id=162
+[10] fillet faceIndex=2: id=169
+[10] fillet faceIndex=3: id=163
+[10] fillet faceIndex=4: id=165
+[10] fillet faceIndex=5: id=164
+[10] fillet faceIndex=6: id=166
+[10] fillet lines: 13
+[10] fillet points: 10
+[10] fillet nurbs: 0
+[filewrite] files/10-fillet-arcs-fillet-brep.json (1592 bytes)

@@ -1,0 +1,4 @@
+[02] setAppearance result: null maxLevel: 31
+[02] vis result keys: null
+[02] vis graphic null? true
+[filewrite] files/02-verify-readback-vis-result.json (56 bytes)

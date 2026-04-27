@@ -1,0 +1,15 @@
+[05] tplId: 22
+[05] template class: CC_Part
+[05] template parent: 8
+[05] template children: [24,26,28,30,32,34,36]
+[05] template expressionSet: 24
+[05] template geometrySet: 28
+[05] template flags: 0
+[filewrite] files/05-template-structure-template-node-detail.json (494 bytes)
+[05] expression result: 1 maxLevel: 31
+[05] getExpression height: {"expression":"width * 0.5","value":30}
+[05] sketch result: 116 maxLevel: 31
+[05] workPlane result: 124 maxLevel: 31
+[05] box result: 132 maxLevel: 31
+[05] final children: [24,26,28,30,32,34,36]
+[filewrite] files/05-template-structure-template-with-content.json (505 bytes)

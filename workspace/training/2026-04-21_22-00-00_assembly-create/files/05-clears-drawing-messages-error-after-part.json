@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.create",
+      "code": 1200,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There is already a root assembly or part which must be removed first."
+    }
+  ],
+  "maxLevel": 51
+}

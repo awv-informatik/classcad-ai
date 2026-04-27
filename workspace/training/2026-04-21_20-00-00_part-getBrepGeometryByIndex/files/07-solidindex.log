@@ -1,0 +1,6 @@
+[07] solidIndex=0: result=98, maxLevel=31
+[07] solidIndex=1: result=null, maxLevel=51
+[07] solidIndex=1 messages: [Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:[Index 1 ausserhalb des Arraybereichs] not defined !] 
+[07] solidIndex=-1: result=null, maxLevel=51
+[07] solidIndex=-1 messages: [Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:conversion from 'size_t' to 'int', possible loss of data.] 
+[filewrite] files/07-solidindex-solidindex-tests.json (808 bytes)

@@ -1,0 +1,5 @@
+[14] all assembly templates: [ 105, 12 ]
+[14] find "ConvertedSub": 12
+[14] find "ExistingSub": 105
+[14] all part templates: [ 22 ]
+[filewrite] files/14-get-template-after-convert-get-template-after.json (129 bytes)

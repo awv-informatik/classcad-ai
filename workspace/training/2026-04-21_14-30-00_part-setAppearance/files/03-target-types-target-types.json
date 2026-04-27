@@ -1,0 +1,56 @@
+{
+  "partFeature": {
+    "result": null,
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "partContainer": {
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the target has the wrong type. It must be an operation id."
+      }
+    ]
+  },
+  "entityInjection": {
+    "result": null,
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "directSolid": {
+    "result": null,
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "sketch": {
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the target has the wrong type. It must be an operation id."
+      }
+    ]
+  },
+  "workPlane": {
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the target has the wrong type. It must be an operation id."
+      }
+    ]
+  }
+}

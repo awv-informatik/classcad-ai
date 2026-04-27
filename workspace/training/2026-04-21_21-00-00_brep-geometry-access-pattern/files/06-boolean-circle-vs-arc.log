@@ -1,0 +1,14 @@
+[06] boolean arcs: 2 ids: [ 188, 194 ]
+[06] arc positions: [{"id":188,"positions":[{"x":10.606601717798213,"y":10.606601717798213,"z":0}]},{"id":194,"positions":[{"x":10.606601717798213,"y":10.606601717798213,"z":40}]}]
+[06] circles-center: found=[] maxLevel=51
+[06] circles-rim+X: found=[] maxLevel=51
+[06] circles-rim-X: found=[] maxLevel=51
+[06] circles-rim+Y: found=[] maxLevel=51
+[06] arcs-center: found=194 maxLevel=31
+[06] arcs-rim+X: found=194 maxLevel=31
+[06] arcs-rim-X: found=194 maxLevel=31
+[06] arcs-rim+Y: found=194 maxLevel=31
+[06] standalone cylinder: arcs by index: 0
+[06] standalone cylinder circles query: null maxLevel: 51
+[06] standalone cylinder arcs query: null maxLevel: 51
+[filewrite] files/06-boolean-circle-vs-arc-circle-vs-arc.json (1176 bytes)

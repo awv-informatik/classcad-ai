@@ -1,0 +1,6 @@
+[02] top face (single pos): {"planes":[115]} maxLevel: 31
+[02] bottom face: {"planes":[110]} maxLevel: 31
+[02] front face: {"planes":[111]} maxLevel: 31
+[02] all 6 faces: {"planes":[115,110,111,114,112,113]} maxLevel: 31
+[filewrite] files/02-box-faces-all-faces-response.json (23371 bytes)
+[02] top face (2 edge midpoints): {"planes":[115]} maxLevel: 31

@@ -1,0 +1,63 @@
+{
+  "faceId": 111,
+  "positions": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 20
+    },
+    {
+      "x": 40,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 80,
+      "y": 0,
+      "z": 20
+    },
+    {
+      "x": 40,
+      "y": 0,
+      "z": 40
+    }
+  ],
+  "roundTrip4": {
+    "result": {
+      "planes": [
+        111
+      ]
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "roundTrip2": {
+    "result": {
+      "planes": [
+        111
+      ]
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "roundTrip1": {
+    "result": {
+      "planes": [
+        111
+      ]
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "asLines": {
+    "result": {
+      "lines": [
+        102,
+        98,
+        103,
+        106
+      ]
+    },
+    "maxLevel": 31
+  }
+}

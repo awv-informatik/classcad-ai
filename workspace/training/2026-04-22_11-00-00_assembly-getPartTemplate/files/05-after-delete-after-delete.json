@@ -1,0 +1,26 @@
+{
+  "beforeDelete": [
+    22,
+    68,
+    114
+  ],
+  "afterDelete": [
+    22,
+    114
+  ],
+  "deletedLookup": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"Remove\" could not be found"
+      }
+    ]
+  },
+  "keepLookup": 22,
+  "alsoKeepLookup": 114
+}

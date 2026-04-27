@@ -1,0 +1,436 @@
+{
+  "boxEdges": [
+    {
+      "index": 0,
+      "id": 98,
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "index": 1,
+      "id": 101,
+      "pos": {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      }
+    },
+    {
+      "index": 2,
+      "id": 99,
+      "pos": {
+        "x": 80,
+        "y": 30,
+        "z": 0
+      }
+    },
+    {
+      "index": 3,
+      "id": 100,
+      "pos": {
+        "x": 40,
+        "y": 60,
+        "z": 0
+      }
+    },
+    {
+      "index": 4,
+      "id": 102,
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 20
+      }
+    },
+    {
+      "index": 5,
+      "id": 103,
+      "pos": {
+        "x": 80,
+        "y": 0,
+        "z": 20
+      }
+    },
+    {
+      "index": 6,
+      "id": 105,
+      "pos": {
+        "x": 0,
+        "y": 60,
+        "z": 20
+      }
+    },
+    {
+      "index": 7,
+      "id": 104,
+      "pos": {
+        "x": 80,
+        "y": 60,
+        "z": 20
+      }
+    },
+    {
+      "index": 8,
+      "id": 106,
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 40
+      }
+    },
+    {
+      "index": 9,
+      "id": 109,
+      "pos": {
+        "x": 0,
+        "y": 30,
+        "z": 40
+      }
+    },
+    {
+      "index": 10,
+      "id": 107,
+      "pos": {
+        "x": 80,
+        "y": 30,
+        "z": 40
+      }
+    },
+    {
+      "index": 11,
+      "id": 108,
+      "pos": {
+        "x": 40,
+        "y": 60,
+        "z": 40
+      }
+    }
+  ],
+  "boxAfterFillet": [
+    {
+      "index": 0,
+      "id": 159,
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "index": 1,
+      "id": 162,
+      "pos": {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      }
+    },
+    {
+      "index": 2,
+      "id": 160,
+      "pos": {
+        "x": 80,
+        "y": 30,
+        "z": 0
+      }
+    },
+    {
+      "index": 3,
+      "id": 161,
+      "pos": {
+        "x": 40,
+        "y": 60,
+        "z": 0
+      }
+    },
+    {
+      "index": 4,
+      "id": 163,
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 17
+      }
+    },
+    {
+      "index": 5,
+      "id": 164,
+      "pos": {
+        "x": 80,
+        "y": 0,
+        "z": 17
+      }
+    },
+    {
+      "index": 6,
+      "id": 165,
+      "pos": {
+        "x": 80,
+        "y": 60,
+        "z": 17
+      }
+    },
+    {
+      "index": 7,
+      "id": 166,
+      "pos": {
+        "x": 0,
+        "y": 60,
+        "z": 20
+      }
+    },
+    {
+      "index": 8,
+      "id": 170,
+      "pos": {
+        "x": 0,
+        "y": 33,
+        "z": 40
+      }
+    },
+    {
+      "index": 9,
+      "id": 169,
+      "pos": {
+        "x": 37,
+        "y": 60,
+        "z": 40
+      }
+    },
+    {
+      "index": 10,
+      "id": null
+    },
+    {
+      "index": 11,
+      "id": null
+    }
+  ],
+  "filletLines": [
+    {
+      "index": 0,
+      "id": 159,
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "index": 1,
+      "id": 162,
+      "pos": {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      }
+    },
+    {
+      "index": 2,
+      "id": 160,
+      "pos": {
+        "x": 80,
+        "y": 30,
+        "z": 0
+      }
+    },
+    {
+      "index": 3,
+      "id": 161,
+      "pos": {
+        "x": 40,
+        "y": 60,
+        "z": 0
+      }
+    },
+    {
+      "index": 4,
+      "id": 163,
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 17
+      }
+    },
+    {
+      "index": 5,
+      "id": 164,
+      "pos": {
+        "x": 80,
+        "y": 0,
+        "z": 17
+      }
+    },
+    {
+      "index": 6,
+      "id": 165,
+      "pos": {
+        "x": 80,
+        "y": 60,
+        "z": 17
+      }
+    },
+    {
+      "index": 7,
+      "id": 166,
+      "pos": {
+        "x": 0,
+        "y": 60,
+        "z": 20
+      }
+    },
+    {
+      "index": 8,
+      "id": 182,
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 34
+      }
+    },
+    {
+      "index": 9,
+      "id": 189,
+      "pos": {
+        "x": 80,
+        "y": 30,
+        "z": 34
+      }
+    },
+    {
+      "index": 10,
+      "id": 184,
+      "pos": {
+        "x": 37,
+        "y": 6,
+        "z": 40
+      }
+    },
+    {
+      "index": 11,
+      "id": 170,
+      "pos": {
+        "x": 0,
+        "y": 33,
+        "z": 40
+      }
+    },
+    {
+      "index": 12,
+      "id": 191,
+      "pos": {
+        "x": 74,
+        "y": 33,
+        "z": 40
+      }
+    },
+    {
+      "index": 13,
+      "id": 169,
+      "pos": {
+        "x": 37,
+        "y": 60,
+        "z": 40
+      }
+    }
+  ],
+  "filletArcs": [
+    {
+      "index": 0,
+      "id": 181
+    },
+    {
+      "index": 1,
+      "id": 190
+    }
+  ],
+  "indexMapping": [
+    {
+      "index": 0,
+      "before": "[40,0,0]",
+      "afterId": 159,
+      "afterPos": "[40,0,0]",
+      "samePos": true
+    },
+    {
+      "index": 1,
+      "before": "[0,30,0]",
+      "afterId": 162,
+      "afterPos": "[0,30,0]",
+      "samePos": true
+    },
+    {
+      "index": 2,
+      "before": "[80,30,0]",
+      "afterId": 160,
+      "afterPos": "[80,30,0]",
+      "samePos": true
+    },
+    {
+      "index": 3,
+      "before": "[40,60,0]",
+      "afterId": 161,
+      "afterPos": "[40,60,0]",
+      "samePos": true
+    },
+    {
+      "index": 4,
+      "before": "[0,0,20]",
+      "afterId": 163,
+      "afterPos": "[0,0,17]",
+      "samePos": false
+    },
+    {
+      "index": 5,
+      "before": "[80,0,20]",
+      "afterId": 164,
+      "afterPos": "[80,0,17]",
+      "samePos": false
+    },
+    {
+      "index": 6,
+      "before": "[0,60,20]",
+      "afterId": 165,
+      "afterPos": "[80,60,17]",
+      "samePos": false
+    },
+    {
+      "index": 7,
+      "before": "[80,60,20]",
+      "afterId": 166,
+      "afterPos": "[0,60,20]",
+      "samePos": false
+    },
+    {
+      "index": 8,
+      "before": "[40,0,40]",
+      "afterId": 170,
+      "afterPos": "[0,33,40]",
+      "samePos": false
+    },
+    {
+      "index": 9,
+      "before": "[0,30,40]",
+      "afterId": 169,
+      "afterPos": "[37,60,40]",
+      "samePos": false
+    },
+    {
+      "index": 10,
+      "before": "[80,30,40]",
+      "afterId": null,
+      "afterPos": "null",
+      "samePos": false
+    },
+    {
+      "index": 11,
+      "before": "[40,60,40]",
+      "afterId": null,
+      "afterPos": "null",
+      "samePos": false
+    }
+  ]
+}

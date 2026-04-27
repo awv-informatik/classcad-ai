@@ -1,0 +1,4 @@
+[08] all (1 template): [22] type: object isArray: true
+[08] byName: 22 type: number isArray: false
+[08] all (2 templates): [22,68] isArray: true
+[filewrite] files/08-return-type-return-type.json (281 bytes)

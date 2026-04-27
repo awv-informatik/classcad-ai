@@ -1,0 +1,6 @@
+[10] tpl1: 22 inst1: 105
+[10] deleted tpl1
+[10] tpl2: 107 inst2: 190
+[10] templates: [107]
+[10] getPartTemplate by name: 107 maxLevel: 31
+[filewrite] files/10-recreate-after-delete-recreate-state.json (46 bytes)

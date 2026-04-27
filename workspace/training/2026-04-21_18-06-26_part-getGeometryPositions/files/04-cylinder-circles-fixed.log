@@ -1,0 +1,9 @@
+[04] circle IDs: [ 76, 77 ] maxLevel: 31
+[04] cylinder face IDs: [ [] ] maxLevel: 51
+[04] all IDs to query: [ 76, 77 ]
+[04] getGeometryPositions maxLevel: 31
+[04] id: 76 positions count: 1
+[04] positions: [{"x":-50,"y":3.1711762729005784e-14,"z":0}]
+[04] id: 77 positions count: 1
+[04] positions: [{"x":-50,"y":3.1711762729005784e-14,"z":50}]
+[filewrite] files/04-cylinder-circles-fixed-cylinder-circles.json (416 bytes)

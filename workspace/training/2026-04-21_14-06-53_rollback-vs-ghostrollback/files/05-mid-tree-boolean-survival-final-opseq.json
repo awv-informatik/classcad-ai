@@ -1,0 +1,57 @@
+[
+  {
+    "id": 20,
+    "class": "CC_RollbackBar",
+    "name": "RollbackBar"
+  },
+  {
+    "id": 24,
+    "class": "CC_WorkPointReference",
+    "name": "OriginRef"
+  },
+  {
+    "id": 28,
+    "class": "CC_WorkAxisReference",
+    "name": "XAxisRef"
+  },
+  {
+    "id": 32,
+    "class": "CC_WorkAxisReference",
+    "name": "YAxisRef"
+  },
+  {
+    "id": 36,
+    "class": "CC_WorkAxisReference",
+    "name": "ZAxisRef"
+  },
+  {
+    "id": 40,
+    "class": "CC_WorkPlaneReference",
+    "name": "TopRef"
+  },
+  {
+    "id": 44,
+    "class": "CC_WorkPlaneReference",
+    "name": "FrontRef"
+  },
+  {
+    "id": 48,
+    "class": "CC_WorkPlaneReference",
+    "name": "RightRef"
+  },
+  {
+    "id": 56,
+    "class": "CC_OperationReference",
+    "name": "BoxRef"
+  },
+  {
+    "id": 93,
+    "class": "CC_OperationReference",
+    "name": "CylinderRef"
+  },
+  {
+    "id": 112,
+    "class": "CC_OperationReference",
+    "name": "SubtractionRef"
+  }
+]

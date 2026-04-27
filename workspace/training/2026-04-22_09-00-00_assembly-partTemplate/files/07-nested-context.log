@@ -1,0 +1,11 @@
+[07] asmId: 12
+[07] t1: 22
+[07] currentProduct in t1 context: 22
+[07] t2 (created while in t1 context): 105
+[07] t2 messages: []
+[07] currentProduct after t2 create: 22
+[07] boxB in t2: 153 maxLevel: 31
+[07] currentProduct after boxB: 105
+[07] PartContainer children: [22,105]
+[07] template 22: name="Part_A"
+[07] template 105: name="Part_B"

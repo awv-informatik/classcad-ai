@@ -1,0 +1,12 @@
+[09] partId: 4 eifId: 54 box1Id: 61 box2Id: 64
+[09] part result: {"cog":{"x":15,"y":0,"z":0},"volume":32000}
+[09] part maxLevel: 31
+[09] solid1 result: {"cog":{"x":0,"y":0,"z":0},"volume":24000}
+[09] solid1 maxLevel: 31
+[09] solid2 result: {"cog":{"x":59.99999999999999,"y":0,"z":0},"volume":8000.000000000001}
+[09] solid2 maxLevel: 31
+[09] eifId result: null
+[09] eifId maxLevel: 51
+[09] eifId messages: [{"api":"v1.part.calculateMassProperties","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"}]
+[filewrite] files/09-entity-injection-entity-injection.json (888 bytes)
+[09] expected vol1: 24000 vol2: 8000 total: 32000

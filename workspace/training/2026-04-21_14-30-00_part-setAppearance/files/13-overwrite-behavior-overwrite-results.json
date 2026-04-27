@@ -1,0 +1,22 @@
+{
+  "initial": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "colorOnly": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "transpOnly": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "fullOverwrite": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "facetingOnly": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

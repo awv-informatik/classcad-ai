@@ -1,0 +1,51 @@
+{
+  "faces": [
+    {
+      "id": 110,
+      "posCount": 4
+    },
+    {
+      "id": 111,
+      "posCount": 4
+    },
+    {
+      "id": 114,
+      "posCount": 4
+    },
+    {
+      "id": 112,
+      "posCount": 4
+    },
+    {
+      "id": 113,
+      "posCount": 4
+    },
+    {
+      "id": 115,
+      "posCount": 4
+    }
+  ],
+  "topFaceCenter": {
+    "planes": [
+      115
+    ]
+  },
+  "topFaceEdges": {
+    "planes": [
+      115
+    ]
+  },
+  "cylFace": {
+    "cylinders": [
+      []
+    ]
+  },
+  "bossCircles": {
+    "arcs": [
+      []
+    ],
+    "circles": [
+      []
+    ]
+  }
+}

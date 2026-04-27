@@ -1,0 +1,10 @@
+[05] asmTpl: 22
+[05] partTpl: 32
+[05] inst in asmTpl: 115
+[05] assembly templates before: [22]
+[05] delete asmTpl result: null maxLevel: 31
+[05] messages: []
+[filewrite] files/05-delete-assembly-template-delete-asm-tpl.json (56 bytes)
+[05] assembly templates after: []
+[05] part templates after: [32]
+[filewrite] files/05-delete-assembly-template-after-state.json (57 bytes)

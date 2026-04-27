@@ -1,0 +1,7 @@
+[10] edge to fillet: 102
+[10] fillet feature: 120
+[10] arc IDs: [ [] ] maxLevel: 51
+[10] cyl face IDs: [ [] ] maxLevel: 51
+[10] all IDs: [ [] ]
+[10] maxLevel: 51
+[stderr] [run] Script error: r.result is not iterable

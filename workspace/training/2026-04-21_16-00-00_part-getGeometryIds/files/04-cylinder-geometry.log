@@ -1,0 +1,8 @@
+[04] partId: 4 cylId: 54
+[04] top circle edge: {"circles":[[]]} maxLevel: 51
+[04] bottom circle edge: {"circles":[[]]} maxLevel: 51
+[04] top circle via center: {"circles":[77]} maxLevel: 31
+[04] cylindrical face: {"cylinders":[[]]} maxLevel: 51
+[04] top flat face: {"planes":[74]} maxLevel: 31
+[04] bottom flat face: {"planes":[73]} maxLevel: 31
+[filewrite] files/04-cylinder-geometry-cylinder-all-results.json (337 bytes)

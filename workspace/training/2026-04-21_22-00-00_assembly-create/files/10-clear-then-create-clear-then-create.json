@@ -1,0 +1,14 @@
+{
+  "first": {
+    "result": 12,
+    "maxLevel": 31
+  },
+  "clear": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "second": {
+    "result": 12,
+    "maxLevel": 31
+  }
+}

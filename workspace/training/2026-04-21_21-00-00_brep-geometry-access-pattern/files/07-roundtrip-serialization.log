@@ -1,0 +1,8 @@
+[07] pre-change vertical IDs: [ 102, 103, 104, 105 ]
+[07] saved positions: [{"id":102,"pos":{"x":0,"y":0,"z":20}},{"id":103,"pos":{"x":80,"y":0,"z":20}},{"id":104,"pos":{"x":80,"y":60,"z":20}},{"id":105,"pos":{"x":0,"y":60,"z":20}}]
+[07] fillet applied, topology changed
+[07] restored vertical IDs: [ 182, 183, 184, 185 ]
+[07] any failures? false
+[07] position match: [ false, false, false, false ]
+[07] chamfer using restored edges: ✓
+[filewrite] files/07-roundtrip-serialization-roundtrip.json (602 bytes)

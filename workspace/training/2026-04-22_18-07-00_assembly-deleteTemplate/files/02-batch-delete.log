@@ -1,0 +1,7 @@
+[02] templates: 22 105 170
+[02] before: [22,105,170]
+[02] batch delete result: null maxLevel: 31
+[02] messages: []
+[filewrite] files/02-batch-delete-batch-delete.json (56 bytes)
+[02] after: []
+[filewrite] files/02-batch-delete-batch-comparison.json (61 bytes)

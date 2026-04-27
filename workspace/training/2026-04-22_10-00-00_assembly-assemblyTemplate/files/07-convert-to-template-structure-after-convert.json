@@ -1,0 +1,43 @@
+[
+  {
+    "id": 8,
+    "name": "PartContainer",
+    "class": "CC_PartContainer",
+    "parent": 1,
+    "children": [
+      22
+    ]
+  },
+  {
+    "id": 10,
+    "name": "AssemblyContainer",
+    "class": "CC_AssemblyContainer",
+    "parent": 1,
+    "children": [
+      12
+    ]
+  },
+  {
+    "id": 12,
+    "name": "ConvertedSub",
+    "class": "CC_Assembly",
+    "parent": 10,
+    "children": [
+      14,
+      16,
+      18,
+      105
+    ]
+  },
+  {
+    "id": 107,
+    "name": "AssemblyRoot",
+    "class": "CC_AssemblyRoot",
+    "parent": 1,
+    "children": [
+      109,
+      111,
+      113
+    ]
+  }
+]

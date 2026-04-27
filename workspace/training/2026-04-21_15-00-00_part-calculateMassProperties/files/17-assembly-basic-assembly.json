@@ -1,0 +1,50 @@
+{
+  "assembly": {
+    "result": {
+      "cog": {
+        "x": 70,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 48000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "inst1": {
+    "result": {
+      "cog": {
+        "x": 20,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "inst2": {
+    "result": {
+      "cog": {
+        "x": 120,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "template": {
+    "result": {
+      "cog": {
+        "x": 20,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  }
+}

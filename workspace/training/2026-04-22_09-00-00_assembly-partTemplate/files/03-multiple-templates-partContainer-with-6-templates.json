@@ -1,0 +1,65 @@
+{
+  "name": "PartContainer",
+  "class": "CC_PartContainer",
+  "id": 8,
+  "flags": 16,
+  "parent": 1,
+  "members": {
+    "rootPath": {
+      "value": "\\",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "fileExtension": {
+      "value": "",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "fileImportOption": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "productRefCreation": {
+      "value": 3,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "copyDimensions": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "createSubRefs": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "doNotRecalc": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2003_11_25_10:10",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    }
+  },
+  "children": [
+    22,
+    68,
+    114,
+    160,
+    206,
+    252
+  ]
+}

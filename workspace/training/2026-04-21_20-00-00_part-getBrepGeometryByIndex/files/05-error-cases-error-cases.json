@@ -1,0 +1,80 @@
+{
+  "negativeIndex": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in BaseModelingCommonFuncs.GetBrepGeometryByIndex:conversion from 'size_t' to 'int', possible loss of data.] "
+      }
+    ]
+  },
+  "hugeIndex": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Line element indexed as 9999 does not exist."
+      }
+    ]
+  },
+  "noIndex": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Only one geometry index parameter should be specified."
+      }
+    ]
+  },
+  "multiIndex": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Only one geometry index parameter should be specified."
+      }
+    ]
+  },
+  "arcOnBox": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Arc/Circle element indexed as 0 does not exist."
+      }
+    ]
+  },
+  "nurbsOnBox": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryByIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Nurbs curve element indexed as 0 does not exist."
+      }
+    ]
+  }
+}

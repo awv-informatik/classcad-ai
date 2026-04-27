@@ -1,0 +1,64 @@
+{
+  "asmId": 12,
+  "root": {
+    "instances": [],
+    "instancesNested": [],
+    "dimensions": [],
+    "name": "IdentCheck",
+    "class": "CC_AssemblyRoot",
+    "id": 12,
+    "flags": 0,
+    "parent": 1,
+    "members": {
+      "_VERSION": {
+        "value": "1/2024_6_3_19:00",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "featureRootPath": {
+        "value": "",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "cadRootPath": {
+        "value": "",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "unit": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "activeDock": {
+        "value": 0,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "isFileAssemblyNode": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "originalName": {
+        "value": "IdentCheck",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      }
+    },
+    "children": [
+      14,
+      16,
+      18,
+      22
+    ]
+  },
+  "userDataKeys": []
+}

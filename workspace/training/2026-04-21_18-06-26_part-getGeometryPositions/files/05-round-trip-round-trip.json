@@ -1,0 +1,88 @@
+{
+  "originalIds": {
+    "lines": [
+      102,
+      98
+    ],
+    "points": [
+      90
+    ],
+    "planes": [
+      111
+    ]
+  },
+  "positions": [
+    {
+      "id": 102,
+      "positions": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 20
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "positions": [
+        {
+          "x": 40,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "positions": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "positions": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 20
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "z": 0
+        },
+        {
+          "x": 80,
+          "y": 0,
+          "z": 20
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "z": 40
+        }
+      ]
+    }
+  ],
+  "roundTrip": {
+    "line": {
+      "original": 102,
+      "refound": 102,
+      "match": true
+    },
+    "point": {
+      "original": 90,
+      "refound": 90,
+      "match": true
+    },
+    "plane": {
+      "original": 111,
+      "refound": [],
+      "match": false
+    }
+  }
+}

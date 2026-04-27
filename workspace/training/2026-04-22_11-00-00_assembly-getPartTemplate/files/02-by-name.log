@@ -1,0 +1,7 @@
+[02] Alpha: 22 maxLevel: 31
+[02] Beta: 68 maxLevel: 31
+[02] Gamma: 114 maxLevel: 31
+[02] alpha (lowercase): null maxLevel: 51
+[02] ALPHA (uppercase): null maxLevel: 51
+[02] Alp (partial): null maxLevel: 51
+[filewrite] files/02-by-name-name-lookup.json (1015 bytes)

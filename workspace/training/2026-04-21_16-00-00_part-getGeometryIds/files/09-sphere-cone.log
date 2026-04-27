@@ -1,0 +1,8 @@
+[09] partId: 4 sphId: 54 coneId: 69
+[09] sphere face (1 pt): {"spheres":[[]]} maxLevel: 51
+[09] sphere face (2 pts): {"spheres":[87]} maxLevel: 31
+[09] cone face (1 pt): {"cones":[[]]} maxLevel: 51
+[09] cone face (2 pts): {"cones":[[]]} maxLevel: 51
+[09] cone top circle: {"circles":[[]]} maxLevel: 51
+[09] cone bottom circle: {"circles":[[]]} maxLevel: 51
+[filewrite] files/09-sphere-cone-sphere-cone-results.json (337 bytes)

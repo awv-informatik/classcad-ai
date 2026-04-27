@@ -1,0 +1,25 @@
+[12] 1-baseline:
+  editFeatureIndex=-1
+  isDirty=0
+  RollbackBar at index 10 of 11
+  children: [24,28,32,36,40,44,48,56,93,112,20]
+[12] 2-moveBefore+openBox:
+  editFeatureIndex=7
+  isDirty=0
+  RollbackBar at index 9 of 11
+  children: [24,28,32,36,40,44,48,56,93,20,112]
+[12] 3-after-update:
+  editFeatureIndex=7
+  isDirty=1
+  RollbackBar at index 9 of 11
+  children: [24,28,32,36,40,44,48,56,93,20,112]
+[12] 4-after-close:
+  editFeatureIndex=-1
+  isDirty=1
+  RollbackBar at index 9 of 11
+  children: [24,28,32,36,40,44,48,56,93,20,112]
+[12] 5-full-restore:
+  editFeatureIndex=-1
+  isDirty=0
+  RollbackBar at index 10 of 11
+  children: [24,28,32,36,40,44,48,56,93,112,20]

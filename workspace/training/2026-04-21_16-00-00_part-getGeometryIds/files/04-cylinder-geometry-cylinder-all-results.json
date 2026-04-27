@@ -1,0 +1,32 @@
+{
+  "topCircle": {
+    "circles": [
+      []
+    ]
+  },
+  "bottomCircle": {
+    "circles": [
+      []
+    ]
+  },
+  "topCircleViaCenter": {
+    "circles": [
+      77
+    ]
+  },
+  "cylFace": {
+    "cylinders": [
+      []
+    ]
+  },
+  "topPlane": {
+    "planes": [
+      74
+    ]
+  },
+  "bottomPlane": {
+    "planes": [
+      73
+    ]
+  }
+}

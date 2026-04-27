@@ -1,0 +1,8 @@
+[10] new root: 107 old root (converted): 12
+[10] instance: 117
+[10] deleteTemplate result: null maxLevel: 31
+[10] deleteTemplate messages: []
+[10] root instances after delete: []
+[10] AssemblyContainer children: undefined
+[10] PartContainer children: [ 22 ]
+[filewrite] files/10-delete-converted-delete-converted.json (119 bytes)

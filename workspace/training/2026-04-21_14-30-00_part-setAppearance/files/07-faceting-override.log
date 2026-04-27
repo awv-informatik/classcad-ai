@@ -1,0 +1,7 @@
+[07] sph1: 54 sph2: 69
+[07] coarse faceting: 31
+[07] fine faceting: 31
+[07] recalc maxLevel: 31
+[filewrite] files/07-faceting-override-faceting-graphic.json (48 bytes)
+[07] color+faceting combo: 31
+[filewrite] files/07-faceting-override-faceting-results.json (161 bytes)

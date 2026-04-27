@@ -1,0 +1,8 @@
+[09] pre-recalc edge: 71
+[09] pre-recalc index: 4 maxLevel: 31
+[09] post-recalc edge: 102
+[09] post-recalc index: 4 maxLevel: 31
+[09] stale pre-recalc ID after recalc: null maxLevel: 51
+[09] stale messages: [{"api":"v1.part.getBrepGeometryIndex","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.getBrepGeometryIndex","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in BaseModelingCommonFuncs.GetBrepGeometryIndex:Not a brep!\nFunction: CADH_GetBrepGeometryType\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/SMLibService.cpp,     Line: 9484] "}]
+[09] IDs same? false indices same? true
+[filewrite] files/09-pre-recalc-pre-recalc-test.json (808 bytes)

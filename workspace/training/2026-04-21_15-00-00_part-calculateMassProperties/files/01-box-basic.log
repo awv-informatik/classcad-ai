@@ -1,0 +1,8 @@
+[01] boxId: 54
+[01] result: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-box-basic-mass-props-box.json (141 bytes)
+[01] expectedVolume: 72000
+[01] volumeDiff: 0
+[01] cog: {"x":30,"y":20,"z":15}

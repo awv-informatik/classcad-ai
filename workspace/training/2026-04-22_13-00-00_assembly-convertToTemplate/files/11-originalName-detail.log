@@ -1,0 +1,6 @@
+[11] BEFORE — name: OrigRoot class: CC_AssemblyRoot
+[11] BEFORE — originalName: OrigRoot
+[11] AFTER — name: RenamedSub class: CC_Assembly
+[11] AFTER — originalName: OrigRoot
+[11] NEW ROOT — name: AssemblyRoot originalName: undefined
+[filewrite] files/11-originalName-detail-originalName-detail.json (258 bytes)

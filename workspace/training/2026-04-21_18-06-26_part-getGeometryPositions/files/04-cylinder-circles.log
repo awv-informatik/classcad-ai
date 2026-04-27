@@ -1,0 +1,6 @@
+[04] getGeometryIds maxLevel: 51
+[04] circle IDs: [ 76, 77 ]
+[04] cylinder IDs: [ [] ]
+[04] all IDs to query: [ 76, 77, [] ]
+[04] getGeometryPositions maxLevel: 51
+[stderr] [run] Script error: r.result is not iterable

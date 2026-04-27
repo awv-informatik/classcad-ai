@@ -1,0 +1,8 @@
+[14] geoIds lines: [ 72 ]
+[14] filletId: 91
+[14] geoIds2 lines: [ 74 ]
+[14] chamferId: 113
+[14] fillet color: 51
+[14] fillet msgs: [{"api":"v1.part.setAppearance","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"Fillet1\" is not available. It has already been consumed/used in another operation."}]
+[14] chamfer color: 31
+[filewrite] files/14-fillet-chamfer-target-edge-feat-results.json (358 bytes)

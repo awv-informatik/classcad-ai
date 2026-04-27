@@ -1,0 +1,6 @@
+[02] filletId: 120 boxId: 54
+[02] fillet feature: lines: 13 arcs: 2 faces: 7
+[02] remaining edges: [158,159,160,149]
+[02] remaining maxLevel: 31
+[02] chamfer on unfilleted edge: 181 ✓
+[filewrite] files/02-post-fillet-edges-post-fillet-topology.json (1437 bytes)

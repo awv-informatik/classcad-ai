@@ -1,0 +1,13 @@
+[17] asmId: 12
+[17] tplId: 22 boxId: 70
+[17] inst1: 105 inst2: 107
+[17] assembly result: {"cog":{"x":70,"y":15,"z":10},"volume":48000}
+[17] assembly maxLevel: 31
+[17] inst1 result: {"cog":{"x":20,"y":15,"z":10},"volume":24000}
+[17] inst1 maxLevel: 31
+[17] inst2 result: {"cog":{"x":120,"y":15,"z":10},"volume":24000}
+[17] inst2 maxLevel: 31
+[17] template result: {"cog":{"x":20,"y":15,"z":10},"volume":24000}
+[17] template maxLevel: 31
+[filewrite] files/17-assembly-basic-assembly.json (713 bytes)
+[17] expected per-instance vol: 24000, total: 48000

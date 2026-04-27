@@ -1,0 +1,5 @@
+[06] part.setAppearance: null maxLevel: 31
+[06] common.setAppearance: null maxLevel: 31
+[06] common overwrite part: null maxLevel: 31
+[06] part overwrite common: null maxLevel: 31
+[filewrite] files/06-part-vs-common-compare-results.json (254 bytes)

@@ -1,0 +1,20 @@
+{
+  "byName": 68,
+  "all": [
+    22,
+    68,
+    114
+  ],
+  "missing": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"NonExistent\" could not be found"
+      }
+    ]
+  }
+}

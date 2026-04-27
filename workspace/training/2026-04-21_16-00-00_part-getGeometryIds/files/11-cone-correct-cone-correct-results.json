@@ -1,0 +1,37 @@
+{
+  "bottomArc": {
+    "arcs": [
+      []
+    ]
+  },
+  "topArc": {
+    "arcs": [
+      []
+    ]
+  },
+  "coneFace3": {
+    "cones": [
+      72
+    ]
+  },
+  "coneFace2": {
+    "cones": [
+      72
+    ]
+  },
+  "seamLine": {
+    "lines": [
+      75
+    ]
+  },
+  "bottomFace": {
+    "planes": [
+      73
+    ]
+  },
+  "topFace": {
+    "planes": [
+      74
+    ]
+  }
+}

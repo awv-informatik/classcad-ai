@@ -1,0 +1,43 @@
+{
+  "lines": [
+    {
+      "index": 0,
+      "id": 75
+    }
+  ],
+  "arcs": [
+    {
+      "index": 0,
+      "id": 76
+    },
+    {
+      "index": 1,
+      "id": 77
+    }
+  ],
+  "faces": [
+    {
+      "index": 0,
+      "id": 73
+    },
+    {
+      "index": 1,
+      "id": 72
+    },
+    {
+      "index": 2,
+      "id": 74
+    }
+  ],
+  "points": [
+    {
+      "index": 0,
+      "id": 79
+    },
+    {
+      "index": 1,
+      "id": 78
+    }
+  ],
+  "nurbs": []
+}

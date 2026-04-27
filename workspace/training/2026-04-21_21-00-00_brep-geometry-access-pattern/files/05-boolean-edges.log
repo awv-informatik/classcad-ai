@@ -1,0 +1,9 @@
+[05] boolId: 110
+[05] circle at top of hole: {"circles":[[]]} maxLevel: 51
+[05] circle at bottom of hole: {"circles":[[]]} maxLevel: 51
+[05] arc at top of hole: {"arcs":[254]} maxLevel: 31
+[05] boolean feature arcs: 2
+[05] found circle IDs: []
+[05] circles not found by position, trying arc IDs from enumeration...
+[05] fillet on enumerated arc: ✓ id: 262
+[filewrite] files/05-boolean-edges-boolean-edges.json (276 bytes)

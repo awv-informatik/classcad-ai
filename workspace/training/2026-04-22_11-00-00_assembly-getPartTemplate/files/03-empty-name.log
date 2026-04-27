@@ -1,0 +1,4 @@
+[03] created: empty= 22 named= 68
+[03] getPartTemplate({name:""}): result: 22 maxLevel: 31
+[03] all: [22,68]
+[filewrite] files/03-empty-name-empty-name.json (177 bytes)

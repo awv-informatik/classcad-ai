@@ -1,0 +1,5 @@
+[18] before save: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[18] loaded partId: 4
+[18] after load: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[18] maxLevel: 31
+[filewrite] files/18-save-load-cycle-save-load.json (230 bytes)

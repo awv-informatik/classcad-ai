@@ -1,0 +1,5 @@
+[11] created in order: [ 22, 68, 114, 160 ]
+[11] getPartTemplate() all: [22,68,114,160]
+[11] matches creation order: true
+[11] result stable across calls: true
+[filewrite] files/11-ordering-ordering.json (169 bytes)

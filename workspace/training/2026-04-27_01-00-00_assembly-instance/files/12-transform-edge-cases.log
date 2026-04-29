@@ -1,0 +1,10 @@
+[12] non-orthogonal matrix: 105 maxLevel: 51
+[12]   msg: NonOrtho: Transformationmatrix of this object has been set to be uniformed scaled and orthogonal
+[12] scaled matrix: 107 maxLevel: 31
+[12] scaled mass volume: 1000.0000000000006 (expected 1000 if scale ignored)
+[12] scaled mass cog: { x: 5.000000000000001, y: 105.00000000000003, z: 5.000000000000001 }
+[filewrite] files/12-transform-edge-cases-scaled-mass.json (134 bytes)
+[12] non-unit direction vectors: 111 maxLevel: 31
+[12] left-handed (mirror X): null maxLevel: 51
+[12]   msg: The provided matrix is left-handed. This is not yet supported
+[filewrite] files/12-transform-edge-cases-edge-cases.json (423 bytes)

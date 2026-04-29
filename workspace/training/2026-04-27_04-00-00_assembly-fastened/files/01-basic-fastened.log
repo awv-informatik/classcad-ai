@@ -1,0 +1,6 @@
+[01] asmId: 12
+[01] tpl1: 22 wcs1: 107
+[01] tpl2: 113 wcs2: 198
+[01] inst1: 204 inst2: 206
+[01] fastened result: 270 maxLevel: 31
+[filewrite] files/01-basic-fastened-fastened-response.json (55 bytes)

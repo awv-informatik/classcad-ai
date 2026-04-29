@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.deleteInstance",
+      "code": 0,
+      "level": 41,
+      "levelStr": "WARNING",
+      "message": "ToId()/TOID() didn't get an existing or valid id."
+    },
+    {
+      "api": "v1.assembly.deleteInstance",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AssemblyBuilder.RemoveInstance:[CCVM::callsf: objId not found]] "
+    }
+  ],
+  "maxLevel": 51
+}

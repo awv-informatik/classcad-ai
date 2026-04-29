@@ -1,0 +1,26 @@
+[04] sub-assembly instance: 97
+[04] global peg (isLocal=false, x=120): 101 maxLevel: 31
+[04] local peg (isLocal=true, x=20): 105 maxLevel: 31
+[04] local origin peg (isLocal=true, x=0): 109 maxLevel: 31
+[04] default (isLocal=false implied), x=50: 113 maxLevel: 31
+[04] COG global peg: {
+  x: 120.04899651644044,
+  y: 1.2970003899667966e-15,
+  z: 19.98366782785323
+}
+[04] COG local peg: {
+  x: 120.04899651644044,
+  y: 1.2970003899667966e-15,
+  z: 19.98366782785323
+}
+[04] COG local origin peg: {
+  x: 100.040830430367,
+  y: 6.975320966422364e-15,
+  z: 19.983667827853196
+}
+[04] COG default peg: {
+  x: 50.020415215183476,
+  y: 3.7721876342865154e-15,
+  z: 19.983667827853203
+}
+[filewrite] files/04-isLocal-flag-cog-positions.json (450 bytes)

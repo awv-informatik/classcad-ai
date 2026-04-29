@@ -1,0 +1,7 @@
+[08] first SameName: 123 maxLevel: 31
+[08] second SameName: 127 maxLevel: 31
+[08] getFastened SameName id: 123
+[filewrite] files/08-duplicate-names-dup-getFastened.json (346 bytes)
+[08] default name: 131 maxLevel: 31
+[08] getFastened default: 131 Fastened
+[filewrite] files/08-duplicate-names-default-name-getFastened.json (347 bytes)

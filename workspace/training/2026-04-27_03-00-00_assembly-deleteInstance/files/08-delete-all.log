@@ -1,0 +1,4 @@
+[08] delete all result: null maxLevel: 31
+[08] after delete all, instances: []
+[08] empty: true
+[filewrite] files/08-delete-all-delete-all-comparison.json (62 bytes)

@@ -1,0 +1,5 @@
+[11] initial mate2 path: [297]
+[11] update mate2 path result: 305 maxLevel: 31
+[filewrite] files/11-update-mate-path-path-change-response.json (55 bytes)
+[11] after mate2 path: [299]
+[filewrite] files/11-update-mate-path-after-path-change.json (340 bytes)

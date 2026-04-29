@@ -1,0 +1,7 @@
+[01] fastened created: 212
+[01] getFastened before: {"xOffset":10,"yOffset":0,"zOffset":5}
+[filewrite] files/01-basic-update-offset-before-update.json (340 bytes)
+[01] updateFastened result: 212 maxLevel: 31
+[filewrite] files/01-basic-update-offset-update-response.json (55 bytes)
+[01] getFastened after: {"xOffset":50,"yOffset":0,"zOffset":5}
+[filewrite] files/01-basic-update-offset-after-update.json (340 bytes)

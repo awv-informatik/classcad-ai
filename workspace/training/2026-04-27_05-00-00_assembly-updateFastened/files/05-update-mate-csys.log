@@ -1,0 +1,7 @@
+[05] wcsA: 107 wcsB: 115
+[05] initial csys: 107
+[filewrite] files/05-update-mate-csys-initial-wcsA.json (339 bytes)
+[05] update csys result: 220 maxLevel: 31
+[filewrite] files/05-update-mate-csys-csys-update-response.json (55 bytes)
+[05] after csys update: 115
+[filewrite] files/05-update-mate-csys-after-wcsB.json (339 bytes)

@@ -1,0 +1,10 @@
+[07] all instances: [ 105, 107, 109 ]
+[07] "Gadget": 105
+[07] "Gadget0": 107
+[07] "Gadget1": 109
+[07] "Gadget2": []
+[07] dup1: 111 dup2: 113
+[07] getInstance("DupName"): 111 (which one?)
+[07] special chars name: 115 maxLevel: 31
+[07] empty string name: 117 maxLevel: 31
+[filewrite] files/07-naming-behavior-naming.json (287 bytes)

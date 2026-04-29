@@ -1,0 +1,13 @@
+[02] missing productId — result: null maxLevel: 51
+[02]   msg: The parameter "productId" must be provided in the api call!
+[02] missing ownerId — result: null maxLevel: 51
+[02]   msg: The parameter "ownerId" must be provided in the api call!
+[02] invalid productId — result: null maxLevel: 51
+[02]   msg: ToId()/TOID() didn't get an existing or valid id.
+[02] ownerId=partTemplate — result: null maxLevel: 51
+[02]   msg: The parameter "ownerId" has a wrong id type! Provide only following id types: ["assembly","instance"]
+[02] self-reference — result: null maxLevel: 51
+[02]   msg: An assembly can not be placed into itself
+[02] empty params — result: null maxLevel: 51
+[02]   msg: The parameter "productId" must be provided in the api call!
+[filewrite] files/02-error-cases-error-cases.json (866 bytes)

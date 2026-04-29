@@ -1,0 +1,5 @@
+[01] basic instance result: 105 maxLevel: 31
+[01] result type: number
+[filewrite] files/01-basic-happy-path-basic-result.json (55 bytes)
+[01] named instance result: 107 maxLevel: 31
+[01] transformed instance result: 109 maxLevel: 31

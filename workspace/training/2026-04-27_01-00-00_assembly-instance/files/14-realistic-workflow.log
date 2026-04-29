@@ -1,0 +1,6 @@
+[14] brackets: 188 190
+[14] shelves (batch): [ 192, 194, 196 ]
+[14] total instances: 5
+[14] assembly volume: 34400.000000000015
+[14] assembly cog: { x: 40.00000000000001, y: 10, z: 48.534883720930225 }
+[filewrite] files/14-realistic-workflow-workflow-result.json (190 bytes)

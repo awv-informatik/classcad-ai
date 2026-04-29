@@ -1,0 +1,18 @@
+{
+  "templateId": 22,
+  "children": {
+    "child1": 115,
+    "child2": 117
+  },
+  "getAll": {
+    "result": [
+      115,
+      117
+    ],
+    "maxLevel": 31
+  },
+  "byName": {
+    "result": 117,
+    "maxLevel": 31
+  }
+}

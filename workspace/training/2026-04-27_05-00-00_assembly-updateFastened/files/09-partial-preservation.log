@@ -1,0 +1,7 @@
+[09] BEFORE: {"name":"Full","x":10,"y":20,"z":30,"xR":0.7853981633974483,"yR":0.5235987755982988,"zR":1.0471975511965976,"m1flip":"-Z","m1reor":"90","m2flip":"X","m2reor":"180"}
+[filewrite] files/09-partial-preservation-before-partial.json (399 bytes)
+[09] update xOffset only: 212 maxLevel: 31
+[09] AFTER: {"name":"Full","x":99,"y":20,"z":30,"xR":0.7853981633974483,"yR":0.5235987755982988,"zR":1.0471975511965976,"m1flip":"-Z","m1reor":"90","m2flip":"X","m2reor":"180"}
+[filewrite] files/09-partial-preservation-after-partial.json (399 bytes)
+[09] preservation check: {"name":true,"yOffset":true,"zOffset":true,"xRotation":true,"yRotation":true,"zRotation":true,"mate1_flip":true,"mate1_reorient":true,"mate2_flip":true,"mate2_reorient":true,"mate1_csys":true,"mate2_csys":true,"xOffsetChanged":true}
+[filewrite] files/09-partial-preservation-preservation-check.json (285 bytes)

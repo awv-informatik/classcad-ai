@@ -1,0 +1,11 @@
+[05] batch result: [ 105, 107, 109 ]
+[05] batch result type: object true
+[05] batch maxLevel: 31
+[filewrite] files/05-batch-and-ident-batch-result.json (88 bytes)
+[05] ident instance result: 113 maxLevel: 31
+[05] getInstance by ident string: [] maxLevel: 31
+[05] getInstance by name: 113
+[05] mixed batch result: null
+[05] mixed batch maxLevel: 51
+[05] mixed batch msgs: 2
+[filewrite] files/05-batch-and-ident-mixed-batch.json (439 bytes)

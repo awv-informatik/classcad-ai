@@ -1,0 +1,9 @@
+[09] all: [ 105, 107, 109 ]
+[09] by name "B": 107 (expected: 107 )
+[09] nonexistent: [] maxLevel: 31
+[09] batch: [ 105, 109 ]
+[09] invalid owner (part tpl): null maxLevel: 51
+[09]   msg: The parameter "ownerId" has a wrong id type! Provide only following id types: ["assembly","instance"]
+[09] no params: null maxLevel: 51
+[09]   msg: The parameter "ownerId" must be provided in the api call!
+[filewrite] files/09-getInstance-getInstance-results.json (397 bytes)

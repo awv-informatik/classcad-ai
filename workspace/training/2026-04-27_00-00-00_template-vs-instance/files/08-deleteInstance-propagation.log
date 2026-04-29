@@ -1,0 +1,7 @@
+[08] BEFORE — s1: [ 122, 123, 124 ] s2: [ 127, 128, 129 ] tpl: [ 115, 117, 119 ]
+[08] deleting s1 child[1]: 123
+[08] deleteInstance result: 31 []
+[08] AFTER — s1: [ 122, 124 ] s2: [ 127, 129 ] tpl: [ 115, 119 ]
+[08] s1 count: 3 → 2
+[08] s2 count: 3 → 2
+[08] tpl count: 3 → 2

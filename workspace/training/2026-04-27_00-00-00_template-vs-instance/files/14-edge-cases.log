@@ -1,0 +1,8 @@
+[14] empty instance: 68 — maxLevel success
+[14] matrix instance: 153
+[14] self-reference: 51 null
+[14] self-ref messages: [ 'An assembly can not be placed into itself' ]
+[14] duplicate names: dupA: 165 dupB: 167
+[14] getInstance(DupName): 165
+[14] auto-named instance: 169
+[14] auto-name: MatrixPart

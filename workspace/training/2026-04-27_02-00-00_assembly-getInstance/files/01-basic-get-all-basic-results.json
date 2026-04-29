@@ -1,0 +1,21 @@
+{
+  "createdIds": {
+    "inst1": 105,
+    "inst2": 107,
+    "inst3": 109
+  },
+  "getAll": {
+    "result": [
+      105,
+      107,
+      109
+    ],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "getByName": {
+    "result": 107,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

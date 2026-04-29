@@ -1,0 +1,7 @@
+[03] created: 212
+[03] before name: OriginalName
+[03] update name result: 212 maxLevel: 31
+[filewrite] files/03-update-name-name-update-response.json (55 bytes)
+[03] old name lookup result: null maxLevel: 51
+[03] new name lookup result: RenamedConstraint id: 212
+[filewrite] files/03-update-name-name-lookup.json (453 bytes)

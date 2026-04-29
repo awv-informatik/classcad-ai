@@ -1,0 +1,22 @@
+[13] part.box(inst1): 51 null
+[13] messages: [
+  'The provided id for the part is not a part id.',
+  '"id" must be provided to create CC_Box'
+]
+[13] part.cylinder(inst1): 51 null
+[13] messages: [
+  'The provided id for the part is not a part id.',
+  '"id" must be provided to create CC_Cylinder'
+]
+[13] entityInjection(inst1): 51 null
+[13] messages: [
+  'The provided id for the part is not a part id.',
+  '"id" must be provided to create CC_EntityInjection'
+]
+[13] sketch(inst1): 51 null
+[13] messages: [
+  'The parameter "id" has a wrong id type! Provide only following id types: ["part"]',
+  '[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] '
+]
+[13] inst1 children: undefined
+[13] tpl children count: 7

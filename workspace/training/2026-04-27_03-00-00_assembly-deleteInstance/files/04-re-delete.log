@@ -1,0 +1,4 @@
+[04] created inst1: 105
+[04] first delete result: null maxLevel: 31
+[04] re-delete result: null maxLevel: 51
+[filewrite] files/04-re-delete-re-delete-response.json (440 bytes)

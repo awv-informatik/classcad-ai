@@ -1298,7 +1298,7 @@ const geoIds = (
 | 5   | Api study of `assembly.getAssemblyTemplate` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 | 6   | Api study of `assembly.deleteTemplate`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 | 7   | Api study of `assembly.convertToTemplate`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
-| 8   | Study: template vs instance paradigm        | assembly.md                                                           | [ ]     |
+| 8   | Study: template vs instance paradigm        | assembly.md                                                           | [✅]     |
 
 **Task #1-2: Assembly + part template creation**
 
@@ -1324,9 +1324,9 @@ await api.v1.assembly.setCurrentProduct({ id: asmId })
 
 | #   | Task                                   | Source                                                                | Studied |
 | --- | -------------------------------------- | --------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.instance`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.getInstance`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.deleteInstance` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 1   | Api study of `assembly.instance`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 2   | Api study of `assembly.getInstance`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 3   | Api study of `assembly.deleteInstance` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 
 **Task #1: Api study of `assembly.instance`**
 
@@ -1363,9 +1363,9 @@ const inst2 = (
 
 | #   | Task                                         | Source                                                                | Studied |
 | --- | -------------------------------------------- | --------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.fastened`             | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.updateFastened`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.getFastened`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 1   | Api study of `assembly.fastened`             | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 2   | Api study of `assembly.updateFastened`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 3   | Api study of `assembly.getFastened`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 | 4   | Api study of `assembly.fastenedOrigin`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 | 5   | Api study of `assembly.updateFastenedOrigin` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 | 6   | Api study of `assembly.getFastenedOrigin`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |

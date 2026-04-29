@@ -1,0 +1,9 @@
+[12] save maxLevel: 31 content length: 52700
+[12] BEFORE — asmId: 12 tpl: 22 inst1: 113 inst2: 115
+[12] load result: {"id":12}
+[12] AFTER — root: 12 currentProduct: 12
+[12] part templates after load: [ 22 ]
+[12] instances after load: [ 113, 115 ]
+[12] inst 113 : CubeA productId: 22
+[12] inst 115 : CubeB productId: 22
+[12] all productIds: [ 22, 22 ] same? true

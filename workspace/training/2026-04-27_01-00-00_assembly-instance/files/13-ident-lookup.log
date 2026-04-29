@@ -1,0 +1,6 @@
+[13] instance with ident: 107
+[13] instance via template ident: 109 maxLevel: 31
+[13] delete by ident: null maxLevel: 31
+[13] remaining instances: [ 109 ]
+[13] instance via asm ident as ownerId: 113 maxLevel: 31
+[filewrite] files/13-ident-lookup-ident-lookup.json (266 bytes)

@@ -1,0 +1,10 @@
+[06] bolt in template: 180
+[06] sub1: 182 sub2: 185
+[06] before — sub1 children: [ 183 ]
+[06] before — sub2 children: [ 186 ]
+[06] before — template children: [ 180 ]
+[06] nut added via instance: 190 maxLevel: 31
+[06] after — sub1 children: [ 183, 190 ]
+[06] after — sub2 children: [ 186, 192 ]
+[06] after — template children: [ 180, 188 ]
+[filewrite] files/06-owner-types-propagation.json (264 bytes)

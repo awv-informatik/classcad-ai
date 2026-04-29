@@ -1,0 +1,15 @@
+[05] instances: 113 115 117
+[05] setAppearance(inst1, red): 51 [
+  'The provided id for the target has the wrong type. It must be an operation id.'
+]
+[05] setAppearance(inst2, green): 51 [
+  'The provided id for the target has the wrong type. It must be an operation id.'
+]
+[05] setAppearance(inst3, blue): 51 [
+  'The provided id for the target has the wrong type. It must be an operation id.'
+]
+[05] setObjectName(inst1): 31 null
+[05] setUserData(inst1): 31
+[05] getUserData(inst1): steel
+[05] getUserData(inst2): aluminum
+[05] getUserData(inst1 again): steel

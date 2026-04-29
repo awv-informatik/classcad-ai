@@ -1,0 +1,6 @@
+[09] sub instances: 123 125
+[09] subAsmInst: 200
+[09] expanded tree children: [201,202]
+[filewrite] files/09-nested-path-expanded-tree.json (16 bytes)
+[09] nested path result: null maxLevel: 51
+[filewrite] files/09-nested-path-nested-response.json (284 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.deleteInstance",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Set the parameter \"ids\" = VOID is not allowed in this situation!"
+    }
+  ],
+  "maxLevel": 51
+}

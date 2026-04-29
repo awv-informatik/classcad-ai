@@ -1,0 +1,9 @@
+[06] before useCurrentTransform: {"x":10,"y":5,"z":3,"xR":0,"yR":0,"zR":0}
+[filewrite] files/06-useCurrentTransform-before-useCurrentTransform.json (340 bytes)
+[06] useCurrentTransform result: 212 maxLevel: 31
+[filewrite] files/06-useCurrentTransform-useCurrentTransform-response.json (55 bytes)
+[06] after useCurrentTransform: {"x":10,"y":5,"z":3,"xR":0,"yR":0,"zR":0}
+[filewrite] files/06-useCurrentTransform-after-useCurrentTransform.json (340 bytes)
+[06] useCurrentTransform + offsets result: 212 maxLevel: 31
+[06] offsets overridden?: {"x":10,"y":5,"z":3}
+[filewrite] files/06-useCurrentTransform-useCurrentTransform-with-offsets.json (340 bytes)

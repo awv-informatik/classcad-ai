@@ -1,0 +1,11 @@
+[06] mass(assembly): {"cog":{"x":60,"y":15,"z":10},"volume":48000}
+[06] mass(inst1): {"cog":{"x":20,"y":15,"z":10},"volume":24000}
+[06] mass(inst2): {"cog":{"x":100,"y":15,"z":10},"volume":24000}
+[06] mass(template): {"cog":{"x":20,"y":15,"z":10},"volume":24000}
+[06] currentProduct after asm ops: 12
+[06] currentInstance: 12
+[06] setCurrentProduct(tpl) -> prev: 12
+[06] currentProduct after switch to tpl: 22
+[06] setCurrentProduct(asm) -> prev: 22
+[06] setCurrentProduct(inst1): 12 maxLevel: 31
+[06] currentProduct after switch to inst: 22 currentInstance: 12

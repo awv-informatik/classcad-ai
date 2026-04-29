@@ -1,0 +1,6 @@
+[08] created c1: 287 c2: 291
+[08] batch result: [287,291] maxLevel: 31
+[filewrite] files/08-batch-update-batch-response.json (74 bytes)
+[08] C1_updated: {"x":100,"name":"C1_updated"}
+[08] C2_updated: {"x":200,"zRot":0.7853981633974483,"name":"C2_updated"}
+[filewrite] files/08-batch-update-batch-verify.json (837 bytes)

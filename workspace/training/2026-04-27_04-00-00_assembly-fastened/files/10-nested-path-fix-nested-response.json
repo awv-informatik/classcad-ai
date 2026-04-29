@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.fastened",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Mate path must contain either a single instance from expanded tree or one or more instances from templates."
+    }
+  ],
+  "maxLevel": 51
+}

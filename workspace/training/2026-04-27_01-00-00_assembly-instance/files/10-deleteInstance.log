@@ -1,0 +1,11 @@
+[10] before delete: [ 105, 107, 109, 111 ]
+[10] delete C2 result: null maxLevel: 31
+[10] after deleting C2: [ 105, 109, 111 ]
+[10] delete C1+C4 result: null maxLevel: 31
+[10] after deleting C1+C4: [ 109 ]
+[10] re-delete C2: null maxLevel: 51
+[10]   msg: ToId()/TOID() didn't get an existing or valid id.
+[10] empty ids: null maxLevel: 31
+[10] delete part tpl: null maxLevel: 51
+[10]   msg: The parameter "ids" has a wrong id type! Provide only following id types: ["instance"]
+[filewrite] files/10-deleteInstance-deleteInstance-results.json (444 bytes)

@@ -1,0 +1,11 @@
+[04] initial flip/reorient: {"m1flip":"Z","m1reor":"0","m2flip":"Z","m2reor":"0"}
+[filewrite] files/04-update-flip-reorient-initial-state.json (340 bytes)
+[04] update mate1 flip -Z: 212 maxLevel: 31
+[04] after mate1 flip -Z: {"m1flip":"-Z","m1reor":"0"}
+[filewrite] files/04-update-flip-reorient-after-flip-negZ.json (341 bytes)
+[04] update mate2 flip X reorient 90: 212 maxLevel: 31
+[04] after mate2 update: {"m2flip":"X","m2reor":"90"}
+[filewrite] files/04-update-flip-reorient-after-mate2-flip-reorient.json (342 bytes)
+[04] update mate1 reorient 180: 212 maxLevel: 31
+[04] after mate1 reorient: {"m1flip":"-Z","m1reor":"180"}
+[filewrite] files/04-update-flip-reorient-after-mate1-reorient.json (344 bytes)

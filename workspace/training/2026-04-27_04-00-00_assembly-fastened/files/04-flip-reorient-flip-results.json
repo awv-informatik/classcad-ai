@@ -1,0 +1,26 @@
+{
+  "Z": {
+    "id": 249,
+    "maxLevel": 31
+  },
+  "-Z": {
+    "id": 255,
+    "maxLevel": 31
+  },
+  "X": {
+    "id": 261,
+    "maxLevel": 31
+  },
+  "-X": {
+    "id": 267,
+    "maxLevel": 31
+  },
+  "Y": {
+    "id": 273,
+    "maxLevel": 31
+  },
+  "-Y": {
+    "id": 279,
+    "maxLevel": 31
+  }
+}

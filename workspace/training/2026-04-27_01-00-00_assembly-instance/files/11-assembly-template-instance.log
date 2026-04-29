@@ -1,0 +1,6 @@
+[11] gearbox instance 1: 166
+[11] gearbox instance 2: 170
+[11] gb1 children: [ 167, 168 ]
+[11] gb2 children: [ 171, 172 ]
+[11] template children: [ 162, 164 ]
+[filewrite] files/11-assembly-template-instance-nested-structure.json (153 bytes)

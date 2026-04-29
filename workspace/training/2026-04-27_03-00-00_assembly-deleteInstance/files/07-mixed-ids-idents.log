@@ -1,0 +1,5 @@
+[07] created: 105 109 111
+[07] mixed delete result: null maxLevel: 31
+[filewrite] files/07-mixed-ids-idents-mixed-delete-response.json (56 bytes)
+[07] after: [ 111 ]
+[07] only inst3 survives: true

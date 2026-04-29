@@ -1,0 +1,10 @@
+[11] template children before: [ 115, 117 ]
+[11] inst1 children before: [ 120, 121 ]
+[11] inst2 children before: [ 124, 125 ]
+[11] deleting template child: 115
+[11] result: null maxLevel: 31
+[filewrite] files/11-delete-from-template-template-delete-response.json (56 bytes)
+[11] template children after: [ 117 ]
+[11] inst1 children after: [ 121 ]
+[11] inst2 children after: [ 125 ]
+[filewrite] files/11-delete-from-template-template-delete-comparison.json (294 bytes)

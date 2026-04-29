@@ -1,0 +1,3 @@
+[06] pegs: [ 188, 190, 192, 194 ]
+[06] batch result: [ 200, 204, 208, 212 ] maxLevel: 31
+[filewrite] files/06-batch-batch-response.json (92 bytes)

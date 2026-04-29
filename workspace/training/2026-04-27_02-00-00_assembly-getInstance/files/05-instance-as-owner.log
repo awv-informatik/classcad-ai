@@ -1,0 +1,7 @@
+[05] childInst in template: 115
+[05] subInst in root: 117
+[05] sub-instance children: [118]
+[05] sub-instance maxLevel: 31
+[05] by name in instance: 118
+[05] root children: [117]
+[filewrite] files/05-instance-as-owner-instance-owner.json (276 bytes)

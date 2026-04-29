@@ -1,0 +1,32 @@
+{
+  "missingProductId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The parameter \"productId\" must be provided in the api call!"
+  },
+  "missingOwnerId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The parameter \"ownerId\" must be provided in the api call!"
+  },
+  "invalidProductId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "ToId()/TOID() didn't get an existing or valid id."
+  },
+  "ownerIsPartTpl": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The parameter \"ownerId\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+  },
+  "selfReference": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "An assembly can not be placed into itself"
+  },
+  "emptyParams": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The parameter \"productId\" must be provided in the api call!"
+  }
+}

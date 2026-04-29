@@ -1,0 +1,6 @@
+[05] delete partTemplate result: null maxLevel: 51
+[filewrite] files/05-wrong-id-types-delete-template-response.json (290 bytes)
+[05] delete assembly result: null maxLevel: 51
+[filewrite] files/05-wrong-id-types-delete-assembly-response.json (290 bytes)
+[05] delete nonexistent result: null maxLevel: 51
+[filewrite] files/05-wrong-id-types-delete-nonexistent-response.json (440 bytes)

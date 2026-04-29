@@ -1,0 +1,28 @@
+{
+  "tplBefore": [
+    115,
+    117
+  ],
+  "tplAfter": [
+    117
+  ],
+  "inst1Before": [
+    120,
+    121
+  ],
+  "inst1After": [
+    121
+  ],
+  "inst2Before": [
+    124,
+    125
+  ],
+  "inst2After": [
+    125
+  ],
+  "propagated": {
+    "tplLost": 1,
+    "inst1Lost": 1,
+    "inst2Lost": 1
+  }
+}

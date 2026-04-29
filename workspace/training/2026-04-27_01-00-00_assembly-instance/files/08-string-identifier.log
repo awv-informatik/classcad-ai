@@ -1,0 +1,4 @@
+[08] productId by name string: 107 maxLevel: 31
+[08] productId as string number: 109 maxLevel: 31
+[08] ownerId by name string: 111 maxLevel: 31
+[filewrite] files/08-string-identifier-string-ids.json (182 bytes)

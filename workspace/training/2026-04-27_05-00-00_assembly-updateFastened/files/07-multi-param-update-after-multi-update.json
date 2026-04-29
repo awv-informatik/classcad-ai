@@ -1,0 +1,26 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "-Z",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      206
+    ],
+    "reorient": "0"
+  },
+  "name": "MultiUpdated",
+  "xOffset": 40,
+  "xRotation": 0,
+  "yOffset": -10,
+  "yRotation": 0,
+  "zOffset": 15,
+  "zRotation": 0.5235987755982988
+}

@@ -1,0 +1,8 @@
+[10] batch result: [107,109,111]
+[10] batch maxLevel: 31
+[10] all instances: [ 107, 109, 111 ]
+[10] inst 107 : BatchA class: CC_ProductReference
+[10] inst 109 : BatchB class: CC_ProductReference
+[10] inst 111 : BatchC class: CC_ProductReference
+[10] IdentMap node: 105 IdentToIdMap IdentMap
+     map : {"members":[{"members":[{"value":"cube-a","type":"string","visible":1,"expressio

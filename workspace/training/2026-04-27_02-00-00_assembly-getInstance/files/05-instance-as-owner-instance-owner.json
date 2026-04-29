@@ -1,0 +1,20 @@
+{
+  "childInstInTemplate": 115,
+  "subInstInRoot": 117,
+  "subChildren": {
+    "result": [
+      118
+    ],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "byNameInInstance": {
+    "result": 118,
+    "maxLevel": 31
+  },
+  "rootChildren": {
+    "result": [
+      117
+    ]
+  }
+}

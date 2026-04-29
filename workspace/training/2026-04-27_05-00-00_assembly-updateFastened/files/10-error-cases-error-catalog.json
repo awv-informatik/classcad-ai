@@ -1,0 +1,114 @@
+[
+  {
+    "test": "invalid_id",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided constraint id does not exist."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "missing_id",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "invalid_csys",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"csys\" has an invalid id!"
+      }
+    ]
+  },
+  {
+    "test": "invalid_flip",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"INVALID\" is not supported to use as flip type."
+      }
+    ]
+  },
+  {
+    "test": "invalid_reorient",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"45\" is not supported to use as reorient type."
+      }
+    ]
+  },
+  {
+    "test": "assembly_id_instead",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the constraint is not a constraint or relation."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  }
+]

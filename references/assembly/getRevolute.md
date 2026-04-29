@@ -83,7 +83,7 @@ Constraints are scoped to the assembly they were created in. Looking up a constr
 
 - **zRotationLimits always returned as radians**, even if originally created with `'-45deg'` string syntax. Values are numeric (`typeof === 'number'`).
 - **First match wins** when multiple constraints share the same name.
-- **Type-specific lookup** — getRevolute only finds revolute constraints. A fastenedOrigin with the same name is invisible to getRevolute.
+- **Cross-type name collision** — all get* methods find the FIRST constraint by name regardless of type. If a cylindrical was created before a revolute with the same name, `getRevolute` will fail because the cylindrical is found first. Use unique names across constraint types.
 - **After rename via `updateRevolute`**, the old name returns null. Only the new name works.
 - **Reflects current state after updates.** Always shows the latest values.
 

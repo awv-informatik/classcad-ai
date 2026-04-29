@@ -70,6 +70,7 @@ Use `deleteConstraint({ ids: [constraintId] })` — note the parameter is **`ids
 - **Multiple revolute constraints on same instance pair allowed.** Useful for hinge pairs (e.g., top and bottom hinges on a door). Each constraint can reference different WCS on the same instances.
 - **reorient values are strings.** Pass `'90'` not `90`. Invalid values like `'45'` error with code 1013.
 - **getRevolute returns first match.** If multiple constraints share a name, only the first is returned.
+- **Cross-type name collision.** All get* methods find the FIRST constraint by name regardless of type. If a cylindrical was created before a revolute with the same name, `getRevolute` will fail. Use unique names across constraint types.
 - **Self-constraint blocked.** Same instance in both mates errors with code 1014.
 
 ## Common Errors

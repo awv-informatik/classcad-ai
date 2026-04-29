@@ -60,7 +60,7 @@ Same rules as `fastened`:
 - **Duplicate names allowed.** No uniqueness enforcement. `getFastenedOrigin` returns the first match.
 - **`useCurrentTransform` pass `1`, not `true`.** The param type is `real`, not `boolean`.
 - **Degree strings are stored as radians.** `getFastenedOrigin` returns rotation values in radians even if created with `'45deg'`.
-- **`getFastenedOrigin` requires assembly ID.** Passing an instance ID returns null with maxLevel 51. Passing a nonexistent name also returns null with maxLevel 51.
+- **`getFastenedOrigin` accepts assembly IDs and sub-assembly instance IDs.** Part instance IDs fail with "not a Assembly". Passing a nonexistent name returns null with maxLevel 51.
 - **Reorient values are strings**, not numbers. Pass `'90'`, not `90`.
 
 ## Common Errors

@@ -51,10 +51,12 @@ Returns: `{ id, name, mate1: { csys, flip, path, reorient }, mate2: {...}, zOffs
 
 ## updateRevolute
 
-`updateRevolute({ id: constraintId, ... })` — update any property by constraint ID.
+`updateRevolute({ id: constraintId, ... })` — update any property by constraint ID. See `references/assembly/updateRevolute.md` for full docs.
 
-- All properties updatable: name, zOffset, zRotationLimits, mate1/mate2 flip/reorient
-- Pass `zRotationLimits: null` to remove rotation limits
+- All properties updatable: name, zOffset, zRotationLimits, mate1/mate2 (path, csys, flip, reorient)
+- **Partial zRotationLimits allowed** (unlike create): can set min-only or max-only
+- Pass `zRotationLimits: null` to remove all limits; `{ max: null }` to remove just max
+- Can retarget to a different instance via `mate.path` + `mate.csys`
 - Returns constraint ID on success (maxLevel 31)
 
 ## Deleting Revolute Constraints

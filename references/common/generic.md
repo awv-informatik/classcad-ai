@@ -166,7 +166,7 @@ Extra/unknown parameters are silently ignored — no warning.
 
 ## Drawing Constraints
 
-- **One root per drawing:** Only one `part.create` or `assembly.create` per drawing. Second call fails with code 1200. Must `clear` first to start over.
+- **One root per drawing:** Only one `part.create` per drawing. Second call fails with code 1200. Must `clear` first to start over.
 
 <a name="id-system"></a>
 

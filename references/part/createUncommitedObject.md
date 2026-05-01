@@ -2,8 +2,6 @@
 
 Creates an empty, uncommitted feature shell in a part. The feature has default member values but no geometry until committed. Used for two-phase feature creation: create the placeholder, then configure and commit.
 
-Also available as `assembly.createUncommitedObject` for assembly constraints.
-
 ## Prerequisites
 
 - A part (`part.create`)
@@ -13,7 +11,7 @@ Also available as `assembly.createUncommitedObject` for assembly constraints.
 
 All three parameters are **required** — each produces a clear error when missing.
 
-- `id` — part ID (or assembly ID for the assembly variant)
+- `id` — part ID
 - `type` — exact CC_ class name (case-sensitive). See [Valid Types](#valid-types) below.
 - `name` — feature name. Duplicate names with existing features are allowed.
 
@@ -96,16 +94,6 @@ Calling `updateBox({})` with no dimension params is a valid no-op update that co
 
 **Invalid names:** `CC_Boolean` (use CC_Union/CC_Subtraction/CC_Intersection), `CC_ImportFeature` (use CC_Import).
 
-### Assembly constraints (use with `assembly.createUncommitedObject`)
-
-| CC_ Class | Corresponding API |
-|---|---|
-| `CC_FastenedConstraint` | `assembly.fastened` |
-| `CC_FastenedOriginConstraint` | `assembly.fastenedOrigin` |
-| `CC_RevoluteConstraint` | `assembly.revolute` |
-| `CC_CylindricalConstraint` | `assembly.cylindrical` |
-| `CC_PlanarConstraint` | `assembly.planar` |
-
 ## When to Use
 
 In most cases, call `part.box()` directly instead of `createUncommitedObject`. The two-phase pattern is useful for:
@@ -137,5 +125,4 @@ await api.v1.part.closeFeature({ id: cylId })
 
 - `part.openFeature` / `part.closeFeature` — required for commit/decline
 - `part.update*` — the update APIs that configure the feature between open and close
-- `assembly.createUncommitedObject` — assembly variant for constraint objects
 - `part.getFeature` — find committed features by name (requires `recalc` for uncommitted)

@@ -16,10 +16,10 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "node scripts/build-registry.mjs && tsc && cp src/method-registry.json dist/method-registry.json && cp src/render.mjs dist/render.mjs",
+    "build": "node scripts/build-registry.mjs && tsc && node scripts/copy-build-assets.mjs",
     "dev": "tsc --watch",
     "start": "node dist/server.js",
-    "clean": "rm -rf dist"
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
     "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz",

@@ -17,6 +17,12 @@ Creates a parametric box feature inside a part. Unlike `solid.box` (which create
 
 Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what you pass to `updateBox`, `openFeature`, `closeFeature`, and other feature-targeting APIs.
 
+## Alignment
+
+The box is **corner-aligned at the origin** — it extends from `(0, 0, 0)` to `(+length, +width, +height)`. COG sits at `(L/2, W/2, H/2)`. Verified empirically with `length=100, width=80, height=60`: vertex 0 at `(0, 0, 0)`, COG at `(50, 40, 30)`.
+
+**This is different from `solid.box`**, which is fully centered at the origin (corners at `±L/2, ±W/2, ±H/2`). When mixing the two families in the same part, translate one to overlay them. See `feature-vs-direct.md` for the full conventions table.
+
 ## Gotchas
 
 - **`references` only accepts `workcsys` IDs.** Passing a work plane, work axis, or work point ID fails with error code 1001: "wrong id type! Provide only following id types: ['workcsys']". The docs say "reference of the work coordinate system" — it means literally a workCSys.

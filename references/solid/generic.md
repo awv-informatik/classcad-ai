@@ -19,7 +19,7 @@ When only one of rotation/translation is provided, `rotateFirst` has no effect (
 
 Rotation always happens around the **world origin** `(0, 0, 0)` — not the solid's local center.
 
-For primitives like `box` (corner-aligned at origin, extends in +X/+Y/+Z), this means the corner stays at origin during rotation, not the center. A `sphere` (centered at origin) rotates around its center by default because its center coincides with the origin.
+All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) are origin-centered, so an un-translated solid's center coincides with the rotation pivot — it spins in place. Once a solid is translated away from origin, rotation orbits it around the origin instead of spinning it locally.
 
 **To rotate around a solid's own center:** use `rotateFirst: false` — translate the solid to where you want it, then apply a rotation. The rotation will orbit the solid around the origin from its translated position.
 
@@ -28,7 +28,7 @@ For primitives like `box` (corner-aligned at origin, extends in +X/+Y/+Z), this 
 - **No validation on values.** Any real number is accepted — zero, negative, greater than 2π. No warnings, no errors. Angles wrap naturally via trigonometry.
 - **Zero vectors are accepted silently.** `rotation: [0, 0, 0]` and `translation: [0, 0, 0]` are no-ops, equivalent to omitting the parameter.
 - **Rotation order matters for compound rotations.** `[π/2, π/4, 0]` applies Z=0 first (no-op), then Y=π/4, then X=π/2. This is NOT the same as `[0, π/4, π/2]`.
-- **Box is NOT centered** — it's corner-aligned at origin. A 90° Z rotation swings the box's length from +X to +Y around the origin corner.
+- **All `solid.*` primitives are origin-centered** — `solid.box`, `solid.cylinder`, `solid.cone`, `solid.sphere` all have their centers at the world origin in default position. A 90° Z rotation on an un-translated solid box spins it in place around its own center. (`part.*` features use different conventions — see `references/part/feature-vs-direct.md`.)
 
 ## Usage Hints
 

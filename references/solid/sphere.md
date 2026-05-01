@@ -25,7 +25,7 @@ On error, returns `null` with maxLevel=51 and descriptive error messages.
 
 ## Alignment
 
-The sphere is **centered at the origin** — unlike `solid.box` which is corner-aligned. The center is at (0,0,0) before any translation is applied.
+The sphere is **centered at the origin** — its center sits at (0,0,0) before any translation is applied. All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) share this origin-centered convention. `part.sphere` also centers (the only `part.*` primitive that does); `part.box`/`part.cylinder`/`part.cone` are corner-anchored or base-anchored. See `references/part/feature-vs-direct.md` for the conventions table.
 
 ## Mesh Characteristics
 

@@ -34,7 +34,7 @@ Returns the new solid's ID (`result: id`). Each copy gets a unique, incrementing
 ## Gotchas
 
 - No `updateCopy` or `deleteCopy` exists. To remove a copy, use `solid.deleteSolid`. To reposition, use `solid.translation` / `solid.rotation`.
-- Rotation always applies around the **world origin** `(0,0,0)`, not the solid's local center. For a box (corner-aligned at origin), this rotates around the corner.
+- Rotation always applies around the **world origin** `(0,0,0)`, not the solid's local center. Since `solid.*` primitives are origin-centered, an un-translated solid rotates around its own center; a translated solid orbits the origin.
 - When copying with no transform, the copy perfectly overlaps the original. The renderer assigns different colors, but geometrically they're indistinguishable until one is moved.
 
 ## Common Errors

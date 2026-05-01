@@ -17,6 +17,12 @@ Creates a parametric sphere feature inside a part. Unlike `solid.sphere` (direct
 
 Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what you pass to `updateSphere`, `openFeature`, `closeFeature`, and other feature-targeting APIs.
 
+## Alignment
+
+The sphere is **centered at the origin** — center sits at `(0, 0, 0)` before any references are applied. Verified empirically with `radius=25`: vertex 0 at `(0, 0, -25)`, COG at `(0, 0, 0)`.
+
+This is the **only** part-feature primitive that matches its `solid.*` sibling's convention — `part.box`, `part.cylinder`, and `part.cone` are corner/base-anchored, but `part.sphere` is centered like `solid.sphere`. See `feature-vs-direct.md` for the full conventions table.
+
 ## Gotchas
 
 - **`references` only accepts `workcsys` IDs.** Passing a work plane, work axis, or work point ID fails with error code 1001: "The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]". Result is null.

@@ -10,7 +10,7 @@ Creates a cylinder primitive solid within an entity injection feature.
 ## Key Parameters
 
 - `id` — entity injection feature ID (not part ID). Error message is clear if wrong type: `"Provide only following id types: [\"entityinjection\"]"`
-- `height` — Z-dimension, extends from z=0 to z=height (required)
+- `height` — total Z-dimension (required). The cylinder is **z-centered**: extends from `z=-height/2` to `z=+height/2`.
 - `diameter` — full diameter of the circular cross-section (required). This is diameter, **not radius**.
 - `translation` — `[x, y, z]` offset from origin (optional)
 - `rotation` — `[rx, ry, rz]` rotation in **radians** around each axis (optional)
@@ -26,7 +26,11 @@ On error, returns `null` with maxLevel=51 and descriptive error messages.
 
 ## Alignment
 
-The cylinder is **axis-centered** — the circular cross-section is centered at the origin (x=0, y=0) and the cylinder extends from z=0 to z=height along the Z-axis. This differs from `solid.box` which is corner-aligned.
+The cylinder is **fully centered at the origin** — the circular cross-section is centered at (x=0, y=0) AND the cylinder is z-centered, extending from `z=-height/2` to `z=+height/2`. Verified empirically: a cylinder with `height=100` (no translation) has COG at (0, 0, 0), not (0, 0, 50).
+
+All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) share this origin-centered convention. **`part.cylinder` is DIFFERENT** — base-anchored at the origin, extends z=`0..H`. See `references/part/feature-vs-direct.md` for the conventions table. Older versions of this doc claimed `solid.cylinder` extended z=`0..h`; that was wrong — verified empirically.
+
+Practical: to position a through-hole that pierces a plate at z∈[-t/2,+t/2], use `height >= t` and `translation: [..., 0]` — no z-offset needed.
 
 ## Gotchas
 
@@ -79,6 +83,6 @@ const cyl2Id = (await api.v1.solid.cylinder({
 - `solid.translation` / `solid.rotation` / `solid.scale` — transform existing solids
 - `solid.union` / `solid.subtraction` / `solid.intersection` — boolean operations between solids
 - `part.entityInjection` — create the required EIF container
-- `solid.box` — similar primitive, but corner-aligned instead of axis-centered
+- `solid.box` — similar primitive (also fully centered at origin)
 - `solid.sphere` — similar primitive (centered at origin)
 - `solid.cone` — similar primitive with two diameters

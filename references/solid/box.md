@@ -27,7 +27,9 @@ On error, returns `null` with maxLevel=51 and descriptive error messages.
 
 ## Alignment
 
-The box is **corner-aligned at the origin** — it extends from (0,0,0) in the positive X (length), Y (width), and Z (height) directions. It is NOT centered.
+The box is **fully centered at the origin** — it extends from `(-length/2, -width/2, -height/2)` to `(+length/2, +width/2, +height/2)`. Verified empirically: a box with `length=100, width=80, height=60` (no translation) has its corner at `(-50, -40, -30)` and COG at `(0, 0, 0)`.
+
+All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) share this origin-centered convention. **`part.*` primitives use a DIFFERENT convention** — `part.box` is corner-aligned (`+X+Y+Z`), `part.cylinder` and `part.cone` are base-anchored (z=`0..H`), only `part.sphere` matches its solid sibling. See `references/part/feature-vs-direct.md` for the full conventions table. Older versions of this doc claimed `solid.box` was corner-aligned; that was wrong — verified empirically.
 
 ## Gotchas
 
@@ -56,7 +58,7 @@ The box is **corner-aligned at the origin** — it extends from (0,0,0) in the p
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 
-// Basic box at origin
+// Basic box centered at origin — corners at (±50, ±30, ±20)
 const boxId = (await api.v1.solid.box({
   id: eifId,
   length: 100,

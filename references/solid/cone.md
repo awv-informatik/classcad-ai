@@ -29,11 +29,9 @@ On error, returns `null` with maxLevel=51 and descriptive error messages.
 
 The cone is **fully centered at the origin** — centered in XY (circular cross-section around x=0, y=0) AND centered in Z (extends from z=-height/2 to z=+height/2).
 
-**This differs from other primitives:**
-- `solid.cylinder` — centered in XY but extends z=0 to z=height (bottom at origin)
-- `solid.box` — corner-aligned at origin (extends in positive X/Y/Z)
+All four `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) follow the same convention: fully centered at the origin before any translation. A `solid.cone(h=100)` and a `solid.cylinder(h=100)` both span z=-50..+50 in their default position. **`part.cone` is DIFFERENT** — base-anchored at z=0, extends to z=+H. See `references/part/feature-vs-direct.md` for the conventions table.
 
-When combining a cone with other primitives in the same EIF, account for this Z-centering. A cone with height=100 and a cylinder with height=100 do NOT start at the same Z — the cone's bottom is at z=-50, the cylinder's bottom is at z=0.
+Note that a frustum's center-of-gravity is **not** at z=0 even though it's z-centered geometrically — mass is biased toward the larger end. For `bDiameter=40, tDiameter=10, height=80`, COG sits at roughly z=-14.3 (toward the base). This is correct behavior, not misalignment.
 
 ## Gotchas
 
@@ -58,7 +56,7 @@ When combining a cone with other primitives in the same EIF, account for this Z-
 - Multiple cones can coexist in one entity injection feature — each gets its own solid ID
 - Use `solid.deleteSolid({ id: eifId, ids: [coneId] })` to remove specific cones. Omit `ids` to clear all solids.
 - For boolean operations, create multiple solids in the same EIF first, then combine them
-- When mixing cone with cylinder/box, remember the Z-centering difference — use `translation` to align bottoms if needed
+- All `solid.*` primitives share the same origin-centered convention, so cone/cylinder/box/sphere with matching `height` will share Z extent without extra translation
 
 ## Working Example
 
@@ -91,6 +89,6 @@ const pointedId = (await api.v1.solid.cone({
 - `solid.translation` / `solid.rotation` / `solid.scale` — transform existing solids
 - `solid.union` / `solid.subtraction` / `solid.intersection` — boolean operations between solids
 - `part.entityInjection` — create the required EIF container
-- `solid.cylinder` — similar primitive but centered differently (z=0 to z=height)
-- `solid.box` — corner-aligned primitive
-- `solid.sphere` — centered at origin (like cone)
+- `solid.cylinder` — similar primitive (also fully centered at origin)
+- `solid.box` — similar primitive (also fully centered at origin)
+- `solid.sphere` — similar primitive (centered at origin)

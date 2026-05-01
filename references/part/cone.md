@@ -21,6 +21,12 @@ All dimension params accept numbers or expression strings (`'@expr.BD'`, `'4*20'
 
 Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what you pass to `updateCone`, `openFeature`, `closeFeature`, and other feature-targeting APIs.
 
+## Alignment
+
+The cone is **base-anchored at the origin** — base disk centered on the XY plane at z=0, top disk at z=`+height`. COG of a frustum sits along the Z-axis biased toward the larger end. Verified empirically with `bDiameter=tDiameter=40, height=80`: vertex 0 at `(20, 0, 0)`, COG at `(0, 0, 39.99)`.
+
+**This is different from `solid.cone`**, which is fully centered (z extends `-H/2..+H/2`). See `feature-vs-direct.md` for the full conventions table.
+
 ## Gotchas
 
 - **`tDiameter` cannot be 0.** The default 0.1 exists because a true cone point is invalid. Error 1122: "Value for top diameter must be greater than 0."

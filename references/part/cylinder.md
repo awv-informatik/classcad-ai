@@ -18,6 +18,12 @@ Creates a parametric cylinder feature inside a part. Unlike `solid.cylinder` (wh
 
 Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what you pass to `updateCylinder`, `openFeature`, `closeFeature`, and other feature-targeting APIs.
 
+## Alignment
+
+The cylinder is **base-anchored at the origin** — XY centered (axis on Z), but Z extends from `0` to `+height`. COG sits at `(0, 0, H/2)`. Verified empirically with `diameter=30, height=100`: vertex 0 at `(15, 0, 0)`, COG at `(0, 0, 49.99)`.
+
+**This is different from `solid.cylinder`**, which is fully centered at the origin (z extends `-H/2..+H/2`). For a through-hole on a plate centered at z=0, a `part.cylinder` needs a workCSys placed at z=`-H/2` (or use `solid.cylinder` instead, which centers naturally). See `feature-vs-direct.md` for the full conventions table.
+
 ## Gotchas
 
 - **`references` only accepts `workcsys` IDs.** Passing a work plane, work axis, or work point ID fails with error code 1001: "wrong id type! Provide only following id types: ['workcsys']". The docs say "reference of the work coordinate system" — it means literally a workCSys.

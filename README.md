@@ -2,7 +2,7 @@
 
 Model Context Protocol server for the [ClassCAD](https://classcad.io) CAD engine.
 
-Lets MCP-capable LLM hosts (Claude Desktop, Claude Code, VS Code Copilot, etc.) drive a live ClassCAD session: create parts, run booleans, sketch, inspect the structure tree, render snapshots, and save/load OFB.
+Lets MCP-capable LLM hosts (Claude Code, VS Code Copilot, etc.) drive a live ClassCAD session: create parts, run booleans, sketch, inspect the structure tree, render snapshots, and save/load OFB.
 
 ## Status
 
@@ -38,28 +38,6 @@ Use the absolute path to `dist/server.js` in the config snippets below. On Windo
 
 ## Configure your MCP host
 
-### Claude Desktop
-
-Edit your Claude Desktop config file:
-
-- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
-- **Linux:** `~/.config/Claude/claude_desktop_config.json`
-
-```json
-{
-  "mcpServers": {
-    "classcad": {
-      "command": "node",
-      "args": ["/abs/path/to/classcad-mcp/dist/server.js"],
-      "env": { "CLASSCAD_WS_URL": "ws://localhost:9094/" }
-    }
-  }
-}
-```
-
-Restart Claude Desktop. The classcad tools should appear in the tool picker.
-
 ### Claude Code (CLI)
 
 Two options.
@@ -81,7 +59,7 @@ claude mcp add classcad node /abs/path/to/classcad-mcp/dist/server.js \
 
 **Manual — JSON config:**
 
-Same shape as Claude Desktop, in `~/.claude.json` (user-level) or `.mcp.json` at the repo root (project-level):
+Edit `~/.claude.json` (user-level) or `.mcp.json` at the repo root (project-level):
 
 ```json
 {
@@ -126,7 +104,7 @@ Open Copilot Chat, switch to **Agent** mode, and the classcad tools become selec
 
 ### Cursor / Windsurf / other MCP hosts
 
-Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snippet from the Claude Desktop section into the host's MCP config file (consult the host's docs for the path).
+Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snippet from the Claude Code manual-config section into the host's MCP config file (consult the host's docs for the path).
 
 ---
 

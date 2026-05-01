@@ -1,0 +1,36 @@
+{
+  "name": "@awv-informatik/classcad-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for the ClassCAD CAD engine",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "classcad-mcp": "dist/server.js"
+  },
+  "main": "dist/server.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build-registry.mjs && tsc && cp src/method-registry.json dist/method-registry.json && cp src/render.mjs dist/render.mjs",
+    "dev": "tsc --watch",
+    "start": "node dist/server.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "sharp": "^0.34.5",
+    "ws": "^8.19.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.13",
+    "typescript": "^5.6.0"
+  }
+}

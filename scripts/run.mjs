@@ -94,14 +94,21 @@ async function main() {
   const api = { v1: v1(facade) }
 
   // Snapshot helper — captures PNGs + exports to files/
-  async function snapshot(label = `snapshot`) {
+  // Optional opts: { view?: 'iso'|'top'|'bottom'|'front'|'back'|'left'|'right',
+  //                  zoom?: number, lookAt?: [x,y,z] }
+  // Default view is 'iso'. For multi-angle data collection, call snapshot()
+  // multiple times with different view options (each writes a distinct PNG).
+  async function snapshot(label = `snapshot`, opts = {}) {
     const safeName = label.replace(/[^a-zA-Z0-9_-]/g, '_')
     const prefix = `${scriptName}-${safeName}`
     const pngs = []
 
     try {
       await client.execute({ 'v1.common.setDatabaseSettings': [{ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }] })
-      const renders = await renderSession(client, prefix, filesDir, { width: IMG_W, height: IMG_H })
+      const renders = await renderSession(client, prefix, filesDir, {
+        width: IMG_W, height: IMG_H,
+        view: opts.view, zoom: opts.zoom, lookAt: opts.lookAt,
+      })
       for (const r of renders) pngs.push(`files/${r.file}`)
     } catch (e) {
       // Fallback: try STL-based render

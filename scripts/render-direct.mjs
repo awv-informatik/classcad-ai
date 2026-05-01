@@ -41,6 +41,9 @@ const IMG_H = 1200
 // Projection & Transform
 // ═══════════════════════════════════════════════════════════════════════════
 
+// Default isometric projection (CAD-cube corner view).
+// Rotates 45° around Y, then ~35.264° around X. Output: [screenX, screenY, depth]
+// where larger depth = closer to camera.
 function projectIso(x, y, z) {
   const a = Math.PI / 4
   const b = Math.asin(1 / Math.sqrt(3))
@@ -50,6 +53,51 @@ function projectIso(x, y, z) {
   const y1 = y
   const z1 = -sa * x + ca * z
   return [x1, cb * y1 - sb * z1, sb * y1 + cb * z1]
+}
+
+// CAD view-cube projections. Each returns [screenX, screenY, depth].
+// World is right-handed, +X right, +Y forward, +Z up.
+//   top    = camera at +Z looking -Z (model viewed from above)
+//   bottom = camera at -Z looking +Z
+//   front  = camera at -Y looking +Y
+//   back   = camera at +Y looking -Y
+//   right  = camera at +X looking -X
+//   left   = camera at -X looking +X
+//   iso    = the default isometric corner view
+const VIEWS = {
+  iso:    projectIso,
+  top:    (x, y, z) => [x, y, z],
+  bottom: (x, y, z) => [x, -y, -z],
+  front:  (x, y, z) => [x, z, -y],
+  back:   (x, y, z) => [-x, z, y],
+  right:  (x, y, z) => [-y, z, x],
+  left:   (x, y, z) => [y, z, -x],
+}
+
+export const VIEW_NAMES = Object.keys(VIEWS)
+
+// Module-level viewport state. Mutated by setViewport() at the start of each
+// renderSession call. Rendering is sequential so this is safe.
+let _project = projectIso
+let _zoom = 1
+let _lookAt = null
+
+function project(x, y, z) {
+  return _project(x, y, z)
+}
+
+/**
+ * Configure viewport for the next render. Called at the start of renderSession.
+ * @param {object} opts
+ * @param {string} [opts.view='iso'] — one of VIEW_NAMES
+ * @param {number} [opts.zoom=1] — multiplier on the auto-fit scale
+ * @param {[number,number,number]|null} [opts.lookAt=null] — 3D point that lands at screen center
+ */
+export function setViewport(opts = {}) {
+  const viewName = opts.view ?? 'iso'
+  _project = VIEWS[viewName] ?? projectIso
+  _zoom = (typeof opts.zoom === 'number' && opts.zoom > 0) ? opts.zoom : 1
+  _lookAt = Array.isArray(opts.lookAt) && opts.lookAt.length === 3 ? opts.lookAt : null
 }
 
 function bbox2d(pts) {
@@ -65,12 +113,171 @@ function viewTransform(pts2d, width, height, margin = 40) {
   const { minX, maxX, minY, maxY } = bbox2d(pts2d)
   const rangeX = maxX - minX || 1
   const rangeY = maxY - minY || 1
-  const scale = Math.min((width - 2 * margin) / rangeX, (height - 2 * margin) / rangeY)
-  const midX = (minX + maxX) / 2, midY = (minY + maxY) / 2
+  const fitScale = Math.min((width - 2 * margin) / rangeX, (height - 2 * margin) / rangeY)
+  const scale = fitScale * _zoom
+  let midX, midY
+  if (_lookAt) {
+    const [lx, ly] = project(_lookAt[0], _lookAt[1], _lookAt[2])
+    midX = lx; midY = ly
+  } else {
+    midX = (minX + maxX) / 2
+    midY = (minY + maxY) / 2
+  }
   return (x, y) => [
     width / 2 + (x - midX) * scale,
     height / 2 - (y - midY) * scale
   ]
+}
+
+// ─── Assembly transforms ──────────────────────────────────────────────────
+// Templates store geometry in their own local frame; CC_ProductReference and
+// CC_ProductReferenceET nodes carry a `coordinateSystem` placing each instance
+// in its parent's frame. Without composing these along the tree, every instance
+// renders at the template origin — see extractAssemblyInstances + buildDrawList.
+
+const IDENTITY4x4 = [
+  1, 0, 0, 0,
+  0, 1, 0, 0,
+  0, 0, 1, 0,
+  0, 0, 0, 1,
+]
+
+function multiply4x4(a, b) {
+  const r = new Array(16)
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
+      r[i*4+j] = a[i*4]*b[j] + a[i*4+1]*b[j+4] + a[i*4+2]*b[j+8] + a[i*4+3]*b[j+12]
+    }
+  }
+  return r
+}
+
+function applyMatPoint(m, x, y, z) {
+  return [
+    m[0]*x + m[1]*y + m[2]*z + m[3],
+    m[4]*x + m[5]*y + m[6]*z + m[7],
+    m[8]*x + m[9]*y + m[10]*z + m[11],
+  ]
+}
+
+function applyMatVec(m, x, y, z) {
+  return [
+    m[0]*x + m[1]*y + m[2]*z,
+    m[4]*x + m[5]*y + m[6]*z,
+    m[8]*x + m[9]*y + m[10]*z,
+  ]
+}
+
+// coordinateSystem on instance nodes is observed as
+// [origin, xAxis, yAxis, zAxis] (4×3) for STEP imports. The API also accepts
+// the 3×3 form [origin, xDir, yDir] (zDir derived) and the 4×4 row form.
+function csToMatrix(cs) {
+  if (!Array.isArray(cs) || cs.length < 3) return IDENTITY4x4.slice()
+  if (cs.length === 4 && Array.isArray(cs[0]) && cs[0].length === 4) {
+    return [
+      cs[0][0], cs[0][1], cs[0][2], cs[0][3],
+      cs[1][0], cs[1][1], cs[1][2], cs[1][3],
+      cs[2][0], cs[2][1], cs[2][2], cs[2][3],
+      cs[3][0], cs[3][1], cs[3][2], cs[3][3],
+    ]
+  }
+  const o = cs[0] || [0, 0, 0]
+  const xa = cs[1] || [1, 0, 0]
+  const ya = cs[2] || [0, 1, 0]
+  const za = cs[3] || [
+    xa[1]*ya[2] - xa[2]*ya[1],
+    xa[2]*ya[0] - xa[0]*ya[2],
+    xa[0]*ya[1] - xa[1]*ya[0],
+  ]
+  return [
+    xa[0], ya[0], za[0], o[0],
+    xa[1], ya[1], za[1], o[1],
+    xa[2], ya[2], za[2], o[2],
+    0, 0, 0, 1,
+  ]
+}
+
+/**
+ * Walk the assembly tree and produce one entry per leaf part instance with the
+ * cumulative world transform. Returns null when the drawing has no
+ * CC_AssemblyRoot (single-part drawing — caller renders templates flat).
+ */
+export function extractAssemblyInstances(tree) {
+  let rootId = null
+  for (const [id, obj] of Object.entries(tree)) {
+    if (obj.class === 'CC_AssemblyRoot') { rootId = Number(id); break }
+  }
+  if (rootId == null) return null
+
+  const solidByPart = new Map()
+  for (const [id, obj] of Object.entries(tree)) {
+    if (obj.class !== 'CC_Solid') continue
+    let cur = obj.parent
+    while (cur != null) {
+      const p = tree[String(cur)]
+      if (!p) break
+      if (p.class === 'CC_Part') { solidByPart.set(Number(cur), Number(id)); break }
+      cur = p.parent
+    }
+  }
+
+  const instances = []
+  function visit(node, parentMatrix) {
+    const matrix = multiply4x4(parentMatrix, csToMatrix(node.coordinateSystem))
+    const pid = node.members?.productId?.value
+    if (pid != null) {
+      const target = tree[String(pid)]
+      if (target?.class === 'CC_Part') {
+        const solidId = solidByPart.get(Number(pid))
+        if (solidId != null) {
+          instances.push({ ownerSolidId: solidId, partId: Number(pid), transform: matrix })
+        }
+        return
+      }
+    }
+    for (const cid of (node.children || [])) {
+      const child = tree[String(cid)]
+      if (!child) continue
+      if (child.class === 'CC_ProductReference' || child.class === 'CC_ProductReferenceET') {
+        visit(child, matrix)
+      }
+    }
+  }
+
+  const root = tree[String(rootId)]
+  for (const cid of (root?.children || [])) {
+    const child = tree[String(cid)]
+    if (!child) continue
+    if (child.class === 'CC_ProductReference' || child.class === 'CC_ProductReferenceET') {
+      visit(child, IDENTITY4x4.slice())
+    }
+  }
+  return instances
+}
+
+// Build the list of drawcalls. With instances: one drawcall per instance,
+// palette keyed by template (so all copies of the same part share a color).
+// Without: one drawcall per container at identity (the part-only render path).
+function buildDrawList(graphic, instances) {
+  const containers = graphic.containers || []
+  if (!instances || instances.length === 0) {
+    return containers.map((c, i) => ({ container: c, transform: null, paletteIdx: i }))
+  }
+  const containerByOwner = new Map()
+  for (const c of containers) {
+    if (c.owner != null) containerByOwner.set(Number(c.owner), c)
+  }
+  const palByPart = new Map()
+  let nextPal = 0
+  const draws = []
+  for (const inst of instances) {
+    const c = containerByOwner.get(Number(inst.ownerSolidId))
+    if (!c) continue
+    let pal = palByPart.get(inst.partId)
+    if (pal == null) { pal = nextPal++; palByPart.set(inst.partId, pal) }
+    draws.push({ container: c, transform: inst.transform, paletteIdx: pal })
+  }
+  return draws
 }
 
 function tessellateCircle(cx, cy, r, n = 64) {
@@ -121,28 +328,35 @@ const BODY_PALETTES = [
 
 /**
  * Z-buffer rasterizer for solid rendering. Eliminates all Z-fighting artifacts.
+ * When `instances` is provided (assemblies), each draw applies its world
+ * transform before projection; the palette keys per template, so all copies
+ * of the same part share a color.
  * Returns { pixels: Buffer (RGBA), width, height } or null if no geometry.
  */
-function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H) {
+function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = null) {
   const allPts2d = []
   const tris = []  // { v0, v1, v2 (screen+depth), r, g, b }
   const edgeLines = []
 
-  const containers = graphic.containers || []
-  for (let ci = 0; ci < containers.length; ci++) {
-    const container = containers[ci]
-    const palette = BODY_PALETTES[ci % BODY_PALETTES.length]
+  const drawList = buildDrawList(graphic, instances)
+  for (const draw of drawList) {
+    const { container, transform, paletteIdx } = draw
+    const palette = BODY_PALETTES[paletteIdx % BODY_PALETTES.length]
     for (const mesh of (container.meshes || [])) {
       const verts = mesh.vertices, norms = mesh.normals, indices = mesh.indices
       for (let i = 0; i < indices.length; i += 3) {
         const tv = []
         for (let j = 0; j < 3; j++) {
           const idx = indices[i + j]
-          const [px, py, pz] = projectIso(verts[idx*3], verts[idx*3+1], verts[idx*3+2])
+          let vx = verts[idx*3], vy = verts[idx*3+1], vz = verts[idx*3+2]
+          if (transform) [vx, vy, vz] = applyMatPoint(transform, vx, vy, vz)
+          const [px, py, pz] = project(vx, vy, vz)
           tv.push({ px, py, pz })
           allPts2d.push([px, py])
         }
-        const [, , lz] = projectIso(norms[indices[i]*3], norms[indices[i]*3+1], norms[indices[i]*3+2])
+        let nx = norms[indices[i]*3], ny = norms[indices[i]*3+1], nz = norms[indices[i]*3+2]
+        if (transform) [nx, ny, nz] = applyMatVec(transform, nx, ny, nz)
+        const [, , lz] = project(nx, ny, nz)
         if (lz < 0) continue  // back-face cull
         const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * lz))
         const shade = 100 + 130 * brightness
@@ -158,7 +372,9 @@ function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H) {
       const pts = edge.points
       const projPts = []
       for (let i = 0; i < pts.length; i += 3) {
-        const [px, py, pz] = projectIso(pts[i], pts[i+1], pts[i+2])
+        let ex = pts[i], ey = pts[i+1], ez = pts[i+2]
+        if (transform) [ex, ey, ez] = applyMatPoint(transform, ex, ey, ez)
+        const [px, py, pz] = project(ex, ey, ez)
         projPts.push({ px, py, pz })
         allPts2d.push([px, py])
       }
@@ -259,26 +475,30 @@ function _rasterLine(pixels, zBuf, w, h, p0, p1, color, zBias = 0) {
 }
 
 // Legacy SVG renderer (kept for sketch/curve paths)
-function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
+function renderSolidSVG(graphic, width = IMG_W, height = IMG_H, instances = null) {
   const allPts2d = []
   const triangles = []
   const edges = []
 
-  const containers = graphic.containers || []
-  for (let ci = 0; ci < containers.length; ci++) {
-    const container = containers[ci]
-    const palette = BODY_PALETTES[ci % BODY_PALETTES.length]
+  const drawList = buildDrawList(graphic, instances)
+  for (const draw of drawList) {
+    const { container, transform, paletteIdx } = draw
+    const palette = BODY_PALETTES[paletteIdx % BODY_PALETTES.length]
     for (const mesh of (container.meshes || [])) {
       const verts = mesh.vertices, norms = mesh.normals, indices = mesh.indices
       for (let i = 0; i < indices.length; i += 3) {
         const triVerts = []
         for (let j = 0; j < 3; j++) {
           const idx = indices[i + j]
-          const [px, py, pz] = projectIso(verts[idx*3], verts[idx*3+1], verts[idx*3+2])
+          let vx = verts[idx*3], vy = verts[idx*3+1], vz = verts[idx*3+2]
+          if (transform) [vx, vy, vz] = applyMatPoint(transform, vx, vy, vz)
+          const [px, py, pz] = project(vx, vy, vz)
           triVerts.push({ px, py, pz })
           allPts2d.push([px, py])
         }
-        const [, , lz] = projectIso(norms[indices[i]*3], norms[indices[i]*3+1], norms[indices[i]*3+2])
+        let nx = norms[indices[i]*3], ny = norms[indices[i]*3+1], nz = norms[indices[i]*3+2]
+        if (transform) [nx, ny, nz] = applyMatVec(transform, nx, ny, nz)
+        const [, , lz] = project(nx, ny, nz)
         if (lz < 0) continue
         const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * lz))
         const avgDepth = (triVerts[0].pz + triVerts[1].pz + triVerts[2].pz) / 3
@@ -289,7 +509,9 @@ function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
       const pts = edge.points
       const projPts = []
       for (let i = 0; i < pts.length; i += 3) {
-        const [px, py] = projectIso(pts[i], pts[i+1], pts[i+2])
+        let ex = pts[i], ey = pts[i+1], ez = pts[i+2]
+        if (transform) [ex, ey, ez] = applyMatPoint(transform, ex, ey, ez)
+        const [px, py] = project(ex, ey, ez)
         projPts.push([px, py])
         allPts2d.push([px, py])
       }
@@ -1188,12 +1410,12 @@ function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = [
   const projPlanes = planes.map(p => {
     const corners = workPlaneCorners(p.pos, p.normal, p.size, p.offset)
     const proj = corners.map(([x,y,z]) => {
-      const [px, py] = projectIso(x, y, z)
+      const [px, py] = project(x, y, z)
       allPts2d.push([px, py])
       return [px, py]
     })
     // Center for label
-    const center = projectIso(
+    const center = project(
       p.pos.x + p.normal.x * p.offset,
       p.pos.y + p.normal.y * p.offset,
       p.pos.z + p.normal.z * p.offset
@@ -1204,14 +1426,14 @@ function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = [
   const projAxes = axes.map(a => {
     const start = [a.pos.x, a.pos.y, a.pos.z]
     const end = [a.pos.x + a.dir.x * a.length, a.pos.y + a.dir.y * a.length, a.pos.z + a.dir.z * a.length]
-    const ps = projectIso(...start)
-    const pe = projectIso(...end)
+    const ps = project(...start)
+    const pe = project(...end)
     allPts2d.push([ps[0], ps[1]], [pe[0], pe[1]])
     return { ...a, start: [ps[0], ps[1]], end: [pe[0], pe[1]] }
   })
 
   const projPoints = points.map(p => {
-    const [px, py] = projectIso(p.pos.x, p.pos.y, p.pos.z)
+    const [px, py] = project(p.pos.x, p.pos.y, p.pos.z)
     allPts2d.push([px, py])
     return { ...p, proj: [px, py] }
   })
@@ -1223,10 +1445,10 @@ function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = [
     const xEnd = [o[0] + cs.xDir.x * armLen, o[1] + cs.xDir.y * armLen, o[2] + cs.xDir.z * armLen]
     const yEnd = [o[0] + cs.yDir.x * armLen, o[1] + cs.yDir.y * armLen, o[2] + cs.yDir.z * armLen]
     const zEnd = [o[0] + cs.zDir.x * armLen, o[1] + cs.zDir.y * armLen, o[2] + cs.zDir.z * armLen]
-    const po = projectIso(...o)
-    const px = projectIso(...xEnd)
-    const py = projectIso(...yEnd)
-    const pz = projectIso(...zEnd)
+    const po = project(...o)
+    const px = project(...xEnd)
+    const py = project(...yEnd)
+    const pz = project(...zEnd)
     for (const p of [po, px, py, pz]) allPts2d.push([p[0], p[1]])
     return { ...cs, origin: [po[0], po[1]], xEnd: [px[0], px[1]], yEnd: [py[0], py[1]], zEnd: [pz[0], pz[1]] }
   })
@@ -1348,6 +1570,9 @@ export async function renderSession(client, prefix, outDir, options = {}) {
   const height = options.height || IMG_H
   const rendered = []
 
+  // Apply viewport options (view, zoom, lookAt). Default = iso, fit-all.
+  setViewport({ view: options.view, zoom: options.zoom, lookAt: options.lookAt })
+
   // Get structure tree
   const treeResult = await request('GetTree')
   const tree = treeResult.structure?.tree || {}
@@ -1370,7 +1595,12 @@ export async function renderSession(client, prefix, outDir, options = {}) {
     // Filter to solid containers (type 1) only
     if (solidGraphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)) {
       const solidOnly = { ...solidGraphic, containers: solidGraphic.containers.filter(c => c.type === 1 && c.meshes?.length > 0) }
-      const zbuf = renderSolidZBuffer(solidOnly, width, height)
+      // For assemblies, walk the tree and produce per-instance world transforms
+      // so each occurrence renders in its own place rather than stacked at the
+      // template origin. extractAssemblyInstances returns null for non-assembly
+      // drawings — buildDrawList then falls back to one drawcall per container.
+      const instances = extractAssemblyInstances(tree)
+      const zbuf = renderSolidZBuffer(solidOnly, width, height, instances)
       if (zbuf) {
         const file = `${prefix}-solid.png`
         await sharp(zbuf.pixels, { raw: { width: zbuf.width, height: zbuf.height, channels: 4 } }).png().toFile(`${outDir}/${file}`)

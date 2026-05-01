@@ -1,6 +1,6 @@
 [submodule "knowledge/classcad-skill"]
 	path = knowledge/classcad-skill
 	url = https://github.com/awv-informatik/classcad-skill.git
-[submodule "classcad-skill"]
-	path = classcad-skill
-	url = https://github.com/awv-informatik/classcad-skill.git
+[submodule "knowledge/classcad-mcp"]
+	path = knowledge/classcad-mcp
+	url = https://github.com/awv-informatik/classcad-mcp.git

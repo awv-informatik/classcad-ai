@@ -527,11 +527,29 @@ Before declaring a session done, verify every item:
 
 ## Appendix: Snapshot Rules
 
-> Only relevant when your task involves 3D geometry (solids, booleans, fillets, chamfers, etc.). Skip for protocol, sketch, or curve-only tasks.
+> Only relevant when your task involves 3D geometry (solids, booleans, fillets, chamfers, assemblies). Skip for protocol, sketch, or curve-only tasks.
 
-**Renderer:** Fixed isometric projection with per-body coloring (each body gets a distinct color). **The renderer auto-scales to fit the viewport** — all geometry is normalized to fill the image regardless of absolute size. This means a 60³ cube and a 120³ cube produce identical-looking snapshots.
+**Renderer:** Per-body color palette, default isometric projection. **The renderer auto-scales to fit the viewport** — all geometry is normalized to fill the image regardless of absolute size. A 60³ cube and a 120³ cube produce identical-looking snapshots.
 
-**Camera orientation (from `scripts/render-direct.mjs`):** `projectIso` rotates 45° around Y, then ~35.264° around X. Depth: `d = (-x + y + z)/√3`, larger `d` = closer to camera. Think of the camera as viewing from roughly **(-X, +Y, +Z)** toward the origin.
+**Camera orientation:** `projectIso` rotates 45° around Y, then ~35.264° around X. World convention is right-handed, +X right / +Y forward / +Z up. Iso camera looks from roughly the (+X, +Y, +Z) corner toward the origin.
+
+### View options
+
+`snapshot('label', { view, zoom, lookAt })` selects the camera. Default is `'iso'`. Available views:
+
+| view | Camera direction | Use when |
+|---|---|---|
+| `'iso'` (default) | corner view | overall shape, rough placement |
+| `'top'` | looking -Z | hole or feature on the +Z (upper) face |
+| `'bottom'` | looking +Z | feature on the -Z (lower) face |
+| `'front'` | looking +Y | XZ side profile |
+| `'back'` | looking -Y | opposite side profile |
+| `'right'` | looking -X | YZ profile from +X side |
+| `'left'` | looking +X | YZ profile from -X side |
+
+`zoom` (default 1) is a multiplier on the auto-fit scale. `lookAt: [x, y, z]` puts that world point at screen center.
+
+**Pick views deliberately, not by reflex.** Iso is enough for most tasks. Reach for a second view when iso is genuinely ambiguous — the test should be "what spatial fact am I trying to confirm?" not "let me try every angle."
 
 **Auto-scaling implications:**
 
@@ -545,11 +563,13 @@ Before declaring a session done, verify every item:
 - Offset tools/cuts asymmetrically (shift in X _and_ Y, not just X)
 - Use different-sized bodies (e.g., a 100³ box and a 60×40×80 box)
 - Place cuts/additions where the silhouette changes (corners, off-center)
-- For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face)
+- For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face). If the cut goes through an axis aligned with iso (so it appears edge-on), add a `'top'` or `'front'` snapshot showing the through-hole circle on the broad face.
 - Bias modified regions toward the viewer-facing side (lower X and/or higher Y/Z)
-- The opposite side **(+X, -Y, -Z)** is the "back" — easiest to accidentally hide geometry there
-- If a before/after pair looks identical, assume view placement is wrong first: reposition and re-run
+- The opposite side **(-X, +Y, -Z)** is the "back" of the iso view — easiest to accidentally hide geometry there
+- If a before/after pair looks identical, assume view placement is wrong first: reposition, try a different `view`, and re-run
 - **For parametric update tests:** always include a fixed-size reference body so scale changes are visible
+
+**Assemblies:** instances render at their world transforms (the renderer composes `CC_ProductReference` / `CC_ProductReferenceET` `coordinateSystem` chains). Same-template instances share a color so you can spot duplicates in the iso view. If you see all bodies stacked at the origin, the snapshot was taken before the 2026-05-01 renderer port — invalid for spatial claims, redo.
 
 ---
 

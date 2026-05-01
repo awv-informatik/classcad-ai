@@ -13,6 +13,7 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug] [--port <
 - `--debug` disables all timeouts (connection + request) — useful when pausing in a debugger
 - Scripts receive `api` (typed @classcad/api-js wrapper) and `{ snapshot, filewrite }`
 - `snapshot('label')` saves PNG + STEP + OFB to `files/`
+- `snapshot('label', { view, zoom, lookAt })` — second arg picks the camera. Default `view: 'iso'`. Other views: `'top'`, `'bottom'`, `'front'`, `'back'`, `'left'`, `'right'` (CAD view-cube standard, world is +X right / +Y forward / +Z up). `zoom` is a multiplier on the auto-fit scale (default 1; >1 zooms in). `lookAt: [x, y, z]` puts that world point at screen center instead of the bbox center. Take multiple snapshots from different angles when one view is ambiguous — e.g., a hole on a plate's broad face is invisible from the side, so pair `'iso'` with `'top'`. **Default is still `'iso'` — don't add views unless they earn their cost.**
 - `filewrite(data, 'label')` dumps objects → `.json`, strings → `.txt`, buffers → `.bin` to `files/`
 - All `console.log`/`.error`/`.warn` output is auto-captured to `<scriptName>.log` alongside `files/`
 - Harness clears the drawing after each run — every script starts fresh
@@ -100,11 +101,37 @@ The default worker on port 9094 is started by ph and should be left running. Onl
 
 The harness uses a direct renderer (`scripts/render-direct.mjs`) that auto-detects content:
 
-- Solids → isometric mesh projection
+- Solids → mesh projection (default isometric, see view options)
 - Sketches → 2D plot
 - Curves → edge data plot
 
-Snapshots are PNG files in `files/`. They show wireframe/outline views — not photorealistic. Interior cavities (e.g., subtraction holes) may not be visible from all angles.
+Snapshots are PNG files in `files/`. They show wireframe/outline views — not photorealistic. Interior cavities (e.g., subtraction holes) may not be visible from all angles — that's a reason to take a second snapshot from a different `view`, not a reason to give up.
+
+### View options
+
+`snapshot('label', { view, zoom, lookAt })` accepts a CAD view-cube selector:
+
+| view | Camera | Best for |
+|---|---|---|
+| `'iso'` (default) | corner view, all three axes visible | overall shape, where things are roughly placed |
+| `'top'` | down -Z | broad face of an XY-plane part, hole on top |
+| `'bottom'` | up +Z | hole/feature on the underside |
+| `'front'` | +Y | side profile (XZ projection) |
+| `'back'` | -Y | opposite side profile |
+| `'right'` | -X | YZ profile from the right |
+| `'left'` | +X | YZ profile from the left |
+
+`zoom` is a fit-multiplier; >1 zooms in tighter. `lookAt: [x, y, z]` re-anchors the screen center to a specific world point — useful when you're zoomed in on a feature off-axis from the bounding-box center.
+
+**When to use multiple views.** Reach for an extra view when a single iso snapshot is ambiguous: a through-hole pierces the plate but iso shows it edge-on; a constraint repositions an instance but the change is along a hidden axis; two bodies overlap in iso but you can't tell which is in front. Take iso first, then add the view that exposes the specific spatial fact you need to confirm. **Default is still iso — pick extra views deliberately, not by reflex.**
+
+### Assembly rendering
+
+The renderer composes per-instance world transforms by walking `CC_ProductReference` / `CC_ProductReferenceET` nodes. Every leaf instance renders at its assembly-frame position; instances of the same template share a color (palette is keyed by template, not by container).
+
+Drawings without an assembly root render flat (one drawcall per container) — backwards-compatible with all part-only training scripts.
+
+**Historical note:** before the 2026-05-01 port, the cc renderer ignored instance transforms and drew every instance at the template origin. All assembly snapshots taken before that date are stacked-at-origin and unreliable for spatial verification. Numeric measurements (`calculateMassProperties`, `getGeometryPositions`) were not affected.
 
 ### Snapshot filename convention
 

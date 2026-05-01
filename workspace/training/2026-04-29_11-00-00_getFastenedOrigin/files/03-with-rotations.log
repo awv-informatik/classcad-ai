@@ -1,0 +1,4 @@
+[03] xRotation: 0.7853981633974483 (expected: 0.7853981633974483 )
+[03] yRotation: 0.5235987755982988 (expected: 0.5235987755982988 )
+[03] zRotation: 1.5707963267948966 (expected: 1.5707963267948966 )
+[filewrite] files/03-with-rotations-get-rotations.json (291 bytes)

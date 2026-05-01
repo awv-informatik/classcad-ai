@@ -1,0 +1,11 @@
+[08] case1 before limits: {"max":null,"min":null}
+[08] case1 min-only update: 212 maxLevel: 31 msgs: []
+[08] case1 after limits: {"max":null,"min":-1.5707963267948966}
+[08] case2 before limits: {"max":1.5707963267948966,"min":-0.7853981633974483}
+[08] case2 max-only update: 218 maxLevel: 31
+[08] case2 after limits: {"max":3.141592653589793,"min":-0.7853981633974483}
+[08] case2 min preserved? true
+[08] case2 min-only update: 218 maxLevel: 31
+[08] case2 after min-only: {"max":3.141592653589793,"min":-2.0943951023931953}
+[08] case2 max preserved? true
+[filewrite] files/08-partial-limits-detail-partial-limits-detail.json (447 bytes)

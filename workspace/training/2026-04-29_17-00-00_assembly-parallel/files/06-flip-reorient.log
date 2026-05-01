@@ -1,0 +1,4 @@
+[06] flip/reorient result: 212 maxLevel: 31
+[filewrite] files/06-flip-reorient-flip-response.json (55 bytes)
+[06] mate1.flip: X mate2.flip: -Y mate2.reorient: 90
+[filewrite] files/06-flip-reorient-flip-get-result.json (482 bytes)

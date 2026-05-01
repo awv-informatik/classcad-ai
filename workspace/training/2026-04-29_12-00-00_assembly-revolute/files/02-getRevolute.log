@@ -1,0 +1,5 @@
+[02] revolute created: 212
+[02] getRevolute maxLevel: 31
+[filewrite] files/02-getRevolute-getRevolute-result.json (319 bytes)
+[02] getRevolute default name result: null maxLevel: 51
+[filewrite] files/02-getRevolute-getRevolute-default-name.json (297 bytes)

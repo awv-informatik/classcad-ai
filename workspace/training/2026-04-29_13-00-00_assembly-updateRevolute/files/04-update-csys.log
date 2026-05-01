@@ -1,0 +1,6 @@
+[04] created at WcsA: 224
+[04] before csys: 107 (expected: 107 )
+[04] update csys: 224 maxLevel: 31
+[04] after csys: 115 (expected: 115 )
+[04] path preserved: [212]
+[filewrite] files/04-update-csys-csys-change.json (209 bytes)

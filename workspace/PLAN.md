@@ -1366,9 +1366,9 @@ const inst2 = (
 | 1   | Api study of `assembly.fastened`             | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 | 2   | Api study of `assembly.updateFastened`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 | 3   | Api study of `assembly.getFastened`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
-| 4   | Api study of `assembly.fastenedOrigin`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.updateFastenedOrigin` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.getFastenedOrigin`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 4   | Api study of `assembly.fastenedOrigin`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 5   | Api study of `assembly.updateFastenedOrigin` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 6   | Api study of `assembly.getFastenedOrigin`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 
 **Task #4: Api study of `assembly.fastenedOrigin`**
 
@@ -1390,24 +1390,24 @@ await api.v1.assembly.fastenedOrigin({
 
 | #   | Task                                      | Source                                                                | Studied |
 | --- | ----------------------------------------- | --------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.revolute`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 2   | Api study of `assembly.updateRevolute`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 3   | Api study of `assembly.getRevolute`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 4   | Api study of `assembly.cylindrical`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 5   | Api study of `assembly.updateCylindrical` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 6   | Api study of `assembly.getCylindrical`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 7   | Api study of `assembly.planar`            | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 8   | Api study of `assembly.updatePlanar`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 9   | Api study of `assembly.getPlanar`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 10  | Api study of `assembly.parallel`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 11  | Api study of `assembly.updateParallel`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 12  | Api study of `assembly.getParallel`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 13  | Api study of `assembly.slider`            | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 14  | Api study of `assembly.updateSlider`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 15  | Api study of `assembly.getSlider`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 16  | Api study of `assembly.spherical`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 17  | Api study of `assembly.updateSpherical`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
-| 18  | Api study of `assembly.getSpherical`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 1   | Api study of `assembly.revolute`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 2   | Api study of `assembly.updateRevolute`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 3   | Api study of `assembly.getRevolute`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 4   | Api study of `assembly.cylindrical`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 5   | Api study of `assembly.updateCylindrical` | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 6   | Api study of `assembly.getCylindrical`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 7   | Api study of `assembly.planar`            | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 8   | Api study of `assembly.updatePlanar`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 9   | Api study of `assembly.getPlanar`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 10  | Api study of `assembly.parallel`          | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 11  | Api study of `assembly.updateParallel`    | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 12  | Api study of `assembly.getParallel`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 13  | Api study of `assembly.slider`            | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 14  | Api study of `assembly.updateSlider`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 15  | Api study of `assembly.getSlider`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 16  | Api study of `assembly.spherical`         | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 17  | Api study of `assembly.updateSpherical`   | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
+| 18  | Api study of `assembly.getSpherical`      | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 
 **Task #1-18:** All kinematic constraints follow the mate1/mate2 pattern. Study the specific DOF (degrees of freedom) each type provides. Requires careful reading of the assembly reference docs.
 
@@ -1417,7 +1417,7 @@ await api.v1.assembly.fastenedOrigin({
 
 | #   | Task                                | Source                                                                | Studied |
 | --- | ----------------------------------- | --------------------------------------------------------------------- | ------- |
-| 1   | Api study of `assembly.gear`        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
+| 1   | Api study of `assembly.gear`        | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [✅]     |
 | 2   | Api study of `assembly.updateGear`  | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 | 3   | Api study of `assembly.getGear`     | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |
 | 4   | Api study of `assembly.group`       | [assembly.md](../knowledge/classcad-skill/references/api/assembly.md) | [ ]     |

@@ -1,0 +1,7 @@
+[05] flip=Z: result=119 maxLevel=31
+[05] flip=-Z: result=125 maxLevel=31
+[05] flip=X: result=131 maxLevel=31
+[05] flip=-X: result=137 maxLevel=31
+[05] flip=Y: result=143 maxLevel=31
+[05] flip=-Y: result=149 maxLevel=31
+[filewrite] files/05-flip-flip-results.json (419 bytes)

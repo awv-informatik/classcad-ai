@@ -1,0 +1,22 @@
+{
+  "noOffset": {
+    "id": 127,
+    "maxLevel": 31
+  },
+  "xOffset": {
+    "id": 131,
+    "maxLevel": 31
+  },
+  "yOffset": {
+    "id": 135,
+    "maxLevel": 31
+  },
+  "zOffset": {
+    "id": 139,
+    "maxLevel": 31
+  },
+  "allOffset": {
+    "id": 143,
+    "maxLevel": 31
+  }
+}

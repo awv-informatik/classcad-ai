@@ -1,0 +1,11 @@
+[07] getParallel result id: 212 name: MyParallel
+[07] mate1.flip: -Z mate1.reorient: 180
+[07] mate2.flip: Y mate2.reorient: 270
+[07] xOffsetLimits: {"max":15,"min":-5}
+[07] yOffsetLimits: {"max":25,"min":0}
+[07] zOffsetLimits: {"max":10,"min":-10}
+[07] zRotationLimits: {"max":3.14159,"min":0}
+[filewrite] files/07-getParallel-get-full-result.json (476 bytes)
+[07] getParallel by inst1: VOID maxLevel: 51
+[07] getParallel non-existent: null maxLevel: 51
+[filewrite] files/07-getParallel-get-nonexistent.json (300 bytes)

@@ -1,0 +1,36 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "X",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "-Y",
+    "path": [
+      206
+    ],
+    "reorient": "90"
+  },
+  "name": "UpdTestRenamed",
+  "xOffsetLimits": {
+    "max": 10,
+    "min": -10
+  },
+  "yOffsetLimits": {
+    "max": null,
+    "min": null
+  },
+  "zOffsetLimits": {
+    "max": null,
+    "min": null
+  },
+  "zRotationLimits": {
+    "max": 0.7853981633974483,
+    "min": 0
+  }
+}

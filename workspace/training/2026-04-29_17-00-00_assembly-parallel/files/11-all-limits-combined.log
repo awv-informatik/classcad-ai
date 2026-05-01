@@ -1,0 +1,8 @@
+[11] all limits result: 212 maxLevel: 31
+[filewrite] files/11-all-limits-combined-all-limits-response.json (55 bytes)
+[11] verified all fields present: id, mate1, mate2, name, xOffsetLimits, yOffsetLimits, zOffsetLimits, zRotationLimits
+[11] xOff: {"max":30,"min":-30}
+[11] yOff: {"max":20,"min":-20}
+[11] zOff: {"max":50,"min":0}
+[11] zRot: {"max":3.141592653589793,"min":0}
+[filewrite] files/11-all-limits-combined-all-limits-verified.json (483 bytes)

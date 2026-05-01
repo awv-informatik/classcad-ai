@@ -1,0 +1,6 @@
+[03] planar with xOffset/yOffset limits: 212 maxLevel: 31
+[filewrite] files/03-xOffset-yOffset-limits-xy-limits-response.json (55 bytes)
+[03] planar partial xOffsetLimits (min-only): 216 maxLevel: 31
+[filewrite] files/03-xOffset-yOffset-limits-partial-x-response.json (55 bytes)
+[03] planar partial yOffsetLimits (max-only): 220 maxLevel: 31
+[filewrite] files/03-xOffset-yOffset-limits-partial-y-response.json (55 bytes)

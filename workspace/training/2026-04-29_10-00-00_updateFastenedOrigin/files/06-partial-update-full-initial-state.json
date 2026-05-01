@@ -1,0 +1,18 @@
+{
+  "id": 119,
+  "mate1": {
+    "csys": 107,
+    "flip": "-X",
+    "path": [
+      113
+    ],
+    "reorient": "90"
+  },
+  "name": "PartialFO",
+  "xOffset": 10,
+  "xRotation": 0.2617993877991494,
+  "yOffset": 20,
+  "yRotation": 0.4363323129985824,
+  "zOffset": 30,
+  "zRotation": 0.6108652381980153
+}

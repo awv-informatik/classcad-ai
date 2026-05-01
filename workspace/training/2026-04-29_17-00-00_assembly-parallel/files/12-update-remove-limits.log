@@ -1,0 +1,7 @@
+[12] before remove - xOff: {"max":10,"min":-10}
+[12] before remove - zRot: {"max":1.5708,"min":0}
+[12] remove limits result: null maxLevel: 51
+[filewrite] files/12-update-remove-limits-remove-limits.json (291 bytes)
+[12] after remove - xOff: {"max":10,"min":-10}
+[12] after remove - zRot: {"max":1.5708,"min":0}
+[filewrite] files/12-update-remove-limits-after-remove-verified.json (478 bytes)

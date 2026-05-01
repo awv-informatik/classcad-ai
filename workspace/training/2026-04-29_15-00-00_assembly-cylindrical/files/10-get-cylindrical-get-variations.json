@@ -1,0 +1,129 @@
+{
+  "full": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "Y",
+      "path": [
+        204
+      ],
+      "reorient": "90"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "-Z",
+      "path": [
+        206
+      ],
+      "reorient": "270"
+    },
+    "name": "GetTest",
+    "zOffsetLimits": {
+      "max": 25,
+      "min": -15
+    },
+    "zRotationLimits": {
+      "max": 2.356194490192345,
+      "min": -0.7853981633974483
+    }
+  },
+  "nonexistent": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getCylindrical",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"
+      }
+    ]
+  },
+  "constraintId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getCylindrical",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "tplId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getCylindrical",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "instId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getCylindrical",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided product or product reference id is not a Assembly."
+      }
+    ]
+  },
+  "noName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getCylindrical",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"name\" must be provided in the api call!"
+      }
+    ]
+  },
+  "batch": {
+    "result": [
+      {
+        "id": 216,
+        "mate1": {
+          "csys": 107,
+          "flip": "Y",
+          "path": [
+            204
+          ],
+          "reorient": "90"
+        },
+        "mate2": {
+          "csys": 198,
+          "flip": "-Z",
+          "path": [
+            206
+          ],
+          "reorient": "270"
+        },
+        "name": "GetTest",
+        "zOffsetLimits": {
+          "max": 25,
+          "min": -15
+        },
+        "zRotationLimits": {
+          "max": 2.356194490192345,
+          "min": -0.7853981633974483
+        }
+      },
+      null
+    ],
+    "maxLevel": 51
+  }
+}

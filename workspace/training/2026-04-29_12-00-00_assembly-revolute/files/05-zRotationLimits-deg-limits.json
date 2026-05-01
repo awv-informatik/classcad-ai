@@ -1,0 +1,25 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      206
+    ],
+    "reorient": "0"
+  },
+  "name": "DegLimits",
+  "zOffset": 0,
+  "zRotationLimits": {
+    "max": 1.5707963267948966,
+    "min": -1.5707963267948966
+  }
+}

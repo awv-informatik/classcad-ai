@@ -1,0 +1,4 @@
+[02] slider with offsets result: 216 maxLevel: 31
+[filewrite] files/02-x-y-offsets-offset-response.json (55 bytes)
+[02] negative offsets result: 371 maxLevel: 31
+[filewrite] files/02-x-y-offsets-neg-offset-response.json (55 bytes)

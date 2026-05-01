@@ -1,0 +1,5 @@
+[06] reorient=0: result=156 maxLevel=31
+[06] reorient=90: result=162 maxLevel=31
+[06] reorient=180: result=168 maxLevel=31
+[06] reorient=270: result=174 maxLevel=31
+[filewrite] files/06-reorient-reorient-results.json (283 bytes)

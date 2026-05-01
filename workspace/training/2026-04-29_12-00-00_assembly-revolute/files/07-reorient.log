@@ -1,0 +1,7 @@
+[07] reorient=0: result=249, maxLevel=31
+[07] reorient=90: result=338, maxLevel=31
+[07] reorient=180: result=427, maxLevel=31
+[07] reorient=270: result=516, maxLevel=31
+[filewrite] files/07-reorient-last-reorient-data.json (324 bytes)
+[07] reorient=45 (invalid): result= null maxLevel: 51
+[filewrite] files/07-reorient-bad-reorient.json (247 bytes)

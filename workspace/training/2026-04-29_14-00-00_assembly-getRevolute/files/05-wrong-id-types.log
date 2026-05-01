@@ -1,0 +1,11 @@
+[05] assembly ID: OK maxLevel: 31
+[05] part instance ID result: null
+[05] part instance maxLevel: 51
+[05] part instance messages: [{"api":"v1.assembly.getRevolute","code":0,"level":51,"levelStr":"ERROR","message":"The provided product or product reference id is not a Assembly."}]
+[05] constraint ID result: null
+[05] constraint maxLevel: 51
+[05] constraint messages: [{"api":"v1.assembly.getRevolute","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"}]
+[05] part template ID result: null
+[05] part template maxLevel: 51
+[05] part template messages: [{"api":"v1.assembly.getRevolute","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"}]
+[filewrite] files/05-wrong-id-types-wrong-id-types.json (1051 bytes)

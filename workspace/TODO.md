@@ -802,6 +802,13 @@ Collected from all training journals. Ordered by severity.
 - **Trigger:** `deleteTemplate({ ids: [tplId] })` while `currentProduct === tplId`
 - **Workaround:** Always call `setCurrentProduct({ id: asmId })` before or immediately after deleting a template.
 
+### 121. 🟡 `assembly.spherical` — negative yRotationLimits.max silently accepted
+
+- **Session:** `2026-04-29_19-00-00_assembly-spherical` (journal entry 05)
+- **Error:** `yRotationLimits: { max: -1 }` creates successfully (maxLevel 31). Semantically invalid but no validation.
+- **Trigger:** `spherical({ ..., yRotationLimits: { max: -1 } })`
+- **Workaround:** Validate max >= 0 before calling the API.
+
 ### 118. 📖 `part.getBrepGeometryIndex` — docs say part ID accepted but it fails
 
 - **Session:** `2026-04-21_19-00-00_part-getBrepGeometryIndex` (journal entry 04)

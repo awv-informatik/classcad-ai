@@ -1,0 +1,7 @@
+[09] sub-assembly revolute created: 226
+[09] from sub-asm template: OK maxLevel: 31
+[09] zOffset: 42
+[09] from root assembly: null maxLevel: 51
+[09] from sub-asm instance: OK maxLevel: 31
+[09] instance id result zOffset: 42
+[filewrite] files/09-sub-assembly-sub-assembly.json (495 bytes)

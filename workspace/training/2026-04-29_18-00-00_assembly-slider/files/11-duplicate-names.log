@@ -1,0 +1,9 @@
+[11] slider 1 id: 309 slider 2 id: 313
+[11] duplicates allowed: true
+[11] getSlider for DupName result id: 309
+[11] returns first one? true
+[filewrite] files/11-duplicate-names-dup-name-get.json (333 bytes)
+[11] fastened CrossType id: 410
+[11] slider CrossType id: 507
+[11] getSlider CrossType result id: undefined === sliderId? false
+[filewrite] files/11-duplicate-names-cross-type-get.json (4 bytes)

@@ -1,0 +1,67 @@
+{
+  "sameInstance": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.assembly.cylindrical",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The path of mate1 and mate2 cannot be used in this combination for constraint with id = $123 in assembly with id = $12, they probably belong to the same rigid set."
+      }
+    ]
+  },
+  "noMate2": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.assembly.cylindrical",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+      }
+    ]
+  },
+  "noMate1": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.assembly.cylindrical",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"mate1\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.assembly.cylindrical",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided to create CC_CylindricalConstraint"
+      }
+    ]
+  },
+  "templateInPath": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.assembly.cylindrical",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"path\" has a wrong id type! Provide only following id types: [\"instance\"]"
+      }
+    ]
+  }
+}

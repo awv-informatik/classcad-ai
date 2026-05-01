@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.assembly.fastenedOrigin",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Mate path is not correct.\n\t\t\t\t\tThe last element in the mate path is not a direct child of the assembly."
+    }
+  ]
+}

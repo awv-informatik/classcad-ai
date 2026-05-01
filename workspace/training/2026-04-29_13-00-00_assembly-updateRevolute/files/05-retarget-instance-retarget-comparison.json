@@ -1,0 +1,18 @@
+{
+  "before": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      279
+    ],
+    "reorient": "0"
+  },
+  "after": {
+    "csys": 271,
+    "flip": "Z",
+    "path": [
+      281
+    ],
+    "reorient": "0"
+  }
+}

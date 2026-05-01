@@ -1,0 +1,25 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      206
+    ],
+    "reorient": "0"
+  },
+  "name": "UpdatedHinge",
+  "zOffset": 25,
+  "zRotationLimits": {
+    "max": 4.71238898038469,
+    "min": -3.141592653589793
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "batchResult": [
+    305,
+    309
+  ],
+  "after1": {
+    "id": 305,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        295
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        297
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchRenamed1",
+    "zOffset": 5,
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "after2": {
+    "id": 309,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        295
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 289,
+      "flip": "Z",
+      "path": [
+        299
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchRenamed2",
+    "zOffset": 0,
+    "zRotationLimits": {
+      "max": 1.0471975511965976,
+      "min": -1.0471975511965976
+    }
+  }
+}

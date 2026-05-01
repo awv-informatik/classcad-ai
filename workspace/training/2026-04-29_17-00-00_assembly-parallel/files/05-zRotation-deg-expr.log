@@ -1,0 +1,4 @@
+[05] zRotationLimits (deg) result: 212 maxLevel: 31
+[filewrite] files/05-zRotation-deg-expr-zrot-deg-response.json (55 bytes)
+[05] getParallel zRotationLimits: {"max":1.5707963267948966,"min":0}
+[filewrite] files/05-zRotation-deg-expr-get-deg-result.json (490 bytes)

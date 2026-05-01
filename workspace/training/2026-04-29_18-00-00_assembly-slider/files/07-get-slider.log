@@ -1,0 +1,16 @@
+[07] created slider id: 216
+[07] getSlider result keys: [
+  'id',
+  'mate1',
+  'mate2',
+  'name',
+  'xOffset',
+  'yOffset',
+  'zOffsetLimits'
+]
+[filewrite] files/07-get-slider-get-slider-result.json (336 bytes)
+[07] getSlider from instance result: null maxLevel: 51
+[filewrite] files/07-get-slider-get-from-instance.json (255 bytes)
+[07] not found result: null maxLevel: 51
+[07] not found messages: [{"api":"v1.assembly.getSlider","code":0,"level":51,"levelStr":"ERROR","message":"There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"}]
+[filewrite] files/07-get-slider-not-found.json (298 bytes)

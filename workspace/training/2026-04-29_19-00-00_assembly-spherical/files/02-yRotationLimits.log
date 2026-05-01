@@ -1,0 +1,5 @@
+[02] with yRotationLimits deg: 216 maxLevel: 31
+[filewrite] files/02-yRotationLimits-limits-deg-response.json (55 bytes)
+[02] with yRotationLimits radians: 220 maxLevel: 31
+[filewrite] files/02-yRotationLimits-limits-rad-response.json (55 bytes)
+[02] no limits: 224 maxLevel: 31

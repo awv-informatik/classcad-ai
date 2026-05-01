@@ -1,0 +1,40 @@
+[04] flip Z (default): 216 maxLevel: 31
+[04] flip -Z: 278 maxLevel: 31
+[04] flip X: 340 maxLevel: 31
+[04] reorient 90: 402 maxLevel: 31
+[04] reorient 180: 464 maxLevel: 31
+[04] flip/reorient summary: [
+  {
+    "name": "CylFlipZ",
+    "mate1Flip": "Z",
+    "mate2Flip": "Z",
+    "mate2Reorient": "0"
+  },
+  {
+    "name": "CylFlipNegZ",
+    "mate1Flip": "Z",
+    "mate2Flip": "-Z",
+    "mate2Reorient": "0"
+  },
+  {
+    "name": "CylFlipX",
+    "mate1Flip": "Z",
+    "mate2Flip": "X",
+    "mate2Reorient": "0"
+  },
+  {
+    "name": "CylReorient90",
+    "mate1Flip": "Z",
+    "mate2Flip": "Z",
+    "mate2Reorient": "90"
+  },
+  {
+    "name": "CylReorient180",
+    "mate1Flip": "Z",
+    "mate2Flip": "Z",
+    "mate2Reorient": "180"
+  }
+]
+[filewrite] files/04-flip-reorient-flip-reorient-summary.json (530 bytes)
+[04] invalid flip: null maxLevel: 51 msg: Type "INVALID" is not supported to use as flip type.
+[04] invalid reorient: null maxLevel: 51 msg: Type "45" is not supported to use as reorient type.

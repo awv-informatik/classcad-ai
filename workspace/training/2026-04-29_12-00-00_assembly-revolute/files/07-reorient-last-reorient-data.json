@@ -1,0 +1,25 @@
+{
+  "id": 249,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      241
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 235,
+    "flip": "Z",
+    "path": [
+      243
+    ],
+    "reorient": "0"
+  },
+  "name": "ReorientTest",
+  "zOffset": 0,
+  "zRotationLimits": {
+    "max": null,
+    "min": null
+  }
+}

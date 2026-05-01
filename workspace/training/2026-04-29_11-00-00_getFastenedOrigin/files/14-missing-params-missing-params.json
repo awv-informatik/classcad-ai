@@ -1,0 +1,41 @@
+{
+  "noName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getFastenedOrigin",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"name\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getFastenedOrigin",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  },
+  "empty": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getFastenedOrigin",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  }
+}

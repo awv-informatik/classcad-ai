@@ -1,0 +1,13 @@
+[03] before — flip: Z reorient: 0 csys: 107
+[filewrite] files/03-update-mate1-before-mate-update.json (237 bytes)
+[03] update flip only — result: 127 maxLevel: 31
+[03] after flip — flip: -Z reorient: 0 csys: 107
+[03] path preserved? ✓
+[filewrite] files/03-update-mate1-after-flip-update.json (238 bytes)
+[03] update reorient only — result: 127 maxLevel: 31
+[03] after reorient — flip: -Z reorient: 90
+[03] flip preserved from last update? ✓
+[filewrite] files/03-update-mate1-after-reorient-update.json (239 bytes)
+[03] update csys — result: 127 maxLevel: 31
+[03] after csys change — csys: 115 (was 107 )
+[filewrite] files/03-update-mate1-after-csys-update.json (239 bytes)

@@ -1,0 +1,78 @@
+[
+  {
+    "test": "self-constraint",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.spherical",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The path of mate1 and mate2 cannot be used in this combination for constraint with id = $216 in assembly with id = $12, they probably belong to the same rigid set."
+      }
+    ]
+  },
+  {
+    "test": "invalid-flip",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.spherical",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"INVALID\" is not supported to use as flip type."
+      }
+    ]
+  },
+  {
+    "test": "invalid-reorient",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.spherical",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"45\" is not supported to use as reorient type."
+      }
+    ]
+  },
+  {
+    "test": "template-in-path",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.spherical",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"path\" has a wrong id type! Provide only following id types: [\"instance\"]"
+      }
+    ]
+  },
+  {
+    "test": "empty-limits",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.spherical",
+        "code": 1003,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The object \"yRotationLimits\" is empty!"
+      }
+    ]
+  },
+  {
+    "test": "negative-max",
+    "result": 236,
+    "maxLevel": 31,
+    "messages": []
+  }
+]

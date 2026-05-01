@@ -1,0 +1,5 @@
+[04] 0deg: 135 maxLevel: 31
+[04] 45deg: 139 maxLevel: 31
+[04] 90deg: 143 maxLevel: 31
+[04] 180deg: 147 maxLevel: 31
+[filewrite] files/04-degree-strings-degree-results.json (210 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.parallel",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+    }
+  ],
+  "maxLevel": 51
+}

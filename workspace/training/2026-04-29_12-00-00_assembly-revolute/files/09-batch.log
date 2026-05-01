@@ -1,0 +1,6 @@
+[09] batch result: [222,226]
+[09] batch maxLevel: 31
+[filewrite] files/09-batch-batch-response.json (74 bytes)
+[09] BatchRev1 found: 222
+[09] BatchRev2 found: 226
+[filewrite] files/09-batch-batch-get-both.json (765 bytes)

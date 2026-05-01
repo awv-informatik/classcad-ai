@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.slider",
+      "code": 1004,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "\"id\" must be provided to create CC_SliderConstraint"
+    }
+  ],
+  "maxLevel": 51
+}

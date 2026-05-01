@@ -1,0 +1,9 @@
+[02] update zRotation (radians) result: 119 maxLevel: 31
+[02] after radian update: zRotation= 0.7853981633974483 (expect ~0.785)
+[filewrite] files/02-update-rotations-after-radian-rotation.json (254 bytes)
+[02] update zRotation (degree string) result: 119 maxLevel: 31
+[02] after deg update: zRotation= 1.5707963267948966 (expect ~1.5708)
+[filewrite] files/02-update-rotations-after-degree-rotation.json (254 bytes)
+[02] multi-axis rotation result: 119 maxLevel: 31
+[02] xRot: 0.7853981633974483 yRot: 0.5235987755982988 zRot: 0
+[filewrite] files/02-update-rotations-after-multi-rotation.json (271 bytes)

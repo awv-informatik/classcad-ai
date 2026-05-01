@@ -1,0 +1,12 @@
+[04] flip X result: 216 maxLevel: 31
+[filewrite] files/04-flip-reorient-flip-x.json (55 bytes)
+[04] flip -Z result: 371 maxLevel: 31
+[filewrite] files/04-flip-reorient-flip-neg-z.json (55 bytes)
+[04] reorient 90 result: 555 maxLevel: 31
+[filewrite] files/04-flip-reorient-reorient-90.json (55 bytes)
+[04] invalid flip result: null maxLevel: 51
+[04] invalid flip messages: [{"api":"v1.assembly.slider","code":1013,"level":51,"levelStr":"ERROR","message":"Type \"INVALID\" is not supported to use as flip type."}]
+[filewrite] files/04-flip-reorient-invalid-flip.json (246 bytes)
+[04] invalid reorient result: null maxLevel: 51
+[04] invalid reorient messages: [{"api":"v1.assembly.slider","code":1013,"level":51,"levelStr":"ERROR","message":"Type \"45\" is not supported to use as reorient type."}]
+[filewrite] files/04-flip-reorient-invalid-reorient.json (245 bytes)

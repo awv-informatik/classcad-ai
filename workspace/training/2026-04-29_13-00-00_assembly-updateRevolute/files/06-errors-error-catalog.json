@@ -1,0 +1,42 @@
+{
+  "asmIdInstead": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The provided id for the constraint is not a constraint or relation.",
+    "code": 1007
+  },
+  "nonexistentId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "ToId()/TOID() didn't get an existing or valid id.",
+    "code": 0
+  },
+  "missingId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "\"id\" must be provided for update.",
+    "code": 1004
+  },
+  "invalidFlip": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "Type \"INVALID\" is not supported to use as flip type.",
+    "code": 1013
+  },
+  "invalidReorient": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "Type \"45\" is not supported to use as reorient type.",
+    "code": 1013
+  },
+  "partialLimits": {
+    "result": 212,
+    "maxLevel": 31
+  },
+  "invalidCsys": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "ToId()/TOID() didn't get an existing or valid id.",
+    "code": 0
+  }
+}

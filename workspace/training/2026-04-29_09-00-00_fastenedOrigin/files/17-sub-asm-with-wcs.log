@@ -1,0 +1,8 @@
+[17] ET children count: 1
+[17] ET child ID: 126
+[17] fastenedOrigin on ET child: 132 maxLevel: 31
+[filewrite] files/17-sub-asm-with-wcs-et-child-result.json (55 bytes)
+[17] multi-element path: null maxLevel: 51
+[17] multi-path messages: Mate path is not correct.
+					The last element in the mate path is not a direct child of the assembly.
+[filewrite] files/17-sub-asm-with-wcs-multi-path-result.json (309 bytes)

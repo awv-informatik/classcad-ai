@@ -1,0 +1,6 @@
+[04] planar zRotationLimits (deg): 212 maxLevel: 31
+[filewrite] files/04-zRotationLimits-zrot-deg-response.json (55 bytes)
+[04] planar zRotationLimits (rad): 216 maxLevel: 31
+[04] planar partial zRotationLimits (min-only): null maxLevel: 51
+[04] partial zRot messages: [{"api":"v1.assembly.planar","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"max\" must be provided in the api call!"}]
+[filewrite] files/04-zRotationLimits-zrot-partial-response.json (247 bytes)

@@ -1,0 +1,7 @@
+[09] initial foId: 212 on inst1
+[09] before — path: [204] csys: 107
+[filewrite] files/09-retarget-instance-before-retarget.json (237 bytes)
+[09] retarget result: 212 maxLevel: 31
+[filewrite] files/09-retarget-instance-retarget-response.json (55 bytes)
+[09] after — path: [206] csys: 198
+[filewrite] files/09-retarget-instance-after-retarget.json (237 bytes)

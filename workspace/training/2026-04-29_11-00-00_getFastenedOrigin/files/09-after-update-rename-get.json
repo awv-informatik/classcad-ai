@@ -1,0 +1,27 @@
+{
+  "oldName": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "newName": {
+    "result": {
+      "id": 119,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          113
+        ],
+        "reorient": "0"
+      },
+      "name": "FO_Renamed",
+      "xOffset": 77,
+      "xRotation": 0,
+      "yOffset": 20,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0.7853981633974483
+    },
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,7 @@
+[09] created foId: 119
+[09] getFastenedOrigin maxLevel: 31
+[filewrite] files/09-get-fastened-origin-get-result.json (269 bytes)
+[09] get via instance id maxLevel: 51
+[filewrite] files/09-get-fastened-origin-get-via-instance.json (4 bytes)
+[09] get nonexistent maxLevel: 51 result: null
+[filewrite] files/09-get-fastened-origin-get-nonexistent.json (311 bytes)

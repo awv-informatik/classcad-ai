@@ -1,0 +1,51 @@
+{
+  "caseA": {
+    "cylFirst": 309,
+    "revSecond": 313,
+    "getCyl": {
+      "result": {
+        "id": 309,
+        "mate1": {
+          "csys": 107,
+          "flip": "Z",
+          "path": [
+            295
+          ],
+          "reorient": "0"
+        },
+        "mate2": {
+          "csys": 198,
+          "flip": "Z",
+          "path": [
+            297
+          ],
+          "reorient": "0"
+        },
+        "name": "TestOrder",
+        "zOffsetLimits": {
+          "max": null,
+          "min": null
+        },
+        "zRotationLimits": {
+          "max": null,
+          "min": null
+        }
+      },
+      "maxLevel": 31,
+      "messages": []
+    },
+    "getRev": {
+      "result": null,
+      "maxLevel": 51,
+      "messages": [
+        {
+          "api": "v1.assembly.getRevolute",
+          "code": 0,
+          "level": 51,
+          "levelStr": "ERROR",
+          "message": "[Evaluation error in AssemblyAPI_v1.getRevolute::PROC:[CCVM::ldm: Datamember zOffset not found]] "
+        }
+      ]
+    }
+  }
+}

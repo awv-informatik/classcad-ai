@@ -1,0 +1,8 @@
+[10] missing mate1: 51 The parameter "mate1" must be provided in the api call!
+[10] missing id: 51 "id" must be provided to create CC_FastenedOriginConstraint
+[10] invalid path: 51 ToId()/TOID() didn't get an existing or valid id.
+[10] template in path: 51 The parameter "path" has a wrong id type! Provide only following id types: ["instance"]
+[10] invalid csys: 51 ToId()/TOID() didn't get an existing or valid id.
+[10] missing csys: 51 The parameter "csys" must be provided in the api call!
+[10] missing path: 51 The parameter "path" must be provided in the api call!
+[filewrite] files/10-errors-error-results.json (969 bytes)

@@ -1,0 +1,7 @@
+[15] xOffset: 80 (expect ~80)
+[15] yOffset: 40 (expect ~40)
+[15] zOffset: 25 (expect ~25)
+[15] xRotation: 0
+[15] yRotation: 0
+[15] zRotation: 0
+[filewrite] files/15-useCurrentTransform-get-uct-get.json (243 bytes)

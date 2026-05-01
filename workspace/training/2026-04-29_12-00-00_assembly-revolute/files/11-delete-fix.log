@@ -1,0 +1,11 @@
+[11] created: 212
+[11] before delete: id= 212
+[11] deleteConstraint result: null maxLevel: 31
+[filewrite] files/11-delete-fix-delete-correct.json (56 bytes)
+[11] after delete: result= null maxLevel: 51
+[filewrite] files/11-delete-fix-after-delete.json (296 bytes)
+[11] recreated: 216
+[11] recheck: id= 216 flip= -Z
+[11] multi delete - c2: 216 c3: 220
+[11] multi delete result: null maxLevel: 31
+[11] after multi delete - DelTest: null Multi1: null

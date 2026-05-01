@@ -1,0 +1,5 @@
+[03] no rotation: 162 maxLevel: 31
+[03] xRot π/2: 166 maxLevel: 31
+[03] yRot π/2: 170 maxLevel: 31
+[03] zRot π/2: 174 maxLevel: 31
+[filewrite] files/03-rotations-radians-rotation-results.json (207 bytes)

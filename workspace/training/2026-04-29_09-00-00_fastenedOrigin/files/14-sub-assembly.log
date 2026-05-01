@@ -1,0 +1,7 @@
+[14] subAsmInst: 127
+[14] expanded tree children: [{},{}]
+[filewrite] files/14-sub-assembly-et-children.json (16 bytes)
+[14] fastenedOrigin on sub-asm instance: null maxLevel: 51
+[14] messages: The provided csys with id = $107 for mate1 does not exist on the given mate path of mate1.
+		It also not exists on the assembly, where the constraint is created/appended.
+[filewrite] files/14-sub-assembly-sub-asm-results.json (419 bytes)

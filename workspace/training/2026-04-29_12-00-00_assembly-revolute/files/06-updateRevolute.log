@@ -1,0 +1,15 @@
+[06] created revolute: 212
+[06] update name: result= 212 maxLevel= 31
+[filewrite] files/06-updateRevolute-update-name.json (55 bytes)
+[06] getName after rename: UpdatedHinge
+[06] update zOffset: result= 212 maxLevel= 31
+[06] zOffset after update: 25
+[06] update limits: result= 212 maxLevel= 31
+[filewrite] files/06-updateRevolute-after-all-updates.json (351 bytes)
+[06] limits after update: {"max":4.71238898038469,"min":-3.141592653589793}
+[06] update mate2 flip: result= 212 maxLevel= 31
+[filewrite] files/06-updateRevolute-after-flip-update.json (352 bytes)
+[06] mate2 flip after update: -Z
+[06] remove limits: result= 212 maxLevel= 31
+[06] limits after removal: {"max":null,"min":null}
+[filewrite] files/06-updateRevolute-after-limits-removed.json (326 bytes)

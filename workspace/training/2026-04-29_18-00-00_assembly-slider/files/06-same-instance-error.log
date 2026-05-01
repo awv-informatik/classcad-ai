@@ -1,0 +1,12 @@
+[06] same instance result: null maxLevel: 51
+[06] same instance messages: [{"api":"v1.assembly.slider","code":1014,"level":51,"levelStr":"ERROR","message":"The path of mate1 and mate2 cannot be used in this combination for constraint with id = $123 in assembly with id = $12, they probably belong to the same rigid set."}]
+[filewrite] files/06-same-instance-error-same-instance.json (355 bytes)
+[06] missing mate2 result: null maxLevel: 51
+[06] missing mate2 messages: [{"api":"v1.assembly.slider","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "}]
+[filewrite] files/06-same-instance-error-missing-mate2.json (269 bytes)
+[06] missing id result: null maxLevel: 51
+[06] missing id messages: [{"api":"v1.assembly.slider","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_SliderConstraint"}]
+[filewrite] files/06-same-instance-error-missing-id.json (245 bytes)
+[06] template in path result: null maxLevel: 51
+[06] template in path messages: [{"api":"v1.assembly.slider","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"path\" has a wrong id type! Provide only following id types: [\"instance\"]"}]
+[filewrite] files/06-same-instance-error-template-in-path.json (283 bytes)

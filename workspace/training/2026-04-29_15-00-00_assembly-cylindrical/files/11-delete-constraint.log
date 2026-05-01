@@ -1,0 +1,8 @@
+[11] created: 216 220
+[11] delete c1: null maxLevel: 31
+[11] c1 after delete: null maxLevel: 51
+[11] c2 still exists: 220
+[11] wrong param (id): null maxLevel: 51 msg: The parameter "ids" must be provided in the api call!
+[11] batch delete: null maxLevel: 31
+[11] c2 after batch: null c3 after batch: null
+[filewrite] files/11-delete-constraint-delete-results.json (420 bytes)

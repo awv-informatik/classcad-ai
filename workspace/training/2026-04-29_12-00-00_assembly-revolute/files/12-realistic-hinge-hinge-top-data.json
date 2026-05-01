@@ -1,0 +1,25 @@
+{
+  "id": 232,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      220
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 206,
+    "flip": "Z",
+    "path": [
+      228
+    ],
+    "reorient": "0"
+  },
+  "name": "HingeTop",
+  "zOffset": 0,
+  "zRotationLimits": {
+    "max": 2.0943951023931953,
+    "min": 0
+  }
+}

@@ -1,0 +1,13 @@
+[09] created slider: 216
+[09] before limits: {"max":30,"min":-20}
+[filewrite] files/09-update-partial-limits-before-partial.json (334 bytes)
+[09] update min-only result: 216 maxLevel: 31
+[09] after min-only update limits: {"max":30,"min":-50}
+[filewrite] files/09-update-partial-limits-after-min-update.json (334 bytes)
+[09] update max-only result: 216 maxLevel: 31
+[09] after max-only update limits: {"max":100,"min":-50}
+[filewrite] files/09-update-partial-limits-after-max-update.json (335 bytes)
+[09] clear limits result: 216 maxLevel: 31
+[09] clear limits messages: []
+[09] after clear limits: {"max":null,"min":null}
+[filewrite] files/09-update-partial-limits-after-clear-limits.json (337 bytes)

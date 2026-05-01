@@ -1,0 +1,26 @@
+{
+  "id": 216,
+  "mate1": {
+    "csys": 107,
+    "flip": "Y",
+    "path": [
+      204
+    ],
+    "reorient": "90"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      206
+    ],
+    "reorient": "0"
+  },
+  "name": "TestSlider",
+  "xOffset": 15,
+  "yOffset": -5,
+  "zOffsetLimits": {
+    "max": 35,
+    "min": -25
+  }
+}

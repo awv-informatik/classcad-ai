@@ -1,0 +1,23 @@
+{
+  "deleteOne": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "wrongParam": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.assembly.deleteConstraint",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"ids\" must be provided in the api call!"
+      }
+    ]
+  },
+  "batchDelete": {
+    "result": null,
+    "maxLevel": 31
+  }
+}

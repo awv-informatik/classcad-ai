@@ -1,0 +1,84 @@
+{
+  "batchResult": [
+    {
+      "id": 309,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          295
+        ],
+        "reorient": "0"
+      },
+      "mate2": {
+        "csys": 198,
+        "flip": "Z",
+        "path": [
+          297
+        ],
+        "reorient": "0"
+      },
+      "name": "Rev_A",
+      "zOffset": 10,
+      "zRotationLimits": {
+        "max": null,
+        "min": null
+      }
+    },
+    {
+      "id": 313,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          295
+        ],
+        "reorient": "0"
+      },
+      "mate2": {
+        "csys": 289,
+        "flip": "Z",
+        "path": [
+          299
+        ],
+        "reorient": "0"
+      },
+      "name": "Rev_B",
+      "zOffset": 25,
+      "zRotationLimits": {
+        "max": null,
+        "min": null
+      }
+    }
+  ],
+  "batchMaxLevel": 31,
+  "mixedResult": [
+    {
+      "id": 309,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          295
+        ],
+        "reorient": "0"
+      },
+      "mate2": {
+        "csys": 198,
+        "flip": "Z",
+        "path": [
+          297
+        ],
+        "reorient": "0"
+      },
+      "name": "Rev_A",
+      "zOffset": 10,
+      "zRotationLimits": {
+        "max": null,
+        "min": null
+      }
+    },
+    null
+  ],
+  "mixedMaxLevel": 51
+}

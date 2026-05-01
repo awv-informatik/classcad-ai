@@ -1,0 +1,8 @@
+[13] null result: 212 maxLevel: 31
+[filewrite] files/13-remove-limits-retry-try-null.json (37 bytes)
+[13] empty obj result: null maxLevel: 51
+[13] after empty obj xOff: {"max":null,"min":null}
+[filewrite] files/13-remove-limits-retry-try-empty-obj.json (274 bytes)
+[13] null min/max result: 212 maxLevel: 31
+[13] after null min/max zRot: {"max":null,"min":null}
+[filewrite] files/13-remove-limits-retry-try-null-minmax.json (91 bytes)

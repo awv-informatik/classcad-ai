@@ -1,0 +1,7 @@
+[02b] min-only offset: 216 maxLevel: 31
+[02b] min-only get: {"max":null,"min":-10}
+[02b] max-only offset: 220 maxLevel: 31
+[02b] max-only get: {"max":30,"min":null}
+[02b] empty offset limits: null maxLevel: 51
+[02b] empty msg: The object "zOffsetLimits" is empty!
+[filewrite] files/02b-verify-partial-offset-partial-offset-verify.json (383 bytes)

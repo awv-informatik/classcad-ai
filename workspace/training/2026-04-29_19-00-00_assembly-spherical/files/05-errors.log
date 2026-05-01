@@ -1,0 +1,7 @@
+[05] self-constraint: null maxLevel: 51
+[05] invalid flip: null maxLevel: 51
+[05] invalid reorient: null maxLevel: 51
+[05] template in path: null maxLevel: 51
+[05] empty yRotationLimits: null maxLevel: 51
+[05] negative limits.max: 236 maxLevel: 31
+[filewrite] files/05-errors-all-errors.json (1764 bytes)

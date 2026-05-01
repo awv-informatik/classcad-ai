@@ -1,0 +1,5 @@
+[12] first fastenedOrigin: 119 maxLevel: 31
+[12] second fastenedOrigin (same inst): 123 maxLevel: 31
+[filewrite] files/12-duplicate-on-instance-duplicate-results.json (155 bytes)
+[12] duplicate name: 129 maxLevel: 31
+[filewrite] files/12-duplicate-on-instance-dup-name-result.json (60 bytes)

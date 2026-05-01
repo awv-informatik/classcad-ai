@@ -1,0 +1,23 @@
+{
+  "minOnly": {
+    "max": null,
+    "min": -10
+  },
+  "maxOnly": {
+    "max": 30,
+    "min": null
+  },
+  "emptyResult": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.cylindrical",
+        "code": 1003,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The object \"zOffsetLimits\" is empty!"
+      }
+    ]
+  }
+}

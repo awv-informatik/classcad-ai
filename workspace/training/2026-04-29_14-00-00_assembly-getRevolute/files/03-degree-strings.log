@@ -1,0 +1,8 @@
+[03] zOffset: 15 number
+[03] zRotationLimits.min: -0.7853981633974483 number
+[03] zRotationLimits.max: 1.5707963267948966 number
+[03] expected min (-45deg in rad): -0.7853981633974483
+[03] expected max (90deg in rad): 1.5707963267948966
+[03] min match: true
+[03] max match: true
+[filewrite] files/03-degree-strings-degree-readback.json (155 bytes)

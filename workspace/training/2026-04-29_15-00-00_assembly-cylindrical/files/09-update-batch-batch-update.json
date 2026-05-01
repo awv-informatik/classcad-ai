@@ -1,0 +1,65 @@
+{
+  "batchUpdate": {
+    "result": [
+      309,
+      313
+    ],
+    "maxLevel": 31
+  },
+  "cyl1": {
+    "id": 309,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        295
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        297
+      ],
+      "reorient": "0"
+    },
+    "name": "Cyl1_Updated",
+    "zOffsetLimits": {
+      "max": 10,
+      "min": -10
+    },
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "cyl2": {
+    "id": 313,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        295
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 289,
+      "flip": "Z",
+      "path": [
+        299
+      ],
+      "reorient": "0"
+    },
+    "name": "Cyl2_Updated",
+    "zOffsetLimits": {
+      "max": null,
+      "min": null
+    },
+    "zRotationLimits": {
+      "max": 1.0471975511965976,
+      "min": -1.0471975511965976
+    }
+  }
+}

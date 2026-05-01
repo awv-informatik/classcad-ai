@@ -1,0 +1,27 @@
+[
+  {
+    "flip": "-Y",
+    "id": 236,
+    "maxLevel": 31
+  },
+  {
+    "reorient": "0",
+    "id": 240,
+    "maxLevel": 31
+  },
+  {
+    "reorient": "90",
+    "id": 244,
+    "maxLevel": 31
+  },
+  {
+    "reorient": "180",
+    "id": 248,
+    "maxLevel": 31
+  },
+  {
+    "reorient": "270",
+    "id": 252,
+    "maxLevel": 31
+  }
+]

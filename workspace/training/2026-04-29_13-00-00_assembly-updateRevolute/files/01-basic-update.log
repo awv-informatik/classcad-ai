@@ -1,0 +1,12 @@
+[01] created revolute: 212
+[filewrite] files/01-basic-update-before.json (319 bytes)
+[01] before: {"name":"TestRev","zOffset":0,"limits":{"max":null,"min":null}}
+[01] update name: 212 maxLevel: 31
+[01] name after: Renamed
+[01] old name lookup: null maxLevel: 51
+[01] update zOffset: 212 maxLevel: 31
+[01] zOffset after: 15 name preserved: Renamed
+[01] update limits: 212 maxLevel: 31
+[01] limits after: {"max":1.5707963267948966,"min":-0.7853981633974483}
+[01] name preserved: Renamed zOffset preserved: 15
+[filewrite] files/01-basic-update-after-all-updates.json (349 bytes)

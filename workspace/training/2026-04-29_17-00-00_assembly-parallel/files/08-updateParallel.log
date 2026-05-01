@@ -1,0 +1,10 @@
+[08] created: 212
+[08] update result: 212 maxLevel: 31
+[filewrite] files/08-updateParallel-update-response.json (55 bytes)
+[08] after update name: UpdTestRenamed
+[08] after update xOffsetLimits: {"max":10,"min":-10}
+[08] after update zRotationLimits: {"max":0.7853981633974483,"min":0}
+[filewrite] files/08-updateParallel-update-verified.json (495 bytes)
+[08] update flip result: 212 maxLevel: 31
+[08] after flip update mate1.flip: X mate2.flip: -Y
+[filewrite] files/08-updateParallel-update-flip-verified.json (497 bytes)

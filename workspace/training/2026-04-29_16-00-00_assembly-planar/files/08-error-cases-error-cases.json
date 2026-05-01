@@ -1,0 +1,67 @@
+{
+  "selfConstraint": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The path of mate1 and mate2 cannot be used in this combination for constraint with id = $119 in assembly with id = $12, they probably belong to the same rigid set."
+      }
+    ],
+    "maxLevel": 51
+  },
+  "missingMate2": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+      }
+    ],
+    "maxLevel": 51
+  },
+  "missingId": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided to create CC_PlanarConstraint"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "templateInPath": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"path\" has a wrong id type! Provide only following id types: [\"instance\"]"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "emptyLimits": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1003,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The object \"xOffsetLimits\" is empty!"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

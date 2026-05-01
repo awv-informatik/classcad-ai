@@ -1,0 +1,21 @@
+{
+  "before": {
+    "name": "Rev_Update",
+    "zOffset": 10,
+    "mate2Flip": "Z",
+    "limits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "after": {
+    "name": "Rev_Updated",
+    "zOffset": 42,
+    "mate2Flip": "-Z",
+    "limits": {
+      "max": 3.141592653589793,
+      "min": -1.5707963267948966
+    }
+  },
+  "oldNameFails": true
+}

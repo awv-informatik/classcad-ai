@@ -1,0 +1,7 @@
+[06] first constraint id: 309
+[06] second constraint id: 313
+[06] getRevolute id: 309
+[06] zOffset: 10
+[06] matches first? true
+[06] matches second? false
+[filewrite] files/06-duplicate-names-duplicate-names.json (109 bytes)

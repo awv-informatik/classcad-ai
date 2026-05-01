@@ -1,0 +1,6 @@
+[07] before — zOffset: 10 name: Rev_Update
+[07] after — zOffset: 42 name: Rev_Updated
+[07] after — mate2.flip: -Z
+[07] after — limits: {"max":3.141592653589793,"min":-1.5707963267948966}
+[07] old name — result: null maxLevel: 51
+[filewrite] files/07-after-update-after-update.json (345 bytes)

@@ -1,0 +1,11 @@
+[05] foId: 119
+[05] before — offsets: 0 0 0
+[filewrite] files/05-use-current-transform-before-uct.json (237 bytes)
+[05] after manual move — offsets: 80 40 25
+[05] useCurrentTransform result: 119 maxLevel: 31
+[filewrite] files/05-use-current-transform-uct-response.json (55 bytes)
+[05] after UCT — offsets: 80 40 25
+[05] rotations: 0 0 0
+[filewrite] files/05-use-current-transform-after-uct.json (240 bytes)
+[05] UCT + explicit offsets — xOffset: 80 (999 means explicit won, ~80 means UCT won)
+[filewrite] files/05-use-current-transform-uct-vs-explicit.json (240 bytes)

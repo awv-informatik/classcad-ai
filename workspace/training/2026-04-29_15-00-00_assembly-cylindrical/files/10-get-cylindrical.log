@@ -1,0 +1,52 @@
+[10] created: 216
+[10] get result: {
+  "id": 216,
+  "mate1": {
+    "csys": 107,
+    "flip": "Y",
+    "path": [
+      204
+    ],
+    "reorient": "90"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "-Z",
+    "path": [
+      206
+    ],
+    "reorient": "270"
+  },
+  "name": "GetTest",
+  "zOffsetLimits": {
+    "max": 25,
+    "min": -15
+  },
+  "zRotationLimits": {
+    "max": 2.356194490192345,
+    "min": -0.7853981633974483
+  }
+}
+[filewrite] files/10-get-cylindrical-get-full.json (391 bytes)
+[10] id type: number
+[10] name type: string
+[10] mate1.flip type: string
+[10] mate1.reorient type: string
+[10] zOffsetLimits.min type: number
+[10] zRotationLimits.min type: number
+[10] zRotationLimits.min value: -0.7853981633974483 (expected ~-0.785)
+[10] nonexistent: null maxLevel: 51
+[10] nonexistent msg: There couldn't be found a constraint with name "NonExistent" on product or product reference with id $12
+[10] constraint ID: null maxLevel: 51
+[10] constraint msg: The parameter "id" has a wrong id type! Provide only following id types: ["assembly","instance"]
+[10] tpl ID: null maxLevel: 51
+[10] tpl msg: The parameter "id" has a wrong id type! Provide only following id types: ["assembly","instance"]
+[10] inst ID: null maxLevel: 51
+[10] inst msg: The provided product or product reference id is not a Assembly.
+[10] no name: null maxLevel: 51
+[10] no name msg: The parameter "name" must be provided in the api call!
+[10] batch get result type: array
+[10] batch [0] id: 216
+[10] batch [1]: null
+[10] batch maxLevel: 51
+[filewrite] files/10-get-cylindrical-get-variations.json (2714 bytes)

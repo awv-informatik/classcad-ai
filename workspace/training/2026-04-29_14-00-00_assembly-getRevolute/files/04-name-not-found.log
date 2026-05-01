@@ -1,0 +1,9 @@
+[04] non-existent name result: null
+[04] maxLevel: 51
+[04] messages: [{"api":"v1.assembly.getRevolute","code":0,"level":51,"levelStr":"ERROR","message":"There couldn't be found a constraint with name \"DOES_NOT_EXIST\" on product or product reference with id $12"}]
+[04] empty string name result: null
+[04] maxLevel: 51
+[04] messages: [{"api":"v1.assembly.getRevolute","code":0,"level":51,"levelStr":"ERROR","message":"There couldn't be found a constraint with name \"\" on product or product reference with id $12"}]
+[04] fastenedOrigin name via getRevolute result: null
+[04] maxLevel: 51
+[filewrite] files/04-name-not-found-not-found.json (1020 bytes)

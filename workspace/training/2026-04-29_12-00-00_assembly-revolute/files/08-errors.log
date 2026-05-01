@@ -1,0 +1,16 @@
+[08] no mate2: result= null maxLevel: 51
+[filewrite] files/08-errors-err-no-mate2.json (271 bytes)
+[08] no mate1: result= null maxLevel: 51
+[filewrite] files/08-errors-err-no-mate1.json (251 bytes)
+[08] self-constraint: result= null maxLevel: 51
+[filewrite] files/08-errors-err-self.json (357 bytes)
+[08] bad path: result= null maxLevel: 51
+[filewrite] files/08-errors-err-bad-path.json (429 bytes)
+[08] bad csys: result= null maxLevel: 51
+[filewrite] files/08-errors-err-bad-csys.json (429 bytes)
+[08] tpl-in-path: result= null maxLevel: 51
+[filewrite] files/08-errors-err-tpl-path.json (285 bytes)
+[08] no id: result= null maxLevel: 51
+[filewrite] files/08-errors-err-no-id.json (249 bytes)
+[08] partial limits: result= null maxLevel: 51
+[filewrite] files/08-errors-err-partial-limits.json (249 bytes)

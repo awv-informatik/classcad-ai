@@ -1,0 +1,4 @@
+[04] cylindrical gear: null maxLevel: 51
+[04] cylindrical messages: [{"api":"v1.assembly.gear","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"constr1Id\" has a wrong id type! Provide only following id types: [\"revoluteconstraint\"]"}]
+[04] batch gear: [ 354, 358 ] maxLevel: 31
+[filewrite] files/04-cylindrical-batch-cylindrical-batch.json (450 bytes)

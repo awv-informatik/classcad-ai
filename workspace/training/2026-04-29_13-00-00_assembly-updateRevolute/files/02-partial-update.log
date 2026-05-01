@@ -1,0 +1,20 @@
+[02] created: 212
+[filewrite] files/02-partial-update-initial-state.json (357 bytes)
+[02] initial mate1 flip: X reorient: 90
+[02] initial mate2 flip: -Z reorient: 180
+[02] initial zOffset: 10 limits: {"max":1.0471975511965976,"min":-0.5235987755982988}
+[filewrite] files/02-partial-update-after-name-only.json (354 bytes)
+[02] after name-only update:
+[02]   name: JustName
+[02]   mate1 flip: X reorient: 90
+[02]   mate2 flip: -Z reorient: 180
+[02]   zOffset: 10
+[02]   limits: {"max":1.0471975511965976,"min":-0.5235987755982988}
+[02] all preserved: {"mate1Flip":true,"mate1Reorient":true,"mate2Flip":true,"mate2Reorient":true,"zOffset":true,"limitsMin":true,"limitsMax":true,"mate1Path":true,"mate1Csys":true,"mate2Path":true,"mate2Csys":true}
+[02] partial update safe: ✓
+[filewrite] files/02-partial-update-after-mate2-flip-only.json (353 bytes)
+[02] after mate2 flip-only:
+[02]   mate2 flip changed: Y (expected Y)
+[02]   mate2 reorient preserved: true
+[02]   mate1 flip preserved: true
+[02]   zOffset preserved: true

@@ -1,0 +1,9 @@
+[01] fastenedOrigin created, foId: 119
+[01] before offsets: 0 0 0
+[filewrite] files/01-basic-update-offsets-before-state.json (237 bytes)
+[01] update xOffset result: 119 maxLevel: 31
+[filewrite] files/01-basic-update-offsets-update-xoffset-response.json (55 bytes)
+[01] after offsets: 60 0 0
+[01] partial update preserved yOffset? ✓
+[01] partial update preserved zOffset? ✓
+[filewrite] files/01-basic-update-offsets-after-state.json (238 bytes)

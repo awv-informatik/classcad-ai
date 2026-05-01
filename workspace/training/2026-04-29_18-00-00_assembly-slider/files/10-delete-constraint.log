@@ -1,0 +1,10 @@
+[10] created slider: 216
+[10] exists before delete: yes
+[10] delete result: null maxLevel: 31
+[filewrite] files/10-delete-constraint-delete-response.json (56 bytes)
+[10] exists after delete: no
+[10] after delete maxLevel: 51
+[10] created slider 2: 220
+[10] delete with id (singular) result: null maxLevel: 51
+[10] delete with id messages: [{"api":"v1.assembly.deleteConstraint","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" must be provided in the api call!"}]
+[filewrite] files/10-delete-constraint-delete-singular-id.json (257 bytes)

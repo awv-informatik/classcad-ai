@@ -1,0 +1,10 @@
+[10] created revolute: 212
+[10] before delete - found: 212
+[10] deleteConstraint result: null maxLevel: 51
+[filewrite] files/10-delete-investigate-delete-response.json (257 bytes)
+[10] after delete - found: 212
+[10] after delete maxLevel: 31
+[filewrite] files/10-delete-investigate-after-delete.json (419 bytes)
+[10] recreated revolute: 216
+[10] recheck: id= 212 flip= Z
+[filewrite] files/10-delete-investigate-recheck-after-recreate.json (319 bytes)

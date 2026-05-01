@@ -1,0 +1,13 @@
+[04] created: 224
+[04] update name: 224 maxLevel: 31
+[04] get renamed: 224
+[04] update add limits: 224 maxLevel: 31
+[filewrite] files/04-updateSpherical-update-add-limits.json (37 bytes)
+[04] yRotationLimits after add: {"max":1.5707963267948966}
+[04] update change limits: 224 maxLevel: 31
+[04] yRotationLimits after change: {"max":1.57}
+[04] update remove limits (null): 224 maxLevel: 31
+[filewrite] files/04-updateSpherical-update-remove-limits.json (55 bytes)
+[04] yRotationLimits after remove: {"max":null}
+[04] update mate2 csys: 224 maxLevel: 31
+[filewrite] files/04-updateSpherical-final-state.json (290 bytes)

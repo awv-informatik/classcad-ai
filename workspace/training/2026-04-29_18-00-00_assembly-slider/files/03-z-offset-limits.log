@@ -1,0 +1,9 @@
+[03] full limits result: 216 maxLevel: 31
+[filewrite] files/03-z-offset-limits-full-limits.json (55 bytes)
+[03] min-only limits result: 313 maxLevel: 31
+[filewrite] files/03-z-offset-limits-min-only-limits.json (55 bytes)
+[03] max-only limits result: 410 maxLevel: 31
+[filewrite] files/03-z-offset-limits-max-only-limits.json (55 bytes)
+[03] empty limits result: null maxLevel: 51
+[03] empty limits messages: [{"api":"v1.assembly.slider","code":1003,"level":51,"levelStr":"ERROR","message":"The object \"zOffsetLimits\" is empty!"}]
+[filewrite] files/03-z-offset-limits-empty-limits.json (230 bytes)

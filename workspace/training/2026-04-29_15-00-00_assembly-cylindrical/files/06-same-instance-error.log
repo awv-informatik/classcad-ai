@@ -1,0 +1,13 @@
+[06] same instance: null maxLevel: 51
+[06] same instance msg: The path of mate1 and mate2 cannot be used in this combination for constraint with id = $123 in assembly with id = $12, they probably belong to the same rigid set.
+[06] same instance code: 1014
+[06] no mate2: null maxLevel: 51
+[06] no mate2 msg: [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] 
+[06] no mate1: null maxLevel: 51
+[06] no mate1 msg: The parameter "mate1" must be provided in the api call!
+[06] no id: null maxLevel: 51
+[06] no id msg: "id" must be provided to create CC_CylindricalConstraint
+[06] template in path: null maxLevel: 51
+[06] template msg: The parameter "path" has a wrong id type! Provide only following id types: ["instance"]
+[06] template code: 1001
+[filewrite] files/06-same-instance-error-error-cases.json (1612 bytes)

@@ -1,0 +1,7 @@
+[10] no name — result: null maxLevel: 51
+[10] no name — messages: [{"api":"v1.assembly.getRevolute","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"name\" must be provided in the api call!"}]
+[10] no id — result: null maxLevel: 51
+[10] no id — messages: [{"api":"v1.assembly.getRevolute","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[10] empty — result: null maxLevel: 51
+[10] empty — messages: [{"api":"v1.assembly.getRevolute","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/10-missing-params-missing-params.json (868 bytes)

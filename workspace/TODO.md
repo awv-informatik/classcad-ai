@@ -829,3 +829,24 @@ Collected from all training journals. Ordered by severity.
 - **Error:** Deleting an instance that belongs to a group does NOT delete the group or update its instanceIds. `getGroup` still returns the deleted instance IDs — they are stale references to nonexistent objects.
 - **Trigger:** `deleteInstance({ id: inst })` when inst is in a group
 - **Workaround:** Manually delete or update the group after deleting grouped instances.
+
+
+### 121. 📖 `solid.box` and `solid.cylinder` — old LLM docs invented wrong alignment claims
+
+- **Session:** Discovered 2026-05-01 during ad-hoc MCP-tool work, root-caused to `2026-04-13_22-00-00_solid-box` and `2026-04-13_24-00-00_solid-cylinder` training sessions.
+- **Error:** LLM docs claimed `solid.box` was "corner-aligned at (0,0,0)→(+L,+W,+H)" and `solid.cylinder` extended "z=0..h". Both wrong. All four `solid.*` primitives are fully centered at origin. Wrong claims propagated via cross-references to `solid/cylinder.md`, `solid/cone.md`, `solid/sphere.md`, `solid/copy.md`, `solid/generic.md`, `solid/box.md`.
+- **Root cause:** The training journals listed alignment as a question to answer but never wrote a script that measured a vertex coordinate or COG. Filled the LLM doc from generic-CAD muscle memory.
+- **Workaround:** Fixed in commit XYZ on 2026-05-01. Regression test at `scripts/verify-primitive-alignment.mjs` should be run any time the kernel version bumps.
+
+### 122. 📖 `part.*` vs `solid.*` — DIFFERENT alignment conventions, never previously documented
+
+- **Session:** Discovered 2026-05-01 while writing the regression test for entry 121.
+- **Finding:** `solid.*` family is all centered at origin. `part.*` family is mostly NOT — `part.box` is corner-aligned (+X+Y+Z), `part.cylinder` and `part.cone` are base-anchored (z=0..H), only `part.sphere` matches its solid sibling. Verified via vertex 0 + COG measurements.
+- **Practical impact:** mixing the two families in one part requires offsetting one. Through-cuts via `part.cylinder` need a workCSys at z=`-H/2`.
+- **Workaround:** Now documented in `references/part/feature-vs-direct.md` (Alignment Conventions Differ section) and per-primitive Alignment sections in `part/box.md`, `part/cylinder.md`, `part/cone.md`, `part/sphere.md`.
+
+### 123. 📖 Audit suspicion — other unverified spatial claims may exist
+
+- **Session:** 2026-05-01 sweep
+- **Finding:** The same training failure mode (claim invented from CAD-world muscle memory, never measured) likely affects other LLM docs that make spatial claims. Highest-risk neighbors: `solid/extrusion.md` (where does the extruded body sit by default?), `solid/revolve.md`, `solid/scale.md` (pivot point), `solid/mirror.md` (default plane), `solid/translation.md` and `solid/rotation.md` (default origin reference). None confirmed wrong, but none verified either.
+- **Workaround:** Future training sessions should re-read each of these LLM docs and run a vertex/COG measurement to confirm any default-position claim before trusting it. Per the new SOUL.md rule, spatial claims now require numeric proof.

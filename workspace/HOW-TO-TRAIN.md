@@ -322,6 +322,8 @@ export default async function (api, { snapshot, filewrite }) {
 - [ ] The corresponding `update*` / `delete*` method tested (if it exists)
 - [ ] At least one realistic usage combining this API with its prerequisites
 - [ ] Behavioral claims verified with data (`filewrite` dumps, log values) AND visual evidence (snapshots) — both must agree
+- [ ] **Every question listed in the journal Goal section is answered in a named, specific script** (cite the script filename in the journal answer). Don't infer answers from snapshots that *imply* a thing — write a script that *measures* the thing.
+- [ ] **Spatial claims** (origin, alignment, extent, dimension, range, default-position) — back each one with a numeric measurement: `getBrepGeometryByIndex` + `getGeometryPositions` for vertex coords, or `calculateMassProperties` for COG. Iso snapshots cannot verify spatial facts because of auto-zoom and projection ambiguity.
 
 If not done, pick the next gap and loop back. **When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. The failure itself is a finding.
 
@@ -355,11 +357,12 @@ export default async function (api) {
 
 **Coverage checklist** (check every 5 scripts and after the last script):
 
-- [ ] Each stated question in the journal goal has been answered with evidence
+- [ ] Each stated question in the journal goal has been answered in a named, specific script with evidence — not inferred from snapshots
 - [ ] At least one edge case or unexpected behavior has been probed
 - [ ] Findings are grounded in observed server responses, not assumptions from docs
 - [ ] The concept has been tested across at least 2 different APIs (to confirm it's universal, not API-specific)
 - [ ] Key findings backed by `filewrite` data or logged return values AND visual inspection — both must agree
+- [ ] Spatial claims (origin, alignment, extent, dimension, range) backed by vertex/COG measurement, not snapshots
 
 ## Step 5 — Write the LLM doc
 

@@ -1,0 +1,41 @@
+{
+  "before": {
+    "constr1Id": 255,
+    "constr2Id": 259,
+    "id": 263,
+    "name": "G1",
+    "offset": 1.5707963267948966,
+    "ratio": 5
+  },
+  "afterDel": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "updDel": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided constraint id does not exist."
+      },
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ],
+    "maxLevel": 51
+  }
+}

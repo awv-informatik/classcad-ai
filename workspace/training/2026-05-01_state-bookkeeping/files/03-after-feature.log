@@ -1,0 +1,4 @@
+[filewrite] files/03-after-feature-tree-after-box.json (21128 bytes)
+[03] tree grew: ✓ (24 → 27)
+[03] boxId=54 found as CC_Box: ✓ (class=CC_Box)
+[03] box ancestor chain reaches part: ✓ (chain: 16 → 4 → 1)

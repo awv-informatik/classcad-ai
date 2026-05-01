@@ -1,0 +1,15 @@
+[04] empty instanceIds — result: 113 maxLevel: 61
+[04] empty messages: [{"api":"v1.assembly.group","code":0,"level":61,"levelStr":"FATAL","message":"No instances were provided for the Group constraint"}]
+[04] single instance — result: 119 maxLevel: 31
+[04] duplicate ids — result: 123 maxLevel: 31
+[04] duplicate group info: {"id":123,"instanceIds":[105,105,105],"name":"DupGroup"}
+[04] nonexistent id — result: null maxLevel: 51
+[04] bad id messages: [{"api":"v1.assembly.group","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.group","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"instanceIds\" has an invalid id!"}]
+[04] mixed ids — result: null maxLevel: 51
+[04] mixed messages: [{"api":"v1.assembly.group","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.group","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"instanceIds\" has an invalid id!"}]
+[04] same instance in 2 groups — gA: 135 gB: 139
+[04] GroupA: {"id":135,"instanceIds":[105,107],"name":"GroupA"}
+[04] GroupB: {"id":139,"instanceIds":[105],"name":"GroupB"}
+[04] missing instanceIds — result: null maxLevel: 51
+[04] missing ids messages: [{"api":"v1.assembly.group","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"instanceIds\" must be provided in the api call!"}]
+[filewrite] files/04-edge-cases-edge-cases.json (356 bytes)

@@ -60,6 +60,14 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
   // Non-curve containers (type 1 = solids) are replaced entirely each time.
   let lastGraphic = null
 
+  // Track the latest structure tree.
+  // Empirically: server returns a full snapshot in `frame.structure` on every
+  // Result, including non-mutating calls (`getAppVersion` etc). Format:
+  //   { root, currentProduct, currentInstance, testRoot, tree: { <id>: node } }
+  // We just replace on each frame. Calls without a structure field leave the
+  // cached tree intact (defensive — don't clobber to null on an empty frame).
+  let lastStructure = null
+
   function handleFrame(data, isBinary) {
     if (isBinary) return
     let frame
@@ -106,6 +114,10 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
           }
         }
       }
+      // Cache structure tree (server sends full snapshots on every call).
+      if (frame.structure && typeof frame.structure === 'object' && !Array.isArray(frame.structure)) {
+        lastStructure = frame.structure
+      }
       entry.resolve({
         result,
         messages,
@@ -117,6 +129,17 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
   }
 
   function getLastGraphic() { return lastGraphic }
+  function getStructure() { return lastStructure }
+
+  // Force a fresh structure snapshot from the server. Any read-only call works,
+  // since structure rides along with every Result frame.
+  async function refreshTree() {
+    await request('Execute', {
+      task: [{ 'v1.common.getAppVersion': [{}] }],
+      options: { undoable: false },
+    })
+    return lastStructure
+  }
 
   function close() {
     if (ws && ws.readyState <= WebSocket.OPEN) {
@@ -155,5 +178,5 @@ export async function connect(url = DEFAULT_URL, opts = {}) {
   })
   await new Promise(r => setTimeout(r, 300))
 
-  return { send, request, execute, close, ws, getLastGraphic }
+  return { send, request, execute, close, ws, getLastGraphic, getStructure, refreshTree }
 }

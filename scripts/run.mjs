@@ -88,7 +88,7 @@ async function main() {
     callSafeApi(namespace, func, args, options) {
       return this.callSafeApiV('v1', namespace, func, args, options)
     },
-    fetchTree: () => Promise.resolve(),
+    fetchTree: () => client.refreshTree(),
   }
 
   const api = { v1: v1(facade) }
@@ -138,6 +138,21 @@ async function main() {
     } catch (_) {}
 
     return pngs
+  }
+
+  // Tree helper — returns the cached structure from the latest Result frame.
+  //   tree()                  → full envelope { root, currentProduct, ..., tree }
+  //   tree({ id })            → single node, or null
+  //   tree({ type })          → array of nodes whose `class` matches
+  //   tree({ refresh: true }) → force a fresh server-side snapshot first
+  async function tree(filter) {
+    if (filter?.refresh) await client.refreshTree()
+    const t = client.getStructure()
+    if (!t || !t.tree) return null
+    if (!filter || (Object.keys(filter).length === 1 && filter.refresh)) return t
+    if (filter.id != null) return t.tree[String(filter.id)] || null
+    if (filter.type) return Object.values(t.tree).filter(n => n.class === filter.type)
+    return t
   }
 
   // File-write helper — dumps data to files/ when console.log isn't enough
@@ -192,7 +207,7 @@ async function main() {
   }
 
   try {
-    await scriptFn(api, { snapshot, filewrite })
+    await scriptFn(api, { snapshot, filewrite, tree })
   } catch (e) {
     console.error(`[run] Script error: ${e.message}`)
   }

@@ -1,0 +1,50 @@
+[
+  {
+    "label": "zero",
+    "input": 0,
+    "stored": 0,
+    "maxLevel": 31
+  },
+  {
+    "label": "negative",
+    "input": -1,
+    "stored": -1,
+    "maxLevel": 31
+  },
+  {
+    "label": "negative-fraction",
+    "input": -0.5,
+    "stored": -0.5,
+    "maxLevel": 31
+  },
+  {
+    "label": "very-large",
+    "input": 100000,
+    "stored": 100000,
+    "maxLevel": 31
+  },
+  {
+    "label": "very-small",
+    "input": 0.001,
+    "stored": 0.001,
+    "maxLevel": 31
+  },
+  {
+    "label": "large-negative",
+    "input": -100,
+    "stored": -100,
+    "maxLevel": 31
+  },
+  {
+    "label": "negative-offset",
+    "input": -1.5708,
+    "stored": -1.5708,
+    "maxLevel": 31
+  },
+  {
+    "label": "large-offset",
+    "input": 10,
+    "stored": 10,
+    "maxLevel": 31
+  }
+]

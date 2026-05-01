@@ -1,0 +1,15 @@
+{
+  "root": 1,
+  "currentProduct": 0,
+  "currentInstance": 0,
+  "testRoot": 0,
+  "tree": {
+    "1": {
+      "name": "AllObjects",
+      "class": "AllObjects",
+      "id": 1,
+      "flags": 0,
+      "parent": null
+    }
+  }
+}

@@ -815,3 +815,17 @@ Collected from all training journals. Ordered by severity.
 - **Error:** Docs say `id` is "id of a solid or a feature containing a solid" but passing a part ID returns "Not a brep!" (maxLevel 51). Only feature IDs work.
 - **Trigger:** `getBrepGeometryIndex({ id: partId, geomId: edgeId })`
 - **Workaround:** Always pass a feature ID (e.g., from `part.box`), not a part ID.
+
+### 119. 📖 `assembly.group` — empty instanceIds creates group with FATAL level
+
+- **Session:** `2026-05-01_00-00-00_assembly-group` (journal entry 04)
+- **Error:** `group({ id: asmId, instanceIds: [] })` returns a valid group ID but with maxLevel 61 (FATAL): "No instances were provided for the Group constraint". The group is created but empty — an inconsistent state.
+- **Trigger:** Empty array `[]` for instanceIds
+- **Workaround:** Always provide at least one instance ID.
+
+### 120. ⚠️ `assembly.group` — stale instanceIds after instance deletion
+
+- **Session:** `2026-05-01_00-00-00_assembly-group` (journal entry 05)
+- **Error:** Deleting an instance that belongs to a group does NOT delete the group or update its instanceIds. `getGroup` still returns the deleted instance IDs — they are stale references to nonexistent objects.
+- **Trigger:** `deleteInstance({ id: inst })` when inst is in a group
+- **Workaround:** Manually delete or update the group after deleting grouped instances.

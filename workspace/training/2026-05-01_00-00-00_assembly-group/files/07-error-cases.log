@@ -1,0 +1,14 @@
+[07] groupId: 111
+[07] updateGroup with asmId — result: null maxLevel: 51
+[07] messages: [{"api":"v1.assembly.updateGroup","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the constraint is not a constraint or relation."},{"api":"v1.assembly.updateGroup","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[07] updateGroup with instId — result: null maxLevel: 51
+[07] messages: [{"api":"v1.assembly.updateGroup","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the constraint is not a constraint or relation."},{"api":"v1.assembly.updateGroup","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[07] updateGroup with badId — result: null maxLevel: 51
+[07] messages: [{"api":"v1.assembly.updateGroup","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.updateGroup","code":1006,"level":51,"levelStr":"ERROR","message":"The provided constraint id does not exist."},{"api":"v1.assembly.updateGroup","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[07] group with template ID — result: null maxLevel: 51
+[07] messages: [{"api":"v1.assembly.group","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"instanceIds\" has a wrong id type! Provide only following id types: [\"instance\"]"}]
+[07] group containing group — result: null maxLevel: 51
+[07] messages: [{"api":"v1.assembly.group","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"instanceIds\" has a wrong id type! Provide only following id types: [\"instance\"]"}]
+[07] group with instId as assembly — result: null maxLevel: 51
+[07] messages: [{"api":"v1.assembly.group","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the assembly is not an assembly id."},{"api":"v1.assembly.group","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_GroupConstraint"}]
+[filewrite] files/07-error-cases-errors.json (2838 bytes)

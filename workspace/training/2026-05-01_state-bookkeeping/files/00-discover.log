@@ -1,0 +1,16 @@
+[filewrite] files/00-discover-00-empty.json (224 bytes)
+[00] empty — tree nodes: 1
+[filewrite] files/00-discover-01-after-part-create.json (19125 bytes)
+[01] partId=4 — tree nodes: 24
+[filewrite] files/00-discover-02-after-box.json (21130 bytes)
+[02] boxId=54 — tree nodes: 27
+[filewrite] files/00-discover-03-after-update.json (21130 bytes)
+[03] update maxLevel=51 — tree nodes: 27
+[filewrite] files/00-discover-04-after-cylinder.json (22988 bytes)
+[04] cylId=93 — tree nodes: 30
+[filewrite] files/00-discover-05-after-delete.json (21130 bytes)
+[05] delete maxLevel=31 — tree nodes: 27
+[filewrite] files/00-discover-06-after-clear.json (534 bytes)
+[06] clear — tree nodes: 1
+[filewrite] files/00-discover-07-non-mutating.json (534 bytes)
+[07] non-mutating — tree nodes: 1

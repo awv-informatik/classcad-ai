@@ -1,0 +1,29 @@
+{
+  "before": {
+    "constr1Id": 255,
+    "constr2Id": 259,
+    "id": 342,
+    "name": "G1",
+    "offset": 0,
+    "ratio": 2
+  },
+  "afterSwap": {
+    "constr1Id": 259,
+    "constr2Id": 255,
+    "id": 342,
+    "name": "G1",
+    "offset": 0,
+    "ratio": 2
+  },
+  "afterRelink": {
+    "constr1Id": 259,
+    "constr2Id": 338,
+    "id": 342,
+    "name": "G1",
+    "offset": 0,
+    "ratio": 2
+  },
+  "rev1": 255,
+  "rev2": 259,
+  "rev3": 338
+}

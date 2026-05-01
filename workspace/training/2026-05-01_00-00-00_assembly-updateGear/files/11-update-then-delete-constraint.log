@@ -1,0 +1,7 @@
+[11] gear created: 263
+[11] gear after update: {"constr1Id":255,"constr2Id":259,"id":263,"name":"G1","offset":1.5707963267948966,"ratio":5}
+[11] delete rev1 — result: null maxLevel: 31
+[11] getGear after cascade — result: null maxLevel: 51
+[11] updateGear on deleted — result: null maxLevel: 51
+[11] error msg: ToId()/TOID() didn't get an existing or valid id. code: 0
+[filewrite] files/11-update-then-delete-constraint-cascade-delete.json (870 bytes)

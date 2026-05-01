@@ -1,0 +1,6 @@
+[05] before — constr1Id: 255 (rev1: 255 ), constr2Id: 259 (rev2: 259 )
+[05] swap result: 342 maxLevel: 31
+[05] after swap — constr1Id: 259 constr2Id: 255
+[05] change constr2Id to rev3 — result: 342 maxLevel: 31
+[05] after relink — constr1Id: 259 (should be rev2: 259 ), constr2Id: 338 (should be rev3: 338 )
+[filewrite] files/05-swap-constraints-swap-results.json (439 bytes)

@@ -1,0 +1,5 @@
+[12] before — ratio: 2 offset: 0.7853981633974483
+[12] after radian update — ratio: 3.5 offset: 1.0472
+[12] after deg update — ratio: 3.5 offset: 3.141592653589793 (expected ~3.14159)
+[filewrite] files/12-structure-after-update-structure-after-update.json (87438 bytes)
+[12] gear node not found in structure

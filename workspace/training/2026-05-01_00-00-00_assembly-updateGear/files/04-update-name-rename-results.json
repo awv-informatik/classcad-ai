@@ -1,0 +1,17 @@
+{
+  "oldLookup": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "newLookup": {
+    "result": {
+      "constr1Id": 255,
+      "constr2Id": 259,
+      "id": 263,
+      "name": "RenamedGear",
+      "offset": 1.0471975511965976,
+      "ratio": 1.5
+    },
+    "maxLevel": 31
+  }
+}

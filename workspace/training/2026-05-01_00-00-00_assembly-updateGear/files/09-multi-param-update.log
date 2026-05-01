@@ -1,0 +1,8 @@
+[09] multi-param update — result: 263 maxLevel: 31
+[09] after: {"constr1Id":259,"constr2Id":255,"id":263,"name":"AllUpdated","offset":2.0943951023931953,"ratio":5.5}
+[09] name=AllUpdated: true
+[09] ratio=5.5: true
+[09] offset=120deg (~2.094): 2.0943951023931953
+[09] constr1Id=rev2: true
+[09] constr2Id=rev1: true
+[filewrite] files/09-multi-param-update-multi-param-result.json (127 bytes)

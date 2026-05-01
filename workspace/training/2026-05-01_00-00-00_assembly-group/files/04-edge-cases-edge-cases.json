@@ -1,0 +1,26 @@
+{
+  "emptyIds": {
+    "result": 113,
+    "maxLevel": 61
+  },
+  "singleId": {
+    "result": 119,
+    "maxLevel": 31
+  },
+  "dupIds": {
+    "result": 123,
+    "maxLevel": 31
+  },
+  "badId": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "mixedIds": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "missingIds": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

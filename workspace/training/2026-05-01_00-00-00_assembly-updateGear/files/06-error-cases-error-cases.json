@@ -1,0 +1,96 @@
+{
+  "err1": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the constraint is not a constraint or relation."
+      },
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ],
+    "maxLevel": 51
+  },
+  "err2": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided constraint id does not exist."
+      },
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ],
+    "maxLevel": 51
+  },
+  "err3": {
+    "result": 255,
+    "messages": [
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.UpdateGearRelation:[CCVM::lcm: Function SetRelationParams not found]] "
+      }
+    ],
+    "maxLevel": 51
+  },
+  "err4": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"constr1Id\" has a wrong id type! Provide only following id types: [\"revoluteconstraint\"]"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "err5": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.updateGear",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ],
+    "maxLevel": 51
+  },
+  "verify": {
+    "constr1Id": 255,
+    "constr2Id": 259,
+    "id": 267,
+    "name": "G1",
+    "offset": 0,
+    "ratio": 1
+  }
+}

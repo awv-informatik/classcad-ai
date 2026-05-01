@@ -1,0 +1,11 @@
+[05] groupId: 115
+[05] deleteConstraint result: null maxLevel: 31
+[05] after delete, getGroup: null maxLevel: 51
+[05] group2Id (cascade test): 119
+[05] deleteInstance result: null maxLevel: 51
+[05] after deleting inst2, group exists? true
+[05] group after cascade: {"id":119,"instanceIds":[105,107],"name":"CascadeGroup"}
+[05] group3Id (all-delete test): 123
+[05] after deleting all instances, group exists? true
+[05] surviving group: {"id":123,"instanceIds":[105,109],"name":"AllDelGroup"}
+[filewrite] files/05-delete-cascade-delete-cascade.json (301 bytes)

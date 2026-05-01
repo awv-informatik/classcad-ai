@@ -1,0 +1,8 @@
+[08] not-found — result: null maxLevel: 51
+[08] not-found msg: There couldn't be found a constraint with name "NonexistentGear" on product or product reference with id $12 code: 0
+[08] getGear with instance ID — result: null maxLevel: 51
+[08] batch getGear result: [{"constr1Id":255,"constr2Id":259,"id":263,"name":"TestGear","offset":0,"ratio":2},null]
+[08] batch getGear maxLevel: 51
+[08] case sensitivity — result: null maxLevel: 51
+[08] empty name — result: null maxLevel: 51
+[filewrite] files/08-getGear-edge-cases-getGear-edge-cases.json (753 bytes)

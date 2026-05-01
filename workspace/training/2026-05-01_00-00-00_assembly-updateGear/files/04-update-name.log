@@ -1,0 +1,7 @@
+[04] gear created: 263 name=OriginalName
+[04] rename result: 263 maxLevel: 31
+[04] old name lookup result: null maxLevel: 51
+[04] new name lookup result: {"constr1Id":255,"constr2Id":259,"id":263,"name":"RenamedGear","offset":1.0471975511965976,"ratio":1.5}
+[04] ratio preserved: 1.5 (expected 1.5)
+[04] offset preserved: 1.0471975511965976 (expected ~1.0472)
+[filewrite] files/04-update-name-rename-results.json (276 bytes)

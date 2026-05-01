@@ -1,0 +1,5 @@
+[filewrite] files/08-structure-getGroup-full-response.json (34121 bytes)
+[08] group-related nodes: 0
+[filewrite] files/08-structure-group-nodes.json (2 bytes)
+[08] updateGroup without openFeature — result: 113 maxLevel: 31
+[08] verified update: {"id":113,"instanceIds":[105,107],"name":"UpdatedNoOpen"}

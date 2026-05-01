@@ -1,0 +1,4 @@
+[filewrite] files/02-after-create-tree-after-create.json (19128 bytes)
+[02] partId=4 — found in tree: ✓
+[02] name="PartA": ✓ (got "PartA")
+[02] CC_Part count: 1

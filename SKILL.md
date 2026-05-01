@@ -14,6 +14,18 @@ api.<version>.<domain>.<method>(param)
 
 ---
 
+## Common
+
+Cross-cutting references that apply across every domain. Read these first when starting any task — they describe the shared protocol and modeling primitives the per-domain APIs build on.
+
+| Reference                                  | Topic                                                                                       |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| [SKETCHING.md](references/SKETCHING.md)    | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow         |
+| [STRUCTURE.md](references/STRUCTURE.md)    | Structure tree (SCG): node shape, traversal, parent chain, assembly transforms              |
+| [GRAPHICS.md](references/GRAPHICS.md)      | Graphic protocol (SCG v9): containers, meshes, edges, arcs, materials, container types      |
+
+---
+
 ## Domain Index
 
 The v1 API (current version) is organized into **7 domains**. Click a domain name to jump to its API listing below. The "Reference" column links to the full API documentation for that domain.

@@ -1,12 +1,18 @@
-// snapshot — render the current drawing and return inline PNG content blocks.
+// snapshot — render the current drawing and return inline PNG content blocks
+// AND persist the same files to disk so hosts that don't render inline MCP
+// image content (some Claude Code versions) can still surface the image via
+// the Read tool, or the user can open the path manually.
 //
-// The renderer (ported from scripts/render-direct.mjs) writes PNGs to disk;
-// we run it against a temp directory, read back the PNGs as buffers, and
-// stream them inline through MCP. The temp dir is cleaned up afterwards.
+// The renderer (ported from scripts/render-direct.mjs) writes PNGs to a
+// directory we control. Files are NOT cleaned up — they live in
+//   $CLASSCAD_SNAPSHOT_DIR (env override) — or
+//   <os.tmpdir()>/classcad-snapshots/                — default
+// Each filename embeds the label + an ISO timestamp + the layer type, so
+// repeated calls don't collide.
 
 import { z } from 'zod'
-import { mkdtempSync, readFileSync, rmSync, readdirSync } from 'fs'
-import { join } from 'path'
+import { mkdirSync, readFileSync } from 'fs'
+import { join, resolve } from 'path'
 import { tmpdir } from 'os'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { Client } from '../client.js'
@@ -31,25 +37,42 @@ const renderSession: (
   options?: RenderOptions,
 ) => Promise<RenderResult[]> = renderSessionRaw
 
+function snapshotDir(): string {
+  const envDir = process.env.CLASSCAD_SNAPSHOT_DIR
+  const dir = envDir ? resolve(envDir) : join(tmpdir(), 'classcad-snapshots')
+  mkdirSync(dir, { recursive: true })
+  return dir
+}
+
+function timestamp(): string {
+  // 2026-05-01T12-34-56Z — filesystem-safe ISO basic format
+  return new Date().toISOString().replace(/[:.]/g, '-').replace(/-\d+Z$/, 'Z')
+}
+
 export function registerSnapshotTool(server: McpServer, client: Client): void {
   server.registerTool(
     'snapshot',
     {
       title: 'Snapshot drawing',
       description:
-        'Render the current drawing and return inline PNG image(s) the user can see. ' +
+        'Render the current drawing. Returns BOTH inline PNG image blocks AND ' +
+        'absolute file paths to the same images on disk (in $CLASSCAD_SNAPSHOT_DIR ' +
+        'or <tmpdir>/classcad-snapshots).' +
+        '\n\n' +
         'CALL THIS PROACTIVELY after every geometry change — features added, parameters ' +
         'updated, booleans, fillets, deletes. The user wants to watch the model build, ' +
-        'not be asked. Treat snapshot as the natural next step after any mutating ' +
-        'call_api, not as an optional debugging tool.' +
+        'not be asked.' +
+        '\n\n' +
+        'IF THE USER SAYS THEY CANNOT SEE THE IMAGE: the inline PNG block may not be ' +
+        'rendered by their host. Read the absolute paths from the metadata block and ' +
+        'either share them as-is, or use the Read tool on each path so the image surfaces ' +
+        'inline in the conversation. Do not call snapshot again — the file is already on disk.' +
         '\n\n' +
         'The renderer auto-detects content (solids → isometric mesh, sketches → 2D ' +
-        'plot, curves → edges) and may emit multiple PNGs per call (e.g. one for ' +
-        'solids and one for work geometry). It auto-zooms to fit — uniform size ' +
-        'changes look identical between snapshots, so for dimension verification ' +
-        'pair the snapshot with tree/find/inspect for numeric proof.',
+        'plot, curves → edges) and may emit multiple PNGs per call. It auto-zooms to fit; ' +
+        'for dimension verification pair the snapshot with tree/find/inspect.',
       inputSchema: {
-        label: z.string().optional().describe('Short label for the snapshot (filename slug, also returned in metadata).'),
+        label: z.string().optional().describe('Short label for the snapshot — used in the filename. Default "snapshot".'),
         width: z.number().int().min(64).max(4096).optional().describe('Image width in pixels (default 1600).'),
         height: z.number().int().min(64).max(4096).optional().describe('Image height in pixels (default 1200).'),
         view: z.enum(['iso', 'top', 'bottom', 'front', 'back', 'left', 'right']).optional()
@@ -59,78 +82,73 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
           .describe('Multiplier on the auto-fit scale. 1 = fit-all (default), 2 = double the on-screen size, 0.5 = half. ' +
                     'Use values >1 to focus tighter on a region (combine with lookAt).'),
         lookAt: z.array(z.number()).length(3).optional()
-          .describe('World-space [x, y, z] point that should land at screen center. Omit to use the model bounding-box center (the auto-fit default).'),
+          .describe('World-space [x, y, z] point that should land at screen center. Omit to use the model bounding-box center.'),
         layers: z.array(z.enum(['solid', 'sketch', 'curves', 'workgeo'])).optional()
-          .describe('Restrict which content layers are rendered. Default = all layers (solid, sketch, curves, workgeo). ' +
+          .describe('Restrict which content layers are rendered. Default = all layers. ' +
                     'Pass e.g. ["solid"] to suppress the workgeo axes image when only the model matters.'),
       },
     },
     async ({ label, width, height, view, zoom, lookAt, layers }) => {
       const safeLabel = (label ?? 'snapshot').replace(/[^a-zA-Z0-9_-]/g, '_')
-      const tmp = mkdtempSync(join(tmpdir(), 'classcad-snapshot-'))
-      const prefix = safeLabel
+      const dir = snapshotDir()
+      const prefix = `${safeLabel}-${timestamp()}`
 
-      try {
-        // Make sure graphics are enabled before rendering. The renderer reads
-        // from the cached graphic payload — if graphics were ever disabled,
-        // there'd be nothing to render.
-        await client.execute({
-          'v1.common.setDatabaseSettings': [{
-            isGraphicEnabled: true,
-            isCCGraphicEnabled: true,
-            isSketchGraphicEnabled: true,
-            doCurveTessellation: true,
-          }],
-        })
+      // Ensure graphics are enabled — renderer reads cached payload.
+      await client.execute({
+        'v1.common.setDatabaseSettings': [{
+          isGraphicEnabled: true,
+          isCCGraphicEnabled: true,
+          isSketchGraphicEnabled: true,
+          doCurveTessellation: true,
+        }],
+      })
 
-        const renders = await renderSession(client, prefix, tmp, {
-          width: width ?? 1600,
-          height: height ?? 1200,
-          view,
-          zoom,
-          lookAt: lookAt as [number, number, number] | undefined,
-          layers: layers as LayerName[] | undefined,
-        })
+      const renders = await renderSession(client, prefix, dir, {
+        width: width ?? 1600,
+        height: height ?? 1200,
+        view,
+        zoom,
+        lookAt: lookAt as [number, number, number] | undefined,
+        layers: layers as LayerName[] | undefined,
+      })
 
-        const blocks: Array<{ type: 'image' | 'text'; data?: string; mimeType?: string; text?: string }> = []
-        const meta: Array<{ type: string; file: string; bytes: number }> = []
+      const imageBlocks: Array<{ type: 'image'; data: string; mimeType: string }> = []
+      const meta: Array<{ type: string; path: string; bytes: number }> = []
 
-        if (renders.length === 0) {
-          // Renderer returned nothing — fall back to whatever PNGs ended up in tmp.
-          const pngs = readdirSync(tmp).filter(f => f.endsWith('.png'))
-          for (const f of pngs) {
-            const buf = readFileSync(join(tmp, f))
-            blocks.push({ type: 'image', data: buf.toString('base64'), mimeType: 'image/png' })
-            meta.push({ type: 'unknown', file: f, bytes: buf.length })
-          }
-          if (blocks.length === 0) {
-            return {
-              content: [{ type: 'text', text: 'No renderable content. Add geometry first (a part, sketch, or feature) and try again.' }],
-            }
-          }
-        } else {
-          for (const r of renders) {
-            const path = join(tmp, r.file)
-            try {
-              const buf = readFileSync(path)
-              blocks.push({ type: 'image', data: buf.toString('base64'), mimeType: 'image/png' })
-              meta.push({ type: r.type, file: r.file, bytes: buf.length })
-            } catch {
-              // Skip files that didn't materialize
-            }
-          }
+      for (const r of renders) {
+        const fullPath = join(dir, r.file)
+        try {
+          const buf = readFileSync(fullPath)
+          imageBlocks.push({ type: 'image', data: buf.toString('base64'), mimeType: 'image/png' })
+          meta.push({ type: r.type, path: fullPath, bytes: buf.length })
+        } catch {
+          // Skip files that didn't materialize
         }
+      }
 
-        // Prepend a small text block describing what's being shown — helps
-        // the LLM correlate multiple images (e.g. solid + workgeo).
-        blocks.unshift({
-          type: 'text',
-          text: JSON.stringify({ label: safeLabel, count: blocks.length, images: meta }, null, 2),
-        })
+      if (imageBlocks.length === 0) {
+        return {
+          content: [{
+            type: 'text',
+            text: 'No renderable content. Add geometry first (a part, sketch, or feature) and try again.',
+          }],
+        }
+      }
 
-        return { content: blocks as any }
-      } finally {
-        try { rmSync(tmp, { recursive: true, force: true }) } catch {}
+      // Compose the response: one text block with a clear paths summary,
+      // then the inline image blocks. The text block is the discoverable
+      // fallback for hosts that don't render inline images.
+      const pathsList = meta.map(m => `${m.type}: ${m.path} (${m.bytes} bytes)`).join('\n')
+      const summary =
+        `Rendered ${imageBlocks.length} image(s) for "${safeLabel}".\n` +
+        `Paths (read these with the Read tool if the inline images aren't visible):\n` +
+        pathsList
+
+      return {
+        content: [
+          { type: 'text', text: summary },
+          ...imageBlocks,
+        ] as any,
       }
     },
   )

@@ -260,10 +260,14 @@ export function extractAssemblyInstances(tree) {
 // Build the list of drawcalls. With instances: one drawcall per instance, palette
 // keyed by template (so all copies of the same part share a color). Without:
 // one drawcall per container at identity (the part-only render path).
-function buildDrawList(graphic, instances) {
+// colorByOwner: Map<ownerSolidId, [R,G,B]> — model colors from requestVisualisation.
+function buildDrawList(graphic, instances, colorByOwner = new Map()) {
   const containers = graphic.containers || []
   if (!instances || instances.length === 0) {
-    return containers.map((c, i) => ({ container: c, transform: null, paletteIdx: i }))
+    return containers.map((c, i) => ({
+      container: c, transform: null, paletteIdx: i,
+      modelColor: colorByOwner.get(Number(c.owner)) || null,
+    }))
   }
   const containerByOwner = new Map()
   for (const c of containers) {
@@ -277,7 +281,10 @@ function buildDrawList(graphic, instances) {
     if (!c) continue
     let pal = palByPart.get(inst.partId)
     if (pal == null) { pal = nextPal++; palByPart.set(inst.partId, pal) }
-    draws.push({ container: c, transform: inst.transform, paletteIdx: pal })
+    draws.push({
+      container: c, transform: inst.transform, paletteIdx: pal,
+      modelColor: colorByOwner.get(Number(inst.ownerSolidId)) || null,
+    })
   }
   return draws
 }
@@ -332,14 +339,14 @@ const BODY_PALETTES = [
  * Z-buffer rasterizer for solid rendering. Eliminates all Z-fighting artifacts.
  * Returns { pixels: Buffer (RGBA), width, height } or null if no geometry.
  */
-function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = null) {
+function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = null, colorByOwner = new Map()) {
   const allPts2d = []
   const tris = []  // { v0, v1, v2 (screen+depth), r, g, b }
   const edgeLines = []
 
-  const drawList = buildDrawList(graphic, instances)
+  const drawList = buildDrawList(graphic, instances, colorByOwner)
   for (const draw of drawList) {
-    const { container, transform, paletteIdx } = draw
+    const { container, transform, paletteIdx, modelColor } = draw
     const palette = BODY_PALETTES[paletteIdx % BODY_PALETTES.length]
     for (const mesh of (container.meshes || [])) {
       const verts = mesh.vertices, norms = mesh.normals, indices = mesh.indices
@@ -358,13 +365,18 @@ function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = 
         const [, , lz] = project(nx, ny, nz)
         if (lz < 0) continue  // back-face cull
         const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * lz))
-        const shade = 100 + 130 * brightness
-        tris.push({
-          v: tv,
-          r: Math.round(shade * palette[0]),
-          g: Math.round(shade * palette[1]),
-          b: Math.round(shade * palette[2]),
-        })
+        let r, g, b
+        if (modelColor) {
+          r = Math.round(modelColor[0] * brightness)
+          g = Math.round(modelColor[1] * brightness)
+          b = Math.round(modelColor[2] * brightness)
+        } else {
+          const shade = 100 + 130 * brightness
+          r = Math.round(shade * palette[0])
+          g = Math.round(shade * palette[1])
+          b = Math.round(shade * palette[2])
+        }
+        tris.push({ v: tv, r, g, b })
       }
     }
     for (const edge of (container.edges || [])) {
@@ -474,7 +486,7 @@ function _rasterLine(pixels, zBuf, w, h, p0, p1, color, zBias = 0) {
 }
 
 // Legacy SVG renderer (kept for sketch/curve paths)
-function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
+function renderSolidSVG(graphic, width = IMG_W, height = IMG_H, colorByOwner = new Map()) {
   const allPts2d = []
   const triangles = []
   const edges = []
@@ -483,6 +495,7 @@ function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
   for (let ci = 0; ci < containers.length; ci++) {
     const container = containers[ci]
     const palette = BODY_PALETTES[ci % BODY_PALETTES.length]
+    const modelColor = colorByOwner.get(Number(container.owner)) || null
     for (const mesh of (container.meshes || [])) {
       const verts = mesh.vertices, norms = mesh.normals, indices = mesh.indices
       for (let i = 0; i < indices.length; i += 3) {
@@ -497,7 +510,7 @@ function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
         if (lz < 0) continue
         const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * lz))
         const avgDepth = (triVerts[0].pz + triVerts[1].pz + triVerts[2].pz) / 3
-        triangles.push({ verts: triVerts, brightness, avgDepth, palette })
+        triangles.push({ verts: triVerts, brightness, avgDepth, palette, modelColor })
       }
     }
     for (const edge of (container.edges || [])) {
@@ -518,9 +531,16 @@ function renderSolidSVG(graphic, width = IMG_W, height = IMG_H) {
   svg += `<rect width="100%" height="100%" fill="white"/>\n`
   for (const tri of triangles) {
     const pts = tri.verts.map(v => xf(v.px, v.py))
-    const shade = Math.round(100 + 130 * tri.brightness)
-    const [pr, pg, pb] = tri.palette
-    const r = Math.round(shade * pr), g = Math.round(shade * pg), b = Math.round(shade * pb)
+    let r, g, b
+    if (tri.modelColor) {
+      r = Math.round(tri.modelColor[0] * tri.brightness)
+      g = Math.round(tri.modelColor[1] * tri.brightness)
+      b = Math.round(tri.modelColor[2] * tri.brightness)
+    } else {
+      const shade = Math.round(100 + 130 * tri.brightness)
+      const [pr, pg, pb] = tri.palette
+      r = Math.round(shade * pr); g = Math.round(shade * pg); b = Math.round(shade * pb)
+    }
     svg += `<polygon points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="rgb(${r},${g},${b})" stroke="none"/>\n`
   }
   for (const edgePts of edges) {
@@ -1596,7 +1616,25 @@ export async function renderSession(client, prefix, outDir, options = {}) {
     if (solidGraphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)) {
       const solidOnly = { ...solidGraphic, containers: solidGraphic.containers.filter(c => c.type === 1 && c.meshes?.length > 0) }
       const instances = extractAssemblyInstances(tree)
-      const zbuf = renderSolidZBuffer(solidOnly, width, height, instances)
+
+      // Fetch model colors via requestVisualisation (owner is the solid ID).
+      // The recalc graphic does not include appearance properties; this call is
+      // the documented way to read back color set via setAppearance.
+      const colorByOwner = new Map()
+      const ownerIds = solidOnly.containers.map(c => c.owner).filter(id => id != null).map(Number)
+      if (ownerIds.length > 0) {
+        try {
+          const visRes = await execute({ 'v1.common.requestVisualisation': [{ ids: ownerIds }] })
+          for (const vc of (visRes.graphic?.containers || [])) {
+            const col = vc.properties?.material?.color
+            if (Array.isArray(col) && col.length === 3 && vc.owner != null) {
+              colorByOwner.set(Number(vc.owner), col)
+            }
+          }
+        } catch { /* non-fatal — fall back to palette */ }
+      }
+
+      const zbuf = renderSolidZBuffer(solidOnly, width, height, instances, colorByOwner)
       if (zbuf) {
         const file = `${prefix}-solid.png`
         await sharp(zbuf.pixels, { raw: { width: zbuf.width, height: zbuf.height, channels: 4 } }).png().toFile(`${outDir}/${file}`)

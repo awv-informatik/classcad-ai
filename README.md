@@ -112,7 +112,8 @@ Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snipp
 
 | Tool              | Status | Purpose                                                   |
 | ----------------- | ------ | --------------------------------------------------------- |
-| `session_info`    | ✓      | Connection status                                         |
+| `session_info`    | ✓      | Connection status (incl. current session id)              |
+| `use_session`     | ✓      | Reconnect to a specific `ClassCAD-Session-Id` (or back to default) |
 | `clear`           | ✓      | Wipe the drawing                                          |
 | `save` / `load`   | ✓      | OFB / STP / STL / JSON persistence                        |
 | `tree`            | ✓      | Cached structure tree (full or refreshed)                 |
@@ -133,6 +134,16 @@ Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snipp
 | -------------------- | ---------------------------------------------------------------------- |
 | `CLASSCAD_WS_URL`    | WebSocket URL of the classcad-cli worker. Default: `ws://localhost:9094/` |
 | `CLASSCAD_SKILL_PATH` | Override the path to a `classcad-skill` checkout for `describe_method`. By default the bundled submodule is used; falls back to JSDoc-only if unavailable. |
+
+### Attaching to an existing session
+
+By default the MCP connects without a `ClassCAD-Session-Id` header, so the worker assigns a fresh session. To steer a session another client is already using (e.g. a Buerligons window with session `test-session`), call the `use_session` tool from the host:
+
+```
+use_session(sessionId="test-session")
+```
+
+Subsequent tool calls operate on that shared session. Call `use_session()` with no argument (or `sessionId=""`) to reconnect with no header. `session_info` reports the current session id.
 
 ---
 

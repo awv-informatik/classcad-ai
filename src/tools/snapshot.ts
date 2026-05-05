@@ -55,22 +55,24 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
     {
       title: 'Snapshot drawing',
       description:
-        'Render the current drawing. Returns BOTH inline PNG image blocks AND ' +
-        'absolute file paths to the same images on disk (in $CLASSCAD_SNAPSHOT_DIR ' +
-        'or <tmpdir>/classcad-snapshots).' +
+        'Render the current drawing. Returns ONE inline PNG image block AND its ' +
+        'absolute file path on disk (in $CLASSCAD_SNAPSHOT_DIR or <tmpdir>/classcad-snapshots).' +
         '\n\n' +
         'CALL THIS PROACTIVELY after every geometry change — features added, parameters ' +
         'updated, booleans, fillets, deletes. The user wants to watch the model build, ' +
         'not be asked.' +
         '\n\n' +
         'IF THE USER SAYS THEY CANNOT SEE THE IMAGE: the inline PNG block may not be ' +
-        'rendered by their host. Read the absolute paths from the metadata block and ' +
-        'either share them as-is, or use the Read tool on each path so the image surfaces ' +
-        'inline in the conversation. Do not call snapshot again — the file is already on disk.' +
+        'rendered by their host. Read the absolute path from the metadata block and ' +
+        'either share it as-is, or use the Read tool on it so the image surfaces inline. ' +
+        'Do not call snapshot again — the file is already on disk.' +
         '\n\n' +
-        'The renderer auto-detects content (solids → isometric mesh, sketches → 2D ' +
-        'plot, curves → edges) and may emit multiple PNGs per call. It auto-zooms to fit; ' +
-        'for dimension verification pair the snapshot with tree/find/inspect.',
+        'Default = solid only — one image of the 3D model in the requested camera view. ' +
+        'Other layers (sketches, curves, work geometry / axis triad) are OPT-IN via the ' +
+        '`layers` argument. When multiple layers are requested they are MERGED into the ' +
+        'same PNG: 3D layers (solid, curves, workgeo) share a camera and are alpha-' +
+        'composited; sketches sit beneath the 3D view as a row of 2D panels. Auto-zooms ' +
+        'to fit; for dimension verification pair the snapshot with tree/find/inspect.',
       inputSchema: {
         label: z.string().optional().describe('Short label for the snapshot — used in the filename. Default "snapshot".'),
         width: z.number().int().min(64).max(4096).optional().describe('Image width in pixels (default 1600).'),
@@ -84,8 +86,11 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         lookAt: z.array(z.number()).length(3).optional()
           .describe('World-space [x, y, z] point that should land at screen center. Omit to use the model bounding-box center.'),
         layers: z.array(z.enum(['solid', 'sketch', 'curves', 'workgeo'])).optional()
-          .describe('Restrict which content layers are rendered. Default = all layers. ' +
-                    'Pass e.g. ["solid"] to suppress the workgeo axes image when only the model matters.'),
+          .describe('Which content layers to render. Default = ["solid"] — only the 3D model. ' +
+                    'Other layers are opt-in: pass e.g. ["solid", "workgeo"] to see the model with ' +
+                    'the axis triad overlay, or ["sketch"] for sketches alone. Multiple layers are ' +
+                    'MERGED into one PNG (3D layers alpha-composited; sketches stacked as 2D panels ' +
+                    'below the 3D view).'),
       },
     },
     async ({ label, width, height, view, zoom, lookAt, layers }) => {
@@ -103,13 +108,17 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         }],
       })
 
+      // Default = solid only. Other layers (sketches, curves, workgeo) are opt-in via
+      // explicit `layers` and get merged into a single PNG.
+      const effectiveLayers: LayerName[] = (layers as LayerName[] | undefined) ?? ['solid']
+
       const renders = await renderSession(client, prefix, dir, {
         width: width ?? 1600,
         height: height ?? 1200,
         view,
         zoom,
         lookAt: lookAt as [number, number, number] | undefined,
-        layers: layers as LayerName[] | undefined,
+        layers: effectiveLayers,
       })
 
       const imageBlocks: Array<{ type: 'image'; data: string; mimeType: string }> = []

@@ -122,9 +122,9 @@ Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snipp
 | `call_api`        | ✓      | Generic dispatch to any `v1.<domain>.<method>` (254 known) |
 | `list_methods`    | ✓      | Enumerate API endpoints (filter by domain or substring)   |
 | `describe_method` | ✓      | JSDoc + LLM-oriented gotchas from classcad-skill          |
-| `snapshot`        | ✓      | Inline PNG render(s) — solid / sketch / curves / workgeo  |
+| `snapshot`        | ✓      | Inline PNG render — single composite of the requested layers |
 
-`snapshot` accepts `view` (`iso` default, plus `top`/`bottom`/`front`/`back`/`left`/`right`), `zoom`, `lookAt`, and `layers` to filter which content layers are emitted.
+`snapshot` accepts `view` (`iso` default, plus `top`/`bottom`/`front`/`back`/`left`/`right`), `zoom`, `lookAt`, and `layers`. **Default `layers` = `["solid"]`** — only the 3D model. Other layers (`sketch`, `curves`, `workgeo`) are opt-in. When multiple layers are requested they are MERGED into one PNG: the 3D layers (solid, curves, workgeo) share a camera and are alpha-composited; sketches sit beneath the 3D view as a row of 2D panels.
 
 ---
 

@@ -339,7 +339,7 @@ const BODY_PALETTES = [
  * Z-buffer rasterizer for solid rendering. Eliminates all Z-fighting artifacts.
  * Returns { pixels: Buffer (RGBA), width, height } or null if no geometry.
  */
-function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = null, colorByOwner = new Map()) {
+function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = null, colorByOwner = new Map(), options = {}) {
   const allPts2d = []
   const tris = []  // { v0, v1, v2 (screen+depth), r, g, b }
   const edgeLines = []
@@ -394,7 +394,8 @@ function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = 
   }
 
   if (allPts2d.length === 0) return null
-  const xf = viewTransform(allPts2d, width, height)
+  if (options.collectOnly) return { allPts2d }
+  const xf = options.xf || viewTransform(allPts2d, width, height)
 
   // Allocate pixel + depth buffers
   const pixels = Buffer.alloc(width * height * 4, 255) // white RGBA
@@ -1272,7 +1273,7 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], 
  * Renders edges that the server tessellated (lines, polylines).
  * For untessellated curves, falls back to bounding box or skips.
  */
-function renderCurveSVG(graphic, width = IMG_W, height = IMG_H) {
+function renderCurveSVG(graphic, width = IMG_W, height = IMG_H, options = {}) {
   const allPts2d = []
   const drawOps = []
 
@@ -1292,14 +1293,17 @@ function renderCurveSVG(graphic, width = IMG_W, height = IMG_H) {
   }
 
   if (allPts2d.length === 0) return null
-  const xf = viewTransform(allPts2d, width, height)
+  if (options.collectOnly) return { allPts2d }
+  const xf = options.xf || viewTransform(allPts2d, width, height)
 
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\n`
-  svg += `<rect width="100%" height="100%" fill="white"/>\n`
-  svg += `<g stroke="#eee" stroke-width="0.5">\n`
-  for (let x = 0; x < width; x += 40) svg += `<line x1="${x}" y1="0" x2="${x}" y2="${height}"/>\n`
-  for (let y = 0; y < height; y += 40) svg += `<line x1="0" y1="${y}" x2="${width}" y2="${y}"/>\n`
-  svg += `</g>\n`
+  if (!options.transparent) {
+    svg += `<rect width="100%" height="100%" fill="white"/>\n`
+    svg += `<g stroke="#eee" stroke-width="0.5">\n`
+    for (let x = 0; x < width; x += 40) svg += `<line x1="${x}" y1="0" x2="${x}" y2="${height}"/>\n`
+    for (let y = 0; y < height; y += 40) svg += `<line x1="0" y1="${y}" x2="${width}" y2="${y}"/>\n`
+    svg += `</g>\n`
+  }
 
   for (const op of drawOps) {
     const pts = op.pts.map(p => xf(p[0], p[1]))
@@ -1412,7 +1416,7 @@ function workPlaneCorners(pos, normal, size, offset) {
  * @param {Array} [extraPts2d] — additional 2D points for fitting the view (from solid rendering)
  * @returns {string|null} SVG string, or null if nothing to render
  */
-function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = []) {
+function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = [], options = {}) {
   const { planes, axes, points, csyses } = workGeo
   if (!planes.length && !axes.length && !points.length && !csyses.length) return null
 
@@ -1467,11 +1471,14 @@ function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = [
   })
 
   if (allPts2d.length === 0) return null
-  const xf = viewTransform(allPts2d, width, height)
+  if (options.collectOnly) return { allPts2d }
+  const xf = options.xf || viewTransform(allPts2d, width, height)
   const f = (x, y) => { const [sx, sy] = xf(x, y); return `${sx.toFixed(1)},${sy.toFixed(1)}` }
 
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\n`
-  svg += `<rect width="100%" height="100%" fill="white"/>\n`
+  if (!options.transparent) {
+    svg += `<rect width="100%" height="100%" fill="white"/>\n`
+  }
   svg += `<style>text { font: 11px sans-serif; }</style>\n`
 
   // Draw planes (semi-transparent quads with dashed border)
@@ -1581,26 +1588,20 @@ export async function renderSession(client, prefix, outDir, options = {}) {
   const { execute, request, getLastGraphic } = client
   const width = options.width || IMG_W
   const height = options.height || IMG_H
-  const rendered = []
 
-  // Layer filter: if options.layers is provided, only render layers in that
-  // list. Undefined means render all layers (the default, backwards-compatible
-  // behavior).
   const layerSet = options.layers ? new Set(options.layers) : null
   const wants = (layer) => !layerSet || layerSet.has(layer)
 
-  // Apply viewport options for this render: view direction, zoom multiplier,
-  // and optional lookAt anchor. Defaults give the previous behavior (iso, fit).
   setViewport({ view: options.view, zoom: options.zoom, lookAt: options.lookAt })
 
-  // Get structure tree
   const treeResult = await request('GetTree')
   const tree = treeResult.structure?.tree || {}
   const content = analyzeSession(tree)
 
-  // ── SOLIDS ──
+  // ── GATHER PER-LAYER RAW DATA ──
+
+  let solidOnly = null, instances = null, colorByOwner = null
   if (wants('solid') && content.solids.length > 0) {
-    // Always recalc to get accurate container state (cached graphic may be stale/intermediate)
     let solidGraphic = null
     try {
       const recalcResult = await execute({ 'v1.common.recalc': [{}] })
@@ -1608,19 +1609,15 @@ export async function renderSession(client, prefix, outDir, options = {}) {
         solidGraphic = recalcResult.graphic
       }
     } catch (e) { /* skip */ }
-    // Fallback to cached graphic if recalc failed
     if (!solidGraphic || !solidGraphic.containers?.some(c => c.meshes?.length > 0)) {
       solidGraphic = getLastGraphic?.()
     }
-    // Filter to solid containers (type 1) only
     if (solidGraphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)) {
-      const solidOnly = { ...solidGraphic, containers: solidGraphic.containers.filter(c => c.type === 1 && c.meshes?.length > 0) }
-      const instances = extractAssemblyInstances(tree)
+      solidOnly = { ...solidGraphic, containers: solidGraphic.containers.filter(c => c.type === 1 && c.meshes?.length > 0) }
+      instances = extractAssemblyInstances(tree)
 
-      // Fetch model colors via requestVisualisation (owner is the solid ID).
-      // The recalc graphic does not include appearance properties; this call is
-      // the documented way to read back color set via setAppearance.
-      const colorByOwner = new Map()
+      // Pull model colors (owner is the solid ID; recalc graphic lacks appearance).
+      colorByOwner = new Map()
       const ownerIds = solidOnly.containers.map(c => c.owner).filter(id => id != null).map(Number)
       if (ownerIds.length > 0) {
         try {
@@ -1631,57 +1628,13 @@ export async function renderSession(client, prefix, outDir, options = {}) {
               colorByOwner.set(Number(vc.owner), col)
             }
           }
-        } catch { /* non-fatal — fall back to palette */ }
-      }
-
-      const zbuf = renderSolidZBuffer(solidOnly, width, height, instances, colorByOwner)
-      if (zbuf) {
-        const file = `${prefix}-solid.png`
-        await sharp(zbuf.pixels, { raw: { width: zbuf.width, height: zbuf.height, channels: 4 } }).png().toFile(`${outDir}/${file}`)
-        rendered.push({ type: 'solid', file })
+        } catch { /* non-fatal — palette fallback */ }
       }
     }
   }
 
-  // ── SKETCHES ──
-  if (wants('sketch')) for (const sketchId of content.sketches) {
-    try {
-      const sketchData = await fetchSketchData(
-        (task) => execute(task),
-        sketchId,
-        tree
-      )
-      const items = sketchData?.items
-      const posMap = sketchData?.posMap || {}
-      if (items && items.length > 0) {
-        const dimensions = extractDimensions(tree, sketchId)
-        const constraints = extractConstraints(tree, sketchId)
-        const svg = renderSketchSVG(items, width, height, dimensions, constraints, posMap)
-        if (svg) {
-          const sketchName = tree[String(sketchId)]?.name || `sketch-${sketchId}`
-          const safeName = sketchName.replace(/[^a-zA-Z0-9_-]/g, '_')
-          const file = `${prefix}-sketch-${safeName}.png`
-          await svgToPng(svg, `${outDir}/${file}`)
-          rendered.push({ type: 'sketch', file, sketchId, name: sketchName })
-        }
-      }
-    } catch (e) {
-      // sketch might be empty or inaccessible
-    }
-  }
-
-  // ── CURVES ──
+  let curveGraphic = null
   if (wants('curves') && content.curves.length > 0) {
-    // The server only pushes graphic data for the FIRST curve added to each
-    // shape container.  Subsequent curve ops in the same shape return no
-    // graphic.  The client accumulates all type-2 containers it ever received,
-    // so getLastGraphic() has at least one edge per shape.
-    //
-    // Known limitation: for shapes with multiple curves (e.g., a rounded
-    // rectangle built from lines + arcs in one shape), only the first curve
-    // is rendered.  Workaround: use a separate shape per curve when visual
-    // verification is important.
-    let curveGraphic = null
     try {
       const r = await execute({ 'v1.common.recalc': [{}] })
       if (r.graphic?.containers?.some(c => c.type === 2)) curveGraphic = r.graphic
@@ -1689,32 +1642,115 @@ export async function renderSession(client, prefix, outDir, options = {}) {
     if (!curveGraphic?.containers?.some(c => c.type === 2 && c.edges?.length > 0)) {
       curveGraphic = getLastGraphic?.()
     }
-    if (curveGraphic) {
-      const svg = renderCurveSVG(curveGraphic, width, height)
-      if (svg) {
-        const file = `${prefix}-curves.png`
-        await svgToPng(svg, `${outDir}/${file}`)
-        rendered.push({ type: 'curves', file })
-      }
-    }
   }
 
-  // ── WORK GEOMETRY ──
+  let workGeo = null
   if (wants('workgeo') && content.workGeo.length > 0) {
-    const workGeo = extractWorkGeometry(tree)
-    // Collect 2D points from solid geometry (if any) so view fits both together
-    const extraPts = []
-    // If we already rendered solids, we want the work geo to use a compatible view.
-    // For now, render work geo standalone with its own fitting.
-    const svg = renderWorkGeoSVG(workGeo, width, height, extraPts)
-    if (svg) {
-      const file = `${prefix}-workgeo.png`
-      await svgToPng(svg, `${outDir}/${file}`)
-      rendered.push({ type: 'workgeo', file })
+    workGeo = extractWorkGeometry(tree)
+  }
+
+  // ── PASS 1: COLLECT 2D-PROJECTED POINTS FROM ALL 3D LAYERS ──
+  // Shared view fit so overlays line up with the solid.
+  const sharedPts = []
+  if (solidOnly) {
+    const r = renderSolidZBuffer(solidOnly, width, height, instances, colorByOwner, { collectOnly: true })
+    if (r?.allPts2d) sharedPts.push(...r.allPts2d)
+  }
+  if (curveGraphic) {
+    const r = renderCurveSVG(curveGraphic, width, height, { collectOnly: true })
+    if (r?.allPts2d) sharedPts.push(...r.allPts2d)
+  }
+  if (workGeo) {
+    const r = renderWorkGeoSVG(workGeo, width, height, [], { collectOnly: true })
+    if (r?.allPts2d) sharedPts.push(...r.allPts2d)
+  }
+  const sharedXf = sharedPts.length > 0 ? viewTransform(sharedPts, width, height) : null
+
+  // ── PASS 2: RENDER EACH 3D LAYER TO IN-MEMORY PNG BUFFER WITH SHARED XF ──
+  let solidBuf = null, curvesBuf = null, workgeoBuf = null
+  if (solidOnly && sharedXf) {
+    const z = renderSolidZBuffer(solidOnly, width, height, instances, colorByOwner, { xf: sharedXf })
+    if (z) solidBuf = await sharp(z.pixels, { raw: { width: z.width, height: z.height, channels: 4 } }).png().toBuffer()
+  }
+  if (curveGraphic && sharedXf) {
+    const svg = renderCurveSVG(curveGraphic, width, height, { xf: sharedXf, transparent: true })
+    if (svg) curvesBuf = await sharp(Buffer.from(svg)).png().toBuffer()
+  }
+  if (workGeo && sharedXf) {
+    const svg = renderWorkGeoSVG(workGeo, width, height, [], { xf: sharedXf, transparent: true })
+    if (svg) workgeoBuf = await sharp(Buffer.from(svg)).png().toBuffer()
+  }
+
+  // ── 3D COMPOSITE: solid as opaque base, curves + workgeo as transparent overlays ──
+  let threeDBuf = null
+  if (solidBuf || curvesBuf || workgeoBuf) {
+    let base = solidBuf
+    if (!base) {
+      base = await sharp({ create: { width, height, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 1 } } }).png().toBuffer()
+    }
+    const overlays = []
+    if (curvesBuf) overlays.push({ input: curvesBuf, blend: 'over' })
+    if (workgeoBuf) overlays.push({ input: workgeoBuf, blend: 'over' })
+    threeDBuf = overlays.length > 0
+      ? await sharp(base).composite(overlays).png().toBuffer()
+      : base
+  }
+
+  // ── SKETCHES: each renders standalone (its own 2D fit, own coordinate space) ──
+  // Sketches live on a workplane in 3D, but projecting them into the camera here
+  // would need each sketch's plane frame — left as a follow-up. For now they sit
+  // beneath the 3D composite as a row of 2D panels.
+  const sketchBufs = []
+  if (wants('sketch')) {
+    for (const sketchId of content.sketches) {
+      try {
+        const sketchData = await fetchSketchData((task) => execute(task), sketchId, tree)
+        const items = sketchData?.items
+        const posMap = sketchData?.posMap || {}
+        if (items && items.length > 0) {
+          const dimensions = extractDimensions(tree, sketchId)
+          const constraints = extractConstraints(tree, sketchId)
+          const svg = renderSketchSVG(items, width, height, dimensions, constraints, posMap)
+          if (svg) sketchBufs.push(await sharp(Buffer.from(svg)).png().toBuffer())
+        }
+      } catch (e) { /* skip */ }
     }
   }
 
-  return rendered
+  let sketchRowBuf = null
+  if (sketchBufs.length === 1) {
+    sketchRowBuf = sketchBufs[0]
+  } else if (sketchBufs.length > 1) {
+    const rowWidth = width * sketchBufs.length
+    sketchRowBuf = await sharp({
+      create: { width: rowWidth, height, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 1 } }
+    }).composite(sketchBufs.map((b, i) => ({ input: b, top: 0, left: i * width }))).png().toBuffer()
+  }
+
+  // ── FINAL: stack 3D and sketch row vertically when both exist ──
+  let finalBuf = null
+  if (threeDBuf && sketchRowBuf) {
+    const tdMeta = await sharp(threeDBuf).metadata()
+    const skMeta = await sharp(sketchRowBuf).metadata()
+    const finalW = Math.max(tdMeta.width, skMeta.width)
+    const finalH = tdMeta.height + skMeta.height
+    finalBuf = await sharp({
+      create: { width: finalW, height: finalH, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 1 } }
+    }).composite([
+      { input: threeDBuf, top: 0, left: Math.floor((finalW - tdMeta.width) / 2) },
+      { input: sketchRowBuf, top: tdMeta.height, left: Math.floor((finalW - skMeta.width) / 2) },
+    ]).png().toBuffer()
+  } else if (threeDBuf) {
+    finalBuf = threeDBuf
+  } else if (sketchRowBuf) {
+    finalBuf = sketchRowBuf
+  }
+
+  if (!finalBuf) return []
+
+  const file = `${prefix}.png`
+  await sharp(finalBuf).png().toFile(`${outDir}/${file}`)
+  return [{ type: 'composite', file }]
 }
 
 

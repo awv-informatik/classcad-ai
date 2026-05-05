@@ -36,7 +36,7 @@ Sub-assemblies contain instances of part templates (and/or other assembly templa
 ## Gotchas
 
 - **Part templates are GLOBAL.** `partTemplate` called from any context always stores the part in `CC_PartContainer`. `getPartTemplate({})` returns the same list regardless of `currentProduct`. Any part template can be instanced inside any assembly or sub-assembly.
-- **Duplicate names allowed.** Two templates can share a name (different IDs). `getAssemblyTemplate({ name: 'X' })` returns only the first match. Use unique names or track IDs directly.
+- **Duplicate names are auto-deduplicated.** Three calls with `name: 'Motor'` create "Motor", "Motor0", "Motor1". `getAssemblyTemplate({ name: 'Motor0' })` finds the second one by its actual stored name.
 - **Nesting is unlimited.** Assembly templates can contain instances of other assembly templates. Transform composition works correctly at arbitrary depth.
 
 ## Structure Tree

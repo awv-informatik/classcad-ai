@@ -20,7 +20,7 @@ Creates the root assembly node. This is the top-level container for all assembly
 
 - **One root entity only.** A drawing can hold either one root assembly OR one root part — never both, never two. Calling `assembly.create` when a part exists (from `part.create`) fails with code 1200. You must `common.clear({})` first.
 - **Does NOT clear the drawing.** Unlike the overall workflow where the harness clears between runs, `assembly.create` itself does not wipe existing content. It only fails if content already exists.
-- **Auto-sets currentProduct.** After `create`, `currentProduct` is the assembly. You can immediately call `partTemplate` without `setCurrentProduct`. But `partTemplate` then switches context to the new part — you need `setCurrentProduct({ id: asmId })` to return to assembly context after building geometry.
+- **Auto-sets currentProduct.** After `create`, `currentProduct` is the assembly. You can immediately call `partTemplate` without `setCurrentProduct`. Note: `partTemplate` itself does NOT switch context — but subsequent `part.*` calls using the template ID will switch `currentProduct` to the template. Call `setCurrentProduct({ id: asmId })` after building geometry to return to assembly context (good practice, not strictly required for `assembly.*` calls which accept explicit IDs).
 - **calculateMassProperties errors on empty assembly.** An assembly with no instances/geometry throws a NullMem error. Only call it after instantiating geometry.
 
 ## Structure Tree After Create

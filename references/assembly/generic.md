@@ -13,11 +13,14 @@ The ClassCAD assembly system uses a **template/instance** architecture. Template
 
 ### Instances
 
-- **Lightweight references** — not copies of geometry. Each instance is a `CC_ProductReference` node with:
-  - `link` = template ID (the source)
-  - `coordinateSystem` = `[origin, xDir, yDir, zDir]` (world transform)
+- **Lightweight references** — not copies of geometry. Each instance is a `CC_ProductReference` node.
+- Structure tree members: `productId` (template link), `isDirty`, `localPath`, `ownPart`, `productRefsET`, `_VERSION`. The transform is stored internally — **not visible** in the structure tree member dump.
 - Live under `CC_AssemblyRoot` or inside assembly templates.
 - Have NO children in the structure tree — geometry comes from the linked template.
+
+### Template vs Expanded Tree IDs
+
+When querying instances from a template (`getInstance({ ownerId: templateId })`), you get CC_ProductReference IDs from the template scope. When querying from an instance of that template (`getInstance({ ownerId: instanceId })`), you get **different** CC_ProductReferenceET IDs from the expanded tree. These are distinct numeric IDs for the same logical instances.
 
 ### Structure Tree Layout
 

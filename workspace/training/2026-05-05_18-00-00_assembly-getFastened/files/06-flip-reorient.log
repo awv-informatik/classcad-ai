@@ -1,0 +1,10 @@
+[06] created with flip=-Z, reorient=90, id: 121
+[06] mate1.flip: Z
+[06] mate1.reorient: 0
+[06] mate2.flip: -Z
+[06] mate2.reorient: 90
+[filewrite] files/06-flip-reorient-flip-reorient-result.json (348 bytes)
+[06] default mate1.flip: Z
+[06] default mate1.reorient: 0
+[06] default mate2.flip: Z
+[06] default mate2.reorient: 0

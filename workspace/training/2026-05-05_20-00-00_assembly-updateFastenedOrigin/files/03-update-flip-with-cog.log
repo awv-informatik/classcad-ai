@@ -1,0 +1,8 @@
+[03] COG flip Z: undefined
+[03] COG flip -Z: undefined
+[03] COG flip X: undefined
+[03] COG flip -X: undefined
+[03] COG flip Y: undefined
+[03] COG flip -Y: undefined
+[03] final state flip: -Y yOffset: 60
+[filewrite] files/03-update-flip-with-cog-flip-cog.json (299 bytes)

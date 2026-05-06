@@ -1,0 +1,6 @@
+[09] created with useCurrentTransform, id: 121
+[09] xOffset: 75
+[09] yOffset: 40
+[09] zOffset: 25
+[09] expected offsets: x=75 y=40 z=25
+[filewrite] files/09-useCurrentTransform-query-useCurrentTransform-result.json (346 bytes)

@@ -1,0 +1,7 @@
+[08] before update xOffset: 50 zRotation: 0
+[08] after update xOffset: 100 zRotation: 0.7853981633974483
+[filewrite] files/08-post-update-query-before-after-update.json (841 bytes)
+[08] query old name after rename maxLevel: 51 result: null
+[08] query new name after rename maxLevel: 31 result id: 121
+[08] new name xOffset preserved? 100
+[08] new name zRotation preserved? 0.7853981633974483

@@ -1,0 +1,6 @@
+{
+  "inst1_before": 24000,
+  "inst1_after": 24000,
+  "inst2_after": 24000,
+  "hypothesis": "inst1 locked at 24000, inst2 updated to 72000"
+}

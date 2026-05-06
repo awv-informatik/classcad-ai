@@ -1,0 +1,9 @@
+[04] invalid ID - result: null maxLevel: 51
+[04] invalid ID - messages: [{"api":"v1.assembly.deleteTemplate","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteTemplate","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[04] valid delete - result: null maxLevel: 31
+[04] double-delete - result: null maxLevel: 51
+[04] double-delete - messages: [{"api":"v1.assembly.deleteTemplate","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteTemplate","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[04] non-template ID - result: null maxLevel: 31
+[04] non-template ID - messages: []
+[04] empty array - result: null maxLevel: 31
+[filewrite] files/04-error-cases-error-cases.json (1245 bytes)

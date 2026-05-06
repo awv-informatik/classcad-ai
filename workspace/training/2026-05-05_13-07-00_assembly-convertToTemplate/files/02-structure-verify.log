@@ -1,0 +1,11 @@
+[02] before convert: {"root":12,"instances":[87,89],"partTemplate":22}
+[02] inst1 COG before: {"x":2.3909376310413953e-16,"y":-9.294845575771287e-16,"z":24.99633438809064}
+[02] inst2 COG before: {"x":80.00586497905498,"y":-2.7286802319553515e-15,"z":24.996334388090645}
+[02] convert (default name) → newRoot: 93 result: null maxLevel: 31
+[02] getAssemblyTemplate("Subassembly"): 12
+[02] getPartTemplate("CylPart") after convert: 22
+[02] convert (custom name "MyTopLevel") → newRoot: 109
+[02] getAssemblyTemplate("MyTopLevel"): 93
+[02] all assembly templates: [12,93]
+[02] final root COG: {"x":40.00293248952749,"y":-1.82908239476624e-15,"z":24.996334388090645}
+[filewrite] files/02-structure-verify-structure-data.json (640 bytes)

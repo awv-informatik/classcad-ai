@@ -1,0 +1,5 @@
+[03] tpl: 22 wcs: 107
+[03] inst1: 113 inst2: 115
+[03] fastened result: 121 maxLevel: 31
+[03] COG with xOffset=50: {"x":45,"y":15,"z":10}
+[filewrite] files/03-offsets-mass-xoffset50.json (75 bytes)

@@ -1,0 +1,7 @@
+[02] exact Alpha: 22 maxLevel: 31 type: number isArray: false
+[02] lowercase alpha: null maxLevel: 51
+[02] uppercase ALPHA: null maxLevel: 51
+[02] partial Alp: null maxLevel: 51
+[02] missing: null maxLevel: 51
+[02] exact Beta: 68 maxLevel: 31
+[filewrite] files/02-by-name-by-name-results.json (668 bytes)

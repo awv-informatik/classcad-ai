@@ -1,0 +1,24 @@
+{
+  "created": {
+    "tpl1": 22,
+    "tpl2": 68,
+    "tpl3": 114
+  },
+  "listAll": [
+    22,
+    68,
+    114
+  ],
+  "bolt": {
+    "result": 22,
+    "maxLevel": 31
+  },
+  "bolt0": {
+    "result": 68,
+    "maxLevel": 31
+  },
+  "bolt1": {
+    "result": 114,
+    "maxLevel": 31
+  }
+}

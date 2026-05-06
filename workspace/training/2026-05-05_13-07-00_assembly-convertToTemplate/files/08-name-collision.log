@@ -1,0 +1,7 @@
+[08] existing template "SubAsm": 22
+[08] convert with duplicate name result: null maxLevel: 31
+[08] getAssemblyTemplate("SubAsm"): 22
+[08] all assembly templates: [22,12]
+[08] existing template was: 22
+[08] converted template is: 22
+[filewrite] files/08-name-collision-name-collision.json (200 bytes)

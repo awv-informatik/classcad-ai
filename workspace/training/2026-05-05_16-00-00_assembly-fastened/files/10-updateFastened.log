@@ -1,0 +1,11 @@
+[10] created fastened id: 121
+[10] COG after create (xOffset=50): {"x":65,"y":15,"z":10}
+[10] update xOffset=100: 121 maxLevel: 31
+[10] COG after update xOffset=100: {"x":90,"y":15,"z":10}
+[10] after update xOffset only: {"xOffset":100,"yOffset":0,"zOffset":0}
+[10] update yOffset=30: 121 maxLevel: 31
+[10] after update yOffset only: {"xOffset":100,"yOffset":30,"zOffset":0}
+[10] COG after update yOffset=30: {"x":90,"y":30.000000000000004,"z":10}
+[10] update zRotation=45deg: 121 maxLevel: 31
+[filewrite] files/10-updateFastened-final-state.json (365 bytes)
+[filewrite] files/10-updateFastened-mass-progression.json (324 bytes)

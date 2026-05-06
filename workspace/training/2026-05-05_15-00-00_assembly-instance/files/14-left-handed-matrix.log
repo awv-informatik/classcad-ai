@@ -1,0 +1,3 @@
+[14] left-handed result: null maxLevel: 51
+[14] msgs: [{"api":"v1.assembly.instance","code":1014,"level":51,"levelStr":"ERROR","message":"The provided matrix is left-handed. This is not yet supported"}]
+[filewrite] files/14-left-handed-matrix-left-handed-response.json (255 bytes)

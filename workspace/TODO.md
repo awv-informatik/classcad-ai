@@ -850,3 +850,38 @@ Collected from all training journals. Ordered by severity.
 - **Session:** 2026-05-01 sweep
 - **Finding:** The same training failure mode (claim invented from CAD-world muscle memory, never measured) likely affects other LLM docs that make spatial claims. Highest-risk neighbors: `solid/extrusion.md` (where does the extruded body sit by default?), `solid/revolve.md`, `solid/scale.md` (pivot point), `solid/mirror.md` (default plane), `solid/translation.md` and `solid/rotation.md` (default origin reference). None confirmed wrong, but none verified either.
 - **Workaround:** Future training sessions should re-read each of these LLM docs and run a vertex/COG measurement to confirm any default-position claim before trusting it. Per the new SOUL.md rule, spatial claims now require numeric proof.
+
+### 124. 🕳️ `assembly.deleteTemplate` — passing assembly root ID silently corrupts state
+
+- **Session:** `2026-05-05_12-07-00_assembly-deleteTemplate` (journal scripts 06, 08)
+- **Error:** `deleteTemplate({ ids: [asmRootId] })` returns maxLevel=31 (no error) but corrupts the assembly tree. After this call, `getInstance` fails (returns null, maxLevel=51) and new instances cannot be created.
+- **Trigger:** Passing the assembly root ID (from `assembly.create`) instead of a template ID.
+- **Workaround:** Only pass IDs returned by `partTemplate` or `assemblyTemplate`. The API does not validate that IDs are actual templates. Instance IDs are correctly rejected (error 1006), but assembly root IDs are silently accepted and cause corruption.
+
+### 125. `assembly.convertToTemplate` — fails after `part.create` in same session
+
+- **Session:** `2026-05-05_13-07-00_assembly-convertToTemplate` (journal script 04)
+- **Error:** `convertToTemplate` returns maxLevel=51 ("Assembly building is not initialized!") when called on an assembly created after a prior `part.create` in the same harness run — even though `assembly.create` succeeded.
+- **Trigger:** `part.create(...)` → `assembly.create(...)` → `convertToTemplate(...)` in sequence without drawing clear between part.create and assembly.create.
+- **Workaround:** Always start fresh with `assembly.create` — do not call `part.create` first in the same session. If you must, call `common.clear({})` between them.
+
+### 127. 📖 `assembly.getFastened` — docs claim instance ID accepted but only assembly root works
+
+- **Session:** `2026-05-05_18-00-00_assembly-getFastened` (journal script 05)
+- **Error:** API docs say `param.id` is "id of the assembly or instance to look for constraint", but passing any instance or template ID returns error: "The provided product or product reference id is not a Assembly." (maxLevel=51).
+- **Trigger:** `getFastened({ id: instanceId, name: 'X' })` — any non-assembly-root ID.
+- **Workaround:** Always pass the assembly root ID from `assembly.create`.
+
+### 126. 📖 `calculateMassProperties(instanceId)` — silently materializes/locks instance geometry
+
+- **Session:** `2026-05-05_14-00-00_assembly-templateVsInstance` (journal scripts 09-14)
+- **Error:** Not an error per se, but undocumented behavior: calling `calculateMassProperties` on an individual instance ID causes ALL instances of the same template to become independent copies. Subsequent template modifications no longer propagate to those instances. No warning, no error — silent side effect.
+- **Trigger:** `api.v1.assembly.calculateMassProperties({ id: instanceId })` — only when `id` is a specific instance, not the root assembly or template.
+- **Workaround:** To avoid materialization, use `calculateMassProperties(rootAssemblyId)` to get combined mass properties, or `calculateMassProperties(templateId)` for template-local properties. After materialization, delete and recreate instances to get fresh template geometry.
+
+### 128. 🕳️ `assembly.fastenedOrigin` — duplicate constraints on same instance silently accepted
+
+- **Session:** `2026-05-05_19-00-00_assembly-fastenedOrigin` (journal entry 10)
+- **Error:** 🤫 Creating two `fastenedOrigin` constraints on the same instance succeeds without error (maxLevel 31 for both). The first constraint wins for positioning; the second has no spatial effect but is stored and returned by `getFastenedOrigin`.
+- **Trigger:** `fastenedOrigin({ id: asmId, mate1: { path: [inst], csys: wcs }, xOffset: 50 })` then `fastenedOrigin({ id: asmId, mate1: { path: [inst], csys: wcs }, xOffset: 100 })` — instance stays at xOffset=50.
+- **Workaround:** Avoid creating multiple fastenedOrigin constraints on the same instance. Use `updateFastenedOrigin` to modify an existing constraint instead.

@@ -1,0 +1,10 @@
+[02] instA: 113 instB: 115
+[02] mass before COG: undefined
+[filewrite] files/02-spatial-verify-mass-before.json (118 bytes)
+[02] fastenedOrigin result: 152 maxLevel: 31
+[02] mass after COG: undefined
+[filewrite] files/02-spatial-verify-mass-after.json (75 bytes)
+[02] instB transform after: undefined
+[filewrite] files/02-spatial-verify-instB-state-after.json (4 bytes)
+[02] instA transform: undefined
+[filewrite] files/02-spatial-verify-instA-state-after.json (4 bytes)

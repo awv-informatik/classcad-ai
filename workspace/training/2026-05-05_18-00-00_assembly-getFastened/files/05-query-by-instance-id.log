@@ -1,0 +1,6 @@
+[05] query via asmId: 31 result id: 121
+[05] query via inst1: 51 result: null
+[filewrite] files/05-query-by-instance-id-via-inst1.json (257 bytes)
+[05] query via inst2: 51 result: null
+[filewrite] files/05-query-by-instance-id-via-inst2.json (257 bytes)
+[05] query via tpl: 51 result: null

@@ -1,0 +1,6 @@
+[12] asmId: 12
+[12] tplId: 22
+[12] boxId: 70
+[12] instance by name result: 107 maxLevel: 31
+[12] instance by id result: 109 maxLevel: 31
+[filewrite] files/12-ident-as-productId-ident-as-productid.json (154 bytes)

@@ -1,0 +1,15 @@
+[09] created foId: 119
+[09] COG initial: {"x":70,"y":15,"z":10}
+[09] update result: 119 maxLevel: 31
+[09] COG after update: {"x":120,"y":45,"z":10}
+[09] state after update: {"id":119,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"FO_Upd","xOffset":100,"xRotation":0,"yOffset":30,"yRotation":0,"zOffset":0,"zRotation":0}
+[filewrite] files/09-updateFO-update-state.json (243 bytes)
+[09] rotation update: 119 maxLevel: 31
+[09] COG after rotation: {"x":85,"y":50.00000000000001,"z":9.999999999999988}
+[09] rename result: 119 maxLevel: 31
+[09] old name query: null new name query: RenamedFO
+[09] useCurrentTransform update: 119 maxLevel: 31
+[09] state after UCT: {"id":119,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"RenamedFO","xOffset":100,"xRotation":0,"yOffset":30,"yRotation":0,"zOffset":0,"zRotation":1.570796}
+[filewrite] files/09-updateFO-update-uct-state.json (253 bytes)
+[09] COG after zero: {"x":20,"y":15,"z":10}
+[filewrite] files/09-updateFO-update-cog-progression.json (289 bytes)

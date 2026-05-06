@@ -1,0 +1,5 @@
+[08] COG wcs1: {"x":70,"y":45,"z":10}
+[08] COG wcs2: {"x":70,"y":45,"z":10}
+[08] COG wcs3: {"x":70,"y":45,"z":10}
+[08] final csys: 123 (wcs3 id: 123 )
+[filewrite] files/08-update-csys-csys-update.json (540 bytes)

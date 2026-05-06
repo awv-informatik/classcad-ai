@@ -1,0 +1,7 @@
+[10] regular template: 22 asmId: 12
+[10] before convert: [ 22 ]
+[10] convertToTemplate result: null maxLevel: 31
+[10] after convert: [ 22, 12 ]
+[10] find converted: 12 maxLevel: 31
+[10] converted id === asmId? true
+[filewrite] files/10-convertToTemplate-convert-results.json (280 bytes)

@@ -1,0 +1,7 @@
+[07] created with name "OriginalName": 121
+[07] found by "OriginalName": 121 maxLevel: 31
+[07] updateFastened name change: 121 maxLevel: 31
+[07] find by old name "OriginalName": null maxLevel: 51
+[07] find by new name "RenamedConstraint": 121 maxLevel: 31
+[07] xOffset after rename: 50
+[filewrite] files/07-update-name-name-lookup-results.json (453 bytes)

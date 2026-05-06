@@ -1,0 +1,25 @@
+{
+  "ids": {
+    "t1": 22,
+    "t2": 32,
+    "t3": 42
+  },
+  "all": [
+    22,
+    32,
+    42
+  ],
+  "lookupMotor": {
+    "result": 22,
+    "maxLevel": 31
+  },
+  "lookupMotor0": {
+    "result": 32,
+    "maxLevel": 31
+  },
+  "lookupMotor1": {
+    "result": 42,
+    "maxLevel": 31
+  },
+  "correctMapping": true
+}

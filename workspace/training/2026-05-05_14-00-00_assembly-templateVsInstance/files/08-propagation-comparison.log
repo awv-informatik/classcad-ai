@@ -1,0 +1,9 @@
+[08] === STEP A: modify via template context ===
+[08] A — template volume: 48000
+[08] A — inst1 volume: 48000
+[08] A — inst2 volume: 48000
+[08] === STEP B: modify via instance context ===
+[08] B — template volume: 72000
+[08] B — inst1 volume: 48000
+[08] B — inst2 volume: 48000
+[filewrite] files/08-propagation-comparison-propagation-comparison.json (194 bytes)

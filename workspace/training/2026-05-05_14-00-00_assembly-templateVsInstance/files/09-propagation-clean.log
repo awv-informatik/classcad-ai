@@ -1,0 +1,4 @@
+[09] template vol: 192000 COG: {"x":60,"y":40,"z":10}
+[09] inst1 vol: 192000 COG: {"x":60,"y":40,"z":10}
+[09] inst2 vol: 192000 COG: {"x":139.99999999999997,"y":39.99999999999999,"z":9.999999999999998}
+[filewrite] files/09-propagation-clean-clean-propagation.json (368 bytes)

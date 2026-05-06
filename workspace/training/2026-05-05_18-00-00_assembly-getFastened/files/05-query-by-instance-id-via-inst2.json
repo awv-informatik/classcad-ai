@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.getFastened",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided product or product reference id is not a Assembly."
+    }
+  ],
+  "maxLevel": 51
+}

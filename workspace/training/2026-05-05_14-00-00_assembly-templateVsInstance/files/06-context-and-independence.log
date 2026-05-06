@@ -1,0 +1,9 @@
+[06] tplId: 22 inst1: 105 inst2: 107 boxId: 70
+[06] setCurrentProduct(inst1) — prev: 12 maxLevel: 31
+[06] getFeature(tplId) after context=inst1: maxLevel: 31 result: 70
+[06] openFeature(boxId) after context=inst1: maxLevel: 31
+[06] updateBox height=30 maxLevel: 31
+[06] after update: inst1 volume: 72000 inst2 volume: 72000
+[06] after update: inst1 COG: {"x":30,"y":20,"z":15}
+[06] after update: inst2 COG: {"x":110,"y":20,"z":15}
+[filewrite] files/06-context-and-independence-after-context-modify.json (215 bytes)

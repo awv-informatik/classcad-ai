@@ -1,0 +1,11 @@
+[06] COG after creation (xOffset=50, yOffset=20): {"x":64.99999999999999,"y":25,"z":10}
+[06] update useCurrentTransform=1: 121 maxLevel: 31
+[06] COG after useCurrentTransform: {"x":64.99999999999999,"y":25,"z":10}
+[06] offsets after useCurrentTransform: x= 50 y= 20 z= 0
+[filewrite] files/06-update-useCurrentTransform-state-after-useCurrentTransform.json (341 bytes)
+[06] update to (120, 60, 30): 121 maxLevel: 31
+[06] COG after offset (120,60,30): {"x":99.99999999999996,"y":44.99999999999998,"z":24.999999999999982}
+[06] useCurrentTransform again: 121 maxLevel: 31
+[06] offsets re-computed: x= 120 y= 60 z= 30
+[filewrite] files/06-update-useCurrentTransform-state-after-second-useCurrentTransform.json (343 bytes)
+[06] COG unchanged after re-lock: {"x":99.99999999999996,"y":44.99999999999998,"z":24.999999999999982}

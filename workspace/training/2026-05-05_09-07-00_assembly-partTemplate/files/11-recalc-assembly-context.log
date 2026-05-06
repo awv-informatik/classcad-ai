@@ -1,0 +1,5 @@
+[11] vol before: 24000
+[11] template vol after update: 96000
+[11] instance vol after asm recalc: 24000
+[11] assembly total vol: 24000
+[filewrite] files/11-recalc-assembly-context-recalc-assembly.json (144 bytes)

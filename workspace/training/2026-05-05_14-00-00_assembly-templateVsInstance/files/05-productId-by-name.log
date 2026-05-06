@@ -1,0 +1,7 @@
+[05] inst by numeric ID: 105
+[05] inst by string name maxLevel: 31 result: 109
+[05] inst by wrong name maxLevel: 51 result: null
+[05] messages: [{"api":"v1.assembly.instance","code":0,"level":41,"levelStr":"WARNING","message":"The string \"NonExistent\" couldn't be converted to an id. Error message: stol: no conversion"},{"api":"v1.assembly.instance","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"productId\" has an invalid id!"}]
+[05] ownerId as string maxLevel: 31 result: 111
+[filewrite] files/05-productId-by-name-productId-by-name.json (709 bytes)
+[05] by-name instance COG: {"x":85,"y":15,"z":10}

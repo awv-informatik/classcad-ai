@@ -1,0 +1,3 @@
+[04] part+box created, partId: 4 boxId: 61
+[04] assembly.create result: null maxLevel: 51
+[filewrite] files/04-create-vs-part-structure-after-asm-over-part.json (21045 bytes)

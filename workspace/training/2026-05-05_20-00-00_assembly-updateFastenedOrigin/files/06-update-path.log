@@ -1,0 +1,5 @@
+[06] COG with B constrained: {"x":80,"y":15,"z":10}
+[06] update path result: 131 maxLevel: 31
+[06] COG after path update: {"x":80,"y":15,"z":10}
+[06] state after path update: {"csys":107,"flip":"Z","path":[117],"reorient":"0"}
+[filewrite] files/06-update-path-path-update.json (483 bytes)

@@ -1,0 +1,33 @@
+{
+  "cogBefore": {
+    "x": 80,
+    "y": 15,
+    "z": 10
+  },
+  "cogAfter": {
+    "x": 80,
+    "y": 15,
+    "z": 10
+  },
+  "updateResult": 131,
+  "updateMaxLevel": 31,
+  "updateMessages": [],
+  "stateAfter": {
+    "id": 131,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        117
+      ],
+      "reorient": "0"
+    },
+    "name": "FO_B",
+    "xOffset": 60,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

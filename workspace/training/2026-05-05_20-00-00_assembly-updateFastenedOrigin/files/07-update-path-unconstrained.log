@@ -1,0 +1,5 @@
+[07] COG before path update: {"x":160,"y":15,"z":10}
+[07] update path result: 121 maxLevel: 31
+[07] COG after path update: {"x":219.99999999999997,"y":15,"z":10}
+[07] state path: [115] xOffset: 200
+[filewrite] files/07-update-path-unconstrained-path-unconstrained.json (483 bytes)

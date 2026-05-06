@@ -1,0 +1,6 @@
+[10] fId1: 123 fId2: 127
+[10] initial COG: {"x":90,"y":15,"z":10}
+[10] batch update result: [123,127] maxLevel: 31
+[10] COG after batch update: {"x":98.33333333333333,"y":23.333333333333332,"z":9.999999999999995}
+[10] F1 xOffset: 80 F2 xOffset: 150 F2 zRot: 1.5707963267948966
+[filewrite] files/10-batch-update-batch-results.json (986 bytes)

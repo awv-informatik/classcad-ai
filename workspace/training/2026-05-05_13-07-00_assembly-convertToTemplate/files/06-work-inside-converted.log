@@ -1,0 +1,6 @@
+[06] convertedId: 12 newRoot (from structure): 107
+[06] added cylinder instance inside converted template: 182
+[06] root from structure: 107
+[06] sub-assembly instance COG (with cyl): {"cog":{"x":45.335153044788164,"y":20.572167673239388,"z":12.950622402716572},"volume":42566.12060654915}
+[06] box template COG: {"cog":{"x":25,"y":15,"z":10},"volume":30000}
+[filewrite] files/06-work-inside-converted-work-inside.json (361 bytes)

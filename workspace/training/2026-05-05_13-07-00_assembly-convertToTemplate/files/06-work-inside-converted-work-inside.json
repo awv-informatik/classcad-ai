@@ -1,0 +1,22 @@
+{
+  "convertedId": 12,
+  "rootFromStruct": 107,
+  "cylInst": 182,
+  "subInst": 184,
+  "subAsmCog": {
+    "cog": {
+      "x": 45.335153044788164,
+      "y": 20.572167673239388,
+      "z": 12.950622402716572
+    },
+    "volume": 42566.12060654915
+  },
+  "boxTemplateCog": {
+    "cog": {
+      "x": 25,
+      "y": 15,
+      "z": 10
+    },
+    "volume": 30000
+  }
+}

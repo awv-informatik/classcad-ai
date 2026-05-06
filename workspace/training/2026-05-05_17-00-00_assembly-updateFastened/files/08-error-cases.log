@@ -1,0 +1,9 @@
+[08] fastened created: 121
+[08] invalid ID: null maxLevel: 51
+[08] assembly root ID: null maxLevel: 51
+[08] instance ID: null maxLevel: 51
+[08] invalid csys: null maxLevel: 51
+[08] invalid flip: null maxLevel: 51
+[08] empty update (no params): 121 maxLevel: 31
+[08] constraint intact: xOffset= 50
+[filewrite] files/08-error-cases-error-cases.json (2730 bytes)

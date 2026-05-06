@@ -1,0 +1,9 @@
+[02] template COG: {"cog":{"x":20,"y":15,"z":10},"volume":24000}
+[02] inst0: 105
+[02] inst1: 107
+[02] inst2: 109
+[02] root assembly mass: {"cog":{"x":35,"y":43.333333333333336,"z":10},"volume":72000}
+[filewrite] files/02-spatial-verify-root-mass.json (91 bytes)
+[02] all instances: [105,107,109]
+[filewrite] files/02-spatial-verify-full-structure.json (30960 bytes)
+[02] predicted combined COG: [35, 43.33, 10]

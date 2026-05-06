@@ -1,0 +1,13 @@
+[09] no productId: null maxLevel: 51
+[09] msgs: {"api":"v1.assembly.instance","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"productId\" must be provided in the api call!"}
+[09] no ownerId: null maxLevel: 51
+[09] msgs: {"api":"v1.assembly.instance","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"ownerId\" must be provided in the api call!"}
+[09] invalid productId: null maxLevel: 51
+[09] msgs: {"api":"v1.assembly.instance","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."}
+[09] tplId as owner: null maxLevel: 51
+[09] msgs: {"api":"v1.assembly.instance","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ownerId\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"}
+[09] inner inst in sub-asm: 115
+[09] sub-asm instance: 117 maxLevel: 31
+[09] string productId: 122 maxLevel: 31
+[09] non-ortho matrix: 124 maxLevel: 31
+[filewrite] files/09-error-cases-error-summary.json (778 bytes)

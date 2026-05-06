@@ -1,0 +1,20 @@
+{
+  "finalState": {
+    "id": 125,
+    "mate1": {
+      "csys": 107,
+      "flip": "-Y",
+      "path": [
+        121
+      ],
+      "reorient": "0"
+    },
+    "name": "FO_Target",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 60,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

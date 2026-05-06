@@ -1,0 +1,24 @@
+{
+  "before": {
+    "instanceCOG": {
+      "x": 30,
+      "y": 20,
+      "z": 5
+    },
+    "instanceVolume": 24000
+  },
+  "after": {
+    "templateCOG": {
+      "x": 60,
+      "y": 40,
+      "z": 10
+    },
+    "templateVolume": 192000,
+    "instanceCOG": {
+      "x": 30,
+      "y": 20,
+      "z": 5
+    },
+    "instanceVolume": 24000
+  }
+}

@@ -1,0 +1,5 @@
+[06] partTemplate() no args - result: 22 maxLevel: 31
+[06] partTemplate({}) - result: 68
+[06] partTemplate({name:"NamedPart"}) - result: 114
+[filewrite] files/06-structure-tree-full-structure.json (65241 bytes)
+[06] structure keys: [ 'root', 'currentProduct', 'currentInstance', 'testRoot', 'tree' ]

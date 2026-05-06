@@ -1,0 +1,31 @@
+{
+  "rootBefore": 12,
+  "rootAfter": 137,
+  "currentProduct": 137,
+  "convertedTemplateId": 12,
+  "newInstanceId": 147,
+  "massBefore": {
+    "cog": {
+      "x": 55,
+      "y": 35,
+      "z": 25
+    },
+    "volume": 72000
+  },
+  "massAfterRoot": {
+    "cog": {
+      "x": 55,
+      "y": 35,
+      "z": 25
+    },
+    "volume": 72000
+  },
+  "massAfterInst": {
+    "cog": {
+      "x": 55,
+      "y": 35,
+      "z": 25
+    },
+    "volume": 72000
+  }
+}

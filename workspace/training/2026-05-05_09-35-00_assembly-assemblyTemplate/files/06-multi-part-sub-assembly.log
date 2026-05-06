@@ -1,0 +1,6 @@
+[06] table sub-assembly: 170
+[06] instances in sub-assembly: 180 182 184 186 188
+[06] table instances in root: 190 197
+[06] table1 COG: {"cog":{"x":40.00326130804166,"y":30.00244598103096,"z":17.71622753111942},"volume":83342.66510828977}
+[06] table2 COG: {"cog":{"x":160.01304523216425,"y":30.002445981032086,"z":17.716227531119774},"volume":83342.66510829149}
+[filewrite] files/06-multi-part-sub-assembly-multi-part-cog.json (321 bytes)

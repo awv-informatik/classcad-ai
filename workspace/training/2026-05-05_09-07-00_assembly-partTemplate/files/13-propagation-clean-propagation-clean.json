@@ -1,0 +1,12 @@
+{
+  "scenario1": {
+    "volBefore": 24000,
+    "volAfterRecalc": 24000,
+    "tplVol": 96000
+  },
+  "scenario2": {
+    "vol2Before": 26999.999999999996,
+    "vol2After": 26999.999999999996,
+    "updateFromAsmContext": true
+  }
+}

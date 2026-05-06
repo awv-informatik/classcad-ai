@@ -1,0 +1,6 @@
+[02] templates created: 22 105 188
+[02] before delete: [22,105,188]
+[02] multi-delete result: null maxLevel: 31
+[filewrite] files/02-multi-delete-multi-delete-result.json (56 bytes)
+[02] after delete: [105]
+[filewrite] files/02-multi-delete-templates-before-after.json (72 bytes)

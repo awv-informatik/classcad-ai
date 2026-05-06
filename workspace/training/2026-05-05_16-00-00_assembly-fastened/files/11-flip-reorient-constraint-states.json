@@ -1,0 +1,80 @@
+{
+  "flipZ": {
+    "id": 121,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 107,
+      "flip": "-Z",
+      "path": [
+        115
+      ],
+      "reorient": "0"
+    },
+    "name": "F_FlipZ",
+    "xOffset": 100,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  "flipX": {
+    "id": 187,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 107,
+      "flip": "X",
+      "path": [
+        183
+      ],
+      "reorient": "0"
+    },
+    "name": "F_FlipX",
+    "xOffset": 200,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  "reorient90": {
+    "id": 251,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        247
+      ],
+      "reorient": "90"
+    },
+    "name": "F_Reorient90",
+    "xOffset": 300,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

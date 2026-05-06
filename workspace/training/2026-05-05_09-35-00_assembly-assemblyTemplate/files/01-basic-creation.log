@@ -1,0 +1,8 @@
+[01] assembly.create result: 12
+[01] assemblyTemplate result: 22
+[01] assemblyTemplate maxLevel: 31
+[01] assemblyTemplate messages: []
+[01] currentProduct after assemblyTemplate: 12
+[filewrite] files/01-basic-creation-structure-after-assemblyTemplate.json (9563 bytes)
+[01] second assemblyTemplate result: 32
+[01] unnamed assemblyTemplate result: 42 (should get default name)

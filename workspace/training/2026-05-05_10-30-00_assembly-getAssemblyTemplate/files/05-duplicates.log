@@ -1,0 +1,6 @@
+[05] created: 22 32 42
+[05] all: [ 22, 32, 42 ]
+[05] Motor: 22 (expect 22 )
+[05] Motor0: 32 (expect 32 )
+[05] Motor1: 42 (expect 42 )
+[filewrite] files/05-duplicates-duplicate-results.json (309 bytes)

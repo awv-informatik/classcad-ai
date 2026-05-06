@@ -1,0 +1,5 @@
+[15] iBefore vol at creation: 24000
+[15] iBefore vol after update (template context): 24000
+[15] iBefore vol (final): 24000 cog: {"x":30,"y":20,"z":5}
+[15] iAfter vol (final): 96000 cog: {"x":109.99999999999999,"y":19.999999999999993,"z":19.999999999999993}
+[filewrite] files/15-reproduce-script12-reproduce-12.json (107 bytes)

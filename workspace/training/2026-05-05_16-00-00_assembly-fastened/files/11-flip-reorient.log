@@ -1,0 +1,5 @@
+[11] flip -Z: 121 maxLevel: 31
+[11] COG with flip -Z, xOffset=100: {"x":90,"y":1.2126596023639043e-15,"z":3.031649005909761e-15}
+[11] flip X: 187 maxLevel: 31
+[11] reorient 90: 251 maxLevel: 31
+[filewrite] files/11-flip-reorient-constraint-states.json (1241 bytes)

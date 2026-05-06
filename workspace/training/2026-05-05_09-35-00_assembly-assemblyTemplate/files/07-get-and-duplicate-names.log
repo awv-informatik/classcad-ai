@@ -1,0 +1,7 @@
+[07] templates: 22 32 42
+[07] all assembly templates: [22,32,42]
+[07] getAssemblyTemplate by name "Module": 22
+[07] getAssemblyTemplate by name "Frame": 42
+[07] non-existent name result: null maxLevel: 51
+[07] non-existent messages: [{"api":"v1.assembly.getAssemblyTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly with name = \"NonExistent\" could not be found"}]
+[filewrite] files/07-get-and-duplicate-names-get-template-results.json (371 bytes)

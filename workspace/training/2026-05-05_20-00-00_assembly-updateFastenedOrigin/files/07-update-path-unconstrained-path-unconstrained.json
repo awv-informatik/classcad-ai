@@ -1,0 +1,33 @@
+{
+  "instA": 113,
+  "instB": 115,
+  "cogBefore": {
+    "x": 160,
+    "y": 15,
+    "z": 10
+  },
+  "cogAfter": {
+    "x": 219.99999999999997,
+    "y": 15,
+    "z": 10
+  },
+  "updateResult": 121,
+  "stateAfter": {
+    "id": 121,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        115
+      ],
+      "reorient": "0"
+    },
+    "name": "FO",
+    "xOffset": 200,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "creationOrder": {
+    "Charlie": 22,
+    "Alpha": 32,
+    "Bravo": 42
+  },
+  "listing": [
+    22,
+    32,
+    42
+  ],
+  "isCreationOrder": true,
+  "isStable": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": 121,
+  "mate1": {
+    "csys": 107,
+    "flip": "-Z",
+    "path": [
+      113
+    ],
+    "reorient": "90"
+  },
+  "mate2": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      115
+    ],
+    "reorient": "0"
+  },
+  "name": "MyFastened",
+  "xOffset": 25,
+  "xRotation": 0.5,
+  "yOffset": 10,
+  "yRotation": 0.5235987755982988,
+  "zOffset": -5,
+  "zRotation": 0
+}

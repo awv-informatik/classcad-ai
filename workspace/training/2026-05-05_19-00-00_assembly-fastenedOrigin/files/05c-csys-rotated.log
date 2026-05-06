@@ -1,0 +1,3 @@
+[05c] result: 119 maxLevel: 31
+[05c] COG with wcsRotated: {"x":20,"y":15,"z":10}
+[filewrite] files/05c-csys-rotated-mass-csys-rotated.json (75 bytes)

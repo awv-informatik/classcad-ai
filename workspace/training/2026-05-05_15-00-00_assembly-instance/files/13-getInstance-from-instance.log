@@ -1,0 +1,6 @@
+[13] inner instances: 115 117
+[13] children of subInst: [120,121] maxLevel: 31
+[13] InnerA from subInst: 120 maxLevel: 31
+[13] children of tplB: [115,117]
+[13] template children == instance children? false
+[filewrite] files/13-getInstance-from-instance-getInstance-comparison.json (106 bytes)

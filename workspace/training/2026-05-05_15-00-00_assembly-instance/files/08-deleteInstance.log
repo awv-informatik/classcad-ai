@@ -1,0 +1,14 @@
+[08] created: [105,107,109,111]
+[08] delete B: null maxLevel: 31
+[08] remaining after delete B: [105,109,111]
+[08] delete C+D: null maxLevel: 31
+[08] remaining after delete C+D: [105]
+[08] re-delete B: null maxLevel: 51
+[08] re-delete msgs: [{"api":"v1.assembly.deleteInstance","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteInstance","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/08-deleteInstance-re-delete-response.json (440 bytes)
+[08] empty ids: null maxLevel: 31
+[08] invalid id: null maxLevel: 51
+[08] invalid msgs: [{"api":"v1.assembly.deleteInstance","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteInstance","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/08-deleteInstance-invalid-delete-response.json (440 bytes)
+[08] root mass: {"cog":{"x":20,"y":15,"z":10},"volume":24000}
+[08] predicted: COG=[20,15,10] volume=24000

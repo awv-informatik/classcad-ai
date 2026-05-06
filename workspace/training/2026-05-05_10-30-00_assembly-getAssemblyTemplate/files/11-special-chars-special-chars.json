@@ -1,0 +1,35 @@
+{
+  "created": {
+    "t1": 22,
+    "t2": 32,
+    "t3": 42
+  },
+  "origNames": {
+    "My Sub (v2)": {
+      "result": null,
+      "maxLevel": 51
+    },
+    "Gear-Box_01": {
+      "result": null,
+      "maxLevel": 51
+    },
+    "A B C": {
+      "result": null,
+      "maxLevel": 51
+    }
+  },
+  "sanitizedNames": {
+    "My_Sub__v2_": {
+      "result": 22,
+      "maxLevel": 31
+    },
+    "Gear_Box_01": {
+      "result": 32,
+      "maxLevel": 31
+    },
+    "A_B_C": {
+      "result": 42,
+      "maxLevel": 31
+    }
+  }
+}

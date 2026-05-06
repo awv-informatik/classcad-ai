@@ -1,0 +1,22 @@
+{
+  "emptyUpdateResult": 119,
+  "emptyUpdateMaxLevel": 31,
+  "stateAfter": {
+    "id": 119,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "name": "FO1",
+    "xOffset": 50,
+    "xRotation": 0,
+    "yOffset": 30,
+    "yRotation": 0,
+    "zOffset": 10,
+    "zRotation": 0
+  }
+}

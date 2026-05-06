@@ -1,0 +1,5 @@
+[05] tplA: 22 wcsA: 107 tplB: 113 wcsB: 198
+[05] COG before: {"x":109.99999999999999,"y":17.5,"z":10}
+[05] fastened: 272 maxLevel: 31
+[05] COG after: {"x":35,"y":17.5,"z":10}
+[filewrite] files/05-csys-rotation-mass-comparison.json (235 bytes)

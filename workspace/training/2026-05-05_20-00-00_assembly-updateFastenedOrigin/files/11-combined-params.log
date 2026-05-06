@@ -1,0 +1,6 @@
+[11] baseline COG: {"x":70,"y":15,"z":10}
+[11] combined COG: {"x":94.99999999999999,"y":14.999999999999995,"z":-1.212659602363904e-15}
+[11] state: {"flip":"-Z","reorient":"90","xOffset":50,"yOffset":30,"zRotation":1.5707963267948966}
+[11] after zeroing offsets COG: {"x":70,"y":-2.4253192047278086e-15,"z":-6.063298011819521e-16}
+[11] partial state: {"flip":"-Z","reorient":"90","xOffset":0,"yOffset":0,"zRotation":1.5707963267948966}
+[filewrite] files/11-combined-params-combined-results.json (920 bytes)

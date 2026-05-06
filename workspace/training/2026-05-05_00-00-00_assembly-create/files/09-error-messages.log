@@ -1,0 +1,4 @@
+[09] first create: 12 maxLevel: 31
+[09] second create: null maxLevel: 51
+[09] second messages: [{"api":"v1.assembly.create","code":1200,"level":51,"levelStr":"ERROR","message":"There is already a root assembly or part which must be removed first."}]
+[filewrite] files/09-error-messages-double-create-error.json (261 bytes)

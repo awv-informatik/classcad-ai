@@ -1,0 +1,4 @@
+[10] root mass: {"cog":{"x":60,"y":15,"z":10},"volume":48000}
+[filewrite] files/10-scale-matrix-verify-root-mass.json (75 bytes)
+[10] if scale ignored: combined COG=[60,15,10] vol=48000
+[10] if scale applied: combined COG=[70,22.5,15] vol=24000+192000=216000

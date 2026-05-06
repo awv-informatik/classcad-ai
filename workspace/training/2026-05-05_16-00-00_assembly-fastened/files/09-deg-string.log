@@ -1,0 +1,4 @@
+[09] deg fastened: 121 maxLevel: 31
+[09] COG with zRotation "90deg": {"x":62.5,"y":27.5,"z":9.999999999999993}
+[09] stored zRotation: 1.5707963267948966
+[filewrite] files/09-deg-string-deg-results.json (550 bytes)

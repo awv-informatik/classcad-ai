@@ -1,0 +1,5 @@
+[13] COG before: {"x":57.50000000000001,"y":25,"z":15}
+[13] fastened with UCT: 123 maxLevel: 31
+[13] COG after UCT: {"x":57.50000000000001,"y":25,"z":15}
+[13] computed offsets: {"x":75,"y":20,"z":10}
+[filewrite] files/13-useCurrentTransform-uct-data.json (658 bytes)

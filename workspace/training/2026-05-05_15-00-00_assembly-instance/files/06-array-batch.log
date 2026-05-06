@@ -1,0 +1,8 @@
+[06] batch result: [105,107,109]
+[06] batch maxLevel: 31
+[06] batch messages: []
+[filewrite] files/06-array-batch-batch-response.json (83 bytes)
+[06] isArray: true
+[06] count: 3
+[06] root mass: {"cog":{"x":80,"y":15,"z":10},"volume":72000}
+[06] predicted COG: [80, 15, 10]

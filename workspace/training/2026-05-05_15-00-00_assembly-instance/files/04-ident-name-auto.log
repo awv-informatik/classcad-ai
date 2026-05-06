@@ -1,0 +1,8 @@
+[04] auto-name result: 105 maxLevel: 31
+[04] auto-name2 result: 107 maxLevel: 31
+[04] ident result: 111 maxLevel: 31
+[04] id: 105 name: Plate class: CC_ProductReference
+[04] id: 107 name: Plate0 class: CC_ProductReference
+[04] id: 111 name: Custom class: CC_ProductReference
+[filewrite] files/04-ident-name-auto-structure.json (31691 bytes)
+[04] duplicate name result: 113 maxLevel: 31

@@ -1,0 +1,4 @@
+[05b] result: 119 maxLevel: 31
+[filewrite] files/05b-csys-center-fo-response.json (55 bytes)
+[05b] COG with wcsCenter: {"x":20,"y":15,"z":10}
+[filewrite] files/05b-csys-center-mass-csys-center.json (75 bytes)

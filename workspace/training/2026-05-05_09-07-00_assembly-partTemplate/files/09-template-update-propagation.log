@@ -1,0 +1,9 @@
+[09] boxId: 70
+[09] i1 vol before: 24000 cog: {"x":30,"y":20,"z":5}
+[09] i2 vol before: 24000 cog: {"x":109.99999999999999,"y":19.999999999999993,"z":4.999999999999998}
+[09] updateBox maxLevel: 31
+[09] i1 vol after: 24000 cog: {"x":30,"y":20,"z":5}
+[09] i2 vol after: 24000 cog: {"x":109.99999999999999,"y":19.999999999999993,"z":4.999999999999998}
+[09] volume changed? false
+[09] both instances updated? true
+[filewrite] files/09-template-update-propagation-propagation.json (612 bytes)

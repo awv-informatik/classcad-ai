@@ -1,0 +1,21 @@
+{
+  "listAll": {
+    "result": [],
+    "maxLevel": 31,
+    "isArray": true,
+    "messages": []
+  },
+  "byName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"Foo\" could not be found"
+      }
+    ]
+  }
+}

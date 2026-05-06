@@ -1,0 +1,53 @@
+{
+  "cogBase": {
+    "x": 70,
+    "y": 15,
+    "z": 10
+  },
+  "cogCombined": {
+    "x": 94.99999999999999,
+    "y": 14.999999999999995,
+    "z": -1.212659602363904e-15
+  },
+  "cogAfterPartial": {
+    "x": 70,
+    "y": -2.4253192047278086e-15,
+    "z": -6.063298011819521e-16
+  },
+  "stateCombined": {
+    "id": 125,
+    "mate1": {
+      "csys": 107,
+      "flip": "-Z",
+      "path": [
+        121
+      ],
+      "reorient": "90"
+    },
+    "name": "FO_Target",
+    "xOffset": 50,
+    "xRotation": 0,
+    "yOffset": 30,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 1.5707963267948966
+  },
+  "stateAfterPartial": {
+    "id": 125,
+    "mate1": {
+      "csys": 107,
+      "flip": "-Z",
+      "path": [
+        121
+      ],
+      "reorient": "90"
+    },
+    "name": "FO_Target",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 1.5707963267948966
+  }
+}

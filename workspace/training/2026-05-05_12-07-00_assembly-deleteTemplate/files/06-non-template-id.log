@@ -1,0 +1,7 @@
+[06] asmId: 12 tplId: 22 instId: 105
+[06] delete asmId - result: null maxLevel: 31 messages: []
+[06] templates after deleting asmId: [22]
+[06] instances after deleting asmId: null
+[06] delete instId - result: null maxLevel: 51 messages: [{"api":"v1.assembly.deleteTemplate","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteTemplate","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[06] instances after deleting instId: null
+[filewrite] files/06-non-template-id-non-template-id-results.json (701 bytes)

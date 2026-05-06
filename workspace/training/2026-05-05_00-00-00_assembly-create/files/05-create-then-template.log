@@ -1,0 +1,7 @@
+[05] asmId: 12
+[05] tplId: 22
+[05] boxId: 70
+[05] setCurrentProduct returned (previous): 22
+[05] inst1: 105
+[05] mass props: {"cog":{"x":30,"y":20,"z":5},"volume":24000}
+[filewrite] files/05-create-then-template-mass-props-assembly.json (74 bytes)

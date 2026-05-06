@@ -1,0 +1,4 @@
+[04b] fastenedOrigin result: 119 maxLevel: 31
+[filewrite] files/04b-radians-fo-radians-response.json (55 bytes)
+[04b] COG: {"x":-15,"y":20,"z":9.999999999999998}
+[filewrite] files/04b-radians-mass-radians.json (91 bytes)

@@ -1,0 +1,14 @@
+[12] string productId: 107 maxLevel: 31
+[12] string ownerId: 109 maxLevel: 31
+[12] with ident: 111 maxLevel: 31
+[12] find by ident as name: []
+[12] another ident: 113 maxLevel: 31
+[12] user data keys on instance with ident: []
+[12] instance with ident members:
+   partName : ""
+   productId : 22
+   isDirty : 0
+   localPath : ""
+   ownPart : 0
+   productRefsET : undefined
+   _VERSION : "1/2021_8_23_09:15"

@@ -1,0 +1,4 @@
+[07] tpl: 22 wcs: 107
+[07] zRotation pi/2: 121 maxLevel: 31
+[07] COG with zRot 90°: {"x":62.5,"y":27.5,"z":9.999999999999993}
+[filewrite] files/07-rotation-mass-zrot90.json (94 bytes)

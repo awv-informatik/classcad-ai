@@ -1,0 +1,7 @@
+[06] created: 22 32 42
+[06] before delete: [ 22, 32, 42 ]
+[06] delete result: null maxLevel: 31
+[06] after delete: [ 22, 42 ]
+[06] find deleted: null maxLevel: 51
+[06] Keep: 22 AlsoKeep: 42
+[filewrite] files/06-after-delete-after-delete.json (249 bytes)

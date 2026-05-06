@@ -1,0 +1,134 @@
+{
+  "Z": {
+    "foId": 119,
+    "maxLevel": 31,
+    "state": {
+      "id": 119,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          113
+        ],
+        "reorient": "0"
+      },
+      "name": "FO_Z",
+      "xOffset": 0,
+      "xRotation": 0,
+      "yOffset": 0,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0
+    }
+  },
+  "-Z": {
+    "foId": 125,
+    "maxLevel": 31,
+    "state": {
+      "id": 125,
+      "mate1": {
+        "csys": 107,
+        "flip": "-Z",
+        "path": [
+          121
+        ],
+        "reorient": "0"
+      },
+      "name": "FO_-Z",
+      "xOffset": 0,
+      "xRotation": 0,
+      "yOffset": 0,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0
+    }
+  },
+  "X": {
+    "foId": 131,
+    "maxLevel": 31,
+    "state": {
+      "id": 131,
+      "mate1": {
+        "csys": 107,
+        "flip": "X",
+        "path": [
+          127
+        ],
+        "reorient": "0"
+      },
+      "name": "FO_X",
+      "xOffset": 0,
+      "xRotation": 0,
+      "yOffset": 0,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0
+    }
+  },
+  "-X": {
+    "foId": 137,
+    "maxLevel": 31,
+    "state": {
+      "id": 137,
+      "mate1": {
+        "csys": 107,
+        "flip": "-X",
+        "path": [
+          133
+        ],
+        "reorient": "0"
+      },
+      "name": "FO_-X",
+      "xOffset": 0,
+      "xRotation": 0,
+      "yOffset": 0,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0
+    }
+  },
+  "Y": {
+    "foId": 143,
+    "maxLevel": 31,
+    "state": {
+      "id": 143,
+      "mate1": {
+        "csys": 107,
+        "flip": "Y",
+        "path": [
+          139
+        ],
+        "reorient": "0"
+      },
+      "name": "FO_Y",
+      "xOffset": 0,
+      "xRotation": 0,
+      "yOffset": 0,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0
+    }
+  },
+  "-Y": {
+    "foId": 149,
+    "maxLevel": 31,
+    "state": {
+      "id": 149,
+      "mate1": {
+        "csys": 107,
+        "flip": "-Y",
+        "path": [
+          145
+        ],
+        "reorient": "0"
+      },
+      "name": "FO_-Y",
+      "xOffset": 0,
+      "xRotation": 0,
+      "yOffset": 0,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0
+    }
+  }
+}

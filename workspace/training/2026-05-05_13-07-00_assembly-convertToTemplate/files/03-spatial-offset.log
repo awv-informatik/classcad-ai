@@ -1,0 +1,5 @@
+[03] root COG before convert: {"cog":{"x":69.99999999999999,"y":39.99999999999999,"z":24.999999999999993},"volume":7999.999999999998}
+[03] convertedId: 12 newRoot: 108
+[03] nested instance COG: {"cog":{"x":170,"y":40,"z":25},"volume":7999.999999999998}
+[03] at-origin instance COG: {"cog":{"x":69.99999999999999,"y":39.99999999999999,"z":24.999999999999993},"volume":7999.999999999998}
+[filewrite] files/03-spatial-offset-offset-verification.json (676 bytes)

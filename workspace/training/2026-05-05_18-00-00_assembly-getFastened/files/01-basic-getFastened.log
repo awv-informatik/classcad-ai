@@ -1,0 +1,15 @@
+[01] fastened created, id: 121
+[01] getFastened maxLevel: 31
+[filewrite] files/01-basic-getFastened-getFastened-result.json (344 bytes)
+[01] result.id: 121
+[01] result.name: Joint1
+[01] result.xOffset: 50
+[01] result.yOffset: 0
+[01] result.zOffset: 0
+[01] result.xRotation: 0
+[01] result.yRotation: 0
+[01] result.zRotation: 0
+[01] mate1 keys: [ 'csys', 'flip', 'path', 'reorient' ]
+[01] mate2 keys: [ 'csys', 'flip', 'path', 'reorient' ]
+[01] mate1: {"csys":107,"flip":"Z","path":[113],"reorient":"0"}
+[01] mate2: {"csys":107,"flip":"Z","path":[115],"reorient":"0"}

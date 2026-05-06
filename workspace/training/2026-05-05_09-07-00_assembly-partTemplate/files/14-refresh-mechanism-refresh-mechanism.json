@@ -1,0 +1,8 @@
+{
+  "volBefore": 24000,
+  "tplVol": 96000,
+  "volBeforeNewInstance": 24000,
+  "volAfterNewInstance": 24000,
+  "newInstanceVol": 96000,
+  "triggeredByNewInstance": false
+}

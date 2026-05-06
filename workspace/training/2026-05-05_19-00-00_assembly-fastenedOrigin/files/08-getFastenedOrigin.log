@@ -1,0 +1,7 @@
+[08] created: 119 maxLevel: 31
+[08] getFastenedOrigin: {"id":119,"mate1":{"csys":107,"flip":"-Z","path":[113],"reorient":"90"},"name":"TestFO","xOffset":10,"xRotation":0.7853981633974483,"yOffset":20,"yRotation":0.5,"zOffset":30,"zRotation":1.5707963267948966}
+[filewrite] files/08-getFastenedOrigin-get-fo-state.json (281 bytes)
+[08] nonexistent name: null maxLevel: 51
+[filewrite] files/08-getFastenedOrigin-get-fo-bad-name.json (303 bytes)
+[08] instance id: null maxLevel: 51
+[filewrite] files/08-getFastenedOrigin-get-fo-instance-id.json (263 bytes)

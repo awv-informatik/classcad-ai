@@ -1,0 +1,9 @@
+[11] created: 22 32 42
+[11] all templates: [ 22, 32, 42 ]
+[11] "My Sub (v2)": null maxLevel: 51
+[11] "Gear-Box_01": null maxLevel: 51
+[11] "A B C": null maxLevel: 51
+[11] "My_Sub__v2_": 22 maxLevel: 31
+[11] "Gear_Box_01": 32 maxLevel: 31
+[11] "A_B_C": 42 maxLevel: 31
+[filewrite] files/11-special-chars-special-chars.json (518 bytes)

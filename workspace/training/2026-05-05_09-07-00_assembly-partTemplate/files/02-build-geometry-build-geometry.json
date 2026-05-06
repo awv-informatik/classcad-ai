@@ -1,0 +1,17 @@
+{
+  "boxId": 70,
+  "wcsId": 107,
+  "structAfterBox": {
+    "root": 12,
+    "currentProduct": 22,
+    "currentInstance": 12
+  },
+  "massProperties": {
+    "cog": {
+      "x": 30,
+      "y": 20,
+      "z": 5
+    },
+    "volume": 24000
+  }
+}

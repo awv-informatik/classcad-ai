@@ -1,0 +1,7 @@
+{
+  "volBefore": 24000,
+  "templateVolAfterUpdate": 96000,
+  "instanceVolAfterAsmRecalc": 24000,
+  "asmTotalVol": 24000,
+  "propagated": false
+}

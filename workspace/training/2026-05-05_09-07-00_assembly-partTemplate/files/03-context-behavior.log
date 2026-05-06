@@ -1,0 +1,8 @@
+[03] asmId: 12
+[03] currentProduct before partTemplate (setCP returns prev): 12
+[03] tplId: 22 currentProduct after partTemplate: 12
+[03] instance WITHOUT setCurrentProduct back - result: 68 maxLevel: 31
+[03] currentProduct after instance: 12
+[03] part.box result: 72 currentProduct after part.box: 22
+[03] instance after part.box (no setCP) - result: 107 maxLevel: 31
+[filewrite] files/03-context-behavior-context-behavior.json (232 bytes)

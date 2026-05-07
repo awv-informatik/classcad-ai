@@ -168,6 +168,37 @@ traverse(tree, tree[root], [], 0, handleNode)
 Skip these transforms and an AS1-style assembly renders as five overlapping
 parts at the origin — the canonical "wrong" picture.
 
+### `part.solids` is the bridge `containerId`
+
+The IDs in `part.solids` double as the `containerId` field of the bridge
+selection triplet (`bridge.get_selection` / `bridge.set_selection`). The
+canonical containerId for any graphic on the part's *current* brep is
+`part.solids[0]` — the entry the live viewer is rendering.
+
+Each feature that creates a new solid (`part.fillet`, `part.chamfer`,
+`solid.boolean*`, `part.extrusion`, ...) rotates the part's `solids[0]` to a
+new id. The previous CC_Solid is kept in the tree tagged `consumed: 1` —
+its old container id remains addressable as a backwards-compat alias for
+graphics that originated before the feature, but it is **not** the right
+container for graphics created by the feature itself (a new fillet's face,
+arcs, etc. only exist in the new container).
+
+Practical consequences for `bridge.set_selection`:
+
+- Always re-derive `containerId` from `inspect(partId).solids[0]` *just
+  before* setting the selection. Do not cache it across mutations, and do
+  not copy it from an older `bridge.get_selection` / `bridge.pick` result if
+  any feature has run since.
+- The bridge tolerantly round-trips a stale containerId (a
+  `bridge.get_selection` immediately after `bridge.set_selection` will echo
+  whatever you sent), so a successful round-trip is **not** evidence the
+  viewer is rendering the right thing. The only reliable confirmation is
+  visual or via a fresh pick.
+- Imported negative graphicIds resolve cleanly under the live container
+  too (e.g. `{containerId: 403, graphicId: -46, prodRefId: 59}` works after
+  a fillet). When in doubt, prefer the live container — it works for
+  every surviving graphic, plus everything the new feature added.
+
 ## Live access from agents
 
 The harness ([scripts/client.mjs](../../../scripts/client.mjs)) caches the

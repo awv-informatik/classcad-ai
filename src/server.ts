@@ -15,8 +15,11 @@ import { registerStateTools } from './tools/state.js'
 import { registerCallTool } from './tools/call.js'
 import { registerDocsTools } from './tools/docs.js'
 import { registerSnapshotTool } from './tools/snapshot.js'
+import { registerBridgeTools } from './tools/bridge.js'
+import { startBridgeServer, type BridgeRegistry } from './bridge/server.js'
 
 const WS_URL = process.env.CLASSCAD_WS_URL ?? 'ws://0.0.0.0:9094/'
+const BRIDGE_LISTEN = process.env.CLASSCAD_BRIDGE_LISTEN ?? 'ws://localhost:9096/bridge'
 const VERSION = '0.1.0'
 
 async function main(): Promise<void> {
@@ -83,8 +86,24 @@ async function main(): Promise<void> {
   registerDocsTools(server)
   registerSnapshotTool(server, client)
 
+  // Optional in-app bridge listener. CC apps connect outbound to this WS to
+  // expose their client-side state (selection, etc.). If the port is busy or
+  // listening fails, the rest of the MCP still starts — the bridge tools just
+  // report "no bridge connected" until the listener succeeds.
+  let bridgeRegistry: BridgeRegistry | null = null
+  try {
+    bridgeRegistry = await startBridgeServer({ listen: BRIDGE_LISTEN })
+    registerBridgeTools(server, client, bridgeRegistry)
+  } catch (err) {
+    process.stderr.write(`[classcad-mcp] bridge listener failed (${BRIDGE_LISTEN}): ${err instanceof Error ? err.message : err}\n`)
+  }
+
   // Cleanly close the WS on shutdown.
-  const shutdown = () => { try { client.close() } catch {} ; process.exit(0) }
+  const shutdown = () => {
+    try { client.close() } catch {}
+    if (bridgeRegistry) { bridgeRegistry.close().catch(() => {}) }
+    process.exit(0)
+  }
   process.on('SIGINT', shutdown)
   process.on('SIGTERM', shutdown)
 

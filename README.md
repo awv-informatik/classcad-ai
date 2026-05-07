@@ -123,17 +123,23 @@ Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snipp
 | `list_methods`    | ✓      | Enumerate API endpoints (filter by domain or substring)   |
 | `describe_method` | ✓      | JSDoc + LLM-oriented gotchas from classcad-skill          |
 | `snapshot`        | ✓      | Inline PNG render — single composite of the requested layers |
+| `bridge.list_clients`   | ✓ | Enumerate CC apps that connected an app-state bridge for the current session |
+| `bridge.get_selection`  | ✓ | Read the connected app's current selection (resolved + raw triplet) |
+| `bridge.set_selection`  | ✓ | Set the connected app's selection from raw `{containerId, graphicId, prodRefId}` triplets |
 
 `snapshot` accepts `view` (`iso` default, plus `top`/`bottom`/`front`/`back`/`left`/`right`), `zoom`, `lookAt`, and `layers`. **Default `layers` = `["solid"]`** — only the 3D model. Other layers (`sketch`, `curves`, `workgeo`) are opt-in. When multiple layers are requested they are MERGED into one PNG: the 3D layers (solid, curves, workgeo) share a camera and are alpha-composited; sketches sit beneath the 3D view as a row of 2D panels.
+
+The `bridge.*` tools require a CC app to have connected a bridge for the same `ClassCAD-Session-Id` that `use_session` is attached to. If no bridge is registered, these tools return a `"no bridge connected"` error and the rest of the MCP keeps working unchanged. See [App-state bridge](#app-state-bridge) below.
 
 ---
 
 ## Environment variables
 
-| Variable             | Purpose                                                                |
-| -------------------- | ---------------------------------------------------------------------- |
-| `CLASSCAD_WS_URL`    | WebSocket URL of the classcad-cli worker. Default: `ws://localhost:9094/` |
-| `CLASSCAD_SKILL_PATH` | Override the path to a `classcad-skill` checkout for `describe_method`. By default the bundled submodule is used; falls back to JSDoc-only if unavailable. |
+| Variable                  | Purpose                                                                |
+| ------------------------- | ---------------------------------------------------------------------- |
+| `CLASSCAD_WS_URL`         | WebSocket URL of the classcad-cli worker. Default: `ws://localhost:9094/` |
+| `CLASSCAD_SKILL_PATH`     | Override the path to a `classcad-skill` checkout for `describe_method`. By default the bundled submodule is used; falls back to JSDoc-only if unavailable. |
+| `CLASSCAD_BRIDGE_LISTEN`  | URL where the MCP listens for inbound app bridge connections. Default: `ws://localhost:9096/bridge`. Set to a different port if 9096 is taken. The MCP starts up cleanly even if this listener fails to bind — bridge tools just report "no bridge connected" until it succeeds. |
 
 ### Attaching to an existing session
 
@@ -144,6 +150,108 @@ use_session(sessionId="test-session")
 ```
 
 Subsequent tool calls operate on that shared session. Call `use_session()` with no argument (or `sessionId=""`) to reconnect with no header. `session_info` reports the current session id.
+
+---
+
+## App-state bridge
+
+The classcad MCP can read and write *client-side* state (selections, picks, soon: more) of any CC-based app — provided the app opens an outbound WebSocket back to the MCP and announces itself for the same session. This bridges the gap between server-side ClassCAD state (structure tree, geometry — already accessible via the existing tools) and *app*-side state which only the running app knows about.
+
+### How it works
+
+```
+                                     announce + events     ┌────────────────┐
+   stdio (Claude / VS Code) ─────► cc MCP ──── ws ────────►│ buerligons     │
+                                  ┌──────┐    requests     │ (or any CC app)│
+                                  │bridge│                 └────────────────┘
+                                  │ tools│
+                                  └──────┘
+                                     │
+                                     ▼
+                       ws://localhost:9094 (existing classcad)
+```
+
+- The MCP boots a small WS listener (default `ws://localhost:9096/bridge`).
+- A CC app, on startup, opens an outbound WebSocket to that URL and sends an `announce` message with its `sessionId`, `drawingId`, app name, and a list of capabilities it implements.
+- The MCP keeps a registry keyed by `sessionId`. The `bridge.*` tools route requests to the app whose `sessionId` matches whatever `use_session` is currently attached to.
+- If no app is connected for the current session, the bridge tools return a clean error — the rest of the MCP is unaffected.
+
+The bridge is purely **additive**: rest of the MCP keeps working with no app attached, and apps can opt in or out per page-load.
+
+### v1 capabilities
+
+Currently `selection.*` only — read and write. View / camera, current product, hover, etc. will follow.
+
+| Capability         | What the app exposes |
+| ------------------ | -------------------- |
+| `selection.read`   | The user's current selection — kind (`face`/`edge`/`vertex`/...), `classcadId`, optional resolved `position`/`normal`, and the raw `{containerId, graphicId, prodRefId}` triplet that round-trips into ClassCAD API calls. |
+| `selection.write`  | Setting the selection from raw triplets (or `classcadId`s the bridge can resolve). |
+
+There's no Promise-based "pick" method by design — natural-flow conversation ("pick stuff in the UI, then tell me to do X") plus `bridge.get_selection` is strictly more flexible than a blocking pick API. The user keeps full control of view, multi-select, and pause-to-think; the model reads the final selection when the user signals intent.
+
+### Implementing a bridge for your app
+
+The wire format is a JSON envelope per message — see `src/bridge/protocol.ts` for the full type surface.
+
+On open, the app sends:
+
+```json
+{
+  "type": "announce",
+  "protocolVersion": 1,
+  "sessionId": "test-session",
+  "drawingId": "<your drawing id>",
+  "app": "buerligons",
+  "capabilities": ["selection.read", "selection.write"],
+  "clientId": "buerligons-abc123"
+}
+```
+
+Then it handles inbound `request` messages (the MCP asking for something) and emits `event` messages (the app pushing state changes):
+
+```json
+// MCP → app
+{ "type": "request", "id": 7, "method": "selection.get" }
+
+// app → MCP (response to id 7)
+{ "type": "response", "id": 7, "result": [{"kind":"face", "classcadId":460, "raw":{"containerId":514, "graphicId":-17, "prodRefId":319}}] }
+
+// app → MCP (push, on user pick)
+{ "type": "event", "channel": "selection.changed", "payload": {"items": [...]} }
+```
+
+Selection entities carry **both** resolved fields (`position`, `normal`, `kind`) and the raw triplet `{containerId, graphicId, prodRefId}`. The MCP can pass `raw.graphicId` straight into a ClassCAD API call (e.g. `v1.sketch.create({planeId: raw.graphicId})`) without needing to resolve anything client-side.
+
+### Reference implementation: buerligons
+
+`packages/modeler/src/mcpBridge.ts` in the buerli monorepo is a complete reference implementation in ~200 lines. It reuses two buerli APIs that already do the right thing:
+
+- `getDrawing(id).interaction.selected` — current selection (read)
+- `drawing.api.interaction.setSelected([info])` — set selection (write)
+
+In `initBuerli.ts`, it's wired up post-`client.on('connected')`:
+
+```ts
+const mcpBridgeUrl = new URLSearchParams(window.location.search).get('mcpBridge')
+                  ?? (sessionId ? 'ws://localhost:9096/bridge' : null)
+if (mcpBridgeUrl && sessionId) {
+  client.on('connected', () => {
+    connectMcpBridge({ url: mcpBridgeUrl, drawingId: id, sessionId, app: 'buerligons' })
+  })
+}
+```
+
+The bridge auto-reconnects with backoff; if the MCP isn't running the WS open just fails silently and buerligons works normally. Pass `?mcpBridge=off` to disable the default.
+
+### End-to-end usage
+
+1. Start `classcad-cli worker` on `:9094`.
+2. Start a Claude Code (or other MCP host) session — the cc MCP starts and binds the bridge listener on `:9096`.
+3. Open buerligons (or any CC app with a bridge) at `?sessionId=<your-session>` — it auto-connects the bridge.
+4. From the host: `use_session("<your-session>")`, then any of:
+   - `bridge.list_clients` — confirm the app is registered.
+   - `bridge.get_selection` — read what the user has currently selected. Combine with `call_api v1.sketch.create({planeId: result.items[0].raw.graphicId})` to act on it.
+   - `bridge.set_selection [{containerId, graphicId, prodRefId}]` — highlight an entity in the app's UI (e.g. to show the user what an LLM-driven action is about to operate on).
 
 ---
 

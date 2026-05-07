@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 // server.ts — ClassCAD MCP server entry point.
 //
-// Speaks Model Context Protocol over stdio. Connects to a ClassCAD worker on
-// startup (CLASSCAD_WS_URL, default ws://0.0.0.0:9094/) and stays connected
-// for the life of the process.
+// Speaks Model Context Protocol over stdio. The WebSocket to the ClassCAD
+// worker (CLASSCAD_WS_URL, default ws://0.0.0.0:9094/) is opened lazily on
+// the first tool call — either use_session (named session) or any geometry
+// tool (anonymous session).
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
-import { connect, type Client } from './client.js'
+import { connect } from './client.js'
 import { registerLifecycleTools } from './tools/lifecycle.js'
 import { registerStateTools } from './tools/state.js'
 import { registerCallTool } from './tools/call.js'
@@ -19,21 +20,11 @@ const WS_URL = process.env.CLASSCAD_WS_URL ?? 'ws://0.0.0.0:9094/'
 const VERSION = '0.1.0'
 
 async function main(): Promise<void> {
-  // Connect to the worker before announcing the server. If the worker isn't
-  // up, fail fast with a clear message — the host won't see ambiguous tool
-  // errors mid-session.
-  // No session id by default — the worker auto-creates a fresh one. To attach
-  // to an existing session (e.g. one Buerligons is already using), call the
-  // use_session tool from the host.
-  let client: Client
-  try {
-    client = await connect(WS_URL, { graphics: true })
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err)
-    process.stderr.write(`[classcad-mcp] Failed to connect to ${WS_URL}: ${msg}\n`)
-    process.stderr.write(`[classcad-mcp] Start the worker with: classcad-cli worker\n`)
-    process.exit(1)
-  }
+  // Build the client without opening the WS. The first tool call that needs
+  // the worker will open it — either use_session (with a named session) or
+  // any geometry tool (with no session header). This keeps the MCP passive
+  // at startup so it never creates a stray ephemeral session.
+  const client = await connect(WS_URL, { graphics: true })
 
   const server = new McpServer({
     name: 'classcad',
@@ -48,7 +39,8 @@ async function main(): Promise<void> {
       inputSchema: {},
     },
     async () => {
-      const connected = client.ws.readyState === client.ws.OPEN
+      const ws = client.ws
+      const connected = ws ? ws.readyState === ws.OPEN : false
       const info = { wsUrl: client.url, sessionId: client.sessionId, connected, version: VERSION }
       return { content: [{ type: 'text', text: JSON.stringify(info, null, 2) }] }
     },
@@ -59,7 +51,7 @@ async function main(): Promise<void> {
     {
       title: 'Switch session',
       description:
-        'Reconnect the MCP\'s WebSocket to a specific ClassCAD session (sent as the ClassCAD-Session-Id header). Use this to attach to a session another client (e.g. Buerligons) is already using, so model changes are shared. Pass sessionId="" or omit it to reconnect with no session header (worker auto-creates a fresh session). Reconnecting clears cached structure/graphic state — the next tool call will repopulate it.',
+        'Call this BEFORE any other classcad tool when the user names a session — the MCP opens its WebSocket lazily, so the first tool call decides which session is used. Attaches to a specific ClassCAD session (sent as the ClassCAD-Session-Id header), e.g. one Buerligons is already using, so model changes are shared. Pass sessionId="" or omit it to (re)connect with no session header (worker auto-creates a fresh session). Reconnecting clears cached structure/graphic state — the next tool call will repopulate it.',
       inputSchema: {
         sessionId: z.string().optional()
           .describe('Target session id. Empty string or omitted = no header (default worker-assigned session).'),

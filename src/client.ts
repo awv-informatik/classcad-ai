@@ -37,7 +37,7 @@ export type Client = {
   getLastGraphic: () => Graphic | null
   refreshTree: () => Promise<Structure | null>
   reconnect: (sessionId: string | null) => Promise<void>
-  readonly ws: WebSocket
+  readonly ws: WebSocket | undefined
   readonly sessionId: string | null
   readonly url: string
 }
@@ -49,10 +49,16 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
 
   let lastGraphic: Graphic | null = null
   let lastStructure: Structure | null = null
-  let ws: WebSocket
-  let currentSessionId: string | null = null
+  let ws: WebSocket | undefined = undefined
+  // Tracks the *intended* session id. Starts as the value passed to connect()
+  // (typically null) and is updated by reconnect(). It only becomes the
+  // actual session id of the worker connection after openWs() succeeds.
+  let currentSessionId: string | null = opts.sessionId ?? null
+  // Single-flight guard so concurrent tool calls share one open attempt.
+  let connectPromise: Promise<void> | null = null
 
   function send(obj: object): void {
+    if (!ws) throw new Error('WebSocket not open')
     ws.send(JSON.stringify(obj))
   }
 
@@ -108,7 +114,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     })
   }
 
-  function request<T = unknown>(command: string, extra: object = {}): Promise<ApiResult<T>> {
+  async function request<T = unknown>(command: string, extra: object = {}): Promise<ApiResult<T>> {
+    await ensureOpen()
     const transactionID = randomUUID()
     return new Promise((resolve, reject) => {
       pending.set(transactionID, { resolve: resolve as (r: ApiResult) => void, reject })
@@ -122,6 +129,18 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         }, REQUEST_TIMEOUT)
       }
     })
+  }
+
+  // Open the WS lazily on first use. Single-flight: concurrent callers share
+  // the in-flight open. After a successful open, ws stays defined; close()
+  // and reconnect() reset it as needed.
+  async function ensureOpen(): Promise<void> {
+    if (ws && ws.readyState === WebSocket.OPEN) return
+    if (connectPromise) return connectPromise
+    connectPromise = openWs(currentSessionId).finally(() => {
+      connectPromise = null
+    })
+    return connectPromise
   }
 
   function execute<T = unknown>(task: object): Promise<ApiResult<T>> {
@@ -210,14 +229,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     lastStructure = null
 
     const wsOpts: WebSocket.ClientOptions = sessionId ? { headers: { 'ClassCAD-Session-Id': sessionId } } : {}
-    ws = new WebSocket(url, wsOpts)
+    const sock = new WebSocket(url, wsOpts)
+    ws = sock
 
     await new Promise<void>((resolve, reject) => {
-      ws.on('open', () => resolve())
-      ws.on('error', (err) => reject(err))
+      sock.on('open', () => resolve())
+      sock.on('error', (err) => reject(err))
       if (!debug) setTimeout(() => reject(new Error('Connection timeout')), CONNECT_TIMEOUT)
     })
-    ws.on('message', (d, b) => handleFrame(d, b))
+    sock.on('message', (d, b) => handleFrame(d, b))
 
     send({
       command: 'Configuration',
@@ -239,16 +259,20 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     })
     await new Promise((r) => setTimeout(r, 300))
 
-    currentSessionId = sessionId
-
     await bootstrapSession()
   }
 
   async function reconnect(sessionId: string | null): Promise<void> {
+    // Always perform an open so the caller gets back a connected, usable
+    // socket. Cancels any in-flight ensureOpen() so it doesn't race with us.
+    connectPromise = null
+    currentSessionId = sessionId
     await openWs(sessionId)
   }
 
-  await openWs(opts.sessionId ?? null)
+  // No eager open here. The WS is opened on first request/execute/refreshTree
+  // call (via ensureOpen) or immediately by reconnect(). This keeps the MCP
+  // passive at startup so it doesn't create stray ephemeral worker sessions.
 
   return {
     request,

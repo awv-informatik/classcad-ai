@@ -55,17 +55,26 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
     {
       title: 'Snapshot drawing',
       description:
-        'Render the current drawing. Returns ONE inline PNG image block AND its ' +
-        'absolute file path on disk (in $CLASSCAD_SNAPSHOT_DIR or <tmpdir>/classcad-snapshots).' +
+        'Render the current drawing to a PNG on disk and return its absolute path ' +
+        '(in $CLASSCAD_SNAPSHOT_DIR or <tmpdir>/classcad-snapshots). An inline PNG ' +
+        'image block is also returned as a bonus, but inline images are unreliable ' +
+        'across MCP hosts — many silently drop them, so the user sees nothing.' +
         '\n\n' +
-        'CALL THIS PROACTIVELY after every geometry change — features added, parameters ' +
-        'updated, booleans, fillets, deletes. The user wants to watch the model build, ' +
-        'not be asked.' +
+        'MANDATORY FOLLOW-UP — every snapshot call MUST be followed immediately by a ' +
+        '`Read` call on the absolute path returned in the response. This is ' +
+        'unconditional: do not wait for the user to complain that they cannot see the ' +
+        'image, do not skip it because the inline block "looks fine" in your tool ' +
+        'result (your view ≠ the user\'s view). The Read tool surfaces the PNG inline ' +
+        'reliably; the inline image block alone does not. Skipping the Read means the ' +
+        'user sees a status line and a path string instead of the picture they asked for.' +
         '\n\n' +
-        'IF THE USER SAYS THEY CANNOT SEE THE IMAGE: the inline PNG block may not be ' +
-        'rendered by their host. Read the absolute path from the metadata block and ' +
-        'either share it as-is, or use the Read tool on it so the image surfaces inline. ' +
-        'Do not call snapshot again — the file is already on disk.' +
+        'The PNG persists on disk — never call snapshot a second time to "retry ' +
+        'display." If the inline block did not render, just Read the path you already ' +
+        'have. Calling snapshot again only produces a new file with the same problem.' +
+        '\n\n' +
+        'CALL SNAPSHOT PROACTIVELY after every geometry change — features added, ' +
+        'parameters updated, booleans, fillets, deletes. The user wants to watch the ' +
+        'model build, not be asked. Each snapshot is then followed by its mandatory Read.' +
         '\n\n' +
         'Default = solid only — one image of the 3D model in the requested camera view. ' +
         'Other layers (sketches, curves, work geometry / axis triad) are OPT-IN via the ' +
@@ -144,13 +153,17 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         }
       }
 
-      // Compose the response: one text block with a clear paths summary,
-      // then the inline image blocks. The text block is the discoverable
-      // fallback for hosts that don't render inline images.
+      // Compose the response: a text block instructing the model to Read the
+      // path immediately (mandatory follow-up — inline images are unreliable
+      // across hosts), then the inline image blocks as a bonus for hosts that
+      // do render them.
       const pathsList = meta.map(m => `${m.type}: ${m.path} (${m.bytes} bytes)`).join('\n')
+      const readInstruction = imageBlocks.length === 1
+        ? `NEXT ACTION REQUIRED — call the Read tool on this path now to display the image to the user. Do not skip this; the inline image block above is unreliable.`
+        : `NEXT ACTION REQUIRED — call the Read tool on each of these paths now to display the images to the user. Do not skip this; the inline image blocks above are unreliable.`
       const summary =
-        `Rendered ${imageBlocks.length} image(s) for "${safeLabel}".\n` +
-        `Paths (read these with the Read tool if the inline images aren't visible):\n` +
+        `Rendered ${imageBlocks.length} image(s) for "${safeLabel}".\n\n` +
+        `${readInstruction}\n\n` +
         pathsList
 
       return {

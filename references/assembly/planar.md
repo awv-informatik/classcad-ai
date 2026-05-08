@@ -142,11 +142,103 @@ const planarId = (await api.v1.assembly.planar({
 })).result
 ```
 
+## getPlanar
+
+`getPlanar({ id: asmId, name: 'Planar1' })` — queries a planar constraint by name.
+
+### Parameters
+
+- `id` — **assembly root ID**. Instance/template IDs return null/error.
+- `name` — constraint name string (case-sensitive)
+
+### Return Value
+
+Success (`maxLevel: 31`):
+```js
+{
+  id, name,
+  mate1: { path, csys, flip, reorient },
+  mate2: { path, csys, flip, reorient },
+  zOffset,
+  xOffsetLimits: { min, max },
+  yOffsetLimits: { min, max },
+  zRotationLimits: { min, max }
+}
+```
+
+- `xOffsetLimits` / `yOffsetLimits` — always an object. No limits → `{ min: null, max: null }`. With limits → numbers.
+- `zRotationLimits` — always an object. No limits → `{ min: null, max: null }`. With limits → radians (degree strings converted on storage).
+- `flip` — string: `'Z'`, `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`
+- `reorient` — string: `'0'`, `'90'`, `'180'`, `'270'`
+
+### Failure Cases
+
+All return `result: null, maxLevel: 51`:
+- Non-existent name
+- Wrong constraint type (e.g., querying a revolute name)
+- Bogus or instance ID passed as `id` (error code 1006)
+
+### After Updates
+
+getPlanar is a live view. After `updatePlanar`:
+- Changed fields are immediately reflected
+- Renamed constraints are only findable under the new name — old name returns null
+
+### Batch
+
+Pass array of `{ id, name }` objects. Returns `Array<result|null>`.
+
+## updatePlanar
+
+`updatePlanar({ id: constraintId, ... })` — true partial update. Unspecified params preserved. Returns constraint ID on success, null + maxLevel=51 on failure. Supports batch: pass array, returns array.
+
+**`id` must be the constraint ID** (returned from `planar()`), NOT the assembly ID. Passing the assembly ID gives error code 1007.
+
+### What you can update
+
+- `zOffset: 40` — shifts inst2 along Z-axis (verified: COG.z changes by exactly the delta)
+- `xOffsetLimits: { min: 20, max: 60 }` — add/change X limits (solver re-clamps from default 0)
+- `yOffsetLimits: { min: 30, max: 70 }` — add/change Y limits
+- `zRotationLimits: { min: '-45deg', max: '90deg' }` — add/change rotation limits
+- `xOffsetLimits: { min: null, max: null }` — remove X limits
+- `yOffsetLimits: { min: null, max: null }` — remove Y limits
+- `zRotationLimits: { min: null, max: null }` — remove rotation limits
+- `mate2: { path: [instId], csys: wcsId, flip: '-Z', reorient: '90' }` — change flip/reorient (must include path+csys)
+- `name: 'NewName'` — rename; old name immediately unfindable via getPlanar
+- Batch: `updatePlanar([{ id: c1, ... }, { id: c2, ... }])` — returns `[c1Id, c2Id]`
+
+### Removing limits preserves position (CRITICAL — differs from create!)
+
+When limits are **removed** via `{ min: null, max: null }`, the solver does NOT reset the DOF to default 0. Instead, **the last solved position is preserved**. This is the opposite of creation, where free DOFs always start at 0.
+
+Example: planar with yOffsetLimits [30,70] → inst2 at y≈30. Remove limits → inst2 stays at y≈30, not y=0.
+
+This applies to all three limit types (xOffsetLimits, yOffsetLimits, zRotationLimits).
+
+### Mate updates require full sub-object
+
+Unlike revolute (where you can pass flip-only without path/csys), planar requires the full mate sub-object when updating flip or reorient:
+```js
+await api.v1.assembly.updatePlanar({
+  id: constraintId,
+  mate2: { path: [inst2], csys: wcsB, flip: '-Z', reorient: '90' }
+})
+```
+
+### Errors (all non-destructive)
+
+| Error | Message | Code |
+|-------|---------|------|
+| Assembly ID not constraint ID | "The provided id for the constraint is not a constraint or relation." | 1007 |
+| Nonexistent ID | "The provided constraint id does not exist." | 1006 |
+| Missing `id` | "'id' must be provided for update." | 1004 |
+
+All failures are non-destructive — constraint state is fully preserved after any error.
+
 ## Related
 
 - `assembly.revolute` — 1 DOF (rotation only), has fixed `zOffset`
 - `assembly.cylindrical` — 2 DOF (rotation + Z-translation), preserves initial Z-offset (differs from planar)
 - `assembly.fastened` — 0 DOF (rigid)
-- `assembly.updatePlanar` — modify after creation
-- `assembly.getPlanar` — query by name
 - `assembly.slider` — 1 DOF (translation only)
+- `assembly.startMovingUnderConstraints` / `moveUnderConstraints` — animate the planar DOFs

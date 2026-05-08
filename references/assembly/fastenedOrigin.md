@@ -36,11 +36,7 @@ When `useCurrentTransform: 1`, the constraint freezes the current instance posit
 
 ## getFastenedOrigin
 
-Query by name. Returns full constraint state including mate1, all offsets, and all rotations.
-
-- `id` param: **assembly root ID only** — instance IDs rejected with code 1007
-- Deg strings are stored internally as radians (e.g., `'45deg'` → `0.7853981633974483`)
-- Nonexistent name: returns null, maxLevel 51
+See dedicated doc: `getFastenedOrigin.md`
 
 ## updateFastenedOrigin
 

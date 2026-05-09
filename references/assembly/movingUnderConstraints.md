@@ -51,9 +51,19 @@ Defines the rotation center. For **constrained** joints (revolute, cylindrical, 
 
 ### CRITICAL: moves are absolute from session start, not incremental
 
-Each `moveUnderConstraints` call sets the position **from where the instance was at `startMoving` time**. Calling it twice with the same rotation replaces (not accumulates). To animate through multiple angles, use a single session and call move with increasing angles.
+Each `moveUnderConstraints` call sets the position **from where the instance was at `startMoving` time**. Calling it twice with the same rotation replaces (not accumulates). Within a single session, each move is absolute from the session-start position.
 
-For **constrained** joints, the rotation basis vectors appear to be interpreted relative to the constraint's zero position, not relative to the session start. Applying the same basis in a new session from an already-rotated position does NOT accumulate rotation.
+### Rotation accumulates across sessions
+
+Each new `start → move → finish` session starts from the instance's **current position** (wherever finish left it). The rotation basis vectors in `moveUnderConstraints` are applied as a **delta from session start**, not from the constraint's zero position. This means:
+
+- Session 1: 30° basis from 0° → instance at 30°
+- Session 2: 30° basis from 30° → instance at 60° (not 30°)
+- Identity rotation (no-op basis) keeps the instance at session start — it does NOT return to constraint zero
+
+To reach a specific absolute angle from the constraint zero, you must track the accumulated rotation and compute the remaining delta. To animate through angles [0°, 30°, 60°, 90°], either:
+- Use a single session and call move multiple times with 0°, 30°, 60°, 90° basis vectors (each replaces the previous), OR
+- Use separate sessions, but each basis represents the INCREMENTAL rotation from the previous session's end position
 
 ### Constraint solver projection
 
@@ -137,6 +147,22 @@ Empty `instanceIds` array (`[]`) is silently accepted without error.
 - **Multi-instance motion works.** All instances in `instanceIds` move together with the same transform.
 - **Worker hang risk.** Calling `moveUnderConstraints` without a prior `startMoving`, or with an invalid assembly ID, can hang the worker at 100% CPU. Always follow the full start → move → finish sequence.
 - **No bounds on offset values.** Negative and very large (1e6+) offsets work fine — no overflow or bounds checking.
+- **transformInstance has no lasting effect on constrained instances.** The API call succeeds but the constraint solver snaps the position back. Use MUC for constrained motion, transformInstance/transformInstanceTo for unconstrained.
+
+## State Machine
+
+| From → To | Safe? | Notes |
+|---|---|---|
+| idle → start | ✅ | Normal entry |
+| start → move | ✅ | Normal flow |
+| move → move | ✅ | Last move replaces previous |
+| move → finish | ✅ | Commits last move |
+| start → finish | ✅ | Commits no-change |
+| finish → finish | ✅ | Idempotent |
+| start → start | ✅ | Second overwrites first |
+| finish → start | ✅ | New session |
+| idle → move | ❌ | **Worker hang** (100% CPU) |
+| idle → finish | ❌ | **Worker hang** (100% CPU) |
 
 ## Working Example
 

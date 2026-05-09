@@ -96,7 +96,7 @@ Calling `moveUnderConstraints` with `offset: [0,0,0]` (or no params at all) retu
 |---|---|---|
 | `id` | yes | Assembly root ID |
 
-Commits the current position. The moved position **persists** — it does not revert.
+Commits the current position. The moved position **persists** — it does not revert, and survives OFB save/load cycles (the position is written into the instance transform). Calling finish twice is safe (idempotent). Calling start → finish without any move in between is also safe (commits the "no motion" state).
 
 ## Return Values
 
@@ -105,9 +105,10 @@ All three APIs return `VOID` (null) with maxLevel=31 on success.
 ## Server Leniency
 
 The three-step workflow is **not strictly enforced**, but skipping steps is dangerous:
-- `moveUnderConstraints` without prior `startMoving`: **can hang the worker** (100% CPU, requires kill -9). Do NOT rely on this being a safe no-op.
-- `finishMovingUnderConstraints` without prior `startMoving`: succeeds silently
+- `moveUnderConstraints` without prior `startMoving`: **hangs the worker** (100% CPU, requires kill -9)
+- `finishMovingUnderConstraints` without prior `startMoving`: **hangs the worker** (100% CPU, requires kill -9)
 - Double `startMovingUnderConstraints` without finish: second start succeeds
+- Double `finishMovingUnderConstraints`: safe, idempotent (second call is a no-op)
 - `moveUnderConstraints` with invalid assembly ID: **hangs the worker** (100% CPU)
 
 **Always use the full start → move → finish sequence.** Out-of-order calls risk worker hangs.

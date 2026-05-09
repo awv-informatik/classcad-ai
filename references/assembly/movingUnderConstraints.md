@@ -64,7 +64,7 @@ The solver projects the requested motion onto the available DOF:
 
 ### Rotation via basis vectors
 
-The `rotation` param uses three orthogonal direction vectors, not angles:
+The `rotation` param uses three **orthogonal** direction vectors, not angles:
 
 ```js
 // 90° CCW around Z:
@@ -80,7 +80,15 @@ rotation: { xDir: [1, 0, 0], yDir: [0, 0.707, -0.707], zDir: [0, 0.707, 0.707] }
 rotation: { xDir: [1, 0, 0], yDir: [0, 1, 0], zDir: [0, 0, 1] }
 ```
 
-When both `rotation` and `offset` are provided, rotation is applied first, then translation.
+**Non-orthogonal basis vectors are silently ignored** — no error, no warning, no rotation applied. Always ensure xDir, yDir, zDir are mutually perpendicular.
+
+### Composition order: rotation first, then translation
+
+When both `rotation` and `offset` are provided, rotation is applied first around the pivot point, then translation is applied in world-space. Confirmed numerically: for an instance at COG (80,10,5), a 90° Z rotation + offset(0,20,0) yields COG (10,-60,5) = rotate(80,10)→(10,-80) then +(0,20)→(10,-60).
+
+### Identity move as undo
+
+Calling `moveUnderConstraints` with `offset: [0,0,0]` (or no params at all) returns the instance to its position at session start. This effectively undoes all prior moves within the current session without needing `finishMovingUnderConstraints`.
 
 ## finishMovingUnderConstraints
 
@@ -96,12 +104,13 @@ All three APIs return `VOID` (null) with maxLevel=31 on success.
 
 ## Server Leniency
 
-The three-step workflow is **not strictly enforced**:
-- `moveUnderConstraints` without prior `startMoving`: succeeds silently (no-op)
+The three-step workflow is **not strictly enforced**, but skipping steps is dangerous:
+- `moveUnderConstraints` without prior `startMoving`: **can hang the worker** (100% CPU, requires kill -9). Do NOT rely on this being a safe no-op.
 - `finishMovingUnderConstraints` without prior `startMoving`: succeeds silently
 - Double `startMovingUnderConstraints` without finish: second start succeeds
+- `moveUnderConstraints` with invalid assembly ID: **hangs the worker** (100% CPU)
 
-Always use the full start → move → finish sequence for reliable behavior.
+**Always use the full start → move → finish sequence.** Out-of-order calls risk worker hangs.
 
 ## Common Errors
 
@@ -119,11 +128,14 @@ Empty `instanceIds` array (`[]`) is silently accepted without error.
 ## Gotchas
 
 - **Moves are absolute, not incremental.** Within a session, each `moveUnderConstraints` replaces the previous result. The position is always relative to the session start, not the last move.
+- **Non-orthogonal basis vectors are silently ignored.** No error, no warning, no rotation. Always verify your basis vectors are mutually perpendicular.
 - **mucType matters for rotation.** TRANSLATION modes silently ignore the `rotation` param. Only `ROTATION` mode applies rotations.
-- **Constrained axis motion is silently ignored.** No error or warning — the solver just projects onto available DOF.
+- **Constrained axis motion is silently ignored.** No error or warning — the solver just projects onto available DOF. For revolute joints, the `offset` param has zero effect even when combined with rotation.
 - **Rotation limits are silently clamped.** No error for beyond-limit requests.
 - **pivotInfo is ignored for constrained joints.** The constraint's axis/point takes precedence.
 - **Multi-instance motion works.** All instances in `instanceIds` move together with the same transform.
+- **Worker hang risk.** Calling `moveUnderConstraints` without a prior `startMoving`, or with an invalid assembly ID, can hang the worker at 100% CPU. Always follow the full start → move → finish sequence.
+- **No bounds on offset values.** Negative and very large (1e6+) offsets work fine — no overflow or bounds checking.
 
 ## Working Example
 

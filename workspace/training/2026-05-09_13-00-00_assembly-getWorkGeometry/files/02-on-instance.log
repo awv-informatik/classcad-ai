@@ -1,0 +1,11 @@
+[02] wcsId in template: 107
+[02] inst1: 113 inst2: 115
+[02] asmId/Top: null maxLevel: 51
+[02] asmId/Origin: null maxLevel: 51
+[02] asmId/MateCSys: null maxLevel: 51
+[02] inst1/Top: 56 maxLevel: 31
+[02] inst1/Origin: 40 maxLevel: 31
+[02] inst1/MateCSys: 107 maxLevel: 31
+[02] inst1/XAxis: 44 maxLevel: 31
+[02] inst2/MateCSys: 107 maxLevel: 31
+[filewrite] files/02-on-instance-results.json (870 bytes)

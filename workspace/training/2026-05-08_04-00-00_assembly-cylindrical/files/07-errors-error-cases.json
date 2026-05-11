@@ -1,0 +1,30 @@
+{
+  "missingMate2": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "missingCsys": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "invalidFlip": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "invalidReorient": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "missingId": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "dupName": {
+    "result1": 234,
+    "result2": 238
+  },
+  "sameInstance": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

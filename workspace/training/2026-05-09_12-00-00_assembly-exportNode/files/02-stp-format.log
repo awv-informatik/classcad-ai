@@ -1,0 +1,9 @@
+[02] export template STP — success: 1 maxLevel: 31
+[02] content length: 9599
+[02] content preview (first 120 chars): ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('BoxPart', '2026-05-09T19:08:52', (''), (''), 'Express 
+[filewrite] files/02-stp-format-export-template-stp.json (9892 bytes)
+[02] export instance STP — success: 1 maxLevel: 31
+[02] instance content length: 9599

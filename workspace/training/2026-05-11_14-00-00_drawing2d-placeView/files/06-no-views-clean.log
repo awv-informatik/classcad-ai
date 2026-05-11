@@ -1,0 +1,4 @@
+[06] partId: 4
+[06] no views result: null maxLevel: 51
+[06] messages: [{"api":"v1.drawing2d.placeView","code":1200,"level":51,"levelStr":"ERROR","message":"There are no views exisiting on product with id: $4. You have to create the views first, before trying to place views."}]
+[filewrite] files/06-no-views-clean-no-views-clean-data.json (329 bytes)

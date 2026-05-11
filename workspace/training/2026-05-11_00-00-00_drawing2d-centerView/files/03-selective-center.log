@@ -1,0 +1,6 @@
+[filewrite] files/03-selective-center-bbox-before-selective.json (537 bytes)
+[03] centerView (TOP only) result: null maxLevel: 31
+[filewrite] files/03-selective-center-bbox-after-selective.json (538 bytes)
+[03] TOP: before=(240.0, 30.0) after=(0.0, 0.0) CENTERED
+[03] FRONT: before=(40.0, 220.0) after=(40.0, 220.0) NOT centered
+[03] ISO: before=(307.1, 344.9) after=(307.1, 344.9) NOT centered

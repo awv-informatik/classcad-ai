@@ -1,0 +1,10 @@
+[01] viewIds: [ 91, 106, 101, 96 ]
+[01] maxLevel: 31
+[01] result length: 4
+[filewrite] files/01-basic-bbox-all-four.json (650 bytes)
+[filewrite] files/01-basic-bbox-envelope.json (38 bytes)
+[01] TOP bbox: [{"max":{"x":80,"y":60,"z":0},"min":{"x":0,"y":0,"z":0}}]
+[01] FRONT bbox: [{"max":{"x":80,"y":40,"z":0},"min":{"x":0,"y":0,"z":0}}]
+[01] RIGHT bbox: [{"max":{"x":60.00000000000001,"y":39.99999999999999,"z":0},"min":{"x":4.898587196589413e-15,"y":-4.898587196589413e-15,"z":0}}]
+[01] ISO bbox: [{"max":{"x":56.568542494923804,"y":89.81462390204986,"z":0},"min":{"x":-42.426406871192846,"y":0,"z":0}}]
+[filewrite] files/01-basic-bbox-individual.json (810 bytes)

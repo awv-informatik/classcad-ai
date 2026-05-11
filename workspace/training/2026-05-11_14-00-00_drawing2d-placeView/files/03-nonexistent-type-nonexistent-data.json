@@ -1,0 +1,27 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.drawing2d.placeView",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "View of type: 3 = SR, does not exist in ViewSet!"
+    }
+  ],
+  "bbox": [
+    {
+      "max": {
+        "x": 80,
+        "y": 110,
+        "z": 0
+      },
+      "min": {
+        "x": 0,
+        "y": 50,
+        "z": 0
+      }
+    }
+  ]
+}

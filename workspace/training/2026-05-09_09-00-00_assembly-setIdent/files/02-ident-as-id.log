@@ -1,0 +1,11 @@
+[02] inst1: 113
+[02] getInstance by ident: ok maxLevel: 31
+[filewrite] files/02-ident-as-id-getInstance-ident.json (65 bytes)
+[02] transformInstance by ident: null maxLevel: 51
+[filewrite] files/02-ident-as-id-transformInstance-ident.json (244 bytes)
+[02] transformInstanceTo by ident: null maxLevel: 31
+[filewrite] files/02-ident-as-id-transformInstanceTo-ident.json (56 bytes)
+[02] massProps by ident: null maxLevel: 51
+[filewrite] files/02-ident-as-id-massProps-ident.json (574 bytes)
+[02] instance with ident ownerId: 117 maxLevel: 31
+[filewrite] files/02-ident-as-id-instance-ident-owner.json (55 bytes)

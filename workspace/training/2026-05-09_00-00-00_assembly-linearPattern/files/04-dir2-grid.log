@@ -1,0 +1,11 @@
+[04] grid result: {"constraint":123,"instances":[113,125,127,129,131,133]}
+[04] maxLevel: 31
+[04] messages: []
+[04] total instances: 6
+[04] inst 113 COG: {"x":20,"y":15,"z":10}
+[04] inst 125 COG: {"x":20,"y":15,"z":70}
+[04] inst 127 COG: {"x":20,"y":15,"z":130}
+[04] inst 129 COG: {"x":70,"y":15,"z":10}
+[04] inst 131 COG: {"x":70,"y":15,"z":70}
+[04] inst 133 COG: {"x":70,"y":15,"z":130}
+[filewrite] files/04-dir2-grid-grid-result.json (98 bytes)

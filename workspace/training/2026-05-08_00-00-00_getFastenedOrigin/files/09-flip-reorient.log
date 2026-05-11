@@ -1,0 +1,5 @@
+[09] flip: -Z (expected -Z)
+[09] reorient: 180 (expected 180)
+[09] csys: 107 (expected 107 )
+[09] path: [ 113 ] (expected [ 113 ])
+[filewrite] files/09-flip-reorient-flip-reorient-result.json (253 bytes)

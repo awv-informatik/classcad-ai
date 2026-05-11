@@ -1,0 +1,13 @@
+[05] created: 291
+[05] before: {"id":291,"mate1":{"csys":107,"flip":"Z","path":[277],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[279],"reorient":"0"},"name":"Ball1","yRotationLimits":{"max":null}}
+[05] update yRotLimits result: 291 maxLevel: 31
+[05] after yRotLimits: {"id":291,"mate1":{"csys":107,"flip":"Z","path":[277],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[279],"reorient":"0"},"name":"Ball1","yRotationLimits":{"max":1.0471975511965976}}
+[05] rename result: 291 maxLevel: 31
+[05] old name lookup: null maxLevel: 51
+[05] new name lookup: {"id":291,"mate1":{"csys":107,"flip":"Z","path":[277],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[279],"reorient":"0"},"name":"BallJoint_Renamed","yRotationLimits":{"max":1.0471975511965976}}
+[05] inst3 COG before remate: {"x":-1.2289423112722104e-15,"y":50.01241143545837,"z":9.995035425816647}
+[05] remate result: 291 maxLevel: 31
+[05] inst3 COG after remate: {"x":-1.9602154039445698e-16,"y":8.130641188611659e-16,"z":9.995035425816642}
+[05] remove limits result: 291 maxLevel: 31
+[05] after remove limits: {"id":291,"mate1":{"csys":107,"flip":"Z","path":[277],"reorient":"0"},"mate2":{"csys":271,"flip":"Z","path":[281],"reorient":"0"},"name":"BallJoint_Renamed","yRotationLimits":{"max":null}}
+[filewrite] files/05-updateSpherical-updateSpherical-data.json (1703 bytes)

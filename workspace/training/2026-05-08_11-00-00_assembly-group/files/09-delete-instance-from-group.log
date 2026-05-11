@@ -1,0 +1,8 @@
+[09] groupId: 115
+[09] before delete: {"id":115,"instanceIds":[105,107,109],"name":"G1"}
+[09] deleteInstance result: null maxLevel: 31
+[09] after delete inst2: {"id":115,"instanceIds":[105,109],"name":"G1"}
+[filewrite] files/09-delete-instance-from-group-delete-instance-from-group.json (212 bytes)
+[09] delete all remaining result: null maxLevel: 31
+[09] after delete all: null maxLevel: 51
+[filewrite] files/09-delete-instance-from-group-group-after-all-deleted.json (288 bytes)

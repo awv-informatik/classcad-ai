@@ -1,0 +1,46 @@
+{
+  "subAsmTpl": {
+    "id": 113,
+    "Top": {
+      "result": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"Top\""
+    }
+  },
+  "subAsmInst": {
+    "id": 125,
+    "Top": {
+      "result": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"Top\""
+    }
+  },
+  "directInst_WPt1": {
+    "result": 107,
+    "maxLevel": 31,
+    "templateWPtId": 107,
+    "same": true
+  },
+  "errors": {
+    "nonExistent": {
+      "result": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"NonExistent\""
+    },
+    "emptyName": {
+      "result": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"\""
+    },
+    "wrongCase": {
+      "result": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"top\""
+    },
+    "tplDirect": {
+      "result": null,
+      "maxLevel": 51,
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+    }
+  }
+}

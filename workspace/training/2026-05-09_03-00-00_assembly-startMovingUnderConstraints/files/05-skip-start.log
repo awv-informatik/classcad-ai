@@ -1,0 +1,10 @@
+[05] --- Test A: move without start ---
+[05] move result: null maxLevel: 31
+[filewrite] files/05-skip-start-move-without-start.json (56 bytes)
+[05] --- Test B: finish without start ---
+[05] finish result: null maxLevel: 31
+[filewrite] files/05-skip-start-finish-without-start.json (56 bytes)
+[05] --- Test C: double start ---
+[05] start1: null maxLevel: 31
+[05] start2: null maxLevel: 31
+[filewrite] files/05-skip-start-double-start.json (56 bytes)

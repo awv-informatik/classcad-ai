@@ -1,0 +1,13 @@
+{
+  "result": {},
+  "messages": [
+    {
+      "api": "v1.common.save",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"SCG\",\"STP\",\"IWP\",\"STL\",\"DXF\"]"
+    }
+  ],
+  "maxLevel": 51
+}

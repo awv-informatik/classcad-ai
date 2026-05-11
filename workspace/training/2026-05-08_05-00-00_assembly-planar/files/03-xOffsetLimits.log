@@ -1,0 +1,4 @@
+[03] planar result: 216 maxLevel: 31
+[03] inst2 COG with xOffsetLimits {10,30}: {"x":25.000999999999998,"y":10,"z":7.5}
+[03] inst2 world origin X: 10.000999999999998 (free DOF defaults to 0, but limits say min=10)
+[filewrite] files/03-xOffsetLimits-xLimits-A.json (217 bytes)

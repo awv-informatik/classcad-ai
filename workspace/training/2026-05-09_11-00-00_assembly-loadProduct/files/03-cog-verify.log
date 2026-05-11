@@ -1,0 +1,6 @@
+[03] part.calcMass inst1 maxLevel: 31
+[filewrite] files/03-cog-verify-part-mass-inst1.json (75 bytes)
+[03] asm.calcMass inst1 maxLevel: 31
+[filewrite] files/03-cog-verify-asm-mass-inst1.json (75 bytes)
+[03] asm.calcMass inst2 maxLevel: 31
+[filewrite] files/03-cog-verify-asm-mass-inst2.json (122 bytes)

@@ -1,0 +1,5 @@
+[02] planar result: 216 maxLevel: 31
+[02] inst1 COG: {"x":30,"y":20,"z":5}
+[02] inst2 COG: {"x":15,"y":10,"z":32.5}
+[02] inst2 world origin Z: 25 (expected 25)
+[filewrite] files/02-zOffset-zOffset-25.json (210 bytes)

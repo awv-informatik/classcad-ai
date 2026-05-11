@@ -1,0 +1,9 @@
+[08] case1 asmId: null maxLevel: 51 The provided id for the constraint is not a constraint or relation.
+[08] case2 nonexist: null maxLevel: 51 ToId()/TOID() didn't get an existing or valid id.
+[08] case3 invalid flip: null maxLevel: 51 Type "INVALID" is not supported to use as flip type.
+[08] case4 invalid reorient: null maxLevel: 51 Type "45" is not supported to use as reorient type.
+[08] case5 missing id: null maxLevel: 51 "id" must be provided for update.
+[08] case6 invalid csys: null maxLevel: 51 ToId()/TOID() didn't get an existing or valid id.
+[08] state survived: Hinge zOffset: 10 flip: Z
+[08] inst2 COG after errors: {"x":39.999999999999986,"y":9.999999999999996,"z":13.999999999999995}
+[filewrite] files/08-errors-error-data.json (1901 bytes)

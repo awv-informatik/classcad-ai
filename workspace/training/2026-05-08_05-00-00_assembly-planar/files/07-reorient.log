@@ -1,0 +1,4 @@
+[07] reorient=90, free rotation COG: {"x":40,"y":10,"z":22.5}
+[07] reorient=90, locked rotation COG: {"x":10,"y":-40,"z":22.5}
+[07] no reorient, locked rotation COG: {"x":40.00000000000001,"y":10.000000000000002,"z":47.50000000000001}
+[filewrite] files/07-reorient-reorient-comparison.json (255 bytes)

@@ -1,0 +1,30 @@
+{
+  "case1_minOnly": {
+    "max": null,
+    "min": -1.5707963267948966
+  },
+  "case2_maxOnly": {
+    "max": 3.141592653589793,
+    "min": -1.5707963267948966
+  },
+  "case3_updateMinAlone": {
+    "max": 3.141592653589793,
+    "min": -0.7853981633974483
+  },
+  "case4_removeMaxOnly": {
+    "max": null,
+    "min": -0.7853981633974483
+  },
+  "case5_removeMinOnly": {
+    "max": null,
+    "min": null
+  },
+  "case6_removeBoth": {
+    "max": null,
+    "min": null
+  },
+  "case7_emptyObject": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

@@ -1,0 +1,6 @@
+[02] COG before: { x: 20, y: 15, z: 10 }
+[02] offset-only result: null maxLevel: 31
+[02] COG after offset-only: { x: 70, y: 45, z: 20 }
+[02] empty-move result: null maxLevel: 31
+[02] COG after empty move: { x: 70, y: 45, z: 20 }
+[filewrite] files/02-offset-only-offset-only-result.json (182 bytes)

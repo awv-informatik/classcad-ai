@@ -1,0 +1,8 @@
+[10] Building assembly and dumping structure for reverse-engineering...
+[10] Built: { asmId: 12, tplId: 22, boxId: 70, wcsId: 107, inst1: 113, inst2: 115 }
+[filewrite] files/10-structure-reverse-full-structure.json (31312 bytes)
+[10] exportNode OFB: success: 1 contentLen: 54316
+[filewrite] files/10-structure-reverse-export-meta.json (59 bytes)
+[10] loadProduct OFB: result: { id: 26 } maxLevel: 31
+[filewrite] files/10-structure-reverse-loadProduct-result.json (70 bytes)
+[filewrite] files/10-structure-reverse-loaded-structure.json (35149 bytes)

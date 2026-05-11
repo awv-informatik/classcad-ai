@@ -1,0 +1,11 @@
+[09] input: TOP,RIGHT,FRONT
+[09] result IDs: [91,96,101]
+[09] tree order: [{"id":91,"name":"D"},{"id":96,"name":"SR"},{"id":101,"name":"V"}]
+[09] input: ISO, result: [109]
+[09] input: BACK,LEFT
+[09] result IDs: [115,120]
+[09] tree order: [{"id":115,"name":"R"},{"id":120,"name":"SL"}]
+[09] input: LEFT,BACK
+[09] result IDs: [132,127]
+[09] tree order: [{"id":127,"name":"SL"},{"id":132,"name":"R"}]
+[filewrite] files/09-result-order-order-tests.json (920 bytes)

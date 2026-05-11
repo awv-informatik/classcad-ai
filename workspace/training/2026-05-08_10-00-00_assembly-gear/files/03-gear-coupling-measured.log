@@ -1,0 +1,10 @@
+[03] gearId: 317
+[03] arm1 COG before: {"x":30,"y":7.5,"z":19}
+[03] arm2 COG before: {"x":20,"y":6,"z":28}
+[03] drive rev1 45deg: maxLevel: 31
+[03] arm1 COG after: {"x":15.909902576697334,"y":26.516504294495544,"z":19}
+[03] arm2 COG after: {"x":6.000000000000012,"y":-20,"z":28.000000000000007}
+[03] drive rev1 90deg: maxLevel: 31
+[03] arm1 COG 90deg: {"x":-7.499999999999997,"y":30.000000000000004,"z":19}
+[03] arm2 COG 90deg: {"x":-20.000000000000004,"y":-6,"z":28.00000000000001}
+[filewrite] files/03-gear-coupling-measured-coupling-cog.json (576 bytes)

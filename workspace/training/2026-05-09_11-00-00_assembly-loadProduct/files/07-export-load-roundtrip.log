@@ -1,0 +1,5 @@
+[07] exportNode success: 1 content length: 6104
+[07] loadProduct result: {"id":23} maxLevel: 31
+[07] Reimported COG: {"x":25,"y":15,"z":12.5} volume: 37500
+[filewrite] files/07-export-load-roundtrip-roundtrip-mass.json (77 bytes)
+[07] getWorkGeometry "Mate": null maxLevel: 51

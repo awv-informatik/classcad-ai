@@ -1,0 +1,6 @@
+[06] getPlanar OldName found: true
+[06] rename result: 216 maxLevel: 31
+[06] getPlanar OldName after rename: null
+[06] getPlanar NewName found: true
+[06] getPlanar NewName name field: NewName
+[filewrite] files/06-update-rename-rename.json (156 bytes)

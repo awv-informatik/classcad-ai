@@ -1,0 +1,10 @@
+[01] asmId: 12
+[01] inst1: 170 inst2: 172
+[01] setCurrentInstance(inst1) result: null maxLevel: 31
+[filewrite] files/01-basic-return-value-sci-inst1.json (56 bytes)
+[01] setCurrentInstance(asmId) result: null maxLevel: 31
+[filewrite] files/01-basic-return-value-sci-asmId.json (56 bytes)
+[01] setCurrentInstance(inst2) result: null maxLevel: 31
+[filewrite] files/01-basic-return-value-sci-inst2.json (56 bytes)
+[01] setCurrentInstance(tpl1) result: null maxLevel: 31
+[filewrite] files/01-basic-return-value-sci-tpl1.json (56 bytes)

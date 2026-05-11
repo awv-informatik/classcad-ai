@@ -1,0 +1,48 @@
+{
+  "asmId": 12,
+  "onAssembly": {
+    "Top": {
+      "id": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"Top\""
+    },
+    "Origin": {
+      "id": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"Origin\""
+    },
+    "MateCSys": {
+      "id": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"MateCSys\""
+    }
+  },
+  "onInstance1": {
+    "Top": {
+      "id": 56,
+      "maxLevel": 31
+    },
+    "Origin": {
+      "id": 40,
+      "maxLevel": 31
+    },
+    "MateCSys": {
+      "id": 107,
+      "maxLevel": 31
+    },
+    "XAxis": {
+      "id": 44,
+      "maxLevel": 31
+    }
+  },
+  "onInstance2": {
+    "MateCSys": {
+      "id": 107,
+      "maxLevel": 31
+    }
+  },
+  "templateWcsId": 107,
+  "inst1MateId": 107,
+  "inst2MateId": 107,
+  "sameIdAcrossInstances": true
+}

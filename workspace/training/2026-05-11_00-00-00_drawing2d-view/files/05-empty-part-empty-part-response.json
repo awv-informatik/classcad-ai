@@ -1,0 +1,17 @@
+{
+  "result": [
+    54,
+    62,
+    58
+  ],
+  "messages": [
+    {
+      "api": "v1.drawing2d.view",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in ViewSet.DoViewProjection:There must be at least one brep to perform a projection\nFunction: CADH_ProjectEntitiesToPlane\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/Projection.cpp,     Line: 52] "
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,10 @@
+[03] before zOffset: 0
+[03] before zRotationLimits: {"max":null,"min":null}
+[03] before mate2 flip: Z
+[03] after name: RenamedRev
+[03] after zOffset: 25
+[03] after zRotationLimits: {"max":1.0471975511965976,"min":-0.5235987755982988}
+[03] after mate2 flip: -Z
+[filewrite] files/03-after-update-before-after-update.json (795 bytes)
+[03] old name result: null
+[03] old name maxLevel: 51

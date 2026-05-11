@@ -1,0 +1,7 @@
+[05] flip=Z: result=216 maxLevel=31 COG={"x":40,"y":10,"z":24}
+[05] flip=-Z: result=224 maxLevel=31 COG={"x":39.99999999999998,"y":-9.999999999999998,"z":16.000000000000004}
+[05] flip=X: result=231 maxLevel=31 COG={"x":-3.9999999999999996,"y":9.999999999999998,"z":59.99999999999999}
+[05] flip=-X: result=238 maxLevel=31 COG={"x":4.000000000000003,"y":10.000000000000004,"z":-20}
+[05] flip=Y: result=245 maxLevel=31 COG={"x":40,"y":-3.9999999999999996,"z":30.000000000000007}
+[05] flip=-Y: result=252 maxLevel=31 COG={"x":40,"y":3.9999999999999956,"z":9.999999999999993}
+[filewrite] files/05-flip-flip-cogs.json (747 bytes)

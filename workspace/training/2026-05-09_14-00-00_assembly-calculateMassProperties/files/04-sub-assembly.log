@@ -1,0 +1,2 @@
+[04] sub-asm inst COG: {"x":120,"y":39.99999999999999,"z":10} vol: 48000
+[stderr] [run] Script error: Cannot read properties of null (reading 'cog')

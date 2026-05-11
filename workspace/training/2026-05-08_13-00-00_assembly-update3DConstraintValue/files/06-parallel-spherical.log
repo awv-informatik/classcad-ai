@@ -1,0 +1,22 @@
+[06] parallel ID: 287
+[06] spherical ID: 291
+[06] parallel INITIAL COG: { x: 12.5, y: 10.000000000000002, z: 19 }
+[06] parallel X_OFFSET: 31 []
+[06] parallel AFTER X_OFFSET COG: { x: 62.49999999999999, y: 9.999999999999998, z: 18.999999999999996 }
+[06] parallel Y_OFFSET: 31
+[06] parallel AFTER Y_OFFSET COG: { x: 62.49999999999999, y: 39.99999999999999, z: 18.999999999999996 }
+[06] parallel Z_ROTATION: 31
+[06] parallel AFTER Z_ROTATION COG: { x: 39.99999999999997, y: 42.49999999999999, z: 18.999999999999993 }
+[06] spherical INITIAL COG: {
+  x: 7.030604675122969e-16,
+  y: 5.189662948077514e-16,
+  z: -1.663848452188861e-16
+}
+[06] spherical Z_ROTATION: 31 []
+[06] spherical AFTER Z_ROTATION COG: {
+  x: 7.030604675122969e-16,
+  y: 5.189662948077514e-16,
+  z: -1.663848452188861e-16
+}
+[06] spherical X_OFFSET: 31 []
+[filewrite] files/06-parallel-spherical-results.json (731 bytes)

@@ -1,0 +1,18 @@
+{
+  "initial": {
+    "x": 40,
+    "y": 7.5,
+    "z": 4
+  },
+  "afterZRot": {
+    "x": 40,
+    "y": 7.5,
+    "z": 4
+  },
+  "afterXOff": {
+    "x": 40,
+    "y": 7.5,
+    "z": 4
+  },
+  "zRotChanged": false
+}

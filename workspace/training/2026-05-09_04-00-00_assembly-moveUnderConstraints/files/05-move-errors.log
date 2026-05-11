@@ -1,0 +1,5 @@
+[05] id-only: maxLevel= 31 COG: { x: 20, y: 15, z: 10 }
+[05] negative offset COG: { x: -80, y: -185, z: -290 }
+[05] huge offset COG: { x: 1000020, y: 1000015, z: 1000010 }
+[05] identity explicit COG: { x: 20, y: 15, z: 10 }
+[filewrite] files/05-move-errors-move-errors-result.json (534 bytes)

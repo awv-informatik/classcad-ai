@@ -1,0 +1,10 @@
+[01] asm root result: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[01] asm root maxLevel: 31
+[01] instance result: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[01] instance maxLevel: 31
+[01] template result: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[01] template maxLevel: 31
+[01] part.calcMass(asmId) result: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[01] part.calcMass(instId) result: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[01] part.calcMass(tplId) result: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[filewrite] files/01-basic-assembly-basic-results.json (922 bytes)

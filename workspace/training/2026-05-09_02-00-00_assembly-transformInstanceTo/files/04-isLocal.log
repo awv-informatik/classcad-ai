@@ -1,0 +1,6 @@
+[04] rootId: 12 subInst: 180 childInst: 115
+[04] child ETs under subInst: [181,182]
+[04] initial COG: {"x":-9.385655457593174,"y":37.542621830372696,"z":4.692827728796587}
+[04] after global [30,0,0] COG: {"x":46.928277287965855,"y":9.385655457593172,"z":4.692827728796586}
+[04] after local [30,0,0] COG: {"x":-9.385655457593172,"y":46.928277287965855,"z":4.692827728796586}
+[filewrite] files/04-isLocal-isLocal-cogs.json (331 bytes)

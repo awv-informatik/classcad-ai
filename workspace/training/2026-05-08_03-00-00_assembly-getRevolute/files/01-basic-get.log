@@ -1,0 +1,16 @@
+[01] revolute created, id: 216
+[01] getRevolute maxLevel: 31
+[01] getRevolute result.id: 216
+[01] getRevolute result.name: Hinge1
+[01] getRevolute result.zOffset: 15
+[01] getRevolute result.zRotationLimits: {"max":1.5707963267948966,"min":-0.7853981633974483}
+[01] getRevolute result.mate1.path: [204]
+[01] getRevolute result.mate1.csys: 107
+[01] getRevolute result.mate1.flip: Z
+[01] getRevolute result.mate1.reorient: 0
+[01] getRevolute result.mate2.path: [206]
+[01] getRevolute result.mate2.csys: 198
+[01] getRevolute result.mate2.flip: Z
+[01] getRevolute result.mate2.reorient: 0
+[filewrite] files/01-basic-get-getRevolute-result.json (348 bytes)
+[01] id match: ✓

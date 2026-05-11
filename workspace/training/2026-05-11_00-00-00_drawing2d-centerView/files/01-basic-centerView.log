@@ -1,0 +1,7 @@
+[01] viewIds: [ 91, 101, 96 ]
+[01] bbox before center maxLevel: 31
+[filewrite] files/01-basic-centerView-bbox-before.json (447 bytes)
+[01] centerView result: null maxLevel: 31
+[filewrite] files/01-basic-centerView-centerView-response.json (56 bytes)
+[01] bbox after center maxLevel: 31
+[filewrite] files/01-basic-centerView-bbox-after.json (552 bytes)

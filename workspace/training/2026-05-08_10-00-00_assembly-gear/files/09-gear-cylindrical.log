@@ -1,0 +1,5 @@
+[09] cyl1: 309
+[09] cyl2: 313
+[09] gear on cylindrical: null maxLevel: 51
+[09] mixed gear (rev+cyl): null maxLevel: 51
+[filewrite] files/09-gear-cylindrical-cylindrical-gear-data.json (617 bytes)

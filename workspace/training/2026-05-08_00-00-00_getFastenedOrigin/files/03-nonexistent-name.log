@@ -1,0 +1,4 @@
+[03] nonexistent result: null
+[03] maxLevel: 51
+[03] messages: [{"api":"v1.assembly.getFastenedOrigin","code":0,"level":51,"levelStr":"ERROR","message":"There couldn't be found a constraint with name \"DoesNotExist\" on product or product reference with id $12"}]
+[filewrite] files/03-nonexistent-name-nonexistent-result.json (307 bytes)

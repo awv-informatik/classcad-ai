@@ -1,0 +1,7 @@
+[01] COG before: { x: 20, y: 15, z: 10 }
+[01] COG after move: { x: 70, y: 45, z: 10 }
+[01] finish1: result= null maxLevel= 31
+[01] COG after finish1: { x: 70, y: 45, z: 10 }
+[01] finish2: result= null maxLevel= 31
+[01] COG after finish2: { x: 70, y: 45, z: 10 }
+[filewrite] files/01-double-finish-double-finish-result.json (401 bytes)

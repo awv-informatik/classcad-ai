@@ -1,0 +1,4 @@
+[02] COG before: {"x":99.99999999999999,"y":34.99999999999999,"z":23.999999999999996}
+[02] spherical result: 218 maxLevel: 31
+[02] COG after: {"x":20,"y":5,"z":4}
+[filewrite] files/02-offset-csys-offset-csys-data.json (347 bytes)

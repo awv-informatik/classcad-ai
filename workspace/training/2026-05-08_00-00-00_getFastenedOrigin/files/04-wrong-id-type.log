@@ -1,0 +1,7 @@
+[04] instance ID — result: null maxLevel: 51
+[04] instance ID — messages: [{"api":"v1.assembly.getFastenedOrigin","code":0,"level":51,"levelStr":"ERROR","message":"The provided product or product reference id is not a Assembly."}]
+[04] template ID — result: null maxLevel: 51
+[04] template ID — messages: [{"api":"v1.assembly.getFastenedOrigin","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"}]
+[04] constraint ID — result: null maxLevel: 51
+[04] constraint ID — messages: [{"api":"v1.assembly.getFastenedOrigin","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"}]
+[filewrite] files/04-wrong-id-type-wrong-id-types.json (1003 bytes)

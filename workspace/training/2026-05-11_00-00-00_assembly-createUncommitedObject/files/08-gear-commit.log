@@ -1,0 +1,6 @@
+[08] rev1: 273 rev2: 277
+[08] uncommitted gear id: 279
+[08] updateGear result: 279 maxLevel: 31
+[filewrite] files/08-gear-commit-update-gear.json (55 bytes)
+[08] getGear result: 279 ratio: 2
+[filewrite] files/08-gear-commit-get-gear.json (105 bytes)

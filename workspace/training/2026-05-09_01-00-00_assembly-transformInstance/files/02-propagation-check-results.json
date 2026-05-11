@@ -1,0 +1,21 @@
+{
+  "inst1": 113,
+  "inst2": 115,
+  "templateCOG": {
+    "x": 15,
+    "y": 10,
+    "z": 7.5
+  },
+  "asmCOGBefore": {
+    "x": 55,
+    "y": 10,
+    "z": 7.5
+  },
+  "asmCOGAfter": {
+    "x": 54.999999999999986,
+    "y": 35.00000000000001,
+    "z": 7.5
+  },
+  "asmVolumeBefore": 18000,
+  "asmVolumeAfter": 18000.000000000004
+}

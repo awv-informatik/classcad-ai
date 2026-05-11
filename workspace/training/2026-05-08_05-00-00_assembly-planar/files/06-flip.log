@@ -1,0 +1,7 @@
+[06] flip=Z: result=216, maxLevel=31
+[06] flip=Z COG: {"x":20,"y":12.5,"z":30}
+[06] flip=-Z: result=228, maxLevel=31
+[06] flip=-Z COG: {"x":20,"y":-12.5,"z":-7.275957614183426e-16}
+[06] flip=X: result=239, maxLevel=31
+[06] flip=X COG: {"x":-15,"y":12.5,"z":35}
+[filewrite] files/06-flip-flip-comparison.json (394 bytes)

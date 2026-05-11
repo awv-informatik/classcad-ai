@@ -1,0 +1,7 @@
+[09] inst: 113
+[09] COG before: {"x":20,"y":15,"z":10}
+[09] start ROTATION: null maxLevel: 31
+[filewrite] files/09-unconstrained-start-rotation-free.json (56 bytes)
+[09] COG after rotation: {"x":15.000000000000002,"y":-19.999999999999996,"z":10.000000000000002}
+[09] COG after translation: {"x":65,"y":10.000000000000002,"z":10.000000000000002}
+[filewrite] files/09-unconstrained-free-motion-comparison.json (404 bytes)

@@ -1,0 +1,39 @@
+{
+  "getA": {
+    "id": 291,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        277
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        279
+      ],
+      "reorient": "0"
+    },
+    "name": "Ball_A",
+    "yRotationLimits": {
+      "max": 0.5235987755982988
+    }
+  },
+  "getNonExistent": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getSpherical",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"
+      }
+    ]
+  },
+  "getByInst": null
+}

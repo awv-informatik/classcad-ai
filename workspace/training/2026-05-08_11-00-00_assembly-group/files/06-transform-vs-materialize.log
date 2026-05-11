@@ -1,0 +1,13 @@
+[06] groupId: 236
+[06] transformInstance grouped inst1 result: null maxLevel: 51
+[filewrite] files/06-transform-vs-materialize-transform-grouped.json (244 bytes)
+[06] transformInstance ungrouped inst3 result: null maxLevel: 51
+[filewrite] files/06-transform-vs-materialize-transform-ungrouped.json (244 bytes)
+[06] transformInstanceTo grouped inst2 result: null maxLevel: 31
+[filewrite] files/06-transform-vs-materialize-transformTo-grouped.json (56 bytes)
+[06] root COG: {"x":27.58606777589308,"y":45.47533688348671,"z":10.236288273179476}
+[filewrite] files/06-transform-vs-materialize-root-mass-props.json (133 bytes)
+[06] inst1 COG: {"x":20,"y":15,"z":10}
+[06] inst2 COG: {"x":100.02912013946477,"y":50.014560069732404,"z":12.492719965133821}
+[06] inst3 COG: {"x":20,"y":75,"z":10}
+[filewrite] files/06-transform-vs-materialize-individual-cogs.json (218 bytes)

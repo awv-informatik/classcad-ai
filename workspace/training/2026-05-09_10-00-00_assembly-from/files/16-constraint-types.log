@@ -1,0 +1,4 @@
+[16] Probing constraint types and instance patterns...
+[16] ★ 'ident' different error: [Evaluation error in jsonAsmBuilder.CreateInstances:[Type error: A variable  of the type NullMem (nicht initialisiertes 
+[filewrite] files/16-constraint-types-inst-ident.json (371 bytes)
+[16] Done

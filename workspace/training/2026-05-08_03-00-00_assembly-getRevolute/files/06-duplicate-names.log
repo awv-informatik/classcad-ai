@@ -1,0 +1,6 @@
+[06] rev1 id: 309 rev2 id: 313
+[06] getRevolute result.id: 309
+[06] getRevolute result.zOffset: 10
+[06] returned rev1? true
+[06] returned rev2? false
+[filewrite] files/06-duplicate-names-duplicate-names.json (421 bytes)

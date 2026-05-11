@@ -1,0 +1,11 @@
+[06] invalid ID — success: undefined maxLevel: 51
+[06] messages: [{"api":"v1.assembly.exportNode","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.exportNode","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[06] after clear — success: undefined maxLevel: 51
+[06] messages: [{"api":"v1.assembly.exportNode","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.exportNode","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[06] no id — success: undefined maxLevel: 51
+[06] messages: [{"api":"v1.assembly.exportNode","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[06] invalid format STL — success: undefined maxLevel: 51
+[06] messages: [{"api":"v1.assembly.exportNode","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\"]"}]
+[06] invalid format IWP — success: undefined maxLevel: 51
+[06] messages: [{"api":"v1.assembly.exportNode","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\"]"}]
+[filewrite] files/06-error-cases-error-cases.json (1575 bytes)

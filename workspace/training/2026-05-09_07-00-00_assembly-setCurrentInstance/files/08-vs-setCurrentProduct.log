@@ -1,0 +1,9 @@
+[08] setCurrentProduct(inst1) result: 12 maxLevel: 31
+[filewrite] files/08-vs-setCurrentProduct-scp-inst1.json (54 bytes)
+[08] setCurrentInstance(inst1) result: null maxLevel: 31
+[filewrite] files/08-vs-setCurrentProduct-sci-inst1.json (56 bytes)
+[08] setCurrentProduct(tpl1) result: 12 maxLevel: 31
+[08] getInstance(asmId) after setCurrentProduct(tpl1): [113,115]
+[08] getInstance(asmId) after setCurrentInstance(tpl1): [113,115]
+[08] fastenedOrigin after setCurrentInstance(asmId): 121 maxLevel: 31
+[filewrite] files/08-vs-setCurrentProduct-comparison.json (91 bytes)

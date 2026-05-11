@@ -1,0 +1,12 @@
+[08] rev1: 309 rev2: 313
+[08] arm1 INITIAL COG: { x: 40, y: 7.5, z: 19 }
+[08] arm2 INITIAL COG: { x: 30, y: 6, z: 33 }
+[08] array result: null maxLevel: 31 msgs: []
+[filewrite] files/08-array-form-array-response.json (56 bytes)
+[08] arm1 AFTER COG: { x: -7.500000000000006, y: 39.99999999999999, z: 18.999999999999996 }
+[08] arm2 AFTER COG: { x: 16.970562748477136, y: 25.455844122715686, z: 32.99999999999997 }
+[08] arm1 BEFORE lowercase COG: { x: -7.500000000000006, y: 39.99999999999999, z: 18.999999999999996 }
+[08] lowercase z_rotation result: null maxLevel: 31 msgs: []
+[08] arm1 AFTER lowercase COG: { x: 40, y: 7.500000000000004, z: 19 }
+[08] lowercase changed COG: true
+[filewrite] files/08-array-form-results.json (640 bytes)

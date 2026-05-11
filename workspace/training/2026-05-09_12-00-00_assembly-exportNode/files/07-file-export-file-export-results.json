@@ -1,0 +1,17 @@
+{
+  "ofbFile": {
+    "success": 1,
+    "hasContent": false,
+    "maxLevel": 31
+  },
+  "stpInferred": {
+    "success": 1,
+    "hasContent": false,
+    "maxLevel": 31
+  },
+  "stpExplicit": {
+    "success": 1,
+    "hasContent": false,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,6 @@
+[01] asmId: 12
+[01] inst1: 186 inst2: 188
+[01] createUncommitedObject result: 196
+[01] maxLevel: 31
+[filewrite] files/01-basic-creation-create-result.json (55 bytes)
+[filewrite] files/01-basic-creation-structure-after-create.json (58223 bytes)

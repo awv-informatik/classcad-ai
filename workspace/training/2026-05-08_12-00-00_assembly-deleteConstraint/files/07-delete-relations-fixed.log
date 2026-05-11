@@ -1,0 +1,10 @@
+[07] rev1: 309 rev2: 313
+[07] gearId: 317
+[07] gear exists before: true
+[07] delete gear - result: null maxLevel: 31
+[filewrite] files/07-delete-relations-fixed-delete-gear.json (56 bytes)
+[07] gear exists after: false maxLevel: 51
+[07] Rev1 still exists? true
+[07] Rev2 still exists? true
+[07] groupId: null
+[07] group creation failed, checking group params...

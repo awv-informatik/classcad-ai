@@ -1,0 +1,5 @@
+[08] 4x4 matrix result: null maxLevel: 51
+[filewrite] files/08-4x4-matrix-4x4-response.json (317 bytes)
+[08] COG after 4x4: {"x":15,"y":10,"z":7.5}
+[08] COG after reset to origin: {"x":15,"y":10,"z":7.5}
+[filewrite] files/08-4x4-matrix-4x4-cogs.json (130 bytes)

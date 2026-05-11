@@ -1,0 +1,4 @@
+[02] initial COG: {"x":25,"y":10,"z":7.5}
+[02] after first transformInstanceTo [50,30,0] COG: {"x":65,"y":40,"z":7.5}
+[02] after second transformInstanceTo [100,0,20] COG: {"x":115,"y":10,"z":27.5}
+[filewrite] files/02-absolute-overwrite-cog-comparison.json (334 bytes)

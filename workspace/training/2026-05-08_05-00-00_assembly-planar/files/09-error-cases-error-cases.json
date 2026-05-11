@@ -1,0 +1,67 @@
+{
+  "sameInstance": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The path of mate1 and mate2 cannot be used in this combination for constraint with id = $119 in assembly with id = $12, they probably belong to the same rigid set."
+      }
+    ]
+  },
+  "noMate2": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+      }
+    ]
+  },
+  "noCsys": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"csys\" must be provided in the api call!"
+      }
+    ]
+  },
+  "badFlip": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"W\" is not supported to use as flip type."
+      }
+    ]
+  },
+  "badReorient": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.planar",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"45\" is not supported to use as reorient type."
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+[12] batch result: [ 218, 222 ]
+[12] batch maxLevel: 31
+[12] inst2 COG (started z=15, range 10..20): { x: 40, y: 10, z: 19 }
+[12] inst3 COG (started z=30, range 25..35): { x: 39.999999999999986, y: 9.999999999999996, z: 33.99999999999999 }

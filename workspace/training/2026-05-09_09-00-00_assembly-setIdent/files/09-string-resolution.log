@@ -1,0 +1,13 @@
+[09] inst1: 105 inst2: 107
+[09] transform by name "Beta": 31
+[filewrite] files/09-string-resolution-transform-by-name-Beta.json (38 bytes)
+[09] transform by ident "ident_alpha": 31
+[09] transform by name "Alpha" (has ident): 31
+[filewrite] files/09-string-resolution-transform-by-name-with-ident.json (38 bytes)
+[09] set inst2 ident to "Alpha" (same as inst1 name)
+[09] transform "Alpha" (conflict): 31
+[09] inst1 COG: {"x":45,"y":15,"z":10}
+[09] inst2 COG: {"x":210,"y":15,"z":10}
+[09] transform by numeric string "105": 31
+[09] final inst1 COG: {"x":46,"y":15,"z":10}
+[09] final inst2 COG: {"x":210,"y":15,"z":10}

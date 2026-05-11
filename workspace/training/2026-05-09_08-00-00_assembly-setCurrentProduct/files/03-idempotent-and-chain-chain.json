@@ -1,0 +1,14 @@
+{
+  "chain": {
+    "asm->tpl1": 12,
+    "tpl1->tpl2": 22,
+    "tpl2->tpl3": 105,
+    "tpl3->asm": 188
+  },
+  "expected": {
+    "asm->tpl1": 12,
+    "tpl1->tpl2": 22,
+    "tpl2->tpl3": 105,
+    "tpl3->asm": 188
+  }
+}

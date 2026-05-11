@@ -1,0 +1,12 @@
+[07] seed COG: {"x":20,"y":15,"z":10}
+[07] circularPattern result: {"constraint":124,"instances":[113,126,128,130]}
+[07] maxLevel: 31
+[07] messages: []
+[07] total instances: 4
+[07] inst 113 COG: {"x":20,"y":15,"z":10}
+[07] inst 126 COG: {"x":-15,"y":20,"z":9.999999999999998}
+[07] inst 128 COG: {"x":-20,"y":-15,"z":10.000000000000002}
+[07] inst 130 COG: {"x":15.000000000000002,"y":-20.000000000000004,"z":10.000000000000002}
+[filewrite] files/07-basic-circular-cp-result.json (80 bytes)
+[07] degStr result: {"constraint":143,"instances":[135,145,147,149,151,153]}
+[07] degStr instances: 6

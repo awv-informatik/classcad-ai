@@ -1,0 +1,14 @@
+[01] asmId: 12
+[01] tplA: 22 wcsA: 107
+[01] tplB: 113 wcsB: 198
+[01] inst1: 204 inst2: 206
+[01] inst1 COG before: { x: 30, y: 20, z: 5 }
+[01] inst2 COG before: { x: 139.99999999999997, y: 59.999999999999986, z: 33.99999999999999 }
+[01] fastenedOrigin: 272
+[01] cylindrical result: 276
+[01] cylindrical maxLevel: 31
+[01] inst1 COG after: { x: 30, y: 20, z: 5 }
+[01] inst2 COG after: { x: 39.999999999999986, y: 9.999999999999996, z: 33.99999999999999 }
+[filewrite] files/01-basic-cylindrical-cog-comparison.json (375 bytes)
+[01] getCylindrical maxLevel: 31
+[filewrite] files/01-basic-cylindrical-getCylindrical-result.json (359 bytes)

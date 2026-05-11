@@ -1,0 +1,7 @@
+[03] COG before: { x: 20, y: 15, z: 10 }
+[03] COG after move1 (+100X): { x: 120, y: 15, z: 10 }
+[03] COG after move2 (+50Y, replace): { x: 20, y: 65, z: 10 }
+[03] COG after move3 (+100X+50Y): { x: 120, y: 65, z: 10 }
+[03] COG after move4 (identity): { x: 20, y: 15, z: 10 }
+[03] COG after finish: { x: 20, y: 15, z: 10 }
+[filewrite] files/03-multi-move-last-wins-multi-move-result.json (406 bytes)

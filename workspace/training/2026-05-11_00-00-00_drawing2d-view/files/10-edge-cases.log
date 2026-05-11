@@ -1,0 +1,7 @@
+[10] dup types result: [91,96,101] maxLevel: 31
+[10] view nodes: [{"id":91,"name":"D"},{"id":96,"name":"D0"},{"id":101,"name":"V"}]
+[10] invalid type result: null maxLevel: 51
+[10] invalid type messages: [{"api":"v1.drawing2d.view","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"types\" is not valid. Possible values are: [\"TOP\",\"FRONT\",\"RIGHT\",\"LEFT\",\"BOTTOM\",\"RIGHT_90\",\"LEFT_90\",\"BACK\",\"ISO\"]"}]
+[10] assembly view result: null maxLevel: 51
+[10] assembly messages: [{"api":"v1.drawing2d.view","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[filewrite] files/10-edge-cases-edge-cases.json (922 bytes)

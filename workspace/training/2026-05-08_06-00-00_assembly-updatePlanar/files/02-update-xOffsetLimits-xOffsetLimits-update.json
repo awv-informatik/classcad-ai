@@ -1,0 +1,19 @@
+{
+  "cogNoLimits": {
+    "x": 15,
+    "y": 10,
+    "z": 19.5
+  },
+  "cogWithXLimits": {
+    "x": 35.001000000000005,
+    "y": 10,
+    "z": 19.5
+  },
+  "cogUpdatedXLimits": {
+    "x": 55.00100000000002,
+    "y": 10.000000000000002,
+    "z": 19.499999999999996
+  },
+  "expectedX20": "default 0 clamped to min 20 → x≈20",
+  "expectedX40": "default 0 clamped to min 40 → x≈40"
+}

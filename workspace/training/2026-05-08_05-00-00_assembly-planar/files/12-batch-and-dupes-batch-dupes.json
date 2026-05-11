@@ -1,0 +1,46 @@
+{
+  "batch": {
+    "result": [
+      218,
+      222
+    ],
+    "messages": [],
+    "maxLevel": 31
+  },
+  "getPlanar": {
+    "result": {
+      "id": 218,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          204
+        ],
+        "reorient": "0"
+      },
+      "mate2": {
+        "csys": 198,
+        "flip": "Z",
+        "path": [
+          206
+        ],
+        "reorient": "0"
+      },
+      "name": "Planar1",
+      "xOffsetLimits": {
+        "max": null,
+        "min": null
+      },
+      "yOffsetLimits": {
+        "max": null,
+        "min": null
+      },
+      "zOffset": 10,
+      "zRotationLimits": {
+        "max": null,
+        "min": null
+      }
+    },
+    "maxLevel": 31
+  }
+}

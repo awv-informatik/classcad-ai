@@ -1,0 +1,7 @@
+[06] BEFORE center TOP: {"max":{"x":80,"y":60,"z":0},"min":{"x":0,"y":0,"z":0}}
+[06] BEFORE center FRONT: {"max":{"x":80,"y":40,"z":0},"min":{"x":0,"y":0,"z":0}}
+[06] AFTER center TOP: {"max":{"x":40,"y":30,"z":0},"min":{"x":-40,"y":-30,"z":0}}
+[06] AFTER center FRONT: {"max":{"x":40,"y":20,"z":4.930380657631324e-32},"min":{"x":-40,"y":-20,"z":4.930380657631324e-32}}
+[06] TOP width before: 80 after: 80
+[06] TOP center after: 0 0
+[filewrite] files/06-after-centerView-center-comparison.json (709 bytes)

@@ -1,0 +1,22 @@
+{
+  "noAssembly": {
+    "maxLevel": 51,
+    "hasResult": false
+  },
+  "emptyData": {
+    "maxLevel": 51,
+    "hasResult": false
+  },
+  "noSource": {
+    "maxLevel": 51,
+    "hasResult": false
+  },
+  "stlFormat": {
+    "maxLevel": 51,
+    "hasResult": false
+  },
+  "mismatch": {
+    "maxLevel": 51,
+    "hasResult": false
+  }
+}

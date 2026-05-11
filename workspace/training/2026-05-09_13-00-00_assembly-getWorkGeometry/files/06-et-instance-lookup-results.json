@@ -1,0 +1,20 @@
+{
+  "templateWcsId": 107,
+  "innerInst": 123,
+  "subInst": 125,
+  "etInstId": 126,
+  "directInst": 128,
+  "etLookup": {
+    "result": 107,
+    "maxLevel": 31
+  },
+  "etTop": {
+    "result": 56,
+    "maxLevel": 31
+  },
+  "directLookup": {
+    "result": 107,
+    "maxLevel": 31
+  },
+  "allSameId": true
+}

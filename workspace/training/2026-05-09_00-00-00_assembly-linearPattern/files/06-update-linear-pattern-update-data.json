@@ -1,0 +1,24 @@
+{
+  "initial": {
+    "constraint": 123,
+    "instances": [
+      113,
+      125
+    ]
+  },
+  "update": {
+    "constraint": 123,
+    "instances": [
+      113,
+      125,
+      160,
+      162
+    ]
+  },
+  "updatedInstances": [
+    113,
+    125,
+    160,
+    162
+  ]
+}

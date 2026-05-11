@@ -1,0 +1,8 @@
+[02] all types result: [91,131,126,121,116,106,101,111,96] maxLevel: 31
+[02] types count: 9 result count: 9
+[filewrite] files/02-all-types-all-types-response.json (135 bytes)
+[02] CC_View2D nodes: [{"id":91,"name":"D","parent":89},{"id":96,"name":"V","parent":89},{"id":101,"name":"SR","parent":89},{"id":106,"name":"SL","parent":89},{"id":111,"name":"U","parent":89},{"id":116,"name":"SDR","parent":89},{"id":121,"name":"SDL","parent":89},{"id":126,"name":"R","parent":89},{"id":131,"name":"ISO","parent":89}]
+[filewrite] files/02-all-types-view-nodes.json (530 bytes)
+[02] input types: ["TOP","FRONT","RIGHT","LEFT","BOTTOM","RIGHT_90","LEFT_90","BACK","ISO"]
+[02] result IDs: [91,131,126,121,116,106,101,111,96]
+[02] ViewSet id: 89 children: [91,96,101,106,111,116,121,126,131]

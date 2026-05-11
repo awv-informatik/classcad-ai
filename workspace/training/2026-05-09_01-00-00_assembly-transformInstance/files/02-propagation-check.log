@@ -1,0 +1,8 @@
+[02] template local COG: {"x":15,"y":10,"z":7.5}
+[02] template volume: 9000
+[02] assembly COG before: {"x":55,"y":10,"z":7.5}
+[02] assembly volume before: 18000
+[02] transformInstance result: null maxLevel: 31
+[02] assembly COG after: {"x":54.999999999999986,"y":35.00000000000001,"z":7.5}
+[02] assembly volume after: 18000.000000000004
+[filewrite] files/02-propagation-check-results.json (323 bytes)

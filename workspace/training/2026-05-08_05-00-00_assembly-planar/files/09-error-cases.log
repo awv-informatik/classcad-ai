@@ -1,0 +1,11 @@
+[09] same instance: result= null maxLevel: 51
+[09] same instance msg: The path of mate1 and mate2 cannot be used in this combination for constraint with id = $119 in assembly with id = $12, they probably belong to the same rigid set. code: 1014
+[09] no mate2: result= null maxLevel: 51
+[09] no mate2 msg: [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]]  code: 0
+[09] no csys: result= null maxLevel: 51
+[09] no csys msg: The parameter "csys" must be provided in the api call! code: 1004
+[09] bad flip: result= null maxLevel: 51
+[09] bad flip msg: Type "W" is not supported to use as flip type. code: 1013
+[09] bad reorient: result= null maxLevel: 51
+[09] bad reorient msg: Type "45" is not supported to use as reorient type. code: 1013
+[filewrite] files/09-error-cases-error-cases.json (1562 bytes)

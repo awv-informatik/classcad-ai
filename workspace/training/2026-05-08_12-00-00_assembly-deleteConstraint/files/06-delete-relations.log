@@ -1,0 +1,10 @@
+[06] gearId: null
+[06] groupId: null
+[06] delete gear - result: null maxLevel: 51
+[filewrite] files/06-delete-relations-delete-gear.json (316 bytes)
+[06] getGear after delete: null maxLevel: 51
+[06] delete group - result: null maxLevel: 51
+[filewrite] files/06-delete-relations-delete-group.json (317 bytes)
+[06] getGroup after delete: null maxLevel: 51
+[06] Rev1 still exists? true
+[06] Rev2 still exists? true

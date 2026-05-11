@@ -1,0 +1,6 @@
+[10] inst1: 113 inst2: 115 inst3: 117
+[10] COG before: {"x":64.99999999999999,"y":10.000000000000002,"z":7.5}
+[10] start: null maxLevel: 31
+[filewrite] files/10-multi-instance-start-multi.json (56 bytes)
+[10] COG after: {"x":64.99999999999999,"y":36.66666666666668,"z":7.5}
+[filewrite] files/10-multi-instance-multi-instance-comparison.json (304 bytes)

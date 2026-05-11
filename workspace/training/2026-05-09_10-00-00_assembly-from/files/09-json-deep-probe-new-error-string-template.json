@@ -1,0 +1,21 @@
+{
+  "label": "string-template",
+  "result": 14,
+  "messages": [
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "1 Fehler bei der Kompilation von Klasse: JsonAssemblyBuilder Objekt: jsonAsmBuilder./tmp/cc-test-box.ofb"
+    },
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in jsonAsmBuilder.CreateTemplates:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "maxLevel": 51
+}

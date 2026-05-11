@@ -1,0 +1,13 @@
+[01] asmId: 12
+[01] tplId: 22
+[01] boxId: 70
+[01] Top on tplId: null maxLevel: 51
+[01] Front on tplId: null maxLevel: 51
+[01] Right on tplId: null maxLevel: 51
+[01] XAxis on tplId: null maxLevel: 51
+[01] YAxis on tplId: null maxLevel: 51
+[01] ZAxis on tplId: null maxLevel: 51
+[01] Origin on tplId: null maxLevel: 51
+[filewrite] files/01-builtin-on-template-builtin-on-template.json (2368 bytes)
+[01] part.getWorkGeometry Top on tplId: 56 maxLevel: 31
+[filewrite] files/01-builtin-on-template-compare-part-vs-assembly.json (165 bytes)

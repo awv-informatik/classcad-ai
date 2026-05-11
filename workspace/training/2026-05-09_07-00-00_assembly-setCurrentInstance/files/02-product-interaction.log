@@ -1,0 +1,5 @@
+[02] After setCurrentInstance(inst1), previous product was: 22
+[02] After setCurrentInstance(inst2), previous product was: 105
+[02] After setCurrentInstance(asmId), previous product was: 12
+[02] tpl1 (BoxPart): 22 tpl2 (CylPart): 105 asmId: 12
+[filewrite] files/02-product-interaction-product-tracking.json (107 bytes)

@@ -1,0 +1,5 @@
+[08] reorient='0' locked → COG: {"x":40,"y":10,"z":4} maxLevel: 31
+[08] reorient='90' locked → COG: {"x":10.000000000000004,"y":-40.00000000000001,"z":4.000000000000007} maxLevel: 31
+[08] reorient='180' locked → COG: {"x":-39.99999996410208,"y":-10.00000014359175,"z":4.000000000000007} maxLevel: 31
+[08] reorient='270' locked → COG: {"x":-10.000000000000014,"y":39.99999999999999,"z":3.9999999999999942} maxLevel: 31
+[filewrite] files/08-reorient-with-limits-reorient-locked.json (564 bytes)

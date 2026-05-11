@@ -1,0 +1,20 @@
+{
+  "result": 14,
+  "messages": [
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Unknown constraint type!"
+    },
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "maxLevel": 51
+}

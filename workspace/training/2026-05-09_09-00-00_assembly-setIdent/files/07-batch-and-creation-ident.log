@@ -1,0 +1,9 @@
+[07] inst1 with ident at creation: 107
+[07] transformInstance(part_a): 31
+[07] inst2: 109 inst3: 111
+[07] batch setIdent: null maxLevel: 51
+[filewrite] files/07-batch-and-creation-ident-batch-setIdent.json (272 bytes)
+[07] transform part_b: 51 part_c: 51
+[07] inst1 COG: {"x":50,"y":15,"z":10}
+[07] inst2 COG: {"x":100,"y":15,"z":10}
+[07] inst3 COG: {"x":20.000000000000004,"y":95.00000000000001,"z":10.000000000000002}

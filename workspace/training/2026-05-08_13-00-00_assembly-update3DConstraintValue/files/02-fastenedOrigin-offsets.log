@@ -1,0 +1,11 @@
+[02] fastenedOrigin ID: 119
+[02] INITIAL COG (asm): { x: 40, y: 15, z: 10 }
+[02] X_OFFSET result: null maxLevel: 31 msgs: []
+[02] after X_OFFSET COG: { x: 40, y: 15, z: 10 }
+[02] Y_OFFSET result: null maxLevel: 31 msgs: []
+[02] Z_OFFSET result: null maxLevel: 31 msgs: []
+[02] Z_ROTATION result: null maxLevel: 31 msgs: []
+[02] FINAL COG (asm): { x: 40, y: 15, z: 10 }
+[02] getFastenedOrigin: {"id":119,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"FO","xOffset":20,"xRotation":0,"yOffset":0,"yRotation":0,"zOffset":0,"zRotation":0}
+[filewrite] files/02-fastenedOrigin-offsets-fo-state.json (237 bytes)
+[filewrite] files/02-fastenedOrigin-offsets-all-results.json (412 bytes)

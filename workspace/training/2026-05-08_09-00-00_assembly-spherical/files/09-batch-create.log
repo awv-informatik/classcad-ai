@@ -1,0 +1,6 @@
+[09] batch result: [218,222] maxLevel: 31
+[09] getA: {"id":218,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Ball_A","yRotationLimits":{"max":null}}
+[09] getB: {"id":222,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[208],"reorient":"0"},"name":"Ball_B","yRotationLimits":{"max":1.5707963267948966}}
+[09] inst2 COG: {"x":15,"y":5,"z":4}
+[09] inst3 COG: {"x":15,"y":5,"z":4}
+[filewrite] files/09-batch-create-batch-create-data.json (885 bytes)

@@ -1,0 +1,9 @@
+[06] revolute result: 216 maxLevel: 31
+[06] inst2 COG with limits: {"x":40,"y":10,"z":4}
+[06] getRevolute limits: {"max":1.5708,"min":-1.5708}
+[filewrite] files/06-zRotationLimits-limits-radian.json (326 bytes)
+[06] revolute deg result: 280 maxLevel: 31
+[06] getRevolute deg limits: {"max":3.141592653589793,"min":-0.7853981633974483}
+[06] min in degrees: -45.00
+[06] max in degrees: 180.00
+[filewrite] files/06-zRotationLimits-limits-deg.json (346 bytes)

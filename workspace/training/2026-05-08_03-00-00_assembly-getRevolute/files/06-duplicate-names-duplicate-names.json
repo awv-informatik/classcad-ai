@@ -1,0 +1,29 @@
+{
+  "rev1Id": 309,
+  "rev2Id": 313,
+  "returned": {
+    "id": 309,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        295
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        297
+      ],
+      "reorient": "0"
+    },
+    "name": "SameName",
+    "zOffset": 10,
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  }
+}

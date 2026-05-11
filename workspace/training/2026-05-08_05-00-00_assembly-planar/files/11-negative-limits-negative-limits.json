@@ -1,0 +1,22 @@
+{
+  "inst2_cog": {
+    "x": 4.999000000000002,
+    "y": -10.001,
+    "z": 7.5
+  },
+  "inst2_world_origin": {
+    "x": -10.000999999999998,
+    "y": -20.000999999999998
+  },
+  "limits": {
+    "xOffset": [
+      -30,
+      -10
+    ],
+    "yOffset": [
+      -50,
+      -20
+    ]
+  },
+  "note": "Free DOF defaults to 0; clamped to nearest valid: max since 0 > max"
+}

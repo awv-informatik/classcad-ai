@@ -1,0 +1,14 @@
+{
+  "test": "assembly-root-id",
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.deleteConstraint",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"ids\" has a wrong id type! Provide only following id types: [\"constraint\",\"relation\"]"
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,8 @@
+[01] fastened ID: 216
+[01] BEFORE COG: { x: 65, y: 10, z: 7.5 }
+[01] update3DConstraintValue result: null maxLevel: 31
+[filewrite] files/01-fastened-xoffset-update-response.json (56 bytes)
+[01] AFTER COG: { x: 65, y: 10, z: 7.5 }
+[filewrite] files/01-fastened-xoffset-cog-comparison.json (117 bytes)
+[01] getFastened xOffset: 50
+[filewrite] files/01-fastened-xoffset-fastened-state.json (343 bytes)

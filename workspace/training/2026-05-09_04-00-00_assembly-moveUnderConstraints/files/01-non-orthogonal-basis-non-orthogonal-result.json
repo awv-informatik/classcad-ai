@@ -1,0 +1,20 @@
+{
+  "before": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  },
+  "afterNonOrtho": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  },
+  "afterOrtho": {
+    "x": 24.74873734152916,
+    "y": -3.5355339059327324,
+    "z": 9.999999999999996
+  },
+  "nonOrthoMoveResult": null,
+  "nonOrthoMaxLevel": 31,
+  "nonOrthoMessages": []
+}

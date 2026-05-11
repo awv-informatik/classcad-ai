@@ -1,0 +1,9 @@
+[04] COG before group - inst1: {"x":20,"y":15,"z":10}
+[04] COG before group - inst2: {"x":60.017472083678825,"y":1.4224784038056615e-15,"z":12.492719965133816}
+[04] groupId: 236
+[04] COG after group - inst1: {"x":20,"y":15,"z":10}
+[04] COG after group - inst2: {"x":60.017472083678825,"y":1.4224784038056615e-15,"z":12.492719965133816}
+[04] transformInstance result: null maxLevel: 51
+[04] COG after transform inst1: {"x":20,"y":15,"z":10}
+[04] COG after transform inst2: {"x":60.017472083678825,"y":1.4224784038056615e-15,"z":12.492719965133816}
+[filewrite] files/04-spatial-behavior-cog-comparison.json (620 bytes)

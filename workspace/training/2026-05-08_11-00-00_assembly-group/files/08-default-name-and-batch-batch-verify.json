@@ -1,0 +1,18 @@
+{
+  "batch1": {
+    "id": 121,
+    "instanceIds": [
+      105,
+      109
+    ],
+    "name": "Batch1"
+  },
+  "batch2": {
+    "id": 125,
+    "instanceIds": [
+      107,
+      111
+    ],
+    "name": "Batch2"
+  }
+}

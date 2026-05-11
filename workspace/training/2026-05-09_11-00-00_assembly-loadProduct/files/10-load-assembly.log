@@ -1,0 +1,6 @@
+[10] Saved assembly OFB, content length: 6600
+[10] loadProduct assembly result: {"id":26} maxLevel: 31
+[filewrite] files/10-load-assembly-asm-load-structure.json (31777 bytes)
+[10] getAssemblyTemplate "SubAsm": 26 maxLevel: 31
+[10] getPartTemplate "SubAsm": null maxLevel: 51
+[10] Instance of loaded assembly: 86 maxLevel: 31

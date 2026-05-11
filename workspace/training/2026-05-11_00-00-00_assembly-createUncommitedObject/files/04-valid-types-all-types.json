@@ -1,0 +1,127 @@
+{
+  "CC_FastenedConstraint": {
+    "result": 24,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_FastenedOriginConstraint": {
+    "result": 26,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_RevoluteConstraint": {
+    "result": 28,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_CylindricalConstraint": {
+    "result": 30,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_PlanarConstraint": {
+    "result": 32,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_ParallelConstraint": {
+    "result": 34,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_SliderConstraint": {
+    "result": 36,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_SphericalConstraint": {
+    "result": 38,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_BallConstraint": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:Creation an object of a non-existent class: CC_BallConstraint\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+      }
+    ]
+  },
+  "CC_PrismaticConstraint": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:Creation an object of a non-existent class: CC_PrismaticConstraint\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+      }
+    ]
+  },
+  "CC_GearRelation": {
+    "result": 40,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_GroupConstraint": {
+    "result": 42,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_LinearPatternConstraint": {
+    "result": 44,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_CircularPatternConstraint": {
+    "result": 46,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_ProductReference": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:[CCVM::lcm: Function Initialize not found]] "
+      }
+    ]
+  },
+  "CC_Assembly": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:[CCVM::lcm: Function Initialize not found]] "
+      }
+    ]
+  },
+  "CC_Part": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:[CCVM::lcm: Function Initialize not found]] "
+      }
+    ]
+  }
+}

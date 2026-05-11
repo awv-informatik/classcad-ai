@@ -1,0 +1,44 @@
+{
+  "customTypes": {
+    "plane": {
+      "templateId": 107,
+      "lookedUp": 107,
+      "match": true
+    },
+    "axis": {
+      "templateId": 115,
+      "lookedUp": 115,
+      "match": true
+    },
+    "csys": {
+      "templateId": 123,
+      "lookedUp": 123,
+      "match": true
+    },
+    "point": {
+      "templateId": 131,
+      "lookedUp": 131,
+      "match": true
+    }
+  },
+  "builtins": {
+    "Top": 56,
+    "Front": 60,
+    "Right": 64,
+    "XAxis": 44,
+    "YAxis": 48,
+    "ZAxis": 52,
+    "Origin": 40
+  },
+  "nesting": {
+    "subAsmInst": 151,
+    "nestedLookup": {
+      "result": null,
+      "maxLevel": 51,
+      "msg": "Couldn't find work geometry with name: \"CustomCSys\""
+    },
+    "innerInstETResult": [
+      152
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+[06] COG before revolute: undefined
+[06] uncommitted revolute id: 290
+[06] updateRevolute result: null maxLevel: 51
+[filewrite] files/06-revolute-commit-update-revolute.json (256 bytes)
+[06] getRevolute id: undefined maxLevel: 51
+[filewrite] files/06-revolute-commit-get-revolute.json (4 bytes)
+[06] COG after revolute: undefined
+[filewrite] files/06-revolute-commit-cog-comparison.json (2 bytes)

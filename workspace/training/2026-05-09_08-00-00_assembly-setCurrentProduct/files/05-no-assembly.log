@@ -1,0 +1,8 @@
+[05] partId: 4
+[05] setCurrentProduct(partId) no-asm result: 4 maxLevel: 31
+[filewrite] files/05-no-assembly-no-asm.json (81 bytes)
+[05] asmId: null tplId: null instId: null
+[05] after setCurrentInstance(inst), setCurrentProduct(asm) returns: null (expected tplId: null )
+[filewrite] files/05-no-assembly-interaction.json (98 bytes)
+[05] after setCurrentProduct(tpl), setCurrentInstance(asm) result: null maxLevel: 51
+[filewrite] files/05-no-assembly-reverse.json (307 bytes)

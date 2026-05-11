@@ -1,0 +1,8 @@
+[11] cylindrical with zOffset param: 216 maxLevel: 31
+[11] getCylindrical result keys: [ 'id', 'mate1', 'mate2', 'name', 'zOffsetLimits', 'zRotationLimits' ]
+[11] has zOffset? false
+[11] zOffsetLimits: { max: null, min: null }
+[filewrite] files/11-free-dof-verify-getCylindrical-withZOffset.json (369 bytes)
+[11] COG after (inst2 started z=20): { x: 40, y: 10, z: 24 }
+[11] free DOF inst3 (started z=35): COG = { x: 40, y: 10, z: 39 }
+[11] z-offset preserved? YES (35+4)

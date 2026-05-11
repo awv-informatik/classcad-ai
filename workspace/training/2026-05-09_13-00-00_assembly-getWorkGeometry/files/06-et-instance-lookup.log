@@ -1,0 +1,10 @@
+[06] template wcsId: 107
+[06] innerInst (template-scope): 123
+[06] subInst: 125
+[06] ET instance ID: 126
+[06] ET inst/Mate: 107 maxLevel: 31
+[06] ET inst/Top: 56 maxLevel: 31
+[06] directInst/Mate: 107 maxLevel: 31
+[06] ET lookup ID === direct lookup ID: true
+[06] ET lookup ID === template WCS: true
+[filewrite] files/06-et-instance-lookup-results.json (302 bytes)

@@ -1,0 +1,6 @@
+[01] asmId: 12
+[01] instBase: 295 instArm1: 297 instArm2: 299
+[01] rev1: 309
+[01] rev2: 313
+[01] gear result: 404 maxLevel: 31
+[filewrite] files/01-basic-gear-gear-create-response.json (55 bytes)

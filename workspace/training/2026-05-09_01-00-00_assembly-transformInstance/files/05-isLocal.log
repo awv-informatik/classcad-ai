@@ -1,0 +1,5 @@
+[05] COG before: {"x":30,"y":40,"z":7.5}
+[05] childET instances: [118]
+[05] global transform result: null maxLevel: 31
+[05] COG after global +30X: {"x":45,"y":39.99999999999999,"z":7.5}
+[filewrite] files/05-isLocal-results.json (284 bytes)

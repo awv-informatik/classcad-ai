@@ -1,0 +1,31 @@
+{
+  "inst1": {
+    "before": {
+      "x": 30,
+      "y": 20,
+      "z": 5
+    },
+    "after": {
+      "x": 30,
+      "y": 20,
+      "z": 5
+    }
+  },
+  "inst2": {
+    "before": {
+      "x": 65,
+      "y": 40,
+      "z": 27.5
+    },
+    "after": {
+      "x": 15,
+      "y": 10,
+      "z": 7.5
+    }
+  },
+  "analysis": {
+    "inst2_x_change": -50,
+    "inst2_y_change": -30,
+    "inst2_z_change": -20
+  }
+}

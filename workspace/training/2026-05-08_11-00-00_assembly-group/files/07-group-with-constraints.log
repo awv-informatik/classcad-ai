@@ -1,0 +1,6 @@
+[07] fastened result: 291
+[07] group with constrained instances result: 364
+[filewrite] files/07-group-with-constraints-group-constrained.json (20 bytes)
+[07] getGroup: {"id":364,"instanceIds":[279,281],"name":"ArmPinGroup"}
+[07] COGs - base: {"x":40,"y":30,"z":5} arm: {"x":25,"y":7.5,"z":19} pin: {"x":60.024498258220184,"y":-1.0895030670047635e-15,"z":9.99183391392661}
+[filewrite] files/07-group-with-constraints-cog-with-constraints.json (216 bytes)

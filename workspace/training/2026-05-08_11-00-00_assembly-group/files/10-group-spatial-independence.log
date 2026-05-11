@@ -1,0 +1,7 @@
+[10] transformInstanceTo inst1 result: null maxLevel: 31
+[10] inst1 COG after move: {"x":20.000000000000004,"y":95.00000000000001,"z":10.000000000000002}
+[10] inst2 COG after move: {"x":60.017472083678825,"y":1.4224784038056615e-15,"z":12.492719965133816}
+[filewrite] files/10-group-spatial-independence-spatial-independence.json (213 bytes)
+[10] inst1 moved to y~95: true
+[10] inst2 stayed at y~0: true
+[10] Conclusion: grouped instances are spatially INDEPENDENT: true

@@ -1,0 +1,8 @@
+[filewrite] files/02-omit-types-bbox-before-omit.json (747 bytes)
+[02] centerView (no types) result: null maxLevel: 31
+[filewrite] files/02-omit-types-centerView-omit-response.json (56 bytes)
+[filewrite] files/02-omit-types-bbox-after-omit.json (767 bytes)
+[02] view 0 center: (0.00, 0.00)
+[02] view 1 center: (0.00, 0.00)
+[02] view 2 center: (0.00, -0.00)
+[02] view 3 center: (0.00, -0.00)

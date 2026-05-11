@@ -1,0 +1,11 @@
+[03] inst1: 113
+[03] setIdent on assembly: 31
+[03] setIdent on template: 31
+[filewrite] files/03-ident-scope-setIdent-template.json (56 bytes)
+[03] setIdent on WCS: 31
+[filewrite] files/03-ident-scope-setIdent-wcs.json (56 bytes)
+[03] transformInstance(ident): null maxLevel: 31
+[filewrite] files/03-ident-scope-transformInstance-ident.json (56 bytes)
+[03] fastenedOrigin(ident): null maxLevel: 51
+[filewrite] files/03-ident-scope-fastenedOrigin-ident.json (479 bytes)
+[03] massProps(numericId): ok maxLevel: 31

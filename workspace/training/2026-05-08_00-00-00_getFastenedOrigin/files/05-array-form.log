@@ -1,0 +1,5 @@
+[05] batch both found — result count: 2
+[05] batch maxLevel: 31
+[05] batch mixed — result: [{"id":121,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"FO_A","xOffset":10,"xRotation":0,"yOffset":0,"yRotation":0,"zOffset":0,"zRotation":0},null]
+[05] batch mixed — maxLevel: 51
+[filewrite] files/05-array-form-array-form-results.json (1466 bytes)

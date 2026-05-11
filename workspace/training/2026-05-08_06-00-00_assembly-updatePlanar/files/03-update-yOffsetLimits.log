@@ -1,0 +1,6 @@
+[03] COG with yLimits [10,50]: {"x":15,"y":20.000999999999994,"z":19.499999999999996}
+[03] update yOffsetLimits [30,70] result: 216 maxLevel: 31
+[03] COG with yLimits [30,70]: {"x":15,"y":40.001000000000005,"z":19.5}
+[03] remove yOffsetLimits result: 216 maxLevel: 31
+[03] COG after removing yLimits: {"x":15,"y":40.001000000000005,"z":19.5}
+[filewrite] files/03-update-yOffsetLimits-yOffsetLimits-update.json (422 bytes)

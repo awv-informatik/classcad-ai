@@ -1,0 +1,20 @@
+{
+  "dataExport": {
+    "keys": [
+      "content",
+      "success"
+    ],
+    "hasContent": true
+  },
+  "fileExport": {
+    "keys": [
+      "success"
+    ],
+    "hasContent": false
+  },
+  "urlExport": {
+    "success": 1,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

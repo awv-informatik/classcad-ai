@@ -1,0 +1,5 @@
+[09] COG before: {"x":30,"y":50.00000000000001,"z":7.5}
+[09] combined result: null maxLevel: 31
+[09] COG after: {"x":35,"y":75.00000000000001,"z":7.5}
+[09] expected COG: [35, 75, 7.5]
+[filewrite] files/09-combined-rot-translate-results.json (153 bytes)

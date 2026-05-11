@@ -1,0 +1,31 @@
+{
+  "inst1": {
+    "cog": {
+      "x": 30,
+      "y": 20,
+      "z": 15
+    },
+    "volume": 72000
+  },
+  "inst2": {
+    "cog": {
+      "x": 130,
+      "y": 20,
+      "z": 15
+    },
+    "volume": 71999.99999999999
+  },
+  "assembly": {
+    "cog": {
+      "x": 79.99999999999999,
+      "y": 20,
+      "z": 15
+    },
+    "volume": 144000
+  },
+  "checks": {
+    "inst2CogXExpected": 130,
+    "asmCogXExpected": 80,
+    "asmVolExpected": 144000
+  }
+}

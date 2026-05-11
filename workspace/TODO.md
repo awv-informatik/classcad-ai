@@ -43,6 +43,13 @@ Collected from all training journals. Ordered by severity.
 - **Trigger:** `merge({ id, target: X, tools: [X] })`
 - **Recovery:** `kill -9` required.
 
+### 6. 💀 `assembly.from` — ECXML `<assembly>` element hangs server
+
+- **Session:** `2026-05-09_10-00-00_assembly-from` (journal entry 08)
+- **Error:** ❌ 100% CPU, no response. Worker required `kill -9`.
+- **Trigger:** `assembly.from({ data: '<assembly name="X">...</assembly>', format: 'ECXML' })`
+- **Workaround:** Do not use ECXML format with `assembly.from`. Use `assembly.create()` instead.
+
 ---
 
 ## 🔥 CRITICAL — Recalc Invalidation Bug (affects multiple shape-transform APIs)
@@ -177,6 +184,18 @@ Collected from all training journals. Ordered by severity.
 
 - **Session:** `2026-04-14_10-00-00_constraintRetrain` (journal line ~301)
 - **Detail:** ⚠️ Some invalid constraints return null (proper rejection), others get created with an ID but produce solver errors (maxLevel=51).
+
+### 134. 📖 `assembly.getRevolute` — `id` param only accepts assembly root, not instance/product
+
+- **Session:** `2026-05-08_03-00-00_assembly-getRevolute` (journal line ~77)
+- **Error:** ⚠️ Docs say `id` is "id of the product or instance to look for constraint" but only the assembly root ID works. Instance IDs and template IDs return null/maxLevel=51.
+- **Workaround:** Always pass the assembly root ID.
+
+### 148. 📖 `assembly.from` — JSON/ECXML format completely undocumented
+
+- **Session:** `2026-05-09_10-00-00_assembly-from` (journal summary)
+- **Error:** Docs say `assembly.from` accepts JSON/XML/ECXML but the data format is never specified. 60+ field names tested for template/instance/constraint entries — none work. No export to JSON/ECXML exists (input-only formats). API is effectively non-functional.
+- **Workaround:** Use `assembly.create()` + standard assembly APIs (`partTemplate`, `instance`, etc.) instead.
 
 ---
 
@@ -885,3 +904,123 @@ Collected from all training journals. Ordered by severity.
 - **Error:** 🤫 Creating two `fastenedOrigin` constraints on the same instance succeeds without error (maxLevel 31 for both). The first constraint wins for positioning; the second has no spatial effect but is stored and returned by `getFastenedOrigin`.
 - **Trigger:** `fastenedOrigin({ id: asmId, mate1: { path: [inst], csys: wcs }, xOffset: 50 })` then `fastenedOrigin({ id: asmId, mate1: { path: [inst], csys: wcs }, xOffset: 100 })` — instance stays at xOffset=50.
 - **Workaround:** Avoid creating multiple fastenedOrigin constraints on the same instance. Use `updateFastenedOrigin` to modify an existing constraint instead.
+
+### 129. 🕳️ `assembly.revolute` — duplicate constraint names silently accepted
+
+- **Session:** `2026-05-08_01-00-00_assembly-revolute` (journal entry 10)
+- **Error:** Creating two revolute constraints with the same name succeeds without error (maxLevel 31). `getRevolute` may return either one unpredictably.
+- **Trigger:** `revolute({ id: asmId, name: 'DupTest', mate1: ..., mate2: ... })` called twice with the same name.
+- **Workaround:** Use unique constraint names. Check with `getRevolute` before creating.
+
+### 130. 📖 `assembly.revolute` — missing required params give cryptic errors
+
+- **Session:** `2026-05-08_01-00-00_assembly-revolute` (journal entry 10)
+- **Error:** Omitting `mate2` or `mate2.csys` produces "Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]" (maxLevel=51). No hint about which parameter is missing.
+- **Trigger:** `revolute({ id: asmId, name: 'Rev', mate1: { path: [inst1], csys: wcsA } })` (no mate2).
+- **Workaround:** Ensure both mate1 and mate2 are complete objects with `path` and `csys`.
+
+
+### 131. 📖 `assembly.gear` — docs say "constraint" but only revolute accepted
+
+- **Session:** `2026-05-08_10-00-00_assembly-gear` (journal entry 08, 09)
+- **Error:** The API docs describe `constr1Id` and `constr2Id` as generic "constraint" IDs, but the server only accepts revolute constraints. Cylindrical, fastened, fastenedOrigin, planar, slider, and spherical all fail with: "wrong id type! Provide only following id types: [\"revoluteconstraint\"]" (code 1001).
+- **Trigger:** `gear({ id: asmId, constr1Id: cylindricalId, constr2Id: cylindricalId2, ratio: 1 })`
+- **Workaround:** Only use revolute constraint IDs with gear.
+
+### 132. 🕳️ `assembly.gear` — self-linking silently accepted
+
+- **Session:** `2026-05-08_10-00-00_assembly-gear` (journal entry 08)
+- **Error:** 🤫 Passing the same revolute constraint ID for both `constr1Id` and `constr2Id` succeeds without error (maxLevel 31, returns a gear relation ID). Likely a no-op but not validated.
+- **Trigger:** `gear({ id: asmId, constr1Id: revId, constr2Id: revId, ratio: 2 })`
+- **Workaround:** Use two different revolute constraints.
+
+### 133. 🕳️ `assembly.group` — empty instanceIds creates degenerate group at FATAL level
+
+- **Session:** `2026-05-08_11-00-00_assembly-group` (journal entry 05)
+- **Error:** `group({ id: asmId, name: 'Empty', instanceIds: [] })` returns an ID (182) AND a FATAL message (level 61): "No instances were provided for the Group constraint". The group is created despite the FATAL error.
+- **Trigger:** Empty array for instanceIds.
+- **Workaround:** Always pass at least one valid instance ID.
+
+### 134. 🕳️ `assembly.group` — duplicate instance IDs not deduplicated
+
+- **Session:** `2026-05-08_11-00-00_assembly-group` (journal entry 05)
+- **Error:** 🤫 `group({ id: asmId, instanceIds: [A, A, B] })` stores duplicates without error. getGroup returns `instanceIds: [A, A, B]`.
+- **Trigger:** Repeated instance ID in the instanceIds array.
+- **Workaround:** Deduplicate instanceIds client-side before calling group.
+
+### 135. 🕳️ `assembly.update3DConstraintValue` — silent no-op on rigid constraints and non-DOF names
+
+- **Session:** `2026-05-08_13-00-00_assembly-update3DConstraintValue` (journal entries 01, 02, 03, 05, 06, 11)
+- **Error:** 🤫 Calling with a fastened/fastenedOrigin ID or with a non-DOF name on a kinematic constraint returns maxLevel=31 (success) but does nothing. No error, no warning. The value is unchanged.
+- **Trigger:** `update3DConstraintValue({ id: fastenedId, name: 'X_OFFSET', value: 100 })` or `update3DConstraintValue({ id: revoluteId, name: 'Z_OFFSET', value: 50 })` (revolute only has Z rotation DOF).
+- **Workaround:** Only use DOF-matching names per constraint type (see LLM doc for mapping table).
+
+### 136. 📖 `assembly.update3DConstraintValue` — spherical joints cannot be driven (X/Y_ROTATION not valid)
+
+- **Session:** `2026-05-08_13-00-00_assembly-update3DConstraintValue` (journal entries 07, 11)
+- **Error:** Spherical constraint DOFs are X and Y rotation. But X_ROTATION and Y_ROTATION are not accepted (error 1013). Z_ROTATION has no effect on spherical. The API only accepts 4 names: X_OFFSET, Y_OFFSET, Z_OFFSET, Z_ROTATION.
+- **Trigger:** `update3DConstraintValue({ id: sphericalId, name: 'Z_ROTATION', value: 1.0 })` — silent no-op.
+- **Workaround:** None — spherical joints cannot be driven programmatically via this API.
+
+### 137. 📖 `assembly.update3DConstraintValue` — no readback API for current DOF value
+
+- **Session:** `2026-05-08_13-00-00_assembly-update3DConstraintValue` (journal entry 10)
+- **Error:** After setting DOF values via update3DConstraintValue, the get* APIs (getRevolute, getCylindrical, etc.) do NOT return the current DOF position. State objects are identical before and after the update.
+- **Trigger:** `update3DConstraintValue({ id: revId, name: 'Z_ROTATION', value: '45deg' })` then `getRevolute({ id: asmId, name: 'Rev' })` — no Z_ROTATION field in result.
+- **Workaround:** Use `calculateMassProperties(instanceId)` to measure the instance position and infer the DOF value.
+
+### 138. 📖 `assembly.transformInstance` — docs claim "scaling is ignored" but scale matrices silently change position
+
+- **Session:** `2026-05-09_01-00-00_assembly-transformInstance` (journal entry 07)
+- **Error:** A 2x scale matrix `[[2,0,0,0],[0,2,0,0],[0,0,2,0],[0,0,0,1]]` is accepted (maxLevel=31). The rotation part is normalized, but the translation column absorbs the scaling from matrix composition. Instance at [20,30,0] moves to [40,60,0].
+- **Trigger:** Any non-orthogonal matrix with uniform or non-uniform scaling.
+- **Workaround:** Only use orthogonal rotation matrices. Do not rely on the "scaling is ignored" claim — the position will shift.
+
+### 143. 💀 `assembly.moveUnderConstraints` — calling without prior `startMovingUnderConstraints` hangs server
+
+- **Session:** `2026-05-09_04-00-00_assembly-moveUnderConstraints` (journal entry 05)
+- **Error:** ❌ 100% CPU hang. Worker requires kill -9. No error returned — the call never resolves.
+- **Trigger:** `moveUnderConstraints({ id: asmId, offset: [10,0,0] })` without a prior `startMovingUnderConstraints` call.
+- **Workaround:** Always use the full start → move → finish sequence.
+
+### 144. 💀 `assembly.moveUnderConstraints` — invalid assembly ID hangs server
+
+- **Session:** `2026-05-09_04-00-00_assembly-moveUnderConstraints` (journal entry 05, script 05 original run)
+- **Error:** ❌ 100% CPU hang after passing `id: 99999`. The call returns error code 1006 but then the worker enters an infinite loop on subsequent calls.
+- **Trigger:** `moveUnderConstraints({ id: 99999, offset: [...] })` with a non-existent ID.
+- **Workaround:** Validate assembly ID before calling.
+
+### 145. 💀 `assembly.finishMovingUnderConstraints` — calling without prior `startMovingUnderConstraints` hangs server
+
+- **Session:** `2026-05-09_05-00-00_assembly-finishMovingUnderConstraints` (journal entry 04)
+- **Error:** ❌ 100% CPU hang. Worker requires kill -9. Prior session (2026-05-09_03-00-00 script 05) reported "succeeds silently" but that test had different context — isolated test confirms hang.
+- **Trigger:** `finishMovingUnderConstraints({ id: asmId })` without any prior `startMovingUnderConstraints` call.
+- **Workaround:** Always use the full start → move → finish sequence.
+
+### 146. 💥 `assembly.setIdent` — batch/array form broken
+
+- **Session:** `2026-05-09_09-00-00_assembly-setIdent` (journal entry 07)
+- **Error:** "objId not found" when passing `Array<object>` despite docs showing param accepts array.
+- **Trigger:** `setIdent([{ id: inst2, ident: 'part_b' }, { id: inst3, ident: 'part_c' }])`
+- **Workaround:** Use individual calls instead of batch form.
+
+### 147. 📖 `assembly.setIdent` — inconsistent ident resolution across assembly APIs
+
+- **Session:** `2026-05-09_09-00-00_assembly-setIdent` (journal entries 02-09)
+- **Error:** Some assembly APIs resolve ident strings in `id` params, others only do stol (numeric string) conversion and reject custom idents with "couldn't be converted to an id."
+- **Trigger:** Passing ident string to `setCurrentProduct`, `setCurrentInstance`, `calculateMassProperties`, `deleteConstraint`, or any constraint `path` array.
+- **Workaround:** Only use ident strings with `instance`, `transformInstance`, `transformInstanceTo`, `deleteInstance`. Use numeric IDs everywhere else.
+
+### 148. 📖 `drawing2d.getBoundaryBoxFromView` — empty types returns empty, contradicts docs
+
+- **Session:** `2026-05-11_00-00-00_drawing2d-view` (journal entry 08)
+- **Error:** Docs say "if empty all views will be returned" but passing `types: []` returns `[]` (empty array) instead of bboxes for all existing views.
+- **Trigger:** `getBoundaryBoxFromView({ id: partId, types: [] })` after views created.
+- **Workaround:** Always pass explicit type list.
+
+### 149. 🟡 `drawing2d.view` — out-of-range color silently accepted
+
+- **Session:** `2026-05-11_00-00-00_drawing2d-view` (journal entry 04)
+- **Error:** Docs say color range is [0,256] but passing `color: 999` is silently accepted (no error, no warning).
+- **Trigger:** `view({ id: partId, types: ['TOP'], color: 999 })`
+- **Workaround:** None needed, but no validation is performed.

@@ -1,0 +1,10 @@
+{
+  "planarId": 216,
+  "renameResult": 216,
+  "oldNameAfterRename": null,
+  "newNameResult": {
+    "id": 216,
+    "name": "NewName",
+    "zOffset": 15
+  }
+}

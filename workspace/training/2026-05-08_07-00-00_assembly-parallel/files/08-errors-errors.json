@@ -1,0 +1,57 @@
+{
+  "sameInstance": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": {
+      "api": "v1.assembly.parallel",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The path of mate1 and mate2 cannot be used in this combination for constraint with id = $216 in assembly with id = $12, they probably belong to the same rigid set."
+    }
+  },
+  "badFlip": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": {
+      "api": "v1.assembly.parallel",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Type \"W\" is not supported to use as flip type."
+    }
+  },
+  "badReorient": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": {
+      "api": "v1.assembly.parallel",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Type \"45\" is not supported to use as reorient type."
+    }
+  },
+  "missingMate2": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": {
+      "api": "v1.assembly.parallel",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+    }
+  },
+  "missingCsys": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": {
+      "api": "v1.assembly.parallel",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+    }
+  }
+}

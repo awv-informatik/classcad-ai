@@ -1,0 +1,100 @@
+{
+  "missing_id": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missing_type": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"type\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missing_name": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"name\" must be provided in the api call!"
+      }
+    ]
+  },
+  "invalid_type": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:Creation an object of a non-existent class: InvalidType\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+      }
+    ]
+  },
+  "lowercase_type": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:Creation an object of a non-existent class: cc_fastenedconstraint\nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+      }
+    ]
+  },
+  "invalid_id": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  },
+  "empty_type": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.Create3DConstraint:Creation an object of a non-existent class: \nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] "
+      }
+    ]
+  }
+}

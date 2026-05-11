@@ -1,0 +1,9 @@
+[08] getInstance by name: 105 maxLevel: 31
+[08] getInstance by old name: [] maxLevel: 31
+[08] transformInstance by ident: 31
+[08] transformInstance by name: 31
+[filewrite] files/08-name-vs-ident-transformInstance-by-name.json (38 bytes)
+[08] fastenedOrigin created: 121
+[08] setIdent on constraint: 31
+[filewrite] files/08-name-vs-ident-setIdent-constraint.json (38 bytes)
+[08] COG: {"x":20,"y":15,"z":10}

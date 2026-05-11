@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.startMovingUnderConstraints",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided value for parameter \"mucType\" is not valid. Possible values are: [\"TRANSLATION_1D\",\"TRANSLATION_2D\",\"ROTATION\"]"
+    }
+  ],
+  "maxLevel": 51
+}

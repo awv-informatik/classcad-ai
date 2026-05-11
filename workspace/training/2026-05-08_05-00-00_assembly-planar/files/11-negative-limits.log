@@ -1,0 +1,5 @@
+[11] planar result: 216 maxLevel: 31
+[11] inst2 COG: {"x":4.999000000000002,"y":-10.001,"z":7.5}
+[11] inst2 world origin: x= -10.000999999999998 , y= -20.000999999999998
+[11] default=0, clamp to nearest: x=-10 (max), y=-20 (max)
+[filewrite] files/11-negative-limits-negative-limits.json (362 bytes)

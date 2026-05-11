@@ -1,0 +1,12 @@
+[17] Comparing from() vs loadProduct()...
+[17] Exported OFB, length: 53648
+[17] Saved OFB via common.save, length: 52028
+[17] loadProduct result: {"id":26} maxLevel: 31
+[filewrite] files/17-from-vs-loadProduct-loadProduct.json (70 bytes)
+[17] from() with OFB as JSON: maxLevel: 51
+[17]   Not possible to create assembly from provided stream, url or file.
+[17] from() with common.save as JSON: maxLevel: 51
+[17]   Not possible to create assembly from provided stream, url or file.
+[17] from() with name: 14 maxLevel: 31
+[17] Root name: AssemblyRoot
+[filewrite] files/17-from-vs-loadProduct-from-with-name.json (66 bytes)

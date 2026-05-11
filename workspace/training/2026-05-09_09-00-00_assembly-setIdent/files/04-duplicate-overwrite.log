@@ -1,0 +1,13 @@
+[04] inst1: 105 inst2: 107
+[04] duplicate ident result: null maxLevel: 51
+[filewrite] files/04-duplicate-overwrite-duplicate-ident.json (211 bytes)
+[04] overwrite ident result: null maxLevel: 31
+[filewrite] files/04-duplicate-overwrite-overwrite-ident.json (56 bytes)
+[04] getInstance old ident (alpha): [ 105, 107 ] maxLevel: 31
+[filewrite] files/04-duplicate-overwrite-old-ident-lookup.json (74 bytes)
+[04] getInstance new ident (gamma): [ 105, 107 ] maxLevel: 31
+[filewrite] files/04-duplicate-overwrite-new-ident-lookup.json (74 bytes)
+[04] clear ident result: null maxLevel: 31
+[filewrite] files/04-duplicate-overwrite-clear-ident.json (56 bytes)
+[04] getInstance cleared ident (gamma): [ 105, 107 ] maxLevel: 31
+[filewrite] files/04-duplicate-overwrite-cleared-ident-lookup.json (74 bytes)

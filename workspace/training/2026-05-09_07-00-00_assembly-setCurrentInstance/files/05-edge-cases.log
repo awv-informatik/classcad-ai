@@ -1,0 +1,8 @@
+[05] setCurrentInstance(99999) result: null maxLevel: 51
+[filewrite] files/05-edge-cases-bad-id.json (447 bytes)
+[05] featureId (Box1): 70
+[05] setCurrentInstance(featureId) result: null maxLevel: 51
+[filewrite] files/05-edge-cases-feature-id.json (311 bytes)
+[05] setCurrentInstance(inst1) twice result: null maxLevel: 31
+[05] setCurrentInstance("myBoxIdent") result: null maxLevel: 51
+[filewrite] files/05-edge-cases-ident-string.json (490 bytes)

@@ -1,0 +1,27 @@
+{
+  "result": 54,
+  "messages": [
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in jsonAsmBuilder.CreateTemplates:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+    },
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in jsonAsmBuilder.CreateInstances:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+    },
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in jsonAsmBuilder.CreateConstraints:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+    }
+  ],
+  "maxLevel": 51
+}

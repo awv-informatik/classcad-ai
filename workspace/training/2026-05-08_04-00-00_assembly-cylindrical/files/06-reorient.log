@@ -1,0 +1,9 @@
+[06] reorient=0 (free rotation): COG={"x":40,"y":10,"z":24}
+[06] reorient=90 (free rotation): COG={"x":40,"y":10,"z":24}
+[06] reorient=180 (free rotation): COG={"x":40,"y":10,"z":24}
+[06] reorient=270 (free rotation): COG={"x":40,"y":10,"z":24}
+[06] reorient=0 (locked): COG={"x":40,"y":10,"z":24}
+[06] reorient=90 (locked): COG={"x":10.000000000000004,"y":-40.00000000000002,"z":24.000000000000004}
+[06] reorient=180 (locked): COG={"x":-39.999999964102074,"y":-10.000000143591743,"z":24.000000000000014}
+[06] reorient=270 (locked): COG={"x":-10.000000000000014,"y":40.00000000000001,"z":23.999999999999996}
+[filewrite] files/06-reorient-reorient-cogs.json (696 bytes)

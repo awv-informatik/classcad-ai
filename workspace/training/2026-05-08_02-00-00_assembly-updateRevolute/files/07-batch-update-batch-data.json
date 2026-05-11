@@ -1,0 +1,66 @@
+{
+  "batchResult": [
+    218,
+    222
+  ],
+  "hinge1": {
+    "id": 218,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        206
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchHinge1",
+    "zOffset": 15,
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "hinge2": {
+    "id": 222,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        208
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchHinge2",
+    "zOffset": 30,
+    "zRotationLimits": {
+      "max": 0.7853981633974483,
+      "min": -0.7853981633974483
+    }
+  },
+  "cog2": {
+    "x": 40,
+    "y": 10,
+    "z": 19
+  },
+  "cog3": {
+    "x": 39.999999999999986,
+    "y": 9.999999999999996,
+    "z": 33.99999999999999
+  }
+}

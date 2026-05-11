@@ -1,0 +1,6 @@
+[04] lock rotation at 45deg result: 216 maxLevel: 31
+[04] rotation range [-90,90]deg result: 216 maxLevel: 31
+[04] getPlanar zRotationLimits: {"max":1.5707963267948966,"min":-1.5707963267948966}
+[04] remove rotation limits result: 216 maxLevel: 31
+[04] getPlanar after remove zRotationLimits: {"max":null,"min":null}
+[filewrite] files/04-update-zRotationLimits-zRotationLimits-update.json (214 bytes)

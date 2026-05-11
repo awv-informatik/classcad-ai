@@ -1,0 +1,19 @@
+{
+  "subInst": 117,
+  "childETId": 118,
+  "cogBefore": {
+    "x": 30,
+    "y": 40,
+    "z": 7.5
+  },
+  "cogAfterLocal": {
+    "x": 30,
+    "y": 55,
+    "z": 7.5
+  },
+  "localResult": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

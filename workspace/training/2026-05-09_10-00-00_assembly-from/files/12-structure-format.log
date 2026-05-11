@@ -1,0 +1,21 @@
+[12] Testing structure tree format as JSON templates...
+[filewrite] files/12-structure-format-original-structure.json (28010 bytes)
+[12] Part node keys: [
+  'expressionSet', 'dimensions',
+  'geometrySet',   'solids',
+  'name',          'class',
+  'id',            'flags',
+  'parent',        'members',
+  'children'
+]
+[12] ❌ full-node: result:14 maxLevel:51
+[12] ❌ name-class-members: result:14 maxLevel:51
+[12] ❌ with-children: result:14 maxLevel:51
+[12] ❌ whole-tree: result:14 maxLevel:51
+[12]   DIFFERENT: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Type error: A variable  of the type NullMem (nicht initialisiertes 
+[filewrite] files/12-structure-format-diff-whole-tree.json (1001 bytes)
+[12] ❌ tree-root: result:14 maxLevel:51
+[12]   DIFFERENT: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Type error: A variable  of the type NullMem (nicht initialisiertes 
+[filewrite] files/12-structure-format-diff-tree-root.json (1000 bytes)
+[12] array-of-nodes: null 51
+[12]   [Evaluation error in JsonAssemblyBuilder.Build::PROC:[CCVM::ldm: objId not found]] 

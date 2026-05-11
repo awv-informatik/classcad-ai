@@ -1,0 +1,37 @@
+{
+  "fullResult": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "-Z",
+      "path": [
+        206
+      ],
+      "reorient": "180"
+    },
+    "name": "FullTest",
+    "xOffsetLimits": {
+      "max": 60,
+      "min": 10
+    },
+    "yOffsetLimits": {
+      "max": 40,
+      "min": 5
+    },
+    "zOffset": 25,
+    "zRotationLimits": {
+      "max": 1.5707963267948966,
+      "min": -0.7853981633974483
+    }
+  },
+  "nonExistentResult": null,
+  "nonExistentMaxLevel": 51
+}

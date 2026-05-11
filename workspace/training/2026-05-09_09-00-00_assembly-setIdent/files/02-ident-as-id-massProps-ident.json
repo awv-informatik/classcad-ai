@@ -1,0 +1,24 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "levelStr": "WARN",
+      "level": 41,
+      "code": 0,
+      "message": "The string \"box_a\" couldn't be converted to an id. Error message: stol: no conversion"
+    },
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 1006,
+      "message": "An element of parameter \"id\" has an invalid id!"
+    },
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 0,
+      "message": "[Evaluation error in AssemblyAPI_v1.calculateMassProperties:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "maxLevel": 51
+}

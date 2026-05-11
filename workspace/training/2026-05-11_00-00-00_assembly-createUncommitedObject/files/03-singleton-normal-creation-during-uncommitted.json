@@ -1,0 +1,20 @@
+{
+  "result": 123,
+  "messages": [
+    {
+      "api": "v1.assembly.fastenedOrigin",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There are too many uncommited objects. Check the implementation."
+    },
+    {
+      "api": "v1.assembly.fastenedOrigin",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There are too many uncommited objects. Check the implementation."
+    }
+  ],
+  "maxLevel": 51
+}

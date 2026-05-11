@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.getInstance",
+      "code": 1004,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"ownerId\" must be provided in the api call!"
+    }
+  ],
+  "maxLevel": 51
+}

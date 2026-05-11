@@ -1,0 +1,9 @@
+[02] Testing JSON with templates/instances/constraints arrays...
+[02] empty arrays: result: 14 maxLevel: 31
+[filewrite] files/02-json-schema-empty-arrays.json (54 bytes)
+[02] one template: result: 34 maxLevel: 51
+[filewrite] files/02-json-schema-one-template.json (275 bytes)
+[02] typed template: result: 54 maxLevel: 51
+[filewrite] files/02-json-schema-typed-template.json (275 bytes)
+[02] template with data: result: 74 maxLevel: 51
+[filewrite] files/02-json-schema-template-with-data.json (275 bytes)

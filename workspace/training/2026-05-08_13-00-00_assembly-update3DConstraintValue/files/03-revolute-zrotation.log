@@ -1,0 +1,10 @@
+[03] revolute ID: 216
+[03] INITIAL inst2 COG: { x: 40, y: 7.5, z: 19 }
+[03] Z_ROTATION result: null maxLevel: 31 msgs: []
+[03] AFTER Z_ROTATION COG: { x: -7.500146928723543, y: 39.99997245058499, z: 19.000000000000004 }
+[03] Z_OFFSET result: null maxLevel: 31 msgs: []
+[03] AFTER Z_OFFSET COG: { x: -7.500146928723543, y: 39.99997245058499, z: 19.000000000000004 }
+[03] X_OFFSET result: null maxLevel: 31 msgs: []
+[03] getRevolute: {"id":216,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Hinge","zOffset":15,"zRotationLimits":{"max":null,"min":null}}
+[filewrite] files/03-revolute-zrotation-revolute-state.json (318 bytes)
+[filewrite] files/03-revolute-zrotation-results.json (497 bytes)

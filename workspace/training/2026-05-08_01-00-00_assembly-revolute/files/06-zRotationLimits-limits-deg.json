@@ -1,0 +1,25 @@
+{
+  "id": 280,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      206
+    ],
+    "reorient": "0"
+  },
+  "name": "RevDeg",
+  "zOffset": 0,
+  "zRotationLimits": {
+    "max": 3.141592653589793,
+    "min": -0.7853981633974483
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "sliderResult": 218,
+  "maxLevel": 31,
+  "messages": [],
+  "cogBefore": {
+    "x": 40,
+    "y": 10,
+    "z": 27.5
+  },
+  "cogAfter": {
+    "x": 10,
+    "y": 10,
+    "z": 27.5
+  }
+}

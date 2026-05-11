@@ -1,0 +1,5 @@
+[03] COG before save: { x: 94.99999999999997, y: 54.999999999999986, z: 34.99999999999999 }
+[03] saved OFB: 51804 chars
+[03] loaded, root: 12
+[03] assembly COG after load: { x: 94.99999999999999, y: 54.99999999999999, z: 34.99999999999999 }
+[filewrite] files/03-persist-after-save-load-persist-result.json (270 bytes)

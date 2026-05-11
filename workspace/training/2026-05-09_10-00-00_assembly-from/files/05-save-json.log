@@ -1,0 +1,10 @@
+[05] Creating an assembly and trying various export formats...
+[05] Assembly built: 12 tpl: 22 inst1: 113 inst2: 115
+[05] common.save JSON: maxLevel: 51 content length: undefined
+[filewrite] files/05-save-json-save-json-meta.json (314 bytes)
+[05] exportNode ECXML: maxLevel: 51 success: undefined
+[filewrite] files/05-save-json-export-ecxml-meta.json (290 bytes)
+[05] exportNode JSON: maxLevel: 51 success: undefined
+[filewrite] files/05-save-json-export-json-meta.json (290 bytes)
+[05] common.save ECXML: maxLevel: 51
+[filewrite] files/05-save-json-save-ecxml-meta.json (314 bytes)

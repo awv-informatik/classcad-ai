@@ -1,0 +1,5 @@
+[09] children under Sub1: [118]
+[09] children under Sub2: [121]
+[09] COG before: {"x":55,"y":10,"z":7.5}
+[09] COG after transforming child in Sub1: {"x":54.99999999999999,"y":50,"z":7.5}
+[filewrite] files/09-propagation-propagation-results.json (206 bytes)

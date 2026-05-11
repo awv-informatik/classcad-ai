@@ -1,0 +1,21 @@
+{
+  "test": "mixed-valid-invalid",
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.deleteConstraint",
+      "code": 0,
+      "level": 41,
+      "levelStr": "WARNING",
+      "message": "ToId()/TOID() didn't get an existing or valid id."
+    },
+    {
+      "api": "v1.assembly.deleteConstraint",
+      "code": 1006,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"ids\" has an invalid id!"
+    }
+  ],
+  "maxLevel": 51
+}

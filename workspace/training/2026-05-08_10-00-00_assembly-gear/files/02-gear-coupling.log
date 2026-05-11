@@ -1,0 +1,7 @@
+[02] gearId: 317
+[02] arm1 COG before: [ undefined, undefined, undefined ]
+[02] arm2 COG before: [ undefined, undefined, undefined ]
+[02] drive rev1 45deg: null maxLevel: 31
+[02] arm1 COG after: [ undefined, undefined, undefined ]
+[02] arm2 COG after: [ undefined, undefined, undefined ]
+[filewrite] files/02-gear-coupling-coupling-data.json (344 bytes)

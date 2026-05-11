@@ -1,0 +1,5 @@
+[08] combined result: 216 maxLevel: 31
+[08] inst2 COG: {"x":35.001,"y":20.00099999999999,"z":19.5}
+[08] inst2 world origin: {"x":20.000999999999998,"y":10.00099999999999,"z":12}
+[08] expected: x~20 (min), y~10 (min), z=12 (zOffset)
+[filewrite] files/08-combined-limits-combined.json (349 bytes)

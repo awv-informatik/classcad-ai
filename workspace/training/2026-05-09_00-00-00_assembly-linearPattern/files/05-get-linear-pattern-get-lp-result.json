@@ -1,0 +1,21 @@
+{
+  "dir1": {
+    "count": 4,
+    "distance": 50
+  },
+  "dir2": {
+    "count": 1,
+    "distance": 100
+  },
+  "id": 123,
+  "instanceId": 113,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      113
+    ],
+    "reorient": "0"
+  },
+  "name": "MyLP"
+}

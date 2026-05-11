@@ -1,0 +1,5 @@
+[07] reorient=0: result=216 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[07] reorient=90: result=224 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[07] reorient=180: result=231 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[07] reorient=270: result=238 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[filewrite] files/07-reorient-reorient-data.json (551 bytes)

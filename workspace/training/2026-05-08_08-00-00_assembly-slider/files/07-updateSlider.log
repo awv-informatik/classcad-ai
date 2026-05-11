@@ -1,0 +1,14 @@
+[07] COG after create: {"x":10,"y":10,"z":32.5}
+[07] updateSlider xOffset=40: 216 maxLevel: 31
+[07] COG after xOffset=40: {"x":50,"y":10,"z":32.5}
+[07] updateSlider yOffset=20: 216 maxLevel: 31
+[07] COG after yOffset=20: {"x":50.000000000000014,"y":30.00000000000001,"z":32.50000000000001}
+[07] updateSlider zOffsetLimits: 216 maxLevel: 31
+[07] COG after zLimits [10,20]: {"x":50,"y":30.00000000000001,"z":27.49899999999999}
+[07] rename: 216 maxLevel: 31
+[07] getSlider old name: null new name: 216
+[07] remove zLimits: 216 maxLevel: 31
+[07] COG after remove limits: {"x":50,"y":30.00000000000001,"z":27.49899999999999}
+[07] error (asm ID): null maxLevel: 51
+[07] error msg: The provided id for the constraint is not a constraint or relation. code: 1007
+[filewrite] files/07-updateSlider-updateSlider-data.json (1150 bytes)

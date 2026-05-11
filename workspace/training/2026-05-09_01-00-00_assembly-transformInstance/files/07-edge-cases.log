@@ -1,0 +1,12 @@
+[07] COG before: {"x":35,"y":40,"z":7.5}
+[07] identity result: null maxLevel: 31
+[07] COG after identity: {"x":35,"y":40,"z":7.5}
+[07] left-handed result: null maxLevel: 51
+[07] left-handed messages: [{"api":"v1.assembly.transformInstance","code":1014,"level":51,"levelStr":"ERROR","message":"The provided matrix is left-handed. This is not yet supported"}]
+[07] missing transform result: null maxLevel: 51
+[07] missing transform messages: [{"api":"v1.assembly.transformInstance","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"transformation\" must be provided in the api call!"}]
+[07] invalid id result: null maxLevel: 51
+[07] invalid id messages: [{"api":"v1.assembly.transformInstance","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.transformInstance","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[07] scale matrix result: null maxLevel: 31
+[07] COG final: {"x":55,"y":70,"z":7.5}
+[filewrite] files/07-edge-cases-results.json (1469 bytes)

@@ -1,0 +1,9 @@
+[07] zRotationLimits: {"max":null,"min":null}
+[07] limits is null? false
+[07] limits.min: null
+[07] limits.max: null
+[filewrite] files/07-no-limits-returned-no-limits.json (320 bytes)
+[07] flip returned: -Z
+[07] reorient returned: 180
+[07] limits with locked: {"max":0,"min":0}
+[filewrite] files/07-no-limits-returned-with-flip-reorient.json (317 bytes)

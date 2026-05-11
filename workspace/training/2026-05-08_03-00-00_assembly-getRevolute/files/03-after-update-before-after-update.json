@@ -1,0 +1,52 @@
+{
+  "before": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        206
+      ],
+      "reorient": "0"
+    },
+    "name": "MyRev",
+    "zOffset": 0,
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "after": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "-Z",
+      "path": [
+        206
+      ],
+      "reorient": "0"
+    },
+    "name": "RenamedRev",
+    "zOffset": 25,
+    "zRotationLimits": {
+      "max": 1.0471975511965976,
+      "min": -0.5235987755982988
+    }
+  }
+}

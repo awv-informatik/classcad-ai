@@ -1,0 +1,19 @@
+{
+  "before": {
+    "id": 115,
+    "instanceIds": [
+      105,
+      107,
+      109
+    ],
+    "name": "G1"
+  },
+  "after": {
+    "id": 115,
+    "instanceIds": [
+      105,
+      109
+    ],
+    "name": "G1"
+  }
+}

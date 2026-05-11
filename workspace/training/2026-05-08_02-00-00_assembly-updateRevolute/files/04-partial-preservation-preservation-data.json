@@ -1,0 +1,99 @@
+{
+  "initial": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "X",
+      "path": [
+        204
+      ],
+      "reorient": "90"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "-Z",
+      "path": [
+        206
+      ],
+      "reorient": "180"
+    },
+    "name": "FullHinge",
+    "zOffset": 15,
+    "zRotationLimits": {
+      "max": 1.0471975511965976,
+      "min": -0.5235987755982988
+    }
+  },
+  "afterName": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "X",
+      "path": [
+        204
+      ],
+      "reorient": "90"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "-Z",
+      "path": [
+        206
+      ],
+      "reorient": "180"
+    },
+    "name": "RenamedHinge",
+    "zOffset": 15,
+    "zRotationLimits": {
+      "max": 1.0471975511965976,
+      "min": -0.5235987755982988
+    }
+  },
+  "afterFlip": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "X",
+      "path": [
+        204
+      ],
+      "reorient": "90"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Y",
+      "path": [
+        206
+      ],
+      "reorient": "180"
+    },
+    "name": "RenamedHinge",
+    "zOffset": 15,
+    "zRotationLimits": {
+      "max": 1.0471975511965976,
+      "min": -0.5235987755982988
+    }
+  },
+  "checks": {
+    "nameChanged": true,
+    "m1flipPreserved": true,
+    "m1reorientPreserved": true,
+    "m2flipPreserved": true,
+    "m2reorientPreserved": true,
+    "zOffsetPreserved": true,
+    "limitsMinPreserved": true,
+    "limitsMaxPreserved": true,
+    "m1pathPreserved": true,
+    "m1csysPreserved": true,
+    "m2pathPreserved": true,
+    "m2csysPreserved": true
+  },
+  "checks2": {
+    "m2flipChanged": true,
+    "m2reorientPreserved": true,
+    "m1flipPreserved": true,
+    "m1reorientPreserved": true,
+    "zOffsetPreserved": true,
+    "namePreserved": true
+  }
+}

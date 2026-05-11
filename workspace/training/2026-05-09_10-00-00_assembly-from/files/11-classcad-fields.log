@@ -1,0 +1,17 @@
+[11] Testing ClassCAD-specific field names...
+[11] ❌ class-CC_Part: result:14 maxLevel:51
+[11] ❌ class-Part: result:14 maxLevel:51
+[11] ❌ class+data: result:14 maxLevel:51
+[11] ❌ localPath: result:14 maxLevel:51
+[11] ❌ rootPath: result:14 maxLevel:51
+[11] ❌ partName: result:14 maxLevel:51
+[11] ❌ Name: result:14 maxLevel:51
+[11] ❌ Data: result:14 maxLevel:51
+[11] ❌ File: result:14 maxLevel:51
+[11] ❌ Type: result:14 maxLevel:51
+[11] ❌ productId: result:14 maxLevel:51
+[11] ❌ ofbData: result:14 maxLevel:51
+[11] ❌ src: result:14 maxLevel:51
+[11] ❌ solid: result:14 maxLevel:51
+[11] ❌ value: result:14 maxLevel:51
+[11] ❌ name-as-key: result:14 maxLevel:51

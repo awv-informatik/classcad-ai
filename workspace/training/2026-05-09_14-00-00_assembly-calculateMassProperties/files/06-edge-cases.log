@@ -1,0 +1,10 @@
+[06] empty asm result: null maxLevel: 51
+[06] empty asm messages: [{"api":"v1.assembly.calculateMassProperties","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "}]
+[06] asm w/ template but no inst result: null maxLevel: 51
+[06] no inst messages: [{"api":"v1.assembly.calculateMassProperties","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "}]
+[06] empty template inst result: null maxLevel: 51
+[06] empty template inst msgs: [{"api":"v1.assembly.calculateMassProperties","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "}]
+[06] solid ID result: {"cog":{"x":0,"y":0,"z":0},"volume":8000} maxLevel: 31
+[06] bad ID result: null maxLevel: 51
+[06] bad ID messages: [{"levelStr":"WARN","level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"levelStr":"ERROR","level":51,"code":1006,"message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/06-edge-cases-edge-cases.json (2098 bytes)

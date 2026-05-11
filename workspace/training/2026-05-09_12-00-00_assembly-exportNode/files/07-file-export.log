@@ -1,0 +1,7 @@
+[07] file export OFB — success: 1 maxLevel: 31
+[07] content present? false
+[07] result: {"success":1}
+[07] file export STP (inferred) — success: 1 maxLevel: 31
+[07] content present? false
+[07] file export STP (explicit) — success: 1 maxLevel: 31
+[filewrite] files/07-file-export-file-export-results.json (256 bytes)

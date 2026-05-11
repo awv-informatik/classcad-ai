@@ -1,0 +1,6 @@
+[01] partId: 4 boxId: 54
+[01] single TOP view result: [ 120 ] maxLevel: 31
+[filewrite] files/01-basic-view-single-view-response.json (65 bytes)
+[01] multi view result: [ 165, 160, 155 ] maxLevel: 31
+[filewrite] files/01-basic-view-multi-view-response.json (83 bytes)
+[filewrite] files/01-basic-view-structure-after-views.json (31635 bytes)

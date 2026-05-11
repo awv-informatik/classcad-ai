@@ -1,0 +1,8 @@
+[06] empty types[] result: null maxLevel: 31
+[filewrite] files/06-edge-cases-empty-types.json (56 bytes)
+[06] invalid type result: null maxLevel: 51
+[filewrite] files/06-edge-cases-invalid-type.json (366 bytes)
+[06] uncreated type result: null maxLevel: 31
+[filewrite] files/06-edge-cases-uncreated-type.json (56 bytes)
+[06] duplicate types result: null maxLevel: 31
+[filewrite] files/06-edge-cases-duplicate-types.json (56 bytes)

@@ -1,0 +1,8 @@
+[01] revolute created: 216 maxLevel: 31
+[01] inst2 COG before: {"x":40,"y":10,"z":4}
+[01] updateRevolute zOffset=25: 216 maxLevel: 31
+[01] inst2 COG after zOffset=25: {"x":40,"y":10,"z":29}
+[01] updateRevolute zOffset=-10: 216 maxLevel: 31
+[01] inst2 COG after zOffset=-10: {"x":40,"y":10,"z":-6}
+[01] getRevolute zOffset: -10
+[filewrite] files/01-zOffset-update-zOffset-data.json (575 bytes)

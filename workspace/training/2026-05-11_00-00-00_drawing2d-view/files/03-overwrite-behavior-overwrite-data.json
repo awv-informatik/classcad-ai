@@ -1,0 +1,20 @@
+{
+  "firstCallIds": [
+    91,
+    96
+  ],
+  "secondCallIds": [
+    108,
+    103
+  ],
+  "viewsAfterSecond": [
+    {
+      "id": 103,
+      "name": "SR"
+    },
+    {
+      "id": 108,
+      "name": "ISO"
+    }
+  ]
+}

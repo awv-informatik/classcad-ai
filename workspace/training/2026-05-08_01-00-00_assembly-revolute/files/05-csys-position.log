@@ -1,0 +1,9 @@
+[05] inst1 COG before: {"x":30,"y":20,"z":5}
+[05] inst2 COG before: {"x":159.99999999999991,"y":69.99999999999996,"z":43.99999999999997}
+[05] revolute result: 276 maxLevel: 31
+[05] inst1 COG after: {"x":30,"y":20,"z":5}
+[05] inst2 COG after: {"x":40,"y":10,"z":4}
+[05] inst2 world origin: {"x":0,"y":0,"z":0}
+[05] Expected if csys ignored: (0,0,0)
+[05] Expected if csys used:    (60,10,10)
+[filewrite] files/05-csys-position-csys-position-data.json (626 bytes)

@@ -1,0 +1,6 @@
+[03] start1: 31
+[03] start2 (overwrites start1): 31
+[03] after move (should use TRANSLATION_2D): { x: 70, y: 45, z: 10 }
+[03] after double move (last should win): { x: 70, y: 145, z: 10 }
+[03] after clean restart: { x: 94.99999999999997, y: 169.99999999999994, z: 34.99999999999999 }
+[filewrite] files/03-state-machine-state-machine.json (505 bytes)

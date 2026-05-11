@@ -1,0 +1,11 @@
+{
+  "getInstance": null,
+  "massProp": {
+    "cog": {
+      "x": 100,
+      "y": 15,
+      "z": 10
+    },
+    "volume": 24000
+  }
+}

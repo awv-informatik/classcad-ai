@@ -1,0 +1,23 @@
+{
+  "before": {
+    "x": 80.00000000000001,
+    "y": 10.000000000000002,
+    "z": 5.000000000000001
+  },
+  "afterRotPlusOffset": {
+    "x": 10.000000000000005,
+    "y": -60,
+    "z": 5.000000000000013
+  },
+  "afterOffsetOnly": {
+    "x": 10.000000000000007,
+    "y": -40,
+    "z": 5.000000000000015
+  },
+  "afterRotOnly": {
+    "x": -39.99999999999999,
+    "y": -10.000000000000007,
+    "z": 5.000000000000019
+  },
+  "analysis": "If rotate-first: rot(COG_start) + offset. If translate-first: rot(COG_start + offset)"
+}

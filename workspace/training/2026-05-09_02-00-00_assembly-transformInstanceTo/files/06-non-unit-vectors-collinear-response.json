@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.transformInstanceTo",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AssemblyBuilder.TransformInstance:Vectors for SetCoordSystem may not be parallel\nFile: /Users/dev/dev/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 302\nFunction: OBJ_SetCoordSystem\nFile: /Users/dev/dev/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 302] "
+    }
+  ],
+  "maxLevel": 51
+}

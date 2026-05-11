@@ -1,0 +1,19 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.setCurrentProduct",
+      "code": 0,
+      "level": 41,
+      "levelStr": "WARNING",
+      "message": "The string \"root\" couldn't be converted to an id. Error message: stol: no conversion"
+    },
+    {
+      "api": "v1.assembly.setCurrentProduct",
+      "code": 1006,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"id\" has an invalid id!"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[10] missing mate2: 51 [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] 
+[10] missing csys: 51 [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] 
+[10] same instance: 51 null
+[10] invalid flip: 51 Type "Q" is not supported to use as flip type.
+[10] dup name: 31 236
+[10] getRevolute wrong name: result= null maxLevel: 51
+[filewrite] files/10-errors-error-results.json (930 bytes)

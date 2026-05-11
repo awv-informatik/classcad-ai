@@ -1,0 +1,17 @@
+{
+  "lp1": {
+    "constraint": 123,
+    "instances": [
+      113,
+      125,
+      127
+    ]
+  },
+  "lp2": {
+    "constraint": 137,
+    "instances": [
+      129
+    ]
+  },
+  "seedId": 113
+}

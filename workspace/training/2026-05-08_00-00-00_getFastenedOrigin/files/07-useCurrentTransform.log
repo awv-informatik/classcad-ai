@@ -1,0 +1,6 @@
+[07] created with useCurrentTransform, id: 119
+[07] back-computed xOffset: 75 (expected 75)
+[07] back-computed yOffset: 30 (expected 30)
+[07] back-computed zOffset: 15 (expected 15)
+[07] rotations: 0 0 0
+[filewrite] files/07-useCurrentTransform-useCurrentTransform-result.json (246 bytes)

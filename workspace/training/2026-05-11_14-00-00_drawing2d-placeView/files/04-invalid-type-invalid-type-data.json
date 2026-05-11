@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.drawing2d.placeView",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided value for parameter \"type\" is not valid. Possible values are: [\"TOP\",\"FRONT\",\"RIGHT\",\"LEFT\",\"BOTTOM\",\"RIGHT_90\",\"LEFT_90\",\"BACK\",\"ISO\"]"
+    }
+  ]
+}

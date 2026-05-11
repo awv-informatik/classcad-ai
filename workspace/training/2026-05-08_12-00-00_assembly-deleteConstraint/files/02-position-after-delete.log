@@ -1,0 +1,7 @@
+[02] getInstance before: null
+[02] massProp before: {"cog":{"x":100,"y":15,"z":10},"volume":24000}
+[filewrite] files/02-position-after-delete-before-delete.json (131 bytes)
+[02] delete result: null maxLevel: 31
+[02] getInstance after: null
+[02] massProp after: {"cog":{"x":100,"y":15,"z":10},"volume":24000}
+[filewrite] files/02-position-after-delete-after-delete.json (131 bytes)

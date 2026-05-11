@@ -1,0 +1,14 @@
+[13] Testing alternative top-level JSON structures...
+[13] ❌ products: result:14 maxLevel:51
+[13]   DIFF: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Type error: A variable  of the type NullMem (nicht initialisiertes 
+[13] ❌ parts: result:14 maxLevel:51
+[13]   DIFF: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Type error: A variable  of the type NullMem (nicht initialisiertes 
+[13] ❌ components: result:14 maxLevel:51
+[13]   DIFF: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Type error: A variable  of the type NullMem (nicht initialisiertes 
+[13] ❌ loadFrom: result:14 maxLevel:51
+[13] ❌ product-nested: result:14 maxLevel:51
+[13] ❌ features: result:14 maxLevel:51
+[13] ❌ operations: result:14 maxLevel:51
+[13] ❌ import: result:14 maxLevel:51
+[13] ecxml-as-json: 14 51
+[13]   [Evaluation error in jsonAsmBuilder.CreateTemplates:[Type error: A variable  of the type NullMem (nicht initialisiertes 

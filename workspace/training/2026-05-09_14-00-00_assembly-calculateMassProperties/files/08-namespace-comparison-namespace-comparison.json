@@ -1,0 +1,78 @@
+{
+  "assembly-root": {
+    "asm": {
+      "cog": {
+        "x": 77,
+        "y": 48,
+        "z": 23.5
+      },
+      "volume": 80000
+    },
+    "part": {
+      "cog": {
+        "x": 77,
+        "y": 48,
+        "z": 23.5
+      },
+      "volume": 80000
+    },
+    "identical": true
+  },
+  "part-template": {
+    "asm": {
+      "cog": {
+        "x": 27,
+        "y": 18,
+        "z": 13.5
+      },
+      "volume": 80000
+    },
+    "part": {
+      "cog": {
+        "x": 27,
+        "y": 18,
+        "z": 13.5
+      },
+      "volume": 80000
+    },
+    "identical": true
+  },
+  "instance": {
+    "asm": {
+      "cog": {
+        "x": 77,
+        "y": 48,
+        "z": 23.5
+      },
+      "volume": 80000
+    },
+    "part": {
+      "cog": {
+        "x": 77,
+        "y": 48,
+        "z": 23.5
+      },
+      "volume": 80000
+    },
+    "identical": true
+  },
+  "solid": {
+    "asm": {
+      "cog": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "volume": 8000
+    },
+    "part": {
+      "cog": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "volume": 8000
+    },
+    "identical": true
+  }
+}

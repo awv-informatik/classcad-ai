@@ -1,0 +1,7 @@
+[05] gearId: 317
+[05] getGear result: {"constr1Id":309,"constr2Id":313,"id":317,"name":"MyGear","offset":0.5235987755982988,"ratio":2.5}
+[05] getGear maxLevel: 31
+[05] getGear wrong name: null maxLevel: 51
+[05] getGear instId: null maxLevel: 51
+[05] getGear empty name: null maxLevel: 51
+[filewrite] files/05-getGear-getGear-data.json (1180 bytes)

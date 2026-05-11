@@ -1,0 +1,14 @@
+[06] Without assembly - maxLevel: 51 result: null
+[06] messages: Assembly building is not initialized!; [Evaluation error in AssemblyAPI_v1.loadProduct::PROC:[CCVM::lcm: objId not found]] 
+[filewrite] files/06-error-cases-no-assembly.json (451 bytes)
+[06] Empty data - maxLevel: 51 result: null
+[06] messages: [Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] 
+Function: IO_Import
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] ; [Evaluation error in BM_IOModule.LoadOfN:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] ; [Evaluation error in BM_IOModule.PostProcessLoadProduct:[CCVM::max: arraymem expected]] ; Only loading drawings with one single root product is supported.
+[06] No source - maxLevel: 51 result: null
+[06] messages: Either data, file or url must be provided to load content from.
+[06] STL format - maxLevel: 51 result: null
+[06] messages: The provided value for parameter "format" is not valid. Possible values are: ["OFB","STP"]
+[06] OFB as STP - maxLevel: 51 result: null
+[06] messages: [Evaluation error in BM_IOModule.PostProcessLoadProduct:[Operation not possible: NullMem + ": this class is not supported for assembly building" ist nicht definiert (NullMem (nicht initialisiertes Member) + String)] ] ; Only loading drawings with one single root product is supported.
+[filewrite] files/06-error-cases-error-summary.json (326 bytes)

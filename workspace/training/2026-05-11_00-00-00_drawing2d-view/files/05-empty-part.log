@@ -1,0 +1,7 @@
+[05] partId: 4
+[05] empty part result: [54,62,58] maxLevel: 51
+[05] messages: [{"api":"v1.drawing2d.view","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in ViewSet.DoViewProjection:There must be at least one brep to perform a projection\nFunction: CADH_ProjectEntitiesToPlane\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/Projection.cpp,     Line: 52] "}]
+[filewrite] files/05-empty-part-empty-part-response.json (447 bytes)
+[05] empty types result: [] maxLevel: 31
+[05] invalid id result: null maxLevel: 51
+[05] invalid id messages: [{"api":"v1.drawing2d.view","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.drawing2d.view","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]

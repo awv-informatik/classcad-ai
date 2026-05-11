@@ -1,0 +1,8 @@
+[05] foId: 123 f1: 127 f2: 131
+[05] atomicity test - result: null maxLevel: 51
+[05] Joint1 still exists? true maxLevel: 31
+[filewrite] files/05-atomicity-and-grounding-atomicity.json (551 bytes)
+[05] inst1 COG before grounding delete: {"x":20,"y":15,"z":10}
+[05] delete fastenedOrigin - result: null maxLevel: 31
+[05] inst1 COG after grounding delete: {"x":20,"y":15,"z":10}
+[filewrite] files/05-atomicity-and-grounding-grounding-delete.json (205 bytes)

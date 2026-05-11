@@ -1,0 +1,7 @@
+[01] inst1 COG before: {"x":30,"y":20,"z":5}
+[01] inst2 COG before: {"x":65,"y":40,"z":27.5}
+[01] planar result: 276 maxLevel: 31
+[filewrite] files/01-basic-planar-planar-response.json (55 bytes)
+[01] inst1 COG after: {"x":30,"y":20,"z":5}
+[01] inst2 COG after: {"x":15,"y":10,"z":7.5}
+[filewrite] files/01-basic-planar-cog-comparison.json (404 bytes)

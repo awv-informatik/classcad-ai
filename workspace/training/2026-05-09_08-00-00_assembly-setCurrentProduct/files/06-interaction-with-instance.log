@@ -1,0 +1,13 @@
+[06] asmId: 12
+[06] tplId: 22
+[06] instId: 105
+[06] after setCurrentInstance(inst), setCurrentProduct(asm) returns: 22
+[06] expected tplId: 22 match: true
+[filewrite] files/06-interaction-with-instance-test1.json (106 bytes)
+[06] setCurrentProduct(instId) result (prev): 12 maxLevel: 31
+[06] switching away reveals current was: 22
+[06] was it the instance ID? false
+[06] was it the template ID? true
+[filewrite] files/06-interaction-with-instance-test2.json (136 bytes)
+[06] openFeature after setCurrentProduct(instId): SUCCESS
+[filewrite] files/06-interaction-with-instance-test3.json (69 bytes)

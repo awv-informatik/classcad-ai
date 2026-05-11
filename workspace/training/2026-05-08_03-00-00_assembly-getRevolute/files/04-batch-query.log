@@ -1,0 +1,7 @@
+[04] batch result type: array
+[04] batch length: 3
+[04] batch maxLevel: 51
+[04] batch[0] name: Rev1 zOffset: 10 id: 309
+[04] batch[1] name: Rev2 zOffset: 20 id: 313
+[04] batch[2] name: undefined zOffset: undefined id: undefined
+[filewrite] files/04-batch-query-batch-query-full.json (95878 bytes)

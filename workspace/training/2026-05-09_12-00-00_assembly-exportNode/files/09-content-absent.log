@@ -1,0 +1,7 @@
+[09] data export — result keys: [ 'content', 'success' ]
+[09] success: 1 has content: true
+[09] file export — result keys: [ 'success' ]
+[09] success: 1 has content: false
+[09] url export — success: 1 maxLevel: 31
+[09] url messages: []
+[filewrite] files/09-content-absent-content-behavior.json (265 bytes)

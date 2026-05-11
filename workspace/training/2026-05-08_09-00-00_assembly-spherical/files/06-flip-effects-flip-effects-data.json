@@ -1,0 +1,62 @@
+[
+  {
+    "flip": "Z",
+    "constraintId": 216,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "flip": "-Z",
+    "constraintId": 224,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "flip": "X",
+    "constraintId": 231,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "flip": "-X",
+    "constraintId": 238,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "flip": "Y",
+    "constraintId": 245,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "flip": "-Y",
+    "constraintId": 252,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  }
+]

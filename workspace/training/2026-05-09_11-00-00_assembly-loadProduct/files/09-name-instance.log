@@ -1,0 +1,7 @@
+[09] Template ID: 22
+[09] getPartTemplate "NamedPart": 22 maxLevel: 31
+[09] Instance by name result: 79 maxLevel: 31
+[09] Instance by ID result: 81 maxLevel: 31
+[09] ByName COG: {"x":20,"y":15,"z":10}
+[09] ById COG: {"x":80,"y":15,"z":10}
+[filewrite] files/09-name-instance-name-vs-id-mass.json (219 bytes)

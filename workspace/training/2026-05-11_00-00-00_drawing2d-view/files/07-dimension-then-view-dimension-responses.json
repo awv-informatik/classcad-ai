@@ -1,0 +1,25 @@
+{
+  "dim1": {
+    "result": 89,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "dim2": {
+    "result": 91,
+    "messages": [
+      {
+        "api": "v1.drawing2d.dimension",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "The dimension \"Height\" could not be calculated or the dimension value is 0.\r\n\t\t\tIf this wasn't intended, please check orientation type and start/end/center/corner positions of the dimension."
+      }
+    ],
+    "maxLevel": 41
+  },
+  "dim3": {
+    "result": 93,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

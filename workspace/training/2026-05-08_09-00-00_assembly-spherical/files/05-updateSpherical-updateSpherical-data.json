@@ -1,0 +1,105 @@
+{
+  "before": {
+    "id": 291,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        277
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        279
+      ],
+      "reorient": "0"
+    },
+    "name": "Ball1",
+    "yRotationLimits": {
+      "max": null
+    }
+  },
+  "afterLimits": {
+    "id": 291,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        277
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        279
+      ],
+      "reorient": "0"
+    },
+    "name": "Ball1",
+    "yRotationLimits": {
+      "max": 1.0471975511965976
+    }
+  },
+  "afterRename": {
+    "id": 291,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        277
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        279
+      ],
+      "reorient": "0"
+    },
+    "name": "BallJoint_Renamed",
+    "yRotationLimits": {
+      "max": 1.0471975511965976
+    }
+  },
+  "oldNameResult": null,
+  "inst3CogBefore": {
+    "x": -1.2289423112722104e-15,
+    "y": 50.01241143545837,
+    "z": 9.995035425816647
+  },
+  "inst3CogAfter": {
+    "x": -1.9602154039445698e-16,
+    "y": 8.130641188611659e-16,
+    "z": 9.995035425816642
+  },
+  "afterRemoveLimits": {
+    "id": 291,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        277
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 271,
+      "flip": "Z",
+      "path": [
+        281
+      ],
+      "reorient": "0"
+    },
+    "name": "BallJoint_Renamed",
+    "yRotationLimits": {
+      "max": null
+    }
+  }
+}

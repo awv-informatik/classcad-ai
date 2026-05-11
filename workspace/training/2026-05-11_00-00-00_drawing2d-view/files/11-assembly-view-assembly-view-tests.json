@@ -1,0 +1,31 @@
+{
+  "templateView": {
+    "result": [
+      109,
+      114
+    ],
+    "messages": [],
+    "maxLevel": 31
+  },
+  "asmRootView": {
+    "result": [
+      124,
+      131
+    ],
+    "messages": [],
+    "maxLevel": 31
+  },
+  "instanceView": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.drawing2d.view",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\"]"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

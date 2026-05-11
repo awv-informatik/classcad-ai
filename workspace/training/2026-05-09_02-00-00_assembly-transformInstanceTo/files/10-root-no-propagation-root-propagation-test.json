@@ -1,0 +1,22 @@
+{
+  "cogBefore": {
+    "x": 45,
+    "y": 10,
+    "z": 7.5
+  },
+  "cogAfter": {
+    "x": 44.99999999999999,
+    "y": 35.00000000000001,
+    "z": 7.5
+  },
+  "expectedNoPropagation": {
+    "x": 45,
+    "y": 35,
+    "z": 7.5
+  },
+  "expectedWithPropagation": {
+    "x": 45,
+    "y": 60,
+    "z": 7.5
+  }
+}

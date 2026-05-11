@@ -1,0 +1,18 @@
+{
+  "byAssembly": {
+    "result": 216,
+    "maxLevel": 31
+  },
+  "byInst1": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "byInst2": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "byTemplate": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

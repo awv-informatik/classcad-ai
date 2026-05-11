@@ -1,0 +1,14 @@
+{
+  "test": "delete-gear",
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.deleteConstraint",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"ids\" has the wrong type! It should be of type (string|real|id)"
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,5 @@
+[04] revolute result: 216 maxLevel: 31
+[04] inst2 COG: {"x":40,"y":10,"z":29}
+[04] inst1 COG: {"x":30,"y":20,"z":5}
+[04] getRevolute zOffset: 25
+[filewrite] files/04-zOffset-zOffset-data.json (588 bytes)

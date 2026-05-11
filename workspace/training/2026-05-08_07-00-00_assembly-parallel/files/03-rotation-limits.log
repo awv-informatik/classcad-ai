@@ -1,0 +1,4 @@
+[03] COG before: {"x":30,"y":5,"z":16}
+[03] parallel result: 218 maxLevel: 31
+[03] COG after (should show rotation): {"x":17.67766952966368,"y":24.74873734152916,"z":15.999999999999988}
+[filewrite] files/03-rotation-limits-rotation-limits-cog.json (166 bytes)

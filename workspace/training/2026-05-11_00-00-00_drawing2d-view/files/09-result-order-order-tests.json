@@ -1,0 +1,76 @@
+{
+  "test1": {
+    "input": [
+      "TOP",
+      "RIGHT",
+      "FRONT"
+    ],
+    "resultIds": [
+      91,
+      96,
+      101
+    ],
+    "treeOrder": [
+      {
+        "id": 91,
+        "name": "D"
+      },
+      {
+        "id": 96,
+        "name": "SR"
+      },
+      {
+        "id": 101,
+        "name": "V"
+      }
+    ]
+  },
+  "test2": {
+    "input": [
+      "ISO"
+    ],
+    "resultIds": [
+      109
+    ]
+  },
+  "test3": {
+    "input": [
+      "BACK",
+      "LEFT"
+    ],
+    "resultIds": [
+      115,
+      120
+    ],
+    "treeOrder": [
+      {
+        "id": 115,
+        "name": "R"
+      },
+      {
+        "id": 120,
+        "name": "SL"
+      }
+    ]
+  },
+  "test4": {
+    "input": [
+      "LEFT",
+      "BACK"
+    ],
+    "resultIds": [
+      132,
+      127
+    ],
+    "treeOrder": [
+      {
+        "id": 127,
+        "name": "SL"
+      },
+      {
+        "id": 132,
+        "name": "R"
+      }
+    ]
+  }
+}

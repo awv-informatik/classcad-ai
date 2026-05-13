@@ -1,0 +1,7 @@
+[11 A] root name: MyRootAsm maxLevel: 31
+[11 B] transform-string maxLevel: 31
+[11 B] Bolt instance COG: {"x":50.01913153109368,"y":30.011478918656202,"z":38.12121023929739}
+[filewrite] files/11-nameIfRoot-and-transform-B-structure.json (35241 bytes)
+[11 C] transformation-field-as-matrix maxLevel: 31
+[11 C] Bolt instance COG (transformation ignored?): {"x":-1.5352735363744197e-15,"y":5.2376674469805114e-17,"z":28.12930171139339}
+[filewrite] files/11-nameIfRoot-and-transform-messages.json (35 bytes)

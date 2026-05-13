@@ -1,0 +1,4 @@
+[16] maxLevel: 51
+[16] errors: [{"api":"v1.assembly.from","code":0,"level":51,"levelStr":"ERROR","message":"Instance not found: B"},{"api":"v1.assembly.from","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"instanceId\" = VOID is not allowed in this situation!"}]
+[16] constraint nodes: [{"class":"CC_FastenedOriginConstraint","name":"FastenedOrigin"}]
+[filewrite] files/16-linear-pattern-structure.json (38269 bytes)

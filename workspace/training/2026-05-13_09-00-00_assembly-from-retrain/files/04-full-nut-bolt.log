@@ -1,0 +1,8 @@
+[04] result: 14 maxLevel: 51
+[04] messages: [{"api":"v1.assembly.from","code":0,"level":51,"levelStr":"ERROR","message":"Unknown constraint type!"},{"api":"v1.assembly.from","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] "}]
+[filewrite] files/04-full-nut-bolt-structure.json (66929 bytes)
+[filewrite] files/04-full-nut-bolt-node-summary.json (6846 bytes)
+[04] Bolt_Instance id: 164 Nut_Instance id: 166
+[04] Bolt COG: {"x":-1.5352735363744197e-15,"y":5.2376674469805114e-17,"z":28.12930171139339}
+[04] Nut COG : {"x":9.999009081980876,"y":9.999009081980876,"z":1.5002972754057373}
+[filewrite] files/04-full-nut-bolt-mass-props.json (328 bytes)

@@ -1,0 +1,8 @@
+[12] result: 14 maxLevel: 31
+[12] errors: []
+[filewrite] files/12-sub-assembly-inline-structure.json (86112 bytes)
+[filewrite] files/12-sub-assembly-inline-node-summary.json (8034 bytes)
+[12] NB1 id: 188
+[12] NB1 children: [189,190]
+[12] NB1 COG: {"x":-1.3190724338361662e-15,"y":1.8202268122617508e-18,"z":26.416754285445176}
+[12] NB2 COG (should be offset by ~100 in X): {"x":100.02969219096313,"y":4.194164926697103e-15,"z":26.416754285664215}

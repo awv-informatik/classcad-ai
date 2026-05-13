@@ -1,0 +1,6 @@
+[18] maxLevel: 31
+[18] errors: []
+[filewrite] files/18-version-1-node-summary.json (7139 bytes)
+[18] constraints: [{"class":"CC_FastenedOriginConstraint","name":"FastenedOrigin"},{"class":"CC_FastenedConstraint","name":"Fastened"}]
+[18] Bolt COG: {"x":-1.5352735363744197e-15,"y":5.2376674469805114e-17,"z":28.12930171139339}
+[18] Nut COG : {"x":-3.200820992544119e-16,"y":-2.317835891152638e-16,"z":18.50366639667077}

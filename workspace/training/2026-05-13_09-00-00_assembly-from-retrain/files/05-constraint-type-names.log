@@ -1,0 +1,7 @@
+[05] {"typeStr":"FastenedOriginConstraint","maxLevel":51,"errs":["Unknown constraint type!","[Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] "],"constraintCreated":false,"constraintClass":null}
+[05] {"typeStr":"CC_FastenedOriginConstraint","maxLevel":31,"errs":[],"constraintCreated":true,"constraintClass":"CC_3DConstraintSolver"}
+[05] {"typeStr":"FastenedOrigin","maxLevel":51,"errs":["Unknown constraint type!","[Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] "],"constraintCreated":false,"constraintClass":null}
+[05] {"typeStr":"CC_FastenedOrigin","maxLevel":51,"errs":["Unknown constraint type!","[Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] "],"constraintCreated":false,"constraintClass":null}
+[05] {"typeStr":"FASTENED_ORIGIN","maxLevel":51,"errs":["Unknown constraint type!","[Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] "],"constraintCreated":false,"constraintClass":null}
+[05] {"typeStr":"fastenedOrigin","maxLevel":51,"errs":["Unknown constraint type!","[Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] "],"constraintCreated":false,"constraintClass":null}
+[filewrite] files/05-constraint-type-names-results.json (1535 bytes)

@@ -191,11 +191,18 @@ Collected from all training journals. Ordered by severity.
 - **Error:** ⚠️ Docs say `id` is "id of the product or instance to look for constraint" but only the assembly root ID works. Instance IDs and template IDs return null/maxLevel=51.
 - **Workaround:** Always pass the assembly root ID.
 
-### 148. 📖 `assembly.from` — JSON/ECXML format completely undocumented
+### 148. 📖 `assembly.from` — JSON schema documented but upstream doc is incomplete
 
-- **Session:** `2026-05-09_10-00-00_assembly-from` (journal summary)
-- **Error:** Docs say `assembly.from` accepts JSON/XML/ECXML but the data format is never specified. 60+ field names tested for template/instance/constraint entries — none work. No export to JSON/ECXML exists (input-only formats). API is effectively non-functional.
-- **Workaround:** Use `assembly.create()` + standard assembly APIs (`partTemplate`, `instance`, etc.) instead.
+- **Session:** `2026-05-13_09-00-00_assembly-from-retrain` (supersedes 2026-05-09 finding)
+- **Status:** The 2026-05-09 conclusion "effectively non-functional" was WRONG — the format works. Authoritative source: `cclasses/Source/BaseModeling/JsonAssemblyBuilder.cclass{,_v1}`. Upstream user-facing doc: `buerli/sites/packages/classcad.ch/docs/api-usage/assembly_building.md`.
+- **Real issue:** The upstream doc's example shows v1 schema (bare `FastenedConstraint`, etc.) but omits the `"version": 1` flag that selects v1. Without the flag the default v0 parser rejects bare names with "Unknown constraint type!". Either add the flag or prefix every constraint/geometry type with `CC_`.
+- **Fix landed:** `references/assembly/from.md` rewritten with both schema versions, working example, and the field-name traps (`nameIfRoot` not `ident`; `transform` not `transformation` and STRING-typed; URL-only `reference.location`; etc.).
+
+### 149. ⚠️ `assembly.from` — `CC_LinearPatternConstraint` failed in JSON despite being in the parser
+
+- **Session:** `2026-05-13_09-00-00_assembly-from-retrain` (script 16)
+- **Error:** `instances: ['B']` reports "Instance not found: B" even though the SAME instance is reachable via `mate1.path: ['B']` in the previous constraint of the same payload. Source's `ConvertInstance` doesn't have the path-prefix fallback that `ConvertMate` has — that may explain it, but root-scope idents should resolve directly.
+- **Workaround:** Build patterns with `assembly.linearPattern` after `from()`. Avoid JSON-encoded linear pattern constraints.
 
 ---
 

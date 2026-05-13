@@ -1,0 +1,56 @@
+{
+  "a": {
+    "ref": {
+      "data": "<base64:52136b>",
+      "type": "ofb"
+    },
+    "maxLevel": 51,
+    "partLoaded": false,
+    "partName": null,
+    "firstErr": "[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_Import\nFile: /Users/d"
+  },
+  "b": {
+    "ref": {
+      "data": "<base64:52136b>",
+      "type": "ofb",
+      "encoding": "base64"
+    },
+    "maxLevel": 51,
+    "partLoaded": false,
+    "partName": null,
+    "firstErr": "[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_Import\nFile: /Users/d"
+  },
+  "c": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.assembly.from",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"format\" = VOID is not allowed in this situation!"
+      },
+      {
+        "api": "v1.assembly.from",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in jsonAsmBuilder.CreatePartAsTemplateFromReference::PROC:[CCVM::ldm: objId not found]] "
+      },
+      {
+        "api": "v1.assembly.from",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in jsonAsmBuilder.CreateTemplates:[Comparison with an uninitialized Member] ] "
+      },
+      {
+        "api": "v1.assembly.from",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in jsonAsmBuilder.CreateInstances:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Objektidentifikator addressed.] \nFunction: CADH_IdToReal\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+[06] result: 14 maxLevel: 31
+[06] messages: []
+[filewrite] files/06-full-nut-bolt-fixed-structure.json (72858 bytes)
+[filewrite] files/06-full-nut-bolt-fixed-node-summary.json (7132 bytes)
+[06] constraint nodes: [{"id":"170","class":"CC_3DConstraintSolver","name":"CC_3DConstraintSolver"},{"id":"172","class":"CC_FastenedOriginConstraint","name":"FastenedOrigin"},{"id":"176","class":"CC_FastenedConstraint","name":"Fastened"}]
+[06] Bolt COG: {"x":-1.5352735363744197e-15,"y":5.2376674469805114e-17,"z":28.12930171139339}
+[06] Nut COG : {"x":-3.200820992544119e-16,"y":-2.317835891152638e-16,"z":18.50366639667077}
+[filewrite] files/06-full-nut-bolt-fixed-mass-props.json (337 bytes)

@@ -1,0 +1,79 @@
+[
+  {
+    "type": "CC_FastenedOriginConstraint",
+    "maxLevel": 31,
+    "accepted": true,
+    "constraintClass": "CC_FastenedOriginConstraint",
+    "firstErr": null
+  },
+  {
+    "type": "CC_FastenedConstraint",
+    "maxLevel": 31,
+    "accepted": true,
+    "constraintClass": "CC_FastenedConstraint",
+    "firstErr": null
+  },
+  {
+    "type": "CC_CylindricalConstraint",
+    "maxLevel": 31,
+    "accepted": true,
+    "constraintClass": "CC_CylindricalConstraint",
+    "firstErr": null
+  },
+  {
+    "type": "CC_RevoluteConstraint",
+    "maxLevel": 31,
+    "accepted": true,
+    "constraintClass": "CC_RevoluteConstraint",
+    "firstErr": null
+  },
+  {
+    "type": "CC_PlanarConstraint",
+    "maxLevel": 31,
+    "accepted": true,
+    "constraintClass": "CC_PlanarConstraint",
+    "firstErr": null
+  },
+  {
+    "type": "CC_ParallelConstraint",
+    "maxLevel": 31,
+    "accepted": true,
+    "constraintClass": "CC_ParallelConstraint",
+    "firstErr": null
+  },
+  {
+    "type": "CC_SliderConstraint",
+    "maxLevel": 31,
+    "accepted": true,
+    "constraintClass": "CC_SliderConstraint",
+    "firstErr": null
+  },
+  {
+    "type": "CC_SphericalConstraint",
+    "maxLevel": 51,
+    "accepted": false,
+    "constraintClass": null,
+    "firstErr": "Unknown constraint type!"
+  },
+  {
+    "type": "CC_GearConstraint",
+    "maxLevel": 51,
+    "accepted": false,
+    "constraintClass": null,
+    "firstErr": "Unknown constraint type!"
+  },
+  {
+    "type": "CC_GroupConstraint",
+    "maxLevel": 51,
+    "accepted": false,
+    "constraintClass": null,
+    "firstErr": "Unknown constraint type!"
+  },
+  {
+    "type": "CC_CircularPatternConstraint",
+    "maxLevel": 51,
+    "accepted": false,
+    "constraintClass": null,
+    "firstErr": "Unknown constraint type!"
+  }
+]

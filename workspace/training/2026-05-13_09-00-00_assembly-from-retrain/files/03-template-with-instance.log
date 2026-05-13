@@ -1,0 +1,6 @@
+[03] result: 14 maxLevel: 31
+[03] messages: []
+[filewrite] files/03-template-with-instance-structure.json (35257 bytes)
+[filewrite] files/03-template-with-instance-node-summary.json (3634 bytes)
+[03] getInstance Bolt_Instance → 79 maxLevel: 31
+[filewrite] files/03-template-with-instance-getInstance.json (38833 bytes)

@@ -10,7 +10,7 @@ Creates one or more circles in a shape container.
 
 - `id` (required) — shape ID. Must be a shape, not part or EI.
 - `centerPos` (required) — `[x, y, z]` center point. Exactly 3 elements.
-- `radius` (required) — circle radius. **Must be > 0.** See Gotchas.
+- `radius` (required) — circle radius. Must be > 0; the API rejects `radius <= 0` with error code 1014.
 - `normal` (optional) — `[x, y, z]` plane normal. Default `[0, 0, 1]` (XY plane). Auto-normalized — non-unit vectors work. Negative normals flip orientation.
 
 ## Batch Creation
@@ -34,7 +34,7 @@ Returns VOID (null). maxLevel 31 on success. No ID is returned — circles canno
 
 ## Gotchas
 
-- **CRITICAL: `radius <= 0` hangs the server.** Both `radius: 0` and negative radius cause the classcad-cli worker to enter an infinite CPU loop. No error is returned — the call never resolves. The only recovery is `kill -9` on the worker process. **Always validate `radius > 0` before calling.**
+- **`radius <= 0` is rejected with a proper error** (code 1014, maxLevel 51, message `"The parameter \"radius\" must be greater than 0."`). Previously this hung the server in an infinite loop — fixed in classcad/cclasses 2b5dd88c + classcad/runtime 3c5db6448.
 - **Zero normal `[0, 0, 0]` silently succeeds.** No error, maxLevel 31. Unclear what plane is used — possibly defaults to `[0, 0, 1]`. Avoid relying on this.
 - **No individual circle IDs.** Like lines, circles are merged into the shape's geometry. You can't address, update, or delete individual circles — only the whole shape (`curve.deleteShape` / `curve.cleanShape`).
 - **Points must be exactly `[x, y, z]`** — no 2D shorthand. Error: `"...must have exactly 3 real values"`.
@@ -59,6 +59,7 @@ Non-unit vectors are auto-normalized. Very small normals like `[0, 0, 0.001]` wo
 | 1004 | ERROR | `"The parameter \"centerPos\" must be provided..."` | Missing centerPos |
 | 1004 | ERROR | `"The parameter \"radius\" must be provided..."` | Missing radius |
 | 1004 | ERROR | `"The parameter \"id\" must be provided..."` | Missing id |
+| 1014 | ERROR | `"The parameter \"radius\" must be greater than 0."` | `radius <= 0` |
 | 0 | ERROR | `"...must have exactly 3 real values"` | Point array not exactly 3 elements |
 
 ## Working Example

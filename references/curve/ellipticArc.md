@@ -14,8 +14,8 @@ Creates one or more elliptic arc curves — partial ellipses defined by center, 
 - `centerPos` — `[x, y, z]` center of the elliptic arc. Must be 3-element array.
 - `startAngle` — start angle in radians. **Must be >= 0 and <= 2*PI.**
 - `endAngle` — end angle in radians. **Must be >= 0 and <= 2*PI.**
-- `radius1` — radius along the `xAxis` direction. Must be > 0.
-- `radius2` — radius perpendicular to `xAxis` (in the arc plane). Must be > 0.
+- `radius1` — radius along the `xAxis` direction. Must be > 0; the API rejects `radius1 <= 0` with error code 1014.
+- `radius2` — radius perpendicular to `xAxis` (in the arc plane). Must be > 0; the API rejects `radius2 <= 0` with error code 1014.
 - `xAxis` (optional) — `[x, y, z]` direction vector for `radius1` and angle 0. Default `[1,0,0]`. Non-unit vectors are normalized internally.
 - `normal` (optional) — `[x, y, z]` plane normal. Default `[0,0,1]` (XY plane). **Must not be parallel to `xAxis`** — see Gotchas.
 
@@ -33,10 +33,10 @@ Returns `null` (VOID). maxLevel 31 on success. No ID is returned for individual 
 
 ## Gotchas
 
+- **`radius1 <= 0` or `radius2 <= 0` is rejected with a proper error** (code 1014, maxLevel 51, message `"The parameters \"radius1\" and \"radius2\" must both be greater than 0."`). Previously hung the server in an infinite loop — fixed alongside `curve.circle` in the same branch.
 - **CRITICAL: Parallel xAxis and normal HANGS THE SERVER.** If `xAxis` is parallel to `normal` (e.g., both `[0,0,1]`), the worker spins at 100% CPU indefinitely. No error is returned. You must `kill -9` the worker and restart. **Always ensure xAxis and normal are not parallel.**
 - **CRITICAL: Negative angles likely HANG THE SERVER.** Based on identical engine behavior with `arcByCenterRadAngle`, negative values for `startAngle` or `endAngle` should be assumed to hang. Always validate `>= 0`.
 - **CRITICAL: Angles beyond 2*PI likely HANG THE SERVER.** Same assumption as above. Keep angles in `[0, 2*PI]`.
-- **CRITICAL: Zero or negative radii likely HANG THE SERVER.** Based on `ellipse` behavior, `radius1 <= 0` or `radius2 <= 0` will hang. Always validate `> 0`.
 - **`radius1` and `radius2` are positional, not semantic.** `radius1` is always along `xAxis`, `radius2` is perpendicular. If `radius2 > radius1`, the visual major axis is perpendicular to `xAxis`. There is no requirement that `radius1 > radius2`.
 - **Equal radii produce a circular arc.** When `radius1 == radius2`, the result is equivalent to `arcByCenterRadAngle` with that radius.
 - **Points must be 3-element arrays.** Passing `[x, y]` (2D) returns error.
@@ -73,7 +73,8 @@ Returns single VOID response, maxLevel 31 on success.
 | 1004 | ERROR | `"The parameter \"radius2\" must be provided..."` | Missing required parameter |
 | 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
 | 0 | ERROR | `"point must have exactly 3 real values"` | Used 2D point `[x,y]` instead of `[x,y,z]` |
-| — | HANG | (no response) | Negative angles, angles > 2*PI, parallel xAxis/normal, or radius <= 0 |
+| 1014 | ERROR | `"The parameters \"radius1\" and \"radius2\" must both be greater than 0."` | Either radius `<= 0` |
+| — | HANG | (no response) | Negative angles, angles > 2*PI, or parallel xAxis/normal (still broken — separate TODOs) |
 
 ## Working Example
 

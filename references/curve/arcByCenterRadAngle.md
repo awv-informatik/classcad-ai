@@ -12,7 +12,7 @@ Creates one or more arcs defined by center position, radius, and start/end angle
 - `centerPos` (required) — `[x, y, z]` center of the arc.
 - `startAngle` (required) — start angle in radians. **Must be >= 0.**
 - `endAngle` (required) — end angle in radians. **Must be >= 0 and <= 2*PI.**
-- `radius` (required) — arc radius. Positive values only.
+- `radius` (required) — arc radius. Must be > 0; the API rejects `radius <= 0` with error code 1014.
 - `xAxis` (optional, default `[1,0,0]`) — reference direction for angle 0. The arc starts at `centerPos + radius * normalize(xAxis)` when `startAngle=0`.
 - `normal` (optional, default `[0,0,1]`) — arc plane normal. Defines which direction is "counterclockwise." **Must not be parallel to `xAxis`.**
 
@@ -28,6 +28,7 @@ All points must be `[x, y, z]` — no 2D shorthand.
 
 ## Gotchas
 
+- **`radius <= 0` is rejected with a proper error** (code 1014, maxLevel 51, message `"The parameter \"radius\" must be greater than 0."`). Previously hung the server in an infinite loop — fixed alongside `curve.circle` in the same branch.
 - **CRITICAL: Negative angles HANG THE SERVER.** Any negative value for `startAngle` or `endAngle` (even `-0.1`) causes the ClassCAD worker to spin at 100% CPU indefinitely. No error is returned. You must `kill -9` the worker and restart. **Always validate that both angles are >= 0 before calling.**
 - **CRITICAL: Angles beyond 2*PI HANG THE SERVER.** `endAngle=4*PI` or any value > 2*PI causes the same hang. Exactly 2*PI is fine (creates full circle), but nothing beyond.
 - **CRITICAL: Parallel xAxis and normal can HANG THE SERVER.** The docs say "should be different" — violating this causes inconsistent behavior: some parallel pairs work, others hang. **Always ensure xAxis and normal are not parallel.**
@@ -67,7 +68,8 @@ Returns single VOID response, maxLevel 31 on success.
 |------|-------|---------|-------|
 | 1004 | ERROR | `"The parameter \"<name>\" must be provided..."` | Missing required parameter |
 | 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
-| — | HANG | (no response) | Negative angles, angles > 2*PI, parallel xAxis/normal, or radius <= 0 |
+| 1014 | ERROR | `"The parameter \"radius\" must be greater than 0."` | `radius <= 0` |
+| — | HANG | (no response) | Negative angles, angles > 2*PI, or parallel xAxis/normal (still broken — separate TODOs) |
 
 ## Working Example
 

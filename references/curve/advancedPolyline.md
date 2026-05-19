@@ -56,8 +56,8 @@ Returns `VOID` (null). Curves are added to the shape container. No ID returned.
 
 - **First PLD must be absolute.** Starting with `xr`/`yr` gives: `"First point must be defined in absolute coordinates ('xa', 'ya')"`.
 - **Minimum 2 PLDs.** 1 point → internal error (array index out of bounds). Empty array `[]` → silent no-op.
-- **`r: 0` crashes.** Zero radius triggers an internal error in `CurveHelper.ComputeFillet` (array index out of bounds). Use no `r` property instead of `r: 0`.
-- **`r: negative` is accepted.** Produces an outward-bulging arc (fillet extends outward from the corner instead of inward). May be useful for decorative profiles, but undocumented.
+- **`r: 0` is accepted as a sharp corner** (equivalent to omitting `r`). No fillet is created. Verified empirically — the older "internal error in `CurveHelper.ComputeFillet`" claim was either stale or fixed silently.
+- **`r: negative` is rejected** with error code 1014, message `"The parameter \"pld[i].r\" (fillet radius) must be >= 0 when provided."` Previously a negative `r` was silently accepted and produced **corrupted geometry** at the corner (visible malformed protrusion); fixed alongside `curve.circle` in branch `fix/curve-circle-zero-radius-hang`.
 - **`c: 0` is a no-op.** Accepted silently, no chamfer applied. Safe but pointless.
 - **`c: negative` is accepted.** Silently accepted; behavior unclear — avoid.
 - **Oversized `r` or `c`** → clear error: `"Can't create a fillet/chamfer with offset larger than line length!"`.

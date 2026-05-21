@@ -10,8 +10,12 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { Client } from '../client.js'
 import type { StructureNode } from '../types.js'
 
-function slim(n: StructureNode): { id: unknown; class: string; name: string; parent: unknown } {
-  return { id: n.id, class: n.class, name: n.name, parent: n.parent }
+type SlimNode = { id: unknown; class: string; name: string; parent?: unknown }
+
+function slim(n: StructureNode): SlimNode {
+  const out: SlimNode = { id: n.id, class: n.class, name: n.name }
+  if (n.parent != null) out.parent = n.parent
+  return out
 }
 
 export function registerStateTools(server: McpServer, client: Client): void {
@@ -38,7 +42,7 @@ export function registerStateTools(server: McpServer, client: Client): void {
         nodeCount: nodes.length,
         nodes: nodes.map(slim),
       }
-      return { content: [{ type: 'text', text: JSON.stringify(summary, null, 2) }] }
+      return { content: [{ type: 'text', text: JSON.stringify(summary) }] }
     },
   )
 
@@ -63,7 +67,7 @@ export function registerStateTools(server: McpServer, client: Client): void {
         if (needle && !String(n.name ?? '').toLowerCase().includes(needle)) return false
         return true
       })
-      return { content: [{ type: 'text', text: JSON.stringify({ count: hits.length, nodes: hits.map(slim) }, null, 2) }] }
+      return { content: [{ type: 'text', text: JSON.stringify({ count: hits.length, nodes: hits.map(slim) }) }] }
     },
   )
 
@@ -96,7 +100,7 @@ export function registerStateTools(server: McpServer, client: Client): void {
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ found: true, node, parentChain: chain }, null, 2),
+          text: JSON.stringify({ found: true, node, parentChain: chain }),
         }],
       }
     },

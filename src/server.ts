@@ -45,7 +45,7 @@ async function main(): Promise<void> {
       const ws = client.ws
       const connected = ws ? ws.readyState === ws.OPEN : false
       const info = { wsUrl: client.url, sessionId: client.sessionId, connected, version: VERSION }
-      return { content: [{ type: 'text', text: JSON.stringify(info, null, 2) }] }
+      return { content: [{ type: 'text', text: JSON.stringify(info) }] }
     },
   )
 
@@ -68,13 +68,13 @@ async function main(): Promise<void> {
         const msg = err instanceof Error ? err.message : String(err)
         return {
           isError: true,
-          content: [{ type: 'text', text: JSON.stringify({ ok: false, error: msg }, null, 2) }],
+          content: [{ type: 'text', text: JSON.stringify({ ok: false, error: msg }) }],
         }
       }
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ ok: true, sessionId: client.sessionId, wsUrl: client.url }, null, 2),
+          text: JSON.stringify({ ok: true, sessionId: client.sessionId, wsUrl: client.url }),
         }],
       }
     },

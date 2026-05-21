@@ -26,7 +26,7 @@ function noBridgeError(sessionId: string | null) {
         hint: sessionId
           ? `No CC app has registered a bridge for session "${sessionId}". Start your app with the bridge enabled (e.g. ?mcpBridge=ws://localhost:9096/bridge) and reload.`
           : 'No session is attached. Call use_session first, then try again.',
-      }, null, 2),
+      }),
     }],
   }
 }
@@ -65,7 +65,7 @@ export function registerBridgeTools(
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ sessionId: sid, count: clients.length, clients, bridgeUrl: registry.url }, null, 2),
+          text: JSON.stringify({ sessionId: sid, count: clients.length, clients, bridgeUrl: registry.url }),
         }],
       }
     },
@@ -92,10 +92,10 @@ export function registerBridgeTools(
         const items = cached && conn.cachedSelection
           ? conn.cachedSelection
           : await conn.request<SelectionEntity[]>('selection.get')
-        return { content: [{ type: 'text', text: JSON.stringify({ ok: true, count: items.length, items }, null, 2) }] }
+        return { content: [{ type: 'text', text: JSON.stringify({ ok: true, count: items.length, items }) }] }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
-        return { isError: true, content: [{ type: 'text', text: JSON.stringify({ ok: false, error: msg }, null, 2) }] }
+        return { isError: true, content: [{ type: 'text', text: JSON.stringify({ ok: false, error: msg }) }] }
       }
     },
   )
@@ -128,10 +128,10 @@ export function registerBridgeTools(
       try {
         const params: SelectionSetParams = { items, replace: replace !== false }
         await conn.request<void>('selection.set', params)
-        return { content: [{ type: 'text', text: JSON.stringify({ ok: true, count: items.length }, null, 2) }] }
+        return { content: [{ type: 'text', text: JSON.stringify({ ok: true, count: items.length }) }] }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
-        return { isError: true, content: [{ type: 'text', text: JSON.stringify({ ok: false, error: msg }, null, 2) }] }
+        return { isError: true, content: [{ type: 'text', text: JSON.stringify({ ok: false, error: msg }) }] }
       }
     },
   )

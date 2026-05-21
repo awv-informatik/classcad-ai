@@ -1115,26 +1115,46 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
   const items = []
   const posMap = {}  // geomId → { midpoint: {x, y} } for constraint rendering
 
-  for (const lineId of (geom.lines || [])) {
-    const pos = (await execute({ 'v1.sketch.getPositions': [{ id: lineId }] })).result
-    if (pos) {
-      items.push({ type: 'line', startPos: pos.startPos, endPos: pos.endPos })
-      posMap[lineId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
-      // Also map endpoint IDs if available via getPoints
-      const pts = (await execute({ 'v1.sketch.getPoints': [{ id: lineId }] })).result
-      if (pts) {
-        posMap[pts.startId] = { midpoint: pos.startPos }
-        posMap[pts.endId] = { midpoint: pos.endPos }
-      }
+  const getPos = (id) => execute({ 'v1.sketch.getPositions': [{ id }] }).then(r => r.result).catch(() => null)
+  const getPts = (id) => execute({ 'v1.sketch.getPoints': [{ id }] }).then(r => r.result).catch(() => null)
+
+  // Dispatch all per-element queries in parallel. Each element needs at most
+  // two WS requests (positions + points); fire them concurrently per element,
+  // and across elements. The result type (line/circle/arc/point) is preserved
+  // so we can push items in a stable order below.
+  const lineIds = geom.lines || []
+  const circleIds = geom.circles || []
+  const arcIds = geom.arcs || []
+  const pointIds = geom.points || []
+
+  const [lineResults, circleResults, arcResults, pointResults] = await Promise.all([
+    Promise.all(lineIds.map(id => Promise.all([getPos(id), getPts(id)]))),
+    Promise.all(circleIds.map(async id => {
+      const pts = await getPts(id)
+      if (!pts?.centerId) return { pts: null, centerPos: null }
+      const centerPos = await getPos(pts.centerId)
+      return { pts, centerPos }
+    })),
+    Promise.all(arcIds.map(id => Promise.all([getPos(id), getPts(id)]))),
+    Promise.all(pointIds.map(id => getPos(id))),
+  ])
+
+  for (let i = 0; i < lineIds.length; i++) {
+    const lineId = lineIds[i]
+    const [pos, pts] = lineResults[i]
+    if (!pos) continue
+    items.push({ type: 'line', startPos: pos.startPos, endPos: pos.endPos })
+    posMap[lineId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
+    if (pts) {
+      posMap[pts.startId] = { midpoint: pos.startPos }
+      posMap[pts.endId] = { midpoint: pos.endPos }
     }
   }
 
-  for (const circleId of (geom.circles || [])) {
-    const pts = (await execute({ 'v1.sketch.getPoints': [{ id: circleId }] })).result
-    if (!pts?.centerId) continue
-    const centerPos = (await execute({ 'v1.sketch.getPositions': [{ id: pts.centerId }] })).result
-    if (!centerPos?.pos) continue
-    // Get radius from structure tree
+  for (let i = 0; i < circleIds.length; i++) {
+    const circleId = circleIds[i]
+    const { pts, centerPos } = circleResults[i]
+    if (!pts?.centerId || !centerPos?.pos) continue
     const obj = structureTree[String(circleId)]
     const radiusMember = obj?.members?.Radius || obj?.members?.radius
     const radius = radiusMember?.value ?? null
@@ -1143,22 +1163,22 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
     posMap[pts.centerId] = { midpoint: centerPos.pos }
   }
 
-  for (const arcId of (geom.arcs || [])) {
-    const pos = (await execute({ 'v1.sketch.getPositions': [{ id: arcId }] })).result
-    if (pos) {
-      items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos })
-      posMap[arcId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
-      const pts = (await execute({ 'v1.sketch.getPoints': [{ id: arcId }] })).result
-      if (pts) {
-        if (pts.startId) posMap[pts.startId] = { midpoint: pos.startPos }
-        if (pts.endId) posMap[pts.endId] = { midpoint: pos.endPos }
-        if (pts.centerId) posMap[pts.centerId] = { midpoint: pos.centerPos }
-      }
+  for (let i = 0; i < arcIds.length; i++) {
+    const arcId = arcIds[i]
+    const [pos, pts] = arcResults[i]
+    if (!pos) continue
+    items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos })
+    posMap[arcId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
+    if (pts) {
+      if (pts.startId) posMap[pts.startId] = { midpoint: pos.startPos }
+      if (pts.endId) posMap[pts.endId] = { midpoint: pos.endPos }
+      if (pts.centerId) posMap[pts.centerId] = { midpoint: pos.centerPos }
     }
   }
 
-  for (const ptId of (geom.points || [])) {
-    const pos = (await execute({ 'v1.sketch.getPositions': [{ id: ptId }] })).result
+  for (let i = 0; i < pointIds.length; i++) {
+    const ptId = pointIds[i]
+    const pos = pointResults[i]
     if (pos?.pos) {
       items.push({ type: 'point', pos: pos.pos })
       posMap[ptId] = { midpoint: pos.pos }
@@ -1700,21 +1720,24 @@ export async function renderSession(client, prefix, outDir, options = {}) {
   // Sketches live on a workplane in 3D, but projecting them into the camera here
   // would need each sketch's plane frame — left as a follow-up. For now they sit
   // beneath the 3D composite as a row of 2D panels.
-  const sketchBufs = []
-  if (wants('sketch')) {
-    for (const sketchId of content.sketches) {
+  let sketchBufs = []
+  if (wants('sketch') && content.sketches.length > 0) {
+    const built = await Promise.all(content.sketches.map(async (sketchId) => {
       try {
         const sketchData = await fetchSketchData((task) => execute(task), sketchId, tree)
         const items = sketchData?.items
         const posMap = sketchData?.posMap || {}
-        if (items && items.length > 0) {
-          const dimensions = extractDimensions(tree, sketchId)
-          const constraints = extractConstraints(tree, sketchId)
-          const svg = renderSketchSVG(items, width, height, dimensions, constraints, posMap)
-          if (svg) sketchBufs.push(await sharp(Buffer.from(svg)).png().toBuffer())
-        }
-      } catch (e) { /* skip */ }
-    }
+        if (!items || items.length === 0) return null
+        const dimensions = extractDimensions(tree, sketchId)
+        const constraints = extractConstraints(tree, sketchId)
+        const svg = renderSketchSVG(items, width, height, dimensions, constraints, posMap)
+        if (!svg) return null
+        return await sharp(Buffer.from(svg)).png().toBuffer()
+      } catch (e) {
+        return null
+      }
+    }))
+    sketchBufs = built.filter(Boolean)
   }
 
   let sketchRowBuf = null

@@ -257,8 +257,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         sendMessages_Immediately: false,
       },
     })
-    await new Promise((r) => setTimeout(r, 300))
 
+    // No artificial delay between Configuration and the bootstrap GetTree —
+    // WS preserves message order on a single connection, so the worker
+    // processes Configuration before our next request hits its handler.
     await bootstrapSession()
   }
 

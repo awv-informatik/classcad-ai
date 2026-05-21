@@ -1,14 +1,15 @@
-// snapshot — render the current drawing and return inline PNG content blocks
-// AND persist the same files to disk so hosts that don't render inline MCP
-// image content (some Claude Code versions) can still surface the image via
-// the Read tool, or the user can open the path manually.
+// snapshot — render the current drawing and return it as an inline PNG image
+// block plus the on-disk path.
 //
-// The renderer (ported from scripts/render-direct.mjs) writes PNGs to a
-// directory we control. Files are NOT cleaned up — they live in
+// The PNG is also persisted under
 //   $CLASSCAD_SNAPSHOT_DIR (env override) — or
 //   <os.tmpdir()>/classcad-snapshots/                — default
-// Each filename embeds the label + an ISO timestamp + the layer type, so
-// repeated calls don't collide.
+// so the user can open it later. Each filename embeds the label + an ISO
+// timestamp so repeated calls don't collide. Files are NOT auto-cleaned.
+//
+// Returning the image inline is what actually surfaces the render to the user
+// in MCP hosts that render image content (Claude Code, etc.). The path text is
+// kept as a short trailing note for the model's own reference.
 
 import { z } from 'zod'
 import { mkdirSync, readFileSync } from 'fs'
@@ -55,51 +56,22 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
     {
       title: 'Snapshot drawing',
       description:
-        'Render the current drawing to a PNG on disk and return its absolute path ' +
-        '(in $CLASSCAD_SNAPSHOT_DIR or <tmpdir>/classcad-snapshots). An inline PNG ' +
-        'image block is also returned as a bonus, but inline images are unreliable ' +
-        'across MCP hosts — many silently drop them, so the user sees nothing.' +
-        '\n\n' +
-        'MANDATORY FOLLOW-UP — every snapshot call MUST be followed immediately by a ' +
-        '`Read` call on the absolute path returned in the response. This is ' +
-        'unconditional: do not wait for the user to complain that they cannot see the ' +
-        'image, do not skip it because the inline block "looks fine" in your tool ' +
-        'result (your view ≠ the user\'s view). The Read tool surfaces the PNG inline ' +
-        'reliably; the inline image block alone does not. Skipping the Read means the ' +
-        'user sees a status line and a path string instead of the picture they asked for.' +
-        '\n\n' +
-        'The PNG persists on disk — never call snapshot a second time to "retry ' +
-        'display." If the inline block did not render, just Read the path you already ' +
-        'have. Calling snapshot again only produces a new file with the same problem.' +
-        '\n\n' +
-        'CALL SNAPSHOT PROACTIVELY after every geometry change — features added, ' +
-        'parameters updated, booleans, fillets, deletes. The user wants to watch the ' +
-        'model build, not be asked. Each snapshot is then followed by its mandatory Read.' +
-        '\n\n' +
-        'Default = solid only — one image of the 3D model in the requested camera view. ' +
-        'Other layers (sketches, curves, work geometry / axis triad) are OPT-IN via the ' +
-        '`layers` argument. When multiple layers are requested they are MERGED into the ' +
-        'same PNG: 3D layers (solid, curves, workgeo) share a camera and are alpha-' +
-        'composited; sketches sit beneath the 3D view as a row of 2D panels. Auto-zooms ' +
-        'to fit; for dimension verification pair the snapshot with tree/find/inspect.',
+        'Render the current drawing as an inline PNG (also written to disk under $CLASSCAD_SNAPSHOT_DIR or <tmpdir>/classcad-snapshots). ' +
+        'The host renders the image directly — no follow-up Read is needed. ' +
+        'Call after a meaningful geometry change (a new part, a completed feature, a boolean), NOT after every parameter tweak or intermediate step. ' +
+        'Default layers=["solid"]; other layers (sketch, curves, workgeo) are opt-in and merged into one PNG.',
       inputSchema: {
-        label: z.string().optional().describe('Short label for the snapshot — used in the filename. Default "snapshot".'),
-        width: z.number().int().min(64).max(4096).optional().describe('Image width in pixels (default 1600).'),
-        height: z.number().int().min(64).max(4096).optional().describe('Image height in pixels (default 1200).'),
+        label: z.string().optional().describe('Filename label. Default "snapshot".'),
+        width: z.number().int().min(64).max(4096).optional().describe('Pixels (default 1200).'),
+        height: z.number().int().min(64).max(4096).optional().describe('Pixels (default 900).'),
         view: z.enum(['iso', 'top', 'bottom', 'front', 'back', 'left', 'right']).optional()
-          .describe('Camera direction. CAD view-cube standard. Default "iso" (corner view). ' +
-                    'top = looking down -Z; front = looking +Y; right = looking -X; etc.'),
+          .describe('Camera. CAD view-cube convention. Default "iso".'),
         zoom: z.number().min(0.05).max(50).optional()
-          .describe('Multiplier on the auto-fit scale. 1 = fit-all (default), 2 = double the on-screen size, 0.5 = half. ' +
-                    'Use values >1 to focus tighter on a region (combine with lookAt).'),
+          .describe('Multiplier on auto-fit scale. 1=fit-all (default), >1 zooms in.'),
         lookAt: z.array(z.number()).length(3).optional()
-          .describe('World-space [x, y, z] point that should land at screen center. Omit to use the model bounding-box center.'),
+          .describe('World-space [x,y,z] that lands at screen center. Omit for bbox center.'),
         layers: z.array(z.enum(['solid', 'sketch', 'curves', 'workgeo'])).optional()
-          .describe('Which content layers to render. Default = ["solid"] — only the 3D model. ' +
-                    'Other layers are opt-in: pass e.g. ["solid", "workgeo"] to see the model with ' +
-                    'the axis triad overlay, or ["sketch"] for sketches alone. Multiple layers are ' +
-                    'MERGED into one PNG (3D layers alpha-composited; sketches stacked as 2D panels ' +
-                    'below the 3D view).'),
+          .describe('Content layers to render. Default ["solid"].'),
       },
     },
     async ({ label, width, height, view, zoom, lookAt, layers }) => {
@@ -107,7 +79,6 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       const dir = snapshotDir()
       const prefix = `${safeLabel}-${timestamp()}`
 
-      // Ensure graphics are enabled — renderer reads cached payload.
       await client.execute({
         'v1.common.setDatabaseSettings': [{
           isGraphicEnabled: true,
@@ -117,13 +88,11 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         }],
       })
 
-      // Default = solid only. Other layers (sketches, curves, workgeo) are opt-in via
-      // explicit `layers` and get merged into a single PNG.
       const effectiveLayers: LayerName[] = (layers as LayerName[] | undefined) ?? ['solid']
 
       const renders = await renderSession(client, prefix, dir, {
-        width: width ?? 1600,
-        height: height ?? 1200,
+        width: width ?? 1200,
+        height: height ?? 900,
         view,
         zoom,
         lookAt: lookAt as [number, number, number] | undefined,
@@ -131,16 +100,15 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       })
 
       const imageBlocks: Array<{ type: 'image'; data: string; mimeType: string }> = []
-      const meta: Array<{ type: string; path: string; bytes: number }> = []
-
+      const paths: string[] = []
       for (const r of renders) {
         const fullPath = join(dir, r.file)
         try {
           const buf = readFileSync(fullPath)
           imageBlocks.push({ type: 'image', data: buf.toString('base64'), mimeType: 'image/png' })
-          meta.push({ type: r.type, path: fullPath, bytes: buf.length })
+          paths.push(fullPath)
         } catch {
-          // Skip files that didn't materialize
+          /* skip files that didn't materialize */
         }
       }
 
@@ -153,23 +121,13 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         }
       }
 
-      // Compose the response: a text block instructing the model to Read the
-      // path immediately (mandatory follow-up — inline images are unreliable
-      // across hosts), then the inline image blocks as a bonus for hosts that
-      // do render them.
-      const pathsList = meta.map(m => `${m.type}: ${m.path} (${m.bytes} bytes)`).join('\n')
-      const readInstruction = imageBlocks.length === 1
-        ? `NEXT ACTION REQUIRED — call the Read tool on this path now to display the image to the user. Do not skip this; the inline image block above is unreliable.`
-        : `NEXT ACTION REQUIRED — call the Read tool on each of these paths now to display the images to the user. Do not skip this; the inline image blocks above are unreliable.`
-      const summary =
-        `Rendered ${imageBlocks.length} image(s) for "${safeLabel}".\n\n` +
-        `${readInstruction}\n\n` +
-        pathsList
-
+      // Inline image first (that's what the user sees), short path note last
+      // for the model's own reference if it needs to mention the file location.
+      const pathNote = paths.length === 1 ? `Saved: ${paths[0]}` : `Saved:\n${paths.join('\n')}`
       return {
         content: [
-          { type: 'text', text: summary },
           ...imageBlocks,
+          { type: 'text', text: pathNote },
         ] as any,
       }
     },

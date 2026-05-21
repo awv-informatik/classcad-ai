@@ -21,7 +21,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ ok: r.maxLevel <= 31, maxLevel: r.maxLevel, messages: r.messages }, null, 2),
+          text: JSON.stringify({ ok: r.maxLevel <= 31, maxLevel: r.maxLevel, messages: r.messages }),
         }],
       }
     },
@@ -52,7 +52,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
             bytes: r.result?.content ? Buffer.from(r.result.content, 'base64').length : 0,
             content: r.result?.content ?? null,
             maxLevel: r.maxLevel,
-          }, null, 2),
+          }),
         }],
       }
     },
@@ -75,7 +75,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ ok: r.maxLevel <= 31, maxLevel: r.maxLevel, messages: r.messages }, null, 2),
+          text: JSON.stringify({ ok: r.maxLevel <= 31, maxLevel: r.maxLevel, messages: r.messages }),
         }],
       }
     },

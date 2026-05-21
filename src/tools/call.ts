@@ -22,12 +22,12 @@ export function registerCallTool(server: McpServer, client: Client): void {
         'use list_methods to discover names, describe_method for parameter details, ' +
         'and tree/find/inspect to look up live IDs before calling. ' +
         '\n\n' +
-        'PROACTIVE BEHAVIOR — after any mutation (a call that creates, updates, ' +
-        'deletes, fillets, booleans, extrudes, or otherwise changes geometry), ' +
-        'CALL `snapshot` immediately as the next tool. Do not wait for the user ' +
-        'to ask "show me" — they want to see every step. The only times to skip ' +
-        'snapshot are pure reads (getXyz, evaluateExpression, getAppVersion, etc.) ' +
-        'and lightweight setup calls (setDatabaseSettings, recalc).',
+        'After completing a meaningful geometry change — a new part, a completed ' +
+        'sketch, a boolean, a fillet/chamfer, an extrude — call `snapshot` so the ' +
+        'user can see the result. Batch parameter tweaks and intermediate steps ' +
+        'into a single snapshot at the end of the coherent edit, not one per call. ' +
+        'Skip snapshot entirely for pure reads (getXyz, evaluateExpression, etc.) ' +
+        'and setup calls (setDatabaseSettings, recalc).',
       inputSchema: {
         method: z.string().describe('Fully qualified method name, e.g. "v1.part.create" or "v1.sketch.rectangle".'),
         args: z.record(z.string(), z.any()).optional().describe('Argument object. Omit if the method takes no params.'),
@@ -49,7 +49,7 @@ export function registerCallTool(server: McpServer, client: Client): void {
             result: r.result,
             maxLevel: r.maxLevel,
             messages: r.messages,
-          }, null, 2),
+          }),
         }],
       }
     },

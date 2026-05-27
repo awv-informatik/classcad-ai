@@ -11,7 +11,7 @@ Creates an interpolation curve (spline) that passes **through** all given points
 ## Key Parameters
 
 - `id` — shape ID (not part or EIF ID). Must be a shape container.
-- `points` — `Array<[x, y, z]>` of interpolation points. Minimum 2 points required. Each point must be a 3-element array.
+- `points` — `Array<[x, y, z]>` of interpolation points. Minimum 2 points required (`< 2` is rejected with code 1014). Each point must be a 3-element array. Consecutive duplicates are rejected with code 1014.
 
 That's it — only two parameters. No degree parameter — degree is determined automatically as (number of points - 1).
 
@@ -30,10 +30,8 @@ Returns `null` (VOID). maxLevel 31 on success. No ID is returned — the curve m
 
 ## Gotchas
 
-- **CRITICAL: Single point `[[x,y,z]]` HANGS THE SERVER.** The worker spins at 100% CPU indefinitely. No error is returned. You must `kill -9` the worker and restart. **Always validate that points array has >= 2 points before calling.**
-- **CRITICAL: Duplicate consecutive points HANG THE SERVER.** Even one pair of identical adjacent points (e.g., `[10,20,0], [10,20,0]`) among otherwise valid points causes a hang. **All points must be distinct.** This is stricter than `bezierCurve`, which silently accepts duplicates.
-- **CRITICAL: All-identical points HANG THE SERVER.** Three copies of the same point hangs — same root cause as above.
-- **Empty points array `[]` almost certainly hangs** (not tested directly, but matches the pattern from `bezierCurve` and single-point behavior).
+- **`points` with fewer than 2 entries is rejected** with code 1014, message `"The parameter \"points\" must contain at least 2 points."` Applies to empty `[]` and single-point `[[x,y,z]]`. Previously hung the server in an infinite loop — fixed on branch `fix/curve-interpolationCurve-duplicate-points-hang`.
+- **Consecutive duplicate points are rejected** with code 1014, message `"The parameter \"points\" must not contain consecutive duplicate points."` Applies to any adjacent pair where x, y, and z are all exactly equal. Stricter than `bezierCurve`, which still tolerates duplicates because it doesn't use chord-length parameterization.
 - **Points must be 3-element arrays.** `[x, y]` (2D) returns error: `"If point is defined as array, it must have exactly 3 real values"`.
 - **No per-curve IDs.** Like all curve APIs, curves merge into the shape. No per-curve addressing, update, or deletion.
 - **3D curves are supported.** Points don't need to be coplanar.
@@ -64,7 +62,8 @@ Returns single VOID response, maxLevel 31 on success.
 | 1004 | ERROR | `"The parameter \"points\" must be provided..."` | Missing `points` parameter |
 | 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
 | 0 | ERROR | `"If point is defined as array, it must have exactly 3 real values"` | Used 2D point `[x,y]` instead of `[x,y,z]` |
-| — | HANG | (no response) | Single point, empty array, or duplicate consecutive points |
+| 1014 | ERROR | `"The parameter \"points\" must contain at least 2 points."` | `points` is `[]` or has only 1 entry |
+| 1014 | ERROR | `"The parameter \"points\" must not contain consecutive duplicate points."` | Two adjacent points have identical x/y/z |
 
 ## Working Example
 

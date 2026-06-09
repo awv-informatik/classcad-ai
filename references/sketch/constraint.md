@@ -76,7 +76,7 @@ const ids = (await api.v1.sketch.constraint([
 
 - **Constraints are enforced immediately** at creation time for directional/positional types. The solver repositions geometry to satisfy constraints, preserving line lengths.
 - **FIXATION anchors geometry.** Fix reference elements first, then add constraints — the solver moves only non-fixed geometry.
-- **No conflict detection.** Conflicting constraints (e.g., HORIZONTAL + VERTICAL on the same line) are accepted silently (maxLevel=31, no error). The solver satisfies what it can and ignores the rest.
+- **No conflict detection.** Conflicting constraints (e.g., HORIZONTAL + VERTICAL on the same line) are accepted silently (maxLevel=31, no error). The solver satisfies what it can and ignores the rest. Verified under an ACTIVE solver 2026-06-10: geometry follows the earlier constraint and the losing constraint's structure node carries `lgsState: 0` — that field is the only conflict signal.
 - **No over-constraint warnings.** Duplicate and redundant constraints are also accepted silently.
 - **Constraint chaining propagates.** If PARALLEL(A,B) and PARALLEL(B,C), then C becomes parallel to A. The solver resolves transitive relationships automatically.
 - **Deleting a constraint does NOT revert geometry.** Geometry stays where the solver placed it. Only the constraint relationship is removed.
@@ -93,6 +93,7 @@ With an active solver (planeId set), `moveGeometry` is constraint-aware:
 
 - **Without `planeId`, constraints do nothing.** The #1 mistake. Always create sketches with a plane.
 - **EQUAL_LENGTH/EQUAL_RADIUS may change either element.** The solver equalizes by adjusting whichever line/circle it finds easier to move — even a "FIXATION"-constrained one. FIXATION locks position/direction but not length. To protect a line's length, fix both its endpoints individually.
+- **The FIXATION-doesn't-lock-length caveat applies to COINCIDENT too** (verified 2026-06-10): COINCIDENT between a fixed line's endpoint and another point can be satisfied by STRETCHING the fixed line along its direction (end moved 50→55 to meet the other point). With both endpoints individually fixed, the other geometry snaps instead.
 - **MIDPOINT fails on free sketch.points.** Use line endpoints (`getPoints().startId` or `.endId`) instead.
 - **Non-null result ≠ success.** A constraint can be created (get an ID) but produce solver errors (maxLevel=51). Always check maxLevel.
 - **Invalid geomIds are inconsistent.** Wrong count for some types → returns null. Wrong count for others → creates constraint but produces solver errors. Always validate before creating.

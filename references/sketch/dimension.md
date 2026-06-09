@@ -60,7 +60,9 @@ const ids = (await api.v1.sketch.dimension([
 
 ## Solver Behavior
 
-- **Dimensions are active constraints.** Providing a `value` that differs from current geometry causes the solver to reposition geometry immediately.
+- **Dimensions are active constraints.** Providing a `value` that differs from current geometry causes the solver to reposition geometry immediately. (Re-verified 2026-06-10: `DIAMETER value:45` resized an r=20 circle to r=22.5 at creation; HD=38/VD=0 between centers moved a free circle from (90,55) to exactly (78,40).)
+- **Re-solve cascades through the whole system.** Changing a dimension via `updateDimension` re-solves everything constrained to it — a doubly-tangent R10 fillet followed a Ø45→Ø60 boss re-dimension to its new exact position, (60, 75.199432), matching analytic geometry to float precision (verified 2026-06-10). This is the payoff of constraint-driven sketches over hardcoded coordinates: see the worked example in `SKETCHING.md` Step 4.
+- **Solved geometry nodes show `lgsState: 16`** in the structure tree (observed on driven circles; constraint nodes use 0/1 for unsolved/solved — the 16 on geometry nodes looks like a different flag set, meaning unconfirmed).
 - **Auto-value (omit `value`)** locks the current measurement without resizing. The dimension constrains the geometry to its current size/angle.
 - **Fix an anchor first.** Without a FIXATION constraint, the solver may move geometry in unexpected ways. Always fix at least one reference point.
 - **Formulas work:** `'60+10'`, `'sqrt(2)*50'`, `'45deg'`. Evaluated at creation time.

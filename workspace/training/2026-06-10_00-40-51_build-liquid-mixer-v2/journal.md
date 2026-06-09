@@ -5,6 +5,8 @@
 **Source:** "Liquid mixer Version 2" drawing, Al 6061, ISO 2768-1, 1st angle, all mm.
 Dimensions interpreted together with ph over several rounds — all chains close.
 
+![source](files/000_07_Knowledge_Base_18_-_Prepare_technical_Drawing.jpeg)
+
 ## Locked interpretation (front view = boss side; origin bottom-left, X right, Y up, Z toward viewer)
 
 - Block: 120 × 80 × 35. Front face z=0, back face z=−35. R10 on both LEFT corners (centers (10,10), (10,70)).
@@ -150,8 +152,8 @@ boss tangent point T1t at z=45), 3 circle probes. **17/20 — all planes and poi
 (<0.05) → no match. Probe rim points instead.
 **📌 LLM doc:** getGeometryIds.md — hole-mouth circle-center gotcha (done, see changes.md).
 
-| ![iso](files/08-final-08-final-iso-solid.png) | ![front](files/08-final-08-final-front-solid.png) |
-|---|---|
+| ![iso](files/08-final-08-final-iso-solid.png)       | ![front](files/08-final-08-final-front-solid.png) |
+| --------------------------------------------------- | ------------------------------------------------- |
 | ![bottom](files/08-final-08-final-bottom-solid.png) | ![right](files/08-final-08-final-right-solid.png) |
 
 ### 09 — circle probes, corrected (rim points)

@@ -1,0 +1,58 @@
+{
+  "raw": {
+    "circles": [
+      [],
+      [],
+      []
+    ],
+    "planes": [
+      1060,
+      1057,
+      1059,
+      1303,
+      1333,
+      1558,
+      1207,
+      1352,
+      1316,
+      1355,
+      1463,
+      1484
+    ],
+    "points": [
+      1051,
+      1052,
+      1066,
+      1068,
+      1116
+    ]
+  },
+  "audit": {
+    "x=0 left face": true,
+    "y=0 bottom face": true,
+    "y=80 top face": true,
+    "z=0 back face": true,
+    "z=35 front face": true,
+    "z=45 boss face": true,
+    "cutout floor z=5": true,
+    "bore floor x=20 (depth 100)": true,
+    "cbore floor z=26.5 (depth 8.5)": true,
+    "pilot floor x=102 (G1/2 depth 18)": true,
+    "shaft floor z=35 (depth 10)": true,
+    "M4 floor z=33 (depth 12)": true,
+    "corner (120,0,0)": true,
+    "corner (120,80,0)": true,
+    "corner (120,0,35)": true,
+    "corner (120,80,35)": true,
+    "boss tangent T1t @ z45": true,
+    "port mouth Ø12.. circle @ (120,40,20)": false,
+    "shaft mouth @ boss face (41,40,45)": false,
+    "csk rim Ø10 @ (79,40,45)": false
+  },
+  "vol": 326305.8885377149,
+  "cog": {
+    "x": 59.51102224959138,
+    "y": 39.998524890611144,
+    "z": 20.18977192544782
+  }
+}

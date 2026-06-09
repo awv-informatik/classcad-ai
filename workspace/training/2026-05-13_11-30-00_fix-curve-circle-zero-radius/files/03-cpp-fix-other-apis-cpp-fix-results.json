@@ -1,0 +1,78 @@
+{
+  "arcByCenterRadAngle r=0": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcByCenterRadAngle",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"radius\" must be greater than 0."
+      }
+    ]
+  },
+  "arcByCenterRadAngle r=-3": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcByCenterRadAngle",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"radius\" must be greater than 0."
+      }
+    ]
+  },
+  "ellipticArc r1=0 r2=5": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.ellipticArc",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameters \"radius1\" and \"radius2\" must both be greater than 0."
+      }
+    ]
+  },
+  "ellipticArc r1=5 r2=0": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.ellipticArc",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameters \"radius1\" and \"radius2\" must both be greater than 0."
+      }
+    ]
+  },
+  "ellipse r1=0 r2=0": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.ellipse",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameters \"radius1\" and \"radius2\" must both be greater than 0."
+      }
+    ]
+  },
+  "ellipse r1=-2 r2=3": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.ellipse",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameters \"radius1\" and \"radius2\" must both be greater than 0."
+      }
+    ]
+  },
+  "valid-circle": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

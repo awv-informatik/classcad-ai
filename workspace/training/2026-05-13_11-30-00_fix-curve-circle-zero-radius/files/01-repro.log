@@ -1,0 +1,6 @@
+[repro] setup done — partId=%s eifId=%s shapeId=%s 4 54 60
+[repro] calling circle with radius=0...
+[repro] radius=0 returned. maxLevel=51 messages=[{"api":"v1.curve.circle","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"radius\" must be greater than 0."}]
+[repro] calling circle with radius=-15...
+[repro] radius=-15 returned. maxLevel=51 messages=[{"api":"v1.curve.circle","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"radius\" must be greater than 0."}]
+[filewrite] files/01-repro-repro-results.json (558 bytes)

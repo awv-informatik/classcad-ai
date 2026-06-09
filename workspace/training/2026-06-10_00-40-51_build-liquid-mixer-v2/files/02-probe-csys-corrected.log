@@ -1,0 +1,5 @@
+[02] wcs: 54 maxLevel: 31 []
+[02] cyl: 62 maxLevel: 31
+[02] COG: {"x":54.959360627457016,"y":40.01477795365201,"z":20.00738897682602} vol: 5656.79
+[02] verdict: ROTATED, offset in world coords (base 30,40,20 axis +X)
+[filewrite] files/02-probe-csys-corrected-probe2.json (205 bytes)

@@ -1,0 +1,24 @@
+[08] final boolean: 916 maxLevel: 31
+[08] ✓ x=0 left face
+[08] ✓ y=0 bottom face
+[08] ✓ y=80 top face
+[08] ✓ z=0 back face
+[08] ✓ z=35 front face
+[08] ✓ z=45 boss face
+[08] ✓ cutout floor z=5
+[08] ✓ bore floor x=20 (depth 100)
+[08] ✓ cbore floor z=26.5 (depth 8.5)
+[08] ✓ pilot floor x=102 (G1/2 depth 18)
+[08] ✓ shaft floor z=35 (depth 10)
+[08] ✓ M4 floor z=33 (depth 12)
+[08] ✓ corner (120,0,0)
+[08] ✓ corner (120,80,0)
+[08] ✓ corner (120,0,35)
+[08] ✓ corner (120,80,35)
+[08] ✓ boss tangent T1t @ z45
+[08] ❌ port mouth Ø12.. circle @ (120,40,20)
+[08] ❌ shaft mouth @ boss face (41,40,45)
+[08] ❌ csk rim Ø10 @ (79,40,45)
+[08] audit: 17 / 20 passed; getGeometryIds maxLevel: 51
+[08] FINAL vol: 326305.89 COG: {"x":59.51102224959138,"y":39.998524890611144,"z":20.18977192544782}
+[filewrite] files/08-final-final-audit.json (1173 bytes)

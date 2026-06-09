@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="27.5.2026" startTime="9:30:40." endTime="9:30:40.">
+  <FailedTests></FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[CocoRCompiler] CocoRTestAndOr.TestAnd</Name>
+    </Test>
+    <Test id="2">
+      <Name>[CocoRCompiler] CocoRTestAndOr.TestAndOr</Name>
+    </Test>
+    <Test id="3">
+      <Name>[CocoRCompiler] CocoRTestAndOr.TestOr</Name>
+    </Test>
+    <Test id="4">
+      <Name>[CocoRCompiler] CocoRTestArray.TestArrayAssign</Name>
+    </Test>
+    <Test id="5">
+      <Name>[CocoRCompiler] CocoRTestArray.TestArrayInsert</Name>
+    </Test>
+    <Test id="6">
+      <Name>[CocoRCompiler] CocoRTestArray.TestCADH_InsArray</Name>
+    </Test>
+    <Test id="7">
+      <Name>[CocoRCompiler] CocoRTestAssign.TestArray</Name>
+    </Test>
+    <Test id="8">
+      <Name>[CocoRCompiler] CocoRTestAssign.TestReal</Name>
+    </Test>
+    <Test id="9">
+      <Name>[CocoRCompiler] CocoRTestBuiltInFuncCalls.TestISVOID</Name>
+    </Test>
+    <Test id="10">
+      <Name>[CocoRCompiler] CocoRTestBuiltInFuncCalls.TestLEN</Name>
+    </Test>
+    <Test id="11">
+      <Name>[CocoRCompiler] CocoRTestBuiltInFuncCalls.TestMAP</Name>
+    </Test>
+    <Test id="12">
+      <Name>[CocoRCompiler] CocoRTestBuiltInFuncCalls.TestMAX</Name>
+    </Test>
+    <Test id="13">
+      <Name>[CocoRCompiler] CocoRTestBuiltInFuncCalls.TestSELF</Name>
+    </Test>
+    <Test id="14">
+      <Name>[CocoRCompiler] CocoRTestBuiltInFuncCalls.TestTYP</Name>
+    </Test>
+    <Test id="15">
+      <Name>[CocoRCompiler] CocoRTestCallback.TestInsSortedArray</Name>
+    </Test>
+    <Test id="16">
+      <Name>[CocoRCompiler] CocoRTestConstants.TestImplicitConstantImport</Name>
+    </Test>
+    <Test id="17">
+      <Name>[CocoRCompiler] CocoRTestDegrees.TestDegrees</Name>
+    </Test>
+    <Test id="18">
+      <Name>[CocoRCompiler] CocoRTestIfStatement.TestIf</Name>
+    </Test>
+    <Test id="19">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestAsParams</Name>
+    </Test>
+    <Test id="20">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestAssign</Name>
+    </Test>
+    <Test id="21">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestCreate</Name>
+    </Test>
+    <Test id="22">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestExpressions</Name>
+    </Test>
+    <Test id="23">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestIsEqualByValue</Name>
+    </Test>
+    <Test id="24">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestKVParamAsReference</Name>
+    </Test>
+    <Test id="25">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestKeys</Name>
+    </Test>
+    <Test id="26">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestKeysForall</Name>
+    </Test>
+    <Test id="27">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestMemoryLeak</Name>
+    </Test>
+    <Test id="28">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestRead</Name>
+    </Test>
+    <Test id="29">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestRound</Name>
+    </Test>
+    <Test id="30">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestStringEval</Name>
+    </Test>
+    <Test id="31">
+      <Name>[CocoRCompiler] CocoRTestKeyValueMember.TestWrite</Name>
+    </Test>
+    <Test id="32">
+      <Name>[CocoRCompiler] CocoRTestLoopStatements.TestDoLoop</Name>
+    </Test>
+    <Test id="33">
+      <Name>[CocoRCompiler] CocoRTestLoopStatements.TestForLoopMember</Name>
+    </Test>
+    <Test id="34">
+      <Name>[CocoRCompiler] CocoRTestLoopStatements.TestForLoopVAR</Name>
+    </Test>
+    <Test id="35">
+      <Name>[CocoRCompiler] CocoRTestLoopStatements.TestForallLoop</Name>
+    </Test>
+    <Test id="36">
+      <Name>[CocoRCompiler] CocoRTestLoopStatements.TestWhileLoop</Name>
+    </Test>
+    <Test id="37">
+      <Name>[CocoRCompiler] CocoRTestNot.TestNot</Name>
+    </Test>
+    <Test id="38">
+      <Name>[CocoRCompiler] CocoRTestOperatoren.TestReal</Name>
+    </Test>
+    <Test id="39">
+      <Name>[CocoRCompiler] CocoRTestPoint.TestCreate</Name>
+    </Test>
+    <Test id="40">
+      <Name>[CocoRCompiler] CocoRTestPoint.TestPoint</Name>
+    </Test>
+    <Test id="41">
+      <Name>[CocoRCompiler] CocoRTestPoint.TestStringEval</Name>
+    </Test>
+    <Test id="42">
+      <Name>[CocoRCompiler] CocoRTestProcedureCalls.TestParameterPassing</Name>
+    </Test>
+    <Test id="43">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestAssignLocal</Name>
+    </Test>
+    <Test id="44">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestAssignMember</Name>
+    </Test>
+    <Test id="45">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestCADH_InsArrayToLocalArray</Name>
+    </Test>
+    <Test id="46">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestCADH_InsArrayToMemberArray</Name>
+    </Test>
+    <Test id="47">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestGetElementFromLocalArray</Name>
+    </Test>
+    <Test id="48">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestGetElementFromMemberArray</Name>
+    </Test>
+    <Test id="49">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestInsertElementToLocalArray</Name>
+    </Test>
+    <Test id="50">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestInsertElementToMemberArray</Name>
+    </Test>
+    <Test id="51">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestParameterPassingMethod</Name>
+    </Test>
+    <Test id="52">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestParameterPassingProcedure</Name>
+    </Test>
+    <Test id="53">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestParameterPassingServicefunction</Name>
+    </Test>
+    <Test id="54">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestReturnValueMethod</Name>
+    </Test>
+    <Test id="55">
+      <Name>[CocoRCompiler] CocoRTestReferenzsemantik.TestReturnValueProcedure</Name>
+    </Test>
+    <Test id="56">
+      <Name>[CocoRCompiler] CocoRTestSwitch.TestSwitchConstant</Name>
+    </Test>
+    <Test id="57">
+      <Name>[CocoRCompiler] CocoRTestSwitch.TestSwitchReal</Name>
+    </Test>
+    <Test id="58">
+      <Name>[CocoRCompiler] CocoRTestSwitch.TestSwitchString</Name>
+    </Test>
+    <Test id="59">
+      <Name>[CocoRCompiler] CocoRTestUSES.TestConstantImport</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>59</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

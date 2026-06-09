@@ -1,0 +1,9 @@
+[04] tangent pts: {"T1t":[54.15384615384615,58.2544879786026],"T2t":[65.84615384615384,58.2544879786026],"Ft":[60,66.36759374687043]}
+[04] workplane: 143 maxLevel: 31
+[04] boss arcs: [155,160,165,170] maxLevel: 31 []
+[04] boss extrusion: 177 maxLevel: 31 []
+[04] union: 220 maxLevel: 31
+[04] peanut area analytic: 3099.730 grid: 3099.673 delta%: -0.002
+[04] vol: 365463.13 expected: 365495.08 delta%: -0.0087
+[04] COG: {"x":60.239311407799164,"y":40.00011200180046,"z":19.406918626929315} expected ~(60.239, 40.000, 19.408)
+[filewrite] files/04-boss-boss-verify.json (297 bytes)

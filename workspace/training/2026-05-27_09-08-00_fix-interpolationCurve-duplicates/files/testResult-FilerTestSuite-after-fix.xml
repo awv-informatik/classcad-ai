@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="27.5.2026" startTime="9:30:35." endTime="9:30:35.">
+  <FailedTests></FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[Filer] FilerTestKeyValueMember.TestOF1</Name>
+    </Test>
+    <Test id="2">
+      <Name>[Filer] FilerTestKeyValueMember.TestOFB</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>2</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

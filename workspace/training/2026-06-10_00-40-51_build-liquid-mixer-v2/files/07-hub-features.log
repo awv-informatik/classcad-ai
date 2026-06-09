@@ -1,0 +1,6 @@
+[07] csk@41: cone 681 maxLevel 31
+[07] csk@79: cone 816 maxLevel 31
+[07] subtraction: 916 maxLevel: 31 []
+[07] vol: 326305.89 expected: 326294.49 delta%: 0.0035
+[07] COG: {"x":59.51102224959141,"y":39.998524890611144,"z":20.189771925447822} expected ~(59.507, 40.000, 20.190)
+[filewrite] files/07-hub-features-hub-verify.json (234 bytes)

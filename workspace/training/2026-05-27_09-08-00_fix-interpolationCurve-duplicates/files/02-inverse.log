@@ -1,0 +1,4 @@
+[inv] 2 valid pts: 31 []
+[inv] 8 valid pts: 31 []
+[inv] batch: 51 [{"api":"v1.curve.interpolationCurve","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"points\" must not contain consecutive duplicate points."}]
+[filewrite] files/02-inverse-inverse-results.json (75980 bytes)

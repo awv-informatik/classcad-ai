@@ -83,10 +83,11 @@ When using `@expr.` references, updating the expression + recalc automatically c
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 
-// Optional: create a WCS for positioning
+// Optional: create a WCS for positioning (params: offset + rotation — NOT origin/xDirection,
+// those are silently ignored; see workCSys.md). Cone follows the csys orientation (axis = csys z).
 const wcsId = (await api.v1.part.workCSys({
   id: partId, name: 'WCS1',
-  origin: [50, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0],
+  offset: [50, 0, 0],
 })).result
 
 // Create cone at WCS position

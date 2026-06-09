@@ -120,6 +120,8 @@ const r = await api.v1.part.getGeometryIds({
 })
 ```
 
+**Circle-center lookup only works when the center lies ON a face.** A solid cylinder's top-circle center sits on the cap face → regime 1 (nearest-on-face) finds it. For HOLE mouths the center floats in the void → regime 2 (<0.05 tolerance) → lookup fails with "no geometry could be found". Verified 2026-06-10 on Ø18.63/Ø10/Ø8.1 hole rims: center probes all failed, rim points at 90° off-seam all succeeded. For holes, always probe a rim point: `[cx, cy + r, z]`. Note the seam direction is the cylinder's LOCAL +x — for a hole drilled along world X via a rotated csys (`rotation [0, π/2, 0]`), the seam maps to world −Z, so a world-+Y rim point is safely off-seam.
+
 ### Curved face lookup (2+ positions required)
 
 ```js

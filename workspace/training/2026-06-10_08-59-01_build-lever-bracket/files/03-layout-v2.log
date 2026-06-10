@@ -1,0 +1,18 @@
+[03] relations maxLevel: 31
+[03] dims maxLevel: 31
+[03] ✓ topO center → (-0.750000, 1.875000) target (-0.750000, 1.875000)
+[03] ✓ lCap center → (-1.867000, 0.000000) target (-1.867000, 0.000000)
+[03] ✓ rCap center → (-0.867000, 0.000000) target (-0.867000, 0.000000)
+[03] ✓ lowCap center → (2.312000, 0.000000) target (2.312000, 0.000000)
+[03] ✓ upCap center → (1.771095, 1.486125) target (1.771095, 1.486125)
+[03] ✓ f1750 center → (-3.306943, 2.043664) target (-3.306943, 2.043664)
+[03] ✓ f625a center → (0.597983, 1.375651) target (0.597983, 1.375651)
+[03] ✓ f625b center → (0.271134, 1.475292) target (0.271134, 1.475292)
+[03] ✓ f1375 center → (1.156000, -1.930327) target (1.156000, -1.930327)
+[03] ✓ lobe outer radius → 3.187 (target 3.187; 1.437 would mean internal tangency unreachable)
+[03] ✓ botLine-lCap distance → 0.750000 (target 0.75)
+[03] ✓ botLine-rCap distance → 0.750000 (target 0.75)
+[03] ✓ webLine-main distance → 0.875000 (target 0.875)
+[03] ✓ 5.804 overall extent readback → 5.804000
+[03] layout checks: 14 / 14
+[filewrite] files/03-layout-v2-layout.json (1168 bytes)

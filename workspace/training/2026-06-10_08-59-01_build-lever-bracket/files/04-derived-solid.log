@@ -1,0 +1,7 @@
+[04] relations maxLevel: 31
+[04] dims maxLevel: 31
+[filewrite] files/04-derived-solid-derived.json (1587 bytes)
+[04] chain built: 14 / 14
+[04] Green area of outer profile: 16.112997
+[04] extrusion maxLevel: 51 vol: undefined Green*0.5: 8.056498 delta%: n/a
+[filewrite] files/04-derived-solid-plate.json (32 bytes)

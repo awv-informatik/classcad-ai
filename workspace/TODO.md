@@ -1041,3 +1041,10 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Error:** Docs say color range is [0,256] but passing `color: 999` is silently accepted (no error, no warning).
 - **Trigger:** `view({ id: partId, types: ['TOP'], color: 999 })`
 - **Workaround:** None needed, but no validation is performed.
+
+### trimCurves — worker hang on heavily-constrained sketch with many segments
+
+- **Session:** `2026-06-10_08-59-01_build-lever-bracket` (journal entry 02)
+- **Error:** `trimCurves` with 39 segment IDs never returns; worker pegged ~99% CPU; reproduced twice (also with `--debug`, 5-min cap). `kill -9` required.
+- **Trigger:** sketch with ~20 constraints + 20 dimensions, `splitAllCurves` → 66 segments, then a 39-ID trim. The verified trim workflow (2026-06-10 trim-vs-constraints session) used ≤13 segments on ≤8 constraints — scale-dependent.
+- **Workaround:** derive the profile from solved data into a second, unconstrained sketch (exact arc chain — no trim), or trim small batches on lightly-constrained sketches. Severity: HIGH (silent hang, kills the worker).

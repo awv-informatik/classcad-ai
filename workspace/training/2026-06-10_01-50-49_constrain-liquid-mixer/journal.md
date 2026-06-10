@@ -9,6 +9,8 @@ from the verified hardcoded build (sketch-level constraining was the scope).
 **Equivalence gate:** the constrained model must reproduce the verified hardcoded model —
 same mass properties, same 21-point B-rep audit.
 
+![source](files/000_07_Knowledge_Base_18_-_Prepare_technical_Drawing.jpeg)
+
 ## Build log
 
 ### 00 — probe crash: rough arcs must still be VALID arcs
@@ -65,6 +67,7 @@ are downstream of the datum, drifted points mark the unconstrained subgraph.
 ### 05 — full constrained build: EQUIVALENT to the verified model
 
 Script: `scripts/05-final-constrained.mjs` — three constrained sketches + the feature drillings.
+
 - **Audit: 21/21** (all face extents, feature floors, corners, tangent vertex, hole rims —
   same probes as the hardcoded build)
 - **Volume: 326305.89 vs 326305.89** — identical
@@ -72,8 +75,8 @@ Script: `scripts/05-final-constrained.mjs` — three constrained sketches + the 
   (…59138, …61144, …4782) — agreement to ~14 significant digits (float noise)
 - `equivalent: true && COG match: true`
 
-| ![iso](files/05-final-constrained-05-final-iso-solid.png) | ![top](files/05-final-constrained-05-final-top-solid.png) |
-|---|---|
+| ![iso](files/05-final-constrained-05-final-iso-solid.png)       | ![top](files/05-final-constrained-05-final-top-solid.png)     |
+| --------------------------------------------------------------- | ------------------------------------------------------------- |
 | ![bottom](files/05-final-constrained-05-final-bottom-solid.png) | ![right](files/05-final-constrained-05-final-right-solid.png) |
 
 ## Verdict

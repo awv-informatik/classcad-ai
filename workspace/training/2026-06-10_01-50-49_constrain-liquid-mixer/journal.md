@@ -71,16 +71,47 @@ Script: `scripts/05-final-constrained.mjs` — three constrained sketches + the 
 | --------------------------------------------------------------- | ------------------------------------------------------------- |
 | ![bottom](files/05-final-constrained-05-final-bottom-solid.png) | ![right](files/05-final-constrained-05-final-right-solid.png) |
 
+### 06 — cutout position CORRECTED: clings to the back-view left edge
+
+Script: `scripts/06-final-cutout-left.mjs` — ph caught a misinterpretation: the back cutout is
+NOT centered. In the BACK VIEW it spans the **left 90** of the 120 width ("the cut starts from
+the left"). Mirrored to the part frame: **x 30..120 — open at the right (port-side) face**,
+ears at x=30 bulging to x=26. Corroboration: the side view can only show the 5.0 cutout depth
+because the cutout reaches that face, and ph's earlier "ears on the rightmost vertices" (back
+view) sits at the closed end exactly as before.
+
+Same constraint scheme, datum moved to the drawing-meaningful bottom-left ear-join (30,20) =
+120−90; the open end is tool overshoot (x→121, bottom line dimensioned 91 = 90+1).
+
+**Data:** cutout readbacks 6/6 exact (left wall x=30). Audit **23/23** — including two new
+discriminating probes: cutout LEFT wall plane at x=30 exists, and the back face at the OLD
+centered location (20,40,0) is solid again. Volume 326305.15 (vs 326305.89, Δ0.0002% B-rep
+noise — same cutout, new position). **COG-x 58.6722 vs predicted 58.6720**
+(shift −cutVol·15/V = −0.839); y/z unchanged.
+
+| ![bottom](files/06-final-cutout-left-06-final-bottom-solid.png) | ![iso](files/06-final-cutout-left-06-final-iso-solid.png) |
+|---|---|
+| ![right](files/06-final-cutout-left-06-final-right-solid.png) | ![top](files/06-final-cutout-left-06-final-top-solid.png) |
+
 ## Verdict
 
 The conditioned rebuild reproduces the verified model exactly and re-solves on dimension change (the Ø45→Ø60 adaptivity was proven in
 the investigation session): numeric equivalence at float precision,
-full B-rep audit, visual match.
+full B-rep audit, visual match. **Script 06 supersedes 05** — it carries the corrected cutout
+position (back-view left edge); scripts 02–05 remain as the method record.
 
 ## Deliverables
 
-- Final model: `files/05-final-constrained-05-final-iso.stp` / `.ofb`
-- Constraint schemes per sketch documented in scripts 02–04 (datum → relations → dims)
+- **Final model (corrected cutout): `files/06-final-cutout-left-06-final-iso.stp` / `.ofb`**
+- Superseded (centered cutout): `files/05-final-constrained-05-final-iso.stp`
+- Constraint schemes per sketch documented in scripts 02–04, 06 (datum → relations → dims)
+
+## Interpretation note (for the record)
+
+The "cutout centered" reading came from an earlier interpretation round; the drawing's back
+view actually places the cutout against the view's left edge (90 of the 120 width, no margin).
+Mirror discipline recap: back-view-left = part-frame-RIGHT — the cutout opens onto the same
+face that carries the G1/2 port (cutout z 0..5, port axis z 20 — no interaction).
 
 ## Notes for SKETCHING.md (Step: comb-through)
 

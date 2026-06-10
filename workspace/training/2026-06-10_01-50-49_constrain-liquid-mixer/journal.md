@@ -2,8 +2,7 @@
 
 **Date:** 2026-06-10
 **Approach:** all three profile sketches rebuilt from ROUGH seeds + the drawing's dimension
-scheme — the solver lays out the geometry. Feature holes (workCSys cylinders/cones) unchanged
-from the verified hardcoded build (sketch-level constraining was the scope).
+scheme — the solver lays out the geometry. Feature holes using workCSys cylinders/cones.
 **Equivalence gate:** the constrained model must reproduce the verified hardcoded model —
 same mass properties, same 21-point B-rep audit.
 

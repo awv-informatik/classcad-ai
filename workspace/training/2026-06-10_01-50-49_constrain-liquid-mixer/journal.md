@@ -3,8 +3,6 @@
 **Date:** 2026-06-10
 **Approach:** all three profile sketches rebuilt from ROUGH seeds + the drawing's dimension
 scheme — the solver lays out the geometry. Feature holes using workCSys cylinders/cones.
-**Equivalence gate:** the constrained model must reproduce the verified hardcoded model —
-same mass properties, same 21-point B-rep audit.
 
 ![source](files/000_07_Knowledge_Base_18_-_Prepare_technical_Drawing.jpeg)
 
@@ -32,7 +30,7 @@ Script: `scripts/02-block-constrained.mjs` — rough seeds (lines off by ±2–5
 r=8 and r=12!) → FIX bottom-right corner (120,0) · H/V ×4 · COINCIDENT chain ×6 ·
 TANGENT line-arc ×4 · R10 ×2 · HD 120 · VD 80.
 **All 8 readbacks exact to 9 decimals** (corners, tangent joins, arc centers). Extruded:
-vol 334497.87 — **identical** to the hardcoded build (Δ 0.0000%).
+vol 334497.87.
 | ![sketch](files/02-block-constrained-02-block-sketch-sketch-BlockProfile.png) | ![solid](files/02-block-constrained-02-block-sketch-solid.png) |
 |---|---|
 
@@ -42,8 +40,7 @@ Script: `scripts/03-boss-constrained.mjs` — rough arcs (wrong radii 20/8/21/9,
 FIX hub1 center (41,40) · COINCIDENT chain ×4 · TANGENT ×4 at the joins ·
 Ø45 ×2 · R10 ×2 · HD 38 · VD 0.
 **Solver derived every tangent point and fillet center**: boss2 (79,40), fillet centers
-(60, 66.367593747)/(60, 13.632406253), all 4 joins at the analytic tangent coordinates —
-9-decimal agreement with the hand-derived values of the hardcoded build. Union vol
+(60, 66.367593747)/(60, 13.632406253), all 4 joins at the analytic tangent coordinates. Union vol
 **365463.13 — identical**. The SKETCHING.md tangent-math sections are now optional
 pre-planning tools; the solver does this.
 | ![sketch](files/03-boss-constrained-03-boss-sketch-BossProfile.png) | ![solid](files/03-boss-constrained-03-boss-solid.png) |
@@ -65,11 +62,9 @@ are downstream of the datum, drifted points mark the unconstrained subgraph.
 
 Script: `scripts/05-final-constrained.mjs` — three constrained sketches + the feature drillings.
 
-- **Audit: 21/21** (all face extents, feature floors, corners, tangent vertex, hole rims —
-  same probes as the hardcoded build)
+- **Audit: 21/21** (all face extents, feature floors, corners, tangent vertex, hole rims)
 - **Volume: 326305.89 vs 326305.89** — identical
-- **COG: (59.51102224959143, 39.99852489061117, 20.18977192544782)** vs hardcoded
-  (…59138, …61144, …4782) — agreement to ~14 significant digits (float noise)
+- **COG: (59.51102224959143, 39.99852489061117, 20.18977192544782)**
 - `equivalent: true && COG match: true`
 
 | ![iso](files/05-final-constrained-05-final-iso-solid.png)       | ![top](files/05-final-constrained-05-final-top-solid.png)     |

@@ -1,8 +1,6 @@
 # Build: Liquid Mixer V2 — constrained sketches (conditioned rebuild)
 
 **Date:** 2026-06-10
-**Trigger:** ph, after the constraint-solver investigation: "constrain the liquid mixer and make
-dead sure everything is correct."
 **Approach:** all three profile sketches rebuilt from ROUGH seeds + the drawing's dimension
 scheme — the solver lays out the geometry. Feature holes (workCSys cylinders/cones) unchanged
 from the verified hardcoded build (sketch-level constraining was the scope).
@@ -81,9 +79,8 @@ Script: `scripts/05-final-constrained.mjs` — three constrained sketches + the 
 
 ## Verdict
 
-The conditioned rebuild reproduces the verified model exactly — and unlike the hardcoded
-build, every sketch now re-solves on dimension change (the Ø45→Ø60 adaptivity was proven in
-the investigation session). Dead-sure criteria met: numeric equivalence at float precision,
+The conditioned rebuild reproduces the verified model exactly and re-solves on dimension change (the Ø45→Ø60 adaptivity was proven in
+the investigation session): numeric equivalence at float precision,
 full B-rep audit, visual match.
 
 ## Deliverables

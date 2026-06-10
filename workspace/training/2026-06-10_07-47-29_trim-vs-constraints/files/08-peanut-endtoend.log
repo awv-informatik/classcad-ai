@@ -1,0 +1,21 @@
+[08] layout maxLevels: 31 31
+[08] segments: 12 (expect 12: 4+4 boss, 2+2 fillets)
+[08] Circle_part0 mid(18.50, 40.00) in/out=true/false → keep
+[08] Circle_part1 mid(57.37, 24.57) in/out=true/true → TRIM
+[08] Circle_part2 mid(63.50, 40.00) in/out=true/true → TRIM
+[08] Circle_part3 mid(57.37, 55.43) in/out=true/true → TRIM
+[08] Circle0_part0 mid(101.50, 40.00) in/out=true/false → keep
+[08] Circle0_part1 mid(62.63, 55.43) in/out=true/true → TRIM
+[08] Circle0_part2 mid(56.50, 40.00) in/out=true/true → TRIM
+[08] Circle0_part3 mid(62.63, 24.57) in/out=true/true → TRIM
+[08] Circle1_part0 mid(60.00, 76.37) in/out=false/false → TRIM
+[08] Circle1_part1 mid(60.00, 56.37) in/out=false/true → keep
+[08] Circle2_part0 mid(60.00, 23.63) in/out=false/true → keep
+[08] Circle2_part1 mid(60.00, 3.63) in/out=false/false → TRIM
+[08] trimming 8 of 12 (expect 8 of 12)
+[08] mergeBack maxLevel: 31
+[08] geometry: {"arcs":[185,191,197,203],"circles":[],"lines":[],"points":[]} (expect 4 arcs)
+[08] constraints after: ["Fix0:lgs1","D10:lgs1","D20:lgs1","HD:lgs1","VD:lgs1","Rt0:lgs1","Rb0:lgs1","TanT1:lgs1","TanT2:lgs1","TanB1:lgs1","TanB2:lgs1","Auto_Coinc:lgs1","Auto_Coinc0:lgs1","Auto_Coinc1:lgs1","Auto_Coinc2:lgs1"]
+[08] extrusion maxLevel: 31 vol: 30993.05 expected: 30997.30 delta%: -0.014
+[08] redim Ø45→Ø48: upd results 1 1 — vol: 34455.80 expected: 34455.00 delta%: 0.002
+[filewrite] files/08-peanut-endtoend-e2e.json (419 bytes)

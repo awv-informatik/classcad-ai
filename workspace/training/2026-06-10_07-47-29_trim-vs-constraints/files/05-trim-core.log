@@ -1,0 +1,12 @@
+[05] seg Circle_part0 of 58: interval [-0.158, 0.658] mid(61.80, 45.57) → TRIM
+[05] seg Circle_part1 of 58: interval [0.658, 0.842] mid(56.46, 55.34) → keep
+[05] seg Circle0_part0 of 61: interval [-0.658, 0.158] mid(99.80, 34.43) → keep
+[05] seg Circle0_part1 of 61: interval [0.158, 0.342] mid(99.80, 45.57) → keep
+[05] trimming 1 of 4 segments (expect 2 of 4)
+[05] trim maxLevel: 31 mergeBack maxLevel: 31
+[05] geometry after trim: {"arcs":[113],"circles":[61],"lines":[],"points":[]}
+[05] constraints after: 7 ["Fix0:1","D10:1","D20:1","HD:1","VD:1","Auto_Coinc:1","Auto_Coinc0:1"]
+[05] dims after: 4 ["D1=123:lgsundefined","D2=124:lgsundefined","HD=125:lgsundefined","VD=126:lgsundefined"]
+[05] updateDimension HD→44 (id 125): result 1 maxLevel 31 []
+[05] arc 113: {"centerPos":{"x":40,"y":40,"z":0},"endPos":{"x":61.99999999999998,"y":44.71699056602882,"z":0},"startPos":{"x":62,"y":35.28300943397117,"z":0}}
+[filewrite] files/05-trim-core-trimcore.json (226 bytes)

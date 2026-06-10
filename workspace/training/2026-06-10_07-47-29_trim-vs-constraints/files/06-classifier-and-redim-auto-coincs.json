@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Auto_Coinc",
+    "class": "CC_2DCoincidentConstraint",
+    "id": 133,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "0/2002_6_7_18:51",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 114,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 121,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  {
+    "name": "Auto_Coinc0",
+    "class": "CC_2DCoincidentConstraint",
+    "id": 135,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "0/2002_6_7_18:51",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 115,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 120,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "vol1": 30993.048446695764,
+  "exp1": 30997.29645115097,
+  "vol2": 34455.798196569725,
+  "exp2": 34454.99730695521,
+  "consNames": [
+    "Fix0:lgs1",
+    "D10:lgs1",
+    "D20:lgs1",
+    "HD:lgs1",
+    "VD:lgs1",
+    "Rt0:lgs1",
+    "Rb0:lgs1",
+    "TanT1:lgs1",
+    "TanT2:lgs1",
+    "TanB1:lgs1",
+    "TanB2:lgs1",
+    "Auto_Coinc:lgs1",
+    "Auto_Coinc0:lgs1",
+    "Auto_Coinc1:lgs1",
+    "Auto_Coinc2:lgs1"
+  ]
+}

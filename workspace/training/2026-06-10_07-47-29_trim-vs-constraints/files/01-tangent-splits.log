@@ -1,0 +1,9 @@
+[01] splitAllCurves maxLevel: 31 count: 9
+[01] a1: 1 → Circle_part0(CC_Circle)
+[01] a2: 1 → Circle0_part0(CC_Circle)
+[01] b1: 2 → Line_part0(CC_Line), Line_part1(CC_Line)
+[01] b2: 1 → Circle1_part0(CC_Circle)
+[01] c1: 2 → Circle2_part0(CC_Arc), Circle2_part1(CC_Arc)
+[01] c2: 2 → Circle3_part0(CC_Arc), Circle3_part1(CC_Arc)
+[filewrite] files/01-tangent-splits-segments.json (1522 bytes)
+[01] sample segment members: ["radius","_VERSION","rigidSetId","partOf","interval"]

@@ -1,0 +1,6 @@
+[03] mergeBack (no trims) maxLevel: 31
+[03] geometry after roundtrip: {"arcs":[],"circles":[58,61],"lines":[],"points":[]} — c1,c2 were 58 61
+[03] original circle IDs preserved: true
+[03] constraint nodes: 5 dimension nodes: 4
+[03] updateDimension HD 38→50: result null (1=solved) — c2 center: {"x":78,"y":40,"z":0} (expect x=90)
+[filewrite] files/03-roundtrip-constrained-roundtrip.json (97 bytes)

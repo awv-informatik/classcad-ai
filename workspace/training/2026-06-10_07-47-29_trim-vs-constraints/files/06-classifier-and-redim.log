@@ -1,0 +1,12 @@
+[06] Circle_part0 (of 58) w=0.817 dir=1 mid(17.50, 40.00) → keep
+[06] Circle_part1 (of 58) w=0.183 dir=1 mid(62.50, 40.00) → TRIM
+[06] Circle0_part0 (of 61) w=0.817 dir=1 mid(100.50, 40.00) → keep
+[06] Circle0_part1 (of 61) w=0.183 dir=1 mid(55.50, 40.00) → TRIM
+[06] trimming 2 (expect 2: both lens arcs)
+[06] geometry: {"arcs":[113,119],"circles":[],"lines":[],"points":[]} (expect 2 arcs, 0 circles)
+[06] Auto_Coinc count: 2
+[filewrite] files/06-classifier-and-redim-auto-coincs.json (1609 bytes)
+[06] updateDimension D1→52 on TRIMMED arc: result 1 maxLevel 31
+[06] arc 113: start(61.234, 55.005) end(61.234, 24.995) center(40.00, 40.00)
+[06] arc 119: start(61.234, 24.995) end(61.234, 55.005) center(78.00, 40.00)
+[06] expected joints: (61.234, 25.0) / (61.234, 55.0) approx — y=40±15.005

@@ -38,12 +38,32 @@ Two containers are created under the sketch geometry:
 - **`SplittedCurves`** (CC_Container) — holds all split sub-curve segments
 - **`NoneSplitted`** (CC_Container) — holds curves that had no intersections (original IDs)
 
+## Segment Anatomy (verified 2026-06-10)
+
+Each staged segment node carries two key members:
+
+- **`partOf`** — the ORIGINAL curve's ID. Use this to group segments by parent (robust,
+  no name parsing).
+- **`interval`** — `[t0, t1]` parameter range as a **0..1 FRACTION of the full curve**
+  (segment widths of one circle sum to 1.0). NOT radians, and the parameter phase is NOT
+  world-aligned — never convert `t` to world angles directly.
+
+**`getPositions` works on staged segment IDs** (returns world start/end/center). Robust
+arc-segment midpoint recipe: take world angles of start/end around the center, compute the
+CCW span; pick the traversal direction whose span fraction is closer to the interval width
+`w`; midpoint = halfway along that direction. For keep/trim classification, prefer the
+**boundary test**: probe the midpoint pushed ±ε radially — a segment belongs to the final
+outline iff material lies on exactly ONE side (midpoint-inside-another-shape is NOT
+sufficient: e.g. boss segments between a tangent point and a crossing sit inside a fillet
+PATCH while outside every disc).
+
 ## Intersection Behavior
 
 | Scenario | Behavior |
 |---|---|
 | **Two curves crossing** | Both split at intersection points |
-| **Tangent contact** (line tangent to circle) | Line split at tangent point; circle NOT split |
+| **Tangent contact** (line tangent to circle) | Line split at tangent point; circle becomes ONE full-circle part (`Circle_part0`, class CC_Circle) in SplittedCurves — staged but not subdivided |
+| **Circle–circle tangency** | Each circle staged as one full-circle part per the row above; with TWO tangent contacts (e.g. a fillet circle touching two bosses) the circle splits into 2 arcs at the tangent points |
 | **T-junction** (endpoint touches midpoint) | Continuous curve split at contact; terminating curve stays whole |
 | **Collinear overlapping lines** | Both lines split at overlap boundary points |
 | **Multiple curves at same point** | Each curve split once at the common crossing point (no extra segments) |

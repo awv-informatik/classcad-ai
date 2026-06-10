@@ -37,6 +37,10 @@ VOID. No meaningful return value.
 - **After mergeBack, all IDs change.** Original curve IDs are invalidated. New geometry gets new IDs. Don't cache IDs across the trim workflow.
 - **Re-trimming an already-trimmed ID errors.** The sub-curve no longer exists after the first trim — second attempt returns maxLevel=51 "invalid id" error.
 - **Empty `curveIds` array is a no-op.** No error (maxLevel=31).
+- **Safe on constrained sketches** (verified 2026-06-10): constraints/dimensions survive the
+  trim workflow and the profile stays conditioned — but ALL constraint/dimension handles are
+  recreated with new IDs on mergeBack (re-fetch by name), and `Auto_Coinc` constraints appear
+  at the cut points. Full details in `splitCurvesMergeBack.md` → Constrained Sketches.
 
 ## How splitAllCurves Segments Map to Geometry
 

@@ -71,9 +71,33 @@ splitAllCurves → mergeBack → splitAllCurves → mergeBack → ...
 ```
 Each cycle gets fresh split IDs. No state accumulates between cycles.
 
+## Constrained Sketches (verified 2026-06-10)
+
+The whole trim workflow is SAFE on sketches with live constraints/dimensions — the sketch
+stays constrained AND conditioned through it. Behavior details:
+
+- **Every mergeBack recreates ALL constraint and dimension nodes with NEW IDs** — even on a
+  no-trim roundtrip that preserves the geometry IDs. Old handles fail with error 1006
+  ("invalid id"). **Re-fetch by NAME from the structure tree after every mergeBack:**
+  dimension nodes keep their names exactly; constraint nodes get suffix-renamed
+  (`Fix`→`Fix0`, `D1`→`D10`, repeat mergeBacks append further suffixes).
+- **`Auto_Coinc` constraints are auto-created at the cut points** — the trimmed profile gets
+  wired together, so a later `updateDimension` re-solves the whole profile coherently
+  (verified: arc joints re-landed on the analytic intersection points after both symmetric
+  and asymmetric re-dimensions, and a trimmed+extruded part regenerated end-to-end).
+- **Dimensions keep driving curves that changed class** — a DIAMETER on a circle that became
+  an arc still resizes it.
+- **A fully-trimmed-away curve takes its constraints with it** — removed cleanly, no dangling
+  nodes, the rest of the sketch keeps solving.
+- **Contiguous kept segments of one curve COALESCE into a single curve** on mergeBack
+  (keeping 3 adjacent segments of a circle yields 1 arc, not 3).
+- **updateDimension during the staged state works** (solves and moves geometry) but voids the
+  no-trim ID-preservation guarantee — curves come back with new IDs after mergeBack.
+
 ## Gotchas
 
 - **No return data.** Unlike `splitAllCurves` (which returns segment IDs), mergeBack returns nothing. You must call `getGeometry` afterward to discover the new IDs.
+- **Constraint/dimension handles die on EVERY mergeBack** — see Constrained Sketches above.
 - **All old IDs for trimmed curves are invalid after mergeBack.** Don't cache IDs across the trim workflow.
 - **Untrimmed curves keep their IDs.** Only curves that had segments removed get new IDs. This means you can safely reference untouched geometry after mergeBack.
 - **splitAllCurves segment ordering follows creation order.** The first-created curve's segments appear first in the array. This matters when selecting indices for `trimCurves`.

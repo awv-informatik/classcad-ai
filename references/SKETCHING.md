@@ -160,7 +160,7 @@ Seed rough geometry on the correct SIDE of the intended solution (here: above th
 ### Chain vs trim — pick by topology knowledge
 
 - **Profile topology known** (you can list the arcs/lines and their adjacency — the normal case after Step 1 analysis): build the closed CHAIN directly from rough segments with COINCIDENT + TANGENT at each join. No trim phase at all. The liquid-mixer block (4 lines + 2 corner arcs), boss peanut (4-arc chain), and cutout (4 lines + 2 ear arcs) all build this way — every join and center solved exactly from the drawing's dimension scheme.
-- **Topology to be discovered** (overlapping shapes whose intersections define the outline): place full circles/lines, solve the layout, then Step 5's split/trim workflow.
+- **Topology to be discovered** (overlapping shapes whose intersections define the outline): place full circles/lines, solve the layout, then Step 5's split/trim workflow. Verified end-to-end on constrained sketches — the trimmed profile keeps its constraints and re-solves on dimension changes (see Step 5 trim rules).
 
 ### Diagnosing an under-constrained scheme
 
@@ -203,7 +203,7 @@ await api.v1.sketch.dimension({
 - Rotational constraints preserve line length (HORIZONTAL on a 50-long tilted line keeps it 50).
 - Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
 - Deleting a constraint does NOT revert geometry.
-- Open question: how `splitAllCurves`/`mergeBack` (Step 5) interacts with constraints from this step — not yet retested under an active solver. If trims fail on a constrained sketch, suspect this first and report findings.
+- **Trim is safe on constrained sketches** (verified 2026-06-10): constraints and dimensions survive `splitAllCurves → trimCurves → mergeBack`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every mergeBack** — re-fetch them by name from the structure tree before updating.
 
 ---
 
@@ -228,7 +228,9 @@ await api.v1.sketch.splitCurvesMergeBack({ id: skId })
 
 With many overlapping shapes, `splitAllCurves` can produce dozens to hundreds of segments. For each segment, determine whether it belongs to the final profile or should be removed.
 
-**Approach**: for each segment, compute its arc midpoint and test whether it falls inside another contour shape. If it does, it's an interior segment — trim it.
+**Approach — the boundary test.** Each staged segment node carries `partOf` (original curve ID) and `interval` (`[t0,t1]` as a **0..1 fraction** of the curve — not radians, phase not world-aligned). `getPositions` works on segment IDs. Compute the segment's world midpoint (angles of start/end around the center; pick the traversal direction whose span fraction is closer to the interval width), then probe the midpoint pushed **±ε radially**: the segment belongs to the final outline iff material lies on exactly ONE side.
+
+Plain midpoint-inside-another-shape is NOT sufficient: segments can be interior to the final region while outside every placed shape (e.g. a boss arc between its fillet-tangent point and the boss-boss crossing sits inside the fillet *patch*) — the boundary test handles all of these uniformly.
 
 Assign roles to your shapes before trimming:
 - **Contour shapes** (profile boundary): trim segments that fall inside other contour shapes
@@ -240,7 +242,10 @@ Assign roles to your shapes before trimming:
 - `trimCurves` only accepts IDs returned by `splitAllCurves` — not original geometry IDs
 - `trimCurves` is **atomic** — one invalid ID fails the entire call, no partial trims
 - After `mergeBack`, trimmed curve IDs are invalid — use `getGeometry` to discover new IDs
-- `splitAllCurves → mergeBack` without trimming is a safe no-op (round-trip restore)
+- `splitAllCurves → mergeBack` without trimming is a safe no-op for GEOMETRY ids (round-trip restore) — but constraint/dimension nodes are recreated with new IDs anyway
+- **Constrained sketches trim safely** — constraints/dimensions survive, `Auto_Coinc` appears at cut points, and the profile stays re-solvable. Re-fetch dimension/constraint handles by NAME after mergeBack (dimension names preserved; constraint names suffix-renamed `Fix`→`Fix0`)
+- **Contiguous kept segments coalesce** into a single curve on mergeBack — keeping 3 adjacent segments of a circle yields 1 arc
+- Tangent-only contacts: a singly-tangent circle stays whole (staged as one full-circle part); a doubly-tangent circle (fillet between two shapes) splits into 2 arcs at the tangent points
 
 ---
 

@@ -123,7 +123,7 @@ Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces
 
 ### Order of operations
 
-1. **Anchor the datum** — `FIXATION` on reference geometry first; without an anchor the solver chooses what to move. To lock a line completely, fix its two **endpoints** individually: FIXATION on the line itself locks position/direction but NOT length — the solver will happily stretch a "fixed" line to satisfy a COINCIDENT or EQUAL_LENGTH elsewhere (verified).
+1. **Anchor the datum** — `FIXATION` on reference geometry first; without an anchor the solver chooses what to move. Place the datum point EXACTLY at its drawing coordinates before fixing — FIXATION freezes the current position, it doesn't know where the point "should" be. One exactly-placed fixed point per sketch is enough; everything else can be seeded rough. To lock a line completely, fix its two **endpoints** individually: FIXATION on the line itself locks position/direction but NOT length — the solver will happily stretch a "fixed" line to satisfy a COINCIDENT or EQUAL_LENGTH elsewhere (verified).
 2. **Relate** — COINCIDENT (connect), TANGENT (tangency), CONCENTRIC, PARALLEL / PERPENDICULAR, HORIZONTAL / VERTICAL, SYMMETRY (axis FIRST in geomIds). Full tables in `sketch/constraint.md`.
 3. **Dimension** — drive sizes/distances to the drawing's values. `value` at creation WORKS; omit `value` to lock the current measurement instead. Formulas (`'60+10'`) work; angles need the `'45deg'` suffix; `@expr.NAME` is NOT supported in dimensions.
 
@@ -154,6 +154,17 @@ await api.v1.sketch.constraint([
 ```
 
 Seed rough geometry on the correct SIDE of the intended solution (here: above the waist) — among valid solutions the solver takes the nearest/minimal-motion one. Circle–circle TANGENT solves to external tangency (center distance = r1 + r2).
+
+**Rough ≠ sloppy:** seeds must still be valid geometry. `arcByCenter` rejects arcs whose endpoints aren't equidistant from the center (zero tolerance) — generate arc seeds from center + radius + two angles, and put the roughness into those values, not into hand-typed endpoint coordinates.
+
+### Chain vs trim — pick by topology knowledge
+
+- **Profile topology known** (you can list the arcs/lines and their adjacency — the normal case after Step 1 analysis): build the closed CHAIN directly from rough segments with COINCIDENT + TANGENT at each join. No trim phase at all. The liquid-mixer block (4 lines + 2 corner arcs), boss peanut (4-arc chain), and cutout (4 lines + 2 ear arcs) all build this way — every join and center solved exactly from the drawing's dimension scheme.
+- **Topology to be discovered** (overlapping shapes whose intersections define the outline): place full circles/lines, solve the layout, then Step 5's split/trim workflow.
+
+### Diagnosing an under-constrained scheme
+
+Read back every join point and center after solving and compare against expected values. The failure pattern is PARTIAL exactness: points downstream of the datum land exactly, the unconstrained subgraph drifts (liquid-mixer cutout first pass: bottom chain exact, left side off by ~1 — 4/8). The fix is never "nudge the seeds": find the DRAWING FACT the scheme hasn't encoded and add it as a constraint — there, "ears bulge outward only" became ear-center-COINCIDENT-on-edge-line ×2, and 4/8 → 8/8 exact. Solved readbacks doubling as the dimension-checklist verification is the point of the conditioned workflow.
 
 ### Verification readouts
 

@@ -1,0 +1,3 @@
+[04] HD=38 maxLevel: 31 VD=0 maxLevel: 31
+[04] c2 center: {"x":78,"y":40,"z":0} (target (78,40) — moved from (90,55))
+[filewrite] files/04-distance-dims-move-dist.json (57 bytes)

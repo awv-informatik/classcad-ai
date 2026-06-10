@@ -1,0 +1,5 @@
+[07] boss dims maxLevel: 31
+[07] RADIUS maxLevel: 31 TANGENT maxLevels: 31 31
+[07] fillet center: {"x":60.00000000000001,"y":66.36759374687043,"z":0} expected (60, 66.367594)
+[07] dist to c1: 32.500000 to c2: 32.500000 (external tangency ⇒ 32.5 both)
+[filewrite] files/07-fillet-by-constraints-filletsolve.json (174 bytes)

@@ -1,0 +1,6 @@
+[09] H then V on same line: H maxLevel 31 / V maxLevel 31 — line: {"endPos":{"x":50,"y":-3.061616997868383e-15,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[09] V constraint node lgsState: {"value":0,"type":"real","visible":1,"expression":""}
+[09] fillet center @ Ø45: {"x":60.00000000000001,"y":66.36759374687041,"z":0} (expect y≈66.367594)
+[09] updateDimension results: 1 1 (1 = solved)
+[09] fillet center @ Ø60: {"x":60.000000000000014,"y":75.19943181359609,"z":0} expected (60, 75.199432) — system re-laid-out: true
+[filewrite] files/09-conflicts-and-resolve-resolve.json (374 bytes)

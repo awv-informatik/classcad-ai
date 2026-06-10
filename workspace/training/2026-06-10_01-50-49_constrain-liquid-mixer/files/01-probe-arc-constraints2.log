@@ -1,0 +1,7 @@
+[01] arcs created: 58 65
+[01] RADIUS on arc: maxLevel 31 result 78
+[01] COINCIDENT arc-end/arc-end: maxLevel 31 result 80
+[01] TANGENT arc-arc: maxLevel 31 result 82 []
+[01] r1: 20.000000 r2: 10.000000 centerDist: 30.000000 sharedGap: 0.00e+0
+[01] tangency holds: true
+[filewrite] files/01-probe-arc-constraints2-arcprobe2.json (681 bytes)

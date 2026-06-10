@@ -1,0 +1,11 @@
+[03] boss fixation: 31 relations: 31 dims: 31
+[03] ✓ boss2.center (79,40) → (79.000000000, 40.000000000) target (79.000000, 40.000000)
+[03] ✓ filT.center (60,66.3676) → (60.000000000, 66.367593747) target (60.000000, 66.367594)
+[03] ✓ filB.center (60,13.6324) → (60.000000000, 13.632406253) target (60.000000, 13.632406)
+[03] ✓ join T1t → (54.153846154, 58.254487979) target (54.153846, 58.254488)
+[03] ✓ join T2t → (65.846153846, 58.254487979) target (65.846154, 58.254488)
+[03] ✓ join T1b → (54.153846154, 21.745512021) target (54.153846, 21.745512)
+[03] ✓ join T2b → (65.846153846, 21.745512021) target (65.846154, 21.745512)
+[03] solved-coordinate checks: 7 / 7
+[03] union maxLevel: 31 vol: 365463.13 (hardcoded build: 365463.13)
+[filewrite] files/03-boss-constrained-boss-verify.json (56 bytes)

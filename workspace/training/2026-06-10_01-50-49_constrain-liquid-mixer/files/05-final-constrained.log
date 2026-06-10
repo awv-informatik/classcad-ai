@@ -1,0 +1,7 @@
+[03] boss fixation: 31 relations: 31 dims: 31
+[04] fixation: 31 relations: 31 dims3: 31
+[05] final boolean maxLevel: 31
+[05] audit: 21 / 21 maxLevel: 31
+[05] FINAL vol: 326305.89 (hardcoded: 326305.89) COG: {"x":59.51102224959143,"y":39.99852489061117,"z":20.189771925447822}
+[05] equivalent: true && COG match: true
+[filewrite] files/05-final-constrained-final-verify.json (150 bytes)

@@ -210,3 +210,18 @@ Also fixed outside the skill: `TOOLS.md` worker paths (install tree moved to
 - [x] D10: cutout 90×40×5 + ears — floor z=5 probe + back view + vol Δ0.009% ✓
 - [x] D11: Ø12↧100 — bore floor x=20 plane + rim circle probes ✓
 - [x] D12: Ø18.63↧18 — pilot floor x=102 plane + mouth rim circle probes ✓
+
+## Follow-up (2026-06-10, same day)
+
+ph review: the sketches in this build are exact-coordinate and UNCONSTRAINED — correct
+geometry, but hardcoded (can't adapt). Two follow-up sessions:
+
+1. `2026-06-10_01-32-58_constraint-solver-investigation/` — proved the solver actively moves
+   geometry (the "constraints are metadata / value broken" claims in SKETCHING.md were false,
+   rooted in planeless test sketches; fixed in skill @ 9bf4505).
+2. `2026-06-10_01-50-49_constrain-liquid-mixer/` — all three sketches rebuilt constraint-driven
+   from rough seeds; solver laid out every tangent point exactly. Final model verified
+   EQUIVALENT to this one: vol 326305.89 identical, COG matches to 14 digits, audit 21/21.
+
+The constrained build supersedes this one as the reference; this journal remains the record
+of the drawing interpretation (dimension chains) and the feature scheme.

@@ -1,0 +1,13 @@
+[02] fixation: 31 relations maxLevel: 31
+[02] dims maxLevel: 31 ids: [116,120,124,128]
+[02] ✓ bottom.start (10,0) → (10.000000000, 0.000000000)
+[02] ✓ bottom.end (120,0) → (120.000000000, 0.000000000)
+[02] ✓ right.end (120,80) → (120.000000000, 80.000000000)
+[02] ✓ top.end (10,80) → (10.000000000, 80.000000000)
+[02] ✓ left.start (0,70) → (0.000000000, 70.000000000)
+[02] ✓ left.end (0,10) → (0.000000000, 10.000000000)
+[02] ✓ tl.center (10,70) → (10.000000000, 70.000000000)
+[02] ✓ bl.center (10,10) → (10.000000000, 10.000000000)
+[02] solved-coordinate checks: 8 / 8
+[02] extrusion maxLevel: 31 vol: 334497.87 expected: 334497.79 delta%: 0.0000
+[filewrite] files/02-block-constrained-block-verify.json (641 bytes)

@@ -7,50 +7,13 @@ Dimensions interpreted together with ph over several rounds — all chains close
 
 ![source](files/000_07_Knowledge_Base_18_-_Prepare_technical_Drawing.jpeg)
 
-## Locked interpretation (front view = boss side; origin bottom-left, X right, Y up, Z toward viewer)
+## Interpretation, assumptions, oddities, dimension checklist
 
-- Block: 120 × 80 × 35. Front face z=0, back face z=−35. R10 on both LEFT corners (centers (10,10), (10,70)).
-- Boss (peanut): two R22.5 circles at (41,40) and (79,40) [38 apart, 41 from each edge — chain: 41+38+41=120 ✓]
-  joined by R10 concave waist fillets, fillet centers (60, 40±26.37) [√(32.5²−19²)=26.366], extruded z=0..10.
-- Corner mount holes: Ø8 THRU block at (10,70) and (110,10) [70 = 80−10 ✓; 110 = 120−10 ✓],
-  c'bore Ø13.5 ↧8.5 from front face.
-- Per hub (×2 at (41,40),(79,40)):
-  - Ø8.1 ↧10 from boss face (z=10 → z=0, bottoms flush with block front plane), csk Ø10×90° at boss face
-  - 3× M4-6H ↧8, pilot Ø3.3 ↧12 (z=10 → z=−2), on Ø24 BCD, 120° apart. Clocking ASSUMED: first at 12 o'clock.
-- Side port (right face x=120, axis y=40, z=−15 [20 from back face]):
-  - G1/2-6H ↧18, pilot Ø18.63 ↧18 (x=102..120)
-  - Ø12 (+0.3/−0.1, modeled nominal) ↧100 (x=20..120)
-- Back cutout (back face z=−35, depth 5 → z=−30): rect 90×40 centered (x 15..105, y 20..60)
-  ∪ two Ø8 ear circles centered (15,24),(15,56) — tangent inside top/bottom edges, bulge to x=11.
-  (Back view mirrors X; ph's own corner mapping confirms back-view-right = front-view-left.)
-
-## Assumptions register (flagged to ph, not vetoed)
-
-- Hub centerline y=40 (mid-height; nothing dimensions it directly)
-- M4 clocking: one hole at 12 o'clock per hub
-- C'bore from front face; csk on boss face; "20" measures to bore AXIS
-- Threads (M4, G1/2): model pilot/nominal cylinders + note spec — pending check for native thread feature
-- Tolerances not modeled (nominal values)
-
-## Oddities (as-drawn, noted not "fixed")
-
-- Ø8.1 ↧10 = exactly boss thickness → blind holes ending flush at block plane
-- Ø12 channel intersects no other feature (sealed except at port) — fine, fidelity over function
-
-## Dimension checklist
-
-- [ ] D1: 120.0 — block width
-- [ ] D2: 80.0 — block height
-- [ ] D3: 35.0 / 45.0 — block depth / with boss (boss 10)
-- [ ] D4: R10 ×2 — left corner radii
-- [ ] D5: Ø8 thru ×2 at (10,70),(110,10) + ⌴Ø13.5↧8.5
-- [ ] D6: Ø45 ×2 hubs at (41,40),(79,40), spacing 38
-- [ ] D7: R10 ×2 waist fillets
-- [ ] D8: Ø8.1↧10 ×2 + ⌵Ø10×90°
-- [ ] D9: 6× Ø3.3↧12 / M4↧8 on Ø24 BCD @120°
-- [ ] D10: cutout 90×40×5 centered + Ø8 ears at (15,24),(15,56)
-- [ ] D11: Ø12↧100 axis (y40, z−15)
-- [ ] D12: Ø18.63↧18 (G1/2)
+**Moved to the run-2 journal** (`../2026-06-10_01-50-49_constrain-liquid-mixer/journal.md`)
+so the final constrained build reads in full context — ported to its coordinate frame
+(back face z=0) and including the later cutout correction (clings to the back-view left
+edge; this run still modeled it centered — see Follow-up below). The checklist is fully
+verified there (readbacks + 23-probe audit).
 
 ## Build log
 
@@ -198,19 +161,6 @@ Also fixed outside the skill: `TOOLS.md` worker paths (install tree moved to
 - [x] workspace/TODO.md — no unresolved server/API issues; doc bugs found were fixed in-session
 - [x] Worker I started (pid 87642) killed cleanly
 
-## Dimension checklist — final state
-
-- [x] D1–D3: 120/80/35+10 — bbox probes (6 face planes) ✓
-- [x] D4: R10 corners — block profile verified by volume Δ0.000% + corner vertex probes
-- [x] D5: Ø8 thru + Ø13.5↧8.5 c'bores — c'bore floor plane z=26.5 probe ✓
-- [x] D6: hubs (41,40),(79,40) spacing 38 — COG checks + shaft mouth/floor probes ✓
-- [x] D7: R10 waist fillets — peanut area analytic vs grid vs server (3099.7, Δ0.002%) ✓
-- [x] D8: Ø8.1↧10 + csk Ø10×90° — floor z=35 plane + meeting-circle z=44.05 probes ✓
-- [x] D9: M4 pattern — pilot floor z=33 probe + top-view pattern ✓
-- [x] D10: cutout 90×40×5 + ears — floor z=5 probe + back view + vol Δ0.009% ✓
-- [x] D11: Ø12↧100 — bore floor x=20 plane + rim circle probes ✓
-- [x] D12: Ø18.63↧18 — pilot floor x=102 plane + mouth rim circle probes ✓
-
 ## Follow-up (2026-06-10, same day)
 
 ph review: the sketches in this build are exact-coordinate and UNCONSTRAINED — correct
@@ -221,7 +171,10 @@ geometry, but hardcoded (can't adapt). Two follow-up sessions:
    rooted in planeless test sketches; fixed in skill @ 9bf4505).
 2. `2026-06-10_01-50-49_constrain-liquid-mixer/` — all three sketches rebuilt constraint-driven
    from rough seeds; solver laid out every tangent point exactly. Final model verified
-   EQUIVALENT to this one: vol 326305.89 identical, COG matches to 14 digits, audit 21/21.
+   EQUIVALENT to this one (vol identical, COG to 14 digits, audit 21/21), then corrected:
+   the back cutout clings to the back-view LEFT edge (this run modeled it centered — wrong;
+   see run-2 script 06). The interpretation/assumptions/oddities/checklist sections live in
+   the run-2 journal now, updated to its frame and the corrected cutout.
 
-The constrained build supersedes this one as the reference; this journal remains the record
-of the drawing interpretation (dimension chains) and the feature scheme.
+The constrained build supersedes this one as the reference; this journal remains the
+session record of the exploratory build (probes, scripts, evidence trail).

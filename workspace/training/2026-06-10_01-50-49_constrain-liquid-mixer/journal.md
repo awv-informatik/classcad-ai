@@ -6,6 +6,72 @@ scheme — the solver lays out the geometry. Feature holes using workCSys cylind
 
 ![source](files/000_07_Knowledge_Base_18_-_Prepare_technical_Drawing.jpeg)
 
+## Locked interpretation
+
+Interpreted together with ph over several rounds — all dimension chains close. Source:
+"Liquid mixer Version 2", Al 6061, ISO 2768-1, 1st angle projection, all mm.
+
+**Coordinate frame (as built):** origin bottom-left of the front view; X right (0..120),
+Y up (0..80), Z = depth with the **back face at z=0**, block front face at z=35, boss face
+at z=45. The drawing's back view mirrors X relative to this frame (back-view-left =
+part-frame-right).
+
+- **Block:** 120 × 80 × 35 (45 over the boss). R10 on both LEFT corners — arc centers
+  (10,10) and (10,70). Chain: corner-radius center == upper hole center (10,70) ✓.
+- **Boss (peanut), z=35..45:** two R22.5 circles at (41,40) and (79,40) — chain:
+  41+38+41 = 120 ✓ dead-centered; joined by R10 concave waist fillets, fillet centers
+  (60, 40±26.3676) [√(32.5²−19²)], tangent points at (41+9/13·19, 40±9/13·26.3676).
+- **Corner mount holes:** Ø8 THRU at (10,70) and (110,10) [70 = 80−10 ✓; 110 = 120−10 ✓],
+  c'bore Ø13.5 ↧8.5 from the front face (floor z=26.5).
+- **Per hub (×2):** Ø8.1 ↧10 from the boss face (floor z=35, flush with the block plane),
+  csk Ø10×90° at z=45; 3× M4-6H ↧8 (pilot Ø3.3 ↧12, z=33..45) on Ø24 BCD at 120° spacing.
+- **Side port (right face x=120, axis y=40, z=20** [20 from the back face]**):**
+  G1/2-6H ↧18 with pilot Ø18.63 (x=102..120), then Ø12 (+0.3/−0.1, modeled nominal)
+  ↧100 (x=20..120).
+- **Back cutout (z=0..5): x 30..120 — clings to the back-view LEFT edge, i.e. OPEN at the
+  part's right (port-side) face** [left wall = 120−90 = 30 ✓]; y 20..60 (40 tall, vertically
+  centered); two Ø8 ear half-circles on the closed end, centers (30,24) and (30,56), tangent
+  inside the top/bottom edges, bulging to x=26.
+  *Correction history:* initially read as centered (x 15..105); ph corrected 2026-06-10 —
+  "the cut starts from the left" (back view). Corroboration: the side view can only dimension
+  the 5.0 depth because the cutout reaches that face. Fixed in script 06.
+
+## Assumptions register (flagged to ph, not vetoed)
+
+- Hub centerline y=40 — mid-height; nothing dimensions it directly (consistent with the
+  centered cutout height and the port at mid-height in section B-B)
+- M4 clocking: one hole at 12 o'clock per hub (matches detail A hole positions)
+- C'bore from the front face; csk on the boss face; the side view's "20" measures to the
+  bore AXIS (verified plausible by audit probes; "from back face" confirmed by 1st-angle
+  reading of the side view)
+- Threads (M4-6H, G1/2-6H): no native thread feature in ClassCAD — modeled as pilot/nominal
+  bores, thread specs carried here as annotations
+- Tolerances modeled nominal (Ø12 +0.3/−0.1 → 12.0)
+
+## Oddities (as-drawn, modeled faithfully — not "fixed")
+
+- Ø8.1 ↧10 = exactly the boss thickness → blind shaft seats ending flush at the block plane
+- The Ø12 chamber bore intersects no other feature (sealed except at its port mouth);
+  the back cutout (z≤5) passes 9mm below the bore (z 14..26) without touching it
+- The cutout notches the right side face (z 0..5, y 20..60) — visible as the 5.0 step in the
+  drawing's side view
+
+## Dimension checklist — all verified in this run
+
+- [x] D1: 120.0 block width — block readbacks 8/8 (s02) + x=0/x=120 audit probes
+- [x] D2: 80.0 block height — VD80 solved + y=0/y=80 face probes
+- [x] D3: 35.0/45.0 depths — z=35 and z=45 face probes (audit)
+- [x] D4: R10 ×2 left corners — tangent joins + arc centers exact (s02)
+- [x] D5: Ø8 thru ×2 + ⌴Ø13.5↧8.5 — c'bore floor z=26.5 plane probe
+- [x] D6: Ø45 ×2 hubs, spacing 38 — boss readbacks 7/7 (s03)
+- [x] D7: R10 ×2 waist fillets — fillet centers solved to (60, 40±26.3676) exactly (s03)
+- [x] D8: Ø8.1↧10 + ⌵Ø10×90° — shaft floor z=35 probe + csk rim/meeting-circle probes
+- [x] D9: 6× Ø3.3↧12 / M4↧8 on Ø24 BCD @120° — M4 floor z=33 probe + top view
+- [x] D10: cutout 90×40×5, left-edge-clinging + Ø8 ears — readbacks 6/6, left-wall x=30 +
+      old-centered-spot-solid probes (s06; position corrected from the earlier centered read)
+- [x] D11: Ø12↧100 @ (y40, z20) — bore floor x=20 plane + rim circle probes
+- [x] D12: Ø18.63↧18 (G1/2) — pilot floor x=102 plane + port mouth rim probe
+
 ## Build log
 
 ### 00 — probe crash: rough arcs must still be VALID arcs

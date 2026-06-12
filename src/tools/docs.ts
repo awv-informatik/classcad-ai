@@ -1,32 +1,39 @@
 // Discovery tools: list_methods, describe_method.
 //
-// Backed by:
-//   - src/method-registry.json (built from @classcad/api-js .d.ts at compile time)
-//   - classcad-skill markdown docs (loaded at runtime if present)
+// Backed by the @classcad/skill npm package:
+//   - method-registry.json (generated there from @classcad/api-js JSDoc)
+//   - references/<domain>/<method>.md markdown docs
 //
 // describe_method composes both: the JSDoc summary + parameter list, plus the
 // rich LLM doc from references/<domain>/<method>.md when one exists.
 //
 // Skill path resolution and per-method markdown content are memoized — the
-// classcad-skill checkout doesn't change during a session, so we hit disk at
-// most once per method instead of on every describe_method call.
+// installed skill doesn't change during a session, so we hit disk at most once
+// per method instead of on every describe_method call.
 
 import { z } from 'zod'
 import { existsSync, readFileSync } from 'fs'
+import { createRequire } from 'module'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import registry from '../method-registry.json' with { type: 'json' }
+import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 
 type RegistryEntry = { domain: string; method: string; summary: string; params: { name: string; text: string }[] }
 const REGISTRY = registry as Record<string, RegistryEntry>
 
 const here = dirname(fileURLToPath(import.meta.url))
-const SKILL_PATHS = [
-  process.env.CLASSCAD_SKILL_PATH,
-  join(here, '..', '..', 'classcad-skill'),
-  join(here, '..', '..', '..', 'classcad-skill'),
-].filter(Boolean) as string[]
+
+// The installed @classcad/skill package dir (holds references/<domain>/<method>.md).
+function npmSkillDir(): string | null {
+  try {
+    return dirname(createRequire(import.meta.url).resolve('@classcad/skill/package.json'))
+  } catch {
+    return null
+  }
+}
+
+const SKILL_PATHS = [process.env.CLASSCAD_SKILL_PATH, npmSkillDir()].filter(Boolean) as string[]
 
 let skillPathCache: string | null | undefined = undefined
 function findSkillPath(): string | null {

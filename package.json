@@ -16,13 +16,13 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "node scripts/build-registry.mjs && tsc && node scripts/copy-build-assets.mjs",
+    "build": "tsc && node scripts/copy-build-assets.mjs",
     "dev": "tsc --watch",
     "start": "node dist/server.js",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
-    "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz",
+    "@classcad/skill": "0.x",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "sharp": "^0.34.5",
     "ws": "^8.19.0",

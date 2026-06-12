@@ -18,13 +18,13 @@ Lets MCP-capable LLM hosts (Claude Code, VS Code Copilot, etc.) drive a live Cla
 ## Install from source
 
 ```bash
-git clone --recursive https://github.com/awv-informatik/classcad-mcp.git
+git clone https://github.com/awv-informatik/classcad-mcp.git
 cd classcad-mcp
 npm install
 npm run build
 ```
 
-`--recursive` is important — it pulls the bundled `classcad-skill` submodule that powers the rich `describe_method` LLM-doc tails. If you forgot, run `git submodule update --init --recursive` after cloning.
+`npm install` pulls **`@classcad/skill`**, which carries the method registry and the markdown references that power the rich `describe_method` LLM-doc tails.
 
 The server speaks MCP over stdio:
 
@@ -138,7 +138,7 @@ The `bridge.*` tools require a CC app to have connected a bridge for the same `C
 | Variable                  | Purpose                                                                |
 | ------------------------- | ---------------------------------------------------------------------- |
 | `CLASSCAD_WS_URL`         | WebSocket URL of the classcad-cli worker. Default: `ws://localhost:9094/` |
-| `CLASSCAD_SKILL_PATH`     | Override the path to a `classcad-skill` checkout for `describe_method`. By default the bundled submodule is used; falls back to JSDoc-only if unavailable. |
+| `CLASSCAD_SKILL_PATH`     | Override the path to a `classcad-skill` checkout for `describe_method`. By default the installed `@classcad/skill` package is used; falls back to JSDoc-only if unavailable. |
 | `CLASSCAD_BRIDGE_LISTEN`  | URL where the MCP listens for inbound app bridge connections. Default: `ws://localhost:9096/bridge`. Set to a different port if 9096 is taken. The MCP starts up cleanly even if this listener fails to bind — bridge tools just report "no bridge connected" until it succeeds. |
 
 ### Attaching to an existing session
@@ -257,10 +257,15 @@ The bridge auto-reconnects with backoff; if the MCP isn't running the WS open ju
 
 ## Build pipeline
 
-`npm run build` does three things:
+`npm run build` does two things:
 
-1. `node scripts/build-registry.mjs` — walks `@classcad/api-js` `.d.ts` files, emits `src/method-registry.json` (254 methods × name + JSDoc summary + params).
-2. `tsc` — compiles `src/**/*.ts` → `dist/`.
-3. `node scripts/copy-build-assets.mjs` — copies the registry JSON and `render.mjs` into `dist/`.
+1. `tsc` — compiles `src/**/*.ts` → `dist/`.
+2. `node scripts/copy-build-assets.mjs` — copies `render.mjs` into `dist/`.
+
+The method registry and skill markdown come from the **`@classcad/skill`** npm dependency
+(the registry is generated there from `@classcad/api-js` JSDoc): `call_api`/`list_methods`/
+`describe_method` import `@classcad/skill/method-registry.json` and read
+`references/<domain>/<method>.md` from the installed package. Set `CLASSCAD_SKILL_PATH`
+to use a local classcad-skill checkout instead.
 
 `npm run clean` removes `dist/`. Both scripts are cross-platform — they call into Node, not shell `cp` / `rm`.

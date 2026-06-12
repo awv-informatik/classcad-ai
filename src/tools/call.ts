@@ -2,12 +2,12 @@
 //
 // Args are passed through to the worker; the server is the source of truth for
 // parameter validation. This tool only checks that the method name exists in
-// the registry (built from @classcad/api-js .d.ts files).
+// the registry (ships in @classcad/skill, generated there from @classcad/api-js).
 
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { Client } from '../client.js'
-import registry from '../method-registry.json' with { type: 'json' }
+import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 
 type RegistryEntry = { domain: string; method: string; summary: string; params: { name: string; text: string }[] }
 const REGISTRY = registry as Record<string, RegistryEntry>

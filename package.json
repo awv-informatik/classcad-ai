@@ -1,6 +1,6 @@
 {
   "name": "@classcad/skill",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "LLM skill for the ClassCAD headless CAD engine — structured API references with verified annotations that help AI agents generate correct ClassCAD code",
   "license": "MIT",
   "repository": {

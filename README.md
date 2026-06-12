@@ -69,7 +69,6 @@ cc/
 │   ├── client.mjs           WebSocket client for ClassCAD
 │   ├── render-direct.mjs    Isometric renderer (auto-detects solids/sketches/curves)
 │   ├── render.mjs           Alternate renderer
-│   ├── copy-api-docs.mjs    Copies upstream API docs into skill references
 │   ├── sync-submodule.mjs   Syncs the classcad-skill submodule
 │   └── export.mjs           Export utility
 │

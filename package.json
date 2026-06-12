@@ -26,8 +26,19 @@
   ],
   "files": [
     "SKILL.md",
-    "references"
+    "references",
+    "method-registry.json"
   ],
+  "scripts": {
+    "copy-api-docs": "node scripts/copy-api-docs.mjs",
+    "build:registry": "node scripts/build-registry.mjs",
+    "build": "node scripts/copy-api-docs.mjs && node scripts/build-registry.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz",
+    "typescript": "^5.1.0"
+  },
   "publishConfig": {
     "access": "public"
   }

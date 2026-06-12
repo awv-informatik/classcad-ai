@@ -453,12 +453,7 @@ If optional parameters are not set, the default values will be used, see (defaul
 
 ```js
 api.v1.assembly.fastened({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance3], csys: wcs } })
-api.v1.assembly.fastened({
-  id: assembly,
-  mate1: { path: [instance], csys: wcs },
-  mate2: { path: [instance3], csys: wcs },
-  xRotation: '45deg',
-})
+api.v1.assembly.fastened({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance3], csys: wcs }, xRotation: '45deg' })
 ```
 
 <a name="updateFastened"></a>
@@ -916,20 +911,8 @@ If optional parameters are not set, the default values will be used, see (defaul
 **Example**
 
 ```js
-api.v1.assembly.circularPattern({
-  id: assembly,
-  instanceId: instance,
-  mate1: { path: [instance], csys: wcs },
-  instanceCount: 4,
-  angle: 1.57,
-})
-api.v1.assembly.circularPattern({
-  id: assembly,
-  instanceId: instance,
-  mate1: { path: [instance], csys: wcs },
-  instanceCount: 4,
-  angle: '90deg',
-})
+api.v1.assembly.circularPattern({ id: assembly, instanceId: instance, mate1: { path: [instance], csys: wcs }, instanceCount: 4, angle: 1.57 })
+api.v1.assembly.circularPattern({ id: assembly, instanceId: instance, mate1: { path: [instance], csys: wcs }, instanceCount: 4, angle: '90deg' })
 ```
 
 <a name="updateCircularPattern"></a>
@@ -2495,12 +2478,7 @@ If optional parameters are not set, the default values will be used, see (defaul
 
 ```js
 api.v1.assembly.spherical({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance2], csys: wcs } })
-api.v1.assembly.spherical({
-  id: assembly,
-  mate1: { path: [instance], csys: wcs },
-  mate2: { path: [instance2], csys: wcs },
-  yRotationLimits: { max: '45deg' },
-})
+api.v1.assembly.spherical({ id: assembly, mate1: { path: [instance], csys: wcs }, mate2: { path: [instance2], csys: wcs }, yRotationLimits: { max: '45deg' } })
 ```
 
 <a name="updateSpherical"></a>

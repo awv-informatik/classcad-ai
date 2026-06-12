@@ -1214,10 +1214,7 @@ Creates one or multiple sketch geometry in the sketch
 api.v1.sketch.geometry({ id: sketch, points: [{ pos: [0, 0, 0] }, { pos: [10, 10, 0] }, { pos: [20, 0, 0] }] })
 api.v1.sketch.geometry({ id: sketch, lines: [{ startPos: [0, 0, 0], endPos: [0, 20, 0] }] })
 api.v1.sketch.geometry({ id: sketch, arcsBy3Points: [{ startPos: [0, 20, 0], endPos: [20, 20, 0], midPos: [10, 30, 0] }] })
-api.v1.sketch.geometry({
-  id: sketch,
-  arcsByCenter: [{ startPos: [0, 20, 0], endPos: [20, 20, 0], centerPos: [10, 20, 0], isClockwise: FALSE }],
-})
+api.v1.sketch.geometry({ id: sketch, arcsByCenter: [{ startPos: [0, 20, 0], endPos: [20, 20, 0], centerPos: [10, 20, 0], isClockwise: FALSE }] })
 api.v1.sketch.geometry({
   id: sketch,
   circles: [

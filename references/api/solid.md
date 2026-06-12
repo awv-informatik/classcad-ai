@@ -266,14 +266,7 @@ Creates a revolve by revolving a polyline
 
 ```js
 api.v1.solid.revolve({ id: entityInjectionFeature, direction: [0, 1, 0], originPos: [0, 0, 0], angle: 3.14, curves: shape })
-api.v1.solid.revolve({
-  id: entityInjectionFeature,
-  direction: [0, 1, 0],
-  originPos: [0, 0, 0],
-  angle: 3.14,
-  curves: shape,
-  translation: [20, 0, 20],
-})
+api.v1.solid.revolve({ id: entityInjectionFeature, direction: [0, 1, 0], originPos: [0, 0, 0], angle: 3.14, curves: shape, translation: [20, 0, 20] })
 ```
 
 <a name="intersection"></a>

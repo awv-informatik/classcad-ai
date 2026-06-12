@@ -537,9 +537,7 @@ Runs the given api calls in a sequence.
 **Example**
 
 ```js
-api.v1.common.batch({
-  jobs: [{ api: 'v1.common.clear' }, { api: 'v1.part.create' }, { api: 'v1.common.save', param: { format: 'OFB', encoding: 'base64' } }],
-})
+api.v1.common.batch({ jobs: [{ api: 'v1.common.clear' }, { api: 'v1.part.create' }, { api: 'v1.common.save', param: { format: 'OFB', encoding: 'base64' } }] })
 ```
 
 <a name="requestVisualisation"></a>

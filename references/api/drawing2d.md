@@ -49,12 +49,7 @@ The dimensions will be visible after creating and exporting the views to svg or 
 **Example**
 
 ```js
-api.v1.drawing2d.dimension({
-  id: part,
-  common: { type: 'LINEAR', textPos: [25, 20, 0] },
-  linear: { startPos: [0, 0, 0], endPos: [50, 0, 0], orientation: 'HORIZONTAL' },
-  viewType: 'FRONT',
-})
+api.v1.drawing2d.dimension({ id: part, common: { type: 'LINEAR', textPos: [25, 20, 0] }, linear: { startPos: [0, 0, 0], endPos: [50, 0, 0], orientation: 'HORIZONTAL' }, viewType: 'FRONT' })
 ```
 
 <a name="centerView"></a>

@@ -185,7 +185,7 @@ export default async function (api) {
 
 **Essentials:** Expressions are named variables that drive feature parameters. `common.evaluateExpression` is the standalone math engine. `part.expression` creates named variables inside a part. To use a named expression in a feature parameter, use the **`@expr.NAME`** syntax (e.g., `length: '@expr.width'`). Bare expression names do NOT work in feature params — `linkWithExpression` is a separate mechanism for programmatic binding. When you update an expression, all features referencing it via `@expr.` recalculate automatically. Learn this now because work geometry, sketches, and every feature type from here on can be expression-driven.
 
-**Foundations:** The expression syntax is documented in [expessions.md](../knowledge/classcad-skill/references/api/expessions.md). Supports constants (`C:PI`), functions (`sin`, `sqrt`, `abs`), references to other expressions by name, and the `@expr.NAME` prefix for use in feature parameters. Formulas can combine `@expr.` refs with arithmetic (e.g., `'@expr.height + 10'`) and work inside string-encoded arrays (e.g., `'[@expr.x, 0, @expr.z]'`).
+**Foundations:** The expression syntax is documented in [expressions.md](../knowledge/classcad-skill/references/api/expressions.md). Supports constants (`C:PI`), functions (`sin`, `sqrt`, `abs`), references to other expressions by name, and the `@expr.NAME` prefix for use in feature parameters. Formulas can combine `@expr.` refs with arithmetic (e.g., `'@expr.height + 10'`) and work inside string-encoded arrays (e.g., `'[@expr.x, 0, @expr.z]'`).
 
 | #   | Task                                                                                          | Source                                                                    | Studied |
 | --- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
@@ -197,7 +197,7 @@ export default async function (api) {
 | 6   | Api study of `part.renameExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
 | 7   | Api study of `part.linkWithExpression`                                                        | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
 | 8   | Api study of `part.unlinkExpression`                                                          | [part.md](../knowledge/classcad-skill/references/api/part.md)             | [✅]    |
-| 9   | Study: expression syntax — constants, functions, inter-expression references                  | [expessions.md](../knowledge/classcad-skill/references/api/expessions.md) | [✅]    |
+| 9   | Study: expression syntax — constants, functions, inter-expression references                  | [expressions.md](../knowledge/classcad-skill/references/api/expressions.md) | [✅]    |
 | 10  | Study: expression workflow — create → link to feature param → update → observe feature change | part.md                                                                   | [✅]    |
 
 **Task #1: Api study of `common.evaluateExpression`**

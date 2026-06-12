@@ -27,7 +27,6 @@ Core rules and training discipline are in `SOUL.md`. This file tracks **learned 
 - **When a foundational finding flips, sweep the WHOLE skill** — per-API refs AND guide docs (SKETCHING.md, GRAPHICS.md, STRUCTURE.md). The constraint-metadata error survived in SKETCHING.md long after create.md/constraint.md/dimension.md were corrected. Second stale-propagation incident (first: 2026-04-13 box alignment → six files). Grep for the old claim's keywords before closing any correction session.
 - **Use multiple views when iso is ambiguous, not by reflex.** A through-hole on a plate's broad face is invisible in iso (edge-on); take a `'top'` snapshot to confirm. A constraint that repositions an instance along a hidden axis can be verified with a different view. Default to iso first; add views only when there's a specific spatial fact iso can't show.
 
-## Two skill copies — don't confuse them
+## Skill copy
 
-- `knowledge/classcad-skill/` — canonical submodule. **Edit here.** This is what cc trains and where commits should land.
-- `knowledge/classcad-mcp/classcad-skill/` — second submodule of the same repo, embedded inside the classcad-mcp server so `describe_method` can append the LLM doc tail at runtime. **Don't edit here directly** — sync from canonical after committing there. Both share the `awv-informatik/classcad-skill` GitHub remote.
+- `knowledge/classcad-skill/` — canonical submodule. **Edit here.** This is what cc trains and where commits should land. Consumers (classcad-mcp, @buerli.io/ai) get it as the published `@classcad/skill` npm package — publish after committing so they can upgrade.

@@ -4,9 +4,8 @@
   "description": "AI agent that trains and maintains the ClassCAD API skill through structured exploration against a live CAD server",
   "license": "UNLICENSED",
   "scripts": {
-    "postinstall": "node scripts/sync-submodule.mjs && node scripts/copy-api-docs.mjs",
-    "sync-submodule": "node scripts/sync-submodule.mjs",
-    "copy-api-docs": "node scripts/copy-api-docs.mjs"
+    "postinstall": "node scripts/sync-submodule.mjs",
+    "sync-submodule": "node scripts/sync-submodule.mjs"
   },
   "dependencies": {
     "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz",

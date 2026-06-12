@@ -49,7 +49,7 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
 
 - **Features are consumed.** You cannot reuse target or tool IDs after the boolean. Track the returned feature ID.
 - **Empty tools is an error**, not a no-op. Error: `"The type \"0\" is not supported in PrepareAPIParams!"` (code 1004).
-- **Multiple `part.create` calls in one script** clear the drawing and can cause confusing `"id" must be provided"` errors. Use one `part.create` per script.
+- **Multiple `part.create` calls in one session** clear the drawing and can cause confusing `"id" must be provided"` errors. Use one `part.create` per cleared drawing.
 - **No `keepTools` param.** Tools are always consumed. If you need a feature for multiple operations, create separate features for each.
 
 ## Common Errors

@@ -36,7 +36,7 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
 
 - **`reference` is required.** The docs mark it as optional with `(default=xy)`, but omitting it always errors: `"The parameter \"reference\" must be provided in the api call!"` (code 1004). Always pass a work plane ID.
 - **Plane missing the solid is a silent no-op.** If the plane doesn't intersect any target, the slice succeeds (maxLevel 31) and the solid is preserved on whichever side of the plane it falls. No error, no warning.
-- **Multiple `part.create` calls in one script** clear the drawing. Don't test multiple slice scenarios in the same script.
+- **Multiple `part.create` calls in one session** clear the drawing. Build one slice scenario per cleared drawing.
 - **Angled planes work.** The work plane normal doesn't need to be axis-aligned — diagonal cuts are supported.
 
 ## Common Errors

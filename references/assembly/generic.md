@@ -46,7 +46,7 @@ Template modifications **DO propagate** to existing instances by default. Instan
 | `calculateMassProperties(instanceId)` | **YES** — locks ALL instances of same template |
 | `calculateMassProperties(rootAssemblyId)` | No |
 | `calculateMassProperties(templateId)` | No |
-| `snapshot()` | No |
+| `common.save` (export) | No |
 | `getInstance()` | No |
 | `requestVisualisation({ ids: [instId] })` | No |
 | No operation (fresh) | No |

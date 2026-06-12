@@ -30,7 +30,7 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 - **`common.recalc` invalidates shape IDs.** After calling `recalc`, `translateShape` fails with error 1006 ("An element of parameter `ids` has an invalid id!"). This is a server bug — recalc rebuilds internal structures and stales the shape reference. **Workaround:** add any curve to the shape after recalc to re-validate the ID. Or simply avoid calling recalc before shape transforms.
 - **Empty shapes cannot be translated.** A shape with no curves gives error 1006.
 - **Error message says `ids` (plural)** even though the parameter is `id` (singular). The server internally maps `id` → `ids`. Don't be confused by this mismatch.
-- The harness `snapshot()` function calls `recalc` internally (via the render pipeline), so **always do shape transforms BEFORE taking snapshots**, not after.
+- Render/export pipelines often trigger a `recalc` internally, so **always do shape transforms BEFORE any visualization or export step**, not after.
 
 ## Common Errors
 

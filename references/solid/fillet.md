@@ -90,30 +90,25 @@ const edge2 = (await api.v1.part.getBrepGeometryByIndex({
 ## Working Example
 
 ```js
-export default async function (api, { snapshot }) {
-  const partId = (await api.v1.part.create({ name: 'FilletDemo' })).result
-  const eifId = (await api.v1.part.entityInjection({ id: partId, name: 'EIF' })).result
-  const boxId = (await api.v1.solid.box({ id: eifId, length: 80, width: 60, height: 40 })).result
+const partId = (await api.v1.part.create({ name: 'FilletDemo' })).result
+const eifId = (await api.v1.part.entityInjection({ id: partId, name: 'EIF' })).result
+const boxId = (await api.v1.solid.box({ id: eifId, length: 80, width: 60, height: 40 })).result
 
-  // Find top edges by position (z=20 for an 80x60x40 centered box)
-  const geo = await api.v1.part.getGeometryIds({
-    id: partId,
-    lines: [
-      { pos: [0, -30, 20] },   // top front edge midpoint
-      { pos: [40, 0, 20] },    // top right edge midpoint
-      { pos: [0, 30, 20] },    // top back edge midpoint
-      { pos: [-40, 0, 20] },   // top left edge midpoint
-    ],
-  })
-  const topEdges = geo.result.lines
+// Find top edges by position (z=20 for an 80x60x40 centered box)
+const geo = await api.v1.part.getGeometryIds({
+  id: partId,
+  lines: [
+    { pos: [0, -30, 20] },   // top front edge midpoint
+    { pos: [40, 0, 20] },    // top right edge midpoint
+    { pos: [0, 30, 20] },    // top back edge midpoint
+    { pos: [-40, 0, 20] },   // top left edge midpoint
+  ],
+})
+const topEdges = geo.result.lines
 
-  // Fillet all top edges
-  const r = await api.v1.solid.fillet({ id: eifId, radius: 8, geomIds: topEdges })
-  // r.result = [boxId]  — same solid, modified in-place
-
-  await snapshot('filleted-box')
-  return { partId, eifId, boxId }
-}
+// Fillet all top edges
+const r = await api.v1.solid.fillet({ id: eifId, radius: 8, geomIds: topEdges })
+// r.result = [boxId]  — same solid, modified in-place
 ```
 
 ## Sequential Fillets Pattern

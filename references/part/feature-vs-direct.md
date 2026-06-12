@@ -55,7 +55,7 @@ The two families use **different default placements** at the origin. This is emp
 | `cone` | **fully centered** — z=`-H/2..+H/2` | **base at origin** — z=`0..H` (extends in +Z) |
 | `sphere` | **centered at origin** | **centered at origin** |
 
-Verified empirically (`scripts/verify-primitive-alignment.mjs`) with `length=100, width=80, height=60` for boxes, `diameter=30, height=100` for cylinders, `bDiameter=tDiameter=40, height=80` for cones, `radius=25` for spheres. Vertex 0 and COG read via `getBrepGeometryByIndex` + `getGeometryPositions` and `calculateMassProperties`.
+Verified empirically with `length=100, width=80, height=60` for boxes, `diameter=30, height=100` for cylinders, `bDiameter=tDiameter=40, height=80` for cones, `radius=25` for spheres. Vertex 0 and COG read via `getBrepGeometryByIndex` + `getGeometryPositions` and `calculateMassProperties`.
 
 **Practical implication:** mixing primitives across families requires accounting for this offset. A `part.box(100,80,60)` and a `solid.box(100,80,60)` in the same part are not in the same place — the part-feature box sits in the +X+Y+Z octant while the direct solid is centered on the origin. To overlay them, translate one by `(L/2, W/2, H/2)`.
 

@@ -5,7 +5,7 @@ Applies a 4x4 transformation matrix to all curves in a shape. Combines translati
 ## Prerequisites
 
 - A shape (`curve.shape`) containing at least one curve
-- **Do NOT call `common.recalc` or `snapshot()` between shape creation/modification and transformShape** — recalc invalidates shape IDs (same bug as `translateShape`/`rotateShape`)
+- **Do NOT call `common.recalc` between shape creation/modification and transformShape** — recalc invalidates shape IDs (same bug as `translateShape`/`rotateShape`)
 
 ## Key Parameters
 
@@ -71,8 +71,8 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 
 ## Gotchas
 
-- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `transformShape` fails with error 1006. **Also: `snapshot()` calls recalc internally.** Always do ALL shape transforms BEFORE any recalc or snapshot call.
-- **Recalc invalidates ALL shape IDs in the drawing**, not just the shape being operated on. If you have shapes in multiple parts, one snapshot/recalc invalidates them all.
+- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `transformShape` fails with error 1006. **Render/export pipelines often trigger recalc internally.** Always do ALL shape transforms BEFORE any recalc, visualization, or export step.
+- **Recalc invalidates ALL shape IDs in the drawing**, not just the shape being operated on. If you have shapes in multiple parts, one recalc invalidates them all.
 - **Empty shapes cannot be transformed.** A shape with no curves gives error 1006.
 - **Error message says `ids` (plural)** even though the parameter is `id` (singular). Same as translateShape/rotateShape.
 - **Non-orthogonal matrices are silently accepted.** The docs say "matrices must be orthogonal" but this is NOT enforced. Scaling and shear matrices return maxLevel 31 (no error). However, the resulting geometry is corrupted/distorted. **Always use orthogonal matrices.** For scaling, use `scaleShape` instead.

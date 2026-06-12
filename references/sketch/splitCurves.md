@@ -52,7 +52,7 @@ A `Split_Coinc` (CC_2DCoincidentConstraint) is auto-created at each split point.
 - **splitCurvesMergeBack is a no-op after splitCurves.** The split is already committed — there's nothing to merge. mergeBack returns VOID with maxLevel=31.
 - **Unsorted values are fine.** The API sorts them internally.
 - **Circles need ≥2 split values.** A single split value on a circle returns VOID.
-- **Cannot call part.create twice in one script.** The second part.create invalidates internal state and causes subsequent API calls to fail with "id = VOID" errors. One part.create per harness run.
+- **Cannot call part.create twice in one session.** The second part.create invalidates internal state and causes subsequent API calls to fail with "id = VOID" errors. One `part.create` per cleared drawing.
 
 ## Common Errors
 

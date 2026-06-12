@@ -72,7 +72,7 @@ await api.v1.common.clear({})
 
 ### STEP/OFB export hazard after keepIds
 
-After `clear({ keepIds: [...] })`, exporting to STEP/OFB (via `common.save` or snapshot's internal save) may hang the server on the partially-cleared state. **`recalc` and PNG rendering work fine.** The hang only occurs during geometry export.
+After `clear({ keepIds: [...] })`, exporting to STEP/OFB via `common.save` may hang the server on the partially-cleared state. **`recalc` and mesh rendering work fine.** The hang only occurs during geometry export.
 
 **Workaround:** Create new valid geometry before exporting. Once new features are added to the kept containers, export works normally.
 

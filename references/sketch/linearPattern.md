@@ -38,7 +38,7 @@ Patterns a rigid set (or single geometry element) in a linear/rectangular grid a
 - **Count=0 and negative counts are silent no-ops.** geometry contains only the original, dimensions are [null, null], but a constraint node is still created. No error.
 - **Fractional counts are floored.** `xCount: 2.5` → 2 total (original + 1 copy).
 - **Single geometry ID works as rigidSetId.** The API auto-wraps it. The first ID in the returned `geometry` array will be a new rigid set ID, not the original geometry ID.
-- **Multi-`part.create` in one script invalidates prior IDs.** If testing multiple patterns, use separate scripts.
+- **Multiple `part.create` calls in one session invalidate prior IDs.** Build each pattern in a fresh, cleared drawing.
 
 ## Updating Pattern Spacing
 

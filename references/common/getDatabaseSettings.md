@@ -53,9 +53,7 @@ This is a real structural change in the graphic payload, not just a size differe
 
 ## Graphic flags (isGraphicEnabled, isCCGraphicEnabled, isSketchGraphicEnabled)
 
-These are **client-side rendering hints**, not tessellation controls. Toggling them has no meaningful effect on `r.graphic` data in API responses — graphic data is still returned regardless. The ~80 byte size difference when toggling is visibility metadata, not mesh content.
-
-The harness `snapshot()` helper forcefully overrides these flags to `true` before rendering, so snapshots always work regardless of script settings.
+These are **client-side rendering hints**, not tessellation controls. Toggling them has no meaningful effect on `r.graphic` data in API responses — graphic data is still returned regardless. The ~80 byte size difference when toggling is visibility metadata, not mesh content. Rendering clients typically force these flags to `true` before requesting visualization.
 
 ## Gotchas
 

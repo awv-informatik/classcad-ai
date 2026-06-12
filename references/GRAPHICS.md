@@ -6,9 +6,9 @@ for the current model — meshes, edges, sketches, work geometry. It is a
 self-describing, JSON Schema-validated message used by both the live WS
 protocol (in `frame.graphic`) and the SCG export format.
 
-Source: `Source/JSONService/graphicProtocolSchema.json` in the
-`classcad-runtime` repo. Schema title: *"AWV Client/Server graphic protocol
-(version 9) schema"*.
+Source: the engine's `graphicProtocolSchema.json` (schema title: *"AWV
+Client/Server graphic protocol (version 9) schema"*), verified against live
+server behavior.
 
 ## Top-level shape
 
@@ -64,7 +64,7 @@ apply to it (a solid has `meshes` + `edges`, a sketch has `lines` +
 
 The schema does not formalise it, but the live WS protocol tags each
 container with an integer `type` field that consumers dispatch on. Observed
-values in `scripts/render-direct.mjs` and `scripts/client.mjs`:
+values:
 
 | `type` | Meaning            | Typical payload                        |
 | -----: | ------------------ | -------------------------------------- |
@@ -73,9 +73,9 @@ values in `scripts/render-direct.mjs` and `scripts/client.mjs`:
 
 > **Live-protocol gotcha.** For curve containers (type 2), the server only
 > pushes graphic data on the **first** curve added to a shape. Subsequent
-> curve operations in the same shape return no graphic. The harness merges
-> incoming curve containers into the cached set by ID; non-curve containers
-> are replaced wholesale on each frame. See `client.mjs` lines ~82-108.
+> curve operations in the same shape return no graphic. A correct client
+> cache therefore merges incoming curve containers into the cached set by ID,
+> while replacing non-curve containers wholesale on each frame.
 
 Other observed types correspond to sketches and work geometry — confirm
 empirically when needed (the renderer auto-detects via the payload bucket
@@ -245,20 +245,18 @@ They're not the assembly transforms — those live in
 
 ## Live access from the WS protocol
 
-When the harness Configuration enables graphics (`sendGraphic_Kernel`,
-`sendGraphic_StructureObj`, `sendGraphic_Sketch` — see
-`scripts/client.mjs`), each Result frame may include a `graphic` block
-matching the shape above. The harness caches it via the merge logic in
-`handleFrame`:
+When the client's `Configuration` command enables graphics
+(`sendGraphic_Kernel`, `sendGraphic_StructureObj`, `sendGraphic_Sketch`),
+each Result frame may include a `graphic` block matching the shape above.
+Cache it with this merge logic:
 
 - Non-curve containers (type 1) are **replaced** every frame.
 - Curve containers (type 2) are **accumulated by ID** across frames, because
   the server only pushes curve data on the first curve op per shape.
 - Containers with no `containers[]` and no `properties` are ignored.
 
-`client.getLastGraphic()` returns the merged cache. The renderer
-(`scripts/render-direct.mjs`) consumes it to produce isometric mesh PNGs,
-2D sketch SVGs, and curve plots.
+The merged cache is what a renderer should consume — it holds the complete
+current scene (meshes, edges, sketches, curves).
 
 ## Tessellation knobs
 
@@ -271,8 +269,8 @@ by `v1.common.setDatabaseSettings`:
 - `isGraphicEnabled` / `isCCGraphicEnabled` / `isSketchGraphicEnabled` — gates
   for which graphic types get pushed
 
-The MCP `snapshot` tool sets the relevant flags before rendering — see
-`knowledge/classcad-mcp/src/tools/snapshot.ts`.
+Rendering clients (e.g. the classcad-mcp `snapshot` tool) typically set the
+relevant flags before requesting visualization.
 
 ## Identifying object provenance
 

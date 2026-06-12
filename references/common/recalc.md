@@ -42,7 +42,7 @@ Most ClassCAD operations auto-recalculate. You almost never need to call `recalc
 ## Gotchas
 
 - **Invalidates curve shape IDs.** This is the main hazard. After calling `recalc()`, all shape IDs from `curve.shape()` become invalid. Any `curve.translateShape`, `curve.rotateShape`, `curve.scaleShape`, or `curve.transformShape` call using those IDs will fail with error 1006. **Always do all shape transforms BEFORE calling recalc.**
-- **`snapshot()` calls recalc internally.** The harness render pipeline triggers a recalc, so shape transforms must also happen before any snapshot call.
+- **Render/export pipelines often trigger recalc internally.** Shape transforms must also happen before any visualization or export step, not just before explicit `recalc` calls.
 - **Solid IDs, sketch IDs, feature IDs, and part IDs all survive recalc.** The invalidation bug is specific to curve domain shape IDs only.
 - **Idempotent.** Calling recalc multiple times in a row is safe and produces identical results every time.
 - **No graphic data.** Recalc does not generate graphic/mesh data in CLI context. It returns the structure tree but not rendering data.

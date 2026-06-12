@@ -29,9 +29,9 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 
 ## Gotchas
 
-- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `rotateShape` fails with error 1006. Same bug as `translateShape`. **Workaround:** do all shape transforms BEFORE any recalc or snapshot call.
+- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `rotateShape` fails with error 1006. Same bug as `translateShape`. **Workaround:** do all shape transforms BEFORE any recalc call.
 - **Empty shapes cannot be rotated.** A shape with no curves gives error 1006.
-- **`snapshot()` calls recalc internally.** Always do shape transforms BEFORE taking snapshots, not after.
+- **Render/export pipelines often trigger recalc internally.** Always do shape transforms BEFORE any visualization or export step, not after.
 - **Error message says `ids` (plural)** even though the parameter is `id` (singular). The server internally maps `id` → `ids`.
 - **Rotation is around origin, not shape center.** If your shape is at (50, 0, 0) and you rotate 90° around Z, it moves to (0, 50, 0). This is the most common source of unexpected results.
 

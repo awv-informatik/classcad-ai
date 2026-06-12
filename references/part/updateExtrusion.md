@@ -47,7 +47,7 @@ On error, may still return the feature ID (e.g., limit2=0) — check maxLevel, n
 - **Taper + non-normal custom direction fails.** Error: "Extrudedirection with taper angle is not normal to curves". Taper only works when the direction is perpendicular to the sketch plane. For CUSTOM directions at an angle to the sketch, set taperAngle to 0.
 - **limit2=0 creates a degenerate feature.** Returns feature ID with maxLevel=51, error 1122. The feature is recoverable — a subsequent valid update restores it.
 - **capEnds must be integer.** `'TRUE'`/`'FALSE'` strings fail with error 1001. Use `1` or `0`.
-- **Sheet bodies don't render as solids.** After setting capEnds=0, the harness renderer produces no `-solid.png` — only sketch PNGs.
+- **Sheet bodies don't render as solids.** With capEnds=0 the result is a sheet body, not a solid — renderers/consumers that only handle solid bodies will show nothing.
 - **Name update renames the feature only.** Child body nodes retain their original name with `_0` suffix.
 
 ## Common Errors

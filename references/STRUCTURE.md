@@ -15,7 +15,7 @@ of a model:
 }
 ```
 
-Source: `awv-informatik.atlassian.net/wiki` → CLAS → SCG - Structured ClassCAD Graphic.
+Source: internal AWV engineering documentation (SCG — Structured ClassCAD Graphic), verified against live server behavior.
 
 ## Why structure matters
 
@@ -201,8 +201,9 @@ Practical consequences for `bridge.set_selection`:
 
 ## Live access from agents
 
-The harness ([scripts/client.mjs](../../../scripts/client.mjs)) caches the
-latest structure on every Result frame. The MCP exposes it via:
+Clients cache the latest structure on every Result frame (see
+[common/state-tree.md](common/state-tree.md)). The classcad-mcp server
+exposes the cache via:
 
 | Tool                      | Purpose                                           |
 | ------------------------- | ------------------------------------------------- |

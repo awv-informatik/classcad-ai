@@ -3,8 +3,8 @@
 The ClassCAD WS server delivers the drawing's full structure tree alongside every
 `Result` frame — including responses to non-mutating calls like `getAppVersion`.
 There are no incremental patches in the current protocol; every frame is a
-self-contained snapshot. The harness caches the latest snapshot and exposes it
-through the `tree()` helper (and `client.getStructure()` / `client.refreshTree()`).
+self-contained snapshot. Clients should cache the latest snapshot and answer
+structure queries from that cache.
 
 ## Configuration handshake
 
@@ -50,8 +50,7 @@ type Node = {
 }
 ```
 
-Empirically observed across mutations (see
-`workspace/training/2026-05-01_state-bookkeeping/`):
+Empirically observed across mutations:
 
 | Action                              | Tree size  | Notes                              |
 | ----------------------------------- | ---------- | ---------------------------------- |
@@ -85,12 +84,14 @@ hit Y or null. Do not rely on `part.children.includes(featureId)` — those are
 the part's direct sub-objects (ExpressionSet, GeometrySet, EntitySet, etc.),
 not features.
 
-## Caching strategy (in `scripts/client.mjs`)
+## Client caching strategy
+
+A minimal, correct cache replaces wholesale on every Result frame:
 
 ```js
 let lastStructure = null
 
-function handleFrame(...) {
+function handleFrame(frame) {
   if (frame.command === 'Result') {
     if (frame.structure && typeof frame.structure === 'object'
         && !Array.isArray(frame.structure)) {
@@ -106,13 +107,13 @@ flips on real JSON-Patch deltas (RFC 6902, an array of ops), the assignment
 will not silently corrupt the cache — the caller will see a stale tree and can
 diagnose. If/when patches arrive, swap the assignment for an applier.
 
-`client.refreshTree()` issues a no-op `getAppVersion` to force a fresh frame.
-Useful after long pauses or to verify cache integrity. In practice the cache
-matches a fresh fetch byte-for-byte (validated in `07-tree-vs-fetch.mjs`).
+To force a fresh frame, issue any cheap read-only call (e.g. `getAppVersion`) —
+useful after long pauses or to verify cache integrity. In practice the cache
+matches a fresh fetch byte-for-byte.
 
 ## Querying the cached tree
 
-The harness `tree()` helper supports three filters:
+A small query layer over the cache pays off. Useful filters:
 
 ```js
 tree()                 // full envelope { root, currentProduct, ..., tree }
@@ -129,12 +130,12 @@ constraints in the active sketch").
 
 - **Structure rides every Result frame.** No need for a separate `GetTree`
   command — the cache stays current as a side effect of any API call.
-- **`updateBox` returned `maxLevel: 51` in our discovery run** despite the
-  topology being unchanged and the new value being present in the tree. Worth
-  filing — error level on a successful update is misleading. Probably a known
-  warning code worth investigating in a future session.
+- **`updateBox` can return `maxLevel: 51` even when the update succeeds** —
+  topology unchanged and the new value present in the tree. Error level alone
+  is not proof of failure; verify against the tree.
 - **`frame.structure` is the same on `getAppVersion` as on the previous mutation**
   — the server sends current state, not "state diff since last call".
 - **Tree size grows fast.** A part-create alone is 24 nodes / ~19 KB JSON. A
   modest assembly is easily 100+ nodes. Filter (`{type}`, `{id}`) before
-  passing to LLMs or logging — full dumps belong in `filewrite`, not stdout.
+  passing to LLMs or logging — full dumps belong in files, not in a context
+  window.

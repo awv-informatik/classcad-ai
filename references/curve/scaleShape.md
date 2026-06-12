@@ -5,7 +5,7 @@ Scales all curves in a shape by a uniform factor. Scaling is centered at the **o
 ## Prerequisites
 
 - A shape (`curve.shape`) containing at least one curve
-- **Do NOT call `common.recalc` or `snapshot()` between shape creation/modification and scaleShape** — recalc invalidates shape IDs (same bug as `translateShape`/`rotateShape`/`transformShape`)
+- **Do NOT call `common.recalc` between shape creation/modification and scaleShape** — recalc invalidates shape IDs (same bug as `translateShape`/`rotateShape`/`transformShape`)
 
 ## Key Parameters
 
@@ -28,7 +28,7 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 - **Factor 0** is silently accepted (maxLevel 31) — produces degenerate geometry with all points collapsed to the origin. No error or warning.
 - **Factor 1.0** is a noop (maxLevel 31).
 - **Large factors** (1000+) and **tiny factors** (0.001) work without issue.
-- Can be **undone** by scaling with `1/factor` — but do not call `snapshot()` between the two scale calls (recalc bug).
+- Can be **undone** by scaling with `1/factor` — but do not recalc between the two scale calls (recalc bug).
 
 ## Scale Around a Custom Point
 
@@ -43,7 +43,7 @@ await api.v1.curve.scaleShape({ id: shapeId, factor: 2.0 })
 await api.v1.curve.translateShape({ id: shapeId, translation: P })
 ```
 
-**Do not call `snapshot()` between any of these calls** — it will invalidate the shape ID.
+**Do not recalc (or render/export) between any of these calls** — it will invalidate the shape ID.
 
 ## Transform Order Matters
 
@@ -53,12 +53,12 @@ Because scaling is origin-centered, the order of scale + translate operations af
 
 ## Gotchas
 
-- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `scaleShape` fails with error 1006. **Also: `snapshot()` calls recalc internally.** Always do ALL shape transforms BEFORE any recalc or snapshot call.
+- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `scaleShape` fails with error 1006. **Render/export pipelines often trigger recalc internally.** Always do ALL shape transforms BEFORE any recalc, visualization, or export step.
 - **Recalc invalidates ALL shape IDs in the drawing**, not just the shape being operated on.
 - **Empty shapes cannot be scaled.** A shape with no curves gives error 1006.
 - **Error message says `ids` (plural)** even though the parameter is `id` (singular). Same as translateShape/rotateShape — server maps `id` → `ids` internally.
 - **Factor 0 produces degenerate geometry** — all points collapse to origin with no error. This is likely unrecoverable.
-- **The graphic data in the response is incremental**, not the full transformed state. The `min` field in the incremental graphic does reflect the new coordinates, but edge point data may be partial. Do not rely on `r.graphic` for full verification — use post-scale snapshot instead.
+- **The graphic data in the response is incremental**, not the full transformed state. The `min` field in the incremental graphic does reflect the new coordinates, but edge point data may be partial. Do not rely on `r.graphic` for full verification — request a fresh visualization after scaling instead.
 
 ## Common Errors
 
@@ -91,9 +91,7 @@ await api.v1.curve.advancedPolyline({
 // Scale 2x around origin — all coords doubled, fillet radii doubled
 await api.v1.curve.scaleShape({ id: shapeId, factor: 2.0 })
 // result: null, maxLevel: 31
-
-// THEN take snapshot (never before scale)
-await snapshot('after-scale')
+// Only recalc/render/export AFTER all shape transforms are done
 ```
 
 ## Related

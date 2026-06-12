@@ -1,6 +1,34 @@
 {
-  "name": "classcad-skill",
-  "version": "1.0.0",
+  "name": "@classcad/skill",
+  "version": "0.0.1",
   "description": "LLM skill for the ClassCAD headless CAD engine — structured API references with verified annotations that help AI agents generate correct ClassCAD code",
-  "license": "UNLICENSED"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awv-informatik/classcad-skill.git"
+  },
+  "homepage": "https://github.com/awv-informatik/classcad-skill#readme",
+  "bugs": {
+    "url": "https://github.com/awv-informatik/classcad-skill/issues"
+  },
+  "keywords": [
+    "classcad",
+    "cad",
+    "parametric",
+    "brep",
+    "llm",
+    "agent",
+    "skill",
+    "agent-skills",
+    "claude",
+    "mcp",
+    "buerli"
+  ],
+  "files": [
+    "SKILL.md",
+    "references"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

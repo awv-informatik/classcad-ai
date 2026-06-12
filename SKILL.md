@@ -1,3 +1,9 @@
+---
+name: classcad
+description: Structured API reference for the ClassCAD headless parametric CAD engine (v1 JSON/WebSocket API). Use when writing or debugging ClassCAD API calls — modeling parts, sketches, solids, curves, assemblies, expressions, or 2D drawings — to look up exact method signatures, verified gotchas, and working examples across all 254 APIs in 7 domains.
+license: MIT
+---
+
 # ClassCAD API Skill
 
 > **Source**: https://classcad.ch/docs/ · API version: **v1**
@@ -18,11 +24,12 @@ api.<version>.<domain>.<method>(param)
 
 Cross-cutting references that apply across every domain. Read these first when starting any task — they describe the shared protocol and modeling primitives the per-domain APIs build on.
 
-| Reference                                  | Topic                                                                                       |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| [SKETCHING.md](references/SKETCHING.md)    | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow         |
-| [STRUCTURE.md](references/STRUCTURE.md)    | Structure tree (SCG): node shape, traversal, parent chain, assembly transforms              |
-| [GRAPHICS.md](references/GRAPHICS.md)      | Graphic protocol (SCG v9): containers, meshes, edges, arcs, materials, container types      |
+| Reference                                       | Topic                                                                                  |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [SKETCHING.md](references/SKETCHING.md)         | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow    |
+| [STRUCTURE.md](references/STRUCTURE.md)         | Structure tree (SCG): node shape, traversal, parent chain, assembly transforms         |
+| [GRAPHICS.md](references/GRAPHICS.md)           | Graphic protocol (SCG v9): containers, meshes, edges, arcs, materials, container types |
+| [expressions.md](references/api/expressions.md) | Expression syntax: constants, math functions, inter-expression references, `@expr.`    |
 
 ---
 

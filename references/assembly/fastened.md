@@ -92,7 +92,7 @@ Failed updates do NOT corrupt the constraint. All params remain unchanged after 
 - **CSys does NOT define the alignment point.** This is the most important thing to understand. Unlike typical CAD mate constraints, the csys origin has no effect on where inst2 is placed. Offsets are the only translation mechanism.
 - **Offsets are world-frame.** Rotating the csys axes does not remap offset directions.
 - **Duplicate names allowed.** Creating two constraints with the same name succeeds silently. `getFastened` returns the first match.
-- **Self-fastened rejected cleanly.** Same instance in both mates returns error 1014, does NOT hang (unlike solid booleans).
+- **Self-fastened rejected cleanly.** Same instance in both mates returns error 1014, does NOT hang.
 - **"deg" strings convert to radians.** Stored internally as radians.
 
 ## Common Errors

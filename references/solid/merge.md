@@ -36,7 +36,7 @@ Returns the **target solid ID** (not a new ID). maxLevel=31 on success, messages
 
 ## Gotchas
 
-- **CRITICAL: Never pass the same solid as both target and tool.** `merge({ id, target: X, tools: [X] })` **hangs the ClassCAD server** — 100% CPU, no response, requires `kill -9`. Identical behavior to self-union.
+- **Same solid as both target and tool is rejected.** `merge({ id, target: X, tools: [X] })` returns `maxLevel 51`, message `"A merge operation requires distinct target and tool entities (the same id was given for both)."` Previously this hung the server in an infinite loop; it now returns a clean error and the target is preserved.
 - **No `updateMerge` exists.** Merge is a one-shot operation with no update method.
 - **Overlapping geometry is NOT resolved.** If two boxes overlap, the overlapping region has double walls. This can cause issues with downstream operations that expect watertight geometry.
 - **keepTools works the same as booleans.** With `keepTools: false` (default), tool solid IDs become invalid after merge. With `keepTools: true`, tool IDs remain valid and usable.
@@ -45,7 +45,7 @@ Returns the **target solid ID** (not a new ID). maxLevel=31 on success, messages
 
 | Error | Cause | Fix |
 |---|---|---|
-| Server hang (100% CPU, no response) | Same solid ID as both target and tool | Never self-merge. Use `solid.copy` first. |
+| `"A merge operation requires distinct target and tool entities..."` (maxLevel 51) | Same solid ID as both target and tool | Use `solid.copy` first if you need to merge a solid with a copy of itself. (Previously hung the server; now a clean error.) |
 | `"An element of parameter \"target\" has an invalid id!"` (code 1006, level 51) | Referencing a consumed tool solid | Use `keepTools: true`, or stop referencing tool IDs after merge |
 
 ## Usage Hints
@@ -93,4 +93,4 @@ await api.v1.solid.subtraction({ id: eifId, target: box1, tools: [cyl] })
 - `solid.union` — boolean union (resolves overlaps, produces watertight geometry)
 - `solid.subtraction` — boolean subtract (same target/tools pattern)
 - `solid.intersection` — boolean intersect (same target/tools pattern)
-- `solid.copy` — duplicate a solid (use before self-merge to avoid server hang)
+- `solid.copy` — duplicate a solid (use before merging a solid with a copy of itself)

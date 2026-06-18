@@ -37,7 +37,7 @@ Returns `VOID` (null). maxLevel=31 (info) on success. No messages on success.
 
 ## Gotchas
 
-- **NEVER pass the same shape ID as both target and tool.** This crashes the ClassCAD worker (infinite loop, 100% CPU). The worker must be killed with `kill -9`.
+- **Same shape ID as both target and tool is rejected** with `maxLevel 51`, message `"A boolean operation requires distinct target and tool entities (the same id was given for both)."` Applies to all three 2D booleans. Previously this hung the worker in an infinite loop; it now returns a clean error and the target shape is preserved.
 - **Open curves fail** with "Could not create plane with 3D curves". Both shapes must contain closed curves.
 - **Different planes fail** with "Boolean operation failed with error 1001". Shapes must be coplanar.
 - **Empty shapes fail** with NULLID error. Both shapes must have at least one curve.

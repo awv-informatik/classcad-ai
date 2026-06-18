@@ -21,7 +21,7 @@ Returns the **target solid ID** (not a new ID). maxLevel=31 on success, messages
 
 ## Gotchas
 
-- **CRITICAL: Never pass the same solid as both target and tool.** `union({ id, target: X, tools: [X] })` **hangs the ClassCAD server** — 100% CPU, no response, requires `kill -9` and worker restart. There is no timeout or error — it's an infinite loop.
+- **Same solid as both target and tool is rejected.** `union({ id, target: X, tools: [X] })` returns `maxLevel 51`, message `"A boolean operation requires distinct target and tool entities (the same id was given for both)."` Previously this hung the server in an infinite loop; it now returns a clean error and the target is preserved. To union a solid with a copy of itself, `solid.copy` it first.
 - **Consumed tools are gone.** After a default union (keepTools=false), referencing a tool solid ID in any subsequent call (copy, translate, another union) returns error: `"An element of parameter \"target\" has an invalid id!"` (code 1006, level 51).
 - **Non-overlapping bodies succeed silently.** Union of disjoint solids creates a compound solid (multiple disconnected shells under one ID). No error, no warning. This may or may not be what you want.
 - **Empty tools array is a no-op.** `tools: []` succeeds silently — returns target ID unchanged, maxLevel=31.
@@ -37,7 +37,7 @@ Returns the **target solid ID** (not a new ID). maxLevel=31 on success, messages
 
 | Error | Cause | Fix |
 |---|---|---|
-| Server hang (100% CPU, no response) | Same solid ID as both target and tool | Never self-union. Use `solid.copy` first if you need to union a solid with a copy of itself. |
+| `"A boolean operation requires distinct target and tool entities..."` (maxLevel 51) | Same solid ID as both target and tool | Use `solid.copy` first if you need to union a solid with a copy of itself. (Previously hung the server; now a clean error.) |
 | `"An element of parameter \"target\" has an invalid id!"` (code 1006, level 51) | Referencing a consumed tool solid | Use `keepTools: true`, or stop referencing tool IDs after union |
 
 ## Working Example
@@ -77,4 +77,4 @@ await api.v1.solid.union({ id: eifId, target: box1, tools: [box3] })
 - `solid.subtraction` — boolean subtract (same target/tools pattern)
 - `solid.intersection` — boolean intersect (same target/tools pattern)
 - `solid.merge` — NOT a union (different operation, same parameter pattern)
-- `solid.copy` — duplicate a solid (use before self-union to avoid server hang)
+- `solid.copy` — duplicate a solid (use before unioning a solid with a copy of itself)

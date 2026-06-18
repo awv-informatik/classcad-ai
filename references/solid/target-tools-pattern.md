@@ -53,7 +53,7 @@ All 4 operations handle invalid tool IDs uniformly:
 
 ### Self-referencing (target === tool)
 
-**CRITICAL: Never pass the same solid ID as both target and tool.** This hangs the ClassCAD server (100% CPU, no response, requires `kill -9`). Verified for union and merge; assumed universal. Use `solid.copy` first if you need to boolean a solid with a copy of itself.
+**Passing the same solid ID as both target and tool is rejected** with a clean error (`maxLevel 51`, `"...requires distinct target and tool entities..."`) across all boolean operations and merge. Previously this hung the server; it now returns an error and the target is preserved. Use `solid.copy` first if you need to boolean a solid with a copy of itself.
 
 ## `id` Parameter Semantics
 
@@ -97,8 +97,8 @@ When a target is destroyed (e.g., intersection of non-overlapping bodies, code 1
 
 ## Gotchas Summary
 
-1. **Consumed tool IDs are toxic.** Referencing them can hang the server. Track which IDs are still valid.
-2. **Self-boolean = server hang.** Never pass the same ID as target and tool.
+1. **Consumed tool IDs are invalid.** Referencing one returns a clean `"...has an invalid id!"` error (code 1006), not a hang. Track which IDs are still valid.
+2. **Self-boolean is rejected.** Passing the same ID as target and tool returns a clean error (`"...requires distinct target and tool entities..."`), not a hang.
 3. **Empty tools is a no-op, not an error.** Don't rely on error detection for empty tools arrays.
 4. **Destroyed targets are inconsistently handled.** Translation silently ignores them; merge returns misleading values.
 5. **`id` doesn't scope the operation.** It must be a valid EIF but doesn't restrict which solids participate.

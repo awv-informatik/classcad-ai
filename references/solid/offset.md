@@ -2,7 +2,7 @@
 
 Offsets all faces of a solid by a given distance. The target solid is modified **in place** — the returned ID is the same as the target ID. No new solid is created.
 
-**This API is fragile.** It can hang the server on complex topology. Use only on simple solids with a timeout/watchdog.
+**This API is fragile** in the sense its own docstring warns about: it only works where every face can be offset and re-trimmed *without changing the topology* (same face/edge count). On inputs it can't handle it may produce degenerate geometry or return an error — but in re-testing it does **not** hang the server (it returns, maxLevel 31 or an error). See the note below about the historically-reported "hang", which turned out to be a different operation.
 
 ## Prerequisites
 
@@ -24,13 +24,21 @@ Returns the **same ID** as the target. The solid is modified in place. `r.result
 
 ## Gotchas
 
-### Server hang on complex topology (CRITICAL)
+### The "complex topology hangs offset" report was a misdiagnosis
 
-Offsetting a solid with multiple boolean operations (e.g., 3+ cylinder holes) can cause the server to **hang permanently** at 100% CPU. There is no error, no timeout, no response — the server becomes completely unresponsive and must be `kill -9`'d. Always use a timeout when calling offset.
+An earlier note claimed offsetting a solid with multiple boolean cuts (3+ holes) hangs the
+server. Re-investigation shows **`solid.offset` itself does not hang** — it offsets a plain
+box and a holed box fine (maxLevel 31, returns promptly). The original repro hung in a
+*different* step: its tool script took a `snapshot` (which exports the model via STEP) **after a
+multi-tool `solid.subtraction` had silently failed**, leaving the part in a corrupt/partial
+state. The STEP export over that corrupt state is what spun at 100% CPU — not the offset.
 
-**Safe:** primitives (box, sphere, cylinder, cone), single extrusions/revolves, solids with a single boolean cut.
-
-**Dangerous:** solids with multiple boolean operations, complex fillets, or many edges.
+Two takeaways:
+- **Always check the `maxLevel` of each boolean before continuing.** A multi-tool subtraction
+  (`tools: [a, b, c]` in one call) can return a `nonmanifold` error (maxLevel 51) and leave the
+  target only partially cut; building/exporting on top of that unchecked state is what bites.
+- The STEP/OFB-export-hangs-on-corrupt-state behavior is a real but separate issue (see the
+  `common.clear` + export hang entry in the project TODO). It is not specific to offset.
 
 ### Negative distance with extend: FALSE produces degenerate geometry
 
@@ -68,11 +76,11 @@ The API does not check whether the distance is geometrically feasible. A negativ
 | L-shape extrusion | ✅ works, minor artifacts at inner corner | ✅ clean |
 | Revolve (torus) | ✅ fillets at edges | not tested |
 | Boolean (1 hole) | ✅ hole shrinks, fillets added | ✅ hole shrinks, sharp |
-| Boolean (3+ holes) | ❌ **SERVER HANG** | not tested (likely hangs too) |
+| Boolean (multiple holes) | ✅ offsets fine (maxLevel 31) — see misdiagnosis note above; the earlier "hang" was a STEP export over a corrupt state, not offset | — |
 
 ## Common Errors
 
-No error messages observed in any test — the API either succeeds silently (maxLevel: 31) or hangs the server. There is no graceful failure mode.
+Offset returns `maxLevel 31` on success. On geometry it can't offset cleanly it may produce degenerate results or return an error message (maxLevel 51) — it does not hang in re-testing. (A historically-reported "hang" was actually a STEP export over a corrupt post-failed-boolean state; see the misdiagnosis note above.)
 
 ## Working Example
 

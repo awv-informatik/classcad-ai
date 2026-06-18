@@ -30,7 +30,7 @@ Computes the boolean intersection of solids — keeps only the volume shared by 
 ## Gotchas
 
 - **Non-overlapping bodies destroy the target.** Unlike union (which creates a compound solid from disjoint bodies), intersection of disjoint bodies produces nothing — the target is removed. Error code 1014, same as subtraction when tool envelops target. Always verify overlap before calling.
-- **Consumed tools are gone.** After a default intersection (keepTools=false), tool solid IDs are invalid. Referencing them in subsequent calls risks errors or hangs.
+- **Consumed tools are gone.** After a default intersection (keepTools=false), tool solid IDs are invalid. Referencing them in a later call returns a clean `"...has an invalid id!"` error (code 1006, maxLevel 51) — not a hang.
 - **`solid.copy` on intersection results may fail.** After intersection (with or without keepTools), calling `solid.copy` on the modified target returned null (maxLevel=51). Use `keepTools: true` and translate/reuse the tool instead if you need duplicates.
 - **Multiple tools = n-way intersection.** `tools: [A, B]` produces `target ∩ A ∩ B` — the common volume of all solids. All tools consumed.
 - **Empty tools array is a no-op.** `tools: []` succeeds silently — returns target ID unchanged, maxLevel=31.
@@ -47,7 +47,7 @@ Computes the boolean intersection of solids — keeps only the volume shared by 
 | Error | Code | Cause | Fix |
 |---|---|---|---|
 | `"Target solid was removed by intersection."` | 1014 | Bodies don't overlap, or overlap volume is empty | Verify overlap before calling |
-| Server hang (100% CPU, no response) | — | Operating on consumed/invalid solid IDs | Track valid IDs. Never reference consumed tools. |
+| `"...has an invalid id!"` (code 1006, maxLevel 51) | Operating on a consumed/invalid solid ID | Track valid IDs; the tool is gone after a default intersection |
 
 ## Working Example
 

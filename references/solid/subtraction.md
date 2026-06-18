@@ -23,7 +23,7 @@ Cuts tool solids from a target solid (boolean subtract). The target is modified 
 
 ## Gotchas
 
-- **CRITICAL: Never pass consumed solid IDs to any solid operation.** After a default subtraction (keepTools=false), referencing a tool solid ID in `solid.translation`, `solid.copy`, `solid.subtraction`, etc. **hangs the ClassCAD server** — 100% CPU, no response, requires `kill -9` and worker restart. This is the same hang behavior documented for self-union. Always track which IDs are still valid.
+- **Consumed solid IDs are rejected with a clean error.** After a default subtraction (keepTools=false), the tool is deleted; referencing its ID in any later solid op (`solid.translation`, `solid.copy`, `solid.subtraction`, …) returns `maxLevel 51` with `"...has an invalid id!"` (code 1006) — the same as referencing an ID that never existed. (Older notes said this *hung* the server; that does not reproduce — the API's id-type validation rejects consumed IDs up front. Still, track which IDs are valid so you get the result you expect.)
 - **Non-overlapping tools are silent no-ops.** A tool that doesn't intersect the target produces no error — the target is unchanged, but the tool is still consumed (unless keepTools=true).
 - **Tool enveloping target destroys the target.** If the tool completely contains the target, the subtraction removes the target entirely. Result is null, maxLevel=51, code 1014.
 - **Empty tools array is a no-op.** `tools: []` succeeds silently — returns target ID unchanged, maxLevel=31.
@@ -41,7 +41,7 @@ Cuts tool solids from a target solid (boolean subtract). The target is modified 
 | Error | Code | Cause | Fix |
 |---|---|---|---|
 | `"Target solid was removed by subtraction."` | 1014 | Tool completely envelops target | Use a smaller tool, or check overlap before subtracting |
-| Server hang (100% CPU, no response) | — | Operating on consumed solid ID | Track valid IDs. Never reference consumed tools. |
+| `"...has an invalid id!"` (code 1006, maxLevel 51) | Operating on a consumed/deleted solid ID | Track valid IDs; the tool is gone after a default subtraction |
 | `"An element of parameter \"target\" has an invalid id!"` | 1006 | Target or tool ID doesn't exist | Verify IDs exist before calling |
 
 ## Working Example

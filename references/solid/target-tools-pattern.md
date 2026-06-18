@@ -25,7 +25,7 @@ Exception: `subtraction` and `intersection` can return `null` with maxLevel=51 i
 
 ### keepTools
 
-- `keepTools: false` (default) — tool solid IDs become **immediately invalid**. Any subsequent call referencing a consumed tool (translate, copy, another boolean) returns error (maxLevel=51) or **hangs the server** in some cases.
+- `keepTools: false` (default) — tool solid IDs become **immediately invalid**. Any subsequent call referencing a consumed tool (translate, copy, another boolean) returns a clean error: `"...has an invalid id!"` (code 1006, maxLevel 51).
 - `keepTools: true` — tool solid IDs remain valid. Tools can be translated, copied, and reused in further boolean operations.
 
 ### Empty tools array

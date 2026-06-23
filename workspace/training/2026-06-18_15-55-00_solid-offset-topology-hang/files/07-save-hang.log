@@ -1,0 +1,3 @@
+subtraction maxLevel=51 (expect 51 nonmanifold)
+[stderr] save STP FAILED: timeout 15000ms: save STP
+[filewrite] files/07-save-hang-save-hang.json (81 bytes)

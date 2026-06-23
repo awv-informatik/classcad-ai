@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="19.6.2026" startTime="13:14:4." endTime="13:14:15.">
+  <FailedTests></FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[Common] CommonAPITest.TestClear</Name>
+    </Test>
+    <Test id="2">
+      <Name>[Common] CommonAPITest.TestClearUserData</Name>
+    </Test>
+    <Test id="3">
+      <Name>[Common] CommonAPITest.TestGetAppVersion</Name>
+    </Test>
+    <Test id="4">
+      <Name>[Common] CommonAPITest.TestGetClassFileVersion</Name>
+    </Test>
+    <Test id="5">
+      <Name>[Common] CommonAPITest.TestGetSettings</Name>
+    </Test>
+    <Test id="6">
+      <Name>[Common] CommonAPITest.TestGetUserData</Name>
+    </Test>
+    <Test id="7">
+      <Name>[Common] CommonAPITest.TestGetUserDataKeys</Name>
+    </Test>
+    <Test id="8">
+      <Name>[Common] CommonAPITest.TestRemoveUserData</Name>
+    </Test>
+    <Test id="9">
+      <Name>[Common] CommonAPITest.TestSetAppearance_AngleTol</Name>
+    </Test>
+    <Test id="10">
+      <Name>[Common] CommonAPITest.TestSetAppearance_ChordHeightTol</Name>
+    </Test>
+    <Test id="11">
+      <Name>[Common] CommonAPITest.TestSetAppearance_Color</Name>
+    </Test>
+    <Test id="12">
+      <Name>[Common] CommonAPITest.TestSetAppearance_Transparency</Name>
+    </Test>
+    <Test id="13">
+      <Name>[Common] CommonAPITest.TestSetDatabaseSettings</Name>
+    </Test>
+    <Test id="14">
+      <Name>[Common] CommonAPITest.TestSetFacetingParameters</Name>
+    </Test>
+    <Test id="15">
+      <Name>[Common] CommonAPITest.TestSetUserData</Name>
+    </Test>
+    <Test id="16">
+      <Name>[Common] GeometryAPITest.TestFindGeometriesByPoints</Name>
+    </Test>
+    <Test id="17">
+      <Name>[Common] GeometryAPITest.TestFindSmoothEdgeContinuation</Name>
+    </Test>
+    <Test id="18">
+      <Name>[Common] GeometryAPITest.TestGetPointsByGeometries</Name>
+    </Test>
+    <Test id="19">
+      <Name>[Common.api] CommonAPITest_v1.testBatch</Name>
+    </Test>
+    <Test id="20">
+      <Name>[Common.api] CommonAPITest_v1.testClear</Name>
+    </Test>
+    <Test id="21">
+      <Name>[Common.api] CommonAPITest_v1.testClearUserData</Name>
+    </Test>
+    <Test id="22">
+      <Name>[Common.api] CommonAPITest_v1.testEvaluateExpression</Name>
+    </Test>
+    <Test id="23">
+      <Name>[Common.api] CommonAPITest_v1.testExportAfterPartialClearDoesNotHang</Name>
+    </Test>
+    <Test id="24">
+      <Name>[Common.api] CommonAPITest_v1.testGetAppVersion</Name>
+    </Test>
+    <Test id="25">
+      <Name>[Common.api] CommonAPITest_v1.testGetClassFileVersion</Name>
+    </Test>
+    <Test id="26">
+      <Name>[Common.api] CommonAPITest_v1.testGetDatabaseSettings</Name>
+    </Test>
+    <Test id="27">
+      <Name>[Common.api] CommonAPITest_v1.testGetFacetingParameters</Name>
+    </Test>
+    <Test id="28">
+      <Name>[Common.api] CommonAPITest_v1.testGetUserData</Name>
+    </Test>
+    <Test id="29">
+      <Name>[Common.api] CommonAPITest_v1.testGetUserDataKeys</Name>
+    </Test>
+    <Test id="30">
+      <Name>[Common.api] CommonAPITest_v1.testLoad</Name>
+    </Test>
+    <Test id="31">
+      <Name>[Common.api] CommonAPITest_v1.testLoadSaveData</Name>
+    </Test>
+    <Test id="32">
+      <Name>[Common.api] CommonAPITest_v1.testRemoveUserData</Name>
+    </Test>
+    <Test id="33">
+      <Name>[Common.api] CommonAPITest_v1.testSave</Name>
+    </Test>
+    <Test id="34">
+      <Name>[Common.api] CommonAPITest_v1.testSetAppearance_AngleTol</Name>
+    </Test>
+    <Test id="35">
+      <Name>[Common.api] CommonAPITest_v1.testSetAppearance_ChordHeightTol</Name>
+    </Test>
+    <Test id="36">
+      <Name>[Common.api] CommonAPITest_v1.testSetAppearance_Color</Name>
+    </Test>
+    <Test id="37">
+      <Name>[Common.api] CommonAPITest_v1.testSetAppearance_Transparency</Name>
+    </Test>
+    <Test id="38">
+      <Name>[Common.api] CommonAPITest_v1.testSetDatabaseSettings</Name>
+    </Test>
+    <Test id="39">
+      <Name>[Common.api] CommonAPITest_v1.testSetFacetingParameters</Name>
+    </Test>
+    <Test id="40">
+      <Name>[Common.api] CommonAPITest_v1.testSetObjectCoordSystem</Name>
+    </Test>
+    <Test id="41">
+      <Name>[Common.api] CommonAPITest_v1.testSetObjectName</Name>
+    </Test>
+    <Test id="42">
+      <Name>[Common.api] CommonAPITest_v1.testSetUserData</Name>
+    </Test>
+    <Test id="43">
+      <Name>[Common.api] CommonAPITest_v1.testTransformObjectWithMatrix</Name>
+    </Test>
+    <Test id="44">
+      <Name>[Common.api] ScriptAPITest_v1.testSetAndRun</Name>
+    </Test>
+    <Test id="45">
+      <Name>[Common.api] UtilsAPITest_v1.testParseJson</Name>
+    </Test>
+    <Test id="46">
+      <Name>[Common.api] UtilsAPITest_v1.testStringifyJson</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>46</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

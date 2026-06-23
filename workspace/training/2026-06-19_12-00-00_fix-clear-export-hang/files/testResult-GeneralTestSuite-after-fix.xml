@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="19.6.2026" startTime="13:14:21." endTime="13:14:22.">
+  <FailedTests></FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[GeneralApproach] TransformationsTest.testCompareTransformations</Name>
+    </Test>
+    <Test id="2">
+      <Name>[GeneralApproach] TransformationsTest.testIntrinsicExtrinsicRotations</Name>
+    </Test>
+    <Test id="3">
+      <Name>[GeneralApproach] TransformationsTest.testKernelRotateGlobal</Name>
+    </Test>
+    <Test id="4">
+      <Name>[GeneralApproach] TransformationsTest.testKernelTransformGlobal</Name>
+    </Test>
+    <Test id="5">
+      <Name>[GeneralApproach] TransformationsTest.testKernelTranslateGlobal</Name>
+    </Test>
+    <Test id="6">
+      <Name>[GeneralApproach] TransformationsTest.testMatrixMultiplication</Name>
+    </Test>
+    <Test id="7">
+      <Name>[GeneralApproach] TransformationsTest.testOBJGetCSys</Name>
+    </Test>
+    <Test id="8">
+      <Name>[GeneralApproach] TransformationsTest.testOBJRotateGlobal</Name>
+    </Test>
+    <Test id="9">
+      <Name>[GeneralApproach] TransformationsTest.testOBJRotateLocal</Name>
+    </Test>
+    <Test id="10">
+      <Name>[GeneralApproach] TransformationsTest.testOBJSetCSysGlobal</Name>
+    </Test>
+    <Test id="11">
+      <Name>[GeneralApproach] TransformationsTest.testOBJSetCSysLocal</Name>
+    </Test>
+    <Test id="12">
+      <Name>[GeneralApproach] TransformationsTest.testOBJTransformGlobal</Name>
+    </Test>
+    <Test id="13">
+      <Name>[GeneralApproach] TransformationsTest.testOBJTransformLocal</Name>
+    </Test>
+    <Test id="14">
+      <Name>[GeneralApproach] TransformationsTest.testOBJTranslateGlobal</Name>
+    </Test>
+    <Test id="15">
+      <Name>[GeneralApproach] TransformationsTest.testOBJTranslateLocal</Name>
+    </Test>
+    <Test id="16">
+      <Name>[GeneralApproach] TransformationsTest.testRotationCombinations</Name>
+    </Test>
+    <Test id="17">
+      <Name>[GeneralApproach] TransformationsTest.testSetLocal</Name>
+    </Test>
+    <Test id="18">
+      <Name>[GeneralApproach] TransformationsTest.testTranslationCombinations</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>18</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

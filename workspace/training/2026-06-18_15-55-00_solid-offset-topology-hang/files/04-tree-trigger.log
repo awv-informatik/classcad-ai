@@ -1,0 +1,4 @@
+[tree_recalc] setDatabaseSettings + tree(refresh) done
+[tree_recalc] recalc done maxLevel=31
+[tree_recalc] offset -> maxLevel=31 messages=[]
+[filewrite] files/04-tree-trigger-tree-tree_recalc.json (78 bytes)

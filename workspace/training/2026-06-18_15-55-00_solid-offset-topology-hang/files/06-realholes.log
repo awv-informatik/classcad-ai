@@ -1,0 +1,5 @@
+sub1: maxLevel=31 volume=69644.2391650271
+sub2: maxLevel=51 volume=69644.2391650271
+sub3: maxLevel=51 volume=69644.2391650271
+offset: maxLevel=31 volumeAfter=94269.07771850181 messages=[]
+[filewrite] files/06-realholes-realholes.json (612 bytes)

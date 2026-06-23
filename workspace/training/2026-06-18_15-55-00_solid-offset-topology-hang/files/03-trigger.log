@@ -1,0 +1,4 @@
+[recalc] setDatabaseSettings(graphics on) done
+[recalc] recalc done, maxLevel=31
+[recalc] offset -> maxLevel=31 messages=[]
+[filewrite] files/03-trigger-trigger-recalc.json (78 bytes)

@@ -1,0 +1,10 @@
+=== ORIGINAL journal scripts re-run against the #64 fix (clear+export no longer hangs) ===
+
+--- 04-keepIds-part.mjs (entry 04) --- [already verified: completes, 2 snapshots, 0% CPU]
+
+--- 11-keepIds-full-hierarchy.mjs (entry 11) ---
+[11] partId: 4 eifId: 54 boxId: 61 cylId: 64
+[11] keepIds=[partId, eifId, boxId] — result: null maxLevel: 31
+[11] copy kept box — result: null maxLevel: 51
+[11] copy dropped cyl — result: null maxLevel: 51
+worker CPU: 0%  snapshots: 2

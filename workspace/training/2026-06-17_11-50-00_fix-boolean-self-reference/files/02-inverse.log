@@ -1,0 +1,4 @@
+[inv] union2d distinct: 31 []
+[inv] solid.union distinct: 31 []
+[inv] solid.subtraction distinct: 31 []
+[filewrite] files/02-inverse-inverse-results.json (210 bytes)

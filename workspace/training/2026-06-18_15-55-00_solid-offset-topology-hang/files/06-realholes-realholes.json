@@ -1,0 +1,31 @@
+{
+  "steps": [
+    {
+      "step": "box",
+      "volume": 72000
+    },
+    {
+      "step": "sub1",
+      "maxLevel": 31,
+      "volume": 69644.2391650271,
+      "msg": ""
+    },
+    {
+      "step": "sub2",
+      "maxLevel": 51,
+      "volume": 69644.2391650271,
+      "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least "
+    },
+    {
+      "step": "sub3",
+      "maxLevel": 51,
+      "volume": 69644.2391650271,
+      "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least "
+    }
+  ],
+  "offset": {
+    "maxLevel": 31,
+    "messages": [],
+    "volumeAfter": 94269.07771850181
+  }
+}

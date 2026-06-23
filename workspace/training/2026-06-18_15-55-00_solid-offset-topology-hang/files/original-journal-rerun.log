@@ -1,0 +1,7 @@
+=== ORIGINAL crash script rerun: 2026-04-15_09-00-00_solid-offset/scripts/13-multiple-booleans.mjs ===
+(current main, Thu Jun 18 16:18:59 CEST 2026)
+[13] boxId after 3 subtractions: 61
+
+worker CPU after: 97% (hang)
+
+Server-side last calls before the spin (note: subtraction FAILED nonmanifold, then common.save STP errored objId-not-found and spun -- NOT offset):

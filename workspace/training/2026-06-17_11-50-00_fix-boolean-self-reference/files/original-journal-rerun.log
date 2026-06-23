@@ -1,0 +1,8 @@
+=== ORIGINAL journal crash script: 2026-04-07_22-00-00_2d-booleans/scripts/13-same-target-tool.mjs ===
+(re-run against fixed binary Wed Jun 17 12:15:05 CEST 2026)
+[13] union self: maxLevel: 51
+[13] union msg: [Evaluation error in CurveAPI_v1.union2d::PROC:A boolean operation requires distinct target and tool entities (the same 
+[13] s1 after self-union: true
+[13] sub self: maxLevel: 51
+[13] sub msg: [Evaluation error in CurveAPI_v1.subtraction2d::PROC:A boolean operation requires distinct target and tool entities (the
+[13] s2 after self-sub: true

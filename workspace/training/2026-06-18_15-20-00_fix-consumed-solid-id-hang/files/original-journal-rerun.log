@@ -1,0 +1,13 @@
+=== ORIGINAL crash script: 2026-04-14_10-00-00_solidSubtraction/scripts/08-keeptools-verify.mjs ===
+(re-run against current main Thu Jun 18 15:29:04 CEST 2026). NOTE: this script calls solid.translation with
+wrong param names (solid:/direction: instead of target:/translation:), so it also exercises
+malformed-param handling. Both the consumed-id and malformed-param paths now return clean
+errors with no hang.
+
+[08] target: 61 tool: 64
+[08] keepTools:false — result: 61 maxLevel: 31
+[08] translate consumed tool — result: null maxLevel: 51 messages: [{"api":"v1.solid.translation","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"target\" must be provided in the api call!"}]
+[08] keepTools:true — result: null maxLevel: 51
+[08] translate kept tool — result: null maxLevel: 51 messages: [{"api":"v1.solid.translation","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+
+worker CPU after: 0%

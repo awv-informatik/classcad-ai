@@ -1,0 +1,3 @@
+[repro:multi] subtracted 3 hole(s) from box 61
+[repro:multi] offset -> maxLevel=31 messages=[]
+[filewrite] files/01-repro-repro-multi.json (77 bytes)

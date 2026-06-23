@@ -1,0 +1,8 @@
+{
+  "which": "recalcafter",
+  "subMaxLevel": 31,
+  "op": {
+    "kind": "recalc",
+    "maxLevel": 31
+  }
+}

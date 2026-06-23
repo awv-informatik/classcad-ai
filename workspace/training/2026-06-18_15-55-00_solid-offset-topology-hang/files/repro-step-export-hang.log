@@ -1,0 +1,3 @@
+subtraction maxLevel: 51 (expected 51 — partial/nonmanifold failure)
+[stderr] HUNG (10000ms timeout): common.save STP
+[filewrite] files/repro-step-export-hang-repro-result.json (57 bytes)

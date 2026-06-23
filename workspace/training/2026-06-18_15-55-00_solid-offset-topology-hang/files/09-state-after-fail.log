@@ -1,0 +1,4 @@
+ids: box=61 c1=64 c2=67 c3=70
+sub maxLevel=51 msg=[Evaluation error in SolidAPI_v1.subtraction::PROC:At least one of the input sol
+exists: {"box":{"id":61,"present":true,"class":"CC_Solid"},"c1":{"id":64,"present":true,"class":"CC_Solid"},"c2":{"id":67,"present":true,"class":"CC_Solid"},"c3":{"id":70,"present":true,"class":"CC_Solid"}}
+[filewrite] files/09-state-after-fail-state-after-fail.json (26540 bytes)

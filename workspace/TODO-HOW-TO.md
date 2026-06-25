@@ -8,35 +8,35 @@
 
 | What                       | Where                                                                   |
 | -------------------------- | ----------------------------------------------------------------------- |
-| ClassCAD source tree       | `~/dev/classcad`                                                        |
-| `cclass` server-side logic | `~/dev/classcad/cclasses/Source/` (git submodule — see "Repo layout")   |
-| C++ runtime                | `~/dev/classcad/runtime/Source/`                                        |
-| Build script               | `~/dev/classcad/runtime/build.sh`                                       |
-| Build presets              | `~/dev/classcad/runtime/CMakePresets.json`                              |
-| Built binary (arm64 macOS) | `~/dev/classcad/runtime/output/arm64-osx-clang/release/classcad-cli`    |
-| Training harness           | `~/.openclaw/workspace/agents/cc/scripts/run.mjs`                       |
-| Past journals              | `~/.openclaw/workspace/agents/cc/workspace/training/`                   |
-| classcad VS Code settings  | `~/dev/classcad/.vscode/settings.json` (the formatting source of truth) |
-| classcad tests             | `~/dev/classcad/cclasses/Source/Tests/UnitTesting/`                     |
-| clang-format config        | `~/dev/classcad/runtime/.clang-format`                                  |
+| ClassCAD source tree       | `~/dev/awv/classcad`                                                        |
+| `cclass` server-side logic | `~/dev/awv/classcad/cclasses/Source/` (git submodule — see "Repo layout")   |
+| C++ runtime                | `~/dev/awv/classcad/runtime/Source/`                                        |
+| Build script               | `~/dev/awv/classcad/runtime/build.sh`                                       |
+| Build presets              | `~/dev/awv/classcad/runtime/CMakePresets.json`                              |
+| Built binary (arm64 macOS) | `~/dev/awv/classcad/runtime/output/arm64-osx-clang/release/classcad-cli`    |
+| Training harness           | `~/dev/awv/classcad-agent/scripts/run.mjs`                       |
+| Past journals              | `~/dev/awv/classcad-agent/workspace/training/`                   |
+| classcad VS Code settings  | `~/dev/awv/classcad/.vscode/settings.json` (the formatting source of truth) |
+| classcad tests             | `~/dev/awv/classcad/cclasses/Source/Tests/UnitTesting/`                     |
+| clang-format config        | `~/dev/awv/classcad/runtime/.clang-format`                                  |
 
 ### Repo layout — `cclasses/` is a submodule
 
-`~/dev/classcad/cclasses/` is a **git submodule** with its own remote and history. This matters for every step that touches `.cclass` files:
+`~/dev/awv/classcad/cclasses/` is a **git submodule** with its own remote and history. This matters for every step that touches `.cclass` files:
 
-- `git status` / `git diff` at `~/dev/classcad` will NOT show your `.cclass` edits — they only show a `M cclasses` line indicating the submodule moved. Run all git operations on `.cclass` files from **inside** `~/dev/classcad/cclasses/`.
-- C++ edits (under `runtime/Source/`) live in the parent repo at `~/dev/classcad/`.
+- `git status` / `git diff` at `~/dev/awv/classcad` will NOT show your `.cclass` edits — they only show a `M cclasses` line indicating the submodule moved. Run all git operations on `.cclass` files from **inside** `~/dev/awv/classcad/cclasses/`.
+- C++ edits (under `runtime/Source/`) live in the parent repo at `~/dev/awv/classcad/`.
 - Most TODOs are `.cclass` fixes, so the fix branch lives in `cclasses/`. If a TODO needs both runtime and cclass changes, you'll have two branches in two repos.
 
 ### `.cclass` files load at runtime — no rebuild needed for cclass-only fixes
 
-The worker reads `.cclass` files directly from `~/dev/classcad/cclasses/Source/` at startup (per `.classcad.ini`'s `system` key). Edit → restart worker → test. **You only need `bash build.sh` if you changed `runtime/Source/` (C++).** Don't rebuild for a cclass-only fix; it just wastes 1–5 minutes.
+The worker reads `.cclass` files directly from `~/dev/awv/classcad/cclasses/Source/` at startup (per `.classcad.ini`'s `system` key). Edit → restart worker → test. **You only need `bash build.sh` if you changed `runtime/Source/` (C++).** Don't rebuild for a cclass-only fix; it just wastes 1–5 minutes.
 
-### Repo conventions — read before editing files in `~/dev/classcad`
+### Repo conventions — read before editing files in `~/dev/awv/classcad`
 
 This repo was built on Windows and still carries Windows conventions in its source files. Editing without honoring them produces noisy diffs and can break the build (umlauts in error strings, etc.).
 
-- **File encoding.** Per `~/dev/classcad/.vscode/settings.json`:
+- **File encoding.** Per `~/dev/awv/classcad/.vscode/settings.json`:
   - `.cclass`, `.cpp`, `.hpp` files are **windows-1252** (not UTF-8). The `.cclass` XML prolog explicitly declares `encoding="ISO-8859-1"` (≈ windows-1252 for the bytes that matter here).
   - Everything else is UTF-8.
   - Most existing files are pure ASCII (so the encoding doesn't matter byte-for-byte), but anything with German umlauts/ß or other Western-European chars will get corrupted if your editor saves as UTF-8. **Read/write these files in a tool that preserves the original bytes** — your standard `Edit` and `Read` tools are byte-exact, so as long as you don't paste new high-byte characters you're fine. If you need to add a German error message, encode it as windows-1252.
@@ -44,7 +44,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
 - **Indentation varies file-by-file.** `editor.insertSpaces: false`, `editor.tabSize: 4`, `editor.detectIndentation: true`. In practice:
   - Some `.cclass` files use **literal tabs** inside CDATA bodies (e.g., `CurveAPI_v1.cclass`, `CurveAPITest_v1.cclass`).
   - Others use **4 literal spaces**.
-  - `.cpp` / `.hpp` legacy files use literal tabs. New code should be formatted with clang-format (config at `~/dev/classcad/runtime/.clang-format` — `UseTab: Never`, `IndentWidth: 2`, `BasedOnStyle: WebKit`).
+  - `.cpp` / `.hpp` legacy files use literal tabs. New code should be formatted with clang-format (config at `~/dev/awv/classcad/runtime/.clang-format` — `UseTab: Never`, `IndentWidth: 2`, `BasedOnStyle: WebKit`).
   - **Always inspect bytes before editing.** Run `awk 'NR>=N && NR<=M' file.cclass | od -c | head` on the region you're touching — you'll see `\t` (tab) or `   ` (spaces) explicitly. Don't trust visual indentation in a viewer.
   - **Rule:** match the file's existing indentation. Don't auto-convert tabs ↔ spaces — that's a 1000-line diff for a one-line fix.
 - **Line endings.** `.gitattributes` only enforces LF for `*.sh`. All existing C++/cclass files use LF in this checkout. **Do not introduce CRLF** even though the project is Windows-friendly — leave existing LF as LF.
@@ -54,22 +54,22 @@ This repo was built on Windows and still carries Windows conventions in its sour
 
 1. **Pick the next unchecked TODO** — scan [TODO.md](TODO.md) top-down (highest severity first) for the first `[ ]` entry. Read its session reference, error text, trigger, and any workaround. **One TODO per session — do not batch.**
 
-2. **Analyse before touching code.** Open the cited journal(s) under `workspace/training/<session>/`. Read what the original trainer tried, what they observed, and what they concluded. If the entry has a matching LLM doc at `knowledge/classcad-skill/references/<domain>/<api>.md`, read that too. Form a written hypothesis: _what is broken and why is it broken_. If after 15 minutes you have no hypothesis, search the source tree (`grep -rn '<api-name>\|<error-string>' ~/dev/classcad/cclasses/Source ~/dev/classcad/runtime/Source`).
+2. **Analyse before touching code.** Open the cited journal(s) under `workspace/training/<session>/`. Read what the original trainer tried, what they observed, and what they concluded. If the entry has a matching LLM doc at `knowledge/classcad-skill/references/<domain>/<api>.md`, read that too. Form a written hypothesis: _what is broken and why is it broken_. If after 15 minutes you have no hypothesis, search the source tree (`grep -rn '<api-name>\|<error-string>' ~/dev/awv/classcad/cclasses/Source ~/dev/awv/classcad/runtime/Source`).
 
 3. **Start a fresh ClassCAD worker.** Default port `9094` is reserved for ph — if ph's worker is running you'll see it in `ps aux | grep 'classcad-cli worker'`, in which case start on an alternate port (see "Alternate-port worker" below). If port 9094 is free, just use the default:
 
    ```bash
-   cd ~/dev/classcad
+   cd ~/dev/awv/classcad
    ./runtime/output/arm64-osx-clang/release/classcad-cli worker > /tmp/cc-bugfix.log 2>&1 &
    sleep 3
    ```
 
-   Confirm it's up: `ps aux | grep 'classcad-cli worker' | grep -v grep`. The worker must be started with cwd at `~/dev/classcad` so the relative paths in `.classcad.ini` (e.g. `./cclasses/Source`) resolve.
+   Confirm it's up: `ps aux | grep 'classcad-cli worker' | grep -v grep`. The worker must be started with cwd at `~/dev/awv/classcad` so the relative paths in `.classcad.ini` (e.g. `./cclasses/Source`) resolve.
 
 4. **Reproduce the bug.** Create a minimal repro script under a fresh training session: `workspace/training/YYYY-MM-DD_HH-MM-SS_fix-<short-name>/scripts/01-repro.mjs`. Run it through the harness:
 
    ```bash
-   cd ~/.openclaw/workspace/agents/cc
+   cd ~/dev/awv/classcad-agent
    node scripts/run.mjs workspace/training/<session>/scripts/01-repro.mjs --outdir workspace/training/<session>
    ```
 
@@ -124,7 +124,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
    - **Iterate over `MAX(arr)` not `LEN(arr) - 1`.** `FOR i = 0 TO MAX(arr) DO ... NEXT` is the convention; `LEN(arr) - 1` parses but doesn't match existing code.
    - **No high-byte characters in comments or string literals.** See the encoding bullet above — a single em-dash in a comment breaks the whole proc.
 
-   When a cclass change doesn't take effect, check `~/dev/classcad/logs/classcad.log` — the worker logs the compile error there at first call to the broken proc, not at startup.
+   When a cclass change doesn't take effect, check `~/dev/awv/classcad/logs/classcad.log` — the worker logs the compile error there at first call to the broken proc, not at startup.
 
    **Same branch name across repos.** When the fix spans both `cclasses/` and `runtime/`, use the same branch name in both (e.g. `fix/curve-circle-zero-radius-hang`). The parent's `git status` will show `modified: cclasses (new commits)` and `modified: runtime (new commits)` — that's expected; ph reconciles the submodule pointers when landing. One *root cause* per session, even if it spans multiple TODO entries or multiple sibling APIs — that's still "one fix per branch."
 
@@ -133,7 +133,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
    If you changed `.cclass` files only, skip this and jump to "restart". If you changed `runtime/Source/`:
 
    ```bash
-   cd ~/dev/classcad/runtime    # cwd MUST be runtime/ — CMakePresets.json is here
+   cd ~/dev/awv/classcad/runtime    # cwd MUST be runtime/ — CMakePresets.json is here
    bash build.sh arm64-osx-clang arm64-osx-clang-release
    ```
 
@@ -148,7 +148,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
    - matches the contract you documented in the commit message
 
    ```bash
-   cd ~/.openclaw/workspace/agents/cc
+   cd ~/dev/awv/classcad-agent
    for s in <list-of-crash-scripts-from-original-journal>; do
      echo "=== $s ==="
      timeout 20 node scripts/run.mjs workspace/training/<original-session>/scripts/$s.mjs --outdir /tmp/rerun-$s 2>&1 | grep -E "result:|messages:|maxLevel|FAILED|timeout"
@@ -159,7 +159,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
 
    If the bug is not fixed: don't ship a half-fix. Repeat Step 6 with a sharper hypothesis. Iterate until the repro is clean.
 
-8. **Add a regression test in classcad's own test framework.** classcad has a `CCTestCase`-based unit test framework under `~/dev/classcad/cclasses/Source/Tests/UnitTesting/`. A fix isn't complete without a test that pins the bug.
+8. **Add a regression test in classcad's own test framework.** classcad has a `CCTestCase`-based unit test framework under `~/dev/awv/classcad/cclasses/Source/Tests/UnitTesting/`. A fix isn't complete without a test that pins the bug.
    - Pick the right domain folder: `BaseModeling/` for assembly/part/solid/sketch, `CAD/` for curve, `Common/` for common, `BaseSystem/` for low-level, etc.
    - Find the relevant `*Test.cclass` (e.g. `AssemblyBuilderBasicAPITest.cclass`, `SketcherAPITest.cclass`, `FeatureAPITest.cclass`) and add a new test method, OR create a new `<Feature>RegressionTest.cclass` extending `CCTestCase` if no obvious home exists.
    - Test method shape (read existing tests for examples — they're concise). For an error-message assertion, wrap the API call in `LOG_OpenTryCatchScope` / `LOG_CloseTryCatchScope` so the framework doesn't treat the expected error as a real test failure:
@@ -188,7 +188,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
    - **Run a single test** to verify your new method passes (the suite's `RunTestSuite` method does NOT auto-populate test cases — use `UnitTesterHeadless` as the dispatcher):
 
      ```bash
-     ~/dev/classcad/runtime/output/arm64-osx-clang/release/classcad-cli execute \
+     ~/dev/awv/classcad/runtime/output/arm64-osx-clang/release/classcad-cli execute \
        --class UnitTesterHeadless --func PerformSingleTestFunc \
        -p <TestCaseClass> -p <testFuncName> -p /tmp/<result>.xml
      ```
@@ -206,14 +206,14 @@ This repo was built on Windows and still carries Windows conventions in its sour
                 GeneralTestSuite CocoRCompilerTestSuite SystemClassesTestSuite; do
      OUT="/tmp/${suite}-after.xml"
      echo "=== $suite ==="
-     ~/dev/classcad/runtime/output/arm64-osx-clang/release/classcad-cli execute \
+     ~/dev/awv/classcad/runtime/output/arm64-osx-clang/release/classcad-cli execute \
        --class UnitTesterHeadless --func PerformTestSuite \
        -p $suite -p $OUT
      grep -E "<Tests>|<Failures>|<Errors>" "$OUT" | head -3
    done
    ```
 
-   (If suite names look wrong, list them with `find ~/dev/classcad/cclasses/Source/Tests/UnitTesting -name "*TestSuite.cclass"`. Copy each per-suite result XML to `workspace/training/<session>/files/testResult-<suite>-after-fix.xml`.)
+   (If suite names look wrong, list them with `find ~/dev/awv/classcad/cclasses/Source/Tests/UnitTesting -name "*TestSuite.cclass"`. Copy each per-suite result XML to `workspace/training/<session>/files/testResult-<suite>-after-fix.xml`.)
 
    - **Sketcher tests live inside `BMTestSuite`** — there is no standalone `SketcherTestSuite` despite older docs suggesting one.
    - **Known environmental failure: `CADTestSuite`** — 4 `ClassCadKeyApp` tests (`testValidateClassCadKey{Native,Wasm}`, `testVerifyToken{Native,Wasm}`) fail on macOS because they depend on `CryptoDevServiced.dylib`, which is Windows-only. These predate any fix you're working on. Confirm by stashing your fix and re-running on master — if the failure set is identical, save both XMLs to the session folder, call it out in the commit, and proceed.
@@ -225,7 +225,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
    For `.cclass`-only fixes, branch inside the submodule:
 
    ```bash
-   cd ~/dev/classcad/cclasses       # ← submodule, not parent
+   cd ~/dev/awv/classcad/cclasses       # ← submodule, not parent
    git checkout -b fix/<api>-<short-symptom>     # e.g. fix/curve-circle-zero-radius-hang
    git add <only the files you touched>
    git commit -m "$(cat <<'EOF'
@@ -243,11 +243,11 @@ This repo was built on Windows and still carries Windows conventions in its sour
    )"
    ```
 
-   For C++ changes, commit in the parent repo (`~/dev/classcad/`). After committing in the submodule, the parent repo will show `M cclasses` indicating the submodule pointer moved — **leave that alone**; ph updates the submodule pointer when landing.
+   For C++ changes, commit in the parent repo (`~/dev/awv/classcad/`). After committing in the submodule, the parent repo will show `M cclasses` indicating the submodule pointer moved — **leave that alone**; ph updates the submodule pointer when landing.
 
    **Do not `git push`.** ph reviews and lands these manually.
 
-10. **Mark the TODO done.** In `~/.openclaw/workspace/agents/cc/workspace/TODO.md`, find the entry header and replace `[ ]` with `[✅]`. Append a sub-bullet `- **Fixed:** classcad/cclasses <short SHA> on branch fix/...` so the audit trail survives even if the branch is squashed at merge.
+10. **Mark the TODO done.** In `~/dev/awv/classcad-agent/workspace/TODO.md`, find the entry header and replace `[ ]` with `[✅]`. Append a sub-bullet `- **Fixed:** classcad/cclasses <short SHA> on branch fix/...` so the audit trail survives even if the branch is squashed at merge.
 
 11. **Sweep the LLM docs for residue.** Every API whose behavior changed needs its `knowledge/classcad-skill/references/<domain>/<api>.md` updated — both the API named in the TODO entry *and* any siblings you swept in step 6. Past trainers wrote these docs based on the buggy behavior, so they're full of stale warnings like "CRITICAL: hangs the server", "💀", "always kill -9", "validate before calling — no error is returned". After your fix, those are wrong: the call now returns a proper error.
 
@@ -260,7 +260,7 @@ This repo was built on Windows and still carries Windows conventions in its sour
     Commit doc updates as a **separate commit on the same fix branch** in the `cc` repo (the doc tree lives under `cc/knowledge/`, not in classcad):
 
     ```bash
-    cd ~/.openclaw/workspace/agents/cc
+    cd ~/dev/awv/classcad-agent
     git checkout -b fix/<api>-<short-symptom>     # same name as the classcad branches
     git add knowledge/classcad-skill/references/<domain>/<api>.md  # one or more
     git commit -m "docs(<area>): refresh after <api> radius<=0 hang fix"
@@ -270,12 +270,12 @@ This repo was built on Windows and still carries Windows conventions in its sour
 
 ### Alternate-port worker (when port 9094 is taken or zombied)
 
-`cc/TOOLS.md` references a `/Users/dev/dev/osx/.classcad-alt.ini` and an install at `/Users/dev/dev/osx/arm64-osx-release/` — those paths are stale on this checkout. The actual install lives at `~/dev/classcad/runtime/output/arm64-osx-clang/release/`. If you actually need an alternate-port worker, copy the ini and edit ports:
+`cc/TOOLS.md` references a `/Users/dev/dev/osx/.classcad-alt.ini` and an install at `/Users/dev/dev/osx/arm64-osx-release/` — those paths are stale on this checkout. The actual install lives at `~/dev/awv/classcad/runtime/output/arm64-osx-clang/release/`. If you actually need an alternate-port worker, copy the ini and edit ports:
 
 ```bash
-cp ~/dev/classcad/.classcad.ini /tmp/cc-alt.ini
+cp ~/dev/awv/classcad/.classcad.ini /tmp/cc-alt.ini
 sed -i '' 's/wport=9094/wport=9095/; s/hport=9094/hport=9095/' /tmp/cc-alt.ini   # if those keys exist
-cd ~/dev/classcad
+cd ~/dev/awv/classcad
 ./runtime/output/arm64-osx-clang/release/classcad-cli worker -i /tmp/cc-alt.ini > /tmp/cc-alt.log 2>&1 &
 # Then point the harness at it:
 node scripts/run.mjs <script> --outdir <dir> --port 9095
@@ -288,10 +288,10 @@ Most sessions don't need this — `kill -9` clears a hung worker cleanly in 99% 
 - [ ] Worker started for the bug-fix is killed (`ps aux | grep classcad-cli worker` shows nothing on alternate ports)
 - [ ] Repro script lives at `workspace/training/<session>/scripts/01-repro.mjs` and reproduces cleanly against the FIXED binary as a regression test
 - [ ] **Every crash/hang script from the ORIGINAL journal cited in the TODO entry has been re-run against the fixed binary**, all return within timeout, all report a clean error (or expected success). Output captured at `workspace/training/<session>/files/original-journal-rerun.log`. This is non-negotiable — your own repro alone isn't enough proof
-- [ ] A new `*Test.cclass` method exists under `~/dev/classcad/cclasses/Source/Tests/UnitTesting/` AND passes against the fixed binary (or the journal explains why a `.cclass` test was not feasible — e.g. hang bugs where the test itself would hang)
+- [ ] A new `*Test.cclass` method exists under `~/dev/awv/classcad/cclasses/Source/Tests/UnitTesting/` AND passes against the fixed binary (or the journal explains why a `.cclass` test was not feasible — e.g. hang bugs where the test itself would hang)
 - [ ] **The full test suite was run and is green** — per-suite XML results saved to the session's `files/` folder. Any skipped suites are listed and justified in the journal. CADTestSuite's pre-existing `ClassCadKeyApp` failures are acknowledged in the commit, not silently passed through.
 - [ ] `journal.md` exists in the session folder with: hypothesis → repro evidence → root cause → fix description → verification evidence (test result included)
-- [ ] `~/dev/classcad/cclasses` (and/or `~/dev/classcad`) is on a `fix/...` branch with exactly one commit, not pushed
+- [ ] `~/dev/awv/classcad/cclasses` (and/or `~/dev/awv/classcad`) is on a `fix/...` branch with exactly one commit, not pushed
 - [ ] No formatting/encoding noise in the diff — only the bytes you intended to change
 - [ ] The TODO checkbox is `[✅]`, no others changed
 - [ ] LLM docs under `knowledge/classcad-skill/references/<domain>/` for every API whose behavior changed are updated — stale hang/crash warnings removed for inputs you fixed, new error codes/messages documented. Sibling-API docs covered too. Doc updates are a separate commit on the same fix branch in the `cc` repo
@@ -301,7 +301,7 @@ Most sessions don't need this — `kill -9` clears a hung worker cleanly in 99% 
 If you stashed the fix to verify "fails on master" and the `git stash pop` left the file split between staged (fix) and worktree (master), recover with:
 
 ```bash
-cd ~/dev/classcad/cclasses
+cd ~/dev/awv/classcad/cclasses
 git checkout-index -f -- <file>      # worktree ← index (the fix)
 git reset HEAD -- <file>             # unstage so the diff shows up as unstaged again
 git diff <file>                      # confirm fix is back
@@ -323,7 +323,7 @@ Prefer doing the master-verification on a separate worktree if you can — it av
 - ❌ Saving a `.cclass`/`.cpp`/`.hpp` file as UTF-8 — they're **windows-1252**. Saving as UTF-8 will silently corrupt umlauts/special chars and produce a giant whitespace/encoding diff. Edit byte-exact; if you must add Western-European characters, encode them as windows-1252.
 - ❌ Auto-formatting the whole file (clang-format on save with formatOnSave). Only format the lines you touched, or skip clang-format entirely on macOS and let CI catch any nits.
 - ❌ Converting tabs ↔ spaces, or LF ↔ CRLF — keep the file's existing convention.
-- ❌ Running `bash runtime/build.sh` from `~/dev/classcad` — cmake reads `CMakePresets.json` from cwd, so the build must be invoked from `~/dev/classcad/runtime/`.
+- ❌ Running `bash runtime/build.sh` from `~/dev/awv/classcad` — cmake reads `CMakePresets.json` from cwd, so the build must be invoked from `~/dev/awv/classcad/runtime/`.
 - ❌ Trusting the runbook's `--class <Suite> --func RunTestSuite` invocation. That path doesn't populate the suite and reports "No tests found". Use `UnitTesterHeadless.PerformTestSuite` instead.
 - ❌ Rebuilding for a cclass-only change. `.cclass` files load at runtime; just restart the worker.
 - ❌ Forgetting that `cclasses/` is a submodule. Run `git` commands from inside it for `.cclass` edits.

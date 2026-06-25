@@ -65,11 +65,11 @@ kill -9 $(ps aux | grep 'classcad-cli worker' | grep -v grep | awk '{print $2}')
 sleep 2
 
 # 3. Restart from its install directory
-cd /Users/dev/dev/classcad && ./runtime/output/arm64-osx-clang/release/classcad-cli worker &
+cd /Users/dev/dev/awv/classcad && ./runtime/output/arm64-osx-clang/release/classcad-cli worker &
 ```
 
 > **Path note (2026-06-10):** the install tree moved from `/Users/dev/dev/osx` to
-> `/Users/dev/dev/classcad` (binary under `runtime/output/arm64-osx-clang/release/`,
+> `/Users/dev/dev/awv/classcad` (binary under `runtime/output/arm64-osx-clang/release/`,
 > `.classcad.ini` at the repo root). Older paths in this file and in memory are stale.
 
 The worker listens on `ws://0.0.0.0:9094/` (the harness default). Give it ~3 seconds to initialize before running scripts.

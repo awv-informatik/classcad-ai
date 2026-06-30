@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@classcad/api-js@https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz":
-  version "21.0.0"
-  resolved "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz#e3e9eee68db0df7ae648c2ca499cbd2a1480bf28"
+"@classcad/api-js@https://awvstatic.com/classcad/download/release/21.2.0/classcad-api-js-21.2.0.tgz":
+  version "21.2.0"
+  resolved "https://awvstatic.com/classcad/download/release/21.2.0/classcad-api-js-21.2.0.tgz#00696c4974172e14249865e9017c53b3e01078ff"
 
 typescript@^5.1.0:
   version "5.9.3"

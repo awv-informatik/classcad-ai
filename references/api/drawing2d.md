@@ -1,3 +1,61 @@
+<a name="centerView"></a>
+
+## centerView(param)
+
+This method centers all given views to origin, depending on each view's boundary box.
+This can be useful after creating the views and before placing them
+
+**Kind**: v1.drawing2d function  
+**Returns**: <code>object</code> - object containing result and optional messages
+
+```
+{
+  result: VOID
+  messages?: { message: string, level: real, code: real, api: string }[]
+  maxLevel?: real
+}
+```
+
+| Param         | Type                                                                                                                                                                                                  | Description                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| param         | <code>object</code>                                                                                                                                                                                   | object containing the parameters                             |
+| param.id      | <code>string</code> \| <code>real</code> \| <code>id</code>                                                                                                                                           | id of the product to center the views from                   |
+| [param.types] | <code>Array&lt;(&quot;TOP&quot;\|&quot;FRONT&quot;\|&quot;RIGHT&quot;\|&quot;LEFT&quot;\|&quot;BOTTOM&quot;\|&quot;RIGHT_90&quot;\|&quot;LEFT_90&quot;\|&quot;BACK&quot;\|&quot;ISO&quot;)&gt;</code> | type of views to center, if empty all views will be centered |
+
+**Example**
+
+```js
+api.v1.drawing2d.centerView({ id: part, types: ['TOP', 'ISO'] })
+```
+
+<a name="deleteDimension"></a>
+
+## deleteDimension(param)
+
+Deletes one or multiple dimensions of the 2d view
+
+**Kind**: v1.drawing2d function  
+**Returns**: <code>object</code> - object containing result and optional messages
+
+```
+{
+  result: VOID
+  messages?: { message: string, level: real, code: real, api: string }[]
+  maxLevel?: real
+}
+```
+
+| Param     | Type                                         | Description                                  |
+| --------- | -------------------------------------------- | -------------------------------------------- |
+| param     | <code>object</code>                          | object containing all the parameters         |
+| param.ids | <code>Array&lt;(string\|real\|id)&gt;</code> | ids of the dimensions to remove from 2d view |
+
+**Example**
+
+```js
+api.v1.drawing2d.deleteDimension({ ids: [58, 96] })
+```
+
 <a name="dimension"></a>
 
 ## dimension(param)
@@ -52,69 +110,6 @@ The dimensions will be visible after creating and exporting the views to svg or 
 api.v1.drawing2d.dimension({ id: part, common: { type: 'LINEAR', textPos: [25, 20, 0] }, linear: { startPos: [0, 0, 0], endPos: [50, 0, 0], orientation: 'HORIZONTAL' }, viewType: 'FRONT' })
 ```
 
-<a name="centerView"></a>
-
-## centerView(param)
-
-This method centers all given views to origin, depending on each view's boundary box.
-This can be useful after creating the views and before placing them
-
-**Kind**: v1.drawing2d function  
-**Returns**: <code>object</code> - object containing result and optional messages
-
-```
-{
-  result: VOID
-  messages?: { message: string, level: real, code: real, api: string }[]
-  maxLevel?: real
-}
-```
-
-| Param         | Type                                                                                                                                                                                                  | Description                                                  |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| param         | <code>object</code>                                                                                                                                                                                   | object containing the parameters                             |
-| param.id      | <code>string</code> \| <code>real</code> \| <code>id</code>                                                                                                                                           | id of the product to center the views from                   |
-| [param.types] | <code>Array&lt;(&quot;TOP&quot;\|&quot;FRONT&quot;\|&quot;RIGHT&quot;\|&quot;LEFT&quot;\|&quot;BOTTOM&quot;\|&quot;RIGHT_90&quot;\|&quot;LEFT_90&quot;\|&quot;BACK&quot;\|&quot;ISO&quot;)&gt;</code> | type of views to center, if empty all views will be centered |
-
-**Example**
-
-```js
-api.v1.drawing2d.centerView({ id: part, types: ['TOP', 'ISO'] })
-```
-
-<a name="view"></a>
-
-## view(param)
-
-Creates the defined 2d views of the given product (solids) in xy-plane and returns the ids of the created views.
-Previously created dimensions will appear in the defined views (depends on type),
-e.g. a dimension with viewType = "TOP", will appear in the "TOP" view
-
-**Kind**: v1.drawing2d function  
-**Returns**: <code>object</code> - object containing result and optional messages
-
-```
-{
-  result: id|Array<id>  // one or multiple ids of the newly created views
-  messages?: { message: string, level: real, code: real, api: string }[]
-  maxLevel?: real
-}
-```
-
-| Param         | Type                                                                                                                                                                                                  | Default                    | Description                                                                                                                                                   |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| param         | <code>object</code>                                                                                                                                                                                   |                            | object containing the parameters                                                                                                                              |
-| param.id      | <code>string</code> \| <code>real</code> \| <code>id</code>                                                                                                                                           |                            | id of the product to create views of                                                                                                                          |
-| param.types   | <code>Array&lt;(&quot;TOP&quot;\|&quot;FRONT&quot;\|&quot;RIGHT&quot;\|&quot;LEFT&quot;\|&quot;BOTTOM&quot;\|&quot;RIGHT_90&quot;\|&quot;LEFT_90&quot;\|&quot;BACK&quot;\|&quot;ISO&quot;)&gt;</code> |                            | type of views to create                                                                                                                                       |
-| [param.color] | <code>real</code>                                                                                                                                                                                     | <code>0</code>             | color of the view (autocad color index) in range of [0,256], whereas 256 means the color will be taken from the defined layer in the dxf template (default=0) |
-| [param.layer] | <code>string</code>                                                                                                                                                                                   | <code>&quot;0&quot;</code> | layer where the view will appear later in the dxf export, it depends on layer definitions in dxf template (default="0\*)                                      |
-
-**Example**
-
-```js
-api.v1.drawing2d.view({ id: part, types: ['RIGHT', 'BOTTOM'], color: 125, layer: '5' })
-```
-
 <a name="exportDXF"></a>
 
 ## exportDXF(param)
@@ -128,7 +123,7 @@ Exports all the views from given product into dxf. By default the model is writt
 {
   result: {
     success: boolean,
-    content?: string  // content is the data string of the export and is only available if neither file nor url is defined.
+    content?: string  // content is the data of the export and is only available if neither file nor url is defined.
   }
   messages?: { message: string, level: real, code: real, api: string }[]
   maxLevel?: real
@@ -164,7 +159,7 @@ Exports all the views from given product into svg. By default the model is writt
 {
   result: {
     success: boolean,
-    content?: string  // content is the data string of the export and is only available if neither file nor url is defined.
+    content?: string  // content is the data of the export and is only available if neither file nor url is defined.
   }
   messages?: { message: string, level: real, code: real, api: string }[]
   maxLevel?: real
@@ -220,95 +215,6 @@ This method returns min and max point for each given view.
 api.v1.drawing2d.getBoundaryBoxFromView({ id: part, types: ['LEFT'] })
 ```
 
-<a name="placeView"></a>
-
-## placeView(param)
-
-Places each view relatively to its current position in xy-plane
-
-**Kind**: v1.drawing2d function  
-**Returns**: <code>object</code> - object containing result and optional messages
-
-```
-{
-  result: VOID
-  messages?: { message: string, level: real, code: real, api: string }[]
-  maxLevel?: real
-}
-```
-
-| Param                     | Type                                                                                                                                                                                                                                                                                                           | Description                                                   |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| param                     | <code>object</code>                                                                                                                                                                                                                                                                                            | object containing the parameters                              |
-| param.id                  | <code>string</code> \| <code>real</code> \| <code>id</code>                                                                                                                                                                                                                                                    | id of the product to place the views                          |
-| param.placements          | <code>Array&lt;object&gt;</code>                                                                                                                                                                                                                                                                               | objects containing the placement information                  |
-| param.placements[].type   | <code>&quot;TOP&quot;</code> \| <code>&quot;FRONT&quot;</code> \| <code>&quot;RIGHT&quot;</code> \| <code>&quot;LEFT&quot;</code> \| <code>&quot;BOTTOM&quot;</code> \| <code>&quot;RIGHT_90&quot;</code> \| <code>&quot;LEFT_90&quot;</code> \| <code>&quot;BACK&quot;</code> \| <code>&quot;ISO&quot;</code> | type of view to place by offset vector                        |
-| param.placements[].offset | <code>point</code>                                                                                                                                                                                                                                                                                             | offset vector to move view relatively to its current position |
-
-**Example**
-
-```js
-api.v1.drawing2d.placeView({ id: part, placements: [{ type: 'TOP', offset: [0, 150, 0] }] })
-```
-
-<a name="deleteDimension"></a>
-
-## deleteDimension(param)
-
-Deletes one or multiple dimensions of the 2d view
-
-**Kind**: v1.drawing2d function  
-**Returns**: <code>object</code> - object containing result and optional messages
-
-```
-{
-  result: VOID
-  messages?: { message: string, level: real, code: real, api: string }[]
-  maxLevel?: real
-}
-```
-
-| Param     | Type                                         | Description                                  |
-| --------- | -------------------------------------------- | -------------------------------------------- |
-| param     | <code>object</code>                          | object containing all the parameters         |
-| param.ids | <code>Array&lt;(string\|real\|id)&gt;</code> | ids of the dimensions to remove from 2d view |
-
-**Example**
-
-```js
-api.v1.drawing2d.deleteDimension({ ids: [58, 96] })
-```
-
-<a name="updateDimensionPosition"></a>
-
-## updateDimensionPosition(param)
-
-Updates the position of the dimension text.
-Attention: The view needs to be recreated to have updated positions in the view
-
-**Kind**: v1.drawing2d function  
-**Returns**: <code>object</code> - object containing result and optional messages
-
-```
-{
-  result: VOID
-  messages?: { message: string, level: real, code: real, api: string }[]
-  maxLevel?: real
-}
-```
-
-| Param     | Type                                                        | Description                                     |
-| --------- | ----------------------------------------------------------- | ----------------------------------------------- |
-| param     | <code>object</code>                                         | object containing all the parameters            |
-| param.id  | <code>string</code> \| <code>real</code> \| <code>id</code> | id of the dimension to change the text position |
-| param.pos | <code>point</code>                                          | position of the dimension text to update        |
-
-**Example**
-
-```js
-api.v1.drawing2d.updateDimensionPosition({ id: dimension, pos: [50, 60, 0] })
-```
-
 <a name="isDXFAvailable"></a>
 
 ## isDXFAvailable()
@@ -353,4 +259,98 @@ Returns true if SVG functionality is available, false if not.
 
 ```js
 api.v1.drawing2d.isSVGAvailable()
+```
+
+<a name="placeView"></a>
+
+## placeView(param)
+
+Places each view relatively to its current position in xy-plane
+
+**Kind**: v1.drawing2d function  
+**Returns**: <code>object</code> - object containing result and optional messages
+
+```
+{
+  result: VOID
+  messages?: { message: string, level: real, code: real, api: string }[]
+  maxLevel?: real
+}
+```
+
+| Param                     | Type                                                                                                                                                                                                                                                                                                           | Description                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| param                     | <code>object</code>                                                                                                                                                                                                                                                                                            | object containing the parameters                              |
+| param.id                  | <code>string</code> \| <code>real</code> \| <code>id</code>                                                                                                                                                                                                                                                    | id of the product to place the views                          |
+| param.placements          | <code>Array&lt;object&gt;</code>                                                                                                                                                                                                                                                                               | objects containing the placement information                  |
+| param.placements[].type   | <code>&quot;TOP&quot;</code> \| <code>&quot;FRONT&quot;</code> \| <code>&quot;RIGHT&quot;</code> \| <code>&quot;LEFT&quot;</code> \| <code>&quot;BOTTOM&quot;</code> \| <code>&quot;RIGHT_90&quot;</code> \| <code>&quot;LEFT_90&quot;</code> \| <code>&quot;BACK&quot;</code> \| <code>&quot;ISO&quot;</code> | type of view to place by offset vector                        |
+| param.placements[].offset | <code>point</code>                                                                                                                                                                                                                                                                                             | offset vector to move view relatively to its current position |
+
+**Example**
+
+```js
+api.v1.drawing2d.placeView({ id: part, placements: [{ type: 'TOP', offset: [0, 150, 0] }] })
+```
+
+<a name="updateDimensionPosition"></a>
+
+## updateDimensionPosition(param)
+
+Updates the position of the dimension text.
+Attention: The view needs to be recreated to have updated positions in the view
+
+**Kind**: v1.drawing2d function  
+**Returns**: <code>object</code> - object containing result and optional messages
+
+```
+{
+  result: VOID
+  messages?: { message: string, level: real, code: real, api: string }[]
+  maxLevel?: real
+}
+```
+
+| Param     | Type                                                        | Description                                     |
+| --------- | ----------------------------------------------------------- | ----------------------------------------------- |
+| param     | <code>object</code>                                         | object containing all the parameters            |
+| param.id  | <code>string</code> \| <code>real</code> \| <code>id</code> | id of the dimension to change the text position |
+| param.pos | <code>point</code>                                          | position of the dimension text to update        |
+
+**Example**
+
+```js
+api.v1.drawing2d.updateDimensionPosition({ id: dimension, pos: [50, 60, 0] })
+```
+
+<a name="view"></a>
+
+## view(param)
+
+Creates the defined 2d views of the given product (solids) in xy-plane and returns the ids of the created views.
+Previously created dimensions will appear in the defined views (depends on type),
+e.g. a dimension with viewType = "TOP", will appear in the "TOP" view
+
+**Kind**: v1.drawing2d function  
+**Returns**: <code>object</code> - object containing result and optional messages
+
+```
+{
+  result: id|Array<id>  // one or multiple ids of the newly created views
+  messages?: { message: string, level: real, code: real, api: string }[]
+  maxLevel?: real
+}
+```
+
+| Param         | Type                                                                                                                                                                                                  | Default                    | Description                                                                                                                                                   |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| param         | <code>object</code>                                                                                                                                                                                   |                            | object containing the parameters                                                                                                                              |
+| param.id      | <code>string</code> \| <code>real</code> \| <code>id</code>                                                                                                                                           |                            | id of the product to create views of                                                                                                                          |
+| param.types   | <code>Array&lt;(&quot;TOP&quot;\|&quot;FRONT&quot;\|&quot;RIGHT&quot;\|&quot;LEFT&quot;\|&quot;BOTTOM&quot;\|&quot;RIGHT_90&quot;\|&quot;LEFT_90&quot;\|&quot;BACK&quot;\|&quot;ISO&quot;)&gt;</code> |                            | type of views to create                                                                                                                                       |
+| [param.color] | <code>real</code>                                                                                                                                                                                     | <code>0</code>             | color of the view (autocad color index) in range of [0,256], whereas 256 means the color will be taken from the defined layer in the dxf template (default=0) |
+| [param.layer] | <code>string</code>                                                                                                                                                                                   | <code>&quot;0&quot;</code> | layer where the view will appear later in the dxf export, it depends on layer definitions in dxf template (default="0\*)                                      |
+
+**Example**
+
+```js
+api.v1.drawing2d.view({ id: part, types: ['RIGHT', 'BOTTOM'], color: 125, layer: '5' })
 ```

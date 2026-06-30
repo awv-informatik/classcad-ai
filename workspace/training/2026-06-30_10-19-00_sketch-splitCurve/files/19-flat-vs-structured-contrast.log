@@ -1,0 +1,5 @@
+[filewrite] files/19-flat-vs-structured-contrast-19-contrast.json (488 bytes)
+[19] splitCurve  (new): [{"sourceId":58,"splittedCurves":[{"id":72,"interval":[0,0.25]},{"id":76,"interval":[0.25,0.75]},{"id":80,"interval":[0.75,1]}]}]
+[19] splitCurves (old): [[92,96,100]]
+[19] CHECKS {"newIsStructured":true,"oldIsFlatIdArray":true,"newHasSourceIdInterval":true,"oldLacksSourceId":true,"both3Segments":true,"newCutAt25":true,"oldCutAt25":true}
+[19] PASS

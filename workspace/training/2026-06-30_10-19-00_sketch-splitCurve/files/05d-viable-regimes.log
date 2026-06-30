@@ -1,0 +1,8 @@
+[05d] partId 4 topId 38
+[05d] {"regime":"C","i":0,"skId":52,"skMax":31,"lId":58,"splitMax":31,"splitOk":true,"segs":2,"err":[]}
+[05d] {"regime":"C","i":1,"skId":79,"skMax":31,"lId":85,"splitMax":31,"splitOk":true,"segs":2,"err":[]}
+[05d] {"regime":"C","i":2,"skId":103,"skMax":31,"lId":109,"splitMax":31,"splitOk":true,"segs":2,"err":[]}
+[05d] {"regime":"D","i":0,"skId":127,"lId":133,"splitMax":31,"splitOk":true,"segs":3,"err":[]}
+[05d] {"regime":"D","i":1,"skId":127,"lId":158,"splitMax":31,"splitOk":true,"segs":3,"err":[]}
+[05d] {"regime":"D","i":2,"skId":127,"lId":183,"splitMax":31,"splitOk":true,"segs":3,"err":[]}
+[filewrite] files/05d-viable-regimes-05d-regimes.json (907 bytes)

@@ -1,0 +1,18 @@
+{
+  "param": {
+    "id": 52
+  },
+  "label": "noSplits",
+  "maxLevel": 51,
+  "isArray": false,
+  "nEntries": null,
+  "err": [
+    {
+      "level": 51,
+      "code": 1004,
+      "message": "The parameter \"splits\" must be provided in the api call!"
+    }
+  ],
+  "threw": null,
+  "result": null
+}

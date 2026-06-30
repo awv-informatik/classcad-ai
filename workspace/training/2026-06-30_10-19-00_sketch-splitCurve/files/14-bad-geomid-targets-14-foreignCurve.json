@@ -1,0 +1,32 @@
+{
+  "label": "foreignCurve",
+  "geomId": 72,
+  "maxLevel": 31,
+  "isArray": true,
+  "nEntries": 1,
+  "entrySegs": [
+    2
+  ],
+  "err": [],
+  "result": [
+    {
+      "sourceId": 72,
+      "splittedCurves": [
+        {
+          "id": 78,
+          "interval": [
+            0,
+            0.5
+          ]
+        },
+        {
+          "id": 82,
+          "interval": [
+            0.5,
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

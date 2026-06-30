@@ -1,0 +1,86 @@
+{
+  "values": [
+    0.5,
+    1.5
+  ],
+  "result": [
+    {
+      "sourceId": 101,
+      "splittedCurves": [
+        {
+          "id": 107,
+          "interval": [
+            0,
+            0.5
+          ]
+        },
+        {
+          "id": 111,
+          "interval": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "id": 115,
+          "interval": [
+            1.5,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "messages": [],
+  "maxLevel": 31,
+  "verts": [
+    {
+      "interval": [
+        0,
+        0.5
+      ],
+      "startPos": [
+        0,
+        20,
+        0
+      ],
+      "endPos": [
+        50,
+        20,
+        0
+      ]
+    },
+    {
+      "interval": [
+        0.5,
+        1.5
+      ],
+      "startPos": [
+        50,
+        20,
+        0
+      ],
+      "endPos": [
+        150,
+        20,
+        0
+      ]
+    },
+    {
+      "interval": [
+        1.5,
+        1
+      ],
+      "startPos": [
+        150,
+        20,
+        0
+      ],
+      "endPos": [
+        200,
+        20,
+        0
+      ]
+    }
+  ]
+}

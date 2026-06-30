@@ -1,0 +1,20 @@
+{
+  "undoProbe": [
+    null,
+    null
+  ],
+  "linesAfterSplit": [
+    66,
+    70
+  ],
+  "postTrimMax": 31,
+  "linesAfterPost": [
+    66,
+    70
+  ],
+  "mergeMax": 31,
+  "linesAfterMerge": [
+    66,
+    70
+  ]
+}

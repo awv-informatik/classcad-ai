@@ -1,0 +1,23 @@
+{
+  "param": {
+    "id": 52,
+    "splits": [
+      {
+        "geomId": 58
+      }
+    ]
+  },
+  "label": "noValues",
+  "maxLevel": 51,
+  "isArray": false,
+  "nEntries": null,
+  "err": [
+    {
+      "level": 51,
+      "code": 1004,
+      "message": "The parameter \"values\" must be provided in the api call!"
+    }
+  ],
+  "threw": null,
+  "result": null
+}

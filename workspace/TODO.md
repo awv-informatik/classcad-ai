@@ -1048,3 +1048,38 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Error:** `trimCurves` with 39 segment IDs never returns; worker pegged ~99% CPU; reproduced twice (also with `--debug`, 5-min cap). `kill -9` required.
 - **Trigger:** sketch with ~20 constraints + 20 dimensions, `splitAllCurves` → 66 segments, then a 39-ID trim. The verified trim workflow (2026-06-10 trim-vs-constraints session) used ≤13 segments on ≤8 constraints — scale-dependent.
 - **Workaround:** derive the profile from solved data into a second, unconstrained sketch (exact arc chain — no trim), or trim small batches on lightly-constrained sketches. Severity: HIGH (silent hang, kills the worker).
+
+### 150. [ ] 🕳️ `sketch.splitCurve` — out-of-range values silently extrapolate geometry
+
+- **Session:** `2026-06-30_10-19-00_sketch-splitCurve` (journal entry 12)
+- **Error:** Values outside `[0,1]` are NOT validated or clamped (maxLevel 31, no warning). `[1.5]` on a 0..100 line cuts at x=150 and the far segment reaches x=200; `[-0.2]` produces vertices left of the start. Geometry silently grows beyond the source curve.
+- **Trigger:** `splitCurve({ id, splits: [{ geomId: line, values: [1.5] }] })`
+- **Workaround:** Caller must clamp values to `[0,1]` before calling.
+
+### 151. [ ] 🕳️ `sketch.splitCurve` — UNSORTED values silently corrupt geometry (HIGH)
+
+- **Session:** `2026-06-30_10-19-00_sketch-splitCurve` (journal entry 11)
+- **Error:** Values are applied SEQUENTIALLY without sorting. Unsorted input (e.g. `[0.75,0.25]`) re-parameterizes the remainder each cut and extrapolates — a 100-long line came out 200 long (segment endpoints `0→75→125→200`), intervals returned non-monotonic `[[0,0.75],[0.75,0.25],[0.25,1]]`. maxLevel 31 (silent).
+- **Trigger:** `splitCurve({ id, splits: [{ geomId: line, values: [0.75, 0.25] }] })`
+- **Workaround:** ALWAYS pre-sort `values` ascending. Severity: HIGH (silent geometry corruption, no error).
+
+### 152. [ ] 🕳️ `sketch.splitCurve` — boundary/duplicate values create silent zero-length segments
+
+- **Session:** `2026-06-30_10-19-00_sketch-splitCurve` (journal entries 09, 10)
+- **Error:** maxLevel 31, no warning. `[0]`→ degenerate `interval [0,0]`; `[1]`→ `[1,1]`; `[0,1]`→ two zero-length segments; `[0.5,0.5]`→ zero-length sliver `[0.5,0.5]` (start==end). No dedup, no endpoint guard.
+- **Trigger:** `splitCurve` with a value of 0 or 1, or duplicate values.
+- **Workaround:** Caller must drop boundary values and de-duplicate before calling.
+
+### 153. [ ] 📖 `sketch.splitCurve` — guide's "Reversible / Undoable" claim is unbacked
+
+- **Session:** `2026-06-30_10-19-00_sketch-splitCurve` (journal entry 22)
+- **Error:** Source guide (`sketch-split-trim-guide.md`) says splitCurve is "Reversible? Yes" / "Undoable via the standard undo mechanism." No `common.undo`/`sketch.undo` endpoint exists (batch probe → null; wrapper has only `undoFillet`), and neither `postTrim` nor `splitCurvesMergeBack` restores a splitCurve result. A split is permanent.
+- **Trigger:** N/A — documentation discrepancy.
+- **Workaround:** Treat splitCurve as irreversible; do not document undo for it.
+
+### 154. [ ] 📖 `sketch.splitCurve` — `geomId` resolved globally, not scoped to the `id` sketch
+
+- **Session:** `2026-06-30_10-19-00_sketch-splitCurve` (journal entry 14)
+- **Error:** Passing a curve id that belongs to a DIFFERENT sketch (on the same part) succeeds (maxLevel 31) and splits that foreign curve, even though `id` names an unrelated sketch. The `id`/`geomId` relationship is not validated.
+- **Trigger:** `splitCurve({ id: sketchA, splits: [{ geomId: curveInSketchB, values: [0.5] }] })`
+- **Workaround:** Pass the correct sketch as `id`; don't rely on `id` to scope/guard which curve is split.

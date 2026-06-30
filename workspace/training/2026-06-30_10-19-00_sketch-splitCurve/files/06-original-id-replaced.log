@@ -1,0 +1,5 @@
+[filewrite] files/06-original-id-replaced-06-id-sets.json (283 bytes)
+[06] before.lines [58] after.lines [66,70]
+[06] segIds [66,70] orig getPositions maxLevel 51
+[06] CHECKS {"origAbsentAfter":true,"netLinesPlus1":true,"segsPresent":true,"segsDistinctFromOrig":true,"segsDistinct":true,"origGetPositionsErrors":true}
+[06] PASS

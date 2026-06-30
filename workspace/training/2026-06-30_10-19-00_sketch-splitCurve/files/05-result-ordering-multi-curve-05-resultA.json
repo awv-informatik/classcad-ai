@@ -1,0 +1,49 @@
+{
+  "A": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 72,
+          "interval": [
+            0,
+            0.5
+          ]
+        },
+        {
+          "id": 76,
+          "interval": [
+            0.5,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": 66,
+      "splittedCurves": [
+        {
+          "id": 80,
+          "interval": [
+            0,
+            0.25
+          ]
+        },
+        {
+          "id": 84,
+          "interval": [
+            0.25,
+            0.75
+          ]
+        },
+        {
+          "id": 88,
+          "interval": [
+            0.75,
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

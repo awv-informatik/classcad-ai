@@ -1,0 +1,12 @@
+[00] getAppVersion maxLevel: 31 result: ""
+[00] partId: 4 TopPlaneId: 38
+[00] skId: 52
+[00] lineId: 58
+[00] splitCurve maxLevel: 31
+[filewrite] files/00-smoke-splitCurve-response.json (342 bytes)
+[00] result: [{"sourceId":58,"splittedCurves":[{"id":66,"interval":[0,0.25]},{"id":70,"interval":[0.25,1]}]}]
+[00] seg 66 interval [0,0.25] pos {"endPos":{"x":25,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[00] seg 70 interval [0.25,1] pos {"endPos":{"x":100,"y":0,"z":0},"startPos":{"x":25,"y":0,"z":0}}
+[filewrite] files/00-smoke-segment-positions.json (848 bytes)
+[00] original lineId getPositions maxLevel: 51 result: null
+[00] getGeometry: {"arcs":[],"circles":[],"lines":[66,70],"points":[]}

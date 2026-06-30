@@ -1,0 +1,4 @@
+[filewrite] files/08-empty-splits-array-08-result.json (257 bytes)
+[08] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":0,"perEntry":[]} err []
+[08] CHECKS {"isArray":true,"emptyResult":true,"success":true,"geomUnchanged":true}
+[08] PASS

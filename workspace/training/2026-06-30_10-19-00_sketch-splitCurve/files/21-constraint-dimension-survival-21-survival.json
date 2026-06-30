@@ -1,0 +1,14 @@
+{
+  "fix": 66,
+  "dim": 70,
+  "before": {
+    "constraints": 4,
+    "dims": 3
+  },
+  "after": {
+    "constraints": 6,
+    "dims": 3
+  },
+  "updResult": null,
+  "updMax": 51
+}

@@ -1,0 +1,5 @@
+[21b] dimNode id 86 name LEN_Split segLines [72,76]
+[21b] updateDimension result 2 max 31 err []
+[21b] far endpoint before [100,0,0] after [60,0,0]
+[filewrite] files/21b-solver-live-after-split-21b-solver-live.json (137 bytes)
+[21b] see data

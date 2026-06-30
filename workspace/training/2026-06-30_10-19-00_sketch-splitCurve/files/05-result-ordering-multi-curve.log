@@ -1,0 +1,6 @@
+[filewrite] files/05-result-ordering-multi-curve-05-resultA.json (697 bytes)
+[05] A {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":2,"perEntry":[{"sourceId":58,"segs":2,"intervals":[[0,0.5],[0.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]},{"sourceId":66,"segs":3,"intervals":[[0,0.25],[0.25,0.75],[0.75,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]}
+[filewrite] files/05-result-ordering-multi-curve-05-resultB.json (704 bytes)
+[05] B {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":2,"perEntry":[{"sourceId":118,"segs":3,"intervals":[[0,0.25],[0.25,0.75],[0.75,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]},{"sourceId":110,"segs":2,"intervals":[[0,0.5],[0.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]}
+[05] CHECKS {"A_len2":true,"A_order":true,"A_counts":true,"B_isArray":true,"B_order_tracks_input":true,"B_counts":true}
+[05] PASS

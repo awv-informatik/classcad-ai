@@ -1,0 +1,8 @@
+[05b] H1_V2: maxLevel=31 isArray=true entries=2 segs=[2,3]
+[05b] V2_H1: maxLevel=51 isArray=false ERR=[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[05b] V2_alone: maxLevel=51 isArray=false ERR=[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[05b] H1_alone: maxLevel=51 isArray=false ERR=[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[05b] H2vals_H1val: maxLevel=51 isArray=false ERR=[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[05b] H1val_H2vals: maxLevel=51 isArray=false ERR=[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[05b] V1_H1: maxLevel=51 isArray=false ERR=[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]
+[filewrite] files/05b-order-diagnostic-05b-permutations.json (2893 bytes)

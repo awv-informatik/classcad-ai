@@ -1,0 +1,18 @@
+{
+  "planeId": {
+    "ok": true,
+    "cut": [
+      50,
+      0,
+      0
+    ]
+  },
+  "planeless": {
+    "ok": true,
+    "cut": [
+      50,
+      0,
+      0
+    ]
+  }
+}

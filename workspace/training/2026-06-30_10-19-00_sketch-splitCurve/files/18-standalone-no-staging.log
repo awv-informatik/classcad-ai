@@ -1,0 +1,6 @@
+[18] split ok true getGeometry.lines [66,70]
+[18] staging containers after splitCurve: [] (expect none)
+[18] postTrim-after-split maxLevel 31 err []
+[18] preTrim ok true staging containers after preTrim: [] (expect some)
+[filewrite] files/18-standalone-no-staging-18-staging.json (753 bytes)
+[18] CHECKS {"splitImmediate":true,"noStagingAfterSplit":true}

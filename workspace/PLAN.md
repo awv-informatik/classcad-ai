@@ -782,16 +782,22 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 
 ### Category 4.10: Trimming, Splitting & Curve Management
 
-| #   | Task                                       | Source                                                            | Studied |
-| --- | ------------------------------------------ | ----------------------------------------------------------------- | ------- |
-| 1   | Api study of `sketch.trimCurves`           | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 2   | Api study of `sketch.splitAllCurves`       | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 3   | Api study of `sketch.splitCurves`          | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 4   | Api study of `sketch.splitCurvesMergeBack` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 5   | Api study of `sketch.copyGeometry`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 6   | Api study of `sketch.copyFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 7   | Api study of `sketch.loadFrom`             | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 8   | Api study of `sketch.deleteObject`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
+> **⚠️ RETRAIN REQUIRED:** The split/trim APIs were renamed. Deprecated → replacement:
+> `splitCurves` → `splitCurve`, `splitAllCurves` → `preTrim`, `trimCurves` → `trim`,
+> `splitCurvesMergeBack` → `postTrim`. The new model is a standalone `splitCurve` plus a
+> three-step `preTrim` → `trim` → `postTrim` workflow. Retrain against the new APIs;
+> source guide: `~/Downloads/sketch-split-trim-guide.md`.
+
+| #   | Task                               | Source                                                            | Studied |
+| --- | ---------------------------------- | ----------------------------------------------------------------- | ------- |
+| 1   | Api study of `sketch.splitCurve`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
+| 2   | Api study of `sketch.preTrim`      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.trim`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 4   | Api study of `sketch.postTrim`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 5   | Api study of `sketch.copyGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 6   | Api study of `sketch.copyFrom`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 7   | Api study of `sketch.loadFrom`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 8   | Api study of `sketch.deleteObject` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 
 ---
 

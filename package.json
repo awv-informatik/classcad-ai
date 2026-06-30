@@ -8,7 +8,7 @@
     "sync-submodule": "node scripts/sync-submodule.mjs"
   },
   "dependencies": {
-    "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.0.0/classcad-api-js-21.0.0.tgz",
+    "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.2.0/classcad-api-js-21.2.0.tgz",
     "sharp": "^0.34.5",
     "ws": "^8.19.0"
   }

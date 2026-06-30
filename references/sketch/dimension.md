@@ -77,7 +77,7 @@ const ids = (await api.v1.sketch.dimension([
 - **OFFSET on a circle → null.** Wrong geometry type returns "Wrong number of geometry ids for offset".
 - **ANGLE needs 2 lines.** Single line → array index error. Use ANGLEOX for angle-to-X-axis on a single line.
 - **Over-constraining is silent.** Adding a dimension that conflicts with existing constraints creates the dimension (gets ID) but solver fails (maxLevel=51). Geometry doesn't change.
-- **Dimension handles die on every `splitCurvesMergeBack`** (verified 2026-06-10) — nodes are
+- **Dimension handles die on every `postTrim`** (verified 2026-06-10, under the former `splitCurvesMergeBack`; re-verify on retrain) — nodes are
   recreated with new IDs (names preserved). Re-fetch by name from the structure tree before
   calling `updateDimension` after any trim workflow, or you get error 1006 "invalid id".
   Dimensions survive the trim itself and keep driving geometry — including a DIAMETER whose

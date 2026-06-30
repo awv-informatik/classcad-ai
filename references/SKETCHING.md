@@ -203,7 +203,7 @@ await api.v1.sketch.dimension({
 - Rotational constraints preserve line length (HORIZONTAL on a 50-long tilted line keeps it 50).
 - Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
 - Deleting a constraint does NOT revert geometry.
-- **Trim is safe on constrained sketches** (verified 2026-06-10): constraints and dimensions survive `splitAllCurves → trimCurves → mergeBack`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every mergeBack** — re-fetch them by name from the structure tree before updating.
+- **Trim is safe on constrained sketches** (verified 2026-06-10): constraints and dimensions survive `preTrim → trim → postTrim`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every `postTrim`** — re-fetch them by name from the structure tree before updating.
 
 ---
 
@@ -211,22 +211,31 @@ await api.v1.sketch.dimension({
 
 Once shapes are positioned and verified, trim them to reveal the final profile.
 
+> **⚠️ RETRAIN PENDING (Category 4.10):** The APIs below were renamed (`splitAllCurves`→`preTrim`,
+> `trimCurves`→`trim`, `splitCurvesMergeBack`→`postTrim`) and `preTrim` now returns a **structured**
+> result — `[{ sourceId, splittedCurves: [{ id, interval }] }]`, one entry per input curve — not the
+> flat segment array the classification prose below assumes. `preTrim` also accepts a `curveIds`
+> subset. The behavioral findings (handles recreated, `Auto_Coinc`, atomic trim) are carried over
+> from the old workflow and must be re-verified during retraining. Treat the segment-walking logic
+> below as a sketch of intent, not a tested recipe, until then.
+
 ### The three-step trim workflow
 
 ```js
-// 1. Split all curves at their intersection points (staged — nothing visible changes)
-const segments = (await api.v1.sketch.splitAllCurves({ id: skId })).result
+// 1. Split curves at their intersection points (staged — nothing visible changes)
+//    Returns structured result: [{ sourceId, splittedCurves: [{ id, interval }] }]
+const split = (await api.v1.sketch.preTrim({ id: skId })).result
 
-// 2. Mark unwanted segments for removal (still staged)
-await api.v1.sketch.trimCurves({ id: skId, curveIds: segmentsToRemove })
+// 2. Mark unwanted segments for removal (still staged) — pass the splittedCurves ids
+await api.v1.sketch.trim({ id: skId, curveIds: segmentsToRemove })
 
 // 3. Apply the trims (geometry changes now)
-await api.v1.sketch.splitCurvesMergeBack({ id: skId })
+await api.v1.sketch.postTrim({ id: skId })
 ```
 
 ### Classifying segments
 
-With many overlapping shapes, `splitAllCurves` can produce dozens to hundreds of segments. For each segment, determine whether it belongs to the final profile or should be removed.
+With many overlapping shapes, `preTrim` can produce dozens to hundreds of segments. For each segment, determine whether it belongs to the final profile or should be removed.
 
 **Approach — the boundary test.** Each staged segment node carries `partOf` (original curve ID) and `interval` (`[t0,t1]` as a **0..1 fraction** of the curve — not radians, phase not world-aligned). `getPositions` works on segment IDs. Compute the segment's world midpoint (angles of start/end around the center; pick the traversal direction whose span fraction is closer to the interval width), then probe the midpoint pushed **±ε radially**: the segment belongs to the final outline iff material lies on exactly ONE side.
 
@@ -239,12 +248,12 @@ Assign roles to your shapes before trimming:
 
 ### Trim rules
 
-- `trimCurves` only accepts IDs returned by `splitAllCurves` — not original geometry IDs
-- `trimCurves` is **atomic** — one invalid ID fails the entire call, no partial trims
-- After `mergeBack`, trimmed curve IDs are invalid — use `getGeometry` to discover new IDs
-- `splitAllCurves → mergeBack` without trimming is a safe no-op for GEOMETRY ids (round-trip restore) — but constraint/dimension nodes are recreated with new IDs anyway
-- **Constrained sketches trim safely** — constraints/dimensions survive, `Auto_Coinc` appears at cut points, and the profile stays re-solvable. Re-fetch dimension/constraint handles by NAME after mergeBack (dimension names preserved; constraint names suffix-renamed `Fix`→`Fix0`)
-- **Contiguous kept segments coalesce** into a single curve on mergeBack — keeping 3 adjacent segments of a circle yields 1 arc
+- `trim` only accepts IDs returned by `preTrim` — not original geometry IDs
+- `trim` is **atomic** — one invalid ID fails the entire call, no partial trims
+- After `postTrim`, trimmed curve IDs are invalid — use `getGeometry` to discover new IDs
+- `preTrim → postTrim` without trimming is a safe no-op for GEOMETRY ids (round-trip restore) — but constraint/dimension nodes are recreated with new IDs anyway
+- **Constrained sketches trim safely** — constraints/dimensions survive, `Auto_Coinc` appears at cut points, and the profile stays re-solvable. Re-fetch dimension/constraint handles by NAME after `postTrim` (dimension names preserved; constraint names suffix-renamed `Fix`→`Fix0`)
+- **Contiguous kept segments coalesce** into a single curve on `postTrim` — keeping 3 adjacent segments of a circle yields 1 arc
 - Tangent-only contacts: a singly-tangent circle stays whole (staged as one full-circle part); a doubly-tangent circle (fillet between two shapes) splits into 2 arcs at the tangent points
 
 ---
@@ -354,16 +363,16 @@ const bossPt = add(offset, scale(dir, tBoss))
 |------|-----|-------|
 | Move geometry | `sketch.updateGeometry` | Raw position set, requires ALL coords |
 | Delete | `sketch.deleteObject` | `{ ids: [id1, id2, ...] }` |
-| Split at intersections | `sketch.splitAllCurves` | Staged — needs mergeBack |
-| Mark for removal | `sketch.trimCurves` | Only splitAllCurves IDs |
-| Apply trims | `sketch.splitCurvesMergeBack` | Commits staged state |
+| Split at intersections | `sketch.preTrim` | Staged — needs postTrim; structured result |
+| Mark for removal | `sketch.trim` | Only preTrim segment IDs |
+| Apply trims | `sketch.postTrim` | Commits staged state |
 
 ### Common pitfalls
 - **A sketch without `planeId` has a DEAD solver** — constraints and dimensions are accepted (maxLevel 31, IDs returned!) but never enforced; `updateDimension` returns 0; `dimension` with `value` errors (51) without resizing. Always pass `planeId` to `sketch.create`. This silent mode is what once led this guide to call constraints "metadata" and the value param "broken" — both wrong on a properly created sketch.
 - **Z must be 0** for all 2D sketch coordinates — non-zero Z is a hard error (code 1014)
 - **FIXATION on a line does not lock its length** — fix both endpoints individually for a true datum
 - **`getPositions` fails on circle IDs** — use `getPoints` → `centerId` → `getPositions`
-- **`splitAllCurves` ≠ `splitCurves`** — completely different operations with incompatible results
+- **`preTrim` ≠ `splitCurve`** — completely different operations: `preTrim` splits at all mutual intersections (the trim workflow); `splitCurve` splits one curve at explicit normalized parameter values
 
 ---
 
@@ -375,6 +384,7 @@ const bossPt = add(offset, scale(dir, tBoss))
 - [sketch/line.md](sketch/line.md) — line creation
 - [sketch/arcByCenter.md](sketch/arcByCenter.md) — arc creation
 - [sketch/geometry.md](sketch/geometry.md) — batch geometry creation
-- [sketch/trimCurves.md](sketch/trimCurves.md) — trim workflow
-- [sketch/splitAllCurves.md](sketch/splitAllCurves.md) — split at intersections
-- [sketch/splitCurvesMergeBack.md](sketch/splitCurvesMergeBack.md) — apply trims
+- `sketch/preTrim.md` — split at intersections _(retrain pending — Category 4.10)_
+- `sketch/trim.md` — mark segments for removal _(retrain pending — Category 4.10)_
+- `sketch/postTrim.md` — apply trims / merge back _(retrain pending — Category 4.10)_
+- `sketch/splitCurve.md` — split one curve at explicit params _(retrain pending — Category 4.10)_

@@ -101,11 +101,12 @@ With an active solver (planeId set), `moveGeometry` is constraint-aware:
 - **SYMMETRY on lines with different lengths is approximate.** The solver mirrors orientation but preserves each line's original length. For exact mirroring, ensure lines have equal length (add EQUAL_LENGTH) or constrain individual endpoints with SYMMETRY on point pairs.
 - **`getPositions` returns null for circles.** To read a circle's center position, use `getPoints({id: circleId}).result.centerId`, then `getPositions({id: centerId})`.
 - **Constraint deletion doesn't undo geometry changes.** After deleting a constraint, geometry stays where the solver moved it. There is no automatic revert.
-- **Constraints survive the trim workflow** (split/trim/mergeBack, verified 2026-06-10): they
+- **Constraints survive the trim workflow** (`preTrim`/`trim`/`postTrim`, verified 2026-06-10 under
+  the former `splitAllCurves`/`trimCurves`/`splitCurvesMergeBack` names; re-verify on retrain): they
   are recreated under NEW IDs with suffix-renamed names (`Fix`→`Fix0`) — re-fetch by name
-  after mergeBack. TANGENT constraints keep driving curves that became arcs. A constraint
+  after `postTrim`. TANGENT constraints keep driving curves that became arcs. A constraint
   whose partner curve is fully trimmed away is removed cleanly (no dangling). The system also
-  adds `Auto_Coinc` constraints at trim cut points. Details: `splitCurvesMergeBack.md`.
+  adds `Auto_Coinc` constraints at trim cut points. Details: `postTrim.md` (retrain pending).
 - **lgsState values observed beyond 0/1:** geometry nodes show 16 when solved; FIXATION
   constraints have shown 9. Looks like a flag set — semantics unconfirmed, treat only 0 as
   "unsolved" with confidence.

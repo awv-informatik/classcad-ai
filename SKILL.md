@@ -280,10 +280,10 @@ Assembly management: root assembly creation, templates, instances, constraints (
 | 28  | `moveGeometry`            | Moves the given sketch geometry by translation vector                 | [api](references/api/sketch.md) |
 | 29  | `fillet`                  | Creates a fillet in place of a point and its two connecting lines     | [api](references/api/sketch.md) |
 | 30  | `undoFillet`              | Deletes an existing fillet by removing the arc and reconnecting lines | [api](references/api/sketch.md) |
-| 31  | `trimCurves`              | Trims away curves if they are suitable for trimming                   | [api](references/api/sketch.md) |
-| 32  | `splitAllCurves`          | Splits all curves in the given sketch                                 | [api](references/api/sketch.md) |
-| 33  | `splitCurves`             | Splits curves in specified parameterized positions                    | [api](references/api/sketch.md) |
-| 34  | `splitCurvesMergeBack`    | Merges the splitted curves back                                       | [api](references/api/sketch.md) |
+| 31  | `trim`                    | Removes curve segments produced by `preTrim` (step 2 of trim workflow) | [api](references/api/sketch.md) |
+| 32  | `preTrim`                 | Splits curves at their mutual intersections (step 1 of trim workflow)  | [api](references/api/sketch.md) |
+| 33  | `splitCurve`              | Splits one curve at explicit normalized parameter positions            | [api](references/api/sketch.md) |
+| 34  | `postTrim`                | Merges split curves back, finalizing the trim (step 3 of trim workflow) | [api](references/api/sketch.md) |
 | 35  | `generateAutoConstraints` | Automatically generates constraints where sensible without redundancy | [api](references/api/sketch.md) |
 | 36  | `loadFrom`                | Loads an OFB file and copies sketch geometry to an existing sketch    | [api](references/api/sketch.md) |
 | 37  | `getGeometry`             | Gets all sketch geometry from a sketch, region or rigid set           | [api](references/api/sketch.md) |

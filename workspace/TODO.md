@@ -1118,3 +1118,17 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Error:** Calling `preTrim` twice without `postTrim` silently overwrites the staging (maxLevel 31): the first batch's segment ids go DEAD (`getPositions` mL51). After `postTrim`, a stale empty `NoneSplitted0` `CC_Container` remains in the tree (postTrim does not clean it). Cosmetic — geometry and original ids are fine.
 - **Trigger:** a second `preTrim` before `postTrim`; observe `NoneSplitted0` after finalizing.
 - **Workaround:** never cache `preTrim` segment ids across a re-preTrim; ignore the leftover `NoneSplitted0` node.
+
+### 160. [ ] 🕳️ `sketch.trim` — `curveIds` resolved globally (not scoped to the `id` sketch)
+
+- **Session:** `2026-06-30_13-59-28_sketch-trim` (journal entry 07)
+- **Error:** `trim({ id: sk1, curveIds: [segmentStagedInSk2] })` returns maxLevel 31 and actually trims the segment in **sk2** (the foreign sketch), leaving sk1's own staging untouched. trim resolves segment ids globally rather than verifying they belong to the named sketch. Same class of footgun as `splitCurve` global geomId resolution (#154).
+- **Trigger:** passing a `preTrim` segment id from a different sketch than the one named in `id`.
+- **Workaround:** only pass segment ids from the sketch you're trimming; never assume `id` scopes `curveIds`.
+
+### 161. [ ] 📖 `sketch.trim` — id-handling differs from preTrim: duplicate errors, dead id 1006, source id silent skip
+
+- **Session:** `2026-06-30_13-59-28_sketch-trim` (journal entries 04, 06)
+- **Error/behavior:** (a) a **duplicate segment id** `[s,s]` makes trim **error (mL51)** — NOT idempotent — whereas `preTrim` accepts duplicate `curveIds` (splits twice). (b) A **dead** segment id (already trimmed, or killed by a re-`preTrim`) → atomic **mL51 1006**. (c) A real-but-**unstaged** curve id (an original `sourceId`) → **silent per-element no-op (mL31)** while valid segments in the same call are still trimmed. (d) `trim([])` is a safe no-op, unlike `preTrim([])` which means ALL.
+- **Trigger:** the respective curveIds shapes above.
+- **Workaround:** pass de-duplicated, currently-staged segment ids only; expect 1006 on any dead id and a silent skip on a source id.

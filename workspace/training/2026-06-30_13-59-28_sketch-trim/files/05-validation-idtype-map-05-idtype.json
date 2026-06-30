@@ -1,0 +1,43 @@
+{
+  "partId": 4,
+  "pointId": 59,
+  "constraintId": 62,
+  "validSeg": 80,
+  "out": [
+    {
+      "label": "idPart",
+      "maxLevel": 51,
+      "code": 1001,
+      "list": "[\"sketch\"]",
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+    },
+    {
+      "label": "idPoint",
+      "maxLevel": 51,
+      "code": 1001,
+      "list": "[\"sketch\"]",
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+    },
+    {
+      "label": "cidSketch",
+      "maxLevel": 51,
+      "code": 1001,
+      "list": "[\"sketch-curve\"]",
+      "msg": "The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"
+    },
+    {
+      "label": "cidPoint",
+      "maxLevel": 51,
+      "code": 1001,
+      "list": "[\"sketch-curve\"]",
+      "msg": "The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"
+    },
+    {
+      "label": "cidConstraint",
+      "maxLevel": 51,
+      "code": 1001,
+      "list": "[\"sketch-curve\"]",
+      "msg": "The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"
+    }
+  ]
+}

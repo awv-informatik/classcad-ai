@@ -792,7 +792,7 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 | --- | ---------------------------------- | ----------------------------------------------------------------- | ------- |
 | 1   | Api study of `sketch.splitCurve`   | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
 | 2   | Api study of `sketch.preTrim`      | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 3   | Api study of `sketch.trim`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 3   | Api study of `sketch.trim`         | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
 | 4   | Api study of `sketch.postTrim`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 | 5   | Api study of `sketch.copyGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
 | 6   | Api study of `sketch.copyFrom`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |

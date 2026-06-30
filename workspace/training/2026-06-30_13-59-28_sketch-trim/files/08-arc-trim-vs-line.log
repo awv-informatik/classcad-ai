@@ -1,0 +1,8 @@
+[08] circle arcs 2 getPositions maxLevels [31,31]
+[08]   arc 78 [90,50,0] -> [10,50.00000000000001,0]
+[08]   arc 83 [10,50.00000000000001,0] -> [90,49.99999999999999,0]
+[08] trim(arc) result null max 31 | arc dead immediately? true
+[filewrite] files/08-arc-trim-vs-line-08-arc.json (741 bytes)
+[08] survivor arcs [101] [{"id":101,"start":[10,50.00000000000001,0],"end":[90,49.99999999999999,0]}]
+[08] CHECKS {"arcsQueryable":true,"trimArcVoid":true,"arcDiedImmediately":true,"oneSurvivorArc":true,"survivorEndpointsOnCuts":true,"survivorNewId":true}
+[08] PASS

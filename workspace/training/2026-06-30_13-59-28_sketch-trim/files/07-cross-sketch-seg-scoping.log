@@ -1,0 +1,5 @@
+[07] sk1Witness 80 alive 31 | segFromSk2 124 alive 31
+[filewrite] files/07-cross-sketch-seg-scoping-07-cross-sketch.json (134 bytes)
+[07] trim(sk1,[seg_from_sk2]) max 31 code undefined
+[07] seg_from_sk2 trimmed in sk2? (mL51 after) true | sk1 witness untouched? true
+[07] VERDICT: LENIENT — trimmed sk2 segment (global, footgun #154-like)

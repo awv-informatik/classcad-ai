@@ -1,0 +1,6 @@
+[00] all staged segs [80,84,88,92] SplittedCurves childCount 4 | trimming 80
+[00] trim result null maxLevel 31
+[00] trimmed seg getPositions maxLevel 51 (immediately dead?) | SplittedCurves childCount after 3
+[00] other segs alive: [{"id":84,"maxLevel":31},{"id":88,"maxLevel":31},{"id":92,"maxLevel":31}]
+[filewrite] files/00-smoke-smoke.json (460 bytes)
+[00] after postTrim lines [64,97] postMax 31

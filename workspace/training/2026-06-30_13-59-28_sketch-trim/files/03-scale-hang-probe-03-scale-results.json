@@ -1,0 +1,32 @@
+[
+  {
+    "tier": "T1",
+    "N": 12,
+    "subset": 6,
+    "trimMs": 4,
+    "postMs": 18,
+    "trimMax": 31,
+    "postMax": 31,
+    "trimVoid": true
+  },
+  {
+    "tier": "T2",
+    "N": 24,
+    "subset": 12,
+    "trimMs": 4,
+    "postMs": 45,
+    "trimMax": 31,
+    "postMax": 31,
+    "trimVoid": true
+  },
+  {
+    "tier": "T3",
+    "N": 27,
+    "subset": 14,
+    "trimMs": 6,
+    "postMs": 51,
+    "trimMax": 31,
+    "postMax": 31,
+    "trimVoid": true
+  }
+]

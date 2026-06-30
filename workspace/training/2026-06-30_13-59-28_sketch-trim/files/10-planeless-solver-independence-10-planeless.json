@@ -1,0 +1,18 @@
+{
+  "preMax": 31,
+  "trimMax": 31,
+  "trimRes": null,
+  "postMax": 31,
+  "geo": {
+    "arcs": [
+      195
+    ],
+    "circles": [],
+    "lines": [
+      67,
+      79,
+      202
+    ],
+    "points": []
+  }
+}

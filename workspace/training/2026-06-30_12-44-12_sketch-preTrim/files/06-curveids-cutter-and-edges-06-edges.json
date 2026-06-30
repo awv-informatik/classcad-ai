@@ -1,0 +1,122 @@
+{
+  "A": {
+    "len": 2,
+    "hSegs": 2,
+    "hCut": [
+      50,
+      50,
+      0
+    ]
+  },
+  "B": {
+    "len": 1,
+    "segs": 1,
+    "interval": [
+      0,
+      1
+    ],
+    "idReused": true
+  },
+  "C": {
+    "isArray": true,
+    "len": 2,
+    "segCounts": [
+      2,
+      2
+    ]
+  },
+  "rA": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 84,
+          "interval": [
+            0,
+            0.5
+          ]
+        },
+        {
+          "id": 88,
+          "interval": [
+            0.5,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": 64,
+      "splittedCurves": [
+        {
+          "id": 92,
+          "interval": [
+            0,
+            0.5
+          ]
+        },
+        {
+          "id": 96,
+          "interval": [
+            0.5,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "rB": [
+    {
+      "sourceId": 106,
+      "splittedCurves": [
+        {
+          "id": 106,
+          "interval": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "rC": [
+    {
+      "sourceId": 126,
+      "splittedCurves": [
+        {
+          "id": 146,
+          "interval": [
+            0,
+            0.49999999999999983
+          ]
+        },
+        {
+          "id": 150,
+          "interval": [
+            0.49999999999999983,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": 132,
+      "splittedCurves": [
+        {
+          "id": 154,
+          "interval": [
+            0,
+            0.49999999999999983
+          ]
+        },
+        {
+          "id": 158,
+          "interval": [
+            0.49999999999999983,
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

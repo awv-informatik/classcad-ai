@@ -1083,3 +1083,38 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Error:** Passing a curve id that belongs to a DIFFERENT sketch (on the same part) succeeds (maxLevel 31) and splits that foreign curve, even though `id` names an unrelated sketch. The `id`/`geomId` relationship is not validated.
 - **Trigger:** `splitCurve({ id: sketchA, splits: [{ geomId: curveInSketchB, values: [0.5] }] })`
 - **Workaround:** Pass the correct sketch as `id`; don't rely on `id` to scope/guard which curve is split.
+
+### 155. [ ] 🕳️ `sketch.trim` — silent no-op when passed an original/source curve id
+
+- **Session:** `2026-06-30_12-44-12_sketch-preTrim` (journal entry 10)
+- **Error:** `trim({ id, curveIds: [originalLineId] })` (an original sketch-curve id, not a staged `preTrim` segment id) returns maxLevel 31 with NO error and removes nothing. A bogus id correctly atomic-fails (1006), but a valid-but-wrong (original) id is a silent no-op — easy to think a trim worked when it did nothing.
+- **Trigger:** passing `preTrim.result[].sourceId` (or any pre-split curve id) to `trim` instead of `splittedCurves[].id`.
+- **Workaround:** only ever pass `splittedCurves[].id` values from the `preTrim` result to `trim`.
+
+### 156. [ ] 🕳️ `sketch.preTrim` — overlapping/identical curves silently mishandled
+
+- **Session:** `2026-06-30_12-44-12_sketch-preTrim` (journal entry 13)
+- **Error:** Two identical fully-overlapping lines → both returned `[0,1]` (intersection UNDETECTED, maxLevel 31, no flag). A partial collinear overlap → each line splits at the other's interior endpoint and the overlap region is DUPLICATED as a segment in both curves. All silent.
+- **Trigger:** coincident or partially-overlapping collinear curves in a preTrim.
+- **Workaround:** de-duplicate / avoid overlapping geometry before preTrim; don't assume overlaps are detected.
+
+### 157. [ ] 📖 `sketch.preTrim` — `curveIds: []` (empty array) is treated as ALL curves
+
+- **Session:** `2026-06-30_12-44-12_sketch-preTrim` (journal entries 06, 16)
+- **Error:** Passing an empty `curveIds` array does NOT mean "split nothing" — it behaves identically to omitting `curveIds` (splits ALL curves). A caller that builds `curveIds` dynamically and ends up with `[]` will unexpectedly split the whole sketch.
+- **Trigger:** `preTrim({ id, curveIds: [] })`.
+- **Workaround:** guard against an empty `curveIds` array; skip the preTrim call if the intended subset is empty.
+
+### 158. [ ] 📖 `sketch.preTrim` — construction lines & rigidSet members silently pass through (no diagnostic)
+
+- **Session:** `2026-06-30_12-44-12_sketch-preTrim` (journal entry 14)
+- **Error:** A construction line (`isConstruction:true`) and rigidSet members appear in the result as uncut `[0,1]` parts (id reused) with maxLevel 31 and NO message — yet they still cut the normal curves they cross. The only signal that a curve was "not trimmable" is `id === sourceId`. (Contrast: `splitCurve` returns mL51 "Curve shouldn't be a part of rigidset!" — preTrim is silent.)
+- **Trigger:** preTrim over a mix including construction/rigidSet geometry.
+- **Workaround:** detect non-trimmable participants by `id === sourceId` in the result; there is no warning.
+
+### 159. [ ] 🕳️ `sketch.preTrim` — stale empty `NoneSplitted0` container leaks; re-preTrim kills prior segment ids
+
+- **Session:** `2026-06-30_12-44-12_sketch-preTrim` (journal entry 15)
+- **Error:** Calling `preTrim` twice without `postTrim` silently overwrites the staging (maxLevel 31): the first batch's segment ids go DEAD (`getPositions` mL51). After `postTrim`, a stale empty `NoneSplitted0` `CC_Container` remains in the tree (postTrim does not clean it). Cosmetic — geometry and original ids are fine.
+- **Trigger:** a second `preTrim` before `postTrim`; observe `NoneSplitted0` after finalizing.
+- **Workaround:** never cache `preTrim` segment ids across a re-preTrim; ignore the leftover `NoneSplitted0` node.

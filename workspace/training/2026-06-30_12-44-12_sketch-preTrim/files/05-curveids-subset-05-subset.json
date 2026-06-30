@@ -1,0 +1,83 @@
+{
+  "result": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 86,
+          "interval": [
+            0,
+            0.5
+          ]
+        },
+        {
+          "id": 90,
+          "interval": [
+            0.5,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": 64,
+      "splittedCurves": [
+        {
+          "id": 94,
+          "interval": [
+            0,
+            0.5
+          ]
+        },
+        {
+          "id": 98,
+          "interval": [
+            0.5,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "containers": [
+    {
+      "id": 76,
+      "name": "NoneSplitted",
+      "childCount": 1,
+      "parent": 52
+    },
+    {
+      "id": 84,
+      "name": "SplittedCurves",
+      "childCount": 4,
+      "parent": 52
+    }
+  ],
+  "L3parent": 76,
+  "nonesplittedId": 76,
+  "L3pos": {
+    "maxLevel": 31,
+    "startPos": [
+      0,
+      0,
+      0
+    ],
+    "endPos": [
+      100,
+      100,
+      0
+    ],
+    "raw": {
+      "endPos": {
+        "x": 100,
+        "y": 100,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  }
+}

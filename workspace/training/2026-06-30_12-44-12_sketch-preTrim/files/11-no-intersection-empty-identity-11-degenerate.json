@@ -1,0 +1,85 @@
+{
+  "A": [
+    {
+      "src": 58,
+      "segs": 1,
+      "iv": [
+        0,
+        1
+      ],
+      "idReused": true
+    },
+    {
+      "src": 66,
+      "segs": 1,
+      "iv": [
+        0,
+        1
+      ],
+      "idReused": true
+    }
+  ],
+  "B": {
+    "len": 1,
+    "segs": 1,
+    "iv": [
+      0,
+      1
+    ],
+    "idReused": true
+  },
+  "C": {
+    "isArray": true,
+    "len": 0,
+    "maxLevel": 31,
+    "containers": [
+      "NoneSplitted",
+      "SplittedCurves",
+      "NoneSplitted",
+      "SplittedCurves",
+      "NoneSplitted",
+      "SplittedCurves"
+    ]
+  },
+  "rA": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 58,
+          "interval": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": 66,
+      "splittedCurves": [
+        {
+          "id": 66,
+          "interval": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "rB": [
+    {
+      "sourceId": 86,
+      "splittedCurves": [
+        {
+          "id": 86,
+          "interval": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "rC": []
+}

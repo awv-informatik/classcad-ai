@@ -1,0 +1,6 @@
+[07] preTrim h segs 2 v segs 2 | trimming 80 88
+[filewrite] files/07-canonical-roundtrip-Lprofile-07-roundtrip.json (572 bytes)
+[07] trim result null max 31 | postTrim result null max 31
+[07] survivors [{"id":97,"start":[50,50,0],"end":[100,50,0]},{"id":102,"start":[50,50,0],"end":[50,100,0]}]
+[07] CHECKS {"trimVoid":true,"postVoid":true,"twoSurvivors":true,"rightHalfH":true,"topHalfV":true,"survivorsNewIds":true}
+[07] PASS

@@ -1,0 +1,4 @@
+[08] A no-trim: originals [58,64] after [58,64] preserved true
+[08] B trim-one: after [109,140] untrimmed 109 kept? true | trimmed 103 churned? true
+[08] C trim([]): after [153,159] idsChanged false trim([]) max 31
+[filewrite] files/08-postTrim-id-semantics-08-id-semantics.json (437 bytes)

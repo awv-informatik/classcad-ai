@@ -1,0 +1,4 @@
+[01] A cross@(50,50): {"nSegs":[2,2],"intervals":[[0,0.49999999999999983],[0,0.49999999999999983]],"cut1":[49.999999999999986,49.999999999999986,0],"cut2":[49.999999999999986,50.000000000000014,0],"hit":true}
+[01] B skew@(40,20): {"nSegs":[2,2],"intervals":[[0,0.49999999999999994],[0,0.49999999999999994]],"cut1":[40,20,0],"cut2":[40,20,0],"hit":true}
+[filewrite] files/01-line-line-and-skew-exact-01-crosses.json (674 bytes)
+[01] PASS (exact intersection finding, 1e-9)

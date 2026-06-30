@@ -1,0 +1,23 @@
+{
+  "A": {
+    "preMax": 31,
+    "cut": [
+      49.999999999999986,
+      49.999999999999986,
+      0
+    ],
+    "postMax": 31,
+    "after": [
+      64,
+      70
+    ],
+    "originalsPreserved": true
+  },
+  "B": {
+    "postMax": 31,
+    "postErr": [],
+    "trimMax": 31,
+    "trimErr": [],
+    "unchanged": true
+  }
+}

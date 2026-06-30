@@ -1,0 +1,311 @@
+{
+  "goal": "Produce the canonical, numerically-proven LLM reference for sketch.preTrim — STEP 1 of preTrim->trim->postTrim. Document what is preTrim-SPECIFIC vs inherited from the shared split engine (splitCurve.md): (1) auto-computed mutual-intersection split points landing EXACTLY on analytic coordinates (line-line, line-circle, circle-circle, tangent, T-junction); (2) the STAGING model (SplittedCurves/NoneSplitted CC_Container nodes, original ids PRESERVED as copies — the opposite of splitCurve which destroys the source); (3) curveIds subset/omitted/empty semantics and NoneSplitted preservation; (4) the full preTrim->trim->postTrim round-trip including postTrim id behavior (clean restore vs trimmed-survivor new ids, Auto_Coinc, coalescing); (5) edge/degenerate (no-intersection [0,1], empty sketch [], overlaps, construction/rigidSet passthrough) and error/identity codes. Do NOT re-prove generic split-engine basics nailed in splitCurve.md (result shape, 1004/1006/1001 codes, solver independence of geometry) — cite it and spend the budget on preTrim-specific behavior.",
+  "methodsToCover": [
+    "sketch.preTrim",
+    "sketch.trim",
+    "sketch.postTrim",
+    "sketch.getPositions",
+    "sketch.getPoints",
+    "sketch.getGeometry",
+    "sketch.line",
+    "sketch.rectangle",
+    "sketch.circle",
+    "sketch.rigidSet"
+  ],
+  "questions": [
+    "Does preTrim return the exact same structured shape as splitCurve (Array<{sourceId, splittedCurves:[{id,interval}]}>), one entry per input curve in input order? (Inherited — cite splitCurve.md, confirm only in smoke.)",
+    "Do auto-computed splits land EXACTLY on analytic intersection coords for line-line (50,50,0), skew (40,20,0), line-circle (+/-50,0,0), circle-circle (30,+/-40,0), and tangent (0,50,0)? Numeric proof via getPositions.",
+    "Open curve crossed N times -> N+1 segments; closed circle crossed twice -> 2 arcs (N not N+1); tangent-once circle -> 1 whole-circle part with a length-1 wrapped interval (NOT [0,1])?",
+    "Are circle arc-part intervals turn-fractions from +X CCW that can go negative / wrap for the seam-straddling arc, asymmetric per circle?",
+    "Does a singly-tangent circle part fail getPositions (closed-circle rule, mL51) requiring getPoints->centerId, while open-arc parts support getPositions?",
+    "Does preTrim PRESERVE original curve ids (stage copies into SplittedCurves) rather than destroy them like splitCurve? Original id alive (mL31) mid-workflow via getPositions/getGeometry?",
+    "What staging containers appear after preTrim — exact class (CC_Container) and names (SplittedCurves, NoneSplitted), identified by NAME not id (ids vary run-to-run)? Both removed by postTrim?",
+    "Does getGeometry mid-workflow report ONLY original ids (staged segment ids invisible), making it useless for enumerating trim targets — must drive off preTrim.result?",
+    "curveIds: result.length === curveIds.length on success; excluded curves absent from result, parked in NoneSplitted (parent flips to container), preserved through the whole round-trip untouched?",
+    "curveIds excluded curve: does it still act as a CUTTER for the included subset, or is it fully ignored (not even a cutter)?",
+    "curveIds edge values: single id -> success no split (no partner); empty array [] -> treated as ALL (NOT none) — the empty-array trap?",
+    "Full round-trip: preTrim -> trim(remove segs) -> postTrim yields correct final geometry (L-profile from crossed lines). What ids do survivors get?",
+    "postTrim id semantics: no-trim postTrim = clean restore preserving ORIGINAL ids; trim then postTrim = trimmed-curve survivors get NEW ids while UNtrimmed participants keep original ids; trim([]) empty forces id-recreate path?",
+    "Does postTrim auto-create Auto_Coinc (CC_2DCoincidentConstraint) at the cut vertex and recreate Auto_H/Auto_V constraints with new ids (re-fetch by NAME)?",
+    "Do contiguous surviving segments of the same source coalesce into ONE curve on postTrim?",
+    "trim semantics: atomic fail on bogus id (mL51 code 1006, nothing trimmed); SILENT no-op when passed an ORIGINAL sourceId instead of a staged segment id (mL31, removes nothing) — contradicting SKETCHING; multiple trim() before one postTrim supported?",
+    "No-intersection / single curve / empty sketch: single [0,1] part with id===sourceId; empty sketch -> result:[] (NOT VOID/error); staging containers still created on empty?",
+    "Identity probe: id===sourceId && interval==[0,1] reliably means 'this curve was NOT split'? Split curves get NEW ids with sourceId=original.",
+    "Endpoint-touching vs crossing: T-junction (endpoint on midline) splits the through-curve only; shared corner / collinear tip-to-tip -> neither splits; only OPEN-interior (0<t<1) intersections cut?",
+    "Degenerate overlaps: identical fully-overlapping lines -> both [0,1] undetected (silent); partial collinear overlap -> each splits at the other's interior endpoint, DUPLICATING the overlap segment (silent hazard)?",
+    "3-4 curves through one point -> each splits into exactly 2, no spurious slivers (dedup of shared point)?",
+    "Construction line and rigidSet member: appear as [0,1] passthrough (id===sourceId), NOT split, NO error — but DO act as cutters for normal curves? (rigidSet: splitCurve errors mL51, preTrim is silent — contrast.)",
+    "preTrim twice without postTrim: silent overwrite (mL31), first batch of segment ids DIES (mL51), SplittedCurves child count does NOT accumulate? Does it leak an empty NoneSplitted0 container postTrim doesn't clean?",
+    "Error/identity codes (preTrim-applied): missing id->1004; nonexistent id->41+1006; part/plane id->1001 expects ['sketch']; bad/wrong-type curveIds element->1006/1001 expects ['sketch-curve']; one bad element atomic-fails whole call; result is VOID (Array.isArray guard)?",
+    "Solver independence: does preTrim work identically on a PLANELESS sketch (split AND the staging/restore round-trip), mL31?",
+    "Out-of-order calls: postTrim with nothing staged -> harmless no-op mL31; trim with nothing staged -> silent no-op mL31?",
+    "Duplicate ids in curveIds ([L1,L1,L2]) -> NOT de-duplicated, produces duplicate result entries (L1 split independently twice)?"
+  ],
+  "setupNotes": "Harness: export default async function (api, { snapshot, filewrite }) { ... } returning the full envelope { result, messages, maxLevel, structure, graphic }. ONE part.create per run (2nd returns VOID) — build multi-case scripts as ONE part + many sketches via the setup helper. Setup helper at /Users/dev/dev/awv/classcad-agent/workspace/training/2026-06-30_12-44-12_sketch-preTrim/scripts/_setup.mjs exports: makeSketch(api)->{partId,skId,planeId} (Top plane, solver-enabled), addSketch(api,partId,planeId,name), addPlanelessSketch(api,partId,name), line(api,skId,a,b), positions(api,id)->{startPos,endPos,pos,maxLevel}, approx/vecApprox, summarizeSplit(r), firstError(r). Z MUST be 0. getPositions works on line/arc ids, FAILS on circle ids (mL51) — use getPoints->centerId for whole-circle parts. maxLevel: <=31 success, 41-50 warning, >=51 error. On any preTrim error result is VOID — guard with Array.isArray(r.result). Container ids vary run-to-run — find SplittedCurves/NoneSplitted by NAME in structure.tree (class CC_Container). rigidSet via api.v1.sketch.rigidSet({ id:skId, geomIds:[a,b] }). Construction line via isConstruction:true on the line call. The five analyst lenses ALREADY RAN scripts 00,10-15,wf01-wf05 producing all the numbers cited here; these matrix scripts are the de-duplicated, ordered re-run set for the canonical doc — reuse existing script logic where it maps 1:1. Spatial claims need NUMERIC proof (getPositions/getPoints), never snapshots alone (SOUL.md). Cite splitCurve.md for inherited facts; do NOT re-prove result shape, code semantics, or geometry solver-independence beyond a single confirming smoke.",
+  "scripts": [
+    {
+      "n": 1,
+      "filename": "00-smoke-shape-and-staging.mjs",
+      "title": "Smoke: result shape identical to splitCurve + staging containers appear + original ids preserved",
+      "question": "Does preTrim return Array<{sourceId,splittedCurves:[{id,interval}]}> one-per-input-curve in order (inherited from splitCurve), AND create SplittedCurves/NoneSplitted CC_Container nodes while PRESERVING original ids (copies staged, not destroyed)?",
+      "category": "happy-path",
+      "setup": "makeSketch. Two crossing lines: L1 (0,0,0)->(100,100,0), L2 (0,100,0)->(100,0,0), cross at (50,50,0).",
+      "call": "const pre = await api.v1.sketch.preTrim({ id: skId }); const geoBefore=geo earlier; const geoAfter=await api.v1.sketch.getGeometry({id:skId}); scan structure.tree for class==='CC_Container'.",
+      "expected": "result is Array length 2, sourceIds [58,64] in input order, each splittedCurves has 2 parts intervals ~[0,0.5],[0.5,1]; maxLevel 31. structure.tree has two CC_Container nodes named exactly 'SplittedCurves' and 'NoneSplitted', direct children of sketch. getGeometry returns the ORIGINAL ids [58,64] both before and after preTrim (staged segs invisible); getPositions on original 58 still mL31 (alive). Cite splitCurve.md for shape — confirm here, do not re-prove.",
+      "measurement": "result.length===2; sourceIds array; container names from tree; getGeometry.lines before vs after; getPositions(58).maxLevel"
+    },
+    {
+      "n": 2,
+      "filename": "01-line-line-and-skew-exact.mjs",
+      "title": "Line-line cross at (50,50,0) and skew cross at (40,20,0) land EXACTLY on analytic intersection",
+      "question": "Do auto-computed splits land on the exact analytic intersection coordinate (~1e-14) for an axis-symmetric cross AND a skew cross (proving true 2D chord-lerp, not axis luck)?",
+      "category": "spatial",
+      "setup": "makeSketch; sketch A: L1 (0,0,0)->(100,100,0), L2 (0,100,0)->(100,0,0). addSketch B: L3 (0,0,0)->(80,40,0) slope .5, L4 (0,40,0)->(80,0,0) slope -.5, analytic (40,20,0).",
+      "call": "preTrim each sketch; getPositions on the shared cut vertex of each split pair (seg[0].endPos).",
+      "expected": "A: both split at interval 0.5, shared vertex reads (50,50,0) to ~1e-14. B: both split at 0.5, vertex reads (40,20,0) exactly. Confirms exact true-2D intersection finder.",
+      "measurement": "endPos of first seg of each curve vs analytic; vecApprox tolerance 1e-9"
+    },
+    {
+      "n": 3,
+      "filename": "02-line-circle-2pt.mjs",
+      "title": "Line through circle: 3 line segments + 2 circle arcs, endpoints at (-50,0,0),(+50,0,0)",
+      "question": "Open line crossing a circle twice -> N+1=3 line segments cut at (+/-50,0,0); circle -> 2 arcs (N, not N+1) with arc endpoints on the same two points; do arc-part ids support getPositions?",
+      "category": "spatial",
+      "setup": "makeSketch; circle c=(0,0,0) r=50 (getPoints->centerId for the circle id); line (-100,0,0)->(100,0,0).",
+      "call": "preTrim; getPositions on the 3 line segs and the 2 arc segs.",
+      "expected": "Line entry: 3 segs intervals [0,0.25],[0.25,0.75],[0.75,1], cut vertices exactly (-50,0,0) and (+50,0,0). Circle entry: 2 arc segs (getPositions WORKS on arc ids), endpoints land at (+/-50,~0,0). Confirms open=N+1, closed-crossed-twice=2 arcs.",
+      "measurement": "line seg count + cut coords; circle arc count; arc endpoint coords via getPositions"
+    },
+    {
+      "n": 4,
+      "filename": "03-circle-circle-intervals.mjs",
+      "title": "Circle-circle: each circle -> 2 arcs at (30,+/-40,0); intervals are turn-fractions, can go negative/wrap",
+      "question": "Two circles intersecting at 2 points -> each splits into 2 arcs with endpoints exactly (30,+/-40,0); are intervals turn-fractions from +X CCW that go NEGATIVE for the seam-straddling arc and are ASYMMETRIC per circle (NOT [0,0.5] halves)?",
+      "category": "curveids",
+      "setup": "makeSketch; C1 (0,0,0) r50, C2 (60,0,0) r50; analytic intersections (30,40,0),(30,-40,0).",
+      "call": "preTrim; getPositions on all 4 arc segs; record their intervals.",
+      "expected": "Each circle -> 2 arcs, endpoints read (30,+/-40,0) exactly. Intervals e.g. C1 [-0.1464,0.1464] & [0.1464,0.8536]; C2 [-0.3536,0.3536] & [0.3536,0.6464] — negative-start for seam straddler, halves differ per circle. Never infer arc endpoints from interval — read getPositions.",
+      "measurement": "arc endpoint coords; the 4 interval pairs (note sign + asymmetry)"
+    },
+    {
+      "n": 5,
+      "filename": "04-tangent-line-circle.mjs",
+      "title": "Tangent line-circle at (0,50,0): line SPLITS, circle stays ONE whole-circle part with wrapped interval, getPositions fails",
+      "question": "Single tangent contact: does the OPEN line still split at (0,50,0) (2 segs), while the circle stays ONE part with interval a length-1 window centered on the contact param (NOT [0,1]) that is a CLOSED circle (getPoints->centerId, getPositions mL51)?",
+      "category": "spatial",
+      "setup": "makeSketch; circle (0,0,0) r50; line y=50 (-100,50,0)->(100,50,0), tangent at (0,50,0).",
+      "call": "preTrim; getPositions on line segs; getPositions on the circle part (expect mL51) then getPoints->centerId.",
+      "expected": "Line: 2 segs [0,0.5],[0.5,1], shared vertex (0,50,0) exact. Circle: 1 part interval ~[-0.75,0.25] (span 1.0 = whole loop, centered on tangent param 0.25); getPositions FAILS mL51; getPoints returns centerId at (0,0,0). Caller hazard: single splittedCurve is NOT automatically [0,1].",
+      "measurement": "line cut vertex; circle part interval; getPositions.maxLevel on circle part (51); getPoints centerId coord"
+    },
+    {
+      "n": 6,
+      "filename": "05-curveids-subset.mjs",
+      "title": "curveIds subset: result.length==curveIds.length, excluded curve absent from result and parked in NoneSplitted",
+      "question": "With curveIds=[L1,L2] on a 3-line sketch (L3 excluded but geometrically crossing): is result length 2, L3 absent from result, L3 NOT split (parent flips to NoneSplitted container), and the subset split exactly at their mutual crossing?",
+      "category": "curveids",
+      "setup": "makeSketch; 3 lines: L1 horizontal y=50, L2 vertical x=50, L3 diagonal (0,0,0)->(100,100,0), all through (50,50,0). curveIds=[L1,L2].",
+      "call": "preTrim({id,curveIds:[L1,L2]}); inspect result; getPositions(L3); find L3 node parent in structure.tree.",
+      "expected": "result.length===2 (sources [58,64]); L3 ABSENT from result; L1,L2 split at (50,50,0) interval 0.5; getPositions(L3) unchanged [0,0,0]->[100,100,0] mL31 (not split); L3 node parent == NoneSplitted container id. getGeometry mid-workflow misleadingly shows [58,64] only.",
+      "measurement": "result.length + sourceIds; L3 positions; L3 parent id vs NoneSplitted id"
+    },
+    {
+      "n": 7,
+      "filename": "06-curveids-cutter-and-edges.mjs",
+      "title": "Excluded curve does NOT act as cutter; single-id and empty-array curveIds edge semantics",
+      "question": "Does an excluded curve fail to cut even included curves it crosses? Single-id curveIds -> success no split? Empty array [] -> treated as ALL (the empty-array trap), NOT none?",
+      "category": "curveids",
+      "setup": "makeSketch sketch A: 3 lines mutually crossing at one point, curveIds=[H,V] exclude D — check H,V split ONLY at their mutual point not at D. addSketch B: 1 line, curveIds=[L1]. addSketch C: 2 crossing lines, curveIds=[].",
+      "call": "preTrim A with subset; preTrim B single; preTrim C empty array.",
+      "expected": "A: H,V each split into exactly 2 at their mutual crossing only (excluded D is NOT a cutter — confirm no extra cut from D). B: 1 entry single [0,1] no split (no partner), both listed/unlisted curves land NoneSplitted. C: empty [] behaves as ALL — both lines split (2 entries, SplittedCurves populated). Empty array != skip.",
+      "measurement": "A seg counts + cut coords; B part count [0,1]; C result.length + SplittedCurves children"
+    },
+    {
+      "n": 8,
+      "filename": "07-canonical-roundtrip-Lprofile.mjs",
+      "title": "Canonical preTrim->trim->postTrim L-profile; survivor ids are BRAND-NEW; trim/postTrim return VOID",
+      "question": "Full round-trip on two crossed lines: trim the two overhang segments, postTrim — does it yield a clean L (both overhangs gone, exact coords), and do survivors get BRAND-NEW ids (not originals, not staged segs)? trim/postTrim return VOID mL31?",
+      "category": "workflow",
+      "setup": "makeSketch; h (0,50,0)->(100,50,0), v (50,0,0)->(50,100,0), cross (50,50,0).",
+      "call": "pre=preTrim; trim({id,curveIds:[leftHalfOf_h, bottomHalfOf_v]}); postTrim; getGeometry + getPositions on survivors.",
+      "expected": "preTrim: each splits at 0.5, seg endpoints exact (e.g. 80=(0,50)->(50,50), 84=(50,50)->(100,50)). trim & postTrim return result VOID, mL31. Final geometry = 2 lines with NEW ids (~97,102) NOT 58/64 NOT 84/92; positions (50,50)->(100,50) and (50,50)->(50,100). Clean L.",
+      "measurement": "trim/postTrim result===null + maxLevel; final getGeometry.lines ids; survivor positions"
+    },
+    {
+      "n": 9,
+      "filename": "08-postTrim-id-semantics.mjs",
+      "title": "postTrim id semantics: no-trim = clean restore (original ids); trim+postTrim = trimmed survivors NEW ids, untrimmed keep original; trim([]) forces recreate",
+      "question": "Three postTrim paths: (a) no trim() -> original ids preserved byte-identical; (b) trim(real seg)+postTrim -> trimmed curve survivor NEW id, untrimmed participant keeps ORIGINAL id; (c) trim([]) empty -> still routes recreate path (ids change)?",
+      "category": "workflow",
+      "setup": "makeSketch sketch A: 2 crossed lines, preTrim then postTrim (no trim). addSketch B: 2 crossed lines, preTrim, trim one half of one line, postTrim. addSketch C: 2 crossed lines, preTrim, trim([]), postTrim.",
+      "call": "Run the three paths; getGeometry + getPositions before/after each.",
+      "expected": "A: getGeometry returns ORIGINAL ids (58,64) unchanged, exact original coords — perfect restore. B: trimmed line's survivor gets NEW id; the untrimmed line keeps its ORIGINAL id. C: trim([]) no-op geometrically but survivors come back with NEW ids (recreate path). So 'all ids change on postTrim' is too strong — only trimmed curves churn.",
+      "measurement": "A original ids preserved; B which ids new vs preserved; C ids changed despite empty trim"
+    },
+    {
+      "n": 10,
+      "filename": "09-postTrim-constraints-coalesce.mjs",
+      "title": "postTrim recreates Auto_H/Auto_V with new ids + adds Auto_Coinc at cut vertex; contiguous survivors coalesce",
+      "question": "After trim+postTrim of the L-profile, does structure show Auto_H/Auto_V recreated with NEW ids plus a new CC_2DCoincidentConstraint named Auto_Coinc at the corner? And do two contiguous surviving segments of one source coalesce into ONE curve?",
+      "category": "workflow",
+      "setup": "makeSketch sketch A: L-trim from script 08b, scan structure.tree for *Constraint classes before and after. addSketch B: one line (0,50,0)->(120,50,0) crossed by verticals at x=40,80 (3 segments), trim ONLY the left segment.",
+      "call": "A: preTrim->trim->postTrim, diff constraint classes/ids/names. B: preTrim->trim(leftSeg)->postTrim; getGeometry + getPositions on survivor.",
+      "expected": "A: pre-existing Auto_H/Auto_V gone, fresh Auto_H0/Auto_V0 with NEW ids, PLUS new CC_2DCoincidentConstraint name 'Auto_Coinc' at (50,50). Re-fetch constraints by NAME (ids change every postTrim). B: surviving middle+right (contiguous) MERGE into ONE line spanning (40,50)->(120,50), not two.",
+      "measurement": "constraint class+name+id diff; Auto_Coinc presence; B survivor count==1 + span coords"
+    },
+    {
+      "n": 11,
+      "filename": "10-trim-semantics-footguns.mjs",
+      "title": "trim footguns: atomic fail on bogus id (1006, nothing trimmed); SILENT no-op on original sourceId; multiple trim() before one postTrim",
+      "question": "Does trim atomic-fail (mL51 1006) on a bogus id leaving the valid seg intact; SILENTLY no-op (mL31, removes nothing) when passed an ORIGINAL sourceId instead of a staged seg id (contradicting SKETCHING); and support multiple trim() calls before one postTrim?",
+      "category": "error-case",
+      "setup": "makeSketch sketch A: 2 crossed lines, preTrim. addSketch B: 2 crossed lines, preTrim. addSketch C: one line crossed by two verticals (3 segs), preTrim.",
+      "call": "A: trim({curveIds:[validSeg, 999999]}); then postTrim, check survivors. B: trim({curveIds:[originalLineId]}); postTrim, check both lines survive. C: two separate trim() calls each removing a different end seg; postTrim.",
+      "expected": "A: mL51 code 1006 'invalid id' + a level-41 ToId warning; the valid seg NOT trimmed (atomic); postTrim recovers. B: mL31 NO error, removes NOTHING — both originals intact after postTrim (FOOTGUN, contradicts SKETCHING 'trim only accepts segment ids'). C: incremental trims work; final survivor = the un-trimmed middle seg, exact coords.",
+      "measurement": "A maxLevel+code, survivor presence; B maxLevel + both lines alive; C final survivor coords"
+    },
+    {
+      "n": 12,
+      "filename": "11-no-intersection-empty-identity.mjs",
+      "title": "No-intersection [0,1] with id===sourceId; empty sketch -> result:[]; single curve success; identity probe",
+      "question": "Parallel non-crossing lines and single isolated line -> single [0,1] part with id===sourceId (preTrim REUSES id for unsplit — opposite of splitCurve which re-issues)? Empty sketch -> result:[] (NOT VOID); are staging containers still created on empty?",
+      "category": "degenerate",
+      "setup": "makeSketch sketch A: two parallel non-crossing lines. addSketch B: one isolated line. addPlanelessOrSketch C: empty (no curves).",
+      "call": "preTrim each; check splittedCurves[0].id vs sourceId; check result type on empty; scan tree for containers on empty.",
+      "expected": "A: each entry single [0,1], id===sourceId, positions = original endpoints, mL31. B: 1 entry single [0,1] id unchanged (preTrim does NOT require >=2 curves). C: result===[] (Array, empty — NOT null/VOID), messages [], mL31, and SplittedCurves/NoneSplitted containers STILL created. Rule: id===sourceId && interval==[0,1] => curve was NOT split.",
+      "measurement": "id===sourceId boolean per case; empty result Array.isArray + length 0; containers on empty"
+    },
+    {
+      "n": 13,
+      "filename": "12-endpoint-vs-crossing.mjs",
+      "title": "T-junction splits through-curve only; shared corner / collinear tip-to-tip -> neither splits (only open-interior cuts)",
+      "question": "Does an intersection cut a curve ONLY when it lands in that curve's open interior (0<t<1)? T-junction: through-line splits, touching line [0,1] with id reused. Shared corner and collinear tip-to-tip: neither splits.",
+      "category": "spatial",
+      "setup": "makeSketch sketch A (T): L1 (0,0,0)->(100,0,0); L2 (50,0,0)->(50,80,0), L2 start on L1 interior. addSketch B (corner): both lines start at same point. addSketch C (collinear tip): (0,0,0)-(50,0,0) meets (50,0,0)-(100,0,0).",
+      "call": "preTrim each; check split counts + id reuse.",
+      "expected": "A: L1 splits 2 at (50,0,0); L2 NOT split, single [0,1], id REUSED (sourceId===splittedCurves[0].id). B: both [0,1] (mutual endpoint not interior). C: both [0,1] (shared endpoint only). Confirms endpoint-coincident intersections produce no cut; through-curve mid-hit does.",
+      "measurement": "A L1 seg count + L2 id reuse; B,C both [0,1]"
+    },
+    {
+      "n": 14,
+      "filename": "13-overlaps-and-multipoint.mjs",
+      "title": "Degenerate overlaps (identical / partial collinear duplicate segment) + 3-4 curves through one point, no slivers",
+      "question": "Identical fully-overlapping lines -> both [0,1] undetected (silent)? Partial collinear overlap -> each splits at the other's interior endpoint, DUPLICATING the overlap segment? 3-4 lines through one point -> each splits into exactly 2, no spurious slivers?",
+      "category": "degenerate",
+      "setup": "makeSketch A: two identical lines (0,0,0)->(100,0,0). addSketch B: (0,0,0)-(60,0,0) and (40,0,0)-(100,0,0), overlap [40,60]. addSketch C: 3 lines through (50,50,0). addSketch D: 4 lines (asterisk) through one point.",
+      "call": "preTrim each; getPositions on all parts; detect zero-length slivers (start==end).",
+      "expected": "A: both [0,1], NOT detected as intersecting — duplicate survives silently (HAZARD: no dedup/flag). B: line1 cuts at x=40 (t~0.667), line2 at x=60 (t~0.333); overlap (40,0)->(60,0) DUPLICATED as both line1.seg2 and line2.seg1 (silent). C: each -> exactly 2 at (50,50,0), no extra cuts. D: each -> exactly 2. NO zero-length slivers anywhere (preTrim's auto points are dedup'd per curve, unlike splitCurve).",
+      "measurement": "A both [0,1]; B cut params + duplicate-segment coords; C/D seg counts==2; sliver detector empty"
+    },
+    {
+      "n": 15,
+      "filename": "14-construction-rigidset-passthrough.mjs",
+      "title": "Construction line and rigidSet member: [0,1] passthrough (no error) but STILL act as cutters; preTrim silent where splitCurve errors",
+      "question": "Does a construction line (isConstruction:true) and a rigidSet member appear as [0,1] uncut (id===sourceId, no error/message) while STILL cutting normal curves they cross? rigidSet: splitCurve errors mL51, preTrim is silent — confirm the contrast.",
+      "category": "edge-case",
+      "setup": "makeSketch A: construction line (isConstruction:true) crossing a normal line at (50,50,0). addSketch B: rigidSet({id,geomIds:[R1,R2]}) of 2 lines, plus a free line crossing both at distinct interior points.",
+      "call": "preTrim each; check construction/rigid members [0,1] + normal/free curve split; check no skip-warning message.",
+      "expected": "A: construction line single [0,1] id unchanged; the NORMAL line it crosses SPLITS 2 at (50,50,0); mL31 no message. B: both rigid members [0,1] uncut ids unchanged; the free line splits into 3 (crosses R1,R2 at two interior points); mL31, NO 'part of rigidset' error (splitCurve errors mL51 here — contrast). Non-trimmable = preserved-whole-but-still-cuts-others; detection only via id===sourceId, no diagnostic.",
+      "measurement": "construction/rigid parts [0,1] + id reuse; normal/free curve seg count; absence of warning messages"
+    },
+    {
+      "n": 16,
+      "filename": "15-preTrim-twice-overwrite-leak.mjs",
+      "title": "preTrim twice without postTrim: silent overwrite, first seg ids DIE, child count does not accumulate, NoneSplitted0 leak",
+      "question": "Second preTrim without postTrim: silent (mL31) overwrite issuing fresh seg ids; do the first batch ids go mL51 (dead)? Does SplittedCurves child count stay constant (not double)? Does a stale empty NoneSplitted0 container leak that postTrim does NOT clean?",
+      "category": "degenerate",
+      "setup": "makeSketch; 2 crossed lines.",
+      "call": "pre1=preTrim; record seg ids + SplittedCurves child count; pre2=preTrim (no postTrim); record new seg ids; getPositions on pre1 seg ids (expect mL51); postTrim; scan tree for leftover NoneSplitted0.",
+      "expected": "pre2 mL31, fresh seg ids; pre1 seg ids now getPositions mL51 (DEAD — never cache across re-preTrim). SplittedCurves children stays 4 (not 8). After postTrim a stale empty container named 'NoneSplitted0' remains (cosmetic leak; final geometry + original ids intact). TODO-worthy.",
+      "measurement": "pre1 vs pre2 seg id sets; getPositions(pre1 seg).maxLevel==51; SplittedCurves child count constant; NoneSplitted0 presence post-postTrim"
+    },
+    {
+      "n": 17,
+      "filename": "16-error-codes-and-void-guard.mjs",
+      "title": "Error/identity codes: missing id 1004; nonexistent 41+1006; part/plane id 1001 ['sketch']; bad curveIds 1006/1001 ['sketch-curve']; atomic VOID",
+      "question": "Confirm the preTrim-applied 1004/1006/1001 code map and that any error makes result VOID (Array.isArray guard), one bad curveIds element atomic-fails the whole call, duplicate curveIds are NOT de-duplicated?",
+      "category": "error-case",
+      "setup": "makeSketch (need a valid skId, partId, planeId, a pointId, and a valid curve L1,L2).",
+      "call": "preTrim({}) ; preTrim({id:999999}); preTrim({id:partId}); preTrim({id:planeId}); preTrim({id:skId,curveIds:[999999]}); preTrim({id:skId,curveIds:[skId]}); preTrim({id:skId,curveIds:[pointId]}); preTrim({id:skId,curveIds:[L1,999999]}); preTrim({id:skId,curveIds:[L1,L1,L2]}).",
+      "expected": "no id->mL51 1004. id 999999->mL51 41+1006 'invalid id'. id partId/planeId->mL51 1001 expects ['sketch']. curveIds 999999->1006; curveIds skId/pointId->1001 expects ['sketch-curve']; [L1,999999]->whole call atomic-fails 1006. All failures: result NOT an array (VOID) — Array.isArray(r.result)===false. [L1,L1,L2]->mL31 but NOT de-duplicated: 3 result entries (L1 split twice into different ids). Cite splitCurve.md for shared code semantics; this confirms preTrim's id/curveIds type lists.",
+      "measurement": "maxLevel+code+message per case; Array.isArray on failures; duplicate-curveIds entry count"
+    },
+    {
+      "n": 18,
+      "filename": "17-planeless-and-out-of-order.mjs",
+      "title": "Solver independence (planeless full round-trip) + out-of-order postTrim/trim are harmless no-ops",
+      "question": "Does preTrim split AND the staging/restore round-trip work identically on a PLANELESS sketch (mL31)? Are postTrim-with-nothing-staged and trim-with-nothing-staged harmless no-ops (mL31)?",
+      "category": "solver",
+      "setup": "addPlanelessSketch A: 2 crossed lines (dead solver). makeSketch B: 2 lines, call postTrim/trim BEFORE any preTrim.",
+      "call": "A: preTrim (split at (50,50,0)) -> postTrim no-trim restore, check original ids preserved. B: postTrim({id}) with nothing staged; trim({id,curveIds:[someLine]}) with nothing staged; getGeometry unchanged.",
+      "expected": "A: planeless preTrim splits exactly at (50,50,0) mL31, and postTrim cleanly restores original ids — intersection finding AND staging/restore are solver-independent (matches splitCurve.md geometry independence, adds round-trip). B: postTrim no-preTrim -> mL31 no-op; trim no-preTrim -> mL31 silent no-op, geometry untouched.",
+      "measurement": "A planeless cut coord + restored ids; B both no-ops mL31 + geometry unchanged"
+    }
+  ],
+  "spatialClaims": [
+    {
+      "claim": "Line-line cross splits both lines exactly at (50,50,0); skew cross at (40,20,0) — exact analytic intersection (~1e-14), proving true 2D chord-lerp not axis luck.",
+      "howToProve": "getPositions on the shared first-segment endpoint of each split pair; vecApprox vs analytic at 1e-9."
+    },
+    {
+      "claim": "Line through circle: line cut at exactly (-50,0,0) and (+50,0,0) (3 segs); circle splits into 2 arcs whose endpoints land on those same two points.",
+      "howToProve": "getPositions on the 3 line segs (cut vertices) and on the 2 arc-segment ids (arc ids support getPositions); compare to (+/-50,0,0)."
+    },
+    {
+      "claim": "Circle-circle (C1 r50 @origin, C2 r50 @ (60,0)) splits each into 2 arcs with endpoints exactly (30,40,0) and (30,-40,0); arc intervals are turn-fractions that go NEGATIVE for the seam-straddling arc and are asymmetric per circle.",
+      "howToProve": "getPositions on all 4 arc segs vs (30,+/-40,0); record the 4 interval pairs to show negative-start + per-circle asymmetry."
+    },
+    {
+      "claim": "Tangent line-circle at (0,50,0): the open line SPLITS (2 segs sharing (0,50,0)); the circle stays ONE whole-circle part with a length-1 wrapped interval ~[-0.75,0.25] (NOT [0,1]) and FAILS getPositions (mL51) — read center via getPoints->centerId at (0,0,0).",
+      "howToProve": "getPositions on line segs for the cut vertex; getPositions on the circle part expecting mL51; getPoints->centerId for the center."
+    },
+    {
+      "claim": "T-junction: only the through-curve (endpoint lands on its interior) splits at (50,0,0); the touching curve is returned whole [0,1] with id reused. Shared corner / collinear tip-to-tip: neither splits. Only open-interior (0<t<1) intersections cut.",
+      "howToProve": "preTrim; getPositions confirms through-curve cut vertex (50,0,0); assert touching curve splittedCurves length 1 with id===sourceId; corner/tip cases both [0,1]."
+    },
+    {
+      "claim": "Partial collinear overlap ((0,0)-(60,0) and (40,0)-(100,0)) cuts each line at the OTHER's interior endpoint (x=40 and x=60), DUPLICATING the overlap segment (40,0)->(60,0) as parts of both source curves; identical fully-overlapping lines are NOT detected (both [0,1]).",
+      "howToProve": "getPositions on all parts: show two distinct parts both spanning (40,0)->(60,0); identical-lines case both single [0,1]."
+    },
+    {
+      "claim": "Canonical L-profile: preTrim cuts h and v at (50,50,0); after trim+postTrim the survivors span (50,50)->(100,50) and (50,50)->(50,100) with BRAND-NEW ids, and postTrim adds Auto_Coinc at (50,50).",
+      "howToProve": "getPositions on final survivor ids vs expected coords; getGeometry shows new ids; scan structure.tree for CC_2DCoincidentConstraint named Auto_Coinc."
+    },
+    {
+      "claim": "Construction line and rigidSet member are returned [0,1] uncut (id===sourceId) yet STILL cut normal curves they cross at the exact intersection (e.g. (50,50,0)); no skip warning emitted.",
+      "howToProve": "getPositions confirms the normal/free curve's cut vertex; assert construction/rigid parts length 1 id===sourceId and messages contain no skip/rigidset warning."
+    }
+  ],
+  "coverageChecklist": [
+    "Result shape identical to splitCurve confirmed once in smoke (cite splitCurve.md, not re-proven) [01]",
+    "Auto-computed splits land EXACTLY on analytic coords: line-line, skew, line-circle, circle-circle, tangent [02-05]",
+    "Open N-cross -> N+1 segs; closed circle crossed-twice -> 2 arcs; tangent-once -> 1 whole-circle part [03,05]",
+    "Circle arc intervals are turn-fractions, negative/wrapped, asymmetric per circle [04]",
+    "Whole-circle part fails getPositions (mL51) -> getPoints->centerId; arc parts support getPositions [03,05]",
+    "Original ids PRESERVED (copies staged) — opposite of splitCurve destroy [01,12]",
+    "Staging containers SplittedCurves/NoneSplitted (CC_Container), found by NAME, removed by postTrim [01,16]",
+    "getGeometry mid-workflow shows only original ids; drive trim off preTrim.result [01,06]",
+    "curveIds subset: result.length==curveIds.length, excluded absent + parked in NoneSplitted + preserved [06]",
+    "Excluded curve is NOT a cutter; single-id no-split; empty-array==ALL trap [07]",
+    "Full preTrim->trim->postTrim L-profile, survivors get NEW ids, trim/postTrim VOID [08]",
+    "postTrim id semantics: no-trim clean restore (original ids); trimmed survivors new, untrimmed keep; trim([]) recreate [09]",
+    "postTrim creates Auto_Coinc + recreates Auto_H/Auto_V new ids (re-fetch by NAME); contiguous survivors coalesce [10]",
+    "trim footguns: atomic 1006 on bogus; SILENT no-op on original sourceId (contradicts SKETCHING); multi-trim supported [11]",
+    "No-intersection/single -> [0,1] id===sourceId; empty sketch -> result:[] not VOID; containers still made [12]",
+    "Endpoint-touching vs crossing: only open-interior intersections cut [13]",
+    "Degenerate overlaps duplicate silently; 3-4 through one point -> 2 each, no slivers [14]",
+    "Construction/rigidSet passthrough [0,1] but still cut others; rigidSet silent vs splitCurve error [15]",
+    "preTrim twice: overwrite, old seg ids die mL51, child count constant, NoneSplitted0 leak [16]",
+    "Error codes 1004/1006/1001 with id->['sketch'] curveIds->['sketch-curve']; VOID guard; duplicate curveIds not deduped [17]",
+    "Solver-independent (planeless round-trip); out-of-order postTrim/trim harmless no-ops [18]"
+  ],
+  "openRisks": [
+    "CONTRADICTION (must resolve in doc): workflow-integration lens found trim(originalSourceId) is a SILENT no-op (mL31, removes nothing), directly contradicting SKETCHING's 'trim only accepts preTrim segment ids — not original geometry ids.' Script 10 (11-trim-...) re-confirms; doc must state trim ACCEPTS but silently ignores non-staged-segment ids. Flag for TODO/SKETCHING fix.",
+    "CONTRADICTION (resolve): source GUIDE says construction lines and rigidSet members are 'not trimmable' implying passive; all lenses agree they appear as [0,1] passthrough AND still act as CUTTERS for normal curves — the guide omits the cutter role. Also rigidSet: splitCurve ERRORS (mL51 'part of rigidset') while preTrim is SILENT — opposite behaviors for the same geometry; doc must contrast explicitly.",
+    "NUMBERING NOTE: analyst lenses each independently named scripts 00/10-15 etc., so cited concrete ids (58,64,80,84,97,102,...) come from DIFFERENT runs and will differ in the consolidated re-run. Treat ids as illustrative; assert on RELATIVE facts (id===sourceId, new vs original, mL51 dead) and exact COORDS, never absolute id values.",
+    "LEAK (verify + TODO): curveids-staging lens found double-preTrim leaves an empty NoneSplitted0 that postTrim does not clean (then NoneSplitted1...). Edge lens did not independently confirm the leak name. Script 15 must reproduce and confirm the exact leaked container name before documenting; mark MEDIUM TODO.",
+    "DOC GAP: curveIds:[] == ALL (not none) is surprising and unbacked by the upstream API doc; confirmed by 3 lenses. Worth an explicit doc warning + LOW TODO. Same for empty trim([]) forcing the id-recreate path (untrimmed-curve ids change) — only the no-trim postTrim is a true id-preserving restore.",
+    "SILENT-HAZARD cluster to surface prominently: identical/overlapping collinear curves are NOT detected/deduplicated and partial overlaps DUPLICATE the overlap segment, all at mL31 with no warning. preTrim gives the caller zero diagnostic for skipped (construction/rigid), overwritten (double preTrim), or duplicated geometry — the only signal is inspecting id===sourceId / part coords.",
+    "getPositions on whole-circle (closed) parts fails mL51 — a singly-tangent circle returns ONE part that is a closed circle, so 'single splittedCurve' must NOT be assumed [0,1] nor readable via getPositions; always branch on getPoints->centerId for circle parts. Ensure scripts 03/05 don't crash the harness on the mL51 and capture it as data."
+  ]
+}

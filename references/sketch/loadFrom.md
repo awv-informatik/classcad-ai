@@ -1,8 +1,9 @@
 # sketch.loadFrom
 
-<!-- UNVERIFIED: ClassCAD server was unreachable during training (2026-04-13). All content derived from source API docs + patterns from sketch.copyFrom training. Needs live verification. -->
+<!-- Verified live 2026-07-01 (data+base64 and file paths). url path documented but not live-tested (needs a server). -->
 
 Loads sketch geometry from an OFB file (by URL, file path, or inline data) and copies it into an existing sketch.
+Like `copyFrom`, but the source is a file/data blob rather than an in-memory sketch.
 
 ## Prerequisites
 
@@ -26,14 +27,17 @@ Loads sketch geometry from an OFB file (by URL, file path, or inline data) and c
 
 ## Return Value
 
-`VOID` (null). Check `maxLevel` for errors.
+`VOID` (null), `maxLevel 31` on success. Check `maxLevel`/`messages` for errors.
 
-## Behavior (from docs — UNVERIFIED)
+## Behavior (verified 2026-07-01)
 
-- Copies sketch geometry from the OFB file's sketch into the destination sketch.
-- Similar to `copyFrom` but loads from a file/data source instead of an in-memory sketch.
-- When the OFB contains multiple sketches, use the `name` param to select which one. Without `name`, the first sketch is used.
-- Likely merges geometry (does not replace), consistent with `copyFrom` behavior — but needs verification.
+- Copies the geometry of ONE sketch from the OFB into the destination sketch.
+- **Merges, does not replace** — the destination keeps its existing geometry and gains the loaded geometry (verified: a dest with 1 line → 5 lines after loading a 4-line rectangle).
+- **`name` selects which sketch** to load from a multi-sketch OFB (`name:'B'` → the rectangle; `name:'S'` → the circle). Verified.
+- **Without `name`, exactly one sketch is loaded — the "first found in the file stream", which is NOT necessarily creation order.** In testing, an OFB saved with sketch 'S' (created first) then 'B' loaded 'B' when no name was given. **Always pass `name` if the OFB has more than one sketch** — don't rely on ordering.
+- Verified with both `data` (base64) and `file` (absolute local path). `file` must be reachable by the ClassCAD **process** (server-side), not the client — since the worker runs locally here, an absolute workspace path works.
+
+Produce the OFB with `common.save({ format: 'OFB', encoding: 'base64' })` → `result.content` is the base64 string (`result` also carries `success`). This saves the WHOLE drawing (all sketches on all parts); `loadFrom` then extracts one sketch by `name`.
 
 ## Usage Pattern
 
@@ -55,11 +59,22 @@ await api.v1.sketch.loadFrom({
 })
 ```
 
-## Gotchas (inferred — UNVERIFIED)
+## Gotchas (verified 2026-07-01)
 
-- Unlike `copyFrom` which takes `toCopyId` (an in-memory sketch), `loadFrom` requires `partId` in addition to `id`. Both are mandatory.
-- The `encoding`/`compression` params must match how the data was saved. If you saved with `encoding: 'base64'`, you must load with `encoding: 'base64'`.
-- `file` paths must be reachable by the ClassCAD process, not the client.
+- Unlike `copyFrom` (which takes `toCopyId`, an in-memory sketch), `loadFrom` requires **`partId` in addition to `id`** — both mandatory. Omitting `partId` → error 1004.
+- The `encoding`/`compression` params must match how the data was saved. Saved with `encoding: 'base64'` → load with `encoding: 'base64'` (decode happens before decompression).
+- `file` paths must be reachable by the ClassCAD **process** (server-side), not the client.
+- Without `name`, ordering is not guaranteed to be creation order — pass `name` for a deterministic result on multi-sketch OFBs.
+- Returns no IDs for the loaded elements (like `copyFrom`). Diff `getGeometry` before/after if you need them.
+
+## Common Errors (verified)
+
+| Code | Message | Cause |
+|------|---------|-------|
+| 1004 | "The parameter \"partId\" must be provided in the api call!" | `partId` omitted |
+| 1004 | "Either data, file or url must be provided to load content from." | No source given |
+| 51 (code 0) | "The sketch with name \"NOPE\" couldn't be found in the of1 file stream" | `name` not present in the OFB — nothing loaded |
+| 51 (code 0) | "Evaluation error in SketcherHelper.LoadSketch: Reading object failed…" | `data` is not valid OFB content |
 
 ## Related
 

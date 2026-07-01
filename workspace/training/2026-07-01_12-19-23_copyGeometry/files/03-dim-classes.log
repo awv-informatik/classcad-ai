@@ -1,0 +1,4 @@
+[filewrite] files/03-dim-classes-03-dim-classes.json (460 bytes)
+[03] before     {"CC_DimensionSet":1,"CC_SketchDimensionSet":1,"CC_2DRadiusConstraint":1,"CC_RadialFeatureDimension":1}
+[03] afterTrue  {"CC_DimensionSet":1,"CC_SketchDimensionSet":1,"CC_2DRadiusConstraint":2,"CC_RadialFeatureDimension":1}
+[03] afterFalse {"CC_DimensionSet":1,"CC_SketchDimensionSet":1,"CC_2DRadiusConstraint":2,"CC_RadialFeatureDimension":1}

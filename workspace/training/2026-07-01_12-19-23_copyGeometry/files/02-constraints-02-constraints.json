@@ -1,0 +1,104 @@
+{
+  "responseKeys": {
+    "true": [
+      "result",
+      "messages",
+      "maxLevel",
+      "structure",
+      "graphic"
+    ],
+    "false": [
+      "result",
+      "messages",
+      "maxLevel",
+      "structure",
+      "graphic"
+    ]
+  },
+  "hasStructure": {
+    "true": true,
+    "false": true
+  },
+  "base": {
+    "CC_Line": 2,
+    "CC_Circle": 0,
+    "CC_Arc": 0,
+    "CC_Point": 4,
+    "constraint": 7,
+    "dimension": 3,
+    "other": {
+      "AllObjects": 1,
+      "CC_Part": 1,
+      "CC_ExpressionSet": 1,
+      "CC_GeometrySet": 1,
+      "CC_ReferenceSet": 1,
+      "CC_SketchSet": 1,
+      "CC_EntitySet": 1,
+      "CC_OperationSequence": 1,
+      "CC_RollbackBar": 1,
+      "CC_WorkPoint": 1,
+      "CC_WorkPointReference": 1,
+      "CC_WorkAxis": 3,
+      "CC_WorkAxisReference": 3,
+      "CC_WorkPlane": 3,
+      "CC_WorkPlaneReference": 3,
+      "CC_Sketch": 1,
+      "CC_SketchReference": 1
+    }
+  },
+  "afterTrue": {
+    "CC_Line": 4,
+    "CC_Circle": 0,
+    "CC_Arc": 0,
+    "CC_Point": 8,
+    "constraint": 14,
+    "dimension": 3,
+    "other": {
+      "AllObjects": 1,
+      "CC_Part": 1,
+      "CC_ExpressionSet": 1,
+      "CC_GeometrySet": 1,
+      "CC_ReferenceSet": 1,
+      "CC_SketchSet": 1,
+      "CC_EntitySet": 1,
+      "CC_OperationSequence": 1,
+      "CC_RollbackBar": 1,
+      "CC_WorkPoint": 1,
+      "CC_WorkPointReference": 1,
+      "CC_WorkAxis": 3,
+      "CC_WorkAxisReference": 3,
+      "CC_WorkPlane": 3,
+      "CC_WorkPlaneReference": 3,
+      "CC_Sketch": 1,
+      "CC_SketchReference": 1
+    }
+  },
+  "afterFalse": {
+    "CC_Line": 6,
+    "CC_Circle": 0,
+    "CC_Arc": 0,
+    "CC_Point": 12,
+    "constraint": 14,
+    "dimension": 3,
+    "other": {
+      "AllObjects": 1,
+      "CC_Part": 1,
+      "CC_ExpressionSet": 1,
+      "CC_GeometrySet": 1,
+      "CC_ReferenceSet": 1,
+      "CC_SketchSet": 1,
+      "CC_EntitySet": 1,
+      "CC_OperationSequence": 1,
+      "CC_RollbackBar": 1,
+      "CC_WorkPoint": 1,
+      "CC_WorkPointReference": 1,
+      "CC_WorkAxis": 3,
+      "CC_WorkAxisReference": 3,
+      "CC_WorkPlane": 3,
+      "CC_WorkPlaneReference": 3,
+      "CC_Sketch": 1,
+      "CC_SketchReference": 1
+    }
+  },
+  "note": "compare constraint/dimension counts: base -> afterTrue (should grow if constraints copied) -> afterFalse"
+}

@@ -1166,3 +1166,14 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Session:** `2026-07-01_08-57-10_trim-recognition-advanced` (cases 01/02)
 - **Error:** The sketch renderer drew every arc as its minor (<180°) sweep, ignoring the stored `bulge`, so major arcs (e.g. a union-of-circles outer boundary) rendered as their minor complement — a union blob looked like an intersection lens. Root cause: `tessellateArc` forced `a1-a0 <= π` and the sketch path never passed the `bulge`.
 - **Fix:** `fetchSketchData` reads `members.bulge.value`; `tessellateArc(start,end,center,n,mid,bulge)` derives center+sweep from the signed bulge when provided (backward-compatible; solids/curves unaffected). Verified: union→blob, intersection→lens, minor arcs unbroken.
+
+### 167. [ ] ⚠️ `sketch.copyGeometry` — `doCopyConstraints` secretly controls the RETURN TYPE
+
+- **Session:** `2026-07-01_12-19-23_copyGeometry` (Category 4.10 #5)
+- **Gotcha:** `true`/default → `result: null` even though the copy succeeds (geometry IS created); `false` → `result: id[]` (one parent id per input). If you need the copied ids you MUST pass `doCopyConstraints:false`, or diff `getGeometry` before/after. Verified live; also matches the pre-existing doc's claim.
+- **Also:** `translation` is required (omit → error 1004); empty `geomIds` is a silent no-op; invalid id → 1006; null in `geomIds` → 1001.
+
+### 168. [ ] 📖 `sketch.copyGeometry` — what actually travels with a copy
+
+- **Session:** `2026-07-01_12-19-23_copyGeometry`
+- **Finding:** child points are copied AND translated (circle center `[5,5]`+`[80,0,0]` → `[85,5,0]`). With `true`, geometric constraints duplicate (2 perpendicular joined lines → +7 constraint nodes) and a dimension's underlying constraint duplicates (`CC_2DRadiusConstraint` 1→2) but its driving annotation does NOT (`CC_RadialFeatureDimension` stays 1) → copies are size-locked, not re-annotated. With `false`, bare geometry only (no constraints, not even auto H/V). Doc updated with a "What gets copied" section.

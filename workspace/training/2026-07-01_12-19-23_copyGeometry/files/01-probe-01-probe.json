@@ -1,0 +1,123 @@
+[
+  {
+    "label": "A default(true): copy 1 line +[0,30,0]",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 31,
+    "msgs": [],
+    "linesBefore": 1,
+    "linesAfter": 2
+  },
+  {
+    "label": "B false: copy 1 line +[0,60,0]",
+    "result": [
+      70
+    ],
+    "resultType": "id[1]",
+    "maxLevel": 31,
+    "msgs": []
+  },
+  {
+    "label": "C: translation omitted",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 1004,
+        "message": "The parameter \"translation\" must be provided in the api call!"
+      }
+    ]
+  },
+  {
+    "label": "D: empty geomIds",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 31,
+    "msgs": []
+  },
+  {
+    "label": "E: invalid id 999999",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 41,
+        "code": 0,
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "level": 51,
+        "code": 1006,
+        "message": "An element of parameter \"geomIds\" has an invalid id!"
+      }
+    ]
+  },
+  {
+    "label": "F: null in geomIds",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 1001,
+        "message": "An element of parameter \"geomIds\" has the wrong type! It should be of type (string|real|id)"
+      }
+    ]
+  },
+  {
+    "label": "G false: copy [line,line,circle] +[50,0,0]",
+    "result": [
+      98,
+      101,
+      104
+    ],
+    "resultType": "id[3]",
+    "maxLevel": 31,
+    "msgs": [],
+    "inputs": [
+      74,
+      86,
+      96
+    ]
+  },
+  {
+    "label": "H false: copy 1 circle +[80,0,0]",
+    "result": [
+      111
+    ],
+    "resultType": "id[1]",
+    "maxLevel": 31,
+    "msgs": [],
+    "copiedCenter": [
+      85,
+      5,
+      0
+    ],
+    "origCenter": [
+      5,
+      5,
+      0
+    ]
+  },
+  {
+    "label": "I true: copy 2 constrained lines",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 31,
+    "msgs": []
+  },
+  {
+    "label": "I false: copy 2 constrained lines",
+    "result": [
+      150,
+      153
+    ],
+    "resultType": "id[2]",
+    "maxLevel": 31,
+    "msgs": []
+  }
+]

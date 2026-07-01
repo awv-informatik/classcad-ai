@@ -1,0 +1,136 @@
+{
+  "copy": {
+    "label": "copyFrom src->dst",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 31,
+    "hasStructure": true,
+    "msgs": []
+  },
+  "merge": {
+    "dstBefore": {
+      "lines": 1,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    },
+    "dstAfter": {
+      "lines": 5,
+      "circles": 1,
+      "arcs": 0,
+      "points": 0
+    },
+    "note": "dst kept its 1 line AND gained src rect(4 lines)+circle"
+  },
+  "constraintCensus": {
+    "beforeTree": {
+      "CC_Line": 5,
+      "CC_Point": 11,
+      "CC_2DFixationConstraint": 1,
+      "CC_2DCoincidentConstraint": 4,
+      "CC_2DParallelConstraint": 1,
+      "CC_2DPerpendicularConstraint": 2,
+      "CC_2DHorizontalConstraint": 2,
+      "CC_Circle": 1,
+      "CC_2DRadiusConstraint": 1
+    },
+    "afterTree": {
+      "CC_Line": 9,
+      "CC_Point": 20,
+      "CC_2DFixationConstraint": 2,
+      "CC_2DCoincidentConstraint": 8,
+      "CC_2DParallelConstraint": 2,
+      "CC_2DPerpendicularConstraint": 4,
+      "CC_2DHorizontalConstraint": 3,
+      "CC_Circle": 2,
+      "CC_2DRadiusConstraint": 2
+    }
+  },
+  "noOffset": {
+    "copiedCircleCenters": [
+      [
+        60,
+        15,
+        0
+      ]
+    ],
+    "srcCircleCenter": [
+      60,
+      15,
+      0
+    ]
+  },
+  "selfCopy": {
+    "label": "self-copy dst->dst",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 31,
+    "hasStructure": true,
+    "msgs": [],
+    "selfBefore": {
+      "lines": 5,
+      "circles": 1,
+      "arcs": 0,
+      "points": 0
+    },
+    "selfAfter": {
+      "lines": 10,
+      "circles": 2,
+      "arcs": 0,
+      "points": 0
+    }
+  },
+  "emptySource": {
+    "label": "copy empty->dst2",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 31,
+    "hasStructure": true,
+    "msgs": [],
+    "d2Before": {
+      "lines": 1,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    },
+    "d2After": {
+      "lines": 1,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    }
+  },
+  "errPartAsDest": {
+    "label": "err: part id as dest",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 51,
+    "hasStructure": true,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 1001,
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+      }
+    ]
+  },
+  "errBadSource": {
+    "label": "err: invalid toCopyId",
+    "result": null,
+    "resultType": "null/VOID",
+    "maxLevel": 51,
+    "hasStructure": true,
+    "msgs": [
+      {
+        "level": 41,
+        "code": 0,
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "level": 51,
+        "code": 1006,
+        "message": "An element of parameter \"toCopyId\" has an invalid id!"
+      }
+    ]
+  }
+}

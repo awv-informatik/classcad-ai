@@ -1177,3 +1177,10 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 
 - **Session:** `2026-07-01_12-19-23_copyGeometry`
 - **Finding:** child points are copied AND translated (circle center `[5,5]`+`[80,0,0]` → `[85,5,0]`). With `true`, geometric constraints duplicate (2 perpendicular joined lines → +7 constraint nodes) and a dimension's underlying constraint duplicates (`CC_2DRadiusConstraint` 1→2) but its driving annotation does NOT (`CC_RadialFeatureDimension` stays 1) → copies are size-locked, not re-annotated. With `false`, bare geometry only (no constraints, not even auto H/V). Doc updated with a "What gets copied" section.
+
+### 169. [ ] 📖 `sketch.copyFrom` — cross-sketch MERGE (adds, never replaces); copies FULL dimensions
+
+- **Session:** `2026-07-01_12-19-23_copyGeometry` (Category 4.10 #6)
+- **Finding:** `copyFrom({id:DEST, toCopyId:SRC})` returns VOID (null, maxLevel 31) and MERGES — dst keeps its own geometry and gains src's (dst 1 line → 5 lines + circle). Copies ALL constraints (no flag; fixation/coincident/parallel/perpendicular/horizontal/radius all doubled) at the SAME positions (no offset — copied circle at exactly src's `[60,15,0]`). Self-copy (id==toCopyId) duplicates on top; empty source is a no-op.
+- **Distinction from copyGeometry:** copyFrom copies the FULL driving dimension — `CC_2DRadiusConstraint` 1→2 AND `CC_RadialFeatureDimension` 1→2 (+ new per-sketch `CC_SketchDimensionSet`), whereas copyGeometry(true) copies only the constraint part. copyFrom = true sketch merge; copyGeometry = element duplication w/ translation + returned ids (when false).
+- **Errors:** non-sketch id (part id) → 1001 `["sketch"]`; invalid toCopyId → 1006.

@@ -1,0 +1,10 @@
+[filewrite] files/04-copyFrom-04-copyFrom.json (2793 bytes)
+[04] copy {"label":"copyFrom src->dst","result":null,"resultType":"null/VOID","maxLevel":31,"hasStructure":true,"msgs":[]}
+[04] merge dstBefore {"lines":1,"circles":0,"arcs":0,"points":0} -> dstAfter {"lines":5,"circles":1,"arcs":0,"points":0}
+[04] census before {"CC_Line":5,"CC_Point":11,"CC_2DFixationConstraint":1,"CC_2DCoincidentConstraint":4,"CC_2DParallelConstraint":1,"CC_2DPerpendicularConstraint":2,"CC_2DHorizontalConstraint":2,"CC_Circle":1,"CC_2DRadiusConstraint":1} 
+[04] census after  {"CC_Line":9,"CC_Point":20,"CC_2DFixationConstraint":2,"CC_2DCoincidentConstraint":8,"CC_2DParallelConstraint":2,"CC_2DPerpendicularConstraint":4,"CC_2DHorizontalConstraint":3,"CC_Circle":2,"CC_2DRadiusConstraint":2}
+[04] noOffset copiedCenters [[60,15,0]]
+[04] selfCopy {"lines":5,"circles":1,"arcs":0,"points":0} -> {"lines":10,"circles":2,"arcs":0,"points":0}
+[04] emptySource {"lines":1,"circles":0,"arcs":0,"points":0} -> {"lines":1,"circles":0,"arcs":0,"points":0} result null max 31
+[04] errPartAsDest [{"level":51,"code":1001,"message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[04] errBadSource [{"level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"level":51,"code":1006,"message":"An element of parameter \"toCopyId\" has an invalid id!"}]

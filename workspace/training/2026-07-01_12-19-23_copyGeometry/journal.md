@@ -41,3 +41,30 @@ before/after a default copy.
 - `scripts/02-constraints.mjs` — constraint census (true vs false deltas)
 - `scripts/03-dim-classes.mjs` — exact dimension/constraint class names before/after
 - Skill doc updated: `references/sketch/copyGeometry.md` (verified + "What gets copied" section added)
+
+---
+
+# sketch.copyFrom (Category 4.10 #6)
+
+`copyFrom({ id: DEST, toCopyId: SRC })` — a **cross-sketch merge**: adds SRC's geometry+constraints into DEST.
+Pre-existing `references/sketch/copyFrom.md` was thorough; I verified every claim live (probes 04–05).
+
+| Claim | Result |
+|---|---|
+| Returns VOID (`null`), maxLevel 31 | ✅ |
+| **Merges**, doesn't replace | ✅ dst 1 line → 5 lines + 1 circle (kept its own line, gained src rect+circle) |
+| Copies **all** constraints (no flag) | ✅ census doubled: fixation/coincident×4/parallel/perpendicular×2/horizontal×2/radius |
+| **No offset** — same positions | ✅ copied circle center reads `[60,15,0]` = src |
+| Self-copy duplicates on top | ✅ dst {5 lines,1 circle} → {10,2} |
+| Empty source = no-op | ✅ result null, maxLevel 31, dst unchanged |
+| part id as dest → 1001 `["sketch"]`; bad toCopyId → 1006 | ✅ |
+
+### Key distinction from copyGeometry (verified, probe 05)
+`copyFrom` copies the **full driving dimension**, not just its constraint: a `RADIUS` dim gave both
+`CC_2DRadiusConstraint` 1→2 **and** `CC_RadialFeatureDimension` 1→2 (+ a new per-sketch `CC_SketchDimensionSet`).
+`copyGeometry(true)` copies only the constraint part (annotation stays). So `copyFrom` = a true sketch merge;
+`copyGeometry` = element duplication (with translation, optional constraints, and returned ids when `false`).
+
+- `scripts/04-copyFrom.mjs` — merge / constraints / no-offset / self-copy / empty / errors
+- `scripts/05-copyFrom-dim.mjs` — full-dimension copy (annotation) vs copyGeometry
+- Skill doc updated: `references/sketch/copyFrom.md` (constraints+full-dimensions, verified)

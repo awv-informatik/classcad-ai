@@ -18,10 +18,11 @@ Deletes one or more sketch objects — geometry (lines, circles, arcs, points), 
 - `maxLevel: 31` on success (even with empty `ids` array).
 - `maxLevel: 51` on error (invalid/nonexistent IDs).
 
-## Cascading Behavior
+## Cascading Behavior (verified 2026-07-01)
 
 **Geometry deletion cascades to dependent objects:**
-- Deleting a line/circle/arc/point **auto-deletes** all constraints and dimensions that reference it. No orphans are left behind. Attempting to delete the now-gone constraint/dimension returns maxLevel=51 "invalid id".
+- Deleting a line/circle/arc **auto-deletes its child points AND every constraint/dimension that references it** — no orphans. Verified: deleting one of two perpendicular joined lines removed the line, both its points, and its coincident/horizontal/perpendicular constraints plus the distance constraint *and* its `CC_LinearFeatureDimension`; only the surviving line's own vertical constraint remained. Attempting to delete the now-gone constraint/dimension returns maxLevel=51 "invalid id".
+- (Contrast: orphan points come from the **trim** workflow — trimming a circle down to arcs can leave its center point behind — NOT from `deleteObject`, which removes a geometry element's points with it.)
 
 **Non-geometry deletion does NOT cascade:**
 - Deleting a **constraint** or **dimension** — underlying geometry is preserved.
@@ -43,7 +44,7 @@ Deletes one or more sketch objects — geometry (lines, circles, arcs, points), 
 
 - The `ids` parameter is an array, not a single ID. Always wrap in `[...]`.
 - There is no undo — deletion is permanent within the session.
-- Multi-delete is atomic for valid IDs — if one ID in the array is invalid, the error is reported but other valid IDs in the batch may still be processed (the API does not short-circuit on first error).
+- **Multi-delete is ALL-OR-NOTHING (verified 2026-07-01).** If ANY id in the array is invalid, the entire call is rejected and **nothing is deleted** — not even the valid ids. Verified: `deleteObject([validE, 999999, validF])` left both E and F intact and returned code 1006. So **filter out invalid/`null` ids before calling** (e.g. `.filter(Boolean)`); a single stale id from a failed create silently blocks the whole batch. (An earlier version of this doc claimed valid ids "may still be processed" — that is wrong.)
 
 ## Working Example
 

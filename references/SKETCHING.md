@@ -427,7 +427,7 @@ const bossPt = add(offset, scale(dir, tBoss))
 - [sketch/line.md](sketch/line.md) — line creation
 - [sketch/arcByCenter.md](sketch/arcByCenter.md) — arc creation
 - [sketch/geometry.md](sketch/geometry.md) — batch geometry creation
-- `sketch/preTrim.md` — split at intersections _(retrain pending — Category 4.10)_
-- `sketch/trim.md` — mark segments for removal _(retrain pending — Category 4.10)_
-- `sketch/postTrim.md` — apply trims / merge back _(retrain pending — Category 4.10)_
-- `sketch/splitCurve.md` — split one curve at explicit params _(retrain pending — Category 4.10)_
+- [sketch/preTrim.md](sketch/preTrim.md) — split at intersections (stage)
+- [sketch/trim.md](sketch/trim.md) — mark segments for removal
+- [sketch/postTrim.md](sketch/postTrim.md) — apply trims / merge back
+- [sketch/splitCurve.md](sketch/splitCurve.md) — split one curve at explicit params

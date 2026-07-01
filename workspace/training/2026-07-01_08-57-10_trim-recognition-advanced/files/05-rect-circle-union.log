@@ -1,0 +1,13 @@
+[filewrite] files/05-rect-circle-union-05-classify.json (3277 bytes)
+[05] seg 116 src 58 mid [32.5,0.0] in1=true in2=false -> KEEP
+[05] seg 120 src 58 mid [72.5,0.0] in1=true in2=true -> trim
+[05] seg 66 src 66 mid [80.0,20.0] in1=true in2=true -> trim
+[05] seg 124 src 74 mid [72.5,40.0] in1=true in2=true -> trim
+[05] seg 128 src 74 mid [32.5,40.0] in1=true in2=false -> KEEP
+[05] seg 82 src 82 mid [0.0,20.0] in1=true in2=false -> KEEP
+[05] seg 132 src 94 mid [105.0,20.0] in1=false in2=true -> KEEP
+[05] seg 137 src 94 mid [55.0,20.0] in1=true in2=true -> trim
+[filewrite] files/05-rect-circle-union-05-result.json (138 bytes)
+[05] survivors: lines 3 arcs 1 circles 0
+[05] CHECKS {"keptRectSidesAndArc":true}
+[05] PASS

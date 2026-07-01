@@ -1153,3 +1153,16 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Error/behavior:** Geometry ids are stable across a no-trim postTrim (originals restored, byte-exact coords), BUT constraint and dimension **handles are recreated with new ids anyway** (verified: dimension `HD_A` id 72→104 with nothing trimmed). Caching a constraint/dimension id across any postTrim yields a stale/invalid id.
 - **Trigger:** any postTrim, including no-trim; re-using a cached handle id afterward.
 - **Workaround:** always re-fetch constraint/dimension handles by NAME after postTrim.
+
+### 165. [ ] 🟡 `sketch` trim workflow — trimming a circle down to arcs leaves the circle's CENTER as an isolated point
+
+- **Session:** `2026-07-01_08-57-10_trim-recognition-advanced` (case 07)
+- **Error:** After `preTrim → trim → postTrim` reduces a full circle to one or more surviving arcs, the circle's center point can remain in the sketch as an isolated `getGeometry().points[]` entry (visible as a stray dot in snapshots). Cosmetic; does not affect the profile curves.
+- **Trigger:** any trim that removes all of a circle's arcs but keeps others / reduces a circle to arcs.
+- **Workaround:** delete leftover center points with `sketch.deleteObject` if the profile must be point-clean.
+
+### 166. [✅] 🐛 `render-direct.mjs` — arcs drawn as minor sweep (FIXED 2026-07-01)
+
+- **Session:** `2026-07-01_08-57-10_trim-recognition-advanced` (cases 01/02)
+- **Error:** The sketch renderer drew every arc as its minor (<180°) sweep, ignoring the stored `bulge`, so major arcs (e.g. a union-of-circles outer boundary) rendered as their minor complement — a union blob looked like an intersection lens. Root cause: `tessellateArc` forced `a1-a0 <= π` and the sketch path never passed the `bulge`.
+- **Fix:** `fetchSketchData` reads `members.bulge.value`; `tessellateArc(start,end,center,n,mid,bulge)` derives center+sweep from the signed bulge when provided (backward-compatible; solids/curves unaffected). Verified: union→blob, intersection→lens, minor arcs unbroken.

@@ -111,6 +111,14 @@ The harness uses a direct renderer (`scripts/render-direct.mjs`) that auto-detec
 
 Snapshots are PNG files in `files/`. They show wireframe/outline views — not photorealistic. Interior cavities (e.g., subtraction holes) may not be visible from all angles — that's a reason to take a second snapshot from a different `view`, not a reason to give up.
 
+> **Arc rendering (fixed 2026-07-01).** The sketch renderer used to draw every arc as its **minor (<180°) sweep**,
+> ignoring the arc's `bulge` — so a *major* arc (e.g. the outer arc of a union of two circles) rendered as its
+> minor-arc complement, making a union blob look like an intersection lens. `render-direct.mjs` now reads each
+> arc's signed `bulge` from the structure tree and derives the correct sweep in `tessellateArc`. If you see a
+> pre-2026-07-01 arc snapshot, distrust it for anything with arcs ≥180°. General rule that caught this: **when a
+> snapshot contradicts your numbers, measure the geometry (an arc's `bulge` = tan(includedAngle/4)) — don't trust
+> the picture.**
+
 ### View options
 
 `snapshot('label', { view, zoom, lookAt })` accepts a CAD view-cube selector:

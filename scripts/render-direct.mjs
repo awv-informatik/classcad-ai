@@ -289,7 +289,28 @@ function tessellateCircle(cx, cy, r, n = 64) {
   return pts
 }
 
-function tessellateArc(start, end, center, n = 64, mid = null) {
+function tessellateArc(start, end, center, n = 64, mid = null, bulge = null) {
+  // Preferred path: the arc's signed bulge (= tan(includedAngle/4)) fully determines the sweep,
+  // including major arcs (|bulge| > 1). Derive the center from (start, end, bulge) so we don't depend
+  // on a possibly-stale center, then sweep by the exact signed angle. Without this, the fallback below
+  // forces the minor (<=180deg) arc and mis-draws every major arc (verified: a 254deg union arc rendered
+  // as its 106deg complement).
+  if (bulge != null && Number.isFinite(bulge) && Math.abs(bulge) > 1e-9) {
+    const theta = 4 * Math.atan(bulge)                 // signed included angle
+    const L = Math.hypot(end.x - start.x, end.y - start.y)
+    if (L > 1e-9 && Math.abs(Math.sin(theta / 2)) > 1e-9) {
+      const ux = (end.x - start.x) / L, uy = (end.y - start.y) / L
+      const R = L / (2 * Math.sin(theta / 2))          // signed radius
+      const mx = (start.x + end.x) / 2, my = (start.y + end.y) / 2
+      const apo = R * Math.cos(theta / 2)              // signed apothem along the left-normal (-uy, ux)
+      const cx = mx - uy * apo, cy = my + ux * apo
+      const rr = Math.abs(R)
+      const a0b = Math.atan2(start.y - cy, start.x - cx)
+      const pts = []
+      for (let i = 0; i <= n; i++) { const a = a0b + (theta * i) / n; pts.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]) }
+      return pts
+    }
+  }
   const r = Math.sqrt((start.x - center.x) ** 2 + (start.y - center.y) ** 2)
   let a0 = Math.atan2(start.y - center.y, start.x - center.x)
   let a1 = Math.atan2(end.y - center.y, end.x - center.x)
@@ -1132,7 +1153,9 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
   for (const arcId of (geom.arcs || [])) {
     const pos = (await execute({ 'v1.sketch.getPositions': [{ id: arcId }] })).result
     if (pos) {
-      items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos })
+      const arcObj = structureTree[String(arcId)]
+      const bulge = arcObj?.members?.bulge?.value ?? null   // signed tan(includedAngle/4); disambiguates major arcs
+      items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos, bulge })
       posMap[arcId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
       const pts = (await execute({ 'v1.sketch.getPoints': [{ id: arcId }] })).result
       if (pts) {
@@ -1172,7 +1195,7 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], 
       allPts2d.push([item.center.x, item.center.y])
       drawOps.push({ kind: 'point', pos: [item.center.x, item.center.y] })
     } else if (item.type === 'arc') {
-      const pts = tessellateArc(item.startPos, item.endPos, item.centerPos)
+      const pts = tessellateArc(item.startPos, item.endPos, item.centerPos, 64, null, item.bulge)
       allPts2d.push(...pts)
       drawOps.push({ kind: 'polyline', pts, color: '#cc6600' })
     } else if (item.type === 'point') {

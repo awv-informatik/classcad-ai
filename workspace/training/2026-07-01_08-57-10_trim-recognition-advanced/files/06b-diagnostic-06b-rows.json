@@ -1,0 +1,171 @@
+[
+  {
+    "id": 92,
+    "src": 58,
+    "kind": "arc",
+    "mid": [
+      44.7,
+      22.4
+    ],
+    "naiveTrim": true,
+    "bndKeep": false,
+    "in1": true,
+    "in2": true
+  },
+  {
+    "id": 97,
+    "src": 58,
+    "kind": "arc",
+    "mid": [
+      -22.4,
+      44.7
+    ],
+    "naiveTrim": false,
+    "bndKeep": true,
+    "in1": false,
+    "in2": true
+  },
+  {
+    "id": 102,
+    "src": 58,
+    "kind": "arc",
+    "mid": [
+      -22.4,
+      -44.7
+    ],
+    "naiveTrim": false,
+    "bndKeep": true,
+    "in1": false,
+    "in2": true
+  },
+  {
+    "id": 107,
+    "src": 58,
+    "kind": "arc",
+    "mid": [
+      44.7,
+      -22.4
+    ],
+    "naiveTrim": true,
+    "bndKeep": false,
+    "in1": true,
+    "in2": true
+  },
+  {
+    "id": 112,
+    "src": 63,
+    "kind": "arc",
+    "mid": [
+      82.4,
+      44.7
+    ],
+    "naiveTrim": false,
+    "bndKeep": true,
+    "in1": false,
+    "in2": true
+  },
+  {
+    "id": 117,
+    "src": 63,
+    "kind": "arc",
+    "mid": [
+      15.3,
+      22.4
+    ],
+    "naiveTrim": true,
+    "bndKeep": false,
+    "in1": true,
+    "in2": true
+  },
+  {
+    "id": 122,
+    "src": 63,
+    "kind": "arc",
+    "mid": [
+      15.3,
+      -22.4
+    ],
+    "naiveTrim": true,
+    "bndKeep": false,
+    "in1": true,
+    "in2": true
+  },
+  {
+    "id": 127,
+    "src": 63,
+    "kind": "arc",
+    "mid": [
+      82.4,
+      -44.7
+    ],
+    "naiveTrim": false,
+    "bndKeep": true,
+    "in1": false,
+    "in2": true
+  },
+  {
+    "id": 132,
+    "src": 66,
+    "kind": "line",
+    "mid": [
+      -70,
+      0
+    ],
+    "naiveTrim": false,
+    "bndKeep": false,
+    "in1": false,
+    "in2": false
+  },
+  {
+    "id": 136,
+    "src": 66,
+    "kind": "line",
+    "mid": [
+      -20,
+      0
+    ],
+    "naiveTrim": true,
+    "bndKeep": false,
+    "in1": true,
+    "in2": true
+  },
+  {
+    "id": 140,
+    "src": 66,
+    "kind": "line",
+    "mid": [
+      30,
+      0
+    ],
+    "naiveTrim": true,
+    "bndKeep": false,
+    "in1": true,
+    "in2": true
+  },
+  {
+    "id": 144,
+    "src": 66,
+    "kind": "line",
+    "mid": [
+      80,
+      0
+    ],
+    "naiveTrim": true,
+    "bndKeep": false,
+    "in1": true,
+    "in2": true
+  },
+  {
+    "id": 148,
+    "src": 66,
+    "kind": "line",
+    "mid": [
+      130,
+      0
+    ],
+    "naiveTrim": false,
+    "bndKeep": false,
+    "in1": false,
+    "in2": false
+  }
+]

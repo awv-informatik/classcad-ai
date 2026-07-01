@@ -1,0 +1,4 @@
+[06d] naive keep [97,102,112,127,132,148] trim [92,107,117,122,136,140,144]
+[filewrite] files/06d-naive-only-06d.json (437 bytes)
+[06d] survivors: lines 2 [[-90,0,"->",-50,0],[110,0,"->",150,0]] arcs 2
+[06d] NAIVE FAILS — left dangling line stub(s) outside the shapes

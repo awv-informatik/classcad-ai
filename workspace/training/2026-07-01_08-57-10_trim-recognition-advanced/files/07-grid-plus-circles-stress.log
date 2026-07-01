@@ -1,0 +1,6 @@
+[filewrite] files/07-grid-plus-circles-stress-07-classify.json (9398 bytes)
+[07] total segments 24 | keep 10 | trim 14
+[filewrite] files/07-grid-plus-circles-stress-07-result.json (181 bytes)
+[07] survivors: lines 6 arcs 2 circles 0
+[07] CHECKS {"noFullCircles":true,"hasArcs":true,"hasPerimeterLines":true,"trimmedInterior":true}
+[07] PASS

@@ -1,0 +1,6 @@
+[filewrite] files/03-grid-outer-boundary-03-classify.json (8701 bytes)
+[03] total segments 24 | keep(boundary) 12 | trim(interior/exterior) 12
+[filewrite] files/03-grid-outer-boundary-03-result.json (706 bytes)
+[03] survivor lines 4 [[0,0,"->",90,0],[0,90,"->",90,90],[0,0,"->",0,90],[90,0,"->",90,90]]
+[03] CHECKS {"fourSurvivors":true,"allPerimeter":true}
+[03] PASS

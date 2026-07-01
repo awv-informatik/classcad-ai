@@ -1,0 +1,13 @@
+[06c] keep [97,102,112,127] trim [92,107,117,122,132,136,140,144,148]
+[06c] pre-trim keep 97 getPositions maxLevel 31
+[06c] pre-trim keep 102 getPositions maxLevel 31
+[06c] pre-trim keep 112 getPositions maxLevel 31
+[06c] pre-trim keep 127 getPositions maxLevel 31
+[06c] trim maxLevel 31 err []
+[06c] post-trim keep 97 getPositions maxLevel 31
+[06c] post-trim keep 102 getPositions maxLevel 31
+[06c] post-trim keep 112 getPositions maxLevel 31
+[06c] post-trim keep 127 getPositions maxLevel 31
+[06c] postTrim maxLevel 31 err []
+[06c] FINAL geo: {"lines":[],"arcs":[153,159],"circles":[],"points":[]}
+[filewrite] files/06c-trim-instrumented-06c.json (294 bytes)

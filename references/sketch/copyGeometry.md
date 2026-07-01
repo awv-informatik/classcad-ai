@@ -22,7 +22,15 @@ Copies sketch geometry elements within the same sketch, offset by a translation 
 - `doCopyConstraints: true` (or omitted/default) → **result is always `null`**. The copy succeeds (geometry appears), but no IDs are returned. The docs claim `id[]|VOID` but the actual behavior is null.
 - `doCopyConstraints: false` → **result is `id[]`** — an array of new geometry IDs, one per input element in matching order.
 
-**If you need the IDs of copied elements, you must pass `doCopyConstraints: false`.** This is the only way.
+**If you need the IDs of copied elements, you must pass `doCopyConstraints: false`.** This is the only way. (With the default, diff `getGeometry` before/after to discover the new IDs.)
+
+Every response also carries `structure` (the full tree) and `graphic`, regardless of the flag.
+
+## What gets copied (verified 2026-07-01)
+
+- **Geometry + child points.** Copying a line copies its 2 endpoints; copying a circle copies its center point — all translated by the vector. `result` lists only the **parent** geom IDs (one per input); the child points get fresh IDs too but aren't returned. (Verified: copy a circle centered `[5,5]` by `[80,0,0]` → the copy's center reads back `[85,5,0]`.)
+- **`doCopyConstraints: true` (default) → geometric constraints are duplicated** among the copied set. Copying two perpendicular joined lines added +7 constraint nodes (the coincident join, the perpendicular, and the auto H/V for each copy). The **constraint part of a dimension also duplicates** (a `RADIUS` dimension's `CC_2DRadiusConstraint` went 1→2), so copies stay size/shape-locked — but the **driving feature-dimension annotation does NOT** duplicate (`CC_RadialFeatureDimension` stayed 1). Net: copies are constrained but not re-annotated.
+- **`doCopyConstraints: false` → bare geometry only.** No constraints are attached to the copies — not even the auto H/V that fresh axis-aligned geometry normally gets. Use this when you want independent, unconstrained duplicates (and when you need the returned IDs).
 
 ## Gotchas
 

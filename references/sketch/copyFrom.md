@@ -21,7 +21,7 @@ Always `null` (VOID). maxLevel 31 on success, no messages.
 ## Behavior
 
 - **Merges, does not replace.** Destination keeps all existing geometry. Source geometry is added on top.
-- **Copies constraints.** All constraints from the source sketch are copied to the destination along with geometry. There is no flag to control this (unlike `copyGeometry` which has `doCopyConstraints`).
+- **Copies constraints AND full dimensions.** Every constraint from the source is duplicated into the destination — verified live: fixation, coincident, parallel, perpendicular, horizontal, and radius constraints all doubled. There is no flag to control this (unlike `copyGeometry`'s `doCopyConstraints`). It also copies the **driving dimension annotation**, not just the constraint part: a `RADIUS` dimension gave `CC_2DRadiusConstraint` 1→2 **and** `CC_RadialFeatureDimension` 1→2 (+ a new per-sketch `CC_SketchDimensionSet`). This is stronger than `copyGeometry(doCopyConstraints:true)`, which copies the constraint but leaves the annotation behind. `copyFrom` is a genuine sketch merge.
 - **No offset/translation.** Geometry is copied at the same positions as in the source. Use `copyGeometry` if you need an offset.
 - **Self-copy is allowed.** Passing the same sketch ID for both `id` and `toCopyId` silently duplicates all elements on top of originals. No error, but likely not useful.
 - **Empty source is a no-op.** result=null, maxLevel=31, no error.

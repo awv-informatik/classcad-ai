@@ -68,3 +68,30 @@ Pre-existing `references/sketch/copyFrom.md` was thorough; I verified every clai
 - `scripts/04-copyFrom.mjs` — merge / constraints / no-offset / self-copy / empty / errors
 - `scripts/05-copyFrom-dim.mjs` — full-dimension copy (annotation) vs copyGeometry
 - Skill doc updated: `references/sketch/copyFrom.md` (constraints+full-dimensions, verified)
+
+---
+
+# sketch.loadFrom (Category 4.10 #7)
+
+`loadFrom({ id, partId, data|file|url, encoding?, compression?, format='OFB', name? })` — loads ONE sketch out of
+an OFB blob into `id`. **The doc was marked UNVERIFIED (server was down at original training); this is its first
+live verification.** Round-trip built with `common.save({format:'OFB', encoding:'base64'}) → result.content`.
+
+| Aspect | Result |
+|---|---|
+| return | VOID (null), maxLevel 31 |
+| `data`+base64 source | ✅ loads |
+| `file` (absolute local path) source | ✅ loaded 9 circles from a real .ofb (worker is local → path reachable) |
+| merge vs replace | ✅ MERGES — dest 1 line → 5 lines after loading a 4-line rect |
+| `name` selection | ✅ `name:'B'`→4 lines, `name:'S'`→1 circle |
+| **no `name`** | loads ONE sketch = "first found in file stream", **NOT creation order** (OFB saved 'S' then 'B' → no-name loaded 'B'). Pass `name` for determinism. |
+| bad `name` | level-51 "The sketch with name … couldn't be found in the of1 file stream", nothing loaded |
+| no `partId` | error 1004 |
+| garbage `data` | level-51 "Evaluation error in SketcherHelper.LoadSketch: Reading object failed…" |
+| no source | error 1004 "Either data, file or url must be provided" |
+
+`url` documented but not live-tested (needs a server). `common.save` result shape: `{ content, success }`.
+
+- `scripts/06-loadFrom.mjs` — data round-trip / merge / name selection / errors
+- `scripts/07-loadFrom-file.mjs` — the `file:` source (9 circles from disk)
+- Skill doc rewritten: `references/sketch/loadFrom.md` (UNVERIFIED banner removed; verified behavior + errors)

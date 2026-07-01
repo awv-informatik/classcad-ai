@@ -1,0 +1,2 @@
+[filewrite] files/07-loadFrom-file-07-loadFrom-file.json (319 bytes)
+[07] file-load result null max 31 | geo {"lines":0,"circles":0,"arcs":0} -> {"lines":0,"circles":9,"arcs":0} | msgs []

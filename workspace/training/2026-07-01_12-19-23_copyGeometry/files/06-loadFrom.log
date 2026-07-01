@@ -1,0 +1,7 @@
+[filewrite] files/06-loadFrom-06-loadFrom.json (2091 bytes)
+[06] save {"hasContent":true,"contentLen":28800,"keys":["content","success"],"maxLevel":31}
+[06] noName {"d1Before":{"lines":1,"circles":0,"arcs":0},"d1After":{"lines":5,"circles":0,"arcs":0},"result":null,"max":31,"msgs":[]}
+[06] nameB {"after":{"lines":4,"circles":0,"arcs":0},"msgs":[]}
+[06] nameS {"after":{"lines":0,"circles":1,"arcs":0},"msgs":[]}
+[06] badName {"after":{"lines":0,"circles":0,"arcs":0},"msgs":[{"level":51,"code":0,"message":"The sketch with name \"NOPE\" couldn't be found in the of1 file stream"}]}
+[06] noPartId [{"level":51,"code":1004,"message":"The parameter \"partId\" must be provided in the api call!"}] | badData [{"level":51,"code":0,"message":"[Evaluation error in SketcherHelper.LoadSketch:Reading object  failed. Object discarded. Exception on reading type.\nRecovering is not supported.\n\nFunction: OBJ_ObjectImportStream\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "}] | noSource [{"level":51,"code":1004,"message":"Either data, file or url must be provided to load content from."}]

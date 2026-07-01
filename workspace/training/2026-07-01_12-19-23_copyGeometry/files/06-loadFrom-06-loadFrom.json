@@ -1,0 +1,102 @@
+{
+  "save": {
+    "hasContent": true,
+    "contentLen": 28800,
+    "keys": [
+      "content",
+      "success"
+    ],
+    "maxLevel": 31
+  },
+  "noName": {
+    "label": "loadFrom data, no name",
+    "result": null,
+    "maxLevel": 31,
+    "msgs": [],
+    "d1Before": {
+      "lines": 1,
+      "circles": 0,
+      "arcs": 0
+    },
+    "d1After": {
+      "lines": 5,
+      "circles": 0,
+      "arcs": 0
+    }
+  },
+  "nameB": {
+    "label": "loadFrom name:'B'",
+    "result": null,
+    "maxLevel": 31,
+    "msgs": [],
+    "after": {
+      "lines": 4,
+      "circles": 0,
+      "arcs": 0
+    }
+  },
+  "nameS": {
+    "label": "loadFrom name:'S'",
+    "result": null,
+    "maxLevel": 31,
+    "msgs": [],
+    "after": {
+      "lines": 0,
+      "circles": 1,
+      "arcs": 0
+    }
+  },
+  "badName": {
+    "label": "loadFrom name:'NOPE'",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 0,
+        "message": "The sketch with name \"NOPE\" couldn't be found in the of1 file stream"
+      }
+    ],
+    "after": {
+      "lines": 0,
+      "circles": 0,
+      "arcs": 0
+    }
+  },
+  "noPartId": {
+    "label": "no partId",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 1004,
+        "message": "The parameter \"partId\" must be provided in the api call!"
+      }
+    ]
+  },
+  "badData": {
+    "label": "garbage data",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 0,
+        "message": "[Evaluation error in SketcherHelper.LoadSketch:Reading object  failed. Object discarded. Exception on reading type.\nRecovering is not supported.\n\nFunction: OBJ_ObjectImportStream\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+      }
+    ]
+  },
+  "noSource": {
+    "label": "no data/url/file",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 1004,
+        "message": "Either data, file or url must be provided to load content from."
+      }
+    ]
+  }
+}

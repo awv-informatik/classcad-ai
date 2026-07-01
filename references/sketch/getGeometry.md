@@ -24,9 +24,9 @@ The last two are undocumented but confirmed working. Passing a curve/point ID ef
 {
   result: {
     points: id[],   // explicit sketch points
-    lines: id[],    // lines (including rectangle edges)
-    arcs: id[],     // ALL arcs (arcByCenter + arcBy3Points merged)
-    circles: id[]   // circles
+    lines: id[],    // lines (including rectangle edges + construction lines)
+    arcs: id[],     // ALL arcs (arcByCenter + arcBy3Points merged, + construction arcs)
+    circles: id[]   // circles (including construction circles)
   }
 }
 ```
@@ -38,6 +38,7 @@ Always returns all 4 arrays, even when empty. maxLevel=31 on success.
 - **Arc types are merged.** `arcs` contains both `arcByCenter` and `arcBy3Points` IDs — no way to distinguish creation method from this query. Compare with `sketch.geometry()` which uses separate `arcsByCenter`/`arcsBy3Points` keys at creation time.
 - **Sketch region scopes results.** Passing a region ID returns only geometry in that region, not the whole sketch. If you want everything, pass the sketch ID.
 - **Constraint points are invisible.** Auto-generated constraint anchor points (fixation, coincidence) do NOT appear in the result. Only explicitly created geometry shows up.
+- **Construction geometry is included, not separated.** The `lines`/`arcs`/`circles` arrays contain construction (reference) curves mixed in with real profile curves — `getGeometry` gives you no way to tell them apart. Construction curves (`isConstruction: 1`) are skeleton geometry (axes, bolt circles, centerlines) that drive the real profile through constraints/dimensions but are excluded from operations; passing one to `part.extrusion` hangs. To identify them, use `sketch.getObjectInfo` (`isConstruction: 0|1` per curve), `sketch.getObjectsLists` (`constructionGeometry: id[]`), or `sketch.getGlobalState` (`constructionCount`). See `SKETCHING.md` § Construction geometry.
 - **Reflects deletions immediately.** After `sketch.deleteObject`, the deleted ID disappears from the next `getGeometry` call — no recalc needed.
 - **No `update*` counterpart.** This is a read-only query. To modify geometry, use `sketch.updateGeometry`.
 

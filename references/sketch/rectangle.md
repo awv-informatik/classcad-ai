@@ -16,6 +16,9 @@ Creates a rectangle as 4 lines in a sketch. Returns an array of 4 line IDs.
 - `genFixation` — auto-generate fixation constraint at origin. Default: `TRUE`.
 - `genIncidence` — auto-generate coincident constraints when corners land on existing points. Default: `TRUE`.
 - `genTangency` — auto-generate tangency constraints with existing arcs. Default: `TRUE`.
+- `isConstruction` — flags all 4 rectangle lines as construction (reference) geometry. Default: `FALSE`.
+
+Construction geometry is a skeleton that drives the real profile through constraints/dimensions but is excluded from operations — the solver treats it as a full participant (e.g. a real curve can be made tangent to it), but it cannot be extruded (do NOT pass construction lines to `part.extrusion` — it hangs). See `SKETCHING.md` (§ Construction geometry).
 
 ## Return Value
 

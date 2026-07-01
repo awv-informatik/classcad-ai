@@ -207,6 +207,38 @@ await api.v1.sketch.dimension({
 
 ---
 
+## Construction geometry (`isConstruction`)
+
+Construction geometry is **reference/skeleton** geometry — centerlines, axes, bolt circles, symmetry lines. It
+drives the real profile through constraints and dimensions but is **not part of the profile** and is **excluded
+from operations**. Every curve creator takes an `isConstruction` flag (boolean, default `FALSE`):
+
+```js
+await api.v1.sketch.line({ id: skId, startPos: [0, -50, 0], endPos: [0, 50, 0], isConstruction: true }) // a symmetry axis
+await api.v1.sketch.circle({ id: skId, centerPos: [0, 0, 0], radius: 40, isConstruction: true })         // a bolt circle
+```
+
+- Available on `line`, `circle`, `arcByCenter`, `arcBy3Points`; on `rectangle` it flags all four lines; and per
+  sub-item in the batch `geometry` call (`lines[].isConstruction`, `circles[].isConstruction`, etc.). **Points
+  cannot be construction** — it's a curve property.
+- **Toggle it on existing geometry** with `updateGeometry({ id, lines: [{ id, isConstruction: true }] })` (works
+  both ways; also circles/arcs).
+
+**What it's for — a first-class constraint reference.** Construction curves participate fully in the solver. Drop a
+construction axis and make real geometry `TANGENT`/`SYMMETRIC`/`COINCIDENT` to it; the solver enforces it (verified:
+a real circle made tangent to a construction axis at x=0 solved its center onto the tangent). Use it as the skeleton
+the drawing's dimension scheme hangs off — exactly the dashed centerlines/reference axes from Step 1.
+
+**Hard rules:**
+- **Never feed construction curves to an operation.** `part.extrusion` on a normal profile builds a solid; passing
+  construction-only curves **hangs** (they form no extrudable profile). Construction geometry is skeleton, not material.
+- **`getGeometry` lumps construction curves into its `lines`/`circles`/`arcs` arrays** — you can't tell them apart
+  from it. To identify construction geometry use `getObjectInfo` (`isConstruction: 0|1`), `getObjectsLists`
+  (`constructionGeometry: id[]`), or `getGlobalState` (`constructionCount`).
+- In snapshots, construction geometry renders **dashed** (distinct from the solid profile).
+
+---
+
 ## Step 5 — Trim
 
 Once shapes are positioned and verified, trim them to reveal the final profile.

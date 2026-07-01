@@ -16,6 +16,7 @@ Creates one or multiple lines in a sketch. Returns the line ID(s).
 - **`genIncidence`** (optional, default TRUE) — auto-generates `CC_2DCoincidentConstraint` ("Auto_Coinc") when an endpoint exactly matches an existing point's position. Exact match only — no tolerance.
 - **`genVertAndHoriz`** (optional, default TRUE) — auto-generates `CC_2DHorizontalConstraint` ("Auto_H") or `CC_2DVerticalConstraint` ("Auto_V") when the line is perfectly axis-aligned. Diagonal lines never trigger this.
 - **`genTangency`** (optional, default TRUE) — auto-generates `CC_2DTangentSketchConstraint` ("Auto_Tan") when the line's endpoint coincides with an arc endpoint and the line direction is tangent to the arc at that point.
+- **`isConstruction`** (optional, default FALSE) — marks the line as reference-only geometry: drawn dashed and excluded from extrude, but still usable as a constraint/dimension reference (see SKETCHING.md § Construction geometry).
 
 ## Batch Creation
 

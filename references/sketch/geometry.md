@@ -11,16 +11,18 @@ Batch-creates one or more sketch geometry items (points, lines, arcs, circles) i
 
 - `id` — sketch ID (required)
 - `points` — array of `{ pos: [x,y,z] }`
-- `lines` — array of `{ startPos, endPos }`
-- `arcsBy3Points` — array of `{ startPos, endPos, midPos }` — `midPos` is a point ON the arc, not the center
-- `arcsByCenter` — array of `{ startPos, endPos, centerPos, isClockwise? }` — `isClockwise` defaults to TRUE
-- `circles` — array of `{ centerPos, radius }`
+- `lines` — array of `{ startPos, endPos, isConstruction? }` — `isConstruction` defaults to FALSE
+- `arcsBy3Points` — array of `{ startPos, endPos, midPos, isConstruction? }` — `midPos` is a point ON the arc, not the center; `isConstruction` defaults to FALSE
+- `arcsByCenter` — array of `{ startPos, endPos, centerPos, isClockwise?, isConstruction? }` — `isClockwise` defaults to TRUE; `isConstruction` defaults to FALSE
+- `circles` — array of `{ centerPos, radius, isConstruction? }` — `isConstruction` defaults to FALSE
 - `genFixation` — auto-generate fixation constraint at origin (default TRUE)
 - `genIncidence` — auto-generate coincidence constraints when endpoints overlap (default TRUE)
 - `genTangency` — auto-generate tangency constraints between touching curves (default TRUE)
 - `genVertAndHoriz` — auto-generate horizontal/vertical constraints for axis-aligned lines (default TRUE)
 
 All geometry arrays are optional. You can pass any combination, including none at all.
+
+Per-curve `isConstruction` (lines, circles, arcs; not points) marks a curve as construction/reference geometry — a skeleton (axes, bolt circles, centerlines) that drives the real profile through constraints and dimensions but is excluded from the profile itself: it participates fully in the constraint solver (e.g. a real circle can be made tangent to a construction axis) yet is not actionable — it renders dashed and must not be passed to `part.extrusion` (extruding construction curves hangs). See `SKETCHING.md` (§ Construction geometry).
 
 ## Return Value
 

@@ -19,6 +19,23 @@ Updates the positions/properties of existing sketch geometry in-place. This is a
 
 All geometry arrays are optional. You can pass any combination, including multiple types in one call.
 
+### Toggling `isConstruction`
+
+`updateGeometry` can toggle the `isConstruction` flag on existing lines, circles, and arcs, in both directions:
+
+```js
+await api.v1.sketch.updateGeometry({
+  id: skId,
+  lines: [{ id: lineId, isConstruction: true }],   // mark as construction
+})
+await api.v1.sketch.updateGeometry({
+  id: skId,
+  lines: [{ id: lineId, isConstruction: false }],  // back to a normal profile curve
+})
+```
+
+`isConstruction` (boolean, default FALSE) marks a curve as construction / reference geometry — a skeleton (axes, bolt circles, symmetry/centerlines) that drives the real profile through constraints and dimensions but is not part of the profile itself. It is a curve property only (line/circle/arc); points cannot be construction. See `SKETCHING.md` (§ Construction geometry).
+
 ## Return Value
 
 Always returns `null` (VOID) on success. maxLevel=31 (info) on success, 51 (error) on failure.

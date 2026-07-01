@@ -14,6 +14,7 @@ Creates one or multiple circles in a sketch. Returns the circle ID(s).
 - **`radius`** (required) — circle radius. Zero and negative values are silently accepted (no error, no warning). Negative radius is stored as-is in the structure — no normalization.
 - **`genFixation`** (optional, default TRUE) — auto-generates `CC_2DFixationConstraint` ("Auto_Fix") **only when the center is at origin** (0,0,0). No effect for off-origin centers.
 - **`genIncidence`** (optional, default TRUE) — auto-generates `CC_2DCoincidentConstraint` ("Auto_Coinc") when the center position **exactly matches** an existing point. Works cross-geometry (standalone points, line endpoints, other circle centers).
+- **`isConstruction`** (optional, default FALSE) — marks the circle as construction/reference geometry (drawn dashed). Construction curves drive the profile through constraints/dimensions (e.g. a real curve made tangent to a construction circle) but are excluded from the profile and from operations. A full participant in the constraint solver, but not actionable — never pass construction curves to `part.extrusion` (it hangs). See `SKETCHING.md` (§ Construction geometry).
 
 ## Batch Creation
 

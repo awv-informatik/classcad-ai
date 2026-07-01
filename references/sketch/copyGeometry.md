@@ -26,8 +26,6 @@ Child points (a line's endpoints, a circle's center) are copied and translated b
 
 Every response also carries `structure` (the full tree) and `graphic`.
 
-> **Version note:** older/unpatched ClassCAD returned `result: null` whenever `doCopyConstraints` was true (the default) — the copy succeeded but no ids came back, so you had to pass `doCopyConstraints: false` (or diff `getGeometry`) to recover them. Root cause: a missing return in `SketcherHelper.CopyObjects` (it returned `copies` only on the `false` branch and fell through to a bare `RETURN;` otherwise). Fixed so every path returns the ids. **If you get `null` on a `true` copy, you're on a pre-fix build** — fall back to `doCopyConstraints: false`.
-
 ## What gets copied (verified 2026-07-01)
 
 - **Geometry + child points.** Copying a line copies its 2 endpoints; copying a circle copies its center point — all translated by the vector. Child points get fresh IDs but are **not** listed in `result` (they're sub-members of the copied geometry). (Verified: copy a circle centered `[5,5]` by `[80,0,0]` → the copy's center reads back `[85,5,0]`.)
@@ -40,7 +38,7 @@ Every response also carries `structure` (the full tree) and `graphic`.
 - Empty `geomIds: []` is a silent no-op — null result, maxLevel 31, no messages, no error.
 - Invalid IDs in geomIds → error 1006: "An element of parameter \"geomIds\" has an invalid id!"
 - Null values in geomIds → error 1001: type mismatch. Always filter nulls before passing.
-- `doCopyConstraints` copies the geometric constraints among the copied set (default `true`) — it does **not** change the return type: both `true` and `false` return `id[]`. (Pre-fix builds wrongly returned `null` on `true` — see the Version note.)
+- `doCopyConstraints` copies the geometric constraints among the copied set (default `true`) — it does **not** change the return type: both `true` and `false` return `id[]`.
 
 ## Common Errors
 
@@ -77,7 +75,6 @@ const r2 = await api.v1.sketch.copyGeometry({
   translation: [60, 0, 0]
 })
 // r2.result → id[] with the 4 line copies PLUS the duplicated constraints (longer than 4)
-// (pre-fix builds returned null here — see the Version note)
 ```
 
 ## Related

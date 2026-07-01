@@ -1,0 +1,12 @@
+[01] PREDICT: 2 minor arcs (lens), endpoints (30,+/-40), x in [10,50], discard outer arcs
+[filewrite] files/01-lens-two-circles-01-classify.json (1981 bytes)
+[01] seg 76 mid [50,-0] cnt 1/2 -> KEEP
+[01] seg 81 mid [-50,0] cnt 0/1 -> trim
+[01] seg 86 mid [110,-0] cnt 0/1 -> trim
+[01] seg 91 mid [10,0] cnt 1/2 -> KEEP
+[filewrite] files/01-lens-two-circles-01-result.json (604 bytes)
+[01] REALIZED: arcs 2 lines 0 circles 0
+[01] arc 97 bulge 0.500 (106deg) [29.99999999999999,-40.00000000000001,0]->[30.000000000000004,40,0]
+[01] arc 103 bulge 0.500 (106deg) [30.000000000000007,40.00000000000001,0]->[29.99999999999996,-39.99999999999997,0]
+[01] CHECKS {"twoArcs":true,"minorArcs":true,"endpointsAtIntersections":true}
+[01] PASS — prediction realized

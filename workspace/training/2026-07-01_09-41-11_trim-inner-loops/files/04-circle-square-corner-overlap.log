@@ -1,0 +1,5 @@
+[04] PREDICT: 1 arc + 2 lines = the square-circle corner overlap (arc (30,80)->(80,30) + edge stubs)
+[filewrite] files/04-circle-square-corner-overlap-04-result.json (154 bytes)
+[04] REALIZED: lines 2 arcs 1 circles 0
+[04] CHECKS {"oneArc":true,"twoLines":true,"noCircle":true}
+[04] PASS — prediction realized

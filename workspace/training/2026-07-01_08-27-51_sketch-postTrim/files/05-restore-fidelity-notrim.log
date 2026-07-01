@@ -1,0 +1,6 @@
+[05] A no-trim: geometry ids+coords unchanged? true | containers cleaned? true
+[05] A dimension id 72 -> 104 | churned on no-trim? true
+[05] B trim([]): geometry ids+coords unchanged? true | containers cleaned? true
+[filewrite] files/05-restore-fidelity-notrim-05-restore.json (1033 bytes)
+[05] CHECKS {"A_restore":true,"B_restore":true} | dim churn on no-trim: true
+[05] PASS

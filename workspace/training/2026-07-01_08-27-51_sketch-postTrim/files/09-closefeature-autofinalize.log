@@ -1,0 +1,5 @@
+[09] staged containers before closeFeature: ["NoneSplitted","SplittedCurves"]
+[09] part.closeFeature max 31 err []
+[09] staged containers AFTER closeFeature: [] (gone => auto-finalized)
+[filewrite] files/09-closefeature-autofinalize-09-closefeature.json (139 bytes)
+[09] VERDICT: closeFeature auto-finalized (staging gone)

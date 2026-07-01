@@ -1,0 +1,9 @@
+{
+  "stagedBefore": [
+    "NoneSplitted",
+    "SplittedCurves"
+  ],
+  "closeFeatureMax": 31,
+  "closeFeatureErr": [],
+  "stagedAfter": []
+}

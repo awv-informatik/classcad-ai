@@ -1,0 +1,22 @@
+{
+  "A": {
+    "post2Void": true,
+    "geomIdentical": true,
+    "consIdentical": true,
+    "cons1": [
+      "Auto_Coinc:104",
+      "Auto_H0:101",
+      "Auto_V0:102"
+    ],
+    "cons2": [
+      "Auto_Coinc:104",
+      "Auto_H0:101",
+      "Auto_V0:102"
+    ]
+  },
+  "B": {
+    "max": 31,
+    "err": [],
+    "noContainersCreated": true
+  }
+}

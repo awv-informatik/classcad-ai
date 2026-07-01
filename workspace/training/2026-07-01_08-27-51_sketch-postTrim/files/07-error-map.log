@@ -1,0 +1,9 @@
+[07] {"label":"missing","maxLevel":51,"isVoid":true,"code":1004,"list":null,"msg":"The parameter \"id\" must be provided in the api call!"}
+[07] {"label":"badId","maxLevel":51,"isVoid":true,"code":1006,"list":null,"msg":"An element of parameter \"id\" has an invalid id!"}
+[07] {"label":"partId","maxLevel":51,"isVoid":true,"code":1001,"list":"[\"sketch\"]","msg":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}
+[07] {"label":"pointId","maxLevel":51,"isVoid":true,"code":1001,"list":"[\"sketch\"]","msg":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}
+[07] {"label":"lineId","maxLevel":51,"isVoid":true,"code":1001,"list":"[\"sketch\"]","msg":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}
+[filewrite] files/07-error-map-07-errors.json (1169 bytes)
+[07] mid-workflow: SplittedCurves childCount before bad postTrim 3 after 3 | corrective postTrim max 31 final lines 2
+[07] CHECKS {"missing1004":true,"badId1006":true,"wrongTypeSketchList":true,"allVoid":true,"stagingUntouched":true,"resumable":true}
+[07] PASS

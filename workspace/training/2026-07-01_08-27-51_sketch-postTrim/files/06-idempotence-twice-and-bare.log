@@ -1,0 +1,6 @@
+[06] A postTrim#2 max 31 | geom byte-identical? true | constraints unchanged? true
+[06] A cons after #1 ["Auto_Coinc:104","Auto_H0:101","Auto_V0:102"] | after #2 ["Auto_Coinc:104","Auto_H0:101","Auto_V0:102"]
+[06] B bare postTrim max 31 | containers before/after 0 0
+[filewrite] files/06-idempotence-twice-and-bare-06-idempotence.json (342 bytes)
+[06] CHECKS {"A_post2NoOp":true,"B_bareNoOp":true}
+[06] PASS

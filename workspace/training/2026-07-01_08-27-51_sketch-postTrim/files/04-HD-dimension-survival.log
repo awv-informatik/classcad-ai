@@ -1,0 +1,6 @@
+[04] HD_main before: id 72 dimCount 1
+[filewrite] files/04-HD-dimension-survival-04-hd-survival.json (402 bytes)
+[04] HD_main after: present false id undefined (before 72 ) dimCount 0
+[04] H survivor length (re-anchored value): 50
+[04] CHECKS {"survivesByName":false,"namePreserved":false,"countStill1":false} | re-anchor value = 50
+[04] see data

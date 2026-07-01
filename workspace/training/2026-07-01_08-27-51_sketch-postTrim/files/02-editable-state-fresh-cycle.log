@@ -1,0 +1,6 @@
+[02] after cycle1: lines [64,97] dead ids 0
+[02] add-line: count 2 -> 3 endpoints ok true
+[02] cycle2: re-staged? true | containers after cycle2 []
+[filewrite] files/02-editable-state-fresh-cycle-02-editable.json (158 bytes)
+[02] CHECKS {"noDeadIds":true,"addLineWorks":true,"cycle2ReStaged":true,"noContainerAccumulation":true}
+[02] PASS

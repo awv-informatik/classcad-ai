@@ -1,0 +1,31 @@
+{
+  "dimBeforeId": 72,
+  "dimCountBefore": 1,
+  "dimCountAfter": 0,
+  "measuredDist": 50,
+  "hSurv": {
+    "maxLevel": 31,
+    "startPos": [
+      0,
+      50,
+      0
+    ],
+    "endPos": [
+      50,
+      50,
+      0
+    ],
+    "raw": {
+      "endPos": {
+        "x": 50,
+        "y": 50,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 50,
+        "z": 0
+      }
+    }
+  }
+}

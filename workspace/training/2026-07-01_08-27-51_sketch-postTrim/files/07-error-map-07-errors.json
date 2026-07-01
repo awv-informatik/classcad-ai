@@ -1,0 +1,48 @@
+{
+  "out": [
+    {
+      "label": "missing",
+      "maxLevel": 51,
+      "isVoid": true,
+      "code": 1004,
+      "list": null,
+      "msg": "The parameter \"id\" must be provided in the api call!"
+    },
+    {
+      "label": "badId",
+      "maxLevel": 51,
+      "isVoid": true,
+      "code": 1006,
+      "list": null,
+      "msg": "An element of parameter \"id\" has an invalid id!"
+    },
+    {
+      "label": "partId",
+      "maxLevel": 51,
+      "isVoid": true,
+      "code": 1001,
+      "list": "[\"sketch\"]",
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+    },
+    {
+      "label": "pointId",
+      "maxLevel": 51,
+      "isVoid": true,
+      "code": 1001,
+      "list": "[\"sketch\"]",
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+    },
+    {
+      "label": "lineId",
+      "maxLevel": 51,
+      "isVoid": true,
+      "code": 1001,
+      "list": "[\"sketch\"]",
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+    }
+  ],
+  "scBefore": 3,
+  "scAfter": 3,
+  "fixMax": 31,
+  "geoBlines": 2
+}

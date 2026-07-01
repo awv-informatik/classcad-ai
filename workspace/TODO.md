@@ -1132,3 +1132,24 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Error/behavior:** (a) a **duplicate segment id** `[s,s]` makes trim **error (mL51)** — NOT idempotent — whereas `preTrim` accepts duplicate `curveIds` (splits twice). (b) A **dead** segment id (already trimmed, or killed by a re-`preTrim`) → atomic **mL51 1006**. (c) A real-but-**unstaged** curve id (an original `sourceId`) → **silent per-element no-op (mL31)** while valid segments in the same call are still trimmed. (d) `trim([])` is a safe no-op, unlike `preTrim([])` which means ALL.
 - **Trigger:** the respective curveIds shapes above.
 - **Workaround:** pass de-duplicated, currently-staged segment ids only; expect 1006 on any dead id and a silent skip on a source id.
+
+### 162. [ ] 🕳️ `sketch.postTrim` — trimming a dimension's anchor point silently DROPS the dimension
+
+- **Session:** `2026-07-01_08-27-51_sketch-postTrim` (journal entry 04)
+- **Error:** A dimension survives postTrim only if BOTH its anchor points survive. If a `trim` removes a segment that carries one of a dimension's anchor points, postTrim **drops the dimension entirely** (dimensionCount 1→0) — it is NOT re-anchored to the surviving segment. maxLevel 31, no warning. Verified: HORIZONTAL_DISTANCE on H endpoints (0,50)/(100,50); trimming the (100,50)-bearing segment → dimension gone after postTrim.
+- **Trigger:** trimming away a segment whose endpoint is a dimension's anchor.
+- **Workaround:** don't trim segments carrying dimension anchors, or re-create the dimension after postTrim; check dimensionCount before/after if dimensions matter.
+
+### 163. [ ] 📖 `sketch.postTrim` — NoneSplitted0 leak also from trim-then-re-preTrim; a 2nd postTrim does NOT sweep it (refines #159)
+
+- **Session:** `2026-07-01_08-27-51_sketch-postTrim` (journal entry 08)
+- **Error:** The stale empty `NoneSplitted0` `CC_Container` leak (originally attributed to preTrim-twice, #159) also occurs on the **`trim`-then-re-`preTrim`** path — i.e. any re-`preTrim` without an intervening `postTrim`. A subsequent `postTrim` does **not** sweep the orphan; empties persist and accumulate. Purely cosmetic — geometry, original ids, and fresh cycles are unaffected.
+- **Trigger:** any second `preTrim` (with or without an intervening `trim`) before a `postTrim`.
+- **Workaround:** always `postTrim` before re-`preTrim`; ignore the leftover empty `NoneSplitted0` node.
+
+### 164. [ ] 📖 `sketch.postTrim` — constraint/dimension handle ids churn even on a NO-TRIM postTrim
+
+- **Session:** `2026-07-01_08-27-51_sketch-postTrim` (journal entry 05)
+- **Error/behavior:** Geometry ids are stable across a no-trim postTrim (originals restored, byte-exact coords), BUT constraint and dimension **handles are recreated with new ids anyway** (verified: dimension `HD_A` id 72→104 with nothing trimmed). Caching a constraint/dimension id across any postTrim yields a stale/invalid id.
+- **Trigger:** any postTrim, including no-trim; re-using a cached handle id afterward.
+- **Workaround:** always re-fetch constraint/dimension handles by NAME after postTrim.

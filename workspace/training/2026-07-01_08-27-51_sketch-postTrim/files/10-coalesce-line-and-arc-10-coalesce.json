@@ -1,0 +1,13 @@
+{
+  "A": {
+    "hSegs": 3,
+    "hLinesAfter": 3,
+    "coalescedId": 58,
+    "spans0to100": true,
+    "newId": false
+  },
+  "B": {
+    "arcSegs": 3,
+    "arcsAfter": 1
+  }
+}

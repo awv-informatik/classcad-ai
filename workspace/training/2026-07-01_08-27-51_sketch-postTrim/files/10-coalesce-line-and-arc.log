@@ -1,0 +1,5 @@
+[10] A: H split into 3 segs; kept all; H survivor id 58 (orig 58 ) spans 0..100? true
+[10] B: arc split into 3 segs; kept all; arcs after postTrim 1
+[filewrite] files/10-coalesce-line-and-arc-10-coalesce.json (172 bytes)
+[10] CHECKS {"A_lineCoalescedToOne":false,"B_arcCoalescedToOne":true}
+[10] see data

@@ -1197,3 +1197,11 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Session:** `2026-07-01_12-19-23_copyGeometry` (Category 4.10 #8 — closes the category)
 - **Correction:** the doc claimed valid ids "may still be processed" when one id is invalid. FALSE — verified `deleteObject([validE, 999999, validF])` left BOTH E and F intact and returned 1006. It's atomic: one bad id rejects the whole batch → always `.filter(Boolean)` first. Doc fixed.
 - **Verified cascade:** deleting geometry removes the element + its child points + EVERY referencing constraint/dimension (incl. `CC_LinearFeatureDimension`); no orphans. Deleting a constraint/dimension keeps geometry. (Orphan points are a TRIM artifact, not delete — see #165.) empty→no-op(31), invalid/double→1006, null→1001. `constraint([...])` returns an array of created ids.
+
+### 172. [✅] ✨ construction geometry (`isConstruction`) — studied, renderer support added, docs written
+
+- **Session:** `2026-07-01_14-30-00_construction-geometry` (recently-merged feature)
+- **Surface:** `isConstruction` (bool, default FALSE) on `line`/`circle`/`arcByCenter`/`arcBy3Points`, on `rectangle` (all 4 lines), and per-item in batch `geometry`. Toggle on existing geom via `updateGeometry({id, lines:[{id, isConstruction:true|false}]})` (both ways). Query: `getGeometry` INCLUDES construction in lines/circles/arcs (indistinguishable there); `getObjectInfo.isConstruction` (0|1), `getObjectsLists.constructionGeometry` (id[]), `getGlobalState.constructionCount`. Tree member `members.isConstruction.value` (real 1|0).
+- **Implications:** full constraint-solver participant (TANGENT to a construction axis enforced — its purpose: reference/skeleton). NOT actionable — normal square extrudes fine; **construction-only `part.extrusion` HANGS the worker** (had to restart). Source guard `PreCheckVisitor.cclass` rejects construction curves in an op region, but a construction-only reference wedges rather than erroring. ⚠️ possible upstream bug worth a look.
+- **Renderer:** `scripts/render-direct.mjs` reads `isConstruction` per curve and draws it dashed violet (`#a64dff`, dasharray 6,4, width 1.5). Verified across all creation paths.
+- **Docs:** added `isConstruction` to line/circle/arcByCenter/arcBy3Points/rectangle/geometry/updateGeometry/getGeometry .md + a "Construction geometry" section in SKETCHING.md.

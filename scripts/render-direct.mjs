@@ -1125,7 +1125,9 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
   for (const lineId of (geom.lines || [])) {
     const pos = (await execute({ 'v1.sketch.getPositions': [{ id: lineId }] })).result
     if (pos) {
-      items.push({ type: 'line', startPos: pos.startPos, endPos: pos.endPos })
+      const lObj = structureTree[String(lineId)]
+      const isConstruction = lObj?.members?.isConstruction?.value === 1
+      items.push({ type: 'line', startPos: pos.startPos, endPos: pos.endPos, isConstruction })
       posMap[lineId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
       // Also map endpoint IDs if available via getPoints
       const pts = (await execute({ 'v1.sketch.getPoints': [{ id: lineId }] })).result
@@ -1145,7 +1147,8 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
     const obj = structureTree[String(circleId)]
     const radiusMember = obj?.members?.Radius || obj?.members?.radius
     const radius = radiusMember?.value ?? null
-    items.push({ type: 'circle', center: centerPos.pos, radius })
+    const isConstruction = obj?.members?.isConstruction?.value === 1
+    items.push({ type: 'circle', center: centerPos.pos, radius, isConstruction })
     posMap[circleId] = { midpoint: centerPos.pos }
     posMap[pts.centerId] = { midpoint: centerPos.pos }
   }
@@ -1155,7 +1158,8 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
     if (pos) {
       const arcObj = structureTree[String(arcId)]
       const bulge = arcObj?.members?.bulge?.value ?? null   // signed tan(includedAngle/4); disambiguates major arcs
-      items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos, bulge })
+      const isConstruction = arcObj?.members?.isConstruction?.value === 1
+      items.push({ type: 'arc', startPos: pos.startPos, endPos: pos.endPos, centerPos: pos.centerPos, bulge, isConstruction })
       posMap[arcId] = { midpoint: { x: (pos.startPos.x + pos.endPos.x) / 2, y: (pos.startPos.y + pos.endPos.y) / 2 } }
       const pts = (await execute({ 'v1.sketch.getPoints': [{ id: arcId }] })).result
       if (pts) {
@@ -1185,11 +1189,11 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], 
     if (item.type === 'line') {
       const s = [item.startPos.x, item.startPos.y], e = [item.endPos.x, item.endPos.y]
       allPts2d.push(s, e)
-      drawOps.push({ kind: 'line', pts: [s, e] })
+      drawOps.push({ kind: 'line', pts: [s, e], construction: item.isConstruction })
     } else if (item.type === 'circle' && item.radius != null) {
       const pts = tessellateCircle(item.center.x, item.center.y, item.radius)
       allPts2d.push(...pts)
-      drawOps.push({ kind: 'polyline', pts, color: '#0066cc', _circle: { cx: item.center.x, cy: item.center.y, r: item.radius } })
+      drawOps.push({ kind: 'polyline', pts, color: '#0066cc', construction: item.isConstruction, _circle: { cx: item.center.x, cy: item.center.y, r: item.radius } })
     } else if (item.type === 'circle') {
       // No radius — just mark center
       allPts2d.push([item.center.x, item.center.y])
@@ -1197,7 +1201,7 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], 
     } else if (item.type === 'arc') {
       const pts = tessellateArc(item.startPos, item.endPos, item.centerPos, 64, null, item.bulge)
       allPts2d.push(...pts)
-      drawOps.push({ kind: 'polyline', pts, color: '#cc6600' })
+      drawOps.push({ kind: 'polyline', pts, color: '#cc6600', construction: item.isConstruction })
     } else if (item.type === 'point') {
       allPts2d.push([item.pos.x, item.pos.y])
       drawOps.push({ kind: 'point', pos: [item.pos.x, item.pos.y] })
@@ -1218,10 +1222,14 @@ function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], 
   for (const op of drawOps) {
     if (op.kind === 'line') {
       const [s, e] = op.pts.map(p => xf(p[0], p[1]))
-      svg += `<line x1="${s[0].toFixed(1)}" y1="${s[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}" stroke="#0044aa" stroke-width="3"/>\n`
+      // construction geometry: dashed, thin, distinct violet — reference-only, not part of the profile
+      const style = op.construction ? `stroke="#a64dff" stroke-width="1.5" stroke-dasharray="6,4"` : `stroke="#0044aa" stroke-width="3"`
+      svg += `<line x1="${s[0].toFixed(1)}" y1="${s[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}" ${style}/>\n`
     } else if (op.kind === 'polyline') {
       const pts = op.pts.map(p => xf(p[0], p[1]))
-      svg += `<polyline points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${op.color||'#0044aa'}" stroke-width="3"/>\n`
+      const stroke = op.construction ? '#a64dff' : (op.color || '#0044aa')
+      const extra = op.construction ? ` stroke-width="1.5" stroke-dasharray="6,4"` : ` stroke-width="3"`
+      svg += `<polyline points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${stroke}"${extra}/>\n`
     } else if (op.kind === 'point') {
       const [px, py] = xf(op.pos[0], op.pos[1])
       svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="#cc0000"/>\n`

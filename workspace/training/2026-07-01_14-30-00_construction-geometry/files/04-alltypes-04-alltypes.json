@@ -1,0 +1,28 @@
+{
+  "arcBy3Points": {
+    "nA3": 0,
+    "cA3": 1
+  },
+  "batchResult": {
+    "arcsBy3Points": [],
+    "arcsByCenter": [
+      82
+    ],
+    "circles": [
+      87,
+      90
+    ],
+    "lines": [
+      70,
+      76
+    ],
+    "points": []
+  },
+  "constructionCount": 4,
+  "constructionGeometry": [
+    65,
+    76,
+    82,
+    90
+  ]
+}

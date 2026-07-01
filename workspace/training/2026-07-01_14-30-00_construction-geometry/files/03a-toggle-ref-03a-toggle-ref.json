@@ -1,0 +1,14 @@
+{
+  "toggle": {
+    "before": 0,
+    "afterOn": 1,
+    "afterOff": 0
+  },
+  "tangentToConstruction": {
+    "center": [
+      10,
+      0
+    ],
+    "enforced": true
+  }
+}

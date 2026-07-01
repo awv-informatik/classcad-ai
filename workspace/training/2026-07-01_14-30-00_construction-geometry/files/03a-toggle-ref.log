@@ -1,0 +1,3 @@
+[filewrite] files/03a-toggle-ref-03a-toggle-ref.json (170 bytes)
+[03a] toggle {"before":0,"afterOn":1,"afterOff":0}
+[03a] TANGENT to construction axis → center [10,0] enforced: true

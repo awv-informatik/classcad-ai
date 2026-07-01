@@ -1167,11 +1167,12 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Error:** The sketch renderer drew every arc as its minor (<180°) sweep, ignoring the stored `bulge`, so major arcs (e.g. a union-of-circles outer boundary) rendered as their minor complement — a union blob looked like an intersection lens. Root cause: `tessellateArc` forced `a1-a0 <= π` and the sketch path never passed the `bulge`.
 - **Fix:** `fetchSketchData` reads `members.bulge.value`; `tessellateArc(start,end,center,n,mid,bulge)` derives center+sweep from the signed bulge when provided (backward-compatible; solids/curves unaffected). Verified: union→blob, intersection→lens, minor arcs unbroken.
 
-### 167. [ ] ⚠️ `sketch.copyGeometry` — `doCopyConstraints` secretly controls the RETURN TYPE
+### 167. [✅] ⚠️ `sketch.copyGeometry` — `doCopyConstraints` return-null bug (ROOT-CAUSE FIXED 2026-07-01)
 
 - **Session:** `2026-07-01_12-19-23_copyGeometry` (Category 4.10 #5)
-- **Gotcha:** `true`/default → `result: null` even though the copy succeeds (geometry IS created); `false` → `result: id[]` (one parent id per input). If you need the copied ids you MUST pass `doCopyConstraints:false`, or diff `getGeometry` before/after. Verified live; also matches the pre-existing doc's claim.
-- **Also:** `translation` is required (omit → error 1004); empty `geomIds` is a silent no-op; invalid id → 1006; null in `geomIds` → 1001.
+- **Was:** `true`/default → `result: null` even though the copy succeeds; `false` → `result: id[]`. Had to pass `doCopyConstraints:false` or diff `getGeometry` to get the ids.
+- **FIXED in classcad source:** `SketcherHelper.CopyObjects` returned `copies` only on the `false` branch and fell through to a bare `RETURN;` otherwise. Changed to `RETURN copies;` — now every path returns the ids (`true` returns geometry + copied constraints, so longer than input; `false` = one per input). Recompiled worker + verified. cclasses branch `fix/copyobjects-missing-return` (a9d49c3b), user will merge. `copyGeometry.md` rewritten for fixed behavior (with a Version note for pre-fix builds).
+- **Still true:** `translation` required (omit → 1004); empty `geomIds` silent no-op; invalid id → 1006; null → 1001.
 
 ### 168. [ ] 📖 `sketch.copyGeometry` — what actually travels with a copy
 

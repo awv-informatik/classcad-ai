@@ -95,3 +95,29 @@ live verification.** Round-trip built with `common.save({format:'OFB', encoding:
 - `scripts/06-loadFrom.mjs` — data round-trip / merge / name selection / errors
 - `scripts/07-loadFrom-file.mjs` — the `file:` source (9 circles from disk)
 - Skill doc rewritten: `references/sketch/loadFrom.md` (UNVERIFIED banner removed; verified behavior + errors)
+
+---
+
+# sketch.deleteObject (Category 4.10 #8 — closes the category)
+
+`deleteObject({ ids: [...] })` — deletes geometry / constraints / dimensions / regions / rigid sets; returns VOID.
+Doc was detailed and mostly right; I verified it and **corrected one wrong claim**.
+
+| Aspect | Result |
+|---|---|
+| **Cascade** (delete geometry) | ✅ removes the element, its child points, AND every referencing constraint+dimension (incl. the `CC_LinearFeatureDimension`). No orphans. |
+| delete constraint only | ✅ geometry preserved (lines 2→2) |
+| child points | ✅ deleting a line removes its endpoints with it — no orphans (orphan points are a TRIM artifact, not delete) |
+| **atomicity** | ❌ doc was WRONG — it's **ALL-OR-NOTHING**: `deleteObject([validE, 999999, validF])` left BOTH E and F intact + returned 1006. One bad id blocks the whole batch → `.filter(Boolean)` first. |
+| empty `ids` | no-op, maxLevel 31 |
+| invalid / double-delete | 1006 | null | 1001 |
+
+Also: `constraint([...])` returns an array of created constraint ids (`[104]`).
+
+- `scripts/08-deleteObject.mjs` — cascade / constraint-only / child points / atomicity / errors
+- Skill doc corrected: `references/sketch/deleteObject.md` (all-or-nothing batch; verified cascade + child-points)
+
+---
+
+**Category 4.10 fully retrained/verified** (#1 splitCurve, #2 preTrim, #3 trim, #4 postTrim, #5 copyGeometry,
+#6 copyFrom, #7 loadFrom, #8 deleteObject).

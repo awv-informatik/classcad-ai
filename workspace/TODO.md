@@ -1190,3 +1190,9 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Session:** `2026-07-01_12-19-23_copyGeometry` (Category 4.10 #7)
 - **Finding:** `loadFrom({id, partId, data|file|url, encoding?, format='OFB', name?})` loads ONE sketch from an OFB blob into `id`. First live verification (server was down at original training). Round-trip via `common.save({format:'OFB',encoding:'base64'})→result.content` ({content,success}). Returns VOID. Both `data`+base64 and `file` (absolute local path, worker is local) verified; `url` untested. **MERGES** (dest 1 line → 5 after loading a 4-line rect). `name` selects the sketch (`'B'`→4 lines, `'S'`→circle).
 - **Gotcha:** WITHOUT `name`, the "first found in file stream" sketch loads — NOT creation order (OFB saved 'S' then 'B' → no-name loaded 'B'). Pass `name` for determinism. `partId` required (omit→1004); no source→1004; bad name→level-51 "couldn't be found in the of1 file stream"; garbage data→SketcherHelper.LoadSketch parse error.
+
+### 171. [ ] ⚠️ `sketch.deleteObject` — multi-delete is ALL-OR-NOTHING (doc was wrong)
+
+- **Session:** `2026-07-01_12-19-23_copyGeometry` (Category 4.10 #8 — closes the category)
+- **Correction:** the doc claimed valid ids "may still be processed" when one id is invalid. FALSE — verified `deleteObject([validE, 999999, validF])` left BOTH E and F intact and returned 1006. It's atomic: one bad id rejects the whole batch → always `.filter(Boolean)` first. Doc fixed.
+- **Verified cascade:** deleting geometry removes the element + its child points + EVERY referencing constraint/dimension (incl. `CC_LinearFeatureDimension`); no orphans. Deleting a constraint/dimension keeps geometry. (Orphan points are a TRIM artifact, not delete — see #165.) empty→no-op(31), invalid/double→1006, null→1001. `constraint([...])` returns an array of created ids.

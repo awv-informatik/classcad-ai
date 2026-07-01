@@ -1,0 +1,163 @@
+{
+  "cascadeBefore": {
+    "census": {
+      "CC_DimensionSet": 1,
+      "CC_SketchDimensionSet": 1,
+      "CC_Line": 2,
+      "CC_Point": 4,
+      "CC_2DFixationConstraint": 1,
+      "CC_2DHorizontalConstraint": 1,
+      "CC_2DCoincidentConstraint": 1,
+      "CC_2DVerticalConstraint": 1,
+      "CC_2DPerpendicularConstraint": 1,
+      "CC_2DHorizontalDistanceConstraint": 1,
+      "CC_LinearFeatureDimension": 1
+    },
+    "geo": {
+      "lines": 2,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    }
+  },
+  "cascadeDelete": {
+    "label": "delete line a",
+    "result": null,
+    "maxLevel": 31,
+    "msgs": [],
+    "hasStructure": true
+  },
+  "cascadeAfter": {
+    "census": {
+      "CC_DimensionSet": 1,
+      "CC_SketchDimensionSet": 1,
+      "CC_Line": 1,
+      "CC_Point": 2,
+      "CC_2DVerticalConstraint": 1
+    },
+    "geo": {
+      "lines": 1,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    }
+  },
+  "constraintResult": [
+    104
+  ],
+  "deleteConstraintOnly": {
+    "label": "delete perpendicular constraint",
+    "result": null,
+    "maxLevel": 31,
+    "msgs": [],
+    "g2before": {
+      "lines": 2,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    },
+    "g2after": {
+      "lines": 2,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    }
+  },
+  "childPoints": {
+    "p3before": {
+      "lines": 1,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    },
+    "p3after": {
+      "lines": 0,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    },
+    "note": "points 2->? after deleting the only line"
+  },
+  "atomicity": {
+    "label": "delete [validE, 999999, validF]",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 41,
+        "code": 0,
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "level": 51,
+        "code": 1006,
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ],
+    "g4before": {
+      "lines": 2,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    },
+    "g4after": {
+      "lines": 2,
+      "circles": 0,
+      "arcs": 0,
+      "points": 0
+    },
+    "note": "lines 2->? tells whether valid ids still processed when one is invalid"
+  },
+  "empty": {
+    "label": "empty ids",
+    "result": null,
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "invalid": {
+    "label": "invalid id",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 41,
+        "code": 0,
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "level": 51,
+        "code": 1006,
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "doubleDelete": {
+    "label": "double-delete h",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 41,
+        "code": 0,
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "level": 51,
+        "code": 1006,
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "nullId": {
+    "label": "null id",
+    "result": null,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 1001,
+        "message": "An element of parameter \"ids\" has the wrong type! It should be of type (string|real|id)"
+      }
+    ]
+  }
+}

@@ -782,11 +782,11 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 
 ### Category 4.10: Trimming, Splitting & Curve Management
 
-> **⚠️ RETRAIN REQUIRED:** The split/trim APIs were renamed. Deprecated → replacement:
-> `splitCurves` → `splitCurve`, `splitAllCurves` → `preTrim`, `trimCurves` → `trim`,
-> `splitCurvesMergeBack` → `postTrim`. The new model is a standalone `splitCurve` plus a
-> three-step `preTrim` → `trim` → `postTrim` workflow. Retrain against the new APIs;
-> source guide: `~/Downloads/sketch-split-trim-guide.md`.
+> **✅ RETRAINED (2026-07-01) — all 8 studied/verified.** The split/trim APIs were renamed
+> (`splitCurves`→`splitCurve`, `splitAllCurves`→`preTrim`, `trimCurves`→`trim`,
+> `splitCurvesMergeBack`→`postTrim`): standalone `splitCurve` + the `preTrim`→`trim`→`postTrim`
+> workflow. #5–8 (copyGeometry/copyFrom/loadFrom/deleteObject) verified live and their docs
+> corrected/enriched. Source guide: `~/Downloads/sketch-split-trim-guide.md`.
 
 | #   | Task                               | Source                                                            | Studied |
 | --- | ---------------------------------- | ----------------------------------------------------------------- | ------- |
@@ -797,7 +797,7 @@ const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 | 5   | Api study of `sketch.copyGeometry` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
 | 6   | Api study of `sketch.copyFrom`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
 | 7   | Api study of `sketch.loadFrom`     | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
-| 8   | Api study of `sketch.deleteObject` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [ ]     |
+| 8   | Api study of `sketch.deleteObject` | [sketch.md](../knowledge/classcad-skill/references/api/sketch.md) | [✅]    |
 
 ---
 

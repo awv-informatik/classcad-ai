@@ -1,0 +1,13 @@
+{
+  "total": 91,
+  "keep": 48,
+  "clean": {
+    "delSlivers": 2,
+    "delPoints": 0
+  },
+  "counts": {
+    "lines": 9,
+    "arcs": 12,
+    "circles": 2
+  }
+}

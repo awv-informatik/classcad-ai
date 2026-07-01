@@ -1,0 +1,4 @@
+[03] fillet centers [["topWaist",[3.63,3.82]],["botWaist",[2.38,-1.23]]]
+[03] total 100 | keep 51 | trim 49
+[filewrite] files/03-fillets-03-fillets.json (2880 bytes)
+[03] REALIZED lines 10 arcs 11 circles 2

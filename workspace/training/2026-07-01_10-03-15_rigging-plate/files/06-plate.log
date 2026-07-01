@@ -1,0 +1,3 @@
+[06] fillets [["topWaist",[4.29,4.09]],["botWaist",[2.3,-1.2]]]
+[filewrite] files/06-plate-06-plate.json (157 bytes)
+[06] total 91 keep 48 | cleaned {"delSlivers":2,"delPoints":0} | lines 9 arcs 12 circles 2

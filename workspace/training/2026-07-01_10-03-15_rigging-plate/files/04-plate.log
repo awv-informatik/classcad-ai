@@ -1,0 +1,4 @@
+[04] fillets [["topWaist",[3.63,3.82]],["botWaist",[2.38,-1.23]],["rightUpper",[3.55,2.33]],["rightLower",[3.83,-0.03]]]
+[filewrite] files/04-plate-04-plate.json (2780 bytes)
+[04] total 110 keep 65 trim 45 | cleaned {"delSlivers":4,"delPoints":0}
+[04] REALIZED lines 6 arcs 15 circles 2 [[2.63,0.97],[1.93,1.8]]

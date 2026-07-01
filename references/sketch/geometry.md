@@ -22,7 +22,7 @@ Batch-creates one or more sketch geometry items (points, lines, arcs, circles) i
 
 All geometry arrays are optional. You can pass any combination, including none at all.
 
-Per-curve `isConstruction` (lines, circles, arcs; not points) marks a curve as construction/reference geometry — a skeleton (axes, bolt circles, centerlines) that drives the real profile through constraints and dimensions but is excluded from the profile itself: it participates fully in the constraint solver (e.g. a real circle can be made tangent to a construction axis) yet is not actionable — it renders dashed and must not be passed to `part.extrusion` (extruding construction curves hangs). See `SKETCHING.md` (§ Construction geometry).
+Per-curve `isConstruction` (lines, circles, arcs; not points) marks a curve as construction/reference geometry — a skeleton (axes, bolt circles, centerlines) that drives the real profile through constraints and dimensions but is excluded from the profile itself: it participates fully in the constraint solver (e.g. a real circle can be made tangent to a construction axis) yet is not actionable — it renders dashed, and passing construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error (`maxLevel 51`), not a solid. See `SKETCHING.md` (§ Construction geometry).
 
 ## Return Value
 

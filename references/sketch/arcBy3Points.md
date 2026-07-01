@@ -16,7 +16,7 @@ Creates one or multiple arcs defined by start, mid, and end positions in a sketc
 - **`genFixation`** (optional, default TRUE) — auto-generates `CC_2DFixationConstraint` ("Auto_Fix") **only when a point is at origin** (0,0,0). No effect for off-origin geometry.
 - **`genIncidence`** (optional, default TRUE) — auto-generates `CC_2DCoincidentConstraint` ("Auto_Coinc") when any arc endpoint **exactly matches** an existing point.
 - **`genTangency`** (optional, default FALSE) — auto-generates `CC_2DTangentSketchConstraint` when adjacent to **another arc or circle**. Does NOT generate tangency for line-to-arc adjacency.
-- **`isConstruction`** (optional, default FALSE) — marks the arc as construction/reference geometry (drawn dashed). It participates fully in the constraint solver as reference geometry but is excluded from operations; do not pass construction curves to `part.extrusion` (it hangs). See `SKETCHING.md` (§ Construction geometry).
+- **`isConstruction`** (optional, default FALSE) — marks the arc as construction/reference geometry (drawn dashed). It participates fully in the constraint solver as reference geometry but is excluded from operations: passing construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error (`maxLevel 51`), not a solid. See `SKETCHING.md` (§ Construction geometry).
 
 ## midPos Behavior
 

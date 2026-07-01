@@ -231,7 +231,9 @@ the drawing's dimension scheme hangs off — exactly the dashed centerlines/refe
 
 **Hard rules:**
 - **Never feed construction curves to an operation.** `part.extrusion` on a normal profile builds a solid; passing
-  construction-only curves **hangs** (they form no extrudable profile). Construction geometry is skeleton, not material.
+  construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error
+  (`maxLevel 51`, "No usable (non-construction) geometry was selected for this operation."), not a solid — they form
+  no extrudable profile. Construction geometry is skeleton, not material.
 - **`getGeometry` lumps construction curves into its `lines`/`circles`/`arcs` arrays** — you can't tell them apart
   from it. To identify construction geometry use `getObjectInfo` (`isConstruction: 0|1`), `getObjectsLists`
   (`constructionGeometry: id[]`), or `getGlobalState` (`constructionCount`).

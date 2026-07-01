@@ -18,7 +18,7 @@ Creates a rectangle as 4 lines in a sketch. Returns an array of 4 line IDs.
 - `genTangency` — auto-generate tangency constraints with existing arcs. Default: `TRUE`.
 - `isConstruction` — flags all 4 rectangle lines as construction (reference) geometry. Default: `FALSE`.
 
-Construction geometry is a skeleton that drives the real profile through constraints/dimensions but is excluded from operations — the solver treats it as a full participant (e.g. a real curve can be made tangent to it), but it cannot be extruded (do NOT pass construction lines to `part.extrusion` — it hangs). See `SKETCHING.md` (§ Construction geometry).
+Construction geometry is a skeleton that drives the real profile through constraints/dimensions but is excluded from operations — the solver treats it as a full participant (e.g. a real curve can be made tangent to it), but it cannot be extruded — passing construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error (`maxLevel 51`), not a solid. See `SKETCHING.md` (§ Construction geometry).
 
 ## Return Value
 

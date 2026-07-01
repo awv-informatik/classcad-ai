@@ -16,7 +16,7 @@ Creates one or multiple arcs defined by start, end, and center positions. The ce
 - **`isClockwise`** (optional, default TRUE) — direction from start to end around center. TRUE = clockwise, FALSE = counterclockwise. CW and CCW with the same points produce complementary arcs (together they'd form a full circle).
 - **`genFixation`** (optional, default TRUE) — auto-generates `CC_2DFixationConstraint` ("Auto_Fix") **only when the center is at origin** (0,0,0). No effect for off-origin centers. Same behavior as point/circle.
 - **`genIncidence`** (optional, default TRUE) — auto-generates `CC_2DCoincidentConstraint` ("Auto_Coinc") when any arc endpoint **exactly matches** an existing point. Works cross-geometry (standalone points, line endpoints, other arc endpoints, circle centers).
-- **`isConstruction`** (optional, default FALSE) — marks the arc as construction/reference geometry (drawn dashed). It participates fully in the constraint solver (e.g. a real curve can be made tangent to it) but is excluded from the profile and from operations. Do not pass construction curves to `part.extrusion` — it hangs. See [SKETCHING.md](../SKETCHING.md) (§ Construction geometry).
+- **`isConstruction`** (optional, default FALSE) — marks the arc as construction/reference geometry (drawn dashed). It participates fully in the constraint solver (e.g. a real curve can be made tangent to it) but is excluded from the profile and from operations: passing construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error (`maxLevel 51`), not a solid. See [SKETCHING.md](../SKETCHING.md) (§ Construction geometry).
 
 ## Radius Constraint
 

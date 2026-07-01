@@ -1,0 +1,4 @@
+{
+  "verdict": "HUNG",
+  "note": "part.extrusion did not return within 8000ms"
+}

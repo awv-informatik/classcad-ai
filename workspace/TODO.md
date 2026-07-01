@@ -125,6 +125,15 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Trigger:** `finishMovingUnderConstraints({ id: asmId })` without any prior `startMovingUnderConstraints` call.
 - **Workaround:** Always use the full start → move → finish sequence.
 
+### 173. [✅] 💀 region-based ops (`part.extrusion`/`part.revolve`/`part.twist`) — all-construction selection hangs server
+
+- **Session:** `2026-07-01_14-30-00_construction-geometry` (journal + `scripts/03c-extrude-construction.mjs`)
+- **Error:** ❌ No error returned; the API call never resolves and the worker wedges (unresponsive to all subsequent calls; needs kill/restart).
+- **Trigger:** passing only construction geometry as `references` to a region-based op, e.g. `part.extrusion({ id, references: rectangle({..., isConstruction: true}) })`. Same expected for `part.revolve` / `part.twist` (they share `OperationsHelper.UpdateRegion`).
+- **Root cause (hypothesis):** `OperationsHelper.UpdateRegion` soft-filters construction curves (warning "Selection of construction geometry is not allowed") but keeps going; a construction-only selection leaves `sketchCurves` + `regions` empty, then it creates an empty region and `PreviewFeature` hangs building a solid from the degenerate region.
+- **Fix approach:** bail cleanly the moment filtering leaves nothing usable, before the empty region is created (covers extrusion/revolve/twist in one guard). Sweep the sibling ops.
+- **Fixed:** classcad/cclasses `4a0726aa` on branch `fix/construction-region-op-hang` — guard in `OperationsHelper.UpdateRegion` returns `maxLevel 51` ("No usable (non-construction) geometry was selected for this operation.") for all-construction selections; covers extrusion/revolve/twist. Regression test `PartAPITest_v1.testConstructionRegionOpsRejected`; BMTestSuite 397/0/0. Repro + verification: `workspace/training/2026-07-01_15-54-10_fix-construction-region-op-hang/`.
+
 ---
 
 ## 💥 CRITICAL — Crashes & Internal Errors (return errors but don't hang)

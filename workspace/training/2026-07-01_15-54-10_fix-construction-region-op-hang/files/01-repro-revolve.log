@@ -1,0 +1,3 @@
+[01] construction rect [58,64,70,76] axis 92 — calling part.revolve (8s timeout)...
+[filewrite] files/01-repro-revolve-01-repro-revolve.json (78 bytes)
+[01] VERDICT HUNG {"verdict":"HUNG","note":"part.revolve did not return within 8000ms"}

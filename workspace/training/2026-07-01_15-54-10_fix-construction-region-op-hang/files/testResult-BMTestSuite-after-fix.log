@@ -1,0 +1,1590 @@
+[BaseModeling] BaseModelerAPITest.TestDeleteObjects
+   started at: 16:12:55.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestGetDescription
+   started at: 16:12:55.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestGetGeometryInformation
+   started at: 16:12:55.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestGetIdent
+   started at: 16:12:56.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestGetName
+   started at: 16:12:56.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestLoadFromUrl
+   started at: 16:12:57.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestLoad_Of1
+   started at: 16:12:57.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestPrepareForEditing
+   started at: 16:12:58.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestRemoveBrepElementColor
+   started at: 16:12:58.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestRemoveBrepElementLabel
+   started at: 16:12:58.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestRequestVisualisationOfEntities
+   started at: 16:12:58.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestRequestVisualisationOfObject
+   started at: 16:12:58.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSaveToUrl
+   started at: 16:12:58.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSave_Of1
+   started at: 16:12:58.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetBrepElementColor
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetBrepElementLabel
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetColor
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetCurrentProduct
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetDefaultBrepColor
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetDefaultBrepTransparency
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetDefaultCurveColor
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetDescription
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetIdent
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetLoadOptions
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetName
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetSaveOptions
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] BaseModelerAPITest.TestSetTransparency
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestAddInstances
+   started at: 16:13:1.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestConvertToTemplate
+   started at: 16:13:2.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestCreateAssemblyAsTemplate
+   started at: 16:13:2.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestCreatePartAsTemplate
+   started at: 16:13:2.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestCreateRootAssembly
+   started at: 16:13:3.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestExportNode
+   started at: 16:13:3.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestFrom
+   started at: 16:13:3.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestLoadProduct
+   started at: 16:13:4.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestRemoveInstances
+   started at: 16:13:4.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestSetCurrentInstance
+   started at: 16:13:4.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestSetIdentForNodeOrProduct
+   started at: 16:13:4.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderBasicAPITest.TestTransformInstances
+   started at: 16:13:5.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCloseFeature
+   started at: 16:13:5.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestConvertToWorkAxis
+   started at: 16:13:5.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestConvertWorkCoordSystemToWorkCSys
+   started at: 16:13:5.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateFeature
+   started at: 16:13:5.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateNamedCoordSystem
+   started at: 16:13:5.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateNamedPoint
+   started at: 16:13:5.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateWorkGeometry_Axis
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateWorkGeometry_CSys
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateWorkGeometry_CoordSystem
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateWorkGeometry_Plane
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestCreateWorkGeometry_Point
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestDeleteDimensions
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestGetFeatureByName
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestLinkWithExpression
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestNewPart
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestOpenFeature
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestOperationMoveBefore
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestOperationMoveToEnd
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestPick
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUnlinkExpression
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateBooleanOperation
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateBox
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateChamfer
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateCompositeCurve
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateCone
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateCylinder
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateEntityDeletion
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateExpressions
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateExpressions_Ident
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateExtrusion
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateFillet
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateImport
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateMirror
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdatePattern
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateRevolve
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateSlice
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateSliceBySheet
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateSphere
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateTransformation
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateTwist
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateWorkAxis
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateWorkCSys
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateWorkCoordSystem
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateWorkPlane
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FeatureAPITest.TestUpdateWorkPoint
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestCreate3DConstraint
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdate3DConstraintValue
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdateCylindricalConstraints
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdateFastenedConstraints
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdateFastenedOriginConstraints
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdateParallelConstraints
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdatePlanarConstraints
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdateRevoluteConstraints
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] AssemblyBuilderHLConstraintsAPITest.TestUpdateSliderConstraints
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestCreateSubassembly
+   started at: 16:13:6.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeleteAsmTemplate
+   started at: 16:13:7.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeleteAsmTemplate_Idents
+   started at: 16:13:7.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeleteInstanceFromAsmTemplate
+   started at: 16:13:7.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeleteInstanceFromAsmTemplate_Idents
+   started at: 16:13:8.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeleteInstanceFromExpTree
+   started at: 16:13:8.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeleteInstanceFromExpTree_Idents
+   started at: 16:13:9.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeletePrtTemplate
+   started at: 16:13:9.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestDeletePrtTemplate_Idents
+   started at: 16:13:9.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestExistenceOfAttributes
+   started at: 16:13:10.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestExportNode
+   started at: 16:13:10.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestImportFeature
+   started at: 16:13:10.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestOperationsAndReferencesWithCompositeCurve
+   started at: 16:13:10.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestPropagateColorsAndChordHeightTol
+   started at: 16:13:11.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestPropagateTransparencyAndAngleTol
+   started at: 16:13:11.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestSetAppearance_ChordHeightTolAndAngleTol
+   started at: 16:13:11.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestSetAppearance_ChordHeightTolAndAngleTol_Tesselation
+   started at: 16:13:11.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestSetAppearance_ColorAndTransparency
+   started at: 16:13:11.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestSetAppearance_Colors
+   started at: 16:13:11.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestSetAppearance_Transparency
+   started at: 16:13:11.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestTesselationOnModifyAppearance
+   started at: 16:13:12.
+   Test successfull.
+
+[BaseModeling] FunctionalTest.TestToId
+   started at: 16:13:12.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestAddDimensions
+   started at: 16:13:12.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestCenterAllViews
+   started at: 16:13:12.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestCreate2DViews
+   started at: 16:13:15.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestDimensionTypes
+   started at: 16:13:19.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestExportDXF
+   started at: 16:13:19.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestExportSVG
+   started at: 16:13:19.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestGetBoundaryBoxFromViews
+   started at: 16:13:19.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestPlace2DViews
+   started at: 16:13:21.
+   Test successfull.
+
+[BaseModeling] Drawing2DAPITest.TestRemoveDimensions
+   started at: 16:13:23.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestAddConstraints
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestAddGeometry
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestAddPolycurveSegment
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestClosePolyLine
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCopyCircularPattern
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCopyMirrorPattern
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCopyObjects
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCopyRectangularPattern
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCreateAndSetWorkPlane
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCreateFillet
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCreateRectangle
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCreateReferenceGeometry
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCreateRigidSet
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestCreateSketch
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestDeleteFillet
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestGenerateAutoConstraints
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestMoveObjects
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestRecalc
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestRemoveObjects
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestSetSketchRefs
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestSetWorkPlane
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestSolveConstraints
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestSplitAllCurves
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestSplitCurvesMergeBack
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestUnlinkReferenceGeometry
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestUpdateDimensionValue
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestUpdateDimensions
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] SketcherAPITest.TestUpdateGeometry
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] PartImportExportTest.TestSituationWithGeometry
+   started at: 16:13:24.
+   Test successfull.
+
+[BaseModeling] PartImportExportTest.TestSituationWithoutGeometry
+   started at: 16:13:25.
+   Test successfull.
+
+[BaseModeling] PartImportExportTest.TestSituationWithoutReferencesAndGeometry
+   started at: 16:13:28.
+   Test successfull.
+
+[BaseModeling] GenerateScriptTest.testGenerateScript
+   started at: 16:13:29.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testBoolean
+   started at: 16:13:30.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testBox
+   started at: 16:13:30.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testChamfer
+   started at: 16:13:30.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testCircularPattern
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testCloseFeature
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testCloseFeature2
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testCompositeCurve
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testCone
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testConstructionRegionOpsRejected
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testCreate
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testCylinder
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testDeleteFeature
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testEntityDeletion
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testEntityInjection
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testExtrusion
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testFillet
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testGetFeature
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testGetGeometryIds
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testGetGeometryPositions
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testGetSketch
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testGetSolidProperties
+   started at: 16:13:31.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testGetWorkGeometry
+   started at: 16:13:32.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testImportFeature
+   started at: 16:13:32.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testLinearPattern
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testLinkWithExpression
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testMirror
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testOpenFeature
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testOperationMoveBefore
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testOperationMoveToEnd
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testRevolve
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testRotation
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testSketch
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testSlice
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testSliceBySheet
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testSphere
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testTransformByCSys
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testTranslation
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testTwist
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testUnlinkExpression
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testUpdateExpression
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testUpdateExpression_Ident
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testWorkAxis
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testWorkCSys
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testWorkPlane
+   started at: 16:13:33.
+   Test successfull.
+
+[BaseModeling.api] PartAPITest_v1.testWorkPoint
+   started at: 16:13:34.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testAssemblyTemplate
+   started at: 16:13:34.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testConvertToTemplate
+   started at: 16:13:34.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testCreate
+   started at: 16:13:34.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testDeleteConstraint
+   started at: 16:13:34.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testDeleteInstance
+   started at: 16:13:34.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testDeleteTemplate
+   started at: 16:13:35.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testExportNode
+   started at: 16:13:35.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testFrom
+   started at: 16:13:36.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGear
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetAssemblyTemplate
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetCircularPattern
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetCylindrical
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetFastened
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetFastenedOrigin
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetGear
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetGroup
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetInstance
+   started at: 16:13:52.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetLinearPattern
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetParallel
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetPartTemplate
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetPlanar
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetProduct
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetRevolute
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetSlider
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetSolidProperties
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGetSpherical
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testGroup
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testInstance
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testLoadProduct
+   started at: 16:13:53.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testPartTemplate
+   started at: 16:13:54.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testSetCurrentInstance
+   started at: 16:13:54.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testSetCurrentProduct
+   started at: 16:13:54.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testSetIdent
+   started at: 16:13:54.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testTransformInstance
+   started at: 16:13:55.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_Basic.testTransformInstanceTo
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testCircularPattern
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testCylindrical
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testFastened
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testFastenedOrigin
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testFinishMovingUnderConstraints
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testLinearPattern
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testMoveUnderConstraints
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testParallel
+   started at: 16:13:56.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testParallel2
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testPlanar
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testRevolute
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testSlider
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testSpherical
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testStartMovingUnderConstraints
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] AssemblyAPITest_v1_HLC.testUpdate3DConstraintValue
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testCircularPattern
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testConstraint
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testCopyFrom
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testCopyGeometry
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testCreate
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testDeleteObject1
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testDeleteObject2
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testDeleteSketch
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testDimension
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testFillet
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGenerateAutoConstraints
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGeometry
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGetDiagnosticsInfo
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGetGeometry
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGetGlobalState
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGetObjectInfo
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGetObjectsLists
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGetPoints
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testGetTopologyInfo
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testLinearPattern
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testLoadFrom
+   started at: 16:13:57.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testMirrorPattern
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testMoveGeometry
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testPostTrim
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testPreTrim
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testPreTrimWithCurveIds
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testRectangle
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testReferenceGeometry
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testRigidSet
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSetReferences
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSetWorkPlane
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSketchRegion
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSplitAllCurves
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSplitAllCurvesWithCurveIds
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSplitCurve
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSplitCurves
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testSplitCurvesMergeBack
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testTrimCurves
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testTrimWorkflow
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testUndoFillet
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testUnlinkReferenceGeometry
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testUpdateDimension
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testUpdateDimensionPosition
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testUpdateGeometry
+   started at: 16:13:58.
+   Test successfull.
+
+[BaseModeling.api] SketchAPITest_v1.testUpdateSketchRegion
+   started at: 16:13:59.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testCenterView
+   started at: 16:13:59.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testDeleteDimension
+   started at: 16:14:1.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testDimension
+   started at: 16:14:2.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testDimensionTypes
+   started at: 16:14:3.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testExportDXF
+   started at: 16:14:3.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testExportSVG
+   started at: 16:14:3.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testGetBoundaryBoxFromView
+   started at: 16:14:3.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testIsDXFAvailable
+   started at: 16:14:5.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testIsSVGAvailable
+   started at: 16:14:5.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testPlaceView
+   started at: 16:14:5.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testUpdateDimensionPosition
+   started at: 16:14:8.
+   Test successfull.
+
+[BaseModeling.api] Drawing2DAPITest_v1.testView
+   started at: 16:14:8.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testAddInstances
+   started at: 16:14:11.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testCheckDbReferences
+   started at: 16:14:11.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testCreateSubassembly
+   started at: 16:14:12.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeleteAsmTemplate
+   started at: 16:14:12.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeleteAsmTemplate_Idents
+   started at: 16:14:13.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeleteInstanceFromAsmTemplate
+   started at: 16:14:13.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeleteInstanceFromAsmTemplate_Idents
+   started at: 16:14:13.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeleteInstanceFromExpTree
+   started at: 16:14:13.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeleteInstanceFromExpTree_Idents
+   started at: 16:14:14.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeletePrtTemplate
+   started at: 16:14:14.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testDeletePrtTemplate_Idents
+   started at: 16:14:15.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testExistenceOfAttributes
+   started at: 16:14:15.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testExportNode
+   started at: 16:14:15.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testImportFeature
+   started at: 16:14:16.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testMatePath
+   started at: 16:14:16.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testMatePath2
+   started at: 16:14:16.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testOperationsAndReferencesWithCompositeCurve
+   started at: 16:14:16.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testPropagateColorsAndChordHeightTol
+   started at: 16:14:17.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testPropagateTransparencyAndAngleTol
+   started at: 16:14:17.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample1
+   started at: 16:14:17.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample2
+   started at: 16:14:17.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample3
+   started at: 16:14:17.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample4
+   started at: 16:14:17.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample5
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample6
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample7
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testRealWorldExample8
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testSTPImportExport
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testSetAppearance_ChordHeightTolAndAngleTol
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testSetAppearance_ChordHeightTolAndAngleTol_Tesselation
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testSetAppearance_ColorAndTransparency
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testSetAppearance_Colors
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testSetAppearance_Transparency
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testTesselationOnModifyAppearance
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testToId
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] FunctionalTest_v1.testTransformInstances
+   started at: 16:14:18.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testBooleanSelfReference
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testBox
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testCone
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testCopy
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testCylinder
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testDeleteSolid
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testExtrusion
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testFillet
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testFillet2
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testGetSolidFromFeature
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testIntersection
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testMerge
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testMirror
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testOffset
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testRevolve
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testRotation
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testScale
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testSection
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testSlice
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testSphere
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testSubtraction
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testTranslation
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testTranslationAndRotation
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] SolidAPITest_v1.testUnion
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.test2dBooleanSelfReference
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testAdvancedPolyline
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testAdvancedPolylineNegativeR
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testAdvancedPolylineWithArcs
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testArcBy3Points
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testArcByCenter
+   started at: 16:14:19.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testArcByCenterRadAngle
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testArcByCenterRadAngleInvalidRadius
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testBezierCurve
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testCircle
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testCircleInvalidRadius
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testCleanShape
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testDeleteShape
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testEllipse
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testEllipseInvalidRadius
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testEllipticArc
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testEllipticArcInvalidRadius
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testInterpolationCurve
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testInterpolationCurveInvalidPoints
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testIntersection2d
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testLine
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testPolyline2d
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testRotateShape
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testScaleShape
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testShape
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testSubtraction2d
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testTransformShape
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testTranslateShape
+   started at: 16:14:20.
+   Test successfull.
+
+[BaseModeling.api] CurveAPITest_v1.testUnion2d
+   started at: 16:14:20.
+   Test successfull.
+
+
+397 tests executed in  1:1:25.

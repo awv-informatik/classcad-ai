@@ -1,0 +1,106 @@
+[CAD] ClassCadKeyAppTest.testExtractTokenClaimsNative
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testExtractTokenClaimsWasm
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsCodeSandboxApp
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsCodeSandboxIO
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsEmptyList
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsExactMatch
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsMixedPatterns
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsMultipleOrigins
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsNativeKeyIsEmpty
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsNoMatch
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyExactSubdomainMatch
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyInvalidWildcards
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyLocalhostMatch
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyWildcardMatch
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWildcardWithProtocol
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWithPort
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWithoutPort
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateClassCadKeyNative
+   started at: 16:15:33.
+   Test failed:
+   [{"message":"token expired"}]   
+   Test failed:
+   - ValidateClassCadKey should return a result for a valid native key   
+
+[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWasm
+   started at: 16:15:33.
+   Test failed:
+   [{"message":"token expired"}]   
+   Test failed:
+   - ValidateClassCadKey should return a result for a valid wasm key   
+
+[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWithEmptyKey
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWithGarbageKey
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWithTamperedKey
+   started at: 16:15:33.
+   Test successfull.
+
+[CAD] ClassCadKeyAppTest.testVerifyTokenNative
+   started at: 16:15:33.
+   Test failed:
+   - Native token verification should succeed   
+
+[CAD] ClassCadKeyAppTest.testVerifyTokenWasm
+   started at: 16:15:33.
+   Test failed:
+   - Wasm token verification should succeed   
+
+
+24 tests executed in  1:0:0.

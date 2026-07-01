@@ -270,6 +270,25 @@ in the same run interfere (`trim` resolves `curveIds` globally). Trimming a circ
 circle's **center point** behind as an isolated `points[]` entry — delete it with `deleteObject` if the profile
 must be point-clean.
 
+### Carving INNER loops (discard the outer curves)
+
+The boundary test is not just for outer outlines — an inner loop is the **same test over a deeper target region**.
+Two knobs (validated 2026-07-01 across lens/Reuleaux/crossing-rects/rounded-cell/4-circle cases):
+
+- **Containment depth.** Keep a segment iff it bounds the region "inside **≥ k** shapes":
+  `keep = (countIn(p1) ≥ k) XOR (countIn(p2) ≥ k)`.
+  - `k = 1` → the **outer** union outline.
+  - `k = 2` → the pairwise **overlap** (two circles → the lens; two rectangles → the central square).
+  - `k = N` → the region inside **all N** shapes (3 circles → Reuleaux triangle; 4 circles → curvilinear "cushion").
+  Each increment of `k` strips one layer inward. This directly discards the outer curves and keeps the inner loop.
+- **Arbitrary region predicate.** For inner loops that aren't a pure overlap (a specific grid cell, a cell with a
+  circular bite, any composite void), keep a segment iff a caller predicate `region(P)→bool` **flips across the ±ε
+  probe**. E.g. `region = P => inCell(P) && !inCircle(P, c, r)` carved a rounded inner cell out of a 32-segment
+  grid+circle field. Any `P→bool` region works — it need not be a boolean of primitives.
+
+Practice: **predict the target profile first** (segment counts, arc `bulge`/angle, key coordinates), then classify,
+trim, `postTrim`, and check the realized geometry matches — a falsifiable test beats eyeballing the after-snapshot.
+
 ### Trim rules
 
 - `trim` only accepts IDs returned by `preTrim` — not original geometry IDs

@@ -35,28 +35,40 @@ NEXT
 IF !CADH_ObjectExists(operation.region) THEN operation.region = CreateRegion("SketchRegion", ...); ENDIF  // empty!
 ```
 
-Construction curves are filtered out with a warning but no bail. An all-construction selection leaves `sketchCurves`
-and `regions` empty, so an **empty** `CC_SketchRegion` is created and handed to `PreviewFeature` -> `RecalcProduct` ->
-`operationSequence.GenerateSequence` -> the SMLib/C++ kernel tries to build a solid from an empty region and spins.
-The `PreCheckVisitor` construction guard runs on an already-built region, too late to prevent the hang. The true
-root cause (kernel not handling an empty region) is deep in SMLib (out of scope); the correct-scope fix is to stop
-feeding the degenerate empty region to the kernel.
+Construction curves are filtered out with a warning but no bail, leaving an **empty** `CC_SketchRegion`. That region
+reaches `PreviewFeature` -> `RecalcProduct` -> `operationSequence.GenerateSequence`, whose **PreCheckVisitor** validates
+the profile *before* building geometry: `PreCheckVisitor.cclass:1414` calls `CADH_CurvesFindSelfIntersections(region.GetCurveEntities())`
+on the empty curve set. So the op never reaches solid construction — it wedges in the pre-build self-intersection scan.
 
-## Fix
+**The actual hang (confirmed by `sample` of the wedged worker — hot frame `ClassCAD::CurveBuilder::CurvesFindSelfIntersections`
+in libSMLibService):** `runtime/Source/SMLibService/c/CurveBuilder.cpp:1439`:
 
-One guard in the shared `UpdateRegion`, right after the filter loop and **before** the empty region is created
-(covers extrusion + revolve + twist at once):
-
-```
-IF LEN(sketchCurves) = 0 AND LEN(regions) = 0 THEN
-    OBJ_ErrorMessage("No usable (non-construction) geometry was selected for this operation.", 2);
-    RETURN;
-ENDIF
+```cpp
+for (ULONG i = 0 ; i<curves->GetSize()-1; i++){   // pairwise self-intersection scan
 ```
 
-Byte-exact to the file's convention: CRLF endings, tab indentation, ASCII only, `=` (not `==`), `OBJ_ErrorMessage(.., 2)`
-matching the sibling warning above it. This returns a proper error (non-empty `messages`, `maxLevel 51`) — not a
-silent no-op — so no additional cclass symptom-patch is needed.
+`ULONG` is `unsigned long`. For an empty array `GetSize()==0`, so `GetSize()-1` **underflows** to `ULONG_MAX`
+(~1.8e19 on LP64 mac/Linux; ~4.29e9 on Windows LLP64 where `unsigned long` is 32-bit) — the loop runs effectively
+forever, dereferencing out-of-bounds `GetAt(i)` and running an O(n^2) `GlobalCurveIntersect` per step. Not mac-specific:
+the underflow is defined behavior on every platform (only the symptom — hang vs crash vs magnitude — varies by ABI /
+allocator). Latent for every caller of this routine (`kernel.getSelfIntersections`, `CurveAnalyzer`, `GeometricalCalculations`).
+
+## Fix (runtime root cause)
+
+`CurveBuilder.cpp:1439` — underflow-safe loop bound (`classcad/runtime` branch `fix/construction-region-op-hang`, `aa9886a6e`):
+
+```cpp
+for (ULONG i = 0 ; i+1<curves->GetSize(); i++){
+```
+
+Empty / single-curve arrays now do zero iterations and return an empty intersection list (the documented contract).
+Applied byte-safe (`perl`, not the Edit tool which re-encoded windows-1252 `é` in nearby comments); CurveBuilder.cpp
+is CRLF + tab. Rebuilt `libSMLibService.dylib`.
+
+**No cclass guard needed.** Per TODO-HOW-TO ("root cause returns a proper error -> skip the symptom patch"): with the
+runtime fix, the self-intersection scan returns cleanly, the precheck proceeds and rejects the empty region with
+`maxLevel 51` ("Selection of construction geometry is not allowed." + "There is no sketch for <op>"). Verified WITHOUT
+any cclass guard. So the earlier `UpdateRegion` guard was dropped; `cclasses` keeps only the regression test.
 
 ## Verification (fixed binary)
 
@@ -77,7 +89,16 @@ silent no-op — so no additional cclass symptom-patch is needed.
   - **Skipped** (BaseModeling-local change, no cross-domain effect): CommonTestSuite, BaseSystemTestSuite,
     FilerTestSuite, LGS3DServiceTestSuite, GeneralTestSuite, CocoRCompilerTestSuite, SystemClassesTestSuite.
 
+Also re-ran the regression test + `BMTestSuite` (**397/0/0**) against the final state (runtime fix + test, **no**
+cclass guard) — `files/testResult-BMTestSuite-final.xml`.
+
 ## Notes
-- The file `OperationsHelper.cclass` is CRLF + tab (the runbook's "all cclass files are LF" claim is inaccurate for
-  this file). Inserted via `perl -0777` to write explicit CRLF; `PartAPITest_v1.cclass` is LF (Edit tool used there).
-- Fix branch: `fix/construction-region-op-hang` in `cclasses` (one commit). Not pushed.
+- Root cause is **runtime C++** (`CurveBuilder.cpp` underflow), not cclass. First hypothesis ("kernel builds a solid
+  from an empty region") was wrong — a `sample` of the wedged worker showed the spin is in the pre-build
+  self-intersection scan. The kernel is never reached.
+- `CurveBuilder.cpp` and `OperationsHelper.cclass` are **CRLF + windows-1252** — the Edit tool re-encodes them
+  (corrupted `é` in Bézier comments on the first attempt); re-applied with `perl` byte-safe. `PartAPITest_v1.cclass`
+  is LF (Edit tool fine there). (Runbook's "all cclass/cpp are LF" claim is inaccurate for these files.)
+- **Branches (all unpushed):** `classcad/runtime` `fix/construction-region-op-hang` `aa9886a6e` (the fix);
+  `classcad/cclasses` `fix/construction-region-op-hang` `78ebc309` (regression test only — guard dropped);
+  `cc/classcad-skill` `fix/construction-region-op-hang` `7a5184d` (doc sweep: hangs -> error).

@@ -65,10 +65,13 @@ Empty / single-curve arrays now do zero iterations and return an empty intersect
 Applied byte-safe (`perl`, not the Edit tool which re-encoded windows-1252 `é` in nearby comments); CurveBuilder.cpp
 is CRLF + tab. Rebuilt `libSMLibService.dylib`.
 
-**No cclass guard needed.** Per TODO-HOW-TO ("root cause returns a proper error -> skip the symptom patch"): with the
-runtime fix, the self-intersection scan returns cleanly, the precheck proceeds and rejects the empty region with
-`maxLevel 51` ("Selection of construction geometry is not allowed." + "There is no sketch for <op>"). Verified WITHOUT
-any cclass guard. So the earlier `UpdateRegion` guard was dropped; `cclasses` keeps only the regression test.
+**Two layers kept (per review).** The runtime fix alone is sufficient — with it, the self-intersection scan returns
+cleanly and the precheck rejects the empty region with `maxLevel 51`; I verified that WITHOUT any cclass guard, and
+per TODO-HOW-TO ("root cause returns a proper error -> skip the symptom patch") I initially removed the guard. But on
+review the cclass `UpdateRegion` guard was kept as **defense-in-depth**: it bails the region ops FAST with a clear
+message ("No usable (non-construction) geometry was selected for this operation.") before any region/precheck work.
+Final landed state = **both**: runtime `aa9886a6e` (root cause) + cclasses `4a0726aa` (guard + regression test). The
+guard-removal amend (`78ebc309`) was never pushed and is discarded.
 
 ## Verification (fixed binary)
 
@@ -99,6 +102,7 @@ cclass guard) — `files/testResult-BMTestSuite-final.xml`.
 - `CurveBuilder.cpp` and `OperationsHelper.cclass` are **CRLF + windows-1252** — the Edit tool re-encodes them
   (corrupted `é` in Bézier comments on the first attempt); re-applied with `perl` byte-safe. `PartAPITest_v1.cclass`
   is LF (Edit tool fine there). (Runbook's "all cclass/cpp are LF" claim is inaccurate for these files.)
-- **Branches (all unpushed):** `classcad/runtime` `fix/construction-region-op-hang` `aa9886a6e` (the fix);
-  `classcad/cclasses` `fix/construction-region-op-hang` `78ebc309` (regression test only — guard dropped);
-  `cc/classcad-skill` `fix/construction-region-op-hang` `7a5184d` (doc sweep: hangs -> error).
+- **Branches (all LANDED / pushed):** `classcad/runtime` `aa9886a6e` (the runtime root-cause fix);
+  `classcad/cclasses` `4a0726aa` (cclass guard + regression test — kept per review); `cc/classcad-skill`
+  `7a5184d` merged to `master` (doc sweep: hangs -> error). All on branch `fix/construction-region-op-hang`
+  except the skill docs which went to `master`.

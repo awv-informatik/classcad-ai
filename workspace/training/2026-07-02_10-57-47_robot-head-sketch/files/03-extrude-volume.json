@@ -1,0 +1,22 @@
+{
+  "direct": {
+    "result": 397,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "level": 51,
+        "code": 0,
+        "message": "[Evaluation error in Extrusion.ExtrudeEntities:Brep after linear sweep not manifold\nFunction: CADH_ExtrudeHeightRegion\nFile: /Users/dev/dev/awv/classcad/runtime"
+      }
+    ]
+  },
+  "trimmed": {
+    "result": 744,
+    "maxLevel": 31,
+    "refs": 20
+  },
+  "analyticArea": 118.2335340575572,
+  "analyticVolume": 236.4670681151144,
+  "volume": 236.44209499408652,
+  "relDelta": 0.00010560929784824197
+}

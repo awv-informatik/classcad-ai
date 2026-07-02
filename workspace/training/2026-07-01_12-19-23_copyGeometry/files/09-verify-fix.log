@@ -1,0 +1,5 @@
+[filewrite] files/09-verify-fix-09-verify-fix.json (273 bytes)
+[09] default(true) -> id[3] [65,68,69]
+[09] explicit true -> id[5] [70,73,74,75,76]
+[09] false (ctrl)  -> id[1] [77]
+[09] FIXED — true now returns ids

@@ -302,6 +302,13 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 
 ---
 
+### 174. [ ] 📖 `sketch.updateDimension` — stale arc `bulge` after failed(0)→solved(2) update sequence
+
+- **Session:** `2026-07-02_10-57-47_robot-head-sketch` (scripts 04/05, journal § 04/05)
+- **Error:** ❌ Driving a symmetric dim pair one-at-a-time (first call result 0 — unsolvable intermediate — second call result 2) left the re-solved arc's `members.bulge.value` stale: 1.2988643 (209.6° sweep) instead of 0.7022581 (140.3°), while start/end/center/radius were exact to 1e-15. Renderer/consumers of bulge see a corrupted arc; position readbacks all pass. Reproduced 3/3.
+- **Trigger:** `updateDimension` A→(result 0), then B→(result 2) on a boss-Ø pair tangent to a dome with fixed symmetry.
+- **Workaround:** No heal found — `common.recalc` doesn't refresh it, same-value re-set is a solver no-op. Avoid the failed intermediate entirely: ONE driving dim + EQUAL_RADIUS (verified clean). A later value-changing successful solve that moves the arc usually rewrites bulge.
+
 ## ⚠️ MEDIUM — Specific API Failures
 
 ### 26. [ ] ⚠️ Invalid ID types (float, negative, zero) all fail
@@ -374,6 +381,20 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Workaround:** Set `facetingParamsMode: 0` before creating geometry if you need graphic data.
 
 ---
+
+### 175. [ ] ⚠️ `sketch.updateDimension` — array/batch form is a silent null no-op
+
+- **Session:** `2026-07-02_10-57-47_robot-head-sketch` (journal § 02)
+- **Error:** ❌ Passing an array of `{id, value}` (like `dimension`/`constraint` accept) returns `result: null`, no messages, nothing updates.
+- **Trigger:** `api.v1.sketch.updateDimension([{id, value}, ...])`
+- **Workaround:** Loop single calls.
+
+### 176. [ ] ⚠️ `sketch.dimension` — `dimPos` at creation poisons the batch
+
+- **Session:** `2026-07-02_10-57-47_robot-head-sketch` (journal § 03)
+- **Error:** ❌ Adding `dimPos` to HORIZONTAL/VERTICAL_DISTANCE point-pair dims in a 21-dim batch → batch maxLevel 51, several dims created as VOID, solver left the sketch half-driven (38/55 readback rows wrong). Not isolated to a single dim type.
+- **Trigger:** `dimension([... {type:'HORIZONTAL_DISTANCE', geomIds:[p1,p2], value, dimPos:[x,y,0]} ...])`
+- **Workaround:** Create dims without `dimPos`, then `updateDimensionPosition` (works on all types).
 
 ## 🟡 LOW — Degenerate State Warnings
 

@@ -1,0 +1,4 @@
+[05] after L(0)/R(2): 0 2 bossL bulge 1.2988642858223132 exp± 0.7022581 STALE
+[05] after common.recalc: maxLevel 31 bulge 1.2988642858223132 still STALE
+[05] after re-set L=7: result 2 bulge 1.2988642858223132 still STALE
+[filewrite] files/05-bulge-heal-heal.json (211 bytes)

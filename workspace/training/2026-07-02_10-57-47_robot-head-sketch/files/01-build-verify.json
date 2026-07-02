@@ -1,0 +1,730 @@
+{
+  "maxLevels": {
+    "fix": 31,
+    "rel": 31,
+    "dim": 31
+  },
+  "relIds": [
+    249,
+    251,
+    253,
+    255,
+    257,
+    259,
+    261,
+    263,
+    265,
+    267,
+    269,
+    271,
+    273,
+    275,
+    277,
+    279,
+    281,
+    283,
+    285,
+    287,
+    289,
+    291,
+    293,
+    295,
+    297,
+    299,
+    301,
+    303,
+    305,
+    307,
+    309
+  ],
+  "dimId": {
+    "D28L": 313,
+    "D28R": 317,
+    "D56L": 321,
+    "D56R": 325,
+    "R12": 329,
+    "R2L": 333,
+    "R2R": 337,
+    "R1L": 341,
+    "R1R": 345,
+    "RS_TR": 349,
+    "RS_TL": 353,
+    "RS_BL": 357,
+    "RS_BR": 361,
+    "HD6R": 365,
+    "HD6L": 369,
+    "VD8": 373,
+    "VD2": 377,
+    "W3": 381,
+    "HD35R": 385,
+    "HD35L": 389,
+    "VD35": 393
+  },
+  "comparison": {
+    "rows": [
+      {
+        "key": "bottom",
+        "what": "start",
+        "got": [
+          -2.5,
+          -8
+        ],
+        "want": [
+          -2.5,
+          -8
+        ],
+        "err": 0
+      },
+      {
+        "key": "bottom",
+        "what": "end",
+        "got": [
+          2.5,
+          -8
+        ],
+        "want": [
+          2.5,
+          -8
+        ],
+        "err": 0
+      },
+      {
+        "key": "sideR",
+        "what": "start",
+        "got": [
+          3.5,
+          -7
+        ],
+        "want": [
+          3.5,
+          -7
+        ],
+        "err": 0
+      },
+      {
+        "key": "sideR",
+        "what": "end",
+        "got": [
+          3.5,
+          -4.7738873
+        ],
+        "want": [
+          3.5,
+          -4.7738873
+        ],
+        "err": 0
+      },
+      {
+        "key": "sideL",
+        "what": "start",
+        "got": [
+          -3.5,
+          -4.7738873
+        ],
+        "want": [
+          -3.5,
+          -4.7738873
+        ],
+        "err": 8.88e-16
+      },
+      {
+        "key": "sideL",
+        "what": "end",
+        "got": [
+          -3.5,
+          -7
+        ],
+        "want": [
+          -3.5,
+          -7
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotTop",
+        "what": "start",
+        "got": [
+          0.5,
+          1
+        ],
+        "want": [
+          0.5,
+          1
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotTop",
+        "what": "end",
+        "got": [
+          -0.5,
+          1
+        ],
+        "want": [
+          -0.5,
+          1
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotLeft",
+        "what": "start",
+        "got": [
+          -1.5,
+          0
+        ],
+        "want": [
+          -1.5,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotLeft",
+        "what": "end",
+        "got": [
+          -1.5,
+          -5
+        ],
+        "want": [
+          -1.5,
+          -5
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotBottom",
+        "what": "start",
+        "got": [
+          -0.5,
+          -6
+        ],
+        "want": [
+          -0.5,
+          -6
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotBottom",
+        "what": "end",
+        "got": [
+          0.5,
+          -6
+        ],
+        "want": [
+          0.5,
+          -6
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotRight",
+        "what": "start",
+        "got": [
+          1.5,
+          -5
+        ],
+        "want": [
+          1.5,
+          -5
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotRight",
+        "what": "end",
+        "got": [
+          1.5,
+          0
+        ],
+        "want": [
+          1.5,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "f1R",
+        "what": "start",
+        "got": [
+          2.5,
+          -8
+        ],
+        "want": [
+          2.5,
+          -8
+        ],
+        "err": 0
+      },
+      {
+        "key": "f1R",
+        "what": "end",
+        "got": [
+          3.5,
+          -7
+        ],
+        "want": [
+          3.5,
+          -7
+        ],
+        "err": 0
+      },
+      {
+        "key": "f1R",
+        "what": "center",
+        "got": [
+          2.5,
+          -7
+        ],
+        "want": [
+          2.5,
+          -7
+        ],
+        "err": 0
+      },
+      {
+        "key": "f1R",
+        "what": "radius",
+        "got": 1,
+        "want": 1,
+        "err": 0
+      },
+      {
+        "key": "f2R",
+        "what": "start",
+        "got": [
+          3.5,
+          -4.7738873
+        ],
+        "want": [
+          3.5,
+          -4.7738873
+        ],
+        "err": 0
+      },
+      {
+        "key": "f2R",
+        "what": "end",
+        "got": [
+          5.7083333,
+          -2.7847676
+        ],
+        "want": [
+          5.7083333,
+          -2.7847676
+        ],
+        "err": 4.44e-16
+      },
+      {
+        "key": "f2R",
+        "what": "center",
+        "got": [
+          5.5,
+          -4.7738873
+        ],
+        "want": [
+          5.5,
+          -4.7738873
+        ],
+        "err": 0
+      },
+      {
+        "key": "f2R",
+        "what": "radius",
+        "got": 2,
+        "want": 2,
+        "err": 0
+      },
+      {
+        "key": "dome",
+        "what": "start",
+        "got": [
+          7.826087,
+          2.1225943
+        ],
+        "want": [
+          7.826087,
+          2.1225943
+        ],
+        "err": 1.26e-15
+      },
+      {
+        "key": "dome",
+        "what": "end",
+        "got": [
+          -7.826087,
+          2.1225943
+        ],
+        "want": [
+          -7.826087,
+          2.1225943
+        ],
+        "err": 8.88e-16
+      },
+      {
+        "key": "dome",
+        "what": "center",
+        "got": [
+          0,
+          -6.9742383
+        ],
+        "want": [
+          0,
+          -6.9742383
+        ],
+        "err": 2.66e-15
+      },
+      {
+        "key": "dome",
+        "what": "radius",
+        "got": 12,
+        "want": 12,
+        "err": 0
+      },
+      {
+        "key": "f2L",
+        "what": "start",
+        "got": [
+          -5.7083333,
+          -2.7847676
+        ],
+        "want": [
+          -5.7083333,
+          -2.7847676
+        ],
+        "err": 9.93e-16
+      },
+      {
+        "key": "f2L",
+        "what": "end",
+        "got": [
+          -3.5,
+          -4.7738873
+        ],
+        "want": [
+          -3.5,
+          -4.7738873
+        ],
+        "err": 8.88e-16
+      },
+      {
+        "key": "f2L",
+        "what": "center",
+        "got": [
+          -5.5,
+          -4.7738873
+        ],
+        "want": [
+          -5.5,
+          -4.7738873
+        ],
+        "err": 7.19e-14
+      },
+      {
+        "key": "f2L",
+        "what": "radius",
+        "got": 2,
+        "want": 2,
+        "err": 7.22e-14
+      },
+      {
+        "key": "f1L",
+        "what": "start",
+        "got": [
+          -3.5,
+          -7
+        ],
+        "want": [
+          -3.5,
+          -7
+        ],
+        "err": 0
+      },
+      {
+        "key": "f1L",
+        "what": "end",
+        "got": [
+          -2.5,
+          -8
+        ],
+        "want": [
+          -2.5,
+          -8
+        ],
+        "err": 0
+      },
+      {
+        "key": "f1L",
+        "what": "center",
+        "got": [
+          -2.5,
+          -7
+        ],
+        "want": [
+          -2.5,
+          -7
+        ],
+        "err": 0
+      },
+      {
+        "key": "f1L",
+        "what": "radius",
+        "got": 1,
+        "want": 1,
+        "err": 0
+      },
+      {
+        "key": "slotTR",
+        "what": "start",
+        "got": [
+          1.5,
+          0
+        ],
+        "want": [
+          1.5,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotTR",
+        "what": "end",
+        "got": [
+          0.5,
+          1
+        ],
+        "want": [
+          0.5,
+          1
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotTR",
+        "what": "center",
+        "got": [
+          0.5,
+          0
+        ],
+        "want": [
+          0.5,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotTR",
+        "what": "radius",
+        "got": 1,
+        "want": 1,
+        "err": 0
+      },
+      {
+        "key": "slotTL",
+        "what": "start",
+        "got": [
+          -0.5,
+          1
+        ],
+        "want": [
+          -0.5,
+          1
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotTL",
+        "what": "end",
+        "got": [
+          -1.5,
+          0
+        ],
+        "want": [
+          -1.5,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotTL",
+        "what": "center",
+        "got": [
+          -0.5,
+          0
+        ],
+        "want": [
+          -0.5,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotTL",
+        "what": "radius",
+        "got": 1,
+        "want": 1,
+        "err": 0
+      },
+      {
+        "key": "slotBL",
+        "what": "start",
+        "got": [
+          -1.5,
+          -5
+        ],
+        "want": [
+          -1.5,
+          -5
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotBL",
+        "what": "end",
+        "got": [
+          -0.5,
+          -6
+        ],
+        "want": [
+          -0.5,
+          -6
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotBL",
+        "what": "center",
+        "got": [
+          -0.5,
+          -5
+        ],
+        "want": [
+          -0.5,
+          -5
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotBL",
+        "what": "radius",
+        "got": 1,
+        "want": 1,
+        "err": 0
+      },
+      {
+        "key": "slotBR",
+        "what": "start",
+        "got": [
+          0.5,
+          -6
+        ],
+        "want": [
+          0.5,
+          -6
+        ],
+        "err": 1.11e-16
+      },
+      {
+        "key": "slotBR",
+        "what": "end",
+        "got": [
+          1.5,
+          -5
+        ],
+        "want": [
+          1.5,
+          -5
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotBR",
+        "what": "center",
+        "got": [
+          0.5,
+          -5
+        ],
+        "want": [
+          0.5,
+          -5
+        ],
+        "err": 0
+      },
+      {
+        "key": "slotBR",
+        "what": "radius",
+        "got": 1,
+        "want": 1,
+        "err": 0
+      },
+      {
+        "key": "bossR",
+        "what": "center",
+        "got": [
+          6,
+          0
+        ],
+        "want": [
+          6,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "bossL",
+        "what": "center",
+        "got": [
+          -6,
+          0
+        ],
+        "want": [
+          -6,
+          0
+        ],
+        "err": 8.88e-16
+      },
+      {
+        "key": "holeR",
+        "what": "center",
+        "got": [
+          6,
+          0
+        ],
+        "want": [
+          6,
+          0
+        ],
+        "err": 0
+      },
+      {
+        "key": "holeL",
+        "what": "center",
+        "got": [
+          -6,
+          0
+        ],
+        "want": [
+          -6,
+          0
+        ],
+        "err": 8.88e-16
+      }
+    ],
+    "maxErr": 7.216449660063518e-14,
+    "pass": true
+  },
+  "centerErr": 0,
+  "derived": {
+    "slotCenter": [
+      0,
+      -2.5
+    ],
+    "slotMidY": -2.5,
+    "slotHeight": 7,
+    "domeTopY": 5.025761690334921,
+    "eyeSpan": 12,
+    "domeEndOnEyeR": 2.7999999999999994,
+    "f2EndOnEyeR": 2.8
+  }
+}

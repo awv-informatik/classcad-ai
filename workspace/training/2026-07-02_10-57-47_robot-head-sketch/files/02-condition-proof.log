@@ -1,0 +1,7 @@
+[02] updateDimension D56→7 result: "D56L=0(max31) D56R=2(max31)"
+[02] boss Ø7: maxErr 7.19e-14 ✓
+[02] revert Ø5.6: maxErr 7.22e-14 ✓
+[02] updateDimension W3→4 result: "W3=2(max31)"
+[02] slot w4: maxErr 2.22e-16 ✓
+[02] revert w3 (full): maxErr 7.22e-14 ✓
+[filewrite] files/02-condition-proof-condition-proof.json (495 bytes)

@@ -1,0 +1,18 @@
+[04] update results — L: 0 R: 2
+[04] f1R       bulge 0.4142135623 exp± 0.4142136 sweep 90 expSweep 90 ✓
+[04] f2R       bulge -0.441135471 exp± 0.4411355 sweep 95.2159 expSweep 95.2159 ✓
+[04] bossR     bulge 0.7022580750 exp± 0.7022581 sweep 140.315 expSweep 140.315 ✓
+[04] dome      bulge 0.4132004517 exp± 0.4132005 sweep 89.8017 expSweep 89.8017 ✓
+[04] bossL     bulge 1.2988642858 exp± 0.7022581 sweep 140.315 expSweep 140.315 ❌ STALE
+[04] f2L       bulge -0.441135471 exp± 0.4411355 sweep 95.2159 expSweep 95.2159 ✓
+[04] f1L       bulge 0.4142135623 exp± 0.4142136 sweep 90 expSweep 90 ✓
+[04] slotTR    bulge 0.4142135623 exp± 0.4142136 sweep 90 expSweep 90 ✓
+[04] slotTL    bulge 0.4142135623 exp± 0.4142136 sweep 90 expSweep 90 ✓
+[04] slotBL    bulge 0.4142135623 exp± 0.4142136 sweep 90 expSweep 90 ✓
+[04] slotBR    bulge 0.4142135623 exp± 0.4142136 sweep 90 expSweep 90 ✓
+[04:restored] bossL  bulge 0.7350665637 exp± 0.7350666 ✓
+[04:restored] bossR  bulge 0.7350665637 exp± 0.7350666 ✓
+[04:restored] dome   bulge 0.3709602817 exp± 0.3709603 ✓
+[04:restored] f2L    bulge -0.445119716 exp± 0.4451197 ✓
+[04:restored] f2R    bulge -0.445119716 exp± 0.4451197 ✓
+[filewrite] files/04-bulge-probe-bulge-probe.json (3165 bytes)

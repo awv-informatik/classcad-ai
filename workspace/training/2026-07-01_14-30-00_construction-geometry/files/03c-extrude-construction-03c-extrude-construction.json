@@ -1,0 +1,43 @@
+{
+  "rect": [
+    58,
+    64,
+    70,
+    76
+  ],
+  "result": 94,
+  "rejected": false,
+  "maxLevel": 51,
+  "msgs": [
+    {
+      "level": 51,
+      "code": 0,
+      "message": "Selection of construction geometry is not allowed."
+    },
+    {
+      "level": 51,
+      "code": 0,
+      "message": "Selection of construction geometry is not allowed."
+    },
+    {
+      "level": 51,
+      "code": 0,
+      "message": "Selection of construction geometry is not allowed."
+    },
+    {
+      "level": 51,
+      "code": 0,
+      "message": "Selection of construction geometry is not allowed."
+    },
+    {
+      "level": 51,
+      "code": 0,
+      "message": "Cannot extrude: no usable (non-construction) geometry was selected."
+    },
+    {
+      "level": 51,
+      "code": 1111,
+      "message": "There is no sketch region for Extrusion (CC_Extrusion)"
+    }
+  ]
+}

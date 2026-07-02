@@ -4,13 +4,37 @@ A practical guide for parsing 2D technical drawings and recreating them as Class
 
 ## The Method
 
-**Don't try to draw the final profile directly.** The visible outline of a mechanical part is the result of trimming and intersecting simpler shapes. Reconstruct those original shapes, let the solver lay them out from constraints and dimensions, then trim.
+**Don't hand-compute the layout — and don't assume the drawing is an outline.** Technical
+drawings vary: some show a single trimmed profile, most mix COMPLETE features (full circles
+with Ø callouts, centerlines, center marks) with TRIMMED remainders (partial arcs with R
+callouts). Classify first, reconstruct the curves AS DRAWN, let the solver lay them out from
+constraints and dimensions, and trim only what the drawing shows trimmed — or when deriving
+a solid profile as a separate, explicitly-requested artifact.
 
 ```
-1. Analyze → 2. Checklist → 3. Recognize Shapes → 4. Constrain & Dimension → 5. Trim → 6. Evaluate
+0. Classify → 1. Analyze → 2. Checklist → 3. Recognize Shapes → 4. Constrain & Dimension → 5. Trim (conditional) → 6. Evaluate
 ```
 
 **The sketch is a conditioned model, not a coordinate dump.** Analysis (Steps 1–2) tells you the drawing's dimension *scheme*; constraints and dimensions (Step 4) hand that scheme to ClassCAD so the solver computes the layout. Hardcoding every coordinate works for a one-shot reproduction, but the result can't adapt — change one value and nothing follows. A constrained sketch re-solves (verified: re-dimensioning a boss Ø45→Ø60 moved its tangent fillet to the new exact position automatically).
+
+---
+
+## Step 0 — Classify the Drawing and the Deliverable
+
+Two questions before any analysis:
+
+1. **What is the deliverable?** Reproducing the DRAWING as drawn is the default. A closed,
+   extrudable profile is a DIFFERENT artifact — derive it from the finished sketch in a
+   separate rim-trim step (Step 5), and only when a solid is actually requested.
+2. **Per curve: complete or partial?** Walk every curve in the image. If you can trace the
+   full curve in the drawing, create the full curve. If only a portion is drawn, it is the
+   remainder of a trimmed shape — chain or trim it.
+
+**When the method's expectation and the drawing image disagree, the drawing wins — it is the
+spec.** Stop and re-classify instead of making the drawing fit the method. This is the
+drawing-side mirror of the snapshot-vs-data rule. Past failure (2026-07-02, robot-head):
+closed Ø5.6 eye circles were converted into boundary arcs because this guide used to claim
+every visible outline is trimmed shapes — the image plainly showed complete circles.
 
 ---
 
@@ -57,13 +81,18 @@ If a dimension doesn't fit, the interpretation is wrong. Keep trying until all d
 Before writing any code, create a checklist. Every dimension annotation in the drawing gets a row:
 
 ```markdown
-- [ ] D1: Ø38 — DIAMETER — hub outer circle
-- [ ] D2: 48 — HORIZONTAL_DISTANCE — center to boss
-- [ ] D3: 14° — ANGLE — arm angle from horizontal
+- [ ] D1: Ø38 — DIAMETER — [hub outer circle] — hub bore
+- [ ] D2: 48 — HORIZONTAL_DISTANCE — [hub center → boss center] — boss position
+- [ ] D3: 14° — ANGLE — [arm axis ↔ horizontal centerline] — arm angle
 ...
 ```
 
-**Format**: `[ ] <id> <value> — <type> — <what it controls>`
+**Format**: `[ ] <id> <value> — <type> — [<anchors: from → to>] — <what it controls>`
+
+**Record anchors exactly as the drawing measures them** (eye center → jaw edge, slot bottom →
+center mark). The same references must be used when the dimension entity is created in Step 4
+— deciding the anchors here, during analysis, prevents improvising constraint-equivalent
+substitutes later.
 
 This checklist serves three purposes:
 1. **Completeness** — forces you to account for every annotation before coding
@@ -74,9 +103,19 @@ This checklist serves three purposes:
 
 ## Step 3 — Recognize the Original Shapes
 
-**What you see in a technical drawing is not what was drawn.** The visible profile is the result of trimming simpler, natural shapes — circles, lines, arcs — at their intersection points. An organic-looking contour is often just a handful of overlapping circles with interior segments removed.
+**Complete curves stay complete.** A circle drawn closed (Ø callout, both sides visible in
+the image) is a complete entity — create it whole and connect adjacent profile curves to it
+with COINCIDENT-endpoint-on-curve + TANGENT (the junction-on-a-full-circle pattern in
+`sketch/constraint.md`), never by converting it to an arc.
 
-If you can recognize the original shapes BEFORE trimming, reconstruction is straightforward: place the shapes, then trim. Trying to trace the final profile directly means working backwards, and errors compound.
+**For the curves Step 0 classified as PARTIAL, what you see is not what was drawn.** A
+partial arc is the result of trimming a simpler, natural shape — a full circle or line — at
+intersection or tangency points. An organic-looking contour is often just a handful of
+overlapping circles with interior segments removed.
+
+If you can recognize those original shapes BEFORE trimming, reconstruction is
+straightforward: place the shapes, then trim. Trying to trace the final profile directly
+means working backwards, and errors compound.
 
 ### How to see through the trim
 
@@ -126,6 +165,18 @@ Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces
 1. **Anchor the datum** — `FIXATION` on reference geometry first; without an anchor the solver chooses what to move. Place the datum point EXACTLY at its drawing coordinates before fixing — FIXATION freezes the current position, it doesn't know where the point "should" be. One exactly-placed fixed point per sketch is enough; everything else can be seeded rough. To lock a line completely, fix its two **endpoints** individually: FIXATION on the line itself locks position/direction but NOT length — the solver will happily stretch a "fixed" line to satisfy a COINCIDENT or EQUAL_LENGTH elsewhere (verified).
 2. **Relate** — COINCIDENT (connect), TANGENT (tangency), CONCENTRIC, PARALLEL / PERPENDICULAR, HORIZONTAL / VERTICAL, SYMMETRY (axis FIRST in geomIds). Full tables in `sketch/constraint.md`.
 3. **Dimension** — drive sizes/distances to the drawing's values. `value` at creation WORKS; omit `value` to lock the current measurement instead. Formulas (`'60+10'`) work; angles need the `'45deg'` suffix; `@expr.NAME` is NOT supported in dimensions.
+
+### One annotation = one dimension entity
+
+Every row of the Step 2 checklist must exist in the sketch as a DIMENSION, anchored to the
+SAME references the drawing uses (eye center → jaw edge, not a constraint-equivalent datum
+point). Redundant annotations are still annotations: create them as driven dims (no `value`)
+— they double as verification readouts. If the drawing measures to something that isn't
+geometry (a center mark, a virtual point), materialize the reference first (sketch point +
+constraints — see the center-mark pattern below). Encoding an annotation only implicitly (a
+coincidence that happens to produce the value) is NOT a reproduction of the drawing's
+dimension scheme. Past failure (2026-07-02, robot-head): three annotations (slot width 3,
+3.5-to-center, 8 eye-to-jaw) existed only implicitly or re-anchored, and the review bounced.
 
 ### Worked example — the solver does the tangent math
 
@@ -364,9 +415,19 @@ trim, `postTrim`, and check the realized geometry matches — a falsifiable test
 
 ### Pass 1: Checklist verification
 
-Go through the dimension checklist. For each item, compute the actual value from placed geometry and compare to the expected value. Only check the box if it matches within tolerance.
+Go through the dimension checklist. A row is checked ONLY by citing the dimension ENTITY
+(name/id) that realizes it plus the measured value from placed geometry, within tolerance.
+"Satisfied implicitly by constraints" is a fail unless the drawing genuinely has no such
+annotation.
 
-### Pass 2: Visual comparison
+### Pass 2: Topology comparison
+
+Count and classify curves against the drawing BEFORE judging looks: full circles vs arcs vs
+lines, per feature. A sketch can match the silhouette perfectly while being topologically
+wrong — closed eye circles reproduced as boundary arcs passed the silhouette pass and failed
+review (2026-07-02).
+
+### Pass 3: Visual comparison
 
 Snapshot the sketch and compare side-by-side with the source:
 - Overall proportions and silhouette

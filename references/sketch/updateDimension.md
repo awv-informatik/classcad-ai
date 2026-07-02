@@ -61,6 +61,25 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
 - **No open/close feature editing required.** Works regardless of feature state.
 - **Sequential updates work.** Call updateDimension multiple times — each update re-solves.
 - **result=0 doesn't always mean "no change."** For ANGLE/ANGLEOX, the solver may partially converge (geometry moves) but still report 0 if the sketch is under-determined.
+- **NO batch form.** Passing an ARRAY of `{id, value}` params (like `dimension`/`constraint`
+  accept) returns `result: null` with no messages and updates NOTHING. Loop single calls
+  (verified 2026-07-02).
+- **Symmetric dimension pairs traverse an unsolvable intermediate.** Updating "2×" twins one
+  at a time (e.g. two Ø5.6 bosses that a dome is tangent to, symmetric about a fixed axis)
+  makes the FIRST call return `result 0` — correctly, the asymmetric state is contradictory —
+  and the second call returns 2 with the whole system landing exact. Prefer ONE driving
+  dimension + `EQUAL_RADIUS`/`EQUAL_LENGTH` on the twin: a single update then re-solves both
+  sides in one solvable step (verified 2026-07-02, exact to 1e-14).
+- **⚠️ Stale `bulge` after a failed(0)→solved(2) sequence (server bug, TODO #174).** A failed
+  update attempt can write a garbage `bulge` into an arc; the subsequent SUCCESSFUL update
+  re-solves all positions exactly (start/end/center/radius verified to 1e-15) but may NOT
+  rewrite the bulge — the structure tree then carries a wrong sweep (observed: 1.2988643 =
+  209.6° instead of 0.7022581 = 140.3°, reproduced 3/3). Anything reading `bulge` (renderers,
+  the trim boundary-test) sees a corrupted arc while all position readbacks pass. `common.recalc`
+  does NOT refresh it; a same-value re-set is a solver no-op and doesn't either; only a later
+  value-CHANGING successful solve that moves the arc may. Avoidance: never drive the sketch
+  through a result-0 intermediate — use the EQUAL_RADIUS pattern above. If you must verify,
+  check `members.bulge.value` against `tan(sweep/4)` computed from solved endpoints/center.
 
 ## Common Errors
 

@@ -54,7 +54,7 @@ const ids = (await api.v1.sketch.constraint([
 | `COINCIDENT` | `[pt, pt]` or `[pt, curve]` | Points: snaps together. Point-on-curve: snaps point onto line/circle/arc. Order doesn't matter. |
 | `COLINEAR` | `[line1, line2]` | Moves unconstrained line onto the same infinite line as the other. |
 | `CONCENTRIC` | `[circ1, circ2]` or `[arc1, arc2]` | Moves unconstrained circle/arc center to match the other's center. |
-| `TANGENT` | `[arc/circle, line]` or `[circle1, circle2]` | Arc/circle + line: moves so edge touches line (center-to-line distance = radius). Circle + circle: moves to external tangency (center distance = r1 + r2). |
+| `TANGENT` | `[arc/circle, line]` or `[circle1, circle2]` | Arc/circle + line: moves so edge touches line (center-to-line distance = radius). Circle + circle: moves to external tangency (center distance = r1 + r2) **when seeded apart**. The INTERNAL branch (center distance = R − r) is fully supported: seed the pair internally tangent and the solver keeps that branch through creation and every re-solve (verified 2026-07-02: R12 dome arc inside-tangent to Ø5.6 circles; re-dimensioning Ø5.6→7 followed the internal branch to 1e-14). |
 | `SYMMETRY` | `[axis, elem1, elem2]` | Mirrors the unconstrained element about the axis line. **Axis must be first in geomIds.** Works with points (exact) and lines (approximate if different lengths — solver mirrors orientation but preserves individual line lengths). |
 | `FIXATION` | `[geometry]` | Locks geometry in place. All geometry types (point, line, arc, circle). Use to anchor reference geometry before adding other constraints. |
 
@@ -79,6 +79,12 @@ const ids = (await api.v1.sketch.constraint([
 - **No conflict detection.** Conflicting constraints (e.g., HORIZONTAL + VERTICAL on the same line) are accepted silently (maxLevel=31, no error). The solver satisfies what it can and ignores the rest. Verified under an ACTIVE solver 2026-06-10: geometry follows the earlier constraint and the losing constraint's structure node carries `lgsState: 0` — that field is the only conflict signal.
 - **No over-constraint warnings.** Duplicate and redundant constraints are also accepted silently.
 - **Constraint chaining propagates.** If PARALLEL(A,B) and PARALLEL(B,C), then C becomes parallel to A. The solver resolves transitive relationships automatically.
+- **Junction-on-a-full-circle pattern:** to connect an open curve (arc/line) to a FULL circle
+  at their tangency point — e.g. a dome arc or fillet meeting a boss/eye circle that must stay
+  closed — combine `COINCIDENT [curveEndpointPt, circleId]` (point-on-curve) with
+  `TANGENT [curve, circle]`. Tangency fixes the circle relation, the endpoint-on-circle kills
+  the curve's end-angle DOF, and the endpoint lands exactly at the tangency point (verified
+  2026-07-02 to 1e-14, robot-head session).
 - **Deleting a constraint does NOT revert geometry.** Geometry stays where the solver placed it. Only the constraint relationship is removed.
 - **Recommended application order:** FIXATION (anchor) → COINCIDENT (connect) → directional (H/V/PARALLEL/PERP) → equality/dimensional (EQUAL_LENGTH, dimensions).
 

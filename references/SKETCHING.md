@@ -187,6 +187,14 @@ await api.v1.sketch.dimension({
 await api.v1.sketch.dimension({
   id: skId, type: 'ANGLE', geomIds: [line1, line2], dimPos: [x, y, 0]
 })
+
+// "Distance to a center mark" (drawing crosshair with no geometry under it, e.g. a slot
+// center): make the mark a real, constrainable point — the dimension then drives it.
+const ctr = (await api.v1.sketch.point({ id: skId, pos: [xRough, yRough, 0] })).result
+await api.v1.sketch.constraint({ id: skId, type: 'COINCIDENT', geomIds: [ctr, axisLineId] })
+await api.v1.sketch.dimension({
+  id: skId, type: 'VERTICAL_DISTANCE', geomIds: [slotBottomEndPt, ctr], value: 3.5
+})
 ```
 
 ### Dimension API notes
@@ -198,8 +206,11 @@ await api.v1.sketch.dimension({
 - `updateDimension` re-solves the system: `result: 1` = solved, `0` = unsolved. A 0 usually means a planeless sketch or a conflicting constraint.
 - `dimPos` for ANGLE selects which of the 4 angle sectors to constrain.
 
-### Solver facts (verified 2026-06-10)
+### Solver facts (verified 2026-06-10, extended 2026-07-02)
 
+- **TANGENT keeps the seeded branch.** Circle–circle/arc–circle tangency seeded EXTERNAL solves external (d = r1+r2); seeded INTERNAL stays internal (d = R−r) through creation and every re-solve — an R12 dome inside-tangent to Ø5.6 eye circles followed the internal branch exactly when the eyes were re-dimensioned to Ø7 (robot-head session).
+- **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param is a silent null no-op), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL_*, one update re-solves both sides in a single solvable step and the trap never triggers.
+- **Don't pass `dimPos` at dimension creation** (except for ANGLE sector selection) — it can poison the whole `dimension` batch (maxLevel 51, VOID dims, half-driven sketch). Create dims bare, then place text via `updateDimensionPosition` (see `sketch/dimension.md`).
 - Rotational constraints preserve line length (HORIZONTAL on a 50-long tilted line keeps it 50).
 - Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
 - Deleting a constraint does NOT revert geometry.
@@ -238,6 +249,11 @@ the drawing's dimension scheme hangs off — exactly the dashed centerlines/refe
   from it. To identify construction geometry use `getObjectInfo` (`isConstruction: 0|1`), `getObjectsLists`
   (`constructionGeometry: id[]`), or `getGlobalState` (`constructionCount`).
 - In snapshots, construction geometry renders **dashed** (distinct from the solid profile).
+- **Construction curves participate in `preTrim` splitting.** A construction centerline
+  crossing a circle adds real split points: an eye circle tangent to two curves AND crossed
+  by its centerline staged as **4** arcs, not 2 (verified 2026-07-02). Budget for the extra
+  segments when classifying, and remember the centerline's own splits merge back on `postTrim`
+  as long as you don't trim them.
 
 ---
 
@@ -332,6 +348,15 @@ trim, `postTrim`, and check the realized geometry matches — a falsifiable test
 - **Constrained sketches trim safely** — constraints/dimensions survive, `Auto_Coinc` appears at cut points, and the profile stays re-solvable. Re-fetch dimension/constraint handles by NAME after `postTrim` (dimension names preserved; constraint names suffix-renamed `Fix`→`Fix0`)
 - **Contiguous kept segments coalesce** into a single curve on `postTrim` — keeping 3 adjacent segments of a circle yields 1 arc
 - Tangent-only contacts: a singly-tangent circle stays whole (staged as one full-circle part); a doubly-tangent circle (fillet between two shapes) splits into 2 arcs at the tangent points
+- **Drawing-faithful ≠ extrudable.** A sketch that keeps its boss/eye circles FULL (as drawings
+  draw them) with the profile tangent to them is NOT a valid region: `part.extrusion` fails
+  with *"Brep after linear sweep not manifold"* — and still creates a broken feature object
+  (non-null result, maxLevel 51) that you must `part.deleteFeature`. To get a solid, rim-trim
+  first: `preTrim` splits each doubly-tangent circle at its tangent points (plus any
+  construction-centerline crossings — expect 4 segments, all minor arcs), trim the inner arcs
+  (apex = center + R·unit(chordMid − center); nearest-to-body apexes are the inner ones), keep
+  the rim — contiguous rim pieces coalesce on `postTrim` — then extrude (verified 2026-07-02,
+  volume matched analytic area to 1e-4).
 
 ---
 

@@ -70,6 +70,12 @@ const ids = (await api.v1.sketch.dimension([
 
 ## Gotchas
 
+- **⚠️ `dimPos` at CREATION can poison a whole batch.** Passing `dimPos` on
+  HORIZONTAL_DISTANCE/VERTICAL_DISTANCE point-pair dims inside a batch made the batch return
+  maxLevel 51 with several dims created as VOID and the solve left incomplete (observed
+  2026-07-02 on a 21-dim batch; not isolated to a single type). Safe route: create all
+  dimensions WITHOUT `dimPos`, then place text with `updateDimensionPosition` — that works on
+  every type. (`dimPos` for ANGLE sector selection is a different, documented use.)
 - **DIAMETER value is diameter, not radius.** `value: 60` on a circle means radius=30.
 - **ANGLE value needs `deg` suffix.** Use `'60deg'` not `60`. Without the suffix, the value is interpreted as radians.
 - **Negative values create broken dimensions.** A negative OFFSET value creates the dimension (gets an ID) but fails to set the value (maxLevel=51). The dimension exists in a broken state.

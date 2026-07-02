@@ -98,6 +98,22 @@ With an active solver (planeId set), `moveGeometry` is constraint-aware:
 ## Gotchas
 
 - **Without `planeId`, constraints do nothing.** The #1 mistake. Always create sketches with a plane.
+- **TANGENT (line ↔ circle/arc) uses the INFINITE line.** The tangency point may lie beyond
+  the segment's endpoints and the constraint still solves exactly (verified 2026-07-02:
+  arm edge tangent to a width-gauge circle whose contact point lies past the segment end,
+  1.6e-14). Nothing forces the contact into the segment.
+- **Explicit junction wiring that contradicts the auto-constraints diverges DoSolve
+  GLOBALLY.** Autos (`Auto_Coinc` etc.) wire junctions from seed positions; if your explicit
+  COINCIDENT points at the other endpoint of the same arc (classic: mirrored arcs with
+  swapped start/end roles), the solver doesn't mark a loser — every subsequent solve fails
+  (`CalcBulges radius too small`, `SetSE NullMem`, arcs collapse to r=0, dimensions refuse
+  values, satisfied unrelated subgraphs get wrecked too). Verified 2026-07-02
+  (mounting-plate). Consistent duplication is harmless. Diagnosis: re-run with the batch
+  gen* flags off — the mis-wiring then shows as a plain solvable displacement.
+- **EQUAL_RADIUS works across independent tangent chains** (e.g. tying all four R3 fillets
+  of two separate arms to one driving dim) — verified exact at 1e-14 once wiring is
+  consistent. An earlier "cross-side EQUAL_RADIUS breaks the solver" observation was this
+  same wiring-contradiction confounder.
 - **EQUAL_LENGTH/EQUAL_RADIUS may change either element.** The solver equalizes by adjusting whichever line/circle it finds easier to move — even a "FIXATION"-constrained one. FIXATION locks position/direction but not length. To protect a line's length, fix both its endpoints individually.
 - **The FIXATION-doesn't-lock-length caveat applies to COINCIDENT too** (verified 2026-06-10): COINCIDENT between a fixed line's endpoint and another point can be satisfied by STRETCHING the fixed line along its direction (end moved 50→55 to meet the other point). With both endpoints individually fixed, the other geometry snaps instead.
 - **MIDPOINT fails on free sketch.points.** Use line endpoints (`getPoints().startId` or `.endId`) instead.

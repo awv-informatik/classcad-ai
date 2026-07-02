@@ -41,6 +41,11 @@ Patterns a rigid set (or single geometry element) in a circular arrangement arou
 - **Zero angle causes solver error.** Same division by zero as count ≤ 1. Copies are created but stacked at the same position. Avoid `angle: 0`.
 - **Single geometry ID works as rigidSetId.** The API auto-wraps it. `geometry[0]` will be a new rigid set ID, not the original geometry ID.
 - **Any sketch point works as center.** Not limited to origin — off-center points, line endpoints (from `getPoints`), arc centers all work.
+- **Works on a fully constrained, dimension-driven original** (verified 2026-07-02,
+  mounting-plate bolt circle): a Ø6 hole whose center is COINCIDENT on a construction bolt
+  circle + on the vertical centerline, driven by DIAMETER dims, patterned 6× about the hub
+  circle's centerId AFTER the solve — all 6 centers landed on the Ø42 circle at 60° spacing
+  to 1.6e-14. Pattern after the layout is solved, so copies replicate final geometry.
 - **`sketch.point` uses `pos`, not `position`.** Common mistake: `sketch.point({ id, pos: [x, y, z] })`.
 
 ## Updating Pattern Angle

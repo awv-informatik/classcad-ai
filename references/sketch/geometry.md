@@ -45,6 +45,21 @@ Always returns all 5 arrays, even for types not requested (those will be empty `
 - **No input validation for degenerate geometry.** Zero-radius circles, zero-length lines (start==end), and negative-radius circles are accepted silently (maxLevel=31, no error). They create objects in the sketch but may cause issues downstream (extrusion, constraint solving).
 - **Empty/missing arrays are fine.** Passing `{ id: skId }` with no geometry arrays returns all 5 empty arrays without error. Passing empty arrays `points: []` also works.
 - **gen flags affect ALL geometry in the call.** Setting `genFixation: false` suppresses fixation constraints for every item created in that call, not selectively.
+- **⚠️ Autos + contradictory explicit wiring = global solver divergence.** Auto-generated
+  constraints encode junction topology FROM THE SEED POSITIONS. If an explicit COINCIDENT
+  disagrees (e.g. mirrored arcs with swapped start/end roles wired by a side-uniform loop),
+  `DoSolve` doesn't flag a loser — it diverges from an already-satisfied state: batches 51,
+  `CalcBulges radius too small`, `SetSE NullMem`, small arcs collapse to r=0, every later
+  dimension value refused, geometry wrecked (verified 2026-07-02, mounting-plate, 19 curves).
+  Pure duplication (explicit set consistent with seeds) is harmless — autos ON and OFF both
+  solved rough→exact at 2.8e-14. For fully explicit builds, pass `genIncidence: false,
+  genTangency: false, genVertAndHoriz: false`: the same wiring bug then just solves to a
+  visibly displaced layout that a numeric readback catches.
+- **Individual creators auto-generate too** (verified 2026-07-02): `sketch.line`/`circle`/
+  `arcByCenter` produced `Auto_Fix`, `Auto_Coinc` (at exactly-shared endpoints), `Auto_H`,
+  `Auto_V` — but NO tangency autos for exactly-tangent circle/line pairs. Only this batch
+  call's `genTangency` generates tangency constraints, and only this call exposes flags to
+  suppress generation.
 - **Structure tree accumulation.** When reading `r.structure` after calling `geometry()`, the tree contains ALL objects in the drawing (all parts, all sketches), not just what was just created. To compare constraint effects, use isolated parts/scripts.
 
 ## Auto-Constraint Flags

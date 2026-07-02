@@ -150,7 +150,31 @@ await api.v1.sketch.circle({ id: skId, centerPos: [cx, cy, 0], radius: r })
 
 **The sketch MUST be created with `planeId`** (`sketch.create({ id: partId, planeId })`). Without it the constraint solver is silently disabled — constraints and dimensions are accepted (maxLevel 31, IDs returned) but never enforced, which makes the whole of Step 4 dead weight. This is the #1 trap (see `sketch/create.md`).
 
-**Leave the `gen*` auto-constraint flags ON (the defaults).** Auto-incidence wires endpoint-matching geometry together (`Auto_Coinc`), auto-H/V locks axis-aligned lines. That wiring is what lets a later dimension edit move the whole connected profile instead of tearing it: a gen-ON rectangle survives a width change closed; a gen-OFF one stretches one line and leaves the rest behind (verified 2026-06-10). Disable a flag selectively only when it would fight the design intent — e.g. `genVertAndHoriz: false` for a line drawn axis-aligned that will be dimensioned to an angle, or `genTangency: false` when overlapping skeleton circles must stay independently placeable until trimming.
+**Leave the `gen*` auto-constraint flags ON (the defaults)** when you rely on autos to wire
+the profile. Auto-incidence wires endpoint-matching geometry together (`Auto_Coinc`),
+auto-H/V locks axis-aligned lines. That wiring is what lets a later dimension edit move the
+whole connected profile instead of tearing it: a gen-ON rectangle survives a width change
+closed; a gen-OFF one stretches one line and leaves the rest behind (verified 2026-06-10).
+Disable a flag selectively only when it would fight the design intent — e.g.
+`genVertAndHoriz: false` for a line drawn axis-aligned that will be dimensioned to an angle,
+or `genTangency: false` when overlapping skeleton circles must stay independently placeable
+until trimming.
+
+**Fully explicit scheme (the conditioned-reproduction workflow): prefer autos OFF, and know
+the failure mode.** With exactly-computed seeds + every tangency/coincidence created
+explicitly, autos are pure duplicates. Verified on a 19-curve build (mounting-plate,
+2026-07-02): duplication itself is harmless — autos ON and OFF both solve rough→exact at
+2.8e-14 **when the explicit wiring is consistent with the seeds**. The danger: autos wire
+junctions FROM THE SEED GEOMETRY; your explicit constraints wire them from your bookkeeping.
+If those disagree (classic bug: mirrored arcs whose start/end roles got swapped, wired by a
+side-uniform loop), the two constraint sets contradict — and `DoSolve` does not just flag a
+loser, it DIVERGES GLOBALLY: batches return 51 with `CalcBulges radius too small` /
+`SetSE NullMem`, small arcs collapse to radius 0, and every later dimension refuses its value
+(even for satisfied, unrelated subgraphs). With autos OFF the same bookkeeping bug is benign:
+the explicit set alone is solvable, the solver quietly slides the mis-wired arcs into the
+role-swapped layout, and the numeric readback catches the few-mm displacement. That's the
+argument for `genIncidence/genTangency/genVertAndHoriz: false` in fully explicit builds — one
+source of truth turns a catastrophic wreck into a visible, diagnosable offset.
 
 This gives you a "skeleton" of overlapping shapes. Snapshot and compare against the source — you should be able to trace the final profile through the outermost arcs. If the shapes don't overlap in the right places, fix the layout scheme (anchors, dimensions) before proceeding.
 
@@ -254,10 +278,23 @@ await api.v1.sketch.dimension({
 - `ANGLE` works with non-intersecting lines — the solver extends them to their virtual intersection.
 - `OFFSET` between two parallel lines measures perpendicular distance, even if the lines don't overlap in projection.
 - `value` at creation drives the solver (verified 2026-06-10 — an earlier version of this guide called it broken; that observation came from planeless sketches whose solver never ran). Anchor a datum first or the solver picks what to move.
-- `updateDimension` re-solves the system: `result: 1` = solved, `0` = unsolved. A 0 usually means a planeless sketch or a conflicting constraint.
+- `updateDimension` re-solves the system: `result: 1|2` = solved (2 = well-constrained), `0` = unsolved. A 0 usually means a planeless sketch or a conflicting constraint.
 - `dimPos` for ANGLE selects which of the 4 angle sectors to constrain.
 
 ### Solver facts (verified 2026-06-10, extended 2026-07-02)
+
+- **TANGENT (line ↔ circle/arc) uses the INFINITE line.** The tangency point may lie beyond
+  the segment's endpoints — e.g. an arm edge tangent to a width-gauge circle whose contact
+  point is past the fillet junction solves exactly (mounting-plate, 1.6e-14). No constraint
+  forces the contact into the segment.
+- **A tangent-chain junction can degenerate.** `TANGENT(line, arc)` + COINCIDENT shared
+  endpoint has a spurious solution family at arc radius → 0 (line through the arc center).
+  A consistent scheme never lands there — every observed collapse (R dim reading "R0",
+  `CalcBulges radius too small`, `SetSE NullMem`) traced back to explicit junction wiring
+  that CONTRADICTED the auto-constraints' seed-derived wiring (endpoint roles swapped on
+  mirrored arcs). If you see these symptoms, diff your junction bookkeeping against the seed
+  adjacency before blaming the solver — and re-run with autos off to expose the mis-wiring
+  as a plain displacement.
 
 - **TANGENT keeps the seeded branch.** Circle–circle/arc–circle tangency seeded EXTERNAL solves external (d = r1+r2); seeded INTERNAL stays internal (d = R−r) through creation and every re-solve — an R12 dome inside-tangent to Ø5.6 eye circles followed the internal branch exactly when the eyes were re-dimensioned to Ø7 (robot-head session).
 - **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param is a silent null no-op), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL_*, one update re-solves both sides in a single solvable step and the trap never triggers.

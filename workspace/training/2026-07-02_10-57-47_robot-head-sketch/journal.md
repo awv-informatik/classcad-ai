@@ -208,3 +208,23 @@ semantics and is the recommended pattern. **📌 LLM doc** → `SKETCHING.md` St
 - Not a PLAN.md task (user-directed reproduction exercise) — no PLAN checkbox to tick.
 - Deliverable sketch state = `01-build` run: `files/01-build-01-solved.ofb` / `.stp`.
 - Worker on 9094 (ph's) used throughout; no worker started, nothing to kill.
+
+## Retrospective — method amendments (ph review, green-lit)
+
+Root causes of the review misses were traced to instruction gaps and fixed:
+
+1. **SKETCHING.md profile bias** (caused the cut eye circles): the guide asserted "every
+   visible outline is trimmed shapes." Amended @ e97b7aa: new **Step 0 — Classify** (deliverable
+   = drawing-as-drawn by default; per-curve complete-vs-partial walk; "the drawing wins over
+   the method" precedence rule), Step 3 "complete curves stay complete" rule, Step 6 gained a
+   **topology pass** (full-circle-vs-arc counts) before the silhouette pass.
+2. **Dimension mismatches** (3 / 3.5-to-center / 8): checklist recorded facts but nothing
+   forced them to become entities. Amended: Step 2 checklist gains an **anchors column**
+   (recorded as the drawing measures), Step 4 gains **"one annotation = one dimension
+   entity"** (same anchors as the drawing; redundant dims as driven readouts; materialize
+   center marks), Step 6 Pass 1 now requires citing the dimension entity per row.
+3. **Boilerplate excavation** (rigging-plate lookup): HOW-TO-TRAIN's own examples created
+   PLANELESS sketches (the #1 trap) and documented no session-module convention. Amended
+   (workspace/HOW-TO-TRAIN.md): "Standard session preamble" section (planeId acquisition +
+   part.create-once + getPositions-on-circles), fixed the Step 4A example, new
+   "Appendix: Shared Session Modules" with a canonical `_setup.mjs` listing.

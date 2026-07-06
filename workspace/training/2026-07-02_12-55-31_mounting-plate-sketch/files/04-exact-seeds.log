@@ -1,0 +1,45 @@
+[04] maxLevels: {"fix":31,"rel":31,"eq":31,"dim":51,"ang":51}
+[04] dim: L51 [Evaluation error in R100.SetSE:[Operation not possible: NullMem - {29.986009110502,-0.91611005065579,0} ist nicht defin
+[04] dim: L51 Couldn't set the value for dimension $400 of type "RADIUS"
+[04] dim: L51 Couldn't set the value for dimension $404 of type "DIAMETER"
+[04] dim: L51 [Evaluation error in R3.SetSE:[Operation not possible: NullMem - {-29.724882048079,-4.0535647555903,0} ist nicht definie
+[04] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] dim: L51 Couldn't set the value for dimension $408 of type "RADIUS"
+[04] dim: L51 [Evaluation error in R3L.SetSE:[Operation not possible: NullMem - {1.164397264366,-29.977394466677,0} ist nicht definier
+[04] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] dim: L51 Couldn't set the value for dimension $412 of type "RADIUS"
+[04] dim: L51 [Evaluation error in R33.SetSE:[Operation not possible: NullMem - {-1.3633926657222e-14,-30,0} ist nicht definiert (Null
+[04] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] dim: L51 Couldn't set the value for dimension $416 of type "RADIUS"
+[04] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] dim: L51 Couldn't set the value for dimension $420 of type "DIAMETER"
+[04] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] dim: L51 Couldn't set the value for dimension $424 of type "DIAMETER"
+[04] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] ang: L51 [Evaluation error in ConstraintHelper.CalculateAngleProperties::PROC:[Uninitialized member] not defined !] 
+[04] ang: L51 Line length on angular dimension became zero!
+[04] ang: L51 Line length on angular dimension became zero!
+[04] ang: L51 Line length on angular dimension became zero!
+[04] ang: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] ang: L51 Line length on angular dimension became zero!
+[04] ang: L51 Couldn't set the value for dimension $428 of type "ANGLE"
+[04] ang: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSA
+[04] ang: L51 Line length on angular dimension became zero!
+[filewrite] files/04-exact-seeds-compare-exact.json (7976 bytes)
+[04] maxErr: 135.8687719267126 ❌ FAIL (structural problem)
+   ✗ {"key":"blendR","what":"start","got":[2.1511136,-29.9227791],"want":[12.1041517,27.4497634],"err":58.2}
+   ✗ {"key":"blendR","what":"end","got":[2.1511136,-29.9227791],"want":[68.3107551,-90.07575],"err":89.4}
+   ✗ {"key":"blendR","what":"center","got":[-5.0192651,69.8198179],"want":[-28.2430206,-64.049448],"err":136}
+   ✗ {"key":"blendL","what":"start","got":[29.9860091,-0.9161101],"want":[-68.3107551,-90.07575],"err":133}
+   ✗ {"key":"blendL","what":"end","got":[29.9860091,-0.9161101],"want":[-12.1041517,27.4497634],"err":50.8}
+   ✗ {"key":"blendL","what":"center","got":[-69.9673546,2.1375901],"want":[28.2430206,-64.049448],"err":118}
+   ✗ {"key":"notch","what":"start","got":[0,-92.8090656],"want":[30.509434,-77.2482217],"err":34.2}
+   ✗ {"key":"notch","what":"end","got":[0,-92.8090656],"want":[-30.509434,-77.2482217],"err":34.2}

@@ -1,0 +1,205 @@
+{
+  "losers": [
+    {
+      "id": "180",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Auto_Coinc16"
+    },
+    {
+      "id": "233",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Auto_Coinc32"
+    },
+    {
+      "id": "240",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Auto_Coinc34"
+    },
+    {
+      "id": "284",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan"
+    },
+    {
+      "id": "286",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan0"
+    },
+    {
+      "id": "288",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc8"
+    },
+    {
+      "id": "290",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc9"
+    },
+    {
+      "id": "292",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan1"
+    },
+    {
+      "id": "294",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan2"
+    },
+    {
+      "id": "296",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc10"
+    },
+    {
+      "id": "298",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc11"
+    },
+    {
+      "id": "300",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan3"
+    },
+    {
+      "id": "302",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan4"
+    },
+    {
+      "id": "304",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc12"
+    },
+    {
+      "id": "306",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc13"
+    },
+    {
+      "id": "310",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan5"
+    },
+    {
+      "id": "312",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc15"
+    },
+    {
+      "id": "314",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan6"
+    },
+    {
+      "id": "320",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan8"
+    },
+    {
+      "id": "322",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc17"
+    },
+    {
+      "id": "324",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan9"
+    },
+    {
+      "id": "326",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc18"
+    },
+    {
+      "id": "328",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan10"
+    },
+    {
+      "id": "334",
+      "class": "CC_2DTangentSketchConstraint",
+      "name": "Tan12"
+    },
+    {
+      "id": "336",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc20"
+    },
+    {
+      "id": "340",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc21"
+    },
+    {
+      "id": "354",
+      "class": "CC_2DCoincidentConstraint",
+      "name": "Coinc24"
+    },
+    {
+      "id": "400",
+      "class": "CC_2DRadiusConstraint",
+      "name": "R98"
+    },
+    {
+      "id": "404",
+      "class": "CC_2DDiameterConstraint",
+      "name": "W6"
+    },
+    {
+      "id": "408",
+      "class": "CC_2DRadiusConstraint",
+      "name": "R3"
+    },
+    {
+      "id": "412",
+      "class": "CC_2DRadiusConstraint",
+      "name": "R33"
+    },
+    {
+      "id": "416",
+      "class": "CC_2DDiameterConstraint",
+      "name": "D40"
+    },
+    {
+      "id": "420",
+      "class": "CC_2DDiameterConstraint",
+      "name": "D20"
+    },
+    {
+      "id": "424",
+      "class": "CC_2DAngleConstraint",
+      "name": "A30"
+    }
+  ],
+  "radii": {
+    "Arc#104": 99.99999999999999,
+    "Arc0#109": 100.00000000000001,
+    "Arc1#114": 33,
+    "Arc2#121": 1.6205488004704034,
+    "Arc3#130": 1.6160468710475222,
+    "Arc4#139": 0.0000015169398150371641,
+    "Arc5#148": 0.0000013128106004719914,
+    "Circle#157": 21,
+    "Circle0#166": 169.94599239461317,
+    "Circle1#175": 4.042178593553126e-9,
+    "Circle2#182": 4.042178593553126e-9,
+    "Circle3#189": 30,
+    "Circle4#198": 11,
+    "Circle5#207": 3,
+    "Circle6#214": 8.321795582099685e-9,
+    "Circle7#221": 8.321795609855251e-9,
+    "Circle8#228": 9.2,
+    "Circle9#235": 9.2,
+    "D60#382": 30,
+    "D22#386": 11,
+    "D42#390": 21,
+    "D6#394": 3,
+    "R100#398": 100.00000000000001,
+    "R98#402": 169.94599239461317,
+    "W6#406": 4.042178593553126e-9,
+    "R3#410": 1.6205488004704034,
+    "R33#414": 33,
+    "D40#418": 8.321795609855251e-9,
+    "D20#422": 9.2
+  }
+}

@@ -396,6 +396,13 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Trigger:** `dimension([... {type:'HORIZONTAL_DISTANCE', geomIds:[p1,p2], value, dimPos:[x,y,0]} ...])`
 - **Workaround:** Create dims without `dimPos`, then `updateDimensionPosition` (works on all types).
 
+### 177. [ ] ⚠️ sketch solver — contradictory junction wiring diverges DoSolve GLOBALLY instead of flagging a loser
+
+- **Session:** `2026-07-02_12-55-31_mounting-plate-sketch` (journal §§ 01–10, esp. the matrix in § 10)
+- **Error:** ❌ When an explicit COINCIDENT wires the WRONG endpoint of an arc (start/end roles swapped on mirrored arcs) while auto-constraints wire the junction from the seed positions, every subsequent `DoSolve` fails and wrecks the sketch: `SketchSolverInterface.DoSolve: The specified radius for CalcBulges is too small`, `<DIM>.SetSE: NullMem {x,y,0} ist nicht definiert`, `Line length on angular dimension became zero!`; small arcs collapse to radius 0; EVERY later dimension refuses its value (`Couldn't set the value for dimension $N`) — including dims on satisfied, fully decoupled subgraphs (a plain Ø22 bore). Normal conflicting constraints are handled silently via `lgsState 0` — this class instead diverges from an already-satisfied state and destroys geometry.
+- **Trigger:** exactly-seeded batch geometry (gen* ON) + explicit chain constraints whose endpoint bookkeeping contradicts the seed adjacency; then any constraint/dimension creation that triggers a solve.
+- **Workaround:** with `genIncidence/genTangency/genVertAndHoriz: false` the same wiring bug is benign — the explicit set alone is solvable and the mis-wiring shows as a small role-swap displacement caught by numeric readback. Ideally the solver would report the contradictory pair instead of diverging.
+
 ## 🟡 LOW — Degenerate State Warnings
 
 ### 37. [ ] 🟡 `part.workPlane` — wrong ref types create broken features

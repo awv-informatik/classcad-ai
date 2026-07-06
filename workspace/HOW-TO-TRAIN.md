@@ -82,6 +82,29 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug]
 
 **The harness does NOT write your journal.** You write it.
 
+### Standard session preamble
+
+Every constrained-sketch script starts the same way — create the part, find a work plane,
+and create the sketch **with `planeId`** (a planeless sketch has a DEAD constraint solver:
+constraints and dimensions are accepted, maxLevel 31, IDs returned — but never enforced):
+
+```js
+const partR = await api.v1.part.create({ name: 'MyTopic' })
+const partId = partR.result
+const top = Object.values(partR.structure.tree)
+  .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
+const skId = (await api.v1.sketch.create({ id: partId, planeId: top.id })).result
+```
+
+Operational constraints that go with it:
+
+- **`part.create` works ONCE per harness run** — the 2nd call returns VOID (TODO #18). Build
+  everything a run needs on the one part (additional sketches via `sketch.create` on it).
+- **`getPositions` fails on circle IDs** — go `getPoints(circleId).result.centerId` →
+  `getPositions`.
+- Multi-script sessions: put this preamble and other helpers into a shared `_setup.mjs` —
+  see [Appendix: Shared Session Modules](#appendix-session-modules).
+
 ### Logging results
 
 Use `console.log` for compact, one-line findings that fit in stdout:
@@ -295,8 +318,11 @@ After each run, append a section to `journal.md`. Two tiers — **brief** (behav
 ```js
 // API task — testing one API endpoint
 export default async function (api, { snapshot, filewrite }) {
-  const partId = (await api.v1.part.create({ name: 'Test' })).result
-  const skId = (await api.v1.sketch.create({ id: partId })).result
+  const partR = await api.v1.part.create({ name: 'Test' })
+  const partId = partR.result
+  const top = Object.values(partR.structure.tree)
+    .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
+  const skId = (await api.v1.sketch.create({ id: partId, planeId: top.id })).result
 
   const r = await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })
   console.log('[01] rectangle result:', r.result, 'maxLevel:', r.maxLevel)
@@ -651,3 +677,51 @@ const extId = (
 - `part.updateExtrusion` — modify after creation
 - `sketch.sketchRegion` — create the profile this consumes
 ````
+
+---
+
+<a name="appendix-session-modules"></a>
+
+## Appendix: Shared Session Modules
+
+For sessions with more than ~2 scripts, put shared code into helper modules inside the
+session's `scripts/` folder, imported by the numbered scripts. The harness only runs files
+you pass it, so helpers are never executed directly. Convention (underscore prefix = not a
+runnable script):
+
+- `_setup.mjs` — harness-facing helpers: preamble, position readback, assertions
+- `_model.mjs` — when reproducing a drawing: the parametric model, computing BOTH the rough
+  seeds and the exact verification targets from ONE code path (perturbed params in, drawing
+  params in — same formulas, so rough/exact can never drift apart)
+
+Canonical `_setup.mjs` starting point:
+
+```js
+/** Part + solver-enabled sketch on the named work plane (default 'Top'). Call ONCE per run. */
+export async function makeSketch(api, { name = 'Session', plane = 'Top' } = {}) {
+  const partR = await api.v1.part.create({ name })
+  const partId = partR.result
+  const wp = Object.values(partR.structure.tree).find(n => n.class === 'CC_WorkPlane' && n.name === plane)
+  if (!wp) throw new Error(`work plane '${plane}' not found`)
+  const skId = (await api.v1.sketch.create({ id: partId, planeId: wp.id, name: 'S' })).result
+  return { partId, skId, planeId: wp.id }
+}
+
+/** getPositions normalized to plain [x, y, z] arrays. */
+export async function positions(api, id) {
+  const r = await api.v1.sketch.getPositions({ id })
+  const v = o => (o ? [o.x, o.y, o.z] : null)
+  return { maxLevel: r.maxLevel, startPos: v(r.result?.startPos), endPos: v(r.result?.endPos), pos: v(r.result?.pos) }
+}
+
+/** Circle center coords (getPositions fails on the circle id itself). */
+export async function centerPos(api, circleId) {
+  const pts = (await api.v1.sketch.getPoints({ id: circleId })).result
+  return pts?.centerId ? (await positions(api, pts.centerId)).pos : null
+}
+
+export const approx = (a, b, eps = 1e-6) => Math.abs(a - b) <= eps
+```
+
+Reference implementations: `workspace/training/2026-07-02_10-57-47_robot-head-sketch/scripts/`
+(`_model.mjs` + `_build.mjs` pattern) and `2026-07-01_10-03-15_rigging-plate/scripts/`.

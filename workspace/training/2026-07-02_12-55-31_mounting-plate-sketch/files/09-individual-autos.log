@@ -1,0 +1,2 @@
+[filewrite] files/09-individual-autos-autos.json (369 bytes)
+[09] Auto_* after 4 individual creators: 5 [{"name":"Auto_Fix","class":"CC_2DFixationConstraint"},{"name":"Auto_Coinc","class":"CC_2DCoincidentConstraint"},{"name":"Auto_H","class":"CC_2DHorizontalConstraint"},{"name":"Auto_Coinc0","class":"CC_2DCoincidentConstraint"},{"name":"Auto_V","class":"CC_2DVerticalConstraint"}]

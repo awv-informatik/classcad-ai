@@ -1,0 +1,185 @@
+{
+  "fix": [],
+  "rel": [],
+  "eq": [
+    {
+      "api": "v1.sketch.constraint",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    }
+  ],
+  "dim": [
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $382 of type \"DIAMETER\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $386 of type \"DIAMETER\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $390 of type \"DIAMETER\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $394 of type \"DIAMETER\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $398 of type \"RADIUS\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $402 of type \"RADIUS\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $406 of type \"DIAMETER\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $410 of type \"RADIUS\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $414 of type \"RADIUS\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $418 of type \"DIAMETER\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $422 of type \"DIAMETER\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    }
+  ],
+  "ang": [
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Couldn't set the value for dimension $426 of type \"ANGLE\""
+    },
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.\nFunction: CADH_LGSApplyChanges\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "
+    }
+  ]
+}

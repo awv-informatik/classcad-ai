@@ -141,6 +141,14 @@ await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 
 
 ## Gotchas
 
+- **⚠️ @expr feature-param bindings DIE (or corrupt) when the feature is consumed by a boolean**
+  (verified 2026-08-10, sprocket-parametric-B): a consumed `part.cylinder` with
+  `diameter:'@expr.D'` produced a corrupted partial regen on update (hole teleported, ¼ of the
+  expected volume change, maxLevel 31); a consumed `circularPattern` with @expr count/angle froze
+  silently. **Sketch DIMENSIONS with @expr bindings keep working through consumption** — route
+  live parameters through sketches. See `part/boolean.md` for the full matrix.
+- **@expr also works in sketch dimension values** (LIVE — see `sketch/dimension.md`); ANGLE dims
+  are the exception.
 - **Deleting a linked expression does NOT destroy the feature.** The parameter freezes at the expression's last value (same as unlink). No warning is emitted.
 - **Renaming a linked expression BREAKS the binding.** Features that referenced the old name via @expr freeze at the last value. The feature does NOT auto-update to the new name. No warning. If you rename, you must re-link features afterward.
 - **Inline formulas are dead strings.** `height: '30 + 30'` is evaluated once at creation and never updated. Use @expr for live bindings.

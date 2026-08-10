@@ -33,6 +33,12 @@ Feature ID (numeric) on success, maxLevel=31 (info). Returns the feature ID even
   `tools: [patternId]` cuts all N instances; `tools: [toolId, patternId]` fails with error 1014
   "already been consumed", and the message **names an arbitrary other tool** (e.g. a later,
   perfectly valid one), not the offending consumed target — highly misleading when debugging.
+- **Count/angle FREEZE at boolean consumption** (verified 2026-08-10): once the pattern is used as
+  a boolean tool, `@expr`-bound count/angle stop tracking their expressions, and even explicit
+  `openFeature`+`updateCircularPattern`+`closeFeature` reports success (maxLevel 31, id returned)
+  while changing NOTHING. The pattern's SEED shape stays live (sketch-dim edits propagate into
+  every copy), only the count/spacing are dead. Tooth-count-style parameters are rebuild
+  parameters, not model parameters.
 - **`angle=0` does NOT mean equal spacing.** It means literally 0° between copies — all instances stack at the same position. For equal spacing around a full circle, calculate: `angle = 2 * Math.PI / count` (or `'2*C:PI/count'` as expression).
 - **`count` includes the original.** count=4 means 4 total bodies, not 4 copies. count=1 creates the feature but adds no copies.
 - **`merged: 1` fails** with "Boolean operation failed with error 1001" for circularPattern. The feature is created and copies are placed, but the boolean union step fails. Bodies remain separate. Use `part.boolean` with `type: 'UNION'` after creation as a workaround.

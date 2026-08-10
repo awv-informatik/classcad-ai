@@ -76,6 +76,15 @@ const ids = (await api.v1.sketch.dimension([
   2026-07-02 on a 21-dim batch; not isolated to a single type). Safe route: create all
   dimensions WITHOUT `dimPos`, then place text with `updateDimensionPosition` — that works on
   every type. (`dimPos` for ANGLE sector selection is a different, documented use.)
+- **HD/VD point-pair dims are UNSIGNED and branch-keeping** (probed 2026-08-10): geomIds order is
+  irrelevant, `value` is an absolute distance, and the solver keeps the SEED's side (up/down,
+  left/right) — even when the seed is far off. Consequence: the side of a feature is encoded ONLY
+  by the seed, and a LARGE driving-value jump (e.g. a cascade that moves the anchor further than
+  the local feature scale) can legitimately re-solve onto the MIRROR branch — all constraints
+  satisfied, lgsState 1, updateDimension result 2, geometry on the wrong side. Verified on the
+  ANSI tooth sketch: teeth 21→24 in one update flipped the working-arc centers below their anchor;
+  **stepping the parameter (21→22→23→24) kept the correct branch with float-exact results**.
+  Mitigate by stepping large parameter changes, or add side-encoding constraints.
 - **DIAMETER value is diameter, not radius.** `value: 60` on a circle means radius=30.
 - **ANGLE value needs `deg` suffix.** Use `'60deg'` not `60`. Without the suffix, the value is interpreted as radians.
 - **Negative values create broken dimensions.** A negative OFFSET value creates the dimension (gets an ID) but fails to set the value (maxLevel=51). The dimension exists in a broken state.

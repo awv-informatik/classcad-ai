@@ -23,6 +23,12 @@ All positions are `{ x, y, z }` named objects, NOT `[x, y, z]` arrays. maxLevel=
 
 ## Gotchas
 
+- **⚠️ Positions are WORLD coordinates, not sketch-local** (verified 2026-08-10, sprocket-parametric-B).
+  On a Right-plane sketch, local (lx, ly) comes back as world `{x: 0, y: −ly, z: lx}`. All earlier
+  training read Top-plane sketches where local == world, so this went unnoticed. When verifying
+  solver results on Front/Right (or custom) planes, map through the plane basis first (probed
+  bases: Top localXY→XY/+Z; Front x→+X, y→−Z, n→+Y; Right x→+Z, y→−Y, n→+X) — a "solver failure"
+  with uniform large errors on a non-Top plane is usually THIS.
 - **Circles do NOT work.** Despite the docs claiming circle returns `{ centerPos }`, calling `getPositions` on a circle ID produces error: `[Evaluation error in SketchAPI_v1.getPositions::PROC:[CCVM::lcm: objId not found]]`. Use `getPoints(circleId)` → `getPositions(centerId)` as workaround.
 - **Floating-point noise on arc centers.** Computed positions (especially arc `centerPos`) may have epsilon-level noise (e.g., `-4.44e-16` instead of `0`). This is standard kernel behavior.
 - **No `midPos` for arcBy3Points.** Both arc creation methods produce the same output: `{ startPos, endPos, centerPos }`. The midpoint from `arcBy3Points` creation is not preserved.

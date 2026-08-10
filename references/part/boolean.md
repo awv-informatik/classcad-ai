@@ -53,6 +53,17 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
   original instance). The 1014 message **names the wrong entity** (some other tool in the array or
   the pattern itself, e.g. "SetScrew2"/"Pat"), not the consumed one — verified 2026-08-10. With many
   tools, check for pattern-target overlaps before trusting the named entity.
+- **⚠️ Consumed tools are parametrically DEAD at the feature level — but ALIVE at the sketch level**
+  (verified 2026-08-10, sprocket-parametric-B). After a boolean consumes tools:
+  - sketch-dimension edits (numeric `updateDimension` or live `@expr` bindings) on the tools'
+    sketches **regenerate the boolean result exactly** — this is the supported parametric path;
+  - `@expr`-bound FEATURE params of consumed tools silently freeze (circularPattern count/angle)
+    or CORRUPT the result (part.cylinder diameter: hole teleported, exactly ¼ of the expected
+    material change, maxLevel 31 throughout);
+  - explicit `openFeature`+`updateCircularPattern`+`closeFeature` on a consumed pattern reports
+    full success and **changes nothing**.
+  Design rule: route every parameter you want live through a sketch dimension; treat feature
+  params (pattern count!) as frozen at consumption time — count changes require a rebuild.
 - **Many tools in one call is fine.** A single SUBTRACTION with 7 tools (pattern + revolves +
   cylinder + extrusions) works — one consumption chain beats sequential booleans for tool-heavy
   builds (verified 2026-08-10, sprocket generator).

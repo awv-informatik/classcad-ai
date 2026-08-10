@@ -1,0 +1,131 @@
+{
+  "name": "T35A40SS",
+  "spec": {
+    "name": "T35A40SS",
+    "teeth": 40,
+    "strands": 3,
+    "hubStyle": "A",
+    "PD": 4.7796,
+    "blankOD": 4.9671,
+    "ansiOD": 4.9898,
+    "rootR": 2.2878,
+    "flatTip": true,
+    "toothThk": 0.162,
+    "bore": 1.5,
+    "hubDia": 3.75,
+    "hubProj": 0.5,
+    "keyway": {
+      "keyWidth": 0.375,
+      "keyDepth": 0.1875,
+      "screwDia": 0.375
+    },
+    "screws": [],
+    "vMin": -0.48,
+    "vMax": 0.48,
+    "strandGap": 0.237
+  },
+  "steps": [
+    {
+      "step": "Parameters",
+      "level": 31
+    },
+    {
+      "step": "Blank",
+      "id": 110
+    },
+    {
+      "step": "ToothSpace",
+      "id": 215
+    },
+    {
+      "step": "ToothPattern",
+      "id": 286
+    },
+    {
+      "step": "TipTapers",
+      "ids": [
+        2382,
+        2421,
+        2460,
+        2499,
+        2538,
+        2577
+      ]
+    },
+    {
+      "step": "Bore",
+      "id": 2612
+    },
+    {
+      "step": "Keyway",
+      "id": 2669,
+      "kw": {
+        "keyWidth": 0.375,
+        "keyDepth": 0.1875,
+        "screwDia": 0.375
+      }
+    },
+    {
+      "step": "Subtraction",
+      "id": 2712,
+      "level": 31,
+      "messages": []
+    },
+    {
+      "step": "BoreChamfer",
+      "id": 32996,
+      "level": 31,
+      "edges": 2
+    },
+    {
+      "step": "Appearance(SS)",
+      "level": 31
+    },
+    {
+      "step": "MateConnector",
+      "id": 49308,
+      "level": 31
+    }
+  ],
+  "checks": [
+    {
+      "label": "root-radius",
+      "ok": true,
+      "worstErrIn": 4.884981308350689e-15,
+      "edgeId": 25389
+    },
+    {
+      "label": "tip-flat-corner",
+      "ok": true,
+      "worstErrIn": 4.440892098500626e-16,
+      "edgeId": 25944
+    },
+    {
+      "label": "tip-flat-corner-lastStrand",
+      "ok": true,
+      "worstErrIn": 4.440892098500626e-16,
+      "edgeId": 31068
+    },
+    {
+      "label": "bore-rim",
+      "ok": true,
+      "worstErrIn": 1.1102230246251565e-16,
+      "edgeId": 32968
+    },
+    {
+      "label": "volume",
+      "ok": true,
+      "cadIn3": 13.78242,
+      "mcIn3": 13.72085,
+      "chamferAllowIn3": 0.00424,
+      "deviation": "0.48%"
+    },
+    {
+      "label": "cog",
+      "ok": true,
+      "offAxisIn": 0.0043,
+      "alongAxisIn": 0
+    }
+  ],
+  "allChecksPass": true
+}

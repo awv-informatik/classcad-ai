@@ -1,0 +1,146 @@
+{
+  "name": "35B52SS",
+  "spec": {
+    "name": "35B52SS",
+    "teeth": 52,
+    "strands": 1,
+    "hubStyle": "B",
+    "PD": 6.2108,
+    "blankOD": 6.3983,
+    "ansiOD": 6.4245,
+    "rootR": 3.0034,
+    "flatTip": true,
+    "toothThk": 0.168,
+    "bore": 2,
+    "hubDia": 4.5,
+    "hubProj": 0.6,
+    "keyway": {
+      "keyWidth": 0.5,
+      "keyDepth": 0.25,
+      "screwDia": 0.5
+    },
+    "screws": [
+      {
+        "v": 0.38399999999999995,
+        "azimuth": 0,
+        "dia": 0.5
+      },
+      {
+        "v": 0.38399999999999995,
+        "azimuth": -90,
+        "dia": 0.5
+      }
+    ],
+    "vMin": -0.084,
+    "vMax": 0.684,
+    "strandGap": 0
+  },
+  "steps": [
+    {
+      "step": "Parameters",
+      "level": 31
+    },
+    {
+      "step": "Blank",
+      "id": 86
+    },
+    {
+      "step": "ToothSpace",
+      "id": 164
+    },
+    {
+      "step": "ToothPattern",
+      "id": 235
+    },
+    {
+      "step": "TipTapers",
+      "ids": [
+        2967,
+        3006
+      ]
+    },
+    {
+      "step": "Bore",
+      "id": 3041
+    },
+    {
+      "step": "Keyway",
+      "id": 3098,
+      "kw": {
+        "keyWidth": 0.5,
+        "keyDepth": 0.25,
+        "screwDia": 0.5
+      }
+    },
+    {
+      "step": "SetScrews",
+      "ids": [
+        3150,
+        3181
+      ]
+    },
+    {
+      "step": "Subtraction",
+      "id": 3203,
+      "level": 31,
+      "messages": []
+    },
+    {
+      "step": "BoreChamfer",
+      "id": 18314,
+      "level": 31,
+      "edges": 2
+    },
+    {
+      "step": "Appearance(SS)",
+      "level": 31
+    },
+    {
+      "step": "MateConnector",
+      "id": 27312,
+      "level": 31
+    }
+  ],
+  "checks": [
+    {
+      "label": "root-radius",
+      "ok": true,
+      "worstErrIn": 4.440892098500626e-16,
+      "edgeId": 15075
+    },
+    {
+      "label": "tip-flat-corner",
+      "ok": true,
+      "worstErrIn": 1.5265566588595902e-16,
+      "edgeId": 15798
+    },
+    {
+      "label": "bore-rim",
+      "ok": true,
+      "worstErrIn": 5.551115123125783e-17,
+      "edgeId": 18262
+    },
+    {
+      "label": "hub-od",
+      "ok": true,
+      "radErrIn": 4.725109192804666e-13,
+      "endErrIn": 0,
+      "nPts": 6
+    },
+    {
+      "label": "volume",
+      "ok": true,
+      "cadIn3": 11.51836,
+      "mcIn3": 11.55401,
+      "chamferAllowIn3": 0.00565,
+      "deviation": "0.26%"
+    },
+    {
+      "label": "cog",
+      "ok": true,
+      "offAxisIn": 0.0426,
+      "alongAxisIn": 0.2362
+    }
+  ],
+  "allChecksPass": true
+}

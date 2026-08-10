@@ -1,0 +1,8 @@
+[filewrite] files/05-sprocket-T35A40SS-report-T35A40SS.json (2258 bytes)
+[05] built T35A40SS {"name":"T35A40SS","teeth":40,"strands":3,"hubStyle":"A","PD":4.7796,"blankOD":4.9671,"ansiOD":4.9898,"rootR":2.2878,"flatTip":true,"toothThk":0.162,"bore":1.5,"hubDia":3.75,"hubProj":0.5,"keyway":{"keyWidth":0.375,"keyDepth":0.1875,"screwDia":0.375},"screws":[],"vMin":-0.48,"vMax":0.48,"strandGap":0.237}
+[05] check ✓ root-radius: {"label":"root-radius","ok":true,"worstErrIn":4.884981308350689e-15,"edgeId":25389}
+[05] check ✓ tip-flat-corner: {"label":"tip-flat-corner","ok":true,"worstErrIn":4.440892098500626e-16,"edgeId":25944}
+[05] check ✓ tip-flat-corner-lastStrand: {"label":"tip-flat-corner-lastStrand","ok":true,"worstErrIn":4.440892098500626e-16,"edgeId":31068}
+[05] check ✓ bore-rim: {"label":"bore-rim","ok":true,"worstErrIn":1.1102230246251565e-16,"edgeId":32968}
+[05] check ✓ volume: {"label":"volume","ok":true,"cadIn3":13.78242,"mcIn3":13.72085,"chamferAllowIn3":0.00424,"deviation":"0.48%"}
+[05] check ✓ cog: {"label":"cog","ok":true,"offAxisIn":0.0043,"alongAxisIn":0}

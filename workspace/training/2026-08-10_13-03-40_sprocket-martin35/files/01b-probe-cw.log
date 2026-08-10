@@ -1,0 +1,4 @@
+[01b] Top: cw=true bulge at local -y (math-CW) | localX pos 60.0 (expect 60) Vi=628.3 (expect 628.3)
+[01b] Front: cw=true bulge at local -y (math-CW) | localX pos 100.0 (expect 100) Vi=628.5 (expect 628.3)
+[01b] Right: cw=true bulge at local -y (math-CW) | localX pos 140.0 (expect 140) Vi=628.5 (expect 628.3)
+[filewrite] files/01b-probe-cw-cw-semantics.json (263 bytes)

@@ -1,0 +1,148 @@
+{
+  "name": "D35C13SS",
+  "spec": {
+    "name": "D35C13SS",
+    "teeth": 13,
+    "strands": 2,
+    "hubStyle": "C",
+    "PD": 1.567,
+    "blankOD": 1.7545,
+    "ansiOD": 1.7464,
+    "rootR": 0.6815,
+    "flatTip": true,
+    "toothThk": 0.162,
+    "bore": 0.625,
+    "hubDia": 1.1094,
+    "hubProj": 0.4,
+    "keyway": {
+      "keyWidth": 0.1875,
+      "keyDepth": 0.09375,
+      "screwDia": 0.25
+    },
+    "screws": [
+      {
+        "v": 0.48050000000000004,
+        "azimuth": 0,
+        "dia": 0.25
+      }
+    ],
+    "vMin": -0.6805,
+    "vMax": 0.6805,
+    "strandGap": 0.237
+  },
+  "steps": [
+    {
+      "step": "Parameters",
+      "level": 31
+    },
+    {
+      "step": "Blank",
+      "id": 110
+    },
+    {
+      "step": "ToothSpace",
+      "id": 215
+    },
+    {
+      "step": "ToothPattern",
+      "id": 286
+    },
+    {
+      "step": "TipTapers",
+      "ids": [
+        951,
+        990,
+        1029,
+        1068
+      ]
+    },
+    {
+      "step": "Bore",
+      "id": 1103
+    },
+    {
+      "step": "Keyway",
+      "id": 1160,
+      "kw": {
+        "keyWidth": 0.1875,
+        "keyDepth": 0.09375,
+        "screwDia": 0.25
+      }
+    },
+    {
+      "step": "SetScrews",
+      "ids": [
+        1212
+      ]
+    },
+    {
+      "step": "Subtraction",
+      "id": 1234,
+      "level": 31,
+      "messages": []
+    },
+    {
+      "step": "BoreChamfer",
+      "id": 8355,
+      "level": 31,
+      "edges": 2
+    },
+    {
+      "step": "Appearance(SS)",
+      "level": 31
+    },
+    {
+      "step": "MateConnector",
+      "id": 12395,
+      "level": 31
+    }
+  ],
+  "checks": [
+    {
+      "label": "root-radius",
+      "ok": true,
+      "worstErrIn": 3.3306690738754696e-16,
+      "edgeId": 6638
+    },
+    {
+      "label": "tip-flat-corner",
+      "ok": true,
+      "worstErrIn": 1.1102230246251565e-16,
+      "edgeId": 6818
+    },
+    {
+      "label": "tip-flat-corner-lastStrand",
+      "ok": true,
+      "worstErrIn": 1.1102230246251565e-16,
+      "edgeId": 7674
+    },
+    {
+      "label": "bore-rim",
+      "ok": true,
+      "worstErrIn": 0,
+      "edgeId": 8315
+    },
+    {
+      "label": "hub-od",
+      "ok": true,
+      "radErrIn": 0,
+      "endErrIn": 0,
+      "nPts": 3
+    },
+    {
+      "label": "volume",
+      "ok": true,
+      "cadIn3": 1.12067,
+      "mcIn3": 1.12047,
+      "chamferAllowIn3": 0.00177,
+      "deviation": "0.18%"
+    },
+    {
+      "label": "cog",
+      "ok": true,
+      "offAxisIn": 0.0093,
+      "alongAxisIn": -0.0051
+    }
+  ],
+  "allChecksPass": true
+}

@@ -403,6 +403,27 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Trigger:** exactly-seeded batch geometry (gen* ON) + explicit chain constraints whose endpoint bookkeeping contradicts the seed adjacency; then any constraint/dimension creation that triggers a solve.
 - **Workaround:** with `genIncidence/genTangency/genVertAndHoriz: false` the same wiring bug is benign — the explicit set alone is solvable and the mis-wiring shows as a small role-swap displacement caught by numeric readback. Ideally the solver would report the contradictory pair instead of diverging.
 
+### 178. [ ] ⚠️ sketch renderer — `arcByCenter` arcs misdrawn in the 2D sketch plot
+
+- **Session:** `2026-08-10_13-03-40_sprocket-martin35` (journal § 02)
+- **Error:** the sketch-view PNG of a validated tooth-space chain (8 arcs/lines, extrudes cleanly, area matches analytic to 0.004%) renders as a tiny lens-shaped blob; before the cw-flag fix the same view drew short arcs as near-full circles. The SOLID render and all numeric data are correct — only the 2D sketch plot path is wrong for arcByCenter entities.
+- **Trigger:** `snapshot()` on a sketch containing `arcsByCenter` (batch geometry, autos off).
+- **Workaround:** trust solid snapshots + numbers; treat 2D sketch plots of arc-heavy sketches as unreliable. Likely the renderer's bulge/sweep derivation for arcByCenter (cf. the 2026-07-01 arc-rendering fix, which covered structure-tree bulges).
+
+### 179. [ ] 📖 `part.boolean` — 1014 "consumed" error names the WRONG entity with pattern tools
+
+- **Session:** `2026-08-10_13-03-40_sprocket-martin35` (journal § 01c)
+- **Error:** `tools: [toolId, patternOf(toolId)]` fails (correctly — the pattern consumed its target) but the 1014 message blames an arbitrary other entity ("SetScrew2" in the full build, "Pat" in the minimal repro), never the actually-consumed `toolId`.
+- **Trigger:** any boolean whose tools include both a pattern and that pattern's target.
+- **Workaround:** pass the pattern only; when a many-tool boolean throws 1014, audit pattern/target overlaps first, don't trust the named entity.
+
+### 180. [ ] 📖 `part.getGeometryIds` — no-match = nested empty arrays; revolve rim circles unfindable via `arcs`/`circles`
+
+- **Session:** `2026-08-10_13-03-40_sprocket-martin35` (journal § 03)
+- **Error:** (a) no-match entries return `[]` inside the per-type arrays (`{arcs:[6513], circles:[[]], lines:[[]]}`) — truthy values that silently break `getGeometryPositions` when passed through; (b) hub-OD rim circles on a revolved+booleaned solid were not found by `arcs` or `circles` at exact on-edge positions, while `lines` returned a far-away edge that looks like a hit.
+- **Trigger:** multi-type queries; revolve band rim edges.
+- **Workaround:** flatten + keep numeric ids only; verify every found id via `getGeometryPositions`; for cylindrical bands use the `cylinders` FACE lookup (2 positions) and read the rim midpoints off the face. Documented in `part/getGeometryIds.md`.
+
 ## 🟡 LOW — Degenerate State Warnings
 
 ### 37. [ ] 🟡 `part.workPlane` — wrong ref types create broken features

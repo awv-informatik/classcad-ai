@@ -1,0 +1,9 @@
+[
+  {
+    "api": "v1.part.extrusion",
+    "code": 1121,
+    "level": 51,
+    "levelStr": "ERROR",
+    "message": "Curves used for SpaceSlab (CC_Extrusion) self intersect at least at position {0,-37.079239477691,2.9038530444888}. Please make\r\n\t\t\tsure that there are no curve intersections."
+  }
+]

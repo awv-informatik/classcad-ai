@@ -26,6 +26,13 @@ Feature ID (numeric) on success, maxLevel=31 (info). Returns the feature ID even
 
 ## Gotchas
 
+- **The pattern CONSUMES its target features** (verified 2026-08-10, sprocket session). After
+  `circularPattern({ targets: [toolId], count: N })`, the pattern feature owns all N instances
+  *including the original* — `toolId` is no longer independently usable. Consequence for the
+  pattern-then-subtract idiom: `part.boolean` tools must reference **the pattern only** —
+  `tools: [patternId]` cuts all N instances; `tools: [toolId, patternId]` fails with error 1014
+  "already been consumed", and the message **names an arbitrary other tool** (e.g. a later,
+  perfectly valid one), not the offending consumed target — highly misleading when debugging.
 - **`angle=0` does NOT mean equal spacing.** It means literally 0° between copies — all instances stack at the same position. For equal spacing around a full circle, calculate: `angle = 2 * Math.PI / count` (or `'2*C:PI/count'` as expression).
 - **`count` includes the original.** count=4 means 4 total bodies, not 4 copies. count=1 creates the feature but adds no copies.
 - **`merged: 1` fails** with "Boolean operation failed with error 1001" for circularPattern. The feature is created and copies are placed, but the boolean union step fails. Bodies remain separate. Use `part.boolean` with `type: 'UNION'` after creation as a workaround.

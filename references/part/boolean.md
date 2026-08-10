@@ -48,6 +48,14 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
 ## Gotchas
 
 - **Features are consumed.** You cannot reuse target or tool IDs after the boolean. Track the returned feature ID.
+- **`circularPattern`/`linearPattern` targets are already consumed by the pattern.** Tools like
+  `[originalTool, patternOfIt]` fail with 1014 — pass `[patternId]` only (the pattern includes the
+  original instance). The 1014 message **names the wrong entity** (some other tool in the array or
+  the pattern itself, e.g. "SetScrew2"/"Pat"), not the consumed one — verified 2026-08-10. With many
+  tools, check for pattern-target overlaps before trusting the named entity.
+- **Many tools in one call is fine.** A single SUBTRACTION with 7 tools (pattern + revolves +
+  cylinder + extrusions) works — one consumption chain beats sequential booleans for tool-heavy
+  builds (verified 2026-08-10, sprocket generator).
 - **Empty tools is an error**, not a no-op. Error: `"The type \"0\" is not supported in PrepareAPIParams!"` (code 1004).
 - **Multiple `part.create` calls in one session** clear the drawing and can cause confusing `"id" must be provided"` errors. Use one `part.create` per cleared drawing.
 - **No `keepTools` param.** Tools are always consumed. If you need a feature for multiple operations, create separate features for each.

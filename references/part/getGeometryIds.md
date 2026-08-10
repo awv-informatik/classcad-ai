@@ -66,6 +66,32 @@ Two lookup regimes:
 
 For reliable results, use positions that are exactly on the geometry: edge midpoints, face centers, or vertex coordinates.
 
+### No-match entries are EMPTY ARRAYS, not null
+
+A query entry with no match comes back as `[]` *inside* the result array — e.g. querying
+`arcs`+`circles`+`lines` at one position can return `{ arcs: [6513], circles: [[]], lines: [[]] }`.
+`.filter(Boolean)` keeps the empty arrays (truthy!), and feeding them into
+`getGeometryPositions.elems` silently degrades the whole call (entries with no positions).
+Flatten and keep numeric ids only: `[...arcs, ...circles, ...lines].flat().filter(x => typeof x === 'number')`
+(verified 2026-08-10).
+
+### Revolve rim circles may be unreachable by edge lookup — use the face
+
+On a revolved solid (after boolean), the outer rim circles of a cylindrical band (e.g. a hub OD)
+were NOT found by `arcs` or `circles` at an exact on-edge position, while `lines` happily returned
+a far-away straight edge (looks like a hit, is a red herring — always verify the found id via
+`getGeometryPositions`). Robust alternative: look up the **cylindrical face**
+(`cylinders: [{ positions: [p1, p2] }]`) and read `getGeometryPositions(faceId)` — it returns the
+seam-line + the two rim-circle midpoints, which carry the radius and both end positions
+(verified 2026-08-10, sprocket hub).
+
+### Probe positions can land inside holes
+
+A position mathematically on a surface may sit exactly where a later cut removed it (e.g. both
+hub-surface probes at +Y/+Z azimuths landed inside the two radial set-screw holes → "face not
+found"). When a lookup unexpectedly fails, check what OTHER features intersect the probe point
+before doubting the geometry.
+
 ### IDs change after topology operations
 
 Fillet, chamfer, boolean, and other topology-modifying features change all brep IDs. After any such operation, call `recalc()` then re-query with `getGeometryIds`. Never cache brep IDs across topology changes.

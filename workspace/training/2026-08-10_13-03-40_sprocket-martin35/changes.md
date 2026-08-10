@@ -76,3 +76,29 @@ index 656e90b..72f1a4c 100644
  
  Fillet, chamfer, boolean, and other topology-modifying features change all brep IDs. After any such operation, call `recalc()` then re-query with `getGeometryIds`. Never cache brep IDs across topology changes.
 ```
+
+## Amendment (bore-chamfer fix, committed e42d2d5)
+
+```diff
+diff --git a/references/part/chamfer.md b/references/part/chamfer.md
+index 06109d3..1fda906 100644
+--- a/references/part/chamfer.md
++++ b/references/part/chamfer.md
+@@ -31,6 +31,16 @@ Returns the chamfer **feature ID** (numeric). This ID is used for `updateChamfer
+ 
+ ## Gotchas
+ 
++- **A "full circle" rim on a subtracted cylinder is SEAM-SPLIT — collect ALL its arcs.** A bore
++  rim (boolean-subtracted cylinder meeting a face) is not one edge: the cylinder's seam line
++  splits each rim into 2 arcs (more if other cuts, e.g. a keyway, interrupt it). A
++  single-position `getGeometryIds` lookup returns ONE arc → the chamfer silently covers only that
++  sector and stops at the seam (verified 2026-08-10, sprocket bore: `edges: 2` chamfered, visible
++  unchamfered sector; correct build needed `edges: 4`). Sweep several azimuths around the rim,
++  verify each candidate via `getGeometryPositions` (radius + axial position), pass all arcs in one
++  chamfer call — and verify completeness afterwards by probing the chamfer's outer edge
++  (radius + distance1) at multiple azimuths. Neither maxLevel (31, success) nor volume-level
++  checks catch a partial rim chamfer.
+ - **Edge IDs require `recalc()` first.** After creating geometry (e.g., `part.box`), call `recalc()` before `getGeometryIds`. Without recalc, the IDs are preliminary — they work for EQUAL_DISTANCE but fail for TWO_DISTANCES and DISTANCE_ANGLE with: `"An element of parameter 'references' has an invalid id!"`.
+ - **Oversized distance creates degenerate features.** If `distance1` exceeds what the adjacent faces can accommodate, the chamfer is created (non-null result) but with `maxLevel=51` and error `"Chamfer could not be applied to all edges."`. The feature exists in the tree but geometry is broken. Always check `maxLevel >= 51`.
+ - **Edge IDs change after chamfer creation.** The BRep topology changes when a chamfer is added. If you need to reference edges of the chamfered geometry (e.g., for a second chamfer), call `recalc()` + `getGeometryIds` again.
+```

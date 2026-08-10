@@ -79,6 +79,41 @@ Same generator, three more configs, ALL checks pass in each:
 | ![D35C13](files/04-sprocket-D35C13SS-iso-solid.png) | ![T35A40 side](files/05-sprocket-T35A40SS-side-solid.png) | ![52T](files/06-sprocket-custom52-iso-solid.png) |
 |---|---|---|
 
+## 07 — bore chamfer didn't run through (caught by ph, fixed)
+
+ph inspected the snapshots: the bore chamfer ring stopped at ~6 o'clock — the sector between
+there and the keyway was unchamfered on every build.
+
+**Why it happened.** The bore is a subtracted cylinder, and a cylindrical face carries a **seam
+line**. Each end rim is therefore not one edge but **two arcs** — split by the keyway walls AND by
+the seam (which landed at the 6-o'clock azimuth). My chamfer code did a single-position `arcs`
+lookup per rim, found one arc per end (`edges: 2`), and chamfered only those; each rim's
+seam-to-keyway arc was never selected. The existing checks couldn't catch it: the volume tolerance
+(2.5%) dwarfs the missing chamfer sliver (~0.15%), and the `bore-rim` brep check verified rim
+*radius*, not chamfer *completeness*. Visual inspection was the only detector — and I read the
+face snapshot too casually. Same lesson as the skill's seam-vertex note in `getGeometryIds.md`,
+which I had read and failed to apply to edge *collection*.
+
+**Fix** (in `_build.mjs`): probe 8 azimuths per rim (skipping the keyway sector), verify every
+candidate arc via `getGeometryPositions` (radius = bore/2, x = end face), chamfer ALL collected
+arcs in one call — now `edges: 4`. Plus a new **`bore-chamfer-full-ring` check**: after the
+chamfer, the chamfer's outer edge (radius bore/2 + c on the end face) must be found at all 16
+probed azimuths.
+
+**Evidence.** 35B21SS re-run: `BoreChamfer edges: 4` (was 2); full-ring check ✓ worst err 2.4e-7 in
+across 16 azimuths; volume dropped 1.85864 → 1.85595 in³ — the delta (0.0027 in³) matches the
+previously-retained chamfer sectors, and the MC deviation tightened 0.42% → 0.28%. Same on all
+configs: D35C13SS 0.03%, T35A40SS 0.45%, 35B52SS 0.31%, each with `rimArcs: 4`, full ring ✓.
+Face close-up now shows an unbroken chamfer band keyway-to-keyway (only the seam line tick remains,
+which is topology, not geometry).
+
+| before (partial, stops at seam) | after (runs through) |
+|---|---|
+| see git-history of `files/03-...face-solid.png` @ first run | ![fixed](files/03-sprocket-35B21SS-face-solid.png) |
+
+**📌 LLM doc:** `part/chamfer.md` — "full circle" rims on subtracted cylinders are seam-split;
+collect all arcs before chamfering, verify completeness after.
+
 ## Deviations from the image recipe (documented, deliberate)
 
 1. **Topping radius = |b−y| (F_eff), not the published F formula** — the ACA equations are self-inconsistent by ~1.4% (F vs the distance b→y); gearseds says "force tangency" in CAD. F_eff makes the profile watertight; ~<1° tangency kink at y; tip lands marginally outward (still truncated by the blank OD for all tested N).

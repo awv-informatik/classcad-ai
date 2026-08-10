@@ -89,7 +89,7 @@
       "step": "BoreChamfer",
       "id": 7876,
       "level": 31,
-      "edges": 2
+      "edges": 4
     },
     {
       "step": "Appearance(SS)",
@@ -97,7 +97,7 @@
     },
     {
       "step": "MateConnector",
-      "id": 11686,
+      "id": 11714,
       "level": 31
     }
   ],
@@ -128,12 +128,19 @@
       "nPts": 6
     },
     {
+      "label": "bore-chamfer-full-ring",
+      "ok": true,
+      "worstErrIn": 2.4286889577229687e-7,
+      "azisProbed": 16,
+      "rimArcs": 4
+    },
+    {
       "label": "volume",
       "ok": true,
-      "cadIn3": 1.85864,
+      "cadIn3": 1.85595,
       "mcIn3": 1.85366,
       "chamferAllowIn3": 0.00283,
-      "deviation": "0.42%"
+      "deviation": "0.28%"
     },
     {
       "label": "cog",

@@ -275,24 +275,76 @@ export async function buildSprocket(api, { filewrite }, cfg) {
   }
 
   // ---- 10. bore chamfer
+  // The bore rim is NOT one edge: the subtracted cylinder's SEAM splits each
+  // end rim into 2 arcs (plus the keyway walls). A single-position lookup finds
+  // only one arc → partial chamfer (bug found by ph 2026-08-10: the chamfer
+  // stopped at the seam). Sweep azimuths, verify every candidate, chamfer all.
+  const rimDir = (thDeg) => {
+    // radial dir in the (uDir=+Z, wDir=-Y) frame: world [0, -sin, cos]
+    const t = (thDeg * Math.PI) / 180
+    return [0, -Math.sin(t), Math.cos(t)]
+  }
+  // keyway sits at θ=90° — skip a generous sector around it
+  const rimAzis = [0, 30, 60, 135, 180, 225, 270, 315]
   let chamferId = null
   if (spec.boreChamfer > 0 && spec.bore > 0) {
-    const rims = []
+    const rims = new Set()
+    const rb = spec.bore / 2
     for (const v of [spec.vMin, spec.vMax]) {
-      const r = (await api.v1.part.getGeometryIds({
-        id: partId, arcs: [{ pos: [mm(v), mm(spec.bore / 2), 0] }],
-      })).result?.arcs?.filter(Boolean)
-      if (r?.length) rims.push(...r)
+      for (const th of rimAzis) {
+        const d = rimDir(th)
+        const pos = [mm(v), mm(rb) * d[1], mm(rb) * d[2]]
+        const rr = (await api.v1.part.getGeometryIds({
+          id: partId, arcs: [{ pos }], circles: [{ pos }],
+        })).result
+        const cands = [...(rr?.arcs ?? []), ...(rr?.circles ?? [])]
+          .flat().filter((x) => typeof x === 'number')
+        for (const id of cands) {
+          if (rims.has(id)) continue
+          const gp = (await api.v1.part.getGeometryPositions({ elems: [id] })).result?.[0]
+          const q = gp?.positions?.[0]
+          if (q && Math.abs(Math.hypot(q.y, q.z) / inch - rb) < 1e-3 && Math.abs(q.x / inch - v) < 1e-3)
+            rims.add(id)
+        }
+      }
     }
-    if (rims.length) {
+    if (rims.size) {
       const chR = await api.v1.part.chamfer({
-        id: partId, name: 'BoreChamfer', references: rims,
+        id: partId, name: 'BoreChamfer', references: [...rims],
         type: 'EQUAL_DISTANCE', distance1: mm(spec.boreChamfer),
       })
       chamferId = chR.result
-      report.steps.push({ step: 'BoreChamfer', id: chamferId, level: chR.maxLevel, edges: rims.length })
+      report.steps.push({ step: 'BoreChamfer', id: chamferId, level: chR.maxLevel, edges: rims.size })
       if (chR.maxLevel > 31) report.checks.push({ label: 'bore-chamfer', ok: false, messages: chR.messages })
       await api.v1.common.recalc({})
+      // full-ring verification: the chamfer's outer edge (radius rb + c on each
+      // end face) must exist at EVERY probed azimuth — a missed rim arc leaves
+      // its sector's edge at radius rb on the face instead.
+      const rc = rb + spec.boreChamfer
+      let worst = 0
+      for (const v of [spec.vMin, spec.vMax]) {
+        for (const th of rimAzis) {
+          const d = rimDir(th)
+          const pos = [mm(v), mm(rc) * d[1], mm(rc) * d[2]]
+          const rr = (await api.v1.part.getGeometryIds({
+            id: partId, arcs: [{ pos }], circles: [{ pos }],
+          })).result
+          const cands = [...(rr?.arcs ?? []), ...(rr?.circles ?? [])]
+            .flat().filter((x) => typeof x === 'number')
+          let best = Infinity
+          if (cands.length) {
+            const gps = (await api.v1.part.getGeometryPositions({ elems: cands })).result ?? []
+            for (const gp of gps)
+              for (const q of gp?.positions ?? [])
+                best = Math.min(best, Math.max(
+                  Math.abs(Math.hypot(q.y, q.z) / inch - rc),
+                  Math.abs(q.x / inch - v),
+                ))
+          }
+          worst = Math.max(worst, best)
+        }
+      }
+      report.checks.push({ label: 'bore-chamfer-full-ring', ok: worst < 2e-3, worstErrIn: worst, azisProbed: rimAzis.length * 2, rimArcs: rims.size })
     } else report.checks.push({ label: 'bore-chamfer-edges', ok: false, reason: 'rim arcs not found' })
   }
 

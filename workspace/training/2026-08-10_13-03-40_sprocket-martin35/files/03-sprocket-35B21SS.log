@@ -1,4 +1,4 @@
-[filewrite] files/03-sprocket-35B21SS-report-35B21SS.json (2472 bytes)
+[filewrite] files/03-sprocket-35B21SS-report-35B21SS.json (2630 bytes)
 [03] built 35B21SS {"name":"35B21SS","teeth":21,"strands":1,"hubStyle":"B","PD":2.5161,"blankOD":2.7036,"ansiOD":2.713,"rootR":1.156,"flatTip":true,"toothThk":0.168,"bore":1,"hubDia":2.0781,"hubProj":0.5,"keyway":{"keyWidth":0.25,"keyDepth":0.125,"screwDia":0.3125},"screws":[{"v":0.33399999999999996,"azimuth":0,"dia":0.3125},{"v":0.33399999999999996,"azimuth":-90,"dia":0.3125}],"vMin":-0.084,"vMax":0.584,"strandGap":0}
 [03] step: {"step":"Parameters","level":31}
 [03] step: {"step":"Blank","id":86}
@@ -9,12 +9,13 @@
 [03] step: {"step":"Keyway","id":1455,"kw":{"keyWidth":0.25,"keyDepth":0.125,"screwDia":0.3125}}
 [03] step: {"step":"SetScrews","ids":[1507,1538]}
 [03] step: {"step":"Subtraction","id":1560,"level":31,"messages":[]}
-[03] step: {"step":"BoreChamfer","id":7876,"level":31,"edges":2}
+[03] step: {"step":"BoreChamfer","id":7876,"level":31,"edges":4}
 [03] step: {"step":"Appearance(SS)","level":31}
-[03] step: {"step":"MateConnector","id":11686,"level":31}
+[03] step: {"step":"MateConnector","id":11714,"level":31}
 [03] check ✓ root-radius: {"label":"root-radius","ok":true,"worstErrIn":2.220446049250313e-16,"edgeId":6513}
 [03] check ✓ tip-flat-corner: {"label":"tip-flat-corner","ok":true,"worstErrIn":6.938893903907228e-18,"edgeId":6805}
 [03] check ✓ bore-rim: {"label":"bore-rim","ok":true,"worstErrIn":1.3877787807814457e-17,"edgeId":7824}
 [03] check ✓ hub-od: {"label":"hub-od","ok":true,"radErrIn":2.2870594307278225e-13,"endErrIn":0,"nPts":6}
-[03] check ✓ volume: {"label":"volume","ok":true,"cadIn3":1.85864,"mcIn3":1.85366,"chamferAllowIn3":0.00283,"deviation":"0.42%"}
+[03] check ✓ bore-chamfer-full-ring: {"label":"bore-chamfer-full-ring","ok":true,"worstErrIn":2.4286889577229687e-7,"azisProbed":16,"rimArcs":4}
+[03] check ✓ volume: {"label":"volume","ok":true,"cadIn3":1.85595,"mcIn3":1.85366,"chamferAllowIn3":0.00283,"deviation":"0.28%"}
 [03] check ✓ cog: {"label":"cog","ok":true,"offAxisIn":0.0201,"alongAxisIn":0.2162}

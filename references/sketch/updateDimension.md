@@ -14,7 +14,7 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
   - **Numbers:** `50`, `3.14`, `0`
   - **Formula strings:** `'50+70'`, `'sqrt(2)*50'`, `'100'`
   - **Angle strings:** `'30deg'`, `'60deg'` (for ANGLE/ANGLEOX dimensions)
-  - **NOT expressions:** `@expr.NAME` does NOT work (fails silently with result=0). Neither does bare expression names, `$NAME`, or formula strings referencing expressions. See Gotchas.
+  - **Live expression bindings:** `'@expr.NAME'` — binds the dim to the expression (result 2) and keeps tracking it: a later `updateExpression` re-solves the sketch immediately (verified 2026-08-10). The expression must EXIST — see Gotchas. Bare expression names, `$NAME`, and formula strings referencing expressions still fail (result=0).
 
 ## Return Value
 
@@ -52,7 +52,7 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
 
 ## Gotchas
 
-- **Expression binding does NOT work for dimensions.** The API docs show `value: '@expr.distance1'` but this fails silently (result=0, no error, geometry unchanged). Neither `@expr.NAME`, bare expression names, `$NAME`, nor formula strings referencing expressions work. `linkWithExpression` also fails — dimensions have no linkable `value` member in their structure tree. To drive dimensions parametrically, you must call `updateDimension` with computed numeric values.
+- **Expression binding WORKS via `value: '@expr.NAME'` — and is LIVE** (verified 2026-08-10: bind via updateDimension → result 2; subsequent `updateExpression` moved the geometry with no further calls). Requirements & limits: the expression must exist (create with `part.expression({toCreate: [...]})` — the direct `{id,name,value}` form is a SILENT NO-OP returning result=1, which is exactly how the old "does not work" finding here was produced: its @expr pointed at a never-created expression, verified+reproduced 2026-08-10, sprocket-parametric-B/01d). `linkWithExpression` on a dimension still fails ("Datamember ... not found") — `@expr` in `value` IS the binding path. Bare names, `$NAME`, and expression-referencing formula strings still fail (result=0). ANGLE/ANGLEOX + @expr fails (maxLevel 51) — use numeric `'NNdeg'` strings there.
 - **Return value is NOT boolean.** The API docs say `result: boolean` but actual values are 0, 1, or 2 (solver state enum). Use `result > 0` to check success.
 - **Negative values fail silently.** result=0, no error messages, but geometry may partially change to `|value|`. Avoid negative values.
 - **Zero is valid.** Collapses geometry to zero length/radius (result=2).

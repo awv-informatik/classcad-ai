@@ -64,6 +64,10 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
     full success and **changes nothing**.
   Design rule: route every parameter you want live through a sketch dimension; treat feature
   params (pattern count!) as frozen at consumption time — count changes require a rebuild.
+  - **downstream edge-referenced features TRACK the regen**: a `part.chamfer` (tree tip) whose
+    edge refs were collected on the 1.0"-bore rims followed a sketch-dim regen to a 1.25" bore
+    exactly (chamfer ring at the new radius, error 0 mm; verified 2026-08-10) — brep-id-based
+    references survive sketch-driven topology regeneration.
 - **Many tools in one call is fine.** A single SUBTRACTION with 7 tools (pattern + revolves +
   cylinder + extrusions) works — one consumption chain beats sequential booleans for tool-heavy
   builds (verified 2026-08-10, sprocket generator).

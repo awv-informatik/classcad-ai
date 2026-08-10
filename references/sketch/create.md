@@ -60,7 +60,13 @@ const skId = (await api.v1.sketch.create({ id: partId })).result
 
 ## Gotchas
 
-- **Without `planeId`, the constraint solver is off.** See section above.
+- **Without `planeId`, the constraint solver is off.** See section above. **Error signature:**
+  on a planeless sketch, `sketch.dimension`/`updateDimension` with a `value` fail with
+  maxLevel 51 `"Couldn't set the value for dimension $N"` — for @expr AND plain numeric values
+  alike. If you see this on a sketch that "should" have a plane, verify the planeId you passed
+  actually resolved (a `planes['Front']` lookup on a map that lacks the key passes `undefined`
+  SILENTLY — `sketch.create` returns maxLevel 31 and a valid-looking id; cost 2h of solver-state
+  ghost-hunting, 2026-08-10 sprocket-parametric-B).
 - **Duplicate names are silent.** No error, no warning. The second sketch with the same name just gets a different ID. `part.getSketch` returns the **first** match only — so duplicates make later sketches unreachable by name.
 - **`sketch.create` vs `part.sketch`** — these are the same API with identical params and behavior. Both live in different namespaces but do the same thing.
 - **Default plane is XY.** When `planeId` is omitted, the sketch lives on the XY plane at origin. The `planeReference` member is 0 (no explicit reference).

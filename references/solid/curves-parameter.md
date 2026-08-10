@@ -55,6 +55,12 @@ The kernel doesn't care where the curves come from:
 
 ## Gotchas
 
+- **Curves from NON-default-plane sketches work in world space** (verified 2026-08-10,
+  sprocket-solid-A): arcs/lines on a Right-plane sketch extrude with a world `direction`
+  perpendicular to that plane exactly as expected. Combined with the `rotation`/`translation`
+  post-transforms this gives a solid-API "circular pattern" idiom: draw ONE profile, then N
+  `solid.extrusion` calls with `rotation: [k*2π/N, 0, 0]` — used to cut all 21 tooth spaces of a
+  sprocket from a single 8-curve profile, verified volume-exact vs the feature-tree build.
 - **sketchRegion ≠ sketch-curve.** `sketch.sketchRegion` creates a region object — it's a different type than the individual sketch geometry (lines, arcs, circles). Don't confuse them. `part.extrusion` (the feature version) accepts sketchRegion via its `references` param, but `solid.extrusion` does NOT.
 - **`sketch.circle` returns an ID; `curve.circle` returns VOID.** Sketch circles can be passed directly as a single curve. Curve circles are added to their shape container — pass the shape ID instead.
 - **Empty array is a type error**, not just "no curves found." The error message differs: `"wrong type"` vs `"wrong id type"`.

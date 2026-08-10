@@ -23,6 +23,12 @@ Cuts tool solids from a target solid (boolean subtract). The target is modified 
 
 ## Gotchas
 
+- **⚠️ NEVER `common.recalc` after direct solid booleans — it DESTROYS the EIF body** (verified
+  2026-08-10, sprocket-solid-A/00-diag): blank−tools subtraction healthy (massProps 2.12 in³),
+  then `common.recalc({})` → `calculateMassProperties` returns null with maxLevel 51 (NullMem) —
+  the direct geometry is not feature-history-backed, and recalc regenerates the part from the
+  feature tree. Related to the known "Recalc Invalidation Bug" (TODO). Direct solid results are
+  already current — just don't recalc.
 - **Consumed solid IDs are rejected with a clean error.** After a default subtraction (keepTools=false), the tool is deleted; referencing its ID in any later solid op (`solid.translation`, `solid.copy`, `solid.subtraction`, …) returns `maxLevel 51` with `"...has an invalid id!"` (code 1006) — the same as referencing an ID that never existed. (Older notes said this *hung* the server; that does not reproduce — the API's id-type validation rejects consumed IDs up front. Still, track which IDs are valid so you get the result you expect.)
 - **Non-overlapping tools are silent no-ops.** A tool that doesn't intersect the target produces no error — the target is unchanged, but the tool is still consumed (unless keepTools=true).
 - **Tool enveloping target destroys the target.** If the tool completely contains the target, the subtraction removes the target entirely. Result is null, maxLevel=51, code 1014.

@@ -1,7 +1,7 @@
 # Session: Sprocket Variant A — honest destructive build via `solid.*`
 
 **Date:** 2026-08-10
-**Task (ph + Kollege):** the Kollege's recommendation for the *generated* model: use the solid API — no pseudo-feature-tree. Same math (`_model.mjs` copied from the generated session), direct modeling in an EIF.
+**Task (ph + rainer):** rainer's recommendation for the *generated* model: use the solid API — no pseudo-feature-tree. Same math (`_model.mjs` copied from the generated session), direct modeling in an EIF.
 
 ## Port mapping (feature variant → solid variant)
 

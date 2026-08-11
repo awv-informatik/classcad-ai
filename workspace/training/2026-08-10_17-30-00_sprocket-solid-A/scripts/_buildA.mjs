@@ -4,7 +4,7 @@
  * blank revolve, one tooth-space profile extruded N times with a rotation
  * transform, bore/keyway/screw primitives, taper + chamfer as revolved cone
  * cuts, everything removed by solid.subtraction (target mutates in place).
- * Parametrics = re-run the generator (the point of variant A per the Kollege).
+ * Parametrics = re-run the generator (the point of variant A per rainers request).
  */
 import { inch, sprocketSpec, mcVolume, makeInsideTest } from './_model.mjs'
 

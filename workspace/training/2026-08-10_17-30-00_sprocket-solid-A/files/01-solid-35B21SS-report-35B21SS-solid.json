@@ -1,0 +1,38 @@
+{
+  "name": "35B21SS-solid",
+  "checks": [
+    {
+      "label": "volume",
+      "ok": true,
+      "cadIn3": 1.85596,
+      "mcAdjIn3": 1.85083,
+      "devPct": 0.28
+    },
+    {
+      "label": "cog",
+      "ok": true,
+      "offAxisIn": 0.0201,
+      "alongIn": 0.2162
+    },
+    {
+      "label": "root",
+      "ok": true,
+      "errIn": 2.220446049250313e-16
+    },
+    {
+      "label": "tip-flat-corner",
+      "ok": true,
+      "errIn": 6.938893903907228e-18
+    }
+  ],
+  "steps": [
+    {
+      "blank": 64,
+      "spaces": 21
+    },
+    {
+      "subtractedTools": 29
+    }
+  ],
+  "allChecksPass": true
+}

@@ -1,0 +1,38 @@
+{
+  "name": "D35C13SS-solid",
+  "checks": [
+    {
+      "label": "volume",
+      "ok": true,
+      "cadIn3": 1.119,
+      "mcAdjIn3": 1.1187,
+      "devPct": 0.03
+    },
+    {
+      "label": "cog",
+      "ok": true,
+      "offAxisIn": 0.0092,
+      "alongIn": -0.0051
+    },
+    {
+      "label": "root",
+      "ok": true,
+      "errIn": 3.3306690738754696e-16
+    },
+    {
+      "label": "tip-flat-corner",
+      "ok": true,
+      "errIn": 1.1102230246251565e-16
+    }
+  ],
+  "steps": [
+    {
+      "blank": 64,
+      "spaces": 13
+    },
+    {
+      "subtractedTools": 22
+    }
+  ],
+  "allChecksPass": true
+}

@@ -1,0 +1,12 @@
+[00] polyline maxLevel: 31 []
+[00] blank id: 64
+[00] after blank revolve: vol=2.6603 maxLevel=31
+[00] space extrusion: 119 maxLevel 31 []
+[00] after space extrusion: vol=2.7310 maxLevel=31
+[00] rotated space extrusion: 122 maxLevel 31
+[00] after rotated extrusion: vol=2.8017 maxLevel=31
+[00] bore cyl: 125 maxLevel 31
+[00] after bore cylinder: vol=3.5870 maxLevel=31
+[00] subtraction: 64 maxLevel 31 []
+[00] after subtraction: vol=2.1217 maxLevel=31
+[00] after common.recalc: vol=NULL maxLevel=51

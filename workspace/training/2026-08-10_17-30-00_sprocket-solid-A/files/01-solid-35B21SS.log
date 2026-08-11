@@ -1,0 +1,5 @@
+[filewrite] files/01-solid-35B21SS-report-35B21SS-solid.json (607 bytes)
+[01A] ✓ {"label":"volume","ok":true,"cadIn3":1.85596,"mcAdjIn3":1.85083,"devPct":0.28}
+[01A] ✓ {"label":"cog","ok":true,"offAxisIn":0.0201,"alongIn":0.2162}
+[01A] ✓ {"label":"root","ok":true,"errIn":2.220446049250313e-16}
+[01A] ✓ {"label":"tip-flat-corner","ok":true,"errIn":6.938893903907228e-18}

@@ -1,0 +1,11 @@
+{
+  "blankThenFront": {
+    "blankDims": 31,
+    "front": 31
+  },
+  "boreKeyThenFront": {
+    "boreDim": 31,
+    "keyDims": 31,
+    "front": 31
+  }
+}

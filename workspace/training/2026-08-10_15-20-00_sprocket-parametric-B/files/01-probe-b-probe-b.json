@@ -1,0 +1,25 @@
+{
+  "exprConsumedTool": {
+    "updateLevel": 31,
+    "volBefore": 63214.60125221522,
+    "volAfter": 62232.85281748425,
+    "deltaObserved": 981.7,
+    "deltaExpectedIfRegen": 3927,
+    "regenerates": false,
+    "chamferCreated": false
+  },
+  "exprInDim": {
+    "createLevel": 31,
+    "createResult": 396,
+    "updateResult": 2,
+    "updateLevel": 31
+  },
+  "dimThroughChain": {
+    "updResult": 1,
+    "volBefore": 96000,
+    "volAfter": 92000,
+    "deltaObserved": 4000,
+    "deltaExpectedIfRegen": 4000,
+    "regenerates": true
+  }
+}

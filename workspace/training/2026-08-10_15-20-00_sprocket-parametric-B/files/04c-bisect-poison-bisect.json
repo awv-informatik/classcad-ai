@@ -1,0 +1,13 @@
+{
+  "afterTooth": {
+    "toothError": null,
+    "screwFrontDims": 31
+  },
+  "exprOnly": {
+    "screwFrontDims": 31
+  },
+  "topThenFront": {
+    "top": 31,
+    "front": 31
+  }
+}

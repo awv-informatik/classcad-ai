@@ -1,0 +1,12 @@
+{
+  "taper0": {
+    "cons": 31,
+    "dims": 31
+  },
+  "taper1": {
+    "cons": 31,
+    "dims": 31
+  },
+  "screwTop": 31,
+  "screwFront": 31
+}

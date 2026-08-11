@@ -1,0 +1,4 @@
+[04c] tooth → Front screw dims: 31
+[04c] expressions only → Front screw dims: 31
+[04c] Top screw → Front screw dims: 31 31
+[filewrite] files/04c-bisect-poison-bisect.json (176 bytes)

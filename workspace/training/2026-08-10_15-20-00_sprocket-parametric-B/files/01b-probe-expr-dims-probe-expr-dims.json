@@ -1,0 +1,27 @@
+{
+  "exprDim": {
+    "dimLevel": 31,
+    "dimId": 67,
+    "radiusSeed": 10,
+    "radiusAfterDim": 25,
+    "radiusAfterExprUpdate": 18,
+    "radiusAfterRecalc": 18,
+    "boundAtCreate": true,
+    "live": true
+  },
+  "exprFormulaDim": {
+    "level": 51,
+    "result": 77,
+    "radiusAfter": 18,
+    "works": true
+  },
+  "consumedTool": {
+    "updateLevel": 31,
+    "updateMsgs": [],
+    "volInitial": 63214.60125221522,
+    "volAfterUpdate": 62232.85281748425,
+    "volAfterRecalc": 62232.85281748425,
+    "volAfterRecalc2": 62232.85281748425,
+    "expectedIfRegen": 59287.6
+  }
+}

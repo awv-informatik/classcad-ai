@@ -1,0 +1,8 @@
+[01d] malformed part.expression: {"result":1,"maxLevel":31,"getExpression":{"expression":"","value":null},"getLevel":31}
+[01d] dim @expr on NONEXISTENT expression: {"result":72,"maxLevel":51,"msgs":[{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $72 of type \"OFFSET\""}],"endX":80}
+[01d] dim @expr on REAL expression: {"getExpr":{"expression":"","value":40},"result":87,"maxLevel":31,"endX":40,"bound":true}
+[01d] creation-binding live: {"endX":55,"live":true}
+[01d] updateDimension @expr bind+live: {"updResult":2,"updLevel":31,"endAfterUpdate":55,"endAfterExprChange":62,"boundAndLive":true}
+[01d] linkWithExpression on dim: {"result":null,"maxLevel":51,"msgs":[{"api":"v1.part.linkWithExpression","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Offset2.value:[CCVM::ldm: Datamember myWidth not found]] "}],"endX":70,"worked":false}
+[01d] ANGLE @expr (0.5236 rad): {"result":140,"maxLevel":51,"observedDeg":36.308,"radiansSemantics":false}
+[filewrite] files/01d-sidequest-expr-dims-sidequest.json (1318 bytes)

@@ -1,0 +1,159 @@
+{
+  "steps": [
+    {
+      "boolean": 1891
+    },
+    {
+      "chamfer": 8227,
+      "level": 31,
+      "edges": 4
+    }
+  ],
+  "checks": [
+    {
+      "label": "baseline21:root",
+      "ok": true,
+      "errIn": 4.440892098500626e-16
+    },
+    {
+      "label": "baseline21:tipcorner",
+      "ok": true,
+      "errIn": 2.7755575615628914e-17
+    },
+    {
+      "label": "baseline21:borewall",
+      "ok": true,
+      "radErrIn": 3.054424883575102e-7
+    },
+    {
+      "label": "baseline21:volume",
+      "ok": true,
+      "cadIn3": 1.85592,
+      "mcAdjIn3": 1.85065,
+      "devPct": 0.28
+    },
+    {
+      "label": "baseline21:chamfer-ring",
+      "ok": true,
+      "worstErrMM": 0.00001
+    },
+    {
+      "label": "T1-bore1.25:root",
+      "ok": true,
+      "errIn": 4.440892098500626e-16
+    },
+    {
+      "label": "T1-bore1.25:tipcorner",
+      "ok": true,
+      "errIn": 2.7755575615628914e-17
+    },
+    {
+      "label": "T1-bore1.25:borewall",
+      "ok": true,
+      "radErrIn": 1.8034418336476676e-7
+    },
+    {
+      "label": "T1-bore1.25:volume",
+      "ok": true,
+      "cadIn3": 1.57974,
+      "mcAdjIn3": 1.57468,
+      "devPct": 0.32
+    },
+    {
+      "label": "T1-bore1.25:chamfer-ring",
+      "ok": true,
+      "worstErrMM": 0
+    },
+    {
+      "label": "T2-hub0.7:root",
+      "ok": true,
+      "errIn": 4.440892098500626e-16
+    },
+    {
+      "label": "T2-hub0.7:tipcorner",
+      "ok": true,
+      "errIn": 2.7755575615628914e-17
+    },
+    {
+      "label": "T2-hub0.7:borewall",
+      "ok": true,
+      "radErrIn": 1.8034418325374446e-7
+    },
+    {
+      "label": "T2-hub0.7:volume",
+      "ok": true,
+      "cadIn3": 2.00619,
+      "mcAdjIn3": 2.00355,
+      "devPct": 0.13
+    },
+    {
+      "label": "T2-hub0.7:chamfer-ring",
+      "ok": true,
+      "worstErrMM": 0
+    },
+    {
+      "label": "T3-sketch-morph",
+      "ok": true,
+      "worstMM": 0.5193
+    },
+    {
+      "label": "T3-teeth24:root",
+      "ok": true,
+      "errIn": 0
+    },
+    {
+      "label": "T3-teeth24:tipcorner",
+      "ok": true,
+      "errIn": 2.7755575615628914e-17
+    },
+    {
+      "label": "T3-teeth24:borewall",
+      "ok": true,
+      "radErrIn": 1.8034418325374446e-7
+    },
+    {
+      "label": "T3-teeth24:volume",
+      "ok": false,
+      "cadIn3": 2.8424,
+      "mcAdjIn3": 2.24856,
+      "devPct": 26.41,
+      "knownLimitation": true
+    },
+    {
+      "label": "T3-pattern-count-24 (space#22@330°)",
+      "ok": false,
+      "errIn": null,
+      "knownLimitation": true
+    },
+    {
+      "label": "T4-explicit-pattern:root",
+      "ok": true,
+      "errIn": 0
+    },
+    {
+      "label": "T4-explicit-pattern:tipcorner",
+      "ok": true,
+      "errIn": 2.7755575615628914e-17
+    },
+    {
+      "label": "T4-explicit-pattern:borewall",
+      "ok": true,
+      "radErrIn": 1.8034418325374446e-7
+    },
+    {
+      "label": "T4-explicit-pattern:volume",
+      "ok": false,
+      "cadIn3": 2.8424,
+      "mcAdjIn3": 2.25209,
+      "devPct": 26.21,
+      "knownLimitation": true
+    },
+    {
+      "label": "T4-pattern-count-24 (space#22@330°)",
+      "ok": false,
+      "errIn": null,
+      "knownLimitation": true
+    }
+  ],
+  "patId": 657
+}

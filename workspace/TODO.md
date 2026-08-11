@@ -227,6 +227,32 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 
 ---
 
+### 181. [ ] 🕳️ `part.expression` direct `{id,name,value}` form — silent no-op that looks successful (result=1) → produced the false "@expr not supported in dimensions" finding
+
+- **Session:** `2026-08-10_15-20-00_sprocket-parametric-B` (01d side quest, triggered by ph)
+- **Error:** ❌ `part.expression({id, name, value})` without `toCreate` returns result=1 maxLevel=31 and creates NOTHING. The 2026-04-14 dimension-expression tests used exactly this form, saw "expression created: 1", then observed `@expr.NAME` failing in dimensions — and the skill recorded "expression binding not supported for dimensions" (dimension.md, updateDimension.md, SKETCHING.md; claim survived ~4 months). Reality (verified 2026-08-10): `@expr.NAME` in dimension `value` (creation AND updateDimension) binds linear/radial dims to expressions LIVE — updateExpression re-solves the sketch immediately. ANGLE dims and linkWithExpression-on-dims genuinely fail. Old server binary is gone (current build Jul 13), so "was it always supported" is undeterminable — but the recorded negative was unsound regardless: its fixture never existed.
+- **Fix applied:** docs corrected (dimension.md, updateDimension.md, SKETCHING.md, expression.md gotcha). Server-side: the direct form should error (1004) instead of no-opping with result=1.
+- **Method lesson:** before recording a NEGATIVE capability finding, verify the test fixture independently (here: `getExpression` would have shown value:null). And version-stamp capability findings — binaries move.
+
+### 182. [ ] 💀 consumed boolean tools — feature-param updates corrupt or silently freeze (sketch dims stay live)
+
+- **Session:** `2026-08-10_15-20-00_sprocket-parametric-B` (01b/01c probes, 03 T3/T4)
+- **Error:** ❌ After `part.boolean` consumes a tool: (a) `updateExpression` on an @expr-bound tool param (cylinder `diameter`) regenerates CORRUPTLY — hole teleported to the plate edge, volume delta exactly ¼ of the expected annulus, stable across recalcs, maxLevel 31 everywhere; (b) @expr-bound `circularPattern` count/angle freeze silently; (c) explicit `openFeature`→`updateCircularPattern`→`closeFeature` on the consumed pattern returns success (31/31/31, id) and changes NOTHING. Meanwhile sketch-dimension edits (numeric or @expr-live) on the same tools' sketches regenerate the boolean result exactly (probed to the mm³).
+- **Trigger:** any feature-level param change on a consumed tool.
+- **Workaround:** route all live parameters through sketch dimensions; treat pattern count as a rebuild parameter. Server-side: consumed-feature param updates should either work or ERROR — both silent-freeze and corrupt-regen are trap states.
+
+### 183. [ ] 🟡 constrained-sketch: outer cap-corner points carry 0.4–1.5 mm residual while all constraints report solved
+
+- **Session:** `2026-08-10_15-20-00_sprocket-parametric-B` (02/02d; scheme in `_sketchB.mjs`)
+- **Error:** in the ANSI tooth-space sketch, junctions QL/QR (radial line ∩ cap arc, both on/next-to constraints: line-through-origin COINCIDENT, RADIUS dim on cap, endpoint COINCIDENTs) sit 0.4–1.5 mm off the analytic intersection while every constraint shows lgsState 1 and updates return result 2. All other 11 tracked points solve float-exact. Geometrically harmless here (outside the blank OD — the cut region still closes beyond material), but it means "all constraints solved" ≠ "all junctions exact" in at least this configuration.
+- **Next:** minimal repro (line-through-fixed-point + arc RADIUS + two coincidences); check whether the RADIUS dim on the cap is what's off (measure |Q|−Rcap) vs collinearity.
+
+### 184. [ ] 💀 `common.recalc` after direct solid booleans DESTROYS the EIF body
+
+- **Session:** `2026-08-10_17-30-00_sprocket-solid-A` (00-diag, reproduced deterministically)
+- **Error:** ❌ build blank (solid.revolve) − tools (solid.subtraction) → massProps fine (2.12 in³); one `common.recalc({})` → `calculateMassProperties(partId)` returns null, maxLevel 51 (NullMem) — body gone/invalidated. Direct EIF geometry is not feature-history-backed; recalc regenerates from the (empty-of-solids) history. Sibling of the known Recalc Invalidation Bug on shape-transform APIs.
+- **Workaround:** never recalc in direct-modeling flows; solid results are already current. Doc'd in solid/subtraction.md.
+
 ## 🚨 MEDIUM — Wrong Prior Findings (historical, do not trust)
 
 ### 10. [ ] 🚨 All 2026-04-08 constraint sessions created sketches without `planeId`

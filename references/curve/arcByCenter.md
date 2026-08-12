@@ -16,6 +16,16 @@ Creates one or more arcs defined by center point, start point, end point, and a 
 
 All points must be `[x, y, z]` — no 2D shorthand.
 
+## ⚠️ Unreliable inside multi-curve profile chains
+
+When a shape's curves are consumed as a closed region by `solid.extrusion`/`solid.revolve`, the
+kernel re-picks arc branches while assembling the loop — `isClockwise` is NOT reliably honored
+(probed 2026-08-10: a line+arc half-disc came out identical for cw=true and cw=false; an
+8-entity tooth profile was degenerate or wrong-sized in every flag/winding combination). For
+profiles mixing lines and arcs, use **`curve.polyline2d` with signed bulges** instead — one
+closed polyline encodes each arc unambiguously. `arcByCenter` remains fine for standalone arcs
+and full circles.
+
 ## How isClockwise Works
 
 The flag selects **which arc** between start and end is created:

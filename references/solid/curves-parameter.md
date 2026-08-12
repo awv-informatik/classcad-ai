@@ -55,12 +55,23 @@ The kernel doesn't care where the curves come from:
 
 ## Gotchas
 
-- **Curves from NON-default-plane sketches work in world space** (verified 2026-08-10,
-  sprocket-solid-A): arcs/lines on a Right-plane sketch extrude with a world `direction`
-  perpendicular to that plane exactly as expected. Combined with the `rotation`/`translation`
-  post-transforms this gives a solid-API "circular pattern" idiom: draw ONE profile, then N
-  `solid.extrusion` calls with `rotation: [k*2π/N, 0, 0]` — used to cut all 21 tooth spaces of a
-  sprocket from a single 8-curve profile, verified volume-exact vs the feature-tree build.
+- **Prefer curve-API shapes INSIDE the EIF over sketch curves.** The EIF is a feature in the
+  operation sequence and may only consume objects from EARLIER features — a sketch created after
+  the EIF is a later feature and referencing its curves runs the sequence backwards (it can
+  appear to work, but the model is wrong in the tree; rainer review 2026-08-12). If a sketch
+  (e.g. for 2D constraints) is genuinely needed, create it BEFORE `part.entityInjection`.
+  Idiomatic direct modeling: `curve.shape` + `curve.polyline2d`/`advancedPolyline` in the EIF.
+- **Arc-heavy profiles: use `curve.polyline2d` with signed bulges, NOT chained
+  `curve.line`+`curve.arcByCenter`** (probed 2026-08-10, sprocket-solid-A): in a multi-curve
+  shape the kernel re-picks arc branches when building the region — `isClockwise` is not
+  reliably honored (identical half-disc for cw=true AND cw=false; an 8-entity tooth profile came
+  out degenerate or 3× too large in every flag/winding variant). A single closed `polyline2d`
+  with per-segment bulges (`tan(sweep/4)`, positive = CCW) encodes every arc unambiguously —
+  the same profile then extrudes volume-exact.
+- **The `rotation`/`translation` post-transforms give a solid-API "circular pattern" idiom:**
+  draw ONE profile shape, then N `solid.extrusion` calls with `rotation: [0, 0, k*2π/N]` — used
+  to cut all 21 tooth spaces of a sprocket from a single profile, verified volume-exact vs the
+  feature-tree build.
 - **sketchRegion ≠ sketch-curve.** `sketch.sketchRegion` creates a region object — it's a different type than the individual sketch geometry (lines, arcs, circles). Don't confuse them. `part.extrusion` (the feature version) accepts sketchRegion via its `references` param, but `solid.extrusion` does NOT.
 - **`sketch.circle` returns an ID; `curve.circle` returns VOID.** Sketch circles can be passed directly as a single curve. Curve circles are added to their shape container — pass the shape ID instead.
 - **Empty array is a type error**, not just "no curves found." The error message differs: `"wrong type"` vs `"wrong id type"`.

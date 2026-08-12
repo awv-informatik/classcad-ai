@@ -21,6 +21,13 @@ Returns the entity injection feature ID (numeric). This is the ID you pass to:
 
 ## Gotchas
 
+- **The EIF is a feature in the OPERATION SEQUENCE — it may only consume objects from EARLIER
+  features.** Solid ops inside the EIF that reference curves of a sketch created AFTER the EIF
+  run the sequence backwards: the model can appear correct in the session but is wrong in the
+  tree (Buerligons replays the sequence with the EIF before the sketch). If sketch geometry is
+  genuinely needed (e.g. 2D constraints), create the sketch BEFORE `part.entityInjection`.
+  Idiomatic direct modeling needs no sketch at all: fill `curve.shape`s inside the EIF
+  (rainer review 2026-08-12, sprocket-solid-A).
 - **Solid/curve APIs reject part IDs.** If you pass a part ID to `solid.box`, you get error 1001: `The parameter "id" has a wrong id type! Provide only following id types: ["entityinjection"]`. You must create an entity injection first.
 - **No retrieval by name.** There is no `getEntityInjection` API. `getWorkGeometry` and `getSketch` do not find entity injections. You must store the ID at creation time.
 - **No `updateEntityInjection` API.** Use `common.setObjectName` to rename. Use `part.deleteFeature({ ids: [eifId] })` to delete (cascades — all contained solids/curves are also deleted).

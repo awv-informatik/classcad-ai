@@ -53,21 +53,22 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
   original instance). The 1014 message **names the wrong entity** (some other tool in the array or
   the pattern itself, e.g. "SetScrew2"/"Pat"), not the consumed one — verified 2026-08-10. With many
   tools, check for pattern-target overlaps before trusting the named entity.
-- **⚠️ Consumed tools are parametrically DEAD at the feature level — but ALIVE at the sketch level**
-  (verified 2026-08-10, sprocket-parametric-B). After a boolean consumes tools:
+- **⚠️ What stays parametric through consumption** (verified 2026-08-10, sprocket-parametric-B):
   - sketch-dimension edits (numeric `updateDimension` or live `@expr` bindings) on the tools'
-    sketches **regenerate the boolean result exactly** — this is the supported parametric path;
-  - `@expr`-bound FEATURE params of consumed tools silently freeze (circularPattern count/angle)
-    or CORRUPT the result (part.cylinder diameter: hole teleported, exactly ¼ of the expected
-    material change, maxLevel 31 throughout);
-  - explicit `openFeature`+`updateCircularPattern`+`closeFeature` on a consumed pattern reports
-    full success and **changes nothing**.
-  Design rule: route every parameter you want live through a sketch dimension; treat feature
-  params (pattern count!) as frozen at consumption time — count changes require a rebuild.
+    sketches **regenerate the boolean result exactly** — always-safe parametric path;
+  - **`circularPattern` with `merged: 1`**: count/angle (`@expr`-bound) stay fully live through
+    the subtraction — the merged single-brep tool makes the boolean independent of the instance
+    count (verified: tooth count 21→24 regenerated the subtracted body exactly). With
+    `merged: 0` the count/angle freeze silently once consumed, and explicit
+    `openFeature`+`updateCircularPattern`+`closeFeature` reports success while changing nothing —
+    **always merge patterns that feed booleans**;
+  - `@expr`-bound params of other consumed primitives can CORRUPT on update (part.cylinder
+    diameter: hole teleported, exactly ¼ of the expected material change, maxLevel 31
+    throughout) — prefer sketch-based tools for parameters that must stay live;
   - **downstream edge-referenced features TRACK the regen**: a `part.chamfer` (tree tip) whose
     edge refs were collected on the 1.0"-bore rims followed a sketch-dim regen to a 1.25" bore
-    exactly (chamfer ring at the new radius, error 0 mm; verified 2026-08-10) — brep-id-based
-    references survive sketch-driven topology regeneration.
+    exactly (chamfer ring at the new radius, error 0 mm) — brep-id-based references survive
+    sketch-driven topology regeneration.
 - **Many tools in one call is fine.** A single SUBTRACTION with 7 tools (pattern + revolves +
   cylinder + extrusions) works — one consumption chain beats sequential booleans for tool-heavy
   builds (verified 2026-08-10, sprocket generator).

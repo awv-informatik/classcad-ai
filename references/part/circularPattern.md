@@ -17,7 +17,7 @@ Creates a circular pattern feature that repeats one or more target features arou
 - `angle` — angular spacing between instances **in radians** (number or `@expr.NAME`). Default 0.
 - `count` — **total number of instances including the original** (number or `@expr.NAME`). count=6 → 1 original + 5 copies. Minimum 1. Default 2.
 - `inverted` — `1` to reverse rotation direction, `0` for default CCW (numeric, not boolean). Default 0.
-- `merged` — `1` to boolean-union all copies. **Currently broken** — always fails with error 1001. Default 0.
+- `merged` — `1` to union all copies into a **single brep** (disjoint copies become one multi-lump brep — that is valid, not an error). Default 0. **Prefer `merged: 1` whenever the pattern feeds a boolean**: the subtraction then references ONE tool and becomes independent of the instance count — count/angle stay live through the boolean (see Gotchas).
 - `name` — feature name (default `"CircularPattern"`)
 
 ## Return Value
@@ -33,15 +33,18 @@ Feature ID (numeric) on success, maxLevel=31 (info). Returns the feature ID even
   `tools: [patternId]` cuts all N instances; `tools: [toolId, patternId]` fails with error 1014
   "already been consumed", and the message **names an arbitrary other tool** (e.g. a later,
   perfectly valid one), not the offending consumed target — highly misleading when debugging.
-- **Count/angle FREEZE at boolean consumption** (verified 2026-08-10): once the pattern is used as
-  a boolean tool, `@expr`-bound count/angle stop tracking their expressions, and even explicit
-  `openFeature`+`updateCircularPattern`+`closeFeature` reports success (maxLevel 31, id returned)
-  while changing NOTHING. The pattern's SEED shape stays live (sketch-dim edits propagate into
-  every copy), only the count/spacing are dead. Tooth-count-style parameters are rebuild
-  parameters, not model parameters.
+- **Use `merged: 1` for pattern-then-subtract — UNMERGED patterns freeze in booleans** (verified
+  2026-08-10, sprocket sessions): with `merged: 0`, once the pattern is consumed as a boolean
+  tool, `@expr`-bound count/angle stop tracking their expressions, and even explicit
+  `openFeature`+`updateCircularPattern`+`closeFeature` reports success (maxLevel 31) while
+  changing nothing. With **`merged: 1`** the pattern emits a single brep, the subtraction is
+  independent of the instance count, and **count/angle remain fully live through the boolean**
+  (verified: tooth count 21→24 via `updateExpression` regenerated the subtracted sprocket
+  exactly — new tooth positions and volume both brep-verified). The SEED shape is live in both
+  modes (sketch-dim edits propagate into every copy).
 - **`angle=0` does NOT mean equal spacing.** It means literally 0° between copies — all instances stack at the same position. For equal spacing around a full circle, calculate: `angle = 2 * Math.PI / count` (or `'2*C:PI/count'` as expression).
 - **`count` includes the original.** count=4 means 4 total bodies, not 4 copies. count=1 creates the feature but adds no copies.
-- **`merged: 1` fails** with "Boolean operation failed with error 1001" for circularPattern. The feature is created and copies are placed, but the boolean union step fails. Bodies remain separate. Use `part.boolean` with `type: 'UNION'` after creation as a workaround.
+- **`merged: 1` works for disjoint AND overlapping copies** (probed 2026-08-10: 4 disjoint boxes → one brep, volume exact; 6 overlapping boxes → union volume correct). A 2026-04-20 session recorded it as "always fails with error 1001" — that does not reproduce on current builds; if you see 1001 from a merge, suspect degenerate tool bodies, not the flag.
 - **`inverted` and `angle` sign both control direction.** `inverted: 1` with positive angle ≈ `inverted: 0` with negative angle. Both reverse the rotation from default CCW to CW (when viewed from the positive direction of the axis). Pick one convention and stick to it.
 - **Default rotation is CCW** when viewed from the positive direction of the reference axis (right-hand rule).
 - **Brep edges work as rotation axis references.** Use `getGeometryIds` to find edge IDs from existing geometry.
@@ -51,7 +54,7 @@ Feature ID (numeric) on success, maxLevel=31 (info). Returns the feature ID even
 
 | Code | Message | Cause | Fix |
 |------|---------|-------|-----|
-| 1001 | "Boolean operation failed with error 1001" | `merged: 1` (known bug) | Use `merged: 0` and `part.boolean` after |
+| 1001 | "Boolean operation failed with error 1001" | Degenerate/self-intersecting tool bodies in the merge or boolean | Fix the tool geometry (NOT a `merged` bug — see Gotchas) |
 | 1004 | '"targets" must be provided in the api call!' | Missing targets | Pass `targets: [featureId]` |
 
 ## Working Example

@@ -1,7 +1,7 @@
 # Session: Sprocket Variant B — TRUE parametric model (constraints + expressions)
 
 **Date:** 2026-08-10
-**Task (ph + Kollege):** distinguish "parametrisch generiertes Modell" (variant session `2026-08-10_13-03-40_sprocket-martin35`) from "parametrisches Modell". Variant B = constraints + dimensions linked to expressions, regeneration IN the model. (Variant A = honest `solid.*` destructive port, separate session.)
+**Task (ph + rainer):** distinguish "parametrisch generiertes Modell" (variant session `2026-08-10_13-03-40_sprocket-martin35`) from "parametrisches Modell". Variant B = constraints + dimensions linked to expressions, regeneration IN the model. (Variant A = honest `solid.*` destructive port, separate session.)
 
 ## 01/01b/01c — feasibility probes
 

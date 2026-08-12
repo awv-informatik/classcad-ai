@@ -13,6 +13,7 @@ Core rules and training discipline are in `SOUL.md`. This file tracks **learned 
 
 ## Feedback from ph
 
+- **Skill corrections go IN PLACE (2026-08-12):** when a skill statement turns out wrong, rewrite the statement itself — never leave the wrong claim standing with a dated addendum below ("12. Aug: neue Erkenntnis…"). An agent must read only the correct fact, not the error first and the correction later. Session journals stay chronological (dated notes fine there); the skill does not.
 - Expect 15-25 scripts per topic, not 4. Cover the full API surface.
 - The journal should read like a lab notebook with real findings, not generic summaries.
 - The harness is a thin runner — cc writes the journal, not the harness.

@@ -228,3 +228,21 @@ index 7f06d05..0f982ce 100644
  - **`sketch.create` vs `part.sketch`** — these are the same API with identical params and behavior. Both live in different namespaces but do the same thing.
  - **Default plane is XY.** When `planeId` is omitted, the sketch lives on the XY plane at origin. The `planeReference` member is 0 (no explicit reference).
 ```
+
+## Rainer-review fixes (committed 4b99ff7)
+
+```diff
+commit 4b99ff7bfe96a564b8b7a6ac425fb50541463da9
+Author: Paul Henschel <drcmda@gmail.com>
+Date:   Wed Aug 12 09:35:35 2026 +0200
+
+    fix: circularPattern merged:1 works (single-brep tool → count/angle live through booleans); EIF operation-sequence rule; curve-chain arc-branch trap → polyline2d bulges
+
+ references/curve/arcByCenter.md        | 10 ++++++++++
+ references/part/boolean.md             | 25 +++++++++++++------------
+ references/part/circularPattern.md     | 21 ++++++++++++---------
+ references/part/entityInjection.md     |  7 +++++++
+ references/part/expression-workflow.md | 13 +++++++------
+ references/solid/curves-parameter.md   | 23 +++++++++++++++++------
+(full diff: git show 4b99ff7 in the submodule)
+```

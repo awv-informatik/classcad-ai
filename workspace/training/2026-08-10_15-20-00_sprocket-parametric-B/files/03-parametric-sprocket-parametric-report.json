@@ -1,10 +1,10 @@
 {
   "steps": [
     {
-      "boolean": 1891
+      "boolean": 2851
     },
     {
-      "chamfer": 8227,
+      "chamfer": 9947,
       "level": 31,
       "edges": 4
     }
@@ -113,17 +113,15 @@
     },
     {
       "label": "T3-teeth24:volume",
-      "ok": false,
-      "cadIn3": 2.8424,
+      "ok": true,
+      "cadIn3": 2.25364,
       "mcAdjIn3": 2.24856,
-      "devPct": 26.41,
-      "knownLimitation": true
+      "devPct": 0.23
     },
     {
       "label": "T3-pattern-count-24 (space#22@330°)",
-      "ok": false,
-      "errIn": null,
-      "knownLimitation": true
+      "ok": true,
+      "errIn": 2.220446049250313e-16
     },
     {
       "label": "T4-explicit-pattern:root",
@@ -142,17 +140,15 @@
     },
     {
       "label": "T4-explicit-pattern:volume",
-      "ok": false,
-      "cadIn3": 2.8424,
+      "ok": true,
+      "cadIn3": 2.25364,
       "mcAdjIn3": 2.25209,
-      "devPct": 26.21,
-      "knownLimitation": true
+      "devPct": 0.07
     },
     {
       "label": "T4-pattern-count-24 (space#22@330°)",
-      "ok": false,
-      "errIn": null,
-      "knownLimitation": true
+      "ok": true,
+      "errIn": 2.220446049250313e-16
     }
   ],
   "patId": 657

@@ -1,0 +1,4 @@
+[00d] asis: {"extLevel":31,"extId":71,"volIn3":null,"expected":0.03206,"ok":false}
+[00d] flagsInv: {"extLevel":31,"extId":71,"volIn3":0.10024181189495474,"expected":0.03206,"ok":false}
+[00d] reversed: {"extLevel":31,"extId":71,"volIn3":0.10021134376052682,"expected":0.03206,"ok":false}
+[filewrite] files/00d-probe-winding-winding-probe.json (385 bytes)

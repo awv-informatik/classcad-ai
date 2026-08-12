@@ -92,10 +92,12 @@ export async function buildSprocket(api, { filewrite }, cfg) {
   report.steps.push({ step: 'ToothSpace', id: toothExt })
 
   // ---- 3. circular pattern of the tool (count = N incl. original)
+  // merged: 1 → single-brep pattern result; the subtraction references ONE tool
+  // and is independent of the instance count (rainer)
   const pat = ok(
     await api.v1.part.circularPattern({
       id: partId, name: 'ToothPattern', targets: [toothExt], references: [xAxis],
-      angle: (2 * Math.PI) / spec.N, count: spec.N,
+      angle: (2 * Math.PI) / spec.N, count: spec.N, merged: 1,
     }),
     'circularPattern',
   )

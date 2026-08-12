@@ -2,7 +2,8 @@
  * 03 (variant B) — build the TRUE parametric 35B21SS + in-tree regen tests:
  *   T1: bore 1.0" → 1.25" (updateExpression → bore sketch dim → boolean chain)
  *   T2: hubProj 0.5" → 0.7" (blank section dims → revolve → boolean chain)
- *   T3: teeth 21 → 24 STEPWISE (sketch morph + pattern count/angle @expr)
+ *   T3: teeth 21 → 24 STEPWISE (sketch morph + MERGED pattern count/angle @expr)
+ *   T4: explicit updateCircularPattern to the same count (redundant safety check)
  * Each test verified by brep positions + MC volume of the expected spec.
  */
 import { buildParametricSprocket, brepChecks, chamferRingCheck } from './_buildB.mjs'
@@ -91,15 +92,9 @@ export default async function (api, helpers) {
     report.checks.push({ label: 'T4-pattern-count-24 (space#22@330°)', ok: best !== null && best < 2e-3, errIn: best })
   }
 
-  // known limitation: pattern count/angle freeze at boolean consumption (TODO #182)
-  const KNOWN = /T3-teeth24:volume|T3-pattern-count|T4-/
-  for (const c of report.checks) {
-    const known = !c.ok && KNOWN.test(c.label)
-    console.log(`[03] ${c.ok ? '✓' : known ? '⚠️ (known: pattern frozen)' : '❌'}`, JSON.stringify(c))
-    if (known) c.knownLimitation = true
-  }
+  for (const c of report.checks) console.log(`[03] ${c.ok ? '✓' : '❌'}`, JSON.stringify(c))
   filewrite(report, 'parametric-report')
-  const pass = report.checks.every((c) => c.ok || c.knownLimitation)
-  console.log('[03] ALL CHECKS', pass ? 'PASS (pattern-freeze limitation expected)' : 'FAIL')
+  const pass = report.checks.every((c) => c.ok)
+  console.log('[03] ALL CHECKS', pass ? 'PASS' : 'FAIL')
   return { pass }
 }

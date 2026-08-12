@@ -4,7 +4,7 @@
     {
       "label": "volume",
       "ok": true,
-      "cadIn3": 1.119,
+      "cadIn3": 1.11908,
       "mcAdjIn3": 1.1187,
       "devPct": 0.03
     },
@@ -17,21 +17,42 @@
     {
       "label": "root",
       "ok": true,
-      "errIn": 3.3306690738754696e-16
+      "errIn": 1.1102230246251565e-16
     },
     {
       "label": "tip-flat-corner",
       "ok": true,
-      "errIn": 1.1102230246251565e-16
+      "errIn": 2.220446049250313e-16
     }
   ],
   "steps": [
     {
-      "blank": 64,
-      "spaces": 13
+      "step": "blank",
+      "id": 64
     },
     {
-      "subtractedTools": 22
+      "step": "cut tooth spaces ×13",
+      "tools": 13
+    },
+    {
+      "step": "cut bore",
+      "tools": 1
+    },
+    {
+      "step": "cut keyway",
+      "tools": 1
+    },
+    {
+      "step": "cut set screws ×1",
+      "tools": 1
+    },
+    {
+      "step": "cut tip tapers ×4",
+      "tools": 4
+    },
+    {
+      "step": "cut bore chamfers",
+      "tools": 2
     }
   ],
   "allChecksPass": true

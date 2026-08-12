@@ -27,7 +27,8 @@ When ph asks you to train on a topic, follow `workspace/HOW-TO-TRAIN.md`. The sh
 1. **Read the reference docs** for every method you'll test
 2. **Create the session** — folder, scripts dir, journal with goal listing every method/param to cover
 3. **Write → Run → Journal** — iterative loop per `SOUL.md` discipline rules
-4. **Write LLM docs** — `references/<domain>/<apiName>.md` with hints, findings, dead ends. Diff in `changes.md`
+4. **Write LLM docs** — `references/<domain>/<apiName>.md` with hints, findings, dead ends. Diff in `changes.md`.
+   Wrong statements are **rewritten in place** — no footnotes, no dated addenda. The skill must be coherent and correct from the first read; error histories go to the journal and TODO, never into the skill.
 
 ### Answering Questions
 

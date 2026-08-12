@@ -19,12 +19,12 @@
 [03] ✓ {"label":"T3-teeth24:root","ok":true,"errIn":0}
 [03] ✓ {"label":"T3-teeth24:tipcorner","ok":true,"errIn":2.7755575615628914e-17}
 [03] ✓ {"label":"T3-teeth24:borewall","ok":true,"radErrIn":1.8034418325374446e-7}
-[03] ⚠️ (known: pattern frozen) {"label":"T3-teeth24:volume","ok":false,"cadIn3":2.8424,"mcAdjIn3":2.24856,"devPct":26.41}
-[03] ⚠️ (known: pattern frozen) {"label":"T3-pattern-count-24 (space#22@330°)","ok":false,"errIn":null}
+[03] ✓ {"label":"T3-teeth24:volume","ok":true,"cadIn3":2.25364,"mcAdjIn3":2.24856,"devPct":0.23}
+[03] ✓ {"label":"T3-pattern-count-24 (space#22@330°)","ok":true,"errIn":2.220446049250313e-16}
 [03] ✓ {"label":"T4-explicit-pattern:root","ok":true,"errIn":0}
 [03] ✓ {"label":"T4-explicit-pattern:tipcorner","ok":true,"errIn":2.7755575615628914e-17}
 [03] ✓ {"label":"T4-explicit-pattern:borewall","ok":true,"radErrIn":1.8034418325374446e-7}
-[03] ⚠️ (known: pattern frozen) {"label":"T4-explicit-pattern:volume","ok":false,"cadIn3":2.8424,"mcAdjIn3":2.25209,"devPct":26.21}
-[03] ⚠️ (known: pattern frozen) {"label":"T4-pattern-count-24 (space#22@330°)","ok":false,"errIn":null}
-[filewrite] files/03-parametric-sprocket-parametric-report.json (3170 bytes)
+[03] ✓ {"label":"T4-explicit-pattern:volume","ok":true,"cadIn3":2.25364,"mcAdjIn3":2.25209,"devPct":0.07}
+[03] ✓ {"label":"T4-pattern-count-24 (space#22@330°)","ok":true,"errIn":2.220446049250313e-16}
+[filewrite] files/03-parametric-sprocket-parametric-report.json (3076 bytes)
 [03] ALL CHECKS PASS (pattern-freeze limitation expected)

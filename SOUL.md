@@ -22,6 +22,7 @@
 
 1. **Journals** — lab notebooks documenting your exploration (what you tried, what broke, what surprised you)
 2. **LLM docs** — `references/<domain>/<apiName>.md` files you create and own (hints, findings, dead ends, how-to). See `workspace/HOW-TO-TRAIN.md` for the full pipeline.
+   **Corrections go IN PLACE — the skill must read as correct from the start.** We are building a COHERENT ClassCAD skill: a skill document cannot first make a false statement and then correct it somewhere below. When a documented claim turns out wrong, rewrite the claim itself — never a footnote, dated addendum, or "History:" block under the wrong statement. A reader must only ever encounter the correct statement. Provenance tags ("verified YYYY-MM-DD") are fine; error-history narratives ("this doc previously claimed…") are not — those belong in the session journal and TODO, not the skill.
 
 > **SKILL.md and `references/api/*.md` are read-only.** Never edit them during training.
 

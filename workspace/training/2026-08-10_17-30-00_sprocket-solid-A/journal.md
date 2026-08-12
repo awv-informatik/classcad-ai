@@ -5,18 +5,28 @@
 
 ## Port mapping (feature variant → solid variant)
 
+(Reworked 2026-08-12 per rainer's review: no sketches — the EIF is a feature in the operation
+sequence and may only consume EARLIER features, so referencing a later-created sketch runs the
+sequence backwards in Buerligons; profiles are curve-API shapes INSIDE the EIF. Build order =
+create tool(s) → subtract → next, so the tree reads like a history. Model axis = +Z, the curve
+API's native XY plane is the sprocket face.)
+
 | Feature build | Solid build |
 |---|---|
-| Blank: sketch + `part.revolve` | `curve.shape` + `advancedPolyline` (v,r staircase in world XY) + `solid.revolve` about [1,0,0] |
-| ToothSpace extrusion + `circularPattern` | ONE Right-plane sketch profile (8 curves) + **N × `solid.extrusion` with `rotation:[k·2π/N,0,0]`** — the solid-API pattern idiom |
-| bore `part.cylinder` (workCSys) | `solid.cylinder` (centered!) rotated z→X, translated to span middle |
-| keyway sketch-extrusion | `solid.box` (centered), positioned at world −Y |
-| set screws sketch-extrusions | `solid.cylinder` ±rotation (+Z / Rx(−90°)→+Y) |
-| tip taper revolve-tools | same triangles via `curve.shape` + `solid.revolve` |
+| Blank: sketch + `part.revolve` | `curve.shape` + `advancedPolyline` (r,v staircase in XY) + `curve.rotateShape` 90°→XZ + `solid.revolve` about +Z |
+| ToothSpace extrusion + `circularPattern` | ONE `curve.polyline2d` with signed bulges + **N × `solid.extrusion` with `rotation:[0,0,k·2π/N]`** — the solid-API pattern idiom |
+| bore `part.cylinder` (workCSys) | `solid.cylinder` — Z-native, just translated |
+| keyway sketch-extrusion | `solid.box` (centered), slot at world +Y |
+| set screws sketch-extrusions | `solid.cylinder` rotated (+X via Ry(90°), −Y via Rx(90°)) |
+| tip taper revolve-tools | triangles via rotated section shapes + `solid.revolve` |
 | `part.chamfer` (edge refs!) | **45° cone-ring `solid.revolve` cuts** — no edge hunting, no seam-split trap at all |
-| ONE `part.boolean` SUBTRACTION | ONE `solid.subtraction` (target mutates in place) |
+| ONE `part.boolean` SUBTRACTION | **sequential `solid.subtraction` steps** (teeth → bore → keyway → screws → tapers → chamfers; target id stable) |
 
-Notes: `curve.advancedPolyline` returns VOID (like curve.circle) — check maxLevel, not result. `sketch.geometry` seeds with all `gen*` flags off (coordinate dump — appropriate here; no solver involved).
+Notes: `curve.*` drawing calls return VOID — check maxLevel, not result. **Arc-heavy profiles
+must be ONE `polyline2d` with bulges**: chained `curve.line`+`curve.arcByCenter` in a shape are
+unreliable — the kernel re-picks arc branches and ignores `isClockwise` (probed 00c/00d: half-disc
+identical for cw=true/false; the tooth profile degenerate or 3× too large in every flag/winding
+variant).
 
 ## Stumble → finding: `common.recalc` destroys direct geometry
 

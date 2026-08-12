@@ -403,6 +403,7 @@ Create or update: `knowledge/classcad-skill/references/<domain>/*.md`
 - If the `references/<domain>/` folder does not exist, create it.
 - If the `<apiName>.md` (or `generic.md`, if applicable) file does not exist, create it.
 - If it already exists, update it with new findings.
+- **If an existing statement is WRONG, replace it in place.** Never append a dated correction, footnote, or "History:" note under the wrong claim — an agent must read only the correct fact, not the error first and the fix below. Keep short provenance ("verified YYYY-MM-DD") on the corrected statement; put the story of how the error happened into the journal and TODO instead.
 
 **Example paths:**
 

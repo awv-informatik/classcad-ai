@@ -234,12 +234,11 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Fix applied:** docs corrected (dimension.md, updateDimension.md, SKETCHING.md, expression.md gotcha). Server-side: the direct form should error (1004) instead of no-opping with result=1.
 - **Method lesson:** before recording a NEGATIVE capability finding, verify the test fixture independently (here: `getExpression` would have shown value:null). And version-stamp capability findings — binaries move.
 
-### 182. [ ] 💀 consumed boolean tools — feature-param updates corrupt or silently freeze (sketch dims stay live)
+### 182. [ ] 💀 consumed boolean tools — primitive feature-param updates corrupt; UNMERGED pattern count/angle freezes silently
 
-- **Session:** `2026-08-10_15-20-00_sprocket-parametric-B` (01b/01c probes, 03 T3/T4)
-- **Error:** ❌ After `part.boolean` consumes a tool: (a) `updateExpression` on an @expr-bound tool param (cylinder `diameter`) regenerates CORRUPTLY — hole teleported to the plate edge, volume delta exactly ¼ of the expected annulus, stable across recalcs, maxLevel 31 everywhere; (b) @expr-bound `circularPattern` count/angle freeze silently; (c) explicit `openFeature`→`updateCircularPattern`→`closeFeature` on the consumed pattern returns success (31/31/31, id) and changes NOTHING. Meanwhile sketch-dimension edits (numeric or @expr-live) on the same tools' sketches regenerate the boolean result exactly (probed to the mm³).
-- **Trigger:** any feature-level param change on a consumed tool.
-- **Workaround:** route all live parameters through sketch dimensions; treat pattern count as a rebuild parameter. Server-side: consumed-feature param updates should either work or ERROR — both silent-freeze and corrupt-regen are trap states.
+- **Session:** `2026-08-10_15-20-00_sprocket-parametric-B` (01b/01c probes, 03 T3/T4; merged resolution via rainer review + 05-probe, 2026-08-12)
+- **Error:** ❌ After `part.boolean` consumes a tool: (a) `updateExpression` on an @expr-bound PRIMITIVE param (cylinder `diameter`) regenerates CORRUPTLY — hole teleported to the plate edge, volume delta exactly ¼ of the expected annulus, stable across recalcs, maxLevel 31 everywhere; (b) an UNMERGED (`merged: 0`) `circularPattern`'s @expr count/angle freeze silently, and explicit `openFeature`→`updateCircularPattern`→`closeFeature` returns success (31/31/31) while changing NOTHING.
+- **Resolved usage:** `merged: 1` is the correct pattern-into-boolean idiom — single-brep tool, subtraction independent of instance count, count/angle fully live through the boolean (verified: 21→24 teeth regen exact). Sketch-dimension edits are live in all cases. The remaining server-side traps: the primitive-param corruption (a) and that the unmerged freeze (b) reports success instead of erroring.
 
 ### 183. [ ] 🟡 constrained-sketch: outer cap-corner points carry 0.4–1.5 mm residual while all constraints report solved
 

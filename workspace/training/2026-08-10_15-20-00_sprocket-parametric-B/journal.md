@@ -36,16 +36,20 @@ Build (`_buildB.mjs`): expression graph (18 tooth-form + 13 body expressions) �
 | **T1 bore 1.0→1.25** via `updateExpression` | **regenerates exactly** — bore rim at 0.625 err 0, volume ✓ 0.84% |
 | **T2 hubProj 0.5→0.7** (blank-section dim) | **regenerates exactly** ✓ 0.77% |
 | **T3 teeth 21→24 stepwise** | sketch morphs exactly (0.52mm = Q-slop only); root/tip/borerim at 24T-geometry all EXACT — the shape parametrics flow through pattern copies into the brep ✓ |
-| T3 pattern count | ❌ **count/angle FROZEN at 21** — space #22@330° missing, volume +26% vs 24T-spec; `@expr` on the consumed pattern silently dead |
-| T4 explicit `openFeature`+`updateCircularPattern`(24) | ❌ reports **full success (31/31/31) and changes NOTHING** — consumed patterns are un-editable, silently |
+| T3 pattern count | ❌ with `merged: 0` — space #22@330° missing, volume +26%; `@expr` on the consumed unmerged pattern silently dead. **✓ with `merged: 1`** (rainer review, 2026-08-12): single-brep tool → subtraction independent of instance count → count/angle fully live (space #22 exists, volume 0.23% vs 24T-spec) |
+| T4 explicit `openFeature`+`updateCircularPattern`(24) | ❌ unmerged: reports full success (31/31/31) and changes nothing. **✓ merged** |
 
 Visual: `files/03-parametric-sprocket-after-regen-face-solid.png` — body regenerated to 24T geometry, but 21 frozen cut positions leave orphan sliver bodies at the rim (renderer colors = separate bodies).
 
 ## Conclusion — what "parametrisches Modell" means in ClassCAD today
 
+(Rewritten 2026-08-12 after rainer's review corrected my `merged`-flag understanding.)
+
 - **Everything driven by SKETCH DIMENSIONS is genuinely parametric through the whole consumed chain** (extrusion→pattern-copies→boolean→brep): form parameters, bore, keyway, hub, blank — live via `@expr`, exact to float precision, verified against an independent MC model.
-- **Feature-level params of boolean-consumed tools are NOT parametric**: `@expr` bindings silently freeze (pattern count/angle) or corrupt (cylinder diameter: ¼-annulus artifact); explicit open/update/close no-ops with success codes. → **Topology-count parameters (tooth count) are REBUILD parameters** — same as the generated variant and, per the Kollege's observation, same as Onshape custom features (destructive inside).
+- **Pattern count/angle are parametric too — IF the pattern is `merged: 1`** (single-brep tool; the subtraction is independent of the instance count, so `@expr` count/angle regenerate through the boolean — teeth 21→24 verified exact). My earlier "feature-level params of consumed tools are NOT parametric" conclusion was a `merged: 0` artifact: unmerged patterns DO freeze silently (and explicit updates no-op with success codes) — that narrower statement is the real trap.
+- Primitive feature params on consumed tools remain hazardous (cylinder-diameter regen corrupts, ¼-annulus artifact) — route those through sketches.
 - Branch-selection is the real cost of solver-driven parametrics: unsigned dims + minimal-motion = wrong branch on large jumps; **step the master parameter** (or harden the scheme with side-encoding facts).
+- **The complete model is therefore fully in-tree parametric — including tooth count.**
 
 ## Nachtrag (ph): complete model — taper, set screws, bore chamfer added to B
 

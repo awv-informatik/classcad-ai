@@ -55,17 +55,17 @@
     {
       "step": "TipTapers",
       "ids": [
-        1324,
-        1363
+        2284,
+        2323
       ]
     },
     {
       "step": "Bore",
-      "id": 1398
+      "id": 2358
     },
     {
       "step": "Keyway",
-      "id": 1455,
+      "id": 2415,
       "kw": {
         "keyWidth": 0.25,
         "keyDepth": 0.125,
@@ -75,19 +75,19 @@
     {
       "step": "SetScrews",
       "ids": [
-        1507,
-        1538
+        2467,
+        2498
       ]
     },
     {
       "step": "Subtraction",
-      "id": 1560,
+      "id": 2520,
       "level": 31,
       "messages": []
     },
     {
       "step": "BoreChamfer",
-      "id": 7876,
+      "id": 9596,
       "level": 31,
       "edges": 4
     },
@@ -97,7 +97,7 @@
     },
     {
       "step": "MateConnector",
-      "id": 11714,
+      "id": 14314,
       "level": 31
     }
   ],
@@ -106,19 +106,19 @@
       "label": "root-radius",
       "ok": true,
       "worstErrIn": 2.220446049250313e-16,
-      "edgeId": 6513
+      "edgeId": 8353
     },
     {
       "label": "tip-flat-corner",
       "ok": true,
       "worstErrIn": 6.938893903907228e-18,
-      "edgeId": 6805
+      "edgeId": 8525
     },
     {
       "label": "bore-rim",
       "ok": true,
       "worstErrIn": 1.3877787807814457e-17,
-      "edgeId": 7824
+      "edgeId": 9544
     },
     {
       "label": "hub-od",

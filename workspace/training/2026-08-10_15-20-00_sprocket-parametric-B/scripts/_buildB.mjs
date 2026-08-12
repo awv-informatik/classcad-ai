@@ -1,10 +1,11 @@
 /**
  * _buildB.mjs — variant B: TRUE parametric sprocket (35B-N-SS, single strand,
- * style B). All driving values live in the expression set; sketches are
- * constrained with @expr-bound dims; the parametrics flow through
- * extrusion/revolve/pattern/boolean via the sketch solver (probed: exact),
- * NOT via feature params on consumed tools (probed: corrupt regen).
- * No tip taper / no set screws (scope; variant A has them).
+ * style B, full feature set). All driving values live in the expression set;
+ * sketches are constrained with @expr-bound dims (live through the consumed
+ * boolean chain), and the tooth pattern uses merged:1 so its single-brep tool
+ * keeps count/angle live through the subtraction as well. Every model
+ * parameter regenerates in-tree, including tooth count (stepwise for branch
+ * safety, see journal).
  */
 import { EXPRESSIONS, buildParametricToothSketch, verifyAgainstAnalytic } from './_sketchB.mjs'
 import { inch, sprocketSpec, mcVolume } from './_model.mjs'
@@ -227,9 +228,12 @@ export async function buildParametricSprocket(api, { filewrite }, { teeth = 21 }
   const toothExt = ok(await api.v1.part.extrusion({
     id: partId, name: 'ToothSpace', references: tooth.profileRefs, type: 'SYMMETRIC', limit2: cutSpan,
   }), 'tooth extrude')
+  // merged: 1 → the pattern emits ONE brep; the subtraction then references a
+  // single tool and stays independent of the instance count — count/angle
+  // @expr updates regenerate through the boolean (rainer; verified 05-probe)
   const pat = ok(await api.v1.part.circularPattern({
     id: partId, name: 'ToothPattern', targets: [toothExt], references: [xAxis],
-    angle: '@expr.toothAngle', count: '@expr.teeth',
+    angle: '@expr.toothAngle', count: '@expr.teeth', merged: 1,
   }), 'pattern')
   const boreExt = ok(await api.v1.part.extrusion({
     id: partId, name: 'Bore', references: [boreC], type: 'SYMMETRIC', limit2: cutSpan,

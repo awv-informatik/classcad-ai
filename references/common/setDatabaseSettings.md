@@ -46,7 +46,7 @@ Tested on a sphere (r=20) with facetingParamsMode=0:
 
 angleTol is the max angle (degrees) between adjacent tessellation facet normals. It is a **fully independent constraint** — not just a chord modifier. When both are set, the tessellation engine satisfies whichever demands more triangles (MAX operation).
 
-The earlier finding that "only values <10° matter" was an artifact of testing with chordHeightTol=0.1 — chord was dominating at angleTol≥15°. With chord tolerance relaxed (cht=100), angleTol scales smoothly from 131K vertices (1°) to 0 (180°):
+Beware the measurement confound: with a tight chordHeightTol (e.g. 0.1) the chord constraint dominates at angleTol≥15° and angleTol appears to have no effect. With chord tolerance relaxed (cht=100), angleTol scales smoothly from 131K vertices (1°) to 0 (180°):
 
 | angleTol | Vertices (cht=100) | Vertices (cht=0.1) |
 |---|---|---|

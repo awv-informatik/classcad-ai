@@ -44,7 +44,7 @@ Feature ID (numeric) on success, maxLevel=31 (info). Returns the feature ID even
   modes (sketch-dim edits propagate into every copy).
 - **`angle=0` does NOT mean equal spacing.** It means literally 0° between copies — all instances stack at the same position. For equal spacing around a full circle, calculate: `angle = 2 * Math.PI / count` (or `'2*C:PI/count'` as expression).
 - **`count` includes the original.** count=4 means 4 total bodies, not 4 copies. count=1 creates the feature but adds no copies.
-- **`merged: 1` works for disjoint AND overlapping copies** (probed 2026-08-10: 4 disjoint boxes → one brep, volume exact; 6 overlapping boxes → union volume correct). A 2026-04-20 session recorded it as "always fails with error 1001" — that does not reproduce on current builds; if you see 1001 from a merge, suspect degenerate tool bodies, not the flag.
+- **`merged: 1` works for disjoint AND overlapping copies** (probed 2026-08-10: 4 disjoint boxes → one brep, volume exact; 6 overlapping boxes → union volume correct). If you see error 1001 from a merge, suspect degenerate/self-intersecting tool bodies, not the flag.
 - **`inverted` and `angle` sign both control direction.** `inverted: 1` with positive angle ≈ `inverted: 0` with negative angle. Both reverse the rotation from default CCW to CW (when viewed from the positive direction of the axis). Pick one convention and stick to it.
 - **Default rotation is CCW** when viewed from the positive direction of the reference axis (right-hand rule).
 - **Brep edges work as rotation axis references.** Use `getGeometryIds` to find edge IDs from existing geometry.

@@ -24,14 +24,13 @@ Returns the **same ID** as the target. The solid is modified in place. `r.result
 
 ## Gotchas
 
-### The "complex topology hangs offset" report was a misdiagnosis
+### Complex topology does NOT hang offset — but corrupt input state hangs the EXPORT
 
-An earlier note claimed offsetting a solid with multiple boolean cuts (3+ holes) hangs the
-server. Re-investigation shows **`solid.offset` itself does not hang** — it offsets a plain
-box and a holed box fine (maxLevel 31, returns promptly). The original repro hung in a
-*different* step: its tool script took a `snapshot` (which exports the model via STEP) **after a
-multi-tool `solid.subtraction` had silently failed**, leaving the part in a corrupt/partial
-state. The STEP export over that corrupt state is what spun at 100% CPU — not the offset.
+**`solid.offset` itself does not hang** — it offsets a plain box and a holed box fine
+(maxLevel 31, returns promptly), including solids with multiple boolean cuts. The hang trap in
+this neighborhood is different: a STEP export (`snapshot`) taken **after a multi-tool
+`solid.subtraction` has silently failed** — over that corrupt/partial part state, the export
+spins at 100% CPU. Check subtraction results before exporting.
 
 Two takeaways:
 - **Always check the `maxLevel` of each boolean before continuing.** A multi-tool subtraction

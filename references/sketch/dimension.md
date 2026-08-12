@@ -66,7 +66,7 @@ const ids = (await api.v1.sketch.dimension([
 - **Auto-value (omit `value`)** locks the current measurement without resizing. The dimension constrains the geometry to its current size/angle.
 - **Fix an anchor first.** Without a FIXATION constraint, the solver may move geometry in unexpected ways. Always fix at least one reference point.
 - **Formulas work:** `'60+10'`, `'sqrt(2)*50'`, `'45deg'`. Evaluated at creation time.
-- **`@expr.NAME` in `value` binds the dimension to the expression, LIVE** (verified 2026-08-10: OFFSET and RADIUS bound at creation and followed `updateExpression` immediately; also works via `updateDimension`). **ANGLE dims reject @expr** (maxLevel 51). ⚠️ History: this doc previously claimed @expr "does not work" — that finding (2026-04-14) was an artifact: the test created its expression with the malformed direct form `part.expression({id, name, value})`, which silently no-ops (result=1, maxLevel=31!), so `@expr` pointed at a NONEXISTENT expression and errored 51. Reproduced 2026-08-10 (sprocket-parametric-B/01d). Always create expressions with `toCreate: [...]` and verify via `getExpression` before binding.
+- **`@expr.NAME` in `value` binds the dimension to the expression, LIVE** (verified 2026-08-10: OFFSET and RADIUS bound at creation and followed `updateExpression` immediately; also works via `updateDimension`). **ANGLE dims reject @expr** (maxLevel 51). The referenced expression MUST exist: `part.expression({id, name, value})` (missing `toCreate`) is a silent no-op that LOOKS successful, and `@expr` on the resulting nonexistent expression errors 51 "Couldn't set the value". When an @expr dim fails, check `getExpression` FIRST.
 
 ## Gotchas
 

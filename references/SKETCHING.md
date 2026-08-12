@@ -33,8 +33,8 @@ Two questions before any analysis:
 **When the method's expectation and the drawing image disagree, the drawing wins — it is the
 spec.** Stop and re-classify instead of making the drawing fit the method. This is the
 drawing-side mirror of the snapshot-vs-data rule. Past failure (2026-07-02, robot-head):
-closed Ø5.6 eye circles were converted into boundary arcs because this guide used to claim
-every visible outline is trimmed shapes — the image plainly showed complete circles.
+closed Ø5.6 eye circles were converted into boundary arcs by force-applying a trim-everything
+method — the image plainly showed complete circles.
 
 ---
 
@@ -188,7 +188,7 @@ Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces
 
 1. **Anchor the datum** — `FIXATION` on reference geometry first; without an anchor the solver chooses what to move. Place the datum point EXACTLY at its drawing coordinates before fixing — FIXATION freezes the current position, it doesn't know where the point "should" be. One exactly-placed fixed point per sketch is enough; everything else can be seeded rough. To lock a line completely, fix its two **endpoints** individually: FIXATION on the line itself locks position/direction but NOT length — the solver will happily stretch a "fixed" line to satisfy a COINCIDENT or EQUAL_LENGTH elsewhere (verified).
 2. **Relate** — COINCIDENT (connect), TANGENT (tangency), CONCENTRIC, PARALLEL / PERPENDICULAR, HORIZONTAL / VERTICAL, SYMMETRY (axis FIRST in geomIds). Full tables in `sketch/constraint.md`.
-3. **Dimension** — drive sizes/distances to the drawing's values. `value` at creation WORKS; omit `value` to lock the current measurement instead. Formulas (`'60+10'`) work; angles need the `'45deg'` suffix; `@expr.NAME` binds linear/radial dims to expressions LIVE (updateExpression → sketch re-solves; verified 2026-08-10 — an earlier "not supported" claim here came from a malformed-expression-call test artifact; ANGLE dims still reject @expr).
+3. **Dimension** — drive sizes/distances to the drawing's values. `value` at creation WORKS; omit `value` to lock the current measurement instead. Formulas (`'60+10'`) work; angles need the `'45deg'` suffix; `@expr.NAME` binds linear/radial dims to expressions LIVE (updateExpression → sketch re-solves; verified 2026-08-10); ANGLE dims reject `@expr`.
 
 ### One annotation = one dimension entity
 
@@ -277,7 +277,7 @@ await api.v1.sketch.dimension({
 - `HORIZONTAL_DISTANCE` / `VERTICAL_DISTANCE` with 2 geomIds: **both must be points**. Use `getPoints(circleId).centerId` to get point IDs from circles.
 - `ANGLE` works with non-intersecting lines — the solver extends them to their virtual intersection.
 - `OFFSET` between two parallel lines measures perpendicular distance, even if the lines don't overlap in projection.
-- `value` at creation drives the solver (verified 2026-06-10 — an earlier version of this guide called it broken; that observation came from planeless sketches whose solver never ran). Anchor a datum first or the solver picks what to move.
+- `value` at creation drives the solver (verified 2026-06-10). On a PLANELESS sketch the same call errors without resizing — a dead solver masquerading as a broken param. Anchor a datum first or the solver picks what to move.
 - `updateDimension` re-solves the system: `result: 1|2` = solved (2 = well-constrained), `0` = unsolved. A 0 usually means a planeless sketch or a conflicting constraint.
 - `dimPos` for ANGLE selects which of the 4 angle sectors to constrain.
 
@@ -568,7 +568,7 @@ const bossPt = add(offset, scale(dir, tBoss))
 | Apply trims | `sketch.postTrim` | Commits staged state |
 
 ### Common pitfalls
-- **A sketch without `planeId` has a DEAD solver** — constraints and dimensions are accepted (maxLevel 31, IDs returned!) but never enforced; `updateDimension` returns 0; `dimension` with `value` errors (51) without resizing. Always pass `planeId` to `sketch.create`. This silent mode is what once led this guide to call constraints "metadata" and the value param "broken" — both wrong on a properly created sketch.
+- **A sketch without `planeId` has a DEAD solver** — constraints and dimensions are accepted (maxLevel 31, IDs returned!) but never enforced; `updateDimension` returns 0; `dimension` with `value` errors (51) without resizing. Always pass `planeId` to `sketch.create` — and verify the id you pass actually resolved (an undefined lookup is accepted silently). This silent mode makes constraints look like inert metadata and value-dims look broken; both work on a properly created sketch.
 - **Z must be 0** for all 2D sketch coordinates — non-zero Z is a hard error (code 1014)
 - **FIXATION on a line does not lock its length** — fix both endpoints individually for a true datum
 - **`getPositions` fails on circle IDs** — use `getPoints` → `centerId` → `getPositions`

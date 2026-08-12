@@ -34,12 +34,10 @@ The `param` argument accepts both a single object and an array of objects (each 
 
 - **⚠️ The direct `{id, name, value}` form is a SILENT NO-OP that LOOKS successful.**
   `part.expression({id, name: 'W', value: 40})` (without `toCreate`) returns result=1,
-  maxLevel=31 — and creates NOTHING (`getExpression('W')` → value null). This footgun produced a
-  long-lived false skill finding: 2026-04-14 tests "proving" that `@expr` doesn't work in sketch
-  dimensions had created their expression this way, so every `@expr` reference pointed at a
-  nonexistent expression (error 51 "Couldn't set the value for dimension") — reproduced end-to-end
-  2026-08-10 (sprocket-parametric-B/01d). Always use `toCreate: [...]` and, when a downstream
-  `@expr` mysteriously fails, check `getExpression` FIRST.
+  maxLevel=31 — and creates NOTHING (`getExpression('W')` → value null). Every downstream
+  `@expr` reference then points at a nonexistent expression and fails (dimensions: error 51
+  "Couldn't set the value"; features: silent). Always use `toCreate: [...]` and, when a
+  downstream `@expr` mysteriously fails, check `getExpression` FIRST (verified 2026-08-10).
 - **Duplicate name → error 1014, result=0.** The original value is preserved. Use `updateExpression` to change an existing expression's value.
 - **Invalid formulas with bad runtime refs (undefined variables) ARE registered** despite result=0. The expression exists in the ExpressionSet with a default value of 1 and a broken formula. You must `deleteExpression` or `updateExpression` to fix it — re-creating with the same name gives "already exists".
 - **Syntax errors in a batch are atomic** — if any item in `toCreate` has a syntax error (e.g., `'2++3'`), the ENTIRE batch fails and no expressions are created. This differs from runtime ref errors where the expression gets registered.

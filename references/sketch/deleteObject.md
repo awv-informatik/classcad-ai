@@ -44,7 +44,7 @@ Deletes one or more sketch objects — geometry (lines, circles, arcs, points), 
 
 - The `ids` parameter is an array, not a single ID. Always wrap in `[...]`.
 - There is no undo — deletion is permanent within the session.
-- **Multi-delete is ALL-OR-NOTHING (verified 2026-07-01).** If ANY id in the array is invalid, the entire call is rejected and **nothing is deleted** — not even the valid ids. Verified: `deleteObject([validE, 999999, validF])` left both E and F intact and returned code 1006. So **filter out invalid/`null` ids before calling** (e.g. `.filter(Boolean)`); a single stale id from a failed create silently blocks the whole batch. (An earlier version of this doc claimed valid ids "may still be processed" — that is wrong.)
+- **Multi-delete is ALL-OR-NOTHING (verified 2026-07-01).** If ANY id in the array is invalid, the entire call is rejected and **nothing is deleted** — not even the valid ids. Verified: `deleteObject([validE, 999999, validF])` left both E and F intact and returned code 1006. So **filter out invalid/`null` ids before calling** (e.g. `.filter(Boolean)`); a single stale id from a failed create silently blocks the whole batch.
 
 ## Working Example
 

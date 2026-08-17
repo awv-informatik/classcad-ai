@@ -15,6 +15,7 @@ import { registerStateTools } from './tools/state.js'
 import { registerCallTool } from './tools/call.js'
 import { registerDocsTools } from './tools/docs.js'
 import { registerSnapshotTool } from './tools/snapshot.js'
+import { registerScriptTool } from './tools/script.js'
 import { registerBridgeTools } from './tools/bridge.js'
 import { startBridgeServer, type BridgeRegistry } from './bridge/server.js'
 
@@ -85,6 +86,7 @@ async function main(): Promise<void> {
   registerCallTool(server, client)
   registerDocsTools(server)
   registerSnapshotTool(server, client)
+  registerScriptTool(server, client)
 
   // Optional in-app bridge listener. CC apps connect outbound to this WS to
   // expose their client-side state (selection, etc.). If the port is busy or

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 const assets = [
-  ['src/render.mjs', 'dist/render.mjs'],
+  // (rendering now comes from the @classcad/renderer dependency — no JS assets left)
 ]
 
 for (const [from, to] of assets) {

@@ -27,7 +27,9 @@ export async function runScriptHandler(
 
   const res = await runScript(script, browserSession(ctx.drawingId), {
     registry: (getMethodRegistry() ?? undefined) as MethodRegistry | undefined,
-    timeoutMs,
+    // The browser/WASM engine is much slower per call than a native worker —
+    // default to 180s so one substantial script fits (the executor caps at 300s).
+    timeoutMs: timeoutMs ?? 180_000,
   })
 
   if (!res.ok) {

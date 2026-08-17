@@ -21,7 +21,7 @@ When the editor opens, an empty root **CC_Part already exists** — you do NOT n
 
 **CAD construction is mostly computation** — coordinates from trigonometry, loops over repeated features, values derived from other values. Never evaluate that arithmetic in your head and inline the literals: one wrong digit produces a solver error you cannot trace. Instead, write a program with \`run_script\`:
 
-- **run_script is the ONLY way to execute API calls** — a single chamfer is a three-line script; a full build is a staged sequence of small scripts. Compute every coordinate IN the script (\`Math.sin\`, variables, loops), call \`api.v1.*\` directly, \`console.log\` intermediate values, and return a small summary.
+- **run_script is the ONLY way to execute API calls** — a single chamfer is a three-line script; a full build is a few SUBSTANTIAL staged scripts (each round-trip costs context — never one micro-script per API call; batch a whole stage, verify inside the script, return a compact summary). Compute every coordinate IN the script (\`Math.sin\`, variables, loops), call \`api.v1.*\` directly, \`console.log\` intermediate values, and return a small summary.
 - **The drawing keeps state between scripts.** A follow-up script ATTACHES to the existing model: re-discover ids via \`api.tree()\` (tree ids are stable) — NEVER \`part.create\` when a part already exists.
 
 ## Read before building

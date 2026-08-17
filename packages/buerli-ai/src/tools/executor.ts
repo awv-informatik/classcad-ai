@@ -210,8 +210,9 @@ const listMethods: ToolHandler = async (input, ctx) => {
   }
 }
 
-const describeMethodTool: ToolHandler = async (input, ctx) => {
-  const { method } = input as { method: string }
+// One documentation key: v1 method (full or bare name), topic doc ("DATA"),
+// recipe ("recipes/…"), overview ("api/part"), or a non-v1 namespace path.
+async function describeOne(method: string, ctx: ToolExecutorContext): Promise<ToolResult> {
   if (!method) {
     return { error: 'Provide a method path, e.g. "v1.part.box" or "structure.calculateProductBounds".' }
   }
@@ -370,9 +371,25 @@ const snapshot: ToolHandler = async (input, ctx) => {
 
 // ─── Dispatcher ───────────────────────────────────────────────────────────────
 
-const readDocTool: ToolHandler = async input => {
-  const { doc } = input as { doc?: string }
-  return readDoc(doc ?? '')
+
+// Bulk documentation: resolve MANY keys in one round — methods, topic docs,
+// recipes, overviews. One agent round instead of one per document.
+const docsTool: ToolHandler = async (input, ctx) => {
+  const { keys } = input as { keys?: unknown }
+  const list = Array.isArray(keys) ? keys.filter((k): k is string => typeof k === 'string' && k.trim() !== '') : []
+  if (list.length === 0) {
+    return { error: 'Provide keys: an array of documentation keys, e.g. ["v1.part.extrusion", "SKETCHING", "recipes/parametric-part"].' }
+  }
+  const sections: string[] = []
+  const failures: string[] = []
+  for (const key of list.slice(0, 24)) {
+    const r = await describeOne(key.trim(), ctx)
+    if (typeof r.result === 'string') sections.push(`# ═══ ${key} ═══\n\n${r.result}`)
+    else if (r.result) sections.push(`# ═══ ${key} ═══\n\n${JSON.stringify(r.result)}`)
+    else failures.push(`${key}: ${r.error ?? 'not found'}`)
+  }
+  if (failures.length) sections.push(`# ═══ not found ═══\n${failures.join('\n')}`)
+  return { result: sections.join('\n\n') }
 }
 
 const HANDLERS: Record<string, ToolHandler> = {
@@ -383,8 +400,7 @@ const HANDLERS: Record<string, ToolHandler> = {
   get_selection: getSelection,
   set_selection: setSelection,
   list_methods: listMethods,
-  describe_method: describeMethodTool,
-  read_doc: readDocTool,
+  docs: docsTool,
   snapshot,
   load_file: loadFile,
   download,

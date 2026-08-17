@@ -15,7 +15,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       'find and FILTER GEOMETRY yourself — e.g. locate a bore wall by vertex radius, pick a point on a face. ' +
       'NOTE: face mesh/edge ids are payload-local (they rotate on re-tessellation) — to hand a face to another ' +
       'tool, return a world POINT on it, not its id. ' +
-      'Exact tree/graphic shapes + selection idioms: read_doc("DATA").\n' +
+      'Exact tree/graphic shapes + selection idioms: docs(["DATA"]).\n' +
       '• api.facade / api.structure / api.selection — browser-only extras (guard with `if (api.facade)` for portable scripts).\n' +
       '• Math, full JS (variables, functions, loops), console.log/log(...) captured and returned.\n' +
       '• Use `return <value>` for the data you need back; keep it small (results are size-capped).\n' +
@@ -149,20 +149,25 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
     },
   },
   {
-    name: 'describe_method',
+    name: 'docs',
     description:
-      'Get documentation for an API method. v1 methods (e.g. "v1.part.box" or just "box") return rich docs from the ' +
-      'classcad-skill knowledge base. Non-v1 paths (e.g. "structure.calculateProductBounds") return curated docs where ' +
-      'available, otherwise just the reflected argument count.',
+      'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
+      'unique bare name), topic docs ("DATA", "SKETCHING", "STRUCTURE", "GRAPHICS"), recipes ' +
+      '("recipes/parametric-part", "recipes/pattern-then-subtract", "recipes/direct-modeling-eif", ' +
+      '"recipes/verify-numerically"), domain overviews ("api/part"), or non-v1 paths ' +
+      '("structure.calculateProductBounds"). PLAN FIRST: pick every method you will need from the Method ' +
+      'Index in the system prompt, then fetch ALL of them plus the matching topic/recipe docs in ONE call — ' +
+      'each extra tool round costs a full model round-trip.',
     inputSchema: {
       type: 'object',
       properties: {
-        method: {
-          type: 'string',
-          description: 'Method path: "v1.part.box" (or just "box"), or a non-v1 path like "structure.calculateProductBounds".',
+        keys: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Documentation keys to fetch (up to 24), e.g. ["SKETCHING", "recipes/parametric-part", "v1.part.expression", "v1.part.extrusion", "v1.sketch.constraint", "v1.sketch.dimension"].',
         },
       },
-      required: ['method'],
+      required: ['keys'],
     },
   },
   {
@@ -287,25 +292,6 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         filename: {
           type: 'string',
           description: 'Optional base file name (the correct extension is added automatically). Default: "model".',
-        },
-      },
-    },
-  },
-  {
-    name: 'read_doc',
-    description:
-      'Read a whole knowledge document: topic docs ("SKETCHING" — read this BEFORE your first sketch work, ' +
-      '"STRUCTURE", "GRAPHICS"), per-domain API overviews ("api/part", "api/sketch", …) and worked ' +
-      'end-to-end RECIPES ("recipes/parametric-part", "recipes/pattern-then-subtract", ' +
-      '"recipes/direct-modeling-eif", "recipes/verify-numerically"). Recipes show the composed workflow ' +
-      'with its pitfalls — read the matching recipe before starting a multi-feature build. ' +
-      'Call with no args to list every available document. (Per-method docs: describe_method.)',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        doc: {
-          type: 'string',
-          description: 'Document key, e.g. "SKETCHING", "api/part", "recipes/parametric-part". Omit to list all.',
         },
       },
     },

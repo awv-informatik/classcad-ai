@@ -355,14 +355,23 @@ async function serve() {
         }
         if (DEBUG) {
           let usage = ''
+          let shape = ''
           try {
-            const u = JSON.parse(text).usage || {}
+            const j = JSON.parse(text)
+            const u = j.usage || {}
             const inTok = u.input_tokens ?? u.prompt_tokens
             const outTok = u.output_tokens ?? u.completion_tokens
             const reason = u.output_tokens_details?.reasoning_tokens ?? u.completion_tokens_details?.reasoning_tokens
             if (inTok != null || outTok != null) usage = ` in=${inTok} out=${outTok} reasoning=${reason ?? '-'}`
+            // Responses API turn-shape: WHY did the round end, and what did it emit?
+            // status=incomplete + reason max_output_tokens = truncation (the model was
+            // cut off, possibly before its tool call) — the key signal for dying turns.
+            if (j.object === 'response' || Array.isArray(j.output)) {
+              const items = (j.output ?? []).map(o => o.type).join(',')
+              shape = ` status=${j.status ?? '-'}${j.incomplete_details ? ` incomplete=${j.incomplete_details.reason}` : ''} output=[${items}]`
+            }
           } catch {}
-          console.log(`[proxy] ${upstreamPath} ${upstream.status} ${Date.now() - t0}ms${reqMeta}${usage}`)
+          console.log(`[proxy] ${upstreamPath} ${upstream.status} ${Date.now() - t0}ms${reqMeta}${usage}${shape}`)
         }
         if (!upstream.ok) {
           // On an error, show what WE sent (the fields most likely to be rejected) plus the

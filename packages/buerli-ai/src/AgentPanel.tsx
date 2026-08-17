@@ -966,7 +966,11 @@ function renderInline(text: string): React.ReactNode[] {
 // thinks: a few ghost lines, newest visible (column-reverse pins the tail),
 // no interaction. When the round completes, the store clears `liveThinking`
 // and the durable collapsible thinking block takes over.
-const LiveThinkingTicker: React.FC<{ text: string }> = ({ text }) => (
+const LiveThinkingTicker: React.FC<{ text: string }> = ({ text }) => {
+  // Collapse paragraph breaks — blank lines make the 3-line window jump as
+  // they scroll through; single newlines keep the sentence flow readable.
+  const flow = text.replace(/\s*\n\s*\n+\s*/g, ' ').replace(/\n/g, ' ').replace(/ {2,}/g, ' ').trimEnd()
+  return (
   <div style={{ padding: '4px 0', display: 'flex', gap: 6, alignItems: 'flex-start' }}>
     <span style={{ ...pulseStyle, fontSize: 11, opacity: 0.6, lineHeight: '16px' }}>●</span>
     <div
@@ -988,11 +992,12 @@ const LiveThinkingTicker: React.FC<{ text: string }> = ({ text }) => (
           wordBreak: 'break-word',
         }}
       >
-        {text.length > 1200 ? text.slice(-1200) : text}
+        {flow.length > 1200 ? flow.slice(-1200) : flow}
       </div>
     </div>
   </div>
-)
+  )
+}
 
 const ThinkingIndicator: React.FC = () => (
   <div style={{ fontSize: 11, opacity: 0.6, padding: '4px 0', display: 'flex', alignItems: 'center', gap: 6 }}>

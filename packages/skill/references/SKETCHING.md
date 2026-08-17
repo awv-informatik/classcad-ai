@@ -316,6 +316,7 @@ await api.v1.sketch.dimension({
 - Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
 - Deleting a constraint does NOT revert geometry.
 - **Trim is safe on constrained sketches** (verified 2026-06-10): constraints and dimensions survive `preTrim → trim → postTrim`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every `postTrim`** — re-fetch them by name from the structure tree before updating.
+  - ⚠️ One unresolved incident (2026-08-17, TODO #174): a whole-sketch `preTrim` on a constrained tangent-junction profile hung a LONG-LIVED worker terminally (100% CPU until process death). The exact sequence replays clean on a fresh worker, so the trigger is worker state, not the sketch — but when the profile topology is known, prefer the chain path above (no trim phase) and you are immune either way.
 
 ---
 

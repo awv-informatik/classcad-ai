@@ -2353,6 +2353,9 @@ export function diffImages(a, b, opts = {}) {
  * @param {Array<{position:number[],label?:string,color?:number[]}>} [options.markers]
  *   — probe markers (crosshair + label) drawn on top of the solid render, e.g.
  *   the probe points of a numeric verification.
+ * @param {Array<'solid'|'sketch'|'curves'|'workgeo'>} [options.layers] — content
+ *   types to render. Default: all detected. Skipped layers cost nothing (their
+ *   queries don't run).
  * @param {boolean|string[]} [options.sheet] — render the solids as a FOUR-VIEW
  *   SHEET (one image, quadrants TL/TR/BL/BR; default top/iso/front/right; the
  *   ortho views share one scale like a technical drawing). Pass an array of 4
@@ -2381,11 +2384,12 @@ export async function renderSessionData(source, options = {}) {
 
   setViewport({ view: options.view, zoom: options.zoom, lookAt: options.lookAt, frame: options.frame })
   const content = analyzeSession(tree)
+  const layerOn = (name) => !Array.isArray(options.layers) || options.layers.includes(name)
 
   // ── SKETCH OVERLAYS (3D) ── collect before solids so they render INTO the
   // solid image; with no solid geometry they render standalone on white.
   let sketchOverlays = null
-  if (options.sketchOverlay && execute) {
+  if (options.sketchOverlay && execute && layerOn('solid')) {
     sketchOverlays = []
     for (const sketchId of content.sketches) {
       try {
@@ -2397,7 +2401,7 @@ export async function renderSessionData(source, options = {}) {
   }
 
   // ── SOLIDS ── (type-1 containers with meshes; assemblies get per-instance transforms)
-  if (content.solids.length > 0 && graphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)) {
+  if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)) {
     const solidOnly = { ...graphic, containers: graphic.containers.filter(c => c.type === 1 && c.meshes?.length > 0) }
     const instances = extractAssemblyInstances(tree)
     if (options.sheet) {
@@ -2417,13 +2421,13 @@ export async function renderSessionData(source, options = {}) {
   }
 
   // Sketch overlay without solid geometry → standalone 3D sketch view.
-  if (sketchOverlays && !(content.solids.length > 0 && graphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0))) {
+  if (sketchOverlays && !(layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0))) {
     const zbuf = renderSolidZBuffer({ containers: [] }, width, height, null, { overlays: sketchOverlays, markers: options.markers })
     if (zbuf) out.push({ type: 'solid', kind: 'pixels', ...zbuf })
   }
 
   // ── SKETCHES ──
-  if (execute) {
+  if (execute && layerOn('sketch')) {
     for (const sketchId of content.sketches) {
       try {
         const sketchData = await fetchSketchData(task => execute(task), sketchId, tree)
@@ -2443,13 +2447,13 @@ export async function renderSessionData(source, options = {}) {
   }
 
   // ── CURVES ── (type-2 containers; server pushes only the first curve per shape)
-  if (content.curves.length > 0 && graphic?.containers?.some(c => c.type === 2 && c.edges?.length > 0)) {
+  if (layerOn('curves') && content.curves.length > 0 && graphic?.containers?.some(c => c.type === 2 && c.edges?.length > 0)) {
     const svg = renderCurveSVG(graphic, width, height)
     if (svg) out.push({ type: 'curves', kind: 'svg', svg })
   }
 
   // ── WORK GEOMETRY ──
-  if (content.workGeo.length > 0) {
+  if (layerOn('workgeo') && content.workGeo.length > 0) {
     const workGeo = extractWorkGeometry(tree)
     const svg = renderWorkGeoSVG(workGeo, width, height)
     if (svg) out.push({ type: 'workgeo', kind: 'svg', svg })

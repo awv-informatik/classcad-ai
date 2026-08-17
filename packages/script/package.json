@@ -1,0 +1,34 @@
+{
+  "name": "@classcad/script",
+  "version": "0.1.0",
+  "description": "Universal script executor for ClassCAD agents — model-written JavaScript against a session-abstracted API (api.v1.*, api.tree(), api.graphic()), identical in the browser (buerli), Node (MCP, harness) and CI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awv-informatik/classcad-ai.git",
+    "directory": "packages/script"
+  },
+  "keywords": ["classcad", "buerli", "cad", "agent", "script", "llm"],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+    "./node": { "types": "./dist/node.d.ts", "default": "./dist/node.js" }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node test/unit.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": { "node": ">=18" },
+  "publishConfig": { "access": "public" }
+}

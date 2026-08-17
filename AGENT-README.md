@@ -71,8 +71,8 @@ cc/
 │   ├── render.mjs           Alternate renderer
 │   └── export.mjs           Export utility
 │
-├── knowledge/
-│   ├── classcad-skill/      THE SKILL (workspace package in this monorepo) — the deliverable
+├── packages/
+│   ├── skill/               THE SKILL (@classcad/skill) — the deliverable
 │   │   ├── SKILL.md         Skill overview, domain index, conventions
 │   │   └── references/
 │   │       ├── api/         Source API docs (read-only, 7 domains)

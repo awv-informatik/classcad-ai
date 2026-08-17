@@ -15,8 +15,8 @@ Every training session follows this pipeline. Unless the user gives you differen
 ## Relevant repo layout
 
 ```
-knowledge/
-  classcad-skill/
+packages/
+  skill/
     SKILL.md                          ← skill overview (read first for context)
     references/
       api/                            ← SOURCE docs (read-only, copied from @classcad/api-js)

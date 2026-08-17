@@ -19,7 +19,7 @@ function sessionFor(client: Client): ScriptSession {
     execute: (task: Task) => client.execute(task) as ReturnType<ScriptSession['execute']>,
     getTree: async (o?: { refresh?: boolean }) => {
       if (o?.refresh || !client.getStructure()) await client.refreshTree()
-      return (client.getStructure()?.tree ?? {}) as Record<string, unknown>
+      return (client.getStructure()?.tree ?? {}) as import('@classcad/script').Tree
     },
     getGraphic: async (o?: { recalc?: boolean }) => {
       if (o?.recalc !== false) {

@@ -65,7 +65,7 @@ export function browserSession(drawingId: DrawingID): ScriptSession {
           /* store copy is still served below */
         }
       }
-      return ((getDrawing(drawingId) as any)?.structure?.tree ?? {}) as Record<string, unknown>
+      return ((getDrawing(drawingId) as any)?.structure?.tree ?? {}) as import('@classcad/script').Tree
     },
     getGraphic: async () => {
       const containers = (getDrawing(drawingId) as any)?.graphic?.containers

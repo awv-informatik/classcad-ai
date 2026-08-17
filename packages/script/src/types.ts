@@ -12,6 +12,80 @@ export interface Envelope {
 /** A harness-style task: `{ 'v1.part.box': [{ id: 4, length: 100 }] }`. */
 export type Task = Record<string, [Record<string, unknown>?]>
 
+// ── The data contract (distilled in the skill's DATA.md; depth in STRUCTURE.md/GRAPHICS.md) ──
+
+/**
+ * A structure-tree node. Tree ids are STABLE for the session — safe to store
+ * and reuse. Features live under the part's `CC_EntitySet` child; a part's
+ * current brep container is `solids?.[0]` and ROTATES when a feature creates
+ * a new solid.
+ */
+export interface TreeNode {
+  id: number
+  /** e.g. "CC_Part" | "CC_Solid" | "CC_Sketch" | "CC_Box" | "CC_WorkPlane" | … */
+  class: string
+  name: string
+  parent: number | null
+  /** Structural sub-objects (NOT the feature list — features sit under CC_EntitySet). */
+  children?: number[]
+  /** Parameters: `members.Radius?.value`, `expression` shows an `@expr` binding. */
+  members?: Record<string, { value?: unknown; expression?: string; [key: string]: unknown }>
+  /** On parts: graphic container ids of its solids (index 0 = current brep). */
+  solids?: number[]
+  /** [origin, xDir, yDir, zDir] where present (instances, work csys, sketches). */
+  coordinateSystem?: number[][]
+  [key: string]: unknown
+}
+
+/** The structure tree: id → node. */
+export type Tree = Record<string, TreeNode>
+
+/** One face of a solid — ONE MESH PER FACE (a cylinder has shell + two caps). */
+export interface GraphicMesh {
+  /** PAYLOAD-LOCAL id — valid only within this graphic payload (re-tessellation reassigns). */
+  id: number
+  material?: { color?: number[] } | null
+  /** Flat world coordinates [x0,y0,z0, x1,y1,z1, …]. */
+  vertices: number[]
+  /** Flat per-vertex normals. */
+  normals: number[]
+  /** Triangle indices. */
+  indices: number[]
+  [key: string]: unknown
+}
+
+/**
+ * A brep edge as a tessellated polyline. PAYLOAD-LOCAL id — but valid as a
+ * feature reference (e.g. `part.chamfer({ references: [edge.id] })`) in the
+ * SAME session state it was read from.
+ */
+export interface GraphicEdge {
+  id: number
+  /** Flat world coordinates [x0,y0,z0, …]. */
+  points: number[]
+  [key: string]: unknown
+}
+
+/** One renderable container — a solid (type 1) or curve shape (type 2). */
+export interface GraphicContainer {
+  /** The CADEntity id (matches a tree node). */
+  id: number
+  /** The owning CC_Solid id. */
+  owner: number
+  /** 1 = solid, 2 = curve shape. */
+  type: number
+  properties?: { material?: { color?: number[] } | null; [key: string]: unknown }
+  meshes?: GraphicMesh[]
+  edges?: GraphicEdge[]
+  [key: string]: unknown
+}
+
+/** The graphic payload — the engine's tessellation of the CURRENT model, world coordinates. */
+export interface Graphic {
+  containers?: GraphicContainer[]
+  [key: string]: unknown
+}
+
 /**
  * The session abstraction that makes scripts universal. Implementations:
  * - Node/WS: {@link ../node!connectSession} (classcad-cli worker)
@@ -26,14 +100,14 @@ export interface ScriptSession {
   env: 'node' | 'browser'
   /** Execute one ClassCAD command (task form). Never rejects for API errors — those live in the envelope. */
   execute(task: Task): Promise<Envelope>
-  /** Current structure tree (id → node). `refresh: true` forces a server round-trip where applicable. */
-  getTree(opts?: { refresh?: boolean }): Promise<Record<string, any>>
+  /** Current structure tree (id → node; ids are session-stable). `refresh: true` forces a server round-trip where applicable. */
+  getTree(opts?: { refresh?: boolean }): Promise<Tree>
   /**
    * Current graphic payload (containers with meshes/edges/…), or null when none
    * exists. `recalc: false` skips the recalc-first strategy (EIF/direct-modeling
    * sessions — recalc destroys injected bodies).
    */
-  getGraphic(opts?: { recalc?: boolean }): Promise<{ containers?: any[] } | null>
+  getGraphic(opts?: { recalc?: boolean }): Promise<Graphic | null>
   /** Optional client capabilities injected into the script api (e.g. buerli's facade/structure/selection). */
   namespaces?: Record<string, unknown>
   close?(): void | Promise<void>

@@ -136,6 +136,14 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
   - **cclass guard (kept, defense-in-depth)** — classcad/cclasses `4a0726aa` (same branch, pushed): `OperationsHelper.UpdateRegion` bails with `maxLevel 51` ("No usable (non-construction) geometry was selected for this operation.") when filtering leaves nothing — so region ops fail FAST with a clear message. Boss reviewed and chose to keep it alongside the runtime fix. Includes the regression test `PartAPITest_v1.testConstructionRegionOpsRejected`. (I'd earlier removed the guard per the runbook's "skip the symptom patch"; that removal was never pushed and is discarded.)
   - BMTestSuite 397/0/0; CADTestSuite = ClassCadKeyApp crypto baseline. Docs: classcad-skill `7a5184d` (hangs→error) pushed to `master`. Session: `workspace/training/2026-07-01_15-54-10_fix-construction-region-op-hang/`.
 
+### 174. [ ] 💀 `sketch.preTrim` — hang on a constrained sketch (NOT YET REPRODUCIBLE in isolation)
+
+- **Session:** e2e mcp benchmark #1, 2026-08-17 (`workspace/e2e/journal.md` history #22); repro attempt `workspace/repro/2026-08-17-pretrim-hang/`
+- **Error:** ❌ `preTrim({ id: sk })` (whole sketch) never returned; the native worker spun at 99–100% CPU with runaway RSS (~470 MB → 2.9 GB) for ~45 min, then the PROCESS DIED — every other session on that worker timed out from the first spin. Observed once, on a long-lived worker (~7 h uptime, multiple prior benchmark/GT sessions).
+- **Trigger (as observed):** fully constrained sprocket tooth-space sketch — seat CIRCLE center COINCIDENT on a construction pitch circle + centerline, two lines TANGENT to the seat circle with endpoints COINCIDENT ON it, symmetric cap, `@expr`-bound dims — then whole-sketch `preTrim`.
+- **Repro status:** `repro.mjs` replays the exact command sequence (same solved coordinates to 1e-15). **6 runs against a FRESH worker: preTrim returns normally** (mL31, 6 splits) — the hang is state-dependent (worker age / session history / memory pressure), not sketch-shape-dependent. Next ideas: replay after hours of mixed sessions, or run under the leak/fragmentation suspicion with `sample` when it wedges again.
+- **Workaround (proven):** don't whole-sketch-trim constrained profiles — build the profile as a closed constraint chain (seat ARC + TANGENT junctions, `arcByCenter`) so no trim is needed at all; that's also how the root-agent GT and the recipes do it.
+
 ---
 
 ## 💥 CRITICAL — Crashes & Internal Errors (return errors but don't hang)

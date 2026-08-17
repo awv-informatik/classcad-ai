@@ -168,7 +168,12 @@ function convertTools(tools: McpToolSchema[]): unknown[] {
 
 function adaptResponse(json: Record<string, unknown>): ChatResponse {
   const choice = (json.choices as any[])?.[0]
-  if (!choice) throw new Error('No choices in Copilot response')
+  if (!choice) {
+    // Observed live: a round that exhausts max_tokens purely on reasoning can
+    // come back WITHOUT a usable choice (finish_reason missing). Treat it as
+    // output-limit truncation so the agent loop auto-continues instead of dying.
+    return { content: [], stop_reason: 'max_tokens', usage: undefined }
+  }
 
   const msg = choice.message
   const content: ContentBlock[] = []

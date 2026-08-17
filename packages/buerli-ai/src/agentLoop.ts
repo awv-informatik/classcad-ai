@@ -75,22 +75,35 @@ export async function* runAgentLoop(
 
     let response: ChatResponse
 
-    try {
-      response = await config.provider.chat({
-        system: systemPrompt,
-        messages,
-        tools,
-        max_tokens: maxTokens,
-        model: config.model,
-        reasoningEffort: config.reasoningEffort,
-        signal: config.signal,
-      })
-    } catch (e: any) {
-      if (config.signal?.aborted) {
-        yield { type: 'done', messages }
-        return
+    // Transient-fault tolerance: Copilot/gateway hiccups (502/503, token
+    // exchange, empty bodies) killed whole runs. Retry briefly before failing.
+    let lastErr: unknown
+    let got = false
+    response = undefined as unknown as ChatResponse
+    for (let attempt = 0; attempt < 3 && !got; attempt++) {
+      try {
+        if (attempt > 0) await new Promise(r => setTimeout(r, 1500 * attempt))
+        response = await config.provider.chat({
+          system: systemPrompt,
+          messages,
+          tools,
+          max_tokens: maxTokens,
+          model: config.model,
+          reasoningEffort: config.reasoningEffort,
+          signal: config.signal,
+        })
+        got = true
+      } catch (e: any) {
+        lastErr = e
+        if (config.signal?.aborted) {
+          yield { type: 'done', messages }
+          return
+        }
       }
-      yield { type: 'error', error: e.message || String(e) }
+    }
+    if (!got) {
+      const e: any = lastErr
+      yield { type: 'error', error: e?.message || String(e) }
       return
     }
 

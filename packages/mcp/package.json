@@ -26,7 +26,9 @@
     "@modelcontextprotocol/sdk": "^1.29.0",
     "sharp": "^0.34.5",
     "ws": "^8.19.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@classcad/renderer": "0.x",
+    "@classcad/script": "0.x"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

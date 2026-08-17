@@ -446,6 +446,36 @@ const BODY_PALETTES = [
  * of the same part share a color.
  * Returns { pixels: Buffer (RGBA), width, height } or null if no geometry.
  */
+// ── Geometric highlight anchors ──
+// Mesh/edge ids are only stable WITHIN one graphic payload (re-tessellation
+// reassigns them). highlightAt anchors highlights GEOMETRICALLY instead: for
+// each world point, the closest face mesh (by vertex distance) in THIS payload
+// is highlighted — robust across recalcs and tool boundaries.
+function resolveHighlightAt(graphic, instances, points) {
+  if (!Array.isArray(points) || points.length === 0) return []
+  const drawList = buildDrawList(graphic, instances)
+  const ids = []
+  for (const p of points) {
+    if (!Array.isArray(p) || p.length !== 3) continue
+    let best = null
+    let bestDist = Infinity
+    for (const draw of drawList) {
+      const { container, transform } = draw
+      for (const mesh of (container.meshes || [])) {
+        const verts = mesh.vertices
+        for (let i = 0; i < verts.length; i += 3) {
+          let vx = verts[i], vy = verts[i+1], vz = verts[i+2]
+          if (transform) [vx, vy, vz] = applyMatPoint(transform, vx, vy, vz)
+          const d = Math.hypot(vx - p[0], vy - p[1], vz - p[2])
+          if (d < bestDist) { bestDist = d; best = mesh.id }
+        }
+      }
+    }
+    if (best != null) ids.push(Number(best))
+  }
+  return ids
+}
+
 // ── Section plane ──
 // section: { origin: [x,y,z], normal: [x,y,z] } cuts the model: everything on
 // the POSITIVE side of the plane (dot(p - origin, normal) > 0) is removed.
@@ -494,8 +524,13 @@ function clipPolyToSection(pts, s) {
  *   section   — { origin, normal } clipping plane (see normalizeSection)
  *   highlight — array of ids to render in SIGNAL ORANGE. Ids match graphic
  *               containers (container.id), their owning solids (container.owner),
- *               individual faces (mesh.id) and edges (edge.id). Use it to make
- *               "which face/edge/body is id N?" visible.
+ *               individual faces (mesh.id) and edges (edge.id). CAUTION: face
+ *               mesh/edge ids are only stable within ONE graphic payload —
+ *               re-tessellation reassigns them. Across recalcs/tool boundaries
+ *               use highlightAt instead (or body/solid ids, which are tree-stable).
+ *   highlightAt — array of world points [[x,y,z],…]: the closest face in THIS
+ *               payload is highlighted per point. Geometrically anchored —
+ *               robust where raw ids are not.
  *   markers   — [{ position: [x,y,z], label?, color? }] probe markers drawn ON
  *               TOP of everything (no depth test): crosshair + optional label.
  *   xray      — true: render bodies translucent (painter's blend, fixed alpha
@@ -516,7 +551,11 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
   const opts = typeof optsOrColorMode === 'string' ? { colors: optsOrColorMode } : (optsOrColorMode ?? {})
   const colorMode = opts.colors ?? 'native'
   const section = normalizeSection(opts.section)
-  const highlightIds = Array.isArray(opts.highlight) && opts.highlight.length ? new Set(opts.highlight.map(Number)) : null
+  let highlightList = Array.isArray(opts.highlight) ? opts.highlight.map(Number) : []
+  if (Array.isArray(opts.highlightAt) && opts.highlightAt.length) {
+    highlightList = highlightList.concat(resolveHighlightAt(graphic, instances, opts.highlightAt))
+  }
+  const highlightIds = highlightList.length ? new Set(highlightList) : null
   const HIGHLIGHT_RGB = [1.0, 0.45, 0.05] // signal orange
   const overlays = Array.isArray(opts.overlays) ? opts.overlays.filter(o => Array.isArray(o?.pts) && o.pts.length >= 2) : []
   const annotate = !!opts.annotate
@@ -2089,7 +2128,7 @@ export function renderSolidSheet(graphic, width = IMG_W, height = IMG_H, instanc
   const views = Array.isArray(opts.views) && opts.views.length === 4 ? opts.views : ['top', 'iso', 'front', 'right']
   const qw = Math.floor(width / 2)
   const qh = Math.floor(height / 2)
-  const solidOpts = { colors: opts.colors, section: opts.section, highlight: opts.highlight, markers: opts.markers, xray: opts.xray, annotate: opts.annotate }
+  const solidOpts = { colors: opts.colors, section: opts.section, highlight: opts.highlight, highlightAt: opts.highlightAt, markers: opts.markers, xray: opts.xray, annotate: opts.annotate }
 
   // Pass 1: auto-fit render per view to learn each frame.
   const firstPass = views.map(view => {
@@ -2349,7 +2388,9 @@ export function diffImages(a, b, opts = {}) {
  *   overlay renders standalone.
  * @param {number[]} [options.highlight] — ids rendered in SIGNAL ORANGE/RED:
  *   graphic container ids, owning solid ids (container.owner), face mesh ids,
- *   edge ids. Makes "which face/edge/body is id N?" visible.
+ *   edge ids. Face/edge ids are payload-local — across recalcs use highlightAt.
+ * @param {number[][]} [options.highlightAt] — world points; the closest face in
+ *   the rendered payload is highlighted per point (geometrically anchored).
  * @param {Array<{position:number[],label?:string,color?:number[]}>} [options.markers]
  *   — probe markers (crosshair + label) drawn on top of the solid render, e.g.
  *   the probe points of a numeric verification.
@@ -2415,7 +2456,7 @@ export async function renderSessionData(source, options = {}) {
       })
       if (sheet) out.push({ type: 'sheet', kind: 'pixels', ...sheet })
     } else {
-      const zbuf = renderSolidZBuffer(solidOnly, width, height, instances, { colors: options.colors ?? 'native', section: options.section, highlight: options.highlight, markers: options.markers, overlays: sketchOverlays ?? undefined, annotate: options.annotate, xray: options.xray, xrayAlpha: options.xrayAlpha })
+      const zbuf = renderSolidZBuffer(solidOnly, width, height, instances, { colors: options.colors ?? 'native', section: options.section, highlight: options.highlight, highlightAt: options.highlightAt, markers: options.markers, overlays: sketchOverlays ?? undefined, annotate: options.annotate, xray: options.xray, xrayAlpha: options.xrayAlpha })
       if (zbuf) out.push({ type: 'solid', kind: 'pixels', ...zbuf })
     }
   }

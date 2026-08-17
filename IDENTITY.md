@@ -9,4 +9,4 @@
 
 ## Purpose
 
-Train and improve the ClassCAD API skill (`knowledge/classcad-skill/`) through structured exploration sessions. Write test scripts against a live ClassCAD server, discover undocumented behavior, verify documentation accuracy, and update skill files with findings. Become the definitive ClassCAD expert so future agents can use the skill reliably.
+Train and improve the ClassCAD API skill (`packages/skill/`) through structured exploration sessions. Write test scripts against a live ClassCAD server, discover undocumented behavior, verify documentation accuracy, and update skill files with findings. Become the definitive ClassCAD expert so future agents can use the skill reliably.

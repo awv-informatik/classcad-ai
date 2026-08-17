@@ -21,7 +21,7 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
   - classcad/cclasses `2b5dd88c` — user-facing error for `v1.curve.circle({ radius <= 0 })`.
   - classcad/cclasses `d2f21984` — same guard swept to the sibling APIs that route through `CADH_CreateEllipticArc`: `v1.curve.arcByCenterRadAngle`, `v1.curve.ellipticArc`, `v1.curve.ellipse`. Without the cclass sweep these returned silent no-ops on the runtime fix; with it they return the same code-1014 error as `circle`.
   - classcad/cclasses `b3257fdb` — separate but related: `v1.curve.advancedPolyline({ pld: [..., { r: -5 }, ...] })` was silently producing corrupted geometry. Added a `pld[i].r < 0` guard returning code 1014; `r = 0` still works (sharp corner).
-  - cc/knowledge/classcad-skill `6d6f54b` + `b21482a` — refreshed the five affected API docs: removed stale "hangs the server" / "r=0 crashes" claims for the cases this branch fixed, added the new code-1014 error rows. Kept warnings for unrelated unfixed hangs (negative angles, parallel xAxis/normal).
+  - cc/packages/skill `6d6f54b` + `b21482a` — refreshed the five affected API docs: removed stale "hangs the server" / "r=0 crashes" claims for the cases this branch fixed, added the new code-1014 error rows. Kept warnings for unrelated unfixed hangs (negative angles, parallel xAxis/normal).
   - See `workspace/training/2026-05-13_11-30-00_fix-curve-circle-zero-radius/`.
 
 ### 2. [✅] 💀 `curve.interpolationCurve` — duplicate points hang server
@@ -32,7 +32,7 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **Fixed:** branch `fix/curve-interpolationCurve-duplicate-points-hang` in three repos.
   - classcad/runtime `a2e63b342` — root cause: `CurveBuilder::CreateInterpolationCurve` discarded `IwStatus` from SMLib and handed unvalidated points to the `IW_IT_CHORDLENGTH` parameterization (zero chord → division by zero → NLIB infinite loop). Added `n >= 2` check, consecutive-distance check (`IW_EFF_ZERO`), and `IwStatus`/null guard before `pCurve->ReparametrizeWithArcLength()`.
   - classcad/cclasses `1bf02126` — user-facing errors (code 1014): `"...must contain at least 2 points."` and `"...must not contain consecutive duplicate points."` + `testInterpolationCurveInvalidPoints` regression test.
-  - cc/knowledge/classcad-skill `6f6e3ba` — refreshed `interpolationCurve.md` (stale hang warnings → error rows). Empty-array case (previously speculative) is now confirmed and documented.
+  - cc/packages/skill `6f6e3ba` — refreshed `interpolationCurve.md` (stale hang warnings → error rows). Empty-array case (previously speculative) is now confirmed and documented.
   - See `workspace/training/2026-05-27_09-08-00_fix-interpolationCurve-duplicates/`. TODO-HOW-TO.md also gained cclass-language gotchas (= vs ==, no high-byte chars, FORALL flag pattern) discovered while writing the guard.
 
 ### 3. [ ] 💀 2D booleans — same ID as target and tool hangs server

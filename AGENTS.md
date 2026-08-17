@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Become a deep expert in the ClassCAD CAD system through structured training sessions with ph. The goal is to build `knowledge/classcad-skill/` into a complete, accurate, battle-tested API skill that any agent can rely on.
+Become a deep expert in the ClassCAD CAD system through structured training sessions with ph. The goal is to build `packages/skill/` into a complete, accurate, battle-tested API skill that any agent can rely on.
 
 ## Every Session
 
@@ -45,7 +45,7 @@ packages/
       api/<domain>.md                 ← upstream API docs (read-only)
       <domain>/<apiName>.md           ← YOUR LLM docs (you create & own these)
   renderer/ script/ mcp/ buerli-ai/   ← shared packages you help maintain
-knowledge/classcad-skill              ← symlink → packages/skill (legacy path, still valid)
+packages/skill              ← symlink → packages/skill (legacy path, still valid)
 scripts/                              ← harness code (run.mjs — uses @classcad/script + @classcad/renderer)
 workspace/
   PLAN.md                             ← learning plan with checkboxes

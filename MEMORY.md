@@ -4,10 +4,10 @@ Core rules and training discipline are in `SOUL.md`. This file tracks **learned 
 
 ## Skill Awareness
 
-- Primary skill: `knowledge/classcad-skill/` (git submodule)
-- Skill definition: `knowledge/classcad-skill/SKILL.md`
-- 7 API domain references (read-only): `knowledge/classcad-skill/references/api/<domain>.md`
-- LLM docs (your deliverables): `knowledge/classcad-skill/references/<domain>/<apiName>.md`
+- Primary skill: `packages/skill/` (workspace package in this monorepo)
+- Skill definition: `packages/skill/SKILL.md`
+- 7 API domain references (read-only): `packages/skill/references/api/<domain>.md`
+- LLM docs (your deliverables): `packages/skill/references/<domain>/<apiName>.md`
 - Training plan with checkboxes: `workspace/PLAN.md`
 - Training pipeline: `workspace/HOW-TO-TRAIN.md`
 
@@ -32,10 +32,10 @@ Core rules and training discipline are in `SOUL.md`. This file tracks **learned 
 
 ## Skill copy
 
-- `knowledge/classcad-skill/` — canonical submodule. **Edit here.** This is what cc trains and where commits should land. Consumers (classcad-mcp, @buerli.io/ai) get it as the published `@classcad/skill` npm package — publish after committing so they can upgrade.
+- `packages/skill/` — canonical location (workspace package `@classcad/skill`). **Edit here.** This is what cc trains and where commits should land. Consumers (classcad-mcp, @buerli.io/ai) get it as the published `@classcad/skill` npm package — publish after committing so they can upgrade.
 
 ## Infrastructure
 
-- **`@classcad/api-js` is the typed wrapper the harness uses** (`scripts/run.mjs` imports `v1` from it). It is NOT on npm — it's a tarball pinned in the **outer** repo `package.json` (`https://awvstatic.com/classcad/download/release/<ver>/classcad-api-js-<ver>.tgz`). Each method is a thin facade call, and the package is codegen'd ("DO NOT MODIFY BY HAND"). **If a server method exists but `api.v1.<ns>.<m>` throws "is not a function", the wrapper is stale — bump the tarball version in package.json + `npm install`.** 2026-06-30: bumped 21.0.0→21.2.0 to get `splitCurve`/`preTrim`/`trim`/`postTrim`. `common.batch({jobs:[{api:'v1.x.y',param}]})` is a generic fallback to invoke any server API the wrapper lacks. The `postinstall` `sync-submodule.mjs` skips updating the skill submodule when it has local changes.
+- **The harness `api` comes from `@classcad/script`** (`scripts/run.mjs` → `buildScriptApi`): `api.v1.<domain>.<method>()` is generated from `packages/skill/method-registry.json` — unknown names throw immediately with suggestions; plus `api.tree()` / `api.graphic()` for structure- and geometry-level self-service. The registry itself is built from **`@classcad/api-js`** (tarball pinned in the root `package.json`, `https://awvstatic.com/classcad/download/release/<ver>/classcad-api-js-<ver>.tgz`, codegen'd). **If a server method exists but `api.v1.<ns>.<m>` throws "unknown method", the registry is stale — bump the api-js tarball, `npm install`, rebuild `packages/skill`.** `common.batch({jobs:[{api:'v1.x.y',param}]})` remains a generic fallback for anything the registry lacks.
 - **Sketch-plane local→world mappings (probed 2026-08-10):** Top: localXY→world XY, normal +Z; Front: localX→+X, localY→**−Z**, normal +Y; Right: localX→**+Z**, localY→**−Y**, normal +X. `arcByCenter isClockwise=true` = math-NEGATIVE sweep in local coords on all three planes. Mirrored arcs traversed in reverse keep the SAME cw flag (mirror flips, reversal flips back). Sprocket generator reference build: `workspace/training/2026-08-10_13-03-40_sprocket-martin35/scripts/` (`_model.mjs`/`_build.mjs` — ANSI B29.1 tooth form, pattern-then-single-subtraction idiom, MC-volume + brep-position verification patterns).
 - **Harness pacing:** each `node scripts/run.mjs` run has ~20s fixed overhead (connect + render + teardown). Running >3–4 scripts in one Bash call hits the 2-min tool wall — batch ≤3–4, or run individually. Snapshots (sharp render) add the most time; for numeric-proof tasks drop `snapshot()` entirely. `part.create` works **once per run** (2nd call returns VOID — TODO #18); build extra geometry as more sketches/lines on the one part.

@@ -1,6 +1,6 @@
 # How to Train
 
-You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn. Your deliverable is **per-API LLM documentation** — practical, agent-oriented docs written to `knowledge/classcad-skill/references/<domain>/*.md`. The journal is your working notebook. The LLM docs are the point.
+You are training the ClassCAD API skill by writing test scripts, running them against a live server, and recording what you learn. Your deliverable is **per-API LLM documentation** — practical, agent-oriented docs written to `packages/skill/references/<domain>/*.md`. The journal is your working notebook. The LLM docs are the point.
 
 **Golden rule #1: Every task is LIVE.** You connect to the ClassCAD CLI and run real API calls. If a script fails, you debug it. If the docs are wrong, you note it. Nothing is theoretical.
 
@@ -43,7 +43,7 @@ workspace/
       changes.md                      ← LLM doc diff (written during Step 6)
 ```
 
-All paths below are relative to **`knowledge/classcad-skill/`** (the skill root).
+All paths below are relative to **`packages/skill/`** (the skill root).
 
 **Two kinds of reference files — do not confuse them:**
 
@@ -158,7 +158,7 @@ Once you have identified the task, note its step, category, task number, and nam
 
 ## Step 2 — Read the reference docs
 
-All paths below are relative to `knowledge/classcad-skill/`. Read in this order:
+All paths below are relative to `packages/skill/`. Read in this order:
 
 1. **`SKILL.md`** — skim for overall context (domain index, conventions). You don't need to re-read this every session, but be familiar with it.
 
@@ -398,7 +398,7 @@ Review your journal. Every finding flagged with `📌 LLM doc:` feeds into this 
 
 ### Where to write
 
-Create or update: `knowledge/classcad-skill/references/<domain>/*.md`
+Create or update: `packages/skill/references/<domain>/*.md`
 
 - If the `references/<domain>/` folder does not exist, create it.
 - If the `<apiName>.md` (or `generic.md`, if applicable) file does not exist, create it.
@@ -445,29 +445,27 @@ For conceptual study tasks (protocol, data model, etc.), write the LLM doc to a 
 
 ## Step 6 — Commit skill changes and write changes.md
 
-If you created or modified any LLM doc files in Step 5, you **must** commit them inside the `knowledge/classcad-skill` submodule. This gives the next session a clean baseline for `git diff`.
+If you created or modified any LLM doc files in Step 5, you **must** commit them inside the `packages/skill` submodule. This gives the next session a clean baseline for `git diff`.
 
 **6a. Get the diff** (before committing):
 
 ```bash
-cd knowledge/classcad-skill && git diff references/ && git status references/
+cd packages/skill && git diff references/ && git status references/
 ```
 
 For new (untracked) files, `git diff` won't show content. Stage them first to get a diff:
 
 ```bash
-cd knowledge/classcad-skill && git add references/ && git diff --cached references/
+cd packages/skill && git add references/ && git diff --cached references/
 ```
 
 **6b. Copy the diff** into `workspace/training/<session>/changes.md`. This is the record of what you changed — it must show actual `+`/`-` lines, not just a file listing.
 
-**6c. Commit** inside the submodule:
+**6c. Commit** — the skill lives in this monorepo, so it's one ordinary commit:
 
 ```bash
-cd knowledge/classcad-skill && git add references/ && git commit -m "train: <topic> — <one-line summary>"
+git add packages/skill/references/ && git commit -m "train: <topic> — <one-line summary>"
 ```
-
-Then return to the repo root. The outer repo will show the submodule pointer as modified — that's expected and correct.
 
 **A session is complete when** Steps 6 and 7 are both done.
 
@@ -534,7 +532,7 @@ Before declaring a session done, verify every item:
 - [ ] Every journal entry that produced a snapshot embeds it as `![label](files/...png)`
 - [ ] Every `📌 LLM doc:` flag in the journal has been addressed in Step 5 (LLM doc created/updated)
 - [ ] `changes.md` exists with `+`/`-` diff lines, OR journal has `## Skill Updates` section justifying no changes
-- [ ] Skill changes committed inside `knowledge/classcad-skill` submodule
+- [ ] Skill changes committed inside `packages/skill` submodule
 - [ ] Journal goal/checklist has no uncovered items (or gaps are explicitly noted)
 - [ ] The task row in `workspace/PLAN.md` is marked `[✅]`
 - [ ] Any errors, hangs, surprises, or doc discrepancies appended to `workspace/TODO.md` (Step 8)

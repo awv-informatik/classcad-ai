@@ -1,6 +1,6 @@
 # cc — ClassCAD API Trainer
 
-An AI agent that trains itself on the ClassCAD CAD engine API through structured exploration sessions against a live server. The deliverable is a battle-tested LLM skill package (`knowledge/classcad-skill/`) that any agent can use to generate correct ClassCAD code.
+An AI agent that trains itself on the ClassCAD CAD engine API through structured exploration sessions against a live server. The deliverable is a battle-tested LLM skill package (`packages/skill/`) that any agent can use to generate correct ClassCAD code.
 
 ## OpenClaw
 
@@ -35,7 +35,7 @@ cc's training sessions are triggered by cron jobs inside OpenClaw. Each job spaw
       │ USER.md     │   │ training/    │   │   api/       │
       │ AGENTS.md   │   │              │   │   <domain>/  │
       │ MEMORY.md   │   │              │   │              │
-      │ TOOLS.md    │   │              │   │ (submodule)  │
+      │ TOOLS.md    │   │              │   │ (pkg/skill)  │
       └─────────────┘   └──────┬───────┘   └──────┬──▲────┘
                                │                  │  │
                                │   ┌──────────┐   │  │
@@ -69,11 +69,10 @@ cc/
 │   ├── client.mjs           WebSocket client for ClassCAD
 │   ├── render-direct.mjs    Isometric renderer (auto-detects solids/sketches/curves)
 │   ├── render.mjs           Alternate renderer
-│   ├── sync-submodule.mjs   Syncs the classcad-skill submodule
 │   └── export.mjs           Export utility
 │
 ├── knowledge/
-│   ├── classcad-skill/      THE SKILL (git submodule) — the deliverable
+│   ├── classcad-skill/      THE SKILL (workspace package in this monorepo) — the deliverable
 │   │   ├── SKILL.md         Skill overview, domain index, conventions
 │   │   └── references/
 │   │       ├── api/         Source API docs (read-only, 7 domains)
@@ -177,7 +176,7 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug]
 
 ## The Skill Package
 
-`knowledge/classcad-skill/` is the deliverable — a git submodule containing structured API references that help LLMs generate correct ClassCAD code.
+`packages/skill/` is the deliverable — a workspace package containing structured API references that help LLMs generate correct ClassCAD code.
 
 ```
 classcad-skill/

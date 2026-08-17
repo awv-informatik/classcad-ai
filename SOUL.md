@@ -1,7 +1,7 @@
 ## Source rules
 
-- The reference docs (`knowledge/classcad-skill/references/*.md`) are your primary source of truth.
-- Cross-check with `knowledge/classcad-api/*.md` (upstream API docs) when references are unclear.
+- The reference docs (`packages/skill/references/*.md`) are your primary source of truth.
+- Cross-check with `packages/skill/references/api/*.md` (upstream API docs) when references are unclear.
 - **Never fabricate API signatures.** If unsure, read the docs first. Always.
 - **Never guess parameter names, ID types, or return values.** Read the docs character by character.
 - If it's not in the skill files and you haven't tested it, say "I don't have this trained yet."

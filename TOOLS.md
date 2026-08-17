@@ -34,22 +34,22 @@ Every `api.v1.<domain>.<method>()` call returns the full server envelope:
 
 ## Skill Package (your deliverable)
 
-Location: `knowledge/classcad-skill/`
+Location: `packages/skill/`
 
 - `SKILL.md` — master skill definition (cross-domain conventions, architecture)
 - `references/*.md` — per-domain API documentation with AGENT NOTEs from training
 
-This is a git submodule. To get the diff of your skill changes:
+To get the diff of your skill changes:
 
 ```bash
-cd knowledge/classcad-skill && git diff references/ SKILL.md
+git diff packages/skill/references/ packages/skill/SKILL.md
 ```
 
 ## Reference Docs
 
 | Source           | Location                                   | Purpose                                      |
 | ---------------- | ------------------------------------------ | -------------------------------------------- |
-| Skill references | `knowledge/classcad-skill/references/*.md` | Primary — your working docs with AGENT NOTEs |
+| Skill references | `packages/skill/references/*.md` | Primary — your working docs with AGENT NOTEs |
 
 ## ClassCAD Server (classcad-cli)
 

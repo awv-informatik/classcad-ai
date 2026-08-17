@@ -12,6 +12,28 @@ import type { Client } from '../client.js'
 
 const REGISTRY = registry as MethodRegistry
 
+// The engine omits brep EDGE data from graphic payloads until the graphic
+// database settings are enabled — same lazy ensure as the @classcad/script
+// node session and the browser session (this adapter was the one graphic
+// path WITHOUT it: api.graphic() returned meshes but 0 edges until the first
+// snapshot happened to enable the settings). Keyed on the client's reconnect
+// generation — a use_session reconnect lands in a NEW session that needs its
+// own ensure.
+const graphicsEnsured = new WeakMap<object, number>()
+async function ensureGraphics(client: Client): Promise<void> {
+  if (graphicsEnsured.get(client) === client.generation) return
+  graphicsEnsured.set(client, client.generation)
+  try {
+    await client.execute({
+      'v1.common.setDatabaseSettings': [
+        { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
+      ],
+    })
+  } catch {
+    /* older servers — proceed without edges */
+  }
+}
+
 /** Adapt the MCP's WS client to the @classcad/script session contract. */
 function sessionFor(client: Client): ScriptSession {
   return {
@@ -22,6 +44,7 @@ function sessionFor(client: Client): ScriptSession {
       return (client.getStructure()?.tree ?? {}) as import('@classcad/script').Tree
     },
     getGraphic: async (o?: { recalc?: boolean }) => {
+      await ensureGraphics(client)
       if (o?.recalc !== false) {
         try {
           const r = await client.execute({ 'v1.common.recalc': [{}] })

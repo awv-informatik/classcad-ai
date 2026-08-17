@@ -41,6 +41,8 @@ export type Client = {
   reconnectUrl: (url: string) => Promise<void>
   /** The configured worker URL (session-id reconnects always return to it). */
   readonly baseUrl: string
+  /** Increments on every reconnect/reconnectUrl — cache invalidation key for per-session state. */
+  readonly generation: number
   readonly ws: WebSocket | undefined
   readonly sessionId: string | null
   readonly url: string
@@ -55,6 +57,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // session. currentUrl is mutable (reconnectUrl switches servers at runtime);
   // baseUrl is the configured worker — session-id reconnects always return to it.
   const baseUrl = url
+  let generation = 0
   let currentUrl = url
 
   let lastGraphic: Graphic | null = null
@@ -275,6 +278,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   async function reconnect(sessionId: string | null): Promise<void> {
+    generation++
     // Always perform an open so the caller gets back a connected, usable
     // socket. Cancels any in-flight ensureOpen() so it doesn't race with us.
     connectPromise = null
@@ -284,6 +288,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   async function reconnectUrl(newUrl: string): Promise<void> {
+    generation++
     // Token/invite URLs address the session themselves — no session header.
     connectPromise = null
     currentUrl = newUrl
@@ -315,6 +320,9 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     },
     get baseUrl() {
       return baseUrl
+    },
+    get generation() {
+      return generation
     },
   }
 }

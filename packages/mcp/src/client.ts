@@ -37,6 +37,8 @@ export type Client = {
   getLastGraphic: () => Graphic | null
   refreshTree: () => Promise<Structure | null>
   reconnect: (sessionId: string | null) => Promise<void>
+  /** Reconnect to a DIFFERENT server URL — e.g. a multi-client token/invite URL (`wss://…/?invite=…`), used verbatim. */
+  reconnectUrl: (url: string) => Promise<void>
   readonly ws: WebSocket | undefined
   readonly sessionId: string | null
   readonly url: string
@@ -46,6 +48,12 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   const graphics = opts.graphics !== false
   const debug = opts.debug === true
   const pending = new Map<string, PendingEntry>()
+  // The URL is used VERBATIM — it may carry a multi-client token/invite query
+  // (e.g. wss://host/?invite=…), in which case the server itself decides the
+  // session. currentUrl is mutable (reconnectUrl switches servers at runtime);
+  // baseUrl is the configured worker — session-id reconnects always return to it.
+  const baseUrl = url
+  let currentUrl = url
 
   let lastGraphic: Graphic | null = null
   let lastStructure: Structure | null = null
@@ -229,7 +237,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     lastStructure = null
 
     const wsOpts: WebSocket.ClientOptions = sessionId ? { headers: { 'ClassCAD-Session-Id': sessionId } } : {}
-    const sock = new WebSocket(url, wsOpts)
+    const sock = new WebSocket(currentUrl, wsOpts)
     ws = sock
 
     await new Promise<void>((resolve, reject) => {
@@ -268,8 +276,17 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     // Always perform an open so the caller gets back a connected, usable
     // socket. Cancels any in-flight ensureOpen() so it doesn't race with us.
     connectPromise = null
+    currentUrl = baseUrl
     currentSessionId = sessionId
     await openWs(sessionId)
+  }
+
+  async function reconnectUrl(newUrl: string): Promise<void> {
+    // Token/invite URLs address the session themselves — no session header.
+    connectPromise = null
+    currentUrl = newUrl
+    currentSessionId = null
+    await openWs(null)
   }
 
   // No eager open here. The WS is opened on first request/execute/refreshTree
@@ -284,12 +301,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     getLastGraphic,
     refreshTree,
     reconnect,
+    reconnectUrl,
     get ws() {
       return ws
     },
     get sessionId() {
       return currentSessionId
     },
-    url,
+    get url() {
+      return currentUrl
+    },
   }
 }

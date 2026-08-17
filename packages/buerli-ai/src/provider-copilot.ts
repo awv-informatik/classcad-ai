@@ -39,6 +39,8 @@ export function createCopilotProvider(config: CopilotProviderConfig): LLMProvide
         max_tokens: params.max_tokens ?? 4096,
         messages: buildMessages(params.system, params.messages),
         tools: convertTools(params.tools),
+        stream: true,
+        stream_options: { include_usage: true },
       }
 
       // Reasoning effort (gpt-5.x / o-series). Set only when provided so plain
@@ -65,7 +67,8 @@ export function createCopilotProvider(config: CopilotProviderConfig): LLMProvide
         throw new Error(`Copilot request failed (${res.status}): ${text}`)
       }
 
-      const json = await res.json()
+      const raw = await res.text()
+      const json = raw.trimStart().startsWith('data:') ? foldSse(raw) : JSON.parse(raw)
       return adaptResponse(json)
     },
 
@@ -164,6 +167,46 @@ function convertTools(tools: McpToolSchema[]): unknown[] {
       parameters: t.inputSchema,
     },
   }))
+}
+
+
+// Fold a Chat Completions SSE stream into one non-streaming-shaped response.
+// Streaming raises Copilot's output cap (max_output_tokens 64k) vs the hard
+// 16k non-streaming cap that suffocated reasoning-heavy rounds; buffering the
+// whole stream keeps the provider contract unchanged (no incremental UI yet).
+function foldSse(text: string): Record<string, unknown> {
+  const msg: any = { role: 'assistant', content: '' }
+  const byIndex = new Map<number, any>()
+  let finish: string | null = null
+  let usage: any
+  for (const line of text.split('\n')) {
+    const l = line.trim()
+    if (!l.startsWith('data:')) continue
+    const payload = l.slice(5).trim()
+    if (payload === '[DONE]') continue
+    let j: any
+    try { j = JSON.parse(payload) } catch { continue }
+    if (j.usage) usage = j.usage
+    const c = j.choices?.[0]
+    if (!c) continue
+    if (c.finish_reason) finish = c.finish_reason
+    const d = c.delta ?? {}
+    if (typeof d.content === 'string') msg.content += d.content
+    if (Array.isArray(d.tool_calls)) {
+      for (const tc of d.tool_calls) {
+        const idx = tc.index ?? 0
+        let acc = byIndex.get(idx)
+        if (!acc) { acc = { id: tc.id, type: 'function', function: { name: '', arguments: '' } }; byIndex.set(idx, acc) }
+        if (tc.id) acc.id = tc.id
+        if (tc.function?.name) acc.function.name += tc.function.name
+        if (tc.function?.arguments) acc.function.arguments += tc.function.arguments
+      }
+    }
+  }
+  const toolCalls = [...byIndex.entries()].sort((a, b) => a[0] - b[0]).map(([, v]) => v)
+  const message: any = { role: 'assistant', content: msg.content || null }
+  if (toolCalls.length > 0) message.tool_calls = toolCalls
+  return { choices: [{ message, finish_reason: finish }], usage }
 }
 
 function adaptResponse(json: Record<string, unknown>): ChatResponse {

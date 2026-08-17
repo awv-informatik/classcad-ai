@@ -125,6 +125,16 @@ commits; buerli-ai mirror + websites submodule synced each time).
 | 14 | Session-code panel reconstructed pseudo-code from call events | Panel shows collected run_script sources verbatim with separators (−249 lines codegen) |
 | 15 | GT2 run 1 contaminated (prompt allowed prior sessions) | Strict source rule in benchmark files + spawn prompts |
 | 16 | Old T35A40SS reference volume measured without bore/keyway | Benchmark #2 reference corrected to 12.0130 in³ |
+| 17 | Reasoning-heavy round suffocated at EXACTLY 16000 output tokens, came back choiceless ('No choices') | Root cause: Copilot caps NON-streaming at max_non_streaming_output_tokens=16k. Chat providers now STREAM (SSE folded back to the response shape) → 64k cap, same as VS Code; choiceless responses map to max_tokens (auto-continue) |
+| 18 | Copilot gateway hiccups (502 token exchange, {"error":"terminated"}) killed runs | Bounded 3-attempt provider retry with backoff; NOTE 2026-08-17 evening: GitHub major_outage (Copilot component down, VS Code affected too) — three bench-#2 aborts were GitHub-side, not stack-side |
+| 19 | Panel showed only a bare "Thinking…" spinner | SSE carries delta.reasoning_text (plain-text thinking!) + reasoning_opaque; reasoning_text now surfaces as a real thinking block. usage reports prompt_tokens_details.cached_tokens — measure whether Copilot prompt-caches our contexts |
+| 20 | OPEN: provider error drops the user message from history ("I don't have any record of the earlier request") | Fix candidate: keep the user turn in messages on error paths |
+| 21 | OPEN: phantom build (a flange) appeared after a proxy restart | Suspected orphaned panel instance flushing a buffered request; one-off, not reproduced |
+
+**Bench #2 × buerli-ai status (2026-08-17 evening):** three aborted attempts,
+all GitHub-side (502 token exchange → choiceless 16k round → major_outage).
+Restart pending on Copilot recovery (status watcher armed). Upgrades staged
+for the retry: streaming/64k, transient retry, live thinking.
 
 ## Per-host takeaways
 

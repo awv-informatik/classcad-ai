@@ -25,13 +25,13 @@ function sessionFor(client: Client): ScriptSession {
       if (o?.recalc !== false) {
         try {
           const r = await client.execute({ 'v1.common.recalc': [{}] })
-          const g = (r as { graphic?: { containers?: Array<{ meshes?: unknown[]; edges?: unknown[] }> } }).graphic
+          const g = (r as { graphic?: import('@classcad/script').Graphic }).graphic
           if (g?.containers?.some(c => (c.meshes?.length ?? 0) > 0 || (c.edges?.length ?? 0) > 0)) return g
         } catch {
           /* fall back to accumulated graphic */
         }
       }
-      return client.getLastGraphic()
+      return client.getLastGraphic() as import('@classcad/script').Graphic | null
     },
   }
 }
@@ -48,7 +48,8 @@ export function registerScriptTool(server: McpServer, client: Client): void {
         'Typos throw immediately with suggestions.\n' +
         '• api.tree({ refresh? }) — the structure tree (id → node): find parts, features, sketches by class/name.\n' +
         '• api.graphic({ recalc? }) — the graphic payload (containers with face meshes, edges, vertices): ' +
-        'find and FILTER GEOMETRY yourself — e.g. locate a bore wall by vertex radius, collect edge ids for a chamfer.\n' +
+        'find and FILTER GEOMETRY yourself — e.g. locate a bore wall by vertex radius, collect edge ids for a chamfer. ' +
+        'Exact shapes + selection idioms: describe_method("DATA").\n' +
         '• Math, full JS (variables, loops, functions); console.log/log(...) captured and returned.\n' +
         '• return <small summary> — results are size-capped; keep big data in the drawing, not the return value.\n' +
         'Compute coordinates IN the script (trigonometry, loops) instead of inlining hand-evaluated numbers. ' +

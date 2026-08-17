@@ -39,7 +39,10 @@ Facts that matter:
 Selection idioms:
 
 ```js
-const t = await api.tree()
+// CONTINUATION: a follow-up script attaches to the existing model — tree ids
+// are stable, so re-discover instead of re-creating (never part.create twice):
+const t = await api.tree({ refresh: true })
+const part = Object.values(t).find(n => n.class === 'CC_Part')
 const part   = Object.values(t).find(n => n.class === 'CC_Part')
 const solids = Object.values(t).filter(n => n.class === 'CC_Solid').map(n => n.id)
 const top    = Object.values(t).find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
@@ -99,6 +102,9 @@ const topEdges = edges.filter(e => {
   for (let i = 2; i < e.points.length; i += 3) if (Math.abs(e.points[i] - zTop) > 1e-9) return false
   return true
 })
+// NOTE: the z-filter catches EVERY edge at zTop — including bore rims (arcs).
+// That chamfers hole rims too (countersink); filter for straightness if you
+// only want the outer rectangle.
 await api.v1.part.chamfer({ id: partId, references: topEdges.map(e => e.id), distance1: 3 })
 
 // a cylindrical face by radius: every vertex at hypot(x, y) ≈ r

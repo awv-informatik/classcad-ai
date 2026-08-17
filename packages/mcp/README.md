@@ -119,7 +119,7 @@ Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snipp
 | `tree`            | ✓      | Cached structure tree (full or refreshed)                 |
 | `find`            | ✓      | Search nodes by class / name substring                    |
 | `inspect`         | ✓      | Full node detail + parent chain                           |
-| `call_api`        | ✓      | Generic dispatch to any `v1.<domain>.<method>` (254 known) |
+| `run_script`      | ✓      | THE execution medium: JavaScript against `api.v1.*` / `api.tree()` / `api.graphic()`; follow-up scripts attach to the existing model |
 | `list_methods`    | ✓      | Enumerate API endpoints (filter by domain or substring)   |
 | `describe_method` | ✓      | JSDoc + LLM-oriented gotchas from classcad-skill          |
 | `snapshot`        | ✓      | Inline PNG render — single composite of the requested layers |
@@ -250,7 +250,7 @@ The bridge auto-reconnects with backoff; if the MCP isn't running the WS open ju
 3. Open buerligons (or any CC app with a bridge) at `?sessionId=<your-session>` — it auto-connects the bridge.
 4. From the host: `use_session("<your-session>")`, then any of:
    - `bridge.list_clients` — confirm the app is registered.
-   - `bridge.get_selection` — read what the user has currently selected. Combine with `call_api v1.sketch.create({planeId: result.items[0].raw.graphicId})` to act on it.
+   - `bridge.get_selection` — read what the user has currently selected. Combine with a `run_script` calling `api.v1.sketch.create({ planeId: result.items[0].raw.graphicId })` to act on it.
    - `bridge.set_selection [{containerId, graphicId, prodRefId}]` — highlight an entity in the app's UI (e.g. to show the user what an LLM-driven action is about to operate on).
 
 ---
@@ -263,7 +263,7 @@ The bridge auto-reconnects with backoff; if the MCP isn't running the WS open ju
 2. `node scripts/copy-build-assets.mjs` — copies `render.mjs` into `dist/`.
 
 The method registry and skill markdown come from the **`@classcad/skill`** npm dependency
-(the registry is generated there from `@classcad/api-js` JSDoc): `call_api`/`list_methods`/
+(the registry is generated there from `@classcad/api-js` JSDoc): `run_script`/`list_methods`/
 `describe_method` import `@classcad/skill/method-registry.json` and read
 `references/<domain>/<method>.md` from the installed package. Set `CLASSCAD_SKILL_PATH`
 to use a local classcad-skill checkout instead.

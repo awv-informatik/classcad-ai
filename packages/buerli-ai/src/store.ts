@@ -147,8 +147,6 @@ export const createAgentStore = () =>
                 let next = s.codeLog
                 if (event.name === 'run_script' && typeof inp?.script === 'string') {
                   next = [...next, { kind: 'script', id: event.id, label: inp.label, text: inp.script, status: 'running' }]
-                } else if (event.name === 'call_api' && typeof inp?.method === 'string') {
-                  next = [...next, { kind: 'call', id: event.id, method: inp.method, args: inp.args, status: 'running' }]
                 } else if (event.name === 'load_file' && typeof inp?.name === 'string') {
                   next = [...next, { kind: 'load', id: event.id, name: inp.name, status: 'running' }]
                 } else if (event.name === 'get_selection' || event.name === 'find' || event.name === 'inspect') {
@@ -272,8 +270,8 @@ export const createAgentStore = () =>
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-// Build a readable label for a tool call, e.g. "call_api · v1.part.box" — so the
-// trace shows WHICH method/target a call hit, not just the bare tool name.
+// Build a readable label for a tool call, e.g. "run_script · bolt circle" — so
+// the trace shows WHAT a call did, not just the bare tool name.
 function toolLabel(name: string, input: Record<string, unknown>): string {
   const str = (k: string) => {
     const v = input?.[k]
@@ -281,7 +279,6 @@ function toolLabel(name: string, input: Record<string, unknown>): string {
   }
   let detail = ''
   switch (name) {
-    case 'call_api':
     case 'describe_method':
       detail = str('method')
       break

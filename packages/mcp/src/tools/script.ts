@@ -55,7 +55,9 @@ export function registerScriptTool(server: McpServer, client: Client): void {
         'Compute coordinates IN the script (trigonometry, loops) instead of inlining hand-evaluated numbers. ' +
         'Pass recalc:false to api.graphic() in solid.*/entity-injection sessions (recalc destroys injected bodies). ' +
         'No DOM/network/filesystem access; awaited work times out (default 60s). ' +
-        'Prefer several small verified scripts over one huge one — state persists in the drawing between scripts.',
+        'Prefer several small verified scripts over one huge one — STATE PERSISTS in the drawing between ' +
+        'scripts: a follow-up script ATTACHES to the existing model (re-discover via api.tree(); tree ids ' +
+        'are stable; NEVER part.create when a part already exists). Even a single operation is a run_script.',
       inputSchema: {
         script: z.string().describe('JavaScript source. Executed as an async function body — use await directly, return a (small) summary value.'),
         label: z.string().optional().describe('Short label describing what this script does.'),

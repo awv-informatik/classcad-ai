@@ -12,7 +12,6 @@ import { z } from 'zod'
 import { connect } from './client.js'
 import { registerLifecycleTools } from './tools/lifecycle.js'
 import { registerStateTools } from './tools/state.js'
-import { registerCallTool } from './tools/call.js'
 import { registerDocsTools } from './tools/docs.js'
 import { registerSnapshotTool } from './tools/snapshot.js'
 import { registerScriptTool } from './tools/script.js'
@@ -83,7 +82,6 @@ async function main(): Promise<void> {
 
   registerLifecycleTools(server, client)
   registerStateTools(server, client)
-  registerCallTool(server, client)
   registerDocsTools(server)
   registerSnapshotTool(server, client)
   registerScriptTool(server, client)

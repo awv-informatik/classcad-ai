@@ -111,8 +111,7 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 
 | Tool                               | Purpose                                                                         |
 | ---------------------------------- | ------------------------------------------------------------------------------- |
-| `run_script`                       | Execute model-written JavaScript against the API — math, loops, `await api.v1.*`; the primary medium for real builds |
-| `call_api`                         | Any single `v1.<domain>.<method>` ClassCAD call (also `facade.*` and drawing APIs) |
+| `run_script`                       | THE execution medium: model-written JavaScript — `await api.v1.*`, `api.tree()`, `api.graphic()`; single ops and full builds alike; follow-up scripts attach to the existing model |
 | `tree` / `find` / `inspect`        | Read the structure tree, search nodes, full node detail                         |
 | `get_selection` / `set_selection`  | Read or set the user's 3D selection                                             |
 | `list_methods` / `describe_method` | Discover and document the 254 API methods                                       |

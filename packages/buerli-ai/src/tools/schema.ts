@@ -203,8 +203,6 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       'annotate (extents + axes triad + scale bar), xray (hidden geometry shines through), colors ' +
       '"distinct" (one color per body), frame (pin an earlier snapshot\'s reported frame for ' +
       'pixel-comparable before/after). recalc:false is MANDATORY for solid.*/entity-injection sessions. ' +
-      'source "viewport" instead captures the user\'s LIVE view (their camera/zoom) — use only when ' +
-      '"what does the user currently see?" is the question. ' +
       'Use snapshots when a visual check genuinely helps — not after every step.',
     inputSchema: {
       type: 'object',
@@ -276,10 +274,6 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
           description: 'Pin the frame reported by an earlier snapshot (same view/size) for pixel-comparable before/after.',
         },
         recalc: { type: 'boolean', description: 'Default true. MUST be false for solid.*/entity-injection sessions (recalc destroys injected bodies).' },
-        source: {
-          type: 'string', enum: ['render', 'viewport'],
-          description: '"render" (default): deterministic renderer. "viewport": the user\'s live 3D view as-is.',
-        },
       },
     },
   },

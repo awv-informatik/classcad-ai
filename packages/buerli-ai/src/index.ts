@@ -51,7 +51,3 @@ export { DEFAULT_SYSTEM_PROMPT } from './systemPrompt'
 export { TOOL_SCHEMAS, executeTool } from './tools'
 export type { MethodRegistry, RegistryEntry, SkillBundle } from './tools'
 
-// Snapshot capture (for custom UIs without <AgentCanvas> — register your own capturer
-// so the snapshot tool works with any viewer, r3f or not)
-export { setSnapshotCapturer, createCanvasCapturer } from './tools'
-export type { SnapshotCapturer, SnapshotParams, SnapshotResult } from './tools'

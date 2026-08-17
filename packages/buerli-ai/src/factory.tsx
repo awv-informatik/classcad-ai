@@ -9,13 +9,10 @@
 //   </Canvas>
 //   <AgentPanel drawingId={drawingId} open={open} onClose={...} />
 
-import React, { useEffect, useRef } from 'react'
-import { useThree } from '@react-three/fiber'
+import React from 'react'
 import type { DrawingID } from '@buerli.io/core'
 import type { LLMProvider, ReasoningEffort } from './types'
 import { AgentPanel as Panel, AgentPanelProps, AgentPanelTheme } from './AgentPanel'
-import { setSnapshotCapturer, resolveSnapshotSize } from './tools/snapshot'
-import type { SnapshotParams, SnapshotResult } from './tools/snapshot'
 
 export type CreateCadAgentOptions = {
   /** LLM provider instance. */
@@ -72,49 +69,13 @@ export function createCadAgent(options: CreateCadAgentOptions): CadAgent {
 
   // ─── AgentCanvas — lives inside <Canvas>, captures via useThree ─────────
 
-  const AgentCanvas: React.FC = () => {
-    const { gl, scene, camera, invalidate } = useThree()
-    const registered = useRef(false)
-
-    useEffect(() => {
-      if (registered.current) return
-      registered.current = true
-
-      const capturer = async (params: SnapshotParams): Promise<SnapshotResult> => {
-        const label = params.label ?? 'snapshot'
-
-        const canvas = gl.domElement
-        const srcW = canvas.width
-        const srcH = canvas.height
-        const { w, h } = resolveSnapshotSize(srcW, srcH, params)
-
-        // Render and read back in the SAME synchronous tick. With the r3f default
-        // preserveDrawingBuffer:false the buffer is cleared once the browser
-        // composites, so any await between render and read yields a black frame.
-        invalidate()
-        gl.render(scene, camera)
-
-        let dataUrl: string
-        if (w !== srcW || h !== srcH) {
-          const offscreen = document.createElement('canvas')
-          offscreen.width = w
-          offscreen.height = h
-          const ctx = offscreen.getContext('2d')!
-          ctx.drawImage(canvas, 0, 0, w, h)
-          dataUrl = offscreen.toDataURL('image/png')
-        } else {
-          dataUrl = canvas.toDataURL('image/png')
-        }
-
-        const base64 = dataUrl.replace(/^data:image\/png;base64,/, '')
-        return { image: base64, mimeType: 'image/png', width: w, height: h, label }
-      }
-
-      setSnapshotCapturer(capturer)
-    }, [gl, scene, camera, invalidate])
-
-    return null
-  }
+  /**
+   * @deprecated The snapshot tool renders deterministically from session data
+   * (@classcad/renderer) — no canvas capture needed. This component is now an
+   * inert no-op kept so existing apps that render <AgentCanvas /> keep working;
+   * remove it from your tree at your convenience.
+   */
+  const AgentCanvas: React.FC = () => null
 
   // ─── AgentPanel wrapper — injects provider config ───────────────────────
 

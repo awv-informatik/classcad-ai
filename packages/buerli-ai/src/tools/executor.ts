@@ -5,7 +5,6 @@ import { getDrawing } from '@buerli.io/core'
 import type { ToolExecutorContext, ToolHandler, ToolResult } from '../types'
 import { getMethodRegistry, type MethodRegistry } from './registry'
 import { describeMethod, readDoc } from './skill'
-import { getSnapshotCapturer } from './snapshot'
 import { renderSessionData } from '@classcad/renderer'
 import { entryToPngBase64 } from '@classcad/renderer/browser'
 import { browserSession } from './session'
@@ -490,27 +489,11 @@ const download: ToolHandler = async (input, ctx) => {
   }
 }
 
-// snapshot — DETERMINISTIC render of the drawing via @classcad/renderer by
-// default (standard views, whole model in frame, full verification toolkit:
-// section/sheet/highlightAt/markers/annotate/xray/colors/frame/layers).
-// source: 'viewport' opts into the legacy live-canvas capture instead — that
-// shows exactly what the user currently sees (their camera, their zoom).
+// snapshot — DETERMINISTIC render of the drawing via @classcad/renderer:
+// standard views, whole model in frame, full verification toolkit
+// (section/sheet/highlightAt/markers/annotate/xray/colors/frame/layers).
 const snapshot: ToolHandler = async (input, ctx) => {
-  const { label, width, height, source, ...renderOptions } = input as Record<string, any>
-
-  if (source === 'viewport') {
-    const capturer = getSnapshotCapturer()
-    if (!capturer) {
-      return { error: "source 'viewport' needs a registered capturer (the host app must call setSnapshotCapturer()). Omit source for a deterministic render instead." }
-    }
-    try {
-      const result = await capturer({ label, width, height })
-      return { result }
-    } catch (e) {
-      return { error: `Viewport snapshot failed: ${toErrorMessage(e)}` }
-    }
-  }
-
+  const { label, width, height, ...renderOptions } = input as Record<string, any>
   try {
     const session = browserSession(ctx.drawingId)
     const [tree, graphic] = await Promise.all([session.getTree(), session.getGraphic()])

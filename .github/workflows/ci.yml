@@ -1,0 +1,19 @@
+# Monorepo CI: install workspaces, run every package's tests and builds.
+# (The .github dirs inside packages/* came from the imported standalone repos
+# and are inert here — GitHub only reads this root workflow.)
+name: ci
+on:
+  push:
+    branches: ['**']
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+      - run: npm test

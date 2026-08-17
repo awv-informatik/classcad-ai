@@ -26,6 +26,7 @@ Cross-cutting references that apply across every domain. Read these first when s
 
 | Reference                                       | Topic                                                                                  |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [DATA.md](references/DATA.md)                   | The tree & graphic contract for scripts: shapes, id semantics (stable vs payload-local), selection idioms |
 | [SKETCHING.md](references/SKETCHING.md)         | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow    |
 | [STRUCTURE.md](references/STRUCTURE.md)         | Structure tree (SCG): node shape, traversal, parent chain, assembly transforms         |
 | [GRAPHICS.md](references/GRAPHICS.md)           | Graphic protocol (SCG v9): containers, meshes, edges, arcs, materials, container types |
@@ -387,3 +388,7 @@ Practical workflow guides for complex multi-API tasks.
 | Guide | Description | Reference |
 |-------|-------------|-----------|
 | **Sketching** | Reproducing technical drawings: dimension analysis, circle-based construction, trim workflow, constraint placement, iterative evaluation | [SKETCHING.md](references/SKETCHING.md) |
+| **Parametric part** | Expressions + constrained sketches + @expr dims, in-tree regeneration, liveness rules | [recipes/parametric-part.md](references/recipes/parametric-part.md) |
+| **Pattern → subtract** | N cutouts around an axis: one tool, merged pattern, single subtraction | [recipes/pattern-then-subtract.md](references/recipes/pattern-then-subtract.md) |
+| **Direct modeling (EIF)** | solid.* inside an entity injection: operation order, curve profiles with bulges, no recalc | [recipes/direct-modeling-eif.md](references/recipes/direct-modeling-eif.md) |
+| **Numeric verification** | Mass properties, bounds, brep probes — graded rules for when and how to verify | [recipes/verify-numerically.md](references/recipes/verify-numerically.md) |

@@ -277,7 +277,17 @@ async function listModels() {
 
 async function serve() {
   const oauth = await ensureOAuth()
-  await getSessionToken(oauth) // fail fast if the token is bad
+  // Probe the exchange once so a BAD TOKEN still fails fast (401/403 = actionable),
+  // but survive transient gateway trouble (5xx "Unicorn" pages during GitHub
+  // outages) — the per-request path retries the exchange lazily, so starting
+  // anyway means the proxy begins serving the moment Copilot recovers.
+  try {
+    await getSessionToken(oauth)
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    if (/exchange (401|403)/.test(msg)) throw err
+    console.warn(`[proxy] startup token exchange failed (transient?) — serving anyway; will retry per request. ${msg.slice(0, 160)}`)
+  }
 
   const server = http.createServer((req, res) => {
     const origin = req.headers.origin

@@ -7,7 +7,7 @@
  */
 
 import sharp from 'sharp'
-import { renderSessionData, renderSolidZBuffer, analyzeSession, setViewport } from './core.js'
+import { renderSessionData, renderSolidZBuffer, analyzeSession, setViewport, applyAdaptiveFaceting } from './core.js'
 import { parseSTL } from './stl.js'
 
 export * from './core.js'
@@ -57,55 +57,6 @@ export async function fetchGraphic(client: any, { recalc = true }: { recalc?: bo
     graphic = getLastGraphic?.() ?? graphic
   }
   return graphic
-}
-
-/**
- * Adaptive snapshot tessellation. The engine's default faceting
- * (chordHeightTol 0.1 in MODEL UNITS, worker-global) is far too coarse for
- * small arcs — and catastrophically so for inch models (0.1 in = 2.54 mm can
- * exceed a feature radius entirely, so its faces render as angular polygons
- * while the separately-tessellated brep edges stay smooth and poke out of the
- * silhouette). Before fetching the render graphic, scale the chord tolerance
- * to the model size (bbox diagonal / 3000, clamped), recalc so existing
- * geometry re-tessellates, and RESTORE the previous parameters afterwards —
- * faceting params persist worker-globally across sessions, so leaving a tiny
- * tolerance behind would silently balloon every later session's payloads.
- *
- * Returns the params to restore, or null when nothing was changed.
- */
-async function applyAdaptiveFaceting(client: any, probeGraphic: any): Promise<{ angleTol: number, chordHeightTol: number } | null> {
-  // bbox diagonal over everything visible (mesh + edge vertices)
-  let min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity], seen = false
-  for (const c of probeGraphic?.containers ?? []) {
-    for (const group of [c.meshes, c.edges]) {
-      for (const m of group ?? []) {
-        const v = m.vertices ?? m.points ?? []
-        for (let i = 0; i + 2 < v.length; i += 3) {
-          seen = true
-          for (let k = 0; k < 3; k++) {
-            if (v[i + k] < min[k]) min[k] = v[i + k]
-            if (v[i + k] > max[k]) max[k] = v[i + k]
-          }
-        }
-      }
-    }
-  }
-  if (!seen) return null
-  const diag = Math.hypot(max[0] - min[0], max[1] - min[1], max[2] - min[2])
-  if (!(diag > 0)) return null
-  const target = Math.min(0.1, Math.max(1e-4, diag / 3000))
-  try {
-    const cur = (await client.execute({ 'v1.common.getFacetingParameters': [{}] })).result
-    const curChord = cur?.chordHeightTol > 0 ? cur.chordHeightTol : 0.1
-    if (target >= curChord * 0.99) return null // already fine enough
-    // angleTol must be 0 or >= 1.0 — pass the current value through unchanged
-    const angleTol = cur?.angleTol >= 1 ? cur.angleTol : 0
-    const r = await client.execute({ 'v1.common.setFacetingParameters': [{ angleTol, chordHeightTol: target }] })
-    if (r.maxLevel >= 51) return null
-    return { angleTol, chordHeightTol: curChord }
-  } catch {
-    return null // older engines — render with whatever tessellation exists
-  }
 }
 
 /**

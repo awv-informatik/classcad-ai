@@ -100,6 +100,16 @@ export interface BrowserScriptSession extends ScriptSession {
   usedSolidApi(): boolean
 }
 
+// Drawing-level record of v1.solid.* usage — outlives the per-call session
+// instances (snapshot creates a fresh session and must know whether a recalc
+// would destroy injected bodies from an EARLIER script's session).
+const solidApiDrawings = new Set<string>()
+
+/** True when ANY session on this drawing executed a v1.solid.* call. */
+export function drawingUsedSolidApi(drawingId: DrawingID): boolean {
+  return solidApiDrawings.has(String(drawingId))
+}
+
 /** Create a ScriptSession over the live buerli drawing. */
 export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions = {}): BrowserScriptSession {
   let sawSolidCall = false
@@ -113,7 +123,10 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
       throw new Error(`Browser session executes v1 tasks only (got "${key}").`)
     }
     const [, domain, method] = segments
-    if (domain === 'solid') sawSolidCall = true
+    if (domain === 'solid') {
+      sawSolidCall = true
+      solidApiDrawings.add(String(drawingId))
+    }
 
     // Preferred path: raw client with per-call graphic suppression.
     const client = opts.suppressGraphics ? rawClient(drawingId) : null

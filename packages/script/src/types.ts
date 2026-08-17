@@ -28,9 +28,13 @@ export interface TreeNode {
   parent: number | null
   /** Structural sub-objects (NOT the feature list — features sit under CC_EntitySet). */
   children?: number[]
-  /** Parameters: `members.Radius?.value`, `expression` shows an `@expr` binding. */
+  /** Parameters: `members.radius?.value`; a bound param shows `expression: "ExpressionSet.NAME"`. */
   members?: Record<string, { value?: unknown; expression?: string; [key: string]: unknown }>
-  /** On parts: graphic container ids of its solids (index 0 = current brep). */
+  /**
+   * On parts: container id of the engine's latest tessellation — rotates on every
+   * solid-creating feature AND on recalc. The stable tree↔graphic join is
+   * `container.owner === ccSolid.id` (the CC_Solid with `members.consumed.value === 0`).
+   */
   solids?: number[]
   /** [origin, xDir, yDir, zDir] where present (instances, work csys, sketches). */
   coordinateSystem?: number[][]
@@ -68,9 +72,9 @@ export interface GraphicEdge {
 
 /** One renderable container — a solid (type 1) or curve shape (type 2). */
 export interface GraphicContainer {
-  /** The CADEntity id (matches a tree node). */
+  /** PAYLOAD-LOCAL container id — rotates on re-tessellation (recalc, new feature). */
   id: number
-  /** The owning CC_Solid id. */
+  /** The owning CC_Solid TREE id — the stable join between graphic and tree. */
   owner: number
   /** 1 = solid, 2 = curve shape. */
   type: number

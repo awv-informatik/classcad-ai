@@ -1,0 +1,102 @@
+{
+ "open": {
+  "maxLevel": 31,
+  "result": {
+   "arcs": [
+    71
+   ],
+   "circles": [
+    66,
+    76
+   ],
+   "constraints": [
+    64,
+    69,
+    79,
+    81,
+    83
+   ],
+   "constructionGeometry": [
+    76
+   ],
+   "dimensions": [
+    85
+   ],
+   "lines": [
+    60
+   ],
+   "points": [
+    58,
+    61,
+    62,
+    67,
+    72,
+    73,
+    74,
+    77
+   ],
+   "solidGeometry": [
+    60,
+    66,
+    71
+   ]
+  }
+ },
+ "mapped": {
+  "arcs": [
+   "71=CC_Arc:Arc"
+  ],
+  "circles": [
+   "66=CC_Circle:Circle",
+   "76=CC_Circle:Circle0"
+  ],
+  "constraints": [
+   "64=CC_2DHorizontalConstraint:Auto_H",
+   "69=CC_2DFixationConstraint:Auto_Fix",
+   "79=CC_2DFixationConstraint:Auto_Fix0",
+   "81=CC_2DCoincidentConstraint:Auto_Coinc",
+   "83=CC_2DHorizontalConstraint:H"
+  ],
+  "constructionGeometry": [
+   "76=CC_Circle:Circle0"
+  ],
+  "dimensions": [
+   "85=CC_2DDiameterConstraint:D"
+  ],
+  "lines": [
+   "60=CC_Line:Line"
+  ],
+  "points": [
+   "58=CC_Point:Point",
+   "61=CC_Point:startPoint",
+   "62=CC_Point:endPoint",
+   "67=CC_Point:center",
+   "72=CC_Point:endPoint",
+   "73=CC_Point:startPoint",
+   "74=CC_Point:center",
+   "77=CC_Point:center"
+  ],
+  "solidGeometry": [
+   "60=CC_Line:Line",
+   "66=CC_Circle:Circle",
+   "71=CC_Arc:Arc"
+  ]
+ },
+ "after": {
+  "exLevel": 31,
+  "maxLevel": 31,
+  "same": true
+ },
+ "wrong": {
+  "partId": {
+   "maxLevel": 51,
+   "result": null,
+   "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+  },
+  "bogus": {
+   "maxLevel": 51,
+   "result": null,
+   "msg": "ToId()/TOID() didn't get an existing or valid id."
+  }
+ }
+}

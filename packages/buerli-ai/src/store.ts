@@ -279,6 +279,11 @@ function toolLabel(name: string, input: Record<string, unknown>): string {
   }
   let detail = ''
   switch (name) {
+    case 'docs': {
+      const keys = Array.isArray(input?.keys) ? (input.keys as unknown[]).filter(k => typeof k === 'string') : []
+      detail = keys.length <= 4 ? keys.join(', ') : `${keys.slice(0, 4).join(', ')} +${keys.length - 4}`
+      break
+    }
     case 'describe_method':
       detail = str('method')
       break

@@ -1019,264 +1019,38 @@ const ModelPicker: React.FC<{
 // as comments, and failed attempts are kept (commented out) with their error. A tiny
 // zero-dependency JS highlighter colorises it (the package ships no highlight lib).
 
-type CallEvent = Extract<CodeEvent, { kind: 'call' }>
 type LoadEvent = Extract<CodeEvent, { kind: 'load' }>
+type ScriptEvent = Extract<CodeEvent, { kind: 'script' }>
 
-// Marker for an unquoted code expression (a variable reference) inside an args literal.
-class RawExpr {
-  code: string
-  constructor(code: string) {
-    this.code = code
-  }
-}
-
-// Param keys whose values are object/feature IDs (→ threadable to variables) vs.
-// topology IDs (edges/faces — inherently runtime-specific, left literal + noted).
-const ID_KEYS = new Set(['id', 'ids', 'ownerid', 'productid', 'templateid', 'partid', 'parentid', 'featureid', 'instanceid', 'nodeid', 'target', 'targets', 'tool', 'tools', 'body', 'bodies', 'from', 'to', 'base', 'blank', 'refs', 'references', 'node', 'nodes', 'csys', 'path', 'paths'])
-const TOPO_KEYS = new Set(['edge', 'edges', 'face', 'faces', 'vertex', 'vertices', 'loop', 'loops'])
-
-// Compact JS-literal printer: unquoted identifier keys, single-quoted strings, RawExpr
-// verbatim, and short objects/arrays kept on one line.
-function toJsLiteral(v: unknown, indent: number): string {
-  if (v instanceof RawExpr) return v.code
-  const pad = '  '.repeat(indent)
-  const pad1 = '  '.repeat(indent + 1)
-  if (v === null) return 'null'
-  if (v === undefined) return 'undefined'
-  if (typeof v === 'number' || typeof v === 'boolean') return String(v)
-  if (typeof v === 'string') return `'${v.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n')}'`
-  if (Array.isArray(v)) {
-    if (v.length === 0) return '[]'
-    const inline = `[${v.map(x => toJsLiteral(x, 0)).join(', ')}]`
-    if (inline.length <= 60 && !inline.includes('\n')) return inline
-    return `[\n${v.map(x => pad1 + toJsLiteral(x, indent + 1)).join(',\n')}\n${pad}]`
-  }
-  if (typeof v === 'object') {
-    const entries = Object.entries(v as Record<string, unknown>)
-    if (entries.length === 0) return '{}'
-    const key = (k: string) => (/^[A-Za-z_$][\w$]*$/.test(k) ? k : `'${k}'`)
-    const inline = `{ ${entries.map(([k, val]) => `${key(k)}: ${toJsLiteral(val, 0)}`).join(', ')} }`
-    if (inline.length <= 64 && !inline.includes('\n')) return inline
-    return `{\n${entries.map(([k, val]) => `${pad1}${key(k)}: ${toJsLiteral(val, indent + 1)}`).join(',\n')}\n${pad}}`
-  }
-  return String(v)
-}
-
-const isId = (n: unknown): n is number => typeof n === 'number' && Number.isInteger(n) && n > 0
-
-// IDs a call produced, plus how to reach each from the bound variable — unwrap up to two
-// { result: … } layers, then take a number/array directly (accessor ''), or an object's
-// `.id` (accessor '.id', so a reference renders as `loadProduct.id`, not the whole object).
-function producedIdInfo(ret: unknown): Array<{ id: number; accessor: string }> {
-  let v = ret
-  for (let i = 0; i < 2 && v && typeof v === 'object' && 'result' in (v as any); i++) v = (v as any).result
-  if (isId(v)) return [{ id: v, accessor: '' }]
-  if (Array.isArray(v)) return v.filter(isId).map(id => ({ id, accessor: '' }))
-  if (v && typeof v === 'object' && isId((v as any).id)) return [{ id: (v as any).id, accessor: '.id' }]
-  return []
-}
-
-function collectRefIds(value: unknown, key: string | undefined, acc: Set<number>): void {
-  const idKey = !!key && ID_KEYS.has(key.toLowerCase())
-  if (typeof value === 'number') {
-    if (idKey && isId(value)) acc.add(value)
-    return
-  }
-  if (Array.isArray(value)) {
-    value.forEach(v => collectRefIds(v, key, acc))
-    return
-  }
-  if (value && typeof value === 'object') for (const [k, v] of Object.entries(value)) collectRefIds(v, k, acc)
-}
-
-function hasTopoIds(value: unknown, key: string | undefined): boolean {
-  const topo = !!key && TOPO_KEYS.has(key.toLowerCase())
-  if (typeof value === 'number') return topo && isId(value)
-  if (Array.isArray(value)) return value.some(v => hasTopoIds(v, key))
-  if (value && typeof value === 'object') return Object.entries(value).some(([k, v]) => hasTopoIds(v, k))
-  return false
-}
-
-// Replace id-keyed numbers with their variable references; leave everything else.
-function rewriteIds(value: unknown, key: string | undefined, idToVar: Map<number, string>, idAccessor: Map<number, string>): unknown {
-  const idKey = !!key && ID_KEYS.has(key.toLowerCase())
-  if (typeof value === 'number') return idKey && idToVar.has(value) ? new RawExpr(idToVar.get(value)! + (idAccessor.get(value) || '')) : value
-  if (Array.isArray(value)) return value.map(v => rewriteIds(v, key, idToVar, idAccessor))
-  if (value && typeof value === 'object') {
-    const out: Record<string, unknown> = {}
-    for (const [k, v] of Object.entries(value)) out[k] = rewriteIds(v, k, idToVar, idAccessor)
-    return out
-  }
-  return value
-}
-
-function baseVarName(method: string): string {
-  const seg = method.split('.')
-  const last = seg[seg.length - 1] || 'obj'
-  const domain = seg.length >= 2 ? seg[seg.length - 2] : ''
-  if (last === 'create') return domain || 'obj'
-  if (last === 'entityInjection') return 'eif'
-  if (last === 'partTemplate') return 'partTpl'
-  if (last === 'assemblyTemplate') return 'asmTpl'
-  return last.replace(/[^A-Za-z0-9]/g, '') || 'obj'
-}
-
-function renderArgs(method: string, args: unknown): string {
-  if (method.startsWith('v1.')) return args == null ? '' : toJsLiteral(args, 0)
-  const arr = Array.isArray(args) ? args : args == null ? [] : [args]
-  return arr.map(a => toJsLiteral(a, 0)).join(', ')
-}
-
-// API path for the unwrapped facade: v1 methods hang off `api` (= facade.api.v1);
-// the reflected buerli namespaces (structure/facade/…) off `facade.api` directly.
-function apiRef(method: string): string {
-  return method.startsWith('v1.') ? `api.${method.slice(3)}` : `facade.api.${method}`
-}
-
-type LookupEvent = Extract<CodeEvent, { kind: 'lookup' }>
-
-function collectAllIds(value: unknown, acc: Set<number>): void {
-  if (typeof value === 'number') {
-    if (isId(value)) acc.add(value)
-    return
-  }
-  if (Array.isArray(value)) {
-    value.forEach(v => collectAllIds(v, acc))
-    return
-  }
-  if (value && typeof value === 'object') for (const v of Object.values(value)) collectAllIds(v, acc)
-}
-
-// Where an unresolved id came from → a meaningful precondition variable + comment,
-// instead of a generic "pre1". Most specific provenance wins (selection > find > inspect).
-function provenanceFor(id: number, lookups: LookupEvent[]): { base: string; note: string } {
-  const surfaced = (lk: LookupEvent) => {
-    const s = new Set<number>()
-    collectAllIds(lk.ret, s)
-    return s.has(id)
-  }
-  if (lookups.some(l => l.tool === 'get_selection' && surfaced(l))) return { base: 'selected', note: 'from your current 3D selection' }
-  const find = lookups.find(l => l.tool === 'find' && surfaced(l))
-  if (find) {
-    const inp = find.input as any
-    const by = [inp?.type && `type ${inp.type}`, inp?.name && `name "${inp.name}"`].filter(Boolean).join(', ')
-    return { base: 'found', note: `found in the model${by ? ` by ${by}` : ''}` }
-  }
-  if (lookups.some(l => l.tool === 'inspect' && surfaced(l))) return { base: 'found', note: 'located in the model via inspect' }
-  return { base: 'existing', note: 'a pre-existing id from the current model (loaded model, root part, or import) — resolve at runtime' }
-}
-
+// The session code IS the run_script sources — collected verbatim and joined
+// with separators. No reconstruction: run_script is the only execution path.
 function generateScript(log: CodeEvent[]): string {
-  const calls = log.filter((e): e is CallEvent => e.kind === 'call' && e.status !== 'running')
-  const loads = log.filter((e): e is LoadEvent => e.kind === 'load')
-
-  // Produced + referenced IDs → which to hoist into variables.
-  const pidsByCall = new Map<CallEvent, number[]>()
-  const producedAll = new Set<number>()
-  const idAccessor = new Map<number, string>() // how to reach a produced id from its var ('' or '.id')
-  for (const c of calls) {
-    const info = c.status === 'error' ? [] : producedIdInfo(c.ret)
-    const pids = info.map(x => x.id)
-    pidsByCall.set(c, pids)
-    pids.forEach(id => producedAll.add(id))
-    info.forEach(x => { if (!idAccessor.has(x.id)) idAccessor.set(x.id, x.accessor) })
-  }
-  const referenced = new Set<number>()
-  for (const c of calls) collectRefIds(c.args, undefined, referenced)
-  const varWorthy = new Set([...producedAll].filter(id => referenced.has(id)))
-  const preconds = [...referenced].filter(id => !producedAll.has(id))
-
-  // Assign variable names (produced first, in call order; then preconditions).
-  const idToVar = new Map<number, string>()
-  const used = new Map<string, number>()
-  const uniq = (base: string) => {
-    const n = (used.get(base) || 0) + 1
-    used.set(base, n)
-    return n === 1 ? base : `${base}${n}`
-  }
-  for (const c of calls) {
-    if (c.status === 'error') continue
-    for (const id of pidsByCall.get(c)!) if (varWorthy.has(id) && !idToVar.has(id)) idToVar.set(id, uniq(baseVarName(c.method)))
-  }
-  // Name + annotate unresolved ids by how the agent resolved them at runtime.
-  const lookups = log.filter((e): e is LookupEvent => e.kind === 'lookup')
-  const preNote = new Map<number, string>()
-  for (const id of preconds) {
-    const p = provenanceFor(id, lookups)
-    idToVar.set(id, uniq(p.base))
-    preNote.set(id, p.note)
-  }
-
-  const lines: string[] = []
-  const hasScripts = log.some(e => e.kind === 'script' && e.status !== 'running')
-  if (calls.length || hasScripts) {
-    // Runnable setup header (buerli's documented facade usage).
-    lines.push(
-      "import { BuerliCadFacade } from '@buerli.io/classcad'",
-      '',
-      'const facade = new BuerliCadFacade()',
-      'await facade.connect()',
-      'const api = facade.api.v1',
-      '',
-    )
-  }
-  const hasTopo = calls.some(c => hasTopoIds(c.args, undefined))
-
-  if (loads.length || preconds.length || hasTopo) {
-    lines.push('// ── Preconditions ──')
-    for (const l of loads) lines.push(`// import '${l.name}' into the drawing first`)
-    for (const id of preconds) lines.push(`// ${idToVar.get(id)}: ${preNote.get(id)}`)
-    if (hasTopo) lines.push('// edge/face ids below are specific to the live model topology')
-    for (const id of preconds) lines.push(`const ${idToVar.get(id)} = 0 // TODO: resolve at runtime`)
-    lines.push('')
-  }
-
+  const parts: string[] = []
   for (const e of log) {
-    if (e.kind === 'user') {
-      const txt = e.text.replace(/\s+/g, ' ').trim()
-      if (txt) lines.push(`// User: ${txt.length > 140 ? txt.slice(0, 138) + '…' : txt}`)
-      continue
+    if (e.kind === 'load') {
+      const l = e as LoadEvent
+      parts.push(`// ── load: ${l.name} ──`)
+    } else if (e.kind === 'script') {
+      const sc = e as ScriptEvent
+      const status = sc.status === 'error' ? ' — FAILED' : sc.status === 'running' ? ' — running…' : ''
+      parts.push(`// ══════ run_script${sc.label ? `: ${sc.label}` : ''}${status} ══════\n${(sc.text ?? '').trim()}`)
     }
-    // run_script executions ARE code — include them verbatim, scoped so their
-    // `api.v1.*` addressing works against the header's facade.
-    if (e.kind === 'script') {
-      if (e.status === 'running') continue
-      lines.push(`// ── run_script${e.label ? `: ${e.label}` : ''} ──`)
-      if (e.status === 'error') {
-        const err = (e.error || 'unknown error').replace(/\s+/g, ' ').trim()
-        lines.push(`// ✗ failed: ${err.length > 160 ? err.slice(0, 158) + '…' : err}`)
-      }
-      lines.push('await (async api => {', ...e.text.split('\n').map(l => '  ' + l), '})(facade.api)', '')
-      continue
-    }
-    if (e.kind !== 'call' || e.status === 'running') continue
-    const args = renderArgs(e.method, rewriteIds(e.args, undefined, idToVar, idAccessor))
-    const ref = apiRef(e.method)
-    if (e.status === 'error') {
-      const err = (e.error || 'unknown error').replace(/\s+/g, ' ').trim()
-      lines.push(`// ✗ failed: ${err.length > 160 ? err.slice(0, 158) + '…' : err}`)
-      lines.push(`// await ${ref}(${args})`)
-    } else {
-      const pid = pidsByCall.get(e)!.find(id => varWorthy.has(id))
-      // buerli's facade API is UNWRAPPED: calls return the result directly (no { result }
-      // wrapper) and throw on error — so bind it straight.
-      lines.push(pid != null ? `const ${idToVar.get(pid)} = await ${ref}(${args})` : `await ${ref}(${args})`)
-    }
-    lines.push('')
   }
-
-  return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()
+  if (parts.length === 0) return '// No scripts yet — run_script sources appear here as they execute.'
+  return parts.join('\n\n')
 }
 
+// Syntax-highlight palette + keyword set for the code panel.
 const CODE_COLORS = {
-  keyword: '#c678dd',
-  string: '#98c379',
-  number: '#d19a66',
-  property: '#61afef',
-  comment: '#7f848e',
-  punct: '#828a99',
+  comment: '#6a9955',
+  string: '#ce9178',
+  number: '#b5cea8',
+  keyword: '#569cd6',
+  property: '#9cdcfe',
+  punct: '#808080',
 }
-const JS_KEYWORDS = /^(await|async|const|let|var|new|function|return|true|false|null|undefined|import|from|export)$/
+const JS_KEYWORDS =
+  /^(?:const|let|var|function|return|await|async|if|else|for|while|of|in|new|try|catch|finally|throw|class|true|false|null|undefined)$/
 
 // Tokenise JS into colored React spans (escaped — no innerHTML). The master regex
 // consumes every character via its final single-char alternative, so it's contiguous.

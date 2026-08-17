@@ -14,7 +14,8 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       '• api.graphic() — the live graphic payload (containers with face meshes, edges, vertices): ' +
       'find and FILTER GEOMETRY yourself — e.g. locate a bore wall by vertex radius, pick a point on a face. ' +
       'NOTE: face mesh/edge ids are payload-local (they rotate on re-tessellation) — to hand a face to another ' +
-      'tool, return a world POINT on it, not its id.\n' +
+      'tool, return a world POINT on it, not its id. ' +
+      'Exact tree/graphic shapes + selection idioms: read_doc("DATA").\n' +
       '• api.facade / api.structure / api.selection — browser-only extras (guard with `if (api.facade)` for portable scripts).\n' +
       '• Math, full JS (variables, functions, loops), console.log/log(...) captured and returned.\n' +
       '• Use `return <value>` for the data you need back; keep it small (results are size-capped).\n' +

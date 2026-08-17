@@ -26,11 +26,14 @@ Cross-cutting references that apply across every domain. Read these first when s
 
 | Reference                                       | Topic                                                                                  |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [DATA.md](references/DATA.md)                   | The tree & graphic contract for scripts: shapes, id semantics (stable vs payload-local), selection idioms |
 | [SKETCHING.md](references/SKETCHING.md)         | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow    |
-| [STRUCTURE.md](references/STRUCTURE.md)         | Structure tree (SCG): node shape, traversal, parent chain, assembly transforms         |
-| [GRAPHICS.md](references/GRAPHICS.md)           | Graphic protocol (SCG v9): containers, meshes, edges, arcs, materials, container types |
 | [expressions.md](references/api/expressions.md) | Expression syntax: constants, math functions, inter-expression references, `@expr.`    |
+
+The **data contract** — what `api.tree()` and `api.graphic()` return and how to
+select geometry from it — ships with `@classcad/script`
+([DATA](../script/docs/DATA.md) distilled, [STRUCTURE](../script/docs/STRUCTURE.md)
+model tree, [GRAPHICS](../script/docs/GRAPHICS.md) graphic payload). Tools serve
+them under the same names (`read_doc("DATA")` / `describe_method("DATA")`).
 
 ---
 

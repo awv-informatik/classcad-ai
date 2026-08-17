@@ -21,6 +21,7 @@ browser bundle:
 | --- | --- | --- |
 | `@classcad/script` | browser + Node | [`runScript`](#runscriptcode-session-opts), [`buildScriptApi`](#buildscriptapisession-opts), all types ([`ScriptSession`](#scriptsession), `RunScriptOptions`, `RunScriptResult`, …) |
 | `@classcad/script/node` | Node only | everything above **plus** [`connectSession`](#connectsessionurl-opts--node-only) (the WebSocket session for a classcad-cli worker) |
+| `@classcad/script/docs` | browser + Node | `docs` — the [data contract](#the-data-contract-docs) documents as markdown strings (`docs.DATA`, `docs.STRUCTURE`, `docs.GRAPHICS`) |
 
 In the browser you import from `@classcad/script` and provide your own session
 (buerli-ai does this over the `@buerli.io/classcad` WASM client); in Node you
@@ -202,6 +203,22 @@ interface ScriptSession {
 Shipped implementations: [`connectSession`](#connectsessionurl-opts--node-only)
 (Node/WS, this package) and the browser session in `@buerli.io/ai` (over the
 buerli store + WASM client).
+
+## The data contract (docs/)
+
+What scripts get back from `api.tree()` and `api.graphic()` is a contract of
+this package, documented in [docs/](docs/):
+
+| Document | Content |
+| --- | --- |
+| [docs/DATA.md](docs/DATA.md) | The distilled day-to-day contract: node/graphic shapes, which ids are stable vs payload-local, verified selection idioms |
+| [docs/STRUCTURE.md](docs/STRUCTURE.md) | The model tree in depth: part anatomy, features & history, sketches, assemblies (instances, transforms), traversal snippets |
+| [docs/GRAPHICS.md](docs/GRAPHICS.md) | The graphic payload in depth: containers, meshes, edges, materials |
+
+Agent hosts serve them to their models under the same names — buerli-ai via
+`read_doc("DATA")`, the ClassCAD MCP via `describe_method("DATA")` — by
+importing them from `@classcad/script/docs` (markdown strings, bundler-safe,
+no filesystem access needed).
 
 ## Consumers in this monorepo
 

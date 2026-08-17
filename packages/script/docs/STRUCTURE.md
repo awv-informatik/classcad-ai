@@ -97,7 +97,7 @@ AllObjects (id 1)
   `children` stay empty. A bound feature param shows
   `members.length.expression === "ExpressionSet.W"`.
 - **Work planes** `Top/Front/Right` carry **no** `coordinateSystem` — their
-  orientation is implicit (see [SKETCHING.md](SKETCHING.md) plane mappings).
+  orientation is implicit (see [SKETCHING.md](../../skill/references/SKETCHING.md) plane mappings).
   `CC_WorkCSys` nodes DO carry one.
 - To answer *"is feature X under part Y?"* walk `node.parent` upward. Never
   `part.children.includes(featureId)` — features sit two levels down.
@@ -157,7 +157,7 @@ const producingFeature = t[String(solidNode.parent)]   // e.g. CC_Chamfer
 ## Sketch anatomy
 
 `sketch.create({ id: partId, planeId })` — `planeId` is MANDATORY for a live
-constraint solver (the #1 trap, see [SKETCHING.md](SKETCHING.md); a sketch
+constraint solver (the #1 trap, see [SKETCHING.md](../../skill/references/SKETCHING.md); a sketch
 created without it accepts constraints/dimensions but never enforces them).
 
 ```
@@ -286,4 +286,4 @@ negative `graphicId`s; they resolve under the live container.
 | buerli apps | store `drawing.structure.tree`, kept live by the client; `api.structure.calculateGlobalTransformation(id)` (world matrix), `calculateProductBounds(id)`, `collectProducts(rootId)` |
 
 WS-protocol details (handshake flags, snapshot vs patch) live in
-[common/state-tree.md](common/state-tree.md).
+[common/state-tree.md](../../skill/references/common/state-tree.md).

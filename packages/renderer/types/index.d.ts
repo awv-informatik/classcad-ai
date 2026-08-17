@@ -129,6 +129,11 @@ export interface RenderOptions {
    * no-ops. Makes "which face/edge/body is id N?" visible.
    */
   highlight?: number[]
+  /**
+   * World points; the closest face in the RENDERED payload is highlighted per
+   * point. Use across recalcs/tool boundaries where raw face ids rotate.
+   */
+  highlightAt?: Vec3[]
   /** Probe markers drawn on top of the render — see {@link Marker}. */
   markers?: Marker[]
   /**
@@ -162,6 +167,8 @@ export interface RenderOptions {
    * font. The session entry's `type` becomes `'sheet'`. @defaultValue `false`
    */
   sheet?: boolean | CameraView[]
+  /** Content types to render (default: all detected). Skipped layers cost nothing. */
+  layers?: Array<'solid' | 'sketch' | 'curves' | 'workgeo'>
 }
 
 /**
@@ -402,6 +409,8 @@ export function renderIsometric(
 export interface RenderedFile {
   type: string
   file: string
+  /** View frame of raster renders — reusable via options.frame for before/after. */
+  frame?: Frame
   /** Present (as `'stl'`) when the render came from the explicit STL source. */
   source?: 'stl'
   sketchId?: number
@@ -436,7 +445,7 @@ export function renderSession(
   client: { execute: Function; request: Function; getLastGraphic?: Function },
   prefix: string,
   outDir: string,
-  options?: RenderOptions & { recalc?: boolean; ensureGraphics?: boolean; source?: 'graphic' | 'stl' },
+  options?: RenderOptions & { recalc?: boolean; ensureGraphics?: boolean; source?: 'graphic' | 'stl'; graphic?: { containers?: unknown[] } | null },
 ): Promise<RenderedFile[]>
 
 /**

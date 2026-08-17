@@ -107,7 +107,8 @@ async function renderStlSource(client, options) {
  * @param {string} prefix — output file prefix
  * @param {string} outDir — output directory
  * @param {object} [options] — width/height/view/zoom/lookAt (see core.renderSessionData)
- *   plus `colors: 'native' | 'distinct'` ('native' default: the model's own
+ *   plus `graphic` (render this pre-fetched payload instead of fetching —
+ *   keeps ids stable for highlights), `colors: 'native' | 'distinct'` ('native' default: the model's own
  *   ClassCAD colors; 'distinct': one palette color per body — use to tell bodies
  *   apart in booleans/splits/patterns), `recalc` (default true; set false for
  *   EIF/direct-modeling sessions) and
@@ -140,7 +141,10 @@ export async function renderSession(client, prefix, outDir, options = {}) {
   }
   const treeResult = await client.request('GetTree')
   const tree = treeResult.structure?.tree || {}
-  const graphic = await fetchGraphic(client, { recalc: options.recalc !== false })
+  // options.graphic: render a PRE-FETCHED payload instead of fetching fresh.
+  // Use when ids (highlight targets from a script's api.graphic()) must match
+  // the rendered graphic exactly — a fresh recalc can rotate container/mesh ids.
+  const graphic = options.graphic ?? await fetchGraphic(client, { recalc: options.recalc !== false })
 
   // Explicit failure instead of a silent empty render: the tree says there is
   // renderable content, but no graphic containers arrived for it.
@@ -182,6 +186,7 @@ export async function renderSession(client, prefix, outDir, options = {}) {
 
     const entry = { type: e.type, file }
     if (e.sketchId != null) { entry.sketchId = e.sketchId; entry.name = e.name }
+    if (e.frame) entry.frame = e.frame   // reusable via options.frame for before/after
     rendered.push(entry)
   }
   return rendered

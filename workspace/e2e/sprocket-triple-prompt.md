@@ -1,7 +1,12 @@
 # E2E benchmark prompt #2 — T35A40SS triple-strand sprocket (the hard one)
 
 Same rules as benchmark #1 (sprocket-prompt.md): identical wording for every
-host, host-neutral, examiner checks at the bottom. Reference ground truth:
+host, host-neutral, examiner checks at the bottom.
+
+SOURCE RULE for filesystem-capable hosts (root agent): skill docs, recipes and
+the data contract are fair game — workspace/training/ and workspace/output/
+are OFF LIMITS (they contain prior solutions; reading them invalidates the
+benchmark). Say so explicitly in the spawn prompt. Reference ground truth:
 workspace/training/2026-08-10_13-03-40_sprocket-martin35 (T35A40SS report:
 CAD volume 13.77875 in³, COG off-axis 0.0043 in — NOT given to the agent).
 

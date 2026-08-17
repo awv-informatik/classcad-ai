@@ -5,11 +5,24 @@
  * Usage:  node scripts/run.mjs <script-path> [--outdir <path>] [--port <port>] [ws-url]
  *
  * Connects to ClassCAD, runs one script, captures snapshots, cleans up.
- * The script receives a typed api object (from @classcad/api-js) + helpers.
+ *
+ * The session and the api object come from @classcad/script — the SAME script
+ * medium as buerli-ai and the ClassCAD MCP. Training scripts therefore get:
+ *   api.v1.<domain>.<method>(params)  — registry-validated (typos throw with
+ *                                       suggestions), envelope { result,
+ *                                       maxLevel, messages, structure, graphic }
+ *   api.tree({ refresh? })            — structure tree (id → node)
+ *   api.graphic({ recalc? })          — graphic containers (meshes/edges/… —
+ *                                       filter geometry directly in the script)
+ *   api.env                           — 'node'
+ * Rendering comes from @classcad/renderer — snapshot() passes ALL renderer
+ * options through (view/camera, zoom, lookAt, section, sheet, colors,
+ * highlight/highlightAt, markers, sketchOverlay, annotate, xray, frame,
+ * layers, recalc, source: 'stl').
  *
  * Pipeline:
  *   1. Connect to ClassCAD
- *   2. Execute script (receives api + snapshot/filewrite helpers)
+ *   2. Execute script (receives api + snapshot/filewrite/tree helpers)
  *   3. Clear drawing + disconnect
  */
 
@@ -17,10 +30,9 @@ import { join, basename } from 'path'
 import { mkdirSync, writeFileSync } from 'fs'
 import { pathToFileURL } from 'url'
 import { inspect } from 'util'
-import { connect } from './client.mjs'
-import { renderIsometric, savePNG } from './render.mjs'
-import { renderSession } from './render-direct.mjs'
-import { v1 } from '@classcad/api-js'
+import { connectSession, buildScriptApi } from '@classcad/script/node'
+import { renderSession } from '@classcad/renderer/node'
+import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 
 const IMG_W = 1600
 const IMG_H = 1200
@@ -73,72 +85,41 @@ async function main() {
   const filesDir = join(outDir, 'files')
   mkdirSync(filesDir, { recursive: true })
 
-  // 1. Connect
-  const client = await connect(wsUrl, { debug })
-
-  // Facade adapter: bridges @classcad/api-js → client.request()
-  const facade = {
-    callSafeApiV(version, namespace, func, args, options) {
-      const key = `${version}.${namespace}.${func}`
-      return client.request('Execute', {
-        task: [{ [key]: args != null ? [args] : [{}] }],
-        options: { undoable: options?.undoable ?? false },
-      })
-    },
-    callSafeApi(namespace, func, args, options) {
-      return this.callSafeApiV('v1', namespace, func, args, options)
-    },
-    fetchTree: () => client.refreshTree(),
-  }
-
-  const api = { v1: v1(facade) }
+  // 1. Connect — the session serves the script api AND the renderer.
+  const session = await connectSession(wsUrl, { debug })
+  const api = buildScriptApi(session, { registry })
 
   // Snapshot helper — captures PNGs + exports to files/
-  // Optional opts: { view?: 'iso'|'top'|'bottom'|'front'|'back'|'left'|'right',
-  //                  zoom?: number, lookAt?: [x,y,z] }
-  // Default view is 'iso'. For multi-angle data collection, call snapshot()
-  // multiple times with different view options (each writes a distinct PNG).
+  // Forwards EVERY @classcad/renderer option: { view (named or {azimuth,
+  // elevation}/{direction}), zoom, lookAt, section, sheet, colors, highlight,
+  // highlightAt, markers, sketchOverlay, annotate, xray, frame, layers,
+  // recalc (set false in solid.*/EIF flows!), source: 'stl' }.
+  // On failure it LOGS the renderer's explicit error (which names the remedy,
+  // e.g. source: 'stl') — there is no silent fallback.
   async function snapshot(label = `snapshot`, opts = {}) {
     const safeName = label.replace(/[^a-zA-Z0-9_-]/g, '_')
     const prefix = `${scriptName}-${safeName}`
     const pngs = []
 
     try {
-      await client.execute({ 'v1.common.setDatabaseSettings': [{ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }] })
-      const renders = await renderSession(client, prefix, filesDir, {
+      const renders = await renderSession(session, prefix, filesDir, {
         width: IMG_W, height: IMG_H,
-        view: opts.view, zoom: opts.zoom, lookAt: opts.lookAt,
+        ...opts,
       })
       for (const r of renders) pngs.push(`files/${r.file}`)
     } catch (e) {
-      // Fallback: try STL-based render
-      try {
-        const { parseSTL } = await import('./export.mjs')
-        const stlR = await client.execute({
-          'v1.common.save': [{ format: 'STL', encoding: 'base64', stl: { binary: true, facetingTol: 0.1, angleTol: 6 } }],
-        })
-        if (stlR.result?.success && stlR.result?.content) {
-          const stlBuf = Buffer.from(stlR.result.content, 'base64')
-          const triangles = parseSTL(stlBuf)
-          if (triangles.length) {
-            const pixels = renderIsometric(triangles, IMG_W, IMG_H)
-            const pngFile = `${prefix}.png`
-            await savePNG(pixels, IMG_W, IMG_H, join(filesDir, pngFile))
-            pngs.push(`files/${pngFile}`)
-          }
-        }
-      } catch (_) { /* no render available */ }
+      console.error(`[snapshot] ${e.message}`)
     }
 
     // Export STEP + OFB
     try {
-      const stepR = await client.execute({ 'v1.common.save': [{ format: 'STP', encoding: 'base64', stp: { version: 2 } }] })
+      const stepR = await session.execute({ 'v1.common.save': [{ format: 'STP', encoding: 'base64', stp: { version: 2 } }] })
       if (stepR.result?.success && stepR.result?.content) {
         writeFileSync(join(filesDir, `${prefix}.stp`), Buffer.from(stepR.result.content, 'base64'))
       }
     } catch (_) {}
     try {
-      const ofbR = await client.execute({ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] })
+      const ofbR = await session.execute({ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] })
       if (ofbR.result?.success && ofbR.result?.content) {
         writeFileSync(join(filesDir, `${prefix}.ofb`), Buffer.from(ofbR.result.content, 'base64'))
       }
@@ -152,9 +133,11 @@ async function main() {
   //   tree({ id })            → single node, or null
   //   tree({ type })          → array of nodes whose `class` matches
   //   tree({ refresh: true }) → force a fresh server-side snapshot first
+  // (api.tree() from @classcad/script returns just the id→node map; this
+  // helper keeps the richer filter conveniences training scripts rely on.)
   async function tree(filter) {
-    if (filter?.refresh) await client.refreshTree()
-    const t = client.getStructure()
+    if (filter?.refresh) await session.getTree({ refresh: true })
+    const t = session.getStructure()
     if (!t || !t.tree) return null
     if (!filter || (Object.keys(filter).length === 1 && filter.refresh)) return t
     if (filter.id != null) return t.tree[String(filter.id)] || null
@@ -231,8 +214,8 @@ async function main() {
   }
 
   // 3. Clear + disconnect
-  try { await client.execute({ 'v1.common.clear': [{}] }) } catch (_) {}
-  client.close()
+  try { await session.execute({ 'v1.common.clear': [{}] }) } catch (_) {}
+  session.close()
 }
 
 main().catch(err => {

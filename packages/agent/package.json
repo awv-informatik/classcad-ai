@@ -7,7 +7,10 @@
   "dependencies": {
     "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.2.0/classcad-api-js-21.2.0.tgz",
     "sharp": "^0.34.5",
-    "ws": "^8.19.0"
+    "ws": "^8.19.0",
+    "@classcad/script": "0.x",
+    "@classcad/renderer": "0.x",
+    "@classcad/skill": "0.x"
   },
   "private": true
 }

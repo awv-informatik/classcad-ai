@@ -11,9 +11,9 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug] [--port <
 - Default WebSocket: `ws://0.0.0.0:9094/`
 - `--port <port>` overrides the default port (e.g., `--port 9095`). Useful when the default port is occupied by a zombie worker.
 - `--debug` disables all timeouts (connection + request) — useful when pausing in a debugger
-- Scripts receive `api` (typed @classcad/api-js wrapper) and `{ snapshot, filewrite }`
+- Scripts receive `api` from `@classcad/script` — `api.v1.<domain>.<method>(params)` (registry-validated, typos throw with suggestions; same envelope as before: `{ result, maxLevel, messages, structure, graphic }`), plus `api.tree({ refresh? })` and `api.graphic({ recalc? })` for structure- and GEOMETRY-level self-service (filter meshes/edges/vertices directly). Helpers: `{ snapshot, filewrite, tree }`. The same script medium runs in buerli-ai and the ClassCAD MCP.
 - `snapshot('label')` saves PNG + STEP + OFB to `files/`
-- `snapshot('label', { view, zoom, lookAt })` — second arg picks the camera. Default `view: 'iso'`. Other views: `'top'`, `'bottom'`, `'front'`, `'back'`, `'left'`, `'right'` (CAD view-cube standard, world is +X right / +Y forward / +Z up). `zoom` is a multiplier on the auto-fit scale (default 1; >1 zooms in). `lookAt: [x, y, z]` puts that world point at screen center instead of the bbox center. Take multiple snapshots from different angles when one view is ambiguous — e.g., a hole on a plate's broad face is invisible from the side, so pair `'iso'` with `'top'`. **Default is still `'iso'` — don't add views unless they earn their cost.**
+- `snapshot('label', opts)` — second arg forwards EVERY `@classcad/renderer` option. Camera: named views `'iso'|'top'|'bottom'|'front'|'back'|'left'|'right'` or `{ azimuth, elevation }` / `{ direction, up }`; `zoom`, `lookAt`. Verification toolkit: `section: { origin, normal }` (cut through internals), `sheet: true` (four labeled views, shared ortho scale), `highlight: [ids]` / `highlightAt: [[x,y,z]]` (face at a world point — use points, face-mesh ids are payload-local!), `markers: [{ position, label }]`, `sketchOverlay: true`, `annotate: true` (extents + triad + scale bar), `xray: true`, `colors: 'distinct'`, `frame` (pin an earlier render's frame for pixel-comparable before/after; frames ride on the returned entries), `layers`, `recalc: false` (MANDATORY in solid.*/EIF flows — recalc destroys injected bodies), `source: 'stl'` (explicit export-render fallback; the error message names it when graphic data is missing). **Default is still plain `'iso'` — options must earn their cost.**
 - `filewrite(data, 'label')` dumps objects → `.json`, strings → `.txt`, buffers → `.bin` to `files/`
 - All `console.log`/`.error`/`.warn` output is auto-captured to `<scriptName>.log` alongside `files/`
 - Harness clears the drawing after each run — every script starts fresh
@@ -103,7 +103,7 @@ The default worker on port 9094 is started by ph and should be left running. Onl
 
 ## Rendering
 
-The harness uses a direct renderer (`scripts/render-direct.mjs`) that auto-detects content:
+The harness uses `@classcad/renderer` (workspace package `../renderer`) which auto-detects content:
 
 - Solids → mesh projection (default isometric, see view options)
 - Sketches → 2D plot
@@ -113,7 +113,7 @@ Snapshots are PNG files in `files/`. They show wireframe/outline views — not p
 
 > **Arc rendering (fixed 2026-07-01).** The sketch renderer used to draw every arc as its **minor (<180°) sweep**,
 > ignoring the arc's `bulge` — so a *major* arc (e.g. the outer arc of a union of two circles) rendered as its
-> minor-arc complement, making a union blob look like an intersection lens. `render-direct.mjs` now reads each
+> minor-arc complement, making a union blob look like an intersection lens. The renderer now reads each
 > arc's signed `bulge` from the structure tree and derives the correct sweep in `tessellateArc`. If you see a
 > pre-2026-07-01 arc snapshot, distrust it for anything with arcs ≥180°. General rule that caught this: **when a
 > snapshot contradicts your numbers, measure the geometry (an arc's `bulge` = tan(includedAngle/4)) — don't trust

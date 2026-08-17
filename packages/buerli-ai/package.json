@@ -59,7 +59,8 @@
     "zustand": ">=4"
   },
   "dependencies": {
-    "@classcad/skill": "0.x"
+    "@classcad/skill": "0.x",
+    "@classcad/script": "0.x"
   },
   "devDependencies": {
     "@buerli.io/classcad": "1.0.1",

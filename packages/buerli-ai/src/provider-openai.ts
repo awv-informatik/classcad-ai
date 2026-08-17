@@ -207,6 +207,7 @@ function foldSse(text: string): Record<string, unknown> {
     if (c.finish_reason) finish = c.finish_reason
     const d = c.delta ?? {}
     if (typeof d.content === 'string') msg.content += d.content
+    if (typeof d.reasoning_text === 'string') msg.reasoning_text = (msg.reasoning_text ?? '') + d.reasoning_text
     if (Array.isArray(d.tool_calls)) {
       for (const tc of d.tool_calls) {
         const idx = tc.index ?? 0
@@ -220,6 +221,7 @@ function foldSse(text: string): Record<string, unknown> {
   }
   const toolCalls = [...byIndex.entries()].sort((a, b) => a[0] - b[0]).map(([, v]) => v)
   const message: any = { role: 'assistant', content: msg.content || null }
+  if (msg.reasoning_text) message.reasoning_text = msg.reasoning_text
   if (toolCalls.length > 0) message.tool_calls = toolCalls
   return { choices: [{ message, finish_reason: finish }], usage }
 }
@@ -235,6 +237,12 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
 
   const msg = choice.message
   const content: ContentBlock[] = []
+
+  // Copilot streams Fable's reasoning as plain text (delta.reasoning_text) —
+  // surface it as a thinking block; the panel renders those natively.
+  if (msg.reasoning_text) {
+    content.push({ type: 'thinking', thinking: msg.reasoning_text } as ContentBlock)
+  }
 
   // Some local models (e.g. Qwen via LM Studio) return whitespace-only content
   // (a stray "\n") alongside tool_calls; skip it so it doesn't render as an empty

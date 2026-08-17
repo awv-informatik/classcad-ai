@@ -92,6 +92,10 @@ export async function* runAgentLoop(
       return
     }
 
+    // Diagnosis aid: surface why each round ended (visible in the devtools console).
+    // eslint-disable-next-line no-console
+    console.debug('[buerli-ai] round', iteration, 'stop_reason:', response.stop_reason, 'usage:', response.usage)
+
     // Surface token usage (inputTokens ≈ context occupied by the sent history).
     if (response.usage) {
       yield { type: 'usage', inputTokens: response.usage.inputTokens, outputTokens: response.usage.outputTokens }
@@ -140,7 +144,10 @@ export async function* runAgentLoop(
       // requests are answered with text alone (e.g. a question about an image).
       const trailingText = textBlocks.map(b => b.text).join('').trimEnd()
       const looksIncomplete =
-        trailingText.endsWith(':') || /\b(let me|let's|i'?ll|i will|now i|first,? i)\b/i.test(trailingText)
+        trailingText.endsWith(':') ||
+        /\b(let me|let's|i'?ll|i will|now i|first,? i)\b/i.test(trailingText) ||
+        // announced-action endings: "Now building.", "Proceeding.", "Starting with the blank."
+        /\b(now|next)\b[^.!?]*\b(build|creat|proceed|start|continu|mov|writ|run)\w*[.!]?$/i.test(trailingText)
       if (looksIncomplete && nudges < MAX_NUDGES) {
         nudges++
         messages.push({

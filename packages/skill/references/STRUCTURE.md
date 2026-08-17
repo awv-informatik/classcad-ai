@@ -1,13 +1,9 @@
-# Structure (SCG — Structured ClassCAD Graphic)
+# Structure — the model tree
 
-The structure tree is the half of an SCG payload that describes the **model**:
-every part, assembly, instance, feature, sketch, and the parent-child links
-between them. The other half is `graphic` (tessellated meshes, edges, sketches
-— see [GRAPHICS.md](GRAPHICS.md)). Together with a small `header` block, the
-three form a complete, engine-independent representation of a model.
-
-Source: internal AWV engineering documentation, deep-verified claim-by-claim
-against the live server (part, sketch, and AS1-assembly probes). The distilled
+The structure tree describes the **model**: every part, assembly, instance,
+feature, sketch, and the parent-child links between them. The engine streams it
+on every Result frame; its geometric counterpart is the graphic payload
+(tessellated meshes and edges — see [GRAPHICS.md](GRAPHICS.md)). The distilled
 subset agents need day-to-day is [DATA.md](DATA.md); this file is the depth.
 
 ## The envelope
@@ -27,6 +23,22 @@ type Structure = {
 
 `AllObjects` (id 1) exists in the tree as the top-most **parent** — every
 parent-walk ends there — but `structure.root` never points at it.
+
+## Classes form a hierarchy
+
+`class` strings belong to an inheritance tree (`ScgClassInheritance` in
+`@classcad/api-js`; buerli's `ccUtils.base.isA` checks against it). The
+load-bearing relations:
+
+- `CC_Part` and `CC_Assembly` both derive from `CC_Product` — "give me all
+  products" matches parts AND assemblies.
+- `CC_AssemblyRoot` derives from `CC_Assembly`.
+- `CC_ProductReference` and `CC_ProductReferenceET` both derive from
+  `I_ProductReference` — one predicate catches every instance node.
+
+Exact string comparison (`n.class === 'CC_Part'`) is fine for leaf classes;
+just remember an `CC_AssemblyRoot` will NOT match `=== 'CC_Assembly'` — test
+both (or use buerli's `isA` where available).
 
 ## StructureObject
 
@@ -178,7 +190,7 @@ const elements    = kids.filter(n => !n.class.includes('Constraint'))
 const constraints = kids.filter(n => n.class.includes('Constraint'))
 ```
 
-## Assembly anatomy (verified against AS1 STEP)
+## Assembly anatomy
 
 Definitions and instances are **separate**. Definitions live in two containers;
 the instance tree hangs under the assembly root:
@@ -197,15 +209,20 @@ AllObjects
       └─ …
 ```
 
-There is **no `CC_Instance` class**. An instance is a `CC_ProductReference`
+There is **no `CC_Instance` class** — neither in live trees nor in the
+`@classcad/api-js` class registry. An instance is a `CC_ProductReference`
 (direct, in a definition) or `CC_ProductReferenceET` (expanded copy of a
 nested instance). Both carry:
 
-- `members.productId.value` → the referenced `CC_Part` or `CC_Assembly`
-  definition (`link` is the same value as a top-level shortcut),
+- `link` → the referenced `CC_Part` or `CC_Assembly` definition
+  (`members.productId.value` holds the same id). buerli's reference
+  implementation keys on `link`: a node with `link` is an instance, and its
+  geometry is `tree[link].solids`.
 - `coordinateSystem` — the **local** placement in the parent's frame (an ET
   node repeats the cs of the definition-level reference it expands),
-- `members.partName.value` — the instance name (e.g. STEP's `NAUO1`).
+- `members.partName.value` — the instance name (e.g. STEP's `NAUO1`); ET
+  nodes additionally carry `members.productRef.value` → the definition-level
+  `CC_ProductReference` they expand.
 
 `CC_Assembly(Root).instances` lists the direct references;
 `instancesNested` flattens the whole expanded tree. `CC_ConstraintSet` holds
@@ -215,9 +232,12 @@ assembly constraints (empty for a STEP import, which carries placements only).
 
 Transforms are **local per level**. The world matrix of a leaf is the product
 of the `coordinateSystem` matrices from the root's direct reference down the
-PR/ET chain. Recurse into reference children until `productId` resolves to a
-`CC_Part` — that's a placed leaf. This is exactly what
-`@classcad/renderer`'s `extractAssemblyInstances` does (image-verified):
+PR/ET chain. Recurse into reference children until the referenced product is a
+`CC_Part` — that's a placed leaf. `@classcad/renderer`'s
+`extractAssemblyInstances` implements this walk top-down; buerli's
+`api.structure.calculateGlobalTransformation(id)` computes the same matrix
+bottom-up (premultiplying every `coordinateSystem` on the parent walk from the
+instance to `root`) — the two agree to machine precision:
 
 ```js
 // ASSEMBLY WALK (verified end to end): world transform per part instance
@@ -263,7 +283,7 @@ negative `graphicId`s; they resolve under the live container.
 | scripts (universal) | `api.tree({refresh: true})` → the `tree` record |
 | node session extra | `session.getStructure()` → the full envelope |
 | classcad-mcp | `tree({refresh?})`, `find({type?, name?})`, `inspect({id})` |
-| buerli apps | store `drawing.structure.tree`, kept live by the client |
+| buerli apps | store `drawing.structure.tree`, kept live by the client; `api.structure.calculateGlobalTransformation(id)` (world matrix), `calculateProductBounds(id)`, `collectProducts(rootId)` |
 
 WS-protocol details (handshake flags, snapshot vs patch) live in
 [common/state-tree.md](common/state-tree.md).

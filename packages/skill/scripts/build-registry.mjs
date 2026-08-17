@@ -14,7 +14,10 @@ import { dirname, join } from 'path'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = join(here, '..')
-const apisDir = join(root, 'node_modules', '@classcad', 'api-js', 'build', 'types', 'apis', 'v1')
+// Resolve @classcad/api-js wherever npm placed it (hoisted in a workspace).
+import { createRequire } from 'module'
+const apiJsRoot = dirname(createRequire(import.meta.url).resolve('@classcad/api-js/package.json'))
+const apisDir = join(apiJsRoot, 'build', 'types', 'apis', 'v1')
 const outputPath = join(root, 'method-registry.json')
 
 const DOMAINS = ['assembly', 'common', 'curve', 'drawing2d', 'part', 'sketch', 'solid']

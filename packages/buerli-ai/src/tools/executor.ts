@@ -1,0 +1,675 @@
+// ─── Tool executor — dispatches tool calls to their handlers ──────────────────
+
+import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
+import { getDrawing } from '@buerli.io/core'
+import type { ToolExecutorContext, ToolHandler, ToolResult } from '../types'
+import { getMethodRegistry, type MethodRegistry } from './registry'
+import { describeMethod } from './skill'
+import { getSnapshotCapturer } from './snapshot'
+import { API_EXTRAS } from './apiExtras'
+
+// API namespaces the agent can reach (the first path segment selects one):
+//   v1       — ClassCAD command API (createApi(id).v1; single object arg; documented).
+//   facade   — BuerliCadFacade session/history utils (undo/redo/fetchTree/…). The
+//              current drawing id is auto-injected, so the model passes only extras.
+//   <other>  — any buerli drawing operation API on getDrawing(id).api.* (structure,
+//              interaction, selection, geometry, …); POSITIONAL args.
+// v0 (legacy ClassCAD) is intentionally NOT exposed — use v1.
+function resolveNamespace(drawingId: ToolExecutorContext['drawingId'], ns: string): any {
+  if (ns === 'v1') return (createApi(drawingId) as any)?.v1
+  if (ns === 'facade') return (BuerliCadFacade as any)?.utils
+  return (getDrawing(drawingId) as any)?.api?.[ns]
+}
+
+// A namespace is callable if it resolves to an object on this drawing.
+function isCallableNamespace(drawingId: ToolExecutorContext['drawingId'], ns: string): boolean {
+  const root = resolveNamespace(drawingId, ns)
+  return root != null && typeof root === 'object'
+}
+
+// All namespaces currently reachable on this drawing (for list_methods discovery).
+// Only object-valued keys are real namespaces — they're what `call_api` reaches via
+// "<namespace>.<method>" and what isCallableNamespace accepts. Function-valued keys
+// (e.g. api.reset()) aren't callable that way, so listing them as namespaces would
+// contradict isCallableNamespace and make `list_methods({ namespace })` reject them.
+function listNamespaces(drawingId: ToolExecutorContext['drawingId']): string[] {
+  const api = (getDrawing(drawingId) as any)?.api ?? {}
+  const dynamic = Object.keys(api).filter(k => api[k] != null && typeof api[k] === 'object')
+  return ['v1', 'facade', ...dynamic]
+}
+
+// Walk a dotted path on a root, returning the function and the object that owns
+// it (so we can preserve `this` when invoking class-instance methods).
+function resolveCallable(root: any, path: string[]): { fn: any; owner: any } {
+  let owner = root
+  let fn = root
+  for (const seg of path) {
+    owner = fn
+    fn = fn?.[seg]
+  }
+  return { fn, owner }
+}
+
+// Reflect callable method names off a live API object, walking the prototype
+// chain (buerli sub-APIs are class instances, so methods aren't own-enumerable).
+function reflectMembers(obj: any): { methods: string[]; subNamespaces: string[] } {
+  const methods = new Set<string>()
+  const subs = new Set<string>()
+  let o = obj
+  while (o && o !== Object.prototype) {
+    for (const key of Object.getOwnPropertyNames(o)) {
+      if (key === 'constructor' || key.startsWith('_')) continue
+      let val: unknown
+      try {
+        val = obj[key]
+      } catch {
+        continue
+      }
+      if (typeof val === 'function') methods.add(key)
+      else if (val && typeof val === 'object') subs.add(key)
+    }
+    o = Object.getPrototypeOf(o)
+  }
+  return { methods: [...methods].sort(), subNamespaces: [...subs].sort() }
+}
+
+// Append a method's parameter signature (from the v1 registry or the curated
+// extras) to an error message so the model can self-correct.
+function appendSignature(message: string, method: string): string {
+  const reg = getMethodRegistry()
+  const entry = reg?.[method]
+  const params = entry?.params ?? API_EXTRAS[method]?.params
+  if (!params?.length) return message
+  return `${message}\n\nParameters for ${method}:\n${params.map(p => `  - ${p.name}: ${p.text}`).join('\n')}`
+}
+
+// ClassCAD/buerli often reject with a plain object (e.g. { type, text }) rather
+// than an Error, so `String(e)` would yield "[object Object]". Pull a human
+// message from the common fields, falling back to JSON so nothing is ever opaque.
+function toErrorMessage(e: unknown): string {
+  if (e == null) return 'Unknown error'
+  if (typeof e === 'string') return e
+  if (e instanceof Error) return e.message
+  if (typeof e === 'object') {
+    const o = e as Record<string, unknown>
+    for (const k of ['message', 'text', 'error', 'reason', 'detail']) {
+      if (typeof o[k] === 'string' && o[k]) return o[k] as string
+    }
+    try {
+      return JSON.stringify(e)
+    } catch {
+      /* fall through */
+    }
+  }
+  return String(e)
+}
+
+// Suggest close method names when the model guesses one that isn't in the registry.
+function suggestMethods(registry: MethodRegistry, method: string): string {
+  const tail = (method.split('.').pop() ?? method).toLowerCase()
+  if (!tail) return ''
+  const hits = Object.keys(registry)
+    .filter(k => k.toLowerCase().includes(tail))
+    .slice(0, 5)
+  return hits.length ? ` Did you mean: ${hits.join(', ')}?` : ''
+}
+
+// Common CAD-operation synonyms so a keyword search surfaces the right feature even
+// when the user's word differs from the API's — e.g. "split" → part.slice / solid.slice
+// (the API never uses "split" for solids; that word only hits 2D curve methods).
+const OP_SYNONYMS: Record<string, string[]> = {
+  split: ['slice', 'cut', 'divide', 'section', 'bisect', 'separate'],
+  slice: ['split', 'cut', 'section', 'divide'],
+  cut: ['slice', 'subtract', 'split', 'remove', 'pocket', 'section'],
+  section: ['slice', 'cut', 'split'],
+  hole: ['bore', 'drill', 'cut', 'pocket', 'subtract'],
+  bore: ['hole', 'drill'],
+  subtract: ['cut', 'difference', 'boolean', 'remove'],
+  difference: ['subtract', 'cut', 'boolean'],
+  union: ['add', 'join', 'combine', 'fuse', 'merge', 'boolean'],
+  join: ['union', 'combine', 'merge', 'fuse'],
+  combine: ['union', 'join', 'merge'],
+  intersect: ['intersection', 'common', 'boolean'],
+  round: ['fillet', 'blend'],
+  fillet: ['round', 'blend'],
+  chamfer: ['bevel'],
+  extrude: ['pad', 'protrusion', 'boss', 'extrusion'],
+  revolve: ['revolution', 'lathe', 'revolved'],
+  sweep: ['loft'],
+  loft: ['sweep'],
+  pattern: ['array', 'repeat'],
+  array: ['pattern', 'repeat'],
+  mirror: ['reflect', 'symmetry', 'pattern'],
+  hollow: ['shell', 'thin', 'thinwall'],
+  shell: ['hollow', 'thin'],
+  move: ['translate', 'transform', 'position', 'offset'],
+  rotate: ['turn', 'transform'],
+  scale: ['resize', 'transform'],
+  copy: ['duplicate', 'clone', 'instance'],
+  measure: ['bounds', 'distance', 'length', 'volume', 'mass', 'inspect'],
+  bounds: ['boundingbox', 'extent', 'size', 'measure'],
+}
+
+// Expand a raw filter into the set of lowercase terms to match (query tokens + synonyms).
+function expandSearchTerms(filter: string): string[] {
+  const tokens = filter.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
+  const out = new Set<string>(tokens)
+  for (const t of tokens) for (const syn of OP_SYNONYMS[t] ?? []) out.add(syn)
+  return [...out]
+}
+
+// ─── Individual tool handlers ─────────────────────────────────────────────────
+
+const callApi: ToolHandler = async (input, ctx) => {
+  const { method, args } = input as { method: string; args?: unknown }
+  const segments = (method || '').split('.')
+  const ns = segments[0]
+  const path = segments.slice(1)
+
+  if (path.length === 0) {
+    return { error: `Invalid method "${method}". Expected "<namespace>.<path>", e.g. "v1.part.box" or "structure.calculateProductBounds". Call list_methods (no args) to see namespaces.` }
+  }
+
+  // ── v1: ClassCAD, registry-validated, single {param} object argument ──
+  if (ns === 'v1') {
+    const registry = getMethodRegistry()
+    if (registry && !registry[method]) {
+      return { error: `Unknown method "${method}".${suggestMethods(registry, method)} Use list_methods to discover available methods.` }
+    }
+    if (path.length !== 2) {
+      return { error: `Invalid v1 method "${method}". Expected "v1.<domain>.<method>".` }
+    }
+    try {
+      const fn = (createApi(ctx.drawingId) as any)?.v1?.[path[0]]?.[path[1]]
+      if (typeof fn !== 'function') return { error: `${method} is not a function on the API.` }
+      const result = await fn(args ?? {})
+      return { result }
+    } catch (e) {
+      return { error: appendSignature(toErrorMessage(e), method) }
+    }
+  }
+
+  if (ns === 'v0') {
+    return { error: 'v0 is legacy and not exposed — use the v1 ClassCAD API (or load_file to import a file).' }
+  }
+
+  // ── facade + buerli drawing APIs: POSITIONAL arguments (args = array) ──
+  if (!isCallableNamespace(ctx.drawingId, ns)) {
+    return { error: `Unknown namespace "${ns}". Call list_methods (no args) to see available namespaces.` }
+  }
+  const root = resolveNamespace(ctx.drawingId, ns)
+  const { fn, owner } = resolveCallable(root, path)
+  if (typeof fn !== 'function') {
+    return { error: `${method} is not a function. Use list_methods({ namespace: "${ns}" }) to see available methods.` }
+  }
+  let callArgs = Array.isArray(args) ? args : args == null ? [] : [args]
+  // facade.utils methods (except connect) take the drawing id as their first arg —
+  // inject it so the model only supplies the extra arguments.
+  if (ns === 'facade' && path[path.length - 1] !== 'connect') {
+    callArgs = [ctx.drawingId, ...callArgs]
+  }
+  try {
+    const result = await fn.apply(owner, callArgs)
+    return { result }
+  } catch (e) {
+    return { error: appendSignature(toErrorMessage(e), method) }
+  }
+}
+
+// ─── call_api_batch — many calls in one turn, with result references ──────────
+// Multi-step sequences (add a segment, connect two ends) are data-dependent: instance → id
+// → getWorkGeometry → fastened. Running them one call_api per turn is slow (a full LLM
+// round-trip each). This runs them sequentially in ONE turn; any later call can reference an
+// earlier result with a "$N" placeholder ("$0.id", "$2", "$4[0]") anywhere in its args.
+
+// Strip ClassCAD response wrappers ({ result: { result: X, maxLevel } } → X) so a "$0.id"
+// reference reaches the value regardless of how deeply the API nests it.
+function unwrapValue(v: unknown): unknown {
+  let cur: any = v
+  for (let guard = 0; cur && typeof cur === 'object' && !Array.isArray(cur) && 'result' in cur && guard < 5; guard++) {
+    cur = cur.result
+  }
+  return cur
+}
+
+// Navigate a "$N" reference path. The model writes refs BLIND — it can't see results
+// mid-batch — and cc return shapes are inconsistent (instance → bare 105, loadProduct →
+// { id: 22 }, getFastened → a rich object). So be tolerant of the two id-shape guesses:
+//   • "$N.id" on a bare id (number/string)  → the id itself
+//   • "$N" landing on a single-key { id }   → its id
+// Anything genuinely missing THROWS with what the call actually returned — a silent
+// `undefined` would otherwise surface downstream as a cryptic engine type error.
+function resolveRefPath(ref: string, idx: number, path: string, prior: unknown[], methods: string[]): unknown {
+  let cur: any = prior[idx]
+  const tokens = path.match(/\.[^.[\]]+|\[\d+\]/g) || []
+  for (const tok of tokens) {
+    const key: string | number = tok[0] === '.' ? tok.slice(1) : parseInt(tok.slice(1, -1), 10)
+    if (key === 'id' && (typeof cur === 'number' || typeof cur === 'string')) continue
+    const next = cur == null ? undefined : cur[key]
+    if (next === undefined) {
+      let got: string
+      try { got = JSON.stringify(cur) ?? String(cur) } catch { got = String(cur) }
+      throw new Error(`"${ref}": call ${idx} (${methods[idx]}) returned ${got.slice(0, 200)} — it has no "${key}". Reference the shape it actually returned.`)
+    }
+    cur = next
+  }
+  if (cur && typeof cur === 'object' && !Array.isArray(cur)) {
+    const keys = Object.keys(cur)
+    if (keys.length === 1 && keys[0] === 'id') return cur.id
+  }
+  return cur
+}
+
+// Deep-replace "$N" / "$N.path" placeholder strings with prior calls' unwrapped results.
+function resolveRefs(value: any, prior: unknown[], methods: string[]): any {
+  if (typeof value === 'string') {
+    const m = value.match(/^\$(\d+)((?:\.[^.[\]]+|\[\d+\])*)$/)
+    if (!m) return value
+    const idx = parseInt(m[1], 10)
+    if (idx >= prior.length) throw new Error(`"${value}" references call ${idx}, which hasn't run yet (have 0..${prior.length - 1})`)
+    return resolveRefPath(value, idx, m[2] || '', prior, methods)
+  }
+  if (Array.isArray(value)) return value.map(v => resolveRefs(v, prior, methods))
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(value)) out[k] = resolveRefs(v, prior, methods)
+    return out
+  }
+  return value
+}
+
+const callApiBatch: ToolHandler = async (input, ctx) => {
+  const { calls } = input as { calls?: Array<{ method?: string; args?: unknown }> }
+  if (!Array.isArray(calls) || calls.length === 0) {
+    return { error: 'call_api_batch expects a non-empty "calls" array of { method, args }.' }
+  }
+  const values: unknown[] = [] // unwrapped result of each call so far (for $N references)
+  const results: Array<{ method: string; value?: unknown }> = []
+  for (let i = 0; i < calls.length; i++) {
+    const c = calls[i]
+    const ran = i === 0 ? 'No calls ran before this.' : `Calls 0..${i - 1} already ran and mutated the drawing — inspect state before retrying.`
+    if (!c || typeof c.method !== 'string') {
+      return { error: `call_api_batch call ${i}: each entry needs a "method" string. ${ran}` }
+    }
+    let resolvedArgs: unknown
+    try {
+      resolvedArgs = resolveRefs(c.args ?? {}, values, results.map(x => x.method))
+    } catch (e) {
+      return {
+        error: `call_api_batch call ${i} (${c.method}): ${toErrorMessage(e)} ${ran}`,
+        result: { ok: false, completed: i, failedIndex: i, results },
+      }
+    }
+    const r = await callApi({ method: c.method, args: resolvedArgs }, ctx)
+    if (r.error) {
+      // Echo the args AFTER $N substitution — a mis-shaped reference (undefined, whole
+      // object where an id belongs) is then self-evident instead of a downstream mystery.
+      let sent: string
+      try { sent = JSON.stringify(resolvedArgs) ?? 'undefined' } catch { sent = String(resolvedArgs) }
+      return {
+        error: `call_api_batch stopped at call ${i} (${c.method}): ${r.error}\nArgs as sent (after $N substitution): ${sent.slice(0, 400)}\n${ran}`,
+        // Carry the calls that DID run so the code panel can still show them.
+        result: { ok: false, completed: i, failedIndex: i, results },
+      }
+    }
+    const val = unwrapValue(r.result)
+    values.push(val)
+    results.push({ method: c.method, value: val })
+  }
+  return { result: { ok: true, completed: calls.length, results } }
+}
+
+const tree: ToolHandler = async (_input, ctx) => {
+  const drawing = getDrawing(ctx.drawingId)
+  if (!drawing?.structure?.tree) {
+    return { result: { tree: null, hint: 'No structure tree available. Create a part or assembly first.' } }
+  }
+  const treeData = drawing.structure.tree
+  const nodes = Object.values(treeData).map((n: any) => ({
+    id: n.id,
+    class: n.class,
+    name: n.name,
+    parent: n.parent,
+  }))
+  return {
+    result: {
+      currentProduct: drawing.structure.currentProduct,
+      currentInstance: drawing.structure.currentInstance,
+      nodeCount: nodes.length,
+      nodes,
+    },
+  }
+}
+
+const find: ToolHandler = async (input, ctx) => {
+  const { type, name } = input as { type?: string; name?: string }
+  const drawing = getDrawing(ctx.drawingId)
+  if (!drawing?.structure?.tree) {
+    return { result: { count: 0, nodes: [] } }
+  }
+  const needle = name?.toLowerCase()
+  const hits = Object.values(drawing.structure.tree).filter((n: any) => {
+    if (type && n.class !== type) return false
+    if (needle && !String(n.name ?? '').toLowerCase().includes(needle)) return false
+    return true
+  })
+  return {
+    result: {
+      count: hits.length,
+      nodes: hits.map((n: any) => ({ id: n.id, class: n.class, name: n.name, parent: n.parent })),
+    },
+  }
+}
+
+const inspect: ToolHandler = async (input, ctx) => {
+  const { id } = input as { id: string | number }
+  const drawing = getDrawing(ctx.drawingId)
+  if (!drawing?.structure?.tree) {
+    return { error: 'No structure tree available.' }
+  }
+  const node = drawing.structure.tree[String(id)] as any
+  if (!node) {
+    return { error: `Node with id "${id}" not found.` }
+  }
+  // Build parent chain
+  const parentChain: Array<{ id: any; class: string; name: string }> = []
+  let cur = node
+  while (cur?.parent != null) {
+    const p = drawing.structure.tree[String(cur.parent)] as any
+    if (!p) break
+    parentChain.push({ id: p.id, class: p.class, name: p.name })
+    cur = p
+  }
+  return { result: { ...node, parentChain } }
+}
+
+const getSelection: ToolHandler = async (_input, ctx) => {
+  const drawing = getDrawing(ctx.drawingId)
+  const selected = drawing?.interaction?.selected ?? []
+  return { result: selected }
+}
+
+const setSelection: ToolHandler = async (input, ctx) => {
+  const { items } = input as { items: any[] }
+  const drawing = getDrawing(ctx.drawingId)
+  drawing?.api?.interaction?.setSelected(items ?? [])
+  return { result: { ok: true, count: items?.length ?? 0 } }
+}
+
+const listMethods: ToolHandler = async (input, ctx) => {
+  const { namespace, domain, filter } = input as { namespace?: string; domain?: string; filter?: string }
+
+  // No namespace and no v1 filters → list the available namespaces.
+  if (!namespace && !domain && !filter) {
+    return {
+      result: {
+        namespaces: listNamespaces(ctx.drawingId),
+        note:
+          'v1 = ClassCAD (documented, object args). facade = session/history (undo/redo/fetchTree/…; current drawing ' +
+          'auto-targeted). others = buerli drawing ops (positional args). Call list_methods({ namespace }) for its methods.',
+      },
+    }
+  }
+
+  const ns = namespace || 'v1'
+
+  // ── v1: documented registry ──
+  if (ns === 'v1') {
+    const registry = getMethodRegistry()
+    if (!registry) return { error: 'Method registry not loaded. No method metadata available.' }
+    let entries = Object.entries(registry)
+    if (domain) entries = entries.filter(([k]) => k.startsWith(`v1.${domain}.`))
+
+    if (filter) {
+      // Rank over BOTH the method name and its summary, expanding the query with CAD
+      // synonyms (split↔slice↔cut, hole↔bore, round↔fillet, …) so a near-miss keyword
+      // still surfaces the right feature instead of nothing. Name hits weigh more.
+      const terms = expandSearchTerms(filter)
+      const scored = entries
+        .map(([name, info]) => {
+          const n = name.toLowerCase()
+          const s = String((info as any).summary ?? '').toLowerCase()
+          let score = 0
+          for (const t of terms) {
+            if (n.includes(t)) score += 2
+            if (s.includes(t)) score += 1
+          }
+          return { name, summary: (info as any).summary as string, score }
+        })
+        .filter(e => e.score > 0)
+        .sort((a, b) => b.score - a.score)
+
+      if (scored.length === 0) {
+        return {
+          result: {
+            namespace: 'v1',
+            query: filter,
+            methods: [],
+            note:
+              `No method matched "${filter}" (synonyms tried). Do NOT assume the operation doesn't exist or rebuild ` +
+              `the model manually — browse the relevant domain first, e.g. list_methods({ namespace: "v1", domain: ` +
+              `"part" }). Domains: part, assembly, sketch, solid, curve, common, drawing2d.`,
+          },
+        }
+      }
+      return {
+        result: {
+          namespace: 'v1',
+          note: 'Ranked by relevance (matches method name + summary; CAD synonyms expanded). Use describe_method for exact params.',
+          methods: scored.slice(0, 25).map(({ name, summary }) => ({ name, summary })),
+        },
+      }
+    }
+
+    return { result: { namespace: 'v1', methods: entries.map(([name, info]) => ({ name, summary: (info as any).summary })) } }
+  }
+
+  if (ns === 'v0') return { error: 'v0 is legacy and not exposed — use v1.' }
+
+  // ── facade + buerli drawing APIs: reflect the live object ──
+  if (!isCallableNamespace(ctx.drawingId, ns)) {
+    return { error: `Unknown namespace "${ns}". Call list_methods (no args) to see available namespaces.` }
+  }
+  const root = resolveNamespace(ctx.drawingId, ns)
+  let { methods, subNamespaces } = reflectMembers(root)
+  if (filter) {
+    const needle = filter.toLowerCase()
+    methods = methods.filter(m => m.toLowerCase().includes(needle))
+  }
+  return {
+    result: {
+      namespace: ns,
+      note:
+        `Reflected from the live API. Call as "${ns}.<method>" with POSITIONAL args (an array)` +
+        (ns === 'facade' ? ' — the current drawing is auto-targeted, so pass only extra args.' : '.') +
+        ' Most have no docs — try describe_method, or call and learn from the result/error.',
+      methods: methods.map(m => ({ name: `${ns}.${m}`, summary: API_EXTRAS[`${ns}.${m}`]?.summary ?? '' })),
+      subNamespaces: subNamespaces.map(s => `${ns}.${s}`),
+    },
+  }
+}
+
+const describeMethodTool: ToolHandler = async (input, ctx) => {
+  const { method } = input as { method: string }
+  if (!method) {
+    return { error: 'Provide a method path, e.g. "v1.part.box" or "structure.calculateProductBounds".' }
+  }
+  const ns = method.split('.')[0]
+  const hasPath = method.includes('.')
+
+  // Bare name (no dot). If it names a buerli namespace, the model passed a
+  // namespace where a method was expected — guide it instead of failing.
+  if (!hasPath) {
+    if (ns !== 'v1' && isCallableNamespace(ctx.drawingId, ns)) {
+      return {
+        result:
+          `"${ns}" is a namespace, not a method. Call list_methods({ namespace: "${ns}" }) to see its methods, ` +
+          `then describe_method("${ns}.<method>"). These methods take POSITIONAL args (an array).`,
+      }
+    }
+    // Otherwise treat it as a v1 method name and look it up in the registry/skill.
+    return describeMethod(method)
+  }
+
+  // v1 dotted path → registry + skill docs.
+  if (ns === 'v1') return describeMethod(method)
+
+  // Curated extras doc, if any.
+  const extra = API_EXTRAS[method]
+  if (extra) {
+    const parts = [`# ${method}\n`, `**Summary**: ${extra.summary}\n`]
+    if (extra.params?.length) {
+      parts.push('**Parameters** (positional, pass as an args array):')
+      for (const p of extra.params) parts.push(`- \`${p.name}\`: ${p.text}`)
+    }
+    return { result: parts.join('\n') }
+  }
+
+  // Fall back to runtime reflection (arity only).
+  if (isCallableNamespace(ctx.drawingId, ns)) {
+    const root = resolveNamespace(ctx.drawingId, ns)
+    const { fn } = resolveCallable(root, method.split('.').slice(1))
+    if (typeof fn === 'function') {
+      return {
+        result:
+          `# ${method}\n\nNo curated docs. Reflected: a function taking ~${fn.length} positional argument(s). ` +
+          `Call ${method} with an args array and learn its shape from the result or error.`,
+      }
+    }
+  }
+  return { error: `"${method}" is not a known method. Use list_methods({ namespace: "${ns}" }) to discover it.` }
+}
+
+function base64ToArrayBuffer(b64: string): ArrayBuffer {
+  const bin = atob(b64)
+  const arr = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i)
+  return arr.buffer
+}
+
+const loadFile: ToolHandler = async (input, ctx) => {
+  const { name } = input as { name: string }
+  const att = ctx.attachments?.find(a => a.name === name)
+  if (!att) {
+    const available = ctx.attachments?.map(a => a.name).join(', ') || '(none attached)'
+    return { error: `No attached file named "${name}". Available: ${available}` }
+  }
+  try {
+    const api = createApi(ctx.drawingId) as any
+    const load = api?.v0?.baseModeler?.load
+    if (typeof load !== 'function') {
+      return { error: 'File import is unavailable (v0.baseModeler.load not found on the API).' }
+    }
+    const ext = (name.split('.').pop() || '').toLowerCase()
+    // baseModeler.load requires an empty drawing ("there is already a model…"),
+    // so replace the current scene: clear all objects (the editor's default part)
+    // first, then import the file into the same drawing.
+    if (typeof api?.v1?.common?.clear === 'function') {
+      await api.v1.common.clear({})
+    }
+    const result = await load(base64ToArrayBuffer(att.data), ext, name)
+    return { result: { loaded: name, type: ext, replacedScene: true, result } }
+  } catch (e) {
+    return { error: `Failed to load "${name}": ${toErrorMessage(e)}` }
+  }
+}
+
+// Export a model to a downloadable file. Returns the bytes (base64) in
+// result.download — kept app-side and rendered as a download button; never sent
+// to the model (buildToolResultContent strips it to metadata-only).
+// ClassCAD save format codes (STEP is "STP"; valid set is OFB/STP/STL/SCG/IWP — DXF
+// is broken in the engine). We request encoding:base64 and NO compression so the
+// returned content base64-decodes straight to the real file bytes (a deflate would
+// need re-inflating before it's a valid .step/.stl/.ofb).
+const DOWNLOAD_FORMATS: Record<string, { fmt: string; ext: string; mime: string }> = {
+  STEP: { fmt: 'STP', ext: 'step', mime: 'application/step' },
+  STP: { fmt: 'STP', ext: 'step', mime: 'application/step' },
+  STL: { fmt: 'STL', ext: 'stl', mime: 'model/stl' },
+  OFB: { fmt: 'OFB', ext: 'ofb', mime: 'application/octet-stream' },
+}
+
+// v1.common.save returns { result: { success: 1, content: '<base64>' }, … } when no
+// file/url is set. Pull the base64 from result.content (with defensive fallbacks).
+function extractBase64(raw: unknown): string {
+  const strip = (s: string) => s.replace(/^data:[^;]+;base64,/, '')
+  if (typeof raw === 'string') return strip(raw)
+  if (!raw || typeof raw !== 'object') return ''
+  const o = raw as any
+  const content = o.result?.content ?? o.content ?? o.result?.data ?? o.data ?? o.value
+  if (typeof content === 'string') return strip(content)
+  if (typeof o.result === 'string') return strip(o.result)
+  return ''
+}
+
+function ensureExt(name: string, ext: string): string {
+  let clean = (name || 'model').trim().replace(/[/\\:*?"<>|]/g, '_') || 'model'
+  clean = clean.replace(/\.(step|stp|stl|ofb|iges|igs|scg|dxf)$/i, '') // drop a stray CAD ext
+  return `${clean}.${ext}`
+}
+
+const download: ToolHandler = async (input, ctx) => {
+  const { format, filename } = input as { format?: string; filename?: string }
+  const info = DOWNLOAD_FORMATS[(format || 'STEP').toUpperCase()] ?? DOWNLOAD_FORMATS.STEP
+  try {
+    const save = (createApi(ctx.drawingId) as any)?.v1?.common?.save
+    if (typeof save !== 'function') {
+      return { error: 'Export unavailable (v1.common.save not found on the API).' }
+    }
+    // No file/url param → the engine returns the model as a data string.
+    const raw = await save({ format: info.fmt, encoding: 'base64' })
+    const base64 = extractBase64(raw)
+    if (!base64) return { error: `Export produced no data for format ${info.fmt}.` }
+    const name = ensureExt(filename || 'model', info.ext)
+    const size = Math.floor((base64.length * 3) / 4)
+    return { result: { download: { filename: name, mimeType: info.mime, data: base64 }, filename: name, format: info.fmt, size } }
+  } catch (e) {
+    return { error: `Export failed: ${toErrorMessage(e)}` }
+  }
+}
+
+const snapshot: ToolHandler = async (input) => {
+  const { label, width, height } = input as { label?: string; width?: number; height?: number }
+  const capturer = getSnapshotCapturer()
+  if (!capturer) {
+    return { error: 'No snapshot capturer registered. The host app must call setSnapshotCapturer().' }
+  }
+  try {
+    const result = await capturer({ label, width, height })
+    return { result }
+  } catch (e) {
+    return { error: `Snapshot failed: ${toErrorMessage(e)}` }
+  }
+}
+
+// ─── Dispatcher ───────────────────────────────────────────────────────────────
+
+const HANDLERS: Record<string, ToolHandler> = {
+  call_api: callApi,
+  call_api_batch: callApiBatch,
+  tree,
+  find,
+  inspect,
+  get_selection: getSelection,
+  set_selection: setSelection,
+  list_methods: listMethods,
+  describe_method: describeMethodTool,
+  snapshot,
+  load_file: loadFile,
+  download,
+}
+
+export async function executeTool(
+  toolName: string,
+  input: Record<string, unknown>,
+  ctx: ToolExecutorContext,
+): Promise<ToolResult> {
+  const handler = HANDLERS[toolName]
+  if (!handler) {
+    return { error: `Unknown tool: "${toolName}"` }
+  }
+  try {
+    return await handler(input, ctx)
+  } catch (e) {
+    return { error: `Tool execution error: ${toErrorMessage(e)}` }
+  }
+}

@@ -31,6 +31,7 @@ Returns the chamfer **feature ID** (numeric). This ID is used for `updateChamfer
 
 ## Gotchas
 
+- **Edge ids from the graphic payload work directly as `references`** (verified 2026-08-17): filter `api.graphic()` container `edges[]` by their `points` coordinates (e.g. all points at max z → the top rim) and pass the matching `edge.id`s — no position-based `getGeometryIds` round-trip needed. CAVEAT: those ids are payload-local (re-tessellation reassigns them) — use them in the SAME session state you read them from, don't store them across recalcs/features.
 - **A "full circle" rim on a subtracted cylinder is SEAM-SPLIT — collect ALL its arcs.** A bore
   rim (boolean-subtracted cylinder meeting a face) is not one edge: the cylinder's seam line
   splits each rim into 2 arcs (more if other cuts, e.g. a keyway, interrupt it). A

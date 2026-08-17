@@ -152,7 +152,26 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     return lastStructure?.tree ?? {}
   }
 
+  // The engine omits brep EDGE data from graphic payloads until the graphic
+  // database settings are enabled — ensure them ONCE, lazily, so scripts get
+  // full geometry from api.graphic() without knowing about the setting.
+  let graphicsEnsured = false
+  async function ensureGraphics(): Promise<void> {
+    if (graphicsEnsured) return
+    graphicsEnsured = true
+    try {
+      await execute({
+        'v1.common.setDatabaseSettings': [
+          { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
+        ],
+      } as Task)
+    } catch {
+      /* older servers — proceed without edges */
+    }
+  }
+
   async function getGraphic(o?: { recalc?: boolean }): Promise<{ containers?: any[] } | null> {
+    await ensureGraphics()
     // Recalc-first for fresh state (cached graphic may be stale/intermediate);
     // recalc DESTROYS entity-injection bodies — callers pass recalc:false there.
     if (o?.recalc !== false) {

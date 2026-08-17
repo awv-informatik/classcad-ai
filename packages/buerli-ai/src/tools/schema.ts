@@ -44,36 +44,6 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
     },
   },
   {
-    name: 'call_api',
-    description:
-      'Call a method on any allowed API namespace — the first segment of the method path selects it:\n' +
-      '• v1.<domain>.<method> — ClassCAD command API (documented). args = a single flat object.\n' +
-      '• facade.<method> — buerli session/history (e.g. facade.undo, facade.redo, facade.fetchTree). Current drawing auto-targeted; pass only extra args (often none).\n' +
-      '• structure / interaction / selection / geometry / … .<method> — buerli drawing APIs (e.g. structure.calculateProductBounds). args = a positional array.\n' +
-      'Call list_methods (no args) to see all namespaces; list_methods({ namespace }) for its methods. Use tree/find/inspect for live IDs first. ' +
-      'After a meaningful geometry change the 3D view updates automatically.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        method: {
-          type: 'string',
-          description:
-            'Namespaced method path, e.g. "v1.part.box", "facade.undo", or "structure.calculateProductBounds".',
-        },
-        args: {
-          type: ['object', 'array'],
-          description:
-            'Arguments. For v1, a single OBJECT with the fields flat (describe_method lists them as "param.id", "param.length" — ' +
-            'pass { "id": 4, "length": 100 }, NOT wrapped in "param"). For facade and the buerli namespaces, a ' +
-            'POSITIONAL ARRAY, e.g. [partId]. Omit if the method takes no arguments.',
-          // Required so strict-schema models (gpt-5.x) can populate the object form.
-          additionalProperties: true,
-        },
-      },
-      required: ['method'],
-    },
-  },
-  {
     name: 'tree',
     description:
       'Return the structure tree of the current drawing. ' +

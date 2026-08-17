@@ -79,26 +79,6 @@ function reflectMembers(obj: any): { methods: string[]; subNamespaces: string[] 
   return { methods: [...methods].sort(), subNamespaces: [...subs].sort() }
 }
 
-// Append a method's parameter signature (from the v1 registry or the curated
-// extras) to an error message so the model can self-correct.
-function appendSignature(message: string, method: string): string {
-  const reg = getMethodRegistry()
-  const entry = reg?.[method]
-  const params = entry?.params ?? API_EXTRAS[method]?.params
-  if (!params?.length) return message
-  return `${message}\n\nParameters for ${method}:\n${params.map(p => `  - ${p.name}: ${p.text}`).join('\n')}`
-}
-
-// Suggest close method names when the model guesses one that isn't in the registry.
-function suggestMethods(registry: MethodRegistry, method: string): string {
-  const tail = (method.split('.').pop() ?? method).toLowerCase()
-  if (!tail) return ''
-  const hits = Object.keys(registry)
-    .filter(k => k.toLowerCase().includes(tail))
-    .slice(0, 5)
-  return hits.length ? ` Did you mean: ${hits.join(', ')}?` : ''
-}
-
 // Common CAD-operation synonyms so a keyword search surfaces the right feature even
 // when the user's word differs from the API's — e.g. "split" → part.slice / solid.slice
 // (the API never uses "split" for solids; that word only hits 2D curve methods).
@@ -144,62 +124,6 @@ function expandSearchTerms(filter: string): string[] {
 }
 
 // ─── Individual tool handlers ─────────────────────────────────────────────────
-
-const callApi: ToolHandler = async (input, ctx) => {
-  const { method, args } = input as { method: string; args?: unknown }
-  const segments = (method || '').split('.')
-  const ns = segments[0]
-  const path = segments.slice(1)
-
-  if (path.length === 0) {
-    return { error: `Invalid method "${method}". Expected "<namespace>.<path>", e.g. "v1.part.box" or "structure.calculateProductBounds". Call list_methods (no args) to see namespaces.` }
-  }
-
-  // ── v1: ClassCAD, registry-validated, single {param} object argument ──
-  if (ns === 'v1') {
-    const registry = getMethodRegistry()
-    if (registry && !registry[method]) {
-      return { error: `Unknown method "${method}".${suggestMethods(registry, method)} Use list_methods to discover available methods.` }
-    }
-    if (path.length !== 2) {
-      return { error: `Invalid v1 method "${method}". Expected "v1.<domain>.<method>".` }
-    }
-    try {
-      const fn = (createApi(ctx.drawingId) as any)?.v1?.[path[0]]?.[path[1]]
-      if (typeof fn !== 'function') return { error: `${method} is not a function on the API.` }
-      const result = await fn(args ?? {})
-      return { result }
-    } catch (e) {
-      return { error: appendSignature(toErrorMessage(e), method) }
-    }
-  }
-
-  if (ns === 'v0') {
-    return { error: 'v0 is legacy and not exposed — use the v1 ClassCAD API (or load_file to import a file).' }
-  }
-
-  // ── facade + buerli drawing APIs: POSITIONAL arguments (args = array) ──
-  if (!isCallableNamespace(ctx.drawingId, ns)) {
-    return { error: `Unknown namespace "${ns}". Call list_methods (no args) to see available namespaces.` }
-  }
-  const root = resolveNamespace(ctx.drawingId, ns)
-  const { fn, owner } = resolveCallable(root, path)
-  if (typeof fn !== 'function') {
-    return { error: `${method} is not a function. Use list_methods({ namespace: "${ns}" }) to see available methods.` }
-  }
-  let callArgs = Array.isArray(args) ? args : args == null ? [] : [args]
-  // facade.utils methods (except connect) take the drawing id as their first arg —
-  // inject it so the model only supplies the extra arguments.
-  if (ns === 'facade' && path[path.length - 1] !== 'connect') {
-    callArgs = [ctx.drawingId, ...callArgs]
-  }
-  try {
-    const result = await fn.apply(owner, callArgs)
-    return { result }
-  } catch (e) {
-    return { error: appendSignature(toErrorMessage(e), method) }
-  }
-}
 
 const tree: ToolHandler = async (_input, ctx) => {
   const drawing = getDrawing(ctx.drawingId)
@@ -538,7 +462,6 @@ const readDocTool: ToolHandler = async input => {
 
 const HANDLERS: Record<string, ToolHandler> = {
   run_script: runScriptHandler,
-  call_api: callApi,
   tree,
   find,
   inspect,

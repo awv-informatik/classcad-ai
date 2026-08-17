@@ -44,6 +44,7 @@ packages/
       api/<domain>.md                 ← upstream API docs (read-only)
       <domain>/<apiName>.md           ← YOUR LLM docs (you create & own these)
   renderer/ script/ mcp/ buerli-ai/   ← shared packages you help maintain
+    script/docs/                      ← data contract (DATA, STRUCTURE, GRAPHICS) — read before tree/graphic scripting
 scripts/                              ← harness code (run.mjs — uses @classcad/script + @classcad/renderer)
 workspace/
   PLAN.md                             ← learning plan with checkboxes

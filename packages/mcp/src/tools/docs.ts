@@ -18,6 +18,7 @@ import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
+import { docs as scriptDocs } from '@classcad/script/docs'
 
 type RegistryEntry = { domain: string; method: string; summary: string; params: { name: string; text: string }[] }
 const REGISTRY = registry as Record<string, RegistryEntry>
@@ -141,10 +142,15 @@ export function registerDocsTools(server: McpServer): void {
     async ({ method }) => {
       const entry = REGISTRY[method]
       if (!entry) {
+        const safe = method.replace(/\.md$/i, '').replace(/[^a-zA-Z0-9/_-]/g, '')
+        // Data-contract docs ship with @classcad/script (DATA, STRUCTURE, GRAPHICS).
+        const scriptDoc = scriptDocs[safe] ?? scriptDocs[safe.toUpperCase()]
+        if (scriptDoc) {
+          return { content: [{ type: 'text', text: scriptDoc }] }
+        }
         // Whole documents: topic guides (references/<NAME>.md) and recipes.
         const skill = findSkillPath()
         if (skill) {
-          const safe = method.replace(/\.md$/i, '').replace(/[^a-zA-Z0-9/_-]/g, '')
           const candidates = [
             join(skill, 'references', `${safe.toUpperCase()}.md`),
             join(skill, 'references', `${safe}.md`),

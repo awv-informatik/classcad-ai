@@ -3,12 +3,21 @@
 // The skill bundle is a JSON map of domain/method → markdown documentation.
 // It's loaded at init time from a pre-built JSON file (see scripts/bundle-skill.mjs).
 
+import { docs as scriptDocs } from '@classcad/script/docs'
 import { getMethodRegistry } from './registry'
 import type { ToolResult } from '../types'
 
 export type SkillBundle = Record<string, string>
 
 let skillBundle: SkillBundle | null = null
+
+/**
+ * Everything readable: the data-contract docs shipped with @classcad/script
+ * (DATA, STRUCTURE, GRAPHICS — always available) merged with the skill bundle.
+ */
+function allDocs(): Record<string, string> {
+  return { ...scriptDocs, ...(skillBundle ?? {}) }
+}
 
 /** Set the skill bundle at runtime. */
 export function setSkillBundle(bundle: SkillBundle): void {
@@ -28,7 +37,7 @@ export async function loadSkillBundle(jsonModule: Promise<{ default: SkillBundle
  * docs are served through describe_method instead.
  */
 export function listDocs(): { topics: string[]; overviews: string[]; recipes: string[] } {
-  const keys = skillBundle ? Object.keys(skillBundle) : []
+  const keys = Object.keys(allDocs())
   return {
     topics: keys.filter(k => !k.includes('/')).sort(),
     overviews: keys.filter(k => k.startsWith('api/')).sort(),
@@ -43,18 +52,18 @@ export function listDocs(): { topics: string[]; overviews: string[]; recipes: st
  * tolerates a stray .md suffix.
  */
 export function readDoc(name: string): ToolResult {
-  if (!skillBundle) return { error: 'Skill bundle not loaded — no documents available.' }
+  const bundle = allDocs()
   const raw = (name || '').trim().replace(/\.md$/i, '')
   if (!raw) {
     const docs = listDocs()
     return { result: { available: docs } }
   }
   const doc =
-    skillBundle[raw] ??
+    bundle[raw] ??
     (() => {
       const lower = raw.toLowerCase()
-      const key = Object.keys(skillBundle!).find(k => k.toLowerCase() === lower)
-      return key ? skillBundle![key] : null
+      const key = Object.keys(bundle).find(k => k.toLowerCase() === lower)
+      return key ? bundle[key] : null
     })()
   if (doc) return { result: doc }
   const docs = listDocs()
@@ -86,15 +95,14 @@ export function describeMethod(method: string): ToolResult {
     }
   }
 
-  if (!entry && !skillBundle) {
-    return { error: `Method "${method}" not found. No registry or skill data loaded.` }
-  }
-
   // Not a method, but a whole document (topic doc, overview, recipe)? Serve it —
-  // "SKETCHING" or "recipes/parametric-part" should work from either tool.
-  if (!entry && skillBundle) {
+  // "DATA" or "recipes/parametric-part" should work from either tool.
+  if (!entry) {
     const direct = readDoc(method)
     if (direct.result && typeof direct.result === 'string') return direct
+    if (!registry && !skillBundle) {
+      return { error: `Method "${method}" not found. No registry or skill data loaded.` }
+    }
   }
 
   const parts: string[] = []

@@ -27,14 +27,19 @@
     "./node": {
       "types": "./dist/node.d.ts",
       "default": "./dist/node.js"
+    },
+    "./docs": {
+      "types": "./dist/docs.d.ts",
+      "default": "./dist/docs.js"
     }
   },
   "files": [
     "dist",
+    "docs",
     "README.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/build-docs.mjs",
     "test": "npm run build && node test/unit.mjs"
   },
   "dependencies": {

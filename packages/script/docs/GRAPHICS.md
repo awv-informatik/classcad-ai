@@ -1,14 +1,11 @@
-# Graphics (AWV graphic protocol — schema version 9)
+# Graphics — the graphic payload (protocol version 9)
 
-The graphic block of an SCG payload (see [STRUCTURE.md](STRUCTURE.md) for the
-full envelope) carries the **tessellated geometry** the engine has rendered
-for the current model — meshes, edges, sketches, work geometry. It is a
-self-describing, JSON Schema-validated message used by both the live WS
-protocol (in `frame.graphic`) and the SCG export format.
-
-Source: the engine's `graphicProtocolSchema.json` (schema title: *"AWV
-Client/Server graphic protocol (version 9) schema"*), verified against live
-server behavior.
+The graphic payload carries the **tessellated geometry** the engine has
+rendered for the current model — meshes, edges, sketches, work geometry. Its
+model-side counterpart is the structure tree ([STRUCTURE.md](STRUCTURE.md));
+the distilled day-to-day subset is [DATA.md](DATA.md). The engine streams it
+in `frame.graphic`; the shape follows the engine's
+`graphicProtocolSchema.json` (version 9).
 
 ## Top-level shape
 

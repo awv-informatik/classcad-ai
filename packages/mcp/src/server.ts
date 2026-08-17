@@ -59,16 +59,19 @@ async function main(): Promise<void> {
     {
       title: 'Switch session',
       description:
-        'Call this BEFORE any other classcad tool when the user names a session — the MCP opens its WebSocket lazily, so the first tool call decides which session is used. Attaches to a specific ClassCAD session (sent as the ClassCAD-Session-Id header), e.g. one Buerligons is already using, so model changes are shared. Pass sessionId="" or omit it to (re)connect with no session header (worker auto-creates a fresh session). Reconnecting clears cached structure/graphic state — the next tool call will repopulate it.',
+        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its WebSocket lazily, so the first tool call decides which session is used. Two modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker, e.g. one Buerligons is already using; empty/omitted = fresh worker-assigned session. (2) url — a full ws(s):// URL from a multi-client server, typically carrying an invite token (e.g. wss://host/?invite=…); the MCP connects with it VERBATIM and joins that shared session. Without either, the MCP runs its own session as before. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
       inputSchema: {
         sessionId: z.string().optional()
-          .describe('Target session id. Empty string or omitted = no header (default worker-assigned session).'),
+          .describe('Target session id (named-session model). Empty string or omitted = no header (worker-assigned session).'),
+        url: z.string().optional()
+          .describe('Full ws(s):// URL to connect to VERBATIM — e.g. a multi-client token/invite URL (wss://host/?invite=…). Takes precedence over sessionId.'),
       },
     },
-    async ({ sessionId }) => {
+    async ({ sessionId, url }) => {
       const target = sessionId && sessionId.length > 0 ? sessionId : null
       try {
-        await client.reconnect(target)
+        if (url && url.length > 0) await client.reconnectUrl(url)
+        else await client.reconnect(target)
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
         return {

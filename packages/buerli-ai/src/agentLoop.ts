@@ -57,6 +57,8 @@ export async function* runAgentLoop(
 
   let nudges = 0
   const MAX_NUDGES = 3
+  let truncationRetries = 0
+  const MAX_TRUNCATION_RETRIES = 8
 
   for (let iteration = 0; iteration < maxIterations; iteration++) {
     if (config.signal?.aborted) {
@@ -117,6 +119,20 @@ export async function* runAgentLoop(
     if (toolUseBlocks.length === 0) {
       // Append assistant response to history
       messages.push({ role: 'assistant', content: response.content })
+      // Output-limit truncation: the model was cut off BEFORE it could emit its
+      // tool call (typical symptom: narrated intent, then silence). This is not
+      // the model choosing to stop — auto-continue on a separate, generous
+      // budget so long builds don't die at the per-round output cap.
+      if (response.stop_reason === 'max_tokens' && truncationRetries < MAX_TRUNCATION_RETRIES) {
+        truncationRetries++
+        messages.push({
+          role: 'user',
+          content:
+            'Your previous response was truncated at the output-token limit before any tool call was emitted. ' +
+            'Continue exactly where you left off — go straight to the tool call, keep prose minimal.',
+        })
+        continue
+      }
       // Some models narrate their intent ("let me grab the tree…" / "let me call
       // it correctly:") and end the turn without emitting the tool call. Nudge
       // (bounded) only when the text clearly trails off mid-action — it ends with

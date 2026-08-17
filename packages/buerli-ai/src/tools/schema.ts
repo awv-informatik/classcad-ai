@@ -22,8 +22,10 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       'Compute coordinates IN the script (trigonometry, loops over teeth/holes/segments) instead of ' +
       'inlining hand-evaluated numbers. Scripts using only api.v1/tree/graphic run unchanged in the ' +
       'ClassCAD MCP and headless harnesses. No DOM/network access; the script must terminate ' +
-      '(default timeout 60s on awaited work). Prefer several small verified scripts over one huge one — ' +
-      'state persists in the drawing between scripts.',
+      '(default timeout 180s on awaited work — the in-browser engine is slow per call, so give scripts room). ' +
+      'Prefer FEW SUBSTANTIAL staged scripts over many micro-scripts: batch a whole stage, verify inside the ' +
+      'script, return a compact summary — every extra round-trip costs context. State persists in the drawing ' +
+      'between scripts.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -38,7 +40,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
         timeoutMs: {
           type: 'number',
-          description: 'Optional timeout for awaited work in ms (default 60000, max 300000).',
+          description: 'Optional timeout for awaited work in ms (default 180000, max 300000 — the in-browser engine is slower per call than a native worker; give big scripts room instead of splitting them).',
         },
       },
       required: ['script'],

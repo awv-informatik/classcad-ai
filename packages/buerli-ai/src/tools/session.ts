@@ -55,7 +55,20 @@ export function browserSession(drawingId: DrawingID): ScriptSession {
       if (typeof fn !== 'function') {
         throw new Error(`v1.${domain}.${method} is not available on this client.`)
       }
-      return (await fn(args?.[0] ?? {})) as Envelope
+      try {
+        return (await fn(args?.[0] ?? {})) as Envelope
+      } catch (e: unknown) {
+        // The WASM client rejects with plain objects; stringify so scripts see a
+        // real message instead of "[object Object]".
+        if (e instanceof Error) throw e
+        let detail: string
+        try {
+          detail = typeof e === 'string' ? e : JSON.stringify(e)
+        } catch {
+          detail = String(e)
+        }
+        throw new Error(`v1.${domain}.${method} failed: ${detail}`)
+      }
     },
     getTree: async (o?: { refresh?: boolean }) => {
       if (o?.refresh) {

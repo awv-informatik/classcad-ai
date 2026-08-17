@@ -173,9 +173,15 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
 
   const hasToolUse = content.some(b => b.type === 'tool_use')
   const u = json.usage as { input_tokens?: number; output_tokens?: number } | undefined
+  // Responses API signals output-limit truncation via status/incomplete_details.
+  // Surfacing it lets the agent loop auto-continue instead of ending the turn
+  // (a truncated response typically narrates intent but never emits the call).
+  const truncated =
+    json.status === 'incomplete' &&
+    ((json.incomplete_details as { reason?: string } | undefined)?.reason ?? 'max_output_tokens') === 'max_output_tokens'
   return {
     content,
-    stop_reason: hasToolUse ? 'tool_use' : 'end_turn',
+    stop_reason: truncated ? 'max_tokens' : hasToolUse ? 'tool_use' : 'end_turn',
     usage: u ? { inputTokens: u.input_tokens, outputTokens: u.output_tokens } : undefined,
   }
 }

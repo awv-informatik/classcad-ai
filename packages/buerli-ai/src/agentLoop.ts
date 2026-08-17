@@ -321,6 +321,12 @@ function buildToolResultContent(
     })
   }
 
+  // Bulk documentation is EXPECTED to be large — that is the point of fetching
+  // everything in one round. Give it a generous cap so a full doc set survives.
+  if (toolName === 'docs') {
+    return capJson(result.result ?? null, 160000)
+  }
+
   // Coalesce undefined (void-returning methods like facade.fetchTree) to null, so
   // the tool message content is always a valid string — JSON.stringify(undefined)
   // returns undefined, which then breaks the providers' content handling. Capped:

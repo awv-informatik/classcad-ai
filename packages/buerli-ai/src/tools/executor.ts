@@ -384,7 +384,10 @@ const docsTool: ToolHandler = async (input, ctx) => {
   const failures: string[] = []
   for (const key of list.slice(0, 24)) {
     const r = await describeOne(key.trim(), ctx)
-    if (typeof r.result === 'string') sections.push(`# ═══ ${key} ═══\n\n${r.result}`)
+    if (typeof r.result === 'string') {
+      const text = r.result.length > 40000 ? r.result.slice(0, 40000) + `\n\n[${key}: truncated at 40k chars]` : r.result
+      sections.push(`# ═══ ${key} ═══\n\n${text}`)
+    }
     else if (r.result) sections.push(`# ═══ ${key} ═══\n\n${JSON.stringify(r.result)}`)
     else failures.push(`${key}: ${r.error ?? 'not found'}`)
   }

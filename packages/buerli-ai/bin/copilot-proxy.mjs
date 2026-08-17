@@ -369,6 +369,12 @@ async function serve() {
             if (j.object === 'response' || Array.isArray(j.output)) {
               const items = (j.output ?? []).map(o => o.type).join(',')
               shape = ` status=${j.status ?? '-'}${j.incomplete_details ? ` incomplete=${j.incomplete_details.reason}` : ''} output=[${items}]`
+            } else if (Array.isArray(j.choices)) {
+              // Chat Completions shape: finish_reason is THE signal (stop | length | tool_calls).
+              const c = j.choices[0] ?? {}
+              const toolCalls = Array.isArray(c.message?.tool_calls) ? c.message.tool_calls.length : 0
+              const textLen = typeof c.message?.content === 'string' ? c.message.content.length : 0
+              shape = ` finish=${c.finish_reason ?? '-'} tool_calls=${toolCalls} textChars=${textLen}`
             }
           } catch {}
           console.log(`[proxy] ${upstreamPath} ${upstream.status} ${Date.now() - t0}ms${reqMeta}${usage}${shape}`)

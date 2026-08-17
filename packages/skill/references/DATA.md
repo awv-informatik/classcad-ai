@@ -42,7 +42,6 @@ Selection idioms:
 // CONTINUATION: a follow-up script attaches to the existing model — tree ids
 // are stable, so re-discover instead of re-creating (never part.create twice):
 const t = await api.tree({ refresh: true })
-const part = Object.values(t).find(n => n.class === 'CC_Part')
 const part   = Object.values(t).find(n => n.class === 'CC_Part')
 const solids = Object.values(t).filter(n => n.class === 'CC_Solid').map(n => n.id)
 const top    = Object.values(t).find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')

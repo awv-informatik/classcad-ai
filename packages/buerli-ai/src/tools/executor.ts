@@ -6,9 +6,9 @@ import type { ToolExecutorContext, ToolHandler, ToolResult } from '../types'
 import { getMethodRegistry, type MethodRegistry } from './registry'
 import { getDiscovery } from './discovery'
 import { describeMethod, readDoc } from './skill'
-import { renderSessionData } from '@classcad/renderer'
+import { renderSessionData, applyAdaptiveFaceting } from '@classcad/renderer'
 import { entryToPngBase64 } from '@classcad/renderer/browser'
-import { browserSession } from './session'
+import { browserSession, drawingUsedSolidApi } from './session'
 import { API_EXTRAS } from './apiExtras'
 import { toErrorMessage, base64ToArrayBuffer, extractBase64 } from './utils'
 import { runScriptHandler } from './script'
@@ -333,10 +333,26 @@ const download: ToolHandler = async (input, ctx) => {
 // standard views, whole model in frame, full verification toolkit
 // (section/sheet/highlightAt/markers/annotate/xray/colors/frame/layers).
 const snapshot: ToolHandler = async (input, ctx) => {
-  const { label, width, height, ...renderOptions } = input as Record<string, any>
+  const { label, width, height, quality, ...renderOptions } = input as Record<string, any>
   try {
     const session = browserSession(ctx.drawingId)
-    const [tree, graphic] = await Promise.all([session.getTree(), session.getGraphic()])
+    let [tree, graphic] = await Promise.all([session.getTree(), session.getGraphic()])
+    // Adaptive fine tessellation for the render — same central helper as the
+    // node hosts (@classcad/renderer core). Needs a recalc to re-tessellate,
+    // so it is skipped when the drawing ever used v1.solid.* (recalc destroys
+    // injected bodies) or when the caller asks for quality:'fast'. Previous
+    // worker params are restored — they persist globally across sessions.
+    if (quality !== 'fast' && !drawingUsedSolidApi(ctx.drawingId)) {
+      const restore = await applyAdaptiveFaceting(session, graphic)
+      if (restore) {
+        try {
+          await session.execute({ 'v1.common.recalc': [{}] })
+          ;[tree, graphic] = await Promise.all([session.getTree(), session.getGraphic()])
+        } finally {
+          try { await session.execute({ 'v1.common.setFacetingParameters': [restore] }) } catch { /* leave as-is */ }
+        }
+      }
+    }
     const entries = await renderSessionData(
       { tree: tree as any, graphic: graphic as any, execute: session.execute as any },
       {

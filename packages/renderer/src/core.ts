@@ -2009,6 +2009,59 @@ export function renderWorkGeoSVG(workGeo: any, width: any = IMG_W, height: any =
  * @param {object} tree — structure.tree from GetTree
  * @returns {{ solids: number[], sketches: number[], curves: number[], eifs: number[] }}
  */
+/**
+ * Adaptive snapshot tessellation (PORTABLE — every host adapter uses this).
+ * The engine's default faceting (chordHeightTol 0.1 in MODEL UNITS,
+ * worker-global) is far too coarse for small arcs — and catastrophically so
+ * for inch models (0.1 in = 2.54 mm can exceed a feature radius entirely, so
+ * its faces render as angular polygons while the separately-tessellated brep
+ * edges stay smooth and poke out of the silhouette). This scales the chord
+ * tolerance to the model size (bbox diagonal / 3000, clamped) and applies it.
+ * The CALLER must then re-tessellate (recalc + refetch) and afterwards RESTORE
+ * the returned previous parameters — faceting params persist worker-globally
+ * across sessions, so leaving a tiny tolerance behind would silently balloon
+ * every later session's payloads.
+ *
+ * @param host — anything with `execute(task) -> envelope` (node client or
+ *   browser ScriptSession)
+ * @returns the previous params to restore, or null when nothing was changed.
+ */
+export async function applyAdaptiveFaceting(host: { execute: (task: any) => Promise<any> }, probeGraphic: any): Promise<{ angleTol: number, chordHeightTol: number } | null> {
+  // bbox diagonal over everything visible (mesh + edge vertices)
+  let min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity], seen = false
+  const containers = Array.isArray(probeGraphic?.containers) ? probeGraphic.containers : Object.values(probeGraphic?.containers ?? {})
+  for (const c of containers as any[]) {
+    for (const group of [c.meshes, c.edges]) {
+      for (const m of group ?? []) {
+        const v = m.vertices ?? m.points ?? []
+        for (let i = 0; i + 2 < v.length; i += 3) {
+          seen = true
+          for (let k = 0; k < 3; k++) {
+            if (v[i + k] < min[k]) min[k] = v[i + k]
+            if (v[i + k] > max[k]) max[k] = v[i + k]
+          }
+        }
+      }
+    }
+  }
+  if (!seen) return null
+  const diag = Math.hypot(max[0] - min[0], max[1] - min[1], max[2] - min[2])
+  if (!(diag > 0)) return null
+  const target = Math.min(0.1, Math.max(1e-4, diag / 3000))
+  try {
+    const cur = (await host.execute({ 'v1.common.getFacetingParameters': [{}] })).result
+    const curChord = cur?.chordHeightTol > 0 ? cur.chordHeightTol : 0.1
+    if (target >= curChord * 0.99) return null // already fine enough
+    // angleTol must be 0 or >= 1.0 — pass the current value through unchanged
+    const angleTol = cur?.angleTol >= 1 ? cur.angleTol : 0
+    const r = await host.execute({ 'v1.common.setFacetingParameters': [{ angleTol, chordHeightTol: target }] })
+    if (r?.maxLevel >= 51) return null
+    return { angleTol, chordHeightTol: curChord }
+  } catch {
+    return null // older engines — render with whatever tessellation exists
+  }
+}
+
 export function analyzeSession(tree: Tree): { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } {
   const builtinNames = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
   const result: { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } = { solids: [], sketches: [], curves: [], eifs: [], workGeo: [] }

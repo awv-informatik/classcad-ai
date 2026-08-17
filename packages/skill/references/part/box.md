@@ -25,6 +25,7 @@ The box is **corner-aligned at the origin** — it extends from `(0, 0, 0)` to `
 
 ## Gotchas
 
+- **Unknown parameters are SILENTLY IGNORED** (verified 2026-08-17): `xPosition`/`zPosition`/`translation` do not exist — the box lands at the origin with no warning (COG-verified). Position exclusively via `references: [workCSysId]`.
 - **`references` only accepts `workcsys` IDs.** Passing a work plane, work axis, or work point ID fails with error code 1001: "wrong id type! Provide only following id types: ['workcsys']". The docs say "reference of the work coordinate system" — it means literally a workCSys.
 - **Zero/negative dimensions create degenerate features.** The call returns a feature ID but with maxLevel 51 (ERROR) and code 1122: "Value for [param] must be greater than 0." The feature exists in the tree but has no valid geometry. Always validate dimensions > 0.
 - **Multiple boxes in one part are fine.** Each creates a separate feature with its own body. The renderer assigns distinct colors per body.

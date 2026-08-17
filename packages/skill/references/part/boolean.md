@@ -92,7 +92,10 @@ const partId = (await api.v1.part.create({ name: 'BoolDemo' })).result
 
 // Create features
 const plate = (await api.v1.part.box({ id: partId, name: 'Plate', length: 120, width: 80, height: 10 })).result
-const riser = (await api.v1.part.box({ id: partId, name: 'Riser', length: 15, width: 60, height: 60, translation: [0, 10, 10] })).result
+// Primitives take NO position params (unknown params are silently ignored —
+// the body lands at the origin). Position via a workCSys reference:
+const riserCS = (await api.v1.part.workCSys({ id: partId, name: 'RiserCS', offset: [0, 10, 10] })).result
+const riser = (await api.v1.part.box({ id: partId, name: 'Riser', length: 15, width: 60, height: 60, references: [riserCS] })).result
 
 // Union — returns new feature ID, plate and riser are consumed
 const bodyId = (await api.v1.part.boolean({
@@ -104,7 +107,8 @@ const bodyId = (await api.v1.part.boolean({
 })).result
 
 // Subtract hole — bodyId is consumed, subId is the new feature
-const hole = (await api.v1.part.cylinder({ id: partId, name: 'Hole', diameter: 10, height: 20, translation: [60, 40, -5] })).result
+const holeCS = (await api.v1.part.workCSys({ id: partId, name: 'HoleCS', offset: [60, 40, -5] })).result
+const hole = (await api.v1.part.cylinder({ id: partId, name: 'Hole', diameter: 10, height: 20, references: [holeCS] })).result
 const subId = (await api.v1.part.boolean({
   id: partId,
   type: 'SUBTRACTION',

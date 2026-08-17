@@ -445,7 +445,7 @@ For conceptual study tasks (protocol, data model, etc.), write the LLM doc to a 
 
 ## Step 6 — Commit skill changes and write changes.md
 
-If you created or modified any LLM doc files in Step 5, you **must** commit them inside the `packages/skill` submodule. This gives the next session a clean baseline for `git diff`.
+If you created or modified any LLM doc files in Step 5, you **must** commit them (ordinary monorepo commit under `packages/skill/`). This gives the next session a clean baseline for `git diff`.
 
 **6a. Get the diff** (before committing):
 
@@ -532,7 +532,7 @@ Before declaring a session done, verify every item:
 - [ ] Every journal entry that produced a snapshot embeds it as `![label](files/...png)`
 - [ ] Every `📌 LLM doc:` flag in the journal has been addressed in Step 5 (LLM doc created/updated)
 - [ ] `changes.md` exists with `+`/`-` diff lines, OR journal has `## Skill Updates` section justifying no changes
-- [ ] Skill changes committed inside `packages/skill` submodule
+- [ ] Skill changes committed (`packages/skill/` in the monorepo)
 - [ ] Journal goal/checklist has no uncovered items (or gaps are explicitly noted)
 - [ ] The task row in `workspace/PLAN.md` is marked `[✅]`
 - [ ] Any errors, hangs, surprises, or doc discrepancies appended to `workspace/TODO.md` (Step 8)
@@ -560,7 +560,7 @@ Before declaring a session done, verify every item:
 
 ### View options
 
-`snapshot('label', { view, zoom, lookAt })` selects the camera. Default is `'iso'`. Available views:
+`snapshot('label', opts)` forwards every `@classcad/renderer` option — notably `sheet: true` (four labeled views in ONE image, shared ortho scale), `section`, `highlightAt`, `markers`, `annotate`, `xray`, `colors: 'distinct'`, `frame`, `recalc: false` (mandatory in solid.*/EIF flows). Classic camera args: `{ view, zoom, lookAt }` selects the camera. Default is `'iso'`. Available views:
 
 | view | Camera direction | Use when |
 |---|---|---|

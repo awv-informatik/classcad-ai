@@ -66,6 +66,6 @@ happened — no silent workarounds.
 | 2 | 40 teeth per strand | programmatic count == 40 |
 | 3 | Root radius | measured Rr ≈ 2.2878 within 1e-3 (reference: 5e-15) |
 | 4 | Bore/keyway | 0.750 / 0.9375 within 1e-3 |
-| 5 | Volume | vs reference 13.77875 in³ within 1.5% (tapers/chamfer variance) |
+| 5 | Volume | vs corrected reference **12.0130 in³** within 1.5% (the 2026-08-10 session's 13.77875 was measured WITHOUT the bore/keyway subtraction — its own MC estimate shared the omission; stage-delta forensics + independent analytic integration in the GT2 run, agreement 0.007%) |
 | 6 | Sheet | 3 visible plates, 40 teeth, bore + keyway visible |
 | 7 | No silent workarounds | failures quoted against docs |

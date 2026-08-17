@@ -603,7 +603,7 @@ const ToolBlock: React.FC<{ message: Extract<UIMessage, { type: 'tool' }>; theme
   useEffect(() => {
     if (m.name === 'snapshot' && m.image) setOpen(true)
   }, [m.name, m.image])
-  const expandable = !!(m.detail || m.image)
+  const expandable = !!(m.detail || m.image || m.input || m.result != null)
   const running = m.status === 'running'
   const icon = m.status === 'error' ? '✗' : '✓'
   const iconColor = m.status === 'error' ? '#ff8888' : '#62c46e'
@@ -625,7 +625,118 @@ const ToolBlock: React.FC<{ message: Extract<UIMessage, { type: 'tool' }>; theme
         </button>
       )}
       {open && m.image && <img src={m.image} alt={m.label ?? 'snapshot'} style={toolImageStyle} />}
-      {open && !m.image && m.detail && <pre style={toolDetailInnerStyle}>{m.detail}</pre>}
+      {open && <ToolDetail m={m} />}
+    </div>
+  )
+}
+
+// ── Per-tool expanded detail — structure over truncation ─────────────────────
+
+const detailSectionTitle: React.CSSProperties = {
+  fontSize: 9, opacity: 0.55, textTransform: 'uppercase', letterSpacing: 0.5,
+  padding: '5px 8px 0',
+}
+
+const PrettyJson: React.FC<{ v: unknown }> = ({ v }) => {
+  const text = useMemo(() => {
+    try {
+      const s = JSON.stringify(v, null, 2)
+      return s && s.length > 8000 ? s.slice(0, 8000) + `\n… (${s.length} chars total)` : s
+    } catch {
+      return String(v)
+    }
+  }, [v])
+  if (text == null || text === 'null' || text === '{}') return null
+  return <pre style={toolDetailInnerStyle}>{text}</pre>
+}
+
+const CodeView: React.FC<{ code: string }> = ({ code }) => (
+  <pre style={{ ...toolDetailInnerStyle, whiteSpace: 'pre', fontFamily: 'ui-monospace, monospace' }}>
+    {highlightCode(code.length > 12000 ? code.slice(0, 12000) + `\n// … (${code.length} chars total)` : code)}
+  </pre>
+)
+
+/** Expanded body of a tool chip: shows WHAT the call did and what came back. */
+const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }> }> = ({ m }) => {
+  // Errors: the message itself is the detail.
+  if (m.status === 'error' && m.detail) {
+    return <pre style={{ ...toolDetailInnerStyle, color: '#ff9d9d' }}>{m.detail}</pre>
+  }
+
+  // run_script: the script IS the content — highlighted, with logs + return value.
+  if (m.name === 'run_script' && typeof m.input?.script === 'string') {
+    const res = (m.result ?? {}) as { returned?: unknown; logs?: unknown[] }
+    const logs = Array.isArray(res.logs) ? res.logs : []
+    return (
+      <div>
+        <div style={detailSectionTitle}>script</div>
+        <CodeView code={m.input.script} />
+        {logs.length > 0 && (
+          <>
+            <div style={detailSectionTitle}>console ({logs.length})</div>
+            <pre style={toolDetailInnerStyle}>{logs.map(l => String(l)).join('\n')}</pre>
+          </>
+        )}
+        {res.returned != null && (
+          <>
+            <div style={detailSectionTitle}>returned</div>
+            <PrettyJson v={res.returned} />
+          </>
+        )}
+      </div>
+    )
+  }
+
+  // docs: which documents were fetched, and which of them resolved.
+  if (m.name === 'docs' && Array.isArray(m.input?.keys)) {
+    const text = typeof m.result === 'string' ? m.result : ''
+    const missing = new Set<string>()
+    const nf = text.split('# ═══ not found ═══')[1]
+    if (nf) for (const line of nf.split('\n')) {
+      const k = line.split(':')[0]?.trim()
+      if (k) missing.add(k)
+    }
+    return (
+      <div style={{ padding: '4px 8px 8px', display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+        {(m.input.keys as unknown[]).map((k, i) => {
+          const key = String(k)
+          const miss = missing.has(key)
+          return (
+            <span key={i} style={{
+              fontSize: 10, padding: '2px 6px', borderRadius: 4,
+              background: miss ? 'rgba(255,120,120,0.15)' : 'rgba(120,255,150,0.10)',
+              border: `1px solid ${miss ? 'rgba(255,120,120,0.35)' : 'rgba(120,255,150,0.25)'}`,
+            }}>
+              {miss ? '✗ ' : '✓ '}{key}
+            </span>
+          )
+        })}
+        {text && <span style={{ fontSize: 9, opacity: 0.5, alignSelf: 'center' }}>{Math.round(text.length / 1000)}k chars → model</span>}
+      </div>
+    )
+  }
+
+  // snapshot meta rides under the image.
+  if (m.name === 'snapshot') {
+    return m.detail ? <pre style={toolDetailInnerStyle}>{m.detail}</pre> : null
+  }
+
+  // Generic: structured input + result, scrollable, explicitly truncated.
+  return (
+    <div>
+      {m.input && Object.keys(m.input).length > 0 && (
+        <>
+          <div style={detailSectionTitle}>input</div>
+          <PrettyJson v={m.input} />
+        </>
+      )}
+      {m.result != null && (
+        <>
+          <div style={detailSectionTitle}>result</div>
+          <PrettyJson v={m.result} />
+        </>
+      )}
+      {!m.input && m.result == null && m.detail && <pre style={toolDetailInnerStyle}>{m.detail}</pre>}
     </div>
   )
 }

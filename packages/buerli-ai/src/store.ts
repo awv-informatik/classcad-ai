@@ -10,7 +10,7 @@ export type UIMessage =
   | { type: 'user'; text: string; images?: string[]; files?: string[] }
   | { type: 'assistant'; text: string }
   | { type: 'thinking'; text: string; collapsed?: boolean }
-  | { type: 'tool'; id?: string; name: string; label?: string; status: 'running' | 'done' | 'error'; detail?: string; image?: string; download?: { filename: string; mimeType: string; data: string } }
+  | { type: 'tool'; id?: string; name: string; label?: string; status: 'running' | 'done' | 'error'; detail?: string; input?: Record<string, unknown>; result?: unknown; image?: string; download?: { filename: string; mimeType: string; data: string } }
   | { type: 'subagent'; id?: string; name: string; goal: string; status: 'running' | 'done'; summary?: string }
 
 /**
@@ -164,6 +164,7 @@ export const createAgentStore = () =>
                       label: toolLabel(event.name, event.input),
                       status: 'running',
                       detail: formatToolInput(event.input),
+                      input: sanitizeForUi(event.input) as Record<string, unknown>,
                     },
                   ],
                 }
@@ -194,7 +195,12 @@ export const createAgentStore = () =>
                   } else {
                     detail = formatToolResult(r.result)
                   }
-                  msgs[i] = { type: 'tool', id: event.id, name: event.name, label: prev.label, status: r.error ? 'error' : 'done', detail, image, download }
+                  msgs[i] = {
+                    type: 'tool', id: event.id, name: event.name, label: prev.label,
+                    status: r.error ? 'error' : 'done', detail, image, download,
+                    input: prev.input,
+                    result: image || download ? undefined : sanitizeForUi(r.result),
+                  }
                 }
                 // Finalise the matching code-log entry: status, return value (for ID
                 // threading), and any error message.
@@ -320,6 +326,27 @@ function toolLabel(name: string, input: Record<string, unknown>): string {
       break
   }
   return detail ? `${name} · ${detail}` : name
+}
+
+/**
+ * Deep-copy a value for UI display: long strings (base64 images, file payloads,
+ * whole documents) are cut with an explicit marker, arrays/objects are bounded.
+ * The UI gets structure, never megabytes.
+ */
+function sanitizeForUi(value: unknown, depth = 0): unknown {
+  if (typeof value === 'string') {
+    return value.length > 600 ? value.slice(0, 600) + `… (+${value.length - 600} chars)` : value
+  }
+  if (value == null || typeof value !== 'object') return value
+  if (depth >= 6) return '…'
+  if (Array.isArray(value)) {
+    const head = value.slice(0, 200).map(v => sanitizeForUi(v, depth + 1))
+    if (value.length > 200) head.push(`… (+${value.length - 200} items)`)
+    return head
+  }
+  const out: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries(value as Record<string, unknown>)) out[k] = sanitizeForUi(v, depth + 1)
+  return out
 }
 
 function formatToolInput(input: Record<string, unknown>): string {

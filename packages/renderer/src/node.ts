@@ -60,6 +60,55 @@ export async function fetchGraphic(client: any, { recalc = true }: { recalc?: bo
 }
 
 /**
+ * Adaptive snapshot tessellation. The engine's default faceting
+ * (chordHeightTol 0.1 in MODEL UNITS, worker-global) is far too coarse for
+ * small arcs — and catastrophically so for inch models (0.1 in = 2.54 mm can
+ * exceed a feature radius entirely, so its faces render as angular polygons
+ * while the separately-tessellated brep edges stay smooth and poke out of the
+ * silhouette). Before fetching the render graphic, scale the chord tolerance
+ * to the model size (bbox diagonal / 3000, clamped), recalc so existing
+ * geometry re-tessellates, and RESTORE the previous parameters afterwards —
+ * faceting params persist worker-globally across sessions, so leaving a tiny
+ * tolerance behind would silently balloon every later session's payloads.
+ *
+ * Returns the params to restore, or null when nothing was changed.
+ */
+async function applyAdaptiveFaceting(client: any, probeGraphic: any): Promise<{ angleTol: number, chordHeightTol: number } | null> {
+  // bbox diagonal over everything visible (mesh + edge vertices)
+  let min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity], seen = false
+  for (const c of probeGraphic?.containers ?? []) {
+    for (const group of [c.meshes, c.edges]) {
+      for (const m of group ?? []) {
+        const v = m.vertices ?? m.points ?? []
+        for (let i = 0; i + 2 < v.length; i += 3) {
+          seen = true
+          for (let k = 0; k < 3; k++) {
+            if (v[i + k] < min[k]) min[k] = v[i + k]
+            if (v[i + k] > max[k]) max[k] = v[i + k]
+          }
+        }
+      }
+    }
+  }
+  if (!seen) return null
+  const diag = Math.hypot(max[0] - min[0], max[1] - min[1], max[2] - min[2])
+  if (!(diag > 0)) return null
+  const target = Math.min(0.1, Math.max(1e-4, diag / 3000))
+  try {
+    const cur = (await client.execute({ 'v1.common.getFacetingParameters': [{}] })).result
+    const curChord = cur?.chordHeightTol > 0 ? cur.chordHeightTol : 0.1
+    if (target >= curChord * 0.99) return null // already fine enough
+    // angleTol must be 0 or >= 1.0 — pass the current value through unchanged
+    const angleTol = cur?.angleTol >= 1 ? cur.angleTol : 0
+    const r = await client.execute({ 'v1.common.setFacetingParameters': [{ angleTol, chordHeightTol: target }] })
+    if (r.maxLevel >= 51) return null
+    return { angleTol, chordHeightTol: curChord }
+  } catch {
+    return null // older engines — render with whatever tessellation exists
+  }
+}
+
+/**
  * Render the STL EXPORT of the current session as a solid image. Used via
  * renderSession's `source: 'stl'` — an EXPLICIT alternative path for sessions
  * where the graphic pipeline yields nothing (graphics-disabled client), or to
@@ -113,7 +162,10 @@ async function renderStlSource(client: any, options: any) {
  *   apart in booleans/splits/patterns), `recalc` (default true; set false for
  *   EIF/direct-modeling sessions) and
  *   `source: 'graphic' | 'stl'` (default 'graphic'; 'stl' renders the STL export
- *   instead — explicit fallback for graphics-disabled clients, marked in the result)
+ *   instead — explicit fallback for graphics-disabled clients, marked in the result),
+ *   `quality: 'fine' | 'fast'` (default 'fine': adaptive chord tolerance scaled to
+ *   the model bbox before the render fetch, previous worker params restored after;
+ *   'fast' keeps the session's current tessellation)
  * @returns {Promise<{ type: string, file: string, source?: 'stl' }[]>}
  */
 export async function renderSession(client: any, prefix: any, outDir: any, options: any = {}) {
@@ -144,7 +196,23 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
   // options.graphic: render a PRE-FETCHED payload instead of fetching fresh.
   // Use when ids (highlight targets from a script's api.graphic()) must match
   // the rendered graphic exactly — a fresh recalc can rotate container/mesh ids.
-  const graphic = options.graphic ?? await fetchGraphic(client, { recalc: options.recalc !== false })
+  let graphic = options.graphic ?? await fetchGraphic(client, { recalc: options.recalc !== false })
+
+  // Adaptive fine tessellation for the render (see applyAdaptiveFaceting).
+  // Skipped when: quality 'fast' requested, a pre-fetched payload must keep its
+  // ids stable, or recalc is forbidden (EIF/solid.* — re-tessellation needs it).
+  if (options.quality !== 'fast' && !options.graphic && options.recalc !== false) {
+    const restore = await applyAdaptiveFaceting(client, graphic)
+    if (restore) {
+      try {
+        graphic = await fetchGraphic(client, { recalc: true }) ?? graphic
+      } finally {
+        // restore worker-global params; the fine tessellation itself survives
+        // until the next recalc, which is exactly what we want
+        try { await client.execute({ 'v1.common.setFacetingParameters': [restore] }) } catch { /* leave as-is */ }
+      }
+    }
+  }
 
   // Explicit failure instead of a silent empty render: the tree says there is
   // renderable content, but no graphic containers arrived for it.

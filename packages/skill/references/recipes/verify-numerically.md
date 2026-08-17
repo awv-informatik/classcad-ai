@@ -67,6 +67,24 @@ Verification failures are findings, not annoyances: when measurement and
 expectation disagree, stop and investigate — one of them is wrong, and it is not
 always the model.
 
+## Tessellation trap (graphic-based probes)
+
+The mesh you probe is faceted at the drawing's chord tolerance — **default
+`chordHeightTol 0.1` in MODEL UNITS** (worker-global). Consequences (verified
+2026-08-17, both bit an agent):
+
+- On features smaller than ~50× the tolerance (an inch-model seat arc r=0.101
+  vs tol 0.1!), faces emit endpoint-only vertices — a probe can conclude a cut
+  is MISSING when it is present. Mesh vertices may sit ~1e-5+ off the exact
+  surface even when fine.
+- Cure 1 (exact): probe the BREP, not the mesh — `getGeometryIds` +
+  `getGeometryPositions` return analytic positions.
+- Cure 2 (mesh): `common.setFacetingParameters({ angleTol: 0, chordHeightTol:
+  <bboxDiag/3000> })` + `recalc`, probe, then RESTORE the previous values —
+  the setting persists worker-globally across sessions.
+- Snapshots are already safe: the renderer applies adaptive fine faceting for
+  the image and restores the params (`quality: 'fast'` opts out).
+
 ## Related
 
 [part/calculateMassProperties](../part/calculateMassProperties.md) ·

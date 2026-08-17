@@ -260,9 +260,9 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
   let sawPartialToolCall = false
   if (msg.tool_calls) {
     for (const call of msg.tool_calls) {
-      let input: unknown
+      let input: Record<string, unknown>
       try {
-        input = call.function.arguments === '' ? {} : JSON.parse(call.function.arguments)
+        input = call.function.arguments === '' ? {} : (JSON.parse(call.function.arguments) as Record<string, unknown>)
       } catch {
         sawPartialToolCall = true
         continue

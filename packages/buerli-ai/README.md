@@ -51,7 +51,7 @@ import { Canvas } from '@react-three/fiber'
 
 await initAgentAsync() // once at startup — loads the bundled ClassCAD knowledge
 
-const { AgentPanel, AgentCanvas } = createCadAgent({
+const { AgentPanel } = createCadAgent({
   provider: createAutoProvider({ apiKey: API_KEY, endpoint: API_ENDPOINT }),
   // modelName, reasoningEffort        — default model + thinking level
   // maxTokens, contextLimit           — fallbacks; per-model values are auto-discovered
@@ -65,7 +65,6 @@ function App() {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <Canvas>
-        <AgentCanvas /> {/* invisible — lets the agent see the 3D view */}
         <BuerliGeometry drawingId={drawingId} />
       </Canvas>
       <AgentPanel drawingId={drawingId} open={open} onClose={() => setOpen(false)} />
@@ -118,7 +117,7 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 | `get_selection` / `set_selection`  | Read or set the user's 3D selection                                             |
 | `list_methods` / `describe_method` | Discover and document the 254 API methods                                       |
 | `read_doc`                         | Whole knowledge documents: topic guides (`SKETCHING`, …), API overviews, worked recipes |
-| `snapshot`                         | See the 3D viewport — sent to the model as vision when the selected model supports it |
+| `snapshot`                         | Deterministic render of the drawing (@classcad/renderer): standard views, section, sheet, highlightAt, markers, annotate, x-ray, frame pinning — sent to the model as vision when the selected model supports it |
 | `checkpoint` / `restore`           | In-memory save/rollback of the whole drawing — failed attempts become cheap     |
 | `notes`                            | Persistent per-drawing scratchpad (plan, key ids) that survives context pruning |
 | `load_file`                        | Import a user-attached CAD file                                                 |
@@ -194,14 +193,6 @@ function MyPanel() {
 - Non-React: same store via `useAgent.getState()` / `useAgent.subscribe()`.
 - `useAgent((s) => s.codeLog)` (`CodeEvent[]`) holds the API-call log for a source view;
   `reset()` clears the conversation.
-
-**Snapshots without `<AgentCanvas>`** — register a capturer once and the `snapshot` tool
-works with any viewer:
-
-```ts
-import { setSnapshotCapturer, createCanvasCapturer } from '@buerli.io/ai'
-setSnapshotCapturer(createCanvasCapturer(myCanvasElement)) // or a custom SnapshotCapturer → base64 PNG
-```
 
 **Model/thinking pickers** — `provider.getCapabilities()` returns
 `{ models: ModelOption[] }` (ids, context limits, reasoning levels); render your own

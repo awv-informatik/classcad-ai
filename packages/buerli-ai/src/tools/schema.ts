@@ -6,17 +6,23 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
   {
     name: 'run_script',
     description:
-      'Execute JavaScript against the CAD API — THE tool for any build that involves computation, ' +
-      'repetition, or more than a handful of operations. The script runs app-side with:\n' +
-      '• api.v1.<domain>.<method>(args) — ClassCAD calls (single object arg), await-able, returns { result, maxLevel, ... }\n' +
-      '• api.<ns>.<method>(...) — buerli drawing APIs (structure, selection, …; positional args); ' +
-      'api.facade.<method>(...) — session utils (current drawing auto-targeted)\n' +
-      '• Math, full JS (variables, functions, loops), console.log/log(...) captured and returned\n' +
-      '• Use `return <value>` for the data you need back; keep it small (results are size-capped)\n' +
+      'Execute JavaScript against the CAD session — THE tool for any build that involves computation, ' +
+      'repetition, or more than a handful of operations. The script runs as an async function body with:\n' +
+      '• api.v1.<domain>.<method>(params) — ClassCAD calls, await-able, → { result, maxLevel, messages }. ' +
+      'Typos throw immediately with suggestions.\n' +
+      '• api.tree({ refresh? }) — the structure tree (id → node): find parts, features, sketches by class/name.\n' +
+      '• api.graphic() — the live graphic payload (containers with face meshes, edges, vertices): ' +
+      'find and FILTER GEOMETRY yourself — e.g. locate a bore wall by vertex radius, pick a point on a face. ' +
+      'NOTE: face mesh/edge ids are payload-local (they rotate on re-tessellation) — to hand a face to another ' +
+      'tool, return a world POINT on it, not its id.\n' +
+      '• api.facade / api.structure / api.selection — browser-only extras (guard with `if (api.facade)` for portable scripts).\n' +
+      '• Math, full JS (variables, functions, loops), console.log/log(...) captured and returned.\n' +
+      '• Use `return <value>` for the data you need back; keep it small (results are size-capped).\n' +
       'Compute coordinates IN the script (trigonometry, loops over teeth/holes/segments) instead of ' +
-      'inlining hand-evaluated numbers. Check intermediate results with console.log and maxLevel. ' +
-      'No DOM/network access; the script must terminate (default timeout 60s on awaited work). ' +
-      'Prefer several small verified scripts over one huge one — state persists in the drawing between scripts.',
+      'inlining hand-evaluated numbers. Scripts using only api.v1/tree/graphic run unchanged in the ' +
+      'ClassCAD MCP and headless harnesses. No DOM/network access; the script must terminate ' +
+      '(default timeout 60s on awaited work). Prefer several small verified scripts over one huge one — ' +
+      'state persists in the drawing between scripts.',
     inputSchema: {
       type: 'object',
       properties: {

@@ -87,6 +87,8 @@ export type ModelOption = {
   maxOutputTokens?: number
   /** Reasoning-effort levels this model supports. Empty/undefined → no reasoning picker. */
   reasoningEfforts?: ReasoningEffort[]
+  /** Whether the model accepts image (vision) input — drives sending snapshots to the model. */
+  vision?: boolean
   /**
    * API surface this model is routed to (`responses` or `chat`). Used by the auto-routing
    * provider to pick the right adapter per model, so one provider can serve a mixed list.
@@ -163,10 +165,17 @@ export type AgentConfig = {
   provider: LLMProvider
   /** Active drawing ID to operate on. */
   drawingId: DrawingID
-  /** Max tool-use loop iterations before stopping. Default: 25 */
+  /** Max tool-use loop iterations before stopping. Default: 40 */
   maxIterations?: number
-  /** Max tokens per LLM call. Default: 4096 */
+  /** Max tokens per LLM call. Default: 8192 */
   maxTokens?: number
+  /**
+   * Context window (prompt-token budget) of the active model. When set, the loop
+   * prunes OLD tool results from the sent history once it approaches this budget
+   * (recent turns and all user/assistant text are kept). Unset → a conservative
+   * default budget is used.
+   */
+  contextLimit?: number
   /** Per-call model override (from the UI model picker). Falls back to the provider's default. */
   model?: string
   /**
@@ -181,10 +190,11 @@ export type AgentConfig = {
   /** User-attached files the load_file tool can import (bytes kept app-side, referenced by name). */
   attachments?: FileAttachment[]
   /**
-   * Send captured snapshots to the model as vision input. Default: false — the image
-   * is shown in the app UI, but the model only gets metadata text. Vision is slow on
-   * some endpoints (Copilot gpt-5.5 stalls ~60s on image inputs); enable only where
-   * the endpoint handles vision well and you want the model to visually verify.
+   * Send captured snapshots to the model as vision input, so it can visually verify
+   * its own work. The panel sets this from the selected model's `vision` capability;
+   * default false (metadata only) when unset — some endpoints are slow or fail on
+   * image inputs (e.g. Copilot gpt-5.5 stalls ~60s), so only enable it where the
+   * model actually accepts images.
    */
   sendSnapshotsToModel?: boolean
   /** Callback fired on each tool execution (for UI feedback). */

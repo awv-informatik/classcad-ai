@@ -55,7 +55,7 @@ const { AgentPanel, AgentCanvas } = createCadAgent({
   provider: createAutoProvider({ apiKey: API_KEY, endpoint: API_ENDPOINT }),
   // modelName, reasoningEffort        — default model + thinking level
   // maxTokens, contextLimit           — fallbacks; per-model values are auto-discovered
-  // maxIterations: 25                 — tool-loop cap
+  // maxIterations: 40                 — tool-loop cap
   // systemPrompt / extraContext       — see Custom prompts
 })
 
@@ -110,22 +110,29 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 
 ## What the agent can do (tools)
 
-| Tool                               | Purpose                                                                     |
-| ---------------------------------- | --------------------------------------------------------------------------- |
-| `call_api`                         | Any `v1.<domain>.<method>` ClassCAD call (also `facade.*` and drawing APIs) |
-| `call_api_batch`                   | Many calls in one turn; later calls reference earlier results (`"$0.id"`)   |
-| `tree` / `find` / `inspect`        | Read the structure tree, search nodes, full node detail                     |
-| `get_selection` / `set_selection`  | Read or set the user's 3D selection                                         |
-| `list_methods` / `describe_method` | Discover and document the 254 API methods                                   |
-| `snapshot`                         | See the 3D viewport (PNG → vision)                                          |
-| `load_file`                        | Import a user-attached CAD file                                             |
-| `download`                         | Export STEP/STL/OFB as a download button in the chat                        |
-| `delegate`                         | Hand a sub-task to a specialist sub-agent                                   |
+| Tool                               | Purpose                                                                         |
+| ---------------------------------- | ------------------------------------------------------------------------------- |
+| `run_script`                       | Execute model-written JavaScript against the API — math, loops, `await api.v1.*`; the primary medium for real builds |
+| `call_api`                         | Any single `v1.<domain>.<method>` ClassCAD call (also `facade.*` and drawing APIs) |
+| `tree` / `find` / `inspect`        | Read the structure tree, search nodes, full node detail                         |
+| `get_selection` / `set_selection`  | Read or set the user's 3D selection                                             |
+| `list_methods` / `describe_method` | Discover and document the 254 API methods                                       |
+| `read_doc`                         | Whole knowledge documents: topic guides (`SKETCHING`, …), API overviews, worked recipes |
+| `snapshot`                         | See the 3D viewport — sent to the model as vision when the selected model supports it |
+| `checkpoint` / `restore`           | In-memory save/rollback of the whole drawing — failed attempts become cheap     |
+| `notes`                            | Persistent per-drawing scratchpad (plan, key ids) that survives context pruning |
+| `load_file`                        | Import a user-attached CAD file                                                 |
+| `download`                         | Export STEP/STL/OFB as a download button in the chat                            |
+| `delegate`                         | Hand a sub-task to a specialist sub-agent (runs with the full base prompt)      |
 
 Everything executes in the browser against the buerli API — no extra server for CAD.
-The ClassCAD knowledge (method registry + curated docs) ships via the `@classcad/skill`
-dependency and loads with `initAgentAsync()`. (`TOOL_SCHEMAS` and `executeTool` are
-exported for tests or custom executors.)
+The ClassCAD knowledge (method registry + curated docs + recipes) ships via the
+`@classcad/skill` dependency and loads with `initAgentAsync()`. (`TOOL_SCHEMAS` and
+`executeTool` are exported for tests or custom executors.)
+
+Long sessions stay healthy on their own: oversized tool results are size-capped, and
+when the history approaches the model's context window, old tool results are pruned —
+recent turns, all conversation text, and the agent's `notes` survive.
 
 ## Production
 
@@ -141,7 +148,7 @@ createAutoProvider({ apiKey: userSessionToken, endpoint: 'https://your-app.com/a
 ## Custom integration (your own UI)
 
 `<AgentPanel>` is a thin view over `createAgentStore()` — build your own chat UI on the
-same store and keep the full agent (tools, batching, attachments, cancel):
+same store and keep the full agent (tools, scripting, attachments, cancel):
 
 ```tsx
 import { createAgentStore, createAutoProvider, initAgentAsync } from '@buerli.io/ai'

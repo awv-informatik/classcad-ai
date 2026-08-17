@@ -20,6 +20,16 @@ export function reasoningEffortsFor(modelId: string): ReasoningEffort[] {
   return []
 }
 
+/**
+ * Whether a model family is known to accept image (vision) input. Used only when
+ * the endpoint doesn't report it (`supports.vision`). Conservative: unknown → false,
+ * so we never send images to a model that would choke on them.
+ */
+export function visionFor(modelId: string): boolean {
+  const id = (modelId || '').toLowerCase()
+  return /gpt-?5|gpt-?4o|gpt-?4\.1|gpt-?4-turbo|claude|gemini|(^|[^a-z])o[34]|pixtral|llava|qwen[^ ]*-?vl/.test(id)
+}
+
 // Ids that are clearly NOT chat models — used to drop noise when a `/models`
 // response carries no explicit type (e.g. raw OpenAI/LM Studio listings).
 const NON_CHAT = /(embedding|whisper|tts|audio|dall-?e|moderation|rerank|search|similarity|\bedit\b|babbage|ada-|curie|davinci|image|vision-encoder|clip)/
@@ -98,6 +108,9 @@ export function mapModelsResponse(json: any, opts: MapModelsOptions = {}): Provi
     const maxOutputTokens: number | undefined = limits.max_output_tokens || undefined
 
     const efforts = reasoningFor(id, caps.supports || {})
+    // Vision: prefer the endpoint's explicit flag, else the family heuristic.
+    const supportsVision = caps.supports?.vision
+    const vision = typeof supportsVision === 'boolean' ? supportsVision : visionFor(id)
 
     seen.add(id)
     models.push({
@@ -106,6 +119,7 @@ export function mapModelsResponse(json: any, opts: MapModelsOptions = {}): Provi
       contextLimit,
       maxOutputTokens,
       reasoningEfforts: efforts.length ? efforts : undefined,
+      vision,
       surface: routeSurface,
     })
   }
@@ -121,6 +135,7 @@ export function mapModelsResponse(json: any, opts: MapModelsOptions = {}): Provi
       id: defaultModel,
       label: defaultModel,
       reasoningEfforts: efforts.length ? efforts : undefined,
+      vision: visionFor(defaultModel),
       surface,
     })
   }

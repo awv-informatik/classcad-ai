@@ -45,9 +45,9 @@ export type AgentPanelProps = {
   drawingId: DrawingID
   /** LLM provider instance (use createAnthropicProvider or bring your own). */
   provider: LLMProvider
-  /** Max tool-use loop iterations. Default: 25 */
+  /** Max tool-use loop iterations. Default: 40 */
   maxIterations?: number
-  /** Max tokens per LLM call. Default: 4096 */
+  /** Max tokens per LLM call. Default: 8192 */
   maxTokens?: number
   /** Custom system prompt override. */
   systemPrompt?: string
@@ -71,6 +71,11 @@ export type AgentPanelProps = {
    * it per message. Omit to hide the picker (e.g. for providers without reasoning).
    */
   reasoningEffort?: ReasoningEffort
+  /**
+   * Force snapshot images to/away from the model. Default: derived from the selected
+   * model's vision capability.
+   */
+  sendSnapshotsToModel?: boolean
   /** Theme overrides. */
   theme?: AgentPanelTheme
 }
@@ -91,6 +96,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   modelName,
   contextLimit,
   reasoningEffort,
+  sendSnapshotsToModel,
   theme,
 }) => {
   const [input, setInput] = useState('')
@@ -166,7 +172,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   const error = store(s => s.error)
   const usage = store(s => s.usage)
   const codeLog = store(s => s.codeLog)
-  const callCount = codeLog.reduce((n, e) => n + (e.kind === 'call' ? 1 : 0), 0)
+  const callCount = codeLog.reduce((n, e) => n + (e.kind === 'call' || e.kind === 'script' ? 1 : 0), 0)
   // Code-mirror side panel: a generic buerli script generated from the session.
   const [codeOpen, setCodeOpen] = useState(false)
 
@@ -211,14 +217,20 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
       drawingId,
       maxIterations,
       maxTokens: effectiveMaxTokens,
+      // Drives history pruning on long sessions (falls back to a conservative default).
+      contextLimit: ringLimit,
       model: modelId,
       reasoningEffort: showReasoning ? effort : undefined,
       systemPrompt,
       extraContext,
+      // Vision-capable model → snapshots go to the model so it can verify its own
+      // work visually. Models without vision get metadata only. The prop overrides
+      // in both directions (endpoints that mis-report their vision support).
+      sendSnapshotsToModel: sendSnapshotsToModel ?? selectedModel?.vision ?? false,
     }
 
     store.getState().sendMessage(text, config, imgs.length ? imgs : undefined, files.length ? files : undefined)
-  }, [input, attachments, isRunning, provider, drawingId, maxIterations, effectiveMaxTokens, modelId, showReasoning, effort, systemPrompt, extraContext, store])
+  }, [input, attachments, isRunning, provider, drawingId, maxIterations, effectiveMaxTokens, ringLimit, modelId, showReasoning, effort, systemPrompt, extraContext, selectedModel, sendSnapshotsToModel, store])
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -1154,80 +1166,7 @@ function provenanceFor(id: number, lookups: LookupEvent[]): { base: string; note
   return { base: 'existing', note: 'a pre-existing id from the current model (loaded model, root part, or import) — resolve at runtime' }
 }
 
-// Resolve "$N.path" references against prior sub-call values when expanding a batch.
-// Mirrors the executor's tolerant rules (tools/executor.ts): ".id" on a bare id → the id;
-// a single-key { id } object → its id. Display-side, so never throw — an unresolvable
-// ref renders as its placeholder string instead.
-function getByPath(obj: unknown, path: string): unknown {
-  const tokens = path.match(/\.[^.[\]]+|\[\d+\]/g) || []
-  let cur: any = obj
-  for (const tok of tokens) {
-    const key: string | number = tok[0] === '.' ? tok.slice(1) : parseInt(tok.slice(1, -1), 10)
-    if (key === 'id' && (typeof cur === 'number' || typeof cur === 'string')) continue
-    if (cur == null) return undefined
-    cur = cur[key]
-  }
-  if (cur && typeof cur === 'object' && !Array.isArray(cur)) {
-    const keys = Object.keys(cur)
-    if (keys.length === 1 && keys[0] === 'id') return cur.id
-  }
-  return cur
-}
-function resolveBatchRefs(value: unknown, values: unknown[]): unknown {
-  if (typeof value === 'string') {
-    const m = value.match(/^\$(\d+)((?:\.[^.[\]]+|\[\d+\])*)$/)
-    if (!m) return value
-    const idx = parseInt(m[1], 10)
-    if (idx >= values.length) return value
-    const resolved = getByPath(values[idx], m[2] || '')
-    return resolved === undefined ? value : resolved
-  }
-  if (Array.isArray(value)) return value.map(v => resolveBatchRefs(v, values))
-  if (value && typeof value === 'object') {
-    const out: Record<string, unknown> = {}
-    for (const [k, v] of Object.entries(value)) out[k] = resolveBatchRefs(v, values)
-    return out
-  }
-  return value
-}
-
-// Expand each call_api_batch event into its individual sub-calls so they show in the script
-// and thread through the normal id logic. $N references resolve to the values the batch
-// actually returned (results[N].value), so a value produced by one sub-call and consumed by a
-// later one hoists into a variable exactly as separate calls would.
-function expandBatches(log: CodeEvent[]): CodeEvent[] {
-  const out: CodeEvent[] = []
-  for (const e of log) {
-    if (e.kind === 'call' && e.method === 'call_api_batch') {
-      const calls = ((e.args as any) || {}).calls
-      const results: Array<{ value?: unknown }> = ((e.ret as any) || {}).results || []
-      const values = results.map(r => r && r.value)
-      if (Array.isArray(calls)) {
-        calls.forEach((c: any, i: number) => {
-          if (!c || typeof c.method !== 'string') return
-          const ran = i < results.length
-          const failed = e.status === 'error' && i === results.length
-          if (!ran && !failed) return // never ran (after the failure) — omit
-          out.push({
-            kind: 'call',
-            id: `${(e as any).id}#${i}`,
-            method: c.method,
-            args: resolveBatchRefs(c.args ?? {}, values.slice(0, i)),
-            status: failed ? 'error' : 'done',
-            ret: ran ? values[i] : undefined,
-            error: failed ? e.error : undefined,
-          } as CodeEvent)
-        })
-      }
-      continue
-    }
-    out.push(e)
-  }
-  return out
-}
-
-function generateScript(rawLog: CodeEvent[]): string {
-  const log = expandBatches(rawLog)
+function generateScript(log: CodeEvent[]): string {
   const calls = log.filter((e): e is CallEvent => e.kind === 'call' && e.status !== 'running')
   const loads = log.filter((e): e is LoadEvent => e.kind === 'load')
 
@@ -1269,7 +1208,8 @@ function generateScript(rawLog: CodeEvent[]): string {
   }
 
   const lines: string[] = []
-  if (calls.length) {
+  const hasScripts = log.some(e => e.kind === 'script' && e.status !== 'running')
+  if (calls.length || hasScripts) {
     // Runnable setup header (buerli's documented facade usage).
     lines.push(
       "import { BuerliCadFacade } from '@buerli.io/classcad'",
@@ -1295,6 +1235,18 @@ function generateScript(rawLog: CodeEvent[]): string {
     if (e.kind === 'user') {
       const txt = e.text.replace(/\s+/g, ' ').trim()
       if (txt) lines.push(`// User: ${txt.length > 140 ? txt.slice(0, 138) + '…' : txt}`)
+      continue
+    }
+    // run_script executions ARE code — include them verbatim, scoped so their
+    // `api.v1.*` addressing works against the header's facade.
+    if (e.kind === 'script') {
+      if (e.status === 'running') continue
+      lines.push(`// ── run_script${e.label ? `: ${e.label}` : ''} ──`)
+      if (e.status === 'error') {
+        const err = (e.error || 'unknown error').replace(/\s+/g, ' ').trim()
+        lines.push(`// ✗ failed: ${err.length > 160 ? err.slice(0, 158) + '…' : err}`)
+      }
+      lines.push('await (async api => {', ...e.text.split('\n').map(l => '  ' + l), '})(facade.api)', '')
       continue
     }
     if (e.kind !== 'call' || e.status === 'running') continue
@@ -1352,7 +1304,7 @@ function highlightCode(code: string): React.ReactNode[] {
 const CodePanel: React.FC<{ log: CodeEvent[]; theme: Required<AgentPanelTheme> }> = ({ log, theme: t }) => {
   const [copied, setCopied] = useState(false)
   const code = useMemo(() => generateScript(log), [log])
-  const callCount = log.reduce((n, e) => n + (e.kind === 'call' ? 1 : 0), 0)
+  const callCount = log.reduce((n, e) => n + (e.kind === 'call' || e.kind === 'script' ? 1 : 0), 0)
   const scrollRef = useRef<HTMLDivElement>(null)
   // Jump to the latest code whenever the panel is opened (this component mounts).
   useEffect(() => {

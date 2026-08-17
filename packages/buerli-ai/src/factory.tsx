@@ -20,9 +20,9 @@ import type { SnapshotParams, SnapshotResult } from './tools/snapshot'
 export type CreateCadAgentOptions = {
   /** LLM provider instance. */
   provider: LLMProvider
-  /** Max tool-use iterations. Default: 25 */
+  /** Max tool-use iterations. Default: 40 */
   maxIterations?: number
-  /** Max tokens per LLM call. Default: 4096 */
+  /** Max tokens per LLM call. Default: 8192 */
   maxTokens?: number
   /** Override system prompt. */
   systemPrompt?: string
@@ -37,6 +37,12 @@ export type CreateCadAgentOptions = {
    * panel footer (between the model name and the context ring). Omit to hide it.
    */
   reasoningEffort?: ReasoningEffort
+  /**
+   * Force snapshot images to (true) / away from (false) the model. Default: derived
+   * per selected model from its vision capability — override only when an endpoint
+   * mis-reports (e.g. vision-capable but stalls on image inputs).
+   */
+  sendSnapshotsToModel?: boolean
 }
 
 export type CadAgent = {
@@ -62,7 +68,7 @@ export type CadAgentPanelProps = {
 }
 
 export function createCadAgent(options: CreateCadAgentOptions): CadAgent {
-  const { provider, maxIterations, maxTokens, systemPrompt, extraContext, modelName, contextLimit, reasoningEffort } = options
+  const { provider, maxIterations, maxTokens, systemPrompt, extraContext, modelName, contextLimit, reasoningEffort, sendSnapshotsToModel } = options
 
   // ─── AgentCanvas — lives inside <Canvas>, captures via useThree ─────────
 
@@ -137,6 +143,7 @@ export function createCadAgent(options: CreateCadAgentOptions): CadAgent {
         modelName={modelName}
         contextLimit={contextLimit}
         reasoningEffort={reasoningEffort}
+        sendSnapshotsToModel={sendSnapshotsToModel}
       />
     )
   }

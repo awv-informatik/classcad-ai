@@ -148,6 +148,10 @@ PINNED at (35−60/N)° — the bench-#2 lesson. Inches.
 | Sheets | — | ✅ [sheet](files/bench3-buerli-ai-sheet.png) + [section](files/bench3-buerli-ai-section.png) | — |
 | Run shape | — | 1 pass, ~25 min: 1 bulk docs (19 keys) → ONE staged build script (blank+cutter+pattern+tapers+bore+keyway+screw, ONE subtraction) → chamfers+verify → probe refinements. First run on the fully monorepo-sourced stack (no submodule) | — |
 
+![bench3 sheet](files/bench3-buerli-ai-sheet.png)
+
+![bench3 section](files/bench3-buerli-ai-section.png)
+
 Bench-#3 buerli-ai notes:
 - **Interactive steering worked**: ph interjected mid-run ("the facetting is
   rough, can this be fixed?") — the agent handled it as a side quest

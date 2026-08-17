@@ -1,12 +1,7 @@
 // ─── Factory — returns paired Panel + Canvas components ──────────────────────
 //
 // Usage:
-//   const { AgentPanel, AgentCanvas } = createCadAgent({ provider })
-//
-//   <Canvas>
-//     <AgentCanvas />       ← inside r3f Canvas, registers snapshot via useThree
-//     {/* your scene */}
-//   </Canvas>
+//   const { AgentPanel } = createCadAgent({ provider })
 //   <AgentPanel drawingId={drawingId} open={open} onClose={...} />
 
 import React from 'react'
@@ -45,8 +40,6 @@ export type CreateCadAgentOptions = {
 export type CadAgent = {
   /** Chat panel component. Render outside the Canvas. */
   AgentPanel: React.FC<CadAgentPanelProps>
-  /** Canvas-side component. Render inside <Canvas>. Registers snapshot capturer. */
-  AgentCanvas: React.FC
 }
 
 export type CadAgentPanelProps = {
@@ -66,16 +59,6 @@ export type CadAgentPanelProps = {
 
 export function createCadAgent(options: CreateCadAgentOptions): CadAgent {
   const { provider, maxIterations, maxTokens, systemPrompt, extraContext, modelName, contextLimit, reasoningEffort, sendSnapshotsToModel } = options
-
-  // ─── AgentCanvas — lives inside <Canvas>, captures via useThree ─────────
-
-  /**
-   * @deprecated The snapshot tool renders deterministically from session data
-   * (@classcad/renderer) — no canvas capture needed. This component is now an
-   * inert no-op kept so existing apps that render <AgentCanvas /> keep working;
-   * remove it from your tree at your convenience.
-   */
-  const AgentCanvas: React.FC = () => null
 
   // ─── AgentPanel wrapper — injects provider config ───────────────────────
 
@@ -109,5 +92,5 @@ export function createCadAgent(options: CreateCadAgentOptions): CadAgent {
     )
   }
 
-  return { AgentPanel: AgentPanelWrapped, AgentCanvas }
+  return { AgentPanel: AgentPanelWrapped }
 }

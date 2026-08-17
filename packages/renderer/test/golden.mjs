@@ -2,7 +2,7 @@
 // feature refactors. Run `node test/golden.mjs record` once, then plain runs compare.
 import { createHash } from 'crypto'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
-import { renderSessionData } from '../src/core.mjs'
+import { renderSessionData } from '../dist/core.js'
 
 // Same synthetic cube as smoke.mjs
 function cubeGraphic(size = 10) {

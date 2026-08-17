@@ -7,29 +7,29 @@
  */
 
 import sharp from 'sharp'
-import { renderSessionData, renderSolidZBuffer, analyzeSession, setViewport } from './core.mjs'
-import { parseSTL } from './stl.mjs'
+import { renderSessionData, renderSolidZBuffer, analyzeSession, setViewport } from './core.js'
+import { parseSTL } from './stl.js'
 
-export * from './core.mjs'
-export * from './stl.mjs'
+export * from './core.js'
+export * from './stl.js'
 
 /** Encode an RGBA pixel buffer as PNG bytes. */
-export async function pixelsToPng(pixels, width, height) {
+export async function pixelsToPng(pixels: any, width: any, height: any) {
   return sharp(pixels, { raw: { width, height, channels: 4 } }).png().toBuffer()
 }
 
 /** Save an RGBA pixel buffer as a PNG file. */
-export async function savePNG(pixels, width, height, path) {
+export async function savePNG(pixels: any, width: any, height: any, path: any) {
   await sharp(pixels, { raw: { width, height, channels: 4 } }).png().toFile(path)
 }
 
 /** Rasterize an SVG string to PNG bytes. */
-export async function svgToPngBuffer(svg) {
+export async function svgToPngBuffer(svg: any) {
   return sharp(Buffer.from(svg)).png().toBuffer()
 }
 
 /** Rasterize an SVG string to a PNG file. */
-export async function svgToPng(svg, pngPath) {
+export async function svgToPng(svg: any, pngPath: any) {
   await sharp(Buffer.from(svg)).png().toFile(pngPath)
 }
 
@@ -42,18 +42,18 @@ export async function svgToPng(svg, pngPath) {
  * bodies. Pass `recalc: false` when the session used solid.* / entityInjection
  * flows — the accumulated graphic is used as-is then.
  */
-export async function fetchGraphic(client, { recalc = true } = {}) {
+export async function fetchGraphic(client: any, { recalc = true }: { recalc?: boolean } = {}) {
   const { execute, getLastGraphic } = client
-  let graphic = null
+  let graphic: any = null
   if (recalc) {
     try {
       const r = await execute({ 'v1.common.recalc': [{}] })
-      if (r.graphic?.containers?.some(c => c.meshes?.length > 0 || c.edges?.length > 0)) {
+      if (r.graphic?.containers?.some((c: any) => c.meshes?.length > 0 || c.edges?.length > 0)) {
         graphic = r.graphic
       }
     } catch (e) { /* fall back below */ }
   }
-  if (!graphic?.containers?.some(c => c.meshes?.length > 0 || c.edges?.length > 0)) {
+  if (!graphic?.containers?.some((c: any) => c.meshes?.length > 0 || c.edges?.length > 0)) {
     graphic = getLastGraphic?.() ?? graphic
   }
   return graphic
@@ -65,7 +65,7 @@ export async function fetchGraphic(client, { recalc = true } = {}) {
  * where the graphic pipeline yields nothing (graphics-disabled client), or to
  * verify the exported artifact independently of the live graphic.
  */
-async function renderStlSource(client, options) {
+async function renderStlSource(client: any, options: any) {
   const { width = 1600, height = 1200 } = options
   const stlR = await client.execute({
     'v1.common.save': [{ format: 'STL', encoding: 'base64', stl: { binary: true, facetingTol: options.facetingTol ?? 0.1, angleTol: options.angleTol ?? 6 } }],
@@ -116,7 +116,7 @@ async function renderStlSource(client, options) {
  *   instead — explicit fallback for graphics-disabled clients, marked in the result)
  * @returns {Promise<{ type: string, file: string, source?: 'stl' }[]>}
  */
-export async function renderSession(client, prefix, outDir, options = {}) {
+export async function renderSession(client: any, prefix: any, outDir: any, options: any = {}) {
   if (options.source === 'stl') {
     const zbuf = await renderStlSource(client, options)
     const file = `${prefix}-solid-stl.png`
@@ -149,8 +149,8 @@ export async function renderSession(client, prefix, outDir, options = {}) {
   // Explicit failure instead of a silent empty render: the tree says there is
   // renderable content, but no graphic containers arrived for it.
   const content = analyzeSession(tree)
-  const hasSolidGraphic = graphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)
-  const hasCurveGraphic = graphic?.containers?.some(c => c.type === 2 && c.edges?.length > 0)
+  const hasSolidGraphic = graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0)
+  const hasCurveGraphic = graphic?.containers?.some((c: any) => c.type === 2 && c.edges?.length > 0)
   if (content.solids.length > 0 && !hasSolidGraphic) {
     throw new Error(
       `No graphic data for ${content.solids.length} solid(s) in the session. ` +
@@ -169,12 +169,12 @@ export async function renderSession(client, prefix, outDir, options = {}) {
   }
 
   const entries = await renderSessionData(
-    { tree, graphic, execute: task => client.execute(task) },
+    { tree, graphic, execute: (task: any) => client.execute(task) },
     options,
   )
 
   const rendered = []
-  for (const e of entries) {
+  for (const e of entries as any[]) {
     let file
     if (e.type === 'solid') file = `${prefix}-solid.png`
     else if (e.type === 'sketch') file = `${prefix}-sketch-${String(e.name).replace(/[^a-zA-Z0-9_-]/g, '_')}.png`
@@ -184,7 +184,7 @@ export async function renderSession(client, prefix, outDir, options = {}) {
     if (e.kind === 'pixels') await savePNG(e.pixels, e.width, e.height, `${outDir}/${file}`)
     else await svgToPng(e.svg, `${outDir}/${file}`)
 
-    const entry = { type: e.type, file }
+    const entry: any = { type: e.type, file }
     if (e.sketchId != null) { entry.sketchId = e.sketchId; entry.name = e.name }
     if (e.frame) entry.frame = e.frame   // reusable via options.frame for before/after
     rendered.push(entry)

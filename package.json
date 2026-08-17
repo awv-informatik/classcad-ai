@@ -1,7 +1,7 @@
 {
   "name": "classcad-ai",
   "private": true,
-  "description": "ClassCAD AI monorepo — knowledge (skill), deterministic renderer, universal script executor, MCP server, buerli-ai panel, and the training agent.",
+  "description": "ClassCAD AI monorepo \u2014 the training agent lives at the root; shared packages under packages/.",
   "workspaces": [
     "packages/*"
   ],
@@ -11,5 +11,13 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.2.0/classcad-api-js-21.2.0.tgz",
+    "sharp": "^0.34.5",
+    "ws": "^8.19.0",
+    "@classcad/script": "0.x",
+    "@classcad/renderer": "0.x",
+    "@classcad/skill": "0.x"
   }
 }

@@ -2,6 +2,19 @@
 
 A practical guide for parsing 2D technical drawings and recreating them as ClassCAD sketches. Covers the full pipeline from dimension analysis through constraint-driven layout, trimming, and iterative evaluation.
 
+
+## Sketch-plane local→world mappings (probed 2026-08-10)
+
+`getPositions` returns WORLD coordinates. The standard planes map sketch-local (x, y) as:
+
+| Plane | local x → | local y → | normal |
+|---|---|---|---|
+| Top | +X | +Y | +Z |
+| Front | +X | **−Z** | +Y |
+| Right | **+Z** | **−Y** | +X |
+
+`arcByCenter isClockwise: true` = math-NEGATIVE sweep in local coordinates on all three planes. Mirrored arcs traversed in reverse keep the SAME cw flag (the mirror flips the sweep, the reversal flips it back).
+
 ## The Method
 
 **Don't hand-compute the layout — and don't assume the drawing is an outline.** Technical

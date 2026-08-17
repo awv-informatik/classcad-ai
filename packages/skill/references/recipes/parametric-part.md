@@ -33,8 +33,10 @@ await api.v1.part.expression({
 - **Only the `toCreate` array form creates expressions.** `part.expression({ id, name, value })`
   is a silent no-op (returns result=1, creates nothing) — see [part/expression](../part/expression.md).
 - `C:PI` is the built-in π constant. Trig (`sin`, `cos`, …) works inside value strings.
-- Change a parameter later with `part.updateExpression({ id, name, value })` — the whole
-  dependent chain recomputes and the model regenerates.
+- Change a parameter later with `part.updateExpression({ id, toUpdate: [{ name, value }] })` —
+  the whole dependent chain recomputes and the model regenerates. The `toUpdate` array is
+  REQUIRED: the bare `{ id, name, value }` form returns result=1 but changes NOTHING
+  (silent no-op — see [part/updateExpression](../part/updateExpression.md)).
 
 ## 2. Constrained sketch with @expr dimensions
 
@@ -81,7 +83,7 @@ master parameter **stepwise**:
 
 ```js
 for (const n of [22, 23, 24]) {
-  await api.v1.part.updateExpression({ id: partId, name: 'teeth', value: n })
+  await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'teeth', value: n }] })
 }
 ```
 

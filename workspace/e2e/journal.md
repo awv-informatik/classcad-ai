@@ -35,15 +35,22 @@ subtraction, live-parametric bore test.
 
 | Criterion | root agent (GT) | buerli-ai | mcp |
 | --- | --- | --- | --- |
-| Expressions in model (formulas) | ✅ 14 | ✅ 12+ | — pending |
-| Constrained sketch (from tree) | ✅ RootOnPitch, TanL/R, lgsState 1 | ✅ CenterOnPitch/CL, TanL/R, Sym | — |
-| Dims @expr-bound | ✅ every one; ANGLE correctly avoided | ✅ (`PitchR`,`SeatR`,`CapH`,`CapW`,`BlankOD`,`BoreDia`) | — |
-| Merged pattern + ONE subtraction | ✅ | ✅ | — |
-| Tooth count from geometry | ✅ 15/15 | ✅ 15/15 (owner join) | — |
-| Volume in bounds | ✅ 13292.8 mm³ | ✅ 13476.8 mm³ | — |
-| Live bore B 16→20 | ✅ relErr 0.044% | ✅ relErr 0.065%; restored B=16, volume bit-exact | — |
-| Sheet snapshot | ✅ | ✅ (rendered in-app; edges missing → fixed, see history) | — |
-| Run shape | 1 pass, 37 calls, ~12 min | 1 pass, ~8 rounds, zero manual continues (after fixes) | — |
+| Expressions in model (formulas) | ✅ 14 | ✅ 12+ | ✅ 14 (readback = JS math to 1e-15) |
+| Constrained sketch (from tree) | ✅ RootOnPitch, TanL/R, lgsState 1 | ✅ CenterOnPitch/CL, TanL/R, Sym | ✅ SeatOnPC/CL, TangentL/R, CapSym — none unsolved |
+| Dims @expr-bound | ✅ every one; ANGLE correctly avoided | ✅ (`PitchR`,`SeatR`,`CapH`,`CapW`,`BlankOD`,`BoreDia`) | ✅ (`Rp`,`Rs`,`capW`,`capY`); flank angle encoded as expr-bound capW — zero unbindables |
+| Merged pattern + ONE subtraction | ✅ | ✅ | ✅ (`count:'@expr.N'`, merged:1) |
+| Tooth count from geometry | ✅ 15/15 | ✅ 15/15 (owner join) | ✅ 15/15 (azimuth clustering, data-driven gap) |
+| Volume in bounds | ✅ 13292.8 mm³ | ✅ 13476.8 mm³ | ✅ 13132.99 mm³ |
+| Live bore B 16→20 | ✅ relErr 0.044% | ✅ relErr 0.065%; restored B=16, volume bit-exact | ✅ relErr 0.013%; restored B=16 exact |
+| Sheet snapshot | ✅ | ✅ (rendered in-app; edges missing → fixed, see history) | ✅ ([files/mcp-bench1/](files/mcp-bench1/)) |
+| Run shape | 1 pass, 37 calls, ~12 min | 1 pass, ~8 rounds, zero manual continues (after fixes) | 2 passes (engine crash between): 40 min blocked by preTrim hang + 4 min rebuild after worker restart; 24 run_scripts, solver seeded off-value on purpose |
+
+MCP run notes: headless `claude -p` runner, MCP tools whitelisted only —
+repo/filesystem access DENIED by permissions (source rule held; verified in the
+transcript: the Glob/ls attempts errored, the only successful shell calls were
+`ps`/`sleep` diagnostics while it monitored the dying worker). Agent found TWO
+doc/engine defects (history #22, #23) and reported both instead of silently
+working around them.
 
 ![gt1](files/gt1-agent-ansi35-15T-sheet.png)
 
@@ -130,11 +137,19 @@ commits; buerli-ai mirror + websites submodule synced each time).
 | 19 | Panel showed only a bare "Thinking…" spinner | SSE carries delta.reasoning_text (plain-text thinking!) + reasoning_opaque; reasoning_text now surfaces as a real thinking block. usage reports prompt_tokens_details.cached_tokens — measure whether Copilot prompt-caches our contexts |
 | 20 | OPEN: provider error drops the user message from history ("I don't have any record of the earlier request") | Fix candidate: keep the user turn in messages on error paths |
 | 21 | OPEN: phantom build (a flange) appeared after a proxy restart | Suspected orphaned panel instance flushing a buffered request; one-off, not reproduced |
+| 22 | OPEN (ENGINE, for Rainer): `v1.sketch.preTrim` on a constrained sketch (tangent flank endpoints COINCIDENT on a circle + construction circle/centerline crossings) never returns — native worker spun at 100% CPU with runaway memory for ~45 min, then the PROCESS DIED (took every session with it). Found by the mcp bench-#1 agent following SKETCHING step 5 verbatim ("Trim is safe on constrained sketches, verified 2026-06-10") | Worker restarted; agent resumed with a no-preTrim plan (closed the profile as a constraint chain — arc + tangent junctions, no trim needed) and passed. Doc caveat candidate for SKETCHING; needs a minimal repro script for Rainer |
+| 23 | `recipes/parametric-part` taught the SILENT NO-OP form `updateExpression({id,name,value})` (returns result=1, changes nothing) — mcp bench agent hit ΔV=0 on the live-bore proof, cross-checked the method doc, and self-corrected to `toUpdate:[{name,value}]` | Recipe fixed (both occurrences), bundle rebuilt; all other docs already showed the correct form (expression.md's bare form is its deliberate ❌ example) |
 
 **Bench #2 × buerli-ai status (2026-08-17 evening):** three aborted attempts,
 all GitHub-side (502 token exchange → choiceless 16k round → major_outage).
-Restart pending on Copilot recovery (status watcher armed). Upgrades staged
-for the retry: streaming/64k, transient retry, live thinking.
+Copilot written off for the day (ph); restart when it recovers (status watcher
+armed). Upgrades staged for the retry: streaming/64k, transient retry, live
+thinking. Meanwhile: MCP benchmarks (Copilot-independent).
+
+**Benchmark #3 candidate (ph, 2026-08-17):** a HUBBED variant — e.g. the
+D35C13SS style-C from the 2026-08-10 training journal (double strand, hub
+both sides, set screw). Adds revolve/hub geometry + set-screw features on top
+of the plate skills. Parked until #2 is green on all hosts.
 
 ## Per-host takeaways
 
@@ -148,5 +163,10 @@ for the retry: streaming/64k, transient retry, live thinking.
   WASM engine version lag (now 21.2.0). Watch: per-call graphic suppression
   relies on the v0 config-merge; when buerli exposes per-call config in
   createApi, switch to the official path.
-- **mcp**: instructions carry the full method index since 2026-08-17; shared
-  discovery module; token-URL session support. Benchmarks not yet run.
+- **mcp**: bench #1 PASSED 2026-08-17 (headless `claude -p` + stdio server,
+  worker :9094). The instructions' method index worked as designed — the agent
+  went straight to `describe_method` (8 calls) with no search flailing, then
+  24 substantial run_scripts. Cleanest live-bore result of all hosts (0.013%).
+  Distinguishing behavior: when the engine hung it TRIAGED (monitored the
+  worker process, waited it out, wrote an interim report asking for a restart)
+  — the resumed session rebuilt and passed in 4 minutes. Bench #2 pending.

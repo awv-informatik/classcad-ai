@@ -251,18 +251,34 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
     content.push({ type: 'text', text: msg.content })
   }
 
+  // A dropped stream can cut a tool call mid-arguments (valid SSE lines, but
+  // the accumulated argument string ends mid-JSON). Parsing that used to THROW
+  // ("Unexpected end of JSON input"), which the transient-retry treated as a
+  // provider failure — three identical re-streams, then a dead turn. Instead:
+  // drop the partial call and mark the round TRUNCATED so the loop's
+  // max_tokens auto-continue resumes it.
+  let sawPartialToolCall = false
   if (msg.tool_calls) {
     for (const call of msg.tool_calls) {
+      let input: unknown
+      try {
+        input = call.function.arguments === '' ? {} : JSON.parse(call.function.arguments)
+      } catch {
+        sawPartialToolCall = true
+        continue
+      }
       content.push({
         type: 'tool_use',
         id: call.id,
         name: call.function.name,
-        input: JSON.parse(call.function.arguments),
+        input,
       })
     }
   }
 
-  const stopReason = choice.finish_reason === 'tool_calls' ? 'tool_use'
+  const hasCompleteCall = content.some(b => (b as { type?: string }).type === 'tool_use')
+  const stopReason = sawPartialToolCall && !hasCompleteCall ? 'max_tokens' // stream cut mid-call → auto-continue
+    : choice.finish_reason === 'tool_calls' ? 'tool_use'
     : choice.finish_reason === 'stop' ? 'end_turn'
     : choice.finish_reason === 'length' ? 'max_tokens' // output-limit truncation → loop auto-continues
     : choice.finish_reason ?? 'end_turn'

@@ -377,6 +377,34 @@ async function serve() {
               shape = ` finish=${c.finish_reason ?? '-'} tool_calls=${toolCalls} textChars=${textLen}`
             }
           } catch {}
+          // Streamed (SSE) bodies don't JSON.parse — summarize them instead:
+          // total size, whether the stream ended cleanly ([DONE]), the last
+          // finish_reason seen, and whether the final data line is complete
+          // JSON (a cut mid-line means upstream truncated the stream).
+          if (!shape && text.trimStart().startsWith('data:')) {
+            const lines = text.split('\n').filter(l => l.startsWith('data:'))
+            const sawDone = lines.some(l => l.slice(5).trim() === '[DONE]')
+            let finish = '-'
+            let lastComplete = true
+            for (const l of lines) {
+              const p = l.slice(5).trim()
+              if (p === '[DONE]') continue
+              try {
+                const j = JSON.parse(p)
+                const f = j.choices?.[0]?.finish_reason
+                if (f) finish = f
+              } catch { lastComplete = false }
+            }
+            shape = ` sse=${Math.round(text.length / 1024)}KB events=${lines.length} done=${sawDone} finish=${finish} cleanTail=${lastComplete}`
+            if (!sawDone || !lastComplete) {
+              try {
+                const fs = await import('node:fs')
+                const dump = `/tmp/copilot-proxy-truncated-${Date.now()}.sse`
+                fs.writeFileSync(dump, text)
+                shape += ` dumped=${dump}`
+              } catch {}
+            }
+          }
           console.log(`[proxy] ${upstreamPath} ${upstream.status} ${Date.now() - t0}ms${reqMeta}${usage}${shape}`)
         }
         if (!upstream.ok) {

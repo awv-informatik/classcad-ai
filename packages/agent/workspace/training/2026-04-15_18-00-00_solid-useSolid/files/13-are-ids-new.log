@@ -1,0 +1,10 @@
+[13] original box ID: 61
+[filewrite] files/13-are-ids-new-structure-before.json (21826 bytes)
+[13] useSolid result: [ 75 ] maxLevel: 31
+[13] original box ID: 61 | useSolid returned ID: 75
+[13] same ID? false
+[filewrite] files/13-are-ids-new-structure-after.json (23062 bytes)
+[13] translate original box result: 61 maxLevel: 31
+[13] translate original messages: []
+[13] translate useSolid ID result: 75 maxLevel: 31
+[filewrite] files/13-are-ids-new-id-comparison.json (154 bytes)

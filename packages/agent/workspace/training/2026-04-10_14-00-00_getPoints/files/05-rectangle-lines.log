@@ -1,0 +1,6 @@
+[05] rectIds: [58,64,70,76]
+[05] line 0 (id=58): {"endId":60,"startId":59}
+[05] line 1 (id=64): {"endId":66,"startId":65}
+[05] line 2 (id=70): {"endId":72,"startId":71}
+[05] line 3 (id=76): {"endId":78,"startId":77}
+[filewrite] files/05-rectangle-lines-rectangle-getPoints.json (434 bytes)

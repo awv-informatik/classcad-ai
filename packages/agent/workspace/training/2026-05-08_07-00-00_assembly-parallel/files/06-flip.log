@@ -1,0 +1,3 @@
+[06] parallel result: 216 maxLevel: 31
+[06] COG with flip -Z: {"x":19.999999999999996,"y":-10,"z":-5.099999999999949}
+[filewrite] files/06-flip-flip-cog.json (112 bytes)

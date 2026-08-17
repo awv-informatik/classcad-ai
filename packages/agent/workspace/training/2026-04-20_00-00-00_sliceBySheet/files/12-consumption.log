@@ -1,0 +1,7 @@
+[12] boxId: 54 sheetId: 150
+[12] sliceBySheet result: 193 maxLevel: 31
+[12] boolean with consumed boxId: result: null maxLevel: 51
+[12] box bool msg: Entity "Box" is not available. It has already been consumed/used in another operation.
+[12] sliceBySheet with consumed sheetId: result: null maxLevel: 51
+[12] sheet reuse msg: Entity "Sheet" is not available. It has already been consumed/used in another operation.
+[12] boolean with sliceId: result: 291 maxLevel: 31

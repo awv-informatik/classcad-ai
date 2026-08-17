@@ -1,0 +1,14 @@
+[05] single instance group result: 178 maxLevel: 31
+[filewrite] files/05-edge-cases-single-instance.json (55 bytes)
+[05] empty instanceIds result: 182 maxLevel: 61
+[filewrite] files/05-edge-cases-empty-instanceIds.json (238 bytes)
+[05] duplicate instance result: 188 maxLevel: 31
+[filewrite] files/05-edge-cases-duplicate-instance.json (55 bytes)
+[05] dupes group contents: {"id":188,"instanceIds":[170,170,172],"name":"Dupes"}
+[filewrite] files/05-edge-cases-duplicate-getGroup.json (84 bytes)
+[05] second group with same instances result: 192 maxLevel: 31
+[filewrite] files/05-edge-cases-overlapping-groups.json (55 bytes)
+[05] bad instance ID result: null maxLevel: 51
+[filewrite] files/05-edge-cases-bad-instance-id.json (430 bytes)
+[05] missing instanceIds result: null maxLevel: 51
+[filewrite] files/05-edge-cases-missing-instanceIds.json (254 bytes)

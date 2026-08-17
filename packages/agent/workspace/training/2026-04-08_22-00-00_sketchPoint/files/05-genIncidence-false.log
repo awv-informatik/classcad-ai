@@ -1,0 +1,3 @@
+[05] first point — result: 58 maxLevel: 31
+[05] second point same pos, genIncidence=FALSE — result: 60 maxLevel: 31
+[filewrite] files/05-genIncidence-false-structure-incidence-false.json (24958 bytes)

@@ -1,0 +1,25 @@
+{
+  "angleox1": {
+    "result": 70,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "angleox2": {
+    "result": 74,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "angleoxExplicit": {
+    "result": 78,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $78 of type \"ANGLEOX\""
+      }
+    ]
+  }
+}

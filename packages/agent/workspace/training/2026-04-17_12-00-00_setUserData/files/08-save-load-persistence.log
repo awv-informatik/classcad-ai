@@ -1,0 +1,8 @@
+[08] before save — part keys: ["author","version","material"]
+[08] before save — eif keys: ["feature-meta"]
+[08] before save — box keys: ["solid-meta"]
+[08] saved OFB, length: 44256
+[08] loaded, new partId: 4
+[08] after load — part keys: []
+[08] after load — material: "MISSING" author: "MISSING"
+[filewrite] files/08-save-load-persistence-persistence.json (248 bytes)

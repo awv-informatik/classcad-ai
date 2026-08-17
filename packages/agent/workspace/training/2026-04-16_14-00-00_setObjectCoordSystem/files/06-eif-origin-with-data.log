@@ -1,0 +1,7 @@
+[06] partId: 4 eifId: 54 boxId: 61
+[filewrite] files/06-eif-origin-with-data-step-before.txt (13048 bytes)
+[06] setObjectCoordSystem on EIF result: null maxLevel: 31
+[filewrite] files/06-eif-origin-with-data-response.json (56 bytes)
+[filewrite] files/06-eif-origin-with-data-step-after.txt (13120 bytes)
+[06] STEP files differ: true
+[06] STEP before length: 13048 after: 13120

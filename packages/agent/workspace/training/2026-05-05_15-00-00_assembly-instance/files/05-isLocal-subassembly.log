@@ -1,0 +1,8 @@
+[05] subAsmTplId: 105
+[05] subInst: 115
+[05] rootInst (sub-asm): 117
+[05] globalInst (isLocal=FALSE): 122
+[05] localInst (isLocal=TRUE): 126
+[05] root mass: {"cog":{"x":180.00000000000003,"y":15,"z":10.000000000000002},"volume":72000.00000000001}
+[filewrite] files/05-isLocal-subassembly-root-mass.json (119 bytes)
+[05] predicted combined COG: [180, 15, 10]

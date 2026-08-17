@@ -1,0 +1,13 @@
+[06] Creating OFB file then referencing in JSON...
+[06] Saved OFB, length: 46168
+[06] Written OFB to: /tmp/cc-test-box.ofb size: 34624
+[06] template file ref: result: 14 maxLevel: 51
+[06]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/06-file-reference-template-file-ref.json (275 bytes)
+[06] template source ref: result: 14 maxLevel: 51
+[06]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[06] template path ref: result: 14 maxLevel: 51
+[06]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[06] from file directly: result: null maxLevel: 51
+[06]   msg: It's not possible to create assembly from other formats than json, xml or ecxml.
+[filewrite] files/06-file-reference-from-file-direct.json (270 bytes)

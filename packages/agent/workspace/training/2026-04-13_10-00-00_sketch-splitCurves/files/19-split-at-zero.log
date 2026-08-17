@@ -1,0 +1,4 @@
+[19] split at 0.0 — result: [[64,68]] maxLevel: 31
+[filewrite] files/19-split-at-zero-split-at-0.json (88 bytes)
+[19] seg 64: positions={"endPos":{"x":-50,"y":0,"z":0},"startPos":{"x":-50,"y":0,"z":0}}
+[19] seg 68: positions={"endPos":{"x":50,"y":0,"z":0},"startPos":{"x":-50,"y":0,"z":0}}

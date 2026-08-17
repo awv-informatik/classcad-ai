@@ -1,0 +1,8 @@
+[02b] vd-OP-seedUp: VERTICAL_DISTANCE [OP] v=40 seed(0,30) → (0.00, 40.00)
+[02b] vd-OP-seedDown: VERTICAL_DISTANCE [OP] v=40 seed(0,-30) → (0.00, -40.00)
+[02b] vd-PO-seedUp: VERTICAL_DISTANCE [PO] v=40 seed(0,30) → (0.00, 40.00)
+[02b] hd-OP-seedRight: HORIZONTAL_DISTANCE [OP] v=40 seed(30,0) → (40.00, 0.00)
+[02b] hd-OP-seedLeft: HORIZONTAL_DISTANCE [OP] v=40 seed(-30,0) → (-40.00, 0.00)
+[02b] hd-PO-seedLeft: HORIZONTAL_DISTANCE [PO] v=40 seed(-30,0) → (-40.00, 0.00)
+[02b] vd-OP-seedUpFar: VERTICAL_DISTANCE [OP] v=40 seed(5,90) → (5.00, 40.00)
+[filewrite] files/02b-probe-hdvd-sign-hdvd-sign.json (867 bytes)

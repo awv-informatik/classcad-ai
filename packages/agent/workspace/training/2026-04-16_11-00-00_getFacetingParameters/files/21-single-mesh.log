@@ -1,0 +1,7 @@
+[21] settings: {"mode":0,"cht":0.5,"at":0}
+[21] hasGraphic: true containers: 1 vertices: 277 indices: 1392
+[21] container[0] keys: id, owner, type, properties, meshes, edges, vertices
+[21] container[0].meshes length: 1
+[21] mesh[0] keys: id, vertices, normals, indices, loops, properties
+[21] mesh[0].vertices length: 831
+[filewrite] files/21-single-mesh-single-mesh.json (87 bytes)

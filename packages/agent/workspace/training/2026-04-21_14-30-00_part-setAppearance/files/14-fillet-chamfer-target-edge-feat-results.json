@@ -1,0 +1,18 @@
+{
+  "fillet": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Entity \"Fillet1\" is not available. It has already been consumed/used in another operation."
+      }
+    ]
+  },
+  "chamfer": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

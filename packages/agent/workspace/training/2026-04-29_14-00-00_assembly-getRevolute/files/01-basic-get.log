@@ -1,0 +1,7 @@
+[01] revolute created: 216
+[01] getRevolute result: {"id":216,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Rev_Test","zOffset":0,"zRotationLimits":{"max":null,"min":null}}
+[01] maxLevel: 31
+[01] result keys: id, mate1, mate2, name, zOffset, zRotationLimits
+[01] mate1 keys: csys, flip, path, reorient
+[01] mate2 keys: csys, flip, path, reorient
+[filewrite] files/01-basic-get-basic-get-result.json (320 bytes)

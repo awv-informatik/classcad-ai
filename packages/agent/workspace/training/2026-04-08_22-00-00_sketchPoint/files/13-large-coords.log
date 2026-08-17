@@ -1,0 +1,5 @@
+[13] large coords (1e6,1e6) — result: 58 maxLevel: 31
+[13] tiny coords (1e-10,1e-10) — result: 60 maxLevel: 31
+[13] large pos: {"pos":{"x":1000000,"y":1000000,"z":0}}
+[13] tiny pos: {"pos":{"x":1e-10,"y":1e-10,"z":0}}
+[filewrite] files/13-large-coords-large-coords.json (151 bytes)

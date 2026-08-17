@@ -1,0 +1,9 @@
+[11] AllObjects children: [4,6,8,10,12]
+[11] node 4 — name: undefined class: undefined flags: undefined
+[11] node 6 — name: undefined class: undefined flags: undefined
+[11] node 8 — name: PartContainer class: CC_PartContainer flags: 16
+[11] node 10 — name: AssemblyContainer class: CC_AssemblyContainer flags: 0
+[11] node 12 — name: AssemblyRoot class: CC_AssemblyRoot flags: 0
+[11] root: 12
+[11] currentProduct: 12
+[11] currentInstance: 12

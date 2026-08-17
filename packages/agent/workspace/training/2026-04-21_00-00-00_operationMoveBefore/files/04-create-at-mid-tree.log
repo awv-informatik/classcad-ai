@@ -1,0 +1,16 @@
+[04] partId: 4
+[04] boxId: 54 cylId: 91
+[04] create Box2 at mid-tree result: 110 maxLevel: 31
+[filewrite] files/04-create-at-mid-tree-create-mid-tree.json (55 bytes)
+[04] OperationSequence children: [24,28,32,36,40,44,48,56,112,93,20]
+[04]   24 CC_WorkPointReference OriginRef
+[04]   28 CC_WorkAxisReference XAxisRef
+[04]   32 CC_WorkAxisReference YAxisRef
+[04]   36 CC_WorkAxisReference ZAxisRef
+[04]   40 CC_WorkPlaneReference TopRef
+[04]   44 CC_WorkPlaneReference FrontRef
+[04]   48 CC_WorkPlaneReference RightRef
+[04]   56 CC_OperationReference BoxRef
+[04]   112 CC_OperationReference BoxRef0
+[04]   93 CC_OperationReference CylinderRef
+[04]   20 CC_RollbackBar RollbackBar

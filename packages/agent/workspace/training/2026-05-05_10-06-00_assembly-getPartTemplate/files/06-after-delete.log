@@ -1,0 +1,6 @@
+[06] before: [22,68,114]
+[06] delete result: null maxLevel: 31
+[06] after: [22,114]
+[06] lookup Remove: null maxLevel: 51
+[06] lookup Keep: 22 maxLevel: 31
+[filewrite] files/06-after-delete-after-delete.json (210 bytes)

@@ -1,0 +1,11 @@
+[01] asmId: 12
+[01] tplA: 22 wcsA: 107
+[01] tplB: 113 wcsB: 198
+[01] inst1: 204 inst2: 206
+[01] COG before: undefined
+[01] revolute result: 272 maxLevel: 31
+[filewrite] files/01-basic-revolute-revolute-response.json (55 bytes)
+[01] COG after: undefined
+[filewrite] files/01-basic-revolute-mass-comparison.json (320 bytes)
+[01] getRevolute result: {"id":272,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Hinge1","zOffset":0,"zRotationLimits":{"max":null,"min":null}}
+[filewrite] files/01-basic-revolute-getRevolute-state.json (318 bytes)

@@ -1,0 +1,5 @@
+[08] maxLevel: 31
+[08] geometry count: 15
+[08] expected: 15 actual: 15
+[08] dimensions: [ 240, 242 ]
+[filewrite] files/08-large-count-large-count-result.json (216 bytes)

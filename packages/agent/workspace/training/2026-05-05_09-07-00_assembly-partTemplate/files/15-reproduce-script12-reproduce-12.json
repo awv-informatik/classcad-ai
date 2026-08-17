@@ -1,0 +1,6 @@
+{
+  "atCreation": 24000,
+  "afterUpdateTemplateCtx": 24000,
+  "finalBefore": 24000,
+  "finalAfter": 96000
+}

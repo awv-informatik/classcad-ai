@@ -1,0 +1,11 @@
+[12] no id result: null maxLevel: 51
+[12] no id msgs: [{"api":"v1.part.workAxis","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_WorkAxis"}]
+[12] invalid type result: null maxLevel: 51
+[12] invalid type msgs: [{"api":"v1.part.workAxis","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"type\" is not valid. Possible values are: [\"USERDEFINED\",\"POINTDIRECTION\",\"CURVE\",\"2POINTS\",\"2PLANES\"]"}]
+[12] 2POINTS no refs result: null maxLevel: 51
+[12] 2POINTS no refs msgs: [{"api":"v1.part.workAxis","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" must be provided in the api call!"}]
+[12] 2PLANES 1 ref result: null maxLevel: 51
+[12] 2PLANES 1 ref msgs: [{"api":"v1.part.workAxis","code":1002,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has invalid number of elements! There should be 2 element(s) in this situation!"}]
+[12] PTDIR 2 edges result: 111 maxLevel: 31
+[12] PTDIR 2 edges msgs: []
+[filewrite] files/12-errors-error-responses.json (943 bytes)

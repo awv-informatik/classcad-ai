@@ -1,0 +1,7 @@
+[14] direct box: 54
+[14] uncommitted box: 89
+[14] OperationSequence children: [24,28,32,36,40,44,48,56,91,20]
+[14] getFeature DirectBox: 54 (maxLevel: 31)
+[14] getFeature UncommittedBox: 89 (maxLevel: 31)
+[14] getFeature UncommittedBox after commit: 89 (maxLevel: 31)
+[filewrite] files/14-vs-direct-creation-final-structure.json (23154 bytes)

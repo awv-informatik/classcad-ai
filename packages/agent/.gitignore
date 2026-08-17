@@ -1,0 +1,17 @@
+node_modules/
+.DS_Store
+*.swp
+*~
+
+# Claude Code local config
+.claude/
+.openclaw/
+
+# Lock file (keep package.json, ignore lock)
+package-lock.json
+
+# Training output artifacts
+output/
+
+# Generated from @classcad/api-js on postinstall
+knowledge/classcad-api/

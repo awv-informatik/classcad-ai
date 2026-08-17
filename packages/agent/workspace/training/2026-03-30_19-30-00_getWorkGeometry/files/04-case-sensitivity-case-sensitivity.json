@@ -1,0 +1,30 @@
+{
+  "CamelCasePlane": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "camelcaseplane": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "CAMELCASEPLANE": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "camelCasePlane": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "Top": {
+    "result": 38,
+    "maxLevel": 31
+  },
+  "top": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "TOP": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

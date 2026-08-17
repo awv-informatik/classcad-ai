@@ -1,0 +1,5 @@
+[15] cylId: 54
+[15] updateBox on cyl — result: 54 maxLevel: 31
+[filewrite] files/15-wrong-type-verify-wrong-type-full-response.json (54 bytes)
+[15] updateCylinder after updateBox — result: 54 maxLevel: 31
+[filewrite] files/15-wrong-type-verify-cyl-update-after-response.json (54 bytes)

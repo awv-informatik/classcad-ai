@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.part.boolean",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Entity \"Tool\" is not available. It has already been consumed/used in another operation."
+    }
+  ]
+}

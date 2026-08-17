@@ -1,0 +1,6 @@
+[08] box result: 54 maxLevel: 31
+[08] mesh count: 6
+[08] face IDs: [ 79, 80, 84, 81, 82, 83 ]
+[08] sketch on face — result: 89 maxLevel: 31
+[08] messages: []
+[filewrite] files/08-on-face-structure-on-face.json (29979 bytes)

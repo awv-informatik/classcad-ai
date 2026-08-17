@@ -1,0 +1,8 @@
+[16] Tangent points:
+  bossTop: [ '0.750', '0.938' ]
+  r1750End: [ '1.987', '0.425' ]
+  R875/R1375: [ '4.592', '-0.808' ]
+  R1375/D1750: [ '3.181', '-1.025' ]
+  D1750/R437: [ '1.902', '-0.855' ]
+  R437/R750: [ '1.247', '-0.785' ]
+[16] Fixed midpoints: arcMid for minor arcs, explicit bossBot for R.750 major arc

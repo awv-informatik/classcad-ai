@@ -1,0 +1,13 @@
+[05] negative index: result=null, maxLevel=51
+[05] neg messages: [Evaluation error in BaseModelingCommonFuncs.GetBrepGeometryByIndex:conversion from 'size_t' to 'int', possible loss of data.] 
+[05] huge index: result=null, maxLevel=51
+[05] huge messages: Line element indexed as 9999 does not exist.
+[05] no index: result=null, maxLevel=51
+[05] no index messages: Only one geometry index parameter should be specified.
+[05] multi index: result=null, maxLevel=51
+[05] multi messages: Only one geometry index parameter should be specified.
+[05] arcIndex on box: result=null, maxLevel=51
+[05] arc-box messages: Arc/Circle element indexed as 0 does not exist.
+[05] nurbsCurveIndex on box: result=null, maxLevel=51
+[05] nurbs-box messages: Nurbs curve element indexed as 0 does not exist.
+[filewrite] files/05-error-cases-error-cases.json (1831 bytes)

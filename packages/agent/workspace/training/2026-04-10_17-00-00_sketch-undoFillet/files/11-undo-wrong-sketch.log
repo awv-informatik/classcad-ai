@@ -1,0 +1,4 @@
+[11] fillet in sk1, arcId: 94
+[11] sk1: 52 sk2: 111
+[11] undo in wrong sketch: result= null maxLevel= 51 messages= [{"api":"v1.sketch.undoFillet","code":0,"level":51,"levelStr":"ERROR","message":"Arc start/end points should have exactly one coincident point each!"}]
+[filewrite] files/11-undo-wrong-sketch-wrong-sketch-undo.json (258 bytes)

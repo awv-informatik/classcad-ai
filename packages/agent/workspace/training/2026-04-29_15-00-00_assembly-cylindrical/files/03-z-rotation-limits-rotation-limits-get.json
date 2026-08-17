@@ -1,0 +1,58 @@
+{
+  "radLimits": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        206
+      ],
+      "reorient": "0"
+    },
+    "name": "CylRotRad",
+    "zOffsetLimits": {
+      "max": null,
+      "min": null
+    },
+    "zRotationLimits": {
+      "max": 1.5707963267948966,
+      "min": -0.7853981633974483
+    }
+  },
+  "degLimits": {
+    "id": 220,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        206
+      ],
+      "reorient": "0"
+    },
+    "name": "CylRotDeg",
+    "zOffsetLimits": {
+      "max": null,
+      "min": null
+    },
+    "zRotationLimits": {
+      "max": 2.0943951023931953,
+      "min": -1.5707963267948966
+    }
+  }
+}

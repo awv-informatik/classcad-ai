@@ -1,0 +1,41 @@
+{
+  "instanceId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getFastenedOrigin",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided product or product reference id is not a Assembly."
+      }
+    ]
+  },
+  "constraintId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getFastenedOrigin",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "templateId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getFastenedOrigin",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  }
+}

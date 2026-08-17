@@ -1,0 +1,53 @@
+{
+  "found": {
+    "result": {
+      "constr1Id": 309,
+      "constr2Id": 313,
+      "id": 317,
+      "name": "MyGear",
+      "offset": 0.5235987755982988,
+      "ratio": 2.5
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "wrongName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getGear",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"
+      }
+    ]
+  },
+  "instId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getGear",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided product or product reference id is not a Assembly."
+      }
+    ]
+  },
+  "emptyName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getGear",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There couldn't be found a constraint with name \"\" on product or product reference with id $12"
+      }
+    ]
+  }
+}

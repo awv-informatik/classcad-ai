@@ -1,0 +1,7 @@
+[04c] c1 before: {"x":0,"y":0,"z":0}
+[04c] c2 before: {"x":60,"y":0,"z":0}
+[04c] TANGENT result: 68 maxLevel: 31
+[04c] c1 after: {"x":0,"y":0,"z":0}
+[04c] c2 after: {"x":35,"y":0,"z":0}
+[04c] center dist: 35 r1+r2: 35 external: true
+[filewrite] files/04c-tangent-cc-verify-tangent-cc-verify.json (345 bytes)

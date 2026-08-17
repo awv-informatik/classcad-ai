@@ -1,0 +1,21 @@
+{
+  "containers": {
+    "type": "array",
+    "length": 1,
+    "firstItemKeys": [
+      "id",
+      "owner",
+      "type",
+      "properties",
+      "meshes",
+      "edges",
+      "vertices"
+    ]
+  },
+  "properties": {
+    "type": "object",
+    "keys": [
+      "version"
+    ]
+  }
+}

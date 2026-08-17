@@ -1,0 +1,30 @@
+{
+  "offset2Lines": {
+    "result": 76,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "offsetLinePoint": {
+    "result": 80,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "offsetPointLine": {
+    "result": 84,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "offset3GeomIds": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Wrong number of geometry ids provided for an offset constraint."
+      }
+    ]
+  }
+}

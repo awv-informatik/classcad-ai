@@ -1,0 +1,8 @@
+[05] arc1Id (arcByCenter): 58
+[05] arc2Id (arcBy3Points): 63
+[05] arc1 before: {"centerPos":{"x":10,"y":10.000000000000002,"z":0},"endPos":{"x":10,"y":40,"z":0},"startPos":{"x":40,"y":10,"z":0}}
+[05] arc2 before: {"centerPos":{"x":64.16666666666667,"y":35.833333333333336,"z":0},"endPos":{"x":90,"y":40,"z":0},"startPos":{"x":60,"y":10,"z":0}}
+[05] moveGeometry result: 1 maxLevel: 31
+[05] arc1 after: {"centerPos":{"x":15,"y":25,"z":0},"endPos":{"x":15,"y":55,"z":0},"startPos":{"x":45,"y":25,"z":0}}
+[05] arc2 after: {"centerPos":{"x":69.16666666666667,"y":50.833333333333336,"z":0},"endPos":{"x":95,"y":55,"z":0},"startPos":{"x":65,"y":25,"z":0}}
+[filewrite] files/05-move-arc-move-arcs-result.json (1015 bytes)

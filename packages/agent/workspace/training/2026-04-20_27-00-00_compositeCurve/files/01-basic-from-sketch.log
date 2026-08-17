@@ -1,0 +1,5 @@
+[01] partId: 4 skId: 52
+[01] line1: 58 line2: 66
+[01] compositeCurve result: 76
+[01] maxLevel: 31
+[filewrite] files/01-basic-from-sketch-cc-response.json (54 bytes)

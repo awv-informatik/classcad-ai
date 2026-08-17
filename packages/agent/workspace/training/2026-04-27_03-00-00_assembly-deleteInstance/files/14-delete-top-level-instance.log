@@ -1,0 +1,4 @@
+[14] new inst3 after deletion: 111
+[14] final instances: [ 107, 111 ]
+[14] contains inst2 and inst3: true
+[14] does NOT contain inst1: true

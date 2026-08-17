@@ -1,0 +1,37 @@
+{
+  "updateOffset": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkCSys",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "offset: param must have the format: [value_any, isExpression_bl]"
+      },
+      {
+        "api": "v1.part.updateWorkCSys",
+        "code": 1000,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Could not convert api params."
+      }
+    ]
+  },
+  "rename": {
+    "result": 22,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkCSys",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in OperationsHelper.UpdateWorkCSys:[CCVM::lcm: Function SetCSysParams not found]] "
+      }
+    ]
+  },
+  "findOld": null,
+  "findNew": 22
+}

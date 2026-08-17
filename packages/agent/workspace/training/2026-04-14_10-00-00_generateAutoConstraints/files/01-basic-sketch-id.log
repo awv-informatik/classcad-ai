@@ -1,0 +1,8 @@
+[01] rectangle result: [ 58, 64, 70, 76 ] maxLevel: 31
+[01] constraints before autoGen: 9
+[filewrite] files/01-basic-sketch-id-constraints-before.json (808 bytes)
+[01] generateAutoConstraints result: null maxLevel: 51
+[01] messages: [{"api":"v1.sketch.generateAutoConstraints","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\",\"sketch-point\"]"}]
+[01] constraints after autoGen: 9
+[01] new constraints: 0
+[filewrite] files/01-basic-sketch-id-constraints-after.json (808 bytes)

@@ -1,0 +1,36 @@
+{
+  "horizontal": {
+    "result": 62,
+    "maxLevel": 31
+  },
+  "vertical": {
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "redundant": {
+    "result": 66,
+    "maxLevel": 31
+  },
+  "moveResult": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "finalPos": {
+    "start": {
+      "pos": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "end": {
+      "pos": {
+        "x": 60,
+        "y": 50,
+        "z": 0
+      }
+    }
+  }
+}

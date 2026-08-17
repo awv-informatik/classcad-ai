@@ -1,0 +1,8 @@
+[03] circle: 58
+[03] rigidSet: 63
+[03] maxLevel: 31
+[03] constraint: 85
+[03] dimensions: [ 87, 89 ]
+[03] geometry count: 6
+[03] geometry: [ 63, 67, 71, 75, 79, 83 ]
+[filewrite] files/03-2d-grid-grid-pattern-result.json (128 bytes)

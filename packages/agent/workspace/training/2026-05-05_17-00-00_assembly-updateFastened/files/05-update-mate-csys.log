@@ -1,0 +1,9 @@
+[05] wcsA: 107 wcsB: 115
+[05] fastened created: 129
+[05] COG with csysA/csysA, xOffset=100: {"x":90,"y":15,"z":10}
+[05] update mate1 csys to Corner: 129 maxLevel: 31
+[05] COG after mate1 csys change: {"x":90,"y":15,"z":10}
+[05] update mate2 csys to Corner: 129 maxLevel: 31
+[05] COG after both csys changed to Corner: {"x":90,"y":15,"z":10}
+[05] final mate1.csys: 115 mate2.csys: 115
+[filewrite] files/05-update-mate-csys-final-state.json (341 bytes)

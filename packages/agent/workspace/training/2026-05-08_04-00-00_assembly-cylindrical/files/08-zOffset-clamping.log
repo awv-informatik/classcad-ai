@@ -1,0 +1,7 @@
+[08] below min (start z=5, range 20..40): COG z = 24.00099999999999 → expected ~24 (20+4)
+[08] within range (start z=30, range 20..40): COG z = 33.99999999999999 → expected ~34 (30+4)
+[08] above max (start z=60, range 20..40): COG z = 43.998999999999995 → expected ~44 (40+4)
+[08] min-only result: 238 maxLevel: 31
+[08] min-only (start z=5, min=20): COG z = 24.00099999999999
+[08] negative limits (start z=-30, range -20..-10): COG z = -15.999000000000002 → expected ~-16 (-20+4)
+[filewrite] files/08-zOffset-clamping-clamping-results.json (456 bytes)

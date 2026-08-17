@@ -1,0 +1,4 @@
+[09] bbox before: {"min":[10,-15,-10],"max":[70,15,10]}
+[09] bbox after: {"min":[-15,-70,-10],"max":[15,-10,10]}
+[09] mirror result: 61 maxLevel: 31
+[filewrite] files/09-mirror-diagonal-plane-diagonal-mirror-comparison.json (239 bytes)

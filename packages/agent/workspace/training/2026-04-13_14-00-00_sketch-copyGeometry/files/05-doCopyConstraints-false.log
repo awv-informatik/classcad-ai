@@ -1,0 +1,3 @@
+[05] rectangle lines: [ 58, 64, 70, 76 ]
+[05] copyGeometry result: [ 91, 94, 97, 100 ] maxLevel: 31
+[filewrite] files/05-doCopyConstraints-false-copy-response.json (89 bytes)

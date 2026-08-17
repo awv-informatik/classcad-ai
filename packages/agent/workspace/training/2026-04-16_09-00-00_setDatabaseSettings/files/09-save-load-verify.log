@@ -1,0 +1,6 @@
+[09] pre-save chord: 0.77 angle: 33
+[09] pre-load chord: 2.22 angle: 66
+[09] post-load chord: 2.22 angle: 66
+[09] RESULT: load() DID NOT CHANGE values (stayed at 2.22, 66)
+[09] full post-load: {"angleTol":66,"chordHeightTol":2.22,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[filewrite] files/09-save-load-verify-save-load-verify.json (756 bytes)

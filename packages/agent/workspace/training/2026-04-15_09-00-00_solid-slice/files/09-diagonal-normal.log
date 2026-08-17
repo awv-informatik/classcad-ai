@@ -1,0 +1,7 @@
+[09] boxId: 61
+[09] slice result: null maxLevel: 31
+[09] AFTER min: [-40,-30,-20]
+[09] AFTER max: [20,30,20]
+[09] mesh count: 6
+[09] vert count: 24
+[filewrite] files/09-diagonal-normal-diag-bbox.json (119 bytes)

@@ -1,0 +1,22 @@
+[
+  {
+    "corner": 3,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "corner": 2,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "corner": 1,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "corner": 0,
+    "maxLevel": 31,
+    "messages": []
+  }
+]

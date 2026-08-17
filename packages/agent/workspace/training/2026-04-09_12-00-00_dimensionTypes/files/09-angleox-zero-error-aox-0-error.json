@@ -1,0 +1,13 @@
+{
+  "result": 68,
+  "messages": [
+    {
+      "api": "v1.sketch.dimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in aox-0.SetSE:Division by zero!] "
+    }
+  ],
+  "maxLevel": 51
+}

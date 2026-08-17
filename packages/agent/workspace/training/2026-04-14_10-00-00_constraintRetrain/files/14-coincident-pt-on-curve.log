@@ -1,0 +1,5 @@
+[14] before pt: {"pos":{"x":30,"y":25,"z":0}}
+[14] constraint result: 70 maxLevel: 31
+[14] after pt: {"pos":{"x":30,"y":0,"z":0}}
+[14] onLine: true
+[filewrite] files/14-coincident-pt-on-curve-coincident-on-curve-data.json (224 bytes)

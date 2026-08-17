@@ -1,0 +1,12 @@
+[21] === Attempt 1: toggle graphic off/on ===
+  graphic?: false
+[21] === Attempt 2: recalc after toggle ===
+  graphic?: false
+[21] === Attempt 3: touch curve entity via setObjectName ===
+  graphic?: false
+[21] === Attempt 5: updateExpression (force recalc) ===
+  graphic?: false
+[21] === Attempt 6: getDatabaseSettings ===
+  doCurveTessellation: 1
+  isGraphicEnabled: 1
+  graphic?: false

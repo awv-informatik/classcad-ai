@@ -1,0 +1,32 @@
+{
+  "before": {
+    "meshCount": 6,
+    "edgeCount": 12,
+    "vertexCount": 8,
+    "min": [
+      -30,
+      -20,
+      -15
+    ],
+    "max": [
+      30,
+      20,
+      15
+    ]
+  },
+  "after": {
+    "meshCount": 11,
+    "edgeCount": 27,
+    "vertexCount": 18,
+    "min": [
+      -30,
+      -20,
+      -35
+    ],
+    "max": [
+      45,
+      25,
+      15
+    ]
+  }
+}

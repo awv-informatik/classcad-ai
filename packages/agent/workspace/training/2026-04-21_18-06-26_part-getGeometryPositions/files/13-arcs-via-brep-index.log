@@ -1,0 +1,7 @@
+[13] arc index 0 → id: 170
+[13] arc index 1 → id: 172
+[13] total arcs found: 2
+[13] maxLevel: 31
+[13] id: 170 positions count: 1 positions: [{"x":2.928932188134525,"y":2.928932188134525,"z":0}]
+[13] id: 172 positions count: 1 positions: [{"x":2.928932188134525,"y":2.928932188134525,"z":40}]
+[filewrite] files/13-arcs-via-brep-index-arcs-via-brep-index.json (480 bytes)

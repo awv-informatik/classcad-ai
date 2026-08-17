@@ -1,0 +1,6 @@
+[04] COG before: { x: 40, y: 10, z: 4 }
+[04] offset-on-revolute result: null maxLevel: 31
+[04] COG after offset (should be unchanged): { x: 40, y: 10, z: 4 }
+[04] COG after rotation+offset on revolute: { x: 10.00001878607414, y: -39.99999530347678, z: 4.000000000000007 }
+[04] COG after rotation-only on revolute: { x: 10.00001878607414, y: -39.99999530347678, z: 4.000000000000007 }
+[filewrite] files/04-revolute-offset-revolute-offset-result.json (407 bytes)

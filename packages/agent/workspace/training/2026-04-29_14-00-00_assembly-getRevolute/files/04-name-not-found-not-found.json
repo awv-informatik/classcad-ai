@@ -1,0 +1,41 @@
+{
+  "nonExistent": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getRevolute",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There couldn't be found a constraint with name \"DOES_NOT_EXIST\" on product or product reference with id $12"
+      }
+    ]
+  },
+  "emptyString": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getRevolute",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There couldn't be found a constraint with name \"\" on product or product reference with id $12"
+      }
+    ]
+  },
+  "wrongType": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getRevolute",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.getRevolute::PROC:[CCVM::ldm: Datamember zRotationLimits not found]] "
+      }
+    ]
+  }
+}

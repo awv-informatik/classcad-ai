@@ -1,0 +1,3 @@
+[00] fixations maxLevel: 31
+[00] RADIUS on arc maxLevel: 51 result: null
+[stderr] [run] Script error: Cannot read properties of null (reading 'startId')

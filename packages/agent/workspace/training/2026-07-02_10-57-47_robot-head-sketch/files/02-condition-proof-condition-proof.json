@@ -1,0 +1,28 @@
+{
+  "states": [
+    {
+      "label": "boss Ø7",
+      "maxErr": 7.194245199571014e-14,
+      "pass": true,
+      "rows": []
+    },
+    {
+      "label": "revert Ø5.6",
+      "maxErr": 7.216449660063518e-14,
+      "pass": true,
+      "rows": []
+    },
+    {
+      "label": "slot w4",
+      "maxErr": 2.220446049250313e-16,
+      "pass": true,
+      "rows": []
+    },
+    {
+      "label": "revert w3 (full)",
+      "maxErr": 7.216449660063518e-14,
+      "pass": true,
+      "rows": []
+    }
+  ]
+}

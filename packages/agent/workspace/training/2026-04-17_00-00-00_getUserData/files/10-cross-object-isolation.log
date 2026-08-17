@@ -1,0 +1,4 @@
+[10] part tag: part-value , eif tag: eif-value
+[10] isolated: true
+[10] after clearing part: part tag= __GONE__ , eif tag= eif-value
+[filewrite] files/10-cross-object-isolation-cross-object-isolation.json (156 bytes)

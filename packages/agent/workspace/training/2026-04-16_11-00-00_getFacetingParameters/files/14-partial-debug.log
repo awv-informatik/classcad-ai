@@ -1,0 +1,6 @@
+[14] baseline: {"angleTol":10,"chordHeightTol":0.5}
+[14] set angleTol=30 — result: null maxLevel: 51 messages: [{"api":"v1.common.setFacetingParameters","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CommonHelper.SetFacetingParameters:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Gleitkommazahl addressed.] \nFunction: CADH_SetFacetingParameters\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[14] after angleTol=30: {"angleTol":10,"chordHeightTol":0.5}
+[14] set chordHeightTol=0.01 — result: null maxLevel: 51 messages: [{"api":"v1.common.setFacetingParameters","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CommonHelper.SetFacetingParameters:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Gleitkommazahl addressed.] \nFunction: CADH_SetFacetingParameters\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[14] after chordHeightTol=0.01: {"angleTol":10,"chordHeightTol":0.5}
+[filewrite] files/14-partial-debug-partial-debug.json (1366 bytes)

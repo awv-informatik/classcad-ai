@@ -1,0 +1,3 @@
+[02] edge IDs: [106,107,108]
+[02] chamfer result: 120 maxLevel: 31
+[filewrite] files/02-multiple-edges-large-chamfer-response.json (55 bytes)

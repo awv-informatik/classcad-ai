@@ -1,0 +1,7 @@
+[02] f1 multiTrim[S3,S1] result null max 31
+[02] f1 S0/S2/S4 before postTrim alive+stable: [{"id":110,"mL":31},{"id":118,"mL":31},{"id":126,"mL":31}]
+[filewrite] files/02-bulk-multi-order-stability-02-bulk.json (3209 bytes)
+[02] f1 lng survivors (disjoint, no coalesce): 3 [[0,40],[80,120],[160,200]]
+[02] f3 trim-all max 31 lng fully removed? true remaining lines 4
+[02] CHECKS {"multiTrimVoid":true,"untrimmedAliveStable":true,"threeDisjointLngSurvivors":true,"orderIndependent":true,"trimAllVoid":true,"lngFullyRemoved":true}
+[02] PASS

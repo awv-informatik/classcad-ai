@@ -1,0 +1,41 @@
+{
+  "exprOff": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.workCSys",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AbstractAPI.ToPoint:[Type error: A variable  of the type String (\"10+20\") has been defined as type Gleitkommazahl addressed.] ] "
+      }
+    ]
+  },
+  "atExprOff": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.workCSys",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AbstractAPI.ToPoint:[Type error: A variable  of the type String (\"@expr.offX\") has been defined as type Gleitkommazahl addressed.] ] "
+      }
+    ]
+  },
+  "exprRot": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.workCSys",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AbstractAPI.ToPoint:[Type error: A variable  of the type String (\"0\") has been defined as type Gleitkommazahl addressed.] ] "
+      }
+    ]
+  }
+}

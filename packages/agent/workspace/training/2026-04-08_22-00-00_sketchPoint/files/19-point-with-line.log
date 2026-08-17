@@ -1,0 +1,4 @@
+[19] line: 58
+[19] point at line end: 66 maxLevel: 31
+[19] nodes: [{"id":52,"name":"Sketch","class":"CC_Sketch"},{"id":54,"name":"SketchRef","class":"CC_SketchReference"},{"id":56,"name":"Sketch","class":"CC_SketchDimensionSet"},{"id":58,"name":"Line","class":"CC_Line"},{"id":59,"name":"startPoint","class":"CC_Point"},{"id":60,"name":"endPoint","class":"CC_Point"},{"id":62,"name":"Auto_Fix","class":"CC_2DFixationConstraint"},{"id":64,"name":"Auto_H","class":"CC_2DHorizontalConstraint"},{"id":66,"name":"Point","class":"CC_Point"},{"id":68,"name":"Auto_Coinc","class":"CC_2DCoincidentConstraint"}]
+[filewrite] files/19-point-with-line-point-line-nodes.json (776 bytes)

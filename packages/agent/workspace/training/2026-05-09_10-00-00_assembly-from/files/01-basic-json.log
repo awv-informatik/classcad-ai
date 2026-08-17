@@ -1,0 +1,9 @@
+[01] Testing assembly.from with minimal JSON data...
+[01] empty JSON: result: 14 maxLevel: 51
+[filewrite] files/01-basic-json-empty-json.json (994 bytes)
+[01] named JSON: result: 34 maxLevel: 51
+[filewrite] files/01-basic-json-named-json.json (994 bytes)
+[01] array JSON: result: null maxLevel: 51
+[filewrite] files/01-basic-json-array-json.json (704 bytes)
+[01] assembly-like JSON: result: 54 maxLevel: 51
+[filewrite] files/01-basic-json-assembly-like-json.json (994 bytes)

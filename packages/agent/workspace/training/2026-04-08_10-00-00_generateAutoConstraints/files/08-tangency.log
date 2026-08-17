@@ -1,0 +1,7 @@
+[08] l1: 58
+[08] arcId: 62 maxLevel: 31
+[08] arc messages: []
+[08] result: null maxLevel: 31
+[08] messages: []
+[08] new objects:
+  ID 67 → CC_2DCoincidentConstraint "Auto_Coinc" entities: [64,58]

@@ -1,0 +1,13 @@
+{
+  "result": 96,
+  "messages": [
+    {
+      "api": "v1.part.updateExtrusion",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Height not valid. Value for height must be greater than 0 for Extrusion (CC_Extrusion)."
+    }
+  ],
+  "maxLevel": 51
+}

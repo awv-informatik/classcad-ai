@@ -1,0 +1,28 @@
+{
+  "radius_0": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.circle",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"radius\" must be greater than 0."
+      }
+    ]
+  },
+  "radius_-15": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.circle",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"radius\" must be greater than 0."
+      }
+    ]
+  }
+}

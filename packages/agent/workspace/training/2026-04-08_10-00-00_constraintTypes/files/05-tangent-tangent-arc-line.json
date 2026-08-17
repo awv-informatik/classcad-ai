@@ -1,0 +1,21 @@
+{
+  "tangent": {
+    "result": 69,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "arcCenterBefore": {
+    "pos": {
+      "x": 40,
+      "y": 25,
+      "z": 0
+    }
+  },
+  "arcStartBefore": {
+    "pos": {
+      "x": 15,
+      "y": 25,
+      "z": 0
+    }
+  }
+}

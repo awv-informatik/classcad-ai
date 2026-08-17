@@ -1,0 +1,7 @@
+[05] invalid type result: null
+[05] invalid type maxLevel: 51
+[05] invalid type messages: [{"api":"v1.drawing2d.getBoundaryBoxFromView","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"types\" is not valid. Possible values are: [\"TOP\",\"FRONT\",\"RIGHT\",\"LEFT\",\"BOTTOM\",\"RIGHT_90\",\"LEFT_90\",\"BACK\",\"ISO\"]"}]
+[05] mixed valid+invalid result: null
+[05] mixed valid+invalid maxLevel: 51
+[05] mixed valid+invalid messages: [{"api":"v1.drawing2d.getBoundaryBoxFromView","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"types\" is not valid. Possible values are: [\"TOP\",\"FRONT\",\"RIGHT\",\"LEFT\",\"BOTTOM\",\"RIGHT_90\",\"LEFT_90\",\"BACK\",\"ISO\"]"}]
+[filewrite] files/05-invalid-type-invalid-type.json (838 bytes)

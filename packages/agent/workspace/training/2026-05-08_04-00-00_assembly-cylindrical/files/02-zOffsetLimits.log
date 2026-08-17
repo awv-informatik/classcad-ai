@@ -1,0 +1,5 @@
+[02] inst2 COG before: { x: 40, y: 10, z: 54 }
+[02] cylindrical result: 218 maxLevel: 31
+[02] inst2 COG after: { x: 40.00000000000002, y: 10.000000000000004, z: 33.999 }
+[filewrite] files/02-zOffsetLimits-cog-zOffsetLimits.json (172 bytes)
+[filewrite] files/02-zOffsetLimits-getCylindrical-zOffsetLimits.json (361 bytes)

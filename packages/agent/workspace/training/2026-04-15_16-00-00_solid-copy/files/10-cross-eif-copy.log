@@ -1,0 +1,4 @@
+[10] eif1: 54 eif2: 62
+[10] boxId (in eif1): 69
+[10] cross-EIF copy result: 71 maxLevel: 31
+[filewrite] files/10-cross-eif-copy-cross-eif-response.json (54 bytes)

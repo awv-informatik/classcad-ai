@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.part.boolean",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"tools\" has a wrong id type! Provide only following id types: [\"feature\"]"
+    }
+  ],
+  "maxLevel": 51
+}

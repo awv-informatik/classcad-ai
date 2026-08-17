@@ -1,0 +1,10 @@
+[11] circle created: 64
+[11] arc created: 67
+[11] constraints before autoGen: 1
+[filewrite] files/11-circle-arc-autogen-constraints-before.json (88 bytes)
+[11] autoGen circle: null maxLevel: 31 msgs: []
+[11] constraints after circle autoGen: 1
+[11] autoGen arc: null maxLevel: 31 msgs: []
+[11] constraints after arc autoGen: 1
+[11] new constraints: 0
+[filewrite] files/11-circle-arc-autogen-new-constraints.json (2 bytes)

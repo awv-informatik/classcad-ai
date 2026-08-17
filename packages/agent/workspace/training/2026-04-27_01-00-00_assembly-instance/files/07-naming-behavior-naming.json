@@ -1,0 +1,21 @@
+{
+  "autoNames": {
+    "gadget": 105,
+    "gadget0": 107,
+    "gadget1": 109,
+    "gadget2": []
+  },
+  "duplicates": {
+    "d1": 111,
+    "d2": 113,
+    "lookup": 111
+  },
+  "specialChars": {
+    "id": 115,
+    "maxLevel": 31
+  },
+  "emptyName": {
+    "id": 117,
+    "maxLevel": 31
+  }
+}

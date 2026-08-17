@@ -1,0 +1,20 @@
+{
+  "updateBox": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "recalcWhileOpen": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "closeFeature": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "recalcAfterClose": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

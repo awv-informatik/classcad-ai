@@ -1,0 +1,4 @@
+[05] X-axis revolve: 64 maxLevel: 31
+[05] Z-axis revolve: 70 maxLevel: 31
+[05] diagonal axis revolve: 76 maxLevel: 31
+[filewrite] files/05-axis-directions-axis-results.json (170 bytes)

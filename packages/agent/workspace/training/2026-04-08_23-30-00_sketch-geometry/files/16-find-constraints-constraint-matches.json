@@ -1,0 +1,58 @@
+[
+  {
+    "path": ".tree.26.members.Inverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.30.members.Inverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.34.members.Inverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.38.members.Inverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.42.members.Inverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.46.members.Inverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.52.members.axisInverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.52.members.planeInverted",
+    "value": "[object]"
+  },
+  {
+    "path": ".tree.62.name",
+    "value": "Auto_Fix"
+  },
+  {
+    "path": ".tree.62.class",
+    "value": "CC_2DFixationConstraint"
+  },
+  {
+    "path": ".tree.64.class",
+    "value": "CC_2DHorizontalConstraint"
+  },
+  {
+    "path": ".tree.70.name",
+    "value": "Auto_Coinc"
+  },
+  {
+    "path": ".tree.70.class",
+    "value": "CC_2DCoincidentConstraint"
+  },
+  {
+    "path": ".tree.72.class",
+    "value": "CC_2DVerticalConstraint"
+  }
+]

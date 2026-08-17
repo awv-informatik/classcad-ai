@@ -1,0 +1,72 @@
+{
+  "emptyKey": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "emptyValue": {
+    "setMaxLevel": 31,
+    "retrieved": ""
+  },
+  "caseSensitivity": {
+    "MyKey": "upper",
+    "mykey": "lower",
+    "MYKEY": "allcaps",
+    "keys": [
+      "MyKey",
+      "MYKEY",
+      "emptyVal",
+      "mykey",
+      ""
+    ]
+  },
+  "overwrite": {
+    "before": "first",
+    "after": "first"
+  },
+  "specialKeys": {
+    "key with spaces": {
+      "setMaxLevel": 31,
+      "getValue": "val"
+    },
+    "key/slash": {
+      "setMaxLevel": 31,
+      "getValue": "val"
+    },
+    "key.dot": {
+      "setMaxLevel": 31,
+      "getValue": "val"
+    },
+    "key:colon": {
+      "setMaxLevel": 31,
+      "getValue": "val"
+    },
+    "key\ttab": {
+      "setMaxLevel": 31,
+      "getValue": "val"
+    },
+    "key\nnewline": {
+      "setMaxLevel": 31,
+      "getValue": "val"
+    }
+  },
+  "unicode": {
+    "setMaxLevel": 31,
+    "getValue": "値"
+  },
+  "allKeys": [
+    "日本語",
+    "key\ttab",
+    "key:colon",
+    "key/slash",
+    "key.dot",
+    "MyKey",
+    "key with spaces",
+    "key\nnewline",
+    "mykey",
+    "overwrite",
+    "MYKEY",
+    "",
+    "emptyVal"
+  ]
+}

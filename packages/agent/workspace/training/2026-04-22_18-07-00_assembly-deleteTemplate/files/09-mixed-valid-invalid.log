@@ -1,0 +1,6 @@
+[09] tpl1: 22 tpl2: 105
+[09] mixed result: null maxLevel: 51
+[09] messages: [{"api":"v1.assembly.deleteTemplate","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteTemplate","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/09-mixed-valid-invalid-mixed-result.json (440 bytes)
+[09] templates after: [22,105]
+[filewrite] files/09-mixed-valid-invalid-after-state.json (36 bytes)

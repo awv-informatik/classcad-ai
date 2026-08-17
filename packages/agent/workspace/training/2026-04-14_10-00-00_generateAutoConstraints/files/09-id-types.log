@@ -1,0 +1,11 @@
+[09] line result: 58 type: number
+[09] circle result: null type: object
+[09] arc result: null type: object
+[09] point result: 66 type: number
+[09] line node class: CC_Line name: Line
+[09] circle node class: undefined name: undefined
+[09] arc node class: undefined name: undefined
+[09] point node class: undefined name: undefined
+[09] line getPoints: {"endId":60,"startId":59}
+[09] circle getPoints: null
+[09] arc getPoints: null

@@ -1,0 +1,7 @@
+[08] asmId: 12 tplId: 22 instId: 105
+[08] instances before: [105]
+[08] deleteTemplate(asmId) - result: null maxLevel: 31
+[08] instances after: null maxLevel: 51
+[08] templates after: [22]
+[08] create new instance after - result: null maxLevel: 51
+[filewrite] files/08-delete-asmroot-effect-asmroot-delete-effect.json (315 bytes)

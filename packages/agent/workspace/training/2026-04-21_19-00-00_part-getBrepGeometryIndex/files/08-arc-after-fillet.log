@@ -1,0 +1,5 @@
+[08] arcs: [[]] maxLevel: 51
+[08] circles: [[]]
+[08] arc → fillet feature: index null maxLevel: 51
+[08] arc → box feature: index null maxLevel: 51
+[filewrite] files/08-arc-after-fillet-arc-fillet-indices.json (197 bytes)

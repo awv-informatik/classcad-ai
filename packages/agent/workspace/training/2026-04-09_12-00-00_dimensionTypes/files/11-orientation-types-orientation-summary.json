@@ -1,0 +1,53 @@
+[
+  {
+    "id": 64,
+    "name": "off",
+    "orientationType": 2,
+    "startPt": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    },
+    "endPt": {
+      "x": 80,
+      "y": 60,
+      "z": 0
+    },
+    "angle": 0.5191461142465229,
+    "paramName": "@value"
+  },
+  {
+    "id": 68,
+    "name": "hd",
+    "orientationType": 1,
+    "startPt": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    },
+    "endPt": {
+      "x": 80,
+      "y": 60,
+      "z": 0
+    },
+    "angle": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 72,
+    "name": "vd",
+    "orientationType": 0,
+    "startPt": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    },
+    "endPt": {
+      "x": 80,
+      "y": 60,
+      "z": 0
+    },
+    "angle": 1.5707963267948966,
+    "paramName": "@value"
+  }
+]

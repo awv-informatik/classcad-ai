@@ -1,0 +1,5 @@
+[06] sub box1: maxLevel= 31 result= 61
+[06] sub box2: maxLevel= 31 result= 64
+[06] union box3: maxLevel= 31 result= 67
+[06] tool after consume: maxLevel= 51 alive= false
+[filewrite] files/06-tool-reuse-keeptools-reuse-results.json (136 bytes)

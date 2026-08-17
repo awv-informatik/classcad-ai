@@ -1,0 +1,7 @@
+[13] position before box update: {"endPos":{"x":80,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[13] position after box update (length 80→120): {"endPos":{"x":120,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[filewrite] files/13-associative-update-associative-update.json (323 bytes)
+[13] noRef line position before update: {"endPos":{"x":120,"y":60,"z":40},"startPos":{"x":0,"y":60,"z":40}}
+[13] noRef line position after update (width 60→100): {"endPos":{"x":120,"y":60,"z":40},"startPos":{"x":0,"y":60,"z":40}}
+[13] ref line position after width update: {"endPos":{"x":120,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[filewrite] files/13-associative-update-noref-update.json (509 bytes)

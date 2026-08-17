@@ -1,0 +1,7 @@
+[09] before: {"max":1.5707963267948966,"min":-1.5707963267948966}
+[09] remove max (null): 212 maxLevel: 31
+[09] after remove max: {"max":null,"min":-1.5707963267948966}
+[09] remove min (null): 212 maxLevel: 31
+[09] after remove min: {"max":2.0943951023931953,"min":null}
+[09] after null object: {"max":null,"min":null}
+[filewrite] files/09-individual-limit-remove-individual-limit-remove.json (290 bytes)

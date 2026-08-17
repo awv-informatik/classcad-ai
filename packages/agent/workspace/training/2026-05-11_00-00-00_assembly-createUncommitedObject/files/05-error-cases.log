@@ -1,0 +1,8 @@
+[05] missing id: result= null maxLevel= 51
+[05] missing type: result= null maxLevel= 51
+[05] missing name: result= null maxLevel= 51
+[05] invalid type: result= null maxLevel= 51
+[05] lowercase type: result= null maxLevel= 51
+[05] invalid id: result= null maxLevel= 51
+[05] empty type: result= null maxLevel= 51
+[filewrite] files/05-error-cases-error-cases.json (2899 bytes)

@@ -1,0 +1,9 @@
+{
+  "OFB (raw b64)": 44256,
+  "OFB (deflate+b64)": 5668,
+  "SCG (b64)": 19464,
+  "STP (b64)": 13040,
+  "STL (b64)": 912,
+  "IWP ASCII (b64)": 48652,
+  "IWP Binary (b64)": 22412
+}

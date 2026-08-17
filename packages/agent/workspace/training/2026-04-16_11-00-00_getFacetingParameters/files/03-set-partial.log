@@ -1,0 +1,4 @@
+[03] baseline: {"angleTol":0,"chordHeightTol":0.1}
+[03] after setting angleTol only: {"angleTol":0,"chordHeightTol":0.1}
+[03] after setting chordHeightTol only: {"angleTol":0,"chordHeightTol":0.1}
+[filewrite] files/03-set-partial-partial-updates.json (204 bytes)

@@ -1,0 +1,6 @@
+[04] bogus id result: null maxLevel: 51
+[04] messages: [{"api":"v1.sketch.deleteSketch","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.deleteSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/04-invalid-id-bogus-id-response.json (432 bytes)
+[04] part id result: null maxLevel: 51
+[04] part id messages: [{"api":"v1.sketch.deleteSketch","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[filewrite] files/04-invalid-id-part-id-response.json (284 bytes)

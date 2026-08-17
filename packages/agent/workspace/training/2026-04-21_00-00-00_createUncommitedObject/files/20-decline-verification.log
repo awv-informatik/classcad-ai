@@ -1,0 +1,8 @@
+[20] uncommitted: 52
+[20] closeFeature: null maxLevel: 31
+[20] uncommitedObjectsIds after decline: []
+[20] node exists: false
+[20] new after decline: 56 OK
+[20] committed box2
+[20] getFeature AfterDecline: 56
+[20] getFeature Decline1: null (should be null)

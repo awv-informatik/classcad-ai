@@ -1,0 +1,3 @@
+[01] asmId: 12 inst1: 255 inst2: 257 inst3: 259
+[01] group result: 265 maxLevel: 31
+[filewrite] files/01-basic-group-group-response.json (55 bytes)

@@ -1,0 +1,7 @@
+[10] cht=0.01: vertices=8385, indices=48384
+[10] cht=0.05: vertices=0, indices=0
+[10] cht=0.1: vertices=0, indices=0
+[10] cht=0.5: vertices=0, indices=0
+[10] cht=1: vertices=0, indices=0
+[10] cht=5: vertices=0, indices=0
+[filewrite] files/10-effect-on-mesh-mesh-effect.json (439 bytes)

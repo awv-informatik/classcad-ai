@@ -1,0 +1,9 @@
+[18A] genIncidence=true, co-located:
+  l1.endId=%d at (%s,%s) | l2.startId=%d at (%s,%s) 60 40 0 63 40 0
+  SAME point ID? false
+[18B] COINCIDENT constraint: 76
+[18B] updateDimension result: 0 (0=unsolved, 1=solved)
+[18B] after updateDimension: l3.end=(%s,%s)  l4.start=(%s,%s)  match=%s 40 -40 50 -30 false
+[18C] after manual position fix + moveGeo(0): result=%d (solved?) 0
+[18C] l3.end=(%s,%s)  l4.start=(%s,%s)  match=%s 40 -40 40 -40 true
+[filewrite] files/18-genIncidence-vs-manual-gen-vs-manual.json (790 bytes)

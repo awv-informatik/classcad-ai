@@ -1,0 +1,8 @@
+[07] subTpl: 113 w1: 123
+[07] sub1: 125 sub2: 128
+[07] sub1 children before: [ 126 ]
+[07] sub2 children before: [ 129 ]
+[07] added Widget2 to sub1: 162
+[07] sub1 children after: [ 126, 162 ]
+[07] sub2 children after: [ 129, 164 ]
+[07] subTpl children after: [ 123, 160 ]

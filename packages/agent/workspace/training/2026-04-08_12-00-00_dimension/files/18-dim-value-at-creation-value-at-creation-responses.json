@@ -1,0 +1,59 @@
+{
+  "offsetAuto": {
+    "result": 94,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "offsetValue100": {
+    "result": 98,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $98 of type \"OFFSET\""
+      }
+    ]
+  },
+  "offsetValue50": {
+    "result": 102,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $102 of type \"OFFSET\""
+      }
+    ]
+  },
+  "hdistValue100": {
+    "result": 106,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $106 of type \"HORIZONTAL_DISTANCE\""
+      }
+    ]
+  },
+  "radiusValue30": {
+    "result": 113,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $113 of type \"RADIUS\""
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "X",
+    "path": [
+      204
+    ],
+    "reorient": "90"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Y",
+    "path": [
+      206
+    ],
+    "reorient": "180"
+  },
+  "name": "JustName",
+  "zOffset": 10,
+  "zRotationLimits": {
+    "max": 1.0471975511965976,
+    "min": -0.5235987755982988
+  }
+}

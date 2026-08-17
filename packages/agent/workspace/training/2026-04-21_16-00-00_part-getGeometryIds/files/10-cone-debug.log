@@ -1,0 +1,13 @@
+[10] partId: 4 coneId: 54
+[10] all brep elements: [{"type":"line","index":0,"id":75},{"type":"arc","index":0,"id":76},{"type":"arc","index":1,"id":77},{"type":"face","index":0,"id":73},{"type":"face","index":1,"id":72},{"type":"face","index":2,"id":74},{"type":"point","index":0,"id":79},{"type":"point","index":1,"id":78}]
+[10] element positions:
+[10]   id:75 (line idx:0) positions: [{"x":12.499999999999998,"y":0,"z":25.000000000000007}]
+[10]   id:76 (arc idx:0) positions: [{"x":-20,"y":2.4492935982947065e-15,"z":0}]
+[10]   id:77 (arc idx:1) positions: [{"x":-4.999999999999998,"y":6.123233995736764e-16,"z":50.00000000000001}]
+[10]   id:73 (face idx:0) positions: [{"x":-20,"y":2.4492935982947065e-15,"z":0}]
+[10]   id:72 (face idx:1) positions: [{"x":12.499999999999998,"y":0,"z":25.000000000000007},{"x":-20,"y":2.4492935982947065e-15,"z":0},{"x":-4.999999999999998,"y":6.123233995736764e-16,"z":50.00000000000001}]
+[10]   id:74 (face idx:2) positions: [{"x":-4.999999999999998,"y":6.123233995736764e-16,"z":50.00000000000001}]
+[10]   id:79 (point idx:0) positions: [{"x":20,"y":0,"z":0}]
+[10]   id:78 (point idx:1) positions: [{"x":4.9999999999999964,"y":0,"z":50.000000000000014}]
+[filewrite] files/10-cone-debug-cone-positions.json (1349 bytes)
+[filewrite] files/10-cone-debug-cone-brep-elements.json (466 bytes)

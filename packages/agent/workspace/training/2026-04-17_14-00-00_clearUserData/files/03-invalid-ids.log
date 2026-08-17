@@ -1,0 +1,8 @@
+[03] partId: 4
+[03] id=0 — result: null maxLevel: 51
+[03] id=0 — messages: [{"api":"v1.common.clearUserData","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[03] id=9999 — result: null maxLevel: 51
+[03] id=9999 — messages: [{"api":"v1.common.clearUserData","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.clearUserData","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[03] no id — result: null maxLevel: 51
+[03] no id — messages: [{"api":"v1.common.clearUserData","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/03-invalid-ids-invalid-ids-response.json (1070 bytes)

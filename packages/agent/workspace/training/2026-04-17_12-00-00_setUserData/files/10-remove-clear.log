@@ -1,0 +1,9 @@
+[10] before remove: ["b","c","a"]
+[10] removeUserData result: null maxLevel: 31
+[10] after remove "b": ["c","a"]
+[10] remove nonexistent: result: null maxLevel: 31
+[10] remove nonexistent messages: []
+[10] clearUserData result: null maxLevel: 31
+[10] after clear: []
+[10] clear on empty: result: null maxLevel: 31
+[filewrite] files/10-remove-clear-remove-clear.json (268 bytes)

@@ -1,0 +1,21 @@
+[05] boxId: 54
+[05] cylId: 91
+[05] boolId: 110
+[05] Opening Box (first feature in tree)...
+[05] openFeature result: null maxLevel: 31
+[05] updateBox result: 54 maxLevel: 31
+[05] closeFeature result: null maxLevel: 31
+[05] Boolean still exists: YES id=110
+[05] Final OperationSequence:
+  20: CC_RollbackBar "RollbackBar"
+  24: CC_WorkPointReference "OriginRef"
+  28: CC_WorkAxisReference "XAxisRef"
+  32: CC_WorkAxisReference "YAxisRef"
+  36: CC_WorkAxisReference "ZAxisRef"
+  40: CC_WorkPlaneReference "TopRef"
+  44: CC_WorkPlaneReference "FrontRef"
+  48: CC_WorkPlaneReference "RightRef"
+  56: CC_OperationReference "BoxRef"
+  93: CC_OperationReference "CylinderRef"
+  112: CC_OperationReference "SubtractionRef"
+[filewrite] files/05-mid-tree-boolean-survival-final-opseq.json (926 bytes)

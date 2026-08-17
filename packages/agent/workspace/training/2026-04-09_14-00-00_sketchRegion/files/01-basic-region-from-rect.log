@@ -1,0 +1,4 @@
+[01] rectangle result: [ 58, 64, 70, 76 ] maxLevel: 31
+[01] sketchRegion result: 92 maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-region-from-rect-region-response.json (54 bytes)

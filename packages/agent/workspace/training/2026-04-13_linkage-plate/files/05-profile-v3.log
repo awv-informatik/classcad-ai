@@ -1,0 +1,7 @@
+[05] tp_lobeTop: (0.502,0.895)
+[05] tp_r1750→lobe: (0.502,0.896)
+[05] tp_r1750→upper: (1.170,1.321)
+[05] tp_upper→R1750: (1.171,1.320)
+[05] Arm tip: (5.579,1.457)
+[05] Profile v3 complete
+[filewrite] files/05-profile-v3-v3-data.json (583 bytes)

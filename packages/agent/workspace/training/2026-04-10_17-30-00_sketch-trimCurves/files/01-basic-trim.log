@@ -1,0 +1,10 @@
+[01] line1: 58 line2: 64
+[01] splitAllCurves result: [80,84,88,92]
+[01] splitAllCurves maxLevel: 31
+[01] splitAllCurves messages: []
+[filewrite] files/01-basic-trim-split-response.json (88 bytes)
+[01] trimming curve: 80
+[01] trimCurves result: null
+[01] trimCurves maxLevel: 31
+[01] trimCurves messages: []
+[filewrite] files/01-basic-trim-trim-response.json (56 bytes)

@@ -1,0 +1,7 @@
+[02] line1: 58 line2: 66
+[02] constraint ID: 72
+[02] dimension ID: 76
+[02] delete constraint result: null maxLevel: 31
+[filewrite] files/02-delete-constraints-delete-constraint-response.json (56 bytes)
+[02] delete dimension result: null maxLevel: 31
+[filewrite] files/02-delete-constraints-delete-dimension-response.json (56 bytes)

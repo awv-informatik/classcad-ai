@@ -1,0 +1,11 @@
+[03] created with limits: 212
+[03] limits before: {"max":1.5707963267948966,"min":-1.5707963267948966}
+[03] remove with null: 212 maxLevel: 31
+[03] limits after null: {"max":null,"min":null}
+[filewrite] files/03-remove-limits-after-null-remove.json (319 bytes)
+[03] limits re-added: {"max":2.0943951023931953,"min":-0.7853981633974483}
+[03] remove with undefined: 212 maxLevel: 31
+[03] limits after undefined: {"max":2.0943951023931953,"min":-0.7853981633974483}
+[03] empty object: null maxLevel: 51
+[03] limits after empty object: {"max":0.5235987755982988,"min":-0.5235987755982988}
+[filewrite] files/03-remove-limits-after-empty-object.json (348 bytes)

@@ -1,0 +1,11 @@
+{
+  "after1": {
+    "angleTol": 10,
+    "chordHeightTol": 0.5
+  },
+  "after2": {
+    "angleTol": 5,
+    "chordHeightTol": 0.02
+  },
+  "overwriteConfirmed": true
+}

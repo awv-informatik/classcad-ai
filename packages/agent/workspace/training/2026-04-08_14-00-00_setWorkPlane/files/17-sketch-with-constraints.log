@@ -1,0 +1,5 @@
+[17] lines: 58 66 maxLevels: 31 31
+[17] constraint result: null maxLevel: 51
+[17] setWorkPlane maxLevel: 31
+[17] sketch children count: 7
+[filewrite] files/17-sketch-with-constraints-constraints-after-move.json (203 bytes)

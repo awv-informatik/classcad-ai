@@ -1,0 +1,5 @@
+[05] before partial update: {"zOffset":25,"xOffsetLimits":{"max":50,"min":10},"yOffsetLimits":{"max":40,"min":5},"zRotationLimits":{"max":0,"min":0}}
+[05] partial update (zOffset only) result: 216 maxLevel: 31
+[05] after partial update: {"zOffset":50,"xOffsetLimits":{"max":50,"min":10},"yOffsetLimits":{"max":40,"min":5},"zRotationLimits":{"max":0,"min":0}}
+[05] inst2 COG after partial update: {"x":25.001000000000005,"y":15.000999999999994,"z":57.5}
+[filewrite] files/05-partial-update-preserves-partial-update.json (651 bytes)

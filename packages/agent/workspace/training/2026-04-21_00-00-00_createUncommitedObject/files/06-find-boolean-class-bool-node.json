@@ -1,0 +1,49 @@
+{
+  "name": "BoolUnion",
+  "class": "CC_Union",
+  "id": 128,
+  "flags": 0,
+  "parent": 16,
+  "members": {
+    "_VERSION": {
+      "value": "1/2008_3_12_8:17",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "findBodies": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "Body1": {
+      "value": 87,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "Body2": {
+      "members": [
+        {
+          "value": 124,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "solidOperation": {
+      "value": 0,
+      "type": "real",
+      "visible": 0,
+      "expression": ""
+    }
+  },
+  "children": [
+    171
+  ]
+}

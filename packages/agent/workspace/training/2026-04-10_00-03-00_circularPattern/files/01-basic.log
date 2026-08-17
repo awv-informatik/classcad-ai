@@ -1,0 +1,9 @@
+[01] centerPt: 72
+[01] rsId: 76
+[01] maxLevel: 31
+[01] result: { constraint: 102, dimension: 104, geometry: [ 76, 84, 92, 100 ] }
+[filewrite] files/01-basic-basic-response.json (166 bytes)
+[01] constraint: 102
+[01] dimension: 104
+[01] geometry count: 4
+[01] geometry: [ 76, 84, 92, 100 ]

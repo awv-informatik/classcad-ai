@@ -1,0 +1,10 @@
+[03] fastened created: 121
+[03] COG no rotation: {"x":90,"y":15,"z":10}
+[03] update zRotation=pi/2: 121 maxLevel: 31
+[03] COG after zRotation=pi/2: {"x":62.5,"y":27.5,"z":9.999999999999993}
+[03] update zRotation=45deg: 121 maxLevel: 31
+[03] COG after zRotation=45deg: {"x":78.83883476483184,"y":26.94543648263004,"z":10.000000000000005}
+[03] final state: xOffset= 100 zRotation= 0.7853981633974483
+[filewrite] files/03-update-rotation-state-after-rotation.json (358 bytes)
+[03] update zRotation=0: 121 maxLevel: 31
+[03] COG after zeroing rotation: {"x":89.99999999999999,"y":15.000000000000083,"z":10.00000000000001}

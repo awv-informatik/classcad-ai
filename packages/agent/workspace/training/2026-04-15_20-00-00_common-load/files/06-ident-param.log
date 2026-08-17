@@ -1,0 +1,4 @@
+[06] Load with ident result: {"id":4}
+[06] Load with ident maxLevel: 31
+[filewrite] files/06-ident-param-ident-response.json (69 bytes)
+[filewrite] files/06-ident-param-ident-structure.json (21843 bytes)

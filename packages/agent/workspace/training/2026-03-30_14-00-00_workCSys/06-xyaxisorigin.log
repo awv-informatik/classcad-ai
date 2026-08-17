@@ -1,0 +1,11 @@
+[06] origin: 59 axis1: 67 axis2: 71
+[06] 3refs result: 91 maxLevel: 31
+[06] messages: []
+[filewrite] files/06-xyaxisorigin-3refs-response.json (54 bytes)
+[06] workPoint: 105 xAxis: 26 yAxis: 30
+[06] work refs result: 113 maxLevel: 31
+[06] messages: []
+[filewrite] files/06-xyaxisorigin-work-refs-response.json (55 bytes)
+[06] 2refs result: null maxLevel: 51
+[06] 2refs messages: [{"api":"v1.part.workCSys","code":1002,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has invalid number of elements! There should be 3 element(s) in this situation!"}]
+[filewrite] files/06-xyaxisorigin-2refs-response.json (298 bytes)

@@ -1,0 +1,9 @@
+[filewrite] files/01-two-circles-union-01-classify.json (1984 bytes)
+[01] seg 76 src 58 mid [50.0,-0.0] in1=true in2=true -> trim
+[01] seg 81 src 58 mid [-50.0,0.0] in1=false in2=true -> KEEP
+[01] seg 86 src 63 mid [110.0,-0.0] in1=false in2=true -> KEEP
+[01] seg 91 src 63 mid [10.0,0.0] in1=true in2=true -> trim
+[01] survivors: arcs 2 circles 0 lines 0
+[filewrite] files/01-two-circles-union-01-result.json (148 bytes)
+[01] CHECKS {"fourSegments":true,"keptTwo":true,"trimmedTwo":true,"survivorsAreTwoArcs":true,"outerKept":true}
+[01] PASS

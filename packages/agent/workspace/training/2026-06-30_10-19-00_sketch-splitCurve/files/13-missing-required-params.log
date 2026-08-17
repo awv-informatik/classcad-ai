@@ -1,0 +1,8 @@
+[filewrite] files/13-missing-required-params-13-noId.json (377 bytes)
+[13] {"label":"noId","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1004,"message":"The parameter \"id\" must be provided in the api call!"}],"threw":null}
+[filewrite] files/13-missing-required-params-13-noSplits.json (294 bytes)
+[13] {"label":"noSplits","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1004,"message":"The parameter \"splits\" must be provided in the api call!"}],"threw":null}
+[filewrite] files/13-missing-required-params-13-noValues.json (354 bytes)
+[13] {"label":"noValues","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1004,"message":"The parameter \"values\" must be provided in the api call!"}],"threw":null}
+[filewrite] files/13-missing-required-params-13-noGeomId.json (377 bytes)
+[13] {"label":"noGeomId","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1004,"message":"The parameter \"geomId\" must be provided in the api call!"}],"threw":null}

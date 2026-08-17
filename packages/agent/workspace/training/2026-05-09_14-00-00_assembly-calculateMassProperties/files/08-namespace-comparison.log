@@ -1,0 +1,5 @@
+[08] assembly-root: identical=true
+[08] part-template: identical=true
+[08] instance: identical=true
+[08] solid: identical=true
+[filewrite] files/08-namespace-comparison-namespace-comparison.json (1117 bytes)

@@ -1,0 +1,72 @@
+{
+  "cogBefore": {
+    "x": 35,
+    "y": 40,
+    "z": 7.5
+  },
+  "cogAfterIdentity": {
+    "x": 35,
+    "y": 40,
+    "z": 7.5
+  },
+  "cogFinal": {
+    "x": 55,
+    "y": 70,
+    "z": 7.5
+  },
+  "identityResult": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "leftHandedResult": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.transformInstance",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided matrix is left-handed. This is not yet supported"
+      }
+    ]
+  },
+  "missingTransform": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.transformInstance",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"transformation\" must be provided in the api call!"
+      }
+    ]
+  },
+  "invalidId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.transformInstance",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.transformInstance",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  },
+  "scaleMatrix": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

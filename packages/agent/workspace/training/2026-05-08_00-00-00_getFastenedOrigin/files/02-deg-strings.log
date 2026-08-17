@@ -1,0 +1,5 @@
+[02] created with deg strings, id: 119
+[02] xRotation: 0.7853981633974483 (expected ~0.7854)
+[02] yRotation: 1.5707963267948966 (expected ~1.5708)
+[02] zRotation: 3.141592653589793 (expected ~3.1416)
+[filewrite] files/02-deg-strings-deg-strings-result.json (290 bytes)

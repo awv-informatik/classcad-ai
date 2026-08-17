@@ -1,0 +1,4 @@
+[06] before remove — part: part-tag box: null
+[06] remove from part — maxLevel: 31
+[06] after remove — part: __GONE__ box: null
+[filewrite] files/06-different-object-types-object-isolation.json (98 bytes)

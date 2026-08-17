@@ -1,0 +1,4 @@
+[12] Arc1 center: {"x":20,"y":0,"z":0}
+[12] Arc2 center: {"x":20,"y":-65,"z":0}
+[12] Arc3 center: {"x":20,"y":-100,"z":0}
+[filewrite] files/12-midpos-role-midpos-comparison.json (301 bytes)

@@ -1,0 +1,6 @@
+[04] fastenedOrigin result: 119 maxLevel: 31
+[04] COG: {"x":-14.999999999999998,"y":20,"z":9.999999999999991}
+[filewrite] files/04-rotations-mass-90deg-z.json (120 bytes)
+[04] radians result: null maxLevel: 51
+[04] COG radians: undefined
+[filewrite] files/04-rotations-mass-pi2-z.json (4 bytes)

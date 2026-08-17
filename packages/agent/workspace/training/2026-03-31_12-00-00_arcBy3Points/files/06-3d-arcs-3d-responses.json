@@ -1,0 +1,14 @@
+{
+  "xz": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "yz": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "full3d": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

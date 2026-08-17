@@ -1,0 +1,8 @@
+[10] full planar: 212 maxLevel: 31
+[filewrite] files/10-all-params-combined-full-planar-get.json (464 bytes)
+[10] getPlanar zOffset: 20
+[10] getPlanar xOffsetLimits: {"max":50,"min":-50}
+[10] getPlanar yOffsetLimits: {"max":30,"min":-30}
+[10] getPlanar zRotationLimits: {"max":3.141592653589793,"min":-3.141592653589793}
+[10] getPlanar mate1.flip: Z mate1.reorient: 0
+[10] getPlanar mate2.flip: -Z mate2.reorient: 90

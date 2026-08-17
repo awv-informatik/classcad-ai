@@ -1,0 +1,8 @@
+[01] foId: 121 fId: 125
+[01] COG before delete: undefined
+[01] deleteConstraint result: null maxLevel: 31
+[filewrite] files/01-basic-delete-delete-response.json (56 bytes)
+[01] COG after delete: undefined
+[filewrite] files/01-basic-delete-cog-comparison.json (2 bytes)
+[01] getFastened after delete - result: null maxLevel: 51
+[filewrite] files/01-basic-delete-get-after-delete.json (294 bytes)

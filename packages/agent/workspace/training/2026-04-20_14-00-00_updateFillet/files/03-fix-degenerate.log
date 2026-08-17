@@ -1,0 +1,5 @@
+[03] edgeId: 106
+[03] oversized fillet — id: 120 maxLevel: 51
+[filewrite] files/03-fix-degenerate-oversized-response.json (225 bytes)
+[03] fix result: 120 maxLevel: 31
+[filewrite] files/03-fix-degenerate-fix-response.json (55 bytes)

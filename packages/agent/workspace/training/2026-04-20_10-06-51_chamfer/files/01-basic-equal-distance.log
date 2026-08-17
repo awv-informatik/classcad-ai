@@ -1,0 +1,4 @@
+[01] boxId: 54
+[01] edge IDs: [106]
+[01] chamfer result: 120 maxLevel: 31
+[filewrite] files/01-basic-equal-distance-chamfer-response.json (55 bytes)

@@ -1,0 +1,5 @@
+[04] after 1st convert: root = 107
+[04] after 2nd convert: root = 120
+[04] after 3rd convert: root = 134
+[04] all assembly templates: [ 12, 107, 120 ]
+[filewrite] files/04-chained-conversions-chained-result.json (92 bytes)

@@ -1,0 +1,9 @@
+[07] dimId: 95
+[07] viewIds: [ 99, 115, 110, 104 ]
+[filewrite] files/07-realistic-workflow-bbox-centered.json (742 bytes)
+[07] TOP: center=(0.0,0.0) size=100.0x60.0
+[07] FRONT: center=(0.0,0.0) size=100.0x20.0
+[07] RIGHT: center=(0.0,-0.0) size=60.0x20.0
+[07] ISO: center=(-0.0,-0.0) size=113.1x81.6
+[filewrite] files/07-realistic-workflow-bbox-final-layout.json (739 bytes)
+[07] SVG available: 0

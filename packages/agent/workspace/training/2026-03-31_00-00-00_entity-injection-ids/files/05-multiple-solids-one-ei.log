@@ -1,0 +1,3 @@
+[05] box1: 61 box2: 64 cyl: 67
+[05] All three created in same EI: 54
+[filewrite] files/05-multiple-solids-one-ei-multiple-solids-ids.json (58 bytes)

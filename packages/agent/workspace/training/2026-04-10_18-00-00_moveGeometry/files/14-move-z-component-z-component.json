@@ -1,0 +1,37 @@
+{
+  "before": {
+    "endPos": {
+      "x": 50,
+      "y": 10,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 10,
+      "z": 0
+    }
+  },
+  "after": {
+    "endPos": {
+      "x": 50,
+      "y": 10,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 10,
+      "z": 0
+    }
+  },
+  "moveResult": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.sketch.moveGeometry",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"translation\" which is a 2D point, must have a z-value of 0!"
+    }
+  ]
+}

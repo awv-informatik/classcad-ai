@@ -1,0 +1,5 @@
+[11] eif1: 54 eif2: 62 box1 (in eif1): 69 box2 (in eif2): 72
+[11] cross-eif delete — result: null maxLevel: 31
+[filewrite] files/11-cross-eif-cross-eif-response.json (56 bytes)
+[11] delete all from eif1 — maxLevel: 31
+[filewrite] files/11-cross-eif-delete-all-eif1.json (56 bytes)

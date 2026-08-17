@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.fastened",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The path of mate1 and mate2 cannot be used in this combination for constraint with id = $133 in assembly with id = $12, they probably belong to the same rigid set."
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,22 @@
+{
+  "zero": {
+    "result": 61,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "negative": {
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "tiny": {
+    "result": 67,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "huge": {
+    "result": 70,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

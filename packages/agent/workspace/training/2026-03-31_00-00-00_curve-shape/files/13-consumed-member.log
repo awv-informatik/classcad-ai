@@ -1,0 +1,4 @@
+[13] consumed before curves: {"value":1,"type":"real","visible":1,"expression":""}
+[13] consumed after curve: {"value":1,"type":"real","visible":1,"expression":""}
+[13] consumed after clean: {"value":1,"type":"real","visible":1,"expression":""}
+[filewrite] files/13-consumed-member-consumed-member.json (292 bytes)

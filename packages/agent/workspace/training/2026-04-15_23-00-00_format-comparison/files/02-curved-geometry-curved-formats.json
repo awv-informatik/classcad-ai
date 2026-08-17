@@ -1,0 +1,43 @@
+{
+  "OFB": {
+    "success": 1,
+    "contentLength": 36068
+  },
+  "STP": {
+    "success": 1,
+    "contentLength": 16204
+  },
+  "STL": {
+    "success": 1,
+    "contentLength": 255980
+  },
+  "SCG": {
+    "success": 1,
+    "contentLength": 254444
+  },
+  "IWP": {
+    "success": 1,
+    "contentLength": 42684
+  },
+  "OFB_deflate": {
+    "contentLength": 6632
+  },
+  "STL_tol1": {
+    "contentLength": 50380
+  },
+  "STL_tol0.1": {
+    "contentLength": 255980
+  },
+  "STL_tol0.01": {
+    "contentLength": 3670248
+  },
+  "STL_angle30": {
+    "contentLength": 249580
+  },
+  "STL_angle6": {
+    "contentLength": 255980
+  },
+  "STL_angle1": {
+    "contentLength": 402380
+  }
+}

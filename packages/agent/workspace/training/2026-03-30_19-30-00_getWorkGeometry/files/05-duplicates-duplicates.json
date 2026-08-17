@@ -1,0 +1,16 @@
+{
+  "sameType": {
+    "wp1": 54,
+    "wp2": 62,
+    "returned": 54,
+    "matchesFirst": true,
+    "matchesSecond": false
+  },
+  "crossType": {
+    "plane": 70,
+    "axis": 78,
+    "returned": 70,
+    "matchesPlane": true,
+    "matchesAxis": false
+  }
+}

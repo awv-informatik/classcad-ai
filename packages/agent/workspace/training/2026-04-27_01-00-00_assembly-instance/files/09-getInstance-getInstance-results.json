@@ -1,0 +1,21 @@
+{
+  "all": [
+    105,
+    107,
+    109
+  ],
+  "byName": 107,
+  "nonexistent": [],
+  "batch": [
+    105,
+    109
+  ],
+  "invalidOwner": {
+    "result": null,
+    "msg": "The parameter \"ownerId\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+  },
+  "noParams": {
+    "result": null,
+    "msg": "The parameter \"ownerId\" must be provided in the api call!"
+  }
+}

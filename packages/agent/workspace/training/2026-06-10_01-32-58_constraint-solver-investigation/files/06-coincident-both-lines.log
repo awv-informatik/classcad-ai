@@ -1,0 +1,4 @@
+[06] A (line FIXATION): l1: {"endPos":{"x":55,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}} — l2.start: {"x":55,"y":0,"z":0}
+[06] A: coincidence satisfied: true — fixed line stretched: true
+[06] B (both endpoints fixed): l1: {"endPos":{"x":50,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}} — l2.start: {"x":50,"y":0,"z":0} (target (50,0))
+[filewrite] files/06-coincident-both-lines-coincident2.json (622 bytes)

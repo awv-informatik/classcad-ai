@@ -1,0 +1,13 @@
+[08] FIXATION on point result: 60 maxLevel: 31
+[08] FIXATION on line result: 66 maxLevel: 31
+[08] VERTICAL on fixed line result: 68 maxLevel: 31
+[08] fixed line BEFORE vertical: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 60, y: 0, z: 0 } }
+}
+[08] fixed line AFTER vertical: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 60, y: 0, z: 0 } }
+}
+[08] FIXATION on circle result: null maxLevel: 51
+[filewrite] files/08-fixation-fixation-data.json (728 bytes)

@@ -1,0 +1,11 @@
+{
+  "box": 54,
+  "boss": {
+    "result": 131,
+    "maxLevel": 31
+  },
+  "slot": {
+    "result": 234,
+    "maxLevel": 31
+  }
+}

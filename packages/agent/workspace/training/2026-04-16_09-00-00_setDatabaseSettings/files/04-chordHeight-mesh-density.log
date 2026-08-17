@@ -1,0 +1,7 @@
+[04] tol=0.01: vertices=8385, indices=48384, verify.chordHeightTol=0.01
+[04] tol=0.05: vertices=2017, indices=11328, verify.chordHeightTol=0.05
+[04] tol=0.1: vertices=1697, indices=9600, verify.chordHeightTol=0.1
+[04] tol=0.5: vertices=277, indices=1392, verify.chordHeightTol=0.5
+[04] tol=1: vertices=153, indices=672, verify.chordHeightTol=1
+[04] tol=5: vertices=85, indices=288, verify.chordHeightTol=5
+[filewrite] files/04-chordHeight-mesh-density-chord-density.json (576 bytes)

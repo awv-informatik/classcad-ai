@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="17.6.2026" startTime="12:20:26." endTime="12:20:26.">
+  <FailedTests>
+    <FailedTest id="18">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateClassCadKeyNative</Name>
+      <FailureType>Error</FailureType>
+      <Message>ErrorMessage
+- [_C.ClassCadKeyApp.ValidateClassCadKey][ClassCadKeyApp] 
+
+
+[{&quot;message&quot;:&quot;token expired&quot;}]
+
+
+
+</Message>
+    </FailedTest>
+    <FailedTest id="18">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateClassCadKeyNative</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>/Users/dev/dev/classcad/runtime/Source/tests/TestService/c/ClassCADAsserter.cpp</File>
+        <Line>54</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: toTest
+- ValidateClassCadKey should return a result for a valid native key
+</Message>
+    </FailedTest>
+    <FailedTest id="19">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWasm</Name>
+      <FailureType>Error</FailureType>
+      <Message>ErrorMessage
+- [_C.ClassCadKeyApp.ValidateClassCadKey][ClassCadKeyApp] 
+
+
+[{&quot;message&quot;:&quot;token expired&quot;}]
+
+
+
+</Message>
+    </FailedTest>
+    <FailedTest id="19">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWasm</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>/Users/dev/dev/classcad/runtime/Source/tests/TestService/c/ClassCADAsserter.cpp</File>
+        <Line>54</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: toTest
+- ValidateClassCadKey should return a result for a valid wasm key
+</Message>
+    </FailedTest>
+    <FailedTest id="23">
+      <Name>[CAD] ClassCadKeyAppTest.testVerifyTokenNative</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>/Users/dev/dev/classcad/runtime/Source/tests/TestService/c/ClassCADAsserter.cpp</File>
+        <Line>54</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: toTest
+- Native token verification should succeed
+</Message>
+    </FailedTest>
+    <FailedTest id="24">
+      <Name>[CAD] ClassCadKeyAppTest.testVerifyTokenWasm</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>/Users/dev/dev/classcad/runtime/Source/tests/TestService/c/ClassCADAsserter.cpp</File>
+        <Line>54</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: toTest
+- Wasm token verification should succeed
+</Message>
+    </FailedTest>
+  </FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[CAD] ClassCadKeyAppTest.testExtractTokenClaimsNative</Name>
+    </Test>
+    <Test id="2">
+      <Name>[CAD] ClassCadKeyAppTest.testExtractTokenClaimsWasm</Name>
+    </Test>
+    <Test id="3">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsCodeSandboxApp</Name>
+    </Test>
+    <Test id="4">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsCodeSandboxIO</Name>
+    </Test>
+    <Test id="5">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsEmptyList</Name>
+    </Test>
+    <Test id="6">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsExactMatch</Name>
+    </Test>
+    <Test id="7">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsMixedPatterns</Name>
+    </Test>
+    <Test id="8">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsMultipleOrigins</Name>
+    </Test>
+    <Test id="9">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsNativeKeyIsEmpty</Name>
+    </Test>
+    <Test id="10">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsNoMatch</Name>
+    </Test>
+    <Test id="11">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyExactSubdomainMatch</Name>
+    </Test>
+    <Test id="12">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyInvalidWildcards</Name>
+    </Test>
+    <Test id="13">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyLocalhostMatch</Name>
+    </Test>
+    <Test id="14">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWasmKeyWildcardMatch</Name>
+    </Test>
+    <Test id="15">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWildcardWithProtocol</Name>
+    </Test>
+    <Test id="16">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWithPort</Name>
+    </Test>
+    <Test id="17">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateAllowedOriginsWithoutPort</Name>
+    </Test>
+    <Test id="20">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWithEmptyKey</Name>
+    </Test>
+    <Test id="21">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWithGarbageKey</Name>
+    </Test>
+    <Test id="22">
+      <Name>[CAD] ClassCadKeyAppTest.testValidateClassCadKeyWithTamperedKey</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>24</Tests>
+    <FailuresTotal>6</FailuresTotal>
+    <Errors>2</Errors>
+    <Failures>4</Failures>
+  </Statistics>
+</TestRun>

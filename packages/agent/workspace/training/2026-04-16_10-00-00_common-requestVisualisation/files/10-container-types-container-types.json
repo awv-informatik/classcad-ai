@@ -1,0 +1,49 @@
+[
+  {
+    "type": 1,
+    "id": 59,
+    "owner": 61,
+    "keys": [
+      "id",
+      "owner",
+      "type",
+      "properties",
+      "meshes",
+      "edges",
+      "vertices"
+    ],
+    "meshCount": 6,
+    "edgeCount": 12,
+    "vertexCount": 8
+  },
+  {
+    "type": 1,
+    "id": 62,
+    "owner": 64,
+    "keys": [
+      "id",
+      "owner",
+      "type",
+      "properties",
+      "meshes",
+      "edges",
+      "vertices"
+    ],
+    "meshCount": 3,
+    "edgeCount": 3,
+    "vertexCount": 2
+  },
+  {
+    "type": 2,
+    "id": 67,
+    "owner": 66,
+    "keys": [
+      "id",
+      "owner",
+      "type",
+      "properties",
+      "edges"
+    ],
+    "edgeCount": 1
+  }
+]

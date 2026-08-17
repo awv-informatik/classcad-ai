@@ -1,0 +1,153 @@
+{
+  "name": "35B21SS",
+  "spec": {
+    "name": "35B21SS",
+    "teeth": 21,
+    "strands": 1,
+    "hubStyle": "B",
+    "PD": 2.5161,
+    "blankOD": 2.7036,
+    "ansiOD": 2.713,
+    "rootR": 1.156,
+    "flatTip": true,
+    "toothThk": 0.168,
+    "bore": 1,
+    "hubDia": 2.0781,
+    "hubProj": 0.5,
+    "keyway": {
+      "keyWidth": 0.25,
+      "keyDepth": 0.125,
+      "screwDia": 0.3125
+    },
+    "screws": [
+      {
+        "v": 0.33399999999999996,
+        "azimuth": 0,
+        "dia": 0.3125
+      },
+      {
+        "v": 0.33399999999999996,
+        "azimuth": -90,
+        "dia": 0.3125
+      }
+    ],
+    "vMin": -0.084,
+    "vMax": 0.584,
+    "strandGap": 0
+  },
+  "steps": [
+    {
+      "step": "Parameters",
+      "level": 31
+    },
+    {
+      "step": "Blank",
+      "id": 86
+    },
+    {
+      "step": "ToothSpace",
+      "id": 164
+    },
+    {
+      "step": "ToothPattern",
+      "id": 235
+    },
+    {
+      "step": "TipTapers",
+      "ids": [
+        2284,
+        2323
+      ]
+    },
+    {
+      "step": "Bore",
+      "id": 2358
+    },
+    {
+      "step": "Keyway",
+      "id": 2415,
+      "kw": {
+        "keyWidth": 0.25,
+        "keyDepth": 0.125,
+        "screwDia": 0.3125
+      }
+    },
+    {
+      "step": "SetScrews",
+      "ids": [
+        2467,
+        2498
+      ]
+    },
+    {
+      "step": "Subtraction",
+      "id": 2520,
+      "level": 31,
+      "messages": []
+    },
+    {
+      "step": "BoreChamfer",
+      "id": 9596,
+      "level": 31,
+      "edges": 4
+    },
+    {
+      "step": "Appearance(SS)",
+      "level": 31
+    },
+    {
+      "step": "MateConnector",
+      "id": 14314,
+      "level": 31
+    }
+  ],
+  "checks": [
+    {
+      "label": "root-radius",
+      "ok": true,
+      "worstErrIn": 2.220446049250313e-16,
+      "edgeId": 8353
+    },
+    {
+      "label": "tip-flat-corner",
+      "ok": true,
+      "worstErrIn": 6.938893903907228e-18,
+      "edgeId": 8525
+    },
+    {
+      "label": "bore-rim",
+      "ok": true,
+      "worstErrIn": 1.3877787807814457e-17,
+      "edgeId": 9544
+    },
+    {
+      "label": "hub-od",
+      "ok": true,
+      "radErrIn": 2.2870594307278225e-13,
+      "endErrIn": 0,
+      "nPts": 6
+    },
+    {
+      "label": "bore-chamfer-full-ring",
+      "ok": true,
+      "worstErrIn": 2.4286889577229687e-7,
+      "azisProbed": 16,
+      "rimArcs": 4
+    },
+    {
+      "label": "volume",
+      "ok": true,
+      "cadIn3": 1.85595,
+      "mcIn3": 1.85366,
+      "chamferAllowIn3": 0.00283,
+      "deviation": "0.28%"
+    },
+    {
+      "label": "cog",
+      "ok": true,
+      "offAxisIn": 0.0201,
+      "alongAxisIn": 0.2162
+    }
+  ],
+  "allChecksPass": true
+}

@@ -1,0 +1,11 @@
+[02] PREDICT: 3 arcs forming a curvilinear (Reuleaux-like) triangle around the centroid; discard everything else
+[filewrite] files/02-triple-overlap-center-02-classify.json (5945 bytes)
+[02] total segments 12 | keep 3 | trim 9
+[02] KEEP seg 90 mid [43,25] cnt 2/3
+[02] KEEP seg 120 mid [7,25] cnt 2/3
+[02] KEEP seg 145 mid [25,-7] cnt 2/3
+[filewrite] files/02-triple-overlap-center-02-result.json (896 bytes)
+[02] REALIZED: arcs 3 lines 0 circles 0
+[02] centroid [ '25.0', '14.4' ] | arc endpoints: [[[50,0,0],[25,43.3,0]],[[25,43.3,0],[0,0,0]],[[0,0,0],[50,0,0]]]
+[02] CHECKS {"threeArcs":true,"tightAroundCentroid":true}
+[02] PASS — prediction realized

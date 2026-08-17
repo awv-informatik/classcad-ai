@@ -1,0 +1,9 @@
+[01] created templates: 22 32 42
+[01] listAll result: [22,32,42]
+[01] listAll maxLevel: 31
+[01] listAll type: object true
+[01] listEmpty result: [22,32,42]
+[01] findBeta result: 32 type: number isArray: false
+[01] findBeta maxLevel: 31
+[01] findBeta === tpl2? true
+[filewrite] files/01-basic-list-and-lookup-basic-results.json (354 bytes)

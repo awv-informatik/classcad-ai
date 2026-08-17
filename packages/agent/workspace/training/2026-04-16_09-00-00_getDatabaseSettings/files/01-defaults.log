@@ -1,0 +1,12 @@
+[01] maxLevel: 31
+[01] result keys: angleTol, chordHeightTol, doCurveTessellation, facetingParamsMode, isCCGraphicEnabled, isGraphicEnabled, isInvisibleGraphicEnabled, isSketchGraphicEnabled
+[01] isGraphicEnabled: 1
+[01] isCCGraphicEnabled: 1
+[01] isInvisibleGraphicEnabled: 0
+[01] isSketchGraphicEnabled: 1
+[01] facetingParamsMode: 1
+[01] chordHeightTol: 0.1
+[01] angleTol: 0
+[01] doCurveTessellation: 1
+[filewrite] files/01-defaults-defaults.json (216 bytes)
+[filewrite] files/01-defaults-messages.json (2 bytes)

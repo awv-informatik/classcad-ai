@@ -1,0 +1,6 @@
+[01] asmId: 12
+[01] partTemplate result: 22
+[01] partTemplate maxLevel: 31
+[01] partTemplate messages: []
+[01] structure after partTemplate: {"root":12,"currentProduct":12,"currentInstance":12}
+[filewrite] files/01-basic-creation-partTemplate-response.json (145 bytes)

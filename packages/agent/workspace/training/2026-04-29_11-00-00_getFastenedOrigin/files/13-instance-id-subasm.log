@@ -1,0 +1,6 @@
+[13] subAsmInst ID result: {"id":129,"mate1":{"csys":107,"flip":"Z","path":[123],"reorient":"0"},"name":"InnerFO","xOffset":42,"xRotation":0,"yOffset":0,"yRotation":0,"zOffset":0,"zRotation":0}
+[13] maxLevel: 31
+[13] messages: []
+[13] subAsmTpl ID result: {"id":129,"mate1":{"csys":107,"flip":"Z","path":[123],"reorient":"0"},"name":"InnerFO","xOffset":42,"xRotation":0,"yOffset":0,"yRotation":0,"zOffset":0,"zRotation":0}
+[13] subAsmTpl maxLevel: 31
+[filewrite] files/13-instance-id-subasm-instance-id-subasm.json (757 bytes)

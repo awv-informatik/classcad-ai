@@ -1,0 +1,65 @@
+{
+  "result": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 63,
+          "interval": [
+            0.25,
+            0.75
+          ]
+        },
+        {
+          "id": 68,
+          "interval": [
+            0.75,
+            1.25
+          ]
+        }
+      ]
+    }
+  ],
+  "segData": [
+    {
+      "id": 63,
+      "interval": [
+        0.25,
+        0.75
+      ],
+      "startPos": [
+        3.061616997868383e-15,
+        50,
+        0
+      ],
+      "endPos": [
+        -9.184850993605149e-15,
+        -50,
+        0
+      ],
+      "startAngleDeg": 90,
+      "endAngleDeg": 270,
+      "radius": 50
+    },
+    {
+      "id": 68,
+      "interval": [
+        0.75,
+        1.25
+      ],
+      "startPos": [
+        -9.184850993605149e-15,
+        -50,
+        0
+      ],
+      "endPos": [
+        1.5308084989341916e-14,
+        50,
+        0
+      ],
+      "startAngleDeg": 270,
+      "endAngleDeg": 90,
+      "radius": 50
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "rawLen": 33216,
+  "compressedBufLen": 4249,
+  "inflatedLen": 33216,
+  "inflatedMatchesRaw": false,
+  "trueCompressionRatio": "12.8%",
+  "b64OverheadOnCompressed": "1.334",
+  "firstDiffIndex": 371
+}

@@ -1,0 +1,53 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('CoordSysWorkGeo', '2026-04-16T20:14:22', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+
+DATA;
+#1 = DRAUGHTING_MODEL('', (), #5);
+#2 = CARTESIAN_POINT('Origin', (0., 0., 0.));
+#3 = GEOMETRIC_SET('', (#2, #4));
+#4 = CARTESIAN_POINT('WPt1', (210., 210., 210.));
+#5 = (
+   GEOMETRIC_REPRESENTATION_CONTEXT (3)
+   GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT ((#7))
+   GLOBAL_UNIT_ASSIGNED_CONTEXT ((#6, #8, #9))
+   REPRESENTATION_CONTEXT ('', '3D')
+);
+#6 = (
+   LENGTH_UNIT ()
+   NAMED_UNIT (*)
+   SI_UNIT (.MILLI., .METRE.)
+);
+#7 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-6), #6, 'DISTANCE_ACCURACY_VALUE', '');
+#8 = (
+   NAMED_UNIT (*)
+   SI_UNIT ($, .STERADIAN.)
+   SOLID_ANGLE_UNIT ()
+);
+#9 = (
+   NAMED_UNIT (*)
+   PLANE_ANGLE_UNIT ()
+   SI_UNIT ($, .RADIAN.)
+);
+#10 = SHAPE_REPRESENTATION('', (#23), #5);
+#11 = PRODUCT_DEFINITION_SHAPE('', '', #12);
+#12 = PRODUCT_DEFINITION('', '', #15, #19);
+#13 = APPLICATION_CONTEXT('configuration controlled 3D designs of mechanical parts and assemblies');
+#14 = APPLICATION_PROTOCOL_DEFINITION('International Standard', 'automotive_design', 2002, #13);
+#15 = PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('', '', #16, .NOT_KNOWN.);
+#16 = PRODUCT('CoordSysWorkGeo', 'CoordSysWorkGeo', '', (#17));
+#17 = PRODUCT_CONTEXT('', #13, 'mechanical');
+#18 = PRODUCT_RELATED_PRODUCT_CATEGORY('detail', '', (#16));
+#19 = PRODUCT_DEFINITION_CONTEXT('part definition', #13, 'design');
+#20 = SHAPE_DEFINITION_REPRESENTATION(#11, #10);
+#21 = SHAPE_REPRESENTATION_RELATIONSHIP('', '', #10, #22);
+#22 = SHAPE_REPRESENTATION('', (#3), #5);
+#23 = AXIS2_PLACEMENT_3D('', #24, #25, #26);
+#24 = CARTESIAN_POINT('', (0., 0., 0.));
+#25 = DIRECTION('', (0., 0., 1.));
+#26 = DIRECTION('', (1., 0., 0.));
+ENDSEC;
+END-ISO-10303-21;

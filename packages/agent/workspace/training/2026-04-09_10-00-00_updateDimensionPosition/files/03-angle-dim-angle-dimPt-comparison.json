@@ -1,0 +1,23 @@
+{
+  "before": {
+    "value": {
+      "x": 9.013032363068557,
+      "y": 4.331887304891343,
+      "z": 0
+    },
+    "type": "point",
+    "visible": 1,
+    "expression": ""
+  },
+  "after": {
+    "value": {
+      "x": 25,
+      "y": 25,
+      "z": 0
+    },
+    "type": "point",
+    "visible": 1,
+    "expression": "{25,25,0}"
+  },
+  "className": "CC_AngularFeatureDimension"
+}

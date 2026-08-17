@@ -1,0 +1,53 @@
+{
+  "notFound": {
+    "result": [],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "emptyAsm": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getInstance",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"ownerId\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  "partTpl": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getInstance",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"ownerId\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "badId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getInstance",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.getInstance",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ownerId\" has an invalid id!"
+      }
+    ]
+  }
+}

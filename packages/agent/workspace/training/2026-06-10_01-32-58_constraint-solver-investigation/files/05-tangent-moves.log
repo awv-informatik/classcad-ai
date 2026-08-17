@@ -1,0 +1,3 @@
+[05] TANGENT circle-line maxLevel: 31 c1 center: {"x":50,"y":15,"z":0} (tangency ⇒ y=15)
+[05] TANGENT circle-circle maxLevel: 31 c3 center: {"x":224.9615088301353,"y":56.64100588675687,"z":0} center-dist: 30.000000 (external tangency ⇒ 30)
+[filewrite] files/05-tangent-moves-tangent.json (177 bytes)

@@ -1,0 +1,7 @@
+[02] tpl: 22 boxId: 70 wcs: 107
+[02] inst1: 113 inst2: 115
+[filewrite] files/02-template-edit-propagation-structure-before.json (31387 bytes)
+[02] added cylinder: 148 to template
+[filewrite] files/02-template-edit-propagation-structure-after.json (33251 bytes)
+[02] instance before: {"value":22,"type":"id","visible":1,"expression":""}
+[02] instance after: {"value":22,"type":"id","visible":1,"expression":""}

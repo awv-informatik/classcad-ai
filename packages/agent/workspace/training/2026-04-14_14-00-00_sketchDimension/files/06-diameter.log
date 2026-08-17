@@ -1,0 +1,5 @@
+[06] circleId: 58
+[06] DIAMETER: result: 63 maxLevel: 31
+[06] circle radius after: 30
+[06] dim class: CC_DiameterFeatureDimension name: D
+[filewrite] files/06-diameter-diameter-data.json (149 bytes)

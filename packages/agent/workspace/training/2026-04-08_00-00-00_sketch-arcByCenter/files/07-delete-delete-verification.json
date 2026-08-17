@@ -1,0 +1,17 @@
+{
+  "geoBefore": {
+    "arcs": [
+      58
+    ],
+    "circles": [],
+    "lines": [],
+    "points": []
+  },
+  "geoAfter": {
+    "arcs": [],
+    "circles": [],
+    "lines": [],
+    "points": []
+  },
+  "deleteResult": null
+}

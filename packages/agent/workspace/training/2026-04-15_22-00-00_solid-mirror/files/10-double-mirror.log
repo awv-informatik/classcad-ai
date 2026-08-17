@@ -1,0 +1,5 @@
+[10] bbox original: {"min":[-20,-10,-10],"max":[60,30,20]}
+[10] bbox after 1st mirror: {"min":[-60,-10,-10],"max":[20,30,20]}
+[10] bbox after 2nd mirror: {"min":[-20,-10,-10],"max":[60,30,20]}
+[10] restored to original: true
+[filewrite] files/10-double-mirror-double-mirror.json (381 bytes)

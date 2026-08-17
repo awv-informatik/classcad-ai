@@ -1,0 +1,6 @@
+[09] partId as id: null maxLevel: 51 msg: The parameter "id" has a wrong id type! Provide only following id types: ["entityinjection"]
+[09] invalid target: null maxLevel: 51 msg: ToId()/TOID() didn't get an existing or valid id.
+[09] eifId as target: null maxLevel: 51 msg: The parameter "target" has a wrong id type! Provide only following id types: ["solid"]
+[09] missing rotation: null maxLevel: 51 msg: The parameter "rotation" must be provided in the api call!
+[09] missing target: null maxLevel: 51 msg: The parameter "target" must be provided in the api call!
+[filewrite] files/09-wrong-ids-error-cases.json (1736 bytes)

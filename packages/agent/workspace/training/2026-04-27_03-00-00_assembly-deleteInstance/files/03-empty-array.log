@@ -1,0 +1,4 @@
+[03] empty ids result: null maxLevel: 31
+[filewrite] files/03-empty-array-empty-array-response.json (56 bytes)
+[03] instances after empty delete: [ 105 ]
+[03] inst1 still exists: true

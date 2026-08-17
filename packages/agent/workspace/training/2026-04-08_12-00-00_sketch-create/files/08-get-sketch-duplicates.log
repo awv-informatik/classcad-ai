@@ -1,0 +1,6 @@
+[08] sk1: 52 sk2: 58 sk3: 64
+[08] getSketch returns: 52
+[08] matches first: true
+[08] matches second: false
+[08] matches third: false
+[filewrite] files/08-get-sketch-duplicates-get-sketch-duplicates.json (80 bytes)

@@ -1,0 +1,10 @@
+[14] original partId: 4 boxId: 61
+[14] save success: 1
+[14] saved content length: 5716
+[14] content starts with: zR1rU5tKe+xHfoXfO7ZAgBBnfGdytTlVc/HS037JYEIiGoOHxK
+[filewrite] files/14-save-load-roundtrip-saved-ofb-data.txt (5716 bytes)
+[14] clear maxLevel: 31
+[14] load result: {"id":4}
+[14] load maxLevel: 31
+[14] load messages: []
+[filewrite] files/14-save-load-roundtrip-loaded-structure.json (21042 bytes)

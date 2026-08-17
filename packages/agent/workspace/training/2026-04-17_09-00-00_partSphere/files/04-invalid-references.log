@@ -1,0 +1,5 @@
+[04] wpId: 54 waId: 62 wptId: 70
+[04] workPlane ref: null maxLevel: 51
+[04] workAxis ref: null maxLevel: 51
+[04] workPoint ref: null maxLevel: 51
+[filewrite] files/04-invalid-references-invalid-refs-response.json (979 bytes)

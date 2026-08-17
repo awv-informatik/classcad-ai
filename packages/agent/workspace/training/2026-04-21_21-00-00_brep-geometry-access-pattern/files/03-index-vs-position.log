@@ -1,0 +1,6 @@
+[03] fillet feature: lines: 14 arcs: 4
+[03] position-based bottom edges: [ 160, 162, 161, 163 ]
+[03] position IDs found in fillet feature index? [ true, true, true, true ]
+[03] indexLines[0] id: 160 position: [{"x":40,"y":0,"z":0}]
+[03] chamfer using index-enumerated edge: ✓ id: 201
+[filewrite] files/03-index-vs-position-comparison.json (454 bytes)

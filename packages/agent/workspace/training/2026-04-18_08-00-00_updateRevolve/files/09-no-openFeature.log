@@ -1,0 +1,4 @@
+[09] revolve created: 94
+[09] no-open result: null maxLevel: 51
+[09] messages: [{"api":"v1.part.updateRevolve","code":1200,"level":51,"levelStr":"ERROR","message":"The provided feature is not allowed to update. It's not active and open."},{"api":"v1.part.updateRevolve","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[filewrite] files/09-no-openFeature-no-open-response.json (439 bytes)

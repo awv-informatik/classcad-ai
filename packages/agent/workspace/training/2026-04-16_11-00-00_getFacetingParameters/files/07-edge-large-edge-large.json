@@ -1,0 +1,14 @@
+{
+  "afterLargeChord": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "afterLargeAngle": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "afterTiny": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  }
+}

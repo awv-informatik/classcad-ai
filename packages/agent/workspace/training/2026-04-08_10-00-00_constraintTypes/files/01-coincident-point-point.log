@@ -1,0 +1,5 @@
+[01] l1 points: { endId: 60, startId: 59 } | l2 points: { endId: 64, startId: 63 }
+[01] BEFORE — l1.end: { pos: { x: 40, y: 0, z: 0 } } | l2.start: { pos: { x: 50, y: 10, z: 0 } }
+[01] COINCIDENT result: 66 maxLevel: 31
+[01] AFTER — l1.end: { pos: { x: 40, y: 0, z: 0 } } | l2.start: { pos: { x: 50, y: 10, z: 0 } }
+[filewrite] files/01-coincident-point-point-coincident-point-point.json (459 bytes)

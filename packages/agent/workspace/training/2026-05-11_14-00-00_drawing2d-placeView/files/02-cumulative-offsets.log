@@ -1,0 +1,5 @@
+[02] bbox initial TOP: [{"max":{"x":80,"y":60,"z":0},"min":{"x":0,"y":0,"z":0}}]
+[02] bbox after 1st place [50,0,0]: [{"max":{"x":130,"y":60,"z":0},"min":{"x":50,"y":0,"z":0}}]
+[02] bbox after 2nd place [50,0,0]: [{"max":{"x":180,"y":60,"z":0},"min":{"x":100,"y":0,"z":0}}]
+[02] bbox after 3rd place [0,30,0]: [{"max":{"x":180,"y":90,"z":0},"min":{"x":100,"y":30,"z":0}}]
+[filewrite] files/02-cumulative-offsets-cumulative-data.json (703 bytes)

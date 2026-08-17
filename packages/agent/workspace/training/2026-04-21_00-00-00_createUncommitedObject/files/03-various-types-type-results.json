@@ -1,0 +1,267 @@
+{
+  "CC_Cylinder": {
+    "result": 52,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "CC_Sphere": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Cone": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Extrusion": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Revolve": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Boolean": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Fillet": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Chamfer": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Sketch": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_WorkPlane": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_WorkAxis": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_WorkPoint": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_WorkCSys": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Mirror": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_LinearPattern": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_CircularPattern": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Translation": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Rotation": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_EntityInjection": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Slice": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  },
+  "CC_Twist": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.createUncommitedObject",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is still an uncommited feature called \"Cylinder\", \r\n\t\t\tplease commit or decline the feature first."
+      }
+    ]
+  }
+}

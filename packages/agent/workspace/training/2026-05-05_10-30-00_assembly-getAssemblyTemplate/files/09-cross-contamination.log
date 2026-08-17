@@ -1,0 +1,6 @@
+[09] partTpl: 22 asmTpl: 68
+[09] asm list: [ 68 ] (expect only 68 )
+[09] asm name Widget: 68 (expect 68 )
+[09] part list: [ 22 ] (expect only 22 )
+[09] part name Widget: 22 (expect 22 )
+[filewrite] files/09-cross-contamination-cross-contamination.json (285 bytes)

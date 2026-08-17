@@ -1,0 +1,11 @@
+[03] fillet corner 0: result=[94,92,96,95] maxLevel=31
+[03] fillet corner 1: result=[113,111,115,114] maxLevel=31
+[03] fillet corner 2: result=[132,130,134,133] maxLevel=31
+[03] fillet corner 3: result=[151,149,153,152] maxLevel=31
+[03] undo fillet 0: result=null maxLevel=31 messages=[]
+[03] undo fillet 1: result=null maxLevel=31 messages=[]
+[03] undo fillet 2: result=null maxLevel=31 messages=[]
+[03] undo fillet 3: result=null maxLevel=31 messages=[]
+[filewrite] files/03-undo-multiple-fillets-undo-results.json (342 bytes)
+[filewrite] files/03-undo-multiple-fillets-geo-final.json (98 bytes)
+[03] final geo: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}

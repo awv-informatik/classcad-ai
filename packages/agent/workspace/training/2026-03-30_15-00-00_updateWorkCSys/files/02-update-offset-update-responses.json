@@ -1,0 +1,19 @@
+{
+  "offset": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "rotation": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "inverted": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "multi": [
+    31,
+    31,
+    31
+  ]
+}

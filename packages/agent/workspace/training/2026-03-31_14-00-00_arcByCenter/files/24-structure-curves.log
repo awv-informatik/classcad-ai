@@ -1,0 +1,27 @@
+[24] CC_CurveEntity: {
+  "name": "S1",
+  "class": "CC_CurveEntity",
+  "id": 60,
+  "flags": 0,
+  "geometryIdList": [
+    61
+  ],
+  "parent": 54,
+  "members": {
+    "consumed": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2003_11_25_10:10",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    }
+  }
+}
+[24] geo 61: NOT in tree
+[24] === All tree objects ===
+[filewrite] files/24-structure-curves-tree.json (18679 bytes)

@@ -1,0 +1,22 @@
+{
+  "fo1": 121,
+  "fo2": 125,
+  "getResult": {
+    "id": 121,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "name": "SameName",
+    "xOffset": 10,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

@@ -1,0 +1,8 @@
+[02] circle result: 58 maxLevel: 31 msgs: []
+[02] dimId: 63 maxLevel: 31
+[02] BEFORE class: CC_RadialFeatureDimension
+[02] BEFORE dimPt: {"x":68,"y":30,"z":0}
+[02] result: null maxLevel: 31
+[02] AFTER dimPt: {"x":70,"y":50,"z":0}
+[02] AFTER dimPt expression: {70,50,0}
+[filewrite] files/02-radius-dim-radius-dimPt-comparison.json (316 bytes)

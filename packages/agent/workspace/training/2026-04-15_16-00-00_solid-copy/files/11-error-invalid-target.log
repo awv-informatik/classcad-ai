@@ -1,0 +1,8 @@
+[11] case1 (bad target): result: null maxLevel: 51
+[filewrite] files/11-error-invalid-target-bad-target-response.json (417 bytes)
+[11] case2 (bad eif): result: null maxLevel: 51
+[filewrite] files/11-error-invalid-target-bad-eif-response.json (413 bytes)
+[11] case3 (target=eif): result: null maxLevel: 51
+[filewrite] files/11-error-invalid-target-target-is-eif-response.json (277 bytes)
+[11] case4 (target=part): result: null maxLevel: 51
+[filewrite] files/11-error-invalid-target-target-is-part-response.json (277 bytes)

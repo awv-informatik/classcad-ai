@@ -1,0 +1,6 @@
+[16] order A: [98,99,102]
+[16] order B: [102,99,98]
+[16] A reversed matches B? true
+[16] mixed valid/invalid: [98,[],102] maxLevel: 51
+[16] messages: [{"api":"v1.part.getGeometryIds","code":0,"level":51,"levelStr":"ERROR","message":"At the given position: [{500,500,500}] no geometry could be found for the type: \"line\". There might be no geometry or no geometry which best fits. It's also possible that there is too much geometry."}]
+[filewrite] files/16-order-preservation-order-results.json (25927 bytes)

@@ -1,0 +1,3 @@
+[13] centerLine points: { endId: 60, startId: 59 }
+[13] maxLevel: 31 geometry count: 6
+[filewrite] files/13-line-endpoint-center-line-endpoint.json (188 bytes)

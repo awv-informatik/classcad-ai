@@ -1,0 +1,4 @@
+[03] region in sketch2: 132
+[03] part lookup result: 132 maxLevel: 31
+[03] match: true
+[filewrite] files/03-multiple-sketches-multiple-sketches.json (124 bytes)

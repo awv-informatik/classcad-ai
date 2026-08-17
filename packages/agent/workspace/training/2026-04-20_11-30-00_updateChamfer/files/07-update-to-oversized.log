@@ -1,0 +1,3 @@
+[07] chamferId: 120 (valid, d=10)
+[07] update to d=50 — result: 120 maxLevel: 51
+[filewrite] files/07-update-to-oversized-oversized-update.json (233 bytes)

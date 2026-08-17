@@ -1,0 +1,6 @@
+[filewrite] files/05-center-then-place-bbox-centered.json (522 bytes)
+[filewrite] files/05-center-then-place-bbox-placed.json (506 bytes)
+[filewrite] files/05-center-then-place-bbox-recentered.json (506 bytes)
+[05] TOP: centered=(0.0,0.0) placed=(0.0,100.0) recentered=(0.0,0.0)
+[05] FRONT: centered=(0.0,0.0) placed=(0.0,0.0) recentered=(0.0,0.0)
+[05] RIGHT: centered=(0.0,-0.0) placed=(120.0,-0.0) recentered=(0.0,-0.0)

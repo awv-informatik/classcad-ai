@@ -1,0 +1,4 @@
+[filewrite] files/02-verify-storage-structure-before.json (21047 bytes)
+[02] setAppearance result: null maxLevel: 31
+[filewrite] files/02-verify-storage-structure-after.json (21047 bytes)
+[filewrite] files/02-verify-storage-graphic-after.json (4 bytes)

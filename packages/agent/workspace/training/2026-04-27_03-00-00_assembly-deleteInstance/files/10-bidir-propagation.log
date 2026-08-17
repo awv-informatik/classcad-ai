@@ -1,0 +1,13 @@
+[10] children in template: 115 117
+[10] sub instances: 119 123
+[10] expanded children of subInst1: [ 120, 121 ]
+[10] expanded children of subInst2: [ 124, 125 ]
+[10] template children: [ 115, 117 ]
+[filewrite] files/10-bidir-propagation-before-bidir.json (160 bytes)
+[10] deleting expanded-tree child: 120
+[10] delete result: null maxLevel: 31
+[filewrite] files/10-bidir-propagation-bidir-delete-response.json (56 bytes)
+[10] expanded children of subInst1 after: [ 121 ]
+[10] expanded children of subInst2 after: [ 125 ]
+[10] template children after: [ 117 ]
+[filewrite] files/10-bidir-propagation-after-bidir.json (210 bytes)

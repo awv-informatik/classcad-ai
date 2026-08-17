@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.solid.box",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"length\" has the wrong type! It should be of type (real)"
+    }
+  ],
+  "maxLevel": 51
+}

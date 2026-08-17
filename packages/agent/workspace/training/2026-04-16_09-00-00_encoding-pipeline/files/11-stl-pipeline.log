@@ -1,0 +1,11 @@
+[11] STL raw: len= 32 first 40: "STL Binary file created by SMLib"
+[11] STL b64: len= 912
+[11] STL both: len= 228
+[11] STL raw non-printable: 0 / 32
+[11] STL decoded buffer length: 684
+[11] STL header (first 80 bytes): STL Binary file created by SMLib\0                                               
+[11] STL triangle count: 12
+[11] Expected binary size: 684 actual: 684
+[11] STL inflated length: 684 (decoded b64 was 684 )
+[11] STL inflated matches decoded b64: true
+[filewrite] files/11-stl-pipeline-stl-pipeline.json (184 bytes)

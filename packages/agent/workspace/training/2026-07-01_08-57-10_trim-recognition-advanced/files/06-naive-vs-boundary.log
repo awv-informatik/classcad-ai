@@ -1,0 +1,5 @@
+[06] NAIVE survivors: lines 0 arcs 0 (stubs => lines>0 is the failure)
+[06] BOUNDARY survivors: lines 0 arcs 0 (clean => lines=0, arcs=2)
+[filewrite] files/06-naive-vs-boundary-06-compare.json (101 bytes)
+[06] CHECKS {"naiveLeavesStubs":false,"boundaryClean":false}
+[06] see data

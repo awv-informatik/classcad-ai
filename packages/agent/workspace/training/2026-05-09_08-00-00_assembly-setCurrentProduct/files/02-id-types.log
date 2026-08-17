@@ -1,0 +1,18 @@
+[02] asmId: 12
+[02] tplId: 22 boxFeat: 70
+[02] subAsmTplId: 105
+[02] instId: 115
+[02] root asm: 12 maxLevel: 31
+[filewrite] files/02-id-types-r1-root-asm.json (81 bytes)
+[02] part tpl: 12 maxLevel: 31
+[filewrite] files/02-id-types-r2-part-tpl.json (81 bytes)
+[02] asm tpl: 12 maxLevel: 31
+[filewrite] files/02-id-types-r3-asm-tpl.json (85 bytes)
+[02] instance: 12 maxLevel: 31
+[filewrite] files/02-id-types-r4-instance.json (76 bytes)
+[02] feature: null maxLevel: 51
+[filewrite] files/02-id-types-r5-feature.json (331 bytes)
+[02] invalid: null maxLevel: 51
+[filewrite] files/02-id-types-r6-invalid.json (466 bytes)
+[02] string ident: null maxLevel: 51
+[filewrite] files/02-id-types-r7-string.json (510 bytes)

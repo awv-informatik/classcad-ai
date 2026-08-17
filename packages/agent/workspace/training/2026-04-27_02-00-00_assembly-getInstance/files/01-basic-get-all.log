@@ -1,0 +1,8 @@
+[01] created instances: 105 107 109
+[01] getAll result: [105,107,109]
+[01] getAll maxLevel: 31
+[01] getAll typeof result: object true
+[01] byName("Beta") result: 107
+[01] byName("Beta") typeof: number
+[01] byName("Beta") maxLevel: 31
+[filewrite] files/01-basic-get-all-basic-results.json (271 bytes)

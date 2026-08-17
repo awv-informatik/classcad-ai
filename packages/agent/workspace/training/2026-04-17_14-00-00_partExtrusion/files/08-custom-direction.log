@@ -1,0 +1,6 @@
+[08] dir [0,0,1]: 96 maxLevel: 31
+[08] dir [1,0,1]: 181 maxLevel: 31
+[08] dir [1,0,0]: 266 maxLevel: 51
+[08] dir [0,0,-1]: 324 maxLevel: 31
+[08] dir [0,0,10]: 409 maxLevel: 31
+[filewrite] files/08-custom-direction-direction-results.json (648 bytes)

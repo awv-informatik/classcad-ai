@@ -1,0 +1,15 @@
+[05] created planar cId: 212
+[05] getPlanar result keys: [
+  'id',
+  'mate1',
+  'mate2',
+  'name',
+  'xOffsetLimits',
+  'yOffsetLimits',
+  'zOffset',
+  'zRotationLimits'
+]
+[05] getPlanar maxLevel: 31
+[filewrite] files/05-getPlanar-getPlanar-result.json (466 bytes)
+[05] getPlanar not found: null maxLevel: 51
+[filewrite] files/05-getPlanar-getPlanar-notfound.json (298 bytes)

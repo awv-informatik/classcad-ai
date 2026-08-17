@@ -1,0 +1,11 @@
+[03] base64 only — success: 1 maxLevel: 31
+[03] content length: 47880
+[03] content preview: AQJjbGFzc2NhZAIBClZlcnNpb249MTEKQXBwbGljYXRpb25DbGFzcz1CdWVybGlEZW1vQXBwCkFwcGxp
+[03] looks like base64: true
+[03] deflate only — success: 1 maxLevel: 31
+[03] deflate content length: 559
+[03] deflate content preview: ]Ys._c@P| ؖ,/II8H^_ua9ubz{d|,fbN?w׫IOO{bnmmpyݳk>6ެIdaÇ[^͍d=%?OnoGu
+[03] base64+deflate — success: 1 maxLevel: 31
+[03] combined content length: 5904
+[03] combined content preview: 7V1Zc5vKEi7nkV/h95RjQIBQqnyrtCAf39iWLC9J/KLCEpJJtDhIXpJff4Z1GuiBYZGch9M5dQxieqZ7
+[filewrite] files/03-base64-deflate-size-comparison.json (104 bytes)

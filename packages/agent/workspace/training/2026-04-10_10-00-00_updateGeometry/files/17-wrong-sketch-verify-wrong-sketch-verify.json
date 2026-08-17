@@ -1,0 +1,27 @@
+{
+  "posBefore": {
+    "endPos": {
+      "x": 50,
+      "y": 50,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "posAfter": {
+    "endPos": {
+      "x": 80,
+      "y": 80,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 10,
+      "z": 0
+    }
+  },
+  "moved": true
+}

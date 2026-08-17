@@ -1,0 +1,11 @@
+[04] empty key: set maxLevel=31, roundtrip=✓
+[04] empty value: set maxLevel=31, roundtrip=✓
+[04] special chars in key: set maxLevel=31, roundtrip=✓
+[04] unicode: set maxLevel=31, roundtrip=✓
+[04] spaces: set maxLevel=31, roundtrip=✓
+[04] JSON string value: set maxLevel=31, roundtrip=✓
+[04] newlines in value: set maxLevel=31, roundtrip=✓
+[04] 500-char key: set maxLevel=31, roundtrip=✓
+[04] 10K-char value: set maxLevel=31, roundtrip=✓
+[04] total keys: 9
+[filewrite] files/04-edge-cases-keys-values-edge-cases.json (1139 bytes)

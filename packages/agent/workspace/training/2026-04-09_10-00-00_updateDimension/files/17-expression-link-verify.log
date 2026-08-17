@@ -1,0 +1,7 @@
+[17] createExpr maxLevel: 31
+[17] expr update result: 0 maxLevel: 31
+[17] paramName after expr link: @value
+[17] paramName expression: 
+[filewrite] files/17-expression-link-verify-dim-node-after-expr.json (2461 bytes)
+[17] paramName after numeric: 
+[filewrite] files/17-expression-link-verify-dim-node-after-numeric.json (2455 bytes)

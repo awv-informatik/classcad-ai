@@ -1,0 +1,13 @@
+{
+  "result": 54,
+  "messages": [
+    {
+      "api": "v1.part.box",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Length not valid for ZeroLength (CC_Box). Value for length must be greater than 0."
+    }
+  ],
+  "maxLevel": 51
+}

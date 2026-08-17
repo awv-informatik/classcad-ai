@@ -1,0 +1,4 @@
+[13] eif1: 54 eif2: 62 boxId (in eif1): 69 sphereId (in eif2): 71
+[13] cross-eif delete box via eif2 — result: null maxLevel: 31
+[filewrite] files/13-cross-eif-verify-cross-eif-delete-box.json (56 bytes)
+[13] delete all from eif2 — maxLevel: 31

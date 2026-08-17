@@ -1,0 +1,11 @@
+[06] created cId: 212
+[06] updatePlanar zOffset=30: 212 maxLevel: 31
+[06] updatePlanar name: 212 maxLevel: 31
+[06] updatePlanar xOffsetLimits: 212 maxLevel: 31
+[06] updatePlanar yOffsetLimits: 212 maxLevel: 31
+[06] updatePlanar zRotationLimits: 212 maxLevel: 31
+[06] updatePlanar partial zRotationLimits (max-only): 212 maxLevel: 31
+[06] updatePlanar xOffsetLimits=null: 212 maxLevel: 31
+[06] updatePlanar zRotationLimits=null: 212 maxLevel: 31
+[06] final getPlanar: {"id":212,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"UpdatedPlanar","xOffsetLimits":{"max":null,"min":null},"yOffsetLimits":{"max":50,"min":0},"zOffset":30,"zRotationLimits":{"max":null,"min":null}}
+[filewrite] files/06-updatePlanar-update-final-state.json (439 bytes)

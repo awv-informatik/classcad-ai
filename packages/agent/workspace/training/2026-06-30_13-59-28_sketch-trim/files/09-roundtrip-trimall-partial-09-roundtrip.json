@@ -1,0 +1,22 @@
+{
+  "A": {
+    "trimAllMax": 31,
+    "postMax": 31,
+    "postErr": [],
+    "counts": {
+      "lines": 0,
+      "arcs": 0,
+      "circles": 0,
+      "points": 0
+    },
+    "leak": []
+  },
+  "B": {
+    "lines": 2,
+    "autoCoinc": true
+  },
+  "C": {
+    "vKeptOriginal": true,
+    "hChurned": true
+  }
+}

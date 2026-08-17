@@ -1,0 +1,5 @@
+[04b] c1: 58 c2: 65
+[04b] TANGENT result: 68 maxLevel: 31
+[04b] c1 center: undefined r1: 20
+[04b] c2 center: undefined r2: 15
+[filewrite] files/04b-tangent-circle-circle-struct-tangent-circle-circle.json (90 bytes)

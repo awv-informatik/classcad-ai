@@ -1,0 +1,6 @@
+[02] save: success= 1 len= 33219
+[02] load: id= 4 maxLevel= 31
+[02] load messages: []
+[02] resave: success= 1 len= 34435
+[02] content matches: false
+[filewrite] files/02-roundtrip-raw-roundtrip-raw.json (114 bytes)

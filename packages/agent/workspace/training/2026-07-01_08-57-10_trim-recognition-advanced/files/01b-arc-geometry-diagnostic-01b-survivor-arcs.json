@@ -1,0 +1,128 @@
+{
+  "survivorArcIds": [
+    97,
+    103
+  ],
+  "survivors": [
+    {
+      "id": 97,
+      "class": "CC_Arc",
+      "members": {
+        "bulge": {
+          "value": 1.9999999999999984,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "_VERSION": {
+          "value": "3/2026_04_24_13:00",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "radius": {
+          "value": 49.99999999999999,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "angleRangeLimited": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "rigidSetId": {
+          "value": 0,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        "isConstruction": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "lgsState": {
+          "value": 32,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        }
+      },
+      "endpoints": [
+        [
+          29.999999999999993,
+          40,
+          0
+        ],
+        [
+          29.999999999999954,
+          -40.000000000000036,
+          0
+        ]
+      ]
+    },
+    {
+      "id": 103,
+      "class": "CC_Arc",
+      "members": {
+        "bulge": {
+          "value": 2.0000000000000018,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "_VERSION": {
+          "value": "3/2026_04_24_13:00",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "radius": {
+          "value": 49.99999999999999,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "angleRangeLimited": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "rigidSetId": {
+          "value": 0,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        "isConstruction": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "lgsState": {
+          "value": 32,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        }
+      },
+      "endpoints": [
+        [
+          29.99999999999993,
+          -39.99999999999994,
+          0
+        ],
+        [
+          30.000000000000018,
+          40.000000000000014,
+          0
+        ]
+      ]
+    }
+  ]
+}

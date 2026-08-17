@@ -1,0 +1,5 @@
+[07] boxId: 61
+[07] translate before recalc: maxLevel= 31 result: 61
+[07] recalc: maxLevel= 31
+[07] translate after recalc: maxLevel= 31 result: 61
+[filewrite] files/07-solid-ids-survive-solid-id-survival.json (163 bytes)

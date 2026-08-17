@@ -1,0 +1,4 @@
+[03] assemblyTemplate without create result: null
+[03] maxLevel: 51
+[03] messages: [{"api":"v1.assembly.assemblyTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly building is not initialized!"},{"api":"v1.assembly.assemblyTemplate","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in AssemblyAPI_v1.assemblyTemplate::PROC:[CCVM::lcm: objId not found]] "}]
+[filewrite] files/03-no-create-error-no-create-error.json (466 bytes)

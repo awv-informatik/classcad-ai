@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.sketch.point",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"pos\" which is a 2D point, must have a z-value of 0!"
+    }
+  ]
+}

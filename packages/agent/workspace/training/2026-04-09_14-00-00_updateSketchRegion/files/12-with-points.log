@@ -1,0 +1,5 @@
+[12] point id: 94
+[12] with-point result: null maxLevel: 51
+[12] messages: [{"api":"v1.sketch.updateSketchRegion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"geomIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]
+[12] geom after point: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[filewrite] files/12-with-points-with-point.json (476 bytes)

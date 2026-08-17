@@ -1,0 +1,10 @@
+[08] circle: 58 line: 63
+[08] split IDs: [80,85,90,94,98]
+[08] trimming Circle_part0 (id: 80 ) and Line_part1 (id: 94 )
+[08] trimCurves maxLevel: 31
+[08] trimCurves messages: []
+[08] mergeBack maxLevel: 31
+[08] mergeBack messages: []
+[filewrite] files/08-trim-then-merge-merge-response.json (56 bytes)
+[filewrite] files/08-trim-then-merge-geom-after-merge.json (95 bytes)
+[08] geometry after merge: {"arcs":[103],"circles":[],"lines":[110,114],"points":[]}

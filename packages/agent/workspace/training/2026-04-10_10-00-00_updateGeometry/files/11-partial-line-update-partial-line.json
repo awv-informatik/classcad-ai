@@ -1,0 +1,38 @@
+{
+  "before": {
+    "endPos": {
+      "x": 50,
+      "y": 50,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "afterStartOnly": {
+    "endPos": {
+      "x": 50,
+      "y": 50,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "afterEndOnly": {
+    "endPos": {
+      "x": 50,
+      "y": 50,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  }
+}

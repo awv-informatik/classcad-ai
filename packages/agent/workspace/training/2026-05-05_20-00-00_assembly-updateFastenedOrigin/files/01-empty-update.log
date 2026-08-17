@@ -1,0 +1,6 @@
+[01] foId: 119
+[01] COG before empty update: undefined
+[01] empty update result: 119 maxLevel: 31
+[01] COG after empty update: undefined
+[01] state after empty update: {"id":119,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"FO1","xOffset":50,"xRotation":0,"yOffset":30,"yRotation":0,"zOffset":10,"zRotation":0}
+[filewrite] files/01-empty-update-empty-update.json (351 bytes)

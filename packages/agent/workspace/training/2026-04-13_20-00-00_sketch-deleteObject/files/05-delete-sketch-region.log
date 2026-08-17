@@ -1,0 +1,7 @@
+[05] rect IDs: [58,64,70,76]
+[05] region ID: 92
+[filewrite] files/05-delete-sketch-region-geom-before.json (98 bytes)
+[05] delete region result: null maxLevel: 31
+[filewrite] files/05-delete-sketch-region-delete-region-response.json (56 bytes)
+[05] lines after region delete: 4
+[filewrite] files/05-delete-sketch-region-geom-after-region-delete.json (98 bytes)

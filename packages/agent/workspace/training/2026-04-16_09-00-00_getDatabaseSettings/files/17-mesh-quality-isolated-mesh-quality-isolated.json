@@ -1,0 +1,68 @@
+[
+  {
+    "label": "fine",
+    "chord": 0.1,
+    "angle": 0,
+    "hasGraphic": true,
+    "hasContainers": true,
+    "meshCount": 1,
+    "totalVerts": 1697,
+    "totalIndices": 9600,
+    "graphicSize": 134610
+  },
+  {
+    "label": "coarse",
+    "chord": 0.5,
+    "angle": 0,
+    "hasGraphic": false,
+    "hasContainers": false,
+    "meshCount": 0,
+    "totalVerts": 0,
+    "totalIndices": 0,
+    "graphicSize": 0
+  },
+  {
+    "label": "very-coarse",
+    "chord": 1,
+    "angle": 0,
+    "hasGraphic": false,
+    "hasContainers": false,
+    "meshCount": 0,
+    "totalVerts": 0,
+    "totalIndices": 0,
+    "graphicSize": 0
+  },
+  {
+    "label": "ultra-fine",
+    "chord": 0.01,
+    "angle": 0,
+    "hasGraphic": false,
+    "hasContainers": false,
+    "meshCount": 0,
+    "totalVerts": 0,
+    "totalIndices": 0,
+    "graphicSize": 0
+  },
+  {
+    "label": "angle15",
+    "chord": 0.1,
+    "angle": 15,
+    "hasGraphic": false,
+    "hasContainers": false,
+    "meshCount": 0,
+    "totalVerts": 0,
+    "totalIndices": 0,
+    "graphicSize": 0
+  },
+  {
+    "label": "angle30",
+    "chord": 0.1,
+    "angle": 30,
+    "hasGraphic": false,
+    "hasContainers": false,
+    "meshCount": 0,
+    "totalVerts": 0,
+    "totalIndices": 0,
+    "graphicSize": 0
+  }
+]

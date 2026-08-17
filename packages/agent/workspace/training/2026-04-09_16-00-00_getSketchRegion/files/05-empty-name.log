@@ -1,0 +1,3 @@
+[05] empty string name - result: null maxLevel: 51
+[05] empty string messages: [{"api":"v1.sketch.getSketchRegion","code":1015,"level":51,"levelStr":"ERROR","message":"Couldn't find sketch region with name: \"\" which belongs to the provided sketch."}]
+[filewrite] files/05-empty-name-empty-name.json (323 bytes)

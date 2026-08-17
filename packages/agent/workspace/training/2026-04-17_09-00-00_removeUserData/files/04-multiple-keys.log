@@ -1,0 +1,4 @@
+[04] keys before: [ 'd', 'b', 'c', 'a' ]
+[04] keys after removing b,c: [ 'd', 'a' ]
+[04] a: 1 d: 4 b (removed): __GONE__
+[filewrite] files/04-multiple-keys-multiple-keys.json (188 bytes)

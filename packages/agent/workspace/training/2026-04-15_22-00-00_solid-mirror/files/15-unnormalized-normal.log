@@ -1,0 +1,4 @@
+[15] bbox before: {"min":[-20,-10,-15],"max":[60,30,15]}
+[15] bbox after unnormalized: {"min":[-60,-10,-15],"max":[20,30,15]}
+[15] mirror result: 61 maxLevel: 31
+[filewrite] files/15-unnormalized-normal-unnormalized-normal.json (239 bytes)

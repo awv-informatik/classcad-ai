@@ -1,0 +1,5 @@
+[07] maxLevel: 31
+[07] messages: []
+[07] s1 exists: true geoIds: [ 61 ]
+[07] s2 exists: true geoIds: [ 64 ]
+[filewrite] files/07-union-keepshape-after-keepshape.json (878 bytes)

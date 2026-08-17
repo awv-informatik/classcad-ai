@@ -1,0 +1,7 @@
+[04] save: success= 1 len= 5592
+[04] load: id= 4 maxLevel= 31
+[04] load messages: []
+[04] resave: success= 1 len= 5744
+[04] content matches: false
+[04] raw resave len: 34438
+[filewrite] files/04-roundtrip-both-roundtrip-both.json (140 bytes)

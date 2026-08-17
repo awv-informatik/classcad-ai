@@ -1,0 +1,3 @@
+[08] batch result: [ 123, 127, 131 ] maxLevel: 31
+[08] result is array: true
+[filewrite] files/08-batch-batch-response.json (83 bytes)

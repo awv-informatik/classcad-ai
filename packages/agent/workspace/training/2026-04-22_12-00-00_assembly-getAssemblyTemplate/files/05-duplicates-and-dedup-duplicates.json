@@ -1,0 +1,15 @@
+{
+  "ids": {
+    "d1": 22,
+    "d2": 32,
+    "d3": 42
+  },
+  "listAll": [
+    22,
+    32,
+    42
+  ],
+  "findMotor": 22,
+  "findMotor0": 32,
+  "findMotor1": 42
+}

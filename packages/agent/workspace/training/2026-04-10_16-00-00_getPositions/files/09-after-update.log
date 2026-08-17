@@ -1,0 +1,5 @@
+[09] before: {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[09] updateGeometry maxLevel: 51
+[09] after: {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[09] positions changed: false
+[filewrite] files/09-after-update-update-comparison.json (325 bytes)

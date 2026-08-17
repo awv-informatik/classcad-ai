@@ -1,0 +1,7 @@
+[14] dimId: 94
+[14] before delete - maxLevel: 31
+[14] deleteObject result: null maxLevel: 31 msgs: []
+[14] dim node after delete exists? false
+[14] after delete → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.updateDimensionPosition","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[14] dim node after updatePos exists? false
+[filewrite] files/14-deleted-dim-verify-deleted-dim-verify.json (662 bytes)

@@ -1,0 +1,8 @@
+[01] rect IDs: [ 58, 64, 70, 76 ]
+[01] pt1: 92 pt2: 94
+[01] OFFSET 1-line: id= 98 maxLevel= 31
+[01] OFFSET 2-parallel: id= 102 maxLevel= 31
+[01] OFFSET 2-points: id= 106 maxLevel= 31
+[01] OFFSET line+pt: id= 110 maxLevel= 31
+[01] OFFSET perp-lines: id= 114 maxLevel= 31
+[filewrite] files/01-auto-values-offset-structure.json (63310 bytes)

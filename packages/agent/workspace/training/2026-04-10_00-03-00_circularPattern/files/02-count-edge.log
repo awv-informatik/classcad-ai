@@ -1,0 +1,6 @@
+[02] count=1 maxLevel: 51 result: { constraint: 70, dimension: 72, geometry: [ 68 ] }
+[02] count=1 geometry: [ 68 ]
+[02] count=0 maxLevel: 51 result: null
+[02] count=-1 maxLevel: 51 result: null
+[02] count=3.7 maxLevel: 51 geometry count: undefined
+[filewrite] files/02-count-edge-count-edge-cases.json (1286 bytes)

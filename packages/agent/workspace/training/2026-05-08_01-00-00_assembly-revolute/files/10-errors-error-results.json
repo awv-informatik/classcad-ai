@@ -1,0 +1,31 @@
+{
+  "missingMate2": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+  },
+  "missingCsys": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] "
+  },
+  "sameInstance": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The path of mate1 and mate2 cannot be used in this combination for constraint with id = $220 in assembly with id = $12, they probably belong to the same rigid set."
+  },
+  "invalidFlip": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "Type \"Q\" is not supported to use as flip type."
+  },
+  "dupName": {
+    "result": 236,
+    "maxLevel": 31
+  },
+  "getWrongName": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"
+  }
+}

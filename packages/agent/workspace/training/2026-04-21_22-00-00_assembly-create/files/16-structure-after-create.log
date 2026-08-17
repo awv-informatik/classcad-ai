@@ -1,0 +1,8 @@
+[16] total nodes: 8
+[filewrite] files/16-structure-after-create-node-catalog.json (895 bytes)
+[16] child 14 — name: ExpressionSet class: CC_ExpressionSet
+[16]   members: _VERSION
+[16] child 16 — name: ConstraintSet class: CC_ConstraintSet
+[16]   members: _VERSION
+[16] child 18 — name: GeometrySet class: CC_GeometrySet
+[16]   members: _VERSION, csSize

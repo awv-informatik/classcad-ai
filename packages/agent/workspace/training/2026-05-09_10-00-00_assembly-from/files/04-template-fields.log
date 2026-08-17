@@ -1,0 +1,22 @@
+[04] Exploring template field names...
+[04] with-id: result: 14 maxLevel: 51
+[04]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/04-template-fields-with-id.json (275 bytes)
+[04] with-ident: result: 14 maxLevel: 51
+[04]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/04-template-fields-with-ident.json (275 bytes)
+[04] with-file: result: 14 maxLevel: 51
+[04]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/04-template-fields-with-file.json (275 bytes)
+[04] with-url: result: 14 maxLevel: 51
+[04]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/04-template-fields-with-url.json (275 bytes)
+[04] with-content: result: 14 maxLevel: 51
+[04]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/04-template-fields-with-content.json (275 bytes)
+[04] with-product: result: 14 maxLevel: 51
+[04]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/04-template-fields-with-product.json (275 bytes)
+[04] file-only: result: 14 maxLevel: 51
+[04]   msg: [Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] 
+[filewrite] files/04-template-fields-file-only.json (275 bytes)

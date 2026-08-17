@@ -1,0 +1,8 @@
+[04] dims before: ["D1=68","D2=72","HD=76","VD=80"] ids returned: [68,72,76,80]
+[04] cons before: ["D1=66","D2=70","Fix=64","HD=74","VD=78"]
+[04] dims after : ["D1=118","D2=119","HD=120","VD=121"]
+[04] cons after : ["D10=114","D20=115","Fix0=113","HD=116","VD=117"]
+[04] update OLD id 76 → result: null maxLevel: 51 [{"api":"v1.sketch.updateDimension","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.updateDimension","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[04] HD node id after roundtrip: 120 (was 76)
+[04] update NEW id → result: 1 maxLevel: 31 — c2: {"x":90,"y":40,"z":0} (expect x=90)
+[filewrite] files/04-roundtrip-handles-handles.json (281 bytes)

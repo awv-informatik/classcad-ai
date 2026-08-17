@@ -1,0 +1,14 @@
+{
+  "test": "empty_refs",
+  "result": 126,
+  "messages": [
+    {
+      "api": "v1.part.fillet",
+      "code": 1111,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There is no entity for BadFillet2 (CC_ConstantRadiusFillet)."
+    }
+  ],
+  "maxLevel": 51
+}

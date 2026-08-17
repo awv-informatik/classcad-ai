@@ -1,0 +1,4 @@
+[05] before delete: {"arcs":[],"circles":[72],"lines":[58,64],"points":[]}
+[05] delete result maxLevel: 51
+[05] after delete: {"arcs":[],"circles":[72],"lines":[58,64],"points":[]}
+[filewrite] files/05-after-delete-before-after-delete.json (279 bytes)

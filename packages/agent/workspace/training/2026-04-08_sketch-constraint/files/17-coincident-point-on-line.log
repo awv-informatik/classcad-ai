@@ -1,0 +1,5 @@
+[17] lineId: 58 ptId: 62
+[17] coincident-on-line result: 64 maxLevel: 31
+[17] messages: []
+[17] point position after: {"pos":{"x":30,"y":30,"z":0}}
+[filewrite] files/17-coincident-point-on-line-coincident-on-line-response.json (142 bytes)

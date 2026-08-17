@@ -1,0 +1,8 @@
+[16] baseline: {"angleTol":10,"chordHeightTol":0.3}
+[16] neg chordHeightTol — maxLevel: 31
+[16] after neg chordHeightTol: {"angleTol":10,"chordHeightTol":0.3}
+[16] neg angleTol — maxLevel: 31
+[16] after neg angleTol: {"angleTol":10,"chordHeightTol":0.3}
+[16] both neg — maxLevel: 31
+[16] after both neg: {"angleTol":10,"chordHeightTol":0.3}
+[filewrite] files/16-edge-negative-v2-edge-negative-v2.json (306 bytes)

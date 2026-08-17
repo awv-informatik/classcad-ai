@@ -1,0 +1,4 @@
+[03] After set: chordHeightTol: 0.5 angleTol: 15
+[03] After clear: chordHeightTol: 0.5 angleTol: 15
+[03] Settings survived clear: true
+[filewrite] files/03-persist-after-clear-persist-clear.json (754 bytes)

@@ -1,0 +1,35 @@
+{
+  "bogus": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.part.compositeCurve",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.compositeCurve",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"references\" has an invalid id!"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "partRef": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.part.compositeCurve",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"references\" has a wrong id type! Provide only following id types: [\"sketch-curve\",\"edge-line\",\"edge-arc\",\"edge-circle\",\"edge-nurbs\",\"face-plane\"]"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

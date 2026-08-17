@@ -1,0 +1,6 @@
+[03] circle1 (origin, genFix=true): 58
+[03] circle2 (origin, genFix=false): 63
+[03] circle3 (off-origin, genFix=true): 68
+[03] sketch children: 58, 61, 63, 66, 68
+[03] constraint: 61 CC_2DFixationConstraint Auto_Fix
+[03] constraint: 66 CC_2DCoincidentConstraint Auto_Coinc

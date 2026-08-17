@@ -1,0 +1,38 @@
+{
+  "before": {
+    "centerPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPos": {
+      "x": 40,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": -40,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "after": {
+    "centerPos": {
+      "x": 0,
+      "y": 20,
+      "z": 0
+    },
+    "endPos": {
+      "x": 20,
+      "y": 20,
+      "z": 0
+    },
+    "startPos": {
+      "x": -20,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "updateResult": null,
+  "updateMaxLevel": 31
+}

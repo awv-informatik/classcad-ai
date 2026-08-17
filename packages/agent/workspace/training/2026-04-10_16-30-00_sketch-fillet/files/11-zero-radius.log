@@ -1,0 +1,4 @@
+[11] zero radius result: null
+[11] maxLevel: 51
+[11] messages: [{"api":"v1.sketch.fillet","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "},{"api":"v1.sketch.fillet","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.CreateFillet_v1:[CCVM::ldm: objId not found]] "}]
+[filewrite] files/11-zero-radius-zero-radius-response.json (599 bytes)

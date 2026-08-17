@@ -1,0 +1,2 @@
+[14] setObjectName result: null maxLevel: 31
+[stderr] [run] Script error: api.v1.common.getObjectName is not a function

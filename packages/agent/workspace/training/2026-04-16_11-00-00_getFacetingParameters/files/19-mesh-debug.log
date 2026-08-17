@@ -1,0 +1,6 @@
+[19] before — facetingParamsMode: 0 cht: 0.1
+[19] after setFacetingParameters — facetingParamsMode: 0 cht: 0.5
+[19] mode changed? false
+[19] after part.create — facetingParamsMode: 0
+[19] vertices with mode=0: 277
+[filewrite] files/19-mesh-debug-mesh-debug.json (89 bytes)

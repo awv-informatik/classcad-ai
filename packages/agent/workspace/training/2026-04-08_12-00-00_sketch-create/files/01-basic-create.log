@@ -1,0 +1,6 @@
+[01] partId: 4
+[01] sketch.create result: 52
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-create-create-response.json (54 bytes)
+[filewrite] files/01-basic-create-structure-after-create.json (23526 bytes)

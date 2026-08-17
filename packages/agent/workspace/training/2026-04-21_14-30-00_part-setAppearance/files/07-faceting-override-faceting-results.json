@@ -1,0 +1,14 @@
+{
+  "coarse": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "fine": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "combo": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

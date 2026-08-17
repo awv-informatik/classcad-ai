@@ -1,0 +1,5 @@
+[02] partId: 4
+[02] result: 54 maxLevel: 31
+[filewrite] files/02-custom-name-named-ei-response.json (54 bytes)
+[02] node name: MyInjection
+[02] node class: CC_EntityInjection

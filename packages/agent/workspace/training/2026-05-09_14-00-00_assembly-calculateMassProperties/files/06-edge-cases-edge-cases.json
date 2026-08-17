@@ -1,0 +1,77 @@
+{
+  "emptyAsm": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+      }
+    ]
+  },
+  "noInstAsm": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+      }
+    ]
+  },
+  "emptyTemplateInst": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+      }
+    ]
+  },
+  "solidId": {
+    "result": {
+      "cog": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "volume": 8000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "badId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "levelStr": "WARN",
+        "level": 41,
+        "code": 0,
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "levelStr": "ERROR",
+        "level": 51,
+        "code": 1006,
+        "message": "An element of parameter \"id\" has an invalid id!"
+      },
+      {
+        "levelStr": "ERROR",
+        "level": 51,
+        "code": 0,
+        "message": "[Evaluation error in AssemblyAPI_v1.calculateMassProperties:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  }
+}

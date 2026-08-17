@@ -1,0 +1,12 @@
+{
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.curve.arcBy3Points",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "If point is defined as array, it must have exactly 3 real values"
+    }
+  ]
+}

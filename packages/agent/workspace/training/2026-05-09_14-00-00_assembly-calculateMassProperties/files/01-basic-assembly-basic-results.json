@@ -1,0 +1,64 @@
+{
+  "asmRoot": {
+    "result": {
+      "cog": {
+        "x": 30,
+        "y": 20,
+        "z": 15
+      },
+      "volume": 72000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "instance": {
+    "result": {
+      "cog": {
+        "x": 30,
+        "y": 20,
+        "z": 15
+      },
+      "volume": 72000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "template": {
+    "result": {
+      "cog": {
+        "x": 30,
+        "y": 20,
+        "z": 15
+      },
+      "volume": 72000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "partDomain": {
+    "asmRoot": {
+      "cog": {
+        "x": 30,
+        "y": 20,
+        "z": 15
+      },
+      "volume": 72000
+    },
+    "instance": {
+      "cog": {
+        "x": 30,
+        "y": 20,
+        "z": 15
+      },
+      "volume": 72000
+    },
+    "template": {
+      "cog": {
+        "x": 30,
+        "y": 20,
+        "z": 15
+      },
+      "volume": 72000
+    }
+  }
+}

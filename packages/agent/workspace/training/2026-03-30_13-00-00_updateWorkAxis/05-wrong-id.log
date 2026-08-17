@@ -1,0 +1,7 @@
+[05] partId result: null maxLevel: 51
+[05] messages: [{"api":"v1.part.updateWorkAxis","code":1007,"level":51,"levelStr":"ERROR","message":"The provided id for the feature is not a feature or work geometry id."},{"api":"v1.part.updateWorkAxis","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[05] bad ID result: null maxLevel: 51
+[05] bad ID messages: [{"api":"v1.part.updateWorkAxis","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.updateWorkAxis","code":1006,"level":51,"levelStr":"ERROR","message":"The provided feature id does not exist."},{"api":"v1.part.updateWorkAxis","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[05] no id result: null maxLevel: 51
+[05] no id messages: [{"api":"v1.part.updateWorkAxis","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[filewrite] files/05-wrong-id-wrong-id-responses.json (1418 bytes)

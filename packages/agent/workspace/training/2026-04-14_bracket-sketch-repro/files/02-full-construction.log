@@ -1,0 +1,10 @@
+[02] circles placed: hub=%d outer=%d rbOuter=%d rbInner=%d midHole=%d r25=%d 58 61 88 91 94 97
+[02] upper tangent: (%.1f, %.1f) → (%.1f, %.1f) 16.18615540225296 57.77549976671874 153.93492364749275 19.18434991446354
+[02] upperLine: 100
+[02] lower tangent: (%.1f, %.1f) → (%.1f, %.1f) 8.794317243051882 -49.2205240141606 151.86949958694282 -23.657030566230663
+[02] lowerLine: 104
+[02] leftWall: 108
+[02] baseBottom: 112
+[02] lower tangent at x=72: y=%.2f -37.92745396134322
+[02] stepRise=%d stepTop=%d rightWall=%d 116 120 124
+[filewrite] files/02-full-construction-positions.json (457 bytes)

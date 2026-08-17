@@ -1,0 +1,10 @@
+{
+  "fixArc": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "equalRadius": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

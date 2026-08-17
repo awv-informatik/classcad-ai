@@ -1,0 +1,4 @@
+[03] origin vertex: {"points":[90]} maxLevel: 31
+[03] far corner vertex: {"points":[96]} maxLevel: 31
+[03] all 8 vertices: {"points":[90,91,93,92,94,95,97,96]} maxLevel: 31
+[filewrite] files/03-box-vertices-all-vertices-response.json (23386 bytes)

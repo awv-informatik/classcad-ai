@@ -1,0 +1,15 @@
+{
+  "rs1": {
+    "result": 80,
+    "maxLevel": 31
+  },
+  "rs2": {
+    "result": 82,
+    "maxLevel": 31
+  },
+  "rs3": {
+    "result": 84,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

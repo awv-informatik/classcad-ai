@@ -1,0 +1,11 @@
+{
+  "nearZero": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "exactZero": {
+    "result": 66,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,6 @@
+[04] getAssemblyTemplate(Alpha): 22 maxLevel: 31
+[04] getAssemblyTemplate(Beta): 32
+[04] getAssemblyTemplate() all: [22,32,42]
+[04] getAssemblyTemplate(Nonexistent): null maxLevel: 51
+[filewrite] files/04-get-assembly-template-nonexistent-response.json (257 bytes)
+[04] getAssemblyTemplate(""): null maxLevel: 51

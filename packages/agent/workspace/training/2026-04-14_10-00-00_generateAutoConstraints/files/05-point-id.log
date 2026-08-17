@@ -1,0 +1,10 @@
+[05] point created: 58 maxLevel: 31
+[05] constraints after point creation: 1
+[filewrite] files/05-point-id-constraints-before.json (88 bytes)
+[05] autoGen point result: null maxLevel: 31
+[05] messages: []
+[05] constraints after autoGen: 1
+[05] line points: {"endId":64,"startId":63}
+[05] autoGen startPt result: null maxLevel: 31
+[05] messages: []
+[05] constraints final: 1

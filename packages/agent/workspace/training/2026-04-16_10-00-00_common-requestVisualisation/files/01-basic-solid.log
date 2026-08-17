@@ -1,0 +1,12 @@
+[01] partId: 4 eifId: 54 boxId: 61
+[01] result: null
+[01] maxLevel: 31
+[01] messages: []
+[01] has graphic: true
+[01] envelope keys: [ 'result', 'messages', 'maxLevel', 'structure', 'graphic' ]
+[filewrite] files/01-basic-solid-response-meta.json (56 bytes)
+[01] graphic top keys: [ 'containers', 'properties' ]
+[01] container[0] keys: [ 'id', 'owner', 'type', 'properties', 'meshes', 'edges', 'vertices' ]
+[01] container[0] properties keys: [ 'material', 'layer', 'min', 'max', 'chordHeightTol', 'angleTol' ]
+[filewrite] files/01-basic-solid-graphic-summary.json (507 bytes)
+[filewrite] files/01-basic-solid-graphic-full.json (11059 bytes)

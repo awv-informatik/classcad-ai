@@ -1,0 +1,21 @@
+{
+  "before": [
+    22,
+    32,
+    42
+  ],
+  "deletedId": 32,
+  "deleteResult": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "after": [
+    22,
+    42
+  ],
+  "findDeleted": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "survivorsFound": true
+}

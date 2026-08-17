@@ -1,0 +1,54 @@
+[
+  {
+    "id": 123,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        115
+      ],
+      "reorient": "0"
+    },
+    "name": "F1",
+    "xOffset": 50,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  {
+    "id": 127,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        117
+      ],
+      "reorient": "0"
+    },
+    "name": "F2",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 50,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+]

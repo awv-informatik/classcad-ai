@@ -1,0 +1,8 @@
+[02] tpl: 22 wcs: 107
+[02] inst1: 113 inst2: 115
+[02] COG before: {"x":70,"y":15,"z":10}
+[02] volume before: 48000
+[02] fastened result: 152 maxLevel: 31
+[02] COG after: {"x":20,"y":15,"z":10}
+[02] volume after: 48000
+[filewrite] files/02-simple-alignment-mass-comparison.json (215 bytes)

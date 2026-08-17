@@ -1,0 +1,121 @@
+{
+  "radiusOnLine": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketcherHelper.AddConstraint_v1:[CCVM::ldm: Datamember radius not found]] "
+      }
+    ]
+  },
+  "offsetOnCircle": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Wrong number of geometry ids provided for an offset constraint."
+      }
+    ]
+  },
+  "invalidType": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"type\" is not valid. Possible values are: [\"RADIUS\",\"DIAMETER\",\"OFFSET\",\"HORIZONTAL_DISTANCE\",\"VERTICAL_DISTANCE\",\"ANGLE\",\"ANGLEOX\"]"
+      }
+    ]
+  },
+  "missingGeomIds": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"geomIds\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingType": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"type\" must be provided in the api call!"
+      }
+    ]
+  },
+  "angleSingleLine": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in ConstraintHelper.CalculateAngleProperties:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      },
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketcherHelper.AddConstraint_v1:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+      },
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitAngleConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "negativeValue": {
+    "result": 77,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitAngleConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      },
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't set the value for dimension $77 of type \"OFFSET\""
+      },
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SketchSolverInterface.VisitAngleConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  }
+}

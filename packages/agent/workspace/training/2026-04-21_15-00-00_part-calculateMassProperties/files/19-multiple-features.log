@@ -1,0 +1,5 @@
+[19] boxId: 54 extId: 102
+[19] result: {"cog":{"x":40.00024071657492,"y":30.000180537431195,"z":19.765902548578556},"volume":201423.26154950232}
+[19] maxLevel: 31
+[filewrite] files/19-multiple-features-multi-features.json (183 bytes)
+[19] expected vol: 201424.78 cogZ: 21.64

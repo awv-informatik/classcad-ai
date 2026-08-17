@@ -1,0 +1,7 @@
+[17] l1: 58 l2: 66 l3: 74
+[17] geomBefore: {"arcs":[],"circles":[],"lines":[58,66,74],"points":[]}
+[17] splitIds: [90,94,66,98,102] count: 5
+[17] trimmed segment at index 3
+[17] mergeBack maxLevel: 31
+[17] geomAfter: {"arcs":[],"circles":[],"lines":[66,58,108],"points":[]}
+[filewrite] files/17-mergeBack-preserves-constraints-geometry-after.json (91 bytes)

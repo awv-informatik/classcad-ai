@@ -1,0 +1,10 @@
+[04] nonexistent ID result: null maxLevel: 51
+[04] messages: [{"api":"v1.assembly.deleteTemplate","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteTemplate","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/04-invalid-ids-nonexistent-id.json (440 bytes)
+[04] asmId result: null maxLevel: 31
+[04] messages: []
+[filewrite] files/04-invalid-ids-asm-root-id.json (56 bytes)
+[04] id=0 result: null maxLevel: 51
+[04] messages: [{"api":"v1.assembly.deleteTemplate","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/04-invalid-ids-id-zero.json (250 bytes)
+[04] templates after invalid deletes: [22]

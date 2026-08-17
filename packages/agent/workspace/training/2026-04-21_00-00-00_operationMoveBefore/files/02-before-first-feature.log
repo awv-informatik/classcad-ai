@@ -1,0 +1,10 @@
+[02] partId: 4
+[02] boxId: 54
+[02] cylId: 91
+[02] moveBefore(box) result: null maxLevel: 31
+[filewrite] files/02-before-first-feature-moveBefore-box.json (56 bytes)
+[02] moveToEnd result: null maxLevel: 31
+[02] moveBefore(partId) result: null maxLevel: 51
+[filewrite] files/02-before-first-feature-moveBefore-partId.json (324 bytes)
+[02] moveBefore(999999) result: null maxLevel: 51
+[filewrite] files/02-before-first-feature-moveBefore-invalidId.json (448 bytes)

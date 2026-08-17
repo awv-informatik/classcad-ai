@@ -1,0 +1,8 @@
+[17] lineIndex=4 → id=102
+[17] position: (0, 0, 20)
+[17] re-found id: 102 (match: true)
+[17] back to index: 4 (match: true)
+[17] faceIndex=2 → id=114
+[17] face has 4 positions
+[17] re-found face: 114 (match: true)
+[filewrite] files/17-full-pipeline-full-pipeline.json (543 bytes)

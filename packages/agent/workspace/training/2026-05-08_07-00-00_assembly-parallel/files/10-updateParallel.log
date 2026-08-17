@@ -1,0 +1,13 @@
+[10] parallel created: 216
+[10] COG before update: {"x":55,"y":40,"z":32.5}
+[10] update xLimits: 216 maxLevel: 31
+[10] COG after xLimits: {"x":34.999,"y":40,"z":32.50000000000001}
+[10] update rename: 216 maxLevel: 31
+[10] old name: null new name id: 216
+[10] update zLimits: 216 maxLevel: 31
+[10] COG after zLimits: {"x":34.99900000000001,"y":40.00000000000001,"z":22.49900000000001}
+[10] remove xLimits: 216 maxLevel: 31
+[10] COG after remove xLimits: {"x":34.99900000000001,"y":40.00000000000001,"z":22.49900000000001}
+[10] asm ID error: null maxLevel: 51
+[10] msg: The provided id for the constraint is not a constraint or relation. code: 1007
+[filewrite] files/10-updateParallel-update-cog.json (377 bytes)

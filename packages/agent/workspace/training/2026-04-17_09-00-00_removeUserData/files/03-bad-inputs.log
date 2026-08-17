@@ -1,0 +1,8 @@
+[03] missing key result: null maxLevel: 51
+[filewrite] files/03-bad-inputs-missing-key-response.json (253 bytes)
+[03] fake id result: null maxLevel: 51
+[filewrite] files/03-bad-inputs-fake-id-response.json (480 bytes)
+[03] id=0 result: null maxLevel: 51
+[filewrite] files/03-bad-inputs-zero-id-response.json (247 bytes)
+[03] empty key result: null maxLevel: 31
+[filewrite] files/03-bad-inputs-empty-key-response.json (56 bytes)

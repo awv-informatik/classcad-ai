@@ -1,0 +1,20 @@
+{
+  "lookupOldName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getWorkGeometry",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find work geometry with name: \"MyPlane\""
+      }
+    ]
+  },
+  "lookupNewName": {
+    "result": 54,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "c1NodeMembers": {
+    "radius": {
+      "value": 30,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2001_2_2_9:19",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "rigidSetId": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "lgsState": {
+      "value": 8,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "c2NodeMembers": {
+    "radius": {
+      "value": 30,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2001_2_2_9:19",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "rigidSetId": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "lgsState": {
+      "value": 36,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "constraintResult": 68,
+  "maxLevel": 31
+}

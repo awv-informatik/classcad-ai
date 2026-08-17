@@ -1,0 +1,7 @@
+[06] lineId: 58
+[06] getPoints: {"endId":60,"startId":59}
+[06] startPos: {"pos":{"x":10,"y":20,"z":0}}
+[06] endPos: {"pos":{"x":70,"y":60,"z":0}}
+[filewrite] files/06-point-ids-with-getPositions-points-to-positions.json (292 bytes)
+[06] linePos (direct): {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[filewrite] files/06-point-ids-with-getPositions-positions-comparison.json (374 bytes)

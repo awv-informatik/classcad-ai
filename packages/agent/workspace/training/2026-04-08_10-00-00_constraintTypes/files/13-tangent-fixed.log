@@ -1,0 +1,4 @@
+[13] arc points: null
+[13] TANGENT result: null maxLevel: 51
+[13] tangent messages: [{"api":"v1.sketch.constraint","code":1001,"level":51,"levelStr":"ERROR","message":"An element of parameter \"geomIds\" has the wrong type! It should be of type (string|real|id)"}]
+[13] moveGeometry on arc: null maxLevel: 51

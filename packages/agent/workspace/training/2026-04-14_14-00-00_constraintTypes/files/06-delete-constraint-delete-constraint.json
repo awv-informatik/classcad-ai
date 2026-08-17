@@ -1,0 +1,17 @@
+{
+  "endBefore": [
+    60,
+    40
+  ],
+  "endAfterH": [
+    71.03277807866851,
+    4.9999999999999964
+  ],
+  "endAfterDelete": [
+    71.03277807866851,
+    4.9999999999999964
+  ],
+  "revertedToOriginal": false,
+  "stayedAtH": true,
+  "deleteMaxLevel": 31
+}

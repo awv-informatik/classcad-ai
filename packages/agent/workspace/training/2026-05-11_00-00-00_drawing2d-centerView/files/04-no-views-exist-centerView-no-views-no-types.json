@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.drawing2d.centerView",
+      "code": 1200,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There are no views exisiting on product with id: $4. You have to create the views first, before trying to center views."
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,23 @@
+{
+  "asis": {
+    "extLevel": 31,
+    "extId": 71,
+    "volIn3": null,
+    "expected": 0.03206,
+    "ok": false
+  },
+  "flagsInv": {
+    "extLevel": 31,
+    "extId": 71,
+    "volIn3": 0.10024181189495474,
+    "expected": 0.03206,
+    "ok": false
+  },
+  "reversed": {
+    "extLevel": 31,
+    "extId": 71,
+    "volIn3": 0.10021134376052682,
+    "expected": 0.03206,
+    "ok": false
+  }
+}

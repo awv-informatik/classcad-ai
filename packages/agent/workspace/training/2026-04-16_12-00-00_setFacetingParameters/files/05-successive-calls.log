@@ -1,0 +1,4 @@
+[05] after call 1: {"angleTol":10,"chordHeightTol":0.5}
+[05] after call 2: {"angleTol":5,"chordHeightTol":0.02}
+[05] overwrite confirmed: true
+[filewrite] files/05-successive-calls-successive-calls.json (162 bytes)

@@ -1,0 +1,5 @@
+[09] assembly ID as constraint ID: null maxLevel: 51
+[09] bogus ID: null maxLevel: 51
+[09] getPlanar bogus assembly ID: null maxLevel: 51
+[09] constraint intact after errors: true zOffset: 10
+[filewrite] files/09-error-cases-error-cases.json (1673 bytes)

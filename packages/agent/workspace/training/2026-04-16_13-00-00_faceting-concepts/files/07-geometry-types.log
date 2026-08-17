@@ -1,0 +1,6 @@
+[07] box: 61 cyl: 64 sph: 66 cone: 70
+[07] cht=0.01: box=24, cyl=514, sph=8385, cone=514
+[07] cht=0.1: box=24, cyl=258, sph=1697, cone=258
+[07] cht=1: box=24, cyl=66, sph=153, cone=66
+[07] cht=5: box=24, cyl=34, sph=85, cone=34
+[filewrite] files/07-geometry-types-geometry-types.json (424 bytes)

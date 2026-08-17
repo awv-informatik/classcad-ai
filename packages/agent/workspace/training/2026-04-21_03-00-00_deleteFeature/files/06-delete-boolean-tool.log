@@ -1,0 +1,4 @@
+[06] boxId: 54 cylId: 91 boolId: 110
+[06] delete cyl (boolean tool) — result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.deleteFeature","code":1111,"level":51,"levelStr":"ERROR","message":"There is unrecognized ID as an entity for Subtraction (CC_Subtraction)."}]
+[filewrite] files/06-delete-boolean-tool-delete-tool-response.json (266 bytes)

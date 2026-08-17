@@ -1,0 +1,20 @@
+{
+  "region1": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      128,
+      134,
+      140
+    ],
+    "points": []
+  },
+  "region2": {
+    "arcs": [],
+    "circles": [
+      148
+    ],
+    "lines": [],
+    "points": []
+  }
+}

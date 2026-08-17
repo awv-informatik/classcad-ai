@@ -1,0 +1,4 @@
+[04] xAxis=[0,1,0]: null maxLevel: 31
+[04] xAxis=[1,1,0]: null maxLevel: 31
+[04] xAxis=[-1,0,0]: null maxLevel: 31
+[filewrite] files/04-xaxis-param-responses.json (170 bytes)

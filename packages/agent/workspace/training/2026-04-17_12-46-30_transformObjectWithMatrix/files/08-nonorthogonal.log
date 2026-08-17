@@ -1,0 +1,4 @@
+[08] shear result: null maxLevel: 51
+[08] messages: [{"api":"v1.common.transformObjectWithMatrix","code":0,"level":51,"levelStr":"ERROR","message":"Solid: Transformationmatrix of this object has been set to be uniformed scaled and orthogonal"}]
+[filewrite] files/08-nonorthogonal-shear-response.json (299 bytes)
+[filewrite] files/08-nonorthogonal-step-after-shear.txt (18536 bytes)

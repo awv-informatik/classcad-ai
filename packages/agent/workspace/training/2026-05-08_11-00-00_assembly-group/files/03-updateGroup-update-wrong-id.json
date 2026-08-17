@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.updateGroup",
+      "code": 1007,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided id for the constraint is not a constraint or relation."
+    },
+    {
+      "api": "v1.assembly.updateGroup",
+      "code": 1004,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "\"id\" must be provided for update."
+    }
+  ],
+  "maxLevel": 51
+}

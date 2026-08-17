@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.getAssemblyTemplate",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Assembly with name = \"Nonexistent\" could not be found"
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,9 @@
+[06] partId: 4 boxId: 54 cylId: 91
+[06] part result: {"cog":{"x":25.542143644611272,"y":17.028095763074184,"z":15.742211485822997},"volume":84566.12060654916}
+[06] part maxLevel: 31
+[06] box feature result: null
+[06] box maxLevel: 51
+[06] cyl feature result: null
+[06] cyl maxLevel: 51
+[filewrite] files/06-id-types-id-types.json (965 bytes)
+[06] expected boxVol: 72000 cylVol: 12566.37 total: 84566.37

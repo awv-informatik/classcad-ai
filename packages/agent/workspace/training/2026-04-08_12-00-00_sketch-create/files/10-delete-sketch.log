@@ -1,0 +1,4 @@
+[10] created: 52 58 64
+[10] delete sk1 result: null maxLevel: 31
+[10] delete sk2+sk3 result: null maxLevel: 31
+[filewrite] files/10-delete-sketch-delete-response.json (172 bytes)

@@ -1,0 +1,20 @@
+[06] --- Test 1: invalid ID 9999 ---
+[06] maxLevel: 51
+[06] result: null
+[06] messages: [{"api":"v1.geometry.getGeometryPositions","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.geometry.getGeometryPositions","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"elems\" has an invalid id!"}]
+[06] --- Test 2: part ID as elem ---
+[06] maxLevel: 51
+[06] result: null
+[06] messages: [{"api":"v1.geometry.getGeometryPositions","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"elems\" has a wrong id type! Provide only following id types: [\"edge-line\",\"edge-arc\",\"edge-circle\",\"vertex\",\"face-plane\",\"face-cylindrical\",\"face-conical\",\"face-spherical\",\"edge-nurbs\",\"face-nurbs\"]"}]
+[06] --- Test 3: feature (box) ID as elem ---
+[06] maxLevel: 51
+[06] result: null
+[06] messages: [{"api":"v1.geometry.getGeometryPositions","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"elems\" has a wrong id type! Provide only following id types: [\"edge-line\",\"edge-arc\",\"edge-circle\",\"vertex\",\"face-plane\",\"face-cylindrical\",\"face-conical\",\"face-spherical\",\"edge-nurbs\",\"face-nurbs\"]"}]
+[06] --- Test 4: empty elems array ---
+[06] maxLevel: 31
+[06] result: []
+[06] --- Test 5: mix valid + invalid ---
+[06] maxLevel: 51
+[06] result: null
+[06] messages: [{"api":"v1.geometry.getGeometryPositions","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.geometry.getGeometryPositions","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"elems\" has an invalid id!"}]
+[filewrite] files/06-invalid-ids-invalid-ids.json (2070 bytes)

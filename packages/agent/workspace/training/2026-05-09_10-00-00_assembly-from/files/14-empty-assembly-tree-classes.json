@@ -1,0 +1,10 @@
+[
+  "AllObjects:AllObjects(1)",
+  "CC_PartContainer:PartContainer(95)",
+  "CC_AssemblyContainer:AssemblyContainer(97)",
+  "CC_AssemblyRoot:AssemblyRoot(99)",
+  "CC_ExpressionSet:ExpressionSet(101)",
+  "CC_ConstraintSet:ConstraintSet(103)",
+  "CC_GeometrySet:GeometrySet(105)",
+  "CC_WorkCSys:BaseWCSys(107)"
+]

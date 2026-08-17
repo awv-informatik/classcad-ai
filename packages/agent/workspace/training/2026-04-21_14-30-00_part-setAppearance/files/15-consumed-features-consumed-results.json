@@ -1,0 +1,38 @@
+{
+  "boxBeforeFillet": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "boxAfterFillet": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Entity \"Box1\" is not available. It has already been consumed/used in another operation."
+      }
+    ]
+  },
+  "filletLatest": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "fillet1Consumed": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Entity \"F1\" is not available. It has already been consumed/used in another operation."
+      }
+    ]
+  },
+  "fillet2Latest": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

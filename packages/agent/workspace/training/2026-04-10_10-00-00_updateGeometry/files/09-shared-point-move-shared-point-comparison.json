@@ -1,0 +1,53 @@
+{
+  "line1Before": {
+    "endPos": {
+      "x": 50,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "line2Before": {
+    "endPos": {
+      "x": 50,
+      "y": 40,
+      "z": 0
+    },
+    "startPos": {
+      "x": 50,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "line1After": {
+    "endPos": {
+      "x": 70,
+      "y": 20,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "line2After": {
+    "endPos": {
+      "x": 50,
+      "y": 40,
+      "z": 0
+    },
+    "startPos": {
+      "x": 50,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "sharedPtId": 60,
+  "line1EndId": 60,
+  "line2StartId": 63
+}

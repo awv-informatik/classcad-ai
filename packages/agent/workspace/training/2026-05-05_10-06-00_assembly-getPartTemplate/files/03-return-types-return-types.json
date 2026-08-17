@@ -1,0 +1,30 @@
+{
+  "single": {
+    "list": {
+      "result": [
+        22
+      ],
+      "isArray": true,
+      "length": 1
+    },
+    "name": {
+      "result": 22,
+      "type": "number",
+      "isArray": false
+    }
+  },
+  "double": {
+    "list": {
+      "result": [
+        22,
+        68
+      ],
+      "isArray": true,
+      "length": 2
+    },
+    "name": {
+      "result": 68,
+      "type": "number"
+    }
+  }
+}

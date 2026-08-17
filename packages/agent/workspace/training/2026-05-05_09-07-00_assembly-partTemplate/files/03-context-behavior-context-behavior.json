@@ -1,0 +1,13 @@
+{
+  "currentProductAfterPartTemplate": 12,
+  "instanceWithoutSetCP": {
+    "result": 68,
+    "maxLevel": 31
+  },
+  "currentProductAfterBox": 22,
+  "instanceAfterBox": {
+    "result": 107,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

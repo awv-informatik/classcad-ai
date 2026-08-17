@@ -1,0 +1,5 @@
+[08] line1: 58 line2: 66
+[08] acute fillet: [74,72,76,75] maxLevel: 31
+[filewrite] files/08-undo-angled-lines-positions-after-fillet.json (4 bytes)
+[08] undo acute fillet: maxLevel= 31
+[filewrite] files/08-undo-angled-lines-positions-after-undo.json (4 bytes)

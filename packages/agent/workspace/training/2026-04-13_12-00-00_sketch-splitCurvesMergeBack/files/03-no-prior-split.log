@@ -1,0 +1,7 @@
+[03] lineId: 58 circleId: 64
+[03] mergeBack result: null
+[03] mergeBack maxLevel: 31
+[03] mergeBack messages: []
+[filewrite] files/03-no-prior-split-mergeBack-no-split.json (56 bytes)
+[filewrite] files/03-no-prior-split-geometry-after.json (95 bytes)
+[03] geometry count after mergeBack: undefined

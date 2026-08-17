@@ -1,0 +1,50 @@
+[
+  {
+    "mode": 0,
+    "chord": 0.1,
+    "gfxSize": 134610,
+    "verts": 1697
+  },
+  {
+    "mode": 1,
+    "chord": 0.1,
+    "gfxSize": 0,
+    "verts": 0
+  },
+  {
+    "mode": 2,
+    "chord": 0.1,
+    "gfxSize": 0,
+    "verts": 0
+  },
+  {
+    "mode": 2,
+    "chord": 0.01,
+    "gfxSize": 0,
+    "verts": 0
+  },
+  {
+    "mode": 2,
+    "chord": 0.1,
+    "gfxSize": 0,
+    "verts": 0
+  },
+  {
+    "mode": 2,
+    "chord": 0.5,
+    "gfxSize": 0,
+    "verts": 0
+  },
+  {
+    "mode": 2,
+    "chord": 1,
+    "gfxSize": 0,
+    "verts": 0
+  },
+  {
+    "mode": 2,
+    "chord": 2,
+    "gfxSize": 0,
+    "verts": 0
+  }
+]

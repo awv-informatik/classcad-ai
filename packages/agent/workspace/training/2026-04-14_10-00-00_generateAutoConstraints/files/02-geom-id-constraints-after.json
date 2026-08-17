@@ -1,0 +1,27 @@
+[
+  {
+    "id": 62,
+    "class": "CC_2DFixationConstraint",
+    "name": "Auto_Fix"
+  },
+  {
+    "id": 72,
+    "class": "CC_2DFixationConstraint",
+    "name": "Auto_Fix0"
+  },
+  {
+    "id": 74,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Auto_Coinc"
+  },
+  {
+    "id": 76,
+    "class": "CC_2DFixationConstraint",
+    "name": "Auto_Fix1"
+  },
+  {
+    "id": 78,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Auto_Coinc0"
+  }
+]

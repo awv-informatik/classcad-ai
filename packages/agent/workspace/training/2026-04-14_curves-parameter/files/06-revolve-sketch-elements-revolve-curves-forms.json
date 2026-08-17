@@ -1,0 +1,14 @@
+{
+  "formA": {
+    "curves": "shapeId=60",
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "formB": {
+    "curves": "lineIds=[72,76,82,88]",
+    "result": 109,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

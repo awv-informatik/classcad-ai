@@ -1,0 +1,4 @@
+[09] box1 feat: 54 box2 feat: 91
+[09] useSolid from [box1, box2] result: [ 135, 138 ] maxLevel: 31
+[filewrite] files/09-multiple-from-multi-from.json (74 bytes)
+[09] translate s2 result: 138 maxLevel: 31

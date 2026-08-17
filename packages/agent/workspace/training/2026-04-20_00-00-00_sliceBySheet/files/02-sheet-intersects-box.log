@@ -1,0 +1,6 @@
+[02] boxId: 54
+[02] sheetId: 131
+[filewrite] files/02-sheet-intersects-box-before-structure.json (51238 bytes)
+[02] sliceBySheet result: 269 maxLevel: 31
+[02] messages: []
+[filewrite] files/02-sheet-intersects-box-slice-response.json (55 bytes)

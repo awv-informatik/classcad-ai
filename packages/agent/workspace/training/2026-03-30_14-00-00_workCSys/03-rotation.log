@@ -1,0 +1,4 @@
+[03] rotZ90 result: 91 maxLevel: 31
+[03] rotX45 result: 99 maxLevel: 31
+[03] compound result: 107 maxLevel: 31
+[filewrite] files/03-rotation-rotation-responses.json (173 bytes)

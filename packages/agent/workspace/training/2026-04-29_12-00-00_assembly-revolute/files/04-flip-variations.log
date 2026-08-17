@@ -1,0 +1,7 @@
+[04] flip=Z: result=212, maxLevel=31
+[04] flip=-Z: result=274, maxLevel=31
+[04] flip=X: result=336, maxLevel=31
+[04] flip=-X: result=398, maxLevel=31
+[04] flip=Y: result=460, maxLevel=31
+[04] flip=-Y: result=522, maxLevel=31
+[filewrite] files/04-flip-variations-last-flip-data.json (320 bytes)

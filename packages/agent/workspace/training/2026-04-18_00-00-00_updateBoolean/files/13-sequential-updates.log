@@ -1,0 +1,5 @@
+[13] boolean created: 128 type: UNION
+[13] update 1 (SUBTRACTION): 128 maxLevel: 31
+[13] update 2 (INTERSECTION): 128 maxLevel: 31
+[13] update 3 (UNION+name): 128 maxLevel: 31
+[filewrite] files/13-sequential-updates-sequential-results.json (176 bytes)

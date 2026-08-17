@@ -1,0 +1,5 @@
+[07] Load asm-save: result: {"id":12} maxLevel: 31
+[07] Instances after loading asm-save: [170,172]
+[07] Load inst-save: result: {"id":12} maxLevel: 31
+[07] Instances after loading inst-save: [170,172]
+[filewrite] files/07-save-loadback-loadback-comparison.json (186 bytes)

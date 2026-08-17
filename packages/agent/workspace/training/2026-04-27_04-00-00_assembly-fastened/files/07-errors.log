@@ -1,0 +1,12 @@
+[07] missing mate2: null maxLevel: 51
+[filewrite] files/07-errors-err-no-mate2.json (251 bytes)
+[07] bad path: null maxLevel: 51
+[filewrite] files/07-errors-err-bad-path.json (429 bytes)
+[07] bad csys: null maxLevel: 51
+[filewrite] files/07-errors-err-bad-csys.json (429 bytes)
+[07] self-constraint: null maxLevel: 51
+[filewrite] files/07-errors-err-self.json (357 bytes)
+[07] missing id: null maxLevel: 51
+[filewrite] files/07-errors-err-no-id.json (249 bytes)
+[07] template in path: null maxLevel: 51
+[filewrite] files/07-errors-err-tpl-path.json (285 bytes)

@@ -1,0 +1,8 @@
+[01] partId: 4
+[01] sketchId: 52
+[filewrite] files/01-basic-reassign-structure-after-create.json (23516 bytes)
+[01] workPlaneId: 60
+[01] setWorkPlane result: null maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-reassign-setworkplane-response.json (56 bytes)
+[filewrite] files/01-basic-reassign-structure-after-setworkplane.json (25841 bytes)

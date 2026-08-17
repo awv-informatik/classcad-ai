@@ -1,0 +1,40 @@
+{
+  "part": {
+    "result": {
+      "cog": {
+        "x": 25.542143644611272,
+        "y": 17.028095763074184,
+        "z": 15.742211485822997
+      },
+      "volume": 84566.12060654916
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "boxFeature": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.calculateMassProperties",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"
+      }
+    ]
+  },
+  "cylFeature": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.calculateMassProperties",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"
+      }
+    ]
+  }
+}

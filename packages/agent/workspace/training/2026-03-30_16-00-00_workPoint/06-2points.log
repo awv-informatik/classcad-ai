@@ -1,0 +1,6 @@
+[06] pt1: 59 pt2: 65
+[06] 2POINTS result: 91 maxLevel: 31
+[filewrite] files/06-2points-2points.json (54 bytes)
+[06] 2POINTS(same) result: 103 maxLevel: 31
+[06] messages: []
+[filewrite] files/06-2points-2points-same.json (55 bytes)

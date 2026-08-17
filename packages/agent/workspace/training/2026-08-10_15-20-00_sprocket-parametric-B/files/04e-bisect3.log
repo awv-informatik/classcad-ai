@@ -1,0 +1,4 @@
+[04e] taper0: cons 31 dims 31 []
+[04e] taper1: cons 31 dims 31 []
+[04e] screws Top/Front: 31 31
+[filewrite] files/04e-bisect3-bisect3.json (140 bytes)

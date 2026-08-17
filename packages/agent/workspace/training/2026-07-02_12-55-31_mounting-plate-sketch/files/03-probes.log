@@ -1,0 +1,13 @@
+[filewrite] files/03-probes-s1-bulges.json (898 bytes)
+[S1] maxLevel: 31
+    {"k":"blendR","cw":true,"predBulge":-0.373682,"gotBulge":-0.3736823630814343,"cls":"CC_Arc"}
+    {"k":"blendL","cw":true,"predBulge":-0.373682,"gotBulge":-0.37368236308143443,"cls":"CC_Arc"}
+    {"k":"notch","cw":true,"predBulge":-0.589011,"gotBulge":-0.5890108806448333,"cls":"CC_Arc"}
+    {"k":"f3RO","cw":true,"predBulge":-0.414903,"gotBulge":-0.4149028915619778,"cls":"CC_Arc"}
+    {"k":"f3RI","cw":false,"predBulge":0.414903,"gotBulge":0.41490289156203036,"cls":"CC_Arc"}
+    {"k":"f3LO","cw":true,"predBulge":-0.414903,"gotBulge":-0.41490289156208093,"cls":"CC_Arc"}
+    {"k":"f3LI","cw":false,"predBulge":0.414903,"gotBulge":0.41490289156202015,"cls":"CC_Arc"}
+[S2a] cons: 31 dims: 31 f3RO radius: 2.999999999999995 errs: [{"k":"edgeRO.s","err":1.78e-15},{"k":"edgeRO.e","err":2.25e-14},{"k":"f3RO.c","err":1.59e-14},{"k":"f3RI.c","err":1.42e-14}]
+[S2b] cons: 31 dims: 31 f3RO radius: 3.0000000000000013 errs: [{"k":"edgeRO.s","err":0.0956},{"k":"edgeRO.e","err":0.227},{"k":"f3RO.c","err":0.227},{"k":"f3RI.c","err":0.227}]
+[S3] cons: 31 dim: 31 center: [0,-64.67147969415079] errC: 2.84e-14
+[S4] cons: 31 dim: 31 center: [-28.24302057647534,-64.04944799697176] errC: 1.07e-14

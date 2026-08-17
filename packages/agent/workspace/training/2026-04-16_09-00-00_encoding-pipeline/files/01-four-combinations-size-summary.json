@@ -1,0 +1,18 @@
+{
+  "raw": {
+    "len": 33201,
+    "success": 1
+  },
+  "base64Only": {
+    "len": 44268,
+    "success": 1
+  },
+  "deflateOnly": {
+    "len": 263,
+    "success": 1
+  },
+  "both": {
+    "len": 5660,
+    "success": 1
+  }
+}

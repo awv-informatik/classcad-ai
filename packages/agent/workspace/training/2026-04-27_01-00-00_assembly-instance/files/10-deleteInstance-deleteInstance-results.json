@@ -1,0 +1,28 @@
+{
+  "before": [
+    105,
+    107,
+    109,
+    111
+  ],
+  "afterOne": [
+    105,
+    109,
+    111
+  ],
+  "afterMulti": [
+    109
+  ],
+  "reDelete": {
+    "result": null,
+    "msg": "ToId()/TOID() didn't get an existing or valid id."
+  },
+  "emptyIds": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "wrongType": {
+    "result": null,
+    "msg": "The parameter \"ids\" has a wrong id type! Provide only following id types: [\"instance\"]"
+  }
+}

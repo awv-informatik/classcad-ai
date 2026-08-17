@@ -1,0 +1,9 @@
+[08] created slider id: 216
+[filewrite] files/08-update-slider-before-update.json (336 bytes)
+[08] update name result: 216 maxLevel: 31
+[08] renamed lookup found: yes
+[08] update offsets result: 216 maxLevel: 31
+[08] update limits result: 216 maxLevel: 31
+[filewrite] files/08-update-slider-after-update.json (339 bytes)
+[08] update mate1 flip result: 216 maxLevel: 31
+[filewrite] files/08-update-slider-after-flip-update.json (339 bytes)

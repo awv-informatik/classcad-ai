@@ -1,0 +1,6 @@
+[filewrite] files/02-canonical-line-025-spatial-02-positions.json (1011 bytes)
+[02] pre [0,0,0] [100,0,0]
+[02] segA [0,0.25] [0,0,0] -> [25,0,0]
+[02] segB [0.25,1] [25,0,0] -> [100,0,0]
+[02] CHECKS {"cutAnalytic_25_0_0":true,"sharedVertex":true,"cutEqualsLerp":true,"intervalT1Times100":true,"endpointsPreserved":true,"intervalsContiguous":true}
+[02] PASS

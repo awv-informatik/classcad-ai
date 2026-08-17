@@ -1,0 +1,11 @@
+[06] non-unit vectors result: null maxLevel: 31
+[06] COG after non-unit: {"x":20,"y":10,"z":5}
+[06] non-orthogonal result: null maxLevel: 31
+[filewrite] files/06-non-unit-vectors-non-orthogonal-response.json (56 bytes)
+[06] COG after non-orthogonal: {"x":13.416407864998737,"y":17.88854381999832,"z":4.999999999999999}
+[06] zero xDir result: null maxLevel: 51
+[filewrite] files/06-non-unit-vectors-zero-xdir-response.json (527 bytes)
+[06] collinear result: null maxLevel: 51
+[filewrite] files/06-non-unit-vectors-collinear-response.json (525 bytes)
+[06] left-handed result: null maxLevel: 31
+[filewrite] files/06-non-unit-vectors-left-handed-response.json (56 bytes)

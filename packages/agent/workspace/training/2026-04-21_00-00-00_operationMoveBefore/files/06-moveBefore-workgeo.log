@@ -1,0 +1,7 @@
+[06] partId: 4
+[06] boxId: 54 wpId: 91 waId: 99
+[06] moveBefore(workPlane) result: null maxLevel: 31
+[06] moveBefore(workAxis) result: null maxLevel: 31
+[06] topId: 38
+[06] moveBefore(Top) result: null maxLevel: 31
+[filewrite] files/06-moveBefore-workgeo-moveBefore-Top.json (56 bytes)

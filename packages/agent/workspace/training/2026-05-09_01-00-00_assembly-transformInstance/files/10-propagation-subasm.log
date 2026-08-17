@@ -1,0 +1,6 @@
+[10] COG before: {"x":39.99999999999999,"y":50,"z":7.5}
+[10] subInst1 children: [120,121]
+[10] subInst2 children: [124,125]
+[10] transform result: null maxLevel: 31
+[10] COG after: {"x":39.99999999999999,"y":70.00000000000001,"z":7.5}
+[filewrite] files/10-propagation-subasm-results.json (306 bytes)

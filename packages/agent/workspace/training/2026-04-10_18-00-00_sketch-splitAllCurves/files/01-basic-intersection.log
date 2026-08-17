@@ -1,0 +1,7 @@
+[01] circle ID: 58 line ID: 63
+[01] splitAllCurves result: [80,85,90,94,98]
+[01] maxLevel: 31
+[01] messages: []
+[01] result length: 5
+[filewrite] files/01-basic-intersection-split-response.json (96 bytes)
+[filewrite] files/01-basic-intersection-split-structure.json (42392 bytes)

@@ -1,0 +1,9 @@
+[04] root-level partTemplate: 22
+[04] assemblyTemplate: 68
+[04] currentProduct after assemblyTemplate (via setCurrentProduct prev): 12
+[04] partTemplate in subAsm context: 78
+[04] all part templates (from root context): [22,78]
+[04] all part templates (from subAsm context): [22,78]
+[04] instance rootPart in subAsm: 124
+[04] instance subPart in subAsm: 126
+[filewrite] files/04-context-and-partcontainer-context-structure.json (49885 bytes)

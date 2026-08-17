@@ -1,0 +1,48 @@
+{
+  "arcId": 58,
+  "pointIds": {
+    "centerId": 61,
+    "endId": 59,
+    "startId": 60
+  },
+  "resolvedPositions": {
+    "start": {
+      "pos": {
+        "x": 80,
+        "y": 40,
+        "z": 0
+      }
+    },
+    "end": {
+      "pos": {
+        "x": 50,
+        "y": 70,
+        "z": 0
+      }
+    },
+    "center": {
+      "pos": {
+        "x": 50,
+        "y": 39.99999999999999,
+        "z": 0
+      }
+    }
+  },
+  "directArcPositions": {
+    "centerPos": {
+      "x": 50,
+      "y": 39.99999999999999,
+      "z": 0
+    },
+    "endPos": {
+      "x": 50,
+      "y": 70,
+      "z": 0
+    },
+    "startPos": {
+      "x": 80,
+      "y": 40,
+      "z": 0
+    }
+  }
+}

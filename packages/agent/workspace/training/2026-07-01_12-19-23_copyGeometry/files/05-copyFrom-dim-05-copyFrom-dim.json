@@ -1,0 +1,15 @@
+{
+  "before": {
+    "CC_DimensionSet": 1,
+    "CC_SketchDimensionSet": 1,
+    "CC_2DRadiusConstraint": 1,
+    "CC_RadialFeatureDimension": 1
+  },
+  "after": {
+    "CC_DimensionSet": 1,
+    "CC_SketchDimensionSet": 2,
+    "CC_2DRadiusConstraint": 2,
+    "CC_RadialFeatureDimension": 2
+  },
+  "note": "copyGeometry(true) gave RadiusConstraint 1->2 but RadialFeatureDimension stayed 1; compare copyFrom"
+}

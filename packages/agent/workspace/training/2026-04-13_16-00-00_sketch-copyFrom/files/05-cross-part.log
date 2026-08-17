@@ -1,0 +1,5 @@
+[05] toCopyId=partId result: null maxLevel: 51
+[05] toCopyId=partId messages: [{"api":"v1.sketch.copyFrom","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"toCopyId\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[05] id=partId result: null maxLevel: 51
+[05] id=partId messages: [{"api":"v1.sketch.copyFrom","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]
+[filewrite] files/05-cross-part-wrong-type-ids.json (652 bytes)

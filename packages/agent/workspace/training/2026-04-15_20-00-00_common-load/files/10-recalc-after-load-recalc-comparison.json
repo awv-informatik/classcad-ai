@@ -1,0 +1,11 @@
+{
+  "beforeRecalc": {
+    "hasGraphic": true,
+    "hasStructure": true
+  },
+  "afterRecalc": {
+    "hasGraphic": false,
+    "result": null,
+    "maxLevel": 31
+  }
+}

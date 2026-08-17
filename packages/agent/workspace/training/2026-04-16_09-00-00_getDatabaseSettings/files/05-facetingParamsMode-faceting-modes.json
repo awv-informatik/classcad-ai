@@ -1,0 +1,46 @@
+{
+  "initial": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "mode0": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "mode1": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "mode2": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 2,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "mode2Response": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,6 @@
+[12] doCurveTessellation: 1
+[12] With curve tess ON: graphic keys: containers,properties
+[12] After disable: doCurveTessellation: 0
+[12] With curve tess OFF: graphic keys: containers,properties
+[filewrite] files/12-doCurveTessellation-flag-graphic-curvetess-on.json (42005 bytes)
+[filewrite] files/12-doCurveTessellation-flag-graphic-curvetess-off.json (34647 bytes)

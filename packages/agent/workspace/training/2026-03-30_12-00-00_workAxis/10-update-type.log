@@ -1,0 +1,11 @@
+[10] pt1: 59 pt2: 65 edge: 67
+[10] created USERDEFINED: 91
+[10] → 2POINTS result: 91 maxLevel: 31
+[10] messages: []
+[filewrite] files/10-update-type-to-2points.json (54 bytes)
+[10] → USERDEFINED result: 91 maxLevel: 31
+[10] messages: []
+[filewrite] files/10-update-type-back-to-userdefined.json (54 bytes)
+[10] → CURVE result: 91 maxLevel: 31
+[10] messages: []
+[filewrite] files/10-update-type-to-curve.json (54 bytes)

@@ -1,0 +1,8 @@
+[07] empty ids result: null maxLevel: 31
+[07] messages: []
+[filewrite] files/07-empty-ids-and-negative-empty-ids.json (56 bytes)
+[07] inst: 105
+[07] instance id result: null maxLevel: 51
+[07] messages: [{"api":"v1.assembly.deleteTemplate","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" has a wrong id type! Provide only following id types: [\"part/assembly\"]"}]
+[filewrite] files/07-empty-ids-and-negative-instance-id.json (295 bytes)
+[07] templates after: [22]

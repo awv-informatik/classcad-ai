@@ -1,0 +1,14 @@
+{
+  "union2d": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.union2d",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CurveAPI_v1.union2d::PROC:A boolean operation requires distinct target and tool entities (the same id was given for both).\nFunction: CADH_AddSolid\nFile: /Users/dev/dev/classcad/runtime/Source/SMLibService/c/SMLibService.cpp,     Line: 6211] "
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+[16] region class: CC_SketchRegion
+[16] region name: DetailRegion
+[16] region parent: 10
+[16] parent class: CC_GeometrySet
+[16] curves member count: 4
+[16] selected member count: 4
+[16] sketch member: 52
+[filewrite] files/16-region-structure-detail-region-node.json (1538 bytes)

@@ -1,0 +1,9 @@
+[10] target: 61
+[10] after union: result= 61 maxLevel= 31
+[10] after sub: result= 61 maxLevel= 31
+[10] after intersection: result= null maxLevel= 51
+[10] intersection messages: [{"api":"v1.solid.intersection","code":1001,"level":51,"levelStr":"ERROR","message":"An element of parameter \"tools\" has the wrong type! It should be of type (string|real|id)"}]
+[10] translate after int: maxLevel= 31
+[10] merge after destroyed int: result= 61 maxLevel= 31
+[10] merge messages: []
+[filewrite] files/10-intersection-chain-mystery-mystery-results.json (564 bytes)

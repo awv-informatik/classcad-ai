@@ -1,0 +1,4 @@
+[05] boxId: 54 cylId: 91 boolId: 110
+[05] updated box height to 100 while bar is before boolean
+[05] moveToEnd — result: null maxLevel: 31
+[filewrite] files/05-recalc-propagation-moveToEnd-propagate.json (56 bytes)

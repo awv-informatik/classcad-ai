@@ -1,0 +1,18 @@
+{
+  "curvesDxf": {
+    "success": 0,
+    "contentLength": 0,
+    "maxLevel": 51,
+    "messages": [
+      "[Evaluation error in GeometryExportManager.StoreGeometryToStream:[CCVM::lcm: Function CADH_GetDxfTemplateFile not found]] "
+    ]
+  },
+  "sketchDxf": {
+    "success": 0,
+    "contentLength": 0,
+    "maxLevel": 51,
+    "messages": [
+      "[Evaluation error in GeometryExportManager.StoreGeometryToStream:[CCVM::lcm: Function CADH_GetDxfTemplateFile not found]] "
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+[04] circle: 58
+[04] result: [58]
+[04] maxLevel: 31
+[04] result length: 1
+[04] result[0] === circle? true
+[filewrite] files/04-single-curve-single-response.json (70 bytes)
+[filewrite] files/04-single-curve-single-structure.json (26382 bytes)

@@ -1,0 +1,5 @@
+[14] A construction {"segs":1,"iv":[0,1],"idReused":true} | normal {"segs":2,"iv":[0,0.49999999999999983],"idReused":false} msgs 0 max 31
+[14] B rigid R1 {"segs":1,"iv":[0,1],"idReused":true} R2 {"segs":1,"iv":[0,1],"idReused":true} | free {"segs":3,"iv":[0,0.2],"idReused":false} msgs 0 max 31
+[filewrite] files/14-construction-rigidset-passthrough-14-passthrough.json (676 bytes)
+[14] CHECKS {"A_constructionUncut":true,"A_normalSplit":true,"A_noWarning":true,"B_rigidMembersUncut":true,"B_freeSplits3":true,"B_noRigidsetError":true}
+[14] PASS

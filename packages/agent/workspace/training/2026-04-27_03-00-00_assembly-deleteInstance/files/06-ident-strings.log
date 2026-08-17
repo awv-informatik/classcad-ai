@@ -1,0 +1,6 @@
+[06] inst1: 107 inst2: 109
+[06] before: [ 107, 109 ]
+[06] delete by ident result: null maxLevel: 31
+[filewrite] files/06-ident-strings-ident-delete-response.json (56 bytes)
+[06] after: [ 109 ]
+[06] inst2 survived: true

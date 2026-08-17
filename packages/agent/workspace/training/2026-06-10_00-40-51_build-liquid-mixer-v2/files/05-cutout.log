@@ -1,0 +1,6 @@
+[05] cutout arcs: [278,283] maxLevel: 31
+[05] cutout extrusion: 290 maxLevel: 31 []
+[05] subtraction: 347 maxLevel: 31
+[05] vol: 347211.68 expected: 347243.76 delta%: -0.0092
+[05] COG: {"x":60.28544119363163,"y":40.00011256885345,"z":20.29553857974322} expected ~(60.284, 40.000, 20.297)
+[filewrite] files/05-cutout-cutout-verify.json (232 bytes)

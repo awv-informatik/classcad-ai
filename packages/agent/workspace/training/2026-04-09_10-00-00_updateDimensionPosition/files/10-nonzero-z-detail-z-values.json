@@ -1,0 +1,89 @@
+[
+  {
+    "z": 0.001,
+    "result": null,
+    "maxLevel": 51,
+    "dimPt": {
+      "x": 40,
+      "y": 25,
+      "z": 0
+    },
+    "messages": [
+      {
+        "api": "v1.sketch.updateDimensionPosition",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"pos\" which is a 2D point, must have a z-value of 0!"
+      }
+    ]
+  },
+  {
+    "z": 1,
+    "result": null,
+    "maxLevel": 51,
+    "dimPt": {
+      "x": 40,
+      "y": 25,
+      "z": 0
+    },
+    "messages": [
+      {
+        "api": "v1.sketch.updateDimensionPosition",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"pos\" which is a 2D point, must have a z-value of 0!"
+      }
+    ]
+  },
+  {
+    "z": -1,
+    "result": null,
+    "maxLevel": 51,
+    "dimPt": {
+      "x": 40,
+      "y": 25,
+      "z": 0
+    },
+    "messages": [
+      {
+        "api": "v1.sketch.updateDimensionPosition",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"pos\" which is a 2D point, must have a z-value of 0!"
+      }
+    ]
+  },
+  {
+    "z": 50,
+    "result": null,
+    "maxLevel": 51,
+    "dimPt": {
+      "x": 40,
+      "y": 25,
+      "z": 0
+    },
+    "messages": [
+      {
+        "api": "v1.sketch.updateDimensionPosition",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"pos\" which is a 2D point, must have a z-value of 0!"
+      }
+    ]
+  },
+  {
+    "z": 0,
+    "result": null,
+    "maxLevel": 31,
+    "dimPt": {
+      "x": 40,
+      "y": 25,
+      "z": 0
+    },
+    "messages": []
+  }
+]

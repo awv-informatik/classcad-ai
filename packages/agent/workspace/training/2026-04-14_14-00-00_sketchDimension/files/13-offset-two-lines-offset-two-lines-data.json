@@ -1,0 +1,22 @@
+{
+  "dimId": 76,
+  "maxLevel": 31,
+  "messages": [],
+  "dimClass": "CC_LinearFeatureDimension",
+  "l2After": {
+    "start": {
+      "pos": {
+        "x": 0,
+        "y": 50,
+        "z": 0
+      }
+    },
+    "end": {
+      "pos": {
+        "x": 80,
+        "y": 50,
+        "z": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+[09] region in sketch1: 98 geom from sketch2: [ 100, 108, 114 ]
+[09] cross-sketch result: null maxLevel: 31
+[09] messages: []
+[filewrite] files/09-cross-sketch-geom-cross-sketch.json (56 bytes)
+[09] geom after cross-sketch: {"arcs":[],"circles":[],"lines":[100,108,114],"points":[]}
+[filewrite] files/09-cross-sketch-geom-cross-sketch-geom.json (93 bytes)

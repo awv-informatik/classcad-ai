@@ -1,0 +1,4 @@
+[05] batch result: null maxLevel: 31
+[filewrite] files/05-batch-batch-response.json (56 bytes)
+[05] COG after batch: {"x":64.99999999999999,"y":10.000000000000002,"z":7.5}
+[filewrite] files/05-batch-batch-cog.json (120 bytes)

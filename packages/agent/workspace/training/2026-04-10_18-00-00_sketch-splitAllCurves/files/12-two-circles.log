@@ -1,0 +1,9 @@
+[12] c1: 58 c2: 63
+[12] result: [76,81,86,91]
+[12] maxLevel: 31
+[12] result length: 4
+[12] segment 76 : CC_Arc Circle_part0
+[12] segment 81 : CC_Arc Circle_part1
+[12] segment 86 : CC_Arc Circle0_part0
+[12] segment 91 : CC_Arc Circle0_part1
+[filewrite] files/12-two-circles-circles-response.json (94 bytes)

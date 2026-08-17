@@ -1,0 +1,6 @@
+[10] sketch: 52
+[10] deleteObject(sketchId) result: null maxLevel: 51
+[10] messages: [{"api":"v1.sketch.deleteObject","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" has a wrong id type! Provide only following id types: [\"dimension\",\"sketch-curve\",\"sketch-point\",\"2dconstraint\",\"sketchregion\"]"}]
+[filewrite] files/10-deleteObject-vs-deleteSketch-deleteObject-sketch-response.json (355 bytes)
+[10] getSketch after deleteObject: 52 maxLevel: 31
+[10] sketch still exists? true

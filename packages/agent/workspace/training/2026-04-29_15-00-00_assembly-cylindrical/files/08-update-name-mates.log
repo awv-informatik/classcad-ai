@@ -1,0 +1,12 @@
+[08] created: 309
+[08] rename: 309 maxLevel: 31
+[08] old name get: null maxLevel: 51
+[08] new name get: 309 RenamedCyl
+[08] update flip: 309 maxLevel: 31
+[08] mate2 after flip update: -Z path preserved: [297]
+[08] update reorient: 309 maxLevel: 31
+[08] mate1 after reorient: 180 flip preserved: Z
+[08] retarget: 309 maxLevel: 31
+[08] mate2 after retarget: [299] csys: 289
+[08] asm ID error: null maxLevel: 51 msg: The provided id for the constraint is not a constraint or relation.
+[filewrite] files/08-update-name-mates-update-name-mates.json (833 bytes)

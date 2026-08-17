@@ -1,0 +1,7 @@
+[09] sketchId: 60
+[09] rectangle result: [ 66, 72, 78, 84 ] maxLevel: 31
+[09] lineIds: [ 66, 72, 78, 84 ]
+[09] extrusion with sketch IDs result: 105
+[09] maxLevel: 31
+[09] messages: []
+[filewrite] files/09-sketch-curves-sketch-curves.json (133 bytes)

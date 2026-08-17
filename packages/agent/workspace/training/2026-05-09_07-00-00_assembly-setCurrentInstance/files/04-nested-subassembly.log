@@ -1,0 +1,13 @@
+[04] subAsmTpl: 105
+[04] innerInst (in subAsm template): 115
+[04] subInst (subAsm instance in root): 117
+[04] directInst: 120
+[04] setCurrentInstance(subInst) result: null maxLevel: 31
+[04] After setCurrentInstance(subInst), previous product: 105
+[04] (subAsmTpl = 105 )
+[04] innerInstances from subInst: [118]
+[filewrite] files/04-nested-subassembly-inner-instances.json (9 bytes)
+[04] expandedInnerId: 118
+[04] setCurrentInstance(expandedInner) result: null maxLevel: 31
+[04] After setCurrentInstance(expandedInner), previous product: 22
+[04] (tpl1 = 22 )

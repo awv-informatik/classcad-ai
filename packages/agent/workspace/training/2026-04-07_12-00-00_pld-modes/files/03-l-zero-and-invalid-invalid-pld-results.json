@@ -1,0 +1,46 @@
+{
+  "zeroLength": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "angleOnly": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.advancedPolyline",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Not enough data in PointLineDefinition!"
+      }
+    ]
+  },
+  "lengthOnly": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.advancedPolyline",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "'l' must not be used without either 'a' or 'ar' in PointLineDefinition!"
+      }
+    ]
+  },
+  "emptyPLD": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.advancedPolyline",
+        "code": 1003,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The object \"pld\" is empty!"
+      }
+    ]
+  },
+  "zeroRelative": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

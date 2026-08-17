@@ -1,0 +1,3 @@
+[12] no-sketch result: null maxLevel: 51
+[12] messages: [{"api":"v1.part.getSketchRegion","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't find sketch region with name: \"Anything\""}]
+[filewrite] files/12-no-sketch-in-part-no-sketch.json (245 bytes)

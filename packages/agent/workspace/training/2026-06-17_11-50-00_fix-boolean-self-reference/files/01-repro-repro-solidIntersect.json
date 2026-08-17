@@ -1,0 +1,14 @@
+{
+  "solidIntersect": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.intersection",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SolidAPI_v1.intersection::PROC:A boolean operation requires distinct target and tool entities (the same id was given for both).\nFunction: CADH_IntersectSolid\nFile: /Users/dev/dev/classcad/runtime/Source/SMLibService/c/SMLibService.cpp,     Line: 6211] "
+      }
+    ]
+  }
+}

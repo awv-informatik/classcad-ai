@@ -1,0 +1,9 @@
+[filewrite] files/06-sprocket-custom52-report-35B52SS.json (2618 bytes)
+[06] built 35B52SS {"name":"35B52SS","teeth":52,"strands":1,"hubStyle":"B","PD":6.2108,"blankOD":6.3983,"ansiOD":6.4245,"rootR":3.0034,"flatTip":true,"toothThk":0.168,"bore":2,"hubDia":4.5,"hubProj":0.6,"keyway":{"keyWidth":0.5,"keyDepth":0.25,"screwDia":0.5},"screws":[{"v":0.38399999999999995,"azimuth":0,"dia":0.5},{"v":0.38399999999999995,"azimuth":-90,"dia":0.5}],"vMin":-0.084,"vMax":0.684,"strandGap":0}
+[06] check ✓ root-radius: {"label":"root-radius","ok":true,"worstErrIn":4.440892098500626e-16,"edgeId":15075}
+[06] check ✓ tip-flat-corner: {"label":"tip-flat-corner","ok":true,"worstErrIn":1.5265566588595902e-16,"edgeId":15798}
+[06] check ✓ bore-rim: {"label":"bore-rim","ok":true,"worstErrIn":5.551115123125783e-17,"edgeId":18262}
+[06] check ✓ hub-od: {"label":"hub-od","ok":true,"radErrIn":4.725109192804666e-13,"endErrIn":0,"nPts":6}
+[06] check ✓ bore-chamfer-full-ring: {"label":"bore-chamfer-full-ring","ok":true,"worstErrIn":2.2912233865746146e-7,"azisProbed":16,"rimArcs":4}
+[06] check ✓ volume: {"label":"volume","ok":true,"cadIn3":11.51269,"mcIn3":11.55401,"chamferAllowIn3":0.00565,"deviation":"0.31%"}
+[06] check ✓ cog: {"label":"cog","ok":true,"offAxisIn":0.0427,"alongAxisIn":0.2362}

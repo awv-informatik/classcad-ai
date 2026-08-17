@@ -1,0 +1,11 @@
+[12] cylinder brep elements: [{"type":"line","index":0,"id":75},{"type":"arc","index":0,"id":76},{"type":"arc","index":1,"id":77},{"type":"face","index":0,"id":73},{"type":"face","index":1,"id":72},{"type":"face","index":2,"id":74},{"type":"point","index":0,"id":79},{"type":"point","index":1,"id":78}]
+[12]   id:75 (line idx:0) positions: [{"x":20,"y":0,"z":30}]
+[12]   id:76 (arc idx:0) positions: [{"x":-20,"y":2.4492935982947065e-15,"z":0}]
+[12]   id:77 (arc idx:1) positions: [{"x":-20,"y":2.4492935982947065e-15,"z":60}]
+[12]   id:73 (face idx:0) positions: [{"x":-20,"y":2.4492935982947065e-15,"z":0}]
+[12]   id:72 (face idx:1) positions: [{"x":20,"y":0,"z":30},{"x":-20,"y":2.4492935982947065e-15,"z":0},{"x":-20,"y":2.4492935982947065e-15,"z":60}]
+[12]   id:74 (face idx:2) positions: [{"x":-20,"y":2.4492935982947065e-15,"z":60}]
+[12]   id:79 (point idx:0) positions: [{"x":20,"y":0,"z":0}]
+[12]   id:78 (point idx:1) positions: [{"x":20,"y":0,"z":60}]
+[filewrite] files/12-cylinder-brep-cylinder-brep-positions.json (1166 bytes)
+[filewrite] files/12-cylinder-brep-cylinder-brep-elements.json (466 bytes)

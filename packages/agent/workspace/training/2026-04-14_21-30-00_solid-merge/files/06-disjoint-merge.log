@@ -1,0 +1,5 @@
+[06] box1: 61 box2: 64
+[06] merge result: 61 maxLevel: 31
+[06] merge msgs: []
+[06] container 59 : meshes= 12 edges= 24
+[filewrite] files/06-disjoint-merge-disjoint-merge-response.json (54 bytes)

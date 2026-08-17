@@ -1,0 +1,7 @@
+[15] uncommitted boxId: 52
+[15] toolBox: null
+[15] boolean with uncommitted target: null maxLevel: 51 msg: There is still an uncommited feature called "PreCommitBox", 
+			please commit or decline the feature first.
+[15] linkWithExpression on uncommitted: null maxLevel: 31 msg: none
+[15] mass properties: {"cog":{"x":40,"y":50,"z":50},"volume":800000}
+[filewrite] files/15-use-before-commit-before-commit-ops.json (1223 bytes)

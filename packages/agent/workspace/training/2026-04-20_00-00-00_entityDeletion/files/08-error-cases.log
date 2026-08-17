@@ -1,0 +1,7 @@
+[08] invalid target result: null maxLevel: 51
+[08] invalid target msg: ToId()/TOID() didn't get an existing or valid id.
+[08] out-of-range index result: null maxLevel: 51
+[08] out-of-range msg: [Evaluation error in APIHelper.PrepareEntityObjs:[CCVM::ldm: objId not found]] 
+[08] empty targets result: null maxLevel: 51
+[08] empty targets msg: The type "0" is not supported in PrepareAPIParams!
+[filewrite] files/08-error-cases-error-responses.json (1108 bytes)

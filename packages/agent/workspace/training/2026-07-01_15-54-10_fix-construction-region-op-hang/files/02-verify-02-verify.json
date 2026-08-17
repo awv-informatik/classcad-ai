@@ -1,0 +1,134 @@
+[
+  {
+    "label": "extrude-construction",
+    "verdict": "ERROR",
+    "result": 100,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "No usable (non-construction) geometry was selected for this operation."
+      },
+      {
+        "level": 51,
+        "code": 1111,
+        "message": "There is no sketch region for Extrusion (CC_Extrusion)"
+      }
+    ]
+  },
+  {
+    "label": "extrude-normal",
+    "verdict": "BUILT",
+    "result": 150,
+    "maxLevel": 31
+  },
+  {
+    "label": "revolve-construction",
+    "verdict": "ERROR",
+    "result": 239,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "No usable (non-construction) geometry was selected for this operation."
+      },
+      {
+        "level": 51,
+        "code": 1111,
+        "message": "There is no sketch region for Revolve (CC_Revolve)"
+      }
+    ]
+  },
+  {
+    "label": "revolve-normal",
+    "verdict": "BUILT",
+    "result": 295,
+    "maxLevel": 31
+  },
+  {
+    "label": "twist-construction",
+    "verdict": "ERROR",
+    "result": 366,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "Selection of construction geometry is not allowed."
+      },
+      {
+        "level": 51,
+        "code": 0,
+        "message": "No usable (non-construction) geometry was selected for this operation."
+      },
+      {
+        "level": 51,
+        "code": 1111,
+        "message": "There is no sketch region for Twist (CC_Twist)"
+      }
+    ]
+  },
+  {
+    "label": "twist-normal",
+    "verdict": "BUILT",
+    "result": 416,
+    "maxLevel": 31
+  }
+]

@@ -1,0 +1,6 @@
+[07] zero radius: result: 58 maxLevel: 31
+[07] negative radius: result: 65 maxLevel: 31
+[07] non-zero Z: result: null maxLevel: 51
+[07] messages: [{"api":"v1.sketch.circle","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"centerPos\" which is a 2D point, must have a z-value of 0!"}]
+[07] micro radius (0.001): result: 68 maxLevel: 31
+[07] huge radius (100000): result: 71 maxLevel: 31

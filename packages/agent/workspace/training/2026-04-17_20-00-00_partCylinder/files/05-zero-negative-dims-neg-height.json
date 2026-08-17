@@ -1,0 +1,13 @@
+{
+  "result": 84,
+  "messages": [
+    {
+      "api": "v1.part.cylinder",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Height not valid for NegHeight (CC_Cylinder). Value for height must be greater than 0."
+    }
+  ],
+  "maxLevel": 51
+}

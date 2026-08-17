@@ -1,0 +1,6 @@
+[04] gearTpl: 22 shaftTpl: 95 gearboxTpl: 168
+[04] gearbox instances — shaft: 178 gear1: 180 gear2: 182
+[04] root instances — gbox1: 184 gbox2: 189
+[04] getInstance(gbox1 children): [185,186,187]
+[04] getInstance(gearboxTpl children): [178,180,182]
+[filewrite] files/04-nested-assembly-nested-structure.json (71583 bytes)

@@ -1,0 +1,4 @@
+[14] region1: 156 region2: 158
+[14] batch update result: null maxLevel: 31
+[14] messages: []
+[filewrite] files/14-update-batch-batch-update.json (61 bytes)

@@ -1,0 +1,11 @@
+[07] Testing ECXML format and more field names...
+[07] ECXML v1: result: 14 maxLevel: 51
+[07]   msg: This node type is not implemented yet. Creating it will be skipped. Type: ecxml
+[filewrite] files/07-ecxml-and-fields-ecxml-v1.json (1204 bytes)
+[07] XML v1: result: 14 maxLevel: 51
+[07]   msg: This node type is not implemented yet. Creating it will be skipped. Type: ecxml
+[filewrite] files/07-ecxml-and-fields-xml-v1.json (1204 bytes)
+[07] ECXML file: result: 14 maxLevel: 51
+[07]   msg: This node type is not implemented yet. Creating it will be skipped. Type: ecxml
+[filewrite] files/07-ecxml-and-fields-ecxml-file.json (1204 bytes)
+[07] Field scan done

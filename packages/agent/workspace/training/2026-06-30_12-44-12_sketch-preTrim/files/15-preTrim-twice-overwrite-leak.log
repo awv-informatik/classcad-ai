@@ -1,0 +1,8 @@
+[filewrite] files/15-preTrim-twice-overwrite-leak-15-twice.json (239 bytes)
+[15] pre2 maxLevel 31 | ids1 [78,82,86,90] ids2 [104,108,112,116]
+[15] SplittedCurves childCount: pre1 4 pre2 4 (constant?)
+[15] pre1 seg getPositions maxLevels (expect 51 dead): [51,51,51,51]
+[15] containers after postTrim: ["NoneSplitted0"]
+[15] CHECKS {"pre2Silent":true,"freshIds":true,"pre1Dead":true,"childCountConstant":true}
+[15] PASS
+[15] NoneSplitted0 leak? true

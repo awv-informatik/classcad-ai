@@ -1,0 +1,8 @@
+[04] boxId: 54 sheetId: 131
+[filewrite] files/04-investigate-result-before-structure.json (49237 bytes)
+[04] result: 174 maxLevel: 31
+[filewrite] files/04-investigate-result-response.json (55 bytes)
+[filewrite] files/04-investigate-result-after-structure.json (51097 bytes)
+[04] graphic: meshes: 0 edges: 0
+[04] boolean index 0: 234 maxLevel: 51
+[04] bool0 msgs: ["The body used for Union (CC_Union) is a Sheet, please select a solid."]

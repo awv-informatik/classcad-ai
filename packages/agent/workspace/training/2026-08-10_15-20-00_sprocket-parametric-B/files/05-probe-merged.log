@@ -1,0 +1,5 @@
+[05a] merged disjoint: {"result":99,"maxLevel":31,"msgs":[],"vol":80000}
+[05b] merged overlapping: {"result":99,"maxLevel":31,"msgs":[],"vol":36914.87483155918}
+[05c] merged pattern: 120 maxLevel 31 []
+[05c] count 6→9 regen: {"patLevel":31,"boolLevel":31,"vol6":72461.17164545368,"vol9":71184.9094752809,"cutMore":true,"updLevel":31}
+[filewrite] files/05-probe-merged-merged-probe.json (357 bytes)

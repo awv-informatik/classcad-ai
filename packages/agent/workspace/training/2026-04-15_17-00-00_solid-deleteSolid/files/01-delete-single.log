@@ -1,0 +1,7 @@
+[01] box1: 61 box2: 64
+[01] deleteSolid result: null
+[01] deleteSolid maxLevel: 31
+[01] deleteSolid messages: []
+[filewrite] files/01-delete-single-delete-response.json (56 bytes)
+[filewrite] files/01-delete-single-structure-after.json (21058 bytes)
+[filewrite] files/01-delete-single-graphic-after.json (4 bytes)

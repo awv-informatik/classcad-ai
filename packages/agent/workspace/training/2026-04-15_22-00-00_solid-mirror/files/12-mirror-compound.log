@@ -1,0 +1,4 @@
+[12] compound bbox before: {"min":[-3,-3,-5],"max":[3,3,5]}
+[12] compound bbox after: {"min":[-90,-30,-10],"max":[-10,30,10]}
+[12] mirror result: 61 maxLevel: 31
+[filewrite] files/12-mirror-compound-compound-mirror.json (234 bytes)

@@ -1,0 +1,8 @@
+[01] asmId: 12
+[01] tplId: 22
+[01] boxId: 70
+[01] inst0 result: 105 maxLevel: 31
+[filewrite] files/01-basic-instance-inst0-response.json (55 bytes)
+[01] inst1 result: 107 maxLevel: 31
+[01] inst2 result: 109 maxLevel: 31
+[filewrite] files/01-basic-instance-inst0-structure.json (27955 bytes)

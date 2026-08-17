@@ -1,0 +1,72 @@
+{
+  "test1_invalidId": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.geometry.getGeometryPositions",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.geometry.getGeometryPositions",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"elems\" has an invalid id!"
+      }
+    ]
+  },
+  "test2_partId": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.geometry.getGeometryPositions",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"elems\" has a wrong id type! Provide only following id types: [\"edge-line\",\"edge-arc\",\"edge-circle\",\"vertex\",\"face-plane\",\"face-cylindrical\",\"face-conical\",\"face-spherical\",\"edge-nurbs\",\"face-nurbs\"]"
+      }
+    ]
+  },
+  "test3_featureId": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.geometry.getGeometryPositions",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"elems\" has a wrong id type! Provide only following id types: [\"edge-line\",\"edge-arc\",\"edge-circle\",\"vertex\",\"face-plane\",\"face-cylindrical\",\"face-conical\",\"face-spherical\",\"edge-nurbs\",\"face-nurbs\"]"
+      }
+    ]
+  },
+  "test4_emptyArray": {
+    "maxLevel": 31,
+    "result": []
+  },
+  "test5_mixedIds": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.geometry.getGeometryPositions",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.geometry.getGeometryPositions",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"elems\" has an invalid id!"
+      }
+    ]
+  }
+}

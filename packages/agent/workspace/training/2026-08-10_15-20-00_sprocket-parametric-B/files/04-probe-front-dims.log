@@ -1,0 +1,5 @@
+[04] constraints: 31
+[04] dims: 31 []
+[04] solved center (world): {"x":10.6,"y":0,"z":0}
+[04] numeric VD=0: 31 []
+[filewrite] files/04-probe-front-dims-front-dims.json (87 bytes)

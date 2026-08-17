@@ -1,0 +1,25 @@
+{
+  "createdIds": {
+    "arcsBy3Points": [],
+    "arcsByCenter": [],
+    "circles": [],
+    "lines": [
+      58,
+      66
+    ],
+    "points": []
+  },
+  "queriedIds": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58,
+      66
+    ],
+    "points": []
+  },
+  "createdPointCount": 0,
+  "queriedPointCount": 0,
+  "createdLineCount": 2,
+  "queriedLineCount": 2
+}

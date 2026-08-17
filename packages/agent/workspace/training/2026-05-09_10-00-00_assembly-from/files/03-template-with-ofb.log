@@ -1,0 +1,9 @@
+[03] Building a part, exporting OFB, then using in assembly.from...
+[03] Part created: 4 box: 54
+[03] OFB data length: 46180
+[03] template with ofb data: result: 14 maxLevel: 51
+[filewrite] files/03-template-with-ofb-template-ofb.json (275 bytes)
+[03] template with ofb+format: result: 14 maxLevel: 51
+[filewrite] files/03-template-with-ofb-template-ofb-format.json (275 bytes)
+[03] template with ofb+format+encoding: result: 14 maxLevel: 51
+[filewrite] files/03-template-with-ofb-template-ofb-format-encoding.json (275 bytes)

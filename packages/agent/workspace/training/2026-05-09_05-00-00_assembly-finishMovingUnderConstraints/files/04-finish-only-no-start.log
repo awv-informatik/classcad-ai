@@ -1,0 +1,2 @@
+[04] COG before: { x: 20, y: 15, z: 10 }
+[stderr] [run] Script error: Timeout (30000ms): Execute

@@ -1,0 +1,6 @@
+[11] frontId: 42
+[11] sketchId: 52
+[11] lines: [ 58, 64, 70, 76 ]
+[11] region: 92
+[11] extrusion: 96 maxLevel: 31
+[filewrite] files/11-non-xy-plane-front-plane.json (54 bytes)

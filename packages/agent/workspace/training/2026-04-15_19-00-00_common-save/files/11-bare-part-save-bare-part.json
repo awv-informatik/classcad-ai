@@ -1,0 +1,18 @@
+{
+  "ofb": {
+    "success": 1,
+    "length": 12956,
+    "maxLevel": 31
+  },
+  "stp": {
+    "success": 1,
+    "length": 1794,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "stl": {
+    "success": 1,
+    "length": 0,
+    "maxLevel": 31
+  }
+}

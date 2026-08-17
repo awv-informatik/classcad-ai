@@ -1,0 +1,3 @@
+[16] post-recalc result: null maxLevel: 51
+[16] messages: [{"api":"v1.curve.transformShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/16-recalc-invalidation-recalc-invalidation-response.json (247 bytes)

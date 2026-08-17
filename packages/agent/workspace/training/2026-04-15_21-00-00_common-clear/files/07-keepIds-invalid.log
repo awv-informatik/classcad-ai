@@ -1,0 +1,5 @@
+[07] partId: 4 eifId: 54 boxId: 61
+[07] keepIds=[999999] — result: null maxLevel: 51
+[07] messages: [{"api":"v1.common.clear","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.clear","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"keepIds\" has an invalid id!"}]
+[filewrite] files/07-keepIds-invalid-keep-invalid.json (422 bytes)
+[07] new partId after clear with invalid keepIds: null

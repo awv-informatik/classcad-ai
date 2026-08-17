@@ -1,0 +1,21 @@
+{
+  "ids": {
+    "partTpl": 22,
+    "asmTpl": 68
+  },
+  "assemblyQuery": {
+    "list": [
+      68
+    ],
+    "byName": 68
+  },
+  "partQuery": {
+    "list": [
+      22
+    ],
+    "byName": 22
+  },
+  "noContamination": true,
+  "asmListExcludesPart": true,
+  "partListExcludesAsm": true
+}

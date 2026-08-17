@@ -1,0 +1,289 @@
+{
+  "root": 12,
+  "currentProduct": 22,
+  "currentInstance": 12,
+  "testRoot": 0,
+  "tree": {
+    "1": {
+      "name": "AllObjects",
+      "class": "AllObjects",
+      "id": 1,
+      "flags": 0,
+      "parent": null,
+      "members": {
+        "drawingUnit": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "uncommitedObjectsIds": {
+          "members": [],
+          "type": "array",
+          "visible": 0,
+          "expression": ""
+        }
+      },
+      "children": [
+        4,
+        6,
+        8,
+        10,
+        12
+      ]
+    },
+    "8": {
+      "name": "PartContainer",
+      "class": "CC_PartContainer",
+      "id": 8,
+      "flags": 16,
+      "parent": 1,
+      "members": {
+        "rootPath": {
+          "value": "\\",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "fileExtension": {
+          "value": "",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "fileImportOption": {
+          "value": 1,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "productRefCreation": {
+          "value": 3,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "copyDimensions": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "createSubRefs": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "doNotRecalc": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    },
+    "10": {
+      "name": "AssemblyContainer",
+      "class": "CC_AssemblyContainer",
+      "id": 10,
+      "flags": 0,
+      "parent": 1
+    },
+    "12": {
+      "instances": [],
+      "instancesNested": [],
+      "dimensions": [],
+      "name": "ContextDeleteTest",
+      "class": "CC_AssemblyRoot",
+      "id": 12,
+      "flags": 0,
+      "parent": 1,
+      "members": {
+        "_VERSION": {
+          "value": "1/2024_6_3_19:00",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "featureRootPath": {
+          "value": "",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "cadRootPath": {
+          "value": "",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "unit": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "activeDock": {
+          "value": 0,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        "isFileAssemblyNode": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "originalName": {
+          "value": "ContextDeleteTest",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        }
+      },
+      "children": [
+        14,
+        16,
+        18
+      ]
+    },
+    "14": {
+      "name": "ExpressionSet",
+      "class": "CC_ExpressionSet",
+      "id": 14,
+      "flags": 4096,
+      "parent": 12,
+      "members": {
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    },
+    "16": {
+      "name": "ConstraintSet",
+      "class": "CC_ConstraintSet",
+      "id": 16,
+      "flags": 4096,
+      "parent": 12,
+      "members": {
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    },
+    "18": {
+      "name": "GeometrySet",
+      "class": "CC_GeometrySet",
+      "id": 18,
+      "flags": 0,
+      "parent": 12,
+      "members": {
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "csSize": {
+          "value": 20,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        }
+      },
+      "children": [
+        20
+      ]
+    },
+    "20": {
+      "name": "BaseWCSys",
+      "class": "CC_WorkCSys",
+      "id": 20,
+      "flags": 4096,
+      "coordinateSystem": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "isLocal": 1,
+      "parent": 18,
+      "members": {
+        "offset": {
+          "value": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "type": "point",
+          "visible": 1,
+          "expression": ""
+        },
+        "rotation": {
+          "value": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "type": "point",
+          "visible": 1,
+          "expression": ""
+        },
+        "inverted": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "References": {
+          "members": [],
+          "type": "array",
+          "visible": 1,
+          "expression": ""
+        },
+        "Type": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    }
+  }
+}

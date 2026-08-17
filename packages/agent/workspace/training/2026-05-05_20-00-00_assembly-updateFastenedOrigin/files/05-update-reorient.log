@@ -1,0 +1,6 @@
+[05] reorient 0:   COG: {"x":70,"y":45,"z":10}
+[05] reorient 90:  COG: {"x":67.5,"y":27.5,"z":10}
+[05] reorient 180: COG: {"x":50,"y":30.00000000000001,"z":9.999999999999998}
+[05] reorient 270: COG: {"x":52.499999999999986,"y":47.500000000000014,"z":9.999999999999993}
+[05] final: reorient=%s yOffset=%d 270 60
+[filewrite] files/05-update-reorient-reorient-results.json (626 bytes)

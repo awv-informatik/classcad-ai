@@ -1,0 +1,3 @@
+[10] shape1: 60 shape2: 62
+[10] mixed batch result: null maxLevel: 31
+[filewrite] files/10-batch-mixed-shapes-mixed-batch.json (56 bytes)

@@ -1,0 +1,4 @@
+[05] xAxis==normal: result: null maxLevel: 31
+[filewrite] files/05-xaxis-normal-interaction-xaxis-eq-normal.json (56 bytes)
+[05] xAxis perp normal: maxLevel: 31
+[05] xAxis 45deg to normal: maxLevel: 31

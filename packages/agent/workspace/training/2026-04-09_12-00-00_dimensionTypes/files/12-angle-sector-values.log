@@ -1,0 +1,11 @@
+[12] between-above: id=76 maxLevel=31
+[12] above-line2: id=80 maxLevel=31
+[12] below-left: id=84 maxLevel=31
+[12] below-right: id=88 maxLevel=31
+[12] reflex-true: id=92 maxLevel=31
+[filewrite] files/12-angle-sector-values-sector-map.json (1749 bytes)
+[12] between-above: sector=0 ccw=1 paramName=@userValue
+[12] above-line2: sector=1 ccw=0 paramName=@userValue
+[12] below-left: sector=2 ccw=1 paramName=@userValue
+[12] below-right: sector=3 ccw=0 paramName=@userValue
+[12] reflex-true: sector=2 ccw=0 paramName=@userValue

@@ -1,0 +1,25 @@
+{
+  "case1": {
+    "result": 137,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "case2": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.boolean",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Entity \"Pat\" is not available. It has already been consumed/used in another operation."
+      }
+    ]
+  },
+  "case2b": {
+    "result": 206,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

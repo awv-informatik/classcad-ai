@@ -1,0 +1,69 @@
+{
+  "assemblyIdAsConstraintId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updatePlanar",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the constraint is not a constraint or relation."
+      },
+      {
+        "api": "v1.assembly.updatePlanar",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  "bogusId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updatePlanar",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updatePlanar",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided constraint id does not exist."
+      },
+      {
+        "api": "v1.assembly.updatePlanar",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  "getPlanarBogusId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPlanar",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.getPlanar",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  }
+}

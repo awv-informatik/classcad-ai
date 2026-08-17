@@ -1,0 +1,65 @@
+{
+  "cogAfterCreate": {
+    "x": 10,
+    "y": 10,
+    "z": 32.5
+  },
+  "cogAfterXOffset": {
+    "x": 50,
+    "y": 10,
+    "z": 32.5
+  },
+  "cogAfterYOffset": {
+    "x": 50.000000000000014,
+    "y": 30.00000000000001,
+    "z": 32.50000000000001
+  },
+  "cogAfterZLimits": {
+    "x": 50,
+    "y": 30.00000000000001,
+    "z": 27.49899999999999
+  },
+  "cogAfterRemoveLimits": {
+    "x": 50,
+    "y": 30.00000000000001,
+    "z": 27.49899999999999
+  },
+  "getOldName": null,
+  "getNewName": {
+    "id": 216,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        206
+      ],
+      "reorient": "0"
+    },
+    "name": "RenamedSlide",
+    "xOffset": 40,
+    "yOffset": 20,
+    "zOffsetLimits": {
+      "max": 20,
+      "min": 10
+    }
+  },
+  "errAsmId": {
+    "result": null,
+    "maxLevel": 51,
+    "message": {
+      "api": "v1.assembly.updateSlider",
+      "code": 1007,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided id for the constraint is not a constraint or relation."
+    }
+  }
+}

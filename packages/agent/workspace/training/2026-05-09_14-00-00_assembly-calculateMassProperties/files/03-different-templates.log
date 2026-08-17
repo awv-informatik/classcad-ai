@@ -1,0 +1,10 @@
+[03] instA COG: {"x":10,"y":10,"z":10} vol: 8000
+[03] instB COG: {"x":130,"y":20,"z":15} vol: 71999.99999999999
+[03] asm COG: {"x":118,"y":19,"z":14.5} vol: 79999.99999999999
+[03] expected COG: 118.00 19.00 14.50
+[03] actual COG: 118.00 19.00 14.50
+[03] match X: true
+[03] match Y: true
+[03] match Z: true
+[03] vol match: true
+[filewrite] files/03-different-templates-different-templates.json (444 bytes)

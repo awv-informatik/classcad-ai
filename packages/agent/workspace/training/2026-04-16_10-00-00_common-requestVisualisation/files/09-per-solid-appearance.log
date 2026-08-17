@@ -1,0 +1,4 @@
+[09] container count: 2
+[09] container[0]: id=59 owner=61 color=[255,0,0] opacity=1
+[09] container[1]: id=62 owner=64 color=[0,0,255] opacity=0.7
+[filewrite] files/09-per-solid-appearance-per-solid-appearance.json (218 bytes)

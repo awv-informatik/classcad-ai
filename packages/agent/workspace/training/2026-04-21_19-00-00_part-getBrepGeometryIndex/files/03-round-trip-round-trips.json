@@ -1,0 +1,23 @@
+[
+  {
+    "type": "line",
+    "originalId": 102,
+    "index": 4,
+    "recoveredId": 102,
+    "match": true
+  },
+  {
+    "type": "line",
+    "originalId": 98,
+    "index": 0,
+    "recoveredId": 98,
+    "match": true
+  },
+  {
+    "type": "face",
+    "originalId": 111,
+    "index": 1,
+    "recoveredId": 111,
+    "match": true
+  }
+]

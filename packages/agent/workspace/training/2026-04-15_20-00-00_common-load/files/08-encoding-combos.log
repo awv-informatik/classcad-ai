@@ -1,0 +1,7 @@
+[08] Raw OFB length: 33219
+[08] B64 OFB length: 44292
+[08] Deflate+B64 OFB length: 5664
+[08] Load raw result: {"id":4} maxLevel: 31
+[08] Load b64 result: {"id":4} maxLevel: 31
+[08] Load deflate+b64 result: {"id":4} maxLevel: 31
+[filewrite] files/08-encoding-combos-encoding-combos.json (225 bytes)

@@ -1,0 +1,12 @@
+[06] doCurveTessellation=1:
+[06]   has edges: true
+[06]   has lines: false
+[06]   has arcs: false
+[06]   edge count: 3
+[06] doCurveTessellation=0:
+[06]   has edges: false
+[06]   has lines: true
+[06]   has arcs: true
+[06]   lines count: 1
+[06]   arcs count: 2
+[filewrite] files/06-doCurveTessellation-curve-tessellation.json (426 bytes)

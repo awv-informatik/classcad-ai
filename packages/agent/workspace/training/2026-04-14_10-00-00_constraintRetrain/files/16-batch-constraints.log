@@ -1,0 +1,4 @@
+[16] rectIds: [ 58, 64, 70, 76 ]
+[16] batch result: [92,94,96]
+[16] maxLevel: 31
+[filewrite] files/16-batch-constraints-batch-data.json (136 bytes)

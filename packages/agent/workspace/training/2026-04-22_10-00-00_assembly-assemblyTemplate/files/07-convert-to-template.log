@@ -1,0 +1,10 @@
+[07] initial assembly: 12 inst: 105
+[07] assembly templates before convert: []
+[07] part templates before convert: [22]
+[07] convertToTemplate result: null maxLevel: 31
+[filewrite] files/07-convert-to-template-convert-response.json (56 bytes)
+[07] after convert: currentProduct = 107
+[07] after convert: root = 107
+[07] assembly templates after convert: [12]
+[07] part templates after convert: [22]
+[filewrite] files/07-convert-to-template-structure-after-convert.json (597 bytes)

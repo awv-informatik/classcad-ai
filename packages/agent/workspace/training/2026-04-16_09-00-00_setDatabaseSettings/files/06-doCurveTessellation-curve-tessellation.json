@@ -1,0 +1,31 @@
+{
+  "tessOn": {
+    "edgeCount": 3,
+    "hasLines": false,
+    "hasArcs": false
+  },
+  "tessOff": {
+    "edgeCount": 0,
+    "hasLines": true,
+    "hasArcs": true
+  },
+  "containerKeysOn": [
+    "id",
+    "owner",
+    "type",
+    "properties",
+    "meshes",
+    "edges",
+    "vertices"
+  ],
+  "containerKeysOff": [
+    "id",
+    "owner",
+    "type",
+    "properties",
+    "meshes",
+    "lines",
+    "vertices",
+    "arcs"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "stagingAfterSplit": [],
+  "postTrimMax": 31,
+  "postTrimErr": [],
+  "stagingAfterPre": [],
+  "preResult": [
+    {
+      "sourceId": 85,
+      "splittedCurves": [
+        {
+          "id": 105,
+          "interval": [
+            0,
+            0.49999999999999983
+          ]
+        },
+        {
+          "id": 109,
+          "interval": [
+            0.49999999999999983,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": 91,
+      "splittedCurves": [
+        {
+          "id": 113,
+          "interval": [
+            0,
+            0.49999999999999983
+          ]
+        },
+        {
+          "id": 117,
+          "interval": [
+            0.49999999999999983,
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+[06] children in template: 115 117
+[06] template children result: [115,117]
+[06] template children maxLevel: 31
+[06] by name from template: 117 (expected: 117 )
+[filewrite] files/06-template-as-owner-template-owner.json (219 bytes)

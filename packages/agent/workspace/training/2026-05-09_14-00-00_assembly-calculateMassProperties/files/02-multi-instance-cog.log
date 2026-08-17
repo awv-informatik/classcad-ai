@@ -1,0 +1,6 @@
+[02] inst1 COG: {"x":30,"y":20,"z":15} vol: 72000
+[02] inst2 COG: {"x":130,"y":20,"z":15} vol: 71999.99999999999
+[02] asm COG: {"x":79.99999999999999,"y":20,"z":15} vol: 144000
+[02] expected asm COG.x: 80 actual: 79.99999999999999 match: true
+[02] expected asm vol: 144000 actual: 144000 match: true
+[filewrite] files/02-multi-instance-cog-multi-instance-results.json (445 bytes)

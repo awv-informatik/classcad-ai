@@ -1,0 +1,9 @@
+[15] diagonal section result: 64 maxLevel: 31
+[filewrite] files/15-diagonal-section-graphic.json (1511 bytes)
+[15] edges: 4
+[15] bbox min: [-20,-30,-20]
+[15] bbox max: [20,30,20]
+[15]   edge -33: 2 pts, start=[20,30,-20], end=[20,-30,-20]
+[15]   edge -34: 2 pts, start=[20,-30,-20], end=[-20,-30,20]
+[15]   edge -35: 2 pts, start=[-20,-30,20], end=[-20,30,20]
+[15]   edge -36: 2 pts, start=[-20,30,20], end=[20,30,-20]

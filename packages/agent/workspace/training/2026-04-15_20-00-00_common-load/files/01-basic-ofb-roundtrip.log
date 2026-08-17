@@ -1,0 +1,9 @@
+[01] Created part: 4 eif: 54 box: 61
+[01] Save success: 1 content length: 5712
+[01] Clear result: null maxLevel: 31
+[01] Load result: {"id":4}
+[01] Load maxLevel: 31
+[01] Load messages: []
+[filewrite] files/01-basic-ofb-roundtrip-load-response.json (73 bytes)
+[01] Original partId: 4 Loaded id: 4
+[01] IDs match: true

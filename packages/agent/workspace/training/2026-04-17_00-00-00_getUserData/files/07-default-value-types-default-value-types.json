@@ -1,0 +1,27 @@
+{
+  "stringDefault": {
+    "result": "fallback",
+    "type": "string",
+    "maxLevel": 31
+  },
+  "emptyStringDefault": {
+    "result": "",
+    "type": "string",
+    "maxLevel": 31
+  },
+  "numberDefault": {
+    "result": null,
+    "type": "object",
+    "maxLevel": 51
+  },
+  "booleanDefault": {
+    "result": null,
+    "type": "object",
+    "maxLevel": 51
+  },
+  "nullDefault": {
+    "result": null,
+    "type": "object",
+    "maxLevel": 51
+  }
+}

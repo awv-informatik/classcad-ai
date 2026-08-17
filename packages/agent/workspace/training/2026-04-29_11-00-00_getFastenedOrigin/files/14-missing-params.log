@@ -1,0 +1,6 @@
+[14] no name - result: null maxLevel: 51
+[14] no name - messages: [{"api":"v1.assembly.getFastenedOrigin","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"name\" must be provided in the api call!"}]
+[14] no id - result: null maxLevel: 51
+[14] no id - messages: [{"api":"v1.assembly.getFastenedOrigin","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[14] empty - result: null maxLevel: 51
+[filewrite] files/14-missing-params-missing-params.json (886 bytes)

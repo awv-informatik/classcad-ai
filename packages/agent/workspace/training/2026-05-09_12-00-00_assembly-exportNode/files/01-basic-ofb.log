@@ -1,0 +1,12 @@
+[01] export template OFB — success: 1 maxLevel: 31
+[01] content type: string
+[01] content length: 36005
+[01] content preview (first 100 chars): classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+ApplicationExec=classcad-cli
+ApplicationStrin
+[filewrite] files/01-basic-ofb-export-template-ofb.json (47048 bytes)
+[01] export instance OFB — success: 1 maxLevel: 31
+[01] instance content length: 36005
+[filewrite] files/01-basic-ofb-export-instance-ofb.json (47048 bytes)

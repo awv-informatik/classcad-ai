@@ -1,0 +1,10 @@
+[02] partId: 4
+[02] topPlaneId: 38
+[02] sketchId: 52
+[02] rectIds: [ 58, 64, 70, 76 ]
+[02] regionId: 92
+[02] extrusion (region) result: 96 maxLevel: 31
+[filewrite] files/02-with-planeId-region-extrusion.json (54 bytes)
+[02] rectIds2: [ 178, 182, 188, 194 ]
+[02] extrusion (lines) result: 212 maxLevel: 31
+[filewrite] files/02-with-planeId-lines-extrusion.json (55 bytes)

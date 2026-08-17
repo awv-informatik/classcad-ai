@@ -1,0 +1,5 @@
+[13] created cyl: 309 rev: 313
+[13] case A getCylindrical: 309 (cylFirst= 309 )
+[13] case A getRevolute: undefined (revSecond= 313 )
+[13] case A getCyl maxLevel: 31 getRev maxLevel: 51
+[filewrite] files/13-cross-type-name-order-cross-type-order.json (1027 bytes)

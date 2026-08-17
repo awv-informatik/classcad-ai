@@ -1,0 +1,9 @@
+[15] lineId: 58
+[15] parallel-one-line result: 62 maxLevel: 31
+[15] parallel-one-line messages: []
+[15] invalid-type result: null maxLevel: 51
+[15] invalid-type messages: [{"api":"v1.sketch.constraint","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"type\" is not valid. Possible values are: [\"COINCIDENT\",\"COLINEAR\",\"CONCENTRIC\",\"EQUAL_LENGTH\",\"EQUAL_RADIUS\",\"FIXATION\",\"HORIZONTAL\",\"MIDPOINT\",\"PARALLEL\",\"PERPENDICULAR\",\"SPLINE_FIT_POINT\",\"SYMMETRY\",\"TANGENT\",\"VERTICAL\"]"}]
+[15] first horizontal result: 64 maxLevel: 31
+[15] redundant horizontal result: 66 maxLevel: 31
+[15] redundant messages: []
+[filewrite] files/15-error-cases-error-cases-response.json (784 bytes)

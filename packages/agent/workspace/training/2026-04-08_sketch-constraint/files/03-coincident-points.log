@@ -1,0 +1,5 @@
+[03] line1Id: 58 line2Id: 62
+[03] line1 points: {"endId":60,"startId":59} line2 points: {"endId":64,"startId":63}
+[03] coincident result: 66 maxLevel: 31
+[03] messages: []
+[filewrite] files/03-coincident-points-coincident-response.json (54 bytes)

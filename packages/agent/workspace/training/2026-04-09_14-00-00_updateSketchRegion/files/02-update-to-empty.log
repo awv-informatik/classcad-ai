@@ -1,0 +1,6 @@
+[02] regionId: 92
+[02] empty update result: null maxLevel: 51
+[02] messages: [{"api":"v1.sketch.updateSketchRegion","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.UpdateSketchRegions:[Index 0 ausserhalb des Arraybereichs] not defined !] "}]
+[filewrite] files/02-update-to-empty-empty-update.json (309 bytes)
+[02] geom after empty: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[filewrite] files/02-update-to-empty-geom-after-empty.json (132 bytes)

@@ -1,0 +1,9 @@
+[23] s1 line graphic?: true
+  edge verts=2
+  points: (0,0) -> (50,0)
+[filewrite] files/23-immediate-graphic-s1-line-graphic.json (759 bytes)
+[23] s2 arc graphic?: true
+  type=2 edges=1
+    edge verts=17
+[filewrite] files/23-immediate-graphic-s2-arc-graphic.json (1682 bytes)
+[23] s2 graphic container count: 1

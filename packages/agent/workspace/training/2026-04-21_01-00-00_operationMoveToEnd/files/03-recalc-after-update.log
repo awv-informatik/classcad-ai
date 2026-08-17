@@ -1,0 +1,5 @@
+[03] partId: 4 boxId: 54 cylId: 91
+[03] updateBox height=80 — result: 54 maxLevel: 31
+[filewrite] files/03-recalc-after-update-updateBox-result.json (54 bytes)
+[03] moveToEnd after update — result: null maxLevel: 31
+[filewrite] files/03-recalc-after-update-moveToEnd-after-update.json (56 bytes)

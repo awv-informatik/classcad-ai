@@ -1,0 +1,10 @@
+[01] asmId: 12
+[01] partTemplate id: 22
+[01] instance id: 105
+[filewrite] files/01-basic-convert-structure-before.json (65 bytes)
+[01] convertToTemplate result: null
+[01] convertToTemplate maxLevel: 31
+[01] convertToTemplate messages: []
+[filewrite] files/01-basic-convert-convert-response.json (56 bytes)
+[filewrite] files/01-basic-convert-structure-after.json (68 bytes)
+[filewrite] files/01-basic-convert-full-structure-after.json (31737 bytes)

@@ -1,0 +1,3 @@
+[08] radius=0.001: 60 maxLevel: 31
+[08] radius=10000: 63 maxLevel: 31
+[filewrite] files/08-very-small-large-size-extremes.json (112 bytes)

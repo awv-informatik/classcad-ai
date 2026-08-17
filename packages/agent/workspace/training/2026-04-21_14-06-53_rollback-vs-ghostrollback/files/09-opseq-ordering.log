@@ -1,0 +1,94 @@
+[09] OperationSequence node keys: name, class, id, flags, parent, members, children
+[09] Full node: {
+  "name": "OperationSequence",
+  "class": "CC_OperationSequence",
+  "id": 18,
+  "flags": 4096,
+  "parent": 4,
+  "members": {
+    "_VERSION": {
+      "value": "2/2020_3_12_11:41",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "isDirty": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "editFeatureIndex": {
+      "value": -1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "children": [
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    56,
+    93,
+    112,
+    20
+  ]
+}
+[filewrite] files/09-opseq-ordering-opseq-node-default.json (592 bytes)
+[09] RollbackBar node: {
+  "name": "RollbackBar",
+  "class": "CC_RollbackBar",
+  "id": 20,
+  "flags": 4096,
+  "parent": 18,
+  "members": {
+    "_VERSION": {
+      "value": "0/2005_08_24_11:47",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "refObj": {
+      "value": 20,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}
+[filewrite] files/09-opseq-ordering-rollbackbar-node-default.json (354 bytes)
+[09] After moveBefore — OpSeq children: [
+   24, 28, 32, 36, 40,
+   44, 48, 56, 20, 93,
+  112
+]
+[09] After moveBefore — RB node: {
+  "name": "RollbackBar",
+  "class": "CC_RollbackBar",
+  "id": 20,
+  "flags": 4096,
+  "parent": 18,
+  "members": {
+    "_VERSION": {
+      "value": "0/2005_08_24_11:47",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "refObj": {
+      "value": 20,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}
+[filewrite] files/09-opseq-ordering-opseq-node-movebefore.json (592 bytes)
+[filewrite] files/09-opseq-ordering-rollbackbar-node-movebefore.json (354 bytes)
+[09] Children count default: 11 moveBefore: 11
+[09] Same children? true

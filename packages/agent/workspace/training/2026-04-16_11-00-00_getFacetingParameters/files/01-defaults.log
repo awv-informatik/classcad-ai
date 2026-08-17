@@ -1,0 +1,5 @@
+[01] result: {"angleTol":0,"chordHeightTol":0.2}
+[01] maxLevel: 31
+[01] messages: []
+[01] result keys: angleTol, chordHeightTol
+[filewrite] files/01-defaults-defaults.json (102 bytes)

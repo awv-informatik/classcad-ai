@@ -1,0 +1,3 @@
+[08] found: Origin = 22
+[08] results: {"WorkCSys":{"result":null,"maxLevel":51},"CSys":{"result":null,"maxLevel":51},"Origin":{"result":22,"maxLevel":31},"World":{"result":null,"maxLevel":51},"Global":{"result":null,"maxLevel":51},"Default":{"result":null,"maxLevel":51},"CS1":{"result":null,"maxLevel":51}}
+[filewrite] files/08-builtin-builtin-search.json (403 bytes)

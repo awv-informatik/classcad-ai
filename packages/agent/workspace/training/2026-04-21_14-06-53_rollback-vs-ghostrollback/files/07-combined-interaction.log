@@ -1,0 +1,15 @@
+[07] box: 54 cyl: 91 sph: 110
+
+[07] === TEST 1: moveBefore during openFeature ===
+[07] Opened Cyl1
+[07] moveBefore(sph) during open: null maxLevel: 31
+[07] moveToEnd during open: null maxLevel: 31
+[07] Closed Cyl1
+
+[07] === TEST 3: open → moveBefore → create ===
+[07] Opened Box1
+[07] moveBefore during open: null maxLevel: 31
+[07] Create during open+moveBefore: FAILED maxLevel: 51
+[07]   msg: There is still an open feature, 
+		please commit or decline the feature first.
+[07] Cleanup done

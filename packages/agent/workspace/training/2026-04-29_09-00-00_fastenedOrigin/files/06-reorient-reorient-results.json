@@ -1,0 +1,22 @@
+{
+  "0": {
+    "instId": 150,
+    "foId": 156,
+    "maxLevel": 31
+  },
+  "90": {
+    "instId": 158,
+    "foId": 162,
+    "maxLevel": 31
+  },
+  "180": {
+    "instId": 164,
+    "foId": 168,
+    "maxLevel": 31
+  },
+  "270": {
+    "instId": 170,
+    "foId": 174,
+    "maxLevel": 31
+  }
+}

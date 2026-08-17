@@ -1,0 +1,4 @@
+[05] box1: 62 box2: 107
+[05] mirrorId: 144
+[05] result: 144 maxLevel: 31
+[filewrite] files/05-update-targets-objects-add-target-response.json (55 bytes)

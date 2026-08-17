@@ -1,0 +1,8 @@
+{
+  "result": 1,
+  "contentType": "string",
+  "contentLength": 33246,
+  "maxLevel": 31,
+  "messages": [],
+  "contentPreview": "\u0001\u0002classcad\u0002\u0001\nVersion=11\nApplicationClass=BuerliDemoApp\nApplicationExec=classcad-cli\nApplicationStringEncoding=UTF-8\nClassCadVersion=21.0.1-dev\nClassFileVersion=\nContentType=OFB\nDatabase_AngleTol=0\nDatabase_ChordHeightTol=0.1\nEntities=1\nFilerStringEncoding=UTF-8\nGraphics=0\nHeaderVersion=1\nKernelId=1001\nKernelInfo=8.12.1.8\nPlatformName=macos\nReferencingVersion=2\nStateId=f3102a1c-b999-4fcd-9e53-c2cb59fc9b66\nStringEndTag=1\nTimeStamp=2026-04-15T17:06:30Z\n\u0001\u0002hdend\u0002\u0001\n233\n11\n1\n10\nAllObjects\u0001\u0001\n10\nAllObjec"
+}

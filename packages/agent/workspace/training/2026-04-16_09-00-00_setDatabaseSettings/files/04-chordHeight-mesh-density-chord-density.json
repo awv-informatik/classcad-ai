@@ -1,0 +1,38 @@
+[
+  {
+    "tol": 0.01,
+    "vertexCount": 8385,
+    "indexCount": 48384,
+    "verifiedTol": 0.01
+  },
+  {
+    "tol": 0.05,
+    "vertexCount": 2017,
+    "indexCount": 11328,
+    "verifiedTol": 0.05
+  },
+  {
+    "tol": 0.1,
+    "vertexCount": 1697,
+    "indexCount": 9600,
+    "verifiedTol": 0.1
+  },
+  {
+    "tol": 0.5,
+    "vertexCount": 277,
+    "indexCount": 1392,
+    "verifiedTol": 0.5
+  },
+  {
+    "tol": 1,
+    "vertexCount": 153,
+    "indexCount": 672,
+    "verifiedTol": 1
+  },
+  {
+    "tol": 5,
+    "vertexCount": 85,
+    "indexCount": 288,
+    "verifiedTol": 5
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "default": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "custom": {
+    "result": 62,
+    "maxLevel": 31
+  },
+  "neg": {
+    "result": 70,
+    "maxLevel": 31
+  }
+}

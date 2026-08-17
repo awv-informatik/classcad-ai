@@ -1,0 +1,11 @@
+[01] linearPattern result: {"constraint":123,"instances":[113,125,127]}
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-linear-pattern-lp-result.json (71 bytes)
+[01] constraint ID: 123
+[01] instances created: 3
+[01] instance IDs: [113,125,127]
+[01] pattern inst[0] id=113 COG: undefined
+[01] pattern inst[1] id=125 COG: undefined
+[01] pattern inst[2] id=127 COG: undefined
+[01] seed inst COG: undefined

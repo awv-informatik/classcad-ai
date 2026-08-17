@@ -1,0 +1,20 @@
+{
+  "noDefault": {
+    "result": "",
+    "maxLevel": 31,
+    "messages": []
+  },
+  "withDefault": {
+    "result": "fallback"
+  },
+  "emptyDefault": {
+    "result": ""
+  },
+  "caseSensitive": {
+    "lowercase": "WRONG_CASE",
+    "uppercase": "steel"
+  },
+  "emptyKeys": {
+    "result": []
+  }
+}

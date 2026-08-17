@@ -1,0 +1,4 @@
+[01] boxId: 54
+[01] edge IDs: [135]
+[01] fillet result: 149 maxLevel: 31
+[filewrite] files/01-basic-default-radius-fillet-response.json (55 bytes)

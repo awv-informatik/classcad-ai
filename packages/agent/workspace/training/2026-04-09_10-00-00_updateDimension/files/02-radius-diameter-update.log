@@ -1,0 +1,7 @@
+[02] circId: 58
+[02] radDimId: 63
+[02] RADIUS update result: 0 maxLevel: 31
+[filewrite] files/02-radius-diameter-update-radius-update.json (53 bytes)
+[02] diaDimId: 70
+[02] DIAMETER update result: 0 maxLevel: 31
+[filewrite] files/02-radius-diameter-update-diameter-update.json (53 bytes)

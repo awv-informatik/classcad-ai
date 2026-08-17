@@ -1,0 +1,7 @@
+[03] inst2 COG before: { x: 40, y: 10, z: 24 }
+[03] cylindrical result: 218 maxLevel: 31
+[03] inst2 COG after: { x: 40, y: 10, z: 24 }
+[filewrite] files/03-zRotationLimits-cog-bothLimits.json (121 bytes)
+[03] degree strings result: null maxLevel: 51
+[03] getCylindrical zRotationLimits: undefined
+[filewrite] files/03-zRotationLimits-getCylindrical-degStrings.json (4 bytes)

@@ -1,0 +1,16 @@
+{
+  "label": "sketchId",
+  "geomId": 52,
+  "maxLevel": 51,
+  "isArray": false,
+  "nEntries": null,
+  "entrySegs": null,
+  "err": [
+    {
+      "level": 51,
+      "code": 1001,
+      "message": "The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"
+    }
+  ],
+  "result": null
+}

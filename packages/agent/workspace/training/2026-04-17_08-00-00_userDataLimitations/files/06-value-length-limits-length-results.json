@@ -1,0 +1,47 @@
+{
+  "len_100": {
+    "setMaxLevel": 31,
+    "retrievedLength": 100,
+    "match": true
+  },
+  "len_1000": {
+    "setMaxLevel": 31,
+    "retrievedLength": 1000,
+    "match": true
+  },
+  "len_5000": {
+    "setMaxLevel": 31,
+    "retrievedLength": 5000,
+    "match": true
+  },
+  "len_10000": {
+    "setMaxLevel": 31,
+    "retrievedLength": 10000,
+    "match": true
+  },
+  "len_50000": {
+    "setMaxLevel": 31,
+    "retrievedLength": 50000,
+    "match": true
+  },
+  "len_100000": {
+    "setMaxLevel": 31,
+    "retrievedLength": 100000,
+    "match": true
+  },
+  "longKey": {
+    "setMaxLevel": 31,
+    "getValue": "longkey"
+  },
+  "jsonRoundtrip": {
+    "setMaxLevel": 31,
+    "retrievedParsed": {
+      "name": "test",
+      "count": 42,
+      "nested": {
+        "a": 1
+      }
+    },
+    "match": true
+  }
+}

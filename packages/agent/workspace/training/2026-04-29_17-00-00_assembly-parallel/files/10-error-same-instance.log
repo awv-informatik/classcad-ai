@@ -1,0 +1,6 @@
+[10] same instance result: null maxLevel: 51
+[filewrite] files/10-error-same-instance-same-instance.json (357 bytes)
+[10] invalid id result: null maxLevel: 51
+[filewrite] files/10-error-same-instance-invalid-id.json (609 bytes)
+[10] no mate2 result: null maxLevel: 51
+[filewrite] files/10-error-same-instance-no-mate2.json (271 bytes)

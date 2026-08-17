@@ -1,0 +1,7 @@
+[12] box1: 54 box2: 91
+[12] non-overlap UNION — result: 128 maxLevel: 31
+[filewrite] files/12-non-overlapping-non-overlap-union.json (55 bytes)
+[12] non-overlap SUBTRACTION — result: null maxLevel: 51
+[filewrite] files/12-non-overlapping-non-overlap-subtract.json (231 bytes)
+[12] non-overlap INTERSECTION — result: null maxLevel: 51
+[filewrite] files/12-non-overlapping-non-overlap-intersect.json (231 bytes)

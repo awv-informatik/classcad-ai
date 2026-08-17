@@ -1,0 +1,12 @@
+[02] getRevolute defaults result: {"id":216,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Revolute","zOffset":0,"zRotationLimits":{"max":null,"min":null}}
+[02] maxLevel: 31
+[02] name: Revolute
+[02] mate1.flip: Z string
+[02] mate1.reorient: 0 string
+[02] mate2.flip: Z string
+[02] mate2.reorient: 0 string
+[02] zOffset: 0 number
+[02] zRotationLimits: {"max":null,"min":null}
+[02] zRotationLimits.min type: object
+[02] zRotationLimits.max type: object
+[filewrite] files/02-defaults-check-defaults.json (355 bytes)

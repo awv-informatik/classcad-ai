@@ -1,0 +1,4 @@
+[10] recalc done, now attempting scaleShape...
+[10] scaleShape after recalc result: null maxLevel: 51
+[10] messages: [{"api":"v1.curve.scaleShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/10-recalc-invalidation-recalc-response.json (243 bytes)

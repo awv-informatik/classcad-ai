@@ -1,0 +1,5 @@
+[01] fastenedOrigin rev1: 176
+[01] revolute rev2: 180
+[01] revolute rev3: 259
+[01] gear result: 263 maxLevel: 31
+[filewrite] files/01-basic-gear-gear-response.json (55 bytes)

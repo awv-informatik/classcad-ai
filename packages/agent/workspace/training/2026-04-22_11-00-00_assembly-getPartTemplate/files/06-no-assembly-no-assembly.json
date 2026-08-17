@@ -1,0 +1,20 @@
+{
+  "allNoAsm": {
+    "result": [],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "nameNoAsm": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"Anything\" could not be found"
+      }
+    ]
+  }
+}

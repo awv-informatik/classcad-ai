@@ -1,0 +1,4 @@
+[03] edge 102 → index 4 → recovered 102 ✓
+[03] edge 98 → index 0 → recovered 98 ✓
+[03] face 111 → index 1 → recovered 111 ✓
+[filewrite] files/03-round-trip-round-trips.json (330 bytes)

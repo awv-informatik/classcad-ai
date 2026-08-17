@@ -1,0 +1,9 @@
+[15] topFace: 84
+[15] sketchId: 89
+[15] frontEdge: 75 rightEdge: 76
+[15] refGeo result: [ 105, 117 ] maxLevel: 31
+[15] ref 105: {"endPos":{"x":100,"y":0,"z":30},"startPos":{"x":0,"y":0,"z":30}}
+[15] ref 117: {"endPos":{"x":100,"y":80,"z":30},"startPos":{"x":100,"y":0,"z":30}}
+[15] rectangle: null maxLevel: 51
+[15] final sketch geometry: {"arcs":[],"circles":[],"lines":[105,117],"points":[]}
+[filewrite] files/15-realistic-workflow-sketch-geometry.json (84 bytes)

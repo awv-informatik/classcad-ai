@@ -1,0 +1,31 @@
+[
+  {
+    "transition": "start→start",
+    "maxLevel1": 31,
+    "maxLevel2": 31
+  },
+  {
+    "transition": "move-after-double-start",
+    "cog": {
+      "x": 70,
+      "y": 45,
+      "z": 10
+    }
+  },
+  {
+    "transition": "start→move→move→finish",
+    "cog": {
+      "x": 70,
+      "y": 145,
+      "z": 10
+    }
+  },
+  {
+    "transition": "start→finish→start→move→finish",
+    "cog": {
+      "x": 94.99999999999997,
+      "y": 169.99999999999994,
+      "z": 34.99999999999999
+    }
+  }
+]

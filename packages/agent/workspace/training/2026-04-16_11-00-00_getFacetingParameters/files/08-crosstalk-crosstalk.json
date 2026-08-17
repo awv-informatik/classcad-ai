@@ -1,0 +1,18 @@
+{
+  "setViaFaceting": {
+    "angleTol": 20,
+    "chordHeightTol": 0.05
+  },
+  "readViaDb": {
+    "angleTol": 20,
+    "chordHeightTol": 0.05
+  },
+  "setViaDb": {
+    "angleTol": 5,
+    "chordHeightTol": 0.8
+  },
+  "readViaFaceting": {
+    "angleTol": 5,
+    "chordHeightTol": 0.8
+  }
+}

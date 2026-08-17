@@ -1,0 +1,4 @@
+[06] transformInstanceTo(alpha): null maxLevel: 31
+[filewrite] files/06-transformInstanceTo-ident-transformInstanceTo-ident.json (56 bytes)
+[06] COG after transformInstanceTo: undefined
+[filewrite] files/06-transformInstanceTo-ident-massProps-after-transform.json (88 bytes)

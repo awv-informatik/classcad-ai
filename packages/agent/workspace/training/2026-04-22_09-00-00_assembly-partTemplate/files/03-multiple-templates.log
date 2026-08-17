@@ -1,0 +1,16 @@
+[03] asmId: 12
+[03] t1 (no params) id: 22 maxLevel: 31
+[03] t2 (no params) id: 68 maxLevel: 31
+[03] t3 ({}) id: 114 maxLevel: 31
+[03] t4 (Bolt) id: 160 maxLevel: 31
+[03] t5 (Nut) id: 206 maxLevel: 31
+[03] t6 (dup Bolt) id: 252 maxLevel: 31
+[03] t6 messages: []
+[03] PartContainer children: [22,68,114,160,206,252]
+[03] template 22: name="Part" class="CC_Part"
+[03] template 68: name="Part0" class="CC_Part"
+[03] template 114: name="Part1" class="CC_Part"
+[03] template 160: name="Bolt" class="CC_Part"
+[03] template 206: name="Nut" class="CC_Part"
+[03] template 252: name="Bolt0" class="CC_Part"
+[filewrite] files/03-multiple-templates-partContainer-with-6-templates.json (1122 bytes)

@@ -1,0 +1,7 @@
+[03] partId: 4 wpId: 54
+[03] lookup by "MyPlane": 54 maxLevel: 31
+[03] rename result: null maxLevel: 31
+[03] lookup by OLD name "MyPlane": null maxLevel: 51
+[03] old name messages: [{"api":"v1.part.getWorkGeometry","code":1015,"level":51,"levelStr":"ERROR","message":"Couldn't find work geometry with name: \"MyPlane\""}]
+[03] lookup by NEW name "RenamedPlane": 54 maxLevel: 31
+[filewrite] files/03-rename-workgeo-lookup-results.json (377 bytes)

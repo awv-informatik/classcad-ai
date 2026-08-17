@@ -1,0 +1,3 @@
+[repro] first subtraction: maxLevel 31 -> tool 64 now consumed
+[repro:copy] {"maxLevel":51,"messages":[{"api":"v1.solid.copy","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.solid.copy","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"target\" has an invalid id!"}]}
+[filewrite] files/01-repro-repro-copy.json (449 bytes)

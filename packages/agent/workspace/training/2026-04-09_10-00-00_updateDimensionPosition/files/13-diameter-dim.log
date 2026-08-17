@@ -1,0 +1,5 @@
+[13] circId: 58
+[13] dimId: 63 maxLevel: 31
+[13] BEFORE class: CC_DiameterFeatureDimension dimPt: {"x":68,"y":30,"z":0}
+[13] AFTER dimPt: {"x":65,"y":55,"z":0} maxLevel: 31
+[filewrite] files/13-diameter-dim-diameter-result.json (358 bytes)

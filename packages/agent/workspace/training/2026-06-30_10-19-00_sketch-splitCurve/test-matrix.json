@@ -1,0 +1,368 @@
+{
+  "goal": "Verify, by live measurement, every behavioral claim the guide and API doc make about sketch.splitCurve — the new structured-result splitter (Array<{sourceId, splittedCurves:[{id, interval}]}>) that replaces the deprecated flat-array splitCurves. Establish with numeric proof (getPositions / getPoints coordinates, never snapshots alone) that: (1) values are normalized [0,1] fractions mapping linearly along the curve; (2) N values produce N+1 segments on OPEN curves; (3) intervals are true contiguous [0,1] fractions that cover the whole source and cross-check against measured world coordinates; (4) the original curve id is replaced/invalidated after the split; (5) splitCurve is standalone (no preTrim staging, no postTrim merge-back). Resolve two documented contradictions with the deprecated sibling — the circle parameter domain (0..1 vs 0..2π and where t=0 sits) and the closed-curve segment count (N vs N+1) — and pin down how the structured API signals errors/no-ops (VOID vs structured-empty vs error code). Finally, audit the guide's weaker claims (undoability, construction-line/rigidSet trimmability carried over from the trim workflow) and flag any doc discrepancies for correction.",
+  "methodsToCover": [
+    "sketch.splitCurve (primary)",
+    "sketch.line / sketch.circle / sketch.arcByCenter (geometry setup)",
+    "sketch.getPositions (line/arc segment endpoints — the spatial proof)",
+    "sketch.getPoints (circle centerId, line start/end point ids)",
+    "sketch.getGeometry (before/after curve-id inventory — replacement proof)",
+    "sketch.preTrim (lifecycle/format-identity contrast)",
+    "sketch.postTrim (no-op-after-split probe)",
+    "sketch.splitCurves (deprecated flat-array contrast)",
+    "sketch.getObjectInfo / sketch.getGlobalState (constraint/dimension survival)",
+    "part.create + sketch.create (planeId setup via work-geometry tree)"
+  ],
+  "questions": [
+    "Does splitCurve return exactly Array<{sourceId, splittedCurves:[{id, interval}]}> with no extra leaked keys (e.g. partOf), interval being a 2-element number array?",
+    "Is result.length === splits.length, with result[i].sourceId === splits[i].geomId, order-preserving?",
+    "On an OPEN curve, do N split values produce exactly N+1 segments?",
+    "Are values normalized [0,1] fractions that map LINEARLY along the curve (0.25 on a 0..100 line lands at world x=25; 0.4 on a skew line lands at the chord lerp)?",
+    "Are intervals true contiguous [0,1] fractions: first t0=0, last t1=1, each segment's t1 == next t0, widths sum to 1, and do they cross-check against measured segment endpoint coordinates?",
+    "Is the original geomId replaced/invalidated after the split (absent from getGeometry, getPositions on it errors), or does it survive?",
+    "Are the returned segment ids new, distinct, real, and queryable via getPositions?",
+    "CIRCLE: where is t=0 (the seam) — is it +X/CCW or kernel-assigned? Discover it numerically, do not assume.",
+    "CIRCLE: how many segments does ONE value yield on a closed curve (1 reopened vs 2 vs error)? Does N+1 break for closed curves (expect N)?",
+    "CIRCLE: are values [0,1] fractions (new doc) or 0..2π (deprecated doc)? Resolve via angle math on the cut vertex.",
+    "How are intervals encoded for the wrap-around segment of a circle (e.g. [0.75,1.25] vs [0.75,0.25] vs split [0,0.25]+[0.75,1])?",
+    "How does splitCurve signal failure: VOID (splitCurves style), structured-empty entry, or error code (>=51)? Does result.length stay == splits.length on a bad geomId?",
+    "What happens at boundary values [0], [1], [0,1] — no-op, degenerate zero-length segment, or error?",
+    "What happens with duplicate values [0.5,0.5], near-duplicates within epsilon, and unsorted values [0.75,0.25] — dedup, degenerate segment, internal sort, or input-order intervals?",
+    "What happens with out-of-range values [-0.2], [1.5], and mixed valid+invalid [0.5,1.5] — clamp, extrapolate, error, drop-bad, or atomic-fail?",
+    "What error codes do missing id / missing splits / missing geomId / missing values produce (expect 1004/1006 family)? What about wrong-type id (part id, sketch-as-geomId, point-as-geomId, foreign-sketch curve)?",
+    "Is splitCurve standalone — does it stage into SplittedCurves/NoneSplitted containers like preTrim (NO expected), and is postTrim after a bare splitCurve a no-op or error?",
+    "Does splitCurve split construction lines and rigidSet members (which the trim workflow refuses), and does it auto-wire the cut point with an Auto_Coinc coincidence constraint?",
+    "Do constraints/dimensions on the original curve survive the split (in place, recreated with new ids, or dropped), and is the post-split sketch still solver-live (updateDimension returns 1)?",
+    "Is there any general undo API (common.undo / sketch.undo)? If not, is the real reverse a merge-back (postTrim/splitCurvesMergeBack), and is the guide's 'standard undo mechanism' claim unbacked?",
+    "Is splitCurve solver-dependent — does it work identically on a planeless (dead-solver) sketch?"
+  ],
+  "setupNotes": "Every script is `export default async function (api, { snapshot, filewrite }) { ... }`. Standard setup: `const partR = await api.v1.part.create({ name: 'SplitCurve' }); const partId = partR.result;` then find the Top work plane from the structure tree (DO NOT hardcode 38 — IDs drift): `const topPlane = Object.values(partR.structure.tree).find(n => n.class === 'CC_WorkPlane' && n.name === 'Top'); const skId = (await api.v1.sketch.create({ id: partId, planeId: topPlane.id })).result`. All coordinates MUST have Z=0 (non-zero Z = hard error 1014). The canonical probe curve is a horizontal line from [0,0,0] to [100,0,0] so world-x == 100*parameter — turning every [0,1] claim into a one-number arithmetic check. getPositions WORKS on line and arc ids (returns {startPos,endPos}); getPositions FAILS on circle ids — for circles use getPoints->centerId->getPositions for the center, and read the resulting ARC segment ids directly with getPositions for cut points. After a split, the original geomId is expected to be invalid — always read the returned splittedCurves[].id, never the original. Shared reusable per-script logging helper: log `maxLevel`, `messages.length`, `result` type/length one-liners with console.log, and `filewrite(r.result, 'NN-result')` the full structured array (small) for every script as primary evidence. Snapshots are corroboration only (a split line looks identical to an unsplit line) — never the proof of WHERE a cut landed. maxLevel buckets: <=31 success, 41-50 warning, >=51 error. Tolerance for coordinate equality: 1e-6 (solver is exact to ~15 sig figs, so a wrong-parameter bug would be off by tens of mm, not 1e-6).",
+  "scripts": [
+    {
+      "n": 1,
+      "filename": "01-basic-line-split-half.mjs",
+      "title": "Happy path: split a line at 0.5, verify full result shape",
+      "question": "Does splitCurve on a line at values:[0.5] succeed and return exactly Array<{sourceId, splittedCurves:[{id, interval}]}> with the documented shape and no leaked keys?",
+      "category": "happy-path",
+      "setup": "Line [0,0,0]->[100,0,0] on a Top-plane sketch.",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.5] }] })",
+      "expected": "maxLevel<=31; result.length===1; result[0].sourceId===line; splittedCurves.length===2; Object.keys(result[0]).sort()===['sourceId','splittedCurves']; Object.keys(splittedCurves[0]).sort()===['id','interval']; interval is 2 numbers.",
+      "measurement": "filewrite(r.result,'01-result'); console.log keys of result[0] and splittedCurves[0], splittedCurves.length, maxLevel. Assert no extra keys (flag partOf if present)."
+    },
+    {
+      "n": 2,
+      "filename": "02-canonical-line-025-spatial.mjs",
+      "title": "Spatial proof: 0.25 cut on 0..100 line lands at world [25,0,0]",
+      "question": "Are values normalized [0,1] fractions mapping linearly, and do intervals match measured coordinates?",
+      "category": "spatial",
+      "setup": "Line [0,0,0]->[100,0,0]; record pre-split getPositions to lock param origin (start=param0).",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.25] }] })",
+      "expected": "intervals [0,0.25] and [0.25,1]; cut vertex at [25,0,0].",
+      "measurement": "getPositions on both segment ids. Assert segA.endPos≈[25,0,0], segB.startPos≈[25,0,0] (shared vertex, ε=1e-6), and segA.startPos≈[0,0,0], segB.endPos≈[100,0,0]. Cross-check three ways: ==[25,0,0] analytic, ==lerp(pre.start,pre.end,0.25), and interval.t1*100==25. filewrite both positions."
+    },
+    {
+      "n": 3,
+      "filename": "03-multi-value-N-plus-1.mjs",
+      "title": "N values -> N+1 segments with contiguous intervals (line)",
+      "question": "Do 2 values produce 3 segments with contiguous intervals [0,0.25],[0.25,0.75],[0.75,1] that cover [0,1], cross-checked spatially?",
+      "category": "happy-path",
+      "setup": "Line [0,0,0]->[100,0,0]; values:[0.25,0.75].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.25,0.75] }] })",
+      "expected": "3 segments; intervals exactly [0,0.25],[0.25,0.75],[0.75,1]; cut chain world [0]->[25]->[75]->[100].",
+      "measurement": "Assert splittedCurves.length===3; each interval; t0 of first==0, t1 of last==1, each seg.t1==next.t0, widths sum to 1. getPositions on all 3: shared vertices [25,0,0] and [75,0,0]. The middle segment (both ends interior) is the strongest check. filewrite result + positions."
+    },
+    {
+      "n": 4,
+      "filename": "04-skew-line-disambiguator.mjs",
+      "title": "Skew non-unit line: 0.4 cut proves true 2D lerp and param-0 end",
+      "question": "On a non-axis-aligned, non-unit line, does 0.4 land at the chord lerp (proving linear 2D normalization and that param0==startPos)?",
+      "category": "spatial",
+      "setup": "Line A=[10,20,0]->B=[40,60,0] (delta=[30,40,0], length 50); values:[0.4].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.4] }] })",
+      "expected": "intervals [0,0.4],[0.4,1]; cut vertex at [22,36,0] (= A+0.4*(B-A)); segA length≈20.",
+      "measurement": "getPositions both segments; assert shared vertex≈[22,36,0] (if it came out [28,44,0], param0==endPos — record that finding). Compute dist(segA.start,segA.end)≈20 (=0.4*50) to tie interval width to measured length. filewrite."
+    },
+    {
+      "n": 5,
+      "filename": "05-result-ordering-multi-curve.mjs",
+      "title": "Multi-curve call: result length and order track splits input",
+      "question": "Is result.length===splits.length with result[i].sourceId===splits[i].geomId, order-preserving (not internal-id order)?",
+      "category": "happy-path",
+      "setup": "Two lines L1 [0,0,0]->[100,0,0], L2 [0,10,0]->[0,60,0]; splits:[{geomId:L1,values:[0.5]},{geomId:L2,values:[0.25,0.75]}].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{geomId:L1,values:[0.5]},{geomId:L2,values:[0.25,0.75]}] })",
+      "expected": "result.length===2; result[0].sourceId===L1 (2 segs); result[1].sourceId===L2 (3 segs).",
+      "measurement": "Assert sourceId index-for-index match and segment counts. Then run a second call with order swapped to confirm order tracks input, not id order. filewrite both results."
+    },
+    {
+      "n": 6,
+      "filename": "06-original-id-replaced.mjs",
+      "title": "Original curve id is replaced/invalidated after split",
+      "question": "After the split, is the original geomId absent from getGeometry and invalid for getPositions, and are segment ids new/distinct/present?",
+      "category": "cross-api",
+      "setup": "Line [0,0,0]->[100,0,0]; getGeometry before to record line-id set.",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.5] }] })",
+      "expected": "Original id absent from post getGeometry.lines; both segment ids present and distinct from original; getPositions(originalId) errors/stale.",
+      "measurement": "getGeometry before/after: assert original id not in after.lines, net lines count +1, segment ids present. getPositions on original id -> capture maxLevel/messages (expect error 1006 or invalid). Assert no segment id equals original id. filewrite before/after id sets."
+    },
+    {
+      "n": 7,
+      "filename": "07-empty-values-noop.mjs",
+      "title": "Empty values:[] — single [0,1] no-op or error?",
+      "question": "Does values:[] return one segment interval [0,1] (preTrim-style) or VOID/error (splitCurves-style)?",
+      "category": "edge-case",
+      "setup": "Line [0,0,0]->[100,0,0]; values:[].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [] }] })",
+      "expected": "Either one entry splittedCurves:[{interval:[0,1]}] (no-op) or maxLevel>=51 error. Disambiguates sibling lineage.",
+      "measurement": "console.log maxLevel, splittedCurves.length. getGeometry count unchanged if no-op. filewrite result. Note which sibling style it matches."
+    },
+    {
+      "n": 8,
+      "filename": "08-empty-splits-array.mjs",
+      "title": "Empty splits:[] — clean empty no-op",
+      "question": "Does splits:[] return result:[] with maxLevel<=31 and geometry unchanged?",
+      "category": "edge-case",
+      "setup": "Line present but not referenced.",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [] })",
+      "expected": "result.length===0; maxLevel<=31; getGeometry count unchanged.",
+      "measurement": "Assert result.length===0, maxLevel bucket. getGeometry before/after equal. filewrite result."
+    },
+    {
+      "n": 9,
+      "filename": "09-boundary-values.mjs",
+      "title": "Boundary values [0], [1], [0,1] — no-op vs degenerate zero-length",
+      "question": "Does splitting AT an endpoint produce a zero-length segment (interval [0,0]/[1,1]), a clean no-op, or an error?",
+      "category": "edge-case",
+      "setup": "Three fresh lines [0,0,0]->[100,0,0], one each for values:[0], values:[1], values:[0,1].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0] }] }) (and [1], and [0,1])",
+      "expected": "Hypotheses: no-op single [0,1]; OR degenerate zero-length segment whose start==end. Symmetric for [0] and [1].",
+      "measurement": "Per case: splittedCurves.length and intervals. If a [t,t] interval appears, getPositions and assert start==end (flag degenerate). Compare [0] vs [1] for endpoint asymmetry. filewrite all three."
+    },
+    {
+      "n": 10,
+      "filename": "10-duplicate-and-near-duplicate.mjs",
+      "title": "Duplicate [0.5,0.5] and near-duplicate [0.5,0.5+1e-10]",
+      "question": "Does a duplicate value dedup (2 segs) or create a zero-length middle segment (3 segs, interval [0.5,0.5])? Does a sub-epsilon pair create a sliver?",
+      "category": "edge-case",
+      "setup": "Line [0,0,0]->[100,0,0]; case A values:[0.5,0.5]; case B values:[0.5,0.5000000001].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.5,0.5] }] }) (and near-dup)",
+      "expected": "Either dedup to 2 segments or a degenerate/sliver middle segment with width≈0.",
+      "measurement": "splittedCurves.length; find any interval width<1e-6; if present getPositions and assert coincident endpoints (degenerate finding). filewrite both."
+    },
+    {
+      "n": 11,
+      "filename": "11-unsorted-values.mjs",
+      "title": "Unsorted values [0.75,0.25] — internal sort or input order?",
+      "question": "Does splitCurve sort values ascending and return intervals [0,0.25],[0.25,0.75],[0.75,1], or follow input order / produce inverted intervals?",
+      "category": "edge-case",
+      "setup": "Line [0,0,0]->[100,0,0]; values:[0.75,0.25].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.75,0.25] }] })",
+      "expected": "Hypothesis: sorted ascending intervals; segments cover [0,1] contiguously.",
+      "measurement": "Read returned interval order; assert ascending and contiguous. getPositions to confirm cut coords map to value (25 and 75) not array position. filewrite."
+    },
+    {
+      "n": 12,
+      "filename": "12-out-of-range-values.mjs",
+      "title": "Out-of-range [-0.2], [1.5], and mixed [0.5,1.5] — clamp/extrapolate/error/atomic",
+      "question": "How are out-of-range values handled: clamp, extrapolate beyond the curve, error, drop-bad, or atomic-fail of the whole call?",
+      "category": "error-case",
+      "setup": "Fresh lines [0,0,0]->[100,0,0] per case: [-0.2], [1.5], [0.5,1.5].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [1.5] }] }) (and [-0.2], and [0.5,1.5])",
+      "expected": "Distinguish: clamp(->[0,0,0]/[100,0,0]), extrapolate(->[-20,0,0]/[150,0,0] = serious finding), error>=51, or drop-bad. Mixed case tests per-curve atomicity.",
+      "measurement": "Per case: maxLevel/messages; if segments produced, getPositions the new vertex and check sign/magnitude (extrapolation = vertex outside [0,100]). Mixed: segment count 2 (0.5 honored, 1.5 dropped) vs error vs 3. filewrite all three."
+    },
+    {
+      "n": 13,
+      "filename": "13-missing-required-params.mjs",
+      "title": "Missing id / splits / geomId / values — required-param enforcement",
+      "question": "What error codes do missing required params produce (expect 1004 'must be provided' / 1006 family)?",
+      "category": "error-case",
+      "setup": "Line present; build 4 malformed calls.",
+      "call": "splitCurve omitting id; omitting splits; splits:[{geomId:line}] (no values); splits:[{values:[0.5]}] (no geomId)",
+      "expected": "1004-class for missing id/splits/values; 1004/1006 for missing geomId.",
+      "measurement": "Per call: maxLevel>=51 and message code. filewrite each {maxLevel, messages}."
+    },
+    {
+      "n": 14,
+      "filename": "14-bad-geomid-targets.mjs",
+      "title": "Bad/wrong-class geomId: bogus, part id, sketch id, point id, foreign-sketch curve",
+      "question": "How does the structured API signal an unsplittable/missing/wrong-class curve — error code, VOID, or structured-empty? Does result.length stay == splits.length?",
+      "category": "error-case",
+      "setup": "Get a point id via getPoints(line).startId; create a second sketch with its own line for the foreign-curve case; capture part id, sketch id.",
+      "call": "splitCurve with geomId = 999999 (bogus); = partId; = skId (sketch); = a point id; = a curve id from another sketch",
+      "expected": "Expect 1006 'invalid id' or class error for wrong types; KEY: does it drop the entry (result shorter than splits, contradicting 'same length') or error the whole call?",
+      "measurement": "Per case: maxLevel/messages; compare result.length to splits.length; if equal, inspect that entry's splittedCurves (empty?). filewrite each. Flag any result.length!==splits.length as a doc discrepancy."
+    },
+    {
+      "n": 15,
+      "filename": "15-circle-single-value-count-and-seam.mjs",
+      "title": "Circle, single value [0.25]: closed-curve segment count + discover t=0 seam",
+      "question": "How many segments does ONE value yield on a closed circle (1 reopened vs 2 vs error), and WHERE is t=0 (discover numerically, do not assume +X)?",
+      "category": "closed-curve",
+      "setup": "Circle centerPos [0,0,0] radius 50. getPoints->centerId->getPositions to confirm center [0,0,0] before.",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: circle, values: [0.25] }] })",
+      "expected": "Likely 1 arc (reopened loop) OR 2 arcs OR error — N+1 expected to BREAK for closed curve. Cut point on radius 50.",
+      "measurement": "splittedCurves.length + maxLevel. getGeometry: did circle become arc(s)? getPositions on resulting arc seg(s): read start/end, assert hypot(x,y)≈50, compute atan2 angle. The measured first-arc start angle REVEALS the seam — report the actual angle, do not force +X. getPoints->centerId->getPositions: center still [0,0,0]. filewrite."
+    },
+    {
+      "n": 16,
+      "filename": "16-circle-two-values-domain-and-wrap.mjs",
+      "title": "Circle [0.25,0.75]: 2 arcs, [0,1]-vs-2pi domain, wrap-interval encoding",
+      "question": "Do 2 values give 2 arcs at the expected angles (resolving 0..1 vs 0..2pi), and how is the wrap-around interval encoded?",
+      "category": "closed-curve",
+      "setup": "Circle center [0,0,0] r50; use the seam discovered in script 15 to predict cut points; values:[0.25,0.75].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: circle, values: [0.25,0.75] }] })",
+      "expected": "2 arcs; if [0,1] angular from discovered seam, cuts are 0.25 and 0.75 of the turn apart (e.g. [0,50,0] and [0,-50,0] if seam at +X CCW). Resolves circle domain.",
+      "measurement": "splittedCurves.length===2; getPositions both arcs: shared cut points coincide between arcs; compute angles, assert == value*360deg from discovered seam (proves [0,1] not 2pi-literal). Record verbatim how the wrap interval is encoded ([0.75,1.25] vs [0.75,0.25] vs [0,0.25]+[0.75,1]). filewrite."
+    },
+    {
+      "n": 17,
+      "filename": "17-arc-open-N-plus-1.mjs",
+      "title": "Open arc split: N+1 holds and arc t=0 is unambiguous",
+      "question": "On an open quarter arc, does values:[0.5] give 2 sub-arcs with the cut at the angular midpoint (45deg), confirming N+1 holds for open non-linear curves?",
+      "category": "param-variant",
+      "setup": "arcByCenter startPos [50,0,0], endPos [0,50,0], centerPos [0,0,0], isClockwise false (90deg CCW quarter, r50); values:[0.5].",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: arc, values: [0.5] }] })",
+      "expected": "2 sub-arcs; cut at angle 45deg -> [50cos45,50sin45,0]=[35.355,35.355,0]; intervals [0,0.5],[0.5,1].",
+      "measurement": "getPositions both sub-arcs (arcs ARE queryable): shared cut vertex≈[35.355,35.355,0], hypot≈50. Confirms arc param fraction from its own start (open => t=0 unambiguous, unlike circle). filewrite + intervals."
+    },
+    {
+      "n": 18,
+      "filename": "18-standalone-no-staging.mjs",
+      "title": "Standalone: no SplittedCurves/NoneSplitted staging; postTrim after split is no-op/error",
+      "question": "Does splitCurve commit immediately without staging containers (unlike preTrim), and is postTrim after a bare splitCurve a harmless no-op or an error?",
+      "category": "cross-api",
+      "setup": "Line [0,0,0]->[100,0,0]; split at 0.5.",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.5] }] }) then api.v1.sketch.postTrim({ id: skId })",
+      "expected": "Post-split structure tree has NO SplittedCurves/NoneSplitted containers (standalone confirmed); segments immediately live in getGeometry; postTrim is no-op (maxLevel<=31) or error — record which.",
+      "measurement": "After split, scan r.structure / getGeometry for SplittedCurves|NoneSplitted (assert absent). getPositions on a segment works immediately (no finalize). Then postTrim and log maxLevel/messages. As contrast, in same script run preTrim on a separate intersecting pair and assert the containers DO appear. filewrite both structures."
+    },
+    {
+      "n": 19,
+      "filename": "19-flat-vs-structured-contrast.mjs",
+      "title": "Contrast vs deprecated splitCurves (flat array)",
+      "question": "On identical geometry, does splitCurve return structured [{sourceId,splittedCurves:[{id,interval}]}] while splitCurves returns flat Array<Array<id>> with no sourceId/interval?",
+      "category": "cross-api",
+      "setup": "Two identical lines L1,L2 [0,0,0]->[100,0,0]; same values [0.25,0.75].",
+      "call": "api.v1.sketch.splitCurve({id:skId,splits:[{geomId:L1,values:[0.25,0.75]}]}) and api.v1.sketch.splitCurves({id:skId,splits:[{geomId:L2,values:[0.25,0.75]}]})",
+      "expected": "splitCurve: structured, intervals [0,0.25],[0.25,0.75],[0.75,1]. splitCurves: flat [[id,id,id]] (N+1 ids), no sourceId/interval. Both 3 segments.",
+      "measurement": "filewrite both raw results side by side. Assert splitCurve[0] has keys sourceId+splittedCurves; splitCurves[0] is a plain id array. getPositions a segment from each to confirm both cut at world x=25/75 (same underlying split). This is the teaching artifact for the rename."
+    },
+    {
+      "n": 20,
+      "filename": "20-construction-line-and-rigidset.mjs",
+      "title": "Does splitCurve split construction lines / rigidSet members (trim refuses)?",
+      "question": "Does splitCurve split a construction line and a rigidSet member — geometry the trim workflow refuses — and does it leave a dangling rigidSet reference?",
+      "category": "constraint-interaction",
+      "setup": "Case A: line with isConstruction:true. Case B: two lines + rigidSet({geomIds:[l1,l2]}), then split l1.",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: constructionLine, values: [0.5] }] }) ; and on a rigidSet member",
+      "expected": "Hypothesis (likely surprising): splitCurve DOES split both (different op than trim) — contradicting the guide's blanket trimmability claim. Else single [0,1] no-op.",
+      "measurement": "splittedCurves.length>1 and getPositions cut coord proves a real split. For rigidSet: filewrite the rigidSet structure node and check whether it still references the now-replaced curve id (dangling = HIGH finding). filewrite both."
+    },
+    {
+      "n": 21,
+      "filename": "21-constraint-dimension-survival.mjs",
+      "title": "Constraint/dimension fate across a split + solver still live",
+      "question": "Do constraints/dimensions on the original curve survive the split (in place / recreated new-id / dropped), and is the sketch still solver-live afterward?",
+      "category": "constraint-interaction",
+      "setup": "Line [0,0,0]->[100,0,0] with a FIXATION on the start point + a length/distance dimension. Record getGlobalState counts and getObjectInfo(line).constraints[]/.dimensions[] BEFORE.",
+      "call": "api.v1.sketch.splitCurve({ id: skId, splits: [{ geomId: line, values: [0.5] }] })",
+      "expected": "Determine: counts change? which segment inherits the fixation? dimension migrates/survives/drops? Contrast with postTrim's 'recreated with new ids' rule.",
+      "measurement": "getGlobalState constraintCount/dimensionCount before/after. getObjectInfo on each new segment for constraints/dimensions. Then updateDimension on a surviving dimension -> assert result:1 (solver live). filewrite before/after object info."
+    },
+    {
+      "n": 22,
+      "filename": "22-undo-path-probe.mjs",
+      "title": "Undo claim probe: no general undo API; merge-back as real reverse",
+      "question": "Is there a general undo (common.undo / sketch.undo)? If not, can postTrim/splitCurvesMergeBack merge split segments back, and is the guide's 'standard undo mechanism' claim unbacked?",
+      "category": "undo",
+      "setup": "Line [0,0,0]->[100,0,0]; getGeometry ids before; split at 0.5.",
+      "call": "Probe api.v1.common.undo({}) and api.v1.sketch.undo({}) (expect unknown-method error); then api.v1.sketch.postTrim({id:skId}) / splitCurvesMergeBack after a bare split",
+      "expected": "common.undo / sketch.undo do not exist -> error IS the finding. postTrim/mergeBack either restores one curve (the real reverse) or no-ops. Mark undo UNVERIFIED if no endpoint reachable (do not assert).",
+      "measurement": "Capture maxLevel/messages for each undo probe (expect unknown method). After mergeBack, getGeometry: is the original single curve restored (segment count back to 1)? filewrite all probe results. Explicitly flag guide line 46 'standard undo mechanism' as unbacked if no undo API exists."
+    },
+    {
+      "n": 23,
+      "filename": "23-planeless-solver-independence.mjs",
+      "title": "Solver independence: split on a planeless (dead-solver) sketch",
+      "question": "Does splitCurve work identically on a planeless sketch (dead solver), proving it is a topological/geometry op independent of the constraint solver?",
+      "category": "edge-case",
+      "setup": "Sketch created WITHOUT planeId (dead solver); line [0,0,0]->[100,0,0]; split at 0.5. Compare head-to-head with the same split on a planeId sketch.",
+      "call": "api.v1.sketch.splitCurve({ id: planelessSkId, splits: [{ geomId: line, values: [0.5] }] })",
+      "expected": "Hypothesis: splits identically (cut at [50,0,0]) -> solver-independent. If it silently no-ops (like dimensions do planeless), that mirrors the dimension trap.",
+      "measurement": "splittedCurves.length===2; getPositions cut vertex≈[50,0,0] identical to the planeId twin. Compare maxLevel. filewrite both."
+    }
+  ],
+  "spatialClaims": [
+    {
+      "claim": "On a 0..100 line, value 0.25 places the cut vertex at world [25,0,0] (values are linear normalized fractions, param0==startPos).",
+      "howToProve": "getPositions on both returned segment ids; assert the shared vertex segA.endPos==segB.startPos≈[25,0,0] within 1e-6, cross-checked against lerp(start,end,0.25) and interval.t1*100==25 (script 02)."
+    },
+    {
+      "claim": "N values produce N+1 segments on an OPEN curve with contiguous intervals covering exactly [0,1].",
+      "howToProve": "values:[0.25,0.75] -> assert splittedCurves.length===3, intervals [0,0.25],[0.25,0.75],[0.75,1], each seg.t1==next.t0, widths sum to 1, and shared world vertices [25,0,0] and [75,0,0] via getPositions (script 03)."
+    },
+    {
+      "claim": "Normalization is a true 2D chord lerp, not axis-aligned coincidence; param0 is the startPos end.",
+      "howToProve": "skew line [10,20,0]->[40,60,0] at 0.4 -> assert cut vertex≈[22,36,0] (=A+0.4*(B-A)) and segA measured length≈20 (=0.4*50); a [28,44,0] result would prove param0==endPos (script 04)."
+    },
+    {
+      "claim": "The original curve id is replaced/invalidated; segment ids are new, distinct, and queryable.",
+      "howToProve": "getGeometry before/after: original id absent from after.lines, count +1; getPositions(originalId) errors; no segment id equals original; getPositions on each segment returns valid endpoints (scripts 02,06)."
+    },
+    {
+      "claim": "A closed circle does NOT follow N+1: one value yields 1 (or 2) arc(s), not 2; and t=0 (seam) is at a specific, measurable angle (NOT assumed +X).",
+      "howToProve": "split circle r50 at [0.25]; read resulting arc segment endpoints via getPositions (arcs are queryable), assert hypot≈50, compute atan2 of the first arc start to REVEAL the seam empirically; count segments to test N-vs-N+1 (scripts 15,16)."
+    },
+    {
+      "claim": "Circle values are [0,1] angular fractions (resolving the deprecated 0..2pi note): 0.25 == quarter turn from the seam.",
+      "howToProve": "split circle at [0.25,0.75]; for each cut, getPositions the arc endpoint, compute angle via atan2 relative to discovered seam, assert == value*360deg within 1e-6; if a cut lands at value*2pi radians interpreted as the literal value, that refutes [0,1] (script 16)."
+    },
+    {
+      "claim": "On an open arc the cut lands at the angular/parameter midpoint, confirming arc param fraction from its own start.",
+      "howToProve": "quarter arc r50 (start [50,0,0], end [0,50,0]) split at 0.5 -> getPositions sub-arcs, assert shared cut vertex≈[35.355,35.355,0] (45deg) and hypot≈50 (script 17)."
+    },
+    {
+      "claim": "Consecutive segments share EXACTLY equal vertices (no gaps) and the outermost endpoints equal the original endpoints (split does not perturb geometry).",
+      "howToProve": "in scripts 02/03, assert segA.endPos===segB.startPos bit-for-bit/within 1e-6, seg0.startPos≈original start, segLast.endPos≈original end."
+    },
+    {
+      "claim": "Out-of-range values do not silently extrapolate geometry outside the source curve.",
+      "howToProve": "values:[1.5] / [-0.2] on the 0..100 line: if a segment is produced, getPositions the new vertex; a vertex at [150,0,0]/[-20,0,0] proves extrapolation (HIGH finding); clamp gives [100,0,0]/[0,0,0]; else expect error>=51 (script 12)."
+    }
+  ],
+  "coverageChecklist": [
+    "Happy path: single-value line split returns documented shape (no leaked keys) - script 01",
+    "Spatial proof: 0.25 -> world [25,0,0] with three cross-checks - script 02",
+    "N values -> N+1 segments, contiguous intervals covering [0,1] - script 03",
+    "Skew/non-unit line disambiguates true 2D lerp and param-0 end - script 04",
+    "Multi-curve: result.length===splits.length, sourceId order-preserving - script 05",
+    "Original id replaced/invalidated; segment ids new/distinct/queryable - script 06",
+    "values:[] no-op vs error (sibling lineage) - script 07",
+    "splits:[] clean empty no-op - script 08",
+    "Boundary values [0]/[1]/[0,1]: no-op vs degenerate zero-length - script 09",
+    "Duplicate / near-duplicate values: dedup vs degenerate/sliver - script 10",
+    "Unsorted values: internal sort vs input order - script 11",
+    "Out-of-range and mixed valid+invalid: clamp/extrapolate/error/atomic - script 12",
+    "Missing required params (id/splits/geomId/values) error codes - script 13",
+    "Bad/wrong-class geomId: error vs drop vs structured-empty; result.length integrity - script 14",
+    "Circle single value: closed-curve segment count (N vs N+1) + discover seam t=0 - script 15",
+    "Circle two values: [0,1] vs 2pi domain resolved by angle math + wrap-interval encoding - script 16",
+    "Open arc: N+1 holds, arc t=0 unambiguous, midpoint at 45deg - script 17",
+    "Standalone: no staging containers; postTrim after split no-op/error; preTrim contrast - script 18",
+    "Flat-vs-structured contrast with deprecated splitCurves - script 19",
+    "Construction line / rigidSet member splittability (trim refuses) + dangling-ref check - script 20",
+    "Constraint/dimension survival + solver still live post-split - script 21",
+    "Undo path: no general undo API; merge-back as real reverse; flag guide claim - script 22",
+    "Solver independence on planeless sketch - script 23"
+  ],
+  "openRisks": [
+    "Circle seam (t=0) location is unknown and explicitly warned 'phase not world-aligned' (SKETCHING L240) — scripts 15/16 must DISCOVER it from the first measured arc endpoint and only then predict the 0.25/0.75 cut coords; hardcoding +X would make every circle coordinate check wrongly fail. Script 16 depends on script 15's discovered seam.",
+    "Closed-curve segment count is genuinely undecided: N+1 (naive) vs N (loop logic) vs error/refusal. If splitCurve refuses closed inputs entirely, that error IS the finding — scripts 15/16 must not assume success.",
+    "Undo is the single most likely UNVERIFIABLE claim: no general undo API exists in the trained surface (only sketch.undoFillet). If neither common.undo nor sketch.undo nor a merge-back reverse is reachable, mark undo UNVERIFIED rather than asserting — and flag guide line 46 'standard undo mechanism' as an unbacked doc discrepancy for TODO.",
+    "Bezier/spline/NURBS free-form curves appear to have NO creator in the sketch API, so the param-space-vs-arc-length distinction (the one thing arcs/circles cannot reveal) is likely untestable — document the gap honestly, do not fabricate spline behavior. (No script allocated; grep api/sketch.md for spline|bezier|interpolat|nurbs before concluding.)",
+    "Doc-discrepancy candidates to watch and flag if observed: (a) result.length !== splits.length on a bad geomId contradicts the 'same length as param.splits' claim (script 14); (b) guide's 'Reversible? Yes (permanent new curves)' is self-contradictory and the real reverse path must be named (script 22); (c) the guide's construction-line/rigidSet 'not trimmable' claims are carried over from the trim workflow and may NOT apply to splitCurve (script 20).",
+    "Construction-line and rigidSet claims come from the trim workflow under an explicit RETRAIN-PENDING banner (SKETCHING L214-220) — treat them as untested for splitCurve; a successful split of either is a plausible surprising finding, and a dangling rigidSet reference after split is a HIGH degenerate-state finding.",
+    "Degenerate-geometry hazards to flag for TODO if produced silently (maxLevel<=31): zero-length segments from boundary/duplicate values (scripts 09/10), extrapolated geometry outside the source from out-of-range values (script 12).",
+    "Constraint/dimension behavior on splitCurve must NOT be assumed identical to postTrim's 'handles recreated with new ids' rule — splitCurve is a different operation; script 21 measures it directly and contrasts.",
+    "Server-hang / robustness: malformed inputs (missing params, wrong-type ids, out-of-range values) are the most likely to trigger an unhandled path — run error-case scripts (12,13,14) individually and capture maxLevel/messages so a hang or crash is attributable to a specific input rather than poisoning a batch."
+  ]
+}

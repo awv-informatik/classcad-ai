@@ -1,0 +1,15 @@
+{
+  "name": true,
+  "yOffset": true,
+  "zOffset": true,
+  "xRotation": true,
+  "yRotation": true,
+  "zRotation": true,
+  "mate1_flip": true,
+  "mate1_reorient": true,
+  "mate2_flip": true,
+  "mate2_reorient": true,
+  "mate1_csys": true,
+  "mate2_csys": true,
+  "xOffsetChanged": true
+}

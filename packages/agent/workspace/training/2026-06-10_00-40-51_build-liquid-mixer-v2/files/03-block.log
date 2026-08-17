@@ -1,0 +1,6 @@
+[03] lines: [58,62,66,70] maxLevel: 31
+[03] arcs: [74,79] maxLevel: 31
+[03] extrusion: 86 maxLevel: 31 []
+[03] vol: 334497.87 expected: 334497.79 delta%: 0.000
+[03] COG: {"x":60.26141730887799,"y":40.000083132644534,"z":17.499926157478964} expected ~(60.26, 40.00, 17.5)
+[filewrite] files/03-block-block-verify.json (176 bytes)

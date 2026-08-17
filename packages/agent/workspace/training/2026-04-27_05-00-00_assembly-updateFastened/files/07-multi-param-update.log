@@ -1,0 +1,4 @@
+[07] multi-update result: 212 maxLevel: 31
+[filewrite] files/07-multi-param-update-multi-update-response.json (55 bytes)
+[07] after multi-update: {"name":"MultiUpdated","x":40,"y":-10,"z":15,"zRot":0.5235987755982988,"m1flip":"-Z"}
+[filewrite] files/07-multi-param-update-after-multi-update.json (371 bytes)

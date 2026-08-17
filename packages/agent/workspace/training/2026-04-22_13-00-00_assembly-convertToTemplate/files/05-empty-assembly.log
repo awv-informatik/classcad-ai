@@ -1,0 +1,7 @@
+[05] asmId: 12
+[05] result: null maxLevel: 31
+[05] messages: []
+[05] new root: 22
+[05] getAssemblyTemplate("EmptySub"): 12
+[05] old root (12) class: CC_Assembly instances: []
+[filewrite] files/05-empty-assembly-empty-convert.json (114 bytes)

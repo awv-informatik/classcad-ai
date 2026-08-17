@@ -1,0 +1,5 @@
+[10] lineId: 58 rectId: [ 66, 70, 76, 82 ]
+[10] sketch (id=52): ✓ get= sketch keys= [ 'geoType' ]
+[10] line (id=58): ✓ get= line keys= [ 'geoType' ]
+[10] rectLine0 (id=66): ✓ get= rectLine0 keys= [ 'geoType' ]
+[filewrite] files/10-sketch-geometry-userdata-sketch-geo-results.json (427 bytes)

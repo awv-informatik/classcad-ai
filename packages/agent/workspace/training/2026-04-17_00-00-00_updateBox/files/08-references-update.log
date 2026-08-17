@@ -1,0 +1,6 @@
+[08] wcsId: 54
+[08] boxId: 62
+[08] add references — result: 62 maxLevel: 31
+[filewrite] files/08-references-update-add-ref-response.json (54 bytes)
+[08] remove references — result: 62 maxLevel: 31
+[filewrite] files/08-references-update-remove-ref-response.json (54 bytes)

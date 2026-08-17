@@ -1,0 +1,64 @@
+{
+  "constructionSegs": 2,
+  "rigidSetSegs": 0,
+  "l1": 79,
+  "l2": 85,
+  "rs": 91,
+  "rsNode": {
+    "name": "RigidSet",
+    "class": "CC_RigidSet",
+    "id": 91,
+    "flags": 4096,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2019_10_7_21:05",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "color": {
+        "value": 5,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 79,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 85,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 8,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  "struct": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      66,
+      70,
+      79,
+      85
+    ],
+    "points": []
+  }
+}

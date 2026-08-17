@@ -1,0 +1,32 @@
+{
+  "initial": {
+    "x": 40,
+    "y": 15,
+    "z": 10
+  },
+  "final": {
+    "x": 40,
+    "y": 15,
+    "z": 10
+  },
+  "r1": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "r2": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "r3": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "r4": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

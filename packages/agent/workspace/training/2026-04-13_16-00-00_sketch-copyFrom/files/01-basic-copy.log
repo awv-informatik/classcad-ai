@@ -1,0 +1,6 @@
+[01] source sketch: 52 rectLines: [ 58, 64, 70, 76 ] circle: 92
+[01] destination sketch (empty): 95
+[01] copyFrom result: null
+[01] copyFrom maxLevel: 31
+[01] copyFrom messages: []
+[filewrite] files/01-basic-copy-copyFrom-response.json (56 bytes)

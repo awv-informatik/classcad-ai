@@ -1,0 +1,164 @@
+{
+  "lines": [
+    {
+      "index": 0,
+      "id": 98
+    },
+    {
+      "index": 1,
+      "id": 101
+    },
+    {
+      "index": 2,
+      "id": 99
+    },
+    {
+      "index": 3,
+      "id": 100
+    },
+    {
+      "index": 4,
+      "id": 102
+    },
+    {
+      "index": 5,
+      "id": 103
+    },
+    {
+      "index": 6,
+      "id": 105
+    },
+    {
+      "index": 7,
+      "id": 104
+    },
+    {
+      "index": 8,
+      "id": 106
+    },
+    {
+      "index": 9,
+      "id": 109
+    },
+    {
+      "index": 10,
+      "id": 107
+    },
+    {
+      "index": 11,
+      "id": 108
+    }
+  ],
+  "faces": [
+    {
+      "index": 0,
+      "id": 110
+    },
+    {
+      "index": 1,
+      "id": 111
+    },
+    {
+      "index": 2,
+      "id": 114
+    },
+    {
+      "index": 3,
+      "id": 112
+    },
+    {
+      "index": 4,
+      "id": 113
+    },
+    {
+      "index": 5,
+      "id": 115
+    }
+  ],
+  "points": [
+    {
+      "index": 0,
+      "id": 90
+    },
+    {
+      "index": 1,
+      "id": 91
+    },
+    {
+      "index": 2,
+      "id": 93
+    },
+    {
+      "index": 3,
+      "id": 92
+    },
+    {
+      "index": 4,
+      "id": 94
+    },
+    {
+      "index": 5,
+      "id": 95
+    },
+    {
+      "index": 6,
+      "id": 97
+    },
+    {
+      "index": 7,
+      "id": 96
+    }
+  ],
+  "arcs": [],
+  "nurbs": [],
+  "positions": [
+    {
+      "id": 98,
+      "positions": null
+    },
+    {
+      "id": 101,
+      "positions": null
+    },
+    {
+      "id": 99,
+      "positions": null
+    },
+    {
+      "id": 100,
+      "positions": null
+    },
+    {
+      "id": 102,
+      "positions": null
+    },
+    {
+      "id": 103,
+      "positions": null
+    },
+    {
+      "id": 105,
+      "positions": null
+    },
+    {
+      "id": 104,
+      "positions": null
+    },
+    {
+      "id": 106,
+      "positions": null
+    },
+    {
+      "id": 109,
+      "positions": null
+    },
+    {
+      "id": 107,
+      "positions": null
+    },
+    {
+      "id": 108,
+      "positions": null
+    }
+  ]
+}

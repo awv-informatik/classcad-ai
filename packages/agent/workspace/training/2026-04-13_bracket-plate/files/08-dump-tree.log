@@ -1,0 +1,4 @@
+[08] dims: { dOff: 81, dRad: 85, dHD: 89, dVD: 93, dDia: 97 }
+[filewrite] files/08-dump-tree-dim-nodes.json (5309 bytes)
+[filewrite] files/08-dump-tree-sketch-node.json (2126 bytes)
+[filewrite] files/08-dump-tree-dim-context.json (2729 bytes)

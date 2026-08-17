@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.fastenedOrigin",
+      "code": 0,
+      "level": 41,
+      "levelStr": "WARNING",
+      "message": "The string \"box_a\" couldn't be converted to an id. Error message: stol: no conversion"
+    },
+    {
+      "api": "v1.assembly.fastenedOrigin",
+      "code": 1006,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"path\" has an invalid id!"
+    }
+  ],
+  "maxLevel": 51
+}

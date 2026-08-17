@@ -1,0 +1,62 @@
+{
+  "lineId": 58,
+  "entry": {
+    "sourceId": 58,
+    "splittedCurves": [
+      {
+        "id": 66,
+        "interval": [
+          0,
+          0.25
+        ]
+      },
+      {
+        "id": 70,
+        "interval": [
+          0.25,
+          1
+        ]
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 66,
+      "interval": [
+        0,
+        0.25
+      ],
+      "pos": {
+        "endPos": {
+          "x": 25,
+          "y": 0,
+          "z": 0
+        },
+        "startPos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    {
+      "id": 70,
+      "interval": [
+        0.25,
+        1
+      ],
+      "pos": {
+        "endPos": {
+          "x": 100,
+          "y": 0,
+          "z": 0
+        },
+        "startPos": {
+          "x": 25,
+          "y": 0,
+          "z": 0
+        }
+      }
+    }
+  ]
+}

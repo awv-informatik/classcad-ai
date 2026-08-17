@@ -1,0 +1,8 @@
+[13] --- Test A: TRANSLATION_2D + rotation ---
+[13] COG TRANSLATION_2D+rotation: {"x":20,"y":15,"z":10}
+[13] --- Test B: TRANSLATION_1D + rotation ---
+[13] COG TRANSLATION_1D+rotation: {"x":20,"y":15,"z":10}
+[13] --- Test C: ROTATION + offset only ---
+[13] COG ROTATION+offset-only: {"x":70,"y":45,"z":10}
+[13] Reference COG at origin: {"x":20,"y":15,"z":10}
+[filewrite] files/13-mucType-vs-params-mucType-comparison.json (345 bytes)

@@ -1,0 +1,5 @@
+[14] boxId: 54
+[filewrite] files/14-verify-name-structure-structure-before-rename.json (23116 bytes)
+[filewrite] files/14-verify-name-structure-structure-after-rename.json (25111 bytes)
+[14] noop update (same value) — result: 54 maxLevel: 31
+[filewrite] files/14-verify-name-structure-noop-response.json (54 bytes)

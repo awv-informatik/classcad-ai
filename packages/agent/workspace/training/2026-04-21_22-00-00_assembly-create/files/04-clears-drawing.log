@@ -1,0 +1,6 @@
+[04] part.create result: 4 maxLevel: 31
+[04] tree node count after part.create: 24
+[04] assembly.create result: null maxLevel: 51
+[04] tree node count after assembly.create: 24
+[04] part still exists after assembly.create: true
+[filewrite] files/04-clears-drawing-clears-drawing.json (370 bytes)

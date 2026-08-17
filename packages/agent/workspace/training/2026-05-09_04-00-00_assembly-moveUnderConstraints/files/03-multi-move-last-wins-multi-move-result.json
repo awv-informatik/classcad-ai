@@ -1,0 +1,32 @@
+{
+  "before": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  },
+  "afterMove1_plus100X": {
+    "x": 120,
+    "y": 15,
+    "z": 10
+  },
+  "afterMove2_plus50Y_replace": {
+    "x": 20,
+    "y": 65,
+    "z": 10
+  },
+  "afterMove3_both": {
+    "x": 120,
+    "y": 65,
+    "z": 10
+  },
+  "afterMove4_identity": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  },
+  "afterFinish": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  }
+}

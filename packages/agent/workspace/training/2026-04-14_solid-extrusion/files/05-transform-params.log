@@ -1,0 +1,6 @@
+[05] reference result: 64 maxLevel: 31
+[05] translated result: 70 maxLevel: 31
+[05] rotated result: 76 maxLevel: 31
+[05] rot+trans (rotateFirst=true) result: 82 maxLevel: 31
+[05] rot+trans (rotateFirst=false) result: 88 maxLevel: 31
+[filewrite] files/05-transform-params-transform-results.json (303 bytes)

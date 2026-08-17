@@ -1,0 +1,11 @@
+[02] hLine: 58
+[02] vLine: 62
+[filewrite] files/02-exact-horizontal-structure-before.json (27340 bytes)
+[02] sketch children before: [ 58, 62 ]
+[02] auto(hLine) result: null maxLevel: 31
+[02] auto(vLine) result: null maxLevel: 31
+[filewrite] files/02-exact-horizontal-structure-after.json (29857 bytes)
+[02] new objects after auto-constraints:
+  ID 66 → CC_2DFixationConstraint "Auto_Fix" entities: {"members":[{"value":59,"type":"id","visible":1,"expression":""}],"type":"array","visible":1,"expression":""}
+  ID 68 → CC_2DHorizontalConstraint "Auto_H" entities: {"members":[{"value":58,"type":"id","visible":1,"expression":""}],"type":"array","visible":1,"expression":""}
+  ID 70 → CC_2DVerticalConstraint "Auto_V" entities: {"members":[{"value":62,"type":"id","visible":1,"expression":""}],"type":"array","visible":1,"expression":""}

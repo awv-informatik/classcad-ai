@@ -1,0 +1,117 @@
+[
+  {
+    "test": "invalid constraint ID",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided constraint id does not exist."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "assembly root as id",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the constraint is not a constraint or relation."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "instance as id",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the constraint is not a constraint or relation."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "invalid csys",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"csys\" has an invalid id!"
+      }
+    ]
+  },
+  {
+    "test": "invalid flip",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastened",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"INVALID\" is not supported to use as flip type."
+      }
+    ]
+  },
+  {
+    "test": "empty update",
+    "result": 121,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "test": "constraint intact after errors",
+    "xOffset": 50
+  }
+]

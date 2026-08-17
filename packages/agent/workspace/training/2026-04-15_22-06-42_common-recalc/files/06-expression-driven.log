@@ -1,0 +1,7 @@
+[06] boxId: 56
+[06] W before update: {"expression":"","value":60}
+[06] updateExpression result: 1 maxLevel: 31
+[06] W after updateExpression: {"expression":"","value":120}
+[06] recalc result: null maxLevel: 31
+[06] W after recalc: {"expression":"","value":120}
+[filewrite] files/06-expression-driven-expression-recalc.json (316 bytes)

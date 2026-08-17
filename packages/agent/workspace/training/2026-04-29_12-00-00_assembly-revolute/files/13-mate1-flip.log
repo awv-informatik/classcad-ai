@@ -1,0 +1,10 @@
+[13] mate1 flip=X: result= 212
+[filewrite] files/13-mate1-flip-mate1-flipX-data.json (322 bytes)
+[13] mate1 flip stored: X
+[13] mate1 flip=Y: result= 274
+[13] both flips X/-X: result= 336
+[filewrite] files/13-mate1-flip-both-flips-data.json (322 bytes)
+[13] both flips stored: mate1= X mate2= -X
+[13] reorient mate1=180 mate2=90: result= 398
+[filewrite] files/13-mate1-flip-reorient-data.json (328 bytes)
+[13] reorients stored: mate1= 180 mate2= 90

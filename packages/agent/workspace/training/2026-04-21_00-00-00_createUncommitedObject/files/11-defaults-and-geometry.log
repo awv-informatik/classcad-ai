@@ -1,0 +1,7 @@
+[11] default box members: {"length":{"value":100,"type":"real","visible":1,"expression":""},"_VERSION":{"value":"0/2001_4_2_13:7","type":"string","visible":0,"expression":""},"width":{"value":100,"type":"real","visible":1,"expression":""},"height":{"value":100,"type":"real","visible":1,"expression":""},"references":{"members":[],"type":"array","visible":1,"expression":""},"solidOperation":{"value":0,"type":"real","visible":0,"expression":""}}
+[filewrite] files/11-defaults-and-geometry-default-box-node.json (813 bytes)
+[11] updateBox (no params): 52 maxLevel: 31
+[filewrite] files/11-defaults-and-geometry-committed-box-node.json (813 bytes)
+[11] committed box length: 100 width: 100 height: 100
+[11] cylinder defaults: {"height":{"value":100,"type":"real","visible":1,"expression":""},"_VERSION":{"value":"0/2001_4_2_13:7","type":"string","visible":0,"expression":""},"diameter":{"value":100,"type":"real","visible":1,"expression":""},"references":{"members":[],"type":"array","visible":1,"expression":""},"solidOperation":{"value":0,"type":"real","visible":0,"expression":""}}
+[filewrite] files/11-defaults-and-geometry-default-cyl-node.json (715 bytes)

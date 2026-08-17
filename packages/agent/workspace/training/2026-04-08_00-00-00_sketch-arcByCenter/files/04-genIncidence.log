@@ -1,0 +1,5 @@
+[04] point id: 58
+[04] arc with genIncidence=true: 60 maxLevel: 31
+[04] arc with genIncidence=false: 69
+[04] arc sharing endpoint: 74
+[filewrite] files/04-genIncidence-structure-incidence.json (34162 bytes)

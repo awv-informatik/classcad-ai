@@ -1,0 +1,7 @@
+[10] extId: 96
+[10] limit2=0: 96 maxLevel: 51
+[filewrite] files/10-edge-limit2-limit2-zero-response.json (282 bytes)
+[10] limit2=-30: 96 maxLevel: 31
+[filewrite] files/10-edge-limit2-limit2-neg-response.json (54 bytes)
+[10] limit2=10000: 96 maxLevel: 31
+[filewrite] files/10-edge-limit2-limit2-large-response.json (54 bytes)

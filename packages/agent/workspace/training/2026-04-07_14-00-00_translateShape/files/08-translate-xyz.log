@@ -1,0 +1,6 @@
+[08] translateX: 31
+[08] translateY: 31
+[08] translateZ: 31
+[08] translateXYZ: 31
+[08] sequential: 31 31 31
+[filewrite] files/08-translate-xyz-translate-results.json (121 bytes)

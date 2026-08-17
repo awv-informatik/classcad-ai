@@ -1,0 +1,8 @@
+[06] sliderId: 216
+[06] getSlider maxLevel: 31
+[filewrite] files/06-getSlider-getSlider-result.json (333 bytes)
+[06] non-existent: null maxLevel: 51
+[06] empty name: null maxLevel: 51
+[06] template ID: null maxLevel: 51
+[06] instance ID: null maxLevel: 51
+[filewrite] files/06-getSlider-getSlider-cases.json (736 bytes)

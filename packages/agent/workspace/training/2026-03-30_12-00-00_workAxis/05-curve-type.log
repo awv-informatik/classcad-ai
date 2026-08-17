@@ -1,0 +1,9 @@
+[05] lines: [67,71,68]
+[filewrite] files/05-curve-type-geometry-ids.json (43 bytes)
+[05] valid edges: 3
+[05] CURVE result: 91 maxLevel: 31
+[05] messages: []
+[filewrite] files/05-curve-type-curve-response.json (54 bytes)
+[05] CURVE(workAxis) result: null maxLevel: 51
+[05] messages: [{"api":"v1.part.workAxis","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has a wrong id type! Provide only following id types: [\"sketch-arc\",\"sketch-circle\",\"edge-arc\",\"edge-circle\",\"edge-line\"]"}]
+[filewrite] files/05-curve-type-curve-workaxis-response.json (350 bytes)

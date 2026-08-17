@@ -1,0 +1,6 @@
+[08] tpl1: 22
+[08] first delete result: null maxLevel: 31
+[08] messages: []
+[08] second delete result: null maxLevel: 51
+[08] messages: [{"api":"v1.assembly.deleteTemplate","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.assembly.deleteTemplate","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/08-double-delete-double-delete.json (571 bytes)

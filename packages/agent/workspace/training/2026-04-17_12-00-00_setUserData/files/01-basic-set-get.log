@@ -1,0 +1,6 @@
+[01] setUserData result: null maxLevel: 31
+[filewrite] files/01-basic-set-get-set-response.json (56 bytes)
+[01] getUserData result: "steel" maxLevel: 31
+[filewrite] files/01-basic-set-get-get-response.json (59 bytes)
+[01] getUserDataKeys result: ["material"] maxLevel: 31
+[filewrite] files/01-basic-set-get-keys-response.json (72 bytes)

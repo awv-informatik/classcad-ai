@@ -1,0 +1,28 @@
+{
+  "zeroScale": {
+    "containerCount": 1,
+    "targetContainer": {
+      "material": {
+        "color": [
+          128,
+          128,
+          128
+        ],
+        "opacity": 1
+      },
+      "layer": "0",
+      "min": [
+        -25,
+        60,
+        -15
+      ],
+      "max": [
+        25,
+        100,
+        15
+      ],
+      "chordHeightTol": 0.1,
+      "angleTol": 0
+    }
+  }
+}

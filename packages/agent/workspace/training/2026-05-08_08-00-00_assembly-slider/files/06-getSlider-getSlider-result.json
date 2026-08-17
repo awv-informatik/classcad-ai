@@ -1,0 +1,26 @@
+{
+  "id": 216,
+  "mate1": {
+    "csys": 107,
+    "flip": "-Z",
+    "path": [
+      204
+    ],
+    "reorient": "90"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "X",
+    "path": [
+      206
+    ],
+    "reorient": "180"
+  },
+  "name": "Slide1",
+  "xOffset": 25,
+  "yOffset": 10,
+  "zOffsetLimits": {
+    "max": 50,
+    "min": 5
+  }
+}

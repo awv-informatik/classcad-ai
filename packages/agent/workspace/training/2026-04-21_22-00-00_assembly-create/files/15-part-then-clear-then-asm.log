@@ -1,0 +1,5 @@
+[15] part.create: 4
+[15] cleared
+[15] assembly.create: 12 maxLevel: 31
+[15] root name: AfterPartClear class: CC_AssemblyRoot
+[filewrite] files/15-part-then-clear-then-asm-part-clear-asm.json (54 bytes)

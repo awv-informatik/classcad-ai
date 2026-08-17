@@ -1,0 +1,6 @@
+[10] Z=0.001 → result:null maxLevel:51 dimPt:{"x":40,"y":25,"z":0} msgs:[{"api":"v1.sketch.updateDimensionPosition","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"pos\" which is a 2D point, must have a z-value of 0!"}]
+[10] Z=1 → result:null maxLevel:51 dimPt:{"x":40,"y":25,"z":0} msgs:[{"api":"v1.sketch.updateDimensionPosition","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"pos\" which is a 2D point, must have a z-value of 0!"}]
+[10] Z=-1 → result:null maxLevel:51 dimPt:{"x":40,"y":25,"z":0} msgs:[{"api":"v1.sketch.updateDimensionPosition","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"pos\" which is a 2D point, must have a z-value of 0!"}]
+[10] Z=50 → result:null maxLevel:51 dimPt:{"x":40,"y":25,"z":0} msgs:[{"api":"v1.sketch.updateDimensionPosition","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"pos\" which is a 2D point, must have a z-value of 0!"}]
+[10] Z=0 → result:null maxLevel:31 dimPt:{"x":40,"y":25,"z":0} msgs:[]
+[filewrite] files/10-nonzero-z-detail-z-values.json (1673 bytes)

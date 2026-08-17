@@ -1,0 +1,8 @@
+[03] tplId: 22 inst1: 105 inst2: 107
+[03] deleteTemplate with instances - result: null
+[03] maxLevel: 31
+[03] messages: []
+[filewrite] files/03-delete-with-instances-delete-with-instances.json (56 bytes)
+[03] instances after delete: []
+[filewrite] files/03-delete-with-instances-instances-after-delete.json (6601 bytes)
+[03] templates after delete: []

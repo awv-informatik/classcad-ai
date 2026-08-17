@@ -1,0 +1,41 @@
+{
+  "circleMembers": {
+    "radius": {
+      "value": 22.5,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2001_2_2_9:19",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "rigidSetId": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "lgsState": {
+      "value": 16,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "l1after": {
+    "endPos": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "len2": 70
+}

@@ -1,0 +1,6 @@
+[04] line1: 58 line2: 66
+[04] ANGLE auto result: 76 maxLevel: 31
+[04] messages: []
+[04] ANGLE dimPos result: 80 maxLevel: 31
+[04] ANGLE explicit value result: 84 maxLevel: 51
+[filewrite] files/04-angle-angle-responses.json (453 bytes)

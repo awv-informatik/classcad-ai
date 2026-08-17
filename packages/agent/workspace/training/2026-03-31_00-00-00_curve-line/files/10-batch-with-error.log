@@ -1,0 +1,3 @@
+[10] batch with degenerate: null maxLevel: 51
+[10] messages: [{"api":"v1.curve.line","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveAPI_v1.line::PROC:Start point and end point must not be equal\nFunction: CADH_CreateLine\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/CurveBuilder.cpp,     Line: 349] "}]
+[filewrite] files/10-batch-with-error-batch-error.json (396 bytes)

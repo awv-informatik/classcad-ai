@@ -1,0 +1,7 @@
+[03] line1: 58 line2: 66
+[03] dimId: 76 maxLevel: 31
+[03] BEFORE dimPt: {"x":9.013032363068557,"y":4.331887304891343,"z":0}
+[03] class: CC_AngularFeatureDimension
+[03] result: null maxLevel: 31
+[03] AFTER dimPt: {"x":25,"y":25,"z":0}
+[filewrite] files/03-angle-dim-angle-dimPt-comparison.json (373 bytes)

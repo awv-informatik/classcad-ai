@@ -1,0 +1,3 @@
+[06] inverted=1: 94 maxLevel: 31 msgs: []
+[06] inverted=true: null maxLevel: 51 msgs: [{"api":"v1.part.revolve","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_Revolve"}]
+[filewrite] files/06-inverted-fix-inverted-variants.json (349 bytes)

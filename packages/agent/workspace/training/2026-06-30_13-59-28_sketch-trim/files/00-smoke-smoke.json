@@ -1,0 +1,38 @@
+{
+  "allSegs": [
+    80,
+    84,
+    88,
+    92
+  ],
+  "scBefore": 4,
+  "target": 80,
+  "trimRes": null,
+  "trimMax": 31,
+  "trimmedPosMax": 51,
+  "scAfter": 3,
+  "othersAlive": [
+    {
+      "id": 84,
+      "maxLevel": 31
+    },
+    {
+      "id": 88,
+      "maxLevel": 31
+    },
+    {
+      "id": 92,
+      "maxLevel": 31
+    }
+  ],
+  "postMax": 31,
+  "geo": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      64,
+      97
+    ],
+    "points": []
+  }
+}

@@ -1,0 +1,6 @@
+[01b] part.calcMass result type: object
+[01b] part.calcMass maxLevel: 31
+[01b] asm.calcMass result type: object
+[01b] asm.calcMass maxLevel: 31
+[filewrite] files/01b-debug-cog-part-mass.json (180 bytes)
+[filewrite] files/01b-debug-cog-asm-mass.json (179 bytes)

@@ -1,0 +1,45 @@
+{
+  "assemblyId": {
+    "ok": true,
+    "maxLevel": 31
+  },
+  "partInstanceId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getRevolute",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided product or product reference id is not a Assembly."
+      }
+    ]
+  },
+  "constraintId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getRevolute",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "partTemplateId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getRevolute",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  }
+}

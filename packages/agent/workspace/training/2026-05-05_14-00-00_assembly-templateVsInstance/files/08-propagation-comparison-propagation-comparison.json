@@ -1,0 +1,12 @@
+{
+  "stepA_viaTemplate": {
+    "tplVol": 48000,
+    "inst1Vol": 48000,
+    "inst2Vol": 48000
+  },
+  "stepB_viaInstance": {
+    "tplVol": 72000,
+    "inst1Vol": 48000,
+    "inst2Vol": 48000
+  }
+}

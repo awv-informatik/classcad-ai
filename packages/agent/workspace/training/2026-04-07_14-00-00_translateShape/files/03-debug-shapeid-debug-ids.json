@@ -1,0 +1,17 @@
+{
+  "shapeId": {
+    "value": 60,
+    "type": "number"
+  },
+  "eifId": {
+    "value": 54,
+    "type": "number"
+  },
+  "partId": {
+    "value": 4,
+    "type": "number"
+  },
+  "translateShape": 31,
+  "translateEif": 51,
+  "translatePart": 51
+}

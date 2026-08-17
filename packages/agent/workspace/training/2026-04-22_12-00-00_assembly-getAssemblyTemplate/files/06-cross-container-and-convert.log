@@ -1,0 +1,9 @@
+[06] partTpl: 22 asmTpl: 68
+[06] findWidget (asm): 68 === asmTpl? true
+[06] findWidget (part): 22 === partTpl? true
+[06] asmList: [68]
+[06] asmList includes partTpl? false
+[06] convertToTemplate result: null maxLevel: 31
+[06] asmListAfter: [68,12]
+[06] findConverted: 12 maxLevel: 31
+[filewrite] files/06-cross-container-and-convert-cross-container.json (231 bytes)

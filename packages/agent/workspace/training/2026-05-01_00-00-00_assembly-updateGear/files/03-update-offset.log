@@ -1,0 +1,9 @@
+[03] gear created, ratio=2, offset=0
+[03] update offset to 1.5708 (90deg) — result: 263 maxLevel: 31
+[03] offset after radian update: 1.5708
+[03] update offset to "30deg" — result: 263 maxLevel: 31
+[03] offset after deg update: 0.5235987755982988 (expected ~0.5236)
+[03] update offset to 0 — result: 263 maxLevel: 31
+[03] offset after reset: 0
+[03] ratio preserved: 2 2 2 (all should be 2)
+[filewrite] files/03-update-offset-offset-updates.json (408 bytes)

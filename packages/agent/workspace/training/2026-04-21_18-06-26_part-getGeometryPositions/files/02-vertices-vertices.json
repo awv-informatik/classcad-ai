@@ -1,0 +1,40 @@
+{
+  "pointIds": [
+    90,
+    96,
+    91
+  ],
+  "geoPositionsResult": [
+    {
+      "id": 90,
+      "positions": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "positions": [
+        {
+          "x": 80,
+          "y": 60,
+          "z": 40
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "positions": [
+        {
+          "x": 80,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    }
+  ],
+  "maxLevel": 31
+}

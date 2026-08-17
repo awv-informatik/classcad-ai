@@ -1,0 +1,154 @@
+{
+  "invalidName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"name\" is not valid. Possible values are: [\"X_OFFSET\",\"Y_OFFSET\",\"Z_OFFSET\",\"Z_ROTATION\"]"
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "xRotation": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"name\" is not valid. Possible values are: [\"X_OFFSET\",\"Y_OFFSET\",\"Z_OFFSET\",\"Z_ROTATION\"]"
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "yRotation": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"name\" is not valid. Possible values are: [\"X_OFFSET\",\"Y_OFFSET\",\"Z_OFFSET\",\"Z_ROTATION\"]"
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "emptyName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"name\" is not valid. Possible values are: [\"X_OFFSET\",\"Y_OFFSET\",\"Z_OFFSET\",\"Z_ROTATION\"]"
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "lowercase": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "asmRootId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"constraint\"]"
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "instanceId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"constraint\"]"
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "nonExistent": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      },
+      {
+        "api": "v1.assembly.update3DConstraintValue",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  }
+}

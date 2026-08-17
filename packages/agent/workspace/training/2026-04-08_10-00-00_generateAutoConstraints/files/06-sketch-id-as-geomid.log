@@ -1,0 +1,3 @@
+[06] result: null maxLevel: 51
+[06] messages: [{"api":"v1.sketch.generateAutoConstraints","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\",\"sketch-point\"]"}]
+[06] new objects (sketch as geomId):

@@ -1,0 +1,6 @@
+[16] copy line ID: 71
+[16] original: {"endPos":{"x":20,"y":5,"z":0},"startPos":{"x":10,"y":5,"z":0}}
+[16] copy: {"endPos":{"x":40,"y":5,"z":0},"startPos":{"x":50,"y":5,"z":0}}
+[16] Expected copy start: (50,5), got: (50,5)
+[16] Expected copy end: (40,5), got: (40,5)
+[filewrite] files/16-verify-coords-coords-verify.json (427 bytes)

@@ -1,0 +1,6 @@
+[08] same inst: null maxLevel: 51 msg: The path of mate1 and mate2 cannot be used in this combination for constraint with id = $125 in assembly with id = $12, they probably belong to the same rigid set.
+[08] invalid flip: null maxLevel: 51 msg: Type "W" is not supported to use as flip type.
+[08] invalid reorient: null maxLevel: 51 msg: Type "45" is not supported to use as reorient type.
+[08] missing mate2: null maxLevel: 51 msg: [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] 
+[08] missing csys: null maxLevel: 51 msg: [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] 
+[filewrite] files/08-errors-errors-data.json (906 bytes)

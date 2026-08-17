@@ -1,0 +1,11 @@
+[06] boolId: 128
+[filewrite] files/06-find-boolean-class-bool-structure.json (25102 bytes)
+[06] boolean class: CC_Union name: BoolUnion
+[filewrite] files/06-find-boolean-class-bool-node.json (829 bytes)
+[06] CC_BooleanOperation: result=266 maxLevel=31 msg=none
+[06] CC_BoolOp: result=null maxLevel=51 msg=[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_BoolOp
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[06] CC_Union: result=270 maxLevel=31 msg=none
+[06] CC_Subtraction: result=274 maxLevel=31 msg=none
+[06] CC_Intersection: result=278 maxLevel=31 msg=none

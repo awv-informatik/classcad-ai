@@ -1,0 +1,18 @@
+[07] created: 216
+[07] baseline offLimits: {"max":null,"min":null} rotLimits: {"max":null,"min":null}
+[07] add offset limits: 216 maxLevel: 31
+[07] after add offset: {"max":40,"min":-20}
+[07] add rotation limits: 216 maxLevel: 31
+[07] after add rotation: {"max":1.5707963267948966,"min":-0.7853981633974483}
+[07] offset still there: {"max":40,"min":-20}
+[07] partial rotation (max only): 216 maxLevel: 31
+[07] after partial rotation: {"max":3.141592653589793,"min":-0.7853981633974483}
+[07] partial offset (min only): 216 maxLevel: 31
+[07] after partial offset: {"max":40,"min":-50}
+[07] remove rotation: 216 maxLevel: 31
+[07] after remove rotation: {"max":null,"min":null}
+[07] remove offset: 216 maxLevel: 31
+[07] after remove offset: {"max":null,"min":null}
+[07] remove min only: 216 maxLevel: 31
+[07] after remove min: {"max":1.0471975511965976,"min":null}
+[filewrite] files/07-update-limits-update-limits-progression.json (748 bytes)

@@ -1,0 +1,6 @@
+[07] string default: "fallback" type: string
+[07] empty string default: "" type: string
+[07] number default: null type: object maxLevel: 51
+[07] boolean default: null type: object maxLevel: 51
+[07] null default: null type: object maxLevel: 51
+[filewrite] files/07-default-value-types-default-value-types.json (445 bytes)

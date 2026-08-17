@@ -1,0 +1,6 @@
+[09] rect lines: [ 58, 64, 70, 76 ]
+[09] batch result: [ 94, 98, 102 ] maxLevel: 31
+[09] dim0: id=94 name="width" class="CC_LinearFeatureDimension"
+[09] dim1: id=98 name="height" class="CC_LinearFeatureDimension"
+[09] dim2: id=102 name="Offset" class="CC_LinearFeatureDimension"
+[filewrite] files/09-batch-and-name-batch-name-data.json (372 bytes)

@@ -1,0 +1,5 @@
+[08] baseline maxErr: 2.842170943040401e-14 ✓
+[08] R98 → 90: result 2 maxLevel 31
+[08] A30 → 25°: result 2 maxLevel 31
+[filewrite] files/08-condition-proof-compare-conditioned.json (8424 bytes)
+[08] re-solved maxErr vs model(RP=90,TH=25): 2.842170943040401e-14 ✓ CONDITIONED

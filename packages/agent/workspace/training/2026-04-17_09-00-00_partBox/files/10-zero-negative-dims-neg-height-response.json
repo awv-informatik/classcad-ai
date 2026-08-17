@@ -1,0 +1,13 @@
+{
+  "result": 64,
+  "messages": [
+    {
+      "api": "v1.part.box",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Height not valid for NegHeight (CC_Box). Value for height must be greater than 0."
+    }
+  ],
+  "maxLevel": 51
+}

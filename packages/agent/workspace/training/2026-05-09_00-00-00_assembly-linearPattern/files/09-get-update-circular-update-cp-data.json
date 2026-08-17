@@ -1,0 +1,36 @@
+{
+  "created": {
+    "constraint": 123,
+    "instances": [
+      113,
+      125,
+      127
+    ]
+  },
+  "updated": {
+    "constraint": 123,
+    "instances": [
+      113,
+      125,
+      127,
+      160,
+      162
+    ]
+  },
+  "getAfter": {
+    "angle": 1.2566370614359172,
+    "id": 123,
+    "instanceCount": 5,
+    "instanceId": 113,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "name": "CP1",
+    "offset": 0
+  }
+}

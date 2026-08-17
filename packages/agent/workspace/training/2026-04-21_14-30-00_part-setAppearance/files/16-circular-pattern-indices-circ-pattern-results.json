@@ -1,0 +1,26 @@
+{
+  "idx0": {
+    "maxLevel": 51
+  },
+  "idx1": {
+    "maxLevel": 51
+  },
+  "idx2": {
+    "maxLevel": 51
+  },
+  "idx3": {
+    "maxLevel": 51
+  },
+  "idx4OOR": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  }
+}

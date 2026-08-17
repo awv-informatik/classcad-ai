@@ -1,0 +1,11 @@
+[04] set first: maxLevel= 31
+[04] after first set: first
+[04] set second: maxLevel= 31 messages: []
+[04] after second set: first
+[04] set third: maxLevel= 31 messages: []
+[04] after third set: first
+[04] remove: maxLevel= 31
+[04] after remove: GONE
+[04] set new after remove: maxLevel= 31
+[04] after re-set: new-value
+[filewrite] files/04-overwrite-behavior-overwrite-results.json (319 bytes)

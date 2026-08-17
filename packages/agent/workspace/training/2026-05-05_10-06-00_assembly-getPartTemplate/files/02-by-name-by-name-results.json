@@ -1,0 +1,41 @@
+{
+  "tplIds": {
+    "tpl1": 22,
+    "tpl2": 68
+  },
+  "exact": {
+    "result": 22,
+    "maxLevel": 31,
+    "type": "number",
+    "isArray": false
+  },
+  "lowercase": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getPartTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Part with name = \"alpha\" could not be found"
+      }
+    ]
+  },
+  "uppercase": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "partial": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "missing": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "beta": {
+    "result": 68,
+    "maxLevel": 31
+  }
+}

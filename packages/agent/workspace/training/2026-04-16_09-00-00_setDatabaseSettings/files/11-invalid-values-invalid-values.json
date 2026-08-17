@@ -1,0 +1,36 @@
+{
+  "emptyParams": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "negativeChord": {
+    "result": null,
+    "maxLevel": 31,
+    "chord": 0.1
+  },
+  "zeroChord": {
+    "result": null,
+    "maxLevel": 51,
+    "chord": 0.1
+  },
+  "mode3": {
+    "result": null,
+    "maxLevel": 31,
+    "mode": 3
+  },
+  "modeNeg": {
+    "result": null,
+    "maxLevel": 31,
+    "mode": -1
+  },
+  "stringBool": {
+    "result": null,
+    "maxLevel": 51,
+    "value": 1
+  },
+  "unknownParam": {
+    "result": null,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,6 @@
+[08] copy 1: id=63, angle=60°
+[08] copy 2: id=66, angle=120°
+[08] copy 3: id=69, angle=180°
+[08] copy 4: id=72, angle=240°
+[08] copy 5: id=75, angle=300°
+[filewrite] files/08-multiple-copies-multi-copy-ids.json (98 bytes)

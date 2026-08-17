@@ -1,0 +1,4 @@
+[01] created region: 92
+[01] part.getSketchRegion result: 92 maxLevel: 31
+[01] match: true
+[filewrite] files/01-basic-lookup-basic-lookup.json (102 bytes)

@@ -1,0 +1,8 @@
+[15] baseline: {"angleTol":10,"chordHeightTol":0.3}
+[15] zero chordHeightTol — maxLevel: 31 messages: []
+[15] after zero chordHeightTol: {"angleTol":10,"chordHeightTol":0}
+[15] zero angleTol — maxLevel: 31
+[15] after zero angleTol: {"angleTol":0,"chordHeightTol":0.3}
+[15] both zero — maxLevel: 51 messages: ["[Evaluation error in CommonHelper.SetFacetingParameters:Not allowed to set both angleTol and chordHeightTol to 0\nFunction: CADH_SetFacetingParameters\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "]
+[15] after both zero: {"angleTol":0,"chordHeightTol":0.3}
+[filewrite] files/15-edge-zero-v2-edge-zero-v2.json (302 bytes)

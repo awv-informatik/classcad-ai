@@ -1,0 +1,35 @@
+{
+  "A": {
+    "originals": [
+      58,
+      64
+    ],
+    "after": [
+      58,
+      64
+    ],
+    "preserved": true
+  },
+  "B": {
+    "trimmedLine": 103,
+    "untrimmedLine": 109,
+    "after": [
+      109,
+      140
+    ],
+    "untrimmedKept": true,
+    "trimmedChurned": true
+  },
+  "C": {
+    "originals": [
+      153,
+      159
+    ],
+    "after": [
+      153,
+      159
+    ],
+    "trimEmptyMax": 31,
+    "idsChanged": false
+  }
+}

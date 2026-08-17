@@ -1,0 +1,21 @@
+{
+  "before": {
+    "CC_DimensionSet": 1,
+    "CC_SketchDimensionSet": 1,
+    "CC_2DRadiusConstraint": 1,
+    "CC_RadialFeatureDimension": 1
+  },
+  "afterTrue": {
+    "CC_DimensionSet": 1,
+    "CC_SketchDimensionSet": 1,
+    "CC_2DRadiusConstraint": 2,
+    "CC_RadialFeatureDimension": 1
+  },
+  "afterFalse": {
+    "CC_DimensionSet": 1,
+    "CC_SketchDimensionSet": 1,
+    "CC_2DRadiusConstraint": 2,
+    "CC_RadialFeatureDimension": 1
+  },
+  "dimResult": 63
+}

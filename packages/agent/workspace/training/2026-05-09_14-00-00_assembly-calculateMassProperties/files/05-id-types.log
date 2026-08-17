@@ -1,0 +1,14 @@
+[05] asmRoot (id=12): result={"cog":{"x":70,"y":15,"z":10},"volume":48000}, maxLevel=31
+[05] partTemplate (id=22): result={"cog":{"x":20,"y":15,"z":10},"volume":24000}, maxLevel=31
+[05] asmTemplate (id=113): result=null, maxLevel=51
+[05] partInstance (id=125): result={"cog":{"x":20,"y":15,"z":10},"volume":24000}, maxLevel=31
+[05] subAsmInstance (id=127): result={"cog":{"x":120,"y":15,"z":10},"volume":24000}, maxLevel=31
+[05] boxFeature (id=70): result=null, maxLevel=51
+[05] workCSys (id=107): result=null, maxLevel=51
+[05] subInstInside (id=123): result=null, maxLevel=51
+[05] part.asmRoot (id=12): result={"cog":{"x":70,"y":15,"z":10},"volume":48000}, maxLevel=31
+[05] part.partTemplate (id=22): result={"cog":{"x":20,"y":15,"z":10},"volume":24000}, maxLevel=31
+[05] part.asmTemplate (id=113): result=null, maxLevel=51
+[05] part.partInstance (id=125): result={"cog":{"x":20,"y":15,"z":10},"volume":24000}, maxLevel=31
+[05] part.subAsmInstance (id=127): result={"cog":{"x":120,"y":15,"z":10},"volume":24000}, maxLevel=31
+[filewrite] files/05-id-types-id-types.json (4568 bytes)

@@ -1,0 +1,6 @@
+[17] created line in skA: 64
+[17] pos before: {"endPos":{"x":50,"y":50,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[17] wrong sketch update result: null maxLevel: 31
+[17] pos after: {"endPos":{"x":80,"y":80,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[17] DID THE LINE ACTUALLY MOVE? true
+[filewrite] files/17-wrong-sketch-verify-wrong-sketch-verify.json (326 bytes)

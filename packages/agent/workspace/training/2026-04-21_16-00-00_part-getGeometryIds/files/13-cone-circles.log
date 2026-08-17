@@ -1,0 +1,7 @@
+[13] cone bottom circle [-20,0,0]: {"circles":[76]} maxLevel: 31
+[13] cone top circle [-5,0,50]: {"circles":[77]} maxLevel: 31
+[13] cone bottom circle center: {"circles":[76]} maxLevel: 31
+[13] cone top circle center: {"circles":[77]} maxLevel: 31
+[13] cone bottom circle [0,20,0]: {"circles":[76]} maxLevel: 31
+[13] cone bottom circle seam [20,0,0]: {"circles":[[]]} maxLevel: 51
+[filewrite] files/13-cone-circles-cone-circles-results.json (317 bytes)

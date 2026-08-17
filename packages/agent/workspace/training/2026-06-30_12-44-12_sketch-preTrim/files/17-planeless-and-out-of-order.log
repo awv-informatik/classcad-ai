@@ -1,0 +1,5 @@
+[17] A planeless: preMax 31 cut [49.999999999999986,49.999999999999986,0] postMax 31 originalsPreserved true
+[17] B out-of-order: postTrim max 31 trim max 31 | geometry unchanged true
+[filewrite] files/17-planeless-and-out-of-order-17-planeless-outoforder.json (317 bytes)
+[17] CHECKS {"A_planelessSplits":true,"A_planelessRestore":true,"B_postTrimNoOp":true,"B_trimNoOp":true}
+[17] PASS

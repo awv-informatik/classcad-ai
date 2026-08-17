@@ -1,0 +1,4 @@
+[15] OFFSET initial dimPt expression: {40,25,0} value: {"x":40,"y":25,"z":0}
+[15] OFFSET after dimPt expression: {123,456,0} value: {"x":123,"y":456,"z":0}
+[15] RADIUS after dimPt expression: {77,88,0} value: {"x":77,"y":88,"z":0}
+[filewrite] files/15-expression-still-set-expression-patterns.json (559 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.slider",
+      "code": 1003,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The object \"zOffsetLimits\" is empty!"
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,7 @@
+[07] COG default flip Z: {"x":30,"y":10,"z":19.5}
+[07] update flip -Z result: 216 maxLevel: 31
+[07] COG flip -Z: {"x":30,"y":-10.000000000000002,"z":4.5}
+[07] update reorient 90 result: 216 maxLevel: 31
+[07] COG reorient 90: {"x":10.000000000000004,"y":-30,"z":19.50000000000001}
+[07] getPlanar mate2 flip: Z reorient: 90
+[filewrite] files/07-update-flip-reorient-flip-reorient-update.json (350 bytes)

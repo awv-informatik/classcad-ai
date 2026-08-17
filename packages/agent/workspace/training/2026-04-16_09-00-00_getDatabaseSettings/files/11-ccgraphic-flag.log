@@ -1,0 +1,4 @@
+[11] With CC gfx ON: graphic size: 2769
+[11] After disable: isCCGraphicEnabled: 0
+[11] With CC gfx OFF: graphic size: 2688
+[filewrite] files/11-ccgraphic-flag-cc-graphic.json (47 bytes)

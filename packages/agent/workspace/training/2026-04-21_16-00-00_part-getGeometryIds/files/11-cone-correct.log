@@ -1,0 +1,8 @@
+[11] bottom arc: {"arcs":[[]]} maxLevel: 51
+[11] top arc: {"arcs":[[]]} maxLevel: 51
+[11] cone face (3 exact pts): {"cones":[72]} maxLevel: 31
+[11] cone face (2 pts): {"cones":[72]} maxLevel: 31
+[11] seam line: {"lines":[75]} maxLevel: 31
+[11] bottom face: {"planes":[73]} maxLevel: 31
+[11] top face: {"planes":[74]} maxLevel: 31
+[filewrite] files/11-cone-correct-cone-correct-results.json (361 bytes)

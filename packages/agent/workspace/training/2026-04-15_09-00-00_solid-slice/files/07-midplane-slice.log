@@ -1,0 +1,9 @@
+[07] boxId: 61
+[07] BEFORE min: [-40,-30,-20]
+[07] BEFORE max: [40,30,20]
+[07] BEFORE vert count: 24
+[07] slice result: null maxLevel: 31
+[07] AFTER min: [-40,-30,-20]
+[07] AFTER max: [40,30,0]
+[07] AFTER vert count: 24
+[filewrite] files/07-midplane-slice-bbox-comparison.json (238 bytes)

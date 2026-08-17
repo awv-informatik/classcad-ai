@@ -1,0 +1,4 @@
+[10] recalc done
+[10] after recalc — result: null maxLevel: 51
+[10] after recalc — messages: [{"api":"v1.curve.rotateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/10-recalc-invalidation-recalc-response.json (244 bytes)

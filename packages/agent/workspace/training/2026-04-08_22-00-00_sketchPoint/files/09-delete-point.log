@@ -1,0 +1,7 @@
+[09] created points: 58 62 64
+[09] deleteObject result: null maxLevel: 31
+[09] delete messages: []
+[filewrite] files/09-delete-point-delete-response.json (56 bytes)
+[09] getPositions on deleted point: null maxLevel: 51
+[09] p1 still exists: {"pos":{"x":0,"y":0,"z":0}}
+[09] p3 still exists: {"pos":{"x":20,"y":30,"z":0}}

@@ -1,0 +1,6 @@
+[02] line1: 58 line2: 66
+[02] result: [58,66]
+[02] maxLevel: 31
+[02] result length: 2
+[filewrite] files/02-no-intersections-no-intersect-response.json (84 bytes)
+[filewrite] files/02-no-intersections-no-intersect-structure.json (30913 bytes)

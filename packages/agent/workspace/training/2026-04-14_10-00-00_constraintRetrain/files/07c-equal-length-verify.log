@@ -1,0 +1,13 @@
+[07c] BEFORE:
+[07c]   l1: {"x":0,"y":0,"z":0} -> {"x":60,"y":0,"z":0} len: 60
+[07c]   l2: {"x":0,"y":30,"z":0} -> {"x":30,"y":30,"z":0} len: 30
+[07c] constraint result: 74 maxLevel: 31
+[07c] AFTER:
+[07c]   l1: {"x":0,"y":0,"z":0} -> {"x":30,"y":0,"z":0} len: 30
+[07c]   l2: {"x":0,"y":30,"z":0} -> {"x":30,"y":30,"z":0} len: 30
+[07c]   l2 changed: false
+[07c]   equal: true
+[07c] l2 getGeometry: {"arcs":[],"circles":[],"lines":[68],"points":[]}
+[07c] constraint node: {"name":"EL","class":"CC_2DEqualLengthConstraint","id":74,"flags":0,"parent":52,"members":{"_VERSION":{"value":"1/2011_4_7_12:12","type":"string","visible":0,"expression":""},"alignment":{"value":-1,"type":"real","visible":1,"expression":""},"entities":{"members":[{"value":59,"type":"id","visible":1,"expression":""},{"value":60,"type":"id","visible":1,"expression":""},{"value":69,"type":"id","visible":1,"expression":""},{"value":70,"type":"id","visible":1,"expression":""}],"type":"array","visible":1,"expression":""},"lgsState":{"value":1,"type":"real","visible":1,"expression":""}}}
+[07c] lgsState: 1
+[filewrite] files/07c-equal-length-verify-equal-length-verify.json (1956 bytes)

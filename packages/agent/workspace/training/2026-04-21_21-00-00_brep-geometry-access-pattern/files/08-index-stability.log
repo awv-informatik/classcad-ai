@@ -1,0 +1,10 @@
+[08] box edges: 0:[40,0,0] 1:[0,30,0] 2:[80,30,0] 3:[40,60,0] 4:[0,0,20] 5:[80,0,20] 6:[0,60,20] 7:[80,60,20] 8:[40,0,40] 9:[0,30,40] 10:[80,30,40] 11:[40,60,40]
+[08] fillet feature: lines: 14 arcs: 2
+[08] box feature after fillet: still has 10 lines
+[08] index mapping preserved? [
+  true,  true,  true,
+  true,  false, false,
+  false, false, false,
+  false, false, false
+]
+[filewrite] files/08-index-stability-index-stability.json (6254 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.updateParallel",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"xOffsetLimits\" has the wrong type! It should be of type (object)"
+    }
+  ],
+  "maxLevel": 51
+}

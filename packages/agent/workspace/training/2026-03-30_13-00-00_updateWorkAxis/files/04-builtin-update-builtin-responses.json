@@ -1,0 +1,30 @@
+{
+  "updateDir": {
+    "result": 26,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkAxis",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "WorkGeometry created by the system cannot be changed!"
+      }
+    ]
+  },
+  "rename": {
+    "result": 26,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.updateWorkAxis",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "WorkGeometry created by the system cannot be changed!"
+      }
+    ]
+  },
+  "findOld": null,
+  "findNew": 26
+}

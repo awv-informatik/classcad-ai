@@ -1,0 +1,39 @@
+{
+  "lineIds": [
+    66,
+    72,
+    78,
+    84
+  ],
+  "regionId": 100,
+  "testA": {
+    "curves": 100,
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.extrusion",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"curves\" has a wrong id type! Provide only following id types: [\"shape\",\"sketch-curve\"]"
+      }
+    ]
+  },
+  "testB": {
+    "curves": [
+      100
+    ],
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.extrusion",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"curves\" has a wrong id type! Provide only following id types: [\"shape\",\"sketch-curve\"]"
+      }
+    ]
+  }
+}

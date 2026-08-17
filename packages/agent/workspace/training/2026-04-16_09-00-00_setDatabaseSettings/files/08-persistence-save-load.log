@@ -1,0 +1,14 @@
+[08] before save: {"angleTol":20,"chordHeightTol":0.3,"doCurveTessellation":0,"facetingParamsMode":0,"isCCGraphicEnabled":0,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":1,"isSketchGraphicEnabled":0}
+[08] saved OFB, content length: 44260
+[08] after manual reset: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[08] after load: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[08] save/load survivors:
+[08]   angleTol: 20 -> 0 (RESET)
+[08]   chordHeightTol: 0.3 -> 0.1 (RESET)
+[08]   doCurveTessellation: 0 -> 1 (RESET)
+[08]   facetingParamsMode: 0 -> 1 (RESET)
+[08]   isCCGraphicEnabled: 0 -> 1 (RESET)
+[08]   isGraphicEnabled: 0 -> 1 (RESET)
+[08]   isInvisibleGraphicEnabled: 1 -> 0 (RESET)
+[08]   isSketchGraphicEnabled: 0 -> 1 (RESET)
+[filewrite] files/08-persistence-save-load-save-load.json (1600 bytes)

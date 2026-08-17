@@ -1,0 +1,4 @@
+[10a] default genVertAndHoriz result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[58,66],"points":[]}
+[filewrite] files/10-genVertAndHoriz-off-verthoriz-default-structure.json (31508 bytes)
+[10b] genVertAndHoriz=false result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[82,88],"points":[]}
+[filewrite] files/10-genVertAndHoriz-off-verthoriz-off-structure.json (42066 bytes)

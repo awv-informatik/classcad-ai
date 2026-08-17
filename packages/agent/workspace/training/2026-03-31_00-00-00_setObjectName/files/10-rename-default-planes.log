@@ -1,0 +1,6 @@
+[10] partId: 4
+[10] Top plane id: 38 maxLevel: 31
+[10] rename Top → MyTop: result: null maxLevel: 31
+[10] lookup "Top" after rename: null maxLevel: 51
+[10] lookup "MyTop" after rename: 38 maxLevel: 31
+[filewrite] files/10-rename-default-planes-default-plane-rename.json (217 bytes)

@@ -1,0 +1,20 @@
+{
+  "name": "Revolute",
+  "mate1Flip": "Z",
+  "mate1Reorient": "0",
+  "mate2Flip": "Z",
+  "mate2Reorient": "0",
+  "zOffset": 0,
+  "zRotationLimits": {
+    "max": null,
+    "min": null
+  },
+  "allKeysPresent": {
+    "hasId": true,
+    "hasName": true,
+    "hasMate1": true,
+    "hasMate2": true,
+    "hasZOffset": true,
+    "hasZRotationLimits": true
+  }
+}

@@ -1,0 +1,10 @@
+[04] no-assembly result: null maxLevel: 51
+[04] no-assembly messages: [{"api":"v1.assembly.convertToTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly building is not initialized!"},{"api":"v1.assembly.convertToTemplate","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in AssemblyAPI_v1.convertToTemplate::PROC:[CCVM::lcm: objId not found]] "}]
+[04] empty-asm result: null maxLevel: 51
+[04] empty-asm template found: null
+[04] second-convert result: null maxLevel: 31
+[04] second template found: null
+[04] empty-name result: null maxLevel: 31
+[04] no-param result: null maxLevel: 31
+[04] default name template found: 68
+[filewrite] files/04-error-cases-error-cases.json (850 bytes)

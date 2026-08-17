@@ -1,0 +1,6 @@
+[09c] rectangle lines: [ 58, 64, 70, 76 ]
+[09c] sketchRegion result: 92 maxLevel: 31
+[09c] extrusion result: null maxLevel: 51
+[09c] extrusion messages: [{"api":"v1.part.extrusion","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" must be provided in the api call!"}]
+[09c] FAILED to create extrusion, aborting
+[filewrite] files/09c-feature-dependency-extrusion-fail.json (253 bytes)

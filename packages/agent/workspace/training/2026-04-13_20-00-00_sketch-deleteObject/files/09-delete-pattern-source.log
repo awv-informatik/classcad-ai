@@ -1,0 +1,6 @@
+[09] pattern: {"constraint":73,"dimensions":[75,null],"geometry":[63,67,71]}
+[09] circles before: 3
+[09] delete source circle: null maxLevel: 31
+[filewrite] files/09-delete-pattern-source-delete-source-response.json (56 bytes)
+[09] circles after source delete: 2
+[filewrite] files/09-delete-pattern-source-geom-after-source-delete.json (82 bytes)

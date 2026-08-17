@@ -1,0 +1,5 @@
+[01] lineId: 58
+[01] getPoints result: {"endId":60,"startId":59}
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-line-line-getPoints.json (92 bytes)

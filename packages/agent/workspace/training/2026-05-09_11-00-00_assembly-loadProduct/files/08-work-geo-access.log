@@ -1,0 +1,9 @@
+[08] Original workCSys ID: 91
+[08] getWorkGeometry before save: 91
+[08] Loaded template ID: 22
+[08] assembly.getWorkGeometry on template: null maxLevel: 51
+[08] part.getWorkGeometry on template: 76 maxLevel: 31
+[08] part.getWorkGeometry "Top": 39 maxLevel: 31
+[08] assembly.getWorkGeometry "BaseWCSys" on asm: 20 maxLevel: 31
+[08] assembly.getWorkGeometry on instance: 76 maxLevel: 31
+[filewrite] files/08-work-geo-access-workgeo-access.json (311 bytes)

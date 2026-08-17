@@ -1,0 +1,5 @@
+[06] lines: 31 31 31 31
+[06] shapeId: 60
+[06] translate result: null maxLevel: 51
+[06] messages: [{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/06-closed-rect-closed-rect-response.json (247 bytes)

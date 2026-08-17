@@ -1,0 +1,7 @@
+[09] single line region result: 64 maxLevel: 31
+[09] messages: []
+[09] disconnected lines result: 76 maxLevel: 31
+[09] messages: []
+[09] open U result: 100 maxLevel: 31
+[09] messages: []
+[filewrite] files/09-non-closed-geometry-non-closed.json (240 bytes)

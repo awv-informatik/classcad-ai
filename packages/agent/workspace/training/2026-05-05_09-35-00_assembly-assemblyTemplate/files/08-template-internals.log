@@ -1,0 +1,12 @@
+[08] assembly template: 22
+[08] template node class: CC_Assembly
+[08] template node name: SubAsm
+[08] template node children: [24,26,28]
+[08]   child 24: class=CC_ExpressionSet, name=ExpressionSet
+[08]   child 26: class=CC_ConstraintSet, name=ConstraintSet
+[08]   child 28: class=CC_GeometrySet, name=GeometrySet
+[08] root assembly children: [14,16,18]
+[08]   root child 14: class=CC_ExpressionSet, name=ExpressionSet
+[08]   root child 16: class=CC_ConstraintSet, name=ConstraintSet
+[08]   root child 18: class=CC_GeometrySet, name=GeometrySet
+[filewrite] files/08-template-internals-template-vs-root.json (2323 bytes)

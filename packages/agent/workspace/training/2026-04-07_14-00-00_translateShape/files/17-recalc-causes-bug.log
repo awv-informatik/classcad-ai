@@ -1,0 +1,4 @@
+[17] A recalc->translate: 51 [{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[17] B control: 31
+[17] C recalc+refresh: 31
+[filewrite] files/17-recalc-causes-bug-recalc-results.json (71 bytes)

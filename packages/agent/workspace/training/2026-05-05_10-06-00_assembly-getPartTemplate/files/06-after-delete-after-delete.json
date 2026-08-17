@@ -1,0 +1,19 @@
+{
+  "before": [
+    22,
+    68,
+    114
+  ],
+  "afterDelete": [
+    22,
+    114
+  ],
+  "removedLookup": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "keepLookup": {
+    "result": 22,
+    "maxLevel": 31
+  }
+}

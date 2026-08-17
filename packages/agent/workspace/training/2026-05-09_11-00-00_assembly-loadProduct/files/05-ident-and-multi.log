@@ -1,0 +1,8 @@
+[05] Loaded box template: 24 maxLevel: 31
+[05] Loaded cyl template: 79 maxLevel: 31
+[filewrite] files/05-ident-and-multi-structure-multi.json (48214 bytes)
+[05] BoxInst: 116 CylInst: 118
+[05] getPartTemplate by name "BoxPart": 24
+[05] BoxInst COG: {"x":30,"y":20,"z":10}
+[05] CylInst COG: {"x":80.00586497905493,"y":15.0010996835728,"z":24.996334388090645}
+[filewrite] files/05-ident-and-multi-multi-mass.json (260 bytes)

@@ -1,0 +1,23 @@
+{
+  "id": 224,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      212
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      214
+    ],
+    "reorient": "0"
+  },
+  "name": "RenamedBall",
+  "yRotationLimits": {
+    "max": null
+  }
+}

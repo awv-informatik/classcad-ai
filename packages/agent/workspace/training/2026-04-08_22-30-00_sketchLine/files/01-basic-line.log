@@ -1,0 +1,8 @@
+[01] partId: 4 skId: 52
+[01] line result: 58 maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-line-line-response.json (54 bytes)
+[01] getPoints: {"endId":60,"startId":59}
+[01] startPos: {"pos":{"x":0,"y":0,"z":0}}
+[01] endPos: {"pos":{"x":50,"y":30,"z":0}}
+[filewrite] files/01-basic-line-structure.json (26248 bytes)

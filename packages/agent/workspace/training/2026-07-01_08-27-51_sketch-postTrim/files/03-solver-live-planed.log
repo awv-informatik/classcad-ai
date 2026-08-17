@@ -1,0 +1,7 @@
+[03] dimension HD_main create max 31
+[03] planed updateDimension result 1 max 31
+[03] H length before 100 -> after 70 (target 70)
+[03] planeless updateDimension result 0 | H length 100 (unmoved=100 expected)
+[filewrite] files/03-solver-live-planed-03-solver.json (75 bytes)
+[03] CHECKS {"planedSolved":true,"planedGeometryMoved":true,"planelessDidNotSolve":true}
+[03] PASS

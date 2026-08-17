@@ -1,0 +1,7 @@
+[07] first "Dupe" id: 123
+[07] second "Dupe" id: 127
+[07] getFastened result id: 123
+[07] returns first (fId1)? true
+[07] returns second (fId2)? false
+[07] xOffset: 80 yOffset: 0
+[filewrite] files/07-duplicate-names-duplicate-name-result.json (342 bytes)

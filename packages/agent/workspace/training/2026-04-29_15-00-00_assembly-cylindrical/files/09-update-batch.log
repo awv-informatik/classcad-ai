@@ -1,0 +1,6 @@
+[09] created: 309 313
+[09] batch update result: [ 309, 313 ] maxLevel: 31
+[09] batch result type: array
+[09] Cyl1 after batch: {"max":10,"min":-10}
+[09] Cyl2 after batch: {"max":1.0471975511965976,"min":-1.0471975511965976}
+[filewrite] files/09-update-batch-batch-update.json (981 bytes)

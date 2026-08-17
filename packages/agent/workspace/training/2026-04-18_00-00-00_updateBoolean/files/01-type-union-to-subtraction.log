@@ -1,0 +1,5 @@
+[01] boolean created: 128 type: UNION
+[01] openFeature: 31
+[01] updateBoolean result: 128 maxLevel: 31
+[filewrite] files/01-type-union-to-subtraction-update-response.json (55 bytes)
+[01] closeFeature: 31

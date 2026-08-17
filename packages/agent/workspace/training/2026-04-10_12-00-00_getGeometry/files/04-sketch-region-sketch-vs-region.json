@@ -1,0 +1,38 @@
+{
+  "allGeo": {
+    "arcs": [],
+    "circles": [
+      92
+    ],
+    "lines": [
+      58,
+      64,
+      70,
+      76
+    ],
+    "points": []
+  },
+  "regionGeo": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58,
+      64,
+      70,
+      76
+    ],
+    "points": []
+  },
+  "allGeoCount": {
+    "points": 0,
+    "lines": 4,
+    "arcs": 0,
+    "circles": 1
+  },
+  "regionGeoCount": {
+    "points": 0,
+    "lines": 4,
+    "arcs": 0,
+    "circles": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "before": {
+    "asmTemplates": [
+      22
+    ],
+    "partTemplates": [
+      32
+    ]
+  },
+  "deleteResult": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "after": {
+    "asmTemplates": [],
+    "partTemplates": [
+      32
+    ],
+    "instances": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "fixCircle": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "concentric": {
+    "result": 66,
+    "maxLevel": 31
+  },
+  "equalRadius": {
+    "result": 71,
+    "maxLevel": 31
+  },
+  "concentricArcs": {
+    "result": 83,
+    "maxLevel": 31
+  },
+  "equalRadiusArcs": {
+    "result": 85,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,8 @@
+[01] extrusion created: 96
+[01] refBox: null
+[filewrite] files/01-basic-update-limit2-before-data.json (39 bytes)
+[01] openFeature maxLevel: 31
+[01] updateExtrusion result: 96 maxLevel: 31
+[filewrite] files/01-basic-update-limit2-update-response.json (54 bytes)
+[01] closeFeature maxLevel: 31
+[filewrite] files/01-basic-update-limit2-after-data.json (39 bytes)

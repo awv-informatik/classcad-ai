@@ -1,0 +1,5 @@
+[12] axisId: 58 pt1Id: 62 pt2Id: 64
+[12] symmetry result: 66 maxLevel: 31
+[12] messages: []
+[12] after - pt1: {"pos":{"x":20,"y":30,"z":0}} pt2: {"pos":{"x":65,"y":35,"z":0}}
+[filewrite] files/12-symmetry-symmetry-response.json (255 bytes)

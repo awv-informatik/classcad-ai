@@ -1,0 +1,4 @@
+[06] box: 54 pattern: 99
+[filewrite] files/06-structure-analysis-structure-before.json (27659 bytes)
+[06] del plain ID result: 308 maxLevel: 31
+[filewrite] files/06-structure-analysis-structure-after-plain-id.json (29267 bytes)

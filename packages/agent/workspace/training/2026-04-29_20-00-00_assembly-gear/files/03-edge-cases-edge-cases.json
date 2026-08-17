@@ -1,0 +1,68 @@
+{
+  "negativeRatio": {
+    "result": 263,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "zeroRatio": {
+    "result": 267,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "largeRatio": {
+    "result": 271,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "sameConstraint": {
+    "result": 275,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "invalidId": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.gear",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.gear",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"constr1Id\" has an invalid id!"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "missingConstr1": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.gear",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"constr1Id\" must be provided in the api call!"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "withFastenedOrigin": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.gear",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"constr1Id\" has a wrong id type! Provide only following id types: [\"revoluteconstraint\"]"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

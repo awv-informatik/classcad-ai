@@ -1,0 +1,11 @@
+[08] result count: 9 (expected 9)
+[08] TOP     : 80.00 × 60.00
+[08] FRONT   : 80.00 × 40.00
+[08] RIGHT   : 60.00 × 40.00
+[08] LEFT    : 60.00 × 40.00
+[08] BOTTOM  : 80.00 × 60.00
+[08] RIGHT_90: 40.00 × 60.00
+[08] LEFT_90 : 40.00 × 60.00
+[08] BACK    : 80.00 × 40.00
+[08] ISO     : 98.99 × 89.81
+[filewrite] files/08-all-view-types-all-types-bbox.json (1383 bytes)

@@ -1,0 +1,10 @@
+[07] l1: 58
+[07] l2: 62
+[07] result: null maxLevel: 31
+[07] messages: []
+[07] new objects:
+  ID 66 → CC_2DCoincidentConstraint "Auto_Coinc" entities: [63,60]
+  ID 68 → CC_2DVerticalConstraint "Auto_V" entities: [62]
+[07] additional new objects from l1 auto:
+  ID 70 → CC_2DFixationConstraint "Auto_Fix"
+  ID 72 → CC_2DHorizontalConstraint "Auto_H"

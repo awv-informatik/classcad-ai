@@ -1,0 +1,7 @@
+[07] centered TOP: {"max":{"x":40,"y":30,"z":0},"min":{"x":-40,"y":-30,"z":0}}
+[07] centered FRONT: {"max":{"x":40,"y":20,"z":4.930380657631324e-32},"min":{"x":-40,"y":-20,"z":4.930380657631324e-32}}
+[07] placed TOP: {"max":{"x":40,"y":130,"z":0},"min":{"x":-40,"y":70,"z":0}}
+[07] placed FRONT: {"max":{"x":40,"y":20,"z":4.930380657631324e-32},"min":{"x":-40,"y":-20,"z":4.930380657631324e-32}}
+[07] TOP Y shift: 100 (expected 100)
+[07] FRONT Y shift: 0 (expected 0)
+[filewrite] files/07-after-placeView-place-comparison.json (760 bytes)

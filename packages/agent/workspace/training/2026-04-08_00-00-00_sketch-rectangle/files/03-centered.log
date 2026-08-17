@@ -1,0 +1,10 @@
+[03] non-centered IDs: [ 58, 64, 70, 76 ]
+[03] non-centered line[0]: {"endPos":{"x":60,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[03] non-centered line[1]: {"endPos":{"x":60,"y":40,"z":0},"startPos":{"x":60,"y":0,"z":0}}
+[03] non-centered line[2]: {"endPos":{"x":0,"y":40,"z":0},"startPos":{"x":60,"y":40,"z":0}}
+[03] non-centered line[3]: {"endPos":{"x":0,"y":0,"z":0},"startPos":{"x":0,"y":40,"z":0}}
+[03] centered IDs: [ 92, 98, 106, 112 ]
+[03] centered line[0]: {"endPos":{"x":60,"y":30,"z":0},"startPos":{"x":-60,"y":30,"z":0}}
+[03] centered line[1]: {"endPos":{"x":60,"y":110,"z":0},"startPos":{"x":60,"y":30,"z":0}}
+[03] centered line[2]: {"endPos":{"x":-60,"y":110,"z":0},"startPos":{"x":60,"y":110,"z":0}}
+[03] centered line[3]: {"endPos":{"x":-60,"y":30,"z":0},"startPos":{"x":-60,"y":110,"z":0}}

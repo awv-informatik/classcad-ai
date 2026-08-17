@@ -1,0 +1,6 @@
+[09] sketchId: 52
+[09] "MySketch": null maxLevel: 51
+[09] extrusionId: null
+[09] "MyExtrusion": null match: true
+[09] "Sketch" (default): null maxLevel: 51
+[filewrite] files/09-sketch-extrusion-sketch-extrusion.json (213 bytes)

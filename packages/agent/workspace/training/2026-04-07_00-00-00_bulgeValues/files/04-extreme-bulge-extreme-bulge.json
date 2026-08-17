@@ -1,0 +1,47 @@
+[
+  {
+    "name": "zero",
+    "bulge": 0,
+    "maxLevel": 31
+  },
+  {
+    "name": "tiny",
+    "bulge": 0.001,
+    "maxLevel": 31
+  },
+  {
+    "name": "quarter",
+    "bulge": 0.198912367379658,
+    "maxLevel": 31
+  },
+  {
+    "name": "half",
+    "bulge": 0.5,
+    "maxLevel": 31
+  },
+  {
+    "name": "one",
+    "bulge": 1,
+    "maxLevel": 31
+  },
+  {
+    "name": "two",
+    "bulge": 2,
+    "maxLevel": 31
+  },
+  {
+    "name": "five",
+    "bulge": 5,
+    "maxLevel": 31
+  },
+  {
+    "name": "hundred",
+    "bulge": 100,
+    "maxLevel": 31
+  },
+  {
+    "name": "neg-one",
+    "bulge": -1,
+    "maxLevel": 31
+  }
+]

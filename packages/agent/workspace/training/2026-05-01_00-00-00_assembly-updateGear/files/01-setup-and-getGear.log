@@ -1,0 +1,10 @@
+[01] gear created: 263
+[01] getGear result: {"constr1Id":255,"constr2Id":259,"id":263,"name":"TestGear","offset":0.7853981633974483,"ratio":2.5}
+[01] getGear maxLevel: 31
+[filewrite] files/01-setup-and-getGear-getGear-response.json (96154 bytes)
+[01] id match: true
+[01] name: TestGear
+[01] constr1Id: 255 (expected: 255 )
+[01] constr2Id: 259 (expected: 259 )
+[01] ratio: 2.5
+[01] offset (radians): 0.7853981633974483 (expected ~0.7854)

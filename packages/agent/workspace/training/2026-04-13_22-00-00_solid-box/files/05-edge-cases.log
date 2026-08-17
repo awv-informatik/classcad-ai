@@ -1,0 +1,5 @@
+[05] zero length: 61 maxLevel: 31
+[05] negative length: 64 maxLevel: 31
+[05] tiny length (0.001): 67 maxLevel: 31
+[05] huge box: 70 maxLevel: 31
+[filewrite] files/05-edge-cases-edge-cases.json (302 bytes)

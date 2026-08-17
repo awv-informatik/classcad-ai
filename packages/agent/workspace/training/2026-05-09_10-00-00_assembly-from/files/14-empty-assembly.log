@@ -1,0 +1,13 @@
+[14] Testing empty assembly from JSON...
+[14] Created existing part: 4
+[14] from() result: 99 maxLevel: 31
+[filewrite] files/14-empty-assembly-structure-after-from.json (5891 bytes)
+[14] Tree nodes: AllObjects:AllObjects(1), CC_PartContainer:PartContainer(95), CC_AssemblyContainer:AssemblyContainer(97), CC_AssemblyRoot:AssemblyRoot(99), CC_ExpressionSet:ExpressionSet(101), CC_ConstraintSet:ConstraintSet(103), CC_GeometrySet:GeometrySet(105), CC_WorkCSys:BaseWCSys(107)
+[filewrite] files/14-empty-assembly-tree-classes.json (309 bytes)
+[14] Existing part preserved? false
+[14] Assembly root: 99 AssemblyRoot
+[14] Created template in from()-assembly: 109
+[14] Created instance: 192
+[14] Second from(): 233 maxLevel: 31
+[14] After 2nd from: NewBox preserved? false | assembly roots: 1
+[filewrite] files/14-empty-assembly-tree-after-second.json (312 bytes)

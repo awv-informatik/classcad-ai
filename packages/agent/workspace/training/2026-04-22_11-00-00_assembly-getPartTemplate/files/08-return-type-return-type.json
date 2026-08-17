@@ -1,0 +1,22 @@
+{
+  "singleAll": {
+    "result": [
+      22
+    ],
+    "type": "object",
+    "isArray": true
+  },
+  "byName": {
+    "result": 22,
+    "type": "number",
+    "isArray": false
+  },
+  "twoAll": {
+    "result": [
+      22,
+      68
+    ],
+    "type": "object",
+    "isArray": true
+  }
+}

@@ -1,0 +1,12 @@
+[02] root assembly: 12
+[02] sub-assembly template: 22
+[02] setCurrentProduct to subAsm, prev currentProduct: 12
+[02] partTemplate inside subAsm context: 32
+[02] plate box + wcs created, wcs: 117
+[02] instance inside subAsm: 123
+[02] sub-assembly instance in root: 125
+[02] second sub-assembly instance: 128
+[02] COG inst1: {"cog":{"x":30,"y":20,"z":5},"volume":24000}
+[02] COG inst2: {"cog":{"x":130.00000000000003,"y":20.000000000000007,"z":5.000000000000002},"volume":23999.999999999993}
+[filewrite] files/02-build-sub-assembly-cog-comparison.json (306 bytes)
+[filewrite] files/02-build-sub-assembly-final-structure.json (39957 bytes)

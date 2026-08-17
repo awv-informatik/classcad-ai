@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.transformObjectWithMatrix",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided matrix is left-handed. This is not yet supported"
+    }
+  ],
+  "maxLevel": 51
+}

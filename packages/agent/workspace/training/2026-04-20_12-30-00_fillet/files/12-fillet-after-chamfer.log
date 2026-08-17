@@ -1,0 +1,5 @@
+[12] chamfer edge: [106]
+[12] chamfer result: 120 maxLevel: 31
+[12] fillet edge: [188]
+[12] fillet result: 220 maxLevel: 31
+[filewrite] files/12-fillet-after-chamfer-chamfer-then-fillet.json (117 bytes)

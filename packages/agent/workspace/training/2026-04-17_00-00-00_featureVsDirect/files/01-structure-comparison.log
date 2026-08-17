@@ -1,0 +1,5 @@
+[01] part.box returned: 54 number
+[filewrite] files/01-structure-comparison-structure-after-feat-box.json (21145 bytes)
+[01] entityInjection returned: 120 number
+[01] solid.box returned: 127 number
+[filewrite] files/01-structure-comparison-structure-after-both.json (23037 bytes)

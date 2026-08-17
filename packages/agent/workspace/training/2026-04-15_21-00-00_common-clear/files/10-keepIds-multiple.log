@@ -1,0 +1,6 @@
+[10] partId: 4 eifId: 54 boxId: 61 cylId: 64
+[10] keepIds=[partId, eifId] — result: null maxLevel: 31
+[10] messages: []
+[filewrite] files/10-keepIds-multiple-keep-multi.json (56 bytes)
+[10] new box in old eifId — result: 67 maxLevel: 31
+[10] copy old box — result: null maxLevel: 51

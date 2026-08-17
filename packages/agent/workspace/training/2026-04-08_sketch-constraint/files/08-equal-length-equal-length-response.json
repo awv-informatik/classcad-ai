@@ -1,0 +1,57 @@
+{
+  "result": 66,
+  "messages": [],
+  "maxLevel": 31,
+  "before": {
+    "line1": {
+      "endPos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "line2": {
+      "endPos": {
+        "x": 60,
+        "y": 20,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 20,
+        "z": 0
+      }
+    }
+  },
+  "after": {
+    "line1": {
+      "endPos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "line2": {
+      "endPos": {
+        "x": 60,
+        "y": 20,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 20,
+        "z": 0
+      }
+    }
+  }
+}

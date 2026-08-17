@@ -1,0 +1,4 @@
+[10] oversized offset result: null
+[10] maxLevel: 51
+[10] messages: [{"api":"v1.sketch.fillet","code":0,"level":51,"levelStr":"ERROR","message":"Can't create a fillet with offset larger than line length!"}]
+[filewrite] files/10-edge-oversized-offset-oversized-offset-response.json (245 bytes)

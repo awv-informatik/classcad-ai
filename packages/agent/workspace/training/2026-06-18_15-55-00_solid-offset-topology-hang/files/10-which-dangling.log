@@ -1,0 +1,6 @@
+sub maxLevel=51
+box(61): maxLevel=31 volume=69644.2391650271
+c1(64): maxLevel=51 volume=undefined
+c2(67): maxLevel=51 volume=undefined
+c3(70): maxLevel=31 volume=3927.035139718096
+[filewrite] files/10-which-dangling-which-dangling.json (335 bytes)

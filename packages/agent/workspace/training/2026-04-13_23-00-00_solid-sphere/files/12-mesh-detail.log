@@ -1,0 +1,9 @@
+[12] sphere: 60 maxLevel: 31
+[12] container keys: id, owner, type, properties, meshes, edges, vertices
+[12] container.id: 61 type: 1
+[12] mesh count: 1
+[12] first mesh verts: 2017 tris: 3776
+[filewrite] files/12-mesh-detail-mesh-summary.json (280 bytes)
+[12] edge count: 1
+[filewrite] files/12-mesh-detail-edge-summary.json (85 bytes)
+[12] topo vertex count: 2

@@ -1,0 +1,21 @@
+[12] --- Test A: bad assembly ID ---
+[12] bad id: null maxLevel: 51
+[filewrite] files/12-invalid-params-bad-asm-id.json (465 bytes)
+[12] --- Test B: empty instanceIds ---
+[12] empty instanceIds: null maxLevel: 31
+[filewrite] files/12-invalid-params-empty-instanceIds.json (56 bytes)
+[12] --- Test C: invalid mucType ---
+[12] invalid mucType: null maxLevel: 51
+[filewrite] files/12-invalid-params-invalid-mucType.json (345 bytes)
+[12] --- Test D: bad instance ID ---
+[12] bad instance id: null maxLevel: 51
+[filewrite] files/12-invalid-params-bad-instance-id.json (474 bytes)
+[12] --- Test E: missing instanceIds ---
+[12] missing instanceIds: null maxLevel: 51
+[filewrite] files/12-invalid-params-missing-instanceIds.json (276 bytes)
+[12] --- Test F: missing pivotInfo ---
+[12] missing pivotInfo: null maxLevel: 51
+[filewrite] files/12-invalid-params-missing-pivotInfo.json (274 bytes)
+[12] --- Test G: missing mucType ---
+[12] missing mucType: null maxLevel: 51
+[filewrite] files/12-invalid-params-missing-mucType.json (272 bytes)

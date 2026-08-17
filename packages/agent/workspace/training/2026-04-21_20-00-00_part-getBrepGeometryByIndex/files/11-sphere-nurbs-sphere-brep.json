@@ -1,0 +1,26 @@
+{
+  "lines": [],
+  "arcs": [
+    {
+      "index": 0,
+      "id": 69
+    }
+  ],
+  "faces": [
+    {
+      "index": 0,
+      "id": 68
+    }
+  ],
+  "points": [
+    {
+      "index": 0,
+      "id": 71
+    },
+    {
+      "index": 1,
+      "id": 70
+    }
+  ],
+  "nurbs": []
+}

@@ -1,0 +1,14 @@
+[06] rect IDs: [58,62,68,74] diag: 90
+[06] result: [112,116,62,120,124,74,128,132,136]
+[06] maxLevel: 31
+[06] result length: 9
+[06] segment 112 : CC_Line Rect_Line_part0 parent: 110
+[06] segment 116 : CC_Line Rect_Line_part1 parent: 110
+[06] segment 62 : CC_Line Rect_Line0 parent: 94
+[06] segment 120 : CC_Line Rect_Line1_part0 parent: 110
+[06] segment 124 : CC_Line Rect_Line1_part1 parent: 110
+[06] segment 74 : CC_Line Rect_Line2 parent: 94
+[06] segment 128 : CC_Line Line_part0 parent: 110
+[06] segment 132 : CC_Line Line_part1 parent: 110
+[06] segment 136 : CC_Line Line_part2 parent: 110
+[filewrite] files/06-rectangle-line-rect-response.json (184 bytes)

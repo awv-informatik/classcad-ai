@@ -1,0 +1,4 @@
+[10] sphereId: 54
+[10] partial update result: 54 maxLevel: 31
+[filewrite] files/10-update-partial-partial-response.json (54 bytes)
+[filewrite] files/10-update-partial-structure-after-partial.json (20887 bytes)

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 94,
+    "name": "Circle_part0",
+    "class": "CC_Arc"
+  },
+  {
+    "id": 99,
+    "name": "Circle_part1",
+    "class": "CC_Arc"
+  },
+  {
+    "id": 104,
+    "name": "Circle_part2",
+    "class": "CC_Arc"
+  },
+  {
+    "id": 109,
+    "name": "Circle_part3",
+    "class": "CC_Arc"
+  },
+  {
+    "id": 114,
+    "name": "Line_part0",
+    "class": "CC_Line"
+  },
+  {
+    "id": 118,
+    "name": "Line_part1",
+    "class": "CC_Line"
+  },
+  {
+    "id": 122,
+    "name": "Line_part2",
+    "class": "CC_Line"
+  },
+  {
+    "id": 126,
+    "name": "Line_part3",
+    "class": "CC_Line"
+  },
+  {
+    "id": 130,
+    "name": "Line0_part0",
+    "class": "CC_Line"
+  },
+  {
+    "id": 134,
+    "name": "Line0_part1",
+    "class": "CC_Line"
+  },
+  {
+    "id": 138,
+    "name": "Line0_part2",
+    "class": "CC_Line"
+  },
+  {
+    "id": 142,
+    "name": "Line0_part3",
+    "class": "CC_Line"
+  }
+]

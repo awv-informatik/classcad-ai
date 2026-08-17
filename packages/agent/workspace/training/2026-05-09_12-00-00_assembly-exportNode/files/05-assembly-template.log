@@ -1,0 +1,7 @@
+[05] export subAsm template — success: 1 maxLevel: 31
+[05] subAsm content length: 10848
+[05] export partTpl — success: 1 maxLevel: 31
+[05] partTpl content length: 5956
+[05] export root — success: 1 maxLevel: 31
+[05] root content length: 11292
+[filewrite] files/05-assembly-template-size-comparison.json (75 bytes)

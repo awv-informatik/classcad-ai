@@ -1,0 +1,12 @@
+[07] missing transformation: 51 The parameter "transformation" must be provided in the api call!
+[filewrite] files/07-errors-missing-transformation.json (271 bytes)
+[07] missing id: 51 The parameter "id" must be provided in the api call!
+[filewrite] files/07-errors-missing-id.json (259 bytes)
+[07] invalid id: 51 ToId()/TOID() didn't get an existing or valid id.
+[filewrite] files/07-errors-invalid-id.json (449 bytes)
+[07] 2-point array: 51 The parameter "transformation" has invalid number of elements! There should be 3
+[filewrite] files/07-errors-2-point-array.json (317 bytes)
+[07] empty array: 51 The parameter "transformation" has invalid number of elements! There should be 3
+[filewrite] files/07-errors-empty-array.json (317 bytes)
+[07] template id: 51 The parameter "id" has a wrong id type! Provide only following id types: ["insta
+[filewrite] files/07-errors-template-id.json (294 bytes)

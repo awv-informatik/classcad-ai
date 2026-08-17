@@ -1,0 +1,3 @@
+[15] identity WCS: 127 maxLevel: 31
+[15] rotated WCS: 133 maxLevel: 31
+[filewrite] files/15-wcs-orientation-wcs-orient-results.json (119 bytes)

@@ -1,0 +1,7 @@
+[20] Test1 pre-sphere settings: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":0,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[20] Test1 mode=0: gfxSize: 134610
+[20] Test2 pre-sphere settings: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[20] Test2 mode=1: gfxSize: 0
+[20] Test3 pre-sphere settings: {"angleTol":0,"chordHeightTol":0.1,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[20] Test3 mode=1 set after create: gfxSize: 0
+[filewrite] files/20-mode-graphic-clean-mode-graphic-clean.json (216 bytes)

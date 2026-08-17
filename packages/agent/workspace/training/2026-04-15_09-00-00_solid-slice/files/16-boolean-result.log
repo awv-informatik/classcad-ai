@@ -1,0 +1,5 @@
+[16] b1: 61 b2: 64
+[16] union result: 61 maxLevel: 31
+[16] slice result: null maxLevel: 31
+[16] AFTER min: [-40,-30,-20]
+[16] AFTER max: [40,30,0]

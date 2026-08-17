@@ -1,0 +1,5 @@
+[10] revolute BEFORE: {"id":309,"mate1":{"csys":107,"flip":"Z","path":[295],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[297],"reorient":"0"},"name":"Rev","zOffset":15,"zRotationLimits":{"max":null,"min":null}}
+[10] cylindrical BEFORE: {"id":313,"mate1":{"csys":107,"flip":"Z","path":[295],"reorient":"0"},"mate2":{"csys":289,"flip":"Z","path":[299],"reorient":"0"},"name":"Cyl","zOffsetLimits":{"max":null,"min":null},"zRotationLimits":{"max":null,"min":null}}
+[10] revolute AFTER: {"id":309,"mate1":{"csys":107,"flip":"Z","path":[295],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[297],"reorient":"0"},"name":"Rev","zOffset":15,"zRotationLimits":{"max":null,"min":null}}
+[10] cylindrical AFTER: {"id":313,"mate1":{"csys":107,"flip":"Z","path":[295],"reorient":"0"},"mate2":{"csys":289,"flip":"Z","path":[299],"reorient":"0"},"name":"Cyl","zOffsetLimits":{"max":null,"min":null},"zRotationLimits":{"max":null,"min":null}}
+[filewrite] files/10-get-value-readback-state-comparison.json (1863 bytes)

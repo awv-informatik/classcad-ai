@@ -1,0 +1,9 @@
+[06] circleId: 58 lineId: 63
+[06] geomBefore: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[06] splitIds: [80,85,90,94,98]
+[06] geomAfterSplit: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[filewrite] files/06-mergeBack-no-trim-v2-getGeom-after-split.json (84 bytes)
+[06] mergeBack result: null maxLevel: 31
+[06] geomAfterMerge: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[filewrite] files/06-mergeBack-no-trim-v2-getGeom-after-mergeBack.json (84 bytes)
+[06] IDs changed? false

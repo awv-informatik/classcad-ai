@@ -1,0 +1,3 @@
+[14] b1 (eif1): 69 b2 (eif1): 72 b3 (eif2): 75
+[14] delete all from eif1 — result: null maxLevel: 31
+[filewrite] files/14-delete-all-scoped-delete-all-eif1.json (56 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": 182,
+  "messages": [
+    {
+      "api": "v1.assembly.group",
+      "code": 0,
+      "level": 61,
+      "levelStr": "FATAL",
+      "message": "No instances were provided for the Group constraint"
+    }
+  ],
+  "maxLevel": 61
+}

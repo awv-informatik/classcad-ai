@@ -1,0 +1,8 @@
+[02] asmId: 12
+[02] tplId: 22
+[02] box result: 70 maxLevel: 31
+[02] box messages: []
+[02] currentProduct after box: 22
+[02] wcs result: 107 maxLevel: 31
+[02] setCurrentProduct result: 22 maxLevel: 31
+[02] currentProduct after switch: 12

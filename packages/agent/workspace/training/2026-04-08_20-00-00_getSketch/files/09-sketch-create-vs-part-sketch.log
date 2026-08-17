@@ -1,0 +1,5 @@
+[09] via sketch.create id: 52
+[09] via part.sketch id: 58
+[09] found ViaSketchCreate: 52 match: true
+[09] found ViaPartSketch: 58 match: true
+[filewrite] files/09-sketch-create-vs-part-sketch-create-method-response.json (158 bytes)

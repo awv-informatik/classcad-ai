@@ -1,0 +1,9 @@
+[18] boxId: 61
+[18] sectionId: 64
+[filewrite] files/18-delete-investigate-structure-before.json (21838 bytes)
+[18] part solids before delete: [59,62]
+[18] delete result: null maxLevel: 31
+[18] delete messages: []
+[filewrite] files/18-delete-investigate-structure-after.json (21055 bytes)
+[18] part solids after delete: [62]
+[18] box usable after delete? slice maxLevel: 51

@@ -1,0 +1,17 @@
+[04] cylindrical ID: 216
+[04] INITIAL COG: { x: 10, y: 10, z: 35 }
+[04] Z_OFFSET result: null maxLevel: 31 msgs: []
+[04] AFTER Z_OFFSET COG: { x: 10.000000000000002, y: 10.000000000000002, z: 70.00000000000001 }
+[04] Z_ROTATION result: null maxLevel: 31 msgs: []
+[04] AFTER Z_ROTATION COG: {
+  x: -0.000025973482372472058,
+  y: 14.1421356237071,
+  z: 69.99999999999999
+}
+[04] X_OFFSET result: null maxLevel: 31 msgs: []
+[04] AFTER X_OFFSET COG: {
+  x: -0.000025973482372472058,
+  y: 14.1421356237071,
+  z: 69.99999999999999
+}
+[filewrite] files/04-cylindrical-results.json (611 bytes)

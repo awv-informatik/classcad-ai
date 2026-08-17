@@ -1,0 +1,16 @@
+{
+  "keysBefore": [
+    "epsilon",
+    "delta",
+    "beta",
+    "gamma",
+    "alpha"
+  ],
+  "keysAfterRemove": [
+    "epsilon",
+    "delta",
+    "beta",
+    "alpha"
+  ],
+  "keysAfterClear": []
+}

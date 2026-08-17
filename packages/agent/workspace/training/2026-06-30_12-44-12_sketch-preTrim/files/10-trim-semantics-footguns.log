@@ -1,0 +1,6 @@
+[10] A trim([valid,999999]) max 51 err [{"level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"level":51,"code":1006,"message":"An element of parameter \"curveIds\" has an invalid id!"}] | atomic (both lines back)? true lines 2
+[10] B trim([originalId]) max 31 err [] | FOOTGUN nothing removed? true lines 2
+[10] C two-trim: t1 31 t2 31 | middle (40,50)-(80,50) survives? true [{"id":154,"start":[40,0,0],"end":[40,100,0]},{"id":160,"start":[80,0,0],"end":[80,100,0]},{"id":209,"start":[40,50,0],"end":[80.00000000000001,50,0]}]
+[filewrite] files/10-trim-semantics-footguns-10-footguns.json (1053 bytes)
+[10] CHECKS {"A_atomicFail":true,"B_silentNoOp":true,"C_multiTrim":true}
+[10] PASS

@@ -1,0 +1,11 @@
+[00b] rotateShape: 31
+[00b] blank id: 64
+[00b] blank: vol=2.66032 (maxLevel 31)
+[00b] extrusion: 77 31 []
+[00b] after 1 space tool: vol=NULL (maxLevel 51)
+[00b] tool volume: -2.66032 vs expected 0.07069
+[00b] subtract 1 tool: 64 31 []
+[00b] after subtract 1: vol=NULL (maxLevel 51)
+[00b] rotated extrusion: null 51
+[00b] subtract rotated: null 51 ["An element of parameter \"tools\" has the wrong type! It should be of type (string|real|id)"]
+[00b] after subtract 2: vol=NULL (maxLevel 51)

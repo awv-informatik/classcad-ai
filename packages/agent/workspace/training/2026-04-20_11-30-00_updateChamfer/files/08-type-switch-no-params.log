@@ -1,0 +1,5 @@
+[08] chamferId: 120
+[08] → TWO_DISTANCES (no d2) — result: 120 maxLevel: 31
+[filewrite] files/08-type-switch-no-params-two-dist-no-d2.json (55 bytes)
+[08] → DISTANCE_ANGLE (no angle) — result: 120 maxLevel: 31
+[filewrite] files/08-type-switch-no-params-dist-angle-no-angle.json (55 bytes)

@@ -1,0 +1,7 @@
+[06] PREDICT: 4 arcs = curvilinear square (4-circle deep overlap) around (25,25); discard all else
+[06] total segments 24 | keep 4 | trim 20
+[filewrite] files/06-four-circle-deep-center-06-result.json (796 bytes)
+[06] REALIZED: arcs 4 lines 0 circles 0
+[06] arc endpoints [[[43.3,25,0],[25,43.3,0]],[[25,43.3,0],[6.7,25,0]],[[25,6.7,0],[43.3,25,0]],[[6.7,25,0],[25,6.7,0]]]
+[06] CHECKS {"fourArcs":true,"tight":true}
+[06] PASS — prediction realized

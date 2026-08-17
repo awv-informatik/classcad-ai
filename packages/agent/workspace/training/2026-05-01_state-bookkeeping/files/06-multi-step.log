@@ -1,0 +1,7 @@
+[filewrite] files/06-multi-step-multistep-log.json (443 bytes)
+[filewrite] files/06-multi-step-multistep-final-tree.json (23102 bytes)
+[06] log: [{"step":1,"label":"after part.create","nodes":24,"partId":4},{"step":2,"label":"after box A","nodes":27,"boxAId":54},{"step":3,"label":"after cyl","nodes":30,"cylId":91},{"step":4,"label":"after delete cyl","nodes":27,"cylGone":true},{"step":5,"label":"after box B","nodes":30,"boxBId":110}]
+[06] final CC_Part count: 1 (expect 1)
+[06] final CC_Box count: 2 (expect 2)
+[06] cyl gone: ✓
+[06] topology trajectory: ✓

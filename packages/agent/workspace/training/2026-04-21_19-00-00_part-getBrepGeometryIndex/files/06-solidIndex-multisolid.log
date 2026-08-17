@@ -1,0 +1,11 @@
+[06] box1 edge: 139 maxLevel: 31
+[06] box2 edge: [] maxLevel: 51
+[06] box1 edge1 solidIndex=0: 4 maxLevel: 31
+[06] box2 edge2 solidIndex=0: null maxLevel: 51
+[06] cross-body edge1→box2: -1 maxLevel: 31
+[06] cross messages: []
+[06] boolId: 184
+[06] post-union edges: [259,[]]
+[06] union edge solidIndex=0: 4 maxLevel: 31
+[06] union edge solidIndex=1: null maxLevel: 51
+[filewrite] files/06-solidIndex-multisolid-solidindex-tests.json (90457 bytes)

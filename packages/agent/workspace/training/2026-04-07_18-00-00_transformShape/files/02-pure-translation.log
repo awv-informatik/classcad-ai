@@ -1,0 +1,3 @@
+[02] partId: 4 eifId: 54 shapeId: 60
+[02] translate via matrix result: null maxLevel: 31
+[filewrite] files/02-pure-translation-translate-response.json (56 bytes)

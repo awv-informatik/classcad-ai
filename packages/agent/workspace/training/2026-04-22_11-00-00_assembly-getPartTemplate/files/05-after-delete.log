@@ -1,0 +1,8 @@
+[05] created: 22 68 114
+[05] before delete: [22,68,114]
+[05] delete result: null maxLevel: 31
+[05] after delete: [22,114]
+[05] find deleted: null maxLevel: 51
+[05] find Keep: 22
+[05] find AlsoKeep: 114
+[filewrite] files/05-after-delete-after-delete.json (425 bytes)

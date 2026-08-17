@@ -1,0 +1,9 @@
+[07] tpl1 (Widget): 22
+[07] tpl2 (Widget): 68
+[07] same ID? false
+[07] getPartTemplate(Widget) result: 22
+[07] maxLevel: 31
+[07] all templates: [22,68]
+[07] tpl1 volume: 8000 (20^3=8000)
+[07] tpl2 volume: 512000 (80^3=512000)
+[filewrite] files/07-duplicate-names-duplicate-names.json (165 bytes)

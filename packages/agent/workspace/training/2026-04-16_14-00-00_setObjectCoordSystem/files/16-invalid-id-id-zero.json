@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.setObjectCoordSystem",
+      "code": 1006,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"id\" has an invalid id!"
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,15 @@
+[04] === Test: partTemplate without assembly ===
+[04] no-asm result: null maxLevel: 51
+[04] no-asm messages: [{"api":"v1.assembly.partTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly building is not initialized!"},{"api":"v1.assembly.partTemplate","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in AssemblyAPI_v1.partTemplate::PROC:[CCVM::lcm: objId not found]] "}]
+[filewrite] files/04-edge-cases-no-asm-response.json (454 bytes)
+[04] asmId: 12
+[04] === Test: empty name ===
+[04] empty-name result: 22 maxLevel: 31
+[04] empty-name actual name: ""
+[04] === Test: special characters ===
+[04] special result: 68 maxLevel: 31
+[04] special actual name: "Part (v2)/test"
+[04] special originalName: undefined
+[04] === Test: long name ===
+[04] longName result: 114 maxLevel: 31
+[04] longName actual name length: 200

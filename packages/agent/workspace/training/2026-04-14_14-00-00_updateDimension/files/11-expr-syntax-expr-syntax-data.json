@@ -1,0 +1,26 @@
+{
+  "bareName": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": [],
+    "endX": 80
+  },
+  "atExpr": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": [],
+    "endX": 80
+  },
+  "formulaRef": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": [],
+    "endX": 80
+  },
+  "dollarPrefix": {
+    "result": 0,
+    "maxLevel": 31,
+    "messages": [],
+    "endX": 80
+  }
+}

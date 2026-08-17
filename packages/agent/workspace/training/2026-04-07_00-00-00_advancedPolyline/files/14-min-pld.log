@@ -1,0 +1,7 @@
+[14a] 2 points - result: null maxLevel: 31
+[14a] messages: []
+[14b] 1 point - result: null maxLevel: 51
+[14b] messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveAPI_v1.advancedPolyline::PROC:[Index 0 ausserhalb des Arraybereichs] not defined !] "}]
+[14c] empty pld - result: null maxLevel: 31
+[14c] messages: []
+[filewrite] files/14-min-pld-min-pld-response.json (509 bytes)

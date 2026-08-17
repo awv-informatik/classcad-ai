@@ -1,0 +1,8 @@
+[01] fastened created: 121 maxLevel: 31
+[01] COG after creation (xOffset=50): undefined
+[01] updateFastened xOffset=100: 121 maxLevel: 31
+[01] COG after update (xOffset=100): undefined
+[01] updateFastened yOffset=40: 121 maxLevel: 31
+[01] COG after update (yOffset=40 added): undefined
+[01] getFastened state: xOffset= 100 yOffset= 40 zOffset= 0
+[filewrite] files/01-basic-update-offset-final-state.json (352 bytes)

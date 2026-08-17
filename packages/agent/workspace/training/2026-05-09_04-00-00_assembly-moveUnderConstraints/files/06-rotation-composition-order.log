@@ -1,0 +1,5 @@
+[06] COG before: { x: 80.00000000000001, y: 10.000000000000002, z: 5.000000000000001 }
+[06] COG after rot90+offset(0,20,0): { x: 10.000000000000005, y: -60, z: 5.000000000000013 }
+[06] COG after offset-only(0,20,0): { x: 10.000000000000007, y: -40, z: 5.000000000000015 }
+[06] COG after rotation-only 90°: { x: -39.99999999999999, y: -10.000000000000007, z: 5.000000000000019 }
+[filewrite] files/06-rotation-composition-order-composition-order-result.json (518 bytes)

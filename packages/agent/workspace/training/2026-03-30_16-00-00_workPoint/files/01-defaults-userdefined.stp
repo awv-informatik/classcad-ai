@@ -1,0 +1,55 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('Test', '2026-03-30T17:14:34', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+
+DATA;
+#1 = DRAUGHTING_MODEL('', (), #7);
+#2 = CARTESIAN_POINT('Origin', (0., 0., 0.));
+#3 = GEOMETRIC_SET('', (#2, #4, #5, #6));
+#4 = CARTESIAN_POINT('WorkPoint', (0., 0., 0.));
+#5 = CARTESIAN_POINT('WP_custom', (50., 30., 20.));
+#6 = CARTESIAN_POINT('WP_neg', (-10., -20., -30.));
+#7 = (
+   GEOMETRIC_REPRESENTATION_CONTEXT (3)
+   GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT ((#9))
+   GLOBAL_UNIT_ASSIGNED_CONTEXT ((#8, #10, #11))
+   REPRESENTATION_CONTEXT ('', '3D')
+);
+#8 = (
+   LENGTH_UNIT ()
+   NAMED_UNIT (*)
+   SI_UNIT (.MILLI., .METRE.)
+);
+#9 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-6), #8, 'DISTANCE_ACCURACY_VALUE', '');
+#10 = (
+   NAMED_UNIT (*)
+   SI_UNIT ($, .STERADIAN.)
+   SOLID_ANGLE_UNIT ()
+);
+#11 = (
+   NAMED_UNIT (*)
+   PLANE_ANGLE_UNIT ()
+   SI_UNIT ($, .RADIAN.)
+);
+#12 = SHAPE_REPRESENTATION('', (#25), #7);
+#13 = PRODUCT_DEFINITION_SHAPE('', '', #14);
+#14 = PRODUCT_DEFINITION('', '', #17, #21);
+#15 = APPLICATION_CONTEXT('configuration controlled 3D designs of mechanical parts and assemblies');
+#16 = APPLICATION_PROTOCOL_DEFINITION('International Standard', 'automotive_design', 2002, #15);
+#17 = PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('', '', #18, .NOT_KNOWN.);
+#18 = PRODUCT('Test', 'Test', '', (#19));
+#19 = PRODUCT_CONTEXT('', #15, 'mechanical');
+#20 = PRODUCT_RELATED_PRODUCT_CATEGORY('detail', '', (#18));
+#21 = PRODUCT_DEFINITION_CONTEXT('part definition', #15, 'design');
+#22 = SHAPE_DEFINITION_REPRESENTATION(#13, #12);
+#23 = SHAPE_REPRESENTATION_RELATIONSHIP('', '', #12, #24);
+#24 = SHAPE_REPRESENTATION('', (#3), #7);
+#25 = AXIS2_PLACEMENT_3D('', #26, #27, #28);
+#26 = CARTESIAN_POINT('', (0., 0., 0.));
+#27 = DIRECTION('', (0., 0., 1.));
+#28 = DIRECTION('', (1., 0., 0.));
+ENDSEC;
+END-ISO-10303-21;

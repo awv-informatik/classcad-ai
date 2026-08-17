@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.solid.rotation",
+      "code": 0,
+      "level": 41,
+      "levelStr": "WARNING",
+      "message": "ToId()/TOID() didn't get an existing or valid id."
+    },
+    {
+      "api": "v1.solid.rotation",
+      "code": 1006,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"target\" has an invalid id!"
+    }
+  ]
+}

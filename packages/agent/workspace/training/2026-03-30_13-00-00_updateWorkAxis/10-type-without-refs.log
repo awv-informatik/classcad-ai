@@ -1,0 +1,6 @@
+[10] type change no refs result: 54 maxLevel: 51
+[10] messages: [{"api":"v1.part.updateWorkAxis","code":1111,"level":51,"levelStr":"ERROR","message":"There are missing references for WA1 (CC_WorkAxis)."}]
+[10] expressions after broken update: null
+[10] recovery result: 54 maxLevel: 31
+[10] recovery messages: []
+[filewrite] files/10-type-without-refs-type-no-refs.json (369 bytes)

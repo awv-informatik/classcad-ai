@@ -1,0 +1,5 @@
+[13] combined slider: 216
+[13] retrieved xOffset: 10
+[13] retrieved yOffset: -5
+[13] retrieved zOffsetLimits: {"max":40,"min":-40}
+[filewrite] files/13-combined-offsets-limits-combined-result.json (336 bytes)

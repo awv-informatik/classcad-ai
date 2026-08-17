@@ -1,0 +1,4 @@
+[03b] inverted=1: 99 maxLevel: 31 msgs: []
+[03b] inverted=0: null maxLevel: 51 msgs: [{"api":"v1.part.linearPattern","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_LinearPattern"}]
+[03b] reversed axis: null maxLevel: 51
+[filewrite] files/03b-inverted-minimal-reversed-axis-response.json (245 bytes)

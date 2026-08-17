@@ -1,0 +1,10 @@
+[01] rectIds: [ 58, 64, 70, 76 ]
+[01] regionId: 92
+[01] geomBefore: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[filewrite] files/01-basic-update-before-geom.json (138 bytes)
+[01] triIds: [ 94, 100, 106 ]
+[01] updateResult: null maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-update-update-response.json (56 bytes)
+[01] geomAfter: {"arcs":[],"circles":[],"lines":[94,100,106],"points":[]}
+[filewrite] files/01-basic-update-after-geom.json (129 bytes)

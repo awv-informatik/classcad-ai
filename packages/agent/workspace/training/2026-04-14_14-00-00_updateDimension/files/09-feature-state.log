@@ -1,0 +1,7 @@
+[09] without open/close: result: 2 endX: 100
+[09] linkWithExpression result: null maxLevel: 51
+[09] linkWithExpression messages: [{"api":"v1.part.linkWithExpression","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"exprName\" must be provided in the api call!"}]
+[09] after link: endX: 100
+[09] after expr update to 200: endX: 100
+[09] after expr update to 80: endX: 100
+[filewrite] files/09-feature-state-feature-state-data.json (505 bytes)

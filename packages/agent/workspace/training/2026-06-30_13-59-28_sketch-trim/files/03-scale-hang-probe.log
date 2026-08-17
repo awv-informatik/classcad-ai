@@ -1,0 +1,12 @@
+[filewrite] files/03-scale-hang-probe-03-T1-pre.json (49 bytes)
+[03] T1: staged N=12, trimming 6...
+[03] T1: N=12 trim=4ms post=18ms trimMax=31 postMax=31
+[filewrite] files/03-scale-hang-probe-03-T2-pre.json (50 bytes)
+[03] T2: staged N=24, trimming 12...
+[03] T2: N=24 trim=4ms post=45ms trimMax=31 postMax=31
+[filewrite] files/03-scale-hang-probe-03-T3-pre.json (50 bytes)
+[03] T3: staged N=27, trimming 14...
+[03] T3: N=27 trim=6ms post=51ms trimMax=31 postMax=31
+[filewrite] files/03-scale-hang-probe-03-scale-results.json (457 bytes)
+[03] trimMs trend [4,4,6] | superlinear(T3>5xT1)? false
+[03] VERDICT: no hang up to N=27 segs; trimMs flat (4/4/6) — trim does NOT inherit the trimCurves hang at low constraint density

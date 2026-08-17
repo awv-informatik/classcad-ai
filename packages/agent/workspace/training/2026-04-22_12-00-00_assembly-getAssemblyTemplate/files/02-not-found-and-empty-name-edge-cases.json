@@ -1,0 +1,46 @@
+{
+  "notFound": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"DoesNotExist\" could not be found"
+      }
+    ]
+  },
+  "emptyName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"\" could not be found"
+      }
+    ]
+  },
+  "emptyNameRetry": {
+    "result": 32,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "caseMismatch": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"exists\" could not be found"
+      }
+    ]
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "goal": "Empirically characterize sketch.postTrim (the finalizer, step 3 of preTrim->trim->postTrim; signature {id}->VOID) with live numeric proof, focused on postTrim-SPECIFIC gaps not already settled by the preTrim/trim sessions: (1) staging cleanup (both SplittedCurves AND NoneSplitted fully REMOVED by name on a normal cycle, contrasted with the preTrim-twice NoneSplitted0 leak); (2) the load-bearing 'normal editable state' doc claim (getGeometry coherent, add-line works, a FRESH full trim cycle works, solver live via updateDimension); (3) HORIZONTAL_DISTANCE dimension survival across postTrim (name preserved, id churned, value tracks survivor, still drives geometry); (4) restore fidelity of no-trim postTrim to EXACT original coordinates; (5) idempotence (postTrim twice / nothing-staged / after only preTrim) with no id churn on the no-op; (6) error map ({id}-only surface: 1004/1006+ToId/1001) with staging untouched; (7) full NoneSplitted0 leak characterization (reproduce, 2nd postTrim, harm-to-subsequent-cycle, accumulation, other paths); (8) StopEditing auto-postTrim -> API-search UNVERIFIABLE, optional part.closeFeature probe. Cite preTrim.md/trim.md for already-proven facts; do not re-script settled behavior.",
+  "methodsToCover": [
+    "sketch.postTrim",
+    "sketch.preTrim",
+    "sketch.trim",
+    "sketch.getGeometry",
+    "sketch.getPositions",
+    "sketch.getObjectInfo",
+    "sketch.getGlobalState",
+    "sketch.line",
+    "sketch.dimension",
+    "sketch.updateDimension",
+    "part.closeFeature (optional/UNVERIFIABLE probe)",
+    "part.create",
+    "part.createSketch"
+  ],
+  "questions": [
+    "Normal cycle: after preTrim->trim->postTrim, are BOTH SplittedCurves AND NoneSplitted fully REMOVED by name (absent, not merely childCount 0), and is there no *0-suffixed leak? Census delta of container children == 0?",
+    "Editable state: after postTrim does getGeometry return coherent survivors with every id resolving under getPositions (0 dead ids), can you add a new line (+1 count, endpoints numeric-match), and can you run a full FRESH preTrim->trim->postTrim cycle that re-stages then re-cleans with no per-cycle container accumulation?",
+    "Solver live: on a PLANED sketch with a surviving dimension, does updateDimension return true(=1 solved) AND does geometry actually move to the new value (numeric readback)? Contrast a planeless sketch where updateDimension returns 0/false.",
+    "HD dimension survival: after split+trim+postTrim of the dimensioned line, does HD_main survive by NAME with a NEW id (name preserved, id churned)? dimensionCount still 1 (no orphan/dup)? Does its value re-anchor to the survivor (numeric)? updateDimension to a new value -> true + geometry moves to that value?",
+    "Restore fidelity: no-trim postTrim (preTrim->postTrim) and trim([])->postTrim -> original geometry ids UNCHANGED and coordinates byte-exact (delta ~0)? Are staging containers also fully removed on the no-trim path?",
+    "No-trim id asymmetry: on a no-trim postTrim, are geometry ids stable while constraint/dimension handles are recreated with new ids anyway? Does the dimension id churn on a no-trim postTrim or only on a trimmed one?",
+    "Idempotence: postTrim TWICE in a row -> 2nd is mL31 no-op with result null; is geometry (ids+coords) byte-identical and are constraint names/ids NOT re-churned (no Auto_H00, no id change) on the 2nd call?",
+    "Nothing-ever-staged postTrim (no preTrim) -> clean mL31 no-op, ids unchanged, and does it create any staging container (hypothesis: no)?",
+    "Error map on {id}-only surface: postTrim({}) -> 1004; postTrim({id:999999}) -> 1006 + preceding level-41 ToId warning; postTrim with part/point/curve/dim id -> 1001 ['sketch']. On each error is result VOID and is staging UNTOUCHED (resumable)?",
+    "NoneSplitted0 leak: reproduce (preTrim x2 -> postTrim) -> stale empty NoneSplitted0 childCount 0? Does a SECOND postTrim clean it? Does the leak harm a subsequent fresh cycle or cause naming collision (NoneSplitted1)? Does it accumulate across repeated leak cycles? Is it ONLY from preTrim-twice, or also from trim-then-re-preTrim?",
+    "StopEditing auto-postTrim: is there any StopEditing/setCurrentFeature endpoint in the API (grep says NO)? If unreachable, mark UNVERIFIABLE. Optional: does part.closeFeature on a staged sketch implicitly finalize like postTrim?",
+    "Coalesce: do N contiguous kept segments coalesce into exactly 1 curve with a NEW id, and does a kept ARC chain coalesce too? (light confirm, cite preTrim.md L83)"
+  ],
+  "setupNotes": "SINGLE SHARED WORKER, serial execution. All scripts are Node scripts driving the ClassCAD API (api.v1.*). DESIGN-ONLY here; the main agent runs them. Discipline: (a) NAME, not id, for every container/constraint/dimension handle — all handles churn ids across postTrim (SKETCHING.md L206); caching an id across postTrim is the #1 silent-pass-garbage bug. (b) getGeometry is NOT a cleanup oracle (preTrim.md L58 — it never saw staging, looks clean even mid-leak); cleanup MUST walk the structure tree containers by name and read childCount/existence. (c) VOID guard: postTrim/trim return result:null, mL31 (preTrim.md L79); distinguish clean-VOID success from error-VOID via maxLevel/messages, never result===null alone. (d) Guard all reads with Array.isArray/null-checks since error results are VOID. Canonical fixture: H line [0,50]->[100,50], V line [50,0]->[50,100] crossing at (50,50); trim the H overhang beyond x=50 so the survivor is [0,50]->(50,50). Most probes (staging/cleanup/getGeometry/add-line/error/leak/idempotence/restore) are solver-INDEPENDENT -> run on a minimal PLANELESS sketch to isolate. Spin up a PLANED sketch ONLY for the solver/dimension probes (S3, S4): a planeless sketch silently no-ops updateDimension to result:0/false (create.md L41, SKETCHING.md L112/L371) which would masquerade as a postTrim failure. HD with 2 geomIds requires BOTH be points (SKETCHING.md L194) — use the H line's startId/endId from getObjectInfo(hLine).geometry, force name 'HD_main'. Dimension class CC_LinearFeatureDimension; enumerate via structure tree filter class.includes('FeatureDimension'). updateDimension takes a dimension ID not a name (sketch.md L1656) and returns boolean true=solved (L1647). ALREADY PROVEN (cite, do NOT re-script): postTrim VOID/mL31 & planeless (preTrim.md L79,L102); no-trim/trim([]) restore original ids, only trimmed curves churn (preTrim.md L80-82); contiguous survivors coalesce, disjoint don't (preTrim.md L83); constraints recreated Auto_H->Auto_H0 new ids + Auto_Coinc at cut vertex (preTrim.md L84-86); trim-all->postTrim empty sketch no leak (trim.md L30); preTrim-twice->postTrim leaks empty NoneSplitted0 (preTrim.md L98-100); trim silent no-op on original sourceId, atomic-fail mL51 1006 on bogus id (preTrim.md L90-91); invalid-id emits preceding level-41 ToId warning code 0 (preTrim.md L113-114). Empty sketch preTrim returns result:[] not VOID, still creates containers (preTrim.md L101).",
+  "scripts": [
+    {
+      "n": 1,
+      "filename": "01_normal_cycle_staging_cleanup.js",
+      "title": "Normal cycle: both staging containers REMOVED by name, census delta 0",
+      "question": "After a single preTrim->trim->postTrim, are BOTH SplittedCurves AND NoneSplitted fully absent by name (not just empty), with no *0-suffixed leak and zero net container children?",
+      "category": "cleanup",
+      "setup": "Planeless sketch. H line [0,50]->[100,50], V line [50,0]->[50,100]. BASELINE: walk structure tree, enumerate all CC_Container children by NAME, record set + count (expect NO SplittedCurves/NoneSplitted pre-workflow).",
+      "call": "preTrim({id:sk}); after preTrim assert SplittedCurves AND NoneSplitted EXIST by name, record childCounts. Identify the staged H-overhang segment beyond x=50 via getPositions; trim({id:sk,curveIds:[thatSeg]}); re-read SplittedCurves.childCount (dropped). postTrim({id:sk}).",
+      "expected": "postTrim VOID mL31. After postTrim: SplittedCurves ABSENT by name, NoneSplitted ABSENT by name, NoneSplitted0/SplittedCurves0 ABSENT (no leak). Container-children census delta vs baseline == 0. getGeometry coherent (survivor line [0,50]->(50,50)).",
+      "measurement": "Per name in {SplittedCurves,NoneSplitted,SplittedCurves0,NoneSplitted0}: present/absent after postTrim. childCounts at each stage. baseline vs post census delta (must be 0). Cite preTrim.md L58 (getGeometry blind) — cleanup proven via tree walk, not getGeometry."
+    },
+    {
+      "n": 2,
+      "filename": "02_editable_state_fresh_cycle.js",
+      "title": "Normal editable state: getGeometry resolves, add-line works, a full FRESH trim cycle re-stages then re-cleans",
+      "question": "After postTrim is the sketch genuinely live: do all getGeometry ids resolve (0 dead), does line() add +1 with numeric endpoints, and does a 2nd full preTrim->trim->postTrim re-stage then re-clean with NO per-cycle container accumulation?",
+      "category": "editable-state",
+      "setup": "Reuse the S1 normal-cycle end state (planeless), OR rebuild it inline. Confirm S1 cleanup first (census delta 0).",
+      "call": "(a) getGeometry -> for every returned line/arc/point id call getPositions/getPoints, assert none returns mL51 (0 dead ids). (b) line({id:sk, from [10,10] to [40,40]}); getGeometry line-count +1; getPositions(newId) == requested endpoints. (c) Add a crossing line, preTrim (assert SplittedCurves re-created non-empty, result Array.isArray with sourceId/splittedCurves entries), trim one seg (SplittedCurves.childCount drops), postTrim.",
+      "expected": "All getGeometry ids resolve. Add-line: +1, endpoints numeric-match. 2nd cycle: staging re-created, then both containers ABSENT again post-postTrim, and NO accumulated *0 orphan across the two cycles (census delta still 0 — this is where a per-cycle leak surfaces). Final getGeometry coherent.",
+      "measurement": "dead-id count (must be 0); line-count before/after add; newId endpoint coords; 2nd-cycle container name-set after each postTrim; cumulative container census across both cycles (delta 0). This is the highest-value single editable-state test."
+    },
+    {
+      "n": 3,
+      "filename": "03_solver_live_planed.js",
+      "title": "Solver live after postTrim: updateDimension re-solves and geometry moves (planed vs planeless control)",
+      "question": "On a PLANED sketch with a surviving dimension, does updateDimension return true(=solved) AND does the driven geometry actually move to the new value? Does a planeless control return false/0 to prove the check discriminates?",
+      "category": "solver",
+      "setup": "PLANED sketch (planeId required — planeless silently no-ops updateDimension to 0, create.md L41). Fixture H+V crossing at (50,50). Get H line startId/endId via getObjectInfo(hLine).geometry. dimension({id:sk, name:'HD_main', type:'HORIZONTAL_DISTANCE', geomIds:[hStartPt,hEndPt], value:100}) — both geomIds must be POINTS (SKETCHING.md L194). getGlobalState -> dimensionCount==1. preTrim->trim(H overhang)->postTrim.",
+      "call": "After postTrim: re-fetch HD_main by NAME from structure tree (filter class includes FeatureDimension) -> get its NEW id. updateDimension({id:hdNewId, value:70}). Then getPositions on survivor line -> read length. CONTROL: repeat the dimension+updateDimension on a PLANELESS sketch (no postTrim needed) -> expect false/0.",
+      "expected": "Planed: updateDimension -> result true (=1 solved, SKETCHING.md L198); survivor line length == 70.000 to float precision (geometry FOLLOWED — result:true alone is necessary-not-sufficient, SOUL.md L17). Planeless control: updateDimension -> false/0, geometry unmoved. Discrimination confirmed.",
+      "measurement": "updateDimension boolean result (planed vs planeless); survivor length before/after (must reach 70.000); getGlobalState.status FULLY_CONSTRAINED/OK not NOT_SOLVED. The crux deliverable: 'updateDimension after postTrim -> true, geometry moved to 70.000'."
+    },
+    {
+      "n": 4,
+      "filename": "04_HD_dimension_survival.js",
+      "title": "HD dimension survival: name preserved, id churned, value re-anchors to survivor",
+      "question": "After split+trim+postTrim of the dimensioned line, does HD_main survive by NAME with a NEW id (name kept, id churned), dimensionCount still 1 (no orphan/dup), and does its measured value re-anchor to the surviving segment?",
+      "category": "constraints",
+      "setup": "PLANED sketch (reuse S3 setup or rebuild). H+V fixture, HD_main HORIZONTAL_DISTANCE value 100 on H endpoints. Record PRE: HD_main id, name, members.startPt/endPt coords, dimensionCount(==1), constraintCount, H line endpoint coords via getPositions.",
+      "call": "preTrim -> trim H overhang beyond x=50 -> postTrim. Walk structure tree: find CC_LinearFeatureDimension name=='HD_main'. Compare new id vs pre id. Read getGlobalState.dimensionCount. Re-read members.startPt/endPt coords + derived distance.",
+      "expected": "HD_main EXISTS by name; id CHANGED (recreated); name PRESERVED (direct contrast to splitCurve _Split rename, and SKETCHING.md L255 dim-names-preserved claim). dimensionCount==1 (no orphan, no dup). Dimension re-anchors to survivor endpoints [0,50]->(50,50); measured distance == 50 (not 100). constraintCount reflects recreated geometric constraints + new Auto_Coinc at (50,50).",
+      "measurement": "HD_main present y/n; pre-id vs post-id (expect differ); name identical; dimensionCount (==1); measured distance after (capture the number whether 50 or 100); Auto_Coinc present at (50,50). SOUL.md L17: capture the number, not 'it survived'."
+    },
+    {
+      "n": 5,
+      "filename": "05_restore_fidelity_notrim.js",
+      "title": "Restore fidelity: no-trim postTrim -> original ids + byte-exact coords + containers removed",
+      "question": "Do no-trim postTrim (preTrim->postTrim) and trim([])->postTrim restore original geometry ids UNCHANGED with byte-exact coordinates, and are staging containers also fully removed on the no-trim path? Does the dimension id churn on a no-trim postTrim?",
+      "category": "restore",
+      "setup": "PLANED sketch, H+V fixture + HD_main (value 100). Snapshot PRE: every curve id + all endpoint coords via getPositions; HD_main id.",
+      "call": "RUN A: preTrim -> postTrim (NO trim). Re-read the SAME curve ids -> compare coords. Enumerate containers by name. Re-fetch HD_main by name, compare id. updateDimension(HD_main,120)->true, geometry to 120. RUN B (fresh sketch): preTrim -> trim({id:sk,curveIds:[]}) -> postTrim, same checks.",
+      "expected": "Curve ids UNCHANGED (preTrim.md L82); coords byte-exact (delta==0 to ~1e-14, SOUL.md L17). Both staging containers ABSENT (cleanup independent of whether anything trimmed). getGeometry returns ORIGINAL ids not new. HD_main present by name; OPEN: does its id churn on no-trim? (report pre vs post — geometry-ids-stable-but-handles-recreated asymmetry, SKETCHING.md L254). updateDimension still true, geometry moves.",
+      "measurement": "per-curve id pre vs post (unchanged); per-vertex coord delta (==0); container names present/absent (absent); HD_main pre-id vs post-id (report the contrast: churns on no-trim or only on trimmed?); updateDimension result (true) + geometry to 120."
+    },
+    {
+      "n": 6,
+      "filename": "06_idempotence_twice_and_bare.js",
+      "title": "Idempotence: postTrim twice (2nd no-op, no id re-churn) + nothing-ever-staged postTrim",
+      "question": "Is the 2nd postTrim in a row a pure mL31 no-op with geometry byte-identical and constraint names/ids NOT re-churned (no Auto_H00)? Is a nothing-ever-staged postTrim a clean no-op that creates no staging container?",
+      "category": "idempotence",
+      "setup": "Planeless. RUN A: build fixture, preTrim->trim(overhang)->postTrim #1. Snapshot: curve ids+coords, constraint names+ids (Auto_Coinc/Auto_H0). RUN B: fresh sketch, 2 lines, NO preTrim.",
+      "call": "RUN A: postTrim #2 back-to-back. Capture both calls' result/maxLevel/messages verbatim. Re-snapshot geometry ids+coords and constraint names+ids; diff against post-#1. RUN B: postTrim({id:sk}) on the un-staged sketch; capture result/maxLevel/messages; count CC_Container children by name before/after.",
+      "expected": "postTrim #2: result null, mL31, empty/absent messages. Geometry byte-identical (same ids, same coords) — no further churn (nothing staged). Constraints NOT re-renamed (no Auto_H00) and ids UNCHANGED. Bare postTrim: clean mL31 no-op, ids unchanged, creates NO SplittedCurves/NoneSplitted (contrast preTrim which creates them even empty, preTrim.md L101).",
+      "measurement": "#1 vs #2 result/maxLevel/messages; geometry id+coord diff (empty); constraint name-set + id diff across #2 (empty — no double-suffix, no new id); bare postTrim container count before/after (0->0)."
+    },
+    {
+      "n": 7,
+      "filename": "07_error_map.js",
+      "title": "Error map ({id}-only surface): 1004 / 1006+ToId / 1001, result VOID, staging untouched",
+      "question": "Do postTrim's {id}-only error cases produce 1004 (missing), 1006 + preceding level-41 ToId (non-existent), 1001 ['sketch'] (wrong type: part/point/curve/dim), each with result VOID — and is staging UNTOUCHED after a mid-workflow error (resumable)?",
+      "category": "error-case",
+      "setup": "Planeless. Create part, plane, a normal sketch (sk), a point, a line, a dimension for wrong-type ids. Also stage a SEPARATE sketch mid-workflow (preTrim->trim, NOT postTrim) to test error-with-staging-present.",
+      "call": "postTrim({}); postTrim({id:999999}); postTrim({id:partId}); postTrim({id:pointId}); postTrim({id:lineId}); postTrim({id:dimId}). Capture verbatim messages/code/level/api for each. Then on the mid-workflow staged sketch: postTrim({id:pointId}) (bad), read staging childCounts, then postTrim({id:stagedSk}) (correct) -> assert finalize succeeds.",
+      "expected": "{} -> mL51 1004 result VOID. 999999 -> mL51 1006 result VOID + preceding level-41 ToId warning code 0 (preTrim.md L113-114). part/point/curve/dim id -> mL51 1001 message includes ['sketch'] result VOID. Capture postTrim's OWN strings (do not inherit from preTrim). Mid-workflow bad postTrim: staging childCounts UNCHANGED, corrective postTrim then finalizes cleanly.",
+      "measurement": "per-probe: result (VOID), maxLevel (51), verbatim message+code+level+api. Wrong-type-with-staging: staging childCount before/after error (unchanged) and after corrective postTrim (finalized). Confirms error->VOID, no partial finalize."
+    },
+    {
+      "n": 8,
+      "filename": "08_noneSplitted0_leak.js",
+      "title": "NoneSplitted0 leak: reproduce, 2nd-postTrim sweep?, harm/accumulation, other paths",
+      "question": "Does preTrim x2 -> postTrim leave a stale empty NoneSplitted0 (childCount 0)? Does a 2nd postTrim clean it? Does the leak harm a subsequent fresh cycle or collide (NoneSplitted1)? Does it accumulate? Is it ONLY from preTrim-twice or also trim-then-re-preTrim?",
+      "category": "leak",
+      "setup": "Planeless. Fixture H+V.",
+      "call": "3.1 REPRODUCE: preTrim -> preTrim (no postTrim between) -> postTrim; enumerate CC_Container by name, find NoneSplitted0, read childCount, capture its id, confirm SplittedCurves/NoneSplitted gone, geometry+original ids fine. 3.2: postTrim again -> re-enumerate (does NoneSplitted0 persist or get swept?). 3.3 HARM: fresh full preTrim->trim->postTrim on the leaked sketch -> container name-set + final geom coords (collision NoneSplitted1? cycle correct?). 3.4 ACCUMULATE: (preTrim x2 -> postTrim) x2 -> count NoneSplitted* (one or two?). 3.5 OTHER PATH: fresh sketch preTrim->trim(some)->preTrim(mid-workflow)->postTrim -> does it leak too?",
+      "expected": "3.1: NoneSplitted0 present, childCount 0, SplittedCurves/NoneSplitted absent, geometry+ids correct (cosmetic, preTrim.md L98-100). 3.2: OPEN — 2nd postTrim likely does NOT sweep orphan (nothing staged). 3.3: fresh cycle succeeds, leak cosmetic, possibly accumulates a suffixed orphan; geometry correct. 3.4: reveals fixed-one vs unbounded creep. 3.5: reveals whether trim-then-re-preTrim also leaks or only no-trim double-preTrim.",
+      "measurement": "NoneSplitted0 id+childCount; container name-set after each stage; 2nd-postTrim before/after existence; fresh-cycle final geom coords + container set; accumulation count after 2 leak cycles; other-path leak y/n. All by-name enumeration with numeric childCount (SOUL.md — not visual)."
+    },
+    {
+      "n": 9,
+      "filename": "09_stopEditing_closeFeature.js",
+      "title": "StopEditing auto-postTrim: API-search UNVERIFIABLE; optional part.closeFeature finalize probe",
+      "question": "Is there any StopEditing/setCurrentFeature endpoint to call (grep says NO)? If unreachable, mark UNVERIFIABLE. Optional: does part.closeFeature on a staged (un-postTrimmed) sketch implicitly finalize like an auto-postTrim?",
+      "category": "editable-state",
+      "setup": "Design-time grep already ran (Read/grep only): references/api/ has ZERO hits for stopEditing|startEditing|setCurrentFeature|currentFeature|finishEdit|endEdit|editSketch|exit/enterSketch; sketch.md 55-method list has NO editing-lifecycle endpoint. Closest analogues: part.openFeature (part.md L1041), part.closeFeature (part.md L180).",
+      "call": "Since no StopEditing method exists, mark the literal auto-postTrim-on-StopEditing claim UNVERIFIABLE from the v1 API (do NOT fabricate). OPTIONAL live probe only if spare budget: planeless sketch, preTrim->trim(some), do NOT postTrim; call part.closeFeature({id: owning feature id}); then part.openFeature back / getGeometry. Check container childCounts + geometry ids before closeFeature and after re-open.",
+      "expected": "Literal StopEditing endpoint: UNVERIFIABLE (no such method in v1.sketch). Optional closeFeature probe: EITHER it implicitly finalizes (staging gone, survivors have new ids, Auto_Coinc present == auto-postTrim behavior) OR it errors/leaves staging untouched (no reachable auto-postTrim surface — guide claim refers to UI-layer StopEditing not exposed in v1 API). Mark UNVERIFIABLE rather than asserting either way if inconclusive.",
+      "measurement": "API method presence (absent -> UNVERIFIABLE, cite grep). Optional: staging childCount + geometry ids before closeFeature vs after re-open; Auto_Coinc present y/n. SOUL.md L16-18: no claim without measured evidence."
+    },
+    {
+      "n": 10,
+      "filename": "10_coalesce_confirm.js",
+      "title": "Coalesce confirm: N contiguous line segments -> 1 new-id curve; kept arc chain coalesces",
+      "question": "Do N contiguous kept segments coalesce into exactly 1 curve with a NEW id, and does a kept ARC chain coalesce too? (light confirm of preTrim.md L83, extend to arcs)",
+      "category": "dimensions",
+      "setup": "Planeless. FIXTURE A: one long H line [0,0]->[100,0] crossed by two V lines at x=30 and x=70 -> preTrim splits H into 3 contiguous segments. FIXTURE B: an arc crossed at two points so it splits into contiguous arc segments.",
+      "call": "FIXTURE A: preTrim; trim NOTHING (keep all 3 H segments); postTrim. getGeometry -> count H-derived line curves. Read the surviving curve id, compare to original H id. FIXTURE B: same, keep all arc segments, postTrim; count resulting arc curves.",
+      "expected": "FIXTURE A: the 3 contiguous kept segments COALESCE into exactly 1 line curve (preTrim.md L83), with a NEW id (coalesced curves get new id — contrast untrimmed-untouched keeps original). FIXTURE B: kept arc segments coalesce into 1 arc (hypothesis — extends the line finding to arcs). Disjoint survivors would NOT coalesce (not tested here; cite preTrim.md).",
+      "measurement": "count of curves derived from source H (expect 1); coalesced curve id vs original H id (new?); arc: count of resulting arc curves (expect 1). Endpoint coords of coalesced curve == outer extents [0,0]->[100,0]."
+    }
+  ],
+  "coverageChecklist": [
+    "Staging cleanup on normal cycle: SplittedCurves + NoneSplitted absent by name, no *0 leak, census delta 0 (S1)",
+    "getGeometry all ids resolve + add-line +1 numeric + FRESH full trim cycle re-stages/re-cleans no accumulation (S2)",
+    "Solver live: updateDimension true + geometry moves on planed, false/0 on planeless control (S3)",
+    "HD dimension survival: name preserved, id churned, dimensionCount 1, value re-anchors to survivor (S4)",
+    "Restore fidelity: no-trim & trim([]) original ids + byte-exact coords + containers removed + dim-id churn asymmetry (S5)",
+    "Idempotence: postTrim twice = no-op no re-churn; nothing-ever-staged no-op creates no container (S6)",
+    "Error map: 1004 / 1006+ToId / 1001['sketch'] result VOID, staging untouched mid-workflow (S7)",
+    "NoneSplitted0 leak: reproduce, 2nd-postTrim, harm/collision, accumulation, other-path characterization (S8)",
+    "StopEditing auto-postTrim UNVERIFIABLE via API-grep; optional closeFeature finalize probe (S9)",
+    "Coalesce: N contiguous segments -> 1 new-id curve; arc chain coalesces (S10)",
+    "Discipline: name-not-id handles, getGeometry-not-cleanup-oracle, VOID guard via maxLevel/messages, planed-only-for-solver"
+  ],
+  "openRisks": [
+    "Dimension value re-anchoring (S4) is genuinely open: HD_main may re-anchor to the survivor's endpoints (report 50) OR fight the new geometry (maxLevel 51 / unsolved). Capture the actual number and lgsState either way — do not assume 50.",
+    "Dimension-id churn on a NO-TRIM postTrim (S5) is an open contrast to the trimmed case: SKETCHING.md L254 says handles are recreated even on no-trim round-trips, but whether the dimension id specifically churns when nothing was trimmed is unverified — S5 must report pre-vs-post id for both no-trim and trimmed runs.",
+    "Whether a 2nd postTrim sweeps the leaked NoneSplitted0 (S8.2) is an open question; leaning no-op-does-not-sweep, but must be measured. Accumulation pattern (fixed-one vs unbounded, S8.4) equally open.",
+    "StopEditing auto-postTrim (S9) has NO reachable v1 API endpoint per design-time grep (zero hits across references/api/) — must be reported UNVERIFIABLE, not fabricated. The optional part.closeFeature probe is a best-effort analogue only; if it errors on a sketch/feature id or leaves staging untouched, conclude no reachable auto-postTrim surface.",
+    "planeId is mandatory for S3/S4 solver probes — a planeless sketch silently returns updateDimension 0/false and would masquerade as a postTrim solver failure. The planeless control in S3 is the discriminator that proves the check is sensitive; without it a false result is ambiguous.",
+    "Arc-chain coalescing (S10 fixture B) extends the proven line-coalesce finding (preTrim.md L83) to arcs — this is a hypothesis, not proven; whole-circle parts reject getPositions (use getPoints->centerId) so the arc probe must guard read calls accordingly.",
+    "Every no-op/idempotence claim needs literal result+maxLevel+messages dumped and a before/after id+coordinate diff (SOUL.md L17) — 'looks the same' is not acceptable; a silent id change on a supposed no-op falsifies idempotence and must be flagged loudly.",
+    "All container/constraint/dimension handles must be re-fetched by NAME after every postTrim (ids churn, SKETCHING.md L206); a cached id across postTrim is the primary silent-pass-garbage failure mode for every probe here."
+  ]
+}

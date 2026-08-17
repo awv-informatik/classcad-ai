@@ -1,0 +1,31 @@
+{
+  "union": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "sub": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "intersection": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.intersection",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"tools\" has the wrong type! It should be of type (string|real|id)"
+      }
+    ]
+  },
+  "translateAfterInt": {
+    "maxLevel": 31
+  },
+  "merge": {
+    "result": 61,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

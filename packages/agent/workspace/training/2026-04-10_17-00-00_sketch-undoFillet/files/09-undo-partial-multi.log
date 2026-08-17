@@ -1,0 +1,8 @@
+[09] fillet corner 0: [94,92,96,95]
+[09] fillet corner 1: [113,111,115,114]
+[09] fillet corner 2: [132,130,134,133]
+[09] fillet corner 3: [151,149,153,152]
+[09] undo corner 0: maxLevel= 31
+[09] undo corner 2: maxLevel= 31
+[09] arcs remaining: 2 lines: 4
+[filewrite] files/09-undo-partial-multi-geo-partial-undo.json (138 bytes)

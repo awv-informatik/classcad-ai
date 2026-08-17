@@ -1,0 +1,24 @@
+[08] STATE 1 — All active:
+  RollbackBar: flags=4096 children=undefined
+  BoxRef: flags=4096 children=undefined
+  CylinderRef: flags=4096 children=undefined
+  SphereRef: flags=4096 children=undefined
+[filewrite] files/08-flags-during-states-state1-all-active.json (1130 bytes)
+[08] STATE 2 — moveBefore(Cyl1):
+  RollbackBar: flags=4096 children=undefined
+  BoxRef: flags=4096 children=undefined
+  CylinderRef: flags=4096 children=undefined
+  SphereRef: flags=4096 children=undefined
+[filewrite] files/08-flags-during-states-state2-movebefore.json (1130 bytes)
+[08] STATE 3 — openFeature(Cyl1):
+  RollbackBar: flags=4096 children=undefined
+  BoxRef: flags=4096 children=undefined
+  CylinderRef: flags=4096 children=undefined
+  SphereRef: flags=4096 children=undefined
+[filewrite] files/08-flags-during-states-state3-openfeature.json (1130 bytes)
+
+[08] === FLAG COMPARISON ===
+  BoxRef: state1=4096 state2=4096 state3=4096 (same)
+  CylinderRef: state1=4096 state2=4096 state3=4096 (same)
+  SphereRef: state1=4096 state2=4096 state3=4096 (same)
+  RollbackBar: state1=4096 state2=4096 state3=4096 (same)

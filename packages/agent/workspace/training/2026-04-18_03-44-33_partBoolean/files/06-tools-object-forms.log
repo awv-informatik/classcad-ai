@@ -1,0 +1,5 @@
+[06] partId: 4 box1: 54 cyl1: 91 cyl2: 110
+[06] plain tools — result: 129 maxLevel: 31
+[filewrite] files/06-tools-object-forms-plain-tools.json (55 bytes)
+[06] object tools — result: null maxLevel: 51
+[filewrite] files/06-tools-object-forms-object-tools.json (278 bytes)

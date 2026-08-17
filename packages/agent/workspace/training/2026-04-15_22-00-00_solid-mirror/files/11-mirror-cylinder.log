@@ -1,0 +1,4 @@
+[11] bbox before: {"min":[25,-15,-25],"max":[55,15,25]}
+[11] bbox after: {"min":[-55,-15,-25],"max":[-25,15,25]}
+[11] mirror result: 61 maxLevel: 31
+[filewrite] files/11-mirror-cylinder-cylinder-mirror.json (239 bytes)

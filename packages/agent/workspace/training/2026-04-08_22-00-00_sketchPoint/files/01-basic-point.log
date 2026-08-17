@@ -1,0 +1,9 @@
+[01] partId: 4 skId: 52
+[01] point at origin — result: 58 maxLevel: 31
+[filewrite] files/01-basic-point-point-origin-response.json (54 bytes)
+[01] point at (50,30,0) — result: 62 maxLevel: 31
+[01] point at (-25,-15,0) — result: 64 maxLevel: 31
+[01] pos1: {"pos":{"x":0,"y":0,"z":0}}
+[01] pos2: {"pos":{"x":50,"y":30,"z":0}}
+[01] pos3: {"pos":{"x":-25,"y":-15,"z":0}}
+[filewrite] files/01-basic-point-all-positions.json (374 bytes)

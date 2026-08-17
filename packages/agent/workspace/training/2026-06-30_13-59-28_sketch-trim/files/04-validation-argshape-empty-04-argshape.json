@@ -1,0 +1,30 @@
+{
+  "rEmpty": 31,
+  "aliveAfterEmpty": 4,
+  "rNoCurve": {
+    "max": 51,
+    "err": [
+      {
+        "level": 51,
+        "code": 1004,
+        "message": "The parameter \"curveIds\" must be provided in the api call!"
+      }
+    ]
+  },
+  "rNoId": {
+    "max": 51,
+    "err": [
+      {
+        "level": 51,
+        "code": 1004,
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  },
+  "rDup": 51,
+  "othersAlive": [
+    31,
+    31,
+    31
+  ]
+}

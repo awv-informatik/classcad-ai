@@ -1,0 +1,20 @@
+[09] INITIAL COG: { x: 10, y: 7.5, z: 35 }
+[09] negative Z_OFFSET (-20): 31 []
+[09] AFTER negative Z_OFFSET COG: { x: 10, y: 7.5, z: 0 }
+[09] zero Z_OFFSET: 31
+[09] AFTER zero Z_OFFSET COG: { x: 10, y: 7.5, z: 20 }
+[09] 180deg string: 31
+[09] AFTER 180deg COG: { x: -10, y: -7.499999999999999, z: 20 }
+[09] -45deg string: 31 []
+[09] AFTER -45deg COG: { x: 12.37436867076458, y: -1.7677669529663695, z: 20 }
+[09] large Z_OFFSET (1000): 31
+[09] AFTER large Z_OFFSET COG: {
+  x: 12.374368670764577,
+  y: -1.7677669529663713,
+  z: 1020.0000000000003
+}
+[09] same-constraint array: 31 []
+[09] AFTER same-constraint array COG: { x: -7.500000000000001, y: 9.999999999999998, z: 70.00000000000006 }
+[09] @expr binding: 51 [{"api":"v1.assembly.update3DConstraintValue","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"value\" has the wrong type! It should be of type (real)"}]
+[09] AFTER @expr COG: { x: -7.500000000000001, y: 9.999999999999998, z: 70.00000000000006 }
+[filewrite] files/09-values-and-expressions-results.json (681 bytes)

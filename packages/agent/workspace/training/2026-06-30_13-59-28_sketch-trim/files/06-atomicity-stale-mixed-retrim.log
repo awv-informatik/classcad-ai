@@ -1,0 +1,7 @@
+[06] A stale-dead trim([deadSeg]) max 51 code 1006
+[06] B mixed valid+bogus max 51 code 1006 | validSeg survived+untouched? true
+[06] C mixed valid+sourceId max 31 code undefined | validSeg trimmed? true (poison vs per-element no-op)
+[06] D re-trim: t1 max 31 | t2(already-trimmed) max 51 code 1006
+[filewrite] files/06-atomicity-stale-mixed-retrim-06-atomicity.json (165 bytes)
+[06] CHECKS {"mixedBogusAtomic":true}
+[06] verdicts -> stale-dead: 1006 | mixed-source: trimmed-valid(per-element) | re-trim: 1006

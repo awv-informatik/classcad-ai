@@ -1,0 +1,76 @@
+{
+  "lineEntry": {
+    "sourceId": 63,
+    "splittedCurves": [
+      {
+        "id": 81,
+        "interval": [
+          0,
+          0.5
+        ]
+      },
+      {
+        "id": 85,
+        "interval": [
+          0.5,
+          1
+        ]
+      }
+    ]
+  },
+  "lp": [
+    {
+      "iv": [
+        0,
+        0.5
+      ],
+      "start": [
+        -100,
+        50,
+        0
+      ],
+      "end": [
+        0,
+        50,
+        0
+      ]
+    },
+    {
+      "iv": [
+        0.5,
+        1
+      ],
+      "start": [
+        0,
+        50,
+        0
+      ],
+      "end": [
+        100,
+        50,
+        0
+      ]
+    }
+  ],
+  "circEntry": {
+    "sourceId": 58,
+    "splittedCurves": [
+      {
+        "id": 78,
+        "interval": [
+          -0.75,
+          0.25
+        ]
+      }
+    ]
+  },
+  "circGetPosMaxLevel": 51,
+  "center": {
+    "centerId": 79,
+    "pos": [
+      0,
+      0,
+      0
+    ]
+  }
+}

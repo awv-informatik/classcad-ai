@@ -1,0 +1,5 @@
+[02] clockwise(default): 58 maxLevel: 31
+[02] counterclockwise: 65 maxLevel: 31
+[02] CW positions: {"centerPos":{"x":0,"y":0,"z":0},"endPos":{"x":40,"y":0,"z":0},"startPos":{"x":-40,"y":0,"z":0}}
+[02] CCW positions: {"centerPos":{"x":2.8421709430404005e-15,"y":-80,"z":0},"endPos":{"x":40,"y":-80,"z":0},"startPos":{"x":-40,"y":-80,"z":0}}
+[filewrite] files/02-clockwise-false-cw-vs-ccw.json (602 bytes)

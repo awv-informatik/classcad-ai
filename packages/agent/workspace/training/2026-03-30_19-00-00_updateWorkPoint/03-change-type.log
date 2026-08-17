@@ -1,0 +1,5 @@
+[03] vertexId: 59
+[03] created USERDEFINED wpId: 91
+[03] change to BREPVERTEX — result: 91 maxLevel: 31
+[03] change back to USERDEFINED — result: 91 maxLevel: 31
+[filewrite] files/03-change-type-type-change.json (171 bytes)

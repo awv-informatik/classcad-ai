@@ -1,0 +1,3 @@
+[01] box1: 62 box2: 99
+[01] entityDeletion result: 192 maxLevel: 31
+[filewrite] files/01-basic-deletion-deletion-response.json (55 bytes)

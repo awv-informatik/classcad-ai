@@ -1,0 +1,7 @@
+[16] Save to file result: {"success":1}
+[16] File exists: true
+[16] Load from file result: {"id":4}
+[16] Load from file maxLevel: 31
+[16] Load messages: []
+[filewrite] files/16-file-based-load-file-load-response.json (69 bytes)
+[16] Auto-format load result: {"id":4} maxLevel: 31

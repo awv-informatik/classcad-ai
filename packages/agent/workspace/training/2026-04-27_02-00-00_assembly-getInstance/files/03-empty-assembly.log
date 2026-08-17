@@ -1,0 +1,8 @@
+[03] asmId: 12
+[03] empty asm result: []
+[03] empty asm maxLevel: 31
+[03] empty asm messages: []
+[03] inst1: 105
+[03] one inst result: [105]
+[03] one inst maxLevel: 31
+[filewrite] files/03-empty-assembly-empty-vs-populated.json (169 bytes)

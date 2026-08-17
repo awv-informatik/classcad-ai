@@ -1,0 +1,9 @@
+[02] inst1 COG before: {"x":30,"y":20,"z":5}
+[02] inst2 COG before: {"x":139.99999999999997,"y":59.999999999999986,"z":3.9999999999999987}
+[02] inst2 transform before: undefined
+[02] revolute result: 272 maxLevel: 31
+[02] inst1 COG after: {"x":130.00000000000003,"y":20.000000000000007,"z":5.000000000000002}
+[02] inst2 COG after: {"x":139.99999999999997,"y":9.999999999999996,"z":3.9999999999999987}
+[02] inst2 transform after: undefined
+[02] assembly COG after: {"x":133.47826086956525,"y":16.521739130434785,"z":4.652173913043479}
+[filewrite] files/02-spatial-verify-spatial-data.json (872 bytes)

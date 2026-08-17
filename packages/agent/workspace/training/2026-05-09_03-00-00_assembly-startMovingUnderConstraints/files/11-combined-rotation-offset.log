@@ -1,0 +1,6 @@
+[11] COG before: {"x":20,"y":15,"z":10}
+[11] move (ROTATION + both params): null maxLevel: 31
+[11] COG after ROTATION+offset: {"x":65,"y":-20,"z":10.000000000000004}
+[11] COG rotation only: {"x":15.000000000000002,"y":-19.999999999999996,"z":10.000000000000002}
+[11] COG translation only: {"x":70,"y":15,"z":10}
+[filewrite] files/11-combined-rotation-offset-combined-comparison.json (521 bytes)

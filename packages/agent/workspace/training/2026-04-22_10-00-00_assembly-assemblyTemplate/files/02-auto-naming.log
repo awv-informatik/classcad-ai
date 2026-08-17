@@ -1,0 +1,6 @@
+[02] unnamed templates: 22 32 42
+[02] duplicate names: 52 62 72
+[02] empty name template: 82
+[02] special chars template: 92
+[02] getAssemblyTemplate() all: [22,32,42,52,62,72,82,92]
+[filewrite] files/02-auto-naming-assembly-template-names.json (606 bytes)

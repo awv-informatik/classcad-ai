@@ -1,0 +1,15 @@
+[20] rectangle IDs: [ 58, 64, 70, 76 ]
+[20] rect[0] start: [0, 0] end: [60, 0]
+[20] rect[1] start: [60, 0] end: [60, 40]
+[20] rect[2] start: [60, 40] end: [0, 40]
+[20] rect[3] start: [0, 40] end: [0, 0]
+[20] EQUAL_LENGTH result: 92 maxLevel: 31
+[20] AFTER rect[0] start: [0, 0] end: [60, 0]
+[20] AFTER rect[1] start: [60, 0] end: [60, 40]
+[20] AFTER rect[2] start: [60, 40] end: [0, 40]
+[20] AFTER rect[3] start: [0, 40] end: [0, 0]
+[20] moveGeometry result: 0
+[20] MOVED rect[0] start: [0, 5] end: [60, 5]
+[20] MOVED rect[1] start: [60, 0] end: [60, 40]
+[20] MOVED rect[2] start: [60, 40] end: [0, 40]
+[20] MOVED rect[3] start: [0, 40] end: [0, 0]

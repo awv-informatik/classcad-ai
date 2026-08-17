@@ -1,0 +1,10 @@
+[06] number value: set maxLevel=51, get="NOT_SET", type=string
+[06] float value: set maxLevel=51, get="NOT_SET", type=string
+[06] boolean true: set maxLevel=51, get="NOT_SET", type=string
+[06] boolean false: set maxLevel=51, get="NOT_SET", type=string
+[06] null value: set maxLevel=51, get="NOT_SET", type=string
+[06] undefined value: set maxLevel=51, get="NOT_SET", type=string
+[06] array value: set maxLevel=51, get="NOT_SET", type=string
+[06] object value: set maxLevel=51, get="NOT_SET", type=string
+[06] final keys: []
+[filewrite] files/06-type-coercion-type-coercion.json (1333 bytes)

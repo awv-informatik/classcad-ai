@@ -1,0 +1,6 @@
+[07] created sketch: 52
+[07] getSketch result: 52 maxLevel: 31
+[07] matches creation ID: true
+[07] getSketch non-existent result: null maxLevel: 51
+[07] non-existent messages: [{"api":"v1.part.getSketch","code":1015,"level":51,"levelStr":"ERROR","message":"Sketch with name \"DoesNotExist\" does not exist"}]
+[filewrite] files/07-get-sketch-get-sketch.json (332 bytes)

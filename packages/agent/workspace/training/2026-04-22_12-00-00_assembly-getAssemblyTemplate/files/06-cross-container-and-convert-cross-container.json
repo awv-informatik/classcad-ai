@@ -1,0 +1,19 @@
+{
+  "ids": {
+    "partTpl": 22,
+    "asmTpl": 68
+  },
+  "findWidgetAsm": 68,
+  "findWidgetPart": 22,
+  "asmList": [
+    68
+  ],
+  "asmListAfter": [
+    68,
+    12
+  ],
+  "findConverted": {
+    "result": 12,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,7 @@
+[09] importFeature result: 54 maxLevel: 31
+[09] import class: CC_Import name: BadDataImport
+[09] import children: undefined
+[09] part solids: []
+[filewrite] files/09-bad-data-geometry-bad-data-check.json (99 bytes)
+[09] bad format result: 62 maxLevel: 31
+[09] bad format children: undefined

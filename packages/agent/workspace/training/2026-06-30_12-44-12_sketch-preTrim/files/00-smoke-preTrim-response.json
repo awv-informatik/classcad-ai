@@ -1,0 +1,44 @@
+{
+  "result": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 78,
+          "interval": [
+            0,
+            0.49999999999999983
+          ]
+        },
+        {
+          "id": 82,
+          "interval": [
+            0.49999999999999983,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": 64,
+      "splittedCurves": [
+        {
+          "id": 86,
+          "interval": [
+            0,
+            0.49999999999999983
+          ]
+        },
+        {
+          "id": 90,
+          "interval": [
+            0.49999999999999983,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "messages": [],
+  "maxLevel": 31
+}

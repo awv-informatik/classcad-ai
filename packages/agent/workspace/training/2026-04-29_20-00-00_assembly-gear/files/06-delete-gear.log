@@ -1,0 +1,9 @@
+[06] gear created: 263
+[06] before delete: found
+[06] deleteConstraint result: null maxLevel: 31
+[filewrite] files/06-delete-gear-delete-result.json (56 bytes)
+[06] after delete: null maxLevel: 51
+[06] gear2 created: 267
+[06] deleted revolute rev1: null maxLevel: 31
+[06] gear after rev delete: null maxLevel: 51
+[filewrite] files/06-delete-gear-gear-after-rev-delete.json (303 bytes)

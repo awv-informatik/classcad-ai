@@ -1,0 +1,7 @@
+[04] top edges: 4 ids: [ 106, 109, 107, 108 ]
+[04] bottom edges: 4 ids: [ 98, 101, 99, 100 ]
+[04] vertical edges: 4 ids: [ 102, 103, 105, 104 ]
+[04] fillet all top edges: ✓
+[04] re-found bottom edges post-fillet: [ 240, 243, 241, 242 ] any empty? false
+[04] chamfer all bottom edges: ✓
+[filewrite] files/04-enumerate-and-select-enumeration.json (2137 bytes)

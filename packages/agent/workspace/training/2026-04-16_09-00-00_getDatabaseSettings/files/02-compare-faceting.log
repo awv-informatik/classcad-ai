@@ -1,0 +1,6 @@
+[02] DB chordHeightTol: 0.1 | FP chordHeightTol: 0.1
+[02] DB angleTol: 0 | FP angleTol: 0
+[02] Match chordHeightTol: true
+[02] Match angleTol: true
+[02] FP keys: angleTol, chordHeightTol
+[filewrite] files/02-compare-faceting-comparison.json (336 bytes)

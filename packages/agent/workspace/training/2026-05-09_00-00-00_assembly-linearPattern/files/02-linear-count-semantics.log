@@ -1,0 +1,11 @@
+[02] seed instance ID: 113
+[02] constraint: 123
+[02] instances: [113,125,127]
+[02] seed in instances? true
+[02] getInstance(113): null
+[02] getInstance(125): null
+[02] getInstance(127): null
+[02] seed getInstance: null
+[02] count=1 instances: [129]
+[02] count=1 instances length: 1
+[filewrite] files/02-linear-count-semantics-count-semantics.json (189 bytes)

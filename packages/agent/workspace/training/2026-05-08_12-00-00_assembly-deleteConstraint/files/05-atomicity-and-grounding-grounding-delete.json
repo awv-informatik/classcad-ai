@@ -1,0 +1,17 @@
+{
+  "cogBefore": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  },
+  "cogAfter": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  },
+  "deleteResult": {
+    "result": null,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

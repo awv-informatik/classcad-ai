@@ -1,0 +1,4 @@
+[11] partId: 4 boxFeatId: 54
+[11] found solids: []
+[filewrite] files/11-find-solid-from-feature-found-solids.json (2 bytes)
+[11] direct boxFeatId: false

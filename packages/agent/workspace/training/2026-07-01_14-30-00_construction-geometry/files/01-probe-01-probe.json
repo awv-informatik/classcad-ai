@@ -1,0 +1,220 @@
+{
+  "ids": {
+    "nLine": 58,
+    "cLine": 66,
+    "nCirc": 72,
+    "cCirc": 75,
+    "nArc": 78,
+    "cArc": 83
+  },
+  "getGeometry": {
+    "lines": [
+      58,
+      66
+    ],
+    "circles": [
+      72,
+      75
+    ],
+    "arcs": [
+      78,
+      83
+    ],
+    "points": 0,
+    "constructionKeys": [],
+    "cLineInLines": true,
+    "cCircInCircles": true,
+    "cArcInArcs": true
+  },
+  "getObjectsLists": {
+    "arcs": [
+      78,
+      83
+    ],
+    "circles": [
+      72,
+      75
+    ],
+    "constraints": [
+      62,
+      64,
+      70
+    ],
+    "constructionGeometry": [
+      66,
+      75,
+      83
+    ],
+    "dimensions": [],
+    "lines": [
+      58,
+      66
+    ],
+    "points": [
+      59,
+      60,
+      67,
+      68,
+      73,
+      76,
+      79,
+      80,
+      81,
+      84,
+      85,
+      86
+    ],
+    "solidGeometry": [
+      58,
+      72,
+      78
+    ]
+  },
+  "getObjectInfo": {
+    "nLine": {
+      "type": "LINE",
+      "isConstruction": 0,
+      "isReference": 0
+    },
+    "cLine": {
+      "type": "LINE",
+      "isConstruction": 1,
+      "isReference": 0
+    },
+    "nCirc": {
+      "type": "CIRCLE",
+      "isConstruction": 0,
+      "isReference": 0
+    },
+    "cCirc": {
+      "type": "CIRCLE",
+      "isConstruction": 1,
+      "isReference": 0
+    },
+    "nArc": {
+      "type": "ARC",
+      "isConstruction": 0,
+      "isReference": 0
+    },
+    "cArc": {
+      "type": "ARC",
+      "isConstruction": 1,
+      "isReference": 0
+    }
+  },
+  "getGlobalState": {
+    "arcCount": 2,
+    "circleCount": 2,
+    "constraintCount": 3,
+    "constructionCount": 3,
+    "dimensionCount": 0,
+    "lineCount": 2,
+    "pointCount": 12,
+    "solidCount": 3,
+    "status": "OK"
+  },
+  "treeNodes": {
+    "nLine": {
+      "class": "CC_Line",
+      "memberKeys": [
+        "_VERSION",
+        "direction",
+        "alignment",
+        "rigidSetId",
+        "isConstruction",
+        "lgsState"
+      ],
+      "isConstruction": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    },
+    "cLine": {
+      "class": "CC_Line",
+      "memberKeys": [
+        "_VERSION",
+        "direction",
+        "alignment",
+        "rigidSetId",
+        "isConstruction",
+        "lgsState"
+      ],
+      "isConstruction": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    },
+    "nCirc": {
+      "class": "CC_Circle",
+      "memberKeys": [
+        "radius",
+        "_VERSION",
+        "rigidSetId",
+        "isConstruction",
+        "lgsState"
+      ],
+      "isConstruction": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    },
+    "cCirc": {
+      "class": "CC_Circle",
+      "memberKeys": [
+        "radius",
+        "_VERSION",
+        "rigidSetId",
+        "isConstruction",
+        "lgsState"
+      ],
+      "isConstruction": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    },
+    "nArc": {
+      "class": "CC_Arc",
+      "memberKeys": [
+        "bulge",
+        "_VERSION",
+        "radius",
+        "angleRangeLimited",
+        "rigidSetId",
+        "isConstruction",
+        "lgsState"
+      ],
+      "isConstruction": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    },
+    "cArc": {
+      "class": "CC_Arc",
+      "memberKeys": [
+        "bulge",
+        "_VERSION",
+        "radius",
+        "angleRangeLimited",
+        "rigidSetId",
+        "isConstruction",
+        "lgsState"
+      ],
+      "isConstruction": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  }
+}

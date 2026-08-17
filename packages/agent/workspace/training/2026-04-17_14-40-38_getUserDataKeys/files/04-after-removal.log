@@ -1,0 +1,4 @@
+[04] before removal: ["epsilon","delta","beta","gamma","alpha"]
+[04] after removing gamma: ["epsilon","delta","beta","alpha"]
+[04] after clearUserData: []
+[filewrite] files/04-after-removal-removal-response.json (194 bytes)

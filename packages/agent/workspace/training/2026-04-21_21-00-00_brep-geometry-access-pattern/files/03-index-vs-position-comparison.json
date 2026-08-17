@@ -1,0 +1,45 @@
+{
+  "indexLines": [
+    160,
+    163,
+    161,
+    162,
+    183,
+    193,
+    185,
+    191,
+    167,
+    166,
+    168,
+    171,
+    169,
+    170
+  ],
+  "indexArcs": [
+    182,
+    190,
+    184,
+    192
+  ],
+  "posLines": [
+    160,
+    162,
+    161,
+    163
+  ],
+  "posFoundInIndex": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "testEdgeId": 160,
+  "testEdgePosition": [
+    {
+      "x": 40,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "chamferId": 201
+}

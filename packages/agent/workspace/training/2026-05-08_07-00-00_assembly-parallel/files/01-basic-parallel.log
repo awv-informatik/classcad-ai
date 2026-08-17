@@ -1,0 +1,4 @@
+[01] COG before: {"x":55,"y":40,"z":32.5}
+[01] parallel result: 218 maxLevel: 31
+[01] COG after: {"x":55,"y":40,"z":32.5}
+[filewrite] files/01-basic-parallel-basic-cog.json (148 bytes)

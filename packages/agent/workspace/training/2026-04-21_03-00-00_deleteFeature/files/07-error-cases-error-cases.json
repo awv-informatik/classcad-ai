@@ -1,0 +1,73 @@
+{
+  "invalidId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "partId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"ids\" has a wrong id type! Provide only following id types: [\"feature\",\"workgeometry\",\"sketch\"]"
+      }
+    ]
+  },
+  "emptyArray": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "idZero": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  },
+  "doubleDelete": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.deleteFeature",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  }
+}

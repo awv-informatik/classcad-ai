@@ -1,0 +1,5 @@
+[02] COG before: { x: 49.99999999999999, y: 34.99999999999999, z: 19.999999999999996 }
+[02] startMoving called, skipping moveUnderConstraints...
+[02] finish result: null maxLevel: 31
+[02] COG after start→finish (no move): { x: 49.99999999999999, y: 34.99999999999999, z: 19.999999999999996 }
+[filewrite] files/02-start-finish-no-move-start-finish-no-move.json (300 bytes)

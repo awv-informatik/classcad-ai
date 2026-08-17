@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.transformObjectWithMatrix",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Solid: Transformationmatrix of this object has been set to be uniformed scaled and orthogonal"
+    }
+  ],
+  "maxLevel": 51
+}

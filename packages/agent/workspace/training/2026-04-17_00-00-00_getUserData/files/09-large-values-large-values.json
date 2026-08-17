@@ -1,0 +1,30 @@
+{
+  "size_100": {
+    "setMaxLevel": 31,
+    "getLength": 100,
+    "match": true,
+    "getMaxLevel": 31
+  },
+  "size_1000": {
+    "setMaxLevel": 31,
+    "getLength": 1000,
+    "match": true,
+    "getMaxLevel": 31
+  },
+  "size_10000": {
+    "setMaxLevel": 31,
+    "getLength": 10000,
+    "match": true,
+    "getMaxLevel": 31
+  },
+  "size_50000": {
+    "setMaxLevel": 31,
+    "getLength": 50000,
+    "match": true,
+    "getMaxLevel": 31
+  },
+  "jsonRoundtrip": {
+    "stored": "{\"nested\":{\"array\":[1,2,3],\"bool\":true},\"name\":\"test\"}",
+    "parsedMatch": true
+  }
+}

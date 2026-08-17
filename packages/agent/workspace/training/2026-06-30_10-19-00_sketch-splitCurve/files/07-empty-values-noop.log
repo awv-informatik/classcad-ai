@@ -1,0 +1,4 @@
+[filewrite] files/07-empty-values-noop-07-result.json (433 bytes)
+[07] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":1,"intervals":[[0,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} err []
+[07] before.lines [58] after.lines [66]
+[07] verdict: NO-OP single [0,1] (preTrim-style)

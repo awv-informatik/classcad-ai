@@ -1,0 +1,33 @@
+{
+  "zero": {
+    "result": 54,
+    "messages": [
+      {
+        "api": "v1.part.sphere",
+        "code": 1122,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Radius not valid for Zero (CC_Sphere). Value for radius must be greater than 0."
+      }
+    ],
+    "maxLevel": 51
+  },
+  "negative": {
+    "result": 64,
+    "messages": [
+      {
+        "api": "v1.part.sphere",
+        "code": 1122,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Radius not valid for Negative (CC_Sphere). Value for radius must be greater than 0."
+      }
+    ],
+    "maxLevel": 51
+  },
+  "tiny": {
+    "result": 74,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

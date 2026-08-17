@@ -1,0 +1,5 @@
+[11] boxId: 54 sheetId: 150
+[11] inverted=1: result: 260 maxLevel: 31
+[filewrite] files/11-inverted-only-response.json (55 bytes)
+[11] inverted member: 1
+[11] body: CC_Solid

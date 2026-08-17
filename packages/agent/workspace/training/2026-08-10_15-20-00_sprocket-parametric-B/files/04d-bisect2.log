@@ -1,0 +1,3 @@
+[04d] blank → Front screw: {"blankDims":31,"front":31}
+[04d] bore+key → Front screw: {"boreDim":31,"keyDims":31,"front":31}
+[filewrite] files/04d-bisect2-bisect2.json (149 bytes)

@@ -1,0 +1,6 @@
+[17] created: 105 107
+[17] duplicate id delete result: null maxLevel: 51
+[filewrite] files/17-duplicate-ids-duplicate-ids-response.json (472 bytes)
+[17] after: [ 107 ]
+[17] inst1 deleted: true
+[17] inst2 survives: true

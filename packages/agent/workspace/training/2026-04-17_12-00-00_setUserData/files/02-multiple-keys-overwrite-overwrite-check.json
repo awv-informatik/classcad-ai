@@ -1,0 +1,13 @@
+{
+  "keys1": [
+    "weight",
+    "color",
+    "material"
+  ],
+  "newVal": "steel",
+  "keys2": [
+    "weight",
+    "color",
+    "material"
+  ]
+}

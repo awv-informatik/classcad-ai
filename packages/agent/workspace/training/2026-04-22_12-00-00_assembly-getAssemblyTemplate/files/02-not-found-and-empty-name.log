@@ -1,0 +1,14 @@
+[02] created template: 22
+[02] notFound result: null
+[02] notFound maxLevel: 51
+[02] notFound messages: [{"api":"v1.assembly.getAssemblyTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly with name = \"DoesNotExist\" could not be found"}]
+[02] emptyName result: null
+[02] emptyName maxLevel: 51
+[02] emptyName messages: [{"api":"v1.assembly.getAssemblyTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly with name = \"\" could not be found"}]
+[02] created empty-name template: 32
+[02] emptyNameRetry result: 32
+[02] emptyNameRetry maxLevel: 31
+[02] emptyNameRetry messages: []
+[02] caseMismatch result: null
+[02] caseMismatch maxLevel: 51
+[filewrite] files/02-not-found-and-empty-name-edge-cases.json (967 bytes)

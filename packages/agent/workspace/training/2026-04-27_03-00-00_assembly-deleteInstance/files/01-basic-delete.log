@@ -1,0 +1,6 @@
+[01] inst1: 105 inst2: 107
+[01] before delete, instances: [ 105, 107 ]
+[01] deleteInstance result: null maxLevel: 31
+[filewrite] files/01-basic-delete-delete-response.json (56 bytes)
+[01] after delete, instances: [ 107 ]
+[filewrite] files/01-basic-delete-comparison.json (105 bytes)

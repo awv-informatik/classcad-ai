@@ -1,0 +1,5 @@
+[10] sphId: 60
+[10] result: null maxLevel: 31
+[10] AFTER min: [-30,-30,-30]
+[10] AFTER max: [30,10,30]
+[filewrite] files/10-sphere-slice-sphere-slice.json (155 bytes)

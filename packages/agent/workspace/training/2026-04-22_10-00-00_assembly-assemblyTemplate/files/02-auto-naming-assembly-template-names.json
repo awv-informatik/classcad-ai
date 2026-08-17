@@ -1,0 +1,42 @@
+[
+  {
+    "id": 22,
+    "name": "Assembly",
+    "originalName": "Assembly"
+  },
+  {
+    "id": 32,
+    "name": "Assembly0",
+    "originalName": "Assembly"
+  },
+  {
+    "id": 42,
+    "name": "Assembly1",
+    "originalName": "Assembly"
+  },
+  {
+    "id": 52,
+    "name": "Motor",
+    "originalName": "Motor"
+  },
+  {
+    "id": 62,
+    "name": "Motor0",
+    "originalName": "Motor"
+  },
+  {
+    "id": 72,
+    "name": "Motor1",
+    "originalName": "Motor"
+  },
+  {
+    "id": 82,
+    "name": "",
+    "originalName": ""
+  },
+  {
+    "id": 92,
+    "name": "Sub__v2__test",
+    "originalName": "Sub (v2)/test"
+  }
+]

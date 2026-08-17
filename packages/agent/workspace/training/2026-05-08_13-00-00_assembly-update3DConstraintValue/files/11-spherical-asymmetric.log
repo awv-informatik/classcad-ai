@@ -1,0 +1,8 @@
+[11] spherical ID: 216
+[11] INITIAL COG: { x: 40, y: 7.5, z: 4 }
+[11] spherical Z_ROTATION: 31 []
+[11] AFTER Z_ROTATION COG: { x: 40, y: 7.5, z: 4 }
+[11] spherical X_OFFSET: 31
+[11] AFTER X_OFFSET COG: { x: 40, y: 7.5, z: 4 }
+[11] Z_ROTATION changed COG: false
+[filewrite] files/11-spherical-asymmetric-results.json (204 bytes)

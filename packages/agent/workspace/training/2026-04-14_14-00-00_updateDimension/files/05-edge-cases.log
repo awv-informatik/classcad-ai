@@ -1,0 +1,5 @@
+[05] zero: result: 2 maxLevel: 31 endX: 0
+[05] negative: result: 0 maxLevel: 31 endX: 50
+[05] veryLarge: result: 2 maxLevel: 31 endX: 999998.9999999999
+[05] sequential: 50→ 50 100→ 100 200→ 200
+[filewrite] files/05-edge-cases-edge-cases-data.json (470 bytes)

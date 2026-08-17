@@ -1,0 +1,34 @@
+{
+  "r1": {
+    "result": {
+      "arcsBy3Points": [],
+      "arcsByCenter": [],
+      "circles": [],
+      "lines": [],
+      "points": []
+    },
+    "maxLevel": 31
+  },
+  "r2": {
+    "result": {
+      "arcsBy3Points": [],
+      "arcsByCenter": [],
+      "circles": [],
+      "lines": [],
+      "points": []
+    },
+    "maxLevel": 31
+  },
+  "r3": {
+    "result": {
+      "arcsBy3Points": [],
+      "arcsByCenter": [],
+      "circles": [],
+      "lines": [
+        58
+      ],
+      "points": []
+    },
+    "maxLevel": 31
+  }
+}

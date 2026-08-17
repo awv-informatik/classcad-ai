@@ -1,0 +1,10 @@
+[08] STL binary+b64 success: 1
+[08] STL binary+b64 length: 912
+[08] STL binary+b64 first 100: U1RMIEJpbmFyeSBmaWxlIGNyZWF0ZWQgYnkgU01MaWIAICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+[08] STL ascii+b64 success: 1
+[08] STL ascii+b64 length: 912
+[08] STL deflate+b64 success: 1
+[08] STL deflate+b64 length: 228
+[08] STL fine+b64 success: 1
+[08] STL fine+b64 length: 912
+[filewrite] files/08-stl-with-base64-stl-b64.json (232 bytes)

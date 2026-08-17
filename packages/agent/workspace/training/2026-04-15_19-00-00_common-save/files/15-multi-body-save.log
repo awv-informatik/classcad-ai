@@ -1,0 +1,6 @@
+[15] box: 61 cyl: null sph: 63
+[15] OFB with 3 bodies length: 40816
+[15] STP with 3 bodies length: 15088
+[15] STL with 3 bodies length: 239848
+[15] roundtrip load id: 4
+[filewrite] files/15-multi-body-save-multi-body.json (104 bytes)

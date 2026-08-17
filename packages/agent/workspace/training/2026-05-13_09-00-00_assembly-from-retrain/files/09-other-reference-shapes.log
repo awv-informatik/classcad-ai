@@ -1,0 +1,5 @@
+[09 A] data base64: {"ref":{"data":"<base64:52136b>","type":"ofb"},"maxLevel":51,"partLoaded":false,"partName":null,"firstErr":"[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_Import\nFile: /Users/d"}
+[09 B] data + encoding: {"ref":{"data":"<base64:52136b>","type":"ofb","encoding":"base64"},"maxLevel":51,"partLoaded":false,"partName":null,"firstErr":"[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_Import\nFile: /Users/d"}
+[09 C] pre-loaded template id: null maxLevel: 51
+[09 C] id-ref maxLevel: 51 first err: Set the parameter "format" = VOID is not allowed in this situation!
+[filewrite] files/09-other-reference-shapes-results.json (1839 bytes)

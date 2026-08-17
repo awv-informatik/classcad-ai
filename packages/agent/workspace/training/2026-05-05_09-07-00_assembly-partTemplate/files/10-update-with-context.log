@@ -1,0 +1,9 @@
+[10] boxId: 70
+[10] i1 vol before: 24000
+[10] switched to template context
+[10] updateBox result: 70 maxLevel: 31
+[10] template vol after update: 96000 (expected 96000=60*40*40)
+[10] i1 vol after: 24000
+[10] i2 vol after: 24000
+[10] propagated? false
+[filewrite] files/10-update-with-context-update-with-context.json (110 bytes)

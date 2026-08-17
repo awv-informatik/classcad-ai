@@ -1,0 +1,13 @@
+{
+  "result": 127,
+  "messages": [
+    {
+      "api": "v1.part.workAxis",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Direction cant be a null vector, check reference geometries"
+    }
+  ],
+  "maxLevel": 51
+}

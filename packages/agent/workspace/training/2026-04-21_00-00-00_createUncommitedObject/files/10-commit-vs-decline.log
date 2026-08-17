@@ -1,0 +1,7 @@
+[10] committedId: 52
+[10] getFeature "Committed": 52 maxLevel: 31
+[10] declineId: 89
+[10] getFeature "Declined": null maxLevel: 51
+[10] uncommitedObjectsIds: []
+[10] committed node exists: true
+[10] declined node exists: false

@@ -1,0 +1,4 @@
+[01] COG before: {"x":99.99999999999999,"y":4.999999999999999,"z":23.999999999999996}
+[01] spherical result: 218 maxLevel: 31
+[01] COG after: {"x":20,"y":5,"z":4}
+[filewrite] files/01-basic-spherical-basic-spherical-data.json (227 bytes)

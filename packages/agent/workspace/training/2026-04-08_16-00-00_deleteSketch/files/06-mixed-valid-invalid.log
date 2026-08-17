@@ -1,0 +1,7 @@
+[06] created sketches: 52 58
+[06] mixed delete result: null maxLevel: 51
+[06] messages: [{"api":"v1.sketch.deleteSketch","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.deleteSketch","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/06-mixed-valid-invalid-mixed-delete-response.json (432 bytes)
+[06] Valid1 after: 52 maxLevel: 31
+[06] Valid2 after: 58 maxLevel: 31
+[06] conclusion: Valid1 gone? false Valid2 gone? false

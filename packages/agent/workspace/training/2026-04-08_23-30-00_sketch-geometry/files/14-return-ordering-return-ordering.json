@@ -1,0 +1,22 @@
+{
+  "result": {
+    "arcsBy3Points": [],
+    "arcsByCenter": [],
+    "circles": [
+      86,
+      89
+    ],
+    "lines": [
+      66,
+      78
+    ],
+    "points": [
+      58,
+      62,
+      64
+    ]
+  },
+  "pointsAsc": true,
+  "linesAsc": true,
+  "circlesAsc": true
+}

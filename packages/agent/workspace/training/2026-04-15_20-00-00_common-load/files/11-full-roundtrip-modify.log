@@ -1,0 +1,7 @@
+[11] Original — part: 4 eif: 54 box: 61
+[11] Loaded part ID: 4
+[11] Trying to add sphere to eifId: 54
+[11] Add sphere result: 65 maxLevel: 31
+[11] Second save success: 1 length: 7588
+[11] First save length: 5720
+[filewrite] files/11-full-roundtrip-modify-roundtrip-modify.json (115 bytes)

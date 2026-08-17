@@ -1,0 +1,15 @@
+{
+  "graphicSizeBefore": 0,
+  "graphicSizeAfter": 0,
+  "hasGraphicBefore": false,
+  "hasGraphicAfter": false,
+  "recalcHasStructure": true,
+  "recalcHasGraphic": false,
+  "recalcStructureKeys": [
+    "root",
+    "currentProduct",
+    "currentInstance",
+    "testRoot",
+    "tree"
+  ]
+}

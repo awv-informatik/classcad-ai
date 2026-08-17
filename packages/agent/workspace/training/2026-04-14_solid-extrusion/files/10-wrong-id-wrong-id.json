@@ -1,0 +1,28 @@
+{
+  "partIdAsId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.extrusion",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+      }
+    ]
+  },
+  "shapeIdAsId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.extrusion",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+[06] STL binary success: 1
+[06] STL binary length: 32
+[06] STL binary maxLevel: 31
+[06] STL binary content type: string
+[06] STL ASCII success: 1
+[06] STL ASCII length: 32
+[06] STL ASCII first 200: STL Binary file created by SMLib
+[06] STL fine success: 1
+[06] STL fine length: 32
+[06] STL coarse success: 1
+[06] STL coarse length: 32
+[filewrite] files/06-save-stl-stl-comparison.json (269 bytes)

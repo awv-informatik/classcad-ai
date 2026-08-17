@@ -1,0 +1,7 @@
+[03] partId as id — result: null maxLevel: 51
+[03] messages: [{"api":"v1.curve.shape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"}]
+[03] nonexistent id — result: null maxLevel: 51
+[03] messages: [{"api":"v1.curve.shape","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.curve.shape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[03] missing id — result: null maxLevel: 51
+[03] messages: [{"api":"v1.curve.shape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/03-wrong-id-type-error-cases.json (1085 bytes)

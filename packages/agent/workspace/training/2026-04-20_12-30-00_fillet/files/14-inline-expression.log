@@ -1,0 +1,3 @@
+[14] inline "5/2" result: 120 maxLevel: 31
+[filewrite] files/14-inline-expression-inline-expr.json (55 bytes)
+[stderr] [run] Script error: Cannot read properties of null (reading 'lines')

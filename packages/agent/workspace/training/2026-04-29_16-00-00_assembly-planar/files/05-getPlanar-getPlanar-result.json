@@ -1,0 +1,33 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "-Z",
+    "path": [
+      204
+    ],
+    "reorient": "90"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "X",
+    "path": [
+      206
+    ],
+    "reorient": "180"
+  },
+  "name": "TestPlanar",
+  "xOffsetLimits": {
+    "max": 50,
+    "min": -10
+  },
+  "yOffsetLimits": {
+    "max": 25,
+    "min": -5
+  },
+  "zOffset": 15,
+  "zRotationLimits": {
+    "max": 2.356194490192345,
+    "min": -0.7853981633974483
+  }
+}

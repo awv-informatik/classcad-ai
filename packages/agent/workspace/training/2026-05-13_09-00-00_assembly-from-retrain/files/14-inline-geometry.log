@@ -1,0 +1,4 @@
+[14] maxLevel: 51 errs: [{"api":"v1.assembly.from","code":1001,"level":51,"levelStr":"ERROR","message":"The provided matrix is not a 4x4 matrix ."}]
+[filewrite] files/14-inline-geometry-structure.json (29858 bytes)
+[14] CC_Box nodes: [{"id":"72","name":"MainBox"}]
+[14] CC_WorkCSys nodes: [{"id":"22","name":"BaseWCSys"},{"id":"109","name":"TopMate"}]

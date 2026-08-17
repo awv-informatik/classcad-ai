@@ -1,0 +1,4 @@
+[14] getInstance before: [105]
+[14] requestVisualisation maxLevel: 31
+[14] inst1 volume AFTER (getInstance + requestVis before): 72000
+[filewrite] files/14-getInstance-lock-getInstance-lock.json (28 bytes)

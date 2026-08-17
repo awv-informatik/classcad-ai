@@ -1,0 +1,5 @@
+[05] circleId: 58
+[05] RADIUS: result: 63 maxLevel: 31
+[05] circle radius after: 20
+[05] dim class: CC_RadialFeatureDimension name: R
+[filewrite] files/05-radius-radius-data.json (1276 bytes)

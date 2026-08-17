@@ -1,0 +1,6 @@
+[10] COG before: {"x":51.76776695296636,"y":34.87436867076458,"z":9.999999999999996}
+[10] empty result: 125 maxLevel: 31
+[10] COG after: {"x":51.76776695296636,"y":34.87436867076458,"z":9.999999999999996}
+[10] COG changed: false
+[10] state changed: false
+[filewrite] files/10-empty-update-cog-empty-update-cog.json (872 bytes)

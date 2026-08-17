@@ -1,0 +1,30 @@
+[
+  {
+    "originalName": "ExpressionSet",
+    "id": 6,
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "originalName": "Origin",
+    "id": 22,
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "originalName": "XAxis",
+    "id": 26,
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "originalName": "Top",
+    "id": 38,
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+]

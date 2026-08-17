@@ -1,0 +1,5 @@
+[17] first edge: -21
+[17] fillet1 result: [ 61 ] maxLevel: 31
+[17] second edge (after re-enum): -19
+[17] fillet2 result: [ 61 ] maxLevel: 31
+[filewrite] files/17-sequential-fix-seq-fix.json (158 bytes)

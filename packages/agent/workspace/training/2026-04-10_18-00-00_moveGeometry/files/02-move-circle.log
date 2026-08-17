@@ -1,0 +1,5 @@
+[02] circId: 58
+[02] before center: {"pos":{"x":30,"y":30,"z":0}}
+[02] moveGeometry result: 1 maxLevel: 31
+[02] after center: {"pos":{"x":55,"y":20,"z":0}}
+[filewrite] files/02-move-circle-move-circle-result.json (212 bytes)

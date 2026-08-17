@@ -1,0 +1,8 @@
+[01] partId: 4
+[01] boxId: 54
+[01] cylId: 91
+[01] wpId: 110
+[01] moveBefore(cyl) result: null maxLevel: 31
+[filewrite] files/01-basic-moveBefore-moveBefore-cyl.json (56 bytes)
+[01] moveToEnd result: null maxLevel: 31
+[filewrite] files/01-basic-moveBefore-moveToEnd.json (56 bytes)

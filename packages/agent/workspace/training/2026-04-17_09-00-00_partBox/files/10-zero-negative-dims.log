@@ -1,0 +1,8 @@
+[10] zero length - result: 54 maxLevel: 51
+[10] zero length - messages: [{"api":"v1.part.box","code":1122,"level":51,"levelStr":"ERROR","message":"Length not valid for ZeroLength (CC_Box). Value for length must be greater than 0."}]
+[filewrite] files/10-zero-negative-dims-zero-length-response.json (265 bytes)
+[10] neg height - result: 64 maxLevel: 51
+[10] neg height - messages: [{"api":"v1.part.box","code":1122,"level":51,"levelStr":"ERROR","message":"Height not valid for NegHeight (CC_Box). Value for height must be greater than 0."}]
+[filewrite] files/10-zero-negative-dims-neg-height-response.json (264 bytes)
+[10] all zero - result: 74 maxLevel: 51
+[filewrite] files/10-zero-negative-dims-all-zero-response.json (672 bytes)

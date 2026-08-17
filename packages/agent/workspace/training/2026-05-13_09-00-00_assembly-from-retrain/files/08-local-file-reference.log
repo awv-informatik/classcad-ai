@@ -1,0 +1,7 @@
+[08] OFB cached at: /tmp/cc-1778656322354.ofb size: 39102
+[08] {"loc":"/tmp/cc-1778656322354.ofb","maxLevel":51,"partLoaded":false,"partName":null,"firstErr":"[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"}
+[08] {"loc":"file:///tmp/cc-1778656322354.ofb","maxLevel":51,"partLoaded":false,"partName":null,"firstErr":"[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"}
+[08] {"loc":"file:/tmp/cc-1778656322354.ofb","maxLevel":51,"partLoaded":false,"partName":null,"firstErr":"[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"}
+[08] {"loc":"local:/tmp/cc-1778656322354.ofb","maxLevel":51,"partLoaded":false,"partName":null,"firstErr":"[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"}
+[08] {"loc":"/nonexistent/foo.ofb","maxLevel":51,"partLoaded":false,"partName":null,"firstErr":"[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"}
+[filewrite] files/08-local-file-reference-results.json (1195 bytes)

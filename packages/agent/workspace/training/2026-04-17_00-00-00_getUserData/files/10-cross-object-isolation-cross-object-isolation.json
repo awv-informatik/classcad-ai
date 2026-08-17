@@ -1,0 +1,10 @@
+{
+  "before": {
+    "partTag": "part-value",
+    "eifTag": "eif-value"
+  },
+  "afterClearPart": {
+    "partTag": "__GONE__",
+    "eifTag": "eif-value"
+  }
+}

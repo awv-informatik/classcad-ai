@@ -1,0 +1,5 @@
+[07] created c1: 305 c2: 309
+[07] batch result: [305,309] maxLevel: 31
+[07] c1 name: BatchRenamed1 zOffset: 5
+[07] c2 name: BatchRenamed2 limits: {"max":1.0471975511965976,"min":-1.0471975511965976}
+[filewrite] files/07-batch-update-batch-update-result.json (846 bytes)

@@ -1,0 +1,6 @@
+[09] feat box at WCS: 62
+[09] solid box with translation: 106
+[09] part.box with translation: 139 maxLevel: 31
+[filewrite] files/09-positioning-comparison-feat-with-translation.json (55 bytes)
+[09] solid.box with references: 175 maxLevel: 31
+[filewrite] files/09-positioning-comparison-solid-with-references.json (55 bytes)

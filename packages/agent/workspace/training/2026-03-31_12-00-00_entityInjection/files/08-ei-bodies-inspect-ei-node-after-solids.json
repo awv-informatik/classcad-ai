@@ -1,0 +1,31 @@
+{
+  "name": "EntityInjection",
+  "class": "CC_EntityInjection",
+  "id": 54,
+  "flags": 0,
+  "parent": 16,
+  "members": {
+    "bodies": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2003_11_23_9:11",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "solidOperation": {
+      "value": 0,
+      "type": "real",
+      "visible": 0,
+      "expression": ""
+    }
+  },
+  "children": [
+    61,
+    64
+  ]
+}

@@ -1,0 +1,10 @@
+[07a] circle segs to remove: ["Circle_part0"]
+[07a] mergeBack maxLevel: 31 geometry: {"arcs":[],"circles":[],"lines":[58],"points":[]}
+[07a] constraints after circle fully trimmed: ["Auto_Fix0:lgs9","Auto_H0:lgs1","Fix0:lgs9"]
+[07a] post-trim sketch still solving: new tangent → {"x":30,"y":10,"z":0} (expect y=10)
+[07b] staged segments: 4
+[07b] updateDimension WHILE staged: result 1 maxLevel 31 []
+[07b] c2 center during staged after update: {"x":84,"y":40,"z":0}
+[07b] mergeBack after staged-update maxLevel: 31 geometry: {"arcs":[],"circles":[108,111],"lines":[],"points":[]}
+[07b] c2 center after mergeBack: {"x":84,"y":40,"z":0} — sketch consistent?
+[filewrite] files/07-dangling-and-staged-edge.json (277 bytes)

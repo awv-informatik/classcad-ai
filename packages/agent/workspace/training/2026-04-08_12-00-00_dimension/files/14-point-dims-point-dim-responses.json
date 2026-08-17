@@ -1,0 +1,30 @@
+{
+  "offset2Pts": {
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "hDist2Pts": {
+    "result": 68,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "vDist2Pts": {
+    "result": 72,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "offset1Pt": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.dimension",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Wrong number of geometry ids provided for an offset constraint."
+      }
+    ]
+  }
+}

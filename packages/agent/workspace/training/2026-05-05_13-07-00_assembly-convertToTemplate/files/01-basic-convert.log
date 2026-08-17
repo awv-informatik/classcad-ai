@@ -1,0 +1,10 @@
+[01] instance COG before: {"cog":{"x":55,"y":35,"z":25},"volume":72000}
+[01] root before: 12
+[01] instance ID: 105
+[01] convertToTemplate result: null maxLevel: 31
+[01] new root: 137 currentProduct: 137
+[01] converted template ID: 12
+[01] new instance of converted template: 147
+[01] root COG after (full assembly): {"cog":{"x":55,"y":35,"z":25},"volume":72000}
+[01] new instance COG after: {"cog":{"x":55,"y":35,"z":25},"volume":72000}
+[filewrite] files/01-basic-convert-spatial-comparison.json (447 bytes)

@@ -1,0 +1,30 @@
+{
+  "moveResult": 0,
+  "maxLevel": 31,
+  "lineAfter": {
+    "endPos": {
+      "x": 50,
+      "y": 20,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "circCenterAfter": {
+    "pos": {
+      "x": 70,
+      "y": 50,
+      "z": 0
+    }
+  },
+  "ptAfter": {
+    "pos": {
+      "x": 90,
+      "y": 70,
+      "z": 0
+    }
+  }
+}

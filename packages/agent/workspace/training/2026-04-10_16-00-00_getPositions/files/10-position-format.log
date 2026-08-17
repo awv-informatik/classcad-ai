@@ -1,0 +1,10 @@
+[10] point result type: object keys: [ 'pos' ]
+[10] point pos type: object keys: [ 'x', 'y', 'z' ]
+[10] point pos: {"x":15.5,"y":22.3,"z":0}
+[10] line result keys: [ 'endPos', 'startPos' ]
+[10] line startPos type: object keys: [ 'x', 'y', 'z' ]
+[10] line startPos: {"x":0,"y":0,"z":0}
+[10] line endPos: {"x":100,"y":50,"z":0}
+[10] arc result keys: [ 'centerPos', 'endPos', 'startPos' ]
+[10] arc centerPos: {"x":20,"y":40,"z":0}
+[stderr] [run] Script error: Cannot convert undefined or null to object

@@ -1,0 +1,8 @@
+[12] before reset: {"x":50,"y":25,"z":10,"zR":0.7853981633974483}
+[12] reset result: 212 maxLevel: 31
+[12] after reset: {"x":0,"y":0,"z":0,"zR":0}
+[filewrite] files/12-reset-to-zero-after-reset.json (339 bytes)
+[12] after non-default flip: {"m1flip":"-X","m1reor":"270"}
+[12] reset flip/reorient: 212 maxLevel: 31
+[12] after flip reset: {"m1flip":"Z","m1reor":"0"}
+[filewrite] files/12-reset-to-zero-after-flip-reset.json (339 bytes)

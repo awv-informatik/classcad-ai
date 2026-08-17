@@ -1,0 +1,74 @@
+{
+  "beforeSave": {
+    "angleTol": 20,
+    "chordHeightTol": 0.3,
+    "doCurveTessellation": 0,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 0,
+    "isGraphicEnabled": 0,
+    "isInvisibleGraphicEnabled": 1,
+    "isSketchGraphicEnabled": 0
+  },
+  "afterReset": {
+    "angleTol": 0,
+    "chordHeightTol": 0.1,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "afterLoad": {
+    "angleTol": 0,
+    "chordHeightTol": 0.1,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "loadSurvivors": {
+    "angleTol": {
+      "original": 20,
+      "afterLoad": 0,
+      "survived": false
+    },
+    "chordHeightTol": {
+      "original": 0.3,
+      "afterLoad": 0.1,
+      "survived": false
+    },
+    "doCurveTessellation": {
+      "original": 0,
+      "afterLoad": 1,
+      "survived": false
+    },
+    "facetingParamsMode": {
+      "original": 0,
+      "afterLoad": 1,
+      "survived": false
+    },
+    "isCCGraphicEnabled": {
+      "original": 0,
+      "afterLoad": 1,
+      "survived": false
+    },
+    "isGraphicEnabled": {
+      "original": 0,
+      "afterLoad": 1,
+      "survived": false
+    },
+    "isInvisibleGraphicEnabled": {
+      "original": 1,
+      "afterLoad": 0,
+      "survived": false
+    },
+    "isSketchGraphicEnabled": {
+      "original": 0,
+      "afterLoad": 1,
+      "survived": false
+    }
+  }
+}

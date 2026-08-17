@@ -1,0 +1,3 @@
+[filewrite] files/05-copyFrom-dim-05-copyFrom-dim.json (402 bytes)
+[05] before {"CC_DimensionSet":1,"CC_SketchDimensionSet":1,"CC_2DRadiusConstraint":1,"CC_RadialFeatureDimension":1}
+[05] after  {"CC_DimensionSet":1,"CC_SketchDimensionSet":2,"CC_2DRadiusConstraint":2,"CC_RadialFeatureDimension":2}

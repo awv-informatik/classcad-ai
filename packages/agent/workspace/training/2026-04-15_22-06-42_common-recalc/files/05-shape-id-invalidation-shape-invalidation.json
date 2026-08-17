@@ -1,0 +1,21 @@
+{
+  "translateBefore": {
+    "maxLevel": 31,
+    "ok": true
+  },
+  "recalc": {
+    "maxLevel": 31
+  },
+  "translateAfter": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.translateShape",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"ids\" has an invalid id!"
+      }
+    ]
+  }
+}

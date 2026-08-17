@@ -1,0 +1,5 @@
+[08] subA: 105
+[08] subB: 117
+[08] subB instanced in subA: 129 maxLevel: 31
+[08] subA instanced in root: 131 maxLevel: 31
+[filewrite] files/08-nested-sub-assemblies-nested-tree.json (487 bytes)

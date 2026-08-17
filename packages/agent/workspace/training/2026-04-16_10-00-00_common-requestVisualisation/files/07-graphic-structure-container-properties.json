@@ -1,0 +1,23 @@
+{
+  "material": {
+    "color": [
+      128,
+      128,
+      128
+    ],
+    "opacity": 1
+  },
+  "layer": "0",
+  "min": [
+    -20,
+    -20,
+    -20
+  ],
+  "max": [
+    20,
+    20,
+    20
+  ],
+  "chordHeightTol": 0.1,
+  "angleTol": 0
+}

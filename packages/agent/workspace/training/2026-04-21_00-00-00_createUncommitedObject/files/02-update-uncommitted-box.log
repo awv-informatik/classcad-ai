@@ -1,0 +1,9 @@
+[02] uncommitted boxId: 52
+[02] openFeature: null maxLevel: 31
+[filewrite] files/02-update-uncommitted-box-open-response.json (56 bytes)
+[02] updateBox: 52 maxLevel: 31
+[filewrite] files/02-update-uncommitted-box-update-response.json (54 bytes)
+[02] closeFeature: null maxLevel: 31
+[filewrite] files/02-update-uncommitted-box-close-response.json (56 bytes)
+[filewrite] files/02-update-uncommitted-box-structure-after-close.json (21140 bytes)
+[02] getFeature after close: 52 maxLevel: 31

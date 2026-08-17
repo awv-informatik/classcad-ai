@@ -1,0 +1,14 @@
+{
+  "xAxis": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "zAxis": {
+    "result": 70,
+    "maxLevel": 31
+  },
+  "diagonal": {
+    "result": 76,
+    "maxLevel": 31
+  }
+}

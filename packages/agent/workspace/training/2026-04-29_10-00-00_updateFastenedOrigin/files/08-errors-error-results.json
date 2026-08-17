@@ -1,0 +1,114 @@
+[
+  {
+    "test": "assembly ID instead of constraint ID",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the constraint is not a constraint or relation."
+      },
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "nonexistent ID",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided constraint id does not exist."
+      },
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "missing id",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  },
+  {
+    "test": "invalid flip",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"INVALID\" is not supported to use as flip type."
+      }
+    ]
+  },
+  {
+    "test": "invalid reorient",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Type \"45\" is not supported to use as reorient type."
+      }
+    ]
+  },
+  {
+    "test": "nonexistent csys",
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.updateFastenedOrigin",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"csys\" has an invalid id!"
+      }
+    ]
+  }
+]

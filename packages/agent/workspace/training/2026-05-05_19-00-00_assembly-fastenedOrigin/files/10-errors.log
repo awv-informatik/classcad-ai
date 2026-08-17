@@ -1,0 +1,11 @@
+[10] missing id: null maxLevel: 51
+[10] missing mate1: null maxLevel: 51
+[10] bad csys: null maxLevel: 51
+[10] bad flip: null maxLevel: 51
+[10] inst as id: null maxLevel: 51
+[10] tpl in path: null maxLevel: 51
+[10] first constraint: 139 maxLevel: 31
+[10] second constraint on same inst: 143 maxLevel: 31
+[10] COG with two constraints: {"x":70,"y":15,"z":10}
+[10] update bad id: null maxLevel: 51
+[filewrite] files/10-errors-error-results.json (3101 bytes)

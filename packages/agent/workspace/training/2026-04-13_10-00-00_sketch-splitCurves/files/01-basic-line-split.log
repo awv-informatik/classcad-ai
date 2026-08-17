@@ -1,0 +1,6 @@
+[01] lineId: 58
+[01] splitCurves result: [[64,68]]
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-line-split-split-response.json (88 bytes)
+[filewrite] files/01-basic-line-split-structure-after-split.json (30030 bytes)

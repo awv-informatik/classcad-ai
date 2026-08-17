@@ -1,0 +1,53 @@
+{
+  "featureId": {
+    "result": 4,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "partId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.getBrepGeometryIndex::PROC:[Index 0 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "invalidGeomId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryIndex",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.part.getBrepGeometryIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in BaseModelingCommonFuncs.GetBrepGeometryIndex:Not a brep!\nFunction: CADH_GetBrepGeometryType\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/SMLibService.cpp,     Line: 9484] "
+      }
+    ]
+  },
+  "wrongTypeGeomId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.getBrepGeometryIndex",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Brep geometry 4 does not currently exist."
+      }
+    ]
+  }
+}

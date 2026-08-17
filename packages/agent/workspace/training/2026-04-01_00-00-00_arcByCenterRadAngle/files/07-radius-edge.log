@@ -1,0 +1,4 @@
+[07] tiny radius 0.001: null maxLevel: 31
+[07] huge radius 10000: null maxLevel: 31
+[07] radius 1: null maxLevel: 31
+[filewrite] files/07-radius-edge-responses.json (157 bytes)

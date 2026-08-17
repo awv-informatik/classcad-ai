@@ -1,0 +1,6 @@
+[07] special char template: 22
+[07] listOne: [22] isArray: true
+[07] findSanitized: 22 maxLevel: 31
+[07] findOriginal: null maxLevel: 51
+[07] findUndef: [22] isArray: true
+[filewrite] files/07-special-chars-and-single-special-chars.json (459 bytes)

@@ -1,0 +1,22 @@
+{
+  "r=0 (single corner)": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "r=-5 (negative)": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.advancedPolyline",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"pld[i].r\" (fillet radius) must be >= 0 when provided."
+      }
+    ]
+  },
+  "r=10 (valid baseline)": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

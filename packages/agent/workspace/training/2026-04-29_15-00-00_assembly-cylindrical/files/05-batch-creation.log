@@ -1,0 +1,7 @@
+[05] batch result: [ 309, 313 ] maxLevel: 31
+[05] batch result type: array
+[05] batch result length: 2
+[filewrite] files/05-batch-creation-batch-response.json (74 bytes)
+[05] batch get 1: 309 offset: {"max":10,"min":-10}
+[05] batch get 2: 313 rotation: {"max":1.5707963267948966,"min":-1.5707963267948966}
+[filewrite] files/05-batch-creation-batch-get.json (888 bytes)

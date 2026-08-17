@@ -1,0 +1,5 @@
+[13] before: {"pos":{"x":10,"y":20,"z":0}}
+[13] updateGeometry maxLevel: 51
+[13] after: {"pos":{"x":10,"y":20,"z":0}}
+[13] changed: false
+[filewrite] files/13-point-update-reflect-point-update.json (183 bytes)

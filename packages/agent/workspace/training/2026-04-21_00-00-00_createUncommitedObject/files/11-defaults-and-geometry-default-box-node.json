@@ -1,0 +1,48 @@
+{
+  "name": "DefaultBox",
+  "class": "CC_Box",
+  "id": 52,
+  "flags": 0,
+  "parent": 16,
+  "members": {
+    "length": {
+      "value": 100,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2001_4_2_13:7",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "width": {
+      "value": 100,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "height": {
+      "value": 100,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "references": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "solidOperation": {
+      "value": 0,
+      "type": "real",
+      "visible": 0,
+      "expression": ""
+    }
+  },
+  "children": [
+    85
+  ]
+}

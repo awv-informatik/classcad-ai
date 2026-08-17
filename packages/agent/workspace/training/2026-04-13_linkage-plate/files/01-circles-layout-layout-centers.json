@@ -1,0 +1,36 @@
+{
+  "centers": {
+    "lobeTopCenter": [
+      0.75,
+      0.1875
+    ],
+    "lobeBotCenter": [
+      0.75,
+      -0.1875
+    ],
+    "upperHoleCenter": [
+      1.75,
+      0.75
+    ],
+    "lowerHubCenter": [
+      1.75,
+      -0.5
+    ],
+    "midHoleCenter": [
+      2.5,
+      -0.3
+    ],
+    "r1375Center": [
+      4.062,
+      -0.5
+    ],
+    "r1750Center": [
+      1.75,
+      -0.75
+    ],
+    "rightArmCenter": [
+      4.5,
+      0.7
+    ]
+  }
+}

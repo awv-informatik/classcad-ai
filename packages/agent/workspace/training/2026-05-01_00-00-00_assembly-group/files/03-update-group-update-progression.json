@@ -1,0 +1,42 @@
+{
+  "before": {
+    "id": 180,
+    "instanceIds": [
+      170,
+      172
+    ],
+    "name": "G1"
+  },
+  "afterAdd": {
+    "id": 180,
+    "instanceIds": [
+      170,
+      172,
+      174
+    ],
+    "name": "G1"
+  },
+  "afterRename": {
+    "id": 180,
+    "instanceIds": [
+      170,
+      172,
+      174
+    ],
+    "name": "RenamedGroup"
+  },
+  "afterBoth": {
+    "id": 180,
+    "instanceIds": [
+      170
+    ],
+    "name": "FinalGroup"
+  },
+  "afterNameOnly": {
+    "id": 180,
+    "instanceIds": [
+      170
+    ],
+    "name": "StillFinal"
+  }
+}

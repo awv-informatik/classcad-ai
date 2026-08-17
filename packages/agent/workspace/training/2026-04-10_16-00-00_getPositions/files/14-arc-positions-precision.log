@@ -1,0 +1,6 @@
+[14] direct: {"centerPos":{"x":0,"y":-4.440892098500626e-16,"z":0},"endPos":{"x":0,"y":10,"z":0},"startPos":{"x":10,"y":0,"z":0}}
+[14] via start: {"pos":{"x":10,"y":0,"z":0}}
+[14] via end: {"pos":{"x":0,"y":10,"z":0}}
+[14] via center: {"pos":{"x":0,"y":-4.440892098500626e-16,"z":0}}
+[14] matches — start: true end: true center: true
+[filewrite] files/14-arc-positions-precision-arc-precision.json (627 bytes)

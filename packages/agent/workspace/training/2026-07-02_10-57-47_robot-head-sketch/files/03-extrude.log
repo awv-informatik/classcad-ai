@@ -1,0 +1,8 @@
+[03a] direct extrusion (full circles): result 397 maxLevel 51 [{"level":51,"code":0,"message":"[Evaluation error in Extrusion.ExtrudeEntities:Brep after linear sweep not manifold\nFunction: CADH_ExtrudeHeightRegion\nFile: /Users/dev/dev/awv/classcad/runtime"}]
+[03a] deleted broken feature, maxLevel 31
+[03b] bossR: 4 segs — trim 2 inner [{"id":545,"apex":[3.92,-1.874],"r":4.344},{"id":540,"apex":[4.832,2.545],"r":5.461},{"id":550,"apex":[7.874,-2.08],"r":8.144},{"id":535,"apex":[8.545,1.168],"r":8.624}]
+[03b] bossL: 4 segs — trim 2 inner [{"id":570,"apex":[-3.92,-1.874],"r":4.344},{"id":555,"apex":[-4.832,2.545],"r":5.461},{"id":565,"apex":[-7.874,-2.08],"r":8.144},{"id":560,"apex":[-8.545,1.168],"r":8.624}]
+[03b] trim+postTrim maxLevel: 31
+[03b] extrusion (trimmed rims): result 744 maxLevel 31 []
+[filewrite] files/03-extrude-volume.json (544 bytes)
+[03] analytic volume: 236.4670681151144 | measured: 236.44209499408652 | relΔ: 0.00010560929784824197

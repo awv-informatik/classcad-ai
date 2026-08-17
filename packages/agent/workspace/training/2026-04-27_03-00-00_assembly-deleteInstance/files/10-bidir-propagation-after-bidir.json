@@ -1,0 +1,16 @@
+{
+  "expandedChildren1After": [
+    121
+  ],
+  "expandedChildren2After": [
+    125
+  ],
+  "templateChildrenAfter": [
+    117
+  ],
+  "propagated": {
+    "inst1Lost": 1,
+    "inst2Lost": 1,
+    "tplLost": 1
+  }
+}

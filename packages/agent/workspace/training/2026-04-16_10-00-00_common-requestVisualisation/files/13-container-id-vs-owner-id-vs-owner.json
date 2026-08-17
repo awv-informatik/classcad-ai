@@ -1,0 +1,9 @@
+{
+  "boxId": 61,
+  "containerId": 59,
+  "ownerId": 61,
+  "boxIdIsOwner": true,
+  "boxIdIsContainerId": false,
+  "containerIdWorks": true,
+  "ownerIdWorks": true
+}

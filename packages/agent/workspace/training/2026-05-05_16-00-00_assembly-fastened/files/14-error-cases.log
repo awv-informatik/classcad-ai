@@ -1,0 +1,8 @@
+[14] missing id: null maxLevel: 51
+[14] missing mate1: null maxLevel: 51
+[14] missing mate2: null maxLevel: 51
+[14] self-fastened: null maxLevel: 51
+[14] invalid csys: null maxLevel: 51
+[14] invalid flip: null maxLevel: 51
+[14] duplicate name: 147 maxLevel: 31
+[filewrite] files/14-error-cases-error-cases.json (2138 bytes)

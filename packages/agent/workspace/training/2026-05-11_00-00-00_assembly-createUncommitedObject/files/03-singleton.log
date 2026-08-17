@@ -1,0 +1,5 @@
+[03] first result: 117 maxLevel: 31
+[03] second result: 119 maxLevel: 31
+[filewrite] files/03-singleton-singleton-error.json (55 bytes)
+[03] normal fastenedOrigin result: 123 maxLevel: 51
+[filewrite] files/03-singleton-normal-creation-during-uncommitted.json (463 bytes)

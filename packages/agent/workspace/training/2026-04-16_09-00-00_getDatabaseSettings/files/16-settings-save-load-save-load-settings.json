@@ -1,0 +1,32 @@
+{
+  "beforeSave": {
+    "angleTol": 22,
+    "chordHeightTol": 0.77,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "afterReset": {
+    "angleTol": 0,
+    "chordHeightTol": 0.1,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "afterLoad": {
+    "angleTol": 22,
+    "chordHeightTol": 0.77,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  }
+}

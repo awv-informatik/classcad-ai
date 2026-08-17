@@ -1,0 +1,13 @@
+{
+  "emptyNameLookup": {
+    "result": 22,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "allTemplates": [
+    22,
+    68
+  ],
+  "emptyTemplateId": 22,
+  "namedTemplateId": 68
+}

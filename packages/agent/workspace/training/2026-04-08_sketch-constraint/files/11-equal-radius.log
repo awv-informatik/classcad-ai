@@ -1,0 +1,5 @@
+[11] c1Id: 58 c2Id: 61
+[11] before c1: null c2: null
+[11] equal_radius result: 64 maxLevel: 31
+[11] after c1: null c2: null
+[filewrite] files/11-equal-radius-equal-radius-response.json (153 bytes)

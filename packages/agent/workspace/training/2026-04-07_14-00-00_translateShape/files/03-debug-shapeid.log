@@ -1,0 +1,7 @@
+[03] partId: 4 number
+[03] eifId: 54 number
+[03] shapeId: 60 number
+[03] translate(shapeId) maxLevel: 31 messages: []
+[03] translate(eifId) maxLevel: 51 messages: [{"api":"v1.curve.translateShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[03] translate(partId) maxLevel: 51 messages: [{"api":"v1.curve.translateShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/03-debug-shapeid-debug-ids.json (241 bytes)

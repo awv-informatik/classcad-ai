@@ -1,0 +1,13 @@
+[11] box2 feature: null maxLevel: 51
+[11] results per probe:
+[11]   [120,0,10] → empty
+[11]   [160,0,10] → empty
+[11]   [120,30,10] → empty
+[11]   [160,30,10] → empty
+[11]   [140,0,0] → empty
+[11]   [140,0,20] → empty
+[11]   [120,15,0] → empty
+[11]   [160,15,0] → empty
+[11] maxLevel: 51
+[11] using box2Id as id: undefined maxLevel: 51
+[filewrite] files/11-second-box-debug-box2-debug.json (828 bytes)

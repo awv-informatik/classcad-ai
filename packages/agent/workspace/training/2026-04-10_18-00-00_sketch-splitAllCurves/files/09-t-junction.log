@@ -1,0 +1,8 @@
+[09] horiz: 58 vert: 64
+[09] result: [83,87,64]
+[09] maxLevel: 31
+[09] result length: 3
+[09] segment 83 : CC_Line Line_part0
+[09] segment 87 : CC_Line Line_part1
+[09] segment 64 : CC_Line Line0
+[filewrite] files/09-t-junction-t-junction-response.json (62 bytes)

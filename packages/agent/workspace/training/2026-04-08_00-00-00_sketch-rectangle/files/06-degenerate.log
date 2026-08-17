@@ -1,0 +1,10 @@
+[06] zero-size result: [ 58, 66, 80, 90 ] maxLevel: 31
+[06] zero-width result: [ 106, 110, 118, 124 ] maxLevel: 31
+[06] zero-height result: [ 140, 144, 150, 160 ] maxLevel: 31
+[06] negative coords result: [ 176, 180, 186, 192 ] maxLevel: 31
+[06] swapped corners result: [ 208, 212, 218, 224 ] maxLevel: 31
+[06] swapped line[0]: {"endPos":{"x":40,"y":60,"z":0},"startPos":{"x":80,"y":60,"z":0}}
+[06] swapped line[1]: {"endPos":{"x":40,"y":30,"z":0},"startPos":{"x":40,"y":60,"z":0}}
+[06] swapped line[2]: {"endPos":{"x":80,"y":30,"z":0},"startPos":{"x":40,"y":30,"z":0}}
+[06] swapped line[3]: {"endPos":{"x":80,"y":60,"z":0},"startPos":{"x":80,"y":30,"z":0}}
+[filewrite] files/06-degenerate-edge-cases.json (543 bytes)

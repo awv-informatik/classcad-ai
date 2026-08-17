@@ -1,0 +1,18 @@
+{
+  "fixArc": {
+    "result": 68,
+    "maxLevel": 31
+  },
+  "equalRadius": {
+    "result": 70,
+    "maxLevel": 31
+  },
+  "fixCircle": {
+    "result": 75,
+    "maxLevel": 31
+  },
+  "tangentCircleLine": {
+    "result": 81,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,9 @@
+[07] created: 54
+[07] cycle1 result: 54 maxLevel: 31
+[07] cycle2 result: 54 maxLevel: 31
+[07] cycle3 name: 54 dir: 54 pos: 54
+[07] maxLevels: 31 31 31
+[07] find WA_renamed: 54
+[07] final expressions: null
+[filewrite] files/07-multi-cycle-final-expressions.json (4 bytes)
+[filewrite] files/07-multi-cycle-multi-cycle.json (197 bytes)

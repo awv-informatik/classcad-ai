@@ -1,0 +1,7 @@
+[03] TOP+RIGHT result: [{"max":{"x":80,"y":60,"z":0},"min":{"x":0,"y":0,"z":0}}]
+[03] TOP+RIGHT maxLevel: 31
+[03] TOP+RIGHT messages: []
+[03] RIGHT+BACK result: []
+[03] RIGHT+BACK maxLevel: 31
+[03] RIGHT+BACK messages: []
+[filewrite] files/03-nonexistent-type-nonexistent-type.json (347 bytes)

@@ -1,0 +1,5 @@
+[01] planarId: 216
+[01] COG before update: {"x":15,"y":10,"z":17.5}
+[01] updatePlanar result: 216 maxLevel: 31
+[01] COG after update: {"x":15,"y":10,"z":47.5}
+[filewrite] files/01-basic-update-zOffset-zOffset-update.json (209 bytes)

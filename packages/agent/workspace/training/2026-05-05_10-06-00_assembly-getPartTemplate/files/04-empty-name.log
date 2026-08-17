@@ -1,0 +1,5 @@
+[04] empty-name tpl: 22 named tpl: 68
+[04] lookup empty: 22 maxLevel: 31
+[04] lookup Named: 68 maxLevel: 31
+[04] all: [22,68]
+[filewrite] files/04-empty-name-empty-name-results.json (255 bytes)

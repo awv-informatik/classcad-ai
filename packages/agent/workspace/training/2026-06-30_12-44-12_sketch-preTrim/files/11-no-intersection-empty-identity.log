@@ -1,0 +1,6 @@
+[11] A parallel: [{"src":58,"segs":1,"iv":[0,1],"idReused":true},{"src":66,"segs":1,"iv":[0,1],"idReused":true}]
+[11] B single: {"len":1,"segs":1,"iv":[0,1],"idReused":true}
+[11] C empty: {"isArray":true,"len":0,"maxLevel":31,"containers":["NoneSplitted","SplittedCurves","NoneSplitted","SplittedCurves","NoneSplitted","SplittedCurves"]}
+[filewrite] files/11-no-intersection-empty-identity-11-degenerate.json (1137 bytes)
+[11] CHECKS {"A_bothUnsplitIdReused":true,"B_singleUnsplitIdReused":true,"C_emptyArrayNotVoid":true}
+[11] PASS

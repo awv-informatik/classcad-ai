@@ -1,0 +1,7 @@
+[10] test1 (invalid ID) maxLevel: 51 messages: [{"api":"v1.sketch.trimCurves","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.trimCurves","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"curveIds\" has an invalid id!"}]
+[10] test2 (empty array) maxLevel: 31 messages: []
+[10] test3 (original line ID) maxLevel: 31 messages: []
+[10] split IDs: [80,84,88,92]
+[10] test4a (valid trim) maxLevel: 31
+[10] test4b (re-trim same ID) maxLevel: 51 messages: [{"api":"v1.sketch.trimCurves","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.trimCurves","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"curveIds\" has an invalid id!"}]
+[10] test5 (valid + invalid) maxLevel: 51 messages: [{"api":"v1.sketch.trimCurves","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.trimCurves","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"curveIds\" has an invalid id!"}]

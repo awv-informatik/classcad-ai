@@ -1,0 +1,5 @@
+[11] override result: 270 maxLevel: 31
+[11] getFastened: {"id":270,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"F_Override","xOffset":25,"xRotation":0,"yOffset":0,"yRotation":0,"zOffset":10,"zRotation":0}
+[filewrite] files/11-overrides-transform-override-getFastened.json (349 bytes)
+[11] fastenedOrigin result: 332 maxLevel: 31
+[filewrite] files/11-overrides-transform-fo-response.json (55 bytes)

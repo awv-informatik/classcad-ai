@@ -1,0 +1,9 @@
+[17] circle ID: 58
+[17] point ID: 61
+[17] point getPoints: null
+[17] point getPositions (on geom ID): { pos: { x: 0, y: 0, z: 0 } }
+[17] COINCIDENT pt-on-circle result: 63 maxLevel: 31
+[17] COINCIDENT circle-pt (reversed) result: 67 maxLevel: 31
+[17] COINCIDENT pt-on-arc result: 76 maxLevel: 31
+[17] COINCIDENT lineEnd-on-circle: 82 maxLevel: 31
+[filewrite] files/17-coincident-pt-on-circle-coincident-curves.json (335 bytes)

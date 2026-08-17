@@ -1,0 +1,6 @@
+[10] p1: 309 p2: 313
+[10] batch update result: [309,313]
+[10] batch maxLevel: 31
+[10] inst2 COG (z should be ~37.5): {"x":15.000000000000004,"y":10.000000000000002,"z":37.5}
+[10] inst3 COG (z should be ~60, x should be ~32.5): {"x":32.501000000000026,"y":12.500000000000005,"z":60.000000000000014}
+[filewrite] files/10-batch-update-batch-update.json (258 bytes)

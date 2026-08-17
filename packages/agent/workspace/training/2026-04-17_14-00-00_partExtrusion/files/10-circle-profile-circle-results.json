@@ -1,0 +1,12 @@
+{
+  "cylinder": {
+    "result": 65,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "cone": {
+    "result": 100,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

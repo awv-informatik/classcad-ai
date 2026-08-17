@@ -1,0 +1,11 @@
+[07] created: 105 107 109
+[07] all instances: [105,107,109] maxLevel: 31
+[07] Beta: 107 maxLevel: 31
+[07] NoSuch: [] maxLevel: 31
+[filewrite] files/07-getInstance-nosuch-response.json (54 bytes)
+[07] array form: [105,109] maxLevel: 31
+[07] wrong owner (tplId): null maxLevel: 51
+[07] wrong owner msgs: [{"api":"v1.assembly.getInstance","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ownerId\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"}]
+[07] no owner: null maxLevel: 51
+[07] no owner msgs: [{"api":"v1.assembly.getInstance","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"ownerId\" must be provided in the api call!"}]
+[filewrite] files/07-getInstance-no-owner-response.json (256 bytes)

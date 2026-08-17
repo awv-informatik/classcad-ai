@@ -1,0 +1,25 @@
+{
+  "l2": {
+    "start": [
+      50,
+      10
+    ],
+    "end": [
+      94.7213595499958,
+      10
+    ],
+    "horizontal": true
+  },
+  "l3": {
+    "start": [
+      20,
+      40
+    ],
+    "end": [
+      62.720018726587654,
+      40
+    ],
+    "horizontal": true
+  },
+  "chainPropagated": true
+}

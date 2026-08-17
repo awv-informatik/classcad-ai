@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.slider",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Type \"45\" is not supported to use as reorient type."
+    }
+  ],
+  "maxLevel": 51
+}

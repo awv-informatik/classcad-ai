@@ -1,0 +1,14 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.solid.mirror",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SolidAPI_v1.mirror::PROC:Invalid mirror normal!\nFunction: CADH_CADMirrorEntitys\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/Transformation.cpp,     Line: 48] "
+    }
+  ],
+  "bbox": null
+}

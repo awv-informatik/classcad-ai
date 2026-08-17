@@ -1,0 +1,12 @@
+=== 03-one-point.mjs ===
+[03] result: null maxLevel: 51
+[03] messages: [{"api":"v1.curve.interpolationCurve","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"points\" must contain at least 2 points."}]
+
+=== 06-duplicate-points.mjs ===
+[06] result: null maxLevel: 51
+[06] messages: [{"api":"v1.curve.interpolationCurve","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"points\" must not contain consecutive duplicate points."}]
+
+=== 13-partial-duplicates.mjs ===
+[13] result: null maxLevel: 51
+[13] messages: [{"api":"v1.curve.interpolationCurve","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"points\" must not contain consecutive duplicate points."}]
+

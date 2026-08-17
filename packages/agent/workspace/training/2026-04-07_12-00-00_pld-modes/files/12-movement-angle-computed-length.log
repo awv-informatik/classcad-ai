@@ -1,0 +1,4 @@
+[12a] xa+a at 45° → maxLevel: 31
+[12b] yr+a at 60° → maxLevel: 31
+[12c] xr+ar from east → maxLevel: 31
+[filewrite] files/12-movement-angle-computed-length-computed-length-results.json (174 bytes)

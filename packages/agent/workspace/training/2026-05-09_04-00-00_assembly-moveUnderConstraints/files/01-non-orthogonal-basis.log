@@ -1,0 +1,5 @@
+[01] COG before: { x: 20, y: 15, z: 10 }
+[01] non-orthogonal move result: null maxLevel: 31
+[01] COG after non-orthogonal: { x: 20, y: 15, z: 10 }
+[01] COG after proper 45° (ortho): { x: 24.74873734152916, y: -3.5355339059327324, z: 9.999999999999996 }
+[filewrite] files/01-non-orthogonal-basis-non-orthogonal-result.json (313 bytes)

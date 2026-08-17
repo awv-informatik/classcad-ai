@@ -1,0 +1,10 @@
+{
+  "rawLen": 9778,
+  "b64Len": 13040,
+  "bothLen": 2992,
+  "compressedBufLen": 2244,
+  "b64Overhead": "1.334",
+  "compressionRatio": "0.306",
+  "rawNonPrintable": 0,
+  "roundtripSuccess": true
+}

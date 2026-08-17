@@ -1,0 +1,19 @@
+{
+  "targetId": 61,
+  "union": {
+    "result": 61,
+    "sameTarget": true
+  },
+  "subtraction": {
+    "result": 61,
+    "sameTarget": true
+  },
+  "intersection": {
+    "result": null,
+    "sameTarget": false
+  },
+  "merge": {
+    "result": 61,
+    "sameTarget": true
+  }
+}

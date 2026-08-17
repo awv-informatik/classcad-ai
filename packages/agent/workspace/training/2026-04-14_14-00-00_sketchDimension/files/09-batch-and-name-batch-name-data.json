@@ -1,0 +1,25 @@
+{
+  "batchResult": [
+    94,
+    98,
+    102
+  ],
+  "maxLevel": 31,
+  "dims": [
+    {
+      "id": 94,
+      "name": "width",
+      "class": "CC_LinearFeatureDimension"
+    },
+    {
+      "id": 98,
+      "name": "height",
+      "class": "CC_LinearFeatureDimension"
+    },
+    {
+      "id": 102,
+      "name": "Offset",
+      "class": "CC_LinearFeatureDimension"
+    }
+  ]
+}

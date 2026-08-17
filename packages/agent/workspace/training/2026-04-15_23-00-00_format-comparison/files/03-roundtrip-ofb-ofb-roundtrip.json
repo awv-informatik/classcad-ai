@@ -1,0 +1,22 @@
+{
+  "idPreserved": true,
+  "beforePartId": 4,
+  "afterPartId": 4,
+  "widthBefore": {
+    "expression": "",
+    "value": 80
+  },
+  "widthAfter": {
+    "expression": "",
+    "value": 80
+  },
+  "heightBefore": {
+    "expression": "width * 0.5",
+    "value": 40
+  },
+  "heightAfter": {
+    "expression": "width * 0.5",
+    "value": 40
+  },
+  "expressionsPreserved": true
+}

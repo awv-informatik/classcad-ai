@@ -1,0 +1,5 @@
+[08] creation order IDs: Zeta= 22 Alpha= 68 Mu= 114 Beta= 160
+[08] getPartTemplate(): [22,68,114,160]
+[08] second call: [22,68,114,160]
+[08] stable: true
+[filewrite] files/08-ordering-ordering.json (239 bytes)

@@ -1,0 +1,7 @@
+[06] after assemblyTemplate: currentProduct = 12 (expect 12 )
+[06] setCurrentProduct(subId) returns prev: 12 (expect 12 )
+[06] after switch: currentProduct = 22 (expect 22 )
+[06] partTemplate inside subAsm context: 32
+[06] getPartTemplate(InnerPart): 32
+[06] instance inside subAsm: 78 maxLevel: 31
+[06] setCurrentProduct(asmId) returns prev: 22 (expect 22 )

@@ -1,0 +1,48 @@
+{
+  "horizResult": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "vertResult": {
+    "result": 66,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "dupHorizResult": {
+    "result": 68,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "posAfterHoriz": {
+    "start": {
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "end": {
+      "pos": {
+        "x": 58.309518948453004,
+        "y": -3.570428287002246e-15,
+        "z": 0
+      }
+    }
+  },
+  "posAfterVert": {
+    "start": {
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "end": {
+      "pos": {
+        "x": 58.309518948453004,
+        "y": -3.570428287002246e-15,
+        "z": 0
+      }
+    }
+  }
+}

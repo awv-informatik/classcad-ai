@@ -1,0 +1,4 @@
+[12] batch result: [218,222] maxLevel: 31
+[12] duplicate names: both named Planar1
+[12] getPlanar "Planar1" result.id: 218 (should be first constraint)
+[filewrite] files/12-batch-and-dupes-batch-dupes.json (726 bytes)

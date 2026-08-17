@@ -1,0 +1,6 @@
+[10] all keys: ["revision","weight","author","color","material"]
+[10] all metadata: {"revision":"A","weight":"42.5","author":"cc","color":"blue","material":"steel"}
+[10] has weight? true has temperature? false
+[10] after removing 2 keys: ["revision","author","material"]
+[10] remaining count: 3
+[filewrite] files/10-realistic-workflow-workflow.json (292 bytes)

@@ -1,0 +1,17 @@
+[09] rect: [ 58, 62, 68, 74 ] diag: 90
+[09] split IDs: [112,116,62,120,124,74,128,132,136]
+[09] split count: 9
+[09] id: 112 name: Rect_Line_part0 class: CC_Line
+[09] id: 116 name: Rect_Line_part1 class: CC_Line
+[09] id: 62 name: Rect_Line0 class: CC_Line
+[09] id: 120 name: Rect_Line1_part0 class: CC_Line
+[09] id: 124 name: Rect_Line1_part1 class: CC_Line
+[09] id: 74 name: Rect_Line2 class: CC_Line
+[09] id: 128 name: Line_part0 class: CC_Line
+[09] id: 132 name: Line_part1 class: CC_Line
+[09] id: 136 name: Line_part2 class: CC_Line
+[09] trimming IDs: [112,116,62]
+[09] trimCurves maxLevel: 31
+[09] mergeBack maxLevel: 31
+[filewrite] files/09-trim-multiple-geom-after.json (90 bytes)
+[09] geometry after: {"arcs":[],"circles":[],"lines":[74,68,90],"points":[]}

@@ -1,0 +1,4 @@
+[09] partId: 4 waId: 54
+[09] rename result: null maxLevel: 31
+[09] getWorkGeometry("NewAxis"): 54 maxLevel: 31
+[filewrite] files/09-rename-workaxis-workaxis-rename.json (72 bytes)

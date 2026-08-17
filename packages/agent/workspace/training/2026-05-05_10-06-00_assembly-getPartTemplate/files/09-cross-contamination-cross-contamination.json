@@ -1,0 +1,17 @@
+{
+  "partTemplates": [
+    22,
+    68
+  ],
+  "asmTemplates": [
+    114
+  ],
+  "crossLookup1": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "crossLookup2": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

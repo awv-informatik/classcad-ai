@@ -1,0 +1,4 @@
+[04] first point — result: 58 maxLevel: 31
+[04] second point same pos, genIncidence=TRUE — result: 60 maxLevel: 31
+[filewrite] files/04-genIncidence-overlap-structure-incidence-true.json (25854 bytes)
+[filewrite] files/04-genIncidence-overlap-response-incidence-true.json (54 bytes)

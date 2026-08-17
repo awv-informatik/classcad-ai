@@ -1,0 +1,4 @@
+[05] initial: v1
+[05] after direct overwrite attempt: v1
+[05] after remove+set: v2
+[filewrite] files/05-update-pattern-update-pattern.json (82 bytes)

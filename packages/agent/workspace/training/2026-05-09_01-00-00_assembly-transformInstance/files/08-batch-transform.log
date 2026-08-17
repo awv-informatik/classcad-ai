@@ -1,0 +1,5 @@
+[08] COG before: {"x":64.99999999999999,"y":10.000000000000002,"z":7.5}
+[08] batch result: null maxLevel: 31
+[08] COG after batch: {"x":64.99999999999999,"y":69.99999999999999,"z":7.5}
+[08] expected COG: [65, 70, 7.5]
+[filewrite] files/08-batch-transform-results.json (267 bytes)

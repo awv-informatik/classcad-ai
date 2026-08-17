@@ -1,0 +1,9 @@
+[02] foId: 125
+[02] COG before flip update: undefined
+[02] state before: {"flip":"Z","reorient":"0"}
+[02] update flip result: 125 maxLevel: 31
+[02] COG after flip -Z: undefined
+[02] state after: {"id":125,"mate1":{"csys":107,"flip":"-Z","path":[115],"reorient":"0"},"name":"FO_Target","xOffset":0,"xRotation":0,"yOffset":50,"yRotation":0,"zOffset":0,"zRotation":0}
+[02] update flip X result: 125 maxLevel: 31
+[02] COG after flip X: undefined
+[filewrite] files/02-update-flip-flip-update.json (659 bytes)

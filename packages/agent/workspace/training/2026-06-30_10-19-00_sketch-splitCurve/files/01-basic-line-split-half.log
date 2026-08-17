@@ -1,0 +1,4 @@
+[filewrite] files/01-basic-line-split-half-01-result.json (248 bytes)
+[01] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":2,"intervals":[[0,0.5],[0.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]}
+[01] CHECKS {"success":true,"oneEntry":true,"sourceIdMatches":true,"twoSegments":true,"entryKeysExact":true,"segKeysExact":true,"intervalIs2Numbers":true,"noPartOfLeak":true}
+[01] PASS

@@ -1,0 +1,22 @@
+{
+  "deleteResult": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "cascadeResult": {
+    "id": 119,
+    "instanceIds": [
+      105,
+      107
+    ],
+    "name": "CascadeGroup"
+  },
+  "allDeleteResult": {
+    "id": 123,
+    "instanceIds": [
+      105,
+      109
+    ],
+    "name": "AllDelGroup"
+  }
+}

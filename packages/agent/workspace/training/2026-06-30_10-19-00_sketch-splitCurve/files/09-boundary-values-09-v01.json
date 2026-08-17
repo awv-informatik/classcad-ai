@@ -1,0 +1,36 @@
+{
+  "values": [
+    0,
+    1
+  ],
+  "result": [
+    {
+      "sourceId": 101,
+      "splittedCurves": [
+        {
+          "id": 107,
+          "interval": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": 111,
+          "interval": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 115,
+          "interval": [
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "messages": [],
+  "maxLevel": 31
+}

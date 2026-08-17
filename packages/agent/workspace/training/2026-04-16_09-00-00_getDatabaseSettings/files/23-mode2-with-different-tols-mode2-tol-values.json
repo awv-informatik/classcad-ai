@@ -1,0 +1,32 @@
+[
+  {
+    "mode": 2,
+    "chord": 0.1,
+    "angle": 0,
+    "gfxSize": 2769
+  },
+  {
+    "mode": 2,
+    "chord": 0.5,
+    "angle": 15,
+    "gfxSize": 0
+  },
+  {
+    "mode": 2,
+    "chord": 0.5,
+    "angle": 0,
+    "gfxSize": 0
+  },
+  {
+    "mode": 2,
+    "chord": 0.1,
+    "angle": 15,
+    "gfxSize": 0
+  },
+  {
+    "mode": 2,
+    "chord": 1,
+    "angle": 30,
+    "gfxSize": 0
+  }
+]

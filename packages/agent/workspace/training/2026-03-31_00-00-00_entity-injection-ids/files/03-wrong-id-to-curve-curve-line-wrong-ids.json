@@ -1,0 +1,28 @@
+{
+  "withEifId": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "withPartId": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+      }
+    ],
+    "maxLevel": 51
+  }
+}

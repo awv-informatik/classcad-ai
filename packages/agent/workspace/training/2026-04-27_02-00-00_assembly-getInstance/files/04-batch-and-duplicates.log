@@ -1,0 +1,8 @@
+[04] created: 105 107 109 111
+[04] batch result: [105,111,[]]
+[04] batch maxLevel: 31
+[04] dup result: 107 (i2= 107 , i3= 109 )
+[04] dup is first? true
+[04] all result: [105,107,109,111]
+[04] all matches creation order? true
+[filewrite] files/04-batch-and-duplicates-batch-dup.json (350 bytes)

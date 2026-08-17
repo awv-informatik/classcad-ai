@@ -1,0 +1,52 @@
+{
+  "rev1": {
+    "id": 222,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        212
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        214
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchRev1",
+    "zOffset": 0,
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "rev2": {
+    "id": 226,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        212
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 206,
+      "flip": "Z",
+      "path": [
+        216
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchRev2",
+    "zOffset": 20,
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  }
+}

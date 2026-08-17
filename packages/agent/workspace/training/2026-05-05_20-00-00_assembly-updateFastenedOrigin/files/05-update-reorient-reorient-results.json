@@ -1,0 +1,40 @@
+{
+  "reorient0": {
+    "x": 70,
+    "y": 45,
+    "z": 10
+  },
+  "reorient90": {
+    "x": 67.5,
+    "y": 27.5,
+    "z": 10
+  },
+  "reorient180": {
+    "x": 50,
+    "y": 30.00000000000001,
+    "z": 9.999999999999998
+  },
+  "reorient270": {
+    "x": 52.499999999999986,
+    "y": 47.500000000000014,
+    "z": 9.999999999999993
+  },
+  "finalState": {
+    "id": 125,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        121
+      ],
+      "reorient": "270"
+    },
+    "name": "FO_Target",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 60,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

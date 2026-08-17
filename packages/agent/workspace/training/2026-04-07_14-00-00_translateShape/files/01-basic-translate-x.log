@@ -1,0 +1,4 @@
+[01] translateShape result: null
+[01] maxLevel: 51
+[01] messages: [{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/01-basic-translate-x-translate-response.json (247 bytes)

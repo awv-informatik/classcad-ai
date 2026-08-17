@@ -1,0 +1,5 @@
+[18] workPlane: 54
+[18] sketch1: 60 maxLevel: 31
+[18] sketch2: 66 maxLevel: 31
+[18] both succeeded: true
+[filewrite] files/18-multiple-on-same-plane-multiple-on-same-plane.json (68 bytes)

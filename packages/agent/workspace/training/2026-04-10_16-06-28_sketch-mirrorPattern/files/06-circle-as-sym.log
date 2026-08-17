@@ -1,0 +1,5 @@
+[06] circle: 66
+[06] result: null
+[06] maxLevel: 51
+[06] messages: [{"api":"v1.sketch.mirrorPattern","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"symmetryLineId\" has a wrong id type! Provide only following id types: [\"sketch-line\"]"}]
+[filewrite] files/06-circle-as-sym-circle-as-sym.json (301 bytes)

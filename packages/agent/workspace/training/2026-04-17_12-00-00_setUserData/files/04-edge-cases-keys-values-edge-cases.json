@@ -1,0 +1,59 @@
+[
+  {
+    "label": "empty key",
+    "setMaxLevel": 31,
+    "getResult": "empty-key",
+    "match": true
+  },
+  {
+    "label": "empty value",
+    "setMaxLevel": 31,
+    "getResult": "",
+    "match": true
+  },
+  {
+    "label": "special chars in key",
+    "setMaxLevel": 31,
+    "getResult": "special-chars",
+    "match": true
+  },
+  {
+    "label": "unicode",
+    "setMaxLevel": 31,
+    "getResult": "unicode-val-こんにちは",
+    "match": true
+  },
+  {
+    "label": "spaces",
+    "setMaxLevel": 31,
+    "getResult": "spaces in value",
+    "match": true
+  },
+  {
+    "label": "JSON string value",
+    "setMaxLevel": 31,
+    "getResult": "{\"nested\": true, \"count\": 42}",
+    "match": true
+  },
+  {
+    "label": "newlines in value",
+    "setMaxLevel": 31,
+    "getResult": "line1\nline2\nline3",
+    "match": true
+  },
+  {
+    "label": "500-char key",
+    "setMaxLevel": 31,
+    "getResult": "long-key",
+    "match": true
+  },
+  {
+    "label": "10K-char value",
+    "setMaxLevel": 31,
+    "getResult": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "match": true
+  },
+  {
+    "totalKeys": 9
+  }
+]

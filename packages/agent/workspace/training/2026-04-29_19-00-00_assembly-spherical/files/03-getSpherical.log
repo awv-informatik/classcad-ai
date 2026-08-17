@@ -1,0 +1,7 @@
+[03] created: 216
+[03] getSpherical maxLevel: 31
+[filewrite] files/03-getSpherical-get-response.json (305 bytes)
+[03] getSpherical nonexistent: null maxLevel: 51
+[filewrite] files/03-getSpherical-get-notfound.json (301 bytes)
+[03] getSpherical no limits maxLevel: 31
+[filewrite] files/03-getSpherical-get-nolimits.json (290 bytes)

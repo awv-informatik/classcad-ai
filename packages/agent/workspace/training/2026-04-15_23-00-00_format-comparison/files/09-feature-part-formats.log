@@ -1,0 +1,10 @@
+[09] partId: 4 boxId: 56 filletId: null
+[09] OFB: b64len=46524
+[09] STP: b64len=12864
+[09] STL: b64len=912
+[09] SCG: b64len=19632
+[09] IWP: b64len=48444
+[09] OFB+deflate: b64len=5988
+[09] After OFB roundtrip — L: {"expression":"","value":100}
+[09] After update L=120 — L: {"expression":"","value":100}
+[filewrite] files/09-feature-part-formats-feature-part-formats.json (530 bytes)

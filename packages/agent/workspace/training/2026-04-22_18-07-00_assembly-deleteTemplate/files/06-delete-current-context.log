@@ -1,0 +1,7 @@
+[06] tpl1: 22
+[06] delete current context result: null maxLevel: 31
+[06] messages: []
+[filewrite] files/06-delete-current-context-delete-current.json (56 bytes)
+[filewrite] files/06-delete-current-context-structure-after.json (5883 bytes)
+[06] currentProduct after: 22
+[06] templates after: []

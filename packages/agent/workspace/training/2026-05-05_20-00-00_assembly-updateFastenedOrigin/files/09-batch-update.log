@@ -1,0 +1,7 @@
+[09] COG before batch: {"x":80,"y":15,"z":10}
+[09] batch result: [123,127,131] maxLevel: 31
+[09] COG after batch: {"x":84.51184463531092,"y":24.916245780509712,"z":3.333333333333332}
+[09] A: xOffset=%d yOffset=%d 10 50
+[09] B: xOffset=%d zRotation=%s 70 0.7853981633974483
+[09] C: xOffset=%d flip=%s 130 -Z
+[filewrite] files/09-batch-update-batch-results.json (1121 bytes)

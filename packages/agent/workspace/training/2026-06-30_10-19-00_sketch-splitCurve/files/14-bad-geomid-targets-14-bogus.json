@@ -1,0 +1,21 @@
+{
+  "label": "bogus",
+  "geomId": 999999,
+  "maxLevel": 51,
+  "isArray": false,
+  "nEntries": null,
+  "entrySegs": null,
+  "err": [
+    {
+      "level": 41,
+      "code": 0,
+      "message": "ToId()/TOID() didn't get an existing or valid id."
+    },
+    {
+      "level": 51,
+      "code": 1006,
+      "message": "An element of parameter \"geomId\" has an invalid id!"
+    }
+  ],
+  "result": null
+}

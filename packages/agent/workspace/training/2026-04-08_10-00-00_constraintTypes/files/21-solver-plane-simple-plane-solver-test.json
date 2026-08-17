@@ -1,0 +1,30 @@
+{
+  "plane": 38,
+  "dimResize": {
+    "before": {
+      "x": 60,
+      "y": 0,
+      "z": 0
+    },
+    "after": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    },
+    "solverResult": 1,
+    "moved": true
+  },
+  "coincident": {
+    "before": {
+      "x": 50,
+      "y": -20,
+      "z": 0
+    },
+    "after": {
+      "x": 40,
+      "y": -30,
+      "z": 0
+    },
+    "moved": true
+  }
+}

@@ -1,0 +1,9 @@
+[01] Top: Vi=1265.00 (expect 1265) COGi=[5.500, 11.500, 2.500]
+[01] Top: localX→+X localY→+Y normal→+Z
+[01] Front: Vi=2639.00 (expect 2639) COGi=[6.500, 3.500, -14.500]
+[01] Front: localX→+X localY→-Z normal→+Y
+[01] Right: Vi=4743.00 (expect 4743) COGi=[4.500, -15.500, 8.500]
+[01] Right: localX→+Z localY→-Y normal→+X
+[01] halfDisc Vi=628.30 (expect 628.3185307179587) COGi=[60.008, -4.240, 1.999]
+[01] isClockwise=true sweeps NEGATIVE (math-CW) — bulge at -y
+[filewrite] files/01-probe-planes-plane-mapping.json (329 bytes)

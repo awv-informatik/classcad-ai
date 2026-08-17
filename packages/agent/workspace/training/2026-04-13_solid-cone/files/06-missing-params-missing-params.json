@@ -1,0 +1,67 @@
+{
+  "noHeight": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.cone",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"height\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noBDiam": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.cone",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"bDiameter\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noTDiam": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.cone",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"tDiameter\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noDims": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.cone",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"bDiameter\" must be provided in the api call!"
+      }
+    ]
+  },
+  "wrongId": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.cone",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+      }
+    ]
+  }
+}

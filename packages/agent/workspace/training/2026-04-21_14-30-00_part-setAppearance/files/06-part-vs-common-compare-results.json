@@ -1,0 +1,18 @@
+{
+  "partOnBox1": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "commonOnBox2": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "commonOverwritePart": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "partOverwriteCommon": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

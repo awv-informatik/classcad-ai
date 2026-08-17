@@ -1,0 +1,5 @@
+[07] box1: 61 box2: 64
+[07] union result: 61 maxLevel: 31
+[07] copy consumed box2 result: null maxLevel: 51
+[07] copy messages: [{"api":"v1.solid.copy","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.solid.copy","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"target\" has an invalid id!"}]
+[filewrite] files/07-tool-consumed-tool-consumed-check.json (450 bytes)

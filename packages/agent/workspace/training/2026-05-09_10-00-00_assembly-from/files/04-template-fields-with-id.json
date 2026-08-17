@@ -1,0 +1,13 @@
+{
+  "result": 14,
+  "messages": [
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in jsonAsmBuilder.CreateTemplates:[Uninitialized member] not defined !] "
+    }
+  ],
+  "maxLevel": 51
+}

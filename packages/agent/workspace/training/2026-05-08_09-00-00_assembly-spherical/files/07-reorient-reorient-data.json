@@ -1,0 +1,42 @@
+[
+  {
+    "reorient": "0",
+    "constraintId": 216,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "reorient": "90",
+    "constraintId": 224,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "reorient": "180",
+    "constraintId": 231,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  },
+  {
+    "reorient": "270",
+    "constraintId": 238,
+    "maxLevel": 31,
+    "cog": {
+      "x": 15,
+      "y": 5,
+      "z": 4
+    }
+  }
+]

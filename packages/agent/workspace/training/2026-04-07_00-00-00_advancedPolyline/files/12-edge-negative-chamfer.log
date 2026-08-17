@@ -1,0 +1,7 @@
+[12a] zero chamfer - result: null maxLevel: 31
+[12a] messages: []
+[12b] negative chamfer - result: null maxLevel: 31
+[12b] messages: []
+[12c] oversized chamfer - result: null maxLevel: 51
+[12c] messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Can't create a chamfer with offset larger than line length!"}]
+[filewrite] files/12-edge-negative-chamfer-edge-chamfer-response.json (475 bytes)

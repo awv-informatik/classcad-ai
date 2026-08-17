@@ -1,0 +1,8 @@
+[02] boxId: 54 cylId: 91 sphereId: 110
+[02] deleteFeature result: null
+[02] maxLevel: 31
+[02] messages: []
+[filewrite] files/02-multi-delete-multi-delete-response.json (56 bytes)
+[02] getFeature("Box") after delete — result: null maxLevel: 51
+[02] getFeature("Cylinder") after delete — result: null maxLevel: 51
+[02] getFeature("Sphere") after delete — result: null maxLevel: 51

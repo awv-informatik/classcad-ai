@@ -1,0 +1,14 @@
+[09] no-props: null maxLevel: 31
+[09] color-only: 31
+[09] transparency-only: 31
+[09] out-of-range color: 31
+[09] OOR transparency>1: 31
+[09] OOR transparency<0: 31
+[09] color 2 elements: 51
+[09] 2-elem msgs: [{"api":"v1.part.setAppearance","code":1002,"level":51,"levelStr":"ERROR","message":"The parameter \"color\" has invalid number of elements! There should be 3 element(s) in this situation!"}]
+[09] color 4 elements: 51
+[09] 4-elem msgs: [{"api":"v1.part.setAppearance","code":1002,"level":51,"levelStr":"ERROR","message":"The parameter \"color\" has invalid number of elements! There should be 3 element(s) in this situation!"}]
+[09] float color: 31
+[09] invalid target: 51
+[09] invalid msgs: [{"api":"v1.part.setAppearance","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.setAppearance","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"target\" has an invalid id!"}]
+[filewrite] files/09-edge-cases-edge-results.json (1503 bytes)

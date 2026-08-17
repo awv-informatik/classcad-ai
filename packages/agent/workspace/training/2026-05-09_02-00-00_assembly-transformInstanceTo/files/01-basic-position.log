@@ -1,0 +1,6 @@
+[01] asmId: 12 inst: 168 refInst: 166
+[01] initial COG: undefined
+[01] transformInstanceTo result: null maxLevel: 31
+[filewrite] files/01-basic-position-response.json (56 bytes)
+[01] after COG: undefined
+[filewrite] files/01-basic-position-cog-comparison.json (2 bytes)

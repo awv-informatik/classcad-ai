@@ -1,0 +1,34 @@
+{
+  "name": "IdentMap",
+  "class": "IdentToIdMap",
+  "id": 22,
+  "flags": 0,
+  "parent": 12,
+  "members": {
+    "map": {
+      "members": [
+        {
+          "members": [
+            {
+              "value": "ASM-008",
+              "type": "string",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 12,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

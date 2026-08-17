@@ -1,0 +1,81 @@
+{
+  "partIdAsId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+      }
+    ]
+  },
+  "eifIdAsId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+      }
+    ]
+  },
+  "missingStartPos": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"startPos\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingEndPos": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"endPos\" must be provided in the api call!"
+      }
+    ]
+  },
+  "missingId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  },
+  "badId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.line",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.curve.line",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  }
+}

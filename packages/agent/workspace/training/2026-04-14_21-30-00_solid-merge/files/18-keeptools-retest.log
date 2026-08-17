@@ -1,0 +1,6 @@
+[18] box1: 61 box2: 64
+[18] merge keepTools=true result: 61 maxLevel: 31
+[18] copy tool box2: 66 maxLevel: 31
+[18] merge keepTools=false result: 78 maxLevel: 31
+[18] copy tool box4 (no keepTools): null maxLevel: 51
+[18] copy msgs: [{"api":"v1.solid.copy","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.solid.copy","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"target\" has an invalid id!"}]

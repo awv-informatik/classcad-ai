@@ -1,0 +1,7 @@
+[14] edge0: -20 edge1: -15
+[14] fillet1 result: [ 61 ] maxLevel: 31
+[14] fillet2 result: null maxLevel: 51
+[14] msg2: level=51 "[Evaluation error in SolidAPI_v1.fillet::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Objektidentifikator addressed.] 
+Function: CADH_IdToReal
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "
+[filewrite] files/14-sequential-fillet-sequential-fillet.json (612 bytes)

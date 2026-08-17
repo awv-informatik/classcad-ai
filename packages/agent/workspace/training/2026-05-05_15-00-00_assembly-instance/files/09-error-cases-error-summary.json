@@ -1,0 +1,34 @@
+{
+  "noProductId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The parameter \"productId\" must be provided in the api call!"
+  },
+  "noOwnerId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The parameter \"ownerId\" must be provided in the api call!"
+  },
+  "invalidProductId": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "ToId()/TOID() didn't get an existing or valid id."
+  },
+  "tplAsOwner": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The parameter \"ownerId\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+  },
+  "subAsmInst": {
+    "result": 117,
+    "maxLevel": 31
+  },
+  "stringProductId": {
+    "result": 122,
+    "maxLevel": 31
+  },
+  "nonOrtho": {
+    "result": 124,
+    "maxLevel": 31
+  }
+}

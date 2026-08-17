@@ -1,0 +1,4 @@
+[04] geometry IDs - l1: 58 a1: 64 l2: 71 a2: 79
+[04] mixed region result: 88 maxLevel: 31
+[04] messages: []
+[filewrite] files/04-region-from-arcs-lines-mixed-region.json (54 bytes)

@@ -1,0 +1,30 @@
+{
+  "noArgs": {
+    "result": [
+      22,
+      32,
+      42
+    ],
+    "maxLevel": 31,
+    "isArray": true
+  },
+  "emptyObj": {
+    "result": [
+      22,
+      32,
+      42
+    ],
+    "maxLevel": 31,
+    "isArray": true
+  },
+  "undefinedName": {
+    "result": [
+      22,
+      32,
+      42
+    ],
+    "maxLevel": 31,
+    "isArray": true
+  },
+  "allIdentical": true
+}

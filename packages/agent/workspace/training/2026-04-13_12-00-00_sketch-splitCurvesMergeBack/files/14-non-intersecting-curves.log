@@ -1,0 +1,6 @@
+[14] l1: 58 l2: 64
+[14] geomBefore: {"arcs":[],"circles":[],"lines":[58,64],"points":[]}
+[14] splitIds: [58,64]
+[14] mergeBack result: null maxLevel: 31
+[14] geomAfter: {"arcs":[],"circles":[],"lines":[58,64],"points":[]}
+[14] IDs preserved: true

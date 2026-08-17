@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.fastened",
+      "code": 1014,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided csys with id = $107 for mate1 does not exist on the given mate path of mate1.\n\t\tIt also not exists on the assembly, where the constraint is created/appended."
+    }
+  ],
+  "maxLevel": 51
+}

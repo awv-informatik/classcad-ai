@@ -1,0 +1,5 @@
+[01] created templates: 22 68 114
+[01] getPartTemplate() result: [22,68,114] maxLevel: 31
+[01] getPartTemplate({}) result: [22,68,114] maxLevel: 31
+[01] getPartTemplate({name:undefined}) result: [22,68,114] maxLevel: 31
+[filewrite] files/01-basic-all-all-variants.json (342 bytes)

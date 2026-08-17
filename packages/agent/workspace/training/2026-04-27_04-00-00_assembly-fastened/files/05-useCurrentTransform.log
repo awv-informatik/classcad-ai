@@ -1,0 +1,4 @@
+[05] UCT result: 270 maxLevel: 31
+[filewrite] files/05-useCurrentTransform-uct-response.json (55 bytes)
+[05] getFastened result: {"id":270,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"F_UCT","xOffset":50,"xRotation":0,"yOffset":30,"yRotation":0,"zOffset":25,"zRotation":0}
+[filewrite] files/05-useCurrentTransform-uct-getFastened.json (345 bytes)

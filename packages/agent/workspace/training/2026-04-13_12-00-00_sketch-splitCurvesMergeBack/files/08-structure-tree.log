@@ -1,0 +1,10 @@
+[filewrite] files/08-structure-tree-stage1-before-split.json (31209 bytes)
+[filewrite] files/08-structure-tree-stage2-after-split.json (46722 bytes)
+[filewrite] files/08-structure-tree-stage3-after-trim.json (43366 bytes)
+[filewrite] files/08-structure-tree-stage4-after-mergeBack.json (36442 bytes)
+[filewrite] files/08-structure-tree-stage5-final-geometry.json (35678 bytes)
+[08] stage1 geom: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[08] stage2 splitIds: [80,85,90,94,98]
+[08] stage3 geom after trim: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[08] stage4 mergeBack: null maxLevel: 31
+[08] stage5 final geom: {"arcs":[103],"circles":[],"lines":[63],"points":[]}

@@ -1,0 +1,6 @@
+[02] v1: 59 v2: 65
+[02] BREPVERTEX result: 91 maxLevel: 31
+[filewrite] files/02-brepvertex-brepvertex.json (54 bytes)
+[02] BREPVERTEX(workPoint) result: null maxLevel: 51
+[02] messages: [{"api":"v1.part.workPoint","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has a wrong id type! Provide only following id types: [\"sketch-point\",\"vertex\"]"}]
+[filewrite] files/02-brepvertex-brepvertex-workpoint.json (303 bytes)

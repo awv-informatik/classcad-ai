@@ -1,0 +1,6 @@
+[09d] rectangle lines: [ 58, 64, 70, 76 ]
+[09d] region: 92 maxLevel: 31
+[09d] extrusion result: 96 maxLevel: 51
+[09d] extrusion messages: [{"api":"v1.part.extrusion","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in ExtProfile.GetNormal:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "}]
+[filewrite] files/09d-feature-dependency-extrusion-fail.json (361 bytes)
+[09d] FAILED to create extrusion

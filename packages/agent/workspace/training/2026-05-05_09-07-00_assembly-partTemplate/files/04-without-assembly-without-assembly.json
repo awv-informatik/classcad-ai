@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.assembly.partTemplate",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Assembly building is not initialized!"
+    },
+    {
+      "api": "v1.assembly.partTemplate",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AssemblyAPI_v1.partTemplate::PROC:[CCVM::lcm: objId not found]] "
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+[12] baseWp: 54
+[12] refWp: 62
+[12] setWorkPlane maxLevel: 31
+[12] coordSys: [[0,0,80],[1,0,0],[0,1,0],[0,0,1]]
+[12] planeRef: 62
+[filewrite] files/12-plane-type-referenced-plane-type-ref.json (197 bytes)

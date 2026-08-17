@@ -1,0 +1,51 @@
+{
+  "fixPoint": {
+    "result": 60,
+    "maxLevel": 31
+  },
+  "fixLine": {
+    "result": 66,
+    "maxLevel": 31
+  },
+  "verticalOnFixed": {
+    "before": {
+      "start": {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      "end": {
+        "pos": {
+          "x": 60,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    "after": {
+      "start": {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      "end": {
+        "pos": {
+          "x": 60,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    "result": 68,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "fixCircle": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

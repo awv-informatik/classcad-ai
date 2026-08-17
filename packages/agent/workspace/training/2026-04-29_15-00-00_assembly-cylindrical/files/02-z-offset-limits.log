@@ -1,0 +1,8 @@
+[02] with zOffsetLimits: 216 maxLevel: 31
+[filewrite] files/02-z-offset-limits-offset-limits-response.json (55 bytes)
+[02] getCylindrical zOffsetLimits: {"max":30,"min":-20}
+[02] getCylindrical zRotationLimits: {"max":null,"min":null}
+[filewrite] files/02-z-offset-limits-offset-limits-get.json (361 bytes)
+[02] partial zOffsetLimits (min only): 220 maxLevel: 31
+[02] partial messages: []
+[filewrite] files/02-z-offset-limits-offset-partial-response.json (55 bytes)

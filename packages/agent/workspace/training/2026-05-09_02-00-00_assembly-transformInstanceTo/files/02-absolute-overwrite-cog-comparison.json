@@ -1,0 +1,29 @@
+{
+  "cogInitial": {
+    "x": 25,
+    "y": 10,
+    "z": 7.5
+  },
+  "cogAfterFirst": {
+    "x": 65,
+    "y": 40,
+    "z": 7.5
+  },
+  "cogAfterSecond": {
+    "x": 115,
+    "y": 10,
+    "z": 27.5
+  },
+  "expectedIfAbsolute": {
+    "first": [
+      65,
+      40,
+      7.5
+    ],
+    "second": [
+      115,
+      10,
+      27.5
+    ]
+  }
+}

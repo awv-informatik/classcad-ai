@@ -1,0 +1,10 @@
+[12] baseline: {"angleTol":0,"chordHeightTol":0.1}
+[12] string chordHeightTol maxLevel: 51
+[12] string chordHeightTol messages: [{"api":"v1.common.setFacetingParameters","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"chordHeightTol\" has the wrong type! It should be of type (real)"}]
+[12] after string: {"angleTol":0,"chordHeightTol":0.1}
+[12] boolean angleTol maxLevel: 51
+[12] boolean angleTol messages: [{"api":"v1.common.setFacetingParameters","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CommonHelper.SetFacetingParameters:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Gleitkommazahl addressed.] \nFunction: CADH_SetFacetingParameters\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[12] after boolean: {"angleTol":0,"chordHeightTol":0.1}
+[12] unknown param maxLevel: 51
+[12] after unknown: {"angleTol":0,"chordHeightTol":0.1}
+[filewrite] files/12-wrong-types-wrong-types.json (1178 bytes)

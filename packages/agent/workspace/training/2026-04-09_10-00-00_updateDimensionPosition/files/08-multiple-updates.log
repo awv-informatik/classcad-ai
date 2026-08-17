@@ -1,0 +1,6 @@
+[08] pos=[10,10,0] → dimPt={"x":10,"y":10,"z":0} maxLevel=31
+[08] pos=[50,50,0] → dimPt={"x":50,"y":50,"z":0} maxLevel=31
+[08] pos=[-20,30,0] → dimPt={"x":-20,"y":30,"z":0} maxLevel=31
+[08] pos=[100,0,0] → dimPt={"x":100,"y":0,"z":0} maxLevel=31
+[08] pos=[40,25,0] → dimPt={"x":40,"y":25,"z":0} maxLevel=31
+[filewrite] files/08-multiple-updates-multiple-updates.json (719 bytes)

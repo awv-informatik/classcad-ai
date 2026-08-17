@@ -1,0 +1,13 @@
+{
+  "label": "noId",
+  "maxLevel": 51,
+  "isArray": false,
+  "nEntries": null,
+  "err": [
+    {
+      "level": 51,
+      "code": 1004,
+      "message": "The parameter \"id\" must be provided in the api call!"
+    }
+  ]
+}

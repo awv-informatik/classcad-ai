@@ -1,0 +1,7 @@
+[18] uncommitted box: 54
+[18] updateBox with exprs: 54 maxLevel: 31
+[18] length: 80 expr: ExpressionSet.L
+[18] width: 50 expr: ExpressionSet.W
+[18] height: 30 expr: ExpressionSet.H
+[filewrite] files/18-expressions-with-uncommitted-expr-box-node.json (852 bytes)
+[18] after L=120: length: 80

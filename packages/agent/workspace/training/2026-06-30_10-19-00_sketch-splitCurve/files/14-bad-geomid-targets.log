@@ -1,0 +1,11 @@
+[14] partId 4 skId 52 line 58 pointId 59 foreignCurve 72
+[filewrite] files/14-bad-geomid-targets-14-bogus.json (397 bytes)
+[14] {"label":"bogus","geomId":999999,"maxLevel":51,"isArray":false,"nEntries":null,"entrySegs":null,"err":[{"level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"level":51,"code":1006,"message":"An element of parameter \"geomId\" has an invalid id!"}]}
+[filewrite] files/14-bad-geomid-targets-14-partId.json (319 bytes)
+[14] {"label":"partId","geomId":4,"maxLevel":51,"isArray":false,"nEntries":null,"entrySegs":null,"err":[{"level":51,"code":1001,"message":"The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]}
+[filewrite] files/14-bad-geomid-targets-14-sketchId.json (322 bytes)
+[14] {"label":"sketchId","geomId":52,"maxLevel":51,"isArray":false,"nEntries":null,"entrySegs":null,"err":[{"level":51,"code":1001,"message":"The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]}
+[filewrite] files/14-bad-geomid-targets-14-pointId.json (321 bytes)
+[14] {"label":"pointId","geomId":59,"maxLevel":51,"isArray":false,"nEntries":null,"entrySegs":null,"err":[{"level":51,"code":1001,"message":"The parameter \"geomId\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]}
+[filewrite] files/14-bad-geomid-targets-14-foreignCurve.json (442 bytes)
+[14] {"label":"foreignCurve","geomId":72,"maxLevel":31,"isArray":true,"nEntries":1,"entrySegs":[2],"err":[]}

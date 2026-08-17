@@ -1,0 +1,9 @@
+[01] asmId: 12
+[01] tplId: 22
+[01] wcsId: 107
+[01] instId: 113
+[01] COG before: undefined
+[01] fastenedOrigin result: 149 maxLevel: 31
+[filewrite] files/01-basic-fo-response.json (55 bytes)
+[01] COG after: undefined
+[filewrite] files/01-basic-cog-comparison.json (2 bytes)

@@ -1,0 +1,4 @@
+[07] COG before flip: {"x":50,"y":30,"z":20}
+[07] parallel result: 218 maxLevel: 31
+[07] COG after flip -Z: {"x":19.999999999999996,"y":-9.999999999999998,"z":-5}
+[filewrite] files/07-flip-clean-flip-clean-cog.json (153 bytes)

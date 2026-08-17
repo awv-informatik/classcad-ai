@@ -1,0 +1,15 @@
+[04] skId: 63 lineId: 69
+[04] wpId: 79
+[04] shapeId: 85
+[04] solid: graphic? true containers: 1
+[04] sketch: result: null maxLevel: 31
+[04] sketch: graphic? false containers: undefined
+[04] workPlane: result: null maxLevel: 31
+[04] workPlane: graphic? false containers: undefined
+[04] shape: result: null maxLevel: 31
+[04] shape: graphic? true containers: 1
+[04] sketchLine: result: null maxLevel: 31
+[04] sketchLine: graphic? false containers: undefined
+[04] eifId: graphic? false containers: undefined
+[04] partId: graphic? false containers: undefined
+[filewrite] files/04-various-entity-types-entity-type-results.json (402 bytes)

@@ -1,0 +1,9 @@
+[01] asmId: 12
+[01] tplA: 22 boxA: 70 wcsA: 107
+[01] tplB: 113 boxB: 161 wcsB: 198
+[01] inst1: 204 inst2: 206
+[01] COG before: undefined
+[01] fastened result: 272 maxLevel: 31
+[filewrite] files/01-basic-fastened-fastened-response.json (55 bytes)
+[01] COG after: undefined
+[filewrite] files/01-basic-fastened-mass-comparison.json (321 bytes)

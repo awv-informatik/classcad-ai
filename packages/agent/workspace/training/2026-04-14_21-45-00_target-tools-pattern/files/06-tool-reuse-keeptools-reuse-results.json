@@ -1,0 +1,12 @@
+{
+  "sub1": {
+    "maxLevel": 31
+  },
+  "sub2": {
+    "maxLevel": 31
+  },
+  "union3": {
+    "maxLevel": 31
+  },
+  "toolConsumed": true
+}

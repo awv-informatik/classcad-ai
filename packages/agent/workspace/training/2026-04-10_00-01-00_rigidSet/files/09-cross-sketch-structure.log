@@ -1,0 +1,7 @@
+[09] sk1: 52 sk2: 58 line: 64
+[09] rigidSet: 72
+[filewrite] files/09-cross-sketch-structure-structure.json (32477 bytes)
+[09] rigidSet parent: 58
+[09] rigidSet entities: {"members":[{"value":64,"type":"id","visible":1,"expression":""}],"type":"array","visible":1,"expression":""}
+[09] sk1 children: [ 64, 68, 70 ]
+[09] sk2 children: [ 72 ]

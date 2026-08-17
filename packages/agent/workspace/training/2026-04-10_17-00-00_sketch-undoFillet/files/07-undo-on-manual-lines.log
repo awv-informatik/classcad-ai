@@ -1,0 +1,5 @@
+[07] line1: 58 line2: 64
+[07] fillet result: [72,70,74,73] maxLevel: 31
+[07] undo result: null maxLevel: 31
+[07] geo after undo: {"arcs":[],"circles":[],"lines":[58,64],"points":[]}
+[filewrite] files/07-undo-on-manual-lines-geo-after-undo.json (82 bytes)

@@ -1,0 +1,26 @@
+{
+  "UP": {
+    "featureId": 96,
+    "maxLevel": 31,
+    "limit2": null,
+    "limit1": null
+  },
+  "DOWN": {
+    "featureId": 214,
+    "maxLevel": 31,
+    "limit2": null,
+    "limit1": null
+  },
+  "SYMMETRIC": {
+    "featureId": 363,
+    "maxLevel": 31,
+    "limit2": null,
+    "limit1": null
+  },
+  "CUSTOM": {
+    "featureId": 543,
+    "maxLevel": 31,
+    "limit2": null,
+    "limit1": null
+  }
+}

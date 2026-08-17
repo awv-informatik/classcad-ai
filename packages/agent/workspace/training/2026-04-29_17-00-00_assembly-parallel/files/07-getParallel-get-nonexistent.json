@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.getParallel",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"
+    }
+  ],
+  "maxLevel": 51
+}

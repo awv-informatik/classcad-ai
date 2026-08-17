@@ -1,0 +1,5 @@
+[12] arcs found: [[]]
+[12] filleting arc: 
+[12] filletId: null
+[12] fillet-on-cylinder: lines=0, arcs=0, faces=0, points=0, nurbs=0
+[filewrite] files/12-nurbs-fillet-on-cylinder-cyl-fillet-brep.json (77 bytes)

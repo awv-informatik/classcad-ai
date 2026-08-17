@@ -1,0 +1,72 @@
+{
+  "cogBefore": {
+    "x": 80,
+    "y": 15,
+    "z": 10
+  },
+  "cogAfter": {
+    "x": 84.51184463531092,
+    "y": 24.916245780509712,
+    "z": 3.333333333333332
+  },
+  "batchResult": [
+    123,
+    127,
+    131
+  ],
+  "batchMaxLevel": 31,
+  "stateA": {
+    "id": 123,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "name": "FO_A",
+    "xOffset": 10,
+    "xRotation": 0,
+    "yOffset": 50,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  "stateB": {
+    "id": 127,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        115
+      ],
+      "reorient": "0"
+    },
+    "name": "FO_B",
+    "xOffset": 70,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0.7853981633974483
+  },
+  "stateC": {
+    "id": 131,
+    "mate1": {
+      "csys": 107,
+      "flip": "-Z",
+      "path": [
+        117
+      ],
+      "reorient": "0"
+    },
+    "name": "FO_C",
+    "xOffset": 130,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

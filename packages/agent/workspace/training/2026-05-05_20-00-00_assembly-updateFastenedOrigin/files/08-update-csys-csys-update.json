@@ -1,0 +1,39 @@
+{
+  "wcs1": 107,
+  "wcs2": 115,
+  "wcs3": 123,
+  "cogWcs1": {
+    "x": 70,
+    "y": 45,
+    "z": 10
+  },
+  "cogWcs2": {
+    "x": 70,
+    "y": 45,
+    "z": 10
+  },
+  "cogWcs3": {
+    "x": 70,
+    "y": 45,
+    "z": 10
+  },
+  "csysChanged": true,
+  "finalState": {
+    "id": 141,
+    "mate1": {
+      "csys": 123,
+      "flip": "Z",
+      "path": [
+        137
+      ],
+      "reorient": "0"
+    },
+    "name": "FO_Target",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 60,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

@@ -1,0 +1,10 @@
+[05] template IDs — plane: 107 axis: 115 csys: 123 point: 131
+[05] looked up — plane: 107 (match: true )
+[05] looked up — axis: 115 (match: true )
+[05] looked up — csys: 123 (match: true )
+[05] looked up — point: 131 (match: true )
+[05] builtins — Top: 56 Front: 60 Right: 64
+[05] builtins — XAxis: 44 YAxis: 48 ZAxis: 52 Origin: 40
+[05] nested subAsmInst/CustomCSys: null maxLevel: 51 msg: Couldn't find work geometry with name: "CustomCSys"
+[05] innerInstET result: [ 152 ]
+[filewrite] files/05-all-types-and-nesting-results.json (749 bytes)

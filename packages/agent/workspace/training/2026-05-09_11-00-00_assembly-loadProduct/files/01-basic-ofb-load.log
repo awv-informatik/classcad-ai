@@ -1,0 +1,8 @@
+[01] Created part: 4 box: 54
+[01] Save success: 1 content length: 5736
+[01] Assembly created: 12
+[01] loadProduct result: {"id":22}
+[01] loadProduct maxLevel: 31
+[01] loadProduct messages: []
+[filewrite] files/01-basic-ofb-load-load-result.json (14 bytes)
+[filewrite] files/01-basic-ofb-load-structure-after-load.json (26467 bytes)

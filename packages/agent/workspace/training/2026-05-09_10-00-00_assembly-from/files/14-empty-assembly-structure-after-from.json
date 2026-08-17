@@ -1,0 +1,289 @@
+{
+  "root": 99,
+  "currentProduct": 99,
+  "currentInstance": 99,
+  "testRoot": 0,
+  "tree": {
+    "1": {
+      "name": "AllObjects",
+      "class": "AllObjects",
+      "id": 1,
+      "flags": 0,
+      "parent": null,
+      "members": {
+        "drawingUnit": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "uncommitedObjectsIds": {
+          "members": [],
+          "type": "array",
+          "visible": 0,
+          "expression": ""
+        }
+      },
+      "children": [
+        91,
+        93,
+        95,
+        97,
+        99
+      ]
+    },
+    "95": {
+      "name": "PartContainer",
+      "class": "CC_PartContainer",
+      "id": 95,
+      "flags": 16,
+      "parent": 1,
+      "members": {
+        "rootPath": {
+          "value": "\\",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "fileExtension": {
+          "value": "",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "fileImportOption": {
+          "value": 1,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "productRefCreation": {
+          "value": 3,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "copyDimensions": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "createSubRefs": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "doNotRecalc": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    },
+    "97": {
+      "name": "AssemblyContainer",
+      "class": "CC_AssemblyContainer",
+      "id": 97,
+      "flags": 0,
+      "parent": 1
+    },
+    "99": {
+      "instances": [],
+      "instancesNested": [],
+      "dimensions": [],
+      "name": "AssemblyRoot",
+      "class": "CC_AssemblyRoot",
+      "id": 99,
+      "flags": 0,
+      "parent": 1,
+      "members": {
+        "_VERSION": {
+          "value": "1/2024_6_3_19:00",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "featureRootPath": {
+          "value": "",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "cadRootPath": {
+          "value": "",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        },
+        "unit": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "activeDock": {
+          "value": 0,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        "isFileAssemblyNode": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "originalName": {
+          "value": "AssemblyRoot",
+          "type": "string",
+          "visible": 1,
+          "expression": ""
+        }
+      },
+      "children": [
+        101,
+        103,
+        105
+      ]
+    },
+    "101": {
+      "name": "ExpressionSet",
+      "class": "CC_ExpressionSet",
+      "id": 101,
+      "flags": 4096,
+      "parent": 99,
+      "members": {
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    },
+    "103": {
+      "name": "ConstraintSet",
+      "class": "CC_ConstraintSet",
+      "id": 103,
+      "flags": 4096,
+      "parent": 99,
+      "members": {
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    },
+    "105": {
+      "name": "GeometrySet",
+      "class": "CC_GeometrySet",
+      "id": 105,
+      "flags": 0,
+      "parent": 99,
+      "members": {
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "csSize": {
+          "value": 20,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        }
+      },
+      "children": [
+        107
+      ]
+    },
+    "107": {
+      "name": "BaseWCSys",
+      "class": "CC_WorkCSys",
+      "id": 107,
+      "flags": 4096,
+      "coordinateSystem": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "isLocal": 1,
+      "parent": 105,
+      "members": {
+        "offset": {
+          "value": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "type": "point",
+          "visible": 1,
+          "expression": ""
+        },
+        "rotation": {
+          "value": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "type": "point",
+          "visible": 1,
+          "expression": ""
+        },
+        "inverted": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "References": {
+          "members": [],
+          "type": "array",
+          "visible": 1,
+          "expression": ""
+        },
+        "Type": {
+          "value": 0,
+          "type": "real",
+          "visible": 1,
+          "expression": ""
+        },
+        "_VERSION": {
+          "value": "0/2003_11_25_10:10",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        }
+      }
+    }
+  }
+}

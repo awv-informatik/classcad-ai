@@ -1,0 +1,5 @@
+[04] partId: 4 boxId: 54
+[04] edge IDs: [75]
+[04] TWO_DISTANCES result: null maxLevel: 51
+[04] messages: [{"api":"v1.part.chamfer","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.chamfer","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"references\" has an invalid id!"}]
+[filewrite] files/04-two-distances-retry-chamfer-response.json (425 bytes)

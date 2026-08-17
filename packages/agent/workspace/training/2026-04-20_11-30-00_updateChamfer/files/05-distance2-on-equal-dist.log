@@ -1,0 +1,5 @@
+[05] chamferId: 120
+[05] set distance2=20 on EQUAL_DISTANCE — result: 120 maxLevel: 31
+[filewrite] files/05-distance2-on-equal-dist-dist2-on-equal.json (55 bytes)
+[05] set angle on EQUAL_DISTANCE — result: 120 maxLevel: 31
+[filewrite] files/05-distance2-on-equal-dist-angle-on-equal.json (55 bytes)

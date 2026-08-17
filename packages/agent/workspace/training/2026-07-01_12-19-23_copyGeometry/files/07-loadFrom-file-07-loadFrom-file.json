@@ -1,0 +1,16 @@
+{
+  "result": null,
+  "maxLevel": 31,
+  "msgs": [],
+  "before": {
+    "lines": 0,
+    "circles": 0,
+    "arcs": 0
+  },
+  "after": {
+    "lines": 0,
+    "circles": 9,
+    "arcs": 0
+  },
+  "file": "/Users/dev/dev/awv/classcad-agent/workspace/training/2026-07-01_10-03-15_rigging-plate/files/01-skeleton-01-skeleton.ofb"
+}

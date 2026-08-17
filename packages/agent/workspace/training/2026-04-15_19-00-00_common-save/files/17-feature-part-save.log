@@ -1,0 +1,7 @@
+[17] partId: 4 boxId: 56
+[17] OFB feature part length: 46532
+[17] STP feature part length: 9612
+[17] load result: {"id":4}
+[17] expr L after roundtrip: {"expression":"","value":80}
+[17] expr L maxLevel: 31
+[filewrite] files/17-feature-part-save-feature-part.json (171 bytes)

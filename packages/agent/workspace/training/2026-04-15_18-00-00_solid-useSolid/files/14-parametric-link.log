@@ -1,0 +1,5 @@
+[14] box feature: 54
+[14] useSolid ID: 98
+[14] updateBox result: 54 maxLevel: 31
+[14] translate used ID after source update: result: 98 maxLevel: 31
+[filewrite] files/14-parametric-link-parametric-link.json (76 bytes)

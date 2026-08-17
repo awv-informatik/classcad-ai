@@ -1,0 +1,6 @@
+[filewrite] files/03-multi-value-N-plus-1-03-positions.json (1403 bytes)
+[03] seg 66 [0,0.25] [0,0,0] -> [25,0,0]
+[03] seg 70 [0.25,0.75] [25,0,0] -> [75,0,0]
+[03] seg 74 [0.75,1] [75,0,0] -> [100,0,0]
+[03] CHECKS {"threeSegments":true,"intervalsExact":true,"firstT0_zero":true,"lastT1_one":true,"chained":true,"widthsSumTo1":true,"vertexAt25":true,"vertexAt75":true,"middleSpans25to75":true}
+[03] PASS

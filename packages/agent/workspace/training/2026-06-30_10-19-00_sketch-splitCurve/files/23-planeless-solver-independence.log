@@ -1,0 +1,6 @@
+[23] planeId sketch 52 planeless sketch 58
+[filewrite] files/23-planeless-solver-independence-23-planeless.json (168 bytes)
+[23] planeId   cut at [50,0,0] maxLevel 31
+[23] planeless cut at [50,0,0] maxLevel 31
+[23] CHECKS {"planeIdSplits":true,"planelessSplits":true,"identical":true}
+[23] splitCurve is SOLVER-INDEPENDENT

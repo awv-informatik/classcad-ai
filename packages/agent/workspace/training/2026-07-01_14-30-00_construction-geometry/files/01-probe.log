@@ -1,0 +1,8 @@
+[filewrite] files/01-probe-01-probe.json (3717 bytes)
+[01] getGeometry construction-in-arrays? {"cLineInLines":true,"cCircInCircles":true,"cArcInArcs":true,"extraKeys":[]}
+[01] getObjectsLists {"lines":2,"circles":2,"arcs":2,"constructionGeometry":[66,75,83]}
+[01] getObjectInfo {"nLine":{"type":"LINE","isConstruction":0,"isReference":0},"cLine":{"type":"LINE","isConstruction":1,"isReference":0},"nCirc":{"type":"CIRCLE","isConstruction":0,"isReference":0},"cCirc":{"type":"CIRCLE","isConstruction":1,"isReference":0},"nArc":{"type":"ARC","isConstruction":0,"isReference":0},"cArc":{"type":"ARC","isConstruction":1,"isReference":0}}
+[01] getGlobalState {"constructionCount":3,"lineCount":2,"circleCount":2,"arcCount":2}
+[01] tree cLine {"class":"CC_Line","memberKeys":["_VERSION","direction","alignment","rigidSetId","isConstruction","lgsState"],"isConstruction":{"value":1,"type":"real","visible":1,"expression":""}} 
+[01] tree nLine {"class":"CC_Line","memberKeys":["_VERSION","direction","alignment","rigidSetId","isConstruction","lgsState"],"isConstruction":{"value":0,"type":"real","visible":1,"expression":""}}
+[01] tree cCirc.isConstruction {"value":1,"type":"real","visible":1,"expression":""} | cArc.isConstruction {"value":1,"type":"real","visible":1,"expression":""}

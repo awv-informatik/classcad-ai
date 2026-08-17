@@ -1,0 +1,4 @@
+[03] created box1: 61 box2: 64 box3: 67
+[03] deleteSolid (all) result: null maxLevel: 31
+[filewrite] files/03-delete-all-delete-all-response.json (56 bytes)
+[filewrite] files/03-delete-all-graphic-after-all.json (4 bytes)

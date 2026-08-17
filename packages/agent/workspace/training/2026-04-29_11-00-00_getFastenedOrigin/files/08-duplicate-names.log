@@ -1,0 +1,6 @@
+[08] fo1: 121 fo2: 125
+[08] returned id: 121
+[08] matches fo1? true
+[08] matches fo2? false
+[08] xOffset: 10 (fo1=10, fo2=99)
+[filewrite] files/08-duplicate-names-duplicate-names.json (324 bytes)

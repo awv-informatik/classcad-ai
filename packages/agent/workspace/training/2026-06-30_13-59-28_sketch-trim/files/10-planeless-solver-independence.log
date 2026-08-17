@@ -1,0 +1,6 @@
+[10] preTrim max 31 | lineSeg 158 arcSeg 112
+[10] trim(line+arc on planeless) result null max 31
+[filewrite] files/10-planeless-solver-independence-10-planeless.json (206 bytes)
+[10] postTrim max 31 | geo lines 3 arcs 1
+[10] CHECKS {"preTrimOk":true,"trimVoid":true,"postOk":true}
+[10] PASS (trim solver-independent for line+arc)

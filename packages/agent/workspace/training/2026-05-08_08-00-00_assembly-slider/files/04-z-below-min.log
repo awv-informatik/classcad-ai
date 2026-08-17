@@ -1,0 +1,4 @@
+[04] COG before: {"x":10,"y":10,"z":12.5}
+[04] slider result: 218 maxLevel: 31
+[04] COG after: {"x":10,"y":10,"z":27.501}
+[filewrite] files/04-z-below-min-z-below-min-data.json (145 bytes)

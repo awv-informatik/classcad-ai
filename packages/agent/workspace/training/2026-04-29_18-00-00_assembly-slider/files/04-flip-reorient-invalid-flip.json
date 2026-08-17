@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.slider",
+      "code": 1013,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Type \"INVALID\" is not supported to use as flip type."
+    }
+  ],
+  "maxLevel": 51
+}

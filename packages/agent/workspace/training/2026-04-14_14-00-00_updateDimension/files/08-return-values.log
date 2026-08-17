@@ -1,0 +1,6 @@
+[08] same value: result: 2 maxLevel: 31
+[08] diff value: result: 2 maxLevel: 31
+[08] over-constrained: result: 0 maxLevel: 31
+[08] lgsState after over-constrain: undefined
+[08] positions after over-constrain: {"endPos":{"x":100,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[filewrite] files/08-return-values-return-values-data.json (359 bytes)

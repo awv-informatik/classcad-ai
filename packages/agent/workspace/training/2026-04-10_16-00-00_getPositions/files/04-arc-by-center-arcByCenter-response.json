@@ -1,0 +1,21 @@
+{
+  "result": {
+    "centerPos": {
+      "x": 20,
+      "y": 40,
+      "z": 0
+    },
+    "endPos": {
+      "x": 40,
+      "y": 40,
+      "z": 0
+    },
+    "startPos": {
+      "x": 0,
+      "y": 40,
+      "z": 0
+    }
+  },
+  "maxLevel": 31,
+  "messages": []
+}

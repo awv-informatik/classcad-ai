@@ -1,0 +1,23 @@
+{
+  "cylindricalGear": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.gear",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"constr1Id\" has a wrong id type! Provide only following id types: [\"revoluteconstraint\"]"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "batchGear": {
+    "result": [
+      354,
+      358
+    ],
+    "messages": [],
+    "maxLevel": 31
+  }
+}

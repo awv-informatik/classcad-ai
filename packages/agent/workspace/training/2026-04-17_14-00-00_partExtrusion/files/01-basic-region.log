@@ -1,0 +1,6 @@
+[01] partId: 4
+[01] sketchId: 52
+[01] rectIds: [ 58, 64, 70, 76 ]
+[01] regionId: 92
+[01] extrusion result: 96 maxLevel: 51
+[filewrite] files/01-basic-region-extrusion-response.json (357 bytes)

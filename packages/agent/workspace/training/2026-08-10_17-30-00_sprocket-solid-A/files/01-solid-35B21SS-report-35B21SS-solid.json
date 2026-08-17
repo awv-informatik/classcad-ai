@@ -1,0 +1,59 @@
+{
+  "name": "35B21SS-solid",
+  "checks": [
+    {
+      "label": "volume",
+      "ok": true,
+      "cadIn3": 1.85603,
+      "mcAdjIn3": 1.85083,
+      "devPct": 0.28
+    },
+    {
+      "label": "cog",
+      "ok": true,
+      "offAxisIn": 0.0201,
+      "alongIn": 0.2162
+    },
+    {
+      "label": "root",
+      "ok": true,
+      "errIn": 2.220446049250313e-16
+    },
+    {
+      "label": "tip-flat-corner",
+      "ok": true,
+      "errIn": 6.938893903907228e-18
+    }
+  ],
+  "steps": [
+    {
+      "step": "blank",
+      "id": 64
+    },
+    {
+      "step": "cut tooth spaces ×21",
+      "tools": 21
+    },
+    {
+      "step": "cut bore",
+      "tools": 1
+    },
+    {
+      "step": "cut keyway",
+      "tools": 1
+    },
+    {
+      "step": "cut set screws ×2",
+      "tools": 2
+    },
+    {
+      "step": "cut tip tapers ×2",
+      "tools": 2
+    },
+    {
+      "step": "cut bore chamfers",
+      "tools": 2
+    }
+  ],
+  "allChecksPass": true
+}

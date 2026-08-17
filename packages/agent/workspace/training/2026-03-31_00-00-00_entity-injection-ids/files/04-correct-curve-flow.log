@@ -1,0 +1,3 @@
+[04] partId: 4 eifId: 54 shapeId: 60
+[04] curve.line result: null maxLevel: 31
+[filewrite] files/04-correct-curve-flow-curve-line-correct.json (56 bytes)

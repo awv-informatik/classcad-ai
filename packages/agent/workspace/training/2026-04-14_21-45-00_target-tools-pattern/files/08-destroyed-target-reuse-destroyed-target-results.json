@@ -1,0 +1,45 @@
+{
+  "intersection": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.intersection",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Target solid was removed by intersection."
+      }
+    ]
+  },
+  "translate": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "union": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.union",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in SolidAPI_v1.union::PROC:_C.SolidAPI_v1::union\nThere must be two valid solids to perform a boolean operation\nFunction: CADH_AddSolid\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/BooleanOperations.cpp,     Line: 116] "
+      }
+    ]
+  },
+  "merge": {
+    "result": 61,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.solid.merge",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "_C.SolidAPI_v1::merge\nThere must be two valid solids to perform a merge operation"
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "loc": "/tmp/cc-1778656322354.ofb",
+    "maxLevel": 51,
+    "partLoaded": false,
+    "partName": null,
+    "firstErr": "[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"
+  },
+  {
+    "loc": "file:///tmp/cc-1778656322354.ofb",
+    "maxLevel": 51,
+    "partLoaded": false,
+    "partName": null,
+    "firstErr": "[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"
+  },
+  {
+    "loc": "file:/tmp/cc-1778656322354.ofb",
+    "maxLevel": 51,
+    "partLoaded": false,
+    "partName": null,
+    "firstErr": "[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"
+  },
+  {
+    "loc": "local:/tmp/cc-1778656322354.ofb",
+    "maxLevel": 51,
+    "partLoaded": false,
+    "partName": null,
+    "firstErr": "[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"
+  },
+  {
+    "loc": "/nonexistent/foo.ofb",
+    "maxLevel": 51,
+    "partLoaded": false,
+    "partName": null,
+    "firstErr": "[Evaluation error in IO_Helper.IoOfbImportStream:[Nothing could be found to import!] \nFunction: IO_I"
+  }
+]

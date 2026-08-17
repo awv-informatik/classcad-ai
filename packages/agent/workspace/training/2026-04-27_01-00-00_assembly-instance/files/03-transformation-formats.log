@@ -1,0 +1,5 @@
+[03] default (no transform): 115 maxLevel: 31
+[03] 3-point offset y=40: 117
+[03] 3-point rotated 90°Z: 119
+[03] 4x4 matrix offset y=120: 121
+[03] 4x4 45°Z at y=160: 123

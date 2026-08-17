@@ -1,0 +1,9 @@
+[filewrite] files/12-out-of-range-values-12-neg.json (761 bytes)
+[12] values=[-0.2] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":2,"intervals":[[0,-0.2],[-0.2,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} verts=[[20,0,0],[140,0,0]]
+[12] neg verdict: EXTRAPOLATE (vertex outside source!)
+[filewrite] files/12-out-of-range-values-12-over.json (762 bytes)
+[12] values=[1.5] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":81,"segs":2,"intervals":[[0,1.5],[1.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} verts=[[150,10,0],[200,10,0]]
+[12] over verdict: EXTRAPOLATE (vertex outside source!)
+[filewrite] files/12-out-of-range-values-12-mixed.json (1075 bytes)
+[12] values=[0.5,1.5] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":101,"segs":3,"intervals":[[0,0.5],[0.5,1.5],[1.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} verts=[[50,20,0],[150,20,0],[200,20,0]]
+[12] mixed verdict: EXTRAPOLATE (vertex outside source!)

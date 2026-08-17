@@ -1,0 +1,52 @@
+[
+  {
+    "input": 0,
+    "expected": "ok (disabled)",
+    "maxLevel": 31,
+    "ok": true,
+    "after": {
+      "angleTol": 0,
+      "chordHeightTol": 0.1
+    }
+  },
+  {
+    "input": 0.5,
+    "expected": "rejected",
+    "maxLevel": 51,
+    "ok": false,
+    "after": {
+      "angleTol": 0,
+      "chordHeightTol": 0.1
+    }
+  },
+  {
+    "input": 0.99,
+    "expected": "rejected",
+    "maxLevel": 51,
+    "ok": false,
+    "after": {
+      "angleTol": 0,
+      "chordHeightTol": 0.1
+    }
+  },
+  {
+    "input": 1,
+    "expected": "ok (boundary)",
+    "maxLevel": 31,
+    "ok": true,
+    "after": {
+      "angleTol": 1,
+      "chordHeightTol": 0.1
+    }
+  },
+  {
+    "input": 1.5,
+    "expected": "ok",
+    "maxLevel": 31,
+    "ok": true,
+    "after": {
+      "angleTol": 1.5,
+      "chordHeightTol": 0.1
+    }
+  }
+]

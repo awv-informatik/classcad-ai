@@ -1,0 +1,24 @@
+{
+  "exprDim": {
+    "id": 72,
+    "maxLevel": 51,
+    "endAfter": {
+      "pos": {
+        "x": 80,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "formulaDim": {
+    "id": 84,
+    "maxLevel": 31,
+    "end2After": {
+      "pos": {
+        "x": 70,
+        "y": 20,
+        "z": 0
+      }
+    }
+  }
+}

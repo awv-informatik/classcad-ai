@@ -1,0 +1,7 @@
+[04] STP save success: 1 content length: 10244
+[04] loadProduct STP result: {"id":25}
+[04] loadProduct STP maxLevel: 31
+[filewrite] files/04-load-stp-stp-load-result.json (14 bytes)
+[04] STP instance: 77
+[04] STP inst COG: {"x":-1.7278401852631073e-15,"y":-4.618115169914579e-15,"z":24.996334388090638}
+[filewrite] files/04-load-stp-stp-mass.json (144 bytes)

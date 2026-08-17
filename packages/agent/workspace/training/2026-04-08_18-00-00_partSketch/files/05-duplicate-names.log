@@ -1,0 +1,5 @@
+[05] first sketch id: 52 maxLevel: 31
+[05] second sketch id: 58 maxLevel: 31
+[05] same id? false
+[05] getSketch returns: 52 (first was 52 )
+[filewrite] files/05-duplicate-names-structure-duplicate-names.json (27866 bytes)

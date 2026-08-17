@@ -1,0 +1,5 @@
+[03] PREDICT: 4 lines forming the central square [20,0]-[60,40]; discard the 8 arm segments
+[filewrite] files/03-crossing-rects-inner-square-03-result.json (254 bytes)
+[03] REALIZED: lines 4 arcs 0 | survivors [[20,0,60,0],[60,40,20,40],[60,0,60,40],[20,40,20,0]]
+[03] CHECKS {"fourLines":true,"allOnCentralSquare":true}
+[03] PASS — prediction realized

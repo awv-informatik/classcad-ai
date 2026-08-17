@@ -1,0 +1,6 @@
+[03] no offset constraint: 212
+[filewrite] files/03-zOffset-no-offset-data.json (320 bytes)
+[03] positive offset constraint: 274
+[filewrite] files/03-zOffset-pos-offset-data.json (322 bytes)
+[03] negative offset constraint: 336
+[filewrite] files/03-zOffset-neg-offset-data.json (323 bytes)

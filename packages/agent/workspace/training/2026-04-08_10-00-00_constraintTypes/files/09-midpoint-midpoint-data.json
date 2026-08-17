@@ -1,0 +1,43 @@
+{
+  "freePoint": {
+    "before": {
+      "pos": {
+        "x": 20,
+        "y": 30,
+        "z": 0
+      }
+    },
+    "after": {
+      "pos": {
+        "x": 20,
+        "y": 30,
+        "z": 0
+      }
+    },
+    "result": 66
+  },
+  "lineEndpoint": {
+    "startBefore": {
+      "pos": {
+        "x": 100,
+        "y": 20,
+        "z": 0
+      }
+    },
+    "startAfter": {
+      "pos": {
+        "x": 100,
+        "y": 20,
+        "z": 0
+      }
+    },
+    "endAfter": {
+      "pos": {
+        "x": 100,
+        "y": 60,
+        "z": 0
+      }
+    },
+    "result": 72
+  }
+}

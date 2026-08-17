@@ -1,0 +1,4 @@
+[16] OFFSET initial dimPt: {"value":{"x":40,"y":8,"z":0},"type":"point","visible":1,"expression":"GetSE([0,0,8,[0,0.5]])"}
+[16] HDIST initial dimPt: {"value":{"x":40,"y":58,"z":0},"type":"point","visible":1,"expression":"GetSE([0,0,8,[0,0.5]])"}
+[16] RADIUS initial dimPt: {"value":{"x":58,"y":30,"z":0},"type":"point","visible":1,"expression":"GetSE([1,0],[0,3])"}
+[filewrite] files/16-initial-expression-initial-expressions.json (494 bytes)

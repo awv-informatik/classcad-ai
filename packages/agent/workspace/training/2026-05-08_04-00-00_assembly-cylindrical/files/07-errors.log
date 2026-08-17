@@ -1,0 +1,15 @@
+[07] missing mate2: null maxLevel: 51
+[07]   msg: 51 0 [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] 
+[07] missing csys: null maxLevel: 51
+[07]   msg: 51 0 [Evaluation error in AbstractAPI.PrepareAPIParams:[CCVM::not: unexpected type]] 
+[07] invalid flip: null maxLevel: 51
+[07]   msg: 51 1013 Type "Q" is not supported to use as flip type.
+[07] invalid reorient: null maxLevel: 51
+[07]   msg: 51 1013 Type "45" is not supported to use as reorient type.
+[07] missing id: null maxLevel: 51
+[07]   msg: 51 1004 "id" must be provided to create CC_CylindricalConstraint
+[07] dup name 1: 234 maxLevel: 31
+[07] dup name 2: 238 maxLevel: 31
+[07] same instance both mates: null maxLevel: 51
+[07]   msg: 51 1014 The path of mate1 and mate2 cannot be used in this combination for constraint with id = $242 in assembly with id = $12, they probably belong to the same rigid set.
+[filewrite] files/07-errors-error-cases.json (443 bytes)

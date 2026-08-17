@@ -1,0 +1,6 @@
+[02] importFeature result: 54
+[02] openFeature result: null maxLevel: 31
+[02] updateImportFeature result: null maxLevel: 51
+[filewrite] files/02-open-then-rename-rename-response.json (264 bytes)
+[02] closeFeature result: null maxLevel: 31
+[filewrite] files/02-open-then-rename-structure-after-rename.json (21057 bytes)

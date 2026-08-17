@@ -1,0 +1,24 @@
+{
+  "sphericalResult": 218,
+  "maxLevel": 31,
+  "cogBefore": {
+    "x": 99.99999999999999,
+    "y": 34.99999999999999,
+    "z": 23.999999999999996
+  },
+  "cogAfter": {
+    "x": 20,
+    "y": 5,
+    "z": 4
+  },
+  "prediction_no_spatial": {
+    "x": 20,
+    "y": 5,
+    "z": 4
+  },
+  "prediction_spatial": {
+    "x": 10,
+    "y": 30,
+    "z": 5
+  }
+}

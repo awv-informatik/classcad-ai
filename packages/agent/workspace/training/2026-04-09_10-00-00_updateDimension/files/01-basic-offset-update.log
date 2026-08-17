@@ -1,0 +1,7 @@
+[01] dimId: 74
+[01] updateDimension result: 0
+[01] updateDimension maxLevel: 31
+[01] updateDimension messages: []
+[filewrite] files/01-basic-offset-update-update-response.json (53 bytes)
+[01] second update result: 0 maxLevel: 31
+[filewrite] files/01-basic-offset-update-second-update-response.json (53 bytes)

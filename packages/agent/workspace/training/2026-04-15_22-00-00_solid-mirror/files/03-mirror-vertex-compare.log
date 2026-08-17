@@ -1,0 +1,5 @@
+[03] boxId: 61
+[03] bounds before: null
+[03] bounds after: null
+[03] mirror result: 61 maxLevel: 31
+[filewrite] files/03-mirror-vertex-compare-bounds-comparison.json (37 bytes)

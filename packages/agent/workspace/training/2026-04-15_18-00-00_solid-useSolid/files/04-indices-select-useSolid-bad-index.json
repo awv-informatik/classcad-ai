@@ -1,0 +1,13 @@
+{
+  "result": [],
+  "messages": [
+    {
+      "api": "v1.solid.useSolid",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in APIHelper.PrepareEntityObjs:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "maxLevel": 51
+}

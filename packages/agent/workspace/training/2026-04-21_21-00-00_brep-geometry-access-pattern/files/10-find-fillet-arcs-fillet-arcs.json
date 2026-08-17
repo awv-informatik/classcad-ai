@@ -1,0 +1,26 @@
+{
+  "filletCounts": {
+    "lineIndex": 13,
+    "arcIndex": 2,
+    "faceIndex": 7,
+    "pointIndex": 10
+  },
+  "chamferCounts": {
+    "lineIndex": 16,
+    "arcIndex": 2,
+    "faceIndex": 8,
+    "pointIndex": 12
+  },
+  "fillet2Counts": {
+    "lineIndex": 17,
+    "arcIndex": 3,
+    "faceIndex": 9,
+    "pointIndex": 14
+  },
+  "arcSearch": {
+    "arcs": [
+      [],
+      []
+    ]
+  }
+}

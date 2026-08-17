@@ -1,0 +1,12 @@
+{
+  "pipeline": "save: data → deflateRaw → base64 | load: base64-decode → inflateRaw → data",
+  "b64DecodeLen": 4186,
+  "inflatedLen": 33207,
+  "rawLen": 33207,
+  "manualCompressedLen": 4248,
+  "manualEncodedLen": 5664,
+  "manualLoadSuccess": true,
+  "compressionType": "raw deflate (RFC 1951, no zlib header)",
+  "nodeJsDecodeApproach": "Buffer.from(b64, \"base64\") → inflateRawSync(buf) → toString(\"utf-8\")",
+  "nodeJsEncodeApproach": "deflateRawSync(Buffer.from(text, \"utf-8\")) → toString(\"base64\")"
+}

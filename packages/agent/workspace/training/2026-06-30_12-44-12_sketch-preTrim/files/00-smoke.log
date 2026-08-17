@@ -1,0 +1,11 @@
+[00] L1 58 L2 64 geoBefore {"arcs":[],"circles":[],"lines":[58,64],"points":[]}
+[00] preTrim maxLevel 31 resultIsArray true
+[00] result [{"sourceId":58,"splittedCurves":[{"id":78,"interval":[0,0.49999999999999983]},{"id":82,"interval":[0.49999999999999983,1]}]},{"sourceId":64,"splittedCurves":[{"id":86,"interval":[0,0.49999999999999983]},{"id":90,"interval":[0.49999999999999983,1]}]}]
+[filewrite] files/00-smoke-preTrim-response.json (688 bytes)
+[00] source 58 segs [{"iv":[0,0.49999999999999983],"s":[0,0,0],"e":[49.999999999999986,49.999999999999986,0]},{"iv":[0.49999999999999983,1],"s":[49.999999999999986,49.999999999999986,0],"e":[100.00000000000001,100.00000000000001,0]}]
+[filewrite] files/00-smoke-seg-58.json (604 bytes)
+[00] source 64 segs [{"iv":[0,0.49999999999999983],"s":[0,100,0],"e":[49.999999999999986,50.000000000000014,0]},{"iv":[0.49999999999999983,1],"s":[49.999999999999986,50.000000000000014,0],"e":[100.00000000000001,-1.4210854715202004e-14,0]}]
+[filewrite] files/00-smoke-seg-64.json (611 bytes)
+[00] staging containers (split/trim/none in class|name): [{"id":4,"name":"SplitCurve","class":"CC_Part","children":7},{"id":68,"name":"NoneSplitted","class":"CC_Container"},{"id":76,"name":"SplittedCurves","class":"CC_Container","children":4}]
+[filewrite] files/00-smoke-structure-after-preTrim.json (40878 bytes)
+[00] geoAfter {"arcs":[],"circles":[],"lines":[58,64],"points":[]}

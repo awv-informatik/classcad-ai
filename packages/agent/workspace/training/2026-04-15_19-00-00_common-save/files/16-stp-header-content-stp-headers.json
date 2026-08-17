@@ -1,0 +1,6 @@
+{
+  "defaultHeader": "HEADER;\nFILE_DESCRIPTION(('STEP'), '1');\nFILE_NAME('HeaderTest', '2026-04-15T19:20:53', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');\nFILE_SCHEMA(('AUTOMOTIVE_DESIGN'));\nENDSEC;",
+  "customHeader": "HEADER;\nFILE_DESCRIPTION(('STEP'), '1');\nFILE_NAME('HeaderTest', '2026-04-15T19:20:53', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');\nFILE_SCHEMA(('AUTOMOTIVE_DESIGN'));\nENDSEC;",
+  "hasCustomName": false,
+  "hasCustomOrg": false
+}

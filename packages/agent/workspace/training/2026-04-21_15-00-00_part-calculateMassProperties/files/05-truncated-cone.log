@@ -1,0 +1,10 @@
+[05] coneId: 54
+[05] result: {"cog":{"x":-6.143757053972559e-16,"y":-7.600971679070052e-16,"z":19.276294910078885},"volume":32985.9644029207}
+[05] maxLevel: 31
+[05] messages: []
+[filewrite] files/05-truncated-cone-mass-props-trunc-cone.json (208 bytes)
+[05] expectedVolume: 32986.723
+[05] volumeDiff: 0.758460
+[05] cog: {"x":-6.143757053972559e-16,"y":-7.600971679070052e-16,"z":19.276294910078885}
+[05] nearCone result: null
+[05] nearCone maxLevel: 51

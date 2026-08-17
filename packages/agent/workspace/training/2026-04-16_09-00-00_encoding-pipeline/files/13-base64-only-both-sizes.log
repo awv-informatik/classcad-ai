@@ -1,0 +1,98 @@
+[13] OFB raw: len=40708 success=1
+[13] OFB b64: len=54280 success=1
+[13] OFB deflate+b64: len=7376 success=1
+[13] STP raw: len=14635 success=1
+[13] STP b64: len=19516 success=1
+[13] STP deflate+b64: len=4064 success=1
+[13] STL raw: len=32 success=1
+[13] STL b64: len=110780 success=1
+[13] STL deflate+b64: len=25072 success=1
+[13] SCG raw: len=84030 success=1
+[13] SCG b64: len=112040 success=1
+[13] SCG deflate+b64: len=23680 success=1
+[13] IWP raw: len=51396 success=1
+[13] IWP b64: len=68528 success=1
+[13] IWP deflate+b64: len=6012 success=1
+[13] MATRIX: {
+  "OFB": {
+    "raw": {
+      "len": 40708,
+      "success": 1
+    },
+    "b64": {
+      "len": 54280,
+      "success": 1,
+      "ratio": "1.333"
+    },
+    "deflate+b64": {
+      "len": 7376,
+      "success": 1,
+      "ratio": "0.181"
+    }
+  },
+  "STP": {
+    "raw": {
+      "len": 14635,
+      "success": 1
+    },
+    "b64": {
+      "len": 19516,
+      "success": 1,
+      "ratio": "1.334"
+    },
+    "deflate+b64": {
+      "len": 4064,
+      "success": 1,
+      "ratio": "0.278"
+    }
+  },
+  "STL": {
+    "raw": {
+      "len": 32,
+      "success": 1
+    },
+    "b64": {
+      "len": 110780,
+      "success": 1,
+      "ratio": "3461.875"
+    },
+    "deflate+b64": {
+      "len": 25072,
+      "success": 1,
+      "ratio": "783.500"
+    }
+  },
+  "SCG": {
+    "raw": {
+      "len": 84030,
+      "success": 1
+    },
+    "b64": {
+      "len": 112040,
+      "success": 1,
+      "ratio": "1.333"
+    },
+    "deflate+b64": {
+      "len": 23680,
+      "success": 1,
+      "ratio": "0.282"
+    }
+  },
+  "IWP": {
+    "raw": {
+      "len": 51396,
+      "success": 1
+    },
+    "b64": {
+      "len": 68528,
+      "success": 1,
+      "ratio": "1.333"
+    },
+    "deflate+b64": {
+      "len": 6012,
+      "success": 1,
+      "ratio": "0.117"
+    }
+  }
+}
+[filewrite] files/13-base64-only-both-sizes-size-matrix.json (1243 bytes)

@@ -1,0 +1,8 @@
+[14] pt1: 58 pt2: 60
+[14] OFFSET 2-points result: 64 maxLevel: 31
+[14] messages: []
+[14] HORIZONTAL_DISTANCE 2-points result: 68 maxLevel: 31
+[14] VERTICAL_DISTANCE 2-points result: 72 maxLevel: 31
+[14] OFFSET 1-point result: null maxLevel: 51
+[14] OFFSET 1-point messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Wrong number of geometry ids provided for an offset constraint."}]
+[filewrite] files/14-point-dims-point-dim-responses.json (534 bytes)

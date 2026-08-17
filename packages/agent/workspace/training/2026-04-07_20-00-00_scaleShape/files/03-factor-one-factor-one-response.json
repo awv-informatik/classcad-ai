@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.curve.scaleShape",
+      "code": 1006,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"ids\" has an invalid id!"
+    }
+  ],
+  "maxLevel": 51
+}

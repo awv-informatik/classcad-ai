@@ -1,0 +1,7 @@
+[10] inst2 COG before: {"x":40,"y":40,"z":7.5}
+[10] inst2 world origin before: x= 25 , y= 30
+[10] planar result: 218 maxLevel: 31
+[10] inst2 COG after: {"x":25.000999999999998,"y":15.001,"z":7.5}
+[10] inst2 world origin after: x= 10.000999999999998 , y= 5.0009999999999994
+[10] if preserved: x=25, y=30. if reset to min: x=10, y=5
+[filewrite] files/10-limits-within-range-within-range.json (521 bytes)

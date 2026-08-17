@@ -1,0 +1,58 @@
+{
+  "cyl1": {
+    "id": 309,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        295
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        297
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchCyl1",
+    "zOffsetLimits": {
+      "max": 10,
+      "min": -10
+    },
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "cyl2": {
+    "id": 313,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        295
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 289,
+      "flip": "Z",
+      "path": [
+        299
+      ],
+      "reorient": "0"
+    },
+    "name": "BatchCyl2",
+    "zOffsetLimits": {
+      "max": null,
+      "min": null
+    },
+    "zRotationLimits": {
+      "max": 1.5707963267948966,
+      "min": -1.5707963267948966
+    }
+  }
+}

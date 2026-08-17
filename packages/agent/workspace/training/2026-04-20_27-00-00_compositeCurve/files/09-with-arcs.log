@@ -1,0 +1,4 @@
+[09] l1: 58 arc: 66 l2: 73
+[09] compositeCurve result: 85
+[09] maxLevel: 31
+[filewrite] files/09-with-arcs-cc-arc-response.json (54 bytes)

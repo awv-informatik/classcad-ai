@@ -1,0 +1,24 @@
+[
+  {
+    "id": 8,
+    "name": "PartContainer",
+    "class": "CC_PartContainer",
+    "children": [
+      72,
+      118,
+      164
+    ]
+  },
+  {
+    "id": 10,
+    "name": "AssemblyContainer",
+    "class": "CC_AssemblyContainer",
+    "children": [
+      22,
+      32,
+      42,
+      52,
+      62
+    ]
+  }
+]

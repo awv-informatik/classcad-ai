@@ -1,0 +1,6 @@
+[09] degenerate result: 58 maxLevel: 31
+[09] degenerate messages: []
+[09] micro line result: 62 maxLevel: 31
+[09] non-zero Z result: null maxLevel: 51
+[09] non-zero Z messages: [{"api":"v1.sketch.line","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"endPos\" which is a 2D point, must have a z-value of 0!"}]
+[filewrite] files/09-degenerate-line-edge-cases.json (456 bytes)

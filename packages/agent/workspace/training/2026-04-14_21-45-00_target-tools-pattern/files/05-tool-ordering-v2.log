@@ -1,0 +1,4 @@
+[05] sub [A,B]: result= 61 maxLevel= 31
+[filewrite] files/05-tool-ordering-v2-structure-AB.json (21052 bytes)
+[05] sub [B,A]: result= 72 maxLevel= 31
+[filewrite] files/05-tool-ordering-v2-structure-BA.json (21052 bytes)

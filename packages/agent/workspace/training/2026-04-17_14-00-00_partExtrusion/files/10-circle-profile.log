@@ -1,0 +1,5 @@
+[10] circle id: 58
+[10] region id: 61
+[10] circle extrusion: 65 maxLevel: 31
+[10] tapered circle: 100 maxLevel: 31
+[filewrite] files/10-circle-profile-circle-results.json (155 bytes)

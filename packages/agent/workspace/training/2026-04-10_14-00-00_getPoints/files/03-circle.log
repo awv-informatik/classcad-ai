@@ -1,0 +1,4 @@
+[03] circleId: 58
+[03] getPoints result: {"centerId":59}
+[03] maxLevel: 31
+[filewrite] files/03-circle-circle-getPoints.json (76 bytes)

@@ -1,0 +1,12 @@
+{
+  "deleteSingle": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "deleteMultiple": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

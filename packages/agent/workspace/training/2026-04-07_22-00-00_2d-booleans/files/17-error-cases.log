@@ -1,0 +1,17 @@
+[17] Test A: missing tool...
+[17] A maxLevel: 51
+[17] A msg: The parameter "tool" must be provided in the api call!
+[17] Test B: missing target...
+[17] B maxLevel: 51
+[17] B msg: The parameter "target" must be provided in the api call!
+[17] Test C: invalid ID...
+[17] C maxLevel: 51
+[17] C msg: ToId()/TOID() didn't get an existing or valid id.
+[17] Test D: empty shape as tool...
+[17] D maxLevel: 51
+[17] D msg: [Evaluation error in CurveAPI_v1.union2d::PROC:NULLID not allowed.
+File: /Users/daniel/awv/classcad/runtime/Source/SMLib
+[17] Test E: empty shape as target...
+[17] E maxLevel: 51
+[17] E msg: [Evaluation error in CurveAPI_v1.union2d::PROC:NULLID not allowed.
+File: /Users/daniel/awv/classcad/runtime/Source/SMLib

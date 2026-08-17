@@ -1,0 +1,7 @@
+[07] coplanar-top result: 64
+[07] coplanar-top maxLevel: 31
+[07] coplanar-top messages: []
+[filewrite] files/07-coplanar-face-response-top.json (54 bytes)
+[07] coplanar-bottom result: 67
+[07] coplanar-bottom maxLevel: 31
+[filewrite] files/07-coplanar-face-response-bottom.json (54 bytes)

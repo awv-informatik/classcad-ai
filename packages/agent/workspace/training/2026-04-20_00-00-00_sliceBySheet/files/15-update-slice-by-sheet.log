@@ -1,0 +1,8 @@
+[15] boxId: 54 sheetId: 150 sheet2Id: 233
+[15] initial slice result: 276 maxLevel: 31
+[15] update without open: result: null maxLevel: 51
+[15] no-open msgs: ["The provided feature is not allowed to update. It's not active and open.","\"id\" must be provided for update."]
+[15] update inverted: result: 276 maxLevel: 31
+[15] update tool: result: 276 maxLevel: 31
+[15] update name: result: 276 maxLevel: 31
+[15] name after update: RenamedSlice

@@ -1,0 +1,5 @@
+[08] end before: {"pos":{"x":50,"y":28.87,"z":0}}
+[08] ANGLEOX: result: 68 maxLevel: 31
+[08] end after: {"pos":{"x":40.825708199613636,"y":40.82570819961363,"z":0}}
+[08] dim class: CC_AngularFeatureDimension
+[filewrite] files/08-angleox-angleox-data.json (2847 bytes)

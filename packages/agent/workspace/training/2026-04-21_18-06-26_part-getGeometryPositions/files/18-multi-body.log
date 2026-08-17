@@ -1,0 +1,6 @@
+[18] box edge ID: 119 maxLevel: 31
+[18] cyl circle ID: 141 maxLevel: 31
+[18] maxLevel: 31
+[18] id: 119 positions: [{"x":40,"y":60,"z":0}]
+[18] id: 141 positions: [{"x":-20,"y":2.4492935982947065e-15,"z":50}]
+[filewrite] files/18-multi-body-multi-body.json (370 bytes)

@@ -1,0 +1,13 @@
+{
+  "before": {
+    "angleTol": 0,
+    "chordHeightTol": 0.2
+  },
+  "setResult": null,
+  "setMaxLevel": 31,
+  "setMessages": [],
+  "after": {
+    "angleTol": 15,
+    "chordHeightTol": 0.5
+  }
+}

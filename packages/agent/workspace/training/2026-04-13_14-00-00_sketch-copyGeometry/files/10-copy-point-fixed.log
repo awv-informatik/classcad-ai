@@ -1,0 +1,5 @@
+[10] point: 58
+[10] line: 60
+[10] copy point result: [ 67 ] maxLevel: 31
+[10] copy mixed result: [ 68, 69 ] maxLevel: 31
+[filewrite] files/10-copy-point-fixed-results.json (68 bytes)

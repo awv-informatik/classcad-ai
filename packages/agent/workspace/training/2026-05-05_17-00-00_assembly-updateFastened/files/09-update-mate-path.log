@@ -1,0 +1,11 @@
+[09] inst1: 113 inst2: 115 inst3: 117
+[09] fastened inst1→inst2: 123
+[09] COG (inst2 at x=50): {"x":123.33333333333333,"y":15,"z":10}
+[09] update mate2 to inst3: 123 maxLevel: 31
+[09] COG after swap to inst3: {"x":73.33333333333333,"y":15,"z":10}
+[09] mate2 path after swap: [117]
+[09] xOffset: 50
+[filewrite] files/09-update-mate-path-after-swap.json (474 bytes)
+[09] update mate1 to inst2: 123 maxLevel: 31
+[09] COG after mate1=inst2: {"x":90,"y":15,"z":10}
+[filewrite] files/09-update-mate-path-final-state.json (340 bytes)

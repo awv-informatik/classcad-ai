@@ -1,0 +1,3 @@
+[01] result: null maxLevel: 51
+[01] messages: [{"api":"v1.part.updateWorkCSys","code":1200,"level":51,"levelStr":"ERROR","message":"The provided feature is not allowed to update. It's not active and open."},{"api":"v1.part.updateWorkCSys","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[filewrite] files/01-no-open-no-open.json (441 bytes)

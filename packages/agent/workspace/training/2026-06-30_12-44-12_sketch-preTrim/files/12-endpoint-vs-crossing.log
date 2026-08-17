@@ -1,0 +1,6 @@
+[12] A T-junction: L1 {"segs":2,"iv":[0,0.5],"idReused":false} cut [50,0,0] | L2 {"segs":1,"iv":[0,1],"idReused":true}
+[12] B shared-corner: {"B1":{"segs":1,"iv":[0,1],"idReused":true},"B2":{"segs":1,"iv":[0,1],"idReused":true}}
+[12] C collinear-tip: {"C1":{"segs":1,"iv":[0,1],"idReused":true},"C2":{"segs":1,"iv":[0,1],"idReused":true}}
+[filewrite] files/12-endpoint-vs-crossing-12-endpoint-vs-crossing.json (701 bytes)
+[12] CHECKS {"A_throughSplits":true,"A_touchingNotSplit":true,"B_cornerNeitherSplit":true,"C_tipNeitherSplit":true}
+[12] PASS

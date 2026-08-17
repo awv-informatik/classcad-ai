@@ -1,0 +1,6 @@
+[12] first point: 58
+[12] near point (30.001,20): 60 maxLevel: 31
+[12] nodes after near point: [{"id":52,"name":"Sketch","class":"CC_Sketch"},{"id":54,"name":"SketchRef","class":"CC_SketchReference"},{"id":56,"name":"Sketch","class":"CC_SketchDimensionSet"},{"id":58,"name":"Point","class":"CC_Point"},{"id":60,"name":"Point0","class":"CC_Point"}]
+[12] far point (35,20): 62 maxLevel: 31
+[12] nodes after far point: [{"id":52,"name":"Sketch","class":"CC_Sketch"},{"id":54,"name":"SketchRef","class":"CC_SketchReference"},{"id":56,"name":"Sketch","class":"CC_SketchDimensionSet"},{"id":58,"name":"Point","class":"CC_Point"},{"id":60,"name":"Point0","class":"CC_Point"},{"id":62,"name":"Point1","class":"CC_Point"}]
+[filewrite] files/12-genIncidence-near-incidence-near-comparison.json (964 bytes)

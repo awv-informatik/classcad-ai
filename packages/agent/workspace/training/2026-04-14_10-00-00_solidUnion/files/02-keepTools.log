@@ -1,0 +1,6 @@
+[02] box1: 61 box2: 64
+[02] union result: 61 maxLevel: 31
+[filewrite] files/02-keepTools-keepTools-response.json (54 bytes)
+[02] copy box2 result: 68 maxLevel: 31
+[02] copy box2 messages: []
+[filewrite] files/02-keepTools-keepTools-copy-check.json (66 bytes)

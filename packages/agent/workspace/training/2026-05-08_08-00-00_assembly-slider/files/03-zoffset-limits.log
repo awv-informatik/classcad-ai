@@ -1,0 +1,4 @@
+[03] COG before: {"x":10.000000000000002,"y":10.000000000000002,"z":57.50000000000001}
+[03] slider result: 218 maxLevel: 31
+[03] COG after: {"x":10.000000000000002,"y":9.999999999999998,"z":37.49899999999999}
+[filewrite] files/03-zoffset-limits-zoffset-limits-data.json (232 bytes)

@@ -1,0 +1,3 @@
+[10] box1: 54 cyl1: 91 cyl2: 110 cyl3: 129
+[10] result: 204 maxLevel: 31
+[filewrite] files/10-multiple-tools-multi-tool-response.json (55 bytes)

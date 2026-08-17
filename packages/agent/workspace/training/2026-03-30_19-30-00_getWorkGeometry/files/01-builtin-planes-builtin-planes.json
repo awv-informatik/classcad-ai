@@ -1,0 +1,38 @@
+{
+  "Top": {
+    "result": 38,
+    "maxLevel": 31
+  },
+  "Front": {
+    "result": 42,
+    "maxLevel": 31
+  },
+  "Right": {
+    "result": 46,
+    "maxLevel": 31
+  },
+  "WorkPlane_Top": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "WorkPlane_Front": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "WorkPlane_Right": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "XY": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "XZ": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "YZ": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

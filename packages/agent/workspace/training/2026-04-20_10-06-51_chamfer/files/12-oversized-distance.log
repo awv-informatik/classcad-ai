@@ -1,0 +1,4 @@
+[12] distance1=50 result: 120 maxLevel: 51
+[12] messages: [{"api":"v1.part.chamfer","code":0,"level":51,"levelStr":"ERROR","message":"Chamfer could not be applied to all edges."}]
+[filewrite] files/12-oversized-distance-big-chamfer.json (227 bytes)
+[stderr] [run] Script error: Cannot read properties of null (reading 'lines')

@@ -1,0 +1,22 @@
+{
+  "all": [
+    22,
+    32,
+    42
+  ],
+  "byName": 22,
+  "byFrame": 42,
+  "notFound": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"NonExistent\" could not be found"
+      }
+    ]
+  }
+}

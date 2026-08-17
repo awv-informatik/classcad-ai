@@ -1,0 +1,5 @@
+[09] rectangle: [ 58, 64, 70, 76 ] maxLevel: 31
+[09] region: null maxLevel: 51
+[09] no region found, trying default name...
+[09] region2: null maxLevel: 51
+[09] SKIPPED — could not get region. Need to investigate region naming.

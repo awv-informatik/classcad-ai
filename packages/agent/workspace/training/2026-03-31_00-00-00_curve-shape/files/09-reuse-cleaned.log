@@ -1,0 +1,3 @@
+[09] circle after clean — result: null maxLevel: 31
+[09] shape geometryIdList after reuse: [ 66 ]
+[filewrite] files/09-reuse-cleaned-reuse-result.json (142 bytes)

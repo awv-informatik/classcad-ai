@@ -1,0 +1,5 @@
+[07] extId: 96
+[filewrite] files/07-update-name-structure-before.json (47908 bytes)
+[07] rename result: 96 maxLevel: 31
+[filewrite] files/07-update-name-rename-response.json (54 bytes)
+[filewrite] files/07-update-name-structure-after.json (47911 bytes)

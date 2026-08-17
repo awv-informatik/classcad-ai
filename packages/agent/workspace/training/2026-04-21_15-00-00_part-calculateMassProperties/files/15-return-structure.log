@@ -1,0 +1,13 @@
+[15] envelope keys: result, messages, maxLevel, structure, graphic
+[15] result type: object
+[15] result keys: cog, volume
+[15] cog type: object
+[15] cog keys: x, y, z
+[15] volume type: number
+[15] result.cog: {"x":25,"y":25,"z":25}
+[15] result.volume: 125000
+[15] maxLevel: 31
+[15] messages length: 0
+[15] has structure: true
+[15] has graphic: false
+[filewrite] files/15-return-structure-return-structure.json (388 bytes)

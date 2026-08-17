@@ -1,0 +1,18 @@
+[02] boxId: 61
+[02] lineIndex=0 → edgeId=-20
+[02] lineIndex=1 → edgeId=-15
+[02] lineIndex=2 → edgeId=-17
+[02] lineIndex=3 → edgeId=-24
+[02] lineIndex=4 → edgeId=-19
+[02] lineIndex=5 → edgeId=-21
+[02] lineIndex=6 → edgeId=-23
+[02] lineIndex=7 → edgeId=-18
+[02] lineIndex=8 → edgeId=-22
+[02] lineIndex=9 → edgeId=-16
+[02] lineIndex=10 → edgeId=-13
+[02] lineIndex=11 → edgeId=-14
+[02] lineIndex=12 → VOID/error (maxLevel=51)
+[02] total edges found: 12
+[02] edge IDs: [-20,-15,-17,-24,-19,-21,-23,-18,-22,-16,-13,-14]
+[02] vertex count: 8
+[filewrite] files/02-brep-by-index-brep-index-results.json (274 bytes)

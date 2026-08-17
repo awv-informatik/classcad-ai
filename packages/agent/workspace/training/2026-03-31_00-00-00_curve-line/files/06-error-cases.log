@@ -1,0 +1,7 @@
+[06] partId as id: 51 [{"api":"v1.curve.line","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[06] eifId as id: 51 [{"api":"v1.curve.line","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[06] missing startPos: 51 [{"api":"v1.curve.line","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"startPos\" must be provided in the api call!"}]
+[06] missing endPos: 51 [{"api":"v1.curve.line","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"endPos\" must be provided in the api call!"}]
+[06] missing id: 51 [{"api":"v1.curve.line","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[06] bad id: 51 [{"api":"v1.curve.line","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.curve.line","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/06-error-cases-error-cases.json (1841 bytes)

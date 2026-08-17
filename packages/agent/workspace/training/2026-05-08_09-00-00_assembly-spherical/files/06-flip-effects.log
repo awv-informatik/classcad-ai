@@ -1,0 +1,7 @@
+[06] flip=Z: result=216 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[06] flip=-Z: result=224 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[06] flip=X: result=231 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[06] flip=-X: result=238 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[06] flip=Y: result=245 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[06] flip=-Y: result=252 maxLevel=31 COG={"x":15,"y":5,"z":4}
+[filewrite] files/06-flip-effects-flip-effects-data.json (797 bytes)

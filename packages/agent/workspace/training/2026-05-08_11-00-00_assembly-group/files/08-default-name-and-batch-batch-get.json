@@ -1,0 +1,24 @@
+{
+  "result": [
+    {
+      "id": 121,
+      "instanceIds": [
+        105,
+        109
+      ],
+      "name": "RenameBatch1"
+    },
+    {
+      "id": 125,
+      "instanceIds": [
+        105,
+        107,
+        109,
+        111
+      ],
+      "name": "Batch2"
+    }
+  ],
+  "messages": [],
+  "maxLevel": 31
+}

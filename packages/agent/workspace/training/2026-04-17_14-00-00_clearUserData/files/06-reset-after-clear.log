@@ -1,0 +1,5 @@
+[06] partId: 4
+[06] after clear: []
+[06] re-set a: 31 b: 31
+[06] after re-set — keys: ["b","a"] a: new1 b: new2
+[filewrite] files/06-reset-after-clear-reset-after-clear-response.json (106 bytes)

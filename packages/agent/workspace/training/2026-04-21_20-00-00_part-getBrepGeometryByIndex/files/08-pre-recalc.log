@@ -1,0 +1,7 @@
+[08] pre-recalc lineIndex=0: result=67, maxLevel=31
+[08] pre-recalc faceIndex=0: result=79, maxLevel=31
+[08] post-recalc lineIndex=0: result=98, maxLevel=31
+[08] post-recalc faceIndex=0: result=110, maxLevel=31
+[08] pre vs post line IDs: 67 → 98 (same index 0)
+[08] pre vs post face IDs: 79 → 110 (same index 0)
+[filewrite] files/08-pre-recalc-pre-post-recalc.json (172 bytes)

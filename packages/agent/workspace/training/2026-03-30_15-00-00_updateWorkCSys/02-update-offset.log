@@ -1,0 +1,5 @@
+[02] offset result: 54 maxLevel: 31
+[02] rotation result: 54 maxLevel: 31
+[02] inverted result: 54 maxLevel: 31
+[02] multi: 31 31 31
+[filewrite] files/02-update-offset-update-responses.json (215 bytes)

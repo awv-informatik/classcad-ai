@@ -1,0 +1,8 @@
+[08] COG before: {"x":33.47826086956522,"y":16.52173913043478,"z":4.6521739130434785}
+[08] COG after 30° (within limits): {"x":33.35334682044511,"y":9.099043656266733,"z":4.652173913043477}
+[08] COG after reset: {"x":33.47826086956522,"y":16.52173913043478,"z":4.6521739130434785}
+[08] move 90° result: null maxLevel: 31
+[filewrite] files/08-rotation-limits-beyond-limits-response.json (56 bytes)
+[08] COG after 90° (beyond limits): {"x":31.891607056965796,"y":5.713321692623528,"z":4.6521739130434785}
+[08] COG at 45° (exact limit): {"x":31.862603940627938,"y":5.6647682407345235,"z":4.6521739130434785}
+[filewrite] files/08-rotation-limits-limits-comparison.json (780 bytes)

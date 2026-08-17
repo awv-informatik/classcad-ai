@@ -1,0 +1,7 @@
+[04] Original IDs — part: 4 eif: 54 box: 61
+[04] STP save success: 1 content length: 13040
+[04] STP load result: {"id":11}
+[04] STP load maxLevel: 31
+[04] Original partId: 4 Loaded id: 11
+[04] IDs match: false
+[filewrite] files/04-stp-roundtrip-stp-load-response.json (93 bytes)

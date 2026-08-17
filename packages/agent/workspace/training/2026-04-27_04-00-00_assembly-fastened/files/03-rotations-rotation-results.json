@@ -1,0 +1,14 @@
+{
+  "rad90": {
+    "id": 212,
+    "maxLevel": 31
+  },
+  "deg45": {
+    "id": 276,
+    "maxLevel": 31
+  },
+  "combo": {
+    "id": 340,
+    "maxLevel": 31
+  }
+}

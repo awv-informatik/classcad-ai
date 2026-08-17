@@ -1,0 +1,4 @@
+[02] lineId: 58
+[02] getPositions result: {"endPos":{"x":70,"y":60,"z":0},"startPos":{"x":10,"y":20,"z":0}}
+[02] maxLevel: 31
+[filewrite] files/02-line-line-response.json (190 bytes)

@@ -1,0 +1,5 @@
+[08] partId result: null maxLevel: 51
+[08] partId msgs: [{"api":"v1.curve.arcBy3Points","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[08] eifId result: null maxLevel: 51
+[08] eifId msgs: [{"api":"v1.curve.arcBy3Points","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/08-wrong-id-type-wrong-id-responses.json (649 bytes)

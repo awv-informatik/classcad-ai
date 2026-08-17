@@ -1,0 +1,4 @@
+[11] dimId: 68
+[11] delete result: null maxLevel: 31
+[11] after-delete result: null maxLevel: 51
+[filewrite] files/11-deleted-dimension-after-delete.json (437 bytes)

@@ -1,0 +1,4 @@
+[05] normal result: 91 maxLevel: 31
+[05] inverted result: 99 maxLevel: 31
+[filewrite] files/05-inverted-structure-with-both.json (24914 bytes)
+[filewrite] files/05-inverted-inverted-responses.json (116 bytes)

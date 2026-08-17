@@ -1,0 +1,6 @@
+[11] original partId: 4
+[11] boxId: 61
+[11] save: ✓
+[11] load maxLevel: 31 result: { id: 4 }
+[11] total objects with user data: 0
+[filewrite] files/11-save-load-thorough-thorough-persistence.json (118 bytes)

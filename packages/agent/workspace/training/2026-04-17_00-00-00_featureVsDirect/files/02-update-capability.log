@@ -1,0 +1,4 @@
+[02] updateBox result: 54 maxLevel: 31
+[filewrite] files/02-update-capability-update-feat-result.json (54 bytes)
+[02] solid.translation result: null maxLevel: 51
+[filewrite] files/02-update-capability-solid-translate-result.json (252 bytes)

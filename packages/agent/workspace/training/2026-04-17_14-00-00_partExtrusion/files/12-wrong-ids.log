@@ -1,0 +1,13 @@
+[12] sketchId as id: null maxLevel: 51
+[12] msg1: The provided id for the part is not a part id.
+[12] regionId as id: null maxLevel: 51
+[12] msg2: The provided id for the part is not a part id.
+[12] empty references: 100 maxLevel: 51
+[12] msg3: Nothing was selected
+[12] no references: null maxLevel: 51
+[12] msg4: The parameter "references" must be provided in the api call!
+[12] single line ref: 116 maxLevel: 51
+[12] msg5: [Evaluation error in LineRef.ExtrudeEntities:Brep after linear sweep not manifold
+Function: CADH_ExtrudeHeightRegion
+File: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/Extrusion.cpp,     Line: 444] 
+[filewrite] files/12-wrong-ids-wrong-ids.json (2127 bytes)

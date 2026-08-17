@@ -1,0 +1,4 @@
+[08] compositeCurve empty refs result: 54
+[08] maxLevel: 51
+[08] messages: [{"api":"v1.part.compositeCurve","code":1111,"level":51,"levelStr":"ERROR","message":"There are missing references for CC_Empty (CC_CompositeCurve)."}]
+[filewrite] files/08-empty-references-cc-empty-response.json (256 bytes)

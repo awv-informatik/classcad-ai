@@ -1,0 +1,15 @@
+{
+  "ptBefore": [
+    10,
+    60
+  ],
+  "ptAfter": [
+    25.000000000000004,
+    40.00000000000001
+  ],
+  "distFromCenter": 25.000000000000004,
+  "radius": 25,
+  "onArc": true,
+  "constraintResult": 67,
+  "maxLevel": 31
+}

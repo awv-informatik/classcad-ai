@@ -1,0 +1,6 @@
+[01] relations maxLevel: 31
+[01] dims maxLevel: 31
+[02] lobeR: 3.187
+[02] segments: 66
+[02] trimming 39 of 66
+[stderr] [run] Script error: Timeout (30000ms): Execute

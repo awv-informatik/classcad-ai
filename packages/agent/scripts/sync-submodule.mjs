@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+/**
+ * Sync knowledge/classcad-skill submodule.
+ *
+ * If local changes → skip, otherwise fetch & ff-merge latest.
+ */
+
+import { execSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const root = resolve(__dirname, '..')
+const sub = resolve(root, 'knowledge/classcad-skill')
+
+const run = (cmd, opts = {}) => execSync(cmd, { encoding: 'utf8', stdio: 'pipe', ...opts }).trim()
+
+// ── Bootstrap: if submodule dir is empty / not yet initialised ──────────────
+if (!existsSync(resolve(sub, '.git'))) {
+  console.log('[sync-submodule] Initialising submodule …')
+  try {
+    run('git submodule update --init --recursive knowledge/classcad-skill', {
+      cwd: root,
+    })
+    console.log('[sync-submodule] Submodule initialised.')
+  } catch (err) {
+    console.warn('[sync-submodule] Could not init submodule (offline?). Skipping.')
+  }
+  process.exit(0)
+}
+
+// ── Check for local changes ─────────────────────────────────────────────────
+const status = run('git status --porcelain', { cwd: sub })
+if (status.length > 0) {
+  console.log('[sync-submodule] Local changes detected in knowledge/classcad-skill — skipping update.')
+  process.exit(0)
+}
+
+// ── Pull latest ─────────────────────────────────────────────────────────────
+try {
+  console.log('[sync-submodule] Fetching latest classcad-skill …')
+  run('git fetch origin', { cwd: sub })
+  const remote = run('git rev-parse origin/master', { cwd: sub })
+  const local = run('git rev-parse HEAD', { cwd: sub })
+  if (remote !== local) {
+    run('git checkout master', { cwd: sub })
+    run('git merge --ff-only origin/master', { cwd: sub })
+    console.log(`[sync-submodule] Updated to ${remote.slice(0, 10)}`)
+  } else {
+    console.log('[sync-submodule] Already up to date.')
+  }
+} catch (err) {
+  console.warn('[sync-submodule] Fetch failed (offline?). Keeping current revision.')
+}

@@ -1,0 +1,17 @@
+{
+  "up": {
+    "id": 94,
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "down": {
+    "id": 179,
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "symmetric": {
+    "id": 264,
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

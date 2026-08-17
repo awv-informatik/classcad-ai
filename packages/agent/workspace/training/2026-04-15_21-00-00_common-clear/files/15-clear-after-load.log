@@ -1,0 +1,6 @@
+[15] created — partId: 4 eifId: 54 boxId: 61
+[15] saved — success: 1 content length: 33196
+[15] loaded — id: undefined
+[15] clear after load — result: null maxLevel: 31
+[15] partId2 after clear: 4
+[15] new eifId2: 54 boxId2: 61

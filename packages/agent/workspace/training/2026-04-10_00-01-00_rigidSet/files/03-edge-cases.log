@@ -1,0 +1,8 @@
+[03] line1: 58
+[03] empty geomIds — result: 66 maxLevel: 31
+[filewrite] files/03-edge-cases-empty-response.json (54 bytes)
+[03] single element — result: 68 maxLevel: 31
+[filewrite] files/03-edge-cases-single-response.json (54 bytes)
+[03] invalid ID — result: null maxLevel: 51
+[03] invalid ID messages: [{"api":"v1.sketch.rigidSet","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.rigidSet","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"geomIds\" has an invalid id!"}]
+[filewrite] files/03-edge-cases-invalid-response.json (428 bytes)

@@ -1,0 +1,6 @@
+[03] part.box with expressions: 56
+[03] H after update: {"expression":"","value":40}
+[03] solid.box with @expr result: null maxLevel: 51
+[filewrite] files/03-expression-support-solid-expr-result.json (258 bytes)
+[03] solid.box with math string result: null maxLevel: 51
+[filewrite] files/03-expression-support-solid-math-result.json (258 bytes)

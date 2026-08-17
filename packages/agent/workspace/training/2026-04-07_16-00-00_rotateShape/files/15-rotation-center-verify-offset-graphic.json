@@ -1,0 +1,52 @@
+{
+  "containers": [
+    {
+      "id": 64,
+      "owner": 63,
+      "type": 2,
+      "properties": {
+        "material": {
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 1
+        },
+        "layer": "0",
+        "min": [
+          0,
+          20,
+          0
+        ],
+        "max": [
+          0,
+          20,
+          0
+        ],
+        "chordHeightTol": 0.1,
+        "angleTol": 0
+      },
+      "edges": [
+        {
+          "id": -2,
+          "points": [
+            0,
+            20,
+            0,
+            30,
+            0,
+            0
+          ],
+          "pointIds": [
+            -2,
+            -2
+          ]
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "version": 11
+  }
+}

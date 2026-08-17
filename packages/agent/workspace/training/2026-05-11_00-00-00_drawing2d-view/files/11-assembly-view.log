@@ -1,0 +1,6 @@
+[11] asmId: 12 tplId: 22 inst1: 105
+[11] template view result: [109,114] maxLevel: 31
+[11] asm root view result: [124,131] maxLevel: 31
+[11] instance view result: null maxLevel: 51
+[11] instance messages: [{"api":"v1.drawing2d.view","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\"]"}]
+[filewrite] files/11-assembly-view-assembly-view-tests.json (546 bytes)

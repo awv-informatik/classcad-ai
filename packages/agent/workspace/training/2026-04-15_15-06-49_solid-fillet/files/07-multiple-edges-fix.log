@@ -1,0 +1,5 @@
+[07] top edges: [-22,-16,-13,-14] count: 4
+[07] bottom edges: [-20,-15,-17,-24] count: 4
+[07] fillet result: [ 61 ] maxLevel: 31
+[filewrite] files/07-multiple-edges-fix-multi-top-fillet.json (64 bytes)
+[07] container: id=59, verts=12

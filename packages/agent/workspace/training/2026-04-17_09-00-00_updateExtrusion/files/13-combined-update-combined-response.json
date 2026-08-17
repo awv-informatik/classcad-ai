@@ -1,0 +1,13 @@
+{
+  "result": 96,
+  "messages": [
+    {
+      "api": "v1.part.updateExtrusion",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "_O.Test.EntitySet.FullUpdate::ExtrudeEntities\nExtrudedirection with taper angle is not normal to curves: "
+    }
+  ],
+  "maxLevel": 51
+}

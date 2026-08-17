@@ -1,0 +1,44 @@
+[
+  {
+    "type": "circle",
+    "i": 0,
+    "id": 76,
+    "index": 0,
+    "maxLevel": 31
+  },
+  {
+    "type": "circle",
+    "i": 1,
+    "id": 77,
+    "index": 1,
+    "maxLevel": 31
+  },
+  {
+    "type": "line",
+    "i": 0,
+    "id": [],
+    "index": null,
+    "maxLevel": 51
+  },
+  {
+    "type": "cylinder-face",
+    "i": 0,
+    "id": [],
+    "index": null,
+    "maxLevel": 51
+  },
+  {
+    "type": "plane-face",
+    "i": 0,
+    "id": 73,
+    "index": 0,
+    "maxLevel": 31
+  },
+  {
+    "type": "plane-face",
+    "i": 1,
+    "id": 74,
+    "index": 2,
+    "maxLevel": 31
+  }
+]

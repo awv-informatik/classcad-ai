@@ -1,0 +1,28 @@
+{
+  "before": {
+    "endPos": {
+      "x": 70,
+      "y": 60,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "after": {
+    "endPos": {
+      "x": 70,
+      "y": 60,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "changed": false,
+  "updateMaxLevel": 51
+}

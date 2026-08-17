@@ -1,0 +1,17 @@
+[filewrite] files/06-partial-update-full-initial-state.json (299 bytes)
+[06] initial state:
+[06]   offsets: 10 20 30
+[06]   rotations: 0.2617993877991494 0.4363323129985824 0.6108652381980153
+[06]   mate1 flip: -X reorient: 90
+[filewrite] files/06-partial-update-after-partial-update.json (299 bytes)
+[06] after updating xOffset to 99:
+[06]   xOffset: 99 (expect 99)
+[06]   yOffset preserved? ✓ 20
+[06]   zOffset preserved? ✓ 30
+[06]   xRotation preserved? ✓ 0.2617993877991494
+[06]   yRotation preserved? ✓ 0.4363323129985824
+[06]   zRotation preserved? ✓ 0.6108652381980153
+[06]   mate1.flip preserved? ✓ -X
+[06]   mate1.reorient preserved? ✓ 90
+[06]   mate1.csys preserved? ✓ 107
+[06]   name preserved? ✓ PartialFO

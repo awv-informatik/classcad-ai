@@ -1,0 +1,3 @@
+[06] no regions - result: null maxLevel: 51
+[06] messages: [{"api":"v1.sketch.getSketchRegion","code":1015,"level":51,"levelStr":"ERROR","message":"Couldn't find sketch region with name: \"SketchRegion\" which belongs to the provided sketch."}]
+[filewrite] files/06-no-regions-no-regions.json (292 bytes)

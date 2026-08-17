@@ -1,0 +1,75 @@
+[02] maxLevels: {"fix":31,"rel":31,"eq":51,"dim":51,"ang":51}
+[02] eq: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $382 of type "DIAMETER"
+[02] dim: L51 Couldn't set the value for dimension $386 of type "DIAMETER"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $390 of type "DIAMETER"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $394 of type "DIAMETER"
+[02] dim: L51 Couldn't set the value for dimension $398 of type "RADIUS"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $402 of type "RADIUS"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $406 of type "DIAMETER"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $410 of type "RADIUS"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $414 of type "RADIUS"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $418 of type "DIAMETER"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] dim: L51 Couldn't set the value for dimension $422 of type "DIAMETER"
+[02] dim: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] ang: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[02] ang: L51 Couldn't set the value for dimension $426 of type "ANGLE"
+[02] ang: L51 [Evaluation error in SketchSolverInterface.DoSolve:The specified radius for CalcBulges is too small.
+Function: CADH_LGSApplyChanges
+File: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] 
+[filewrite] files/02-diagnose-batch-messages.json (7135 bytes)
+[filewrite] files/02-diagnose-lgs-and-radii.json (4276 bytes)
+[02] lgsState=0 nodes: 34
+    {"id":"180","class":"CC_2DCoincidentConstraint","name":"Auto_Coinc16"}
+    {"id":"233","class":"CC_2DCoincidentConstraint","name":"Auto_Coinc32"}
+    {"id":"240","class":"CC_2DCoincidentConstraint","name":"Auto_Coinc34"}
+    {"id":"284","class":"CC_2DTangentSketchConstraint","name":"Tan"}
+    {"id":"286","class":"CC_2DTangentSketchConstraint","name":"Tan0"}
+    {"id":"288","class":"CC_2DCoincidentConstraint","name":"Coinc8"}
+    {"id":"290","class":"CC_2DCoincidentConstraint","name":"Coinc9"}
+    {"id":"292","class":"CC_2DTangentSketchConstraint","name":"Tan1"}
+    {"id":"294","class":"CC_2DTangentSketchConstraint","name":"Tan2"}
+    {"id":"296","class":"CC_2DCoincidentConstraint","name":"Coinc10"}
+    {"id":"298","class":"CC_2DCoincidentConstraint","name":"Coinc11"}
+    {"id":"300","class":"CC_2DTangentSketchConstraint","name":"Tan3"}
+    {"id":"302","class":"CC_2DTangentSketchConstraint","name":"Tan4"}
+    {"id":"304","class":"CC_2DCoincidentConstraint","name":"Coinc12"}
+    {"id":"306","class":"CC_2DCoincidentConstraint","name":"Coinc13"}
+    {"id":"310","class":"CC_2DTangentSketchConstraint","name":"Tan5"}
+    {"id":"312","class":"CC_2DCoincidentConstraint","name":"Coinc15"}
+    {"id":"314","class":"CC_2DTangentSketchConstraint","name":"Tan6"}
+    {"id":"320","class":"CC_2DTangentSketchConstraint","name":"Tan8"}
+    {"id":"322","class":"CC_2DCoincidentConstraint","name":"Coinc17"}

@@ -1,0 +1,21 @@
+{
+  "tplIds": {
+    "tpl1": 22,
+    "tpl2": 68
+  },
+  "emptyLookup": {
+    "result": 22,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "namedLookup": {
+    "result": 68,
+    "maxLevel": 31
+  },
+  "listAll": {
+    "result": [
+      22,
+      68
+    ]
+  }
+}

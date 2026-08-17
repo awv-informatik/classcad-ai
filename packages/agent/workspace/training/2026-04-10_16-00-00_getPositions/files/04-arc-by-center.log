@@ -1,0 +1,4 @@
+[04] arcByCenter id: 58
+[04] getPositions result: {"centerPos":{"x":20,"y":40,"z":0},"endPos":{"x":40,"y":40,"z":0},"startPos":{"x":0,"y":40,"z":0}}
+[04] maxLevel: 31
+[filewrite] files/04-arc-by-center-arcByCenter-response.json (258 bytes)

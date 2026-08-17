@@ -1,0 +1,21 @@
+{
+  "keysBefore": [
+    "b",
+    "c",
+    "a"
+  ],
+  "keysAfterRemove": [
+    "c",
+    "a"
+  ],
+  "keysAfterClear": [],
+  "removeNonExist": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "clearEmpty": {
+    "result": null,
+    "maxLevel": 31
+  }
+}

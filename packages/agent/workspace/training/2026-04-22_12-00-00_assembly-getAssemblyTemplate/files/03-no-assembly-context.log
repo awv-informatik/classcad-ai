@@ -1,0 +1,7 @@
+[03] listNoAsm result: []
+[03] listNoAsm maxLevel: 31
+[03] listNoAsm messages: []
+[03] findNoAsm result: null
+[03] findNoAsm maxLevel: 51
+[03] findNoAsm messages: [{"api":"v1.assembly.getAssemblyTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly with name = \"Foo\" could not be found"}]
+[filewrite] files/03-no-assembly-context-no-assembly.json (371 bytes)

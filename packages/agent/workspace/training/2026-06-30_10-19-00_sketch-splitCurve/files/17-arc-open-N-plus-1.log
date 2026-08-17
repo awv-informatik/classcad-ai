@@ -1,0 +1,8 @@
+[17] arc id 58
+[17] arc pre start [50,0,0] end [0,50,0]
+[17] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":2,"intervals":[[0,0.5],[0.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} err []
+[filewrite] files/17-arc-open-N-plus-1-17-arc.json (1275 bytes)
+[17] seg iv [0,0.5] [50,-1.5777218104420236e-30,0] -> [35.35533905932737,35.35533905932737,0]
+[17] seg iv [0.5,1] [35.35533905932737,35.35533905932737,0] -> [3.94979541756852e-15,50.00000000000001,0]
+[17] CHECKS {"twoSegments":true,"intervals":true,"cutAt45deg":true,"endpointsPreserved":true,"radiusPreserved":true}
+[17] PASS

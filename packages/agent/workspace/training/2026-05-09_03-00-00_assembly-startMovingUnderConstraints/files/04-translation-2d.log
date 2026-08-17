@@ -1,0 +1,9 @@
+[04] planar: 216 maxLevel: 31
+[04] COG before: {"x":41.07142857142857,"y":33.45238095238095,"z":4.285714285714286}
+[04] start: null maxLevel: 31
+[04] move: null maxLevel: 31
+[04] COG after: {"x":50.595238095238095,"y":40.595238095238095,"z":4.2857142857142865}
+[04] start2: null maxLevel: 31
+[04] move2 (Z only): null maxLevel: 31
+[04] COG after Z-only move: {"x":50.595238095238095,"y":40.595238095238095,"z":4.2857142857142865}
+[filewrite] files/04-translation-2d-mass-comparison.json (458 bytes)

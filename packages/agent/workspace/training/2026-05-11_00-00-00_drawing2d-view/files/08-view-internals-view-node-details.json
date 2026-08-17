@@ -1,0 +1,267 @@
+{
+  "89": {
+    "name": "ViewSet",
+    "class": "CC_ViewSet",
+    "id": 89,
+    "flags": 0,
+    "parent": 4,
+    "members": {
+      "offX": {
+        "value": 15,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "offY": {
+        "value": 15,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "projections": {
+        "members": [
+          {
+            "value": 105,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 106,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 107,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "additional2dViews": {
+        "members": [
+          {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 2,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 9,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "usingDialog": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2003_11_25_10:10",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    },
+    "children": [
+      91,
+      96,
+      101
+    ]
+  },
+  "91": {
+    "name": "D",
+    "class": "CC_View2D",
+    "id": 91,
+    "flags": 0,
+    "geometryIdList": [
+      0,
+      105
+    ],
+    "parent": 89,
+    "members": {
+      "bodies": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "viewType": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "bb": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "other2dGeometry": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "projections": {
+        "members": [
+          {
+            "value": 105,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2003_11_25_10:10",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    },
+    "children": [
+      93
+    ]
+  },
+  "96": {
+    "name": "V",
+    "class": "CC_View2D",
+    "id": 96,
+    "flags": 0,
+    "geometryIdList": [
+      0,
+      107
+    ],
+    "parent": 89,
+    "members": {
+      "bodies": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "viewType": {
+        "value": 2,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "bb": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "other2dGeometry": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "projections": {
+        "members": [
+          {
+            "value": 107,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2003_11_25_10:10",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    },
+    "children": [
+      98
+    ]
+  },
+  "101": {
+    "name": "ISO",
+    "class": "CC_View2D",
+    "id": 101,
+    "flags": 0,
+    "geometryIdList": [
+      0,
+      106
+    ],
+    "parent": 89,
+    "members": {
+      "bodies": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "viewType": {
+        "value": 9,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "bb": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "other2dGeometry": {
+        "members": [],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "projections": {
+        "members": [
+          {
+            "value": 106,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2003_11_25_10:10",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    },
+    "children": [
+      103
+    ]
+  }
+}

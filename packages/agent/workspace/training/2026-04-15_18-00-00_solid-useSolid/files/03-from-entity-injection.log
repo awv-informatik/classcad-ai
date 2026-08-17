@@ -1,0 +1,6 @@
+[03] source EI: 54 box: 61 cylinder: 64
+[03] dest EI: 68
+[03] useSolid from EI result: [ 75, 78 ]
+[03] useSolid from EI maxLevel: 31
+[03] messages: []
+[filewrite] files/03-from-entity-injection-useSolid-from-ei.json (72 bytes)

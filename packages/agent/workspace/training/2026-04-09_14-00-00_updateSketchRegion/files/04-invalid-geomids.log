@@ -1,0 +1,9 @@
+[04] regionId: 92
+[04] partId as geomId — result: null maxLevel: 51
+[04] messages: [{"api":"v1.sketch.updateSketchRegion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"geomIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]
+[filewrite] files/04-invalid-geomids-wrong-type-geom.json (346 bytes)
+[04] fakeGeomId — result: null maxLevel: 51
+[04] messages: [{"api":"v1.sketch.updateSketchRegion","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.updateSketchRegion","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"geomIds\" has an invalid id!"}]
+[filewrite] files/04-invalid-geomids-fake-geom.json (506 bytes)
+[04] geom after errors: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[filewrite] files/04-invalid-geomids-geom-after-errors.json (143 bytes)

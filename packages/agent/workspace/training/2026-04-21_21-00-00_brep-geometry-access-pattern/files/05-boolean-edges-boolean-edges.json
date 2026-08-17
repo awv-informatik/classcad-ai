@@ -1,0 +1,27 @@
+{
+  "circleTop": {
+    "circles": [
+      []
+    ]
+  },
+  "circleBottom": {
+    "circles": [
+      []
+    ]
+  },
+  "arcTop": {
+    "arcs": [
+      254
+    ]
+  },
+  "boolArcs": [
+    {
+      "index": 0,
+      "id": 248
+    },
+    {
+      "index": 1,
+      "id": 254
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[06] end before HORIZONTAL: [60,40]
+[06] HORIZONTAL id: 64
+[06] end after HORIZONTAL: [71.03277807866851,4.9999999999999964]
+[06] delete result: null maxLevel: 31
+[06] end after DELETE: [71.03277807866851,4.9999999999999964]
+[06] revertedToOriginal: false stayedAtH: true
+[filewrite] files/06-delete-constraint-delete-constraint.json (256 bytes)

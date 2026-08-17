@@ -1,0 +1,141 @@
+{
+  "updateResults": {
+    "L": 0,
+    "R": 2,
+    "L2": 0,
+    "R2": 2
+  },
+  "boss7": [
+    {
+      "k": "f1R",
+      "bulge": 0.41421356237309515,
+      "absBulge": 0.41421356237309515,
+      "expBulge": 0.4142136,
+      "sweepFromGeomDeg": 90,
+      "expSweepDeg": 90,
+      "bulgeStale": false
+    },
+    {
+      "k": "f2R",
+      "bulge": -0.44113547159738326,
+      "absBulge": 0.44113547159738326,
+      "expBulge": 0.4411355,
+      "sweepFromGeomDeg": 95.2159,
+      "expSweepDeg": 95.2159,
+      "bulgeStale": false
+    },
+    {
+      "k": "bossR",
+      "bulge": 0.7022580750720311,
+      "absBulge": 0.7022580750720311,
+      "expBulge": 0.7022581,
+      "sweepFromGeomDeg": 140.315,
+      "expSweepDeg": 140.315,
+      "bulgeStale": false
+    },
+    {
+      "k": "dome",
+      "bulge": 0.4132004517673086,
+      "absBulge": 0.4132004517673086,
+      "expBulge": 0.4132005,
+      "sweepFromGeomDeg": 89.8017,
+      "expSweepDeg": 89.8017,
+      "bulgeStale": false
+    },
+    {
+      "k": "bossL",
+      "bulge": 1.2988642858223132,
+      "absBulge": 1.2988642858223132,
+      "expBulge": 0.7022581,
+      "sweepFromGeomDeg": 140.315,
+      "expSweepDeg": 140.315,
+      "bulgeStale": true
+    },
+    {
+      "k": "f2L",
+      "bulge": -0.44113547159738303,
+      "absBulge": 0.44113547159738303,
+      "expBulge": 0.4411355,
+      "sweepFromGeomDeg": 95.2159,
+      "expSweepDeg": 95.2159,
+      "bulgeStale": false
+    },
+    {
+      "k": "f1L",
+      "bulge": 0.41421356237309515,
+      "absBulge": 0.41421356237309515,
+      "expBulge": 0.4142136,
+      "sweepFromGeomDeg": 90,
+      "expSweepDeg": 90,
+      "bulgeStale": false
+    },
+    {
+      "k": "slotTR",
+      "bulge": 0.41421356237309515,
+      "absBulge": 0.41421356237309515,
+      "expBulge": 0.4142136,
+      "sweepFromGeomDeg": 90,
+      "expSweepDeg": 90,
+      "bulgeStale": false
+    },
+    {
+      "k": "slotTL",
+      "bulge": 0.41421356237309515,
+      "absBulge": 0.41421356237309515,
+      "expBulge": 0.4142136,
+      "sweepFromGeomDeg": 90,
+      "expSweepDeg": 90,
+      "bulgeStale": false
+    },
+    {
+      "k": "slotBL",
+      "bulge": 0.41421356237309515,
+      "absBulge": 0.41421356237309515,
+      "expBulge": 0.4142136,
+      "sweepFromGeomDeg": 90,
+      "expSweepDeg": 90,
+      "bulgeStale": false
+    },
+    {
+      "k": "slotBR",
+      "bulge": 0.41421356237309515,
+      "absBulge": 0.41421356237309515,
+      "expBulge": 0.4142136,
+      "sweepFromGeomDeg": 90,
+      "expSweepDeg": 90,
+      "bulgeStale": false
+    }
+  ],
+  "restored": [
+    {
+      "k": "bossL",
+      "bulge": 0.7350665637511066,
+      "expBulge": 0.7350666,
+      "bulgeStale": false
+    },
+    {
+      "k": "bossR",
+      "bulge": 0.7350665637511076,
+      "expBulge": 0.7350666,
+      "bulgeStale": false
+    },
+    {
+      "k": "dome",
+      "bulge": 0.37096028172248696,
+      "expBulge": 0.3709603,
+      "bulgeStale": false
+    },
+    {
+      "k": "f2L",
+      "bulge": -0.4451197160639243,
+      "expBulge": 0.4451197,
+      "bulgeStale": false
+    },
+    {
+      "k": "f2R",
+      "bulge": -0.4451197160639243,
+      "expBulge": 0.4451197,
+      "bulgeStale": false
+    }
+  ]
+}

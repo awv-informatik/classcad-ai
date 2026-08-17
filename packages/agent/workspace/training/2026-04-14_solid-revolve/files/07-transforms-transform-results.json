@@ -1,0 +1,22 @@
+{
+  "base": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "translated": {
+    "result": 70,
+    "maxLevel": 31
+  },
+  "rotated": {
+    "result": 76,
+    "maxLevel": 31
+  },
+  "bothRotFirst": {
+    "result": 82,
+    "maxLevel": 31
+  },
+  "bothTransFirst": {
+    "result": 88,
+    "maxLevel": 31
+  }
+}

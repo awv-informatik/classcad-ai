@@ -1,0 +1,18 @@
+[05] STP AP214 success: 1
+[05] STP AP214 length: 9766
+[05] STP AP214 first 200: ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('SaveSTP', '2026-04-15T19:11:18', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC
+[05] STP AP214 maxLevel: 31
+[05] STP AP203 success: 1
+[05] STP AP203 length: 9923
+[05] STP AP242 success: 1
+[05] STP AP242 length: 9784
+[05] STP asPart success: 1
+[05] STP asPart length: 9584
+[05] STP header success: 1
+[05] STP header length: 9766
+[filewrite] files/05-save-stp-formats-stp-comparison.json (834 bytes)

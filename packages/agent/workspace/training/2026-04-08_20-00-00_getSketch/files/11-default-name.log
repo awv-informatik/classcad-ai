@@ -1,0 +1,10 @@
+[11] unnamed sketch id: 52
+[11] getSketch("Sketch"): 52 match: true
+[11] second unnamed sketch id: 58
+[11] "Sketch": 52
+[11] "Sketch1": null
+[11] "Sketch_1": null
+[11] "Sketch 2": null
+[11] "Sketch2": null
+[11] "Sketch_2": null
+[filewrite] files/11-default-name-default-name-response.json (181 bytes)

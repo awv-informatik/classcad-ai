@@ -1,0 +1,46 @@
+{
+  "baseline": {
+    "zOffsetLimits": {
+      "max": null,
+      "min": null
+    },
+    "zRotationLimits": {
+      "max": null,
+      "min": null
+    }
+  },
+  "afterAddOffset": {
+    "max": 40,
+    "min": -20
+  },
+  "afterAddRotation": {
+    "offset": {
+      "max": 40,
+      "min": -20
+    },
+    "rotation": {
+      "max": 1.5707963267948966,
+      "min": -0.7853981633974483
+    }
+  },
+  "afterPartialRotation": {
+    "max": 3.141592653589793,
+    "min": -0.7853981633974483
+  },
+  "afterPartialOffset": {
+    "max": 40,
+    "min": -50
+  },
+  "afterRemoveRotation": {
+    "max": null,
+    "min": null
+  },
+  "afterRemoveOffset": {
+    "max": null,
+    "min": null
+  },
+  "afterRemoveMin": {
+    "max": 1.0471975511965976,
+    "min": null
+  }
+}

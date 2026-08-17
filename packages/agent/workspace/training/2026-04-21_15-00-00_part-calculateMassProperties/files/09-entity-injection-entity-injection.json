@@ -1,0 +1,50 @@
+{
+  "part": {
+    "result": {
+      "cog": {
+        "x": 15,
+        "y": 0,
+        "z": 0
+      },
+      "volume": 32000
+    },
+    "maxLevel": 31
+  },
+  "solid1": {
+    "result": {
+      "cog": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "solid2": {
+    "result": {
+      "cog": {
+        "x": 59.99999999999999,
+        "y": 0,
+        "z": 0
+      },
+      "volume": 8000.000000000001
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "eif": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.calculateMassProperties",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+[05] partId: 4 eifId: 54 boxId: 61 sphId: 63
+[filewrite] files/05-rotation-axes-graphic-before.json (4 bytes)
+[05] setObjectCoordSystem rotated axes result: null maxLevel: 31
+[filewrite] files/05-rotation-axes-rotated-response.json (56 bytes)

@@ -1,0 +1,52 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('BatchTest', '2026-04-01T09:24:45', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+
+DATA;
+#1 = DRAUGHTING_MODEL('', (), #4);
+#2 = CARTESIAN_POINT('Origin', (0., 0., 0.));
+#3 = GEOMETRIC_SET('', (#2));
+#4 = (
+   GEOMETRIC_REPRESENTATION_CONTEXT (3)
+   GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT ((#6))
+   GLOBAL_UNIT_ASSIGNED_CONTEXT ((#5, #7, #8))
+   REPRESENTATION_CONTEXT ('', '3D')
+);
+#5 = (
+   LENGTH_UNIT ()
+   NAMED_UNIT (*)
+   SI_UNIT (.MILLI., .METRE.)
+);
+#6 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-6), #5, 'DISTANCE_ACCURACY_VALUE', '');
+#7 = (
+   NAMED_UNIT (*)
+   SI_UNIT ($, .STERADIAN.)
+   SOLID_ANGLE_UNIT ()
+);
+#8 = (
+   NAMED_UNIT (*)
+   PLANE_ANGLE_UNIT ()
+   SI_UNIT ($, .RADIAN.)
+);
+#9 = SHAPE_REPRESENTATION('', (#22), #4);
+#10 = PRODUCT_DEFINITION_SHAPE('', '', #11);
+#11 = PRODUCT_DEFINITION('', '', #14, #18);
+#12 = APPLICATION_CONTEXT('configuration controlled 3D designs of mechanical parts and assemblies');
+#13 = APPLICATION_PROTOCOL_DEFINITION('International Standard', 'automotive_design', 2002, #12);
+#14 = PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('', '', #15, .NOT_KNOWN.);
+#15 = PRODUCT('BatchTest', 'BatchTest', '', (#16));
+#16 = PRODUCT_CONTEXT('', #12, 'mechanical');
+#17 = PRODUCT_RELATED_PRODUCT_CATEGORY('detail', '', (#15));
+#18 = PRODUCT_DEFINITION_CONTEXT('part definition', #12, 'design');
+#19 = SHAPE_DEFINITION_REPRESENTATION(#10, #9);
+#20 = SHAPE_REPRESENTATION_RELATIONSHIP('', '', #9, #21);
+#21 = SHAPE_REPRESENTATION('', (#3), #4);
+#22 = AXIS2_PLACEMENT_3D('', #23, #24, #25);
+#23 = CARTESIAN_POINT('', (0., 0., 0.));
+#24 = DIRECTION('', (0., 0., 1.));
+#25 = DIRECTION('', (1., 0., 0.));
+ENDSEC;
+END-ISO-10303-21;

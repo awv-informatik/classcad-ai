@@ -1,0 +1,5 @@
+[03] partId: 4 skId: 52
+[03] line1: 58 line2: 66 (gap between them)
+[03] compositeCurve result: 74
+[03] maxLevel: 31
+[filewrite] files/03-non-contiguous-cc-gap-response.json (54 bytes)

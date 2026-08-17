@@ -1,0 +1,5 @@
+[02] along X result: 64 maxLevel: 31
+[02] along Y result: 70 maxLevel: 31
+[02] angled [30,30,30] result: 76 maxLevel: 31
+[02] negative Z result: 82 maxLevel: 31
+[filewrite] files/02-direction-variants-direction-results.json (224 bytes)

@@ -1,0 +1,9 @@
+[04] baseline COG (no flip): {"x":90,"y":15,"z":10}
+[04] update mate2 flip=-Z: 121 maxLevel: 31
+[04] COG after flip=-Z: {"x":90,"y":1.2126596023639043e-15,"z":3.031649005909761e-15}
+[04] update mate2 flip=X: 121 maxLevel: 31
+[04] COG after flip=X: {"x":65,"y":14.999999999999998,"z":25.000000000000004}
+[04] update reorient=90: 121 maxLevel: 31
+[04] COG after reorient=90: {"x":77.50000000000003,"y":-12.500000000000014,"z":10.000000000000005}
+[04] final state flip1: Z flip2: Z reorient2: 90
+[filewrite] files/04-update-flip-reorient-final-state.json (342 bytes)

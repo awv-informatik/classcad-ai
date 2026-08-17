@@ -1,0 +1,7 @@
+[10] before clean — geometryIdList: [61]
+[10] before clean — shape class: CC_CurveEntity
+[10] cleanShape result: null maxLevel: 51
+[10] messages: [{"api":"v1.curve.cleanShape","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveAPI_v1.cleanShape::PROC:Trying to open database which does not exist\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CCDatabase.cpp,     Line: 79\nFunction: CADH_EraseEntity\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CCDatabase.cpp,     Line: 79] "}]
+[10] after clean — shape exists: true
+[10] after clean — geometryIdList: undefined
+[filewrite] files/10-cleanShape-v2-cleanShape-v2.json (637 bytes)

@@ -1,0 +1,7 @@
+[A] empty result: 14 maxLevel: 31
+[A] root name from structure: null
+[filewrite] files/01-empty-and-ident-A-structure.json (5728 bytes)
+[B] with-ident result: 14 maxLevel: 31
+[B] root name from structure: null
+[filewrite] files/01-empty-and-ident-B-structure.json (5728 bytes)
+[filewrite] files/01-empty-and-ident-messages.json (24 bytes)

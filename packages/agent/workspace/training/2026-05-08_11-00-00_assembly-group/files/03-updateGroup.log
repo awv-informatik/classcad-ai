@@ -1,0 +1,14 @@
+[03] groupId: 241
+[03] before: {"id":241,"instanceIds":[231,233],"name":"G1"}
+[03] updateGroup instanceIds result: 241 maxLevel: 31
+[filewrite] files/03-updateGroup-update-instanceIds.json (55 bytes)
+[03] after instanceIds update: {"id":241,"instanceIds":[231,235],"name":"G1"}
+[filewrite] files/03-updateGroup-after-instanceIds-update.json (72 bytes)
+[03] updateGroup rename result: 241 maxLevel: 31
+[03] old name after rename result: null maxLevel: 51
+[03] new name after rename result: {"id":241,"instanceIds":[231,235],"name":"RenamedGroup"}
+[filewrite] files/03-updateGroup-after-rename.json (82 bytes)
+[03] final state: {"id":241,"instanceIds":[231,235],"name":"FinalName"}
+[filewrite] files/03-updateGroup-final-state.json (79 bytes)
+[03] updateGroup with asmId result: null maxLevel: 51
+[filewrite] files/03-updateGroup-update-wrong-id.json (438 bytes)

@@ -1,0 +1,9 @@
+[05] created templates: 22 32 42
+[05] before delete: [22,32,42]
+[05] deleteTemplate result: null maxLevel: 31
+[filewrite] files/05-delete-template-delete-one-response.json (56 bytes)
+[05] after delete one: [22,42]
+[05] deleteTemplate multiple result: null maxLevel: 31
+[05] after delete all: []
+[05] delete already-deleted: null maxLevel: 51
+[filewrite] files/05-delete-template-delete-again-response.json (440 bytes)

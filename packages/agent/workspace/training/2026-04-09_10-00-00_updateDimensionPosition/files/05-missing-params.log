@@ -1,0 +1,5 @@
+[05] dimId: 94
+[05] missing pos → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"pos\" must be provided in the api call!"}]
+[05] missing id → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[05] empty → result: null maxLevel: 51 msgs: [{"api":"v1.sketch.updateDimensionPosition","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/05-missing-params-missing-params-errors.json (906 bytes)

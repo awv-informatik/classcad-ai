@@ -1,0 +1,7 @@
+[03] chamferId: 120
+[03] → EQUAL_DISTANCE result: 120 maxLevel: 31
+[filewrite] files/03-type-switch-edge-cases-to-equal-dist.json (55 bytes)
+[03] → TWO_DISTANCES result: 120 maxLevel: 31
+[filewrite] files/03-type-switch-edge-cases-to-two-dist.json (55 bytes)
+[03] → DISTANCE_ANGLE result: 120 maxLevel: 31
+[filewrite] files/03-type-switch-edge-cases-to-dist-angle.json (55 bytes)

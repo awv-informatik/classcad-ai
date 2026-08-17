@@ -1,0 +1,6 @@
+[18] partId: 4 eifId: 54 boxId: 61 sphId: 63
+[18] non-orthogonal revealing result: null maxLevel: 31
+[filewrite] files/18-non-orthogonal-revealing-response.json (56 bytes)
+[18] STEP files differ: true
+[filewrite] files/18-non-orthogonal-revealing-step-before.txt (20076 bytes)
+[filewrite] files/18-non-orthogonal-revealing-step-after.txt (23164 bytes)

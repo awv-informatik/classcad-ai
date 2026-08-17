@@ -1,0 +1,63 @@
+{
+  "batchResult": [
+    218,
+    222
+  ],
+  "maxLevel": 31,
+  "constraintA": {
+    "id": 218,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        206
+      ],
+      "reorient": "0"
+    },
+    "name": "Ball_A",
+    "yRotationLimits": {
+      "max": null
+    }
+  },
+  "constraintB": {
+    "id": 222,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        204
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        208
+      ],
+      "reorient": "0"
+    },
+    "name": "Ball_B",
+    "yRotationLimits": {
+      "max": 1.5707963267948966
+    }
+  },
+  "cogInst2": {
+    "x": 15,
+    "y": 5,
+    "z": 4
+  },
+  "cogInst3": {
+    "x": 15,
+    "y": 5,
+    "z": 4
+  }
+}

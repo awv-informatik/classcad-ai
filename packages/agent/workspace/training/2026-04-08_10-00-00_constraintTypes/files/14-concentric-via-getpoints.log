@@ -1,0 +1,12 @@
+[14] c1 ID: 58
+[14] c2 ID: 61
+[14] c1 getPoints: { centerId: 59 }
+[14] c2 getPoints: { centerId: 62 }
+[14] FIXATION c1: 64 maxLevel: 31
+[14] CONCENTRIC result: 66 maxLevel: 31
+[14] EQUAL_RADIUS result: 71 maxLevel: 31
+[14] c2 center: { pos: { x: 50, y: 20, z: 0 } }
+[14] moveGeometry: 0
+[14] CONCENTRIC arcs: 83 maxLevel: 31
+[14] EQUAL_RADIUS arcs: 85 maxLevel: 31
+[filewrite] files/14-concentric-via-getpoints-concentric-equal-radius.json (311 bytes)

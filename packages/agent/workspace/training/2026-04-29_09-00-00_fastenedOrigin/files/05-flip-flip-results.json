@@ -1,0 +1,32 @@
+{
+  "Z": {
+    "instId": 113,
+    "foId": 119,
+    "maxLevel": 31
+  },
+  "-Z": {
+    "instId": 121,
+    "foId": 125,
+    "maxLevel": 31
+  },
+  "X": {
+    "instId": 127,
+    "foId": 131,
+    "maxLevel": 31
+  },
+  "-X": {
+    "instId": 133,
+    "foId": 137,
+    "maxLevel": 31
+  },
+  "Y": {
+    "instId": 139,
+    "foId": 143,
+    "maxLevel": 31
+  },
+  "-Y": {
+    "instId": 145,
+    "foId": 149,
+    "maxLevel": 31
+  }
+}

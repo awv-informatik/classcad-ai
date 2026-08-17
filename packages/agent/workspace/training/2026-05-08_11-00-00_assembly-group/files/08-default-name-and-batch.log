@@ -1,0 +1,14 @@
+[08] default name group result: 117 maxLevel: 31
+[08] default name getGroup: {"id":117,"instanceIds":[105,107],"name":"Group"}
+[filewrite] files/08-default-name-and-batch-default-name.json (75 bytes)
+[08] batch group result: [121,125] maxLevel: 31
+[filewrite] files/08-default-name-and-batch-batch-create.json (74 bytes)
+[08] Batch1: {"id":121,"instanceIds":[105,109],"name":"Batch1"}
+[08] Batch2: {"id":125,"instanceIds":[107,111],"name":"Batch2"}
+[filewrite] files/08-default-name-and-batch-batch-verify.json (210 bytes)
+[08] batch updateGroup result: [121,125] maxLevel: 31
+[filewrite] files/08-default-name-and-batch-batch-update.json (74 bytes)
+[08] after batch update - RenameBatch1: {"id":121,"instanceIds":[105,109],"name":"RenameBatch1"}
+[08] after batch update - Batch2: {"id":125,"instanceIds":[105,107,109,111],"name":"Batch2"}
+[08] batch getGroup result: [{"id":121,"instanceIds":[105,109],"name":"RenameBatch1"},{"id":125,"instanceIds":[105,107,109,111],"name":"Batch2"}] maxLevel: 31
+[filewrite] files/08-default-name-and-batch-batch-get.json (308 bytes)

@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.sketch.getPositions",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchAPI_v1.getPositions::PROC:[CCVM::lcm: objId not found]] "
+    }
+  ]
+}

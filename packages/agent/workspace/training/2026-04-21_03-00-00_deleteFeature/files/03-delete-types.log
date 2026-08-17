@@ -1,0 +1,9 @@
+[03] workPlaneId: 54
+[03] workAxisId: 62
+[03] sketchId: 68
+[03] boxId: 76
+[03] delete workPlane — result: null maxLevel: 31 messages: []
+[03] delete workAxis — result: null maxLevel: 31 messages: []
+[03] delete sketch — result: null maxLevel: 31 messages: []
+[03] delete box — result: null maxLevel: 31 messages: []
+[filewrite] files/03-delete-types-delete-types-response.json (316 bytes)

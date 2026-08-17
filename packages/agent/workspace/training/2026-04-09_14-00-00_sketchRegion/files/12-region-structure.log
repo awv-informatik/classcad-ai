@@ -1,0 +1,3 @@
+[12] region id: 92
+[filewrite] files/12-region-structure-region-structure.json (41279 bytes)
+[stderr] [run] Script error: api.v1.common.getObjectTypeName is not a function

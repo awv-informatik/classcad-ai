@@ -1,0 +1,12 @@
+[06] shapeId: 60
+[06] result: null maxLevel: 31
+[06] graphic? true
+[06] container count: 1
+[06] container keys: [ 'id', 'owner', 'type', 'properties', 'arcs' ]
+[06] container type: 2
+[06] container id: 61 owner: 60
+[06] has meshes? false count: undefined
+[06] has edges? false count: undefined
+[06] has vertices? false count: undefined
+[06] properties: {"material":{"color":[0,0,0],"opacity":1},"layer":"0","min":[0,0,0],"max":[20,0,0],"chordHeightTol":0.1,"angleTol":0}
+[filewrite] files/06-shape-curves-curve-graphic.json (954 bytes)

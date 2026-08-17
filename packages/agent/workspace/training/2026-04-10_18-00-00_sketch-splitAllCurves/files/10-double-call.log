@@ -1,0 +1,7 @@
+[10] circle: 58 line: 63
+[10] first call result: [80,85,90,94,98]
+[10] first call maxLevel: 31
+[10] second call result: [113,118,123,127,131]
+[10] second call maxLevel: 31
+[10] same results? false
+[filewrite] files/10-double-call-double-call.json (226 bytes)

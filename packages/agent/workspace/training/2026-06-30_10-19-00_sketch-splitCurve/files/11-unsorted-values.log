@@ -1,0 +1,7 @@
+[filewrite] files/11-unsorted-values-11-result.json (1652 bytes)
+[11] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":3,"intervals":[[0,0.75],[0.75,0.25],[0.25,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]}
+[11] seg [0,0.75] [0,0,0] -> [75,0,0]
+[11] seg [0.75,0.25] [75,0,0] -> [125,0,0]
+[11] seg [0.25,1] [125,0,0] -> [200,0,0]
+[11] CHECKS {"threeSegments":true,"sortedAscending":false,"contiguousFrom0to1":true,"cutsAt25and75":false}
+[11] NOTE: not sorted / see data

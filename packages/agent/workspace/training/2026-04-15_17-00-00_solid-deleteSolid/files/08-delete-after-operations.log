@@ -1,0 +1,4 @@
+[08] boxId: 61 copyId: 63
+[08] delete original — result: null maxLevel: 31
+[filewrite] files/08-delete-after-operations-delete-original-response.json (56 bytes)
+[08] translate copy — result: 63 maxLevel: 31

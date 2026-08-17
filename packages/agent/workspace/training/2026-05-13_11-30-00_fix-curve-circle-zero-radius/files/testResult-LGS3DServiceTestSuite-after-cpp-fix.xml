@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="13.5.2026" startTime="12:12:54." endTime="12:12:57.">
+  <FailedTests></FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[LGS3DService] EditValueTest.TestCylindricalSomething</Name>
+    </Test>
+    <Test id="2">
+      <Name>[LGS3DService] EditValueTest.TestHinge2</Name>
+    </Test>
+    <Test id="3">
+      <Name>[LGS3DService] EditValueTest.TestHinge2_2</Name>
+    </Test>
+    <Test id="4">
+      <Name>[LGS3DService] EditValueTest.TestKolben</Name>
+    </Test>
+    <Test id="5">
+      <Name>[LGS3DService] EditValueTest.TestPlanarSomething</Name>
+    </Test>
+    <Test id="6">
+      <Name>[LGS3DService] AssembleTest.TestCircularPattern</Name>
+    </Test>
+    <Test id="7">
+      <Name>[LGS3DService] AssembleTest.TestCylindrical</Name>
+    </Test>
+    <Test id="8">
+      <Name>[LGS3DService] AssembleTest.TestFastened</Name>
+    </Test>
+    <Test id="9">
+      <Name>[LGS3DService] AssembleTest.TestFastenedOrigin</Name>
+    </Test>
+    <Test id="10">
+      <Name>[LGS3DService] AssembleTest.TestGroup</Name>
+    </Test>
+    <Test id="11">
+      <Name>[LGS3DService] AssembleTest.TestHinge2</Name>
+    </Test>
+    <Test id="12">
+      <Name>[LGS3DService] AssembleTest.TestLinearPattern</Name>
+    </Test>
+    <Test id="13">
+      <Name>[LGS3DService] AssembleTest.TestParallel</Name>
+    </Test>
+    <Test id="14">
+      <Name>[LGS3DService] AssembleTest.TestPlanar</Name>
+    </Test>
+    <Test id="15">
+      <Name>[LGS3DService] AssembleTest.TestRevolute</Name>
+    </Test>
+    <Test id="16">
+      <Name>[LGS3DService] AssembleTest.TestSlider</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>16</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

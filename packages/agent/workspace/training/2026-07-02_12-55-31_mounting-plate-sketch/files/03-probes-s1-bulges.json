@@ -1,0 +1,51 @@
+[
+  {
+    "k": "blendR",
+    "cw": true,
+    "predBulge": -0.373682,
+    "gotBulge": -0.3736823630814343,
+    "cls": "CC_Arc"
+  },
+  {
+    "k": "blendL",
+    "cw": true,
+    "predBulge": -0.373682,
+    "gotBulge": -0.37368236308143443,
+    "cls": "CC_Arc"
+  },
+  {
+    "k": "notch",
+    "cw": true,
+    "predBulge": -0.589011,
+    "gotBulge": -0.5890108806448333,
+    "cls": "CC_Arc"
+  },
+  {
+    "k": "f3RO",
+    "cw": true,
+    "predBulge": -0.414903,
+    "gotBulge": -0.4149028915619778,
+    "cls": "CC_Arc"
+  },
+  {
+    "k": "f3RI",
+    "cw": false,
+    "predBulge": 0.414903,
+    "gotBulge": 0.41490289156203036,
+    "cls": "CC_Arc"
+  },
+  {
+    "k": "f3LO",
+    "cw": true,
+    "predBulge": -0.414903,
+    "gotBulge": -0.41490289156208093,
+    "cls": "CC_Arc"
+  },
+  {
+    "k": "f3LI",
+    "cw": false,
+    "predBulge": 0.414903,
+    "gotBulge": 0.41490289156202015,
+    "cls": "CC_Arc"
+  }
+]

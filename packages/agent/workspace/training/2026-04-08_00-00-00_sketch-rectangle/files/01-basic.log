@@ -1,0 +1,9 @@
+[01] result (4 line IDs): [ 58, 64, 70, 76 ]
+[01] maxLevel: 31
+[01] messages: []
+[01] result length: 4
+[filewrite] files/01-basic-response.json (88 bytes)
+[01] line[0] positions: null
+[01] line[1] positions: null
+[01] line[2] positions: null
+[01] line[3] positions: null

@@ -1,0 +1,9 @@
+[10] zero ratio=0 — result: 263 maxLevel: 31 stored ratio: 0
+[10] negative ratio=-1 — result: 263 maxLevel: 31 stored ratio: -1
+[10] negative-fraction ratio=-0.5 — result: 263 maxLevel: 31 stored ratio: -0.5
+[10] very-large ratio=100000 — result: 263 maxLevel: 31 stored ratio: 100000
+[10] very-small ratio=0.001 — result: 263 maxLevel: 31 stored ratio: 0.001
+[10] large-negative ratio=-100 — result: 263 maxLevel: 31 stored ratio: -100
+[10] negative offset -1.5708 — stored: -1.5708 maxLevel: 31
+[10] large offset 10 — stored: 10 maxLevel: 31
+[filewrite] files/10-edge-ratio-values-edge-values.json (762 bytes)

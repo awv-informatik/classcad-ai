@@ -1,0 +1,26 @@
+{
+  "id": 121,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      113
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      115
+    ],
+    "reorient": "0"
+  },
+  "name": "RotDeg",
+  "xOffset": 80,
+  "xRotation": 0,
+  "yOffset": 0,
+  "yRotation": 0,
+  "zOffset": 0,
+  "zRotation": 1.5707963267948966
+}

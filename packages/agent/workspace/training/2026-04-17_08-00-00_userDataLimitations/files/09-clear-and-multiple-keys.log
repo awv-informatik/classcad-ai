@@ -1,0 +1,8 @@
+[09] keys before clear: 20
+[09] clearUserData: maxLevel= 31
+[09] keys after clear: 0 []
+[09] key_0 after clear: GONE
+[09] keys after fresh set: [ 'fresh' ]
+[09] multi keys before remove: [ 'multi_4', 'multi_0', 'multi_2', 'multi_3', 'multi_1', 'fresh' ]
+[09] multi keys after removing multi_2: [ 'multi_4', 'multi_0', 'multi_3', 'multi_1', 'fresh' ]
+[filewrite] files/09-clear-and-multiple-keys-clear-results.json (307 bytes)

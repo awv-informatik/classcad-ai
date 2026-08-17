@@ -1,0 +1,3 @@
+[11] partId: 51 [{"api":"v1.curve.arcByCenterRadAngle","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[11] eifId: 51 [{"api":"v1.curve.arcByCenterRadAngle","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/11-wrong-id-type-wrong-id.json (605 bytes)

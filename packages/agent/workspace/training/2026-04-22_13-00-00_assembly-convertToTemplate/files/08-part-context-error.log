@@ -1,0 +1,5 @@
+[08] partId: 4
+[08] result: null
+[08] maxLevel: 51
+[08] messages: [{"api":"v1.assembly.convertToTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Assembly building is not initialized!"},{"api":"v1.assembly.convertToTemplate","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in AssemblyAPI_v1.convertToTemplate::PROC:[CCVM::lcm: objId not found]] "}]
+[filewrite] files/08-part-context-error-part-context-error.json (469 bytes)

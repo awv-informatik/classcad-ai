@@ -1,0 +1,47 @@
+{
+  "exactAlpha": {
+    "result": 22,
+    "maxLevel": 31,
+    "type": "number",
+    "isArray": false
+  },
+  "exactBeta": {
+    "result": 32,
+    "maxLevel": 31,
+    "type": "number"
+  },
+  "lowercase": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"alpha\" could not be found"
+      }
+    ]
+  },
+  "uppercase": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "partial": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "notFound": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getAssemblyTemplate",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Assembly with name = \"DoesNotExist\" could not be found"
+      }
+    ]
+  }
+}

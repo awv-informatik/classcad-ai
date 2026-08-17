@@ -1,0 +1,6 @@
+[05] shapeId before snapshot: 60
+[05] line after snapshot: 31 []
+[05] translate after snapshot: 31 []
+[05] new shapeId2: 66
+[05] translate new shape: 31 []
+[filewrite] files/05-snapshot-invalidation-snapshot-invalidation.json (214 bytes)

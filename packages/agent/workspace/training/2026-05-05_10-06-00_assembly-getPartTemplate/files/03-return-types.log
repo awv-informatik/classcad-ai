@@ -1,0 +1,5 @@
+[03] 1 template - list: [22] isArray: true
+[03] 1 template - name: 22 type: number isArray: false
+[03] 2 templates - list: [22,68] isArray: true
+[03] 2 templates - name: 68 type: number
+[filewrite] files/03-return-types-return-types.json (402 bytes)

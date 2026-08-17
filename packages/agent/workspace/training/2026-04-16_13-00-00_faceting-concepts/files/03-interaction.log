@@ -1,0 +1,11 @@
+[03] chord-only-0.1: cht=0.1, at=0 → verts=1697
+[03] chord-only-0.5: cht=0.5, at=0 → verts=277
+[03] chord-only-1: cht=1, at=0 → verts=153
+[03] angle-only-5: cht=100, at=5 → verts=8385
+[03] angle-only-15: cht=100, at=15 → verts=561
+[03] angle-only-30: cht=100, at=30 → verts=154
+[03] chord-tight-angle-loose: cht=0.1, at=30 → verts=1697
+[03] chord-loose-angle-tight: cht=1, at=5 → verts=8385
+[03] both-tight: cht=0.01, at=5 → verts=8385
+[03] both-loose: cht=5, at=30 → verts=153
+[filewrite] files/03-interaction-interaction.json (1070 bytes)

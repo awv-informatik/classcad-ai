@@ -1,0 +1,8 @@
+[14] assembly.create: 12
+[14] partTemplate: 22
+[14] box: 70
+[14] setCurrentProduct returned previous: 22
+[14] instance result: 105 maxLevel: 31
+[14] root instances: [105]
+[14] root instancesNested: [105]
+[filewrite] files/14-minimal-assembly-flow-flow-result.json (142 bytes)

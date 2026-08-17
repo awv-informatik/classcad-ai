@@ -1,0 +1,6 @@
+[07] partId: 4 skId: 52
+[07] line: 58
+[07] rigidSet: 64
+[07] maxLevel: 31
+[07] result: { constraint: 76, dimensions: [ null, 78 ], geometry: [ 64, 69, 74 ] }
+[filewrite] files/07-zero-ydist-isolated-zero-ydist-isolated.json (180 bytes)

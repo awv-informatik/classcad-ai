@@ -1,0 +1,7 @@
+[12] rigidSet: 80 — members: l1= 58 l2= 66 — standalone: l3= 74
+[12] geometry before delete: undefined items
+[12] geom IDs before: []
+[12] geometry after delete: undefined items
+[12] geom IDs after: []
+[12] l3 survived? false
+[filewrite] files/12-delete-preserves-others-delete-comparison.json (56 bytes)

@@ -1,0 +1,6 @@
+[04] no views, specific type result: null
+[04] no views, specific type maxLevel: 51
+[04] no views, specific type messages: [{"api":"v1.drawing2d.getBoundaryBoxFromView","code":1200,"level":51,"levelStr":"ERROR","message":"There are no views exisiting on product with id: $4. You have to create the views first, before trying to get view's boundary box."}]
+[04] no views, empty types result: null
+[04] no views, empty types maxLevel: 51
+[filewrite] files/04-no-views-no-views.json (766 bytes)

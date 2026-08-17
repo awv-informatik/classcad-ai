@@ -1,0 +1,41 @@
+{
+  "caseA": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcBy3Points",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CurveAPI_v1.arcBy3Points::PROC:[Index 2 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "caseB": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcBy3Points",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CurveAPI_v1.arcBy3Points::PROC:[Index 2 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  },
+  "caseC": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.arcBy3Points",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CurveAPI_v1.arcBy3Points::PROC:[Index 2 ausserhalb des Arraybereichs] not defined !] "
+      }
+    ]
+  }
+}

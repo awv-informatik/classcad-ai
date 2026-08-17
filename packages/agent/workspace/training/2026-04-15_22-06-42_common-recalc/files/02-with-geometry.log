@@ -1,0 +1,7 @@
+[02] boxId: 61
+[filewrite] files/02-with-geometry-before-state.json (135 bytes)
+[02] recalc result: null
+[02] maxLevel: 31
+[02] messages: []
+[filewrite] files/02-with-geometry-recalc-result.json (56 bytes)
+[filewrite] files/02-with-geometry-after-state.json (135 bytes)

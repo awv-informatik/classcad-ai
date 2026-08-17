@@ -1,0 +1,6 @@
+[07] partId: 4 boxId: 54
+[07] dim1 result: 89 maxLevel: 31
+[07] dim2 result: 91 maxLevel: 41
+[07] dim3 (TOP) result: 93 maxLevel: 31
+[filewrite] files/07-dimension-then-view-dimension-responses.json (576 bytes)
+[07] view result: [97,110,103] maxLevel: 31

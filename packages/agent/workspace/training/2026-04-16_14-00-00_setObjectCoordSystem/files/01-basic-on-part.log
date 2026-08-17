@@ -1,0 +1,3 @@
+[01] partId: 4 eifId: 54 boxId: 61
+[01] setObjectCoordSystem on part result: null maxLevel: 31
+[filewrite] files/01-basic-on-part-part-coordsys-response.json (56 bytes)

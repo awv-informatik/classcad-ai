@@ -1,0 +1,5 @@
+[10] partId as id — result: null maxLevel: 51
+[10] partId messages: [{"api":"v1.solid.extrusion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"}]
+[10] shapeId as id — result: null maxLevel: 51
+[10] shapeId messages: [{"api":"v1.solid.extrusion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"}]
+[filewrite] files/10-wrong-id-wrong-id.json (663 bytes)

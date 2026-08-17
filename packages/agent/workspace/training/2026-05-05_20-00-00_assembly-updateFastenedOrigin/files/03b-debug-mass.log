@@ -1,0 +1,8 @@
+[03b] assembly.calculateMassProperties result type: object
+[03b] assembly.calculateMassProperties result keys: [ 'cog', 'volume' ]
+[03b] assembly.calculateMassProperties maxLevel: 31
+[03b] part.calculateMassProperties result type: object
+[03b] part.calculateMassProperties result keys: [ 'cog', 'volume' ]
+[03b] part.calculateMassProperties maxLevel: 31
+[03b] part.calculateMassProperties(tpl) result keys: [ 'cog', 'volume' ]
+[filewrite] files/03b-debug-mass-mass-debug.json (113089 bytes)

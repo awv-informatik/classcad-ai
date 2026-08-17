@@ -1,0 +1,4 @@
+[14] PI to 3PI/2: null maxLevel: 31
+[14] 3PI/2 to 2PI: null maxLevel: 31
+[14] PI/4 to 7PI/4 (315°): null maxLevel: 31
+[filewrite] files/14-high-start-angle-responses.json (154 bytes)

@@ -1,0 +1,4 @@
+[04] planar result: 216 maxLevel: 31
+[04] inst2 COG with yOffsetLimits {15,40}: {"x":15,"y":25.000999999999994,"z":7.5}
+[04] inst2 world origin Y: 15.000999999999994
+[filewrite] files/04-yOffsetLimits-yLimits.json (217 bytes)

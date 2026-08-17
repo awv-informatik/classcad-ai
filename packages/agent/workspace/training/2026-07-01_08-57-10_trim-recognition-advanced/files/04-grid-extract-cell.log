@@ -1,0 +1,4 @@
+[filewrite] files/04-grid-extract-cell-04-result.json (318 bytes)
+[04] keep 4 trim 20 | survivors 4 [[30,30,60.00000000000001,30],[30,60,60.00000000000001,60],[30,30,30,60.00000000000001],[60,30,60,60.00000000000001]]
+[04] CHECKS {"fourSurvivors":true,"allOnCell":true}
+[04] PASS

@@ -1,0 +1,18 @@
+{
+  "beforeCenter": {
+    "pos": {
+      "x": 30,
+      "y": 30,
+      "z": 0
+    }
+  },
+  "afterCenter": {
+    "pos": {
+      "x": 55,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "moveResult": 1,
+  "maxLevel": 31
+}

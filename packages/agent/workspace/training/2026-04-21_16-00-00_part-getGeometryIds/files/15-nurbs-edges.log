@@ -1,0 +1,8 @@
+[15] sphere brep elements: [{"type":"arc","index":0,"id":69},{"type":"face","index":0,"id":68},{"type":"point","index":0,"id":71},{"type":"point","index":1,"id":70}]
+[15]   id:69 (arc idx:0) positions: [{"x":30,"y":0,"z":-7.34788079488412e-15}]
+[15]   id:68 (face idx:0) positions: [{"x":30,"y":0,"z":-7.34788079488412e-15}]
+[15]   id:71 (point idx:0) positions: [{"x":-5.510910596163089e-15,"y":0,"z":-30}]
+[15]   id:70 (point idx:1) positions: [{"x":9.184850993605149e-15,"y":0,"z":30}]
+[filewrite] files/15-nurbs-edges-sphere-brep-positions.json (532 bytes)
+[15] sphere face: {"spheres":[68]} maxLevel: 31
+[filewrite] files/15-nurbs-edges-sphere-brep-elements.json (235 bytes)

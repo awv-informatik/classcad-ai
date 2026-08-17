@@ -1,0 +1,15 @@
+[01] raw: success= 1 len= 33201
+[01] raw first 120 chars: classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+ApplicationExec=classcad-cli
+ApplicationStringEncoding=UTF-8
+Clas
+[01] b64: success= 1 len= 44268
+[01] b64 first 120 chars: AQJjbGFzc2NhZAIBClZlcnNpb249MTEKQXBwbGljYXRpb25DbGFzcz1CdWVybGlEZW1vQXBwCkFwcGxpY2F0aW9uRXhlYz1jbGFzc2NhZC1jbGkKQXBwbGlj
+[01] deflate-only: success= 1 len= 263
+[01] deflate-only first 120 chars: Ys:wG~E;iƙ7noqxMRbO:BlwnξHvra=p$pEj><,ݙv8K{^YlҝjϳIĔ<NU>ɟwuݥImo8`-cvbLL޵o=qAIU>Sp]o?ܺ5ZcsB+gٛ)V7ޙI
+[01] both: success= 1 len= 5660
+[01] both first 120 chars: zR1Zc5s6d9JHfkXeO2kBAyaZyTfjBbduE29xur14iE0cUtvkYrL++k+AkQQ6Qhhsp6d3bgTazr5IdnL0Ybqw1+upPftwJP1w/LXrrc4VRWo8PCzcqR2gx1Y4
+[01] SUMMARY: {"raw":{"len":33201,"success":1},"base64Only":{"len":44268,"success":1},"deflateOnly":{"len":263,"success":1},"both":{"len":5660,"success":1}}
+[filewrite] files/01-four-combinations-size-summary.json (219 bytes)

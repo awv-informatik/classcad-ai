@@ -1,0 +1,7 @@
+[00c] case1 (line→, arc cw=true): 65 31
+[00c] case1: Vi=628.3 COGi=[60.01,-4.24,2.00]
+[00c] case2 (line→, arc cw=false): 72 31
+[00c] case2: Vi=628.3 COGi=[160.02,-4.24,2.00]
+[00c] case3 (arc cw=true, line→): 79 31
+[00c] case3: Vi=628.3 COGi=[260.03,-4.24,2.00]
+[filewrite] files/00c-probe-curve-chain-chain-probe.json (427 bytes)

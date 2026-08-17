@@ -1,0 +1,5 @@
+[06] region1 id: 124 region2 id: 126
+[06] auto name 1: SketchRegion
+[06] auto name 2: SketchRegion0
+[06] getSketchRegion by auto name: 124 (match: true )
+[filewrite] files/06-default-naming-default-names.json (127 bytes)

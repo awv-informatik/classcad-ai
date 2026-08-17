@@ -1,0 +1,51 @@
+[
+  {
+    "label": "fine",
+    "facetingTol": 0.01,
+    "angleTol": 6,
+    "base64Length": 1075312,
+    "triangles": 0
+  },
+  {
+    "label": "default",
+    "facetingTol": 0.1,
+    "angleTol": 6,
+    "base64Length": 213448,
+    "triangles": 0
+  },
+  {
+    "label": "medium",
+    "facetingTol": 0.5,
+    "angleTol": 6,
+    "base64Length": 33712,
+    "triangles": 0
+  },
+  {
+    "label": "coarse",
+    "facetingTol": 1,
+    "angleTol": 6,
+    "base64Length": 18248,
+    "triangles": 0
+  },
+  {
+    "label": "veryCoarse",
+    "facetingTol": 5,
+    "angleTol": 6,
+    "base64Length": 18248,
+    "triangles": 0
+  },
+  {
+    "label": "tightAngle",
+    "facetingTol": 0.1,
+    "angleTol": 1,
+    "base64Length": 243312,
+    "triangles": 0
+  },
+  {
+    "label": "looseAngle",
+    "facetingTol": 0.1,
+    "angleTol": 30,
+    "base64Length": 213448,
+    "triangles": 0
+  }
+]

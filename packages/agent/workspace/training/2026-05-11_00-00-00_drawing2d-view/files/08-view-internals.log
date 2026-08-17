@@ -1,0 +1,6 @@
+[08] view IDs: [91,101,96]
+[filewrite] files/08-view-internals-view-node-details.json (5095 bytes)
+[08] bboxes result: [{"max":{"x":80,"y":60,"z":0},"min":{"x":0,"y":0,"z":0}},{"max":{"x":80,"y":40,"z":0},"min":{"x":0,"y":0,"z":0}},{"max":{"x":56.568542494923804,"y":89.81462390204986,"z":0},"min":{"x":-42.426406871192846,"y":0,"z":0}}]
+[08] bboxes maxLevel: 31
+[filewrite] files/08-view-internals-bboxes.json (573 bytes)
+[08] all bboxes: []

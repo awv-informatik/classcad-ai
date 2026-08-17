@@ -1,0 +1,6 @@
+[09] A trim-all max 31 postTrim max 31 | geometry {"lines":0,"arcs":0,"circles":0,"points":0} | containers []
+[09] B partial: survivors 2 lines | Auto_Coinc present? true
+[09] C mixed: untrimmed v kept original id? true | trimmed h churned? true
+[filewrite] files/09-roundtrip-trimall-partial-09-roundtrip.json (301 bytes)
+[09] CHECKS {"trimAllVoid":true,"A_postOk":true,"A_emptyish":true,"B_cleanL":true,"C_untrimmedKeepsId":true}
+[09] PASS

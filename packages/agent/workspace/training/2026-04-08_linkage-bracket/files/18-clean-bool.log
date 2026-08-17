@@ -1,0 +1,7 @@
+[18] Calling cleanShape on outline...
+[18] cleanShape result: 51 The parameter "ids" must be provided in the api call!
+[18] Attempting subtraction2d after cleanShape...
+[18] subtraction result: 51 [Evaluation error in CurveAPI_v1.subtraction2d::PROC:Boolean operation failed with error 1001
+Function: CADH_SubSolid
+File: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/BooleanOperations.cpp,     Line: 589] 
+[18] Done

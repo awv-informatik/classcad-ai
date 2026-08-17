@@ -1,0 +1,50 @@
+{
+  "noId": [
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 1004,
+      "message": "The parameter \"id\" must be provided in the api call!"
+    },
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 0,
+      "message": "[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "badId": [
+    {
+      "levelStr": "WARN",
+      "level": 41,
+      "code": 0,
+      "message": "ToId()/TOID() didn't get an existing or valid id."
+    },
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 1006,
+      "message": "An element of parameter \"id\" has an invalid id!"
+    },
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 0,
+      "message": "[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "negId": [
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 1001,
+      "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part\"]"
+    },
+    {
+      "levelStr": "ERROR",
+      "level": 51,
+      "code": 0,
+      "message": "[Evaluation error in PartAPI_v1.sketch:[CCVM::ldm: objId not found]] "
+    }
+  ]
+}

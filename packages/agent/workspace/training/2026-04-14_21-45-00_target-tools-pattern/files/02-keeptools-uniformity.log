@@ -1,0 +1,9 @@
+[02] union keepTools=true: tool alive=true, moveMaxLevel=31
+[02] subtraction keepTools=true: tool alive=true, moveMaxLevel=31
+[02] intersection keepTools=true: tool alive=true, moveMaxLevel=31
+[02] merge keepTools=true: tool alive=true, moveMaxLevel=31
+[02] union keepTools=false: tool alive=false, moveMaxLevel=51
+[02] subtraction keepTools=false: tool alive=false, moveMaxLevel=51
+[02] intersection keepTools=false: tool alive=false, moveMaxLevel=51
+[02] merge keepTools=false: tool alive=false, moveMaxLevel=51
+[filewrite] files/02-keeptools-uniformity-keeptools-results.json (2512 bytes)

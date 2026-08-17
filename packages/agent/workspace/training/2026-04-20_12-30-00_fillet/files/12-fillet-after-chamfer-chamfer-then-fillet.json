@@ -1,0 +1,10 @@
+{
+  "chamfer": {
+    "result": 120,
+    "maxLevel": 31
+  },
+  "fillet": {
+    "result": 220,
+    "maxLevel": 31
+  }
+}

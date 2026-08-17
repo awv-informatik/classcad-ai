@@ -1,0 +1,13 @@
+{
+  "result": 64,
+  "messages": [
+    {
+      "api": "v1.part.cylinder",
+      "code": 1122,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Diameter not valid for NegDiam (CC_Cylinder). Value for diameter must be greater than 0."
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "constraint": 70,
+    "dimension": 72,
+    "geometry": [
+      68
+    ]
+  },
+  "messages": [
+    {
+      "api": "v1.sketch.circularPattern",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in CP.SetSE:Division by zero!] "
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,16 @@
+[09] Deep probing JSON template structure...
+[09] ❌ loadProduct-style: result:14 maxLevel:51
+[09] ❌ with-type-part: result:14 maxLevel:51
+[09] ❌ with-kind-part: result:14 maxLevel:51
+[09] ❌ stp-data: result:14 maxLevel:51
+[09] ❌ ident-field: result:14 maxLevel:51
+[09] ❌ label-field: result:14 maxLevel:51
+[09] ❌ raw-data: result:14 maxLevel:51
+[09] ❌ content-field: result:14 maxLevel:51
+[09] ❌ string-template: result:14 maxLevel:51
+[09]   NEW ERROR: 1 Fehler bei der Kompilation von Klasse: JsonAssemblyBuilder Objekt: jsonAsmBuilder./tmp/cc-test-box.ofb
+[filewrite] files/09-json-deep-probe-new-error-string-template.json (530 bytes)
+[09] ❌ with-compression: result:14 maxLevel:51
+[09] ❌ ofb-field: result:14 maxLevel:51
+[09] ❌ data-only: result:14 maxLevel:51
+[09] ❌ name-file: result:14 maxLevel:51

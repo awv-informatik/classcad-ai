@@ -1,0 +1,6 @@
+[09] isSketchGraphicEnabled: 1
+[09] sketch.create with sketch gfx on: hasGraphic: false
+[09] sketch.line with sketch gfx on: hasGraphic: false size: 0
+[09] After disable: isSketchGraphicEnabled: 0
+[09] sketch.line with sketch gfx off: hasGraphic: false size: 0
+[filewrite] files/09-sketch-graphic-flag-sketch-graphic.json (135 bytes)

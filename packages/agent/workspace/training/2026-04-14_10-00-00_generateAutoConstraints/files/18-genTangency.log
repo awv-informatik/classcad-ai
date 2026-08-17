@@ -1,0 +1,11 @@
+[18] circle: 58
+[18] line: 61
+[18] constraints before autoGen: 1
+[filewrite] files/18-genTangency-constraints-before.json (88 bytes)
+[18] autoGen circle default: 31 cons= 1
+[18] autoGen line default: 31 cons= 1
+[18] autoGen circle genTangency=true: 31 cons= 1
+[18] autoGen arc: 31 cons= 4
+[18] total new constraints: 3
+[filewrite] files/18-genTangency-new-constraints.json (270 bytes)
+[filewrite] files/18-genTangency-constraints-final.json (356 bytes)

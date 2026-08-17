@@ -1,0 +1,35 @@
+{
+  "dirZ": {
+    "result": 96,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "dirDiag": {
+    "result": 181,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "dirX": {
+    "result": 266,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.extrusion",
+        "code": 1122,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Direction not valid. Direction can't be perpendicular to the normal vector of sketch plane for DirX (CC_Extrusion)."
+      }
+    ]
+  },
+  "dirNZ": {
+    "result": 324,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "dirMag": {
+    "result": 409,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

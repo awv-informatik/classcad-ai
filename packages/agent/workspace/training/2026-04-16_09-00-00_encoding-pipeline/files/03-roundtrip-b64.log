@@ -1,0 +1,6 @@
+[03] save: success= 1 len= 44292
+[03] load: id= 4 maxLevel= 31
+[03] load messages: []
+[03] resave: success= 1 len= 45916
+[03] content matches: false
+[filewrite] files/03-roundtrip-b64-roundtrip-b64.json (114 bytes)

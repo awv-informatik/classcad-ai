@@ -1,0 +1,6 @@
+[14] before fillet: {"cog":{"x":30,"y":20,"z":15},"volume":72000}
+[14] geoIds: {"lines":[75]}
+[14] filletId: 91
+[14] after fillet: {"cog":{"x":29.99959947564167,"y":20.086420474685767,"z":14.936672386170178},"volume":71677.95883975319}
+[filewrite] files/14-fillet-chamfer-fillet-comparison.json (302 bytes)
+[14] volume removed by fillet: 322.04

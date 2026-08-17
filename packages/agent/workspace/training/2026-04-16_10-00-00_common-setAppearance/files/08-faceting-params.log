@@ -1,0 +1,11 @@
+[08] sphId: 60
+[08] default faceting: {"angleTol":0,"chordHeightTol":0.1}
+[08] baseline vertex count: 0
+[filewrite] files/08-faceting-params-graphic-baseline.json (23 bytes)
+[08] coarse faceting result: null maxLevel: 31
+[filewrite] files/08-faceting-params-coarse-response.json (56 bytes)
+[08] coarse vertex count: 0
+[08] fine faceting result: null maxLevel: 31
+[08] fine vertex count: 0
+[filewrite] files/08-faceting-params-vertex-comparison.json (47 bytes)
+[08] Vert comparison — baseline: 0 coarse: 0 fine: 0

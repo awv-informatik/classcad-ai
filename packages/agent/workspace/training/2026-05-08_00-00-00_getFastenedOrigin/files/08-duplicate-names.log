@@ -1,0 +1,5 @@
+[08] foId1: 121 foId2: 125
+[08] duplicate name query — got id: 121
+[08] which constraint? foId1= 121 foId2= 125 → returned: 121
+[08] xOffset: 10 (10=first, 90=second)
+[filewrite] files/08-duplicate-names-duplicate-names.json (327 bytes)

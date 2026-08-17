@@ -1,0 +1,4 @@
+[17] circularPattern result: 99 maxLevel: 31
+[17] idx0: 31 idx1: 31 idx2: 31
+[17] idx3: 31
+[filewrite] files/17-circ-pattern-fixed-circ-fixed-results.json (236 bytes)

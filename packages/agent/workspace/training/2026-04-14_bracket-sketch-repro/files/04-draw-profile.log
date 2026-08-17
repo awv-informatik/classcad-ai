@@ -1,0 +1,11 @@
+[04] upper: (%.2f,%.2f)→(%.2f,%.2f) 16.18615540225296 57.77549976671874 153.93492364749275 19.18434991446354
+[04] lower: (%.2f,%.2f)→(%.2f,%.2f) 8.794317243051882 -49.2205240141606 151.86949958694282 -23.657030566230663
+[04] lower arm at x=%d: y=%.2f 108 -31.495270901715806
+[04] R50-R25 intersection: (%.2f, %.2f) -25.423375986934843 -43.05405850122486
+[04] R60 at x=%d: y=%.2f; R50 at x=%d: y=%.2f -28 53.0659966456864 -28 -41.42463035441596
+[04] R60 arc: ✓ 58
+[04] R22 arc: ✓ 67
+[04] R25 arc: ✓ 92
+[04] R50 arc: ✓ 97
+[04] Profile drawn. Lines: upper=%d lower=%d rightWall=%d bodyBottom=%d stepDown=%d base=%d leftWall=%d 63 72 76 80 84 88 102
+[filewrite] files/04-draw-profile-profile-data.json (548 bytes)

@@ -1,0 +1,4 @@
+[01] sphere result: 60 maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-sphere-response.json (54 bytes)
+[filewrite] files/01-basic-sphere-graphic-summary.json (2 bytes)

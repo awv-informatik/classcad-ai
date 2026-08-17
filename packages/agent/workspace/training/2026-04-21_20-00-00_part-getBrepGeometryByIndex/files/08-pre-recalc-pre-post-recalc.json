@@ -1,0 +1,14 @@
+{
+  "preRecalc": {
+    "line0": 67,
+    "face0": 79
+  },
+  "postRecalc": {
+    "line0": 98,
+    "face0": 110
+  },
+  "idsChanged": {
+    "line": true,
+    "face": true
+  }
+}

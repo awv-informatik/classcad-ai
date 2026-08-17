@@ -1,0 +1,26 @@
+{
+  "union": {
+    "result": 61,
+    "targetReturned": true,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "subtraction": {
+    "result": 64,
+    "targetReturned": true,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "intersection": {
+    "result": 67,
+    "targetReturned": true,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "merge": {
+    "result": 70,
+    "targetReturned": true,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

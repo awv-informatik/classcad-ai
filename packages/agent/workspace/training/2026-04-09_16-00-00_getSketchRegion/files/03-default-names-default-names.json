@@ -1,0 +1,25 @@
+{
+  "region1": 124,
+  "region2": 126,
+  "lookupSketchRegion": {
+    "result": 124,
+    "match": true
+  },
+  "lookupSketchRegion0": {
+    "result": 126,
+    "match": true
+  },
+  "lookupSketchRegion1": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.getSketchRegion",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find sketch region with name: \"SketchRegion1\" which belongs to the provided sketch."
+      }
+    ]
+  }
+}

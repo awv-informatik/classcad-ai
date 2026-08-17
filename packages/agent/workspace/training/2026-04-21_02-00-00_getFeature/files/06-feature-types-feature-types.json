@@ -1,0 +1,22 @@
+{
+  "Box": {
+    "result": 54,
+    "maxLevel": 31,
+    "match": true
+  },
+  "Cylinder": {
+    "result": 91,
+    "maxLevel": 31,
+    "match": true
+  },
+  "Cone": {
+    "result": 110,
+    "maxLevel": 31,
+    "match": true
+  },
+  "Sphere": {
+    "result": 129,
+    "maxLevel": 31,
+    "match": true
+  }
+}

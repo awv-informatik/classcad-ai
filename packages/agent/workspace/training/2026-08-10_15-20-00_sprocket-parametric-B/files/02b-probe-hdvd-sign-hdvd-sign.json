@@ -1,0 +1,79 @@
+{
+  "vd-OP-seedUp": {
+    "level": 31,
+    "seed": [
+      0,
+      30
+    ],
+    "solved": [
+      0,
+      40
+    ]
+  },
+  "vd-OP-seedDown": {
+    "level": 31,
+    "seed": [
+      0,
+      -30
+    ],
+    "solved": [
+      0,
+      -40
+    ]
+  },
+  "vd-PO-seedUp": {
+    "level": 31,
+    "seed": [
+      0,
+      30
+    ],
+    "solved": [
+      0,
+      40
+    ]
+  },
+  "hd-OP-seedRight": {
+    "level": 31,
+    "seed": [
+      30,
+      0
+    ],
+    "solved": [
+      40,
+      0
+    ]
+  },
+  "hd-OP-seedLeft": {
+    "level": 31,
+    "seed": [
+      -30,
+      0
+    ],
+    "solved": [
+      -40,
+      0
+    ]
+  },
+  "hd-PO-seedLeft": {
+    "level": 31,
+    "seed": [
+      -30,
+      0
+    ],
+    "solved": [
+      -40,
+      0
+    ]
+  },
+  "vd-OP-seedUpFar": {
+    "level": 31,
+    "seed": [
+      5,
+      90
+    ],
+    "solved": [
+      5,
+      40
+    ]
+  }
+}

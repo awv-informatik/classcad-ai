@@ -1,0 +1,19 @@
+{
+  "before": {
+    "pos": {
+      "x": 50,
+      "y": 30,
+      "z": 0
+    }
+  },
+  "after": {
+    "pos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "constraintResult": 68,
+  "maxLevel": 31,
+  "isConcentric": true
+}

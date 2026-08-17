@@ -1,0 +1,3 @@
+[inverse] valid radius=20: 31 []
+[inverse] batch maxLevel: 51 messages: [{"api":"v1.curve.circle","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"radius\" must be greater than 0."}]
+[filewrite] files/02-inverse-inverse-results.json (51264 bytes)

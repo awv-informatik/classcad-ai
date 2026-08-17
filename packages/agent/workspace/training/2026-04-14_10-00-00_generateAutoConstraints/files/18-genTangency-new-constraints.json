@@ -1,0 +1,17 @@
+[
+  {
+    "id": 76,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Auto_Coinc"
+  },
+  {
+    "id": 78,
+    "class": "CC_2DCoincidentConstraint",
+    "name": "Auto_Coinc0"
+  },
+  {
+    "id": 80,
+    "class": "CC_2DHorizontalConstraint",
+    "name": "Auto_H0"
+  }
+]

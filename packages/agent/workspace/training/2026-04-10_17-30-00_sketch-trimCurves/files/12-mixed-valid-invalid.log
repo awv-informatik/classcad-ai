@@ -1,0 +1,6 @@
+[12] split IDs: [80,85,90,94,98]
+[12] mixed trim maxLevel: 51
+[12] mixed trim messages: [{"api":"v1.sketch.trimCurves","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.trimCurves","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"curveIds\" has an invalid id!"}]
+[12] mergeBack maxLevel: 31
+[12] geom after merge: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[filewrite] files/12-mixed-valid-invalid-geom-after.json (84 bytes)

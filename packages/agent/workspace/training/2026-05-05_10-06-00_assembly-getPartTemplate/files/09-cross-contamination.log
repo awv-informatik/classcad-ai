@@ -1,0 +1,6 @@
+[09] part IDs: 22 68 assembly ID: 114
+[09] getPartTemplate(): [22,68]
+[09] getAssemblyTemplate(): [114]
+[09] part lookup SubAsm: null maxLevel: 51
+[09] asm lookup PartA: null maxLevel: 51
+[filewrite] files/09-cross-contamination-cross-contamination.json (204 bytes)

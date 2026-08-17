@@ -1,0 +1,4 @@
+[!] R1750: maxLevel=51 [{"api":"v1.curve.arcByCenter","code":0,"level":51,"levelStr":"ERROR","message":"_C.CurveAPI_v1::arcByCenter\nCreated end point differs from the input values: {19.05,23.8125,0} Offset: 0.013425501078977"}]
+[!] R875upper: maxLevel=51 [{"api":"v1.curve.arcByCenter","code":0,"level":51,"levelStr":"ERROR","message":"_C.CurveAPI_v1::arcByCenter\nCreated end point differs from the input values: {109.474,15.7226,0} Offset: 0.010114155767229"}]
+[!] R875lower: maxLevel=51 [{"api":"v1.curve.arcByCenter","code":0,"level":51,"levelStr":"ERROR","message":"_C.CurveAPI_v1::arcByCenter\nCreated end point differs from the input values: {147.4216,0,0} Offset: 0.010114155767212"}]
+[10] Outline: R.875 split into two 135° arcs

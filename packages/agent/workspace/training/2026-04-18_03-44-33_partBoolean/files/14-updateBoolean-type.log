@@ -1,0 +1,5 @@
+[14] boolId: 128
+[14] updateBoolean type→SUB — result: 128 maxLevel: 31
+[filewrite] files/14-updateBoolean-type-update-type-response.json (55 bytes)
+[14] updateBoolean type→INT — result: 128 maxLevel: 31
+[filewrite] files/14-updateBoolean-type-update-type-int.json (55 bytes)

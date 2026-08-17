@@ -1,0 +1,6 @@
+[03b] circId: 68
+[03b] circle center before: undefined
+[03b] TANGENT result: 71 maxLevel: 31
+[03b] circle center after: undefined
+[03b] radius after: 15
+[filewrite] files/03b-tangent-circle-line-struct-tangent-circle-line.json (67 bytes)

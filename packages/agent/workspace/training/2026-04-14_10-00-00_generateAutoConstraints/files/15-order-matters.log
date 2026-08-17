@@ -1,0 +1,9 @@
+[15] Case A (pt first, line second): constraints= 2 hasCoincidence= false
+[filewrite] files/15-order-matters-case-a-constraints.json (174 bytes)
+[15] Case A after autoGen: constraints= 3 hasCoincidence= true
+[filewrite] files/15-order-matters-case-a-after-autogen.json (264 bytes)
+[15] Case B (line first, pt second): constraints= 6 hasCoincidence= true
+[filewrite] files/15-order-matters-case-b-constraints.json (526 bytes)
+[15] Case C before autoGen: 8
+[15] Case C genIncidence=false: 8 (should equal before)
+[15] Case C genIncidence=true: 9 (should be +1)

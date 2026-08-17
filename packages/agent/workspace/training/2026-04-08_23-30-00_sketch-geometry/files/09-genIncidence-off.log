@@ -1,0 +1,4 @@
+[09a] default genIncidence result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[58,66],"points":[]}
+[filewrite] files/09-genIncidence-off-incidence-default-structure.json (30758 bytes)
+[09b] genIncidence=false result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[80,88],"points":[]}
+[filewrite] files/09-genIncidence-off-incidence-off-structure.json (41434 bytes)

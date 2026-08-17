@@ -1,0 +1,5 @@
+[17] baseline min: [75,-20,-15] max: [125,20,15]
+[17] after 0x min: [75,-20,-15] max: [125,20,15]
+[17] after 0x then 2x min: [150,-40,-30] max: [250,40,30]
+[17] after 0.0001x min: undefined max: undefined
+[filewrite] files/17-zero-verification-zero-verify-data.json (392 bytes)

@@ -1,0 +1,6 @@
+[16] sub-assembly instance: 117
+[16] root children before: [ 117 ]
+[16] delete sub-instance result: null maxLevel: 31
+[filewrite] files/16-delete-sub-instance-sub-instance-delete.json (56 bytes)
+[16] root children after: []
+[16] sub-template children still intact: [ 115 ]

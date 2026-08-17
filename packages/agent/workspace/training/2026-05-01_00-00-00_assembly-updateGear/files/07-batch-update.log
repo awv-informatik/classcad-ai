@@ -1,0 +1,6 @@
+[07] created gears: 342 346
+[07] batch result: [342,346]
+[07] batch maxLevel: 31
+[07] gear1 after batch: {"constr1Id":330,"constr2Id":334,"id":342,"name":"G1","offset":0.7853981633974483,"ratio":3}
+[07] gear2 after batch: {"constr1Id":330,"constr2Id":338,"id":346,"name":"BatchRenamed","offset":0,"ratio":0.5}
+[filewrite] files/07-batch-update-batch-update.json (372 bytes)

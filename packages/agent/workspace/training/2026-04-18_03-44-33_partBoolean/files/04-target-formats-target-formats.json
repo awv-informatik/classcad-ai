@@ -1,0 +1,14 @@
+{
+  "plainId": {
+    "result": 128,
+    "maxLevel": 31
+  },
+  "objectId": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "bothObject": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

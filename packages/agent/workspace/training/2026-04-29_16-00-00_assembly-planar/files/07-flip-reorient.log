@@ -1,0 +1,15 @@
+[07] flip=Z: result=212 maxLevel=31
+[07] flip=-Z: result=216 maxLevel=31
+[07] flip=X: result=220 maxLevel=31
+[07] flip=-X: result=224 maxLevel=31
+[07] flip=Y: result=228 maxLevel=31
+[07] flip=-Y: result=232 maxLevel=31
+[07] reorient=0: result=236 maxLevel=31
+[07] reorient=90: result=240 maxLevel=31
+[07] reorient=180: result=244 maxLevel=31
+[07] reorient=270: result=248 maxLevel=31
+[07] invalid flip: null maxLevel: 51
+[07] bad flip msgs: [{"api":"v1.assembly.planar","code":1013,"level":51,"levelStr":"ERROR","message":"Type \"INVALID\" is not supported to use as flip type."}]
+[07] invalid reorient: null maxLevel: 51
+[07] bad reorient msgs: [{"api":"v1.assembly.planar","code":1013,"level":51,"levelStr":"ERROR","message":"Type \"45\" is not supported to use as reorient type."}]
+[filewrite] files/07-flip-reorient-flip-reorient-errors.json (535 bytes)

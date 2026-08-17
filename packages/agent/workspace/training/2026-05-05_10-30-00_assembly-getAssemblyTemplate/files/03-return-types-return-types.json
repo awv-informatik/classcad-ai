@@ -1,0 +1,27 @@
+{
+  "zeroTemplates": {
+    "result": [],
+    "isArray": true,
+    "length": 0
+  },
+  "oneTemplateList": {
+    "result": [
+      22
+    ],
+    "isArray": true,
+    "length": 1
+  },
+  "oneTemplateName": {
+    "result": 22,
+    "type": "number",
+    "isArray": false
+  },
+  "twoTemplatesList": {
+    "result": [
+      22,
+      32
+    ],
+    "isArray": true,
+    "length": 2
+  }
+}

@@ -1,0 +1,4 @@
+[10] getPoints(circleId): {"centerId":59}
+[10] getPositions(circleId): null maxLevel: 51
+[10] messages: [{"api":"v1.sketch.getPositions","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketchAPI_v1.getPositions::PROC:[CCVM::lcm: objId not found]] "}]
+[10] getPositions(centerId): {"pos":{"x":30,"y":20,"z":0}}

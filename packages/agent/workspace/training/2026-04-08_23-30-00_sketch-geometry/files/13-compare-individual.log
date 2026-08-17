@@ -1,0 +1,5 @@
+[13a] individual - lineId: 58 circleId: 66
+[13a] getGeometry: {"arcs":[],"circles":[66],"lines":[58],"points":[]}
+[13b] geometry() - result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[83],"lines":[75],"points":[]}
+[13b] getGeometry: {"arcs":[],"circles":[83],"lines":[75],"points":[]}
+[filewrite] files/13-compare-individual-compare-individual-vs-batch.json (518 bytes)

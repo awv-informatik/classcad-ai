@@ -1,0 +1,21 @@
+{
+  "dimId": 70,
+  "maxLevel": 31,
+  "dimClass": "CC_LinearFeatureDimension",
+  "dimName": "VD",
+  "posBefore": {
+    "pos": {
+      "x": 0,
+      "y": 70,
+      "z": 0
+    }
+  },
+  "posAfter": {
+    "pos": {
+      "x": 0,
+      "y": 50,
+      "z": 0
+    }
+  },
+  "resized": true
+}

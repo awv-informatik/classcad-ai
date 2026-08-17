@@ -1,0 +1,5 @@
+[11] partId: 4 eifId: 54 boxId: 61 cylId: 64
+[11] keepIds=[partId, eifId, boxId] — result: null maxLevel: 31
+[filewrite] files/11-keepIds-full-hierarchy-keep-full.json (56 bytes)
+[11] copy kept box — result: null maxLevel: 51
+[11] copy dropped cyl — result: null maxLevel: 51

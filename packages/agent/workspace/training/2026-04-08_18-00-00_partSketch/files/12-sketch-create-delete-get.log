@@ -1,0 +1,5 @@
+[12] created: 52
+[12] delete maxLevel: 31
+[12] after delete — result: null maxLevel: 51
+[12] after delete — msgs: [{"api":"v1.part.getSketch","code":1015,"level":51,"levelStr":"ERROR","message":"Sketch with name \"Temp\" does not exist"}]
+[filewrite] files/12-sketch-create-delete-get-lifecycle.json (317 bytes)

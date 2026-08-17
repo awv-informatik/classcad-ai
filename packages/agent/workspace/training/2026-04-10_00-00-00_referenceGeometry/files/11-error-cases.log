@@ -1,0 +1,18 @@
+[11] empty brepIds — result: [] maxLevel: 31
+[11] empty messages: []
+[filewrite] files/11-error-cases-empty-brepIds.json (54 bytes)
+[11] invalid brepId — result: null maxLevel: 51
+[11] invalid messages: [{"api":"v1.sketch.referenceGeometry","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.referenceGeometry","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"brepIds\" has an invalid id!"}]
+[filewrite] files/11-error-cases-invalid-brepId.json (446 bytes)
+[11] sketch as brepId — result: null maxLevel: 51
+[11] sketch-as-brep messages: [{"api":"v1.sketch.referenceGeometry","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"brepIds\" has a wrong id type! Provide only following id types: [\"edge-line\",\"vertex\",\"edge-arc\",\"edge-circle\"]"}]
+[filewrite] files/11-error-cases-sketch-as-brepId.json (336 bytes)
+[11] first projection — result: [ 105 ] maxLevel: 31
+[11] second projection (same edge) — result: [ 117 ] maxLevel: 31
+[11] second projection messages: []
+[filewrite] files/11-error-cases-duplicate-projection.json (163 bytes)
+[11] duplicate in same call — result: [ 127, 137 ] maxLevel: 31
+[11] duplicate messages: []
+[filewrite] files/11-error-cases-duplicate-same-call.json (74 bytes)
+[11] final sketch geometry: {"arcs":[],"circles":[],"lines":[105,117,127,137],"points":[]}
+[filewrite] files/11-error-cases-final-geometry.json (102 bytes)

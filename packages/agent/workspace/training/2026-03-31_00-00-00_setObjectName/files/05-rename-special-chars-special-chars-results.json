@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Hello World",
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "name": "Part_With-Dashes",
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "name": "Part.With.Dots",
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "name": "Part/With/Slashes",
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "name": "123NumericStart",
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "name": "Unicode: äöü",
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  {
+    "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+]

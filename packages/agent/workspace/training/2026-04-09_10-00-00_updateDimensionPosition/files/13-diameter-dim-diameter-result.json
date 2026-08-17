@@ -1,0 +1,23 @@
+{
+  "before": {
+    "value": {
+      "x": 68,
+      "y": 30,
+      "z": 0
+    },
+    "type": "point",
+    "visible": 1,
+    "expression": "GetSE(0,[0,3])"
+  },
+  "after": {
+    "value": {
+      "x": 65,
+      "y": 55,
+      "z": 0
+    },
+    "type": "point",
+    "visible": 1,
+    "expression": "{65,55,0}"
+  },
+  "className": "CC_DiameterFeatureDimension"
+}

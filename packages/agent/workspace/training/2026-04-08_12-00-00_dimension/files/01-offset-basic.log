@@ -1,0 +1,7 @@
+[01] rectangle IDs: [ 58, 64, 70, 76 ]
+[01] dimension result: 94 maxLevel: 31
+[01] messages: []
+[filewrite] files/01-offset-basic-offset-response.json (54 bytes)
+[01] offset-2-lines result: 98 maxLevel: 31
+[01] offset-2-lines messages: []
+[filewrite] files/01-offset-basic-offset-2lines-response.json (54 bytes)

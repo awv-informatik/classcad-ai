@@ -1,0 +1,12 @@
+[06] created: 212
+[06] assembly ID: null 51 The provided id for the constraint is not a constraint or relation.
+[06] nonexistent ID: null 51 ToId()/TOID() didn't get an existing or valid id.
+[06] missing id: null 51 "id" must be provided for update.
+[06] invalid flip: null 51 Type "INVALID" is not supported to use as flip type.
+[06] invalid reorient: null 51 Type "45" is not supported to use as reorient type.
+[06] partial limits: 212 31 undefined
+[06] invalid csys: null 51 ToId()/TOID() didn't get an existing or valid id.
+[06] constraint survived: ✓
+[06] all fields intact: Z Z 0
+[filewrite] files/06-errors-error-catalog.json (948 bytes)
+[filewrite] files/06-errors-after-errors.json (333 bytes)

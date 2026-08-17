@@ -1,0 +1,4 @@
+[04] vertex1: 59 vertex2: 65
+[04] created BREPVERTEX wpId: 91
+[04] update refs — result: 91 maxLevel: 31
+[filewrite] files/04-update-references-ref-change.json (54 bytes)

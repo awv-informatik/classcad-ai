@@ -1,0 +1,12 @@
+{
+  "before": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "emptyResult": null,
+  "emptyMaxLevel": 51,
+  "after": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  }
+}

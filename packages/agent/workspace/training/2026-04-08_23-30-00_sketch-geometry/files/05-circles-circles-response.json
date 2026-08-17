@@ -1,0 +1,15 @@
+{
+  "result": {
+    "arcsBy3Points": [],
+    "arcsByCenter": [],
+    "circles": [
+      58,
+      63,
+      66
+    ],
+    "lines": [],
+    "points": []
+  },
+  "maxLevel": 31,
+  "messages": []
+}

@@ -1,0 +1,7 @@
+[01] boxId: 61
+[01] refId: 64
+[filewrite] files/01-basic-yz-plane-ids.json (32 bytes)
+[01] mirror result: 61
+[01] mirror maxLevel: 31
+[01] mirror messages: []
+[filewrite] files/01-basic-yz-plane-mirror-response.json (54 bytes)

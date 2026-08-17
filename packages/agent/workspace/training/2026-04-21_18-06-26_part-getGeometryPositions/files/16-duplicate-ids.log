@@ -1,0 +1,5 @@
+[16] maxLevel: 31
+[16] result count: 2
+[16] id: 98 positions: [{"x":40,"y":0,"z":0}]
+[16] id: 98 positions: [{"x":40,"y":0,"z":0}]
+[filewrite] files/16-duplicate-ids-duplicate-ids.json (318 bytes)

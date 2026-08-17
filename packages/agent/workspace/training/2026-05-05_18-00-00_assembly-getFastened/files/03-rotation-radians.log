@@ -1,0 +1,9 @@
+[03] created with zRotation="90deg", id: 121
+[03] getFastened zRotation: 1.5707963267948966
+[03] getFastened zRotation type: number
+[03] expected radians for 90deg: 1.5707963267948966
+[03] match: true
+[filewrite] files/03-rotation-radians-rotation-deg-result.json (361 bytes)
+[03] created with zRotation=1.5708, id: 127
+[03] getFastened zRotation (radian input): 1.5708
+[filewrite] files/03-rotation-radians-rotation-rad-result.json (349 bytes)

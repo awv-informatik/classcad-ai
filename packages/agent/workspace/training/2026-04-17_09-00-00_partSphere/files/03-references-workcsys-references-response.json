@@ -1,0 +1,11 @@
+{
+  "atOrigin": {
+    "result": 62,
+    "maxLevel": 31
+  },
+  "atWCS": {
+    "result": 77,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,4 @@
+[08] c2 before: {"arcs":[],"circles":[65],"lines":[],"points":[]}
+[08] constraint result: 68 maxLevel: 31
+[08] c2 after: {"arcs":[],"circles":[65],"lines":[],"points":[]}
+[filewrite] files/08-equal-radius-equal-radius-data.json (249 bytes)

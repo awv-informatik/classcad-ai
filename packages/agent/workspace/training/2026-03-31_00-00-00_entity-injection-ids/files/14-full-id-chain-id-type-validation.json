@@ -1,0 +1,30 @@
+{
+  "errors": {
+    "curve.line(eifId)": {
+      "maxLevel": 51,
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+    },
+    "solid.box(shapeId)": {
+      "maxLevel": 51,
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+    },
+    "solid.box(partId)": {
+      "maxLevel": 51,
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+    },
+    "curve.shape(partId)": {
+      "maxLevel": 51,
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"
+    },
+    "curve.line(boxId)": {
+      "maxLevel": 51,
+      "msg": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"
+    }
+  },
+  "successes": {
+    "curve.shape(eifId)": {
+      "maxLevel": 31,
+      "result": 65
+    }
+  }
+}

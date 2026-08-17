@@ -1,0 +1,3 @@
+[13] cone: lines=1, arcs=2, faces=3, points=2, nurbs=0
+[filewrite] files/13-cone-geometry-cone-arc-positions.json (26 bytes)
+[filewrite] files/13-cone-geometry-cone-brep.json (453 bytes)

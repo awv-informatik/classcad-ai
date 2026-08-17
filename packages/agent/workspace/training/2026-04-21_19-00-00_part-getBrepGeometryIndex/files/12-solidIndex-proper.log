@@ -1,0 +1,4 @@
+[12] box edge: 129
+[12] cyl circle: []
+[12] boxEdge → boxFeature: 4 maxLevel: 31
+[12] boxEdge → cylFeature: -1 maxLevel: 31

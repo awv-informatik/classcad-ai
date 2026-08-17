@@ -1,0 +1,7 @@
+[03] rad result: 216 maxLevel: 31
+[03] getSpherical rad: {"id":216,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Ball_Rad","yRotationLimits":{"max":0.785}}
+[03] deg result: 220 maxLevel: 31
+[03] getSpherical deg: {"id":220,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Ball_Deg","yRotationLimits":{"max":0.7853981633974483}}
+[03] nolim result: 224 maxLevel: 31
+[03] getSpherical nolim: {"id":224,"mate1":{"csys":107,"flip":"Z","path":[204],"reorient":"0"},"mate2":{"csys":198,"flip":"Z","path":[206],"reorient":"0"},"name":"Ball_NoLim","yRotationLimits":{"max":null}}
+[filewrite] files/03-yRotationLimits-yRotation-data.json (1065 bytes)

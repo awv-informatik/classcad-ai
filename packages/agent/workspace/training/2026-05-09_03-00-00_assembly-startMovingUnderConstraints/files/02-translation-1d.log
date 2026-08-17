@@ -1,0 +1,11 @@
+[02] inst1: 204 inst2: 206
+[02] slider: 216 maxLevel: 31
+[02] COG before: {"x":39.13793103448276,"y":10,"z":10.431034482758621}
+[02] start: null maxLevel: 31
+[filewrite] files/02-translation-1d-start-response.json (56 bytes)
+[02] move: null maxLevel: 31
+[filewrite] files/02-translation-1d-move-response.json (56 bytes)
+[02] COG mid: {"x":39.13793103448276,"y":10,"z":10.431034482758621}
+[02] finish: null maxLevel: 31
+[02] COG after: {"x":39.13793103448276,"y":10,"z":10.431034482758621}
+[filewrite] files/02-translation-1d-mass-comparison.json (412 bytes)

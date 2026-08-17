@@ -1,0 +1,72 @@
+{
+  "allDefaults": {
+    "label": "all defaults",
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  },
+  "noFixation": {
+    "label": "genFixation=false",
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  },
+  "noIncidence": {
+    "label": "genIncidence=false",
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DVerticalConstraint:Auto_V"
+    ]
+  },
+  "noVertHoriz": {
+    "label": "genVertAndHoriz=false",
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DCoincidentConstraint:Auto_Coinc"
+    ]
+  },
+  "allOff": {
+    "label": "all OFF",
+    "constraints": [
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DCoincidentConstraint:Auto_Coinc",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DHorizontalConstraint:Auto_H",
+      "CC_2DVerticalConstraint:Auto_V",
+      "CC_2DFixationConstraint:Auto_Fix",
+      "CC_2DCoincidentConstraint:Auto_Coinc"
+    ]
+  }
+}

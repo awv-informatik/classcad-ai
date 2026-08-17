@@ -1,0 +1,19 @@
+{
+  "withExtraParam": {
+    "maxLevel": 31,
+    "messages": [],
+    "after": {
+      "angleTol": 15,
+      "chordHeightTol": 0.2
+    }
+  },
+  "withFacetingParamsMode": {
+    "maxLevel": 31,
+    "messages": [],
+    "after": {
+      "angleTol": 10,
+      "chordHeightTol": 0.3
+    },
+    "dbFacetingMode": 0
+  }
+}

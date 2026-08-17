@@ -1,0 +1,62 @@
+{
+  "values": [
+    -0.2
+  ],
+  "result": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 66,
+          "interval": [
+            0,
+            -0.2
+          ]
+        },
+        {
+          "id": 70,
+          "interval": [
+            -0.2,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "messages": [],
+  "maxLevel": 31,
+  "verts": [
+    {
+      "interval": [
+        0,
+        -0.2
+      ],
+      "startPos": [
+        0,
+        0,
+        0
+      ],
+      "endPos": [
+        20,
+        0,
+        0
+      ]
+    },
+    {
+      "interval": [
+        -0.2,
+        1
+      ],
+      "startPos": [
+        20,
+        0,
+        0
+      ],
+      "endPos": [
+        140,
+        0,
+        0
+      ]
+    }
+  ]
+}

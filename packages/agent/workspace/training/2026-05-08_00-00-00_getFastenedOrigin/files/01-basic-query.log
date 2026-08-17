@@ -1,0 +1,21 @@
+[01] fastenedOrigin created, id: 119
+[01] getFastenedOrigin result: {
+  "id": 119,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      113
+    ],
+    "reorient": "0"
+  },
+  "name": "FO_Test",
+  "xOffset": 25,
+  "xRotation": 0,
+  "yOffset": 10,
+  "yRotation": 0,
+  "zOffset": 5,
+  "zRotation": 0
+}
+[01] maxLevel: 31
+[filewrite] files/01-basic-query-basic-query-result.json (243 bytes)

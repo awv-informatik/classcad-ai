@@ -1,0 +1,4 @@
+[03] formula "50+70" result: 2 maxLevel: 31 endX: 119.99999999999999
+[03] formula "sqrt(2)*50" result: 2 maxLevel: 31 endX: 70.71067811865476
+[03] string "100" result: 2 maxLevel: 31 endX: 100
+[filewrite] files/03-formula-string-formula-data.json (331 bytes)

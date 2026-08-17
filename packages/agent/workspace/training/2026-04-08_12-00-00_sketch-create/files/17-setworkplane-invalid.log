@@ -1,0 +1,7 @@
+[17] invalid planeId result: null maxLevel: 51
+[17] invalid planeId messages: [{"api":"v1.sketch.setWorkPlane","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.setWorkPlane","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"planeId\" has an invalid id!"}]
+[17] self-ref result: null maxLevel: 51
+[17] self-ref messages: [{"api":"v1.sketch.setWorkPlane","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"planeId\" has a wrong id type! Provide only following id types: [\"workplane\"]"}]
+[17] partId as plane result: null maxLevel: 51
+[17] partId as plane messages: [{"api":"v1.sketch.setWorkPlane","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"planeId\" has a wrong id type! Provide only following id types: [\"workplane\"]"}]
+[filewrite] files/17-setworkplane-invalid-setworkplane-errors.json (1160 bytes)

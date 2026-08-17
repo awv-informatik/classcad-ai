@@ -1,0 +1,18 @@
+[11] HORIZONTAL result: 66 maxLevel: 31
+[11] PARALLEL result: 68 maxLevel: 31
+[11] BEFORE moveGeometry — l1: {
+  start: { pos: { x: 0, y: 0, z: 0 } },
+  end: { pos: { x: 50, y: 10, z: 0 } }
+} | l2: {
+  start: { pos: { x: 0, y: 30, z: 0 } },
+  end: { pos: { x: 50, y: 45, z: 0 } }
+}
+[11] moveGeometry result: 0 maxLevel: 31
+[11] AFTER moveGeometry — l1: {
+  start: { pos: { x: 5, y: 0, z: 0 } },
+  end: { pos: { x: 55, y: 10, z: 0 } }
+} | l2: {
+  start: { pos: { x: 0, y: 30, z: 0 } },
+  end: { pos: { x: 50, y: 45, z: 0 } }
+}
+[filewrite] files/11-solver-trigger-solver-trigger.json (988 bytes)

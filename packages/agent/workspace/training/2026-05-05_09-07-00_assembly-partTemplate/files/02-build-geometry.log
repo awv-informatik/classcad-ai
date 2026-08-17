@@ -1,0 +1,8 @@
+[02] asmId: 12 tplId: 22
+[02] part.box result: 70 maxLevel: 31
+[02] structure after part.box: {"root":12,"currentProduct":22,"currentInstance":12}
+[02] workCSys result: 107 maxLevel: 31
+[02] mass properties of template: {"cog":{"x":30,"y":20,"z":5},"volume":24000}
+[02] mass maxLevel: 31
+[filewrite] files/02-build-geometry-build-geometry.json (238 bytes)
+[02] instance result: 113 maxLevel: 31

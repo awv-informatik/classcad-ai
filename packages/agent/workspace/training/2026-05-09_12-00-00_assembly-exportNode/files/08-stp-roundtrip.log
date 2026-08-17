@@ -1,0 +1,7 @@
+[08] STP export — success: 1 content length: 2976
+[08] STP loadProduct — id: 25 maxLevel: 31
+[08] messages: []
+[08] instance: 77
+[08] root export — success: 1 content length: 7076
+[08] common.save — content length: 7164
+[filewrite] files/08-stp-roundtrip-export-vs-save.json (82 bytes)

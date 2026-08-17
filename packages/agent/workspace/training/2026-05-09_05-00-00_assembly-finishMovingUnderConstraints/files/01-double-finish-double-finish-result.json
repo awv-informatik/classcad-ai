@@ -1,0 +1,31 @@
+{
+  "before": {
+    "x": 20,
+    "y": 15,
+    "z": 10
+  },
+  "afterMove": {
+    "x": 70,
+    "y": 45,
+    "z": 10
+  },
+  "afterFinish1": {
+    "x": 70,
+    "y": 45,
+    "z": 10
+  },
+  "afterFinish2": {
+    "x": 70,
+    "y": 45,
+    "z": 10
+  },
+  "finish1Result": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "finish2Result": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "positionStable": true
+}

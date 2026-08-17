@@ -1,0 +1,4 @@
+[filewrite] files/17-parametric-clean-structure-before.json (23810 bytes)
+[17] updateBox maxLevel: 31
+[filewrite] files/17-parametric-clean-structure-after.json (23811 bytes)
+[17] boxFeat: 54 usedId: 98 refSphere: 100

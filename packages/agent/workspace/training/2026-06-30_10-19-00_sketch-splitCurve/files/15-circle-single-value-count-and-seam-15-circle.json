@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "geoBefore": {
+    "arcs": [],
+    "circles": [
+      58
+    ],
+    "lines": [],
+    "points": []
+  },
+  "geoAfter": {
+    "arcs": [],
+    "circles": [
+      58
+    ],
+    "lines": [],
+    "points": []
+  },
+  "segData": []
+}

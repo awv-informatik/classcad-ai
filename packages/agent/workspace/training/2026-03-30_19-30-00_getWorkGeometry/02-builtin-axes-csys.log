@@ -1,0 +1,12 @@
+[02] name="XAxis" → result: 26 maxLevel: 31
+[02] name="YAxis" → result: 30 maxLevel: 31
+[02] name="ZAxis" → result: 34 maxLevel: 31
+[02] name="X" → result: null maxLevel: 51
+[02] name="Y" → result: null maxLevel: 51
+[02] name="Z" → result: null maxLevel: 51
+[02] name="Origin" → result: 22 maxLevel: 31
+[02] name="WorkCSys" → result: null maxLevel: 51
+[02] name="WorkAxis_X" → result: null maxLevel: 51
+[02] name="WorkAxis_Y" → result: null maxLevel: 51
+[02] name="WorkAxis_Z" → result: null maxLevel: 51
+[filewrite] files/02-builtin-axes-csys-builtin-axes-csys.json (628 bytes)

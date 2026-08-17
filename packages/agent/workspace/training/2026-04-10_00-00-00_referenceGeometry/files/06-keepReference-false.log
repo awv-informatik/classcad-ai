@@ -1,0 +1,13 @@
+[06] refGeo keepReference:FALSE — result: [ 105 ] maxLevel: 31
+[06] messages: []
+[filewrite] files/06-keepReference-false-refgeo-no-keep.json (65 bytes)
+[06] sketch geometry: {"arcs":[],"circles":[],"lines":[105],"points":[]}
+[filewrite] files/06-keepReference-false-sketch-geometry.json (75 bytes)
+[06] refGeo keepReference:TRUE — result: [ 111 ] maxLevel: 31
+[filewrite] files/06-keepReference-false-refgeo-keep-true.json (65 bytes)
+[06] sketch geometry after both: {"arcs":[],"circles":[],"lines":[105,111],"points":[]}
+[filewrite] files/06-keepReference-false-sketch-geometry-both.json (84 bytes)
+[06] line 105 points: {"endId":107,"startId":106}
+[06] line 105 positions: {"endPos":{"x":80,"y":0,"z":40},"startPos":{"x":0,"y":0,"z":40}}
+[06] line 111 points: {"endId":113,"startId":112}
+[06] line 111 positions: {"endPos":{"x":80,"y":60,"z":40},"startPos":{"x":0,"y":60,"z":40}}

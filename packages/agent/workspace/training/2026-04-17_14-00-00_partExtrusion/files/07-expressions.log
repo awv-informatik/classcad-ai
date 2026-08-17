@@ -1,0 +1,3 @@
+[07] expr extrusion: 98 maxLevel: 31
+[filewrite] files/07-expressions-expr-extrusion.json (54 bytes)
+[07] H after update: { expression: '', value: 100 }

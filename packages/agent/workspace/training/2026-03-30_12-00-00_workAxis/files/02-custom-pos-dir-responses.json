@@ -1,0 +1,15 @@
+{
+  "wa_y": {
+    "result": 100,
+    "maxLevel": 31
+  },
+  "wa_diag": {
+    "result": 108,
+    "maxLevel": 31
+  },
+  "wa_zero": {
+    "result": 116,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

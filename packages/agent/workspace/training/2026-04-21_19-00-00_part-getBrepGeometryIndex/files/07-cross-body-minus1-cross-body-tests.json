@@ -1,0 +1,22 @@
+[
+  {
+    "test": "box1_edge→box1",
+    "index": 4,
+    "maxLevel": 31
+  },
+  {
+    "test": "box1_edge→box2",
+    "index": -1,
+    "maxLevel": 31
+  },
+  {
+    "test": "box2_edge→box2",
+    "index": null,
+    "maxLevel": 51
+  },
+  {
+    "test": "box2_edge→box1",
+    "index": null,
+    "maxLevel": 51
+  }
+]

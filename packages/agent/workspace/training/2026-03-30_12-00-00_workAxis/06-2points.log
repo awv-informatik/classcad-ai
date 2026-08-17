@@ -1,0 +1,11 @@
+[06] pt1: 59 pt2: 65
+[06] 2POINTS(brep) result: 91 maxLevel: 31
+[06] messages: []
+[filewrite] files/06-2points-2pts-brep.json (54 bytes)
+[06] workPoints: 103 111
+[06] 2POINTS(work) result: 119 maxLevel: 31
+[06] messages: []
+[filewrite] files/06-2points-2pts-work.json (55 bytes)
+[06] 2POINTS(same) result: 127 maxLevel: 51
+[06] messages: [{"api":"v1.part.workAxis","code":0,"level":51,"levelStr":"ERROR","message":"Direction cant be a null vector, check reference geometries"}]
+[filewrite] files/06-2points-2pts-same.json (245 bytes)

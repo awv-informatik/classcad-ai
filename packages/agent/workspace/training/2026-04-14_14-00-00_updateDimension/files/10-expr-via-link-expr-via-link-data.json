@@ -1,0 +1,19 @@
+{
+  "link": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.linkWithExpression",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in len.value:[CCVM::ldm: Datamember myLen not found]] "
+      }
+    ]
+  },
+  "initialEndX": 80,
+  "afterLinkEndX": 80,
+  "afterExpr200EndX": 80,
+  "afterExpr50EndX": 80
+}

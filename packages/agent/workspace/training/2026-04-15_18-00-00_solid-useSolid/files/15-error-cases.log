@@ -1,0 +1,15 @@
+[15] from=[partId]: null maxLevel: 51
+[15] messages: [{"api":"v1.solid.useSolid","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SolidAPI_v1.useSolid::PROC:[Die Funktion OBJ_ErrorMessage hat zwischen 2 und 4 Parameter.] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[filewrite] files/15-error-cases-from-partId.json (428 bytes)
+[15] from=[solidId]: null maxLevel: 51
+[15] messages: [{"api":"v1.solid.useSolid","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SolidAPI_v1.useSolid::PROC:[Die Funktion OBJ_ErrorMessage hat zwischen 2 und 4 Parameter.] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[filewrite] files/15-error-cases-from-solidId.json (428 bytes)
+[15] from=[99999]: null maxLevel: 51
+[15] messages: [{"api":"v1.solid.useSolid","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.solid.useSolid","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"from\" has an invalid id!"}]
+[filewrite] files/15-error-cases-from-nonexistent.json (423 bytes)
+[15] in=partId: null maxLevel: 51
+[15] messages: [{"api":"v1.solid.useSolid","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"in\" has a wrong id type! Provide only following id types: [\"entityinjection\"]"}]
+[filewrite] files/15-error-cases-in-partId.json (287 bytes)
+[15] from=[]: null maxLevel: 51
+[15] messages: [{"api":"v1.solid.useSolid","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"from\" has the wrong type! It should be of type (Array<object>|Array<id>)"}]
+[filewrite] files/15-error-cases-from-empty.json (280 bytes)

@@ -1,0 +1,18 @@
+{
+  "deg0": {
+    "id": 135,
+    "maxLevel": 31
+  },
+  "deg45": {
+    "id": 139,
+    "maxLevel": 31
+  },
+  "deg90": {
+    "id": 143,
+    "maxLevel": 31
+  },
+  "deg180": {
+    "id": 147,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,7 @@
+[10] box1: 61 box2: 64
+[10] total edges: 12
+[filewrite] files/10-cross-solid-fillet-edge-positions.json (1382 bytes)
+[10] box1Edge: -20 box2Edge: null
+[10] fillet result: null maxLevel: 51
+[10] msg: level=51 "An element of parameter "geomIds" has the wrong type! It should be of type (string|real|id)"
+[filewrite] files/10-cross-solid-fillet-cross-solid-response.json (282 bytes)

@@ -1,0 +1,29 @@
+{
+  "solid": {
+    "graphic": true,
+    "containers": 1
+  },
+  "sketch": {
+    "graphic": false,
+    "maxLevel": 31
+  },
+  "workPlane": {
+    "graphic": false,
+    "maxLevel": 31
+  },
+  "shape": {
+    "graphic": true,
+    "containers": 1,
+    "maxLevel": 31
+  },
+  "sketchLine": {
+    "graphic": false,
+    "maxLevel": 31
+  },
+  "eif": {
+    "graphic": false
+  },
+  "part": {
+    "graphic": false
+  }
+}

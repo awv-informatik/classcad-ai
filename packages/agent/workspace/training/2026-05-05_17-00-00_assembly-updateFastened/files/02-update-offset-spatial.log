@@ -1,0 +1,9 @@
+[02] fastened ID: 121
+[02] mass result keys: [ 'cog', 'volume' ]
+[02] mass maxLevel: 31
+[filewrite] files/02-update-offset-spatial-mass-after-create.json (75 bytes)
+[02] update xOffset=100: result= 121 maxLevel: 31
+[filewrite] files/02-update-offset-spatial-mass-after-update.json (75 bytes)
+[02] inst1 transform: undefined
+[02] inst2 transform: undefined
+[filewrite] files/02-update-offset-spatial-instances-after-update.json (36 bytes)

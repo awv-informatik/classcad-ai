@@ -1,0 +1,10 @@
+[03] BEFORE — inst1 COG: {"x":30,"y":20,"z":5}
+[03] BEFORE — inst1 volume: 24000
+[03] updateBox maxLevel: 31
+[03] AFTER — template COG: {"x":60,"y":40,"z":10}
+[03] AFTER — template volume: 192000
+[03] AFTER — inst1 COG: {"x":30,"y":20,"z":5}
+[03] AFTER — inst1 volume: 24000
+[filewrite] files/03-modify-template-after-instance-modify-comparison.json (339 bytes)
+[03] inst2 (after modify) COG: {"x":210,"y":40,"z":10}
+[03] inst2 (after modify) volume: 192000

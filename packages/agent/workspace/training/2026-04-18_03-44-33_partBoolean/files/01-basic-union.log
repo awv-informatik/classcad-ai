@@ -1,0 +1,5 @@
+[01] box1: 54 box2: 91
+[01] boolean result: 184
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-union-union-response.json (55 bytes)

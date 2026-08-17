@@ -1,0 +1,9 @@
+[08] dimId: 68
+[08] while-open result: 0 maxLevel: 31
+[filewrite] files/08-after-feature-close-while-open.json (53 bytes)
+[08] close result: null maxLevel: 31
+[08] after-close result: 0 maxLevel: 31
+[filewrite] files/08-after-feature-close-after-close.json (53 bytes)
+[08] open result: null maxLevel: 31
+[08] after-reopen result: 0 maxLevel: 31
+[filewrite] files/08-after-feature-close-after-reopen.json (53 bytes)

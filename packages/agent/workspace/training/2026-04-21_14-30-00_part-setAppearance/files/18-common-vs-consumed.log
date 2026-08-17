@@ -1,0 +1,8 @@
+[18] boxId: 54 filletId: 91
+[18] part.setAppearance on consumed box: 51
+[18] part msgs: [{"api":"v1.part.setAppearance","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"Box1\" is not available. It has already been consumed/used in another operation."}]
+[18] common.setAppearance on consumed box: 51
+[18] common msgs: [{"api":"v1.common.setAppearance","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"Box1\" is not available. It has already been consumed/used in another operation."}]
+[18] part.setAppearance on fillet: 31
+[18] common.setAppearance on fillet: 31
+[filewrite] files/18-common-vs-consumed-common-consumed-results.json (740 bytes)

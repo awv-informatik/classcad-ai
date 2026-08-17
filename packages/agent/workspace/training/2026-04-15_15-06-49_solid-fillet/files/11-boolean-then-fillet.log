@@ -1,0 +1,5 @@
+[11] subtraction result: 61 maxLevel: 31
+[11] lines: 13 arcs: 2
+[11] arc IDs: [-48,-49]
+[11] fillet result: [ 61 ] maxLevel: 31
+[filewrite] files/11-boolean-then-fillet-bool-fillet-response.json (64 bytes)

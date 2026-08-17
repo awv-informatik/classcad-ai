@@ -1,0 +1,4 @@
+[06] short segment maxLevel: 31
+[06] long segment maxLevel: 31
+[filewrite] files/06-segment-length-short-graphic.json (1306 bytes)
+[filewrite] files/06-segment-length-long-graphic.json (2681 bytes)

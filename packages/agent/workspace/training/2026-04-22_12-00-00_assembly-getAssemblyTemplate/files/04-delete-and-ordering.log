@@ -1,0 +1,6 @@
+[04] created: Charlie= 22 Alpha= 32 Bravo= 42
+[04] listBefore: [22,32,42]
+[04] deleteTemplate result: null maxLevel: 31
+[04] listAfter: [22,42]
+[04] findDeleted result: null maxLevel: 51
+[filewrite] files/04-delete-and-ordering-delete-ordering.json (449 bytes)

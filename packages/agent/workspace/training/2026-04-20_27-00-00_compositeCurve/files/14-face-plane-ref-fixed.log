@@ -1,0 +1,7 @@
+[14] face result: {"planes":[84]}
+[14] using face: 84
+[14] edge: 75
+[14] face-only CC result: 91 maxLevel: 31
+[14] mixed CC result: 104 maxLevel: 51
+[14] mixed messages: [{"api":"v1.part.compositeCurve","code":1121,"level":51,"levelStr":"ERROR","message":"At least at the position {0,0,30} more than two lines/edges meet each other in CC_Mixed (CC_CompositeCurve)."}]
+[filewrite] files/14-face-plane-ref-fixed-face-responses.json (420 bytes)

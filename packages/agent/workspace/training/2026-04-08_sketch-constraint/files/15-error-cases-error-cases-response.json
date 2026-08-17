@@ -1,0 +1,30 @@
+{
+  "parallelOneLine": {
+    "result": 62,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "invalidType": {
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.constraint",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"type\" is not valid. Possible values are: [\"COINCIDENT\",\"COLINEAR\",\"CONCENTRIC\",\"EQUAL_LENGTH\",\"EQUAL_RADIUS\",\"FIXATION\",\"HORIZONTAL\",\"MIDPOINT\",\"PARALLEL\",\"PERPENDICULAR\",\"SPLINE_FIT_POINT\",\"SYMMETRY\",\"TANGENT\",\"VERTICAL\"]"
+      }
+    ],
+    "maxLevel": 51
+  },
+  "firstHorizontal": {
+    "result": 64,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "redundantHorizontal": {
+    "result": 66,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

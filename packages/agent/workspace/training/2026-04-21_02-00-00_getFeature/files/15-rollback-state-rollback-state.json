@@ -1,0 +1,29 @@
+{
+  "Alpha": {
+    "result": 54,
+    "match": true,
+    "maxLevel": 31
+  },
+  "Beta": {
+    "result": 91,
+    "match": true,
+    "maxLevel": 31
+  },
+  "Gamma": {
+    "result": 128,
+    "match": true,
+    "maxLevel": 31
+  },
+  "Alpha_restored": {
+    "result": 54,
+    "match": true
+  },
+  "Beta_restored": {
+    "result": 91,
+    "match": true
+  },
+  "Gamma_restored": {
+    "result": 128,
+    "match": true
+  }
+}

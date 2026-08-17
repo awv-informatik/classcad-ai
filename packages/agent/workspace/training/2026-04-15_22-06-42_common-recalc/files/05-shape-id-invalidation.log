@@ -1,0 +1,7 @@
+[05] shapeId: 60
+[05] line added
+[05] translate before recalc: maxLevel= 31 ok= true
+[05] recalc: maxLevel= 31
+[05] translate after recalc: maxLevel= 51
+[05] translate after recalc messages: [{"api":"v1.curve.translateShape","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[filewrite] files/05-shape-id-invalidation-shape-invalidation.json (376 bytes)

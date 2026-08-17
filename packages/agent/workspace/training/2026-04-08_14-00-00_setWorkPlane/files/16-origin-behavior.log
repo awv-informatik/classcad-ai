@@ -1,0 +1,4 @@
+[16] after wp1 origin: [0,50,0]
+[16] after wp2 origin: [20,50,0]
+[16] fresh sketch on wp2 origin: [20,0,0]
+[filewrite] files/16-origin-behavior-origin-behavior.json (538 bytes)

@@ -1,0 +1,47 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('RobotHead', '2026-07-02T11:09:34', (''), (''), 'Express 3.1.3.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+
+DATA;
+#1 = (
+   GEOMETRIC_REPRESENTATION_CONTEXT (3)
+   GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT ((#3))
+   GLOBAL_UNIT_ASSIGNED_CONTEXT ((#2, #4, #5))
+   REPRESENTATION_CONTEXT ('', '3D')
+);
+#2 = (
+   LENGTH_UNIT ()
+   NAMED_UNIT (*)
+   SI_UNIT (.MILLI., .METRE.)
+);
+#3 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-6), #2, 'DISTANCE_ACCURACY_VALUE', '');
+#4 = (
+   NAMED_UNIT (*)
+   SI_UNIT ($, .STERADIAN.)
+   SOLID_ANGLE_UNIT ()
+);
+#5 = (
+   NAMED_UNIT (*)
+   PLANE_ANGLE_UNIT ()
+   SI_UNIT ($, .RADIAN.)
+);
+#6 = SHAPE_REPRESENTATION('', (#17), #1);
+#7 = PRODUCT_DEFINITION_SHAPE('', '', #8);
+#8 = PRODUCT_DEFINITION('', '', #11, #15);
+#9 = APPLICATION_CONTEXT('configuration controlled 3D designs of mechanical parts and assemblies');
+#10 = APPLICATION_PROTOCOL_DEFINITION('International Standard', 'automotive_design', 2002, #9);
+#11 = PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('', '', #12, .NOT_KNOWN.);
+#12 = PRODUCT('RobotHead', 'RobotHead', '', (#13));
+#13 = PRODUCT_CONTEXT('', #9, 'mechanical');
+#14 = PRODUCT_RELATED_PRODUCT_CATEGORY('detail', '', (#12));
+#15 = PRODUCT_DEFINITION_CONTEXT('part definition', #9, 'design');
+#16 = SHAPE_DEFINITION_REPRESENTATION(#7, #6);
+#17 = AXIS2_PLACEMENT_3D('', #18, #19, #20);
+#18 = CARTESIAN_POINT('', (0., 0., 0.));
+#19 = DIRECTION('', (0., 0., 1.));
+#20 = DIRECTION('', (1., 0., 0.));
+ENDSEC;
+END-ISO-10303-21;

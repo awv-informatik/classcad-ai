@@ -1,0 +1,6 @@
+[13] no matrix result: null maxLevel: 51
+[13] no matrix messages: [{"api":"v1.curve.transformShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"matrix\" must be provided in the api call!"}]
+[filewrite] files/13-error-missing-params-no-matrix-response.json (255 bytes)
+[13] no id result: null maxLevel: 51
+[13] no id messages: [{"api":"v1.curve.transformShape","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" must be provided in the api call!"}]
+[filewrite] files/13-error-missing-params-no-id-response.json (251 bytes)

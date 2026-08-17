@@ -1,0 +1,130 @@
+{
+  "afterConstraint": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "afterRecalc": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "afterMoveZero": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "afterNudge": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50.001,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "afterNudgeBack": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "afterDimUpdate": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "afterRecalc2": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "afterOpenClose": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  }
+}

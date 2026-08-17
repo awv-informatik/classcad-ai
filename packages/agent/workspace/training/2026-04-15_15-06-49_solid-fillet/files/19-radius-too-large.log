@@ -1,0 +1,6 @@
+[19] short edge: -19 pos: [{"x":-20,"y":-15,"z":0}]
+[19] radius=12 result: [ 61 ] maxLevel: 31
+[filewrite] files/19-radius-too-large-radius-12.json (80 bytes)
+[19] radius=16 result: null maxLevel: 51
+[19] msg16: level=51 "Set the parameter "id" = VOID is not allowed in this situation!"
+[filewrite] files/19-radius-too-large-radius-16.json (270 bytes)

@@ -1,0 +1,57 @@
+{
+  "part": {
+    "id": 4,
+    "setMaxLevel": 31,
+    "setMessages": [],
+    "getValue": "testVal",
+    "keys": [
+      "testKey"
+    ]
+  },
+  "entityInjection": {
+    "id": 54,
+    "setMaxLevel": 31,
+    "setMessages": [],
+    "getValue": "testVal",
+    "keys": [
+      "testKey"
+    ]
+  },
+  "solid": {
+    "id": 61,
+    "setMaxLevel": 31,
+    "setMessages": [],
+    "getValue": "testVal",
+    "keys": [
+      "testKey"
+    ]
+  },
+  "sketch": {
+    "id": 63,
+    "setMaxLevel": 31,
+    "setMessages": [],
+    "getValue": "testVal",
+    "keys": [
+      "testKey"
+    ]
+  },
+  "bogusId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setUserData",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.common.setUserData",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  }
+}

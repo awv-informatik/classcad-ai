@@ -1,0 +1,9 @@
+[08b] sketch geometry: {"arcs":[],"circles":[58,65],"lines":[],"points":[]}
+[08b] BEFORE: c1 center: {"x":0,"y":0,"z":0} c2 center: {"x":80,"y":0,"z":0}
+[08b] constraint result: 68 maxLevel: 31
+[08b] c1 node: {"name":"Circle","class":"CC_Circle","id":58,"flags":0,"parent":52,"members":{"radius":{"value":30,"type":"real","visible":1,"expression":""},"_VERSION":{"value":"0/2001_2_2_9:19","type":"string","visible":0,"expression":""},"rigidSetId":{"value":0,"type":"id","visible":1,"expression":""},"lgsState":{"value":8,"type":"real","visible":1,"expression":""}},"children":[59]}
+[08b] c2 node: {"name":"Circle0","class":"CC_Circle","id":65,"flags":0,"parent":52,"members":{"radius":{"value":30,"type":"real","visible":1,"expression":""},"_VERSION":{"value":"0/2001_2_2_9:19","type":"string","visible":0,"expression":""},"rigidSetId":{"value":0,"type":"id","visible":1,"expression":""},"lgsState":{"value":36,"type":"real","visible":1,"expression":""}},"children":[66]}
+[08b] c1 radius: 30
+[08b] c2 radius: 30
+[08b] AFTER: c1 center: {"x":0,"y":0,"z":0} c2 center: {"x":80,"y":0,"z":0}
+[filewrite] files/08b-equal-radius-verify-equal-radius-verify.json (995 bytes)

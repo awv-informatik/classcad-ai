@@ -1,0 +1,5 @@
+[05] mate1.flip: -X (expected: -X)
+[05] mate1.reorient: 180 (expected: 180)
+[05] mate1.path: [ 113 ]
+[05] mate1.csys: 107
+[filewrite] files/05-flip-reorient-get-flip-reorient.json (245 bytes)

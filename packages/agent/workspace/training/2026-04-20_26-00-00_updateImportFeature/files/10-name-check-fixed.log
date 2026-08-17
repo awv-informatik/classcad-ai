@@ -1,0 +1,5 @@
+[10] name before: MyCustomName
+[10] name after data-only update: MyCustomName
+[10] name after name+data update: NewName
+[10] name-only update result: null maxLevel: 51
+[10] name after name-only attempt: OnlyName

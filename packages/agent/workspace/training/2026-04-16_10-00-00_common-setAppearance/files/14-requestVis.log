@@ -1,0 +1,8 @@
+[14] requestVis(boxId) result: null maxLevel: 31
+[filewrite] files/14-requestVis-vis-boxId.json (56 bytes)
+[filewrite] files/14-requestVis-vis-graphic.json (11057 bytes)
+[14] requestVis(eifId) result: null maxLevel: 31
+[filewrite] files/14-requestVis-vis-eifId.json (56 bytes)
+[14] requestVis(partId) result: null maxLevel: 31
+[filewrite] files/14-requestVis-vis-partId.json (56 bytes)
+[14] graphic keys: [ 'containers', 'properties' ]

@@ -1,0 +1,3 @@
+[01] construction rect [58,64,70,76] — calling part.extrusion (8s timeout)...
+[filewrite] files/01-repro-extrusion-01-repro-extrusion.json (80 bytes)
+[01] VERDICT HUNG {"verdict":"HUNG","note":"part.extrusion did not return within 8000ms"}

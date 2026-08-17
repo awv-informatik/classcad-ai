@@ -1,0 +1,38 @@
+{
+  "structBefore": {
+    "root": 12,
+    "instances": [
+      87,
+      89
+    ],
+    "partTemplate": 22
+  },
+  "cog1Before": {
+    "x": 2.3909376310413953e-16,
+    "y": -9.294845575771287e-16,
+    "z": 24.99633438809064
+  },
+  "cog2Before": {
+    "x": 80.00586497905498,
+    "y": -2.7286802319553515e-15,
+    "z": 24.996334388090645
+  },
+  "firstConvert": {
+    "defaultTpl": 12,
+    "newRoot": 93
+  },
+  "secondConvert": {
+    "customTpl": 93,
+    "newRoot": 109
+  },
+  "allAsmTpls": [
+    12,
+    93
+  ],
+  "partTplAfter": 22,
+  "finalCog": {
+    "x": 40.00293248952749,
+    "y": -1.82908239476624e-15,
+    "z": 24.996334388090645
+  }
+}

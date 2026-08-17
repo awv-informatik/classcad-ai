@@ -1,0 +1,92 @@
+{
+  "sets": {
+    "number": {
+      "result": null,
+      "maxLevel": 51,
+      "messages": [
+        {
+          "api": "v1.common.setUserData",
+          "code": 1001,
+          "level": 51,
+          "levelStr": "ERROR",
+          "message": "The parameter \"value\" has the wrong type! It should be of type (string)"
+        }
+      ]
+    },
+    "boolean": {
+      "result": null,
+      "maxLevel": 51,
+      "messages": [
+        {
+          "api": "v1.common.setUserData",
+          "code": 1001,
+          "level": 51,
+          "levelStr": "ERROR",
+          "message": "The parameter \"value\" has the wrong type! It should be of type (string)"
+        }
+      ]
+    },
+    "object": {
+      "result": null,
+      "maxLevel": 51,
+      "messages": [
+        {
+          "api": "v1.common.setUserData",
+          "code": 1001,
+          "level": 51,
+          "levelStr": "ERROR",
+          "message": "The parameter \"value\" has the wrong type! It should be of type (string)"
+        }
+      ]
+    },
+    "array": {
+      "result": null,
+      "maxLevel": 51,
+      "messages": [
+        {
+          "api": "v1.common.setUserData",
+          "code": 1001,
+          "level": 51,
+          "levelStr": "ERROR",
+          "message": "The parameter \"value\" has the wrong type! It should be of type (string)"
+        }
+      ]
+    },
+    "null": {
+      "result": null,
+      "maxLevel": 51,
+      "messages": [
+        {
+          "api": "v1.common.setUserData",
+          "code": 1001,
+          "level": 51,
+          "levelStr": "ERROR",
+          "message": "Set the parameter \"value\" = VOID is not allowed in this situation!"
+        }
+      ]
+    }
+  },
+  "gets": {
+    "numVal": {
+      "result": "",
+      "type": "string"
+    },
+    "boolVal": {
+      "result": "",
+      "type": "string"
+    },
+    "objVal": {
+      "result": "",
+      "type": "string"
+    },
+    "arrVal": {
+      "result": "",
+      "type": "string"
+    },
+    "nullVal": {
+      "result": "",
+      "type": "string"
+    }
+  },
+  "keys": []
+}

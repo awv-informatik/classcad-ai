@@ -1,0 +1,4 @@
+[04] merge graphic keys: [ 'containers', 'properties' ]
+[04] union graphic keys: [ 'containers', 'properties' ]
+[filewrite] files/04-graphic-comparison-merge-structure.json (21056 bytes)
+[filewrite] files/04-graphic-comparison-union-structure.json (22946 bytes)

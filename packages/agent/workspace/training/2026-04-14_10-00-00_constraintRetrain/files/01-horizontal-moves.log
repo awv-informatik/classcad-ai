@@ -1,0 +1,7 @@
+[01] topPlane: 38
+[01] sketchId: 52
+[01] lineId: 58
+[01] before: {"start":{"pos":{"x":0,"y":0,"z":0}},"end":{"pos":{"x":60,"y":30,"z":0}}}
+[01] constraint result: 64 maxLevel: 31
+[01] after: {"start":{"pos":{"x":0,"y":0,"z":0}},"end":{"pos":{"x":67.08203932499369,"y":-4.107590236981519e-15,"z":0}}}
+[filewrite] files/01-horizontal-moves-horizontal-data.json (501 bytes)

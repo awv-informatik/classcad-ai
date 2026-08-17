@@ -1,0 +1,7 @@
+[12] 2-element point result: null maxLevel: 51
+[12] 2-element messages: [{"api":"v1.curve.line","code":0,"level":51,"levelStr":"ERROR","message":"If point is defined as array, it must have exactly 3 real values"}]
+[12] 4-element point result: null maxLevel: 51
+[12] 4-element messages: [{"api":"v1.curve.line","code":0,"level":51,"levelStr":"ERROR","message":"If point is defined as array, it must have exactly 3 real values"}]
+[12] 1-element point result: null maxLevel: 51
+[12] 1-element messages: [{"api":"v1.curve.line","code":0,"level":51,"levelStr":"ERROR","message":"If point is defined as array, it must have exactly 3 real values"}]
+[filewrite] files/12-point-types-point-types.json (873 bytes)

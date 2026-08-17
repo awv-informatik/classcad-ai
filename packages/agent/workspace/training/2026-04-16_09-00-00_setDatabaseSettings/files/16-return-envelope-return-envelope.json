@@ -1,0 +1,33 @@
+{
+  "success": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "error": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setDatabaseSettings",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CommonHelper.SetDatabaseSettings:Unknown exception\nFunction: CADH_SetDatabaseSettings\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2762] "
+      }
+    ]
+  },
+  "typeError": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setDatabaseSettings",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"isGraphicEnabled\" has the wrong type! It should be of type (boolean)"
+      }
+    ]
+  }
+}

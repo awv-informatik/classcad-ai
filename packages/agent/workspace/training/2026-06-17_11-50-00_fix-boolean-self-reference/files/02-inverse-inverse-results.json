@@ -1,0 +1,14 @@
+{
+  "union2d_distinct": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "solidUnion_distinct": {
+    "maxLevel": 31,
+    "messages": []
+  },
+  "solidSub_distinct": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

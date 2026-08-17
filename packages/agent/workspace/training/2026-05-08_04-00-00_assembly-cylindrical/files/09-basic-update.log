@@ -1,0 +1,14 @@
+[09] created: 216
+[09] COG before update: { x: 40, y: 10, z: 24 }
+[09] update zOffsetLimits: 216 maxLevel: 31
+[09] COG after zOffsetLimits update: { x: 39.999999999999986, y: 9.999999999999996, z: 34.00099999999998 }
+[09] update zRotationLimits: 216 maxLevel: 31
+[09] rename: 216 maxLevel: 31
+[09] getCylindrical under new name: found
+[filewrite] files/09-basic-update-getCylindrical-afterUpdate.json (385 bytes)
+[09] getCylindrical old name: NOT FOUND maxLevel: 51
+[09] remove limits: 216 maxLevel: 31
+[09] after removing limits: { max: null, min: null } { max: null, min: null }
+[09] wrong id type: null maxLevel: 51
+[09]   msg: 1007 The provided id for the constraint is not a constraint or relation.
+[09]   msg: 1004 "id" must be provided for update.

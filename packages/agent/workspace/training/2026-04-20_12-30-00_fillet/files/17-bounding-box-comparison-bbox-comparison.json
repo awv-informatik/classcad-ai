@@ -1,0 +1,20 @@
+{
+  "beforeBBox": {},
+  "afterBBox": {
+    "min": [
+      0,
+      0,
+      0
+    ],
+    "max": [
+      80,
+      60,
+      40
+    ]
+  },
+  "vertices": {
+    "before": 0,
+    "after": 0,
+    "delta": 0
+  }
+}

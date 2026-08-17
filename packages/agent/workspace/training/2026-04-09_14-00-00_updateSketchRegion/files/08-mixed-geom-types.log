@@ -1,0 +1,5 @@
+[08] line: 94 arc: 100 circle: 109
+[08] mixed update result: null maxLevel: 31
+[filewrite] files/08-mixed-geom-types-mixed-response.json (56 bytes)
+[08] geom after mixed: {"arcs":[100],"circles":[109],"lines":[94],"points":[]}
+[filewrite] files/08-mixed-geom-types-mixed-geom.json (96 bytes)

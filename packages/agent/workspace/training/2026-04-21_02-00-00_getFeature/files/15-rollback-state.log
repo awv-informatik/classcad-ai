@@ -1,0 +1,7 @@
+[15] rolled back "Alpha": 54 maxLevel: 31
+[15] rolled back "Beta": 91 maxLevel: 31
+[15] rolled back "Gamma": 128 maxLevel: 31
+[15] restored "Alpha": 54 match: true
+[15] restored "Beta": 91 match: true
+[15] restored "Gamma": 128 match: true
+[filewrite] files/15-rollback-state-rollback-state.json (413 bytes)

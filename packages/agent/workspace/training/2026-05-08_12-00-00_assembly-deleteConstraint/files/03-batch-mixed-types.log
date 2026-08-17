@@ -1,0 +1,6 @@
+[03] foId: 214 fastId: 218 revId: 222
+[03] batch delete result: null maxLevel: 31
+[filewrite] files/03-batch-mixed-types-batch-delete-response.json (56 bytes)
+[03] getFastened after: null maxLevel: 51
+[03] getRevolute after: null maxLevel: 51
+[03] getFastenedOrigin after: exists maxLevel: 31

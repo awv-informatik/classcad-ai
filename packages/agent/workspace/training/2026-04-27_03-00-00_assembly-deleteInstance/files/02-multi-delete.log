@@ -1,0 +1,5 @@
+[02] created: 105 107 109
+[02] delete [inst1, inst3] result: null maxLevel: 31
+[filewrite] files/02-multi-delete-multi-delete-response.json (56 bytes)
+[02] after delete, instances: [ 107 ]
+[02] expected only inst2: 107 — match: true

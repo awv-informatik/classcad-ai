@@ -1,0 +1,6 @@
+[03] reorient=0 COG: {"x":40,"y":10,"z":4}
+[03] reorient=90 COG: {"x":10,"y":-40.00000000000001,"z":4.0000000000000036}
+[03] reorient=180 COG: {"x":-40,"y":-10,"z":4.000000000000007}
+[03] reorient=270 COG: {"x":-10,"y":40.00000000000001,"z":4.000000000000005}
+[03] final state reorient: 270 limits: {"max":0,"min":0}
+[filewrite] files/03-reorient-update-reorient-data.json (705 bytes)

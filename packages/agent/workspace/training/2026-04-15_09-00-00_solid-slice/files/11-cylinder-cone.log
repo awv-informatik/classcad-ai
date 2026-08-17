@@ -1,0 +1,7 @@
+[11] cylId: 61
+[11] cyl slice result: null maxLevel: 31
+[11] cyl AFTER min: [-15,-15,-30] max: [15,15,0]
+[11] coneId: 64
+[11] cone slice result: null maxLevel: 31
+[11] cone AFTER min: [45,-15,-25] max: [75,15,0]
+[filewrite] files/11-cylinder-cone-cyl-cone-results.json (397 bytes)

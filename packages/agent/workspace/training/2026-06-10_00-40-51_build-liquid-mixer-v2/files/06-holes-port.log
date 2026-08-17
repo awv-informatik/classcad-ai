@@ -1,0 +1,10 @@
+[06] ThruTL: cyl 405 maxLevel 31
+[06] ThruBR: cyl 432 maxLevel 31
+[06] CboreTL: cyl 459 maxLevel 31
+[06] CboreBR: cyl 486 maxLevel 31
+[06] PortPilot: cyl 513 maxLevel 31
+[06] ChamberBore: cyl 540 maxLevel 31
+[06] subtraction: 559 maxLevel: 31 []
+[06] vol: 327927.40 expected: 327965.66 delta%: -0.0117
+[06] COG: {"x":59.51448409581199,"y":39.9992077043967,"z":20.28778484814217} expected ~(59.509, 40.000, 20.289)
+[filewrite] files/06-holes-port-holes-verify.json (232 bytes)

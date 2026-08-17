@@ -1,0 +1,6 @@
+[05] PREDICT: rounded center cell = 4 lines + 1 arc; whole rest of the grid+circle field discarded
+[05] total segments 32 | keep 5 | trim 27
+[filewrite] files/05-grid-circle-rounded-cell-05-result.json (421 bytes)
+[05] REALIZED: lines 4 arcs 1 | lines [[30,30,60,30],[30,60,40,60],[30,30,30,60],[60,30,60,40]]
+[05] CHECKS {"oneArc":true,"fourLines":true,"allInCell":true,"noFullCircle":true}
+[05] PASS — prediction realized

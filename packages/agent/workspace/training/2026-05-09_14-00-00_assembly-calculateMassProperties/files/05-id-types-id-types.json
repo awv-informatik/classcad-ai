@@ -1,0 +1,194 @@
+{
+  "asmRoot": {
+    "result": {
+      "cog": {
+        "x": 70,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 48000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "partTemplate": {
+    "result": {
+      "cog": {
+        "x": 20,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "asmTemplate": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Getting model information of assembly templates is not supported yet!"
+      },
+      {
+        "api": "v1.assembly.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+      }
+    ]
+  },
+  "partInstance": {
+    "result": {
+      "cog": {
+        "x": 20,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "subAsmInstance": {
+    "result": {
+      "cog": {
+        "x": 120,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "boxFeature": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "levelStr": "ERROR",
+        "level": 51,
+        "code": 1001,
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"
+      },
+      {
+        "levelStr": "ERROR",
+        "level": 51,
+        "code": 0,
+        "message": "[Evaluation error in AssemblyAPI_v1.calculateMassProperties:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "workCSys": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "levelStr": "ERROR",
+        "level": 51,
+        "code": 1001,
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"
+      },
+      {
+        "levelStr": "ERROR",
+        "level": 51,
+        "code": 0,
+        "message": "[Evaluation error in AssemblyAPI_v1.calculateMassProperties:[CCVM::ldm: objId not found]] "
+      }
+    ]
+  },
+  "subInstInside": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Getting model information from this type of object is not supported yet,\r\n\t\t\t\tuse objects from expanded tree!"
+      },
+      {
+        "api": "v1.assembly.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+      }
+    ]
+  },
+  "part.asmRoot": {
+    "result": {
+      "cog": {
+        "x": 70,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 48000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "part.partTemplate": {
+    "result": {
+      "cog": {
+        "x": 20,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "part.asmTemplate": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.part.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Getting model information of assembly templates is not supported yet!"
+      },
+      {
+        "api": "v1.part.calculateMassProperties",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "
+      }
+    ]
+  },
+  "part.partInstance": {
+    "result": {
+      "cog": {
+        "x": 20,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  },
+  "part.subAsmInstance": {
+    "result": {
+      "cog": {
+        "x": 120,
+        "y": 15,
+        "z": 10
+      },
+      "volume": 24000
+    },
+    "maxLevel": 31,
+    "messages": []
+  }
+}

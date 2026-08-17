@@ -1,0 +1,6 @@
+[08] start==end result: null maxLevel: 51 msgs: [{"api":"v1.sketch.arcByCenter","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[08] center==start result: null maxLevel: 41 msgs: [{"api":"v1.sketch.arcByCenter","code":1014,"level":41,"levelStr":"WARNING","message":"Arc could not be created. Start-, center- and end-pos do not fit together."}]
+[08] all same result: null maxLevel: 51 msgs: [{"api":"v1.sketch.arcByCenter","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[08] non-zero Z result: null maxLevel: 51 msgs: [{"api":"v1.sketch.arcByCenter","code":1014,"level":51,"levelStr":"ERROR","message":"The parameter \"startPos\" which is a 2D point, must have a z-value of 0!"}]
+[08] start==end again: null maxLevel: 51
+[filewrite] files/08-degenerate-degenerate-results.json (1493 bytes)

@@ -1,0 +1,5 @@
+[06] chamferId: 120
+[06] update1 (d=10) — result: 120 maxLevel: 31
+[06] update2 (TWO_DIST) — result: 120 maxLevel: 31
+[06] update3 (EQUAL_DIST d=15 rename) — result: 120 maxLevel: 31
+[filewrite] files/06-multiple-sequential-updates-sequential-results.json (161 bytes)

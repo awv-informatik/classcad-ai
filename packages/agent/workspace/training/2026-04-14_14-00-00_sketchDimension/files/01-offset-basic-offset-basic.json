@@ -1,0 +1,130 @@
+{
+  "dimId": 68,
+  "maxLevel": 31,
+  "messages": [],
+  "dimClass": "CC_LinearFeatureDimension",
+  "dimName": "Offset",
+  "dimMembers": {
+    "master": {
+      "value": 66,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2017_5_15_11:59",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "orientationType": {
+      "value": 2,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "startPt": {
+      "value": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "endPt": {
+      "value": {
+        "x": 80,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "angle": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "valHandlePos": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "valHandleBehaviour": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "dimPt": {
+      "value": {
+        "x": 40,
+        "y": 8,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "GetSE([0,0,8,[0,0.5]])"
+    },
+    "classification": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "paramName": {
+      "value": "@value",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "displayInfo": {
+      "members": [
+        {
+          "members": [
+            {
+              "value": 59,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 1,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "members": [
+            {
+              "value": 60,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 1,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

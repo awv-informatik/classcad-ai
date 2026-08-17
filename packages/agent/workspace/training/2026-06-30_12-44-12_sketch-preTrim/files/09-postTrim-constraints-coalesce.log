@@ -1,0 +1,9 @@
+[filewrite] files/09-postTrim-constraints-coalesce-09A-constraints.json (634 bytes)
+[09] A consBefore ["Auto_H","Auto_V"]
+[09] A consAfter  ["Auto_H0:CC_2DHorizontalConstraint","Auto_V0:CC_2DVerticalConstraint","Auto_Coinc:CC_2DCoincidentConstraint"]
+[09] A Auto_Coinc at corner? {"id":108,"name":"Auto_Coinc","class":"CC_2DCoincidentConstraint"}
+[filewrite] files/09-postTrim-constraints-coalesce-09B-coalesce.json (650 bytes)
+[09] B lng split into 3 segs; survivors [{"id":122,"start":[40,0,0],"end":[40,100,0]},{"id":128,"start":[80,0,0],"end":[80,100,0]},{"id":177,"start":[40,50,0],"end":[120,50,0]}]
+[09] B coalesced (40,50)->(120,50) as ONE line? true [{"id":177,"start":[40,50,0],"end":[120,50,0]}]
+[09] CHECKS {"A_hasAutoCoinc":true,"A_constraintsRecreated":true,"B_lngThreeSegs":true,"B_coalescedToOne":true}
+[09] PASS

@@ -1,0 +1,5 @@
+[10] missing translation — result: null maxLevel: 51
+[10] missing translation — messages: [{"api":"v1.solid.translation","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"translation\" must be provided in the api call!"}]
+[10] missing target — result: null maxLevel: 51
+[10] missing target — messages: [{"api":"v1.solid.translation","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"target\" must be provided in the api call!"}]
+[filewrite] files/10-missing-param-missing-param-response.json (606 bytes)

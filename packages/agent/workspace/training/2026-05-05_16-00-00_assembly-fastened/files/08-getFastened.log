@@ -1,0 +1,5 @@
+[08] fastened id: 121
+[08] getFastened maxLevel: 31
+[filewrite] files/08-getFastened-getFastened-result.json (371 bytes)
+[08] non-existent name maxLevel: 51 result: null
+[08] non-existent messages: [{"api":"v1.assembly.getFastened","code":0,"level":51,"levelStr":"ERROR","message":"There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"}]

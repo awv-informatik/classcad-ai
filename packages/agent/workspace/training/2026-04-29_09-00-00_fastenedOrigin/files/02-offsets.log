@@ -1,0 +1,6 @@
+[02] no offset: 127 maxLevel: 31
+[02] xOffset=50: 131 maxLevel: 31
+[02] yOffset=50: 135 maxLevel: 31
+[02] zOffset=50: 139 maxLevel: 31
+[02] all offsets: 143 maxLevel: 31
+[filewrite] files/02-offsets-offset-results.json (275 bytes)

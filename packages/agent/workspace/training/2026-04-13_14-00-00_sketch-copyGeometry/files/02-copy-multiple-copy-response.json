@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.sketch.copyGeometry",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "An element of parameter \"geomIds\" has the wrong type! It should be of type (string|real|id)"
+    }
+  ],
+  "maxLevel": 51
+}

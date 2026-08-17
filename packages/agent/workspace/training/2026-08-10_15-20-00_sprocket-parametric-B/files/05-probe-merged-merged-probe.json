@@ -1,0 +1,22 @@
+{
+  "disjoint": {
+    "result": 99,
+    "maxLevel": 31,
+    "msgs": [],
+    "vol": 80000
+  },
+  "overlap": {
+    "result": 99,
+    "maxLevel": 31,
+    "msgs": [],
+    "vol": 36914.87483155918
+  },
+  "regen": {
+    "patLevel": 31,
+    "boolLevel": 31,
+    "vol6": 72461.17164545368,
+    "vol9": 71184.9094752809,
+    "cutMore": true,
+    "updLevel": 31
+  }
+}

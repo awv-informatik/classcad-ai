@@ -1,0 +1,14 @@
+[03] boss fixation: 31 relations: 31 dims: 31
+[06] fixation: 31 relations: 31 dims3: 31
+[06] ✓ cutout bottom-left (30,20) → (30.000000000, 20.000000000)
+[06] ✓ cutout top-left (30,60) → (30.000000000, 60.000000000)
+[06] ✓ earT.center (30,56) → (30.000000000, 56.000000000)
+[06] ✓ earT.end (30,52) → (30.000000000, 52.000000000)
+[06] ✓ leftL.end (30,28) → (30.000000000, 28.000000000)
+[06] ✓ earB.center (30,24) → (30.000000000, 24.000000000)
+[06] cutout readbacks: 6 / 6
+[05] final boolean maxLevel: 31
+[05] audit: 23 / 23 maxLevel: 31
+[06] FINAL vol: 326305.15 (expect 326305.89 unchanged) COG: {"x":58.672242138343414,"y":39.998524890611165,"z":20.18977192544782}
+[06] expected COG-x: 58.6720 — match: true
+[filewrite] files/06-final-cutout-left-final-verify.json (185 bytes)

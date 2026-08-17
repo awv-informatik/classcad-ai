@@ -1,0 +1,16 @@
+[08] b64-only is valid base64: true
+[08] both is valid base64: true
+[08] decoded b64 length: 33216
+[08] raw length: 33216
+[08] decoded matches raw: false
+[08] decoded first 80 chars: classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+ApplicationExec=classcad-
+[08] raw first 80 chars: classcad
+Version=11
+ApplicationClass=BuerliDemoApp
+ApplicationExec=classcad-
+[08] compressed buffer length: 4250
+[08] inflate error: incorrect header check
+[filewrite] files/08-base64-validation-b64-validation.json (46 bytes)

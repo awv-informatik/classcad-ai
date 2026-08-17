@@ -1,0 +1,19 @@
+[filewrite] files/16-error-codes-and-void-guard-16-noId.json (220 bytes)
+[16] {"label":"noId","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1004,"message":"The parameter \"id\" must be provided in the api call!"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-badId.json (334 bytes)
+[16] {"label":"badId","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"level":51,"code":1006,"message":"An element of parameter \"id\" has an invalid id!"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-partId.json (255 bytes)
+[16] {"label":"partId","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1001,"message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-planeId.json (256 bytes)
+[16] {"label":"planeId","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1001,"message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-cidBad.json (341 bytes)
+[16] {"label":"cidBad","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"level":51,"code":1006,"message":"An element of parameter \"curveIds\" has an invalid id!"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-cidSketch.json (270 bytes)
+[16] {"label":"cidSketch","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1001,"message":"The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-cidPoint.json (269 bytes)
+[16] {"label":"cidPoint","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":51,"code":1001,"message":"The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-cidMixed.json (343 bytes)
+[16] {"label":"cidMixed","maxLevel":51,"isArray":false,"nEntries":null,"err":[{"level":41,"code":0,"message":"ToId()/TOID() didn't get an existing or valid id."},{"level":51,"code":1006,"message":"An element of parameter \"curveIds\" has an invalid id!"}]}
+[filewrite] files/16-error-codes-and-void-guard-16-cidDup.json (90 bytes)
+[16] {"label":"cidDup","maxLevel":31,"isArray":true,"nEntries":3,"err":[]}
+[16] all failures result-not-array? true

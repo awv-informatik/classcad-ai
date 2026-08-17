@@ -1,0 +1,8 @@
+[08] partId: 4
+[08] found internals: [{"id":6,"name":"ExpressionSet"},{"id":22,"name":"Origin"},{"id":26,"name":"XAxis"},{"id":38,"name":"Top"}]
+[08] rename ExpressionSet (id=6) → result:null maxLevel:31
+[08] rename Origin (id=22) → result:null maxLevel:31
+[08] rename XAxis (id=26) → result:null maxLevel:31
+[08] rename Top (id=38) → result:null maxLevel:31
+[filewrite] files/08-rename-internal-objects-internal-rename-results.json (452 bytes)
+[filewrite] files/08-rename-internal-objects-structure-after-internal-rename.json (19163 bytes)

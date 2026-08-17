@@ -1,0 +1,7 @@
+[03] COG before: {"x":39.13793103448276,"y":10,"z":10.431034482758621}
+[03] start: null maxLevel: 31
+[03] move: null maxLevel: 31
+[filewrite] files/03-translation-1d-along-z-move-response.json (56 bytes)
+[03] COG after move: {"x":39.13793103448275,"y":10,"z":25.94827586206897}
+[03] COG final: {"x":39.13793103448275,"y":10,"z":25.94827586206897}
+[filewrite] files/03-translation-1d-along-z-mass-comparison.json (438 bytes)

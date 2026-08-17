@@ -1,0 +1,18 @@
+[06b] ids: C1 58 C2 63 L 66
+[06b] preTrim per source: [{"src":58,"segs":4},{"src":63,"segs":4},{"src":66,"segs":5}]
+[filewrite] files/06b-diagnostic-06b-rows.json (2326 bytes)
+[06b] seg 92 src 58 arc mid [44.7,22.4] | naiveTrim true | bnd in1=true in2=true keep=false
+[06b] seg 97 src 58 arc mid [-22.4,44.7] | naiveTrim false | bnd in1=false in2=true keep=true
+[06b] seg 102 src 58 arc mid [-22.4,-44.7] | naiveTrim false | bnd in1=false in2=true keep=true
+[06b] seg 107 src 58 arc mid [44.7,-22.4] | naiveTrim true | bnd in1=true in2=true keep=false
+[06b] seg 112 src 63 arc mid [82.4,44.7] | naiveTrim false | bnd in1=false in2=true keep=true
+[06b] seg 117 src 63 arc mid [15.3,22.4] | naiveTrim true | bnd in1=true in2=true keep=false
+[06b] seg 122 src 63 arc mid [15.3,-22.4] | naiveTrim true | bnd in1=true in2=true keep=false
+[06b] seg 127 src 63 arc mid [82.4,-44.7] | naiveTrim false | bnd in1=false in2=true keep=true
+[06b] seg 132 src 66 line mid [-70,0] | naiveTrim false | bnd in1=false in2=false keep=false
+[06b] seg 136 src 66 line mid [-20,0] | naiveTrim true | bnd in1=true in2=true keep=false
+[06b] seg 140 src 66 line mid [30,0] | naiveTrim true | bnd in1=true in2=true keep=false
+[06b] seg 144 src 66 line mid [80,0] | naiveTrim true | bnd in1=true in2=true keep=false
+[06b] seg 148 src 66 line mid [130,0] | naiveTrim false | bnd in1=false in2=false keep=false
+[06b] naive would KEEP: [ 97, 102, 112, 127, 132, 148 ]
+[06b] boundary would KEEP: [ 97, 102, 112, 127 ]

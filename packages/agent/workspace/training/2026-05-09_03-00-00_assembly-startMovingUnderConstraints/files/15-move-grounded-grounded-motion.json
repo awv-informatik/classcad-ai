@@ -1,0 +1,26 @@
+{
+  "massBefore": {
+    "cog": {
+      "x": 25,
+      "y": 20,
+      "z": 5
+    },
+    "volume": 20000
+  },
+  "massAfter": {
+    "cog": {
+      "x": 25,
+      "y": 20,
+      "z": 5
+    },
+    "volume": 20000
+  },
+  "massTrans": {
+    "cog": {
+      "x": 25,
+      "y": 20,
+      "z": 5
+    },
+    "volume": 20000
+  }
+}

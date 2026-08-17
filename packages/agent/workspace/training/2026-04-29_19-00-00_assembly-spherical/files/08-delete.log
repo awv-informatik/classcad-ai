@@ -1,0 +1,6 @@
+[08] created: 216
+[08] deleteConstraint result: null maxLevel: 31
+[filewrite] files/08-delete-delete-response.json (56 bytes)
+[08] after delete get: null maxLevel: 51
+[08] delete with singular id: null maxLevel: 51
+[filewrite] files/08-delete-delete-singular-id.json (257 bytes)

@@ -1,0 +1,29 @@
+{
+  "sketch": {
+    "id": 52,
+    "setMaxLevel": 31,
+    "setMessages": [],
+    "getValue": "sketch",
+    "keys": [
+      "geoType"
+    ]
+  },
+  "line": {
+    "id": 58,
+    "setMaxLevel": 31,
+    "setMessages": [],
+    "getValue": "line",
+    "keys": [
+      "geoType"
+    ]
+  },
+  "rectLine0": {
+    "id": 66,
+    "setMaxLevel": 31,
+    "setMessages": [],
+    "getValue": "rectLine0",
+    "keys": [
+      "geoType"
+    ]
+  }
+}

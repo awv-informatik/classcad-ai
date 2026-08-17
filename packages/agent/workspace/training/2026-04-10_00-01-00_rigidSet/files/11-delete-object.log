@@ -1,0 +1,6 @@
+[11] rigidSet created: 74
+[11] deleteObject — result: null maxLevel: 31
+[11] deleteObject messages: []
+[filewrite] files/11-delete-object-delete-response.json (56 bytes)
+[11] geometry after rigid set delete: 0 items
+[11] lines still exist: NO

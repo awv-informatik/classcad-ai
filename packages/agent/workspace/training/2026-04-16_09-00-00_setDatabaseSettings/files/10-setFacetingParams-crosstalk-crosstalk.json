@@ -1,0 +1,30 @@
+{
+  "dbAfterSet": {
+    "angleTol": 25,
+    "chordHeightTol": 0.5,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "fpAfterSet": {
+    "angleTol": 25,
+    "chordHeightTol": 0.5
+  },
+  "dbAfterFP": {
+    "angleTol": 40,
+    "chordHeightTol": 0.8,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 1,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 1,
+    "isInvisibleGraphicEnabled": 0,
+    "isSketchGraphicEnabled": 1
+  },
+  "fpAfterFP": {
+    "angleTol": 40,
+    "chordHeightTol": 0.8
+  }
+}

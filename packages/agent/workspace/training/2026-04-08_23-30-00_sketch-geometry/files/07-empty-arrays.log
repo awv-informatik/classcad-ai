@@ -1,0 +1,7 @@
+[07a] all empty - result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[],"points":[]}
+[07a] maxLevel: 31
+[07b] no arrays - result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[],"points":[]}
+[07b] maxLevel: 31
+[07c] mixed empty/populated - result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[58],"points":[]}
+[07c] maxLevel: 31
+[filewrite] files/07-empty-arrays-empty-arrays.json (527 bytes)

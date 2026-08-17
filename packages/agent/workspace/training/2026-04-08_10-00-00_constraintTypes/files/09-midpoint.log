@@ -1,0 +1,7 @@
+[09] point BEFORE midpoint: { pos: { x: 20, y: 30, z: 0 } }
+[09] MIDPOINT result: 66 maxLevel: 31
+[09] point AFTER midpoint: { pos: { x: 20, y: 30, z: 0 } }
+[09] MIDPOINT line-endpoint result: 72 maxLevel: 31
+[09] l2 start BEFORE: { pos: { x: 100, y: 20, z: 0 } } AFTER: { pos: { x: 100, y: 20, z: 0 } }
+[09] l2 end AFTER: { pos: { x: 100, y: 60, z: 0 } }
+[filewrite] files/09-midpoint-midpoint-data.json (571 bytes)

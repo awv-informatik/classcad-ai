@@ -1,0 +1,4 @@
+[02] COG before: {"x":59.99999999999999,"y":35,"z":37.5}
+[02] slider result: 218 maxLevel: 31
+[02] COG after: {"x":50.00000000000001,"y":24.999999999999996,"z":37.50000000000001}
+[filewrite] files/02-fixed-offsets-fixed-offsets-data.json (219 bytes)

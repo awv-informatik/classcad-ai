@@ -1,0 +1,371 @@
+[07] Line at 0°: id=58
+[07] Line at 30°: id=66
+[07] Line at 45°: id=70
+[07] Line at 90°: id=74
+[07] Line at 135°: id=80
+[07] Line at 180°: id=86
+[07] Line at -45°: id=94
+[07] Line at -90°: id=100
+[07] ANGLEOX at 0°: id=110 maxLevel=51
+[07] ANGLEOX at 30°: id=114 maxLevel=31
+[07] ANGLEOX at 45°: id=118 maxLevel=31
+[07] ANGLEOX at 90°: id=122 maxLevel=31
+[07] ANGLEOX at 135°: id=126 maxLevel=31
+[07] ANGLEOX at 180°: id=130 maxLevel=31
+[07] ANGLEOX at -45°: id=134 maxLevel=31
+[07] ANGLEOX at -90°: id=138 maxLevel=31
+[filewrite] files/07-angleox-angleox-summary.json (6247 bytes)
+[07] Summary: [
+  {
+    "id": 110,
+    "name": "aox-0",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 45,
+      "y": 0,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 45,
+      "y": 0,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 114,
+    "name": "aox-30",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 15,
+      "z": 0
+    },
+    "endPt": {
+      "x": 38.97114317029974,
+      "y": 37.5,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 15,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 43.466662183008076,
+      "y": 26.646857029613432,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 118,
+    "name": "aox-45",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 30,
+      "z": 0
+    },
+    "endPt": {
+      "x": 31.81980515339464,
+      "y": 61.81980515339464,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 30,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 41.5745789630079,
+      "y": 47.22075445642904,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 122,
+    "name": "aox-90",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 45,
+      "z": 0
+    },
+    "endPt": {
+      "x": 2.7554552980815448e-15,
+      "y": 90,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 45,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 31.81980515339464,
+      "y": 76.81980515339464,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 126,
+    "name": "aox-135",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 60,
+      "z": 0
+    },
+    "endPt": {
+      "x": -31.81980515339463,
+      "y": 91.81980515339464,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 60,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 17.22075445642904,
+      "y": 101.5745789630079,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 130,
+    "name": "aox-180",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 75,
+      "z": 0
+    },
+    "endPt": {
+      "x": -45,
+      "y": 75,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 75,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": 2.7554552980815448e-15,
+      "y": 120,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 134,
+    "name": "aox--45",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 90,
+      "z": 0
+    },
+    "endPt": {
+      "x": 31.819805153394647,
+      "y": 58.18019484660536,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 90,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": -41.5745789630079,
+      "y": 107.22075445642905,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  },
+  {
+    "id": 138,
+    "name": "aox--90",
+    "class": "CC_AngularFeatureDimension",
+    "memberKeys": [
+      "startPt",
+      "endPt",
+      "cornerPt",
+      "ccw",
+      "extendToCorner",
+      "valHandlePos",
+      "valHandleBehaviour",
+      "dimPt",
+      "classification",
+      "paramName",
+      "displayInfo"
+    ],
+    "startPt": {
+      "x": 1,
+      "y": 105,
+      "z": 0
+    },
+    "endPt": {
+      "x": 2.7554552980815448e-15,
+      "y": 60,
+      "z": 0
+    },
+    "cornerPt": {
+      "x": 0,
+      "y": 105,
+      "z": 0
+    },
+    "ccw": 1,
+    "extendToCorner": 1,
+    "valHandlePos": 0,
+    "valHandleBehaviour": 0,
+    "dimPt": {
+      "x": -31.819805153394636,
+      "y": 136.81980515339464,
+      "z": 0
+    },
+    "classification": 0,
+    "paramName": "@value"
+  }
+]

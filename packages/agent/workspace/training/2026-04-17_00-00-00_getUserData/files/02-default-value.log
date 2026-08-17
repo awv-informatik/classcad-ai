@@ -1,0 +1,7 @@
+[02] existing key, no default: "hello"
+[02] existing key, with default: "hello"
+[02] missing key, no default: ""
+[02] missing key, no default maxLevel: 31
+[02] missing key, with default: "fallback"
+[02] missing key, with default maxLevel: 31
+[filewrite] files/02-default-value-default-value-cases.json (330 bytes)

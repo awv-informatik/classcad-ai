@@ -1,0 +1,5 @@
+[02] Attempting load without clearing first...
+[02] Load result: null
+[02] Load maxLevel: 51
+[02] Load messages: [{"api":"v1.common.load","code":0,"level":51,"levelStr":"ERROR","message":"There is already a model which must be removed first."}]
+[filewrite] files/02-load-without-clear-load-no-clear.json (238 bytes)

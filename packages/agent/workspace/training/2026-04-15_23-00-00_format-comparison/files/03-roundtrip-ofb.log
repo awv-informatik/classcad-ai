@@ -1,0 +1,7 @@
+[03] Before save — width: {"expression":"","value":80} height: {"expression":"width * 0.5","value":40}
+[03] Before save — partId: 4 eifId: 56 boxId: 63
+[03] Saved OFB — size: 7312 success: 1
+[03] Loaded — id: 4 maxLevel: 31
+[03] ID preserved? YES
+[03] After load — width: {"expression":"","value":80} height: {"expression":"width * 0.5","value":40}
+[filewrite] files/03-roundtrip-ofb-ofb-roundtrip.json (368 bytes)

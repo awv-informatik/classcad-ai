@@ -1,0 +1,13 @@
+{
+  "result": 129,
+  "messages": [
+    {
+      "api": "v1.part.workAxis",
+      "code": 1121,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The planes mustn't be parallel for this type of WA_parallel (CC_WorkAxis)."
+    }
+  ],
+  "maxLevel": 51
+}

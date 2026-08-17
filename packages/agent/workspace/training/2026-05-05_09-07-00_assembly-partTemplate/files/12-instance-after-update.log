@@ -1,0 +1,4 @@
+[12] instance BEFORE update - vol: 96000 cog: {"x":30,"y":20,"z":20}
+[12] instance AFTER update - vol: 96000 cog: {"x":109.99999999999999,"y":19.999999999999993,"z":19.999999999999993}
+[12] template vol: 96000
+[filewrite] files/12-instance-after-update-instance-after-update.json (265 bytes)

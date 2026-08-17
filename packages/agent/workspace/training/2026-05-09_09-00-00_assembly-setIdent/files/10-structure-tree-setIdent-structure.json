@@ -1,0 +1,10 @@
+{
+  "structureKeys": [
+    "root",
+    "currentProduct",
+    "currentInstance",
+    "testRoot",
+    "tree"
+  ],
+  "hasIdent": true
+}

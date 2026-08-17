@@ -1,0 +1,10 @@
+[01] asmId: 12
+[01] tplId: 22
+[01] boxFeat: 70
+[01] setCurrentProduct(asmId) result: 22 maxLevel: 31
+[filewrite] files/01-basic-return-value-switch-to-asm.json (54 bytes)
+[01] setCurrentProduct(tplId) result: 12 maxLevel: 31
+[filewrite] files/01-basic-return-value-switch-to-tpl.json (54 bytes)
+[01] setCurrentProduct(asmId) again result: 22 maxLevel: 31
+[filewrite] files/01-basic-return-value-switch-back.json (54 bytes)
+[01] instId: 105

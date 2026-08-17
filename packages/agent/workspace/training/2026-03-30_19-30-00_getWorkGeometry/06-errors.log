@@ -1,0 +1,9 @@
+[06] non-existent → result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.getWorkGeometry","code":1015,"level":51,"levelStr":"ERROR","message":"Couldn't find work geometry with name: \"DoesNotExist\""}]
+[06] empty string → result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.getWorkGeometry","code":1015,"level":51,"levelStr":"ERROR","message":"Couldn't find work geometry with name: \"\""}]
+[06] missing name → result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.getWorkGeometry","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"name\" must be provided in the api call!"}]
+[06] bogus id → result: null maxLevel: 51
+[06] messages: [{"api":"v1.part.getWorkGeometry","code":0,"level":41,"levelStr":"WARNING","message":"The string \"bogus\" couldn't be converted to an id. Error message: stol: no conversion"},{"api":"v1.part.getWorkGeometry","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/06-errors-errors.json (1400 bytes)

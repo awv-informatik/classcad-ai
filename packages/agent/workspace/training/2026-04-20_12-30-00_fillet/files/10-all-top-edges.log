@@ -1,0 +1,4 @@
+[10] edge IDs: [135,136,137,138]
+[10] edge count: 4
+[10] fillet result: 149 maxLevel: 31
+[filewrite] files/10-all-top-edges-all-top-response.json (55 bytes)

@@ -1,0 +1,9 @@
+[01] asmId: 12
+[01] tpl1 (PartA): 22
+[01] tpl2 (PartB): 105
+[01] deleteTemplate result: null
+[01] deleteTemplate maxLevel: 31
+[01] deleteTemplate messages: []
+[filewrite] files/01-basic-delete-delete-result.json (56 bytes)
+[01] remaining templates: [105]
+[filewrite] files/01-basic-delete-remaining-templates.json (9 bytes)

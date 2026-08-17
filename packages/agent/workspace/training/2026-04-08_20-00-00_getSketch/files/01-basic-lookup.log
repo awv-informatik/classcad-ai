@@ -1,0 +1,7 @@
+[01] partId: 4
+[01] created sketch id: 52
+[01] getSketch result: 52
+[01] maxLevel: 31
+[01] messages: []
+[01] match: true
+[filewrite] files/01-basic-lookup-response.json (90 bytes)

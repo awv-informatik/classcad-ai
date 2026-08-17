@@ -1,0 +1,7 @@
+[08] created: Bolt= 22 Nut= 68 Washer= 114
+[08] getPartTemplate(Nut): 68 maxLevel: 31
+[08] getPartTemplate() all: [22,68,114]
+[08] getPartTemplate({}) all: [22,68,114]
+[08] getPartTemplate(NonExistent): null maxLevel: 51
+[08] missing messages: [{"api":"v1.assembly.getPartTemplate","code":0,"level":51,"levelStr":"ERROR","message":"Part with name = \"NonExistent\" could not be found"}]
+[filewrite] files/08-getPartTemplate-getPartTemplate-results.json (326 bytes)

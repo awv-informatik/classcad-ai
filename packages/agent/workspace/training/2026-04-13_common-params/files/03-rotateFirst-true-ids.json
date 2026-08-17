@@ -1,0 +1,6 @@
+{
+  "refId": 61,
+  "rf1": 64,
+  "rf2": 67,
+  "note": "rf1 (explicit true) and rf2 (default) should be identical"
+}

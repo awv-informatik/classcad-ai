@@ -1,0 +1,12 @@
+[
+  {
+    "id": 14,
+    "name": "SketchSet",
+    "class": "CC_SketchSet"
+  },
+  {
+    "id": 94,
+    "name": "Extrusion",
+    "class": "CC_Extrusion"
+  }
+]

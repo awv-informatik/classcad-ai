@@ -1,0 +1,29 @@
+{
+  "createdIds": {
+    "tpl1": 22,
+    "tpl2": 32,
+    "tpl3": 42
+  },
+  "listAll": {
+    "result": [
+      22,
+      32,
+      42
+    ],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "listEmpty": {
+    "result": [
+      22,
+      32,
+      42
+    ],
+    "maxLevel": 31
+  },
+  "findBeta": {
+    "result": 32,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

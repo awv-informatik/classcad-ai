@@ -1,0 +1,18 @@
+{
+  "original": {
+    "id": 61,
+    "keys": [
+      "weight",
+      "color",
+      "material"
+    ],
+    "material": "steel"
+  },
+  "copy": {
+    "id": 63,
+    "keys": [],
+    "material": "NOT_FOUND",
+    "color": "NOT_FOUND",
+    "weight": "NOT_FOUND"
+  }
+}

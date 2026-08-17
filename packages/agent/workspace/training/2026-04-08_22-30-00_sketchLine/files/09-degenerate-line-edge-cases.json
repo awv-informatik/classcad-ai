@@ -1,0 +1,25 @@
+{
+  "degenerate": {
+    "result": 58,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "micro": {
+    "result": 62,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "nonZeroZ": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.line",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"endPos\" which is a 2D point, must have a z-value of 0!"
+      }
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "ExprBox",
+  "class": "CC_Box",
+  "id": 54,
+  "flags": 0,
+  "parent": 16,
+  "members": {
+    "length": {
+      "value": 80,
+      "type": "real",
+      "visible": 1,
+      "expression": "ExpressionSet.L"
+    },
+    "_VERSION": {
+      "value": "0/2001_4_2_13:7",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "width": {
+      "value": 50,
+      "type": "real",
+      "visible": 1,
+      "expression": "ExpressionSet.W"
+    },
+    "height": {
+      "value": 30,
+      "type": "real",
+      "visible": 1,
+      "expression": "ExpressionSet.H"
+    },
+    "references": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "solidOperation": {
+      "value": 0,
+      "type": "real",
+      "visible": 0,
+      "expression": ""
+    }
+  },
+  "children": [
+    89
+  ]
+}

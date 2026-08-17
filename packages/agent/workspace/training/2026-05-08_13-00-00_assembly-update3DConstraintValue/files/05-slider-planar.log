@@ -1,0 +1,16 @@
+[05] slider ID: 309
+[05] planar ID: 313
+[05] slider INITIAL COG: { x: 10, y: 7.5, z: 30 }
+[05] planar INITIAL COG: { x: 15, y: 12.5, z: 2.5 }
+[05] slider Z_OFFSET: 31 []
+[05] slider AFTER Z_OFFSET COG: { x: 10, y: 7.5, z: 55 }
+[05] slider X_OFFSET: 31 []
+[05] slider AFTER X_OFFSET COG: { x: 10, y: 7.5, z: 55 }
+[05] planar X_OFFSET: 31 []
+[05] planar AFTER X_OFFSET COG: { x: 75, y: 12.5, z: 2.5 }
+[05] planar Y_OFFSET: 31 []
+[05] planar AFTER Y_OFFSET COG: { x: 75, y: 92.5, z: 2.5 }
+[05] planar Z_ROTATION (45deg string): 31 []
+[05] planar AFTER Z_ROTATION COG: { x: 61.76776695296635, y: 99.44543648263007, z: 2.499999999999996 }
+[05] planar Z_OFFSET (non-DOF): 31 []
+[filewrite] files/05-slider-planar-cog-results.json (581 bytes)

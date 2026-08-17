@@ -1,0 +1,119 @@
+{
+  "result": [
+    {
+      "sourceId": 58,
+      "splittedCurves": [
+        {
+          "id": 66,
+          "interval": [
+            0,
+            0.75
+          ]
+        },
+        {
+          "id": 70,
+          "interval": [
+            0.75,
+            0.25
+          ]
+        },
+        {
+          "id": 74,
+          "interval": [
+            0.25,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "pos": [
+    {
+      "interval": [
+        0,
+        0.75
+      ],
+      "maxLevel": 31,
+      "startPos": [
+        0,
+        0,
+        0
+      ],
+      "endPos": [
+        75,
+        0,
+        0
+      ],
+      "raw": {
+        "endPos": {
+          "x": 75,
+          "y": 0,
+          "z": 0
+        },
+        "startPos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    {
+      "interval": [
+        0.75,
+        0.25
+      ],
+      "maxLevel": 31,
+      "startPos": [
+        75,
+        0,
+        0
+      ],
+      "endPos": [
+        125,
+        0,
+        0
+      ],
+      "raw": {
+        "endPos": {
+          "x": 125,
+          "y": 0,
+          "z": 0
+        },
+        "startPos": {
+          "x": 75,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    {
+      "interval": [
+        0.25,
+        1
+      ],
+      "maxLevel": 31,
+      "startPos": [
+        125,
+        0,
+        0
+      ],
+      "endPos": [
+        200,
+        0,
+        0
+      ],
+      "raw": {
+        "endPos": {
+          "x": 200,
+          "y": 0,
+          "z": 0
+        },
+        "startPos": {
+          "x": 125,
+          "y": 0,
+          "z": 0
+        }
+      }
+    }
+  ]
+}

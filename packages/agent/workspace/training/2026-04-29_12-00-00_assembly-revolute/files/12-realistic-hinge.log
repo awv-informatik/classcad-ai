@@ -1,0 +1,4 @@
+[12] hingeTop: 232
+[filewrite] files/12-realistic-hinge-hinge-top-data.json (331 bytes)
+[12] hingeBot: 294 (second revolute on same pair)
+[filewrite] files/12-realistic-hinge-hinge-bot-data.json (320 bytes)

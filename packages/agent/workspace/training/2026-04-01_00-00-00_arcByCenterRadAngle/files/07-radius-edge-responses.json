@@ -1,0 +1,14 @@
+{
+  "tiny": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "huge": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "one": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

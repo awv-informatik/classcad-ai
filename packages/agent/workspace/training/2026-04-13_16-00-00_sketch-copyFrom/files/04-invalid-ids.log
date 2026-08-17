@@ -1,0 +1,6 @@
+[04] invalid toCopyId result: null maxLevel: 51
+[04] invalid toCopyId messages: [{"api":"v1.sketch.copyFrom","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.copyFrom","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"toCopyId\" has an invalid id!"}]
+[04] invalid id result: null maxLevel: 51
+[04] invalid id messages: [{"api":"v1.sketch.copyFrom","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.sketch.copyFrom","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[04] both invalid result: null maxLevel: 51
+[filewrite] files/04-invalid-ids-invalid-ids-responses.json (1450 bytes)

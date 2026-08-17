@@ -1,0 +1,18 @@
+{
+  "label": "cidBad",
+  "maxLevel": 51,
+  "isArray": false,
+  "nEntries": null,
+  "err": [
+    {
+      "level": 41,
+      "code": 0,
+      "message": "ToId()/TOID() didn't get an existing or valid id."
+    },
+    {
+      "level": 51,
+      "code": 1006,
+      "message": "An element of parameter \"curveIds\" has an invalid id!"
+    }
+  ]
+}

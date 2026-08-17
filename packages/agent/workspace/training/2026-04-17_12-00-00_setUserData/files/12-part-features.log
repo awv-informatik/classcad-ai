@@ -1,0 +1,7 @@
+[12] box feature id: 54
+[12] set on box feature: maxLevel= 31
+[12] get from box feature: "box"
+[12] extrusion feature id: 102
+[12] get from extrusion feature: "hole"
+[12] get from work plane: "reference"
+[filewrite] files/12-part-features-part-features.json (177 bytes)

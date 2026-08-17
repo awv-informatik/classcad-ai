@@ -1,0 +1,7 @@
+[04] boxId: 61
+[04] graphic keys: containers, properties
+[04] graphic.containers: Array(1)
+[04]   first item keys: id, owner, type, properties, meshes, edges, vertices
+[04] graphic.properties: Object { version }
+[04] structure keys: root, currentProduct, currentInstance, testRoot, tree
+[filewrite] files/04-dump-graphic-structure-graphic-summary.json (11257 bytes)

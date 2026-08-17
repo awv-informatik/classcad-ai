@@ -1,0 +1,15 @@
+[06] min-only (no existing): 216 maxLevel: 31
+[06] limits after min-only: {"max":null,"min":-1.5707963267948966}
+[06] max-only (min exists): 216 maxLevel: 31
+[06] limits after max-only: {"max":3.141592653589793,"min":-1.5707963267948966}
+[06] update min alone: 216 maxLevel: 31
+[06] limits after min update: {"max":3.141592653589793,"min":-0.7853981633974483}
+[06] remove max only: 216 maxLevel: 31
+[06] limits after max removed: {"max":null,"min":-0.7853981633974483}
+[06] remove min only: 216 maxLevel: 31
+[06] limits after min removed: {"max":null,"min":null}
+[06] remove both: 216 maxLevel: 31
+[06] limits after both removed: {"max":null,"min":null}
+[06] empty object {}: null maxLevel: 51
+[06] messages: The object "zRotationLimits" is empty!
+[filewrite] files/06-partial-limits-partial-limits-data.json (533 bytes)

@@ -1,0 +1,8 @@
+[04] constraints after line creation: 2
+[filewrite] files/04-regen-after-delete-constraints-after-line.json (174 bytes)
+[04] delete Auto_Fix (62): maxLevel=51
+[04] delete Auto_H (64): maxLevel=51
+[04] constraints after deletion: 2
+[04] autoGen result: null maxLevel: 31
+[04] constraints after regen: 2
+[filewrite] files/04-regen-after-delete-constraints-after-regen.json (174 bytes)

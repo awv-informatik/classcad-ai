@@ -1,0 +1,9 @@
+[17] line1: 58 line2: 66 pt1: 72
+[17] OFFSET 2-lines result: 76 maxLevel: 31
+[17] OFFSET line+point result: 80 maxLevel: 31
+[17] messages: []
+[17] OFFSET point+line result: 84 maxLevel: 31
+[17] messages: []
+[17] OFFSET 3-geomIds result: null maxLevel: 51
+[17] messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Wrong number of geometry ids provided for an offset constraint."}]
+[filewrite] files/17-offset-geomid-variants-offset-variant-responses.json (553 bytes)

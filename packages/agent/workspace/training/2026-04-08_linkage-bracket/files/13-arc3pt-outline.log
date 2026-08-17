@@ -1,0 +1,7 @@
+[13] Key points:
+  bossTop: [ '0.7500', '0.9375' ]
+  topEnd: [ '1.9874', '0.4249' ]
+  rbEntry: [ '4.3103', '0.6187' ]
+  rbRight: [ '5.8040', '0.0000' ]
+  rbExit: [ '4.3103', '-0.6187' ]
+[13] All arcs using arcBy3Points — should have correct arc direction

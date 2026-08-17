@@ -1,0 +1,8 @@
+[verify 21T baseline] worst junction error: 1.489e+0 mm {"a":0,"xL":0,"yL":0,"PL":0,"QL":1.46879667,"QR":1.488903453,"PR":0,"yR":0,"xR":0,"cL":0,"cR2":0,"bL":0,"bR":0}
+[verify after cascade] worst junction error: 4.948e+0 mm {"a":0,"xL":3.154358221,"yL":4.948012895,"PL":1.890366945,"QL":2.077259664,"QR":2.070562283,"PR":1.890366945,"yR":4.948012895,"xR":3.154358221,"cL":4.948012895,"cR2":4.948012895,"bL":0,"bR":0}
+[02c] losers after cascade: []
+[verify T1 after recalc] worst junction error: 4.948e+0 mm {"a":0,"xL":3.154358221,"yL":4.948012895,"PL":1.890366945,"QL":2.077259664,"QR":2.070562283,"PR":1.890366945,"yR":4.948012895,"xR":3.154358221,"cL":4.948012895,"cR2":4.948012895,"bL":0,"bR":0}
+[02c] nudge results: 2 2
+[verify T2 after dim nudge+rebind] worst junction error: 4.948e+0 mm {"a":0,"xL":3.154358221,"yL":4.948012895,"PL":1.890366945,"QL":2.077259692,"QR":2.07056231,"PR":1.890366945,"yR":4.948012895,"xR":3.154358221,"cL":4.948012895,"cR2":4.948012895,"bL":0,"bR":0}
+[02c] losers after nudge: []
+[filewrite] files/02c-morph-resolve-morph-resolve.json (173 bytes)

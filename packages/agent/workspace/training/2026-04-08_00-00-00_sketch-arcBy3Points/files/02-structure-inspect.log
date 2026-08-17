@@ -1,0 +1,10 @@
+[02] arcId: 58
+[02] getPoints result: {"centerId":61,"endId":59,"startId":60}
+[02] getPoints maxLevel: 31
+[02] getPositions result: {"centerPos":{"x":20,"y":0,"z":0},"endPos":{"x":40,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[02] getPositions maxLevel: 31
+[02] getGeometry keys: [ 'arcs', 'circles', 'lines', 'points' ]
+[02] getGeometry arcs: [58]
+[02] getGeometry lines: []
+[02] getGeometry points: []
+[filewrite] files/02-structure-inspect-structure.json (424 bytes)

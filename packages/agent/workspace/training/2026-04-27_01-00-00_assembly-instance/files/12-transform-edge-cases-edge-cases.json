@@ -1,0 +1,20 @@
+{
+  "nonOrtho": {
+    "result": 105,
+    "maxLevel": 51,
+    "msg": "NonOrtho: Transformationmatrix of this object has been set to be uniformed scaled and orthogonal"
+  },
+  "scaled": {
+    "result": 107,
+    "maxLevel": 31
+  },
+  "nonUnit": {
+    "result": 111,
+    "maxLevel": 31
+  },
+  "leftHand": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": "The provided matrix is left-handed. This is not yet supported"
+  }
+}

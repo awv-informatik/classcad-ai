@@ -1,0 +1,30 @@
+{
+  "ids": {
+    "i1": 105,
+    "i2": 107,
+    "i3": 109,
+    "i4": 111
+  },
+  "batch": {
+    "result": [
+      105,
+      111,
+      []
+    ],
+    "maxLevel": 31,
+    "messages": []
+  },
+  "duplicate": {
+    "result": 107,
+    "maxLevel": 31
+  },
+  "all": {
+    "result": [
+      105,
+      107,
+      109,
+      111
+    ],
+    "ordered": true
+  }
+}

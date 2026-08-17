@@ -1,0 +1,5 @@
+[02] INTERSECTION rule: keep(inner) [ 76, 91 ] trim(outer) [ 81, 86 ]
+[filewrite] files/02-renderer-arc-check-02-intersection.json (267 bytes)
+[02] survivor arc bulges (minor => ~0.49): [{"id":97,"bulge":0.5000000000000001,"radius":50},{"id":103,"bulge":0.49999999999999967,"radius":50.00000000000001}]
+[02] arc 97 bulge 0.500 -> angle 106.3 deg
+[02] arc 103 bulge 0.500 -> angle 106.3 deg

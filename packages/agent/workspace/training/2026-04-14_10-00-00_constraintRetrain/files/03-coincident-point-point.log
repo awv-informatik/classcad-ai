@@ -1,0 +1,6 @@
+[03] before l1.end: {"pos":{"x":40,"y":0,"z":0}}
+[03] before l2.start: {"pos":{"x":50,"y":10,"z":0}}
+[03] constraint result: 72 maxLevel: 31
+[03] after l1.end: {"pos":{"x":40,"y":0,"z":0}}
+[03] after l2.start: {"pos":{"x":40,"y":0,"z":0}}
+[filewrite] files/03-coincident-point-point-coincident-pp-data.json (480 bytes)

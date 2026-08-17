@@ -1,0 +1,9 @@
+[07] convertedId: 12 newRoot: 107
+[07] subInst: 117
+[07] asm templates before delete: [12]
+[07] part templates before delete: [22]
+[07] deleteTemplate result: null maxLevel: 31
+[07] asm templates after delete: []
+[07] part templates after delete: [22]
+[07] instances after delete: null
+[filewrite] files/07-delete-converted-delete-converted.json (333 bytes)

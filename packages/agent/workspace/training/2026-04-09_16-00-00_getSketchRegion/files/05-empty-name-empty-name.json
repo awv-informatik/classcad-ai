@@ -1,0 +1,15 @@
+{
+  "emptyName": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.sketch.getSketchRegion",
+        "code": 1015,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Couldn't find sketch region with name: \"\" which belongs to the provided sketch."
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+[02] templates: 22 32
+[filewrite] files/02-by-name-by-name-results.json (897 bytes)
+[02] Alpha: 22 (maxLevel: 31 )
+[02] Beta: 32 (maxLevel: 31 )
+[02] lowercase: null (maxLevel: 51 )
+[02] UPPER: null (maxLevel: 51 )
+[02] partial: null (maxLevel: 51 )
+[02] not-found: null (maxLevel: 51 )

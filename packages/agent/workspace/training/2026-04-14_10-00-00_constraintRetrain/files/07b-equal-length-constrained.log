@@ -1,0 +1,4 @@
+[07b] lenBefore: 30
+[07b] constraint result: 78 maxLevel: 31
+[07b] lenAfter: 30
+[filewrite] files/07b-equal-length-constrained-equal-length-constrained-data.json (101 bytes)

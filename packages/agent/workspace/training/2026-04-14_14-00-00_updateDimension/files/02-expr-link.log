@@ -1,0 +1,8 @@
+[02] expression created: 1 maxLevel: 31
+[02] before: {"endPos":{"x":80,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[02] updateDimension @expr result: 0 maxLevel: 31
+[02] updateDimension messages: []
+[02] after: {"endPos":{"x":80,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[02] updateExpression result: 1 maxLevel: 31
+[02] after expr update: {"endPos":{"x":80,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[filewrite] files/02-expr-link-expr-link-data.json (554 bytes)

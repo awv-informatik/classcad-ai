@@ -1,0 +1,4 @@
+[05] mode=1: fine(cht=0.01)=8385 verts, coarse(cht=5)=85 verts
+[05] mode=1 reported: fine=0.01, coarse=5
+[05] mode=0(cht=0.5): sph1=277 verts, sph2=277 verts
+[filewrite] files/05-per-entity-faceting-per-entity.json (169 bytes)

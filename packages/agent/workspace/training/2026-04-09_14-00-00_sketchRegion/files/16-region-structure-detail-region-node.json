@@ -1,0 +1,83 @@
+{
+  "name": "DetailRegion",
+  "class": "CC_SketchRegion",
+  "id": 92,
+  "flags": 0,
+  "parent": 10,
+  "members": {
+    "sketch": {
+      "value": 52,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2024_4_10_16:00",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "curves": {
+      "members": [
+        {
+          "value": 58,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "value": 64,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "value": 70,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "value": 76,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    },
+    "selected": {
+      "members": [
+        {
+          "value": 58,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "value": 64,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "value": 70,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "value": 76,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

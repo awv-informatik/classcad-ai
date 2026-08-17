@@ -1,0 +1,6 @@
+[14] workAxis: 54
+[14] sketch lines: [ 66, 70, 76, 82 ]
+[14] region: 98 maxLevel: 31
+[14] revolve result: 102 maxLevel: 51
+[14] revolve msgs: [{"api":"v1.part.revolve","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Sketch.GetNormal:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "},{"api":"v1.part.revolve","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Sketch.GetNormal:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "},{"api":"v1.part.revolve","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in PreCheckVisitor.VisitRevolve:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Punkt addressed.] \nFunction: CADH_CompareVecs\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "}]
+[filewrite] files/14-revolve-usage-revolve-response.json (1090 bytes)

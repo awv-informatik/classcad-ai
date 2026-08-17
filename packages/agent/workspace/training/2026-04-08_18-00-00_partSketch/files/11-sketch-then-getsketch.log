@@ -1,0 +1,6 @@
+[11] created id: 52
+[11] getSketch result: 52 maxLevel: 31
+[11] ids match? true
+[11] not found — result: null maxLevel: 51
+[11] not found — msgs: [{"api":"v1.part.getSketch","code":1015,"level":51,"levelStr":"ERROR","message":"Sketch with name \"DoesNotExist\" does not exist"}]
+[filewrite] files/11-sketch-then-getsketch-getsketch-results.json (393 bytes)

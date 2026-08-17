@@ -1,0 +1,3 @@
+[16] capEnds="FALSE": null maxLevel: 51
+[16]   msg: 51 1001 The parameter "capEnds" has the wrong type! It should be of type (boolean)
+[filewrite] files/16-capends-string-cap-string-response.json (263 bytes)

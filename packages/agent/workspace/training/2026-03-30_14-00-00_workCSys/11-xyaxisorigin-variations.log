@@ -1,0 +1,7 @@
+[11] pt1: 59 pt2: 65 edge1: 67 edge2: 70
+[11] xy+offset result: 91 maxLevel: 31
+[11] messages: []
+[filewrite] files/11-xyaxisorigin-variations-xy-offset.json (54 bytes)
+[11] xy+rotation result: 105 maxLevel: 31
+[11] messages: []
+[filewrite] files/11-xyaxisorigin-variations-xy-rotation.json (55 bytes)

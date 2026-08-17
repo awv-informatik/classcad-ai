@@ -1,0 +1,3 @@
+[04] boxId: 91
+[04] updateBox(l=40,w=100,h=80) result: 91 maxLevel: 31
+[filewrite] files/04-multi-param-update-multi-param-response.json (54 bytes)

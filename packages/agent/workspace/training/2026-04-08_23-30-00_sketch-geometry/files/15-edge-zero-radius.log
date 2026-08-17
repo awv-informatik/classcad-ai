@@ -1,0 +1,14 @@
+[15] Testing zero-radius circle...
+[15a] zero-radius result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[58],"lines":[],"points":[]}
+[15a] maxLevel: 31
+[15a] messages: []
+[filewrite] files/15-edge-zero-radius-zero-radius.json (173 bytes)
+[15] Testing degenerate line...
+[15b] degenerate line result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[65],"points":[]}
+[15b] maxLevel: 31
+[15b] messages: []
+[filewrite] files/15-edge-zero-radius-degenerate-line.json (173 bytes)
+[15] Testing negative-radius circle...
+[15c] neg-radius result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[69],"lines":[],"points":[]}
+[15c] maxLevel: 31
+[filewrite] files/15-edge-zero-radius-neg-radius.json (173 bytes)

@@ -1,0 +1,8 @@
+[10] boxId: 54 cylId: 91
+[10] openFeature box — maxLevel: 31
+[10] delete cyl while box open — result: null maxLevel: 31
+[10] messages: []
+[10] delete opened box — result: null maxLevel: 31
+[10] messages: []
+[10] closeFeature — maxLevel: 51
+[filewrite] files/10-delete-during-open-open-interaction.json (179 bytes)

@@ -1,0 +1,4 @@
+[06] nonexistent name result: null
+[06] maxLevel: 51
+[06] messages: [{"api":"v1.assembly.getFastenedOrigin","code":0,"level":51,"levelStr":"ERROR","message":"There couldn't be found a constraint with name \"DOES_NOT_EXIST\" on product or product reference with id $12"}]
+[filewrite] files/06-name-not-found-not-found.json (309 bytes)

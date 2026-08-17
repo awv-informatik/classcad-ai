@@ -1,0 +1,6 @@
+[04] COG initial: {"x":60,"y":10,"z":7.5}
+[04] COG after +20X: {"x":70,"y":10,"z":7.5}
+[04] COG after +30Y: {"x":70,"y":25.000000000000004,"z":7.5}
+[04] COG after +15Z: {"x":69.99999999999999,"y":25.000000000000004,"z":15}
+[04] expected final assembly COG: [70, 25, 15]
+[filewrite] files/04-chained-transforms-results.json (272 bytes)

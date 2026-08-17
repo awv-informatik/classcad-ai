@@ -1,0 +1,14 @@
+[13] rigidSet: 80 (members: 58 66 ) standalone: 74
+[13] sketch children before delete: [
+  58, 64, 66, 70,
+  72, 74, 78, 80
+]
+[13] sketch children after delete: [
+  58, 64, 66, 70,
+  72, 74, 78
+]
+[13] id 58 exists after delete: true
+[13] id 66 exists after delete: true
+[13] id 74 exists after delete: true
+[13] id 80 exists after delete: false
+[filewrite] files/13-delete-verify-delete-verify.json (173 bytes)

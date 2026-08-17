@@ -1,0 +1,8 @@
+[13] boxId: 61
+[13] top face: result: null maxLevel: 31
+[13] top face: messages: []
+[13] top face: bbox min: [-40,-30,-20] max: [40,30,20]
+[filewrite] files/13-at-face-at-top-face.json (173 bytes)
+[13] bottom face: result: null maxLevel: 31
+[13] bottom face: messages: []
+[filewrite] files/13-at-face-at-bottom-face.json (72 bytes)

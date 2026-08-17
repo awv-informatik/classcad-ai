@@ -1,0 +1,6 @@
+[10] After load — graphic null? false
+[10] After load — structure null? false
+[10] After load — total vertices: 0
+[10] Recalc result: null maxLevel: 31
+[10] After recalc — graphic null? true
+[filewrite] files/10-recalc-after-load-recalc-comparison.json (164 bytes)

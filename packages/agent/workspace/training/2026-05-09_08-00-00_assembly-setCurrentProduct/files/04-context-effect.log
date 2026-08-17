@@ -1,0 +1,5 @@
+[04] asmId: 12 tpl1: 22 tpl2: 105 cylFeat: 153
+[04] inst1: 170 inst2: 172
+[04] inst1 (box) volume: 9000
+[04] inst2 (cyl) volume: 471229.52274557814
+[filewrite] files/04-context-effect-volumes.json (52 bytes)

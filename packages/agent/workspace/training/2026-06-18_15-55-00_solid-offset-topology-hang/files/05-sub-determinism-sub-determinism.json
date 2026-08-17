@@ -1,0 +1,32 @@
+[
+  {
+    "run": 0,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least one of the"
+  },
+  {
+    "run": 1,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least one of the"
+  },
+  {
+    "run": 2,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least one of the"
+  },
+  {
+    "run": 3,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least one of the"
+  },
+  {
+    "run": 4,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least one of the"
+  },
+  {
+    "run": 5,
+    "maxLevel": 51,
+    "msg": "[Evaluation error in SolidAPI_v1.subtraction::PROC:At least one of the"
+  }
+]

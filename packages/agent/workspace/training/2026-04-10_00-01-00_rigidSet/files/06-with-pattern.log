@@ -1,0 +1,4 @@
+[06] rigidSet: 74 maxLevel: 31
+[06] linearPattern — result: { constraint: 92, dimensions: [ 94, null ], geometry: [ 74, 82, 90 ] } maxLevel: 31
+[06] linearPattern messages: []
+[filewrite] files/06-with-pattern-pattern-response.json (180 bytes)

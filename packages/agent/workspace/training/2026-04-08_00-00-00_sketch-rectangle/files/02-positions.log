@@ -1,0 +1,10 @@
+[02] line IDs: [ 58, 62, 68, 74 ]
+[02] line[0] (id=58): {"endPos":{"x":80,"y":10,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[02] line[1] (id=62): {"endPos":{"x":80,"y":50,"z":0},"startPos":{"x":80,"y":10,"z":0}}
+[02] line[2] (id=68): {"endPos":{"x":10,"y":50,"z":0},"startPos":{"x":80,"y":50,"z":0}}
+[02] line[3] (id=74): {"endPos":{"x":10,"y":10,"z":0},"startPos":{"x":10,"y":50,"z":0}}
+[02] line[0] point IDs: {"endId":60,"startId":59}
+[02] line[1] point IDs: {"endId":64,"startId":63}
+[02] line[2] point IDs: {"endId":70,"startId":69}
+[02] line[3] point IDs: {"endId":76,"startId":75}
+[filewrite] files/02-positions-line-ids.json (26 bytes)

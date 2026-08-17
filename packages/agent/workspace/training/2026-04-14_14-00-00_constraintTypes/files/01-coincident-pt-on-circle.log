@@ -1,0 +1,6 @@
+[01] circleId: 58
+[01] pointId: 61
+[01] point before: {"pos":{"x":10,"y":60,"z":0}}
+[01] COINCIDENT result: 65 maxLevel: 31
+[01] point after: {"pos":{"x":34,"y":42,"z":0}}
+[stderr] [run] Script error: Cannot read properties of undefined (reading '0')

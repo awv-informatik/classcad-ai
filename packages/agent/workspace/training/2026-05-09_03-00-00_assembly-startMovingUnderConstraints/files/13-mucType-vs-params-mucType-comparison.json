@@ -1,0 +1,26 @@
+{
+  "massTransRot": {
+    "cog": {
+      "x": 20,
+      "y": 15,
+      "z": 10
+    },
+    "volume": 24000
+  },
+  "massTrans1dRot": {
+    "cog": {
+      "x": 20,
+      "y": 15,
+      "z": 10
+    },
+    "volume": 24000
+  },
+  "massRotOffset": {
+    "cog": {
+      "x": 70,
+      "y": 45,
+      "z": 10
+    },
+    "volume": 24000.000000000004
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "subMaxLevel": 51,
+  "probes": {
+    "box": {
+      "id": 61,
+      "maxLevel": 31,
+      "volume": 69644.2391650271
+    },
+    "c1": {
+      "id": 64,
+      "maxLevel": 51
+    },
+    "c2": {
+      "id": 67,
+      "maxLevel": 51
+    },
+    "c3": {
+      "id": 70,
+      "maxLevel": 31,
+      "volume": 3927.035139718096
+    }
+  }
+}

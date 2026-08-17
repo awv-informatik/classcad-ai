@@ -1,0 +1,4 @@
+[03] edge IDs: [135,136,127]
+[03] edge count: 3
+[03] fillet result: 149 maxLevel: 31
+[filewrite] files/03-multiple-edges-fillet-response.json (55 bytes)

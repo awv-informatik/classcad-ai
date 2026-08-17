@@ -1,0 +1,9 @@
+[08] eifId: 54
+[08] eif keys: ["eif-key"]
+[08] sketchId: 60
+[08] sketch keys: ["sketch-key"]
+[08] boxId: null (solid.box returns VOID expected)
+[08] part keys (should only have part-key): ["part-key"]
+[08] workPlaneId: 68
+[08] workPlane keys: ["wp-key"]
+[filewrite] files/08-object-types-object-types.json (113 bytes)

@@ -1,0 +1,22 @@
+{
+  "beforeUpdate": {
+    "expression": "",
+    "value": 60
+  },
+  "afterUpdate": {
+    "expression": "",
+    "value": 120
+  },
+  "afterRecalc": {
+    "expression": "",
+    "value": 120
+  },
+  "updateResult": {
+    "result": 1,
+    "maxLevel": 31
+  },
+  "recalcResult": {
+    "result": null,
+    "maxLevel": 31
+  }
+}

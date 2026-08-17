@@ -1,0 +1,13 @@
+[02] template mass maxLevel: 31
+[02] template COG: {"x":30,"y":20,"z":5}
+[02] template volume: 24000
+[02] inst1 mass maxLevel: 31
+[02] inst1 COG: {"x":30,"y":20,"z":5}
+[02] inst1 volume: 24000
+[02] inst2 mass maxLevel: 31
+[02] inst2 COG: {"x":130.00000000000003,"y":20.000000000000007,"z":5.000000000000002}
+[02] inst2 volume: 23999.999999999993
+[02] root mass maxLevel: 31
+[02] root COG: {"x":80,"y":20.000000000000004,"z":5.000000000000001}
+[02] root volume: 47999.99999999999
+[filewrite] files/02-mass-template-vs-instance-mass-comparison.json (529 bytes)

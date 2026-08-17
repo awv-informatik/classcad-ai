@@ -1,0 +1,5 @@
+[10] empty name — result: 52 maxLevel: 31
+[10] long name — result: 58 maxLevel: 31
+[10] special chars — result: 64 maxLevel: 31
+[10] numeric name — result: 70 maxLevel: 31
+[filewrite] files/10-empty-name-name-edge-cases.json (322 bytes)

@@ -1,0 +1,5 @@
+[08] wpId: 60
+[08] setWorkPlane maxLevel: 31
+[08] coordinateSystem: [[0,0,50],[1,0,0],[0,1,0],[0,0,1]]
+[08] planeReference: 60
+[filewrite] files/08-offset-plane-offset-plane.json (197 bytes)

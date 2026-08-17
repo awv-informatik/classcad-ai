@@ -1,0 +1,6 @@
+[05] horizontal line: 58
+[05] vertical line: 66
+[05] diagonal line: 72
+[05] horizontal (noVH): 76
+[05] constraints: [{"id":62,"name":"Auto_Fix","class":"CC_2DFixationConstraint"},{"id":64,"name":"Auto_H","class":"CC_2DHorizontalConstraint"},{"id":70,"name":"Auto_V","class":"CC_2DVerticalConstraint"}]
+[filewrite] files/05-genVertAndHoriz-vh-constraints.json (258 bytes)

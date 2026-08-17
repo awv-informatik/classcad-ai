@@ -1,0 +1,22 @@
+{
+  "booleanFeature": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"target\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  "consumedBox": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "consumedCyl": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

@@ -1,0 +1,8 @@
+[02] rectangle: [ 58, 64, 70, 76 ] maxLevel: 31
+[filewrite] files/02-with-geometry-sketch-before.json (2162 bytes)
+[02] before coordinateSystem: [[0,0,0],[1,0,0],[0,1,0],[0,0,1]]
+[02] wpId: 94
+[02] setWorkPlane result: null maxLevel: 31
+[filewrite] files/02-with-geometry-sketch-after.json (2165 bytes)
+[02] after coordinateSystem: [[0,0,100],[1,0,0],[0,1,0],[0,0,1]]
+[02] geometry-related nodes after: 21

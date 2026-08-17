@@ -1,0 +1,5 @@
+[04] partId: 4
+[04] sketch A: 52 maxLevel: 31
+[04] sketch B: 58 maxLevel: 31
+[04] sketch C: 64 maxLevel: 31
+[filewrite] files/04-multiple-sketches-multiple-ids.json (53 bytes)

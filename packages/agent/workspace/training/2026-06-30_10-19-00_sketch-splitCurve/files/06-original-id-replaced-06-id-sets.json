@@ -1,0 +1,24 @@
+{
+  "before": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58
+    ],
+    "points": []
+  },
+  "after": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      66,
+      70
+    ],
+    "points": []
+  },
+  "segIds": [
+    66,
+    70
+  ],
+  "origGetPositionsMaxLevel": 51
+}

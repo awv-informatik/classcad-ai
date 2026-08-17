@@ -1,0 +1,7 @@
+[10] inst1: 107
+[filewrite] files/10-structure-tree-full-structure.json (32077 bytes)
+[10] structure contains ident value: true
+[10] structure has ident field: false
+[10] setIdent response structure contains new ident: true
+[filewrite] files/10-structure-tree-setIdent-structure.json (132 bytes)
+[10] CC_ProductReferenceET nodes found: 0

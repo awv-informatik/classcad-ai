@@ -1,0 +1,71 @@
+{
+  "dimId": 63,
+  "maxLevel": 31,
+  "dimClass": "CC_RadialFeatureDimension",
+  "dimName": "R",
+  "circleRadiusAfter": 20,
+  "dimMembers": {
+    "master": {
+      "value": 61,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2016_8_29_13:9",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "value": {
+      "value": 20,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "radius": {
+      "value": 20,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "center": {
+      "value": {
+        "x": 40,
+        "y": 30,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "dimPt": {
+      "value": {
+        "x": 63,
+        "y": 30,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "GetSE([1,0],[0,3])"
+    },
+    "classification": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "paramName": {
+      "value": "",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "displayInfo": {
+      "members": [],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

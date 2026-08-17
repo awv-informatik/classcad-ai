@@ -1,0 +1,5 @@
+[filewrite] files/04-graphic-data-comparison-before-graphic.json (4 bytes)
+[04] fillet result: 120 maxLevel: 31
+[filewrite] files/04-graphic-data-comparison-after-graphic.json (19550 bytes)
+[04] no meshes in fillet response graphic
+[04] graphic keys: [ 'containers', 'properties' ]

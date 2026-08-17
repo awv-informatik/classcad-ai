@@ -1,0 +1,53 @@
+{
+  "testA": {
+    "genIncidence": true,
+    "samePointId": false,
+    "pts1a": {
+      "endId": 60,
+      "startId": 59
+    },
+    "pts2a": {
+      "endId": 64,
+      "startId": 63
+    }
+  },
+  "testB": {
+    "manualCoinc": 76,
+    "solverResult": 0,
+    "afterDim": {
+      "p3End": {
+        "pos": {
+          "x": 40,
+          "y": -40,
+          "z": 0
+        }
+      },
+      "p4Start": {
+        "pos": {
+          "x": 50,
+          "y": -30,
+          "z": 0
+        }
+      }
+    }
+  },
+  "testC": {
+    "moveResult": 0,
+    "afterManualFix": {
+      "p3EndC": {
+        "pos": {
+          "x": 40,
+          "y": -40,
+          "z": 0
+        }
+      },
+      "p4StartC": {
+        "pos": {
+          "x": 40,
+          "y": -40,
+          "z": 0
+        }
+      }
+    }
+  }
+}

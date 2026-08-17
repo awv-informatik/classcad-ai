@@ -1,0 +1,153 @@
+{
+  "dimId": 68,
+  "maxLevel": 31,
+  "dimClass": "CC_AngularFeatureDimension",
+  "dimName": "AngOX",
+  "endBefore": {
+    "pos": {
+      "x": 50,
+      "y": 28.87,
+      "z": 0
+    }
+  },
+  "endAfter": {
+    "pos": {
+      "x": 40.825708199613636,
+      "y": 40.82570819961363,
+      "z": 0
+    }
+  },
+  "dimMembers": {
+    "master": {
+      "value": 66,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "1/2017_5_15_11:59",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "startPt": {
+      "value": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "endPt": {
+      "value": {
+        "x": 31.81980515339464,
+        "y": 31.819805153394636,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "cornerPt": {
+      "value": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": ""
+    },
+    "ccw": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "extendToCorner": {
+      "value": 1,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "valHandlePos": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "valHandleBehaviour": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "dimPt": {
+      "value": {
+        "x": 45,
+        "y": 0,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "GetSE([0,45,[0,0]])"
+    },
+    "classification": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "paramName": {
+      "value": "45deg",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "displayInfo": {
+      "members": [
+        {
+          "members": [
+            {
+              "value": 0,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "visible": 1,
+          "expression": ""
+        },
+        {
+          "members": [
+            {
+              "value": 58,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 2,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 1,
+              "type": "real",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "visible": 1,
+          "expression": ""
+        }
+      ],
+      "type": "array",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

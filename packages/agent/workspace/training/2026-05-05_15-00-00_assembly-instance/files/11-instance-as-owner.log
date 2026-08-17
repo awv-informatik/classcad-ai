@@ -1,0 +1,8 @@
+[11] inner inst in tplB: 115
+[11] armInst: 117
+[11] childInst: 122 (child of armInst)
+[11] tplB instances after child added via inst: [115,120]
+[11] root mass: {"cog":{"x":50.00000000000001,"y":27.5,"z":5},"volume":6000}
+[filewrite] files/11-instance-as-owner-root-mass.json (90 bytes)
+[11] predicted COG if child transform is global: [50, 27.5, 5]
+[11] predicted COG if child transform is local to owner: [75, 27.5, 5]

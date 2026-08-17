@@ -1,0 +1,184 @@
+[
+  {
+    "type": "line",
+    "origIndex": 0,
+    "geomId": 98,
+    "recoveredIndex": 0,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 1,
+    "geomId": 101,
+    "recoveredIndex": 1,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 2,
+    "geomId": 99,
+    "recoveredIndex": 2,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 3,
+    "geomId": 100,
+    "recoveredIndex": 3,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 4,
+    "geomId": 102,
+    "recoveredIndex": 4,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 5,
+    "geomId": 103,
+    "recoveredIndex": 5,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 6,
+    "geomId": 105,
+    "recoveredIndex": 6,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 7,
+    "geomId": 104,
+    "recoveredIndex": 7,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 8,
+    "geomId": 106,
+    "recoveredIndex": 8,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 9,
+    "geomId": 109,
+    "recoveredIndex": 9,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 10,
+    "geomId": 107,
+    "recoveredIndex": 10,
+    "match": true
+  },
+  {
+    "type": "line",
+    "origIndex": 11,
+    "geomId": 108,
+    "recoveredIndex": 11,
+    "match": true
+  },
+  {
+    "type": "face",
+    "origIndex": 0,
+    "geomId": 110,
+    "recoveredIndex": 0,
+    "match": true
+  },
+  {
+    "type": "face",
+    "origIndex": 1,
+    "geomId": 111,
+    "recoveredIndex": 1,
+    "match": true
+  },
+  {
+    "type": "face",
+    "origIndex": 2,
+    "geomId": 114,
+    "recoveredIndex": 2,
+    "match": true
+  },
+  {
+    "type": "face",
+    "origIndex": 3,
+    "geomId": 112,
+    "recoveredIndex": 3,
+    "match": true
+  },
+  {
+    "type": "face",
+    "origIndex": 4,
+    "geomId": 113,
+    "recoveredIndex": 4,
+    "match": true
+  },
+  {
+    "type": "face",
+    "origIndex": 5,
+    "geomId": 115,
+    "recoveredIndex": 5,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 0,
+    "geomId": 90,
+    "recoveredIndex": 0,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 1,
+    "geomId": 91,
+    "recoveredIndex": 1,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 2,
+    "geomId": 93,
+    "recoveredIndex": 2,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 3,
+    "geomId": 92,
+    "recoveredIndex": 3,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 4,
+    "geomId": 94,
+    "recoveredIndex": 4,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 5,
+    "geomId": 95,
+    "recoveredIndex": 5,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 6,
+    "geomId": 97,
+    "recoveredIndex": 6,
+    "match": true
+  },
+  {
+    "type": "point",
+    "origIndex": 7,
+    "geomId": 96,
+    "recoveredIndex": 7,
+    "match": true
+  }
+]

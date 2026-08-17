@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.setAppearance",
+      "code": 1007,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The provided id for the target has the wrong type. It must be an operation id."
+    }
+  ],
+  "maxLevel": 51
+}

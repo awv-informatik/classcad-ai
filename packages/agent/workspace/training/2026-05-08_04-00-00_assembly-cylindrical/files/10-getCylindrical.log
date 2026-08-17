@@ -1,0 +1,12 @@
+[10] by asmId: found maxLevel: 31
+[filewrite] files/10-getCylindrical-getCylindrical-full.json (384 bytes)
+[10] by inst1 ID: NOT FOUND maxLevel: 51
+[10] by inst2 ID: NOT FOUND maxLevel: 51
+[10] by template ID: NOT FOUND maxLevel: 51
+[10] non-existent name: null maxLevel: 51
+[10] empty name: null maxLevel: 51
+[10] wrong type (fastenedOrigin): NOT FOUND maxLevel: 51
+[10] batch: results count: 2
+[10] batch result[0]: found
+[10] batch result[1]: null
+[10] batch maxLevel: 51

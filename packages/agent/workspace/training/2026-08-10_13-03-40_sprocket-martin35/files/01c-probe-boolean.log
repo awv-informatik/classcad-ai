@@ -1,0 +1,5 @@
+[01c] case1 (2 plain tools): 137 maxLevel 31 []
+[01c] pattern: 134 maxLevel 31
+[01c] case2 (tool + its pattern): null maxLevel 51 [{"api":"v1.part.boolean","code":1014,"level":51,"levelStr":"ERROR","message":"Entity \"Pat\" is not available. It has already been consumed/used in another operation."}]
+[01c] case2b (pattern only): 206 maxLevel 31 []
+[filewrite] files/01c-probe-boolean-boolean-probe.json (469 bytes)

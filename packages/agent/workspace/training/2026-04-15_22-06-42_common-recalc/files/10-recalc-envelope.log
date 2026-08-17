@@ -1,0 +1,18 @@
+[10] result: null
+[10] maxLevel: 31
+[10] messages count: 0
+[10] envelope keys: [ 'result', 'messages', 'maxLevel', 'structure', 'graphic' ]
+[10] has structure: true
+[10] has graphic: false
+[10] structure keys: [ 'root', 'currentProduct', 'currentInstance', 'testRoot', 'tree' ]
+[10] tree type: object
+[10] tree keys: [
+  '1',  '4',  '6',  '8',  '10',
+  '12', '14', '16', '18', '20',
+  '22', '24', '26', '28', '30',
+  '32', '34', '36', '38', '40',
+  '42', '44', '46', '48', '54',
+  '56', '61'
+]
+[filewrite] files/10-recalc-envelope-recalc-structure-summary.json (413 bytes)
+[filewrite] files/10-recalc-envelope-recalc-envelope.json (158 bytes)

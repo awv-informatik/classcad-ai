@@ -1,0 +1,3 @@
+[07] set via faceting, read via db: angleTol= 20 cht= 0.05
+[07] set via db, read via faceting: angleTol= 5 cht= 0.8
+[filewrite] files/07-crosstalk-crosstalk.json (324 bytes)

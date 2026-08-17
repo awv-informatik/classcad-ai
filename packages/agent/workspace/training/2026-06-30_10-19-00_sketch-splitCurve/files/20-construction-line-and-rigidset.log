@@ -1,0 +1,6 @@
+[20] construction-line split: {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":2,"intervals":[[0,0.5],[0.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} err []
+[20] rigidSet id 91 members 79 85
+[20] rigidSet-member split: {"maxLevel":51,"nMessages":1,"resultIsArray":false} err [{"level":51,"code":0,"message":"Curve shouldn't be a part of rigidset!"}]
+[filewrite] files/20-construction-line-and-rigidset-20-result.json (1131 bytes)
+[20] rigidSet node: {"name":"RigidSet","class":"CC_RigidSet","id":91,"flags":4096,"parent":52,"members":{"_VERSION":{"value":"1/2019_10_7_21:05","type":"string","visible":0,"expression":""},"color":{"value":5,"type":"real","visible":1,"expression":""},"entities":{"members":[{"value":79,"type":"id","visible":1,"expression":""},{"value":85,"type":"id","visible":1,"expression":""}],"type":"array","visible":1,"expression
+[20] FINDINGS {"constructionSplittable":true,"rigidSetMemberSplittable":false}

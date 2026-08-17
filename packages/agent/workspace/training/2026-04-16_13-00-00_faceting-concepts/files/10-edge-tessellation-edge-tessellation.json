@@ -1,0 +1,35 @@
+[
+  {
+    "cht": 0.01,
+    "doCurveTess": true,
+    "edgeCount": 3,
+    "edgePointTotal": 516
+  },
+  {
+    "cht": 0.1,
+    "doCurveTess": true,
+    "edgeCount": 3,
+    "edgePointTotal": 132
+  },
+  {
+    "cht": 1,
+    "doCurveTess": true,
+    "edgeCount": 3,
+    "edgePointTotal": 52
+  },
+  {
+    "cht": 5,
+    "doCurveTess": true,
+    "edgeCount": 3,
+    "edgePointTotal": 20
+  },
+  {
+    "cht": "n/a",
+    "doCurveTess": false,
+    "hasEdges": false,
+    "hasLines": true,
+    "hasArcs": true,
+    "lineCount": 1,
+    "arcCount": 2
+  }
+]

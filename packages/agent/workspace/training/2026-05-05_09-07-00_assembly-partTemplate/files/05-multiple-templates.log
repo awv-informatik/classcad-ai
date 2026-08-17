@@ -1,0 +1,12 @@
+[05] asmId: 12
+[05] tpl1 (no name): 22
+[05] tpl2 (Plate): 68
+[05] tpl3 (Bolt): 114
+[05] tpl4 (no name): 160
+[05] getPartTemplate (all): [22,68,114,160]
+[05] getPartTemplate(Plate): 68
+[05] COG i1 (box 60x40x10 at origin): {"x":30,"y":20,"z":5}
+[05] COG i2 (box 30x30x50 at x=80): {"x":95,"y":15,"z":25}
+[05] COG i3 (cyl d=10 h=40 at x=160): {"x":160.06532868858693,"y":7.774327781280261e-15,"z":19.98366782785322}
+[05] COG i4 (sphere r=15 at x=240): {"x":240.00000000000122,"y":-1.3997985558199427e-15,"z":1.601052835121928e-14}
+[filewrite] files/05-multiple-templates-multiple-templates.json (876 bytes)

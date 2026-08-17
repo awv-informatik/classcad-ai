@@ -1,0 +1,32 @@
+[
+  {
+    "angleTol": 0,
+    "vertexCount": 1697,
+    "verifiedAngle": 0
+  },
+  {
+    "angleTol": 5,
+    "vertexCount": 8385,
+    "verifiedAngle": 5
+  },
+  {
+    "angleTol": 15,
+    "vertexCount": 1697,
+    "verifiedAngle": 15
+  },
+  {
+    "angleTol": 30,
+    "vertexCount": 1697,
+    "verifiedAngle": 30
+  },
+  {
+    "angleTol": 45,
+    "vertexCount": 1697,
+    "verifiedAngle": 45
+  },
+  {
+    "angleTol": 90,
+    "vertexCount": 1697,
+    "verifiedAngle": 90
+  }
+]

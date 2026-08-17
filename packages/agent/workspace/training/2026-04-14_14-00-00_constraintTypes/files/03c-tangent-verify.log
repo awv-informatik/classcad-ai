@@ -1,0 +1,9 @@
+[03c] circle node class: CC_Circle
+[03c] circle members keys: [ 'radius', '_VERSION', 'rigidSetId', 'lgsState' ]
+[filewrite] files/03c-tangent-verify-circle-node-before.json (585 bytes)
+[03c] circle getPoints: {"centerId":69}
+[03c] center pos before: {"x":50,"y":30,"z":0}
+[03c] TANGENT result: 71 maxLevel: 31
+[03c] center pos after: {"x":50,"y":15,"z":0}
+[filewrite] files/03c-tangent-verify-tangent-verify.json (94 bytes)
+[filewrite] files/03c-tangent-verify-circle-node-after.json (585 bytes)

@@ -1,0 +1,4 @@
+=== re-run ORIGINAL crash script 03c-extrude-construction.mjs against fixed binary ===
+[03c] construction rect [58,64,70,76] | result 94 rejected false max 51 | msgs [{"level":51,"code":0,"message":"Selection of construction geometry is not allowed."},{"level":51,"code":0,"message":"Selection of construction geometry is not allowed."},{"level":51,"code":0,"message":"Selection of construction geometry is not allowed."},{"level":51,"code":0,"message":"Selection of construction geometry is not allowed."},{"level":51,"code":0,"message":"No usable (non-construction) geometry was selected for this operation."},{"level":51,"code":1111,"message":"There is no sketch region for Extrusion (CC_Extrusion)"}]
+--- worker still responsive? ---
+[02] lines 6 circles 1 arcs 1 | constructionCount 4

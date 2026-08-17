@@ -1,0 +1,4 @@
+[08] ei1: 54 ei2: 62
+[08] box1: 69 (in ei1) box2: 72 (in ei2)
+[08] cross-EI subtraction — result: 69 maxLevel: 31
+[filewrite] files/08-two-eis-interaction-cross-ei-subtraction.json (54 bytes)

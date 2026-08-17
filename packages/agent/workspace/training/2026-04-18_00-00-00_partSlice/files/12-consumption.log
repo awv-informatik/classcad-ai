@@ -1,0 +1,5 @@
+[12] sliceId: 91
+[12] reuse boxId result: null maxLevel: 51
+[filewrite] files/12-consumption-reuse-box-response.json (277 bytes)
+[12] use sliceId as target result: 127 maxLevel: 31
+[filewrite] files/12-consumption-use-slice-response.json (55 bytes)

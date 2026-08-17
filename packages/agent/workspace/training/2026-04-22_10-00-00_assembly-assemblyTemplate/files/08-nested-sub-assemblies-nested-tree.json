@@ -1,0 +1,39 @@
+[
+  {
+    "id": 12,
+    "name": "NestTest",
+    "class": "CC_AssemblyRoot",
+    "parent": 1,
+    "children": [
+      14,
+      16,
+      18,
+      131
+    ]
+  },
+  {
+    "id": 105,
+    "name": "SubA",
+    "class": "CC_Assembly",
+    "parent": 10,
+    "children": [
+      107,
+      109,
+      111,
+      115,
+      129
+    ]
+  },
+  {
+    "id": 117,
+    "name": "SubB",
+    "class": "CC_Assembly",
+    "parent": 10,
+    "children": [
+      119,
+      121,
+      123,
+      127
+    ]
+  }
+]

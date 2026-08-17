@@ -1,0 +1,4 @@
+[02] rotateX result: 61 maxLevel: 31
+[02] rotateY result: 64 maxLevel: 31
+[02] rotateZ result: 67 maxLevel: 31
+[filewrite] files/02-rotate-each-axis-per-axis-results.json (173 bytes)

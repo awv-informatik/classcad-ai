@@ -1,0 +1,7 @@
+[14] i1 vol before: 24000
+[14] template vol after update: 96000
+[14] i1 vol BEFORE new instance: 24000
+[14] i1 vol AFTER new instance: 24000
+[14] i2 (new) vol: 96000
+[14] propagation triggered by new instance? false
+[filewrite] files/14-refresh-mechanism-refresh-mechanism.json (170 bytes)

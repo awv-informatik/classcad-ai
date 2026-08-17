@@ -1,0 +1,94 @@
+{
+  "tplId": 22,
+  "Top": {
+    "id": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getWorkGeometry",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "Front": {
+    "id": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getWorkGeometry",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "Right": {
+    "id": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getWorkGeometry",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "XAxis": {
+    "id": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getWorkGeometry",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "YAxis": {
+    "id": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getWorkGeometry",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "ZAxis": {
+    "id": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getWorkGeometry",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  },
+  "Origin": {
+    "id": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getWorkGeometry",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"
+      }
+    ]
+  }
+}

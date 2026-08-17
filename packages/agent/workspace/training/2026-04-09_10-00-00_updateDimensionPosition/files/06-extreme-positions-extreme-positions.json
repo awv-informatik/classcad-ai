@@ -1,0 +1,38 @@
+{
+  "origin": {
+    "result": null,
+    "maxLevel": 31,
+    "dimPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "large": {
+    "result": null,
+    "maxLevel": 31,
+    "dimPt": {
+      "x": 99999,
+      "y": 99999,
+      "z": 0
+    }
+  },
+  "negative": {
+    "result": null,
+    "maxLevel": 31,
+    "dimPt": {
+      "x": -100,
+      "y": -200,
+      "z": 0
+    }
+  },
+  "nonZeroZ": {
+    "result": null,
+    "maxLevel": 51,
+    "dimPt": {
+      "x": -100,
+      "y": -200,
+      "z": 0
+    }
+  }
+}

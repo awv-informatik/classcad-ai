@@ -1,0 +1,4 @@
+[12b] cylinder arcs: 76, 77
+[12b] filletId: 84
+[12b] fillet: lines=1, arcs=4, faces=4, points=3, nurbs=0
+[filewrite] files/12b-nurbs-fillet-fixed-cyl-fillet-brep.json (649 bytes)

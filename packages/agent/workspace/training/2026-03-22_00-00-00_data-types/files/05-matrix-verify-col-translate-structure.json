@@ -1,0 +1,36 @@
+{
+  "expressionSet": 6,
+  "dimensions": [],
+  "geometrySet": 10,
+  "solids": [
+    85
+  ],
+  "name": "Test",
+  "class": "CC_Part",
+  "id": 4,
+  "flags": 0,
+  "parent": 1,
+  "members": {
+    "_VERSION": {
+      "value": "3/2021_9_13_15:30",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "unit": {
+      "value": 0,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "children": [
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18
+  ]
+}

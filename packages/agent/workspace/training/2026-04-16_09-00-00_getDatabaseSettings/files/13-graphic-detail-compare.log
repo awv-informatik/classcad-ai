@@ -1,0 +1,12 @@
+[filewrite] files/13-graphic-detail-compare-graphic-enabled.json (11059 bytes)
+[filewrite] files/13-graphic-detail-compare-graphic-disabled.json (11038 bytes)
+[13] Graphic-ON  keys: containers,properties
+[13] Graphic-OFF keys: containers,properties
+[13] Graphic-ON  containers: 1
+[13] Graphic-OFF containers: 1
+[13] Container[0] ON keys: id,owner,type,properties,meshes,edges,vertices
+[13] Container[0] OFF keys: id,owner,type,properties,meshes,edges,vertices
+[13] Container[0] ON meshes: 6
+[13] Container[0] OFF meshes: 6
+[13] Container[0] ON edges: 12
+[13] Container[0] OFF edges: 12

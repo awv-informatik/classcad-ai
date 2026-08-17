@@ -1,0 +1,8 @@
+[03] negative ratio: 263 maxLevel: 31
+[03] zero ratio: 267 maxLevel: 31
+[03] large ratio: 271 maxLevel: 31
+[03] same constr: 275 maxLevel: 31
+[03] invalid id: null maxLevel: 51
+[03] missing constr1Id: null maxLevel: 51
+[03] with fastenedOrigin: null maxLevel: 51
+[filewrite] files/03-edge-cases-edge-cases.json (1456 bytes)

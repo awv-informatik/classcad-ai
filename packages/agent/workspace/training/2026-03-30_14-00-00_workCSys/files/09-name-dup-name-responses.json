@@ -1,0 +1,15 @@
+{
+  "first": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "dup": {
+    "result": 62,
+    "maxLevel": 31
+  },
+  "empty": {
+    "result": 70,
+    "maxLevel": 31
+  },
+  "found": 54
+}

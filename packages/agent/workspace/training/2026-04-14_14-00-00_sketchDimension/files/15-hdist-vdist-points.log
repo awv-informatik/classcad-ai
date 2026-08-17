@@ -1,0 +1,4 @@
+[15] H_DIST pts: result: 72 maxLevel: 31
+[15] V_DIST pts: result: 76 maxLevel: 31
+[15] l1.end after: {"pos":{"x":40,"y":20,"z":0}} l2.start after: {"pos":{"x":80,"y":10,"z":0}}
+[filewrite] files/15-hdist-vdist-points-hdist-vdist-points.json (316 bytes)

@@ -1,0 +1,8 @@
+[13] partId: 4 eifId: 54 shapeId: 60
+[filewrite] files/13-dump-structure-full-structure.json (20779 bytes)
+[13] structure type: object
+[13] structure is array: false
+[13] structure keys: root, currentProduct, currentInstance, testRoot, tree
+[13] structure.id: undefined
+[13] structure.name: undefined
+[13] has children: false

@@ -1,0 +1,6 @@
+{
+  "firstSet": "red",
+  "afterOverwriteAttempt": "red",
+  "overwriteWorked": false,
+  "afterProperUpdate": "blue"
+}

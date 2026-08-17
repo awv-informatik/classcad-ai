@@ -1,0 +1,7 @@
+[03] asmId: 12 tpl1: 22 tpl2: 105 tpl3: 188
+[03] first switch to tpl1: 12
+[03] second switch to tpl1 (idempotent): 22
+[03] third switch to tpl1: 22
+[filewrite] files/03-idempotent-and-chain-idempotent.json (76 bytes)
+[03] chain: asm->tpl1: 12 tpl1->tpl2: 22 tpl2->tpl3: 105 tpl3->asm: 188
+[filewrite] files/03-idempotent-and-chain-chain.json (215 bytes)

@@ -1,0 +1,6 @@
+[01] result: ["color","version","material"]
+[01] maxLevel: 31
+[01] messages: []
+[01] result type: object (array)
+[01] length: 3
+[filewrite] files/01-basic-basic-response.json (100 bytes)

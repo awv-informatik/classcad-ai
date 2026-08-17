@@ -1,0 +1,6 @@
+[09] ofb.geometry=0 (objects only): 1 length: 44232
+[09] ofb.geometry=1 (class format): 1 length: 44232
+[09] ofb.geometry=2 (objects+geo): 1 length: 44232
+[09] ofb.geometry=3 (objects+gfx): 1 length: 44232
+[09] ofb.geometry=4 (all): 1 length: 44232
+[filewrite] files/09-ofb-geometry-levels-ofb-geo-levels.json (287 bytes)

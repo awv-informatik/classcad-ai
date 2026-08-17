@@ -1,0 +1,5 @@
+[06] circles: 58 63
+[06] delete result: null maxLevel: 31
+[06] getPoints deleted: null maxLevel: 51
+[06] getPoints remaining: {"centerId":64}
+[06] getGeometry after delete: {"arcs":[],"circles":[63],"lines":[],"points":[]}

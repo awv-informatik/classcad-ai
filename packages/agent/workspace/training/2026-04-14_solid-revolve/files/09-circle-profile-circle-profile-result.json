@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.solid.revolve",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SolidAPI_v1.revolve::PROC:NULLID not allowed.\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/CADEntity.cpp,     Line: 396\nFunction: CADH_RevolveRegion\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/CADEntity.cpp,     Line: 396] "
+    }
+  ]
+}

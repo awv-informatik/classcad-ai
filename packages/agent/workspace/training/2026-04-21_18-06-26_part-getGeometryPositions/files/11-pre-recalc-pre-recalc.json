@@ -1,0 +1,33 @@
+{
+  "preRecalcIds": [
+    67
+  ],
+  "preRecalcPositions": [
+    {
+      "id": 67,
+      "positions": [
+        {
+          "x": 40,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    }
+  ],
+  "postRecalcIds": [
+    98
+  ],
+  "postRecalcPositions": [
+    {
+      "id": 98,
+      "positions": [
+        {
+          "x": 40,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    }
+  ],
+  "sameIds": false
+}

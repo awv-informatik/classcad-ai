@@ -1,0 +1,6 @@
+[04] no id — result: null maxLevel: 51
+[04] no id — messages: [{"api":"v1.part.entityInjection","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_EntityInjection"}]
+[filewrite] files/04-missing-id-no-id-response.json (249 bytes)
+[04] bad id — result: null maxLevel: 51
+[04] bad id — messages: [{"api":"v1.part.entityInjection","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.entityInjection","code":1006,"level":51,"levelStr":"ERROR","message":"The provided part id does not exist."},{"api":"v1.part.entityInjection","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided to create CC_EntityInjection"}]
+[filewrite] files/04-missing-id-bad-id-response.json (611 bytes)

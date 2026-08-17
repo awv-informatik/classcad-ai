@@ -1,0 +1,145 @@
+[
+  {
+    "label": "H1_V2",
+    "maxLevel": 31,
+    "isArray": true,
+    "result": [
+      {
+        "sourceId": 58,
+        "splittedCurves": [
+          {
+            "id": 78,
+            "interval": [
+              0,
+              0.5
+            ]
+          },
+          {
+            "id": 82,
+            "interval": [
+              0.5,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "sourceId": 66,
+        "splittedCurves": [
+          {
+            "id": 86,
+            "interval": [
+              0,
+              0.25
+            ]
+          },
+          {
+            "id": 90,
+            "interval": [
+              0.25,
+              0.75
+            ]
+          },
+          {
+            "id": 94,
+            "interval": [
+              0.75,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "messages": []
+  },
+  {
+    "label": "V2_H1",
+    "maxLevel": 51,
+    "isArray": false,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.splitCurve",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  {
+    "label": "V2_alone",
+    "maxLevel": 51,
+    "isArray": false,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.splitCurve",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  {
+    "label": "H1_alone",
+    "maxLevel": 51,
+    "isArray": false,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.splitCurve",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  {
+    "label": "H2vals_H1val",
+    "maxLevel": 51,
+    "isArray": false,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.splitCurve",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  {
+    "label": "H1val_H2vals",
+    "maxLevel": 51,
+    "isArray": false,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.splitCurve",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  },
+  {
+    "label": "V1_H1",
+    "maxLevel": 51,
+    "isArray": false,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.sketch.splitCurve",
+        "code": 1001,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+      }
+    ]
+  }
+]

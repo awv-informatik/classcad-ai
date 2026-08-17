@@ -1,0 +1,11 @@
+[03] groupId: 180
+[03] before: {"id":180,"instanceIds":[170,172],"name":"G1"}
+[03] updateGroup (add inst3) result: 180 maxLevel: 31
+[03] after add inst3: {"id":180,"instanceIds":[170,172,174],"name":"G1"}
+[03] updateGroup (rename) result: 180 maxLevel: 31
+[03] old name lookup: null
+[03] new name lookup: {"id":180,"instanceIds":[170,172,174],"name":"RenamedGroup"}
+[03] updateGroup (both) result: 180 maxLevel: 31
+[03] final state: {"id":180,"instanceIds":[170],"name":"FinalGroup"}
+[03] after name-only update, instanceIds preserved? {"id":180,"instanceIds":[170],"name":"StillFinal"}
+[filewrite] files/03-update-group-update-progression.json (545 bytes)

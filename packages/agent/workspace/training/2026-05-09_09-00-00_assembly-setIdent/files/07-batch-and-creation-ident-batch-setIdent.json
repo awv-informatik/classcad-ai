@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.setIdent",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AssemblyAPI_v1.setIdent::PROC:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "maxLevel": 51
+}

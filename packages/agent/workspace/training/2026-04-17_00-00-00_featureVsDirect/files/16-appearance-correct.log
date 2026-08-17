@@ -1,0 +1,6 @@
+[16] setAppearance on partId: null maxLevel: 51
+[filewrite] files/16-appearance-correct-appearance-part-result.json (253 bytes)
+[16] getGeometryIds partId: has data maxLevel: 31
+[filewrite] files/16-appearance-correct-geo-ids-part.json (54 bytes)
+[16] getGeometryPositions partId: null maxLevel: 51
+[filewrite] files/16-appearance-correct-geo-positions-part.json (263 bytes)

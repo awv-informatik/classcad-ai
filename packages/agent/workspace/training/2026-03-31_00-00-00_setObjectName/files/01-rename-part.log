@@ -1,0 +1,7 @@
+[01] partId: 4
+[filewrite] files/01-rename-part-structure-before.json (19135 bytes)
+[01] setObjectName result: null
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-rename-part-rename-response.json (56 bytes)
+[filewrite] files/01-rename-part-structure-after.json (19134 bytes)

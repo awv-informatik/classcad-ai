@@ -1,0 +1,8 @@
+[05] split at 0.0 — result: [[64,68]] maxLevel: 31
+[filewrite] files/05-boundary-values-split-at-0.json (88 bytes)
+[05] split at 1.0 — result: null maxLevel: 51
+[filewrite] files/05-boundary-values-split-at-1.json (260 bytes)
+[05] split at -0.5 — result: null maxLevel: 51
+[filewrite] files/05-boundary-values-split-at-neg.json (260 bytes)
+[05] split at 1.5 — result: null maxLevel: 51
+[filewrite] files/05-boundary-values-split-at-1_5.json (260 bytes)

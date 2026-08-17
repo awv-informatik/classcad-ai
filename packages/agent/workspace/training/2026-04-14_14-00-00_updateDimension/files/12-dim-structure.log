@@ -1,0 +1,30 @@
+[12] dim class: CC_LinearFeatureDimension
+[12] dim members keys: [
+  'master',
+  '_VERSION',
+  'orientationType',
+  'startPt',
+  'endPt',
+  'angle',
+  'valHandlePos',
+  'valHandleBehaviour',
+  'dimPt',
+  'classification',
+  'paramName',
+  'displayInfo'
+]
+[filewrite] files/12-dim-structure-dim-node.json (2456 bytes)
+[12] link name="master": null 31 
+[12] link name="_VERSION": null 31 
+[12] link name="orientationType": null 31 
+[12] link name="startPt": null 31 
+[12] link name="endPt": null 31 
+[12] link name="angle": null 31 
+[12] link name="valHandlePos": null 31 
+[12] link name="valHandleBehaviour": null 31 
+[12] link name="dimPt": null 31 
+[12] link name="classification": null 31 
+[12] link name="paramName": null 31 
+[12] link name="displayInfo": null 31 
+[filewrite] files/12-dim-structure-link-results.json (981 bytes)
+[12] endX after link attempts: 80

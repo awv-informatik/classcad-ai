@@ -1,0 +1,6 @@
+[06] edge1: 67 edge2: 71
+[06] created CURVE axis: 91
+[06] update refs result: 91 maxLevel: 31
+[06] messages: []
+[06] update refs back result: 91 maxLevel: 31
+[filewrite] files/06-update-refs-update-refs.json (140 bytes)

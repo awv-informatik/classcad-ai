@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.setObjectCoordSystem",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in CommonAPI_v1.setObjectCoordSystem::PROC:Vectors for SetCoordSystem may not be parallel\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 302\nFunction: OBJ_SetCoordSystem\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/GenericObject.cpp,     Line: 302] "
+    }
+  ],
+  "maxLevel": 51
+}

@@ -1,0 +1,5 @@
+[06] asmId: 12
+[06] mass props result: null
+[06] mass props maxLevel: 51
+[06] mass props messages: [{"api":"v1.assembly.calculateMassProperties","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in PartAPI_v1.calculateMassProperties::PROC:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Array addressed.] ] "}]
+[filewrite] files/06-empty-mass-props-empty-mass-props.json (399 bytes)

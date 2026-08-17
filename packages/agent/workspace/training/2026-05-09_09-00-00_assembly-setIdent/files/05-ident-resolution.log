@@ -1,0 +1,17 @@
+[05] transformInstance(alpha): null maxLevel: 31
+[filewrite] files/05-ident-resolution-transformInstance-alpha.json (38 bytes)
+[05] transformInstanceTo(alpha): null maxLevel: 51
+[filewrite] files/05-ident-resolution-transformInstanceTo-alpha.json (299 bytes)
+[05] instance(ident productId + ownerId): 119 maxLevel: 31
+[filewrite] files/05-ident-resolution-instance-ident-both.json (37 bytes)
+[05] deleteInstance(beta): null maxLevel: 31
+[filewrite] files/05-ident-resolution-deleteInstance-ident.json (38 bytes)
+[05] setCurrentProduct(root): null maxLevel: 51
+[filewrite] files/05-ident-resolution-setCurrentProduct-ident.json (464 bytes)
+[05] setCurrentInstance(alpha): null maxLevel: 51
+[filewrite] files/05-ident-resolution-setCurrentInstance-ident.json (467 bytes)
+[05] fastenedOrigin(numeric): 125 maxLevel: 31
+[05] deleteConstraint(ident): null maxLevel: 51
+[filewrite] files/05-ident-resolution-deleteConstraint-ident.json (467 bytes)
+[05] inst1 COG: undefined
+[05] inst3 COG: undefined

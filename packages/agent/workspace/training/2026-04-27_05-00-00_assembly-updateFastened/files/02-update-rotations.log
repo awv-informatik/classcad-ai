@@ -1,0 +1,9 @@
+[02] update zRotation rad: 212 maxLevel: 31
+[02] getFastened after rad zRot: 0.7853981633974483
+[filewrite] files/02-update-rotations-after-rad-rotation.json (357 bytes)
+[02] update zRotation deg: 212 maxLevel: 31
+[02] getFastened after deg zRot: 1.5707963267948966
+[filewrite] files/02-update-rotations-after-deg-rotation.json (357 bytes)
+[02] update combo: 212 maxLevel: 31
+[02] getFastened after combo: {"x":0.7853981633974483,"y":0.5235987755982988,"z":1.5707963267948966}
+[filewrite] files/02-update-rotations-after-combo-rotation.json (391 bytes)

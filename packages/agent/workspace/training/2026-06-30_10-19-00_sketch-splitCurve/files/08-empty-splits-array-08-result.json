@@ -1,0 +1,21 @@
+{
+  "result": [],
+  "messages": [],
+  "maxLevel": 31,
+  "before": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58
+    ],
+    "points": []
+  },
+  "after": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      58
+    ],
+    "points": []
+  }
+}

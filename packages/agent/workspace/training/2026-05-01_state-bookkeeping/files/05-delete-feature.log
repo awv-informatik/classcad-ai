@@ -1,0 +1,5 @@
+[filewrite] files/05-delete-feature-tree-after-delete.json (19124 bytes)
+[05] before: box present=true, nodes=27
+[05] after: box present=false (expect false)
+[05] node count shrank: ✓ (27 → 24)
+[05] box no longer child of part: ✓

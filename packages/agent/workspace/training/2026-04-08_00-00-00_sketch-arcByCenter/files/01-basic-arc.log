@@ -1,0 +1,9 @@
+[01] result: 58 maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-arc-arc-response.json (54 bytes)
+[01] getPoints: {"centerId":61,"endId":59,"startId":60}
+[01] getPositions on arcId: {"centerPos":{"x":0,"y":0,"z":0},"endPos":{"x":40,"y":0,"z":0},"startPos":{"x":-40,"y":0,"z":0}} maxLevel: 31
+[01] getGeometry: {"arcs":[58],"circles":[],"lines":[],"points":[]}
+[filewrite] files/01-basic-arc-getPoints-result.json (52 bytes)
+[filewrite] files/01-basic-arc-getPositions-result.json (172 bytes)
+[filewrite] files/01-basic-arc-getGeometry-result.json (74 bytes)

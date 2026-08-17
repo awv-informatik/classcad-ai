@@ -1,0 +1,5 @@
+[02] setup maxLevels: 31 31 dims: [68,72,76,80]
+[02] nodes before split: {"constraints":5,"dims":4,"splitContainers":0}
+[02] nodes after split (staged): {"constraints":5,"dims":4,"splitContainers":2} segments: 4 maxLevel: 31
+[02] originals queryable during staged state: true — c2 center: {"x":78,"y":40,"z":0} (expect (78,40): solver laid out before split)
+[filewrite] files/02-staged-state-staged.json (180 bytes)

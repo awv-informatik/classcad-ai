@@ -1,0 +1,7 @@
+[01] asmId: 12
+[01] tplId: 22
+[01] boxId: 70
+[01] inst1: 105
+[01] inst2: 107
+[01] getInstance result: [105,107]
+[filewrite] files/01-structure-tree-link-structure-after-instances.json (29423 bytes)

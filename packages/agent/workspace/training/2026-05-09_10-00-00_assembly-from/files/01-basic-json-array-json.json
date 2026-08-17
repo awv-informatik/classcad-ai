@@ -1,0 +1,20 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in JsonAssemblyBuilder.Build::PROC:[CCVM::ldm: objId not found]] "
+    },
+    {
+      "api": "v1.assembly.from",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in JsonAssemblyBuilder.Build:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type String addressed.] \nFunction: OBJ_AppendNewObj\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "
+    }
+  ],
+  "maxLevel": 51
+}

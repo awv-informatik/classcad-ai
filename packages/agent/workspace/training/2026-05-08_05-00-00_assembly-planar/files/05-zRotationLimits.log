@@ -1,0 +1,3 @@
+[05] planar result: 216 maxLevel: 31
+[05] inst2 COG with zRotation locked at 45deg: {"x":21.213203435596423,"y":35.35533905932739,"z":22.499999999999996}
+[filewrite] files/05-zRotationLimits-rotation-locked-45.json (332 bytes)

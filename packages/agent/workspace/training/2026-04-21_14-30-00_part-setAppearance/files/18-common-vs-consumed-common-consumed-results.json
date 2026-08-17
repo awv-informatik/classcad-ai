@@ -1,0 +1,34 @@
+{
+  "partOnConsumed": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.setAppearance",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Entity \"Box1\" is not available. It has already been consumed/used in another operation."
+      }
+    ]
+  },
+  "commonOnConsumed": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.common.setAppearance",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Entity \"Box1\" is not available. It has already been consumed/used in another operation."
+      }
+    ]
+  },
+  "partOnFillet": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "commonOnFillet": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

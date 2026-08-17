@@ -1,0 +1,8 @@
+[01] partId: 4
+[01] refBox: 54
+[01] coneId: 91
+[01] openFeature maxLevel: 31
+[01] updateCone result: 91 maxLevel: 31
+[filewrite] files/01-verify-updateCone-update-response.json (54 bytes)
+[01] closeFeature maxLevel: 31
+[01] partial updateCone result: 91 maxLevel: 31

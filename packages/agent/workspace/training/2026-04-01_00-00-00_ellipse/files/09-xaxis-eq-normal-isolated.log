@@ -1,0 +1,5 @@
+[09] xAxis==normal: maxLevel: 31
+[filewrite] files/09-xaxis-eq-normal-isolated-degenerate-graphic.json (1193 bytes)
+[filewrite] files/09-xaxis-eq-normal-isolated-degenerate-structure.json (20792 bytes)
+[09] default: maxLevel: 31
+[filewrite] files/09-xaxis-eq-normal-isolated-default-graphic.json (4840 bytes)

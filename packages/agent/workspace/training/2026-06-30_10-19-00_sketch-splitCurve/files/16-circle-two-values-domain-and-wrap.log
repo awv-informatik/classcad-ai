@@ -1,0 +1,6 @@
+[16] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":2,"intervals":[[0.25,0.75],[0.75,1.25]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} err []
+[filewrite] files/16-circle-two-values-domain-and-wrap-16-circle2.json (974 bytes)
+[16] seg iv [0.25,0.75] startAng 90 endAng 270 r 50
+[16] seg iv [0.75,1.25] startAng 270 endAng 90 r 50
+[16] interval encodings: [[0.25,0.75],[0.75,1.25]]
+[16] nSegs 2

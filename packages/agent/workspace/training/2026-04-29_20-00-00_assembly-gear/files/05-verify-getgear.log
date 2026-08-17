@@ -1,0 +1,7 @@
+[05] gear created: 263
+[05] getGear result: {"constr1Id":255,"constr2Id":259,"id":263,"name":"TestGear","offset":0.5235987755982988,"ratio":2}
+[05] getGear maxLevel: 31
+[filewrite] files/05-verify-getgear-getgear-result.json (123 bytes)
+[05] getGear not found: null maxLevel: 51
+[filewrite] files/05-verify-getgear-getgear-notfound.json (296 bytes)
+[filewrite] files/05-verify-getgear-structure-with-gears.json (88791 bytes)

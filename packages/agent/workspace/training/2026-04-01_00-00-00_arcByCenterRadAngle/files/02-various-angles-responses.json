@@ -1,0 +1,18 @@
+{
+  "semicircle": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "deg270": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "fullCircle": {
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "smallArc": {
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

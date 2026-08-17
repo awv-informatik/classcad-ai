@@ -1,0 +1,9 @@
+{
+  "zOffset": 15,
+  "zRotationLimits": {
+    "max": 1.5707963267948966,
+    "min": -0.7853981633974483
+  },
+  "minIsNumber": true,
+  "maxIsNumber": true
+}

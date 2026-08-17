@@ -1,0 +1,8 @@
+[06] boxId: 61
+[06] response keys: result, messages, maxLevel, structure, graphic
+[06] graphic keys: containers, properties
+[filewrite] files/06-structure-data-graphic-raw-before.json (11059 bytes)
+[06] solid node not found in structure
+[06] structure top: {"keys":["root","currentProduct","currentInstance","testRoot","tree"]}
+[06] slice result: null maxLevel: 31
+[filewrite] files/06-structure-data-graphic-raw-after.json (11059 bytes)

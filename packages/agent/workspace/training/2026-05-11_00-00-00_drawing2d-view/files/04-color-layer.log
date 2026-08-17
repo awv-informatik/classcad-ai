@@ -1,0 +1,17 @@
+[04] color=1 layer="3" result: [91,96] maxLevel: 31
+[filewrite] files/04-color-layer-color-layer-response.json (72 bytes)
+[04] view 91 name: D all keys: name, class, id, flags, geometryIdList, parent, members, children
+[04]    name : D
+[04]    class : CC_View2D
+[04]    id : 91
+[04]    flags : 0
+[04]    parent : 89
+[04] view 96 name: V all keys: name, class, id, flags, geometryIdList, parent, members, children
+[04]    name : V
+[04]    class : CC_View2D
+[04]    id : 96
+[04]    flags : 0
+[04]    parent : 89
+[04] color=256 result: [103] maxLevel: 31
+[04] color=0 result: [109] maxLevel: 31
+[04] color=999 (invalid) result: [115] maxLevel: 31

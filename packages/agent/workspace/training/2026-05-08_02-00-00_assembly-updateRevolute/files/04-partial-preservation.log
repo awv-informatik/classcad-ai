@@ -1,0 +1,4 @@
+[04] initial: {"name":"FullHinge","m1flip":"X","m1reorient":"90","m2flip":"-Z","m2reorient":"180","zOffset":15,"limits":{"max":1.0471975511965976,"min":-0.5235987755982988}}
+[04] all fields preserved after name-only update: true
+[04] all fields preserved after flip-only update: true
+[filewrite] files/04-partial-preservation-preservation-data.json (1840 bytes)

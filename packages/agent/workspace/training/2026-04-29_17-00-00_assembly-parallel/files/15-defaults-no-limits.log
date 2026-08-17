@@ -1,0 +1,8 @@
+[15] default name: Parallel
+[15] default mate1.flip: Z mate1.reorient: 0
+[15] default mate2.flip: Z mate2.reorient: 0
+[15] default xOff: {"max":null,"min":null}
+[15] default yOff: {"max":null,"min":null}
+[15] default zOff: {"max":null,"min":null}
+[15] default zRot: {"max":null,"min":null}
+[filewrite] files/15-defaults-no-limits-defaults.json (481 bytes)

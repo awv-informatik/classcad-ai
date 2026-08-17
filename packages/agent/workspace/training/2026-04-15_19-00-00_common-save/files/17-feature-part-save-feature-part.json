@@ -1,0 +1,12 @@
+{
+  "ofbLength": 46532,
+  "stpLength": 9612,
+  "loadResult": {
+    "id": 4
+  },
+  "exprAfterRoundtrip": {
+    "expression": "",
+    "value": 80
+  },
+  "exprMaxLevel": 31
+}

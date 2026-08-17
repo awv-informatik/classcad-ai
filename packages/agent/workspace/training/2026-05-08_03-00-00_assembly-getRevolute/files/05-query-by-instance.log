@@ -1,0 +1,5 @@
+[05] by assembly ID — result id: 216 maxLevel: 31 ✓
+[05] by inst1 ID — result: null maxLevel: 51
+[05] by inst2 ID — result: null maxLevel: 51
+[05] by template ID — result: null maxLevel: 51
+[filewrite] files/05-query-by-instance-id-variants.json (243 bytes)

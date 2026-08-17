@@ -1,0 +1,82 @@
+{
+  "containers": [
+    {
+      "id": 64,
+      "owner": 63,
+      "type": 2,
+      "properties": {
+        "material": {
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 1
+        },
+        "layer": "0",
+        "min": [
+          0,
+          -60,
+          0
+        ],
+        "max": [
+          40,
+          -20,
+          0
+        ],
+        "chordHeightTol": 0.1,
+        "angleTol": 0
+      },
+      "edges": [
+        {
+          "id": -5,
+          "points": [
+            0,
+            -60,
+            0,
+            40,
+            -60,
+            0
+          ],
+          "pointIds": [
+            -5,
+            -5
+          ]
+        },
+        {
+          "id": -6,
+          "points": [
+            40,
+            -60,
+            0,
+            40,
+            -20,
+            0
+          ],
+          "pointIds": [
+            -6,
+            -6
+          ]
+        },
+        {
+          "id": -7,
+          "points": [
+            40,
+            -20,
+            0,
+            0,
+            -20,
+            0
+          ],
+          "pointIds": [
+            -7,
+            -7
+          ]
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "version": 11
+  }
+}

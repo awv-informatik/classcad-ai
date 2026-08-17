@@ -1,0 +1,8 @@
+[06] box: 54 cyl: 91 sph: 110
+[06] Rolled back before Sph1
+[06] openFeature(sph) result: null maxLevel: 31
+[06] updateSphere result: 110 maxLevel: 31
+[06] Closed Sph1
+[06] openFeature(box) result: null maxLevel: 31
+[06] Closed Box1
+[06] Moved bar back to end

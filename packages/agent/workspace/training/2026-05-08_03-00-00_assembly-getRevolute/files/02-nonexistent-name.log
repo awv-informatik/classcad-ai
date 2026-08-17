@@ -1,0 +1,10 @@
+[02] non-existent result: null
+[02] non-existent maxLevel: 51
+[02] non-existent messages: [{"api":"v1.assembly.getRevolute","code":0,"level":51,"levelStr":"ERROR","message":"There couldn't be found a constraint with name \"DoesNotExist\" on product or product reference with id $12"}]
+[filewrite] files/02-nonexistent-name-nonexistent.json (301 bytes)
+[02] empty name result: null
+[02] empty name maxLevel: 51
+[filewrite] files/02-nonexistent-name-empty-name.json (289 bytes)
+[02] wrong type result: null
+[02] wrong type maxLevel: 51
+[filewrite] files/02-nonexistent-name-wrong-type.json (299 bytes)

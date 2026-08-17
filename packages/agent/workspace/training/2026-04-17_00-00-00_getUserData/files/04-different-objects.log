@@ -1,0 +1,6 @@
+[04] part (id=4): set maxLevel=31, get result=part
+[04] eif (id=54): set maxLevel=31, get result=eif
+[04] workPlane (id=62): set maxLevel=31, get result=workPlane
+[04] sketch (id=68): set maxLevel=31, get result=sketch
+[04] solid (id=75): set maxLevel=31, get result=solid
+[filewrite] files/04-different-objects-different-objects.json (520 bytes)

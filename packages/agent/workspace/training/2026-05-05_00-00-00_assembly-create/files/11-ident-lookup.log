@@ -1,0 +1,5 @@
+[11] asmId: 12
+[11] tplId: 24
+[11] getPartTemplate by name: 24
+[11] getPartTemplate all: [24]
+[filewrite] files/11-ident-lookup-ident-structure.json (25310 bytes)

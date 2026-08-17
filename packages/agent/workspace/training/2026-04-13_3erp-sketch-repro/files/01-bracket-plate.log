@@ -1,0 +1,18 @@
+[01] Creating circles...
+[01] hub: 58 bore: 61
+[01] boss at (-48,-12): outer=64, hole=67
+[01] boss at (48,-12): outer=70, hole=73
+[01] boss at (6.75,29.23): outer=76, hole=79
+[01] Creating outer tangent lines...
+[01] tangent (-48,-12)→(6.75,29.23): line=82, from (-53.11,-5.21) to (1.64,36.02)
+[01] tangent (6.75,29.23)→(48,-12): line=86, from (12.76,35.24) to (54.01,-5.99)
+[01] tangent (48,-12)→(-48,-12): line=90, from (48.00,-20.50) to (-48.00,-20.50)
+[01] Creating arm wall lines...
+[01] arm wall to (-48,-12), side=1: line=94, hub=(-18.16,-5.57), boss=(-39.57,-10.92)
+[01] arm wall to (-48,-12), side=-1: line=98, hub=(-18.65,-3.63), boss=(-40.05,-8.98)
+[01] arm wall to (48,-12), side=1: line=102, hub=(18.65,-3.63), boss=(40.05,-8.98)
+[01] arm wall to (48,-12), side=-1: line=106, hub=(18.16,-5.57), boss=(39.57,-10.92)
+[01] arm wall to (6.75,29.23), side=1: line=110, hub=(3.29,18.71), boss=(3.88,21.23)
+[01] arm wall to (6.75,29.23), side=-1: line=114, hub=(5.24,18.26), boss=(5.83,20.78)
+[filewrite] files/01-bracket-plate-geometry-data.json (468 bytes)
+[01] Done. 3 tangent lines, 6 arm lines

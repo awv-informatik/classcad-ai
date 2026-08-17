@@ -1,0 +1,6 @@
+[01] assembly created, asmId: 12
+[01] assemblyTemplate() result: 22 maxLevel: 31
+[filewrite] files/01-basic-creation-no-params-response.json (54 bytes)
+[01] assemblyTemplate({ name: SubAsm1 }) result: 32 maxLevel: 31
+[filewrite] files/01-basic-creation-named-response.json (54 bytes)
+[filewrite] files/01-basic-creation-structure-after-two-templates.json (13385 bytes)

@@ -1,0 +1,6 @@
+[08] nonexistent constr2: null maxLevel: 51
+[08] instance as constr1: null maxLevel: 51
+[08] same constraint: 321 maxLevel: 31
+[08] gear on fastenedOrigin: null maxLevel: 51
+[08] missing constr1Id: null maxLevel: 51
+[filewrite] files/08-gear-errors-error-data.json (1553 bytes)

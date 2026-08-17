@@ -1,0 +1,3 @@
+[filewrite] files/16-debug-graphic-graphic.json (4 bytes)
+[filewrite] files/16-debug-graphic-structure.json (20781 bytes)
+[stderr] [run] Script error: api.v1.common.sendGraphic_Kernel is not a function

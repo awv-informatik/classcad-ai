@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.part.workAxis",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in AbstractAPI.ToPoint:[Type error: A variable  of the type String (\"10+20\") has been defined as type Gleitkommazahl addressed.] ] "
+    }
+  ],
+  "maxLevel": 51
+}

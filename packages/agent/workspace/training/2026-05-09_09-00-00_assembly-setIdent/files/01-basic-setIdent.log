@@ -1,0 +1,9 @@
+[01] asmId: 12
+[01] tplId: 22 wcsId: 107
+[01] inst1: 113 inst2: 115
+[01] setIdent inst1 result: null maxLevel: 31
+[filewrite] files/01-basic-setIdent-setIdent-inst1.json (56 bytes)
+[01] setIdent inst2 result: null maxLevel: 31
+[01] getInstance by ident result: null maxLevel: 51
+[filewrite] files/01-basic-setIdent-getInstance-by-ident.json (256 bytes)
+[01] transformInstance by ident result: null maxLevel: 51

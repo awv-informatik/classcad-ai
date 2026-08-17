@@ -1,0 +1,11 @@
+[02] circle 58 line 63
+[filewrite] files/02-line-circle-2pt-02-line-circle.json (1646 bytes)
+[02] line segs 3 [[0,0.25],[0.25,0.75],[0.75,1]]
+[02]   line seg [0,0.25] [-100,0,0] -> [-50,0,0]
+[02]   line seg [0.25,0.75] [-50,0,0] -> [50,0,0]
+[02]   line seg [0.75,1] [50,0,0] -> [100,0,0]
+[02] circle segs 2 arc getPositions maxLevels [31,31]
+[02]   arc seg [0,0.5] [50,0,0] -> [-50,6.123233995736766e-15,0]
+[02]   arc seg [0.5,1] [-50,6.123233995736766e-15,0] -> [50,-1.2246467991473532e-14,0]
+[02] CHECKS {"lineThreeSegs":true,"circleTwoArcs":true,"cutAtMinus50":true,"cutAtPlus50":true,"arcsQueryable":true}
+[02] PASS

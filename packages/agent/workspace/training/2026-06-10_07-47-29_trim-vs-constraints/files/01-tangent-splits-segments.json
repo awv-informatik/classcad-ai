@@ -1,0 +1,80 @@
+{
+  "arcSegNode": {
+    "name": "Circle_part0",
+    "class": "CC_Circle",
+    "id": 120,
+    "flags": 0,
+    "parent": 118,
+    "members": {
+      "radius": {
+        "value": 20,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2001_2_2_9:19",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "rigidSetId": {
+        "value": 0,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "partOf": {
+        "value": 58,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "interval": {
+        "members": [
+          {
+            "value": -0.21991652261894146,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 0.7800834773810585,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      }
+    },
+    "children": [
+      121
+    ]
+  },
+  "allSegs": {
+    "a1": [
+      "Circle_part0(CC_Circle)"
+    ],
+    "a2": [
+      "Circle0_part0(CC_Circle)"
+    ],
+    "b1": [
+      "Line_part0(CC_Line)",
+      "Line_part1(CC_Line)"
+    ],
+    "b2": [
+      "Circle1_part0(CC_Circle)"
+    ],
+    "c1": [
+      "Circle2_part0(CC_Arc)",
+      "Circle2_part1(CC_Arc)"
+    ],
+    "c2": [
+      "Circle3_part0(CC_Arc)",
+      "Circle3_part1(CC_Arc)"
+    ]
+  }
+}

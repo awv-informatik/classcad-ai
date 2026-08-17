@@ -1,0 +1,5 @@
+[05] axis: 58 l1: 66 l2: 72
+[05] l2 before: start {"x":60,"y":15,"z":0} end {"x":80,"y":35,"z":0}
+[05] SYMMETRY lines result: 76 maxLevel: 31
+[05] l2 after: start {"x":66,"y":18,"z":0} end {"x":53.35088935932649,"y":43.29822128134704,"z":0}
+[filewrite] files/05-symmetry-lines-symmetry-lines.json (531 bytes)

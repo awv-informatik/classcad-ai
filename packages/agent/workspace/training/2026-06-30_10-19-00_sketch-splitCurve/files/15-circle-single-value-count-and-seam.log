@@ -1,0 +1,5 @@
+[15] circle id 58
+[15] {"maxLevel":51,"nMessages":1,"resultIsArray":false} err [{"level":51,"code":0,"message":"Circle shouldn't be split at a single point!"}]
+[15] geo before {"arcs":[],"circles":[58],"lines":[],"points":[]} after {"arcs":[],"circles":[58],"lines":[],"points":[]}
+[filewrite] files/15-circle-single-value-count-and-seam-15-circle.json (246 bytes)
+[15] SEAM (first arc start angle, deg): undefined

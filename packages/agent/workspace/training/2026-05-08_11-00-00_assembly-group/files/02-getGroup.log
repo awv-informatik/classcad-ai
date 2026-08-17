@@ -1,0 +1,12 @@
+[02] groupId: 178
+[02] getGroup result: {"id":178,"instanceIds":[170,172],"name":"MyGroup"}
+[02] getGroup maxLevel: 31
+[filewrite] files/02-getGroup-getGroup-success.json (143 bytes)
+[02] getGroup bad name result: null maxLevel: 51
+[filewrite] files/02-getGroup-getGroup-bad-name.json (297 bytes)
+[02] getGroup empty name result: null maxLevel: 51
+[filewrite] files/02-getGroup-getGroup-empty-name.json (286 bytes)
+[02] getGroup on instance result: null maxLevel: 51
+[filewrite] files/02-getGroup-getGroup-instance-id.json (254 bytes)
+[02] getGroup on template result: null maxLevel: 51
+[filewrite] files/02-getGroup-getGroup-template-id.json (296 bytes)

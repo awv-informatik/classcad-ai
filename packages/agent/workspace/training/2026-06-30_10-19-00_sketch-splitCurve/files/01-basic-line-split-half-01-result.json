@@ -1,0 +1,21 @@
+[
+  {
+    "sourceId": 58,
+    "splittedCurves": [
+      {
+        "id": 66,
+        "interval": [
+          0,
+          0.5
+        ]
+      },
+      {
+        "id": 70,
+        "interval": [
+          0.5,
+          1
+        ]
+      }
+    ]
+  }
+]

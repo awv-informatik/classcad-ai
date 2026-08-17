@@ -1,0 +1,7 @@
+[04] eifId: 54 boxId: 61
+[04] nonexistent id — result: null maxLevel: 51
+[filewrite] files/04-invalid-id-nonexistent-id.json (428 bytes)
+[04] eif as solid id — result: null maxLevel: 51
+[filewrite] files/04-invalid-id-eif-as-solid-id.json (281 bytes)
+[04] part as solid id — result: null maxLevel: 51
+[filewrite] files/04-invalid-id-part-as-solid-id.json (281 bytes)

@@ -1,0 +1,8 @@
+[10] start geom: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[10] cycle1 splitIds: [80,85,90,94,98]
+[10] cycle1 geom after merge: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[10] cycle2 splitIds: [117,122,127,131,135]
+[10] cycle2 geom after merge: {"arcs":[],"circles":[58],"lines":[63],"points":[]}
+[10] cycle3 splitIds: [154,159,164,168,172]
+[10] cycle3 geom after trim+merge: {"arcs":[177],"circles":[],"lines":[63],"points":[]}
+[filewrite] files/10-repeated-split-merge-cycles-cycle-comparison.json (481 bytes)

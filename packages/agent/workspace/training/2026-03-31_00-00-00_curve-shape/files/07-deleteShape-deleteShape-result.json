@@ -1,0 +1,29 @@
+{
+  "deleteResult": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "remaining": [
+    {
+      "id": 60,
+      "exists": true,
+      "name": "Keep"
+    },
+    {
+      "id": 62,
+      "exists": false
+    },
+    {
+      "id": 64,
+      "exists": false
+    }
+  ],
+  "eiChildren": [
+    {
+      "id": 60,
+      "class": "CC_CurveEntity",
+      "name": "Keep"
+    }
+  ]
+}

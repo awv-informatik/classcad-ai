@@ -1,0 +1,6 @@
+[05] line1: 58
+[05] line2: 64
+[05] ANGLEOX line1 result: 70 maxLevel: 31
+[05] ANGLEOX line2 result: 74 maxLevel: 31
+[05] ANGLEOX explicit result: 78 maxLevel: 51
+[filewrite] files/05-angleox-angleox-responses.json (453 bytes)

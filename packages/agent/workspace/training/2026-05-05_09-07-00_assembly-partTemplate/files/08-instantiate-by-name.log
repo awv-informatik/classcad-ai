@@ -1,0 +1,5 @@
+[08] by ID result: 105 maxLevel: 31
+[08] by name "Bracket" result: 109 maxLevel: 31
+[08] COG by-ID instance: {"x":25,"y":15,"z":10} vol: 30000
+[08] COG by-name instance: {"x":85,"y":15,"z":10} vol: 29999.999999999996
+[filewrite] files/08-instantiate-by-name-instantiate-by-name.json (313 bytes)

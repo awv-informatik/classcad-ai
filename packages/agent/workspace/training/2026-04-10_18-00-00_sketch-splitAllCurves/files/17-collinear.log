@@ -1,0 +1,9 @@
+[17] l1: 58 l2: 64
+[17] result: [82,86,90,94]
+[17] maxLevel: 31
+[17] result length: 4
+[17] segment 82 : CC_Line Line_part0
+[17] segment 86 : CC_Line Line_part1
+[17] segment 90 : CC_Line Line0_part0
+[17] segment 94 : CC_Line Line0_part1
+[filewrite] files/17-collinear-collinear-response.json (70 bytes)

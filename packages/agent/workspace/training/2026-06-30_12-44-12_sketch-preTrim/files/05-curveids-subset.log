@@ -1,0 +1,7 @@
+[05] L1 58 L2 64 L3 70
+[filewrite] files/05-curveids-subset-05-subset.json (1170 bytes)
+[05] result.length 2 sourceIds [58,64]
+[05] L3 in result? false | L3 pos [0,0,0] -> [100,100,0]
+[05] containers [{"id":76,"name":"NoneSplitted","childCount":1,"parent":52},{"id":84,"name":"SplittedCurves","childCount":4,"parent":52}] | L3 parent 76 NoneSplitted id 76
+[05] CHECKS {"resultLen2":true,"sourcesAreL1L2":true,"L3absent":true,"L3notSplit":true,"L1splitAt5050":true,"L3underNoneSplitted":true}
+[05] PASS

@@ -1,0 +1,19 @@
+{
+  "line1": {
+    "id": 58,
+    "points": {
+      "endId": 60,
+      "startId": 59
+    }
+  },
+  "line2": {
+    "id": 64,
+    "points": {
+      "endId": 66,
+      "startId": 65
+    }
+  },
+  "sharedEndpoint": false,
+  "line1EndId": 60,
+  "line2StartId": 65
+}

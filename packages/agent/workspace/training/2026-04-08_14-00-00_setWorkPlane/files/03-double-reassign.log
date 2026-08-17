@@ -1,0 +1,11 @@
+[03] wpA: 60 wpB: 68
+[03] move to A — result: null maxLevel: 31
+[03] after A planeRef: 60
+[03] after A coordSys: [[50,0,0],[0,0,1],[0,-1,0],[1,0,0]]
+[03] move to B — result: null maxLevel: 31
+[03] after B planeRef: 68
+[03] after B coordSys: [[50,0,75],[1,0,0],[0,1,0],[0,0,1]]
+[03] move back to A — result: null maxLevel: 31
+[03] after A2 planeRef: 60
+[03] after A2 coordSys: [[50,0,75],[0,0,1],[0,-1,0],[1,0,0]]
+[filewrite] files/03-double-reassign-double-reassign.json (784 bytes)

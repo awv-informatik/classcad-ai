@@ -1,0 +1,20 @@
+{
+  "asmId": 12,
+  "regularTemplateId": 22,
+  "convertResult": {
+    "result": null,
+    "maxLevel": 31
+  },
+  "beforeConvert": [
+    22
+  ],
+  "afterConvert": [
+    22,
+    12
+  ],
+  "findConverted": {
+    "result": 12,
+    "maxLevel": 31
+  },
+  "convertedIsOriginalRoot": true
+}

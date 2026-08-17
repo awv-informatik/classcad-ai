@@ -1,0 +1,5 @@
+[14] wpId: 54
+[14] setWorkPlane maxLevel: 31
+[14] coordSys: [[0,0,0],[1,0,0],[0,0.7071067811865476,-0.7071067811865476],[0,0.7071067811865476,0.7071067811865476]]
+[14] rectangle maxLevel: 31
+[filewrite] files/14-tilted-plane-tilted-plane.json (341 bytes)

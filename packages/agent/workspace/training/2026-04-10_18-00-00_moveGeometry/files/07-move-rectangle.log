@@ -1,0 +1,6 @@
+[07] rectIds: [58,62,68,74]
+[07] lines before: [{"endPos":{"x":60,"y":10,"z":0},"startPos":{"x":10,"y":10,"z":0}},{"endPos":{"x":60,"y":40,"z":0},"startPos":{"x":60,"y":10,"z":0}},{"endPos":{"x":10,"y":40,"z":0},"startPos":{"x":60,"y":40,"z":0}},{"endPos":{"x":10,"y":10,"z":0},"startPos":{"x":10,"y":40,"z":0}}]
+[07] move 1 line result: 0 maxLevel: 31
+[07] move 1 line messages: []
+[07] lines after partial move: [{"endPos":{"x":80,"y":25,"z":0},"startPos":{"x":30,"y":25,"z":0}},{"endPos":{"x":60,"y":40,"z":0},"startPos":{"x":60,"y":10,"z":0}},{"endPos":{"x":10,"y":40,"z":0},"startPos":{"x":60,"y":40,"z":0}},{"endPos":{"x":10,"y":10,"z":0},"startPos":{"x":10,"y":40,"z":0}}]
+[filewrite] files/07-move-rectangle-rect-partial-move.json (1448 bytes)

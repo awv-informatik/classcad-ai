@@ -1,0 +1,5 @@
+[07] l2 end before: {"pos":{"x":40,"y":40,"z":0}}
+[07] ANGLE: result: 80 maxLevel: 31
+[07] l2 end after: {"pos":{"x":28.28427124746191,"y":48.98979485566356,"z":0}}
+[07] dim class: CC_AngularFeatureDimension name: Ang
+[filewrite] files/07-angle-angle-data.json (3222 bytes)

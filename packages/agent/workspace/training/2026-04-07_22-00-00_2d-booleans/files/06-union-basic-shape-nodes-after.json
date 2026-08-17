@@ -1,0 +1,26 @@
+{
+  "s1": {
+    "name": "Target",
+    "class": "CC_CurveEntity",
+    "id": 60,
+    "flags": 0,
+    "geometryIdList": [
+      61
+    ],
+    "parent": 54,
+    "members": {
+      "consumed": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "0/2003_11_25_10:10",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      }
+    }
+  }
+}

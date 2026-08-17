@@ -1,0 +1,8 @@
+[08] circle autoGen maxLevel: 51
+[08] circle autoGen messages: [{"api":"v1.sketch.generateAutoConstraints","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"geomId\" = VOID is not allowed in this situation!"}]
+[08] arc autoGen maxLevel: 51
+[08] arc autoGen messages: [{"api":"v1.sketch.generateAutoConstraints","code":1001,"level":51,"levelStr":"ERROR","message":"Set the parameter \"geomId\" = VOID is not allowed in this situation!"}]
+[08] line autoGen maxLevel: 31
+[08] line autoGen messages: []
+[08] point autoGen maxLevel: 31
+[08] point autoGen messages: []

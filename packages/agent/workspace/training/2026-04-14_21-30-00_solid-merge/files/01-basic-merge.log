@@ -1,0 +1,7 @@
+[01] box1: 61 box2: 64
+[01] merge result: 61
+[01] merge maxLevel: 31
+[01] merge messages: []
+[filewrite] files/01-basic-merge-merge-response.json (54 bytes)
+[filewrite] files/01-basic-merge-after-merge-structure.json (21055 bytes)
+[01] copy box2 after merge — result: null maxLevel: 51

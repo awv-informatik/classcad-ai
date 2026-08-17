@@ -1,0 +1,7 @@
+[04] lineIds: [66,72,78,84]
+[04] sketchRegion result: 100 maxLevel: 31
+[04A] region as scalar result: null maxLevel: 51
+[04A] messages: ["The parameter \"curves\" has a wrong id type! Provide only following id types: [\"shape\",\"sketch-curve\"]"]
+[04B] region in array result: null maxLevel: 51
+[04B] messages: ["The parameter \"curves\" has a wrong id type! Provide only following id types: [\"shape\",\"sketch-curve\"]"]
+[filewrite] files/04-sketch-region-sketch-region-tests.json (796 bytes)

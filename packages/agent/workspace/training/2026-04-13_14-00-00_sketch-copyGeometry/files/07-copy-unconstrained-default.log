@@ -1,0 +1,4 @@
+[07] line1: 58
+[07] default result: null maxLevel: 31
+[07] false result: [ 67 ] maxLevel: 31
+[filewrite] files/07-copy-unconstrained-default-comparison.json (58 bytes)

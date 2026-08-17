@@ -1,0 +1,14 @@
+{
+  "asmMass": {
+    "result": {
+      "cog": {
+        "x": 30,
+        "y": 20,
+        "z": 5
+      },
+      "volume": 24000
+    },
+    "messages": [],
+    "maxLevel": 31
+  }
+}

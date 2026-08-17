@@ -1,0 +1,7 @@
+[16] partId: 4
+[16] invalid id result: null maxLevel: 51
+[16] messages: [{"api":"v1.common.setObjectCoordSystem","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.common.setObjectCoordSystem","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/16-invalid-id-invalid-id.json (447 bytes)
+[16] id=0 result: null maxLevel: 51
+[16] id=0 messages: [{"api":"v1.common.setObjectCoordSystem","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/16-invalid-id-id-zero.json (253 bytes)

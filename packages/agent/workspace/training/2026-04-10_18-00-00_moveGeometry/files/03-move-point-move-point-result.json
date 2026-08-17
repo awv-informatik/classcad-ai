@@ -1,0 +1,19 @@
+{
+  "before": {
+    "pos": {
+      "x": 20,
+      "y": 20,
+      "z": 0
+    }
+  },
+  "after": {
+    "pos": {
+      "x": 35,
+      "y": 45,
+      "z": 0
+    }
+  },
+  "moveResult": 1,
+  "maxLevel": 31,
+  "messages": []
+}

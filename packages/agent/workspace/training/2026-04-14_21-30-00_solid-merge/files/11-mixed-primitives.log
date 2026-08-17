@@ -1,0 +1,4 @@
+[11] box: 61 cyl: 64 sph: 66
+[11] merge result: 61 maxLevel: 31
+[11] containers: 1
+[11]   container 59 : meshes= 10 edges= 16

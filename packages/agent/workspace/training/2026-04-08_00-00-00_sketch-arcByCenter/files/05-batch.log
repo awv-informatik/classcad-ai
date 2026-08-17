@@ -1,0 +1,4 @@
+[05] batch result: [58,65,70]
+[05] batch maxLevel: 31
+[05] result is array: true
+[filewrite] files/05-batch-batch-response.json (80 bytes)

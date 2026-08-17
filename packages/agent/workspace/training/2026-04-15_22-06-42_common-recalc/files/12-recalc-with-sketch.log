@@ -1,0 +1,7 @@
+[12] skId: 52
+[12] rectIds: [ 58, 64, 70, 76 ]
+[12] geometry before recalc: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[12] recalc result: null maxLevel: 31
+[12] geometry after recalc: {"arcs":[],"circles":[],"lines":[58,64,70,76],"points":[]}
+[12] getPoints after recalc: maxLevel= 31 result: {"endId":60,"startId":59}
+[filewrite] files/12-recalc-with-sketch-sketch-recalc.json (463 bytes)

@@ -1,0 +1,5 @@
+[10] result: null maxLevel: 31
+[filewrite] files/10-graphic-data-single-ellipse-graphic.json (5721 bytes)
+[filewrite] files/10-graphic-data-single-ellipse-structure.json (20780 bytes)
+[10] rotated xAxis: result: null maxLevel: 31
+[filewrite] files/10-graphic-data-rotated-ellipse-graphic.json (5722 bytes)

@@ -1,0 +1,36 @@
+{
+  "offset": {
+    "before": {
+      "value": {
+        "x": 40,
+        "y": 25,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "{40,25,0}"
+    },
+    "after": {
+      "value": {
+        "x": 123,
+        "y": 456,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "{123,456,0}"
+    }
+  },
+  "radius": {
+    "after": {
+      "value": {
+        "x": 77,
+        "y": 88,
+        "z": 0
+      },
+      "type": "point",
+      "visible": 1,
+      "expression": "{77,88,0}"
+    }
+  }
+}

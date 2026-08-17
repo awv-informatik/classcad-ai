@@ -1,0 +1,45 @@
+{
+  "rename": {
+    "oldName": null,
+    "newName": {
+      "id": 309,
+      "name": "RenamedCyl"
+    }
+  },
+  "flipUpdate": {
+    "flip": "-Z",
+    "pathPreserved": [
+      297
+    ]
+  },
+  "reorientUpdate": {
+    "reorient": "180",
+    "flipPreserved": "Z"
+  },
+  "retarget": {
+    "path": [
+      299
+    ],
+    "csys": 289
+  },
+  "asmIdError": {
+    "result": null,
+    "maxLevel": 51,
+    "msg": [
+      {
+        "api": "v1.assembly.updateCylindrical",
+        "code": 1007,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided id for the constraint is not a constraint or relation."
+      },
+      {
+        "api": "v1.assembly.updateCylindrical",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "\"id\" must be provided for update."
+      }
+    ]
+  }
+}

@@ -1,0 +1,3 @@
+[14] boolId: 106
+[14] bool result: lines=12, arcs=3, faces=7, points=10, nurbs=0
+[filewrite] files/14-nurbs-boolean-bool-brep.json (1591 bytes)

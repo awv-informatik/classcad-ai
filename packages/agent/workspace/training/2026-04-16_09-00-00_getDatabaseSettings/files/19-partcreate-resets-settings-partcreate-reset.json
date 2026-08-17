@@ -1,0 +1,23 @@
+{
+  "before": {
+    "angleTol": 22,
+    "chordHeightTol": 0.77,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 0,
+    "isInvisibleGraphicEnabled": 1,
+    "isSketchGraphicEnabled": 1
+  },
+  "afterCreate": {
+    "angleTol": 22,
+    "chordHeightTol": 0.77,
+    "doCurveTessellation": 1,
+    "facetingParamsMode": 0,
+    "isCCGraphicEnabled": 1,
+    "isGraphicEnabled": 0,
+    "isInvisibleGraphicEnabled": 1,
+    "isSketchGraphicEnabled": 1
+  },
+  "changedFields": []
+}

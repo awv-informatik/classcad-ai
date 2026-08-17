@@ -1,0 +1,5 @@
+[12] assemblyTemplate — name: Test__v1__sub originalName: Test (v1)/sub
+[12] convertToTemplate — name: Conv (v1)/sub originalName: Root
+[12] find by "Conv (v1)/sub": 12 maxLevel: 31
+[12] find by "Conv__v1__sub": null maxLevel: 51
+[filewrite] files/12-name-sanitization-name-sanitization.json (232 bytes)

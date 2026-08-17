@@ -1,0 +1,6 @@
+[10] partId: 4 eifId: 54
+[10] boxId: 61
+[10] deleteFeature result: null maxLevel: 51
+[10] deleteFeature messages: [{"api":"v1.part.deleteFeature","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"ids\" must be provided in the api call!"}]
+[filewrite] files/10-delete-feature-delete-response.json (250 bytes)
+[10] EI node after delete: still exists

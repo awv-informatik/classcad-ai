@@ -1,0 +1,56 @@
+{
+  "constraint": 31,
+  "l2after": {
+    "endPos": {
+      "x": 55,
+      "y": 40,
+      "z": 0
+    },
+    "startPos": {
+      "x": 55,
+      "y": 5,
+      "z": 0
+    }
+  },
+  "circleNode": {
+    "radius": {
+      "value": 20,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2001_2_2_9:19",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "rigidSetId": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    }
+  },
+  "updResult": 0,
+  "after": {
+    "radius": {
+      "value": 20,
+      "type": "real",
+      "visible": 1,
+      "expression": ""
+    },
+    "_VERSION": {
+      "value": "0/2001_2_2_9:19",
+      "type": "string",
+      "visible": 0,
+      "expression": ""
+    },
+    "rigidSetId": {
+      "value": 0,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

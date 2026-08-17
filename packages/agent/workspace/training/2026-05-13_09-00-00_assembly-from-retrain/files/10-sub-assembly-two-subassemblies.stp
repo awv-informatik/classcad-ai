@@ -1,0 +1,54 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('AssemblyRoot', '2026-05-13T09:13:48', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+
+DATA;
+#1 = AXIS2_PLACEMENT_3D('BaseWCSys', #2, #3, #4);
+#2 = CARTESIAN_POINT('', (0., 0., 0.));
+#3 = DIRECTION('', (0., 0., 1.));
+#4 = DIRECTION('', (1., 0., 0.));
+#5 = DRAUGHTING_MODEL('', (), #6);
+#6 = (
+   GEOMETRIC_REPRESENTATION_CONTEXT (3)
+   GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT ((#8))
+   GLOBAL_UNIT_ASSIGNED_CONTEXT ((#7, #9, #10))
+   REPRESENTATION_CONTEXT ('', '3D')
+);
+#7 = (
+   LENGTH_UNIT ()
+   NAMED_UNIT (*)
+   SI_UNIT (.MILLI., .METRE.)
+);
+#8 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-6), #7, 'DISTANCE_ACCURACY_VALUE', '');
+#9 = (
+   NAMED_UNIT (*)
+   SI_UNIT ($, .STERADIAN.)
+   SOLID_ANGLE_UNIT ()
+);
+#10 = (
+   NAMED_UNIT (*)
+   PLANE_ANGLE_UNIT ()
+   SI_UNIT ($, .RADIAN.)
+);
+#11 = SHAPE_REPRESENTATION('', (#24), #6);
+#12 = PRODUCT_DEFINITION_SHAPE('', '', #13);
+#13 = PRODUCT_DEFINITION('', '', #16, #20);
+#14 = APPLICATION_CONTEXT('configuration controlled 3D designs of mechanical parts and assemblies');
+#15 = APPLICATION_PROTOCOL_DEFINITION('International Standard', 'automotive_design', 2002, #14);
+#16 = PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('', '', #17, .NOT_KNOWN.);
+#17 = PRODUCT('AssemblyRoot', 'AssemblyRoot', '', (#18));
+#18 = PRODUCT_CONTEXT('', #14, 'mechanical');
+#19 = PRODUCT_RELATED_PRODUCT_CATEGORY('detail', '', (#17));
+#20 = PRODUCT_DEFINITION_CONTEXT('part definition', #14, 'design');
+#21 = SHAPE_DEFINITION_REPRESENTATION(#12, #11);
+#22 = CONSTRUCTIVE_GEOMETRY_REPRESENTATION('supplemental geometry', (#1), #6);
+#23 = CONSTRUCTIVE_GEOMETRY_REPRESENTATION_RELATIONSHIP('', '', #11, #22);
+#24 = AXIS2_PLACEMENT_3D('', #25, #26, #27);
+#25 = CARTESIAN_POINT('', (0., 0., 0.));
+#26 = DIRECTION('', (0., 0., 1.));
+#27 = DIRECTION('', (1., 0., 0.));
+ENDSEC;
+END-ISO-10303-21;

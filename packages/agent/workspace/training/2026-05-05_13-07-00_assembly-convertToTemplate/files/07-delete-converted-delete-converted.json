@@ -1,0 +1,25 @@
+{
+  "convertedId": 12,
+  "newRoot": 107,
+  "subInst": 117,
+  "beforeDelete": {
+    "asmTpls": [
+      12
+    ],
+    "partTpls": [
+      22
+    ]
+  },
+  "deleteResult": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "afterDelete": {
+    "asmTpls": [],
+    "partTpls": [
+      22
+    ],
+    "instances": null
+  }
+}

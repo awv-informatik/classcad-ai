@@ -1,0 +1,17 @@
+[11] All keys in result: [
+  'id',        'mate1',
+  'name',      'xOffset',
+  'xRotation', 'yOffset',
+  'yRotation', 'zOffset',
+  'zRotation'
+]
+[11] xOffset: 0 (expect 0)
+[11] yOffset: 0 (expect 0)
+[11] zOffset: 0 (expect 0)
+[11] xRotation: 0 (expect 0)
+[11] yRotation: 0 (expect 0)
+[11] zRotation: 0 (expect 0)
+[11] mate1.flip: Z (expect Z)
+[11] mate1.reorient: 0 (expect 0)
+[11] mate1 keys: [ 'csys', 'flip', 'path', 'reorient' ]
+[filewrite] files/11-defaults-check-defaults-check.json (244 bytes)

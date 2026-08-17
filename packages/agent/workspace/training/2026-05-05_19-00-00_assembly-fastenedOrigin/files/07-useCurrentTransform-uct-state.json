@@ -1,0 +1,18 @@
+{
+  "id": 120,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      113
+    ],
+    "reorient": "0"
+  },
+  "name": "FO_UCT",
+  "xOffset": 75,
+  "xRotation": 0,
+  "yOffset": 45,
+  "yRotation": 0,
+  "zOffset": 20,
+  "zRotation": 0
+}

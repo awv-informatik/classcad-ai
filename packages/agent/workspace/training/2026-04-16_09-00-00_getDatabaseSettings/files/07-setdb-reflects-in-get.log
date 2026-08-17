@@ -1,0 +1,9 @@
+[07] isGraphicEnabled: original=1, set=false, readBack=0, ok=true
+[07] isCCGraphicEnabled: original=1, set=false, readBack=0, ok=true
+[07] isInvisibleGraphicEnabled: original=0, set=true, readBack=1, ok=true
+[07] isSketchGraphicEnabled: original=1, set=false, readBack=0, ok=true
+[07] doCurveTessellation: original=1, set=false, readBack=0, ok=true
+[07] chordHeightTol: original=0.5, set=0.3, readBack=0.3, ok=true
+[07] angleTol: original=15, set=20, readBack=20, ok=true
+[07] facetingParamsMode: original=2, set=0, readBack=0, ok=true
+[filewrite] files/07-setdb-reflects-in-get-roundtrip-tests.json (1010 bytes)

@@ -1,0 +1,6 @@
+[18] workPlane id: 54
+[18] sketch id: 60
+[18] point (30,20,0) on YZ plane — result: 66 maxLevel: 31
+[18] messages: []
+[18] stored pos: {"pos":{"x":0,"y":-20,"z":30}}
+[filewrite] files/18-workplane-sketch-yz-plane-point.json (141 bytes)

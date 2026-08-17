@@ -1,0 +1,6 @@
+[06] boxId: 54 cylId: 91 coneId: 110 sphereId: 129
+[06] "Box": 54 match: true
+[06] "Cylinder": 91 match: true
+[06] "Cone": 110 match: true
+[06] "Sphere": 129 match: true
+[filewrite] files/06-feature-types-feature-types.json (301 bytes)

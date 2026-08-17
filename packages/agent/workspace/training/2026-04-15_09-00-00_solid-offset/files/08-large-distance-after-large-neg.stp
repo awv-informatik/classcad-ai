@@ -1,0 +1,112 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('LargeOffset', '2026-04-15T12:14:19', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+
+DATA;
+#1 = MANIFOLD_SOLID_BREP('Solid', #2);
+#2 = CLOSED_SHELL('', (#3, #39));
+#3 = ADVANCED_FACE('', (#4), #34, .T.);
+#4 = FACE_OUTER_BOUND('', #5, .T.);
+#5 = EDGE_LOOP('', (#6, #15, #22, #29));
+#6 = ORIENTED_EDGE('', *, *, #7, .T.);
+#7 = EDGE_CURVE('', #8, #10, #12, .T.);
+#8 = VERTEX_POINT('', #9);
+#9 = CARTESIAN_POINT('', (-30., 0., -15.));
+#10 = VERTEX_POINT('', #11);
+#11 = CARTESIAN_POINT('', (-30., 0., 15.));
+#12 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#13, #14), .UNSPECIFIED., .F., .U., (2, 2), (0., 30.), .UNSPECIFIED.);
+#13 = CARTESIAN_POINT('', (-30., 0., -15.));
+#14 = CARTESIAN_POINT('', (-30., 0., 15.));
+#15 = ORIENTED_EDGE('', *, *, #16, .T.);
+#16 = EDGE_CURVE('', #10, #17, #19, .T.);
+#17 = VERTEX_POINT('', #18);
+#18 = CARTESIAN_POINT('', (30., 0., 15.));
+#19 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#20, #21), .UNSPECIFIED., .F., .U., (2, 2), (1.04083408558608E-16, 60.), .UNSPECIFIED.);
+#20 = CARTESIAN_POINT('', (-30., 0., 15.));
+#21 = CARTESIAN_POINT('', (30., 0., 15.));
+#22 = ORIENTED_EDGE('', *, *, #23, .F.);
+#23 = EDGE_CURVE('', #24, #17, #26, .T.);
+#24 = VERTEX_POINT('', #25);
+#25 = CARTESIAN_POINT('', (30., 0., -15.));
+#26 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#27, #28), .UNSPECIFIED., .F., .U., (2, 2), (8.32667268468867E-16, 30.), .UNSPECIFIED.);
+#27 = CARTESIAN_POINT('', (30., 0., -15.));
+#28 = CARTESIAN_POINT('', (30., 0., 15.));
+#29 = ORIENTED_EDGE('', *, *, #30, .F.);
+#30 = EDGE_CURVE('', #8, #24, #31, .T.);
+#31 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#32, #33), .UNSPECIFIED., .F., .U., (2, 2), (0., 60.), .UNSPECIFIED.);
+#32 = CARTESIAN_POINT('', (-30., 0., -15.));
+#33 = CARTESIAN_POINT('', (30., 0., -15.));
+#34 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#35, #36), (#37, #38)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 30.), (0., 60.), .UNSPECIFIED.);
+#35 = CARTESIAN_POINT('', (-30., 0., -15.));
+#36 = CARTESIAN_POINT('', (30., 0., -15.));
+#37 = CARTESIAN_POINT('', (-30., 0., 15.));
+#38 = CARTESIAN_POINT('', (30., 0., 15.));
+#39 = ADVANCED_FACE('', (#40), #46, .T.);
+#40 = FACE_OUTER_BOUND('', #41, .T.);
+#41 = EDGE_LOOP('', (#42, #43, #44, #45));
+#42 = ORIENTED_EDGE('', *, *, #7, .F.);
+#43 = ORIENTED_EDGE('', *, *, #30, .T.);
+#44 = ORIENTED_EDGE('', *, *, #23, .T.);
+#45 = ORIENTED_EDGE('', *, *, #16, .F.);
+#46 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#47, #48), (#49, #50)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 60.), (0., 30.), .UNSPECIFIED.);
+#47 = CARTESIAN_POINT('', (-30., 0., -15.));
+#48 = CARTESIAN_POINT('', (-30., 0., 15.));
+#49 = CARTESIAN_POINT('', (30., 0., -15.));
+#50 = CARTESIAN_POINT('', (30., 0., 15.));
+#51 = DRAUGHTING_MODEL('', (#59), #62);
+#52 = PRESENTATION_STYLE_ASSIGNMENT((#53));
+#53 = SURFACE_STYLE_USAGE(.POSITIVE., #54);
+#54 = SURFACE_SIDE_STYLE('', (#55));
+#55 = SURFACE_STYLE_FILL_AREA(#56);
+#56 = FILL_AREA_STYLE('', (#57));
+#57 = FILL_AREA_STYLE_COLOUR('', #58);
+#58 = COLOUR_RGB('', 0.8, 0.8, 0.8);
+#59 = STYLED_ITEM('', (#52), #1);
+#60 = CARTESIAN_POINT('Origin', (0., 0., 0.));
+#61 = GEOMETRIC_SET('', (#60));
+#62 = (
+   GEOMETRIC_REPRESENTATION_CONTEXT (3)
+   GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT ((#64))
+   GLOBAL_UNIT_ASSIGNED_CONTEXT ((#63, #65, #66))
+   REPRESENTATION_CONTEXT ('', '3D')
+);
+#63 = (
+   LENGTH_UNIT ()
+   NAMED_UNIT (*)
+   SI_UNIT (.MILLI., .METRE.)
+);
+#64 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-6), #63, 'DISTANCE_ACCURACY_VALUE', '');
+#65 = (
+   NAMED_UNIT (*)
+   SI_UNIT ($, .STERADIAN.)
+   SOLID_ANGLE_UNIT ()
+);
+#66 = (
+   NAMED_UNIT (*)
+   PLANE_ANGLE_UNIT ()
+   SI_UNIT ($, .RADIAN.)
+);
+#67 = SHAPE_REPRESENTATION('', (#82), #62);
+#68 = PRODUCT_DEFINITION_SHAPE('', '', #69);
+#69 = PRODUCT_DEFINITION('', '', #72, #76);
+#70 = APPLICATION_CONTEXT('configuration controlled 3D designs of mechanical parts and assemblies');
+#71 = APPLICATION_PROTOCOL_DEFINITION('International Standard', 'automotive_design', 2002, #70);
+#72 = PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('', '', #73, .NOT_KNOWN.);
+#73 = PRODUCT('LargeOffset', 'LargeOffset', '', (#74));
+#74 = PRODUCT_CONTEXT('', #70, 'mechanical');
+#75 = PRODUCT_RELATED_PRODUCT_CATEGORY('detail', '', (#73));
+#76 = PRODUCT_DEFINITION_CONTEXT('part definition', #70, 'design');
+#77 = SHAPE_DEFINITION_REPRESENTATION(#68, #67);
+#78 = SHAPE_REPRESENTATION_RELATIONSHIP('', '', #67, #79);
+#79 = SHAPE_REPRESENTATION('', (#61), #62);
+#80 = SHAPE_REPRESENTATION_RELATIONSHIP('', '', #67, #81);
+#81 = ADVANCED_BREP_SHAPE_REPRESENTATION('', (#1), #62);
+#82 = AXIS2_PLACEMENT_3D('', #83, #84, #85);
+#83 = CARTESIAN_POINT('', (0., 0., 0.));
+#84 = DIRECTION('', (0., 0., 1.));
+#85 = DIRECTION('', (1., 0., 0.));
+ENDSEC;
+END-ISO-10303-21;

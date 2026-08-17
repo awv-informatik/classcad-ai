@@ -1,0 +1,4 @@
+[02] named region result: 92 maxLevel: 31
+[02] getSketchRegion result: 92 maxLevel: 31
+[02] IDs match: true
+[filewrite] files/02-region-with-name-named-region.json (54 bytes)

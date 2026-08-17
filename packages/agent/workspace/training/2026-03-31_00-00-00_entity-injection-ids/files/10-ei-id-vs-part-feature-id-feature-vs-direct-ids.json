@@ -1,0 +1,12 @@
+{
+  "partBox": {
+    "id": 54,
+    "maxLevel": 31
+  },
+  "solidBox": {
+    "id": 127,
+    "maxLevel": 31
+  },
+  "partId": 4,
+  "eifId": 120
+}

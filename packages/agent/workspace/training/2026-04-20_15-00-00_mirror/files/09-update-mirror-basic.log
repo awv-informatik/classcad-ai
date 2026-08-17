@@ -1,0 +1,5 @@
+[09] mirrorId: 99
+[09] updateMirror without open: null maxLevel: 51
+[09] messages: [{"api":"v1.part.updateMirror","code":1200,"level":51,"levelStr":"ERROR","message":"The provided feature is not allowed to update. It's not active and open."},{"api":"v1.part.updateMirror","code":1004,"level":51,"levelStr":"ERROR","message":"\"id\" must be provided for update."}]
+[09] updateMirror with open: 99 maxLevel: 31
+[filewrite] files/09-update-mirror-basic-update-comparison.json (574 bytes)

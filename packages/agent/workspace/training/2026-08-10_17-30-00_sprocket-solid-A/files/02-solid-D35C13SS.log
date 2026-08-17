@@ -1,0 +1,5 @@
+[filewrite] files/02-solid-D35C13SS-report-D35C13SS-solid.json (949 bytes)
+[02A] ✓ {"label":"volume","ok":true,"cadIn3":1.11908,"mcAdjIn3":1.1187,"devPct":0.03}
+[02A] ✓ {"label":"cog","ok":true,"offAxisIn":0.0092,"alongIn":-0.0051}
+[02A] ✓ {"label":"root","ok":true,"errIn":1.1102230246251565e-16}
+[02A] ✓ {"label":"tip-flat-corner","ok":true,"errIn":2.220446049250313e-16}

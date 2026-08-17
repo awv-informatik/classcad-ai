@@ -1,0 +1,5 @@
+[09] coarse (cht=5.0) verts: 85
+[09] fine (cht=0.01) verts: 8385
+[09] ratio fine/coarse: 98.6
+[09] mesh effect confirmed: true
+[filewrite] files/09-mesh-effect-v2-mesh-effect-v2.json (92 bytes)

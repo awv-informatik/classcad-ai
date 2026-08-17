@@ -1,0 +1,18 @@
+{
+  "emptyTools": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "chain1": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "chain2": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "chain3": {
+    "result": 61,
+    "maxLevel": 31
+  }
+}

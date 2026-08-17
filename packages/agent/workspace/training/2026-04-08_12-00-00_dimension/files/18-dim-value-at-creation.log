@@ -1,0 +1,10 @@
+[18] OFFSET auto result: 94 maxLevel: 31
+[18] OFFSET value=100 result: 98 maxLevel: 51
+[18] OFFSET value=100 messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $98 of type \"OFFSET\""}]
+[18] OFFSET value=50 result: 102 maxLevel: 51
+[18] OFFSET value=50 messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $102 of type \"OFFSET\""}]
+[18] HDIST value=100 result: 106 maxLevel: 51
+[18] HDIST messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $106 of type \"HORIZONTAL_DISTANCE\""}]
+[18] RADIUS value=30 result: 113 maxLevel: 51
+[18] RADIUS messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $113 of type \"RADIUS\""}]
+[filewrite] files/18-dim-value-at-creation-value-at-creation-responses.json (1270 bytes)

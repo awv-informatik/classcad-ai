@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.removeUserData",
+      "code": 1004,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"key\" must be provided in the api call!"
+    }
+  ],
+  "maxLevel": 51
+}

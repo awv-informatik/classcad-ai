@@ -1,0 +1,17 @@
+[13] getFastened "First": 212 maxLevel: 31
+[filewrite] files/13-getFastened-detail-get-first.json (93117 bytes)
+[13] getFastened "Second": 309 maxLevel: 31
+[filewrite] files/13-getFastened-detail-get-second.json (93118 bytes)
+[13] getFastened bad name: null maxLevel: 51
+[filewrite] files/13-getFastened-detail-get-nonexistent.json (300 bytes)
+[13] getFastened via instance: undefined maxLevel: 51
+[filewrite] files/13-getFastened-detail-get-via-instance.json (257 bytes)
+[13] return keys: [
+  'id',      'mate1',
+  'mate2',   'name',
+  'xOffset', 'xRotation',
+  'yOffset', 'yRotation',
+  'zOffset', 'zRotation'
+]
+[13] mate1 keys: [ 'csys', 'flip', 'path', 'reorient' ]
+[13] mate2 keys: [ 'csys', 'flip', 'path', 'reorient' ]

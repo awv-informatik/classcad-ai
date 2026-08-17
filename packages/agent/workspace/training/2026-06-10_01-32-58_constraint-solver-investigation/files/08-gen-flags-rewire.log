@@ -1,0 +1,11 @@
+[08] A(gen ON) dim maxLevel: 31
+[08] A bottom: {"endPos":{"x":100,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[08] A right : {"endPos":{"x":100,"y":50,"z":0},"startPos":{"x":100,"y":0,"z":0}}
+[08] A top   : {"endPos":{"x":0,"y":50,"z":0},"startPos":{"x":100,"y":50,"z":0}}
+[08] A profile still closed after width 80→100: true
+[08] B(gen OFF) dim maxLevel: 31
+[08] B bottom: {"endPos":{"x":100,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[08] B right : {"endPos":{"x":80,"y":50,"z":0},"startPos":{"x":80,"y":0,"z":0}}
+[08] B profile still closed: false (expect torn: bottom stretched, right stayed)
+[08] Auto_* constraints in sketch A: 10 — types: CC_2DFixationConstraint,CC_2DHorizontalConstraint,CC_2DCoincidentConstraint,CC_2DVerticalConstraint
+[filewrite] files/08-gen-flags-rewire-genflags.json (1409 bytes)

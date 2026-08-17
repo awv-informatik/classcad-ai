@@ -1,0 +1,4 @@
+[03] DIAMETER 45 on r=20: maxLevel 31 — members: {"radius":{"value":22.5,"type":"real","visible":1,"expression":""},"_VERSION":{"value":"0/2001_2_2_9:19","type":"string","visible":0,"expression":""},"rigidSetId":{"value":0,"type":"id","visible":1,"expression":""},"lgsState":{"value":16,"type":"real","visible":1,"expression":""}}
+[03] OFFSET 100 on len-80 line: maxLevel 31 — end: {"x":100,"y":0,"z":0} (target 100,0)
+[03] OFFSET "60+10" on len-30 line: maxLevel 31 — len: 70.0000 (target 70)
+[filewrite] files/03-dimension-value-drives-dimdrive.json (644 bytes)

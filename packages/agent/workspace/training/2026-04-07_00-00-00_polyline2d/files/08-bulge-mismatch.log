@@ -1,0 +1,5 @@
+[08a] fewer bulges result: null maxLevel: 51
+[08a] messages: [{"api":"v1.curve.polyline2d","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveAPI_v1.polyline2d::PROC:For creating a polyline there must be as many bulges as positions\nFunction: CADH_CreatePolyline\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/SMLibService.cpp,     Line: 5096] "}]
+[08b] more bulges result: null maxLevel: 51
+[08b] messages: [{"api":"v1.curve.polyline2d","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in CurveAPI_v1.polyline2d::PROC:For creating a polyline there must be as many bulges as positions\nFunction: CADH_CreatePolyline\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/SMLibService.cpp,     Line: 5096] "}]
+[filewrite] files/08-bulge-mismatch-bulge-mismatch-response.json (957 bytes)

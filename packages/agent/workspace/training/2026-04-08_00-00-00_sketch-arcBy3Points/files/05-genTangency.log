@@ -1,0 +1,5 @@
+[05] lineId: 58
+[05] arc (genTangency=TRUE): 66 maxLevel: 31
+[filewrite] files/05-genTangency-struct-with-tangency.json (30463 bytes)
+[05] arc (genTangency=FALSE): 87 maxLevel: 31
+[filewrite] files/05-genTangency-struct-no-tangency.json (41743 bytes)

@@ -1,0 +1,5 @@
+[07] uncommitted revolute id: 272
+[07] updateRevolute result: 272 maxLevel: 31
+[filewrite] files/07-revolute-commit-fixed-update-revolute.json (55 bytes)
+[07] getRevolute id: 272 name: RevJoint
+[filewrite] files/07-revolute-commit-fixed-get-revolute.json (320 bytes)

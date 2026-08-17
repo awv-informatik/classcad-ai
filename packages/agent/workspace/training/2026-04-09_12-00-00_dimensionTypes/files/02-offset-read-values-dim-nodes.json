@@ -1,0 +1,812 @@
+[
+  {
+    "name": "off-bottom",
+    "class": "CC_LinearFeatureDimension",
+    "id": 96,
+    "flags": 4096,
+    "parent": 56,
+    "members": {
+      "master": {
+        "value": 94,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "1/2017_5_15_11:59",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "orientationType": {
+        "value": 2,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "startPt": {
+        "value": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "endPt": {
+        "value": {
+          "x": 100,
+          "y": 0,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "angle": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandlePos": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandleBehaviour": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "dimPt": {
+        "value": {
+          "x": 50,
+          "y": 8,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": "GetSE([0,0,8,[0,0.5]])"
+      },
+      "classification": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "paramName": {
+        "value": "@value",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "displayInfo": {
+        "members": [
+          {
+            "members": [
+              {
+                "value": 59,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "members": [
+              {
+                "value": 60,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  {
+    "name": "off-right",
+    "class": "CC_LinearFeatureDimension",
+    "id": 100,
+    "flags": 4096,
+    "parent": 56,
+    "members": {
+      "master": {
+        "value": 98,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "1/2017_5_15_11:59",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "orientationType": {
+        "value": 2,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "startPt": {
+        "value": {
+          "x": 100,
+          "y": 0,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "endPt": {
+        "value": {
+          "x": 100,
+          "y": 60,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "angle": {
+        "value": 1.5707963267948966,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandlePos": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandleBehaviour": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "dimPt": {
+        "value": {
+          "x": 92,
+          "y": 30,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": "GetSE([0,0,8,[0,0.5]])"
+      },
+      "classification": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "paramName": {
+        "value": "@value",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "displayInfo": {
+        "members": [
+          {
+            "members": [
+              {
+                "value": 65,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "members": [
+              {
+                "value": 66,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  {
+    "name": "off-bot-top",
+    "class": "CC_LinearFeatureDimension",
+    "id": 104,
+    "flags": 4096,
+    "parent": 56,
+    "members": {
+      "master": {
+        "value": 102,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "1/2017_5_15_11:59",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "orientationType": {
+        "value": 2,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "startPt": {
+        "value": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "endPt": {
+        "value": {
+          "x": 0,
+          "y": 60,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "angle": {
+        "value": 1.5707963267948966,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandlePos": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandleBehaviour": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "dimPt": {
+        "value": {
+          "x": -8.000000000000002,
+          "y": 30,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": "GetSE([0,0,8,[0,0.5]])"
+      },
+      "classification": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "paramName": {
+        "value": "@value",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "displayInfo": {
+        "members": [
+          {
+            "members": [
+              {
+                "value": 58,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 2,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "members": [
+              {
+                "value": 70,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 2,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  {
+    "name": "off-perp",
+    "class": "CC_LinearFeatureDimension",
+    "id": 108,
+    "flags": 4096,
+    "parent": 56,
+    "members": {
+      "master": {
+        "value": 106,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "1/2017_5_15_11:59",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "orientationType": {
+        "value": 2,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "startPt": {
+        "value": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "endPt": {
+        "value": {
+          "x": 100,
+          "y": 0,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "angle": {
+        "value": 1.5707963267948966,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandlePos": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandleBehaviour": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "dimPt": {
+        "value": {
+          "x": 50,
+          "y": 8.000000000000004,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": "GetSE([0,0,50,[1,8]])"
+      },
+      "classification": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "paramName": {
+        "value": "@value",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "displayInfo": {
+        "members": [
+          {
+            "members": [
+              {
+                "value": 58,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 2,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "members": [
+              {
+                "value": 64,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 2,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  {
+    "name": "off-line-pt",
+    "class": "CC_LinearFeatureDimension",
+    "id": 112,
+    "flags": 4096,
+    "parent": 56,
+    "members": {
+      "master": {
+        "value": 110,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "1/2017_5_15_11:59",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "orientationType": {
+        "value": 2,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "startPt": {
+        "value": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "endPt": {
+        "value": {
+          "x": 30,
+          "y": 20,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "angle": {
+        "value": 1.5707963267948966,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandlePos": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandleBehaviour": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "dimPt": {
+        "value": {
+          "x": 10.600000000000001,
+          "y": 16.6,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": "GetSE([1,0,-10.6,[0,0.83]])"
+      },
+      "classification": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "paramName": {
+        "value": "@value",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "displayInfo": {
+        "members": [
+          {
+            "members": [
+              {
+                "value": 58,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 2,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "members": [
+              {
+                "value": 92,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  },
+  {
+    "name": "off-top",
+    "class": "CC_LinearFeatureDimension",
+    "id": 116,
+    "flags": 4096,
+    "parent": 56,
+    "members": {
+      "master": {
+        "value": 114,
+        "type": "id",
+        "visible": 1,
+        "expression": ""
+      },
+      "_VERSION": {
+        "value": "1/2017_5_15_11:59",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "orientationType": {
+        "value": 2,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "startPt": {
+        "value": {
+          "x": 100,
+          "y": 60,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "endPt": {
+        "value": {
+          "x": 0,
+          "y": 60,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": ""
+      },
+      "angle": {
+        "value": 3.141592653589793,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandlePos": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "valHandleBehaviour": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "dimPt": {
+        "value": {
+          "x": 50,
+          "y": 51.99999999999999,
+          "z": 0
+        },
+        "type": "point",
+        "visible": 1,
+        "expression": "GetSE([0,0,8,[0,0.5]])"
+      },
+      "classification": {
+        "value": 0,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "paramName": {
+        "value": "@value",
+        "type": "string",
+        "visible": 1,
+        "expression": ""
+      },
+      "displayInfo": {
+        "members": [
+          {
+            "members": [
+              {
+                "value": 71,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "members": [
+              {
+                "value": 72,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 1,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "after1": {
+    "constr1Id": 255,
+    "constr2Id": 259,
+    "id": 263,
+    "name": "G1",
+    "offset": 1.5708,
+    "ratio": 2
+  },
+  "after2": {
+    "constr1Id": 255,
+    "constr2Id": 259,
+    "id": 263,
+    "name": "G1",
+    "offset": 0.5235987755982988,
+    "ratio": 2
+  },
+  "after3": {
+    "constr1Id": 255,
+    "constr2Id": 259,
+    "id": 263,
+    "name": "G1",
+    "offset": 0,
+    "ratio": 2
+  }
+}

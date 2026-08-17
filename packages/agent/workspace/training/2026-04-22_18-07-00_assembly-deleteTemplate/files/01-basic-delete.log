@@ -1,0 +1,11 @@
+[01] asmId: 12
+[01] tpl1: 22
+[01] tpl2: 105
+[01] templates before: [22,105]
+[filewrite] files/01-basic-delete-before-delete.json (58 bytes)
+[01] deleteTemplate result: null maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-delete-delete-result.json (56 bytes)
+[01] templates after: [105]
+[filewrite] files/01-basic-delete-after-delete.json (50 bytes)
+[filewrite] files/01-basic-delete-structure-after.json (26479 bytes)

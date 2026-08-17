@@ -1,0 +1,6 @@
+[02] result: 14 maxLevel: 31
+[02] messages: []
+[filewrite] files/02-template-url-ofb-structure.json (33773 bytes)
+[02] CC_PartReference nodes: []
+[02] PartContainer found: [{"id":"10","name":"PartContainer"}]
+[filewrite] files/02-template-url-ofb-node-summary.json (3545 bytes)

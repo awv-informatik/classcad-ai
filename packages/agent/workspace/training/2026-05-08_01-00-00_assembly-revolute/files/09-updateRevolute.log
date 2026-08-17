@@ -1,0 +1,14 @@
+[09] created revId: 216
+[09] inst2 COG initial: {"x":40,"y":10,"z":4}
+[09] update zOffset=20: 216 maxLevel: 31
+[09] inst2 COG after zOffset=20: {"x":40,"y":10,"z":24}
+[09] update limits: 216 maxLevel: 31
+[09] state after updates: {"zOffset":20,"limits":{"max":1.5707963267948966,"min":0},"flip1":"Z","flip2":"Z"}
+[09] update mate2 flip=-Z: 216 maxLevel: 31
+[09] inst2 COG after flip=-Z: {"x":40,"y":-10.000000000000004,"z":16}
+[09] rename: 216 maxLevel: 31
+[09] found by new name: ✓
+[09] found by old name: ✓ not found
+[09] remove limits: 216 maxLevel: 31
+[09] final limits: {"max":null,"min":null}
+[filewrite] files/09-updateRevolute-final-state.json (327 bytes)

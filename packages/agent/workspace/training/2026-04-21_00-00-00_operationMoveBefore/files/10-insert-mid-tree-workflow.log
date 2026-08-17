@@ -1,0 +1,17 @@
+[10] partId: 4
+[10] boxId: 54 cylId: 91 boolId: 110
+[10] geoIds at mid-tree: {"lines":[213]}
+[10] edgeId: 213
+[10] fillet result: null maxLevel: 51
+[filewrite] files/10-insert-mid-tree-workflow-fillet-result.json (250 bytes)
+[10]   24 CC_WorkPointReference OriginRef
+[10]   28 CC_WorkAxisReference XAxisRef
+[10]   32 CC_WorkAxisReference YAxisRef
+[10]   36 CC_WorkAxisReference ZAxisRef
+[10]   40 CC_WorkPlaneReference TopRef
+[10]   44 CC_WorkPlaneReference FrontRef
+[10]   48 CC_WorkPlaneReference RightRef
+[10]   56 CC_OperationReference BoxRef
+[10]   93 CC_OperationReference CylinderRef
+[10]   112 CC_OperationReference SubtractionRef
+[10]   20 CC_RollbackBar RollbackBar

@@ -1,0 +1,5 @@
+[07] boxId: 54 sheetId: 150
+[07] result: 260 maxLevel: 31
+[filewrite] files/07-right-plane-vertical-response.json (55 bytes)
+[07] child: CC_Solid SliceBySheet_0
+[07] boolean test: 434 maxLevel: 31

@@ -1,0 +1,4 @@
+[12] root volume BEFORE: 48000
+[12] inst1 volume AFTER (root was queried): 72000
+[12] inst2 volume AFTER (root was queried): 72000
+[filewrite] files/12-root-mass-lock-root-mass-lock.json (80 bytes)

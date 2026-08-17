@@ -1,0 +1,5 @@
+[filewrite] files/10-duplicate-and-near-duplicate-10-dup.json (486 bytes)
+[10] values=[0.5,0.5] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":3,"intervals":[[0,0.5],[0.5,0.5],[0.5,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} sliver={"id":70,"interval":[0.5,0.5],"width":0,"startEqEnd":true}
+[filewrite] files/10-duplicate-and-near-duplicate-10-neardup.json (514 bytes)
+[10] values=[0.5,0.5000000001] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":88,"segs":3,"intervals":[[0,0.5],[0.5,0.5000000001],[0.5000000001,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} sliver={"id":98,"interval":[0.5,0.5000000001],"width":1.000000082740371e-10,"startEqEnd":true}
+[10] dup nSegs 3 | neardup nSegs 3

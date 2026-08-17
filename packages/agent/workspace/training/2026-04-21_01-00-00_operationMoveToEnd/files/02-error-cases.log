@@ -1,0 +1,9 @@
+[02] partId: 4 boxId: 54
+[02] moveToEnd(featureId) — result: null maxLevel: 51
+[filewrite] files/02-error-cases-wrong-type.json (285 bytes)
+[02] moveToEnd(999999) — result: null maxLevel: 51
+[filewrite] files/02-error-cases-nonexistent.json (439 bytes)
+[02] moveToEnd(0) — result: null maxLevel: 51
+[filewrite] files/02-error-cases-zero-id.json (249 bytes)
+[02] moveToEnd({}) — result: null maxLevel: 51
+[filewrite] files/02-error-cases-missing-id.json (254 bytes)

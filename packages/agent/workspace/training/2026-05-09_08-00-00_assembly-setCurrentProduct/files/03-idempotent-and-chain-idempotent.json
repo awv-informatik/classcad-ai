@@ -1,0 +1,7 @@
+{
+  "idempotent": {
+    "first": 12,
+    "second": 22,
+    "third": 22
+  }
+}

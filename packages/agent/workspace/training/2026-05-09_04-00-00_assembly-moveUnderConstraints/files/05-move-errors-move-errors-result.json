@@ -1,0 +1,39 @@
+[
+  {
+    "test": "id-only-no-params",
+    "maxLevel": 31,
+    "result": null,
+    "cog": {
+      "x": 20,
+      "y": 15,
+      "z": 10
+    }
+  },
+  {
+    "test": "negative-offset",
+    "maxLevel": 31,
+    "cog": {
+      "x": -80,
+      "y": -185,
+      "z": -290
+    }
+  },
+  {
+    "test": "huge-offset",
+    "maxLevel": 31,
+    "cog": {
+      "x": 1000020,
+      "y": 1000015,
+      "z": 1000010
+    }
+  },
+  {
+    "test": "identity-explicit",
+    "maxLevel": 31,
+    "cog": {
+      "x": 20,
+      "y": 15,
+      "z": 10
+    }
+  }
+]

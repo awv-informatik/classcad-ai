@@ -1,0 +1,13 @@
+[09] Test 1: empty data string
+[09] Empty data result: null maxLevel: 51
+[09] Empty data messages: [{"api":"v1.common.load","code":0,"level":51,"levelStr":"ERROR","message":"Import has to contain a CC_Product."},{"api":"v1.common.load","code":0,"level":51,"levelStr":"ERROR","message":"Nothing could be loaded!"}]
+[09] Test 2: garbage data
+[09] Garbage result: null maxLevel: 51
+[09] Garbage messages: [{"api":"v1.common.load","code":0,"level":51,"levelStr":"ERROR","message":"Import has to contain a CC_Product."},{"api":"v1.common.load","code":0,"level":51,"levelStr":"ERROR","message":"Nothing could be loaded!"}]
+[09] Test 3: garbage base64
+[09] Garbage b64 result: null maxLevel: 51
+[09] Garbage b64 messages: [{"api":"v1.common.load","code":0,"level":51,"levelStr":"ERROR","message":"Import has to contain a CC_Product."},{"api":"v1.common.load","code":0,"level":51,"levelStr":"ERROR","message":"Nothing could be loaded!"}]
+[09] Test 4: no source specified
+[09] No source result: null maxLevel: 51
+[09] No source messages: [{"api":"v1.common.load","code":1004,"level":51,"levelStr":"ERROR","message":"Either data, file or url must be provided to load content from."}]
+[filewrite] files/09-corrupt-data-corrupt-data-responses.json (1570 bytes)

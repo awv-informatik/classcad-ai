@@ -1,0 +1,5 @@
+[05] wp1: 54 wp2: 62
+[05] getWorkGeometry DuplicateName → result: 54 matches wp1: true matches wp2: false
+[05] crossType plane: 70 axis: 78
+[05] getWorkGeometry CrossType → result: 70 matches plane: true matches axis: false
+[filewrite] files/05-duplicates-duplicates.json (252 bytes)

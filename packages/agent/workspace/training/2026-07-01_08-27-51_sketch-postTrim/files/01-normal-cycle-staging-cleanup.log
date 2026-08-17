@@ -1,0 +1,6 @@
+[filewrite] files/01-normal-cycle-staging-cleanup-01-cleanup.json (156 bytes)
+[01] baseline containers []
+[01] staged containers ["NoneSplitted","SplittedCurves"]
+[01] postTrim max 31 | containers AFTER []
+[01] CHECKS {"postVoid":true,"splittedGone":true,"noneSplittedGone":true,"noStarZeroLeak":true,"censusDelta0":true,"cleanL":true}
+[01] PASS

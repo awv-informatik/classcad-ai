@@ -1,0 +1,4 @@
+[16] fillet1 result: 120 maxLevel: 31
+[16] second edge IDs: [189]
+[16] fillet2 result: 220 maxLevel: 31
+[filewrite] files/16-sequential-fillets-retry-sequential-results.json (110 bytes)

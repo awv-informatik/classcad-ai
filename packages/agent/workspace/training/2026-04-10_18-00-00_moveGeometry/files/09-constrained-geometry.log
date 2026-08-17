@@ -1,0 +1,11 @@
+[09] line1: 58 line2: 64
+[09] line1 pts: {"endId":60,"startId":59}
+[09] line2 pts: {"endId":66,"startId":65}
+[09] autoConstraints result: null maxLevel: 51
+[09] line1 before: {"endPos":{"x":40,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[09] line2 before: {"endPos":{"x":40,"y":30,"z":0},"startPos":{"x":40,"y":0,"z":0}}
+[09] moveGeometry result: 0 maxLevel: 31
+[09] messages: []
+[09] line1 after: {"endPos":{"x":50,"y":10,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[09] line2 after: {"endPos":{"x":40,"y":30,"z":0},"startPos":{"x":40,"y":0,"z":0}}
+[filewrite] files/09-constrained-geometry-constrained-move-result.json (678 bytes)

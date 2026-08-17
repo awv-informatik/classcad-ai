@@ -1,0 +1,6 @@
+[18] invalid tool ID — result: null maxLevel: 51
+[filewrite] files/18-error-cases-invalid-tool.json (420 bytes)
+[18] self-reference — result: null maxLevel: 51
+[filewrite] files/18-error-cases-self-ref.json (231 bytes)
+[18] invalid part ID — result: null maxLevel: 51
+[filewrite] files/18-error-cases-invalid-part.json (577 bytes)

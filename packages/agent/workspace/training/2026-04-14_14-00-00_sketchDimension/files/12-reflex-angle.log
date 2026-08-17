@@ -1,0 +1,5 @@
+[12] normal ANGLE: result: 80 maxLevel: 31
+[12] l2 end (normal 60deg): {"pos":{"x":30.016662039607276,"y":51.99038372622383,"z":0}}
+[12] reflex ANGLE: result: 84 maxLevel: 31
+[12] l2 end (reflex 300deg): {"pos":{"x":-30.016662039607287,"y":51.99038372622384,"z":0}}
+[filewrite] files/12-reflex-angle-reflex-data.json (3596 bytes)

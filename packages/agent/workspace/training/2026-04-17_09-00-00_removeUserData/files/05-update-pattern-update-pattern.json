@@ -1,0 +1,5 @@
+{
+  "initial": "v1",
+  "afterDirectOverwrite": "v1",
+  "afterRemoveAndSet": "v2"
+}

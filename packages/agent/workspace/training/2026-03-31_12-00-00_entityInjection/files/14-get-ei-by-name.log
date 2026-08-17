@@ -1,0 +1,6 @@
+[14] eifId: 54
+[14] getWorkGeometry result: null maxLevel: 51
+[14] getWorkGeometry messages: [{"api":"v1.part.getWorkGeometry","code":1015,"level":51,"levelStr":"ERROR","message":"Couldn't find work geometry with name: \"MyEI\""}]
+[filewrite] files/14-get-ei-by-name-get-by-name.json (244 bytes)
+[14] getSketch result: null maxLevel: 51
+[14] getSketch messages: [{"api":"v1.part.getSketch","code":1015,"level":51,"levelStr":"ERROR","message":"Sketch with name \"MyEI\" does not exist"}]

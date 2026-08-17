@@ -1,0 +1,2 @@
+[14] cross axis: 94 maxLevel: 51 msgs: [{"api":"v1.part.revolve","code":0,"level":51,"levelStr":"ERROR","message":"The brep elements of at least one face are not well defined. Brep reference attribute is missing."}]
+[filewrite] files/14-cross-axis-isolated-cross-axis-response.json (281 bytes)

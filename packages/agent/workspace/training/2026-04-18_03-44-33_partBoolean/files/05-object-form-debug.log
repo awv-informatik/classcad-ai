@@ -1,0 +1,5 @@
+[05] partId: 4 box1: 54 box2: 91
+[05] target={id} — result: 128 maxLevel: 31
+[filewrite] files/05-object-form-debug-obj-target-response.json (55 bytes)
+[05] tools=[{id}] — result: null maxLevel: 51
+[filewrite] files/05-object-form-debug-obj-tools-response.json (231 bytes)

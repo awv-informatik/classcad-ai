@@ -1,0 +1,12 @@
+[08] with ident — result: 12
+[08] with ident — children: [14,16,18,22]
+[08] child 14 — name: ExpressionSet class: CC_ExpressionSet
+[08] child 16 — name: ConstraintSet class: CC_ConstraintSet
+[08] child 18 — name: GeometrySet class: CC_GeometrySet
+[08] child 22 — name: IdentMap class: IdentToIdMap
+[filewrite] files/08-ident-child-inspect-extra-child.json (629 bytes)
+[08] AllObjects children: [4,6,8,10,12]
+[08] node 8 — name: PartContainer class: CC_PartContainer
+[08] node 10 — name: AssemblyContainer class: CC_AssemblyContainer
+[08] node 12 — name: WithIdent class: CC_AssemblyRoot
+[filewrite] files/08-ident-child-inspect-full-structure-with-ident.json (6504 bytes)

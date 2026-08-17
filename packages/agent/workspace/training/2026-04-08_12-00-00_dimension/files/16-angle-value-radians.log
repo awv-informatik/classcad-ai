@@ -1,0 +1,10 @@
+[16] ANGLE numeric rad result: 76 maxLevel: 51
+[16] messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $76 of type \"ANGLE\""}]
+[16] ANGLE string deg result: 80 maxLevel: 51
+[16] messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $80 of type \"ANGLE\""}]
+[16] ANGLE matching rad result: 84 maxLevel: 51
+[16] messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"Couldn't set the value for dimension $84 of type \"ANGLE\""}]
+[16] ANGLE no-value result: 88 maxLevel: 31
+[16] updateDimension ANGLE result: 0 maxLevel: 31
+[16] updateDimension messages: []
+[filewrite] files/16-angle-value-radians-angle-value-responses.json (1040 bytes)

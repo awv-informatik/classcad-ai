@@ -1,0 +1,18 @@
+{
+  "alongX": {
+    "result": 64,
+    "maxLevel": 31
+  },
+  "alongY": {
+    "result": 70,
+    "maxLevel": 31
+  },
+  "angled": {
+    "result": 76,
+    "maxLevel": 31
+  },
+  "negZ": {
+    "result": 82,
+    "maxLevel": 31
+  }
+}

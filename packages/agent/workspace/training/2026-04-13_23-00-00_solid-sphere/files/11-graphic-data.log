@@ -1,0 +1,4 @@
+[11] sphere result: 60 maxLevel: 31
+[11] graphic summary keys: containers, properties
+[filewrite] files/11-graphic-data-graphic-summary.json (282 bytes)
+[filewrite] files/11-graphic-data-structure-summary.json (127 bytes)

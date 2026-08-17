@@ -1,0 +1,3 @@
+[10] mirror result: null maxLevel: 51
+[10] messages: [{"api":"v1.common.transformObjectWithMatrix","code":1014,"level":51,"levelStr":"ERROR","message":"The provided matrix is left-handed. This is not yet supported"}]
+[filewrite] files/10-mirror-mirror-response.json (270 bytes)

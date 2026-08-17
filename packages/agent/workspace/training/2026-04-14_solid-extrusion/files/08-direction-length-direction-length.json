@@ -1,0 +1,14 @@
+{
+  "short": {
+    "result": 67,
+    "maxLevel": 31
+  },
+  "long": {
+    "result": 73,
+    "maxLevel": 31
+  },
+  "unit": {
+    "result": 79,
+    "maxLevel": 31
+  }
+}

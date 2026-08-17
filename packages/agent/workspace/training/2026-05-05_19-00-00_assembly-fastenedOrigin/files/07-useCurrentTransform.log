@@ -1,0 +1,6 @@
+[07] COG before: {"x":95,"y":60,"z":30}
+[07] fastenedOrigin result: 120 maxLevel: 31
+[07] COG after: {"x":95,"y":60,"z":30}
+[07] state: {"id":120,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"FO_UCT","xOffset":75,"xRotation":0,"yOffset":45,"yRotation":0,"zOffset":20,"zRotation":0}
+[filewrite] files/07-useCurrentTransform-uct-state.json (243 bytes)
+[filewrite] files/07-useCurrentTransform-uct-cog-comparison.json (121 bytes)

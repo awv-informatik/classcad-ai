@@ -1,0 +1,15 @@
+[10] BASELINE — editFeatureIndex: -1 isDirty: 0
+[10] children: [24,28,32,36,40,44,48,56,93,112,20]
+[filewrite] files/10-editfeatureindex-state0-baseline.json (153 bytes)
+[10] OPEN BOX — editFeatureIndex: 7 isDirty: 0
+[10] children: [24,28,32,36,40,44,48,56,93,112,20]
+[filewrite] files/10-editfeatureindex-state1-open-box.json (152 bytes)
+[10] OPEN CYL — editFeatureIndex: 8 isDirty: 0
+[10] children: [24,28,32,36,40,44,48,56,93,112,20]
+[filewrite] files/10-editfeatureindex-state2-open-cyl.json (152 bytes)
+[10] OPEN SPH — editFeatureIndex: 9 isDirty: 0
+[10] children: [24,28,32,36,40,44,48,56,93,112,20]
+[filewrite] files/10-editfeatureindex-state3-open-sph.json (152 bytes)
+[10] AFTER ALL CLOSED — editFeatureIndex: -1 isDirty: 0
+[10] children: [24,28,32,36,40,44,48,56,93,112,20]
+[filewrite] files/10-editfeatureindex-state4-final.json (153 bytes)

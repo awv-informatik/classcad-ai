@@ -1,0 +1,3 @@
+[14] deleted shape maxLevel: 51
+[14] deleted shape msgs: [{"api":"v1.curve.arcBy3Points","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.curve.arcBy3Points","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[filewrite] files/14-deleted-shape-deleted-shape-response.json (411 bytes)

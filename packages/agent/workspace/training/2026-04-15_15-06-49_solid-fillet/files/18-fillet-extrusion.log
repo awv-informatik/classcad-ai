@@ -1,0 +1,5 @@
+[18] extId: 64
+[18] line edges: 0
+[18] inner corner edge: -27
+[18] fillet result: [ 64 ] maxLevel: 31
+[filewrite] files/18-fillet-extrusion-extrusion-fillet.json (64 bytes)

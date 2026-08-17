@@ -1,0 +1,5 @@
+[01] asmId: 12
+[01] tpl1: 22 wcs1: 107
+[01] tpl2: 113 wcs2: 180
+[01] inst1: 186 inst2: 188 inst3: 190
+[filewrite] files/01-basic-structure-structure-full.json (55270 bytes)

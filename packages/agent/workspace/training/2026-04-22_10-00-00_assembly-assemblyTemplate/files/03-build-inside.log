@@ -1,0 +1,7 @@
+[03] subAsmId: 170
+[03] currentProduct after assemblyTemplate: 105
+[03] prevProduct after setCurrentProduct to subAsm: 105
+[03] instance in subAsm result: 180 maxLevel: 31
+[03] instance2 in subAsm result: 182 maxLevel: 31
+[03] sub-assembly instance: 184 maxLevel: 31
+[filewrite] files/03-build-inside-assembly-tree-nodes.json (172 bytes)

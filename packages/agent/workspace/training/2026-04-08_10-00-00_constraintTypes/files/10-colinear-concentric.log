@@ -1,0 +1,10 @@
+[10] COLINEAR result: 68 maxLevel: 31
+[10] l2 BEFORE colinear: {
+  start: { pos: { x: 60, y: 10, z: 0 } },
+  end: { pos: { x: 100, y: 15, z: 0 } }
+}
+[10] l2 AFTER colinear: {
+  start: { pos: { x: 60, y: 10, z: 0 } },
+  end: { pos: { x: 100, y: 15, z: 0 } }
+}
+[stderr] [run] Script error: Cannot read properties of null (reading 'centerId')

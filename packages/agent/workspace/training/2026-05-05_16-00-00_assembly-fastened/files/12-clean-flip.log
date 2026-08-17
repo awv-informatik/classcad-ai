@@ -1,0 +1,9 @@
+[12] flip -Z fastened: 121 maxLevel: 31
+[12] flip -Z COG: {"x":90.00000000000001,"y":-1.2126596023639039e-15,"z":6.669627813001472e-15}
+[filewrite] files/12-clean-flip-mass-flip-negZ.json (142 bytes)
+[12] flip X fastened: 189 maxLevel: 31
+[12] flip X COG: {"x":65.00000000000001,"y":15.000000000000018,"z":25}
+[filewrite] files/12-clean-flip-mass-flip-X.json (106 bytes)
+[12] reorient 90 fastened: 257 maxLevel: 31
+[12] reorient 90 COG: {"x":77.49999999999999,"y":-12.499999999999991,"z":10.000000000000012}
+[filewrite] files/12-clean-flip-mass-reorient-90.json (135 bytes)

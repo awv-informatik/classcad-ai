@@ -1,0 +1,3 @@
+[07] 2D points: result: null maxLevel: 51
+[07] messages: [{"api":"v1.curve.bezierCurve","code":0,"level":51,"levelStr":"ERROR","message":"If point is defined as array, it must have exactly 3 real values"}]
+[filewrite] files/07-2d-points-2d-pts-response.json (255 bytes)

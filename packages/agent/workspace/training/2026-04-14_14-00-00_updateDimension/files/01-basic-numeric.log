@@ -1,0 +1,8 @@
+[01] rectIds: [ 58, 64, 70, 76 ]
+[01] bottom line before: {"endPos":{"x":80,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[01] dimension created: 96 maxLevel: 31
+[01] updateDimension result: 2 maxLevel: 31
+[01] updateDimension messages: []
+[01] bottom line after: {"endPos":{"x":119.99999999999999,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[01] right line after: {"endPos":{"x":119.99999999999999,"y":50,"z":0},"startPos":{"x":119.99999999999999,"y":0,"z":0}}
+[filewrite] files/01-basic-numeric-basic-update-data.json (637 bytes)

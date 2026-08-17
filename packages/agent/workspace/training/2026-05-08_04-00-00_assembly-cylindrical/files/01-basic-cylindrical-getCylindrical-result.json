@@ -1,0 +1,28 @@
+{
+  "id": 276,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      206
+    ],
+    "reorient": "0"
+  },
+  "name": "Cyl1",
+  "zOffsetLimits": {
+    "max": null,
+    "min": null
+  },
+  "zRotationLimits": {
+    "max": null,
+    "min": null
+  }
+}

@@ -1,0 +1,78 @@
+[
+  {
+    "id": 64,
+    "pointIds": {
+      "endId": 66,
+      "startId": 65
+    },
+    "positions": {
+      "endPos": {
+        "x": -100,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": -50,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  {
+    "id": 68,
+    "pointIds": {
+      "endId": 70,
+      "startId": 69
+    },
+    "positions": {
+      "endPos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": -100,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  {
+    "id": 72,
+    "pointIds": {
+      "endId": 74,
+      "startId": 73
+    },
+    "positions": {
+      "endPos": {
+        "x": 100,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  {
+    "id": 76,
+    "pointIds": {
+      "endId": 78,
+      "startId": 77
+    },
+    "positions": {
+      "endPos": {
+        "x": 50,
+        "y": 0,
+        "z": 0
+      },
+      "startPos": {
+        "x": 100,
+        "y": 0,
+        "z": 0
+      }
+    }
+  }
+]

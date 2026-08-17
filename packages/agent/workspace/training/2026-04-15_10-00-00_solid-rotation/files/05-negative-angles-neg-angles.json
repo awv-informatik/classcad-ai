@@ -1,0 +1,10 @@
+{
+  "positive": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "negative": {
+    "result": 64,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "brep": {
+    "lines": [
+      75
+    ],
+    "arcs": [
+      76,
+      77
+    ],
+    "faces": [
+      73,
+      72,
+      74
+    ],
+    "points": [
+      79,
+      78
+    ]
+  },
+  "positions": [
+    {
+      "id": 75,
+      "positions": [
+        {
+          "x": 15,
+          "y": 0,
+          "z": 20
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "positions": [
+        {
+          "x": -15,
+          "y": 1.83697019872103e-15,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "positions": [
+        {
+          "x": -15,
+          "y": 1.83697019872103e-15,
+          "z": 40
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "positions": [
+        {
+          "x": -15,
+          "y": 1.83697019872103e-15,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "positions": [
+        {
+          "x": 15,
+          "y": 0,
+          "z": 20
+        },
+        {
+          "x": -15,
+          "y": 1.83697019872103e-15,
+          "z": 0
+        },
+        {
+          "x": -15,
+          "y": 1.83697019872103e-15,
+          "z": 40
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "positions": [
+        {
+          "x": -15,
+          "y": 1.83697019872103e-15,
+          "z": 40
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "positions": [
+        {
+          "x": 15,
+          "y": 0,
+          "z": 0
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "positions": [
+        {
+          "x": 15,
+          "y": 0,
+          "z": 40
+        }
+      ]
+    }
+  ],
+  "queries": {
+    "circles-center-top": {
+      "found": 77,
+      "maxLevel": 31
+    },
+    "circles-rim-top": {
+      "found": 77,
+      "maxLevel": 31
+    },
+    "circles-center-bottom": {
+      "found": 76,
+      "maxLevel": 31
+    },
+    "arcs-center-top": {
+      "found": "[]",
+      "maxLevel": 51
+    },
+    "arcs-rim-top": {
+      "found": "[]",
+      "maxLevel": 51
+    },
+    "lines-seam": {
+      "found": 75,
+      "maxLevel": 31
+    }
+  }
+}

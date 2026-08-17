@@ -1,0 +1,14 @@
+{
+  "test": "fakeId",
+  "result": null,
+  "maxLevel": 51,
+  "messages": [
+    {
+      "api": "v1.solid.fillet",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "Set the parameter \"id\" = VOID is not allowed in this situation!"
+    }
+  ]
+}

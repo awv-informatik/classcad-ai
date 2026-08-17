@@ -1,0 +1,6 @@
+[03a] l:0 → maxLevel: 31 messages: []
+[03b] a without l → maxLevel: 51 messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"Not enough data in PointLineDefinition!"}]
+[03c] l without angle → maxLevel: 51 messages: [{"api":"v1.curve.advancedPolyline","code":0,"level":51,"levelStr":"ERROR","message":"'l' must not be used without either 'a' or 'ar' in PointLineDefinition!"}]
+[03d] empty PLD {} → maxLevel: 51 messages: [{"api":"v1.curve.advancedPolyline","code":1003,"level":51,"levelStr":"ERROR","message":"The object \"pld\" is empty!"}]
+[03e] xr:0,yr:0 → maxLevel: 31 messages: []
+[filewrite] files/03-l-zero-and-invalid-invalid-pld-results.json (920 bytes)

@@ -1,0 +1,5 @@
+[06] COG before: {"x":30,"y":40,"z":7.5}
+[06] childETId: 118
+[06] isLocal transform result: null maxLevel: 31
+[06] COG after local +30X: {"x":30,"y":55,"z":7.5}
+[filewrite] files/06-isLocal-true-results.json (249 bytes)

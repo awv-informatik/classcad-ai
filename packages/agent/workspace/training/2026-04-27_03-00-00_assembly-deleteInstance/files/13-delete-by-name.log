@@ -1,0 +1,5 @@
+[13] inst1: 105
+[13] delete by name result: null maxLevel: 31
+[filewrite] files/13-delete-by-name-name-delete-response.json (56 bytes)
+[13] after delete by name, instances: []
+[13] inst1 still exists: false

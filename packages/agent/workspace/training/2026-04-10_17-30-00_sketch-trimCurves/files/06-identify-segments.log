@@ -1,0 +1,7 @@
+[06] circle: 58 line: 63
+[06] split IDs: [80,85,90,94,98]
+[06] trim id 80 (unknown): maxLevel=31, messages=[]
+[06] trim id 85 (unknown): maxLevel=31, messages=[]
+[06] trim id 90 (unknown): maxLevel=31, messages=[]
+[06] trim id 94 (unknown): maxLevel=31, messages=[]
+[06] trim id 98 (unknown): maxLevel=31, messages=[]

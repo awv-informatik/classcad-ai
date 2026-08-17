@@ -1,0 +1,12 @@
+{
+  "mode1": {
+    "fine": 8385,
+    "coarse": 85,
+    "reportedFine": 0.01,
+    "reportedCoarse": 5
+  },
+  "mode0_globalCht05": {
+    "sph1": 277,
+    "sph2": 277
+  }
+}

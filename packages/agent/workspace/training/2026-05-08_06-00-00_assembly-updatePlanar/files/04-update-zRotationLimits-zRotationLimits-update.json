@@ -1,0 +1,13 @@
+{
+  "lock45": 216,
+  "range90": 216,
+  "limitsAfterRange": {
+    "max": 1.5707963267948966,
+    "min": -1.5707963267948966
+  },
+  "removeResult": 216,
+  "limitsAfterRemove": {
+    "max": null,
+    "min": null
+  }
+}

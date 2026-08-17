@@ -1,0 +1,5 @@
+[10] partId: 4 skId: 52
+[10] genFixation=false — result: 58 maxLevel: 31
+[10] messages: []
+[10] nodes: [{"id":52,"name":"Sketch","class":"CC_Sketch"},{"id":54,"name":"SketchRef","class":"CC_SketchReference"},{"id":56,"name":"Sketch","class":"CC_SketchDimensionSet"},{"id":58,"name":"Point","class":"CC_Point"}]
+[filewrite] files/10-genFixation-false-origin-genFixation-false-origin.json (413 bytes)

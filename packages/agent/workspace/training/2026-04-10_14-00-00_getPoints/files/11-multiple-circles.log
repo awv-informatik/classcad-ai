@@ -1,0 +1,4 @@
+[11] circle1 points: {"centerId":59}
+[11] circle2 points: {"centerId":62}
+[11] different centerIds: true
+[filewrite] files/11-multiple-circles-multiple-circles.json (183 bytes)

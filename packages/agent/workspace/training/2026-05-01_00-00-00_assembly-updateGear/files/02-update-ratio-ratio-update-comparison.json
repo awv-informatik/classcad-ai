@@ -1,0 +1,18 @@
+{
+  "before": {
+    "constr1Id": 180,
+    "constr2Id": 259,
+    "id": 263,
+    "name": "G1",
+    "offset": 0,
+    "ratio": 1
+  },
+  "after": {
+    "constr1Id": 180,
+    "constr2Id": 259,
+    "id": 263,
+    "name": "G1",
+    "offset": 0,
+    "ratio": 3
+  }
+}

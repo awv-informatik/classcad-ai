@@ -1,0 +1,5 @@
+[02] geometry maxLevel: 31 arcs: 6 lines: 2
+[02] extrusion: 107 maxLevel: 31
+[02] area: CAD=0.08144 in² vs poly=0.08144 in² (dev 0.004%)
+[02] tooth form: PD=2.5161 Ro=1.3518 rootR=1.1560 Feff=0.16597 (Fstd=0.16404) flatTip=true
+[filewrite] files/02-tooth-profile-2d-area-check.json (334 bytes)

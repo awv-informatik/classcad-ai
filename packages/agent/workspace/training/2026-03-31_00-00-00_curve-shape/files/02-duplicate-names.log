@@ -1,0 +1,4 @@
+[02] s1: 60 s2: 62 s3: 64
+[02] d1: 66 d2: 68
+[02] names: [{"id":60,"name":"Foo","class":"CC_CurveEntity"},{"id":62,"name":"Foo0","class":"CC_CurveEntity"},{"id":64,"name":"Foo1","class":"CC_CurveEntity"},{"id":66},{"id":68}]
+[filewrite] files/02-duplicate-names-shape-names.json (264 bytes)

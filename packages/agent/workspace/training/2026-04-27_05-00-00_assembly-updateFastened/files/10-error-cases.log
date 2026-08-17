@@ -1,0 +1,9 @@
+[10] invalid id: null maxLevel: 51
+[10] missing id: null maxLevel: 51
+[10] invalid csys: null maxLevel: 51
+[10] invalid flip: null maxLevel: 51
+[10] invalid reorient: null maxLevel: 51
+[10] assembly id: null maxLevel: 51
+[10] verify after errors: 30 (should still be 30)
+[filewrite] files/10-error-cases-error-catalog.json (2637 bytes)
+[filewrite] files/10-error-cases-verify-after-errors.json (340 bytes)

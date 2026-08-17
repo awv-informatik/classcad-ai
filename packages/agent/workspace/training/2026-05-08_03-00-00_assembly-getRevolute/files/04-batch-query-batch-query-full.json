@@ -1,0 +1,4246 @@
+{
+  "result": [
+    {
+      "id": 309,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          295
+        ],
+        "reorient": "0"
+      },
+      "mate2": {
+        "csys": 198,
+        "flip": "Z",
+        "path": [
+          297
+        ],
+        "reorient": "0"
+      },
+      "name": "Rev1",
+      "zOffset": 10,
+      "zRotationLimits": {
+        "max": null,
+        "min": null
+      }
+    },
+    {
+      "id": 313,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          295
+        ],
+        "reorient": "0"
+      },
+      "mate2": {
+        "csys": 289,
+        "flip": "Z",
+        "path": [
+          299
+        ],
+        "reorient": "0"
+      },
+      "name": "Rev2",
+      "zOffset": 20,
+      "zRotationLimits": {
+        "max": 3.141592653589793,
+        "min": 0
+      }
+    },
+    null
+  ],
+  "messages": [
+    {
+      "api": "v1.assembly.getRevolute",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There couldn't be found a constraint with name \"NonExistent\" on product or product reference with id $12"
+    }
+  ],
+  "maxLevel": 51,
+  "structure": {
+    "root": 12,
+    "currentProduct": 12,
+    "currentInstance": 12,
+    "testRoot": 0,
+    "tree": {
+      "1": {
+        "name": "AllObjects",
+        "class": "AllObjects",
+        "id": 1,
+        "flags": 0,
+        "parent": null,
+        "members": {
+          "drawingUnit": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "uncommitedObjectsIds": {
+            "members": [],
+            "type": "array",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          4,
+          6,
+          8,
+          10,
+          12
+        ]
+      },
+      "8": {
+        "name": "PartContainer",
+        "class": "CC_PartContainer",
+        "id": 8,
+        "flags": 16,
+        "parent": 1,
+        "members": {
+          "rootPath": {
+            "value": "\\",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "fileExtension": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "fileImportOption": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "productRefCreation": {
+            "value": 3,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "copyDimensions": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "createSubRefs": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "doNotRecalc": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          22,
+          113,
+          204
+        ]
+      },
+      "10": {
+        "name": "AssemblyContainer",
+        "class": "CC_AssemblyContainer",
+        "id": 10,
+        "flags": 0,
+        "parent": 1
+      },
+      "12": {
+        "instances": [
+          295,
+          297,
+          299
+        ],
+        "instancesNested": [
+          295,
+          297,
+          299
+        ],
+        "dimensions": [],
+        "name": "AssemblyRoot",
+        "class": "CC_AssemblyRoot",
+        "id": 12,
+        "flags": 0,
+        "parent": 1,
+        "members": {
+          "_VERSION": {
+            "value": "1/2024_6_3_19:00",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "featureRootPath": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "cadRootPath": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "unit": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "activeDock": {
+            "value": 0,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          "isFileAssemblyNode": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "originalName": {
+            "value": "AssemblyRoot",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "solverState": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          14,
+          16,
+          18,
+          295,
+          297,
+          299,
+          303
+        ]
+      },
+      "14": {
+        "name": "ExpressionSet",
+        "class": "CC_ExpressionSet",
+        "id": 14,
+        "flags": 4096,
+        "parent": 12,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "16": {
+        "name": "ConstraintSet",
+        "class": "CC_ConstraintSet",
+        "id": 16,
+        "flags": 4096,
+        "parent": 12,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          305,
+          309,
+          313
+        ]
+      },
+      "18": {
+        "name": "GeometrySet",
+        "class": "CC_GeometrySet",
+        "id": 18,
+        "flags": 0,
+        "parent": 12,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "csSize": {
+            "value": 20,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          20
+        ]
+      },
+      "20": {
+        "name": "BaseWCSys",
+        "class": "CC_WorkCSys",
+        "id": 20,
+        "flags": 4096,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 18,
+        "members": {
+          "offset": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "rotation": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "22": {
+        "expressionSet": 24,
+        "dimensions": [],
+        "geometrySet": 28,
+        "solids": [
+          101
+        ],
+        "name": "Base",
+        "class": "CC_Part",
+        "id": 22,
+        "flags": 0,
+        "parent": 8,
+        "members": {
+          "_VERSION": {
+            "value": "3/2021_9_13_15:30",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "unit": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          24,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36
+        ]
+      },
+      "24": {
+        "name": "ExpressionSet",
+        "class": "CC_ExpressionSet",
+        "id": 24,
+        "flags": 4096,
+        "parent": 22,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "26": {
+        "name": "DimensionSet",
+        "class": "CC_DimensionSet",
+        "id": 26,
+        "flags": 4096,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 22,
+        "members": {
+          "offset": {
+            "value": 15,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "bbMin": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "bbMax": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "isReady": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "textSize": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2011_5_27_12:14",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "28": {
+        "name": "GeometrySet",
+        "class": "CC_GeometrySet",
+        "id": 28,
+        "flags": 4096,
+        "parent": 22,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "csSize": {
+            "value": 20,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          40,
+          44,
+          48,
+          52,
+          56,
+          60,
+          64,
+          107
+        ]
+      },
+      "30": {
+        "name": "ReferenceSet",
+        "class": "CC_ReferenceSet",
+        "id": 30,
+        "flags": 4096,
+        "parent": 22
+      },
+      "32": {
+        "name": "SketchSet",
+        "class": "CC_SketchSet",
+        "id": 32,
+        "flags": 4096,
+        "parent": 22,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "34": {
+        "name": "EntitySet",
+        "class": "CC_EntitySet",
+        "id": 34,
+        "flags": 4096,
+        "parent": 22,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          70
+        ]
+      },
+      "36": {
+        "name": "OperationSequence",
+        "class": "CC_OperationSequence",
+        "id": 36,
+        "flags": 4096,
+        "parent": 22,
+        "members": {
+          "_VERSION": {
+            "value": "2/2020_3_12_11:41",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "isDirty": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "editFeatureIndex": {
+            "value": -1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          42,
+          46,
+          50,
+          54,
+          58,
+          62,
+          66,
+          72,
+          109,
+          38
+        ]
+      },
+      "38": {
+        "name": "RollbackBar",
+        "class": "CC_RollbackBar",
+        "id": 38,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 38,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "40": {
+        "name": "Origin",
+        "class": "CC_WorkPoint",
+        "id": 40,
+        "flags": 4096,
+        "parent": 28,
+        "members": {
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "42": {
+        "name": "OriginRef",
+        "class": "CC_WorkPointReference",
+        "id": 42,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 40,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "44": {
+        "name": "XAxis",
+        "class": "CC_WorkAxis",
+        "id": 44,
+        "flags": 4096,
+        "parent": 28,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "46": {
+        "name": "XAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 46,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 44,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "48": {
+        "name": "YAxis",
+        "class": "CC_WorkAxis",
+        "id": 48,
+        "flags": 4096,
+        "parent": 28,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "50": {
+        "name": "YAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 50,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 48,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "52": {
+        "name": "ZAxis",
+        "class": "CC_WorkAxis",
+        "id": 52,
+        "flags": 4096,
+        "parent": 28,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "54": {
+        "name": "ZAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 54,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 52,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "56": {
+        "name": "Top",
+        "class": "CC_WorkPlane",
+        "id": 56,
+        "flags": 4096,
+        "parent": 28,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "58": {
+        "name": "TopRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 58,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 56,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "60": {
+        "name": "Front",
+        "class": "CC_WorkPlane",
+        "id": 60,
+        "flags": 4096,
+        "parent": 28,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "62": {
+        "name": "FrontRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 62,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 60,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "64": {
+        "name": "Right",
+        "class": "CC_WorkPlane",
+        "id": 64,
+        "flags": 4096,
+        "parent": 28,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "66": {
+        "name": "RightRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 66,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 64,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "70": {
+        "name": "Box",
+        "class": "CC_Box",
+        "id": 70,
+        "flags": 0,
+        "parent": 34,
+        "members": {
+          "length": {
+            "value": 60,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2001_4_2_13:7",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "width": {
+            "value": 40,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "height": {
+            "value": 10,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "references": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "solidOperation": {
+            "value": 0,
+            "type": "real",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          103
+        ]
+      },
+      "72": {
+        "name": "BoxRef",
+        "class": "CC_OperationReference",
+        "id": 72,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 70,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "103": {
+        "name": "Box_0",
+        "class": "CC_Solid",
+        "id": 103,
+        "flags": 0,
+        "geometryIdList": [
+          101
+        ],
+        "parent": 70,
+        "members": {
+          "consumed": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "107": {
+        "name": "Csys",
+        "class": "CC_WorkCSys",
+        "id": 107,
+        "flags": 4096,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 28,
+        "members": {
+          "offset": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "rotation": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 8,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "109": {
+        "name": "WorkCSysRef",
+        "class": "CC_WorkCSysReference",
+        "id": 109,
+        "flags": 4096,
+        "parent": 36,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 107,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "113": {
+        "expressionSet": 115,
+        "dimensions": [],
+        "geometrySet": 119,
+        "solids": [
+          192
+        ],
+        "name": "Arm",
+        "class": "CC_Part",
+        "id": 113,
+        "flags": 0,
+        "parent": 8,
+        "members": {
+          "_VERSION": {
+            "value": "3/2021_9_13_15:30",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "unit": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          115,
+          117,
+          119,
+          121,
+          123,
+          125,
+          127
+        ]
+      },
+      "115": {
+        "name": "ExpressionSet",
+        "class": "CC_ExpressionSet",
+        "id": 115,
+        "flags": 4096,
+        "parent": 113,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "117": {
+        "name": "DimensionSet",
+        "class": "CC_DimensionSet",
+        "id": 117,
+        "flags": 4096,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 113,
+        "members": {
+          "offset": {
+            "value": 15,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "bbMin": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "bbMax": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "isReady": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "textSize": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2011_5_27_12:14",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "119": {
+        "name": "GeometrySet",
+        "class": "CC_GeometrySet",
+        "id": 119,
+        "flags": 4096,
+        "parent": 113,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "csSize": {
+            "value": 20,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          131,
+          135,
+          139,
+          143,
+          147,
+          151,
+          155,
+          198
+        ]
+      },
+      "121": {
+        "name": "ReferenceSet",
+        "class": "CC_ReferenceSet",
+        "id": 121,
+        "flags": 4096,
+        "parent": 113
+      },
+      "123": {
+        "name": "SketchSet",
+        "class": "CC_SketchSet",
+        "id": 123,
+        "flags": 4096,
+        "parent": 113,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "125": {
+        "name": "EntitySet",
+        "class": "CC_EntitySet",
+        "id": 125,
+        "flags": 4096,
+        "parent": 113,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          161
+        ]
+      },
+      "127": {
+        "name": "OperationSequence",
+        "class": "CC_OperationSequence",
+        "id": 127,
+        "flags": 4096,
+        "parent": 113,
+        "members": {
+          "_VERSION": {
+            "value": "2/2020_3_12_11:41",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "isDirty": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "editFeatureIndex": {
+            "value": -1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          133,
+          137,
+          141,
+          145,
+          149,
+          153,
+          157,
+          163,
+          200,
+          129
+        ]
+      },
+      "129": {
+        "name": "RollbackBar",
+        "class": "CC_RollbackBar",
+        "id": 129,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 129,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "131": {
+        "name": "Origin",
+        "class": "CC_WorkPoint",
+        "id": 131,
+        "flags": 4096,
+        "parent": 119,
+        "members": {
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "133": {
+        "name": "OriginRef",
+        "class": "CC_WorkPointReference",
+        "id": 133,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 131,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "135": {
+        "name": "XAxis",
+        "class": "CC_WorkAxis",
+        "id": 135,
+        "flags": 4096,
+        "parent": 119,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "137": {
+        "name": "XAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 137,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 135,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "139": {
+        "name": "YAxis",
+        "class": "CC_WorkAxis",
+        "id": 139,
+        "flags": 4096,
+        "parent": 119,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "141": {
+        "name": "YAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 141,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 139,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "143": {
+        "name": "ZAxis",
+        "class": "CC_WorkAxis",
+        "id": 143,
+        "flags": 4096,
+        "parent": 119,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "145": {
+        "name": "ZAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 145,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 143,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "147": {
+        "name": "Top",
+        "class": "CC_WorkPlane",
+        "id": 147,
+        "flags": 4096,
+        "parent": 119,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "149": {
+        "name": "TopRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 149,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 147,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "151": {
+        "name": "Front",
+        "class": "CC_WorkPlane",
+        "id": 151,
+        "flags": 4096,
+        "parent": 119,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "153": {
+        "name": "FrontRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 153,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 151,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "155": {
+        "name": "Right",
+        "class": "CC_WorkPlane",
+        "id": 155,
+        "flags": 4096,
+        "parent": 119,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "157": {
+        "name": "RightRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 157,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 155,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "161": {
+        "name": "Box",
+        "class": "CC_Box",
+        "id": 161,
+        "flags": 0,
+        "parent": 125,
+        "members": {
+          "length": {
+            "value": 80,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2001_4_2_13:7",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "width": {
+            "value": 20,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "height": {
+            "value": 8,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "references": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "solidOperation": {
+            "value": 0,
+            "type": "real",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          194
+        ]
+      },
+      "163": {
+        "name": "BoxRef",
+        "class": "CC_OperationReference",
+        "id": 163,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 161,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "194": {
+        "name": "Box_0",
+        "class": "CC_Solid",
+        "id": 194,
+        "flags": 0,
+        "geometryIdList": [
+          192
+        ],
+        "parent": 161,
+        "members": {
+          "consumed": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "198": {
+        "name": "Csys",
+        "class": "CC_WorkCSys",
+        "id": 198,
+        "flags": 4096,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 119,
+        "members": {
+          "offset": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "rotation": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 8,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "200": {
+        "name": "WorkCSysRef",
+        "class": "CC_WorkCSysReference",
+        "id": 200,
+        "flags": 4096,
+        "parent": 127,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 198,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "204": {
+        "expressionSet": 206,
+        "dimensions": [],
+        "geometrySet": 210,
+        "solids": [
+          283
+        ],
+        "name": "Link",
+        "class": "CC_Part",
+        "id": 204,
+        "flags": 0,
+        "parent": 8,
+        "members": {
+          "_VERSION": {
+            "value": "3/2021_9_13_15:30",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "unit": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          206,
+          208,
+          210,
+          212,
+          214,
+          216,
+          218
+        ]
+      },
+      "206": {
+        "name": "ExpressionSet",
+        "class": "CC_ExpressionSet",
+        "id": 206,
+        "flags": 4096,
+        "parent": 204,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "208": {
+        "name": "DimensionSet",
+        "class": "CC_DimensionSet",
+        "id": 208,
+        "flags": 4096,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 204,
+        "members": {
+          "offset": {
+            "value": 15,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "bbMin": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "bbMax": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "isReady": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "textSize": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2011_5_27_12:14",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "210": {
+        "name": "GeometrySet",
+        "class": "CC_GeometrySet",
+        "id": 210,
+        "flags": 4096,
+        "parent": 204,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "csSize": {
+            "value": 20,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          222,
+          226,
+          230,
+          234,
+          238,
+          242,
+          246,
+          289
+        ]
+      },
+      "212": {
+        "name": "ReferenceSet",
+        "class": "CC_ReferenceSet",
+        "id": 212,
+        "flags": 4096,
+        "parent": 204
+      },
+      "214": {
+        "name": "SketchSet",
+        "class": "CC_SketchSet",
+        "id": 214,
+        "flags": 4096,
+        "parent": 204,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "216": {
+        "name": "EntitySet",
+        "class": "CC_EntitySet",
+        "id": 216,
+        "flags": 4096,
+        "parent": 204,
+        "members": {
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          252
+        ]
+      },
+      "218": {
+        "name": "OperationSequence",
+        "class": "CC_OperationSequence",
+        "id": 218,
+        "flags": 4096,
+        "parent": 204,
+        "members": {
+          "_VERSION": {
+            "value": "2/2020_3_12_11:41",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "isDirty": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "editFeatureIndex": {
+            "value": -1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        },
+        "children": [
+          224,
+          228,
+          232,
+          236,
+          240,
+          244,
+          248,
+          254,
+          291,
+          220
+        ]
+      },
+      "220": {
+        "name": "RollbackBar",
+        "class": "CC_RollbackBar",
+        "id": 220,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 220,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "222": {
+        "name": "Origin",
+        "class": "CC_WorkPoint",
+        "id": 222,
+        "flags": 4096,
+        "parent": 210,
+        "members": {
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "224": {
+        "name": "OriginRef",
+        "class": "CC_WorkPointReference",
+        "id": 224,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 222,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "226": {
+        "name": "XAxis",
+        "class": "CC_WorkAxis",
+        "id": 226,
+        "flags": 4096,
+        "parent": 210,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "228": {
+        "name": "XAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 228,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 226,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "230": {
+        "name": "YAxis",
+        "class": "CC_WorkAxis",
+        "id": 230,
+        "flags": 4096,
+        "parent": 210,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "232": {
+        "name": "YAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 232,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 230,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "234": {
+        "name": "ZAxis",
+        "class": "CC_WorkAxis",
+        "id": 234,
+        "flags": 4096,
+        "parent": 210,
+        "members": {
+          "Direction": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Length": {
+            "value": 50,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2018_10_9_13:37",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "236": {
+        "name": "ZAxisRef",
+        "class": "CC_WorkAxisReference",
+        "id": 236,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 234,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "238": {
+        "name": "Top",
+        "class": "CC_WorkPlane",
+        "id": 238,
+        "flags": 4096,
+        "parent": 210,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "240": {
+        "name": "TopRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 240,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 238,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "242": {
+        "name": "Front",
+        "class": "CC_WorkPlane",
+        "id": 242,
+        "flags": 4096,
+        "parent": 210,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "244": {
+        "name": "FrontRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 244,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 242,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "246": {
+        "name": "Right",
+        "class": "CC_WorkPlane",
+        "id": 246,
+        "flags": 4096,
+        "parent": 210,
+        "members": {
+          "Offset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Normal": {
+            "value": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Size": {
+            "value": 200,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Angle": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "curPosition": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "2/2020_11_17_17:00",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 4,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "Position": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "Defined": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "248": {
+        "name": "RightRef",
+        "class": "CC_WorkPlaneReference",
+        "id": 248,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 246,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "252": {
+        "name": "Box",
+        "class": "CC_Box",
+        "id": 252,
+        "flags": 0,
+        "parent": 216,
+        "members": {
+          "length": {
+            "value": 40,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2001_4_2_13:7",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "width": {
+            "value": 15,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "height": {
+            "value": 6,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "references": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "solidOperation": {
+            "value": 0,
+            "type": "real",
+            "visible": 0,
+            "expression": ""
+          }
+        },
+        "children": [
+          285
+        ]
+      },
+      "254": {
+        "name": "BoxRef",
+        "class": "CC_OperationReference",
+        "id": 254,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 252,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "285": {
+        "name": "Box_0",
+        "class": "CC_Solid",
+        "id": 285,
+        "flags": 0,
+        "geometryIdList": [
+          283
+        ],
+        "parent": 252,
+        "members": {
+          "consumed": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "289": {
+        "name": "Csys",
+        "class": "CC_WorkCSys",
+        "id": 289,
+        "flags": 4096,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 210,
+        "members": {
+          "offset": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "rotation": {
+            "value": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "type": "point",
+            "visible": 1,
+            "expression": ""
+          },
+          "inverted": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "References": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "Type": {
+            "value": 8,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2003_11_25_10:10",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "291": {
+        "name": "WorkCSysRef",
+        "class": "CC_WorkCSysReference",
+        "id": 291,
+        "flags": 4096,
+        "parent": 218,
+        "members": {
+          "_VERSION": {
+            "value": "0/2005_08_24_11:47",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "refObj": {
+            "value": 289,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "295": {
+        "link": 22,
+        "name": "Base",
+        "class": "CC_ProductReference",
+        "id": 295,
+        "flags": 0,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 12,
+        "members": {
+          "partName": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "productId": {
+            "value": 22,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          "isDirty": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "localPath": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "ownPart": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "productRefsET": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2021_8_23_09:15",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "297": {
+        "link": 113,
+        "name": "Arm",
+        "class": "CC_ProductReference",
+        "id": 297,
+        "flags": 0,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            10
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 12,
+        "members": {
+          "partName": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "productId": {
+            "value": 113,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          "isDirty": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "localPath": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "ownPart": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "productRefsET": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2021_8_23_09:15",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "299": {
+        "link": 204,
+        "name": "Link",
+        "class": "CC_ProductReference",
+        "id": 299,
+        "flags": 0,
+        "coordinateSystem": [
+          [
+            0,
+            0,
+            20
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "isLocal": 1,
+        "parent": 12,
+        "members": {
+          "partName": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "productId": {
+            "value": 204,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          "isDirty": {
+            "value": 1,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "localPath": {
+            "value": "",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          },
+          "ownPart": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "productRefsET": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2021_8_23_09:15",
+            "type": "string",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "303": {
+        "name": "CC_3DConstraintSolver",
+        "class": "CC_3DConstraintSolver",
+        "id": 303,
+        "flags": 0,
+        "parent": 12,
+        "members": {
+          "solverContext3D": {
+            "members": [
+              {
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "solverState": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "305": {
+        "name": "Ground",
+        "class": "CC_FastenedOriginConstraint",
+        "id": 305,
+        "flags": 0,
+        "parent": 16,
+        "members": {
+          "zOffset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "yOffset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "xOffset": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "xRotation": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "yRotation": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "zRotation": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "1/2023_10_20_17:00",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          },
+          "firstRefMate": {
+            "members": [
+              {
+                "members": [
+                  {
+                    "value": 295,
+                    "type": "id",
+                    "visible": 1,
+                    "expression": ""
+                  }
+                ],
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 107,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 4,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "secondRefMate": {
+            "members": [],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          }
+        }
+      },
+      "309": {
+        "name": "Rev1",
+        "class": "CC_RevoluteConstraint",
+        "id": 309,
+        "flags": 0,
+        "parent": 16,
+        "members": {
+          "zOffset": {
+            "value": 10,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "zRotationLimits": {
+            "members": [
+              {
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "zRotationValue": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "firstRefMate": {
+            "members": [
+              {
+                "members": [
+                  {
+                    "value": 295,
+                    "type": "id",
+                    "visible": 1,
+                    "expression": ""
+                  }
+                ],
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 107,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 4,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "secondRefMate": {
+            "members": [
+              {
+                "members": [
+                  {
+                    "value": 297,
+                    "type": "id",
+                    "visible": 1,
+                    "expression": ""
+                  }
+                ],
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 198,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 4,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2004_2_20_9:22",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      },
+      "313": {
+        "name": "Rev2",
+        "class": "CC_RevoluteConstraint",
+        "id": 313,
+        "flags": 0,
+        "parent": 16,
+        "members": {
+          "zOffset": {
+            "value": 20,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "zRotationLimits": {
+            "members": [
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 3.141592653589793,
+                "type": "real",
+                "visible": 1,
+                "expression": "180deg"
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "zRotationValue": {
+            "value": 0,
+            "type": "real",
+            "visible": 1,
+            "expression": ""
+          },
+          "firstRefMate": {
+            "members": [
+              {
+                "members": [
+                  {
+                    "value": 295,
+                    "type": "id",
+                    "visible": 1,
+                    "expression": ""
+                  }
+                ],
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 107,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 4,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "secondRefMate": {
+            "members": [
+              {
+                "members": [
+                  {
+                    "value": 299,
+                    "type": "id",
+                    "visible": 1,
+                    "expression": ""
+                  }
+                ],
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 289,
+                "type": "id",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 4,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              },
+              {
+                "value": 0,
+                "type": "real",
+                "visible": 1,
+                "expression": ""
+              }
+            ],
+            "type": "array",
+            "visible": 1,
+            "expression": ""
+          },
+          "_VERSION": {
+            "value": "0/2004_2_20_9:22",
+            "type": "string",
+            "visible": 0,
+            "expression": ""
+          }
+        }
+      }
+    }
+  },
+  "graphic": null
+}

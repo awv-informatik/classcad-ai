@@ -1,0 +1,6 @@
+[11] line created, maxLevel: 31
+[filewrite] files/11-verify-with-graphic-graphic-after-line.json (4 bytes)
+[11] translate maxLevel: 31
+[filewrite] files/11-verify-with-graphic-graphic-after-translate.json (765 bytes)
+[11] translate graphic null? false
+[11] translate graphic keys: [ 'containers', 'properties' ]

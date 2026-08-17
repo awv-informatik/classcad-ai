@@ -1,0 +1,8 @@
+[10] tpl1: 22 tpl2: 113 inst1: 186 inst2: 188
+[10] wcs1: 107 wcs2: 180
+[10] fastened result: 194 maxLevel: 31
+[10] delete constrained template - result: null maxLevel: 31
+[10] messages: []
+[10] remaining templates: [22]
+[10] remaining instances: [186]
+[filewrite] files/10-delete-constrained-constrained-delete.json (163 bytes)

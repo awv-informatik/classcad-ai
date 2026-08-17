@@ -1,0 +1,4 @@
+[01] edgeId: 106
+[01] chamferId: 120
+[01] updateChamfer without open — result: null maxLevel: 51
+[filewrite] files/01-no-open-feature-no-open-response.json (439 bytes)

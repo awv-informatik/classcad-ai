@@ -1,0 +1,31 @@
+{
+  "baseline": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "zeroChord": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.common.setFacetingParameters",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "[Evaluation error in CommonHelper.SetFacetingParameters:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Gleitkommazahl addressed.] \nFunction: CADH_SetFacetingParameters\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "
+      }
+    ]
+  },
+  "afterZeroChord": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "zeroAngle": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "afterZeroAngle": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  }
+}

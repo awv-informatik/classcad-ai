@@ -1,0 +1,10 @@
+[09] uncommitted FO id: 119
+[09] updateFastenedOrigin result: 119 maxLevel: 31
+[filewrite] files/09-fastenedorigin-and-duplicates-update-fo.json (55 bytes)
+[09] getFastenedOrigin id: 119 xOffset: 10 zOffset: 5
+[filewrite] files/09-fastenedorigin-and-duplicates-get-fo.json (246 bytes)
+[09] duplicate name result: 123 maxLevel: 31
+[filewrite] files/09-fastenedorigin-and-duplicates-duplicate-name.json (55 bytes)
+[09] no-update id: 125
+[09] getFastened (no update) result: null maxLevel: 51
+[filewrite] files/09-fastenedorigin-and-duplicates-no-update-query.json (297 bytes)

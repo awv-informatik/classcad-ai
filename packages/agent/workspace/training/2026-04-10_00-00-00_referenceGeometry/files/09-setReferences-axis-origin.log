@@ -1,0 +1,17 @@
+[09] waId: 91 wpId: 99 wptId: 107
+[09] sketchId: 113
+[09] setRef plane only — maxLevel: 31
+[09] after plane: {"endPos":{"x":60,"y":40,"z":0},"startPos":{"x":10,"y":10,"z":0}}
+[09] setRef plane+axis — maxLevel: 31 messages: []
+[filewrite] files/09-setReferences-axis-origin-setref-axis.json (56 bytes)
+[09] after plane+axis: {"endPos":{"x":14.142135623730953,"y":70.71067811865476,"z":0},"startPos":{"x":2.220446049250313e-16,"y":14.142135623730951,"z":0}}
+[09] setRef isXAxis=FALSE — maxLevel: 31 messages: []
+[filewrite] files/09-setReferences-axis-origin-setref-isxaxis-false.json (56 bytes)
+[09] after isXAxis=FALSE: {"endPos":{"x":70.71067811865476,"y":-14.142135623730953,"z":0},"startPos":{"x":14.142135623730951,"y":-2.220446049250313e-16,"z":0}}
+[09] setRef plane+origin — maxLevel: 31 messages: []
+[filewrite] files/09-setReferences-axis-origin-setref-origin.json (56 bytes)
+[09] after plane+origin: {"endPos":{"x":90.71067811865476,"y":-4.142135623730953,"z":0},"startPos":{"x":34.14213562373095,"y":10,"z":0}}
+[09] setRef all params — maxLevel: 31 messages: []
+[filewrite] files/09-setReferences-axis-origin-setref-all.json (56 bytes)
+[09] after all params: {"endPos":{"x":34.14213562373095,"y":80.71067811865476,"z":0},"startPos":{"x":20,"y":24.142135623730955,"z":0}}
+[filewrite] files/09-setReferences-axis-origin-positions-comparison.json (1023 bytes)

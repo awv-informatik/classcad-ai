@@ -1,0 +1,8 @@
+[05] inner sub-assembly: 105
+[05] plate instance in inner sub: 115
+[05] outer sub-assembly: 117
+[05] inner sub-assembly instance in outer: 127
+[05] outer instances in root: 129 133
+[05] COG outerInst1: {"cog":{"x":40,"y":15,"z":5},"volume":12000}
+[05] COG outerInst2: {"cog":{"x":40.00000000000001,"y":95.00000000000001,"z":5.000000000000001},"volume":11999.999999999998}
+[filewrite] files/05-nested-sub-assemblies-nested-cog.json (431 bytes)

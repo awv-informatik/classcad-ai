@@ -1,0 +1,9 @@
+[14] constraints before: 3
+[filewrite] files/14-genIncidence-flag-constraints-before.json (264 bytes)
+[14] genIncidence=true: maxLevel= 31 cons= 3
+[14] sketch2 constraints after creation: 5
+[filewrite] files/14-genIncidence-flag-sketch2-constraints.json (440 bytes)
+[14] genIncidence=false: maxLevel= 31 cons= 5
+[14] genIncidence=true (retry): maxLevel= 31 cons= 5
+[14] new from genIncidence=true: 0
+[filewrite] files/14-genIncidence-flag-new-from-genIncidence.json (2 bytes)

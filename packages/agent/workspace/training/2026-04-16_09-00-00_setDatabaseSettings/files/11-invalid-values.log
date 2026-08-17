@@ -1,0 +1,8 @@
+[11] empty params: result: null maxLevel: 31
+[11] negative chord: result: null maxLevel: 31 value: 0.1
+[11] zero chord: result: null maxLevel: 51 value: 0.1
+[11] mode=3: result: null maxLevel: 31 value: 3
+[11] mode=-1: result: null maxLevel: 31 value: -1
+[11] string bool: result: null maxLevel: 51 value: 1
+[11] unknown param: result: null maxLevel: 31
+[filewrite] files/11-invalid-values-invalid-values.json (536 bytes)

@@ -1,0 +1,5 @@
+[08] created: 156 158 160
+[08] Left: 156 match: true
+[08] Center: 158 match: true
+[08] Right: null match: false
+[filewrite] files/08-multiple-regions-multiple-regions.json (282 bytes)

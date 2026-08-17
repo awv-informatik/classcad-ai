@@ -1,0 +1,7 @@
+[07] partId: 4 boxFeat: 54
+[07] part.box feature result: null maxLevel: 31
+[filewrite] files/07-part-features-partbox-response.json (56 bytes)
+[07] extFeat: 160
+[07] extrusion feature result: null maxLevel: 31
+[07] sketch feature result: null maxLevel: 51
+[filewrite] files/07-part-features-sketch-feature.json (275 bytes)

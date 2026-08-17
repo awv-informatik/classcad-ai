@@ -1,0 +1,4 @@
+[12] featId: 107
+[12] update name result: 107 maxLevel: 31
+[filewrite] files/12-update-name-update-name-response.json (55 bytes)
+[stderr] [run] Script error: api.v1.common.getObjectName is not a function

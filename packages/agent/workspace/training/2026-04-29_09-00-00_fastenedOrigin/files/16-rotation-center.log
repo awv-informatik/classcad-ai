@@ -1,0 +1,4 @@
+[16] center-rot CoG: {"x":17.67766952966369,"y":24.74873734152915,"z":4.9999999999999964}
+[16] corner-rot CoG: {"x":17.67766952966369,"y":104.74873734152914,"z":4.999999999999997}
+[16] no-rot CoG: {"x":30,"y":-35,"z":5}
+[filewrite] files/16-rotation-center-rotation-center-mp.json (425 bytes)

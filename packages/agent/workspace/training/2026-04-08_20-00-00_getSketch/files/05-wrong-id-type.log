@@ -1,0 +1,5 @@
+[05] partId: 4 skId: 52 eifId: 60 wpId: 68
+[05] sketch as id — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part\"]"}]
+[05] eif as id — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part\"]"}]
+[05] wp as id — result: null maxLevel: 51 messages: [{"api":"v1.part.getSketch","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part\"]"}]
+[filewrite] files/05-wrong-id-type-wrong-id-type-response.json (949 bytes)

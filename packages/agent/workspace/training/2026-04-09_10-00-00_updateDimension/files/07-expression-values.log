@@ -1,0 +1,13 @@
+[07] dimId: 72
+[07] valid expr result: 0 maxLevel: 31
+[filewrite] files/07-expression-values-valid-expr.json (53 bytes)
+[07] nonexist expr result: 0 maxLevel: 31
+[filewrite] files/07-expression-values-nonexist-expr.json (53 bytes)
+[07] bare-at result: 0 maxLevel: 31
+[filewrite] files/07-expression-values-bare-at.json (53 bytes)
+[07] expr-math result: 0 maxLevel: 31
+[filewrite] files/07-expression-values-expr-math.json (53 bytes)
+[07] string result: 0 maxLevel: 31
+[filewrite] files/07-expression-values-string-value.json (53 bytes)
+[07] numeric-string result: 0 maxLevel: 31
+[filewrite] files/07-expression-values-numeric-string.json (53 bytes)

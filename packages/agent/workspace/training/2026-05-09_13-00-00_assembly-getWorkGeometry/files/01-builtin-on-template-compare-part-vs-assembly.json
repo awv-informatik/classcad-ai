@@ -1,0 +1,11 @@
+{
+  "partGetWorkGeometry_Top": {
+    "id": 56,
+    "maxLevel": 31
+  },
+  "assemblyGetWorkGeometry_Top": {
+    "id": null,
+    "maxLevel": 51
+  },
+  "sameId": false
+}

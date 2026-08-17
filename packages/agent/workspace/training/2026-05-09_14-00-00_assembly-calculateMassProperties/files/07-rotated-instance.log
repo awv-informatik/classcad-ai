@@ -1,0 +1,10 @@
+[07] inst1 COG: {"x":30,"y":10,"z":5} vol: 12000
+[07] inst2 COG: {"x":90.00000000000001,"y":30,"z":5} vol: 11999.999999999996
+[07] asm COG: {"x":60,"y":19.999999999999996,"z":5} vol: 23999.999999999996
+[07] expected inst2 COG: (90, 30, 5)
+[07] match X: true
+[07] match Y: true
+[07] match Z: true
+[07] expected asm COG: 60.00 20.00 5.00
+[07] asm match X: true
+[filewrite] files/07-rotated-instance-rotated-instance.json (534 bytes)

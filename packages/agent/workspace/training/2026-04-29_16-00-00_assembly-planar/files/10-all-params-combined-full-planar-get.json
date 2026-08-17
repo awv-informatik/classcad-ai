@@ -1,0 +1,33 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "-Z",
+    "path": [
+      206
+    ],
+    "reorient": "90"
+  },
+  "name": "FullPlanar",
+  "xOffsetLimits": {
+    "max": 50,
+    "min": -50
+  },
+  "yOffsetLimits": {
+    "max": 30,
+    "min": -30
+  },
+  "zOffset": 20,
+  "zRotationLimits": {
+    "max": 3.141592653589793,
+    "min": -3.141592653589793
+  }
+}

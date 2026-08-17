@@ -1,0 +1,3 @@
+[12] cc1: 96 cc2: 109
+[12] shared ref cc3 result: 122 maxLevel: 31
+[filewrite] files/12-multiple-composites-multi-cc-responses.json (103 bytes)

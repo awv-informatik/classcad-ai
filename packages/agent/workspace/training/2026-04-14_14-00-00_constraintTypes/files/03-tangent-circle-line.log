@@ -1,0 +1,4 @@
+[03] circId: 68
+[03] TANGENT circle-line result: 71 maxLevel: 31
+[03] circle center after: null
+[stderr] [run] Script error: Cannot read properties of null (reading 'pos')

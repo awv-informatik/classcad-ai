@@ -1,0 +1,5 @@
+[02] ratio=0.5: 263 maxLevel: 31
+[02] default ratio: 425 maxLevel: 31
+[02] offset=60deg: 429 maxLevel: 31
+[02] offset=1.57rad: 433 maxLevel: 31
+[filewrite] files/02-ratio-offset-gear-variations.json (278 bytes)

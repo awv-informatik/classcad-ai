@@ -1,0 +1,18 @@
+{
+  "noRot": {
+    "id": 162,
+    "maxLevel": 31
+  },
+  "xRot": {
+    "id": 166,
+    "maxLevel": 31
+  },
+  "yRot": {
+    "id": 170,
+    "maxLevel": 31
+  },
+  "zRot": {
+    "id": 174,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,4 @@
+[02] COG before: {"x":55,"y":40,"z":32.5}
+[02] parallel result: 218 maxLevel: 31
+[02] COG after: {"x":34.999000000000024,"y":24.999000000000013,"z":22.499000000000013}
+[filewrite] files/02-offset-limits-offset-limits-cog.json (171 bytes)

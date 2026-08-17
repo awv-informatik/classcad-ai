@@ -1,0 +1,7 @@
+[01] rectIds: [ 58, 64, 70, 76 ]
+[01] dimId: 94
+[filewrite] files/01-basic-offset-initial-structure.json (43715 bytes)
+[01] updateDimensionPosition result: null maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-offset-update-response.json (56 bytes)
+[filewrite] files/01-basic-offset-after-structure.json (43703 bytes)

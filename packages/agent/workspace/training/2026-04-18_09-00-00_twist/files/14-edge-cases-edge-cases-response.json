@@ -1,0 +1,45 @@
+{
+  "zeroLimit": {
+    "id": 94,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.twist",
+        "code": 1122,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Height not valid. Value for height must be greater than 0 for ZeroLimit (CC_Twist)."
+      }
+    ]
+  },
+  "emptyRefs": {
+    "id": 112,
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.part.twist",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "Nothing was selected"
+      },
+      {
+        "api": "v1.part.twist",
+        "code": 1111,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There is no sketch region for EmptyRefs (CC_Twist)"
+      }
+    ]
+  },
+  "bigAngle": {
+    "id": 162,
+    "maxLevel": 31,
+    "msgs": []
+  },
+  "negLimit": {
+    "id": 247,
+    "maxLevel": 31,
+    "msgs": []
+  }
+}

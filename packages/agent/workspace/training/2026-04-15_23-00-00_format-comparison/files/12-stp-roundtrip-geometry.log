@@ -1,0 +1,4 @@
+[12] Before STP — STL size: 5180
+[12] After STP — STL size: 5180
+[12] STL size ratio (after/before): 1.000
+[filewrite] files/12-stp-roundtrip-geometry-stp-geometry-compare.json (94 bytes)

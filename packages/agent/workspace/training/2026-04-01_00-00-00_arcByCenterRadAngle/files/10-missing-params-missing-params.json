@@ -1,0 +1,62 @@
+{
+  "noCenterPos": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.curve.arcByCenterRadAngle",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"centerPos\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noStartAngle": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.curve.arcByCenterRadAngle",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"startAngle\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noEndAngle": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.curve.arcByCenterRadAngle",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"endAngle\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noRadius": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.curve.arcByCenterRadAngle",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"radius\" must be provided in the api call!"
+      }
+    ]
+  },
+  "noId": {
+    "maxLevel": 51,
+    "msgs": [
+      {
+        "api": "v1.curve.arcByCenterRadAngle",
+        "code": 1004,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"id\" must be provided in the api call!"
+      }
+    ]
+  }
+}

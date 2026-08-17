@@ -1,0 +1,5 @@
+[01] partId: 4 eifId: 54 boxId: 61
+[01] setAppearance red result: null maxLevel: 31
+[filewrite] files/01-basic-color-red-response.json (56 bytes)
+[01] setAppearance green result: null maxLevel: 31
+[01] setAppearance blue result: null maxLevel: 31

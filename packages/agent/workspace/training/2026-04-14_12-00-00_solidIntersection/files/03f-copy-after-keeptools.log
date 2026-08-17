@@ -1,0 +1,5 @@
+[03f] box1: 61 box2: 64
+[03f] intersection result: 61 maxLevel: 31
+[03f] copying intersection result (box1)...
+[03f] copy result solid: null maxLevel: 51
+[filewrite] files/03f-copy-after-keeptools-copy-result-after-keeptools.json (46 bytes)

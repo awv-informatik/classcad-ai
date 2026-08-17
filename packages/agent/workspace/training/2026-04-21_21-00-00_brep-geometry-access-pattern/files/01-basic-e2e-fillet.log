@@ -1,0 +1,7 @@
+[01] getGeometryIds result: {"lines":[106,102]}
+[01] maxLevel: 31
+[01] filletId: 120
+[01] post-fillet getGeometryIds lines: {"lines":[[],[]]}
+[01] post-fillet maxLevel: 51
+[01] original IDs still valid? no maxLevel: 51
+[filewrite] files/01-basic-e2e-fillet-e2e-comparison.json (290 bytes)

@@ -1,0 +1,3 @@
+[12] no-sketch part — result: null maxLevel: 51
+[12] messages: [{"api":"v1.part.getSketch","code":1015,"level":51,"levelStr":"ERROR","message":"Sketch with name \"Anything\" does not exist"}]
+[filewrite] files/12-part-with-no-sketches-no-sketches-response.json (235 bytes)

@@ -1,0 +1,5 @@
+[03] region1: 124 region2: 126
+[03] lookup SketchRegion: 124 match: true
+[03] lookup SketchRegion0: 126 match: true
+[03] lookup SketchRegion1 (should fail): null maxLevel: 51
+[filewrite] files/03-default-names-default-names.json (519 bytes)

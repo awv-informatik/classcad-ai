@@ -1,0 +1,54 @@
+{
+  "c1": {
+    "id": 287,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        277
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 198,
+      "flip": "Z",
+      "path": [
+        279
+      ],
+      "reorient": "0"
+    },
+    "name": "C1_updated",
+    "xOffset": 100,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  "c2": {
+    "id": 291,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        277
+      ],
+      "reorient": "0"
+    },
+    "mate2": {
+      "csys": 271,
+      "flip": "Z",
+      "path": [
+        281
+      ],
+      "reorient": "0"
+    },
+    "name": "C2_updated",
+    "xOffset": 200,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0.7853981633974483
+  }
+}

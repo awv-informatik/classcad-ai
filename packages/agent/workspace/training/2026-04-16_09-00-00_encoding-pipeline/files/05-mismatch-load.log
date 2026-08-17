@@ -1,0 +1,6 @@
+[05] saved len: 5588
+[05] no-params: id= undefined maxLevel= 51
+[05] b64-only: id= undefined maxLevel= 51
+[05] deflate-only: id= undefined maxLevel= 51
+[05] correct: id= 4 maxLevel= 31
+[filewrite] files/05-mismatch-load-mismatch-results.json (547 bytes)

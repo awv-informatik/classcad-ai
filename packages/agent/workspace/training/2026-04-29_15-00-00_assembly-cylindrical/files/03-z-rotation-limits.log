@@ -1,0 +1,11 @@
+[03] zRotationLimits (radians): 216 maxLevel: 31
+[03] zRotationLimits (degrees): 220 maxLevel: 31
+[03] rad limits stored: {"max":1.5707963267948966,"min":-0.7853981633974483}
+[03] deg limits stored: {"max":2.0943951023931953,"min":-1.5707963267948966}
+[filewrite] files/03-z-rotation-limits-rotation-limits-get.json (930 bytes)
+[03] partial zRotationLimits (min only): null maxLevel: 51
+[03] partial messages: [{"api":"v1.assembly.cylindrical","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"max\" must be provided in the api call!"}]
+[03] both limits: 228 maxLevel: 31
+[filewrite] files/03-z-rotation-limits-both-limits-response.json (37 bytes)
+[03] both limits get: {"max":25,"min":-15} {"max":1.0471975511965976,"min":-1.0471975511965976}
+[filewrite] files/03-z-rotation-limits-both-limits-get.json (394 bytes)

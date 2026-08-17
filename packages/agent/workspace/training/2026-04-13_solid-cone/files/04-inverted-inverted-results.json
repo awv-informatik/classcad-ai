@@ -1,0 +1,11 @@
+{
+  "inverted": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "bottomZero": {
+    "result": 66,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

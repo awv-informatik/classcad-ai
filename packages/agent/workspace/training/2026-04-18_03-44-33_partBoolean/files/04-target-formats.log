@@ -1,0 +1,4 @@
+[04] plain ID — result: 128 maxLevel: 31
+[04] object {id} — result: null maxLevel: 51
+[04] both object — result: null maxLevel: 51
+[filewrite] files/04-target-formats-target-formats.json (182 bytes)

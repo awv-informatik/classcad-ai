@@ -1,0 +1,25 @@
+{
+  "id": 294,
+  "mate1": {
+    "csys": 115,
+    "flip": "Z",
+    "path": [
+      220
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 214,
+    "flip": "Z",
+    "path": [
+      228
+    ],
+    "reorient": "0"
+  },
+  "name": "HingeBot",
+  "zOffset": 0,
+  "zRotationLimits": {
+    "max": null,
+    "min": null
+  }
+}

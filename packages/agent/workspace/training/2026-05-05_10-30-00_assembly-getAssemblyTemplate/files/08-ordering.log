@@ -1,0 +1,5 @@
+[08] Charlie: 22 Alpha: 32 Bravo: 42
+[08] list: [ 22, 32, 42 ]
+[08] is creation order: true
+[08] stable: true
+[filewrite] files/08-ordering-ordering.json (170 bytes)

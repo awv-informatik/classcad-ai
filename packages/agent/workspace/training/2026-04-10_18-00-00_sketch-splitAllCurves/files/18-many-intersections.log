@@ -1,0 +1,24 @@
+[18] circle: 58 l1: 63 l2: 69 l3: 75
+[18] result: [108,113,118,123,128,133,138,142,146,150,154,158,162,166,170,174,178,182,186]
+[18] maxLevel: 31
+[18] result length: 19
+[18] segment 108 : CC_Arc Circle_part0
+[18] segment 113 : CC_Arc Circle_part1
+[18] segment 118 : CC_Arc Circle_part2
+[18] segment 123 : CC_Arc Circle_part3
+[18] segment 128 : CC_Arc Circle_part4
+[18] segment 133 : CC_Arc Circle_part5
+[18] segment 138 : CC_Line Line_part0
+[18] segment 142 : CC_Line Line_part1
+[18] segment 146 : CC_Line Line_part2
+[18] segment 150 : CC_Line Line_part3
+[18] segment 154 : CC_Line Line0_part0
+[18] segment 158 : CC_Line Line0_part1
+[18] segment 162 : CC_Line Line0_part2
+[18] segment 166 : CC_Line Line0_part3
+[18] segment 170 : CC_Line Line1_part0
+[18] segment 174 : CC_Line Line1_part1
+[18] segment 178 : CC_Line Line1_part2
+[18] segment 182 : CC_Line Line1_part3
+[18] segment 186 : CC_Line Line1_part4
+[filewrite] files/18-many-intersections-many-response.json (209 bytes)

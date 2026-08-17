@@ -1,0 +1,4 @@
+[13] asmId: 12
+[13] tplId (no setCurrentProduct call): 22
+[13] found template: 22 === tplId? true
+[filewrite] files/13-current-product-after-create-context-after-create.json (64 bytes)

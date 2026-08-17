@@ -1,0 +1,6 @@
+[12] c1: 309 c2: 313
+[12] get DupName: 309 (c1= 309 c2= 313 )
+[12] first match offset: {"max":10,"min":-10}
+[12] getCylindrical SharedName: undefined (should be c3= 321 )
+[12] getRevolute SharedName: 317 (should be revolute)
+[filewrite] files/12-duplicate-names-duplicate-names.json (127 bytes)

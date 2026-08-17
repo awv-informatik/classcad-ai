@@ -1,0 +1,5 @@
+[13] UP + direction: 96 maxLevel: 31
+[13] DOWN + direction: 181 maxLevel: 31
+[13] UP + neg limit2: 266 maxLevel: 31
+[13] DOWN + neg limit2: 351 maxLevel: 31
+[filewrite] files/13-direction-non-custom-dir-non-custom.json (317 bytes)

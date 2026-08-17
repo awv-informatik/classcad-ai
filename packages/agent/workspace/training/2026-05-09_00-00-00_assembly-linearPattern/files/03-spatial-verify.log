@@ -1,0 +1,6 @@
+[03] template COG: {"x":20,"y":15,"z":10}
+[03] all instances: [113,125,127]
+[03] inst 113 COG: {"x":20,"y":15,"z":10}
+[03] inst 125 COG: {"x":20,"y":15,"z":70}
+[03] inst 127 COG: {"x":20,"y":15,"z":130}
+[filewrite] files/03-spatial-verify-spatial-data.json (488 bytes)

@@ -1,0 +1,74 @@
+{
+  "0": {
+    "id": 119,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        113
+      ],
+      "reorient": "0"
+    },
+    "name": "FO_R0",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 0,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  "90": {
+    "id": 125,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        121
+      ],
+      "reorient": "90"
+    },
+    "name": "FO_R90",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 90,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  "180": {
+    "id": 131,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        127
+      ],
+      "reorient": "180"
+    },
+    "name": "FO_R180",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 180,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  },
+  "270": {
+    "id": 137,
+    "mate1": {
+      "csys": 107,
+      "flip": "Z",
+      "path": [
+        133
+      ],
+      "reorient": "270"
+    },
+    "name": "FO_R270",
+    "xOffset": 0,
+    "xRotation": 0,
+    "yOffset": 270,
+    "yRotation": 0,
+    "zOffset": 0,
+    "zRotation": 0
+  }
+}

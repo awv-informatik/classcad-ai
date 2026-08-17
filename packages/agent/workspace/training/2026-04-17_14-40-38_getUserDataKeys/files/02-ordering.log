@@ -1,0 +1,6 @@
+[02] insertion order: z-last, a-first, m-middle, b-second, y-almost
+[02] returned order: ["b-second","m-middle","y-almost","a-first","z-last"]
+[02] sorted would be: ["a-first","b-second","m-middle","y-almost","z-last"]
+[02] is sorted? false
+[02] numeric keys inserted 10→1: null
+[stderr] [run] Script error: keys2 is not iterable

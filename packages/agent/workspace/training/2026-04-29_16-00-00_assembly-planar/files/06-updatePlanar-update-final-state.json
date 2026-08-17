@@ -1,0 +1,33 @@
+{
+  "id": 212,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      204
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      206
+    ],
+    "reorient": "0"
+  },
+  "name": "UpdatedPlanar",
+  "xOffsetLimits": {
+    "max": null,
+    "min": null
+  },
+  "yOffsetLimits": {
+    "max": 50,
+    "min": 0
+  },
+  "zOffset": 30,
+  "zRotationLimits": {
+    "max": null,
+    "min": null
+  }
+}

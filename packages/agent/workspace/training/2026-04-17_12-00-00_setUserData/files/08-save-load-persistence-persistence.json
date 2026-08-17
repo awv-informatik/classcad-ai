@@ -1,0 +1,17 @@
+{
+  "beforePart": [
+    "author",
+    "version",
+    "material"
+  ],
+  "beforeEif": [
+    "feature-meta"
+  ],
+  "beforeBox": [
+    "solid-meta"
+  ],
+  "afterPartKeys": [],
+  "afterMaterial": "MISSING",
+  "afterAuthor": "MISSING",
+  "newPartId": 4
+}

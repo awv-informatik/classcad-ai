@@ -1,0 +1,10 @@
+{
+  "small": {
+    "result": 60,
+    "maxLevel": 31
+  },
+  "large": {
+    "result": 63,
+    "maxLevel": 31
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "fixPoint": {
+    "result": 62,
+    "messages": [],
+    "maxLevel": 31
+  },
+  "fixLine": {
+    "result": 64,
+    "messages": [],
+    "maxLevel": 31
+  }
+}

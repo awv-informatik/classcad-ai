@@ -1,0 +1,5 @@
+[09] subInst: 97 (placed at x=100)
+[09] pegGlobal: 101 (global transform: x=120)
+[09] pegLocal: 105 (local transform: x=20, should appear at global x=120)
+[09] pegOriginLocal: 109 (local origin, should appear at global x=100)
+[filewrite] files/09-isLocal-transform-isLocal-structure.json (39417 bytes)

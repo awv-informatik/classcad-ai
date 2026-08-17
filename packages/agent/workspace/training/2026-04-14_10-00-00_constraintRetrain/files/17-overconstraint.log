@@ -1,0 +1,6 @@
+[17] HORIZONTAL result: 64 maxLevel: 31
+[17] after HORIZONTAL: {"start":{"pos":{"x":0,"y":0,"z":0}},"end":{"pos":{"x":58.309518948453004,"y":-3.570428287002246e-15,"z":0}}}
+[17] VERTICAL result: 66 maxLevel: 31
+[17] after VERTICAL: {"start":{"pos":{"x":0,"y":0,"z":0}},"end":{"pos":{"x":58.309518948453004,"y":-3.570428287002246e-15,"z":0}}}
+[17] duplicate HORIZONTAL result: 68 maxLevel: 31
+[filewrite] files/17-overconstraint-overconstraint-data.json (716 bytes)

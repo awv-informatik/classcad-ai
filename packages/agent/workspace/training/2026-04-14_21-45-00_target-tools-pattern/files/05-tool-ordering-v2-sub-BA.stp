@@ -1,0 +1,304 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('OrderV2', '2026-04-14T20:38:41', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+
+DATA;
+#1 = MANIFOLD_SOLID_BREP('Solid', #2);
+#2 = CLOSED_SHELL('', (#3, #39, #75, #112, #128, #150, #177, #193));
+#3 = ADVANCED_FACE('', (#4), #34, .T.);
+#4 = FACE_OUTER_BOUND('', #5, .T.);
+#5 = EDGE_LOOP('', (#6, #15, #22, #29));
+#6 = ORIENTED_EDGE('', *, *, #7, .T.);
+#7 = EDGE_CURVE('', #8, #10, #12, .T.);
+#8 = VERTEX_POINT('', #9);
+#9 = CARTESIAN_POINT('', (40., 40., -30.));
+#10 = VERTEX_POINT('', #11);
+#11 = CARTESIAN_POINT('', (40., 40., 30.));
+#12 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#13, #14), .UNSPECIFIED., .F., .U., (2, 2), (0., 1.), .UNSPECIFIED.);
+#13 = CARTESIAN_POINT('', (40., 40., -30.));
+#14 = CARTESIAN_POINT('', (40., 40., 30.));
+#15 = ORIENTED_EDGE('', *, *, #16, .T.);
+#16 = EDGE_CURVE('', #10, #17, #19, .T.);
+#17 = VERTEX_POINT('', #18);
+#18 = CARTESIAN_POINT('', (50., 40., 30.));
+#19 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#20, #21), .UNSPECIFIED., .F., .U., (2, 2), (90., 100.), .UNSPECIFIED.);
+#20 = CARTESIAN_POINT('', (40., 40., 30.));
+#21 = CARTESIAN_POINT('', (50., 40., 30.));
+#22 = ORIENTED_EDGE('', *, *, #23, .F.);
+#23 = EDGE_CURVE('', #24, #17, #26, .T.);
+#24 = VERTEX_POINT('', #25);
+#25 = CARTESIAN_POINT('', (50., 40., -30.));
+#26 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#27, #28), .UNSPECIFIED., .F., .U., (2, 2), (0., 60.), .UNSPECIFIED.);
+#27 = CARTESIAN_POINT('', (50., 40., -30.));
+#28 = CARTESIAN_POINT('', (50., 40., 30.));
+#29 = ORIENTED_EDGE('', *, *, #30, .F.);
+#30 = EDGE_CURVE('', #8, #24, #31, .T.);
+#31 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#32, #33), .UNSPECIFIED., .F., .U., (2, 2), (90., 100.), .UNSPECIFIED.);
+#32 = CARTESIAN_POINT('', (40., 40., -30.));
+#33 = CARTESIAN_POINT('', (50., 40., -30.));
+#34 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#35, #36), (#37, #38)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 60.), (0., 100.), .UNSPECIFIED.);
+#35 = CARTESIAN_POINT('', (-50., 40., -30.));
+#36 = CARTESIAN_POINT('', (50., 40., -30.));
+#37 = CARTESIAN_POINT('', (-50., 40., 30.));
+#38 = CARTESIAN_POINT('', (50., 40., 30.));
+#39 = ADVANCED_FACE('', (#40), #70, .T.);
+#40 = FACE_OUTER_BOUND('', #41, .T.);
+#41 = EDGE_LOOP('', (#42, #51, #58, #65));
+#42 = ORIENTED_EDGE('', *, *, #43, .F.);
+#43 = EDGE_CURVE('', #44, #46, #48, .T.);
+#44 = VERTEX_POINT('', #45);
+#45 = CARTESIAN_POINT('', (-50., -40., -30.));
+#46 = VERTEX_POINT('', #47);
+#47 = CARTESIAN_POINT('', (-50., -40., 30.));
+#48 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#49, #50), .UNSPECIFIED., .F., .U., (2, 2), (0., 60.), .UNSPECIFIED.);
+#49 = CARTESIAN_POINT('', (-50., -40., -30.));
+#50 = CARTESIAN_POINT('', (-50., -40., 30.));
+#51 = ORIENTED_EDGE('', *, *, #52, .T.);
+#52 = EDGE_CURVE('', #44, #53, #55, .T.);
+#53 = VERTEX_POINT('', #54);
+#54 = CARTESIAN_POINT('', (50., -40., -30.));
+#55 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#56, #57), .UNSPECIFIED., .F., .U., (2, 2), (0., 100.), .UNSPECIFIED.);
+#56 = CARTESIAN_POINT('', (-50., -40., -30.));
+#57 = CARTESIAN_POINT('', (50., -40., -30.));
+#58 = ORIENTED_EDGE('', *, *, #59, .T.);
+#59 = EDGE_CURVE('', #53, #60, #62, .T.);
+#60 = VERTEX_POINT('', #61);
+#61 = CARTESIAN_POINT('', (50., -40., 30.));
+#62 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#63, #64), .UNSPECIFIED., .F., .U., (2, 2), (0., 60.), .UNSPECIFIED.);
+#63 = CARTESIAN_POINT('', (50., -40., -30.));
+#64 = CARTESIAN_POINT('', (50., -40., 30.));
+#65 = ORIENTED_EDGE('', *, *, #66, .F.);
+#66 = EDGE_CURVE('', #46, #60, #67, .T.);
+#67 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#68, #69), .UNSPECIFIED., .F., .U., (2, 2), (0., 100.), .UNSPECIFIED.);
+#68 = CARTESIAN_POINT('', (-50., -40., 30.));
+#69 = CARTESIAN_POINT('', (50., -40., 30.));
+#70 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#71, #72), (#73, #74)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 100.), (0., 60.), .UNSPECIFIED.);
+#71 = CARTESIAN_POINT('', (-50., -40., -30.));
+#72 = CARTESIAN_POINT('', (-50., -40., 30.));
+#73 = CARTESIAN_POINT('', (50., -40., -30.));
+#74 = CARTESIAN_POINT('', (50., -40., 30.));
+#75 = ADVANCED_FACE('', (#76), #107, .T.);
+#76 = FACE_OUTER_BOUND('', #77, .T.);
+#77 = EDGE_LOOP('', (#78, #88, #89, #94, #95, #102));
+#78 = ORIENTED_EDGE('', *, *, #79, .T.);
+#79 = EDGE_CURVE('', #80, #8, #82, .T.);
+#80 = VERTEX_POINT('', #81);
+#81 = CARTESIAN_POINT('', (10., 40., -30.));
+#82 = (
+   BOUNDED_CURVE ()
+   B_SPLINE_CURVE (2, (#83, #84, #85, #86, #87), .UNSPECIFIED., .F., .U.)
+   B_SPLINE_CURVE_WITH_KNOTS ((3, 2, 3), (0., 0.5, 1.), .UNSPECIFIED.)
+   CURVE ()
+   GEOMETRIC_REPRESENTATION_ITEM ()
+   RATIONAL_B_SPLINE_CURVE ((1., 0.707106781186548, 1., 0.707106781186548, 1.))
+   REPRESENTATION_ITEM ('')
+);
+#83 = CARTESIAN_POINT('', (10., 40., -30.));
+#84 = CARTESIAN_POINT('', (10., 25., -30.));
+#85 = CARTESIAN_POINT('', (25., 25., -30.));
+#86 = CARTESIAN_POINT('', (40., 25., -30.));
+#87 = CARTESIAN_POINT('', (40., 40., -30.));
+#88 = ORIENTED_EDGE('', *, *, #30, .T.);
+#89 = ORIENTED_EDGE('', *, *, #90, .F.);
+#90 = EDGE_CURVE('', #53, #24, #91, .T.);
+#91 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#92, #93), .UNSPECIFIED., .F., .U., (2, 2), (0., 80.), .UNSPECIFIED.);
+#92 = CARTESIAN_POINT('', (50., -40., -30.));
+#93 = CARTESIAN_POINT('', (50., 40., -30.));
+#94 = ORIENTED_EDGE('', *, *, #52, .F.);
+#95 = ORIENTED_EDGE('', *, *, #96, .T.);
+#96 = EDGE_CURVE('', #44, #97, #99, .T.);
+#97 = VERTEX_POINT('', #98);
+#98 = CARTESIAN_POINT('', (-50., 40., -30.));
+#99 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#100, #101), .UNSPECIFIED., .F., .U., (2, 2), (0., 80.), .UNSPECIFIED.);
+#100 = CARTESIAN_POINT('', (-50., -40., -30.));
+#101 = CARTESIAN_POINT('', (-50., 40., -30.));
+#102 = ORIENTED_EDGE('', *, *, #103, .T.);
+#103 = EDGE_CURVE('', #97, #80, #104, .T.);
+#104 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#105, #106), .UNSPECIFIED., .F., .U., (2, 2), (0., 60.), .UNSPECIFIED.);
+#105 = CARTESIAN_POINT('', (-50., 40., -30.));
+#106 = CARTESIAN_POINT('', (10., 40., -30.));
+#107 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#108, #109), (#110, #111)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 80.), (0., 100.), .UNSPECIFIED.);
+#108 = CARTESIAN_POINT('', (-50., -40., -30.));
+#109 = CARTESIAN_POINT('', (50., -40., -30.));
+#110 = CARTESIAN_POINT('', (-50., 40., -30.));
+#111 = CARTESIAN_POINT('', (50., 40., -30.));
+#112 = ADVANCED_FACE('', (#113), #123, .T.);
+#113 = FACE_OUTER_BOUND('', #114, .T.);
+#114 = EDGE_LOOP('', (#115, #116, #117, #118));
+#115 = ORIENTED_EDGE('', *, *, #59, .F.);
+#116 = ORIENTED_EDGE('', *, *, #90, .T.);
+#117 = ORIENTED_EDGE('', *, *, #23, .T.);
+#118 = ORIENTED_EDGE('', *, *, #119, .F.);
+#119 = EDGE_CURVE('', #60, #17, #120, .T.);
+#120 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#121, #122), .UNSPECIFIED., .F., .U., (2, 2), (0., 80.), .UNSPECIFIED.);
+#121 = CARTESIAN_POINT('', (50., -40., 30.));
+#122 = CARTESIAN_POINT('', (50., 40., 30.));
+#123 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#124, #125), (#126, #127)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 80.), (0., 60.), .UNSPECIFIED.);
+#124 = CARTESIAN_POINT('', (50., -40., -30.));
+#125 = CARTESIAN_POINT('', (50., -40., 30.));
+#126 = CARTESIAN_POINT('', (50., 40., -30.));
+#127 = CARTESIAN_POINT('', (50., 40., 30.));
+#128 = ADVANCED_FACE('', (#129), #145, .T.);
+#129 = FACE_OUTER_BOUND('', #130, .T.);
+#130 = EDGE_LOOP('', (#131, #132, #139, #144));
+#131 = ORIENTED_EDGE('', *, *, #43, .T.);
+#132 = ORIENTED_EDGE('', *, *, #133, .T.);
+#133 = EDGE_CURVE('', #46, #134, #136, .T.);
+#134 = VERTEX_POINT('', #135);
+#135 = CARTESIAN_POINT('', (-50., 40., 30.));
+#136 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#137, #138), .UNSPECIFIED., .F., .U., (2, 2), (0., 80.), .UNSPECIFIED.);
+#137 = CARTESIAN_POINT('', (-50., -40., 30.));
+#138 = CARTESIAN_POINT('', (-50., 40., 30.));
+#139 = ORIENTED_EDGE('', *, *, #140, .F.);
+#140 = EDGE_CURVE('', #97, #134, #141, .T.);
+#141 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#142, #143), .UNSPECIFIED., .F., .U., (2, 2), (0., 60.), .UNSPECIFIED.);
+#142 = CARTESIAN_POINT('', (-50., 40., -30.));
+#143 = CARTESIAN_POINT('', (-50., 40., 30.));
+#144 = ORIENTED_EDGE('', *, *, #96, .F.);
+#145 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#146, #147), (#148, #149)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 60.), (0., 80.), .UNSPECIFIED.);
+#146 = CARTESIAN_POINT('', (-50., -40., -30.));
+#147 = CARTESIAN_POINT('', (-50., 40., -30.));
+#148 = CARTESIAN_POINT('', (-50., -40., 30.));
+#149 = CARTESIAN_POINT('', (-50., 40., 30.));
+#150 = ADVANCED_FACE('', (#151), #172, .T.);
+#151 = FACE_OUTER_BOUND('', #152, .T.);
+#152 = EDGE_LOOP('', (#153, #163, #168, #169, #170, #171));
+#153 = ORIENTED_EDGE('', *, *, #154, .F.);
+#154 = EDGE_CURVE('', #155, #10, #157, .T.);
+#155 = VERTEX_POINT('', #156);
+#156 = CARTESIAN_POINT('', (10., 40., 30.));
+#157 = (
+   BOUNDED_CURVE ()
+   B_SPLINE_CURVE (2, (#158, #159, #160, #161, #162), .UNSPECIFIED., .F., .U.)
+   B_SPLINE_CURVE_WITH_KNOTS ((3, 2, 3), (0., 0.5, 1.), .UNSPECIFIED.)
+   CURVE ()
+   GEOMETRIC_REPRESENTATION_ITEM ()
+   RATIONAL_B_SPLINE_CURVE ((1., 0.707106781186548, 1., 0.707106781186548, 1.))
+   REPRESENTATION_ITEM ('')
+);
+#158 = CARTESIAN_POINT('', (10., 40., 30.));
+#159 = CARTESIAN_POINT('', (10., 25., 30.));
+#160 = CARTESIAN_POINT('', (25., 25., 30.));
+#161 = CARTESIAN_POINT('', (40., 25., 30.));
+#162 = CARTESIAN_POINT('', (40., 40., 30.));
+#163 = ORIENTED_EDGE('', *, *, #164, .F.);
+#164 = EDGE_CURVE('', #134, #155, #165, .T.);
+#165 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#166, #167), .UNSPECIFIED., .F., .U., (2, 2), (0., 60.), .UNSPECIFIED.);
+#166 = CARTESIAN_POINT('', (-50., 40., 30.));
+#167 = CARTESIAN_POINT('', (10., 40., 30.));
+#168 = ORIENTED_EDGE('', *, *, #133, .F.);
+#169 = ORIENTED_EDGE('', *, *, #66, .T.);
+#170 = ORIENTED_EDGE('', *, *, #119, .T.);
+#171 = ORIENTED_EDGE('', *, *, #16, .F.);
+#172 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#173, #174), (#175, #176)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 100.), (0., 80.), .UNSPECIFIED.);
+#173 = CARTESIAN_POINT('', (-50., -40., 30.));
+#174 = CARTESIAN_POINT('', (-50., 40., 30.));
+#175 = CARTESIAN_POINT('', (50., -40., 30.));
+#176 = CARTESIAN_POINT('', (50., 40., 30.));
+#177 = ADVANCED_FACE('', (#178), #188, .T.);
+#178 = FACE_OUTER_BOUND('', #179, .T.);
+#179 = EDGE_LOOP('', (#180, #185, #186, #187));
+#180 = ORIENTED_EDGE('', *, *, #181, .F.);
+#181 = EDGE_CURVE('', #80, #155, #182, .T.);
+#182 = B_SPLINE_CURVE_WITH_KNOTS('', 1, (#183, #184), .UNSPECIFIED., .F., .U., (2, 2), (0., 1.), .UNSPECIFIED.);
+#183 = CARTESIAN_POINT('', (10., 40., -30.));
+#184 = CARTESIAN_POINT('', (10., 40., 30.));
+#185 = ORIENTED_EDGE('', *, *, #103, .F.);
+#186 = ORIENTED_EDGE('', *, *, #140, .T.);
+#187 = ORIENTED_EDGE('', *, *, #164, .T.);
+#188 = B_SPLINE_SURFACE_WITH_KNOTS('', 1, 1, ((#189, #190), (#191, #192)), .UNSPECIFIED., .F., .F., .U., (2, 2), (2, 2), (0., 60.), (0., 100.), .UNSPECIFIED.);
+#189 = CARTESIAN_POINT('', (-50., 40., -30.));
+#190 = CARTESIAN_POINT('', (50., 40., -30.));
+#191 = CARTESIAN_POINT('', (-50., 40., 30.));
+#192 = CARTESIAN_POINT('', (50., 40., 30.));
+#193 = ADVANCED_FACE('', (#194), #200, .F.);
+#194 = FACE_OUTER_BOUND('', #195, .F.);
+#195 = EDGE_LOOP('', (#196, #197, #198, #199));
+#196 = ORIENTED_EDGE('', *, *, #181, .F.);
+#197 = ORIENTED_EDGE('', *, *, #79, .T.);
+#198 = ORIENTED_EDGE('', *, *, #7, .T.);
+#199 = ORIENTED_EDGE('', *, *, #154, .F.);
+#200 = (
+   BOUNDED_SURFACE ()
+   B_SPLINE_SURFACE (2, 1, ((#201, #202), (#203, #204), (#205, #206), (#207, #208), (#209, #210), (#211, #212), (#213, #214), (#215, #216), (#217, #218)), .UNSPECIFIED., .T., .F., .U.)
+   B_SPLINE_SURFACE_WITH_KNOTS ((3, 2, 2, 2, 3), (2, 2), (0., 23.5619449019235, 47.1238898038469, 70.6858347057703, 94.2477796076938), (0., 80.), .UNSPECIFIED.)
+   GEOMETRIC_REPRESENTATION_ITEM ()
+   RATIONAL_B_SPLINE_SURFACE (((1., 1.), (0.707106781186548, 0.707106781186548), (1., 1.), (0.707106781186548, 0.707106781186548), (1., 1.), (0.707106781186548, 0.707106781186548), (1., 1.), (0.707106781186548, 0.707106781186548), (1., 1.)))
+   REPRESENTATION_ITEM ('')
+   SURFACE ()
+);
+#201 = CARTESIAN_POINT('', (40., 40., -50.));
+#202 = CARTESIAN_POINT('', (40., 40., 30.));
+#203 = CARTESIAN_POINT('', (40., 55., -50.));
+#204 = CARTESIAN_POINT('', (40., 55., 30.));
+#205 = CARTESIAN_POINT('', (25., 55., -50.));
+#206 = CARTESIAN_POINT('', (25., 55., 30.));
+#207 = CARTESIAN_POINT('', (10., 55., -50.));
+#208 = CARTESIAN_POINT('', (10., 55., 30.));
+#209 = CARTESIAN_POINT('', (10., 40., -50.));
+#210 = CARTESIAN_POINT('', (10., 40., 30.));
+#211 = CARTESIAN_POINT('', (10., 25., -50.));
+#212 = CARTESIAN_POINT('', (10., 25., 30.));
+#213 = CARTESIAN_POINT('', (25., 25., -50.));
+#214 = CARTESIAN_POINT('', (25., 25., 30.));
+#215 = CARTESIAN_POINT('', (40., 25., -50.));
+#216 = CARTESIAN_POINT('', (40., 25., 30.));
+#217 = CARTESIAN_POINT('', (40., 40., -50.));
+#218 = CARTESIAN_POINT('', (40., 40., 30.));
+#219 = DRAUGHTING_MODEL('', (#227), #230);
+#220 = PRESENTATION_STYLE_ASSIGNMENT((#221));
+#221 = SURFACE_STYLE_USAGE(.POSITIVE., #222);
+#222 = SURFACE_SIDE_STYLE('', (#223));
+#223 = SURFACE_STYLE_FILL_AREA(#224);
+#224 = FILL_AREA_STYLE('', (#225));
+#225 = FILL_AREA_STYLE_COLOUR('', #226);
+#226 = COLOUR_RGB('', 0.50196078431373, 0.50196078431373, 0.50196078431373);
+#227 = STYLED_ITEM('', (#220), #1);
+#228 = CARTESIAN_POINT('Origin', (0., 0., 0.));
+#229 = GEOMETRIC_SET('', (#228));
+#230 = (
+   GEOMETRIC_REPRESENTATION_CONTEXT (3)
+   GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT ((#232))
+   GLOBAL_UNIT_ASSIGNED_CONTEXT ((#231, #233, #234))
+   REPRESENTATION_CONTEXT ('', '3D')
+);
+#231 = (
+   LENGTH_UNIT ()
+   NAMED_UNIT (*)
+   SI_UNIT (.MILLI., .METRE.)
+);
+#232 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-6), #231, 'DISTANCE_ACCURACY_VALUE', '');
+#233 = (
+   NAMED_UNIT (*)
+   SI_UNIT ($, .STERADIAN.)
+   SOLID_ANGLE_UNIT ()
+);
+#234 = (
+   NAMED_UNIT (*)
+   PLANE_ANGLE_UNIT ()
+   SI_UNIT ($, .RADIAN.)
+);
+#235 = SHAPE_REPRESENTATION('', (#250), #230);
+#236 = PRODUCT_DEFINITION_SHAPE('', '', #237);
+#237 = PRODUCT_DEFINITION('', '', #240, #244);
+#238 = APPLICATION_CONTEXT('configuration controlled 3D designs of mechanical parts and assemblies');
+#239 = APPLICATION_PROTOCOL_DEFINITION('International Standard', 'automotive_design', 2002, #238);
+#240 = PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('', '', #241, .NOT_KNOWN.);
+#241 = PRODUCT('OrderV2', 'OrderV2', '', (#242));
+#242 = PRODUCT_CONTEXT('', #238, 'mechanical');
+#243 = PRODUCT_RELATED_PRODUCT_CATEGORY('detail', '', (#241));
+#244 = PRODUCT_DEFINITION_CONTEXT('part definition', #238, 'design');
+#245 = SHAPE_DEFINITION_REPRESENTATION(#236, #235);
+#246 = SHAPE_REPRESENTATION_RELATIONSHIP('', '', #235, #247);
+#247 = SHAPE_REPRESENTATION('', (#229), #230);
+#248 = SHAPE_REPRESENTATION_RELATIONSHIP('', '', #235, #249);
+#249 = ADVANCED_BREP_SHAPE_REPRESENTATION('', (#1), #230);
+#250 = AXIS2_PLACEMENT_3D('', #251, #252, #253);
+#251 = CARTESIAN_POINT('', (0., 0., 0.));
+#252 = DIRECTION('', (0., 0., 1.));
+#253 = DIRECTION('', (1., 0., 0.));
+ENDSEC;
+END-ISO-10303-21;

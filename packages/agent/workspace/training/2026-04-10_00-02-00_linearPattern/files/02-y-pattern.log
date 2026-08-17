@@ -1,0 +1,8 @@
+[02] rectangle: [ 58, 64, 70, 76 ]
+[02] rigidSet: 92
+[02] maxLevel: 31
+[02] constraint: 136
+[02] dimensions: [ null, 138 ]
+[02] geometry count: 4
+[02] geometry: [ 92, 106, 120, 134 ]
+[filewrite] files/02-y-pattern-y-pattern-result.json (119 bytes)

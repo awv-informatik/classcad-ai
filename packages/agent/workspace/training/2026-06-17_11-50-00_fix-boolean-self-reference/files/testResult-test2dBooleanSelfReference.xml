@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="17.6.2026" startTime="12:18:35." endTime="12:18:35.">
+  <FailedTests></FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[BaseModeling.api] CurveAPITest_v1.test2dBooleanSelfReference</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>1</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

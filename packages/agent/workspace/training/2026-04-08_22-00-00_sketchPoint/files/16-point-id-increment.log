@@ -1,0 +1,9 @@
+[16] point 0 id: 58
+[16] point 1 id: 60
+[16] point 2 id: 62
+[16] point 3 id: 64
+[16] point 4 id: 66
+[16] point 5 id: 68
+[16] IDs: 58, 60, 62, 64, 66, 68
+[16] deltas: 2, 2, 2, 2, 2
+[filewrite] files/16-point-id-increment-id-pattern.json (118 bytes)

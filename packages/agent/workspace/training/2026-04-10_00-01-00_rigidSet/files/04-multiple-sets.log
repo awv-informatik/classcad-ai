@@ -1,0 +1,5 @@
+[04] rigidSet1 — result: 80 maxLevel: 31
+[04] rigidSet2 — result: 82 maxLevel: 31
+[04] rigidSet3 (shared geom) — result: 84 maxLevel: 31
+[04] rigidSet3 messages: []
+[filewrite] files/04-multiple-sets-multiple-sets.json (181 bytes)

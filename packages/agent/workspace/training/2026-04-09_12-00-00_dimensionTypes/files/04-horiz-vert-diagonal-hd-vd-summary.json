@@ -1,0 +1,130 @@
+[
+  {
+    "id": 86,
+    "name": "hd-diag",
+    "startPt": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    },
+    "endPt": {
+      "x": 80,
+      "y": 60,
+      "z": 0
+    },
+    "angle": 0,
+    "orientationType": 1
+  },
+  {
+    "id": 90,
+    "name": "vd-diag",
+    "startPt": {
+      "x": 10,
+      "y": 20,
+      "z": 0
+    },
+    "endPt": {
+      "x": 80,
+      "y": 60,
+      "z": 0
+    },
+    "angle": 1.5707963267948966,
+    "orientationType": 0
+  },
+  {
+    "id": 94,
+    "name": "hd-horiz",
+    "startPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    },
+    "angle": 0,
+    "orientationType": 1
+  },
+  {
+    "id": 98,
+    "name": "vd-vert",
+    "startPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 0,
+      "y": 80,
+      "z": 0
+    },
+    "angle": 1.5707963267948966,
+    "orientationType": 0
+  },
+  {
+    "id": 102,
+    "name": "hd-on-vert",
+    "startPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 0,
+      "y": 80,
+      "z": 0
+    },
+    "angle": 0,
+    "orientationType": 1
+  },
+  {
+    "id": 106,
+    "name": "vd-on-horiz",
+    "startPt": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "endPt": {
+      "x": 100,
+      "y": 0,
+      "z": 0
+    },
+    "angle": 1.5707963267948966,
+    "orientationType": 0
+  },
+  {
+    "id": 110,
+    "name": "hd-2pts",
+    "startPt": {
+      "x": 30,
+      "y": 10,
+      "z": 0
+    },
+    "endPt": {
+      "x": 70,
+      "y": 50,
+      "z": 0
+    },
+    "angle": 0,
+    "orientationType": 1
+  },
+  {
+    "id": 114,
+    "name": "vd-2pts",
+    "startPt": {
+      "x": 30,
+      "y": 10,
+      "z": 0
+    },
+    "endPt": {
+      "x": 70,
+      "y": 50,
+      "z": 0
+    },
+    "angle": 1.5707963267948966,
+    "orientationType": 0
+  }
+]

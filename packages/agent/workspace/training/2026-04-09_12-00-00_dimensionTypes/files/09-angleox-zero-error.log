@@ -1,0 +1,7 @@
+[09] horizontal line: 58
+[09] ANGLEOX 0°: 68 maxLevel= 51
+[09] messages: [{"api":"v1.sketch.dimension","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in aox-0.SetSE:Division by zero!] "}]
+[09] ANGLEOX ~1°: 76 maxLevel= 31
+[09] ANGLEOX reversed horiz: 86 maxLevel= 31
+[09] ANGLEOX down: 98 maxLevel= 31
+[filewrite] files/09-angleox-zero-error-aox-0-error.json (240 bytes)

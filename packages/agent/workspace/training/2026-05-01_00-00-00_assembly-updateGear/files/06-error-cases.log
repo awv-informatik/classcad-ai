@@ -1,0 +1,12 @@
+[06] assembly ID as gear ID — result: null maxLevel: 51
+[06] error msg: The provided id for the constraint is not a constraint or relation. code: 1007
+[06] nonexistent ID — result: null maxLevel: 51
+[06] error msg: ToId()/TOID() didn't get an existing or valid id. code: 0
+[06] revolute ID as gear ID — result: 255 maxLevel: 51
+[06] error msg: [Evaluation error in OperationsHelper.UpdateGearRelation:[CCVM::lcm: Function SetRelationParams not found]]  code: 0
+[06] fastened as constr1Id — result: null maxLevel: 51
+[06] error msg: The parameter "constr1Id" has a wrong id type! Provide only following id types: ["revoluteconstraint"] code: 1001
+[06] missing id — result: null maxLevel: 51
+[06] error msg: "id" must be provided for update. code: 1004
+[06] gear after errors — ratio: 1 offset: 0 (should be 1, 0)
+[filewrite] files/06-error-cases-error-cases.json (2218 bytes)

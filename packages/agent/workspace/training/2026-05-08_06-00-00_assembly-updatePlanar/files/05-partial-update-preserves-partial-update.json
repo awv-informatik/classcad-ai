@@ -1,0 +1,41 @@
+{
+  "before": {
+    "zOffset": 25,
+    "xOffsetLimits": {
+      "max": 50,
+      "min": 10
+    },
+    "yOffsetLimits": {
+      "max": 40,
+      "min": 5
+    },
+    "zRotationLimits": {
+      "max": 0,
+      "min": 0
+    }
+  },
+  "after": {
+    "zOffset": 50,
+    "xOffsetLimits": {
+      "max": 50,
+      "min": 10
+    },
+    "yOffsetLimits": {
+      "max": 40,
+      "min": 5
+    },
+    "zRotationLimits": {
+      "max": 0,
+      "min": 0
+    }
+  },
+  "zOffsetChanged": true,
+  "xLimitsPreserved": true,
+  "yLimitsPreserved": true,
+  "zRotPreserved": true,
+  "cogAfter": {
+    "x": 25.001000000000005,
+    "y": 15.000999999999994,
+    "z": 57.5
+  }
+}

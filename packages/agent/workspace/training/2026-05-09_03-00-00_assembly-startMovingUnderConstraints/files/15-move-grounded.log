@@ -1,0 +1,7 @@
+[15] COG before: {"x":25,"y":20,"z":5}
+[15] start: null maxLevel: 31
+[15] move: null maxLevel: 31
+[filewrite] files/15-move-grounded-move-grounded.json (56 bytes)
+[15] COG after: {"x":25,"y":20,"z":5}
+[15] COG after translation attempt: {"x":25,"y":20,"z":5}
+[filewrite] files/15-move-grounded-grounded-motion.json (318 bytes)

@@ -1,0 +1,4 @@
+[05] circle: 58
+[05] maxLevel: 31
+[05] result: {"constraint":73,"dimensions":[75,null],"geometry":[63,67,71]}
+[filewrite] files/05-single-geom-id-single-geom-full.json (180 bytes)

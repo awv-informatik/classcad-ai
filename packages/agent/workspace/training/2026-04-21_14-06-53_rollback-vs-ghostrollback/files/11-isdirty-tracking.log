@@ -1,0 +1,7 @@
+[11] 1-baseline: editFeatureIndex=-1 isDirty=0
+[11] 2-after-open: editFeatureIndex=7 isDirty=0
+[11] 3-after-update: editFeatureIndex=7 isDirty=1
+[11] 4-after-second-update: editFeatureIndex=7 isDirty=1
+[11] 5-after-close: editFeatureIndex=-1 isDirty=0
+[11] 6-open-cyl-no-update: editFeatureIndex=8 isDirty=0
+[11] 7-close-cyl-no-update: editFeatureIndex=-1 isDirty=0

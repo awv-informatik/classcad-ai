@@ -1,0 +1,20 @@
+{
+  "raw": {
+    "result": {
+      "id": 4
+    },
+    "maxLevel": 31
+  },
+  "b64": {
+    "result": {
+      "id": 4
+    },
+    "maxLevel": 31
+  },
+  "deflateB64": {
+    "result": {
+      "id": 4
+    },
+    "maxLevel": 31
+  }
+}

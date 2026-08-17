@@ -1,0 +1,3 @@
+[06] maxLevels: {"fix":31,"rel":31,"eq":31,"dim":31,"ang":31}
+[filewrite] files/06-eq-cross-gen-off-compare-exact.json (8189 bytes)
+[06] maxErr: 2.842170943040401e-14 ✓ PASS — 04 finding was auto-dupe confounded

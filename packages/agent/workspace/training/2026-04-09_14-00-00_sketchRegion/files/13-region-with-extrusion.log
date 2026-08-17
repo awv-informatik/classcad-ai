@@ -1,0 +1,4 @@
+[13] region id: 92
+[13] extrusion with region ID — result: 96 maxLevel: 51
+[13] extrusion with region ID — messages: [{"api":"v1.part.extrusion","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Sketch.GetNormal:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "}]
+[filewrite] files/13-region-with-extrusion-extrusion-with-region.json (402 bytes)

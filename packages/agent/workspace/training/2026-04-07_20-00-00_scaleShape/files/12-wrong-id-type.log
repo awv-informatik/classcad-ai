@@ -1,0 +1,6 @@
+[12] EI ID result: null maxLevel: 51
+[12] EI messages: [{"api":"v1.curve.scaleShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/12-wrong-id-type-ei-id-response.json (279 bytes)
+[12] part ID result: null maxLevel: 51
+[12] part messages: [{"api":"v1.curve.scaleShape","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[filewrite] files/12-wrong-id-type-part-id-response.json (279 bytes)

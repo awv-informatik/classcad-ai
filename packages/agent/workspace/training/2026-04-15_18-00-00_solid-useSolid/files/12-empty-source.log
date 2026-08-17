@@ -1,0 +1,4 @@
+[12] empty EI: 54
+[12] useSolid from empty EI: result: [] maxLevel: 31
+[12] messages: []
+[filewrite] files/12-empty-source-empty-source.json (54 bytes)

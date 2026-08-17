@@ -1,0 +1,116 @@
+{
+  "before": {
+    "l1": {
+      "start": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "end": {
+        "x": 60,
+        "y": 0,
+        "z": 0
+      },
+      "len": 60
+    },
+    "l2": {
+      "start": {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      },
+      "end": {
+        "x": 30,
+        "y": 30,
+        "z": 0
+      },
+      "len": 30
+    }
+  },
+  "after": {
+    "l1": {
+      "start": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "end": {
+        "x": 30,
+        "y": 0,
+        "z": 0
+      },
+      "len": 30
+    },
+    "l2": {
+      "start": {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      },
+      "end": {
+        "x": 30,
+        "y": 30,
+        "z": 0
+      },
+      "len": 30
+    }
+  },
+  "constraintNode": {
+    "name": "EL",
+    "class": "CC_2DEqualLengthConstraint",
+    "id": 74,
+    "flags": 0,
+    "parent": 52,
+    "members": {
+      "_VERSION": {
+        "value": "1/2011_4_7_12:12",
+        "type": "string",
+        "visible": 0,
+        "expression": ""
+      },
+      "alignment": {
+        "value": -1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      },
+      "entities": {
+        "members": [
+          {
+            "value": 59,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 60,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 69,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          },
+          {
+            "value": 70,
+            "type": "id",
+            "visible": 1,
+            "expression": ""
+          }
+        ],
+        "type": "array",
+        "visible": 1,
+        "expression": ""
+      },
+      "lgsState": {
+        "value": 1,
+        "type": "real",
+        "visible": 1,
+        "expression": ""
+      }
+    }
+  }
+}

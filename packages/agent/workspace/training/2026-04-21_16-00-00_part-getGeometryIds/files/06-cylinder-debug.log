@@ -1,0 +1,8 @@
+[filewrite] files/06-cylinder-debug-cylinder-feature.json (4 bytes)
+[06] circle 77 positions: [{"id":77,"positions":[{"x":-20,"y":2.4492935982947065e-15,"z":60}]}]
+[06] cyl face (2 pts): {"cylinders":[72]} maxLevel: 31
+[06] cyl face (3 pts): {"cylinders":[72]} maxLevel: 31
+[06] top circle [0,20,60]: {"circles":[77]} maxLevel: 31
+[06] top circle [-20,0,60]: {"circles":[77]} maxLevel: 31
+[06] bottom circle center: {"circles":[76]} maxLevel: 31
+[filewrite] files/06-cylinder-debug-debug-results.json (126325 bytes)

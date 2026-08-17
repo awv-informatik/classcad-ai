@@ -1,0 +1,11 @@
+[06] initial LP: {"constraint":123,"instances":[113,125]}
+[06] initial inst 113 COG: {"x":20,"y":15,"z":10}
+[06] initial inst 125 COG: {"x":20,"y":15,"z":70}
+[06] update result: {"constraint":123,"instances":[113,125,160,162]}
+[06] update maxLevel: 31
+[06] updated instances: [113,125,160,162]
+[06] updated inst 113 COG: {"x":20,"y":15,"z":10}
+[06] updated inst 125 COG: {"x":20,"y":14.999999999999998,"z":50}
+[06] updated inst 160 COG: {"x":20,"y":15,"z":90}
+[06] updated inst 162 COG: {"x":20,"y":15,"z":130}
+[filewrite] files/06-update-linear-pattern-update-data.json (265 bytes)

@@ -1,0 +1,5 @@
+[11] sectionId: 64
+[11] deleteSolid result: null
+[11] deleteSolid maxLevel: 31
+[11] deleteSolid messages: []
+[filewrite] files/11-delete-section-delete-response.json (56 bytes)

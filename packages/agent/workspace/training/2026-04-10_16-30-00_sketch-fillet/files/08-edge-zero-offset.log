@@ -1,0 +1,4 @@
+[08] zero offset result: null
+[08] maxLevel: 51
+[08] messages: [{"api":"v1.sketch.fillet","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.AddGeometry:[Invalid arc parameters] \nFunction: OBJ_ErrorMessage\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "},{"api":"v1.sketch.fillet","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketcherHelper.CreateFillet_v1:[CCVM::ldm: objId not found]] "}]
+[filewrite] files/08-edge-zero-offset-zero-offset-response.json (599 bytes)

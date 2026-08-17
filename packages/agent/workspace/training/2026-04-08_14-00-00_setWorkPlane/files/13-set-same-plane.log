@@ -1,0 +1,7 @@
+[13] skId: 60
+[13] before planeRef: 54
+[13] before coordSys: [[0,25,0],[1,0,0],[0,0,-1],[0,1,0]]
+[13] same plane — maxLevel: 31
+[13] after planeRef: 54
+[13] after coordSys: [[0,25,0],[1,0,0],[0,0,-1],[0,1,0]]
+[filewrite] files/13-set-same-plane-same-plane.json (521 bytes)

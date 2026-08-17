@@ -1,0 +1,7 @@
+[06] rectangle result: [58,64,70,76]
+[06] line IDs: [ 58, 64, 70, 76 ]
+[06] line 58: {"endPos":{"x":80,"y":0,"z":0},"startPos":{"x":0,"y":0,"z":0}}
+[06] line 64: {"endPos":{"x":80,"y":50,"z":0},"startPos":{"x":80,"y":0,"z":0}}
+[06] line 70: {"endPos":{"x":0,"y":50,"z":0},"startPos":{"x":80,"y":50,"z":0}}
+[06] line 76: {"endPos":{"x":0,"y":0,"z":0},"startPos":{"x":0,"y":50,"z":0}}
+[filewrite] files/06-rectangle-lines-rectangle-positions.json (634 bytes)

@@ -1,0 +1,7 @@
+[13] vol before update: 24000
+[13] vol after recalc (both contexts): 24000
+[13] template vol: 96000
+[13] i2 vol before: 26999.999999999996
+[13] updateBox from asm context - maxLevel: 31 currentProduct: 197
+[13] i2 vol after (no context switch): 26999.999999999996
+[filewrite] files/13-propagation-clean-propagation-clean.json (227 bytes)

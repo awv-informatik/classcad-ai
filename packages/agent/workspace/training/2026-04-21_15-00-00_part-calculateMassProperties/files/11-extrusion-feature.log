@@ -1,0 +1,8 @@
+[11] extId: 96
+[11] result: {"cog":{"x":25,"y":15,"z":20},"volume":60000.00000000002}
+[11] maxLevel: 31
+[filewrite] files/11-extrusion-feature-extrusion-mass.json (153 bytes)
+[11] expectedVol: 60000
+[11] expectedCog: [25, 15, 20]
+[11] feature result: null
+[11] feature maxLevel: 51

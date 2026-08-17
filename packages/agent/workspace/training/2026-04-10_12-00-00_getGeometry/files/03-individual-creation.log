@@ -1,0 +1,3 @@
+[03] individual IDs — pt: 58 line: 60 circ: 68 arc: 71
+[03] getGeometry result: {"arcs":[71],"circles":[68],"lines":[60],"points":[58]}
+[filewrite] files/03-individual-creation-individual-vs-query.json (331 bytes)

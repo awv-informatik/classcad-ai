@@ -1,0 +1,7 @@
+[01] lineId: 58
+[filewrite] files/01-basic-line-structure-after-line.json (25491 bytes)
+[01] generateAutoConstraints result: null
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-line-auto-result.json (56 bytes)
+[filewrite] files/01-basic-line-structure-after-auto.json (26242 bytes)

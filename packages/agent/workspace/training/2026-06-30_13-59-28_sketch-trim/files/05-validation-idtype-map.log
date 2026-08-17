@@ -1,0 +1,7 @@
+[05] {"label":"idPart","maxLevel":51,"code":1001,"list":"[\"sketch\"]","msg":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}
+[05] {"label":"idPoint","maxLevel":51,"code":1001,"list":"[\"sketch\"]","msg":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"}
+[05] {"label":"cidSketch","maxLevel":51,"code":1001,"list":"[\"sketch-curve\"]","msg":"The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}
+[05] {"label":"cidPoint","maxLevel":51,"code":1001,"list":"[\"sketch-curve\"]","msg":"The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}
+[05] {"label":"cidConstraint","maxLevel":51,"code":1001,"list":"[\"sketch-curve\"]","msg":"The parameter \"curveIds\" has a wrong id type! Provide only following id types: [\"sketch-curve\"]"}
+[filewrite] files/05-validation-idtype-map-05-idtype.json (1221 bytes)
+[05] id type-list: ["sketch"] | curveIds type-list: ["sketch-curve"]

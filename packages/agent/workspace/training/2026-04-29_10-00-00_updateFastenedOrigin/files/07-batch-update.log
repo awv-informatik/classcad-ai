@@ -1,0 +1,7 @@
+[07] fo1: 121 fo2: 125
+[07] batch result: [121,125]
+[07] batch maxLevel: 31
+[filewrite] files/07-batch-update-batch-response.json (74 bytes)
+[07] fo1 — xOffset: 100 zRotation: 0.7853981633974483
+[07] fo2 — yOffset: -30 name: FO2_Renamed
+[filewrite] files/07-batch-update-batch-verification.json (606 bytes)

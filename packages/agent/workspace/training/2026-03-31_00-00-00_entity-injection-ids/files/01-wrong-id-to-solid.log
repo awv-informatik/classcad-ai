@@ -1,0 +1,4 @@
+[01] partId: 4
+[01] solid.box with partId — result: null maxLevel: 51
+[01] message: The parameter "id" has a wrong id type! Provide only following id types: ["entityinjection"] level: 51 code: 1001
+[filewrite] files/01-wrong-id-to-solid-solid-box-with-part-id.json (282 bytes)

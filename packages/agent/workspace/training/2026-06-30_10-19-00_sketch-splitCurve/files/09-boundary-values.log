@@ -1,0 +1,6 @@
+[filewrite] files/09-boundary-values-09-v0.json (361 bytes)
+[09] values=[0] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":58,"segs":2,"intervals":[[0,0],[0,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} degenerate=[{"id":66,"interval":[0,0],"startEqEnd":true}]
+[filewrite] files/09-boundary-values-09-v1.json (361 bytes)
+[09] values=[1] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":81,"segs":2,"intervals":[[0,1],[1,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} degenerate=[{"id":91,"interval":[1,1],"startEqEnd":true}]
+[filewrite] files/09-boundary-values-09-v01.json (478 bytes)
+[09] values=[0,1] {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":1,"perEntry":[{"sourceId":101,"segs":3,"intervals":[[0,0],[0,1],[1,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]} degenerate=[{"id":107,"interval":[0,0],"startEqEnd":true},{"id":115,"interval":[1,1],"startEqEnd":true}]

@@ -1,0 +1,7 @@
+[05] STP save success: 1
+[05] Load asPart result: {"id":6}
+[05] Load asPart maxLevel: 51
+[filewrite] files/05-stp-aspart-stp-aspart-response.json (308 bytes)
+[filewrite] files/05-stp-aspart-stp-aspart-structure.json (21689 bytes)
+[05] Load default result: {"id":12}
+[filewrite] files/05-stp-aspart-stp-default-structure.json (22343 bytes)

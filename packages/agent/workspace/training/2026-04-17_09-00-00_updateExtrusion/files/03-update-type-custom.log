@@ -1,0 +1,6 @@
+[03] update to CUSTOM: 96 maxLevel: 31
+[filewrite] files/03-update-type-custom-custom-response.json (54 bytes)
+[03] update direction only: 96 maxLevel: 31
+[filewrite] files/03-update-type-custom-direction-only-response.json (54 bytes)
+[03] update limit1=20: 96 maxLevel: 31
+[filewrite] files/03-update-type-custom-limit1-response.json (54 bytes)

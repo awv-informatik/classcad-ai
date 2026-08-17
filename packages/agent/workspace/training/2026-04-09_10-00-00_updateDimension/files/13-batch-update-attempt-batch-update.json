@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.sketch.updateDimension",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in SketchAPI_v1.updateDimension::PROC:[CCVM::ldm: objId not found]] "
+    }
+  ],
+  "maxLevel": 51
+}

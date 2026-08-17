@@ -1,0 +1,6 @@
+[04] wpId: 54
+[04] workPlane ref result: null maxLevel: 51
+[04] workPlane ref messages: [{"api":"v1.part.cylinder","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]"}]
+[filewrite] files/04-references-bad-id-bad-ref-workplane.json (287 bytes)
+[04] empty ref result: 68 maxLevel: 31
+[filewrite] files/04-references-bad-id-empty-ref.json (54 bytes)

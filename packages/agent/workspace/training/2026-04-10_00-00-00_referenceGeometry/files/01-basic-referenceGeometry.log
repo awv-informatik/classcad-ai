@@ -1,0 +1,12 @@
+[01] boxId: 54
+[01] getGeometryIds result: {"lines":[75,78,76],"planes":[84]}
+[01] getGeometryIds maxLevel: 31
+[filewrite] files/01-basic-referenceGeometry-brep-ids.json (69 bytes)
+[01] sketchId: 89
+[01] edge IDs to project: [ 75, 78, 76 ]
+[01] referenceGeometry result: null
+[01] referenceGeometry maxLevel: 51
+[01] referenceGeometry messages: [{"api":"v1.sketch.referenceGeometry","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in RefSketch.CreateUseGeometry:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "}]
+[filewrite] files/01-basic-referenceGeometry-refgeo-response.json (380 bytes)
+[01] sketch geometry after referenceGeometry: {"arcs":[],"circles":[],"lines":[],"points":[]}
+[filewrite] files/01-basic-referenceGeometry-sketch-geometry.json (64 bytes)

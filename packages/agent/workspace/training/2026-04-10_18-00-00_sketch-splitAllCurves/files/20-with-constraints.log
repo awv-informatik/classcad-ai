@@ -1,0 +1,9 @@
+[20] l1: 58 l2: 62
+[20] result: [76,80,84,88]
+[20] maxLevel: 31
+[20] result length: 4
+[20] segment 76 : CC_Line Line_part0
+[20] segment 80 : CC_Line Line_part1
+[20] segment 84 : CC_Line Line0_part0
+[20] segment 88 : CC_Line Line0_part1
+[filewrite] files/20-with-constraints-constrained-response.json (70 bytes)

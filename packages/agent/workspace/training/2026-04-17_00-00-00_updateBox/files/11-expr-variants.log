@@ -1,0 +1,7 @@
+[11] box with @expr.H — boxId: null
+[11] updateBox(@expr.H) — result: null maxLevel: 51
+[filewrite] files/11-expr-variants-expr-single-response.json (226 bytes)
+[11] updateBox("H") — result: null maxLevel: 51
+[filewrite] files/11-expr-variants-bare-name-response.json (226 bytes)
+[11] updateBox("100") — result: null maxLevel: 51
+[filewrite] files/11-expr-variants-numeric-string-response.json (226 bytes)

@@ -1,0 +1,6 @@
+[06] A subset[H,V] exclude D: {"len":2,"hSegs":2,"hCut":[50,50,0]} | D not a cutter => H has 2 segs cut only at (50,50)
+[06] B single curveIds: {"len":1,"segs":1,"interval":[0,1],"idReused":true}
+[06] C empty-array curveIds: {"isArray":true,"len":2,"segCounts":[2,2]} {"maxLevel":31,"nMessages":0,"resultIsArray":true,"nEntries":2,"perEntry":[{"sourceId":126,"segs":2,"intervals":[[0,0.49999999999999983],[0.49999999999999983,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]},{"sourceId":132,"segs":2,"intervals":[[0,0.49999999999999983],[0.49999999999999983,1]],"keys":["sourceId","splittedCurves"],"segKeys":["id","interval"]}]}
+[filewrite] files/06-curveids-cutter-and-edges-06-edges.json (1715 bytes)
+[06] CHECKS {"A_excludedNotCutter":true,"B_singleNoSplit":true,"C_emptyMeansAll":true}
+[06] PASS

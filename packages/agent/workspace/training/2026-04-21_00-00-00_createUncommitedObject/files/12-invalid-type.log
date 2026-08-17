@@ -1,0 +1,22 @@
+[12] "INVALID": result=null maxLevel=51 msg=[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: INVALID
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[12] "Box": result=null maxLevel=51 msg=[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: Box
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[12] "cc_box": result=null maxLevel=51 msg=[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: cc_box
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[12] "CC_BOX": result=null maxLevel=51 msg=[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_BOX
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[12] "CC_box": result=null maxLevel=51 msg=[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: CC_box
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[12] "": result=null maxLevel=51 msg=[Evaluation error in BaseModelingCommonFuncs.AddOperation:Creation an object of a non-existent class: 
+Function: OBJ_AppendNewObj
+File: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 7169] 
+[12] "CC_Part": result=52 maxLevel=31 msg=none
+[12] "CC_OperationSequence": result=null maxLevel=51 msg=There is still an uncommited feature called "Test", 
+			please commit or decline the feature first.
+[filewrite] files/12-invalid-type-invalid-types.json (2147 bytes)

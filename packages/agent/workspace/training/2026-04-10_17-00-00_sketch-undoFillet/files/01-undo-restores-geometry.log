@@ -1,0 +1,7 @@
+[filewrite] files/01-undo-restores-geometry-geo-before.json (98 bytes)
+[01] fillet result: [94,92,96,95] maxLevel: 31
+[filewrite] files/01-undo-restores-geometry-geo-after-fillet.json (118 bytes)
+[01] undoFillet result: null maxLevel: 31 messages: []
+[filewrite] files/01-undo-restores-geometry-geo-after-undo.json (98 bytes)
+[01] element counts — before: 0 after fillet: 0 after undo: 0
+[filewrite] files/01-undo-restores-geometry-element-counts.json (70 bytes)

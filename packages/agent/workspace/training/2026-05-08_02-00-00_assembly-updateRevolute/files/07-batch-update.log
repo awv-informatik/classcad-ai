@@ -1,0 +1,7 @@
+[07] rev1: 218 rev2: 222
+[07] batch result: [218,222] maxLevel: 31
+[07] hinge1 name: BatchHinge1 zOffset: 15
+[07] hinge2 name: BatchHinge2 zOffset: 30 limits: {"max":0.7853981633974483,"min":-0.7853981633974483}
+[07] inst2 COG (zOffset=15): {"x":40,"y":10,"z":19}
+[07] inst3 COG (zOffset=30): {"x":39.999999999999986,"y":9.999999999999996,"z":33.99999999999999}
+[filewrite] files/07-batch-update-batch-data.json (1000 bytes)

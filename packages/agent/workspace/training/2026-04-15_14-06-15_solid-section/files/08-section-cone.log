@@ -1,0 +1,7 @@
+[08] coneId: 61
+[08] section result: 64 maxLevel: 31
+[filewrite] files/08-section-cone-graphic.json (4559 bytes)
+[08] container id: 62 edges: 1
+[08]   edge id: -12 points: 65
+[08] bbox min: [-5.741182,0,0]
+[08] bbox max: [12.5,12.5,0]

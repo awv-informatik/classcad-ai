@@ -1,0 +1,7 @@
+[04] tplA: 22 wcsA: 107
+[04] tplB: 113 wcsB: 198
+[04] inst1: 204 inst2: 206
+[04] COG before: {"x":120.00000000000003,"y":15,"z":10}
+[04] fastened: 272 maxLevel: 31
+[04] COG after: {"x":20,"y":15,"z":10}
+[filewrite] files/04-csys-position-mass-comparison.json (244 bytes)

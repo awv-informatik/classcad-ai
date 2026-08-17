@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.assembly.deleteTemplate",
+      "code": 1001,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"ids\" has a wrong id type! Provide only following id types: [\"part/assembly\"]"
+    }
+  ],
+  "maxLevel": 51
+}

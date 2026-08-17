@@ -1,0 +1,9 @@
+[04] bracket MatePoint WCS: 107
+[04] bolt Base WCS: 180
+[04] bracketInst: 186 boltInst: 188
+[04] bracketMate (looked up): 107 === template WCS? true
+[04] boltBaseMate (looked up): 180 === template WCS? true
+[04] fastened result: 234 maxLevel: 31
+[04] bracketCog: undefined
+[04] boltCog: undefined
+[filewrite] files/04-practical-constraint-usage-constraint-usage.json (121 bytes)

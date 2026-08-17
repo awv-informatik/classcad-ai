@@ -1,0 +1,4 @@
+[05] mixed query result: {"lines":[98],"planes":[115],"points":[90]} maxLevel: 31
+[filewrite] files/05-mixed-query-mixed-query-result.json (80 bytes)
+[05] result keys: lines, planes, points
+[05] empty lines + top face: {"planes":[115]} maxLevel: 31

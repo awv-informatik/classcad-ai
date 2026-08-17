@@ -1,0 +1,4 @@
+[01] partId: 4 boxId: 54
+[01] setAppearance result: null maxLevel: 31
+[filewrite] files/01-basic-color-set-result.json (56 bytes)
+[filewrite] files/01-basic-color-vis-graphic.json (4 bytes)

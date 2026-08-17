@@ -1,0 +1,9 @@
+[10] missing radius2: null maxLevel: 51
+[10] messages: [{"api":"v1.curve.ellipticArc","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"radius2\" must be provided in the api call!"}]
+[10] missing startAngle: null maxLevel: 51
+[10] messages: [{"api":"v1.curve.ellipticArc","code":1004,"level":51,"levelStr":"ERROR","message":"The parameter \"startAngle\" must be provided in the api call!"}]
+[10] wrong id type: null maxLevel: 51
+[10] messages: [{"api":"v1.curve.ellipticArc","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"shape\"]"}]
+[10] 2D point: null maxLevel: 51
+[10] messages: [{"api":"v1.curve.ellipticArc","code":0,"level":51,"levelStr":"ERROR","message":"If point is defined as array, it must have exactly 3 real values"}]
+[filewrite] files/10-missing-params-error-responses.json (1223 bytes)

@@ -1,0 +1,9 @@
+[05] lineId: 58
+[05] splitCurves result: [[64,68]]
+[05] geometry after splitCurves: undefined items
+[05] mergeBack result: null
+[05] mergeBack maxLevel: 31
+[05] mergeBack messages: []
+[filewrite] files/05-after-splitCurves-mergeBack-after-manual-split.json (56 bytes)
+[05] geometry after mergeBack: undefined items
+[filewrite] files/05-after-splitCurves-geometry-after-mergeBack.json (95 bytes)

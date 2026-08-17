@@ -1,0 +1,5 @@
+[06] [0,0,0] → result: null maxLevel: 31 dimPt: {"x":0,"y":0,"z":0}
+[06] [99999,99999,0] → result: null maxLevel: 31 dimPt: {"x":99999,"y":99999,"z":0}
+[06] [-100,-200,0] → result: null maxLevel: 31 dimPt: {"x":-100,"y":-200,"z":0}
+[06] [40,25,50] Z≠0 → result: null maxLevel: 51 dimPt: {"x":-100,"y":-200,"z":0}
+[filewrite] files/06-extreme-positions-extreme-positions.json (509 bytes)

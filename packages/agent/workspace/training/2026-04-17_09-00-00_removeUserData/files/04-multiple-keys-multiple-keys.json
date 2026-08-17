@@ -1,0 +1,19 @@
+{
+  "keysBefore": [
+    "d",
+    "b",
+    "c",
+    "a"
+  ],
+  "keysAfter": [
+    "d",
+    "a"
+  ],
+  "remaining": {
+    "a": "1",
+    "d": "4"
+  },
+  "removed": {
+    "b": "__GONE__"
+  }
+}

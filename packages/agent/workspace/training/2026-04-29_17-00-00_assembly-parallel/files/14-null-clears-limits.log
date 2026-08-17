@@ -1,0 +1,8 @@
+[14] initial xOff: {"max":10,"min":-10}
+[14] initial yOff: {"max":5,"min":-5}
+[14] null update result: 212 maxLevel: 31
+[14] after null - xOff: {"max":null,"min":null}
+[14] after null - yOff: {"max":5,"min":-5}
+[14] after null - zOff: {"max":20,"min":0}
+[14] after null - zRot: {"max":1.5708,"min":0}
+[filewrite] files/14-null-clears-limits-after-null-update.json (470 bytes)

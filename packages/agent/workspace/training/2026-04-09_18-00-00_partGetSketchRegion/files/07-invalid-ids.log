@@ -1,0 +1,5 @@
+[07] sketch ID: null maxLevel: 51
+[07] sketch ID messages: [{"api":"v1.part.getSketchRegion","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part\",\"instance\"]"}]
+[07] curve ID: null maxLevel: 51
+[07] fake ID: null maxLevel: 51
+[filewrite] files/07-invalid-ids-invalid-ids.json (1156 bytes)

@@ -1,0 +1,6 @@
+[02] COG no limits: {"x":15,"y":10,"z":19.5}
+[02] update xOffsetLimits result: 216 maxLevel: 31
+[02] COG with xOffsetLimits [20,60]: {"x":35.001000000000005,"y":10,"z":19.5}
+[02] update xOffsetLimits [40,80] result: 216 maxLevel: 31
+[02] COG with xOffsetLimits [40,80]: {"x":55.00100000000002,"y":10.000000000000002,"z":19.499999999999996}
+[filewrite] files/02-update-xOffsetLimits-xOffsetLimits-update.json (382 bytes)

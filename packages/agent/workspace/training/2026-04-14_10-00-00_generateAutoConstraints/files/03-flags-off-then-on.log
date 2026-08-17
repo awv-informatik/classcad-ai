@@ -1,0 +1,9 @@
+[03] constraints before: 2
+[filewrite] files/03-flags-off-then-on-constraints-before.json (172 bytes)
+[03] autoGen diagonal: result=null maxLevel=31 constraints=2
+[03] autoGen horiz: result=null maxLevel=31 constraints=2
+[03] autoGen vert: result=null maxLevel=31 constraints=2
+[03] constraints after all autoGen: 2
+[03] new constraints: 0
+[filewrite] files/03-flags-off-then-on-new-constraints.json (2 bytes)
+[filewrite] files/03-flags-off-then-on-constraints-after.json (172 bytes)

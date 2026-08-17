@@ -1,0 +1,23 @@
+{
+  "before": {
+    "instances": [
+      105
+    ]
+  },
+  "deleteResult": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "after": {
+    "instances": null,
+    "instancesMaxLevel": 51,
+    "templates": [
+      22
+    ],
+    "newInstance": {
+      "result": null,
+      "maxLevel": 51
+    }
+  }
+}

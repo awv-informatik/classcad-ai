@@ -1,0 +1,20 @@
+[
+  {
+    "mode": 0,
+    "box": 2769,
+    "sphere": 134823,
+    "cylinder": 12294
+  },
+  {
+    "mode": 1,
+    "box": 0,
+    "sphere": 0,
+    "cylinder": 0
+  },
+  {
+    "mode": 2,
+    "box": 0,
+    "sphere": 0,
+    "cylinder": 0
+  }
+]

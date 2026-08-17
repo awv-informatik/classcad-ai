@@ -1,0 +1,5 @@
+[09] new root: 172
+[09] setCurrentProduct to oldRoot: 172 maxLevel: 31
+[09] add cyl to converted template: 182 maxLevel: 31
+[09] converted template instances: [ 170, 182 ]
+[filewrite] files/09-work-inside-converted-work-inside.json (92 bytes)

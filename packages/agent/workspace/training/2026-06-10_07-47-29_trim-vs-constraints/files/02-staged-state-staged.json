@@ -1,0 +1,13 @@
+{
+  "before": {
+    "constraints": 5,
+    "dims": 4,
+    "splitContainers": 0
+  },
+  "after": {
+    "constraints": 5,
+    "dims": 4,
+    "splitContainers": 2
+  },
+  "segCount": 4
+}

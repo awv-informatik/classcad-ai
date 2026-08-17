@@ -1,0 +1,6 @@
+[06a] zero xDist, xCount=3: maxLevel: 31
+[filewrite] files/06-zero-dist-detail-zero-xdist-full.json (180 bytes)
+[06b] zero yDist, yCount=3: maxLevel: 51
+[filewrite] files/06-zero-dist-detail-zero-ydist-full.json (262 bytes)
+[06c] zero xDist + valid yDist: maxLevel: 51
+[filewrite] files/06-zero-dist-detail-zero-mixed-full.json (262 bytes)

@@ -1,0 +1,12 @@
+{
+  "clearEmpty": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "doubleClear": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

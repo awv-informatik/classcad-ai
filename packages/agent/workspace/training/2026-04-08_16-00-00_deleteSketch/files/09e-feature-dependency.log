@@ -1,0 +1,9 @@
+[09e] rectangle lines: [ 58, 64, 70, 76 ]
+[09e] extrusion result: 94 maxLevel: 31
+[filewrite] files/09e-feature-dependency-extrusion-response.json (54 bytes)
+[09e] containers: 1 meshes: 6
+[09e] delete result: null maxLevel: 51
+[09e] delete messages: [{"api":"v1.sketch.deleteSketch","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in PreCheckVisitor.VisitRegionBasedOperation:CCObject 98 can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/Grundklassen.cpp,     Line: 4493] "},{"api":"v1.sketch.deleteSketch","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Extrusion.CreateCCOperation:CCObject 98 can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/Grundklassen.cpp,     Line: 4493] "}]
+[filewrite] files/09e-feature-dependency-delete-response.json (700 bytes)
+[09e] remaining sketch/extrusion nodes: [{"id":14,"name":"SketchSet","class":"CC_SketchSet"},{"id":94,"name":"Extrusion","class":"CC_Extrusion"}]
+[filewrite] files/09e-feature-dependency-remaining-nodes.json (154 bytes)

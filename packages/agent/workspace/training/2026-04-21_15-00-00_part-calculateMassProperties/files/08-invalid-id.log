@@ -1,0 +1,12 @@
+[08] invalidId result: null
+[08] invalidId maxLevel: 51
+[08] invalidId messages: [{"api":"v1.part.calculateMassProperties","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.calculateMassProperties","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"id\" has an invalid id!"}]
+[08] zeroId result: null
+[08] zeroId maxLevel: 51
+[08] sketchId result: null
+[08] sketchId maxLevel: 51
+[08] sketchId messages: [{"api":"v1.part.calculateMassProperties","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"}]
+[08] workPlane result: null
+[08] workPlane maxLevel: 51
+[08] workPlane messages: [{"api":"v1.part.calculateMassProperties","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"id\" has a wrong id type! Provide only following id types: [\"part/assembly\",\"instance\",\"solid\"]"}]
+[filewrite] files/08-invalid-id-invalid-ids.json (1523 bytes)

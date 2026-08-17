@@ -1,0 +1,5 @@
+[filewrite] files/07-tree-vs-fetch-cached.json (22980 bytes)
+[filewrite] files/07-tree-vs-fetch-fresh.json (22980 bytes)
+[07] cached length: 11625
+[07] fresh length:  11625
+[07] cached === fresh: ✓

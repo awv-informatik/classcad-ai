@@ -1,0 +1,22 @@
+{
+  "emptyName": {
+    "result": 52,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "longName": {
+    "result": 58,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "specialChars": {
+    "result": 64,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "numericName": {
+    "result": 70,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

@@ -1,0 +1,4 @@
+[03] before remove: a= alpha b= beta
+[03] after remove a: __GONE__ b still: beta
+[03] after clear: b= __GONE__ c= __GONE__
+[filewrite] files/03-after-remove-clear-after-remove-clear.json (187 bytes)

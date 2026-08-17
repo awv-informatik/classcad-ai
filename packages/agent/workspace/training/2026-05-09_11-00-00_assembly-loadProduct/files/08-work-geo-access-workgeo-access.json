@@ -1,0 +1,22 @@
+{
+  "asmOnTemplate": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "partOnTemplate": {
+    "result": 76,
+    "maxLevel": 31
+  },
+  "partOnTop": {
+    "result": 39,
+    "maxLevel": 31
+  },
+  "asmOnAsm": {
+    "result": 20,
+    "maxLevel": 31
+  },
+  "asmOnInstance": {
+    "result": 76,
+    "maxLevel": 31
+  }
+}

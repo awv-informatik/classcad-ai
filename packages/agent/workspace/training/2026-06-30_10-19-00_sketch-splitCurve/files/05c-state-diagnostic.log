@@ -1,0 +1,7 @@
+[05c] {"regime":"A","i":0,"partId":4,"treeSize":24,"topId":38,"skId":52,"skMax":31,"skErr":[]}
+[05c] {"regime":"A","i":1,"partId":null,"treeSize":27,"topId":38,"skId":null,"skMax":51,"skErr":[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]}
+[05c] {"regime":"A","i":2,"partId":null,"treeSize":27,"topId":38,"skId":null,"skMax":51,"skErr":[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]}
+[05c] {"regime":"B","i":0,"partId":null,"topId":38,"skId":null,"skMax":51,"skErr":[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]}
+[05c] {"regime":"B","i":1,"partId":null,"topId":38,"skId":null,"skMax":51,"skErr":[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]}
+[05c] {"regime":"B","i":2,"partId":null,"topId":38,"skId":null,"skMax":51,"skErr":[{"level":51,"code":1001,"message":"Set the parameter \"id\" = VOID is not allowed in this situation!"}]}
+[filewrite] files/05c-state-diagnostic-05c-state.json (1580 bytes)

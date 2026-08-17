@@ -1,0 +1,26 @@
+{
+  "id": 121,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      113
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      115
+    ],
+    "reorient": "0"
+  },
+  "name": "Frozen",
+  "xOffset": 75,
+  "xRotation": 0,
+  "yOffset": 40,
+  "yRotation": 0,
+  "zOffset": 25,
+  "zRotation": 0
+}

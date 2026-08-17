@@ -1,0 +1,6 @@
+[01] line1: 58
+[01] line2: 66
+[01] rigidSet result: 74
+[01] rigidSet maxLevel: 31
+[01] rigidSet messages: []
+[filewrite] files/01-basic-rigidset-response.json (54 bytes)

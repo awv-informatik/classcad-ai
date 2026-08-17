@@ -1,0 +1,33 @@
+{
+  "byId": 105,
+  "byName": {
+    "maxLevel": 31,
+    "result": 109,
+    "messages": []
+  },
+  "wrongName": {
+    "maxLevel": 51,
+    "result": null,
+    "messages": [
+      {
+        "api": "v1.assembly.instance",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "The string \"NonExistent\" couldn't be converted to an id. Error message: stol: no conversion"
+      },
+      {
+        "api": "v1.assembly.instance",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"productId\" has an invalid id!"
+      }
+    ]
+  },
+  "ownerByName": {
+    "maxLevel": 31,
+    "result": 111,
+    "messages": []
+  }
+}

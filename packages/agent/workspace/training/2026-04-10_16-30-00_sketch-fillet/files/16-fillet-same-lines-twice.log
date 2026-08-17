@@ -1,0 +1,4 @@
+[16] first fillet: [94,92,96,95] maxLevel: 31
+[16] second fillet: null maxLevel: 51
+[16] second fillet messages: [{"api":"v1.sketch.fillet","code":0,"level":51,"levelStr":"ERROR","message":"Lines don't have incident points!"}]
+[filewrite] files/16-fillet-same-lines-twice-double-fillet-results.json (281 bytes)

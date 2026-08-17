@@ -1,0 +1,24 @@
+{
+  "before": {
+    "x": 40,
+    "y": 10,
+    "z": 4
+  },
+  "afterOffset": {
+    "x": 40,
+    "y": 10,
+    "z": 4
+  },
+  "afterRotPlusOffset": {
+    "x": 10.00001878607414,
+    "y": -39.99999530347678,
+    "z": 4.000000000000007
+  },
+  "afterRotOnly": {
+    "x": 10.00001878607414,
+    "y": -39.99999530347678,
+    "z": 4.000000000000007
+  },
+  "offsetIgnored": true,
+  "rotPlusOffsetMatchesRotOnly": true
+}

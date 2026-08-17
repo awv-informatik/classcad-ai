@@ -1,0 +1,12 @@
+[
+  {
+    "id": 66,
+    "class": "CC_2DHorizontalConstraint",
+    "name": "Auto_H"
+  },
+  {
+    "id": 72,
+    "class": "CC_2DVerticalConstraint",
+    "name": "Auto_V"
+  }
+]

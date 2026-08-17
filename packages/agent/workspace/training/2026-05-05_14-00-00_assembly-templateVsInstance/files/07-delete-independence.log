@@ -1,0 +1,9 @@
+[07] instances: 170 172 174
+[07] BEFORE delete — instances: [170,172,174]
+[07] deleteInstance(inst1) maxLevel: 31
+[07] template after instance delete: 22
+[07] AFTER inst1 delete — instances: [172,174]
+[07] deleteTemplate(Plate) maxLevel: 31
+[07] AFTER template delete — instances: [174]
+[07] getPartTemplate(Plate) after delete: null maxLevel: 51
+[filewrite] files/07-delete-independence-delete-independence.json (200 bytes)

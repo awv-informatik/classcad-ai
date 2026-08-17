@@ -1,0 +1,4 @@
+[01] maxLevels — fix: 31 rel: 31 dim: 31
+[filewrite] files/01-build-verify.json (11326 bytes)
+[01] comparison rows: 55 maxErr: 7.216449660063518e-14 ✓ ALL EXACT
+[01] derived: {"slotCenter":[0,-2.5],"slotMidY":-2.5,"slotHeight":7,"domeTopY":5.025761690334921,"eyeSpan":12,"domeEndOnEyeR":2.7999999999999994,"f2EndOnEyeR":2.8}

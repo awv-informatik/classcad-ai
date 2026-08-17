@@ -1,0 +1,6 @@
+[14] vertical edge: {"lines":[102]} maxLevel: 31
+[14] fillet result: 120
+[14] post-fillet bottom-front edge: {"lines":[149]} maxLevel: 31
+[14] fillet top arc: {"arcs":[[]]} maxLevel: 51
+[14] two more edges: {"lines":[154,156]} maxLevel: 31
+[14] second fillet: 181

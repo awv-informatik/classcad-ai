@@ -1,0 +1,6 @@
+[09] partId: 4 eiId: 54
+[09] get from EI: injected maxLevel: 31
+[09] remove from EI — result: null maxLevel: 31
+[09] after remove from EI: __GONE__
+[09] part still has source: part-val
+[filewrite] files/09-entity-injection-ei-isolation.json (95 bytes)

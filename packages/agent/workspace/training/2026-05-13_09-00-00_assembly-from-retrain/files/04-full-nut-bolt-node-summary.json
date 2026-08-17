@@ -1,0 +1,417 @@
+[
+  {
+    "id": "1",
+    "class": "AllObjects",
+    "name": "AllObjects"
+  },
+  {
+    "id": "10",
+    "class": "CC_PartContainer",
+    "name": "PartContainer"
+  },
+  {
+    "id": "12",
+    "class": "CC_AssemblyContainer",
+    "name": "AssemblyContainer"
+  },
+  {
+    "id": "14",
+    "class": "CC_AssemblyRoot",
+    "name": "AssemblyRoot"
+  },
+  {
+    "id": "16",
+    "class": "CC_ExpressionSet",
+    "name": "ExpressionSet"
+  },
+  {
+    "id": "18",
+    "class": "CC_ConstraintSet",
+    "name": "ConstraintSet"
+  },
+  {
+    "id": "20",
+    "class": "CC_GeometrySet",
+    "name": "GeometrySet"
+  },
+  {
+    "id": "22",
+    "class": "CC_WorkCSys",
+    "name": "BaseWCSys"
+  },
+  {
+    "id": "24",
+    "class": "CC_Part",
+    "name": "Bolt_Template"
+  },
+  {
+    "id": "25",
+    "class": "CC_ExpressionSet",
+    "name": "ExpressionSet"
+  },
+  {
+    "id": "26",
+    "class": "CC_DimensionSet",
+    "name": "DimensionSet"
+  },
+  {
+    "id": "27",
+    "class": "CC_GeometrySet",
+    "name": "GeometrySet"
+  },
+  {
+    "id": "28",
+    "class": "CC_WorkPoint",
+    "name": "Origin"
+  },
+  {
+    "id": "29",
+    "class": "CC_WorkAxis",
+    "name": "XAxis"
+  },
+  {
+    "id": "30",
+    "class": "CC_WorkAxis",
+    "name": "YAxis"
+  },
+  {
+    "id": "31",
+    "class": "CC_WorkAxis",
+    "name": "ZAxis"
+  },
+  {
+    "id": "32",
+    "class": "CC_WorkPlane",
+    "name": "Top"
+  },
+  {
+    "id": "33",
+    "class": "CC_WorkPlane",
+    "name": "Front"
+  },
+  {
+    "id": "34",
+    "class": "CC_WorkPlane",
+    "name": "Right"
+  },
+  {
+    "id": "35",
+    "class": "CC_WorkCSys",
+    "name": "WCS_Origin"
+  },
+  {
+    "id": "36",
+    "class": "CC_WorkCSys",
+    "name": "WCS_Head-Shaft"
+  },
+  {
+    "id": "37",
+    "class": "CC_WorkCSys",
+    "name": "WCS_Nut"
+  },
+  {
+    "id": "38",
+    "class": "CC_ReferenceSet",
+    "name": "ReferenceSet"
+  },
+  {
+    "id": "39",
+    "class": "CC_SketchSet",
+    "name": "SketchSet"
+  },
+  {
+    "id": "40",
+    "class": "CC_SolidSet",
+    "name": "SolidSet"
+  },
+  {
+    "id": "41",
+    "class": "CC_Cylinder",
+    "name": "Cylinder"
+  },
+  {
+    "id": "42",
+    "class": "CC_Solid",
+    "name": "Solid0"
+  },
+  {
+    "id": "44",
+    "class": "CC_Cylinder",
+    "name": "Cylinder0"
+  },
+  {
+    "id": "45",
+    "class": "CC_Solid",
+    "name": "Solid0"
+  },
+  {
+    "id": "47",
+    "class": "CC_OperationSequence",
+    "name": "OperationSequence"
+  },
+  {
+    "id": "48",
+    "class": "CC_WorkPointReference",
+    "name": "OriginRef"
+  },
+  {
+    "id": "49",
+    "class": "CC_WorkAxisReference",
+    "name": "XAxisRef"
+  },
+  {
+    "id": "50",
+    "class": "CC_WorkAxisReference",
+    "name": "YAxisRef"
+  },
+  {
+    "id": "51",
+    "class": "CC_WorkAxisReference",
+    "name": "ZAxisRef"
+  },
+  {
+    "id": "52",
+    "class": "CC_WorkPlaneReference",
+    "name": "TopRef"
+  },
+  {
+    "id": "53",
+    "class": "CC_WorkPlaneReference",
+    "name": "FrontRef"
+  },
+  {
+    "id": "54",
+    "class": "CC_WorkPlaneReference",
+    "name": "RightRef"
+  },
+  {
+    "id": "55",
+    "class": "CC_WorkCoordSystemReference",
+    "name": "WorkCoordSystemRef"
+  },
+  {
+    "id": "56",
+    "class": "CC_WorkCoordSystemReference",
+    "name": "WorkCoordSystemRef0"
+  },
+  {
+    "id": "57",
+    "class": "CC_WorkCoordSystemReference",
+    "name": "WorkCoordSystemRef1"
+  },
+  {
+    "id": "58",
+    "class": "CC_OperationReference",
+    "name": "CylinderRef"
+  },
+  {
+    "id": "59",
+    "class": "CC_OperationReference",
+    "name": "Cylinder0Ref"
+  },
+  {
+    "id": "60",
+    "class": "CC_RollbackBar",
+    "name": "RollbackBar"
+  },
+  {
+    "id": "79",
+    "class": "CC_Part",
+    "name": "Nut_Template"
+  },
+  {
+    "id": "80",
+    "class": "CC_ExpressionSet",
+    "name": "ExpressionSet"
+  },
+  {
+    "id": "81",
+    "class": "CC_DimensionSet",
+    "name": "DimensionSet"
+  },
+  {
+    "id": "82",
+    "class": "CC_GeometrySet",
+    "name": "GeometrySet"
+  },
+  {
+    "id": "83",
+    "class": "CC_WorkPoint",
+    "name": "Origin"
+  },
+  {
+    "id": "84",
+    "class": "CC_WorkAxis",
+    "name": "XAxis"
+  },
+  {
+    "id": "85",
+    "class": "CC_WorkAxis",
+    "name": "YAxis"
+  },
+  {
+    "id": "86",
+    "class": "CC_WorkAxis",
+    "name": "ZAxis"
+  },
+  {
+    "id": "87",
+    "class": "CC_WorkPlane",
+    "name": "Top"
+  },
+  {
+    "id": "88",
+    "class": "CC_WorkPlane",
+    "name": "Front"
+  },
+  {
+    "id": "89",
+    "class": "CC_WorkPlane",
+    "name": "Right"
+  },
+  {
+    "id": "90",
+    "class": "CC_WorkCSys",
+    "name": "WCS_Origin"
+  },
+  {
+    "id": "91",
+    "class": "CC_WorkCSys",
+    "name": "WCS_Hole-Bottom"
+  },
+  {
+    "id": "92",
+    "class": "CC_WorkCSys",
+    "name": "WCS_Hole-Top"
+  },
+  {
+    "id": "93",
+    "class": "CC_ReferenceSet",
+    "name": "ReferenceSet"
+  },
+  {
+    "id": "94",
+    "class": "CC_SketchSet",
+    "name": "SketchSet"
+  },
+  {
+    "id": "95",
+    "class": "CC_SolidSet",
+    "name": "SolidSet"
+  },
+  {
+    "id": "96",
+    "class": "CC_Box",
+    "name": "Box"
+  },
+  {
+    "id": "97",
+    "class": "CC_Solid",
+    "name": "Solid0"
+  },
+  {
+    "id": "98",
+    "class": "CC_Cylinder",
+    "name": "Cylinder"
+  },
+  {
+    "id": "99",
+    "class": "CC_Solid",
+    "name": "Solid0"
+  },
+  {
+    "id": "100",
+    "class": "CC_Subtraction",
+    "name": "Subtraction"
+  },
+  {
+    "id": "101",
+    "class": "CC_Solid",
+    "name": "Solid0"
+  },
+  {
+    "id": "103",
+    "class": "CC_OperationSequence",
+    "name": "OperationSequence"
+  },
+  {
+    "id": "104",
+    "class": "CC_WorkPointReference",
+    "name": "OriginRef"
+  },
+  {
+    "id": "105",
+    "class": "CC_WorkAxisReference",
+    "name": "XAxisRef"
+  },
+  {
+    "id": "106",
+    "class": "CC_WorkAxisReference",
+    "name": "YAxisRef"
+  },
+  {
+    "id": "107",
+    "class": "CC_WorkAxisReference",
+    "name": "ZAxisRef"
+  },
+  {
+    "id": "108",
+    "class": "CC_WorkPlaneReference",
+    "name": "TopRef"
+  },
+  {
+    "id": "109",
+    "class": "CC_WorkPlaneReference",
+    "name": "FrontRef"
+  },
+  {
+    "id": "110",
+    "class": "CC_WorkPlaneReference",
+    "name": "RightRef"
+  },
+  {
+    "id": "111",
+    "class": "CC_WorkCoordSystemReference",
+    "name": "WorkCoordSystemRef"
+  },
+  {
+    "id": "112",
+    "class": "CC_OperationReference",
+    "name": "BoxRef"
+  },
+  {
+    "id": "113",
+    "class": "CC_WorkCoordSystemReference",
+    "name": "WorkCoordSystemRef0"
+  },
+  {
+    "id": "114",
+    "class": "CC_WorkCoordSystemReference",
+    "name": "WorkCoordSystemRef1"
+  },
+  {
+    "id": "115",
+    "class": "CC_OperationReference",
+    "name": "CylinderRef"
+  },
+  {
+    "id": "116",
+    "class": "CC_OperationReference",
+    "name": "SubtractionRef"
+  },
+  {
+    "id": "117",
+    "class": "CC_RollbackBar",
+    "name": "RollbackBar"
+  },
+  {
+    "id": "164",
+    "class": "CC_ProductReference",
+    "name": "Bolt_Instance"
+  },
+  {
+    "id": "166",
+    "class": "CC_ProductReference",
+    "name": "Nut_Instance"
+  }
+]

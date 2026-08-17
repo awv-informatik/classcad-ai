@@ -1,0 +1,13 @@
+{
+  "result": null,
+  "messages": [
+    {
+      "api": "v1.common.setAppearance",
+      "code": 1002,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "The parameter \"color\" has invalid number of elements! There should be 3 element(s) in this situation!"
+    }
+  ],
+  "maxLevel": 51
+}

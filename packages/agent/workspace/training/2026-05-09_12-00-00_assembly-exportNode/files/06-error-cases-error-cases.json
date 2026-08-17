@@ -1,0 +1,64 @@
+{
+  "invalidId": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.exportNode",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.exportNode",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  },
+  "afterClear": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.exportNode",
+        "code": 0,
+        "level": 41,
+        "levelStr": "WARNING",
+        "message": "ToId()/TOID() didn't get an existing or valid id."
+      },
+      {
+        "api": "v1.assembly.exportNode",
+        "code": 1006,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "An element of parameter \"id\" has an invalid id!"
+      }
+    ]
+  },
+  "invalidFormatSTL": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.exportNode",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\"]"
+      }
+    ]
+  },
+  "invalidFormatIWP": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.exportNode",
+        "code": 1013,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The provided value for parameter \"format\" is not valid. Possible values are: [\"OFB\",\"STP\"]"
+      }
+    ]
+  }
+}

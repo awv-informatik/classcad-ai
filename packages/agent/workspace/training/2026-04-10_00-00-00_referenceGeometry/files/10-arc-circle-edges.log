@@ -1,0 +1,15 @@
+[10] cylinderId: 54
+[10] brep IDs: {"circles":[64,63],"planes":[61]}
+[filewrite] files/10-arc-circle-edges-brep-ids.json (63 bytes)
+[10] topCircleEdge: 64 bottomCircleEdge: 63 topFace: 61
+[10] sketchId: 71
+[10] refGeo circle edge — result: [ 87 ] maxLevel: 31
+[10] refGeo circle messages: []
+[filewrite] files/10-arc-circle-edges-refgeo-circle.json (64 bytes)
+[10] sketch geometry: {"arcs":[],"circles":[87],"lines":[],"points":[]}
+[filewrite] files/10-arc-circle-edges-sketch-geometry.json (74 bytes)
+[10] refGeo top circle (on-plane) — result: [ 96 ] maxLevel: 31
+[10] refGeo top circle messages: []
+[filewrite] files/10-arc-circle-edges-refgeo-top-circle.json (64 bytes)
+[10] sketch geometry after top circle: {"arcs":[],"circles":[87,96],"lines":[],"points":[]}
+[filewrite] files/10-arc-circle-edges-sketch-geometry-both.json (82 bytes)

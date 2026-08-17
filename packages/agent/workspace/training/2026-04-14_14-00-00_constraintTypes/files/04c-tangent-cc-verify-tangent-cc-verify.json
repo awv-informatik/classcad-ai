@@ -1,0 +1,27 @@
+{
+  "c1before": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "c2before": {
+    "x": 60,
+    "y": 0,
+    "z": 0
+  },
+  "c1after": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "c2after": {
+    "x": 35,
+    "y": 0,
+    "z": 0
+  },
+  "centerDist": 35,
+  "externalTangent": true,
+  "internalTangent": false,
+  "constraintResult": 68,
+  "maxLevel": 31
+}

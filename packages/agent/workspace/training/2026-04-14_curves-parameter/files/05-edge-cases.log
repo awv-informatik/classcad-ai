@@ -1,0 +1,10 @@
+[05] partId: 4 eifId: 54 boxId: 61
+[05A] empty array result: null maxLevel: 51
+[05A] messages: ["The parameter \"curves\" has the wrong type! It should be of type (Array<object>|Array<string|real|id>)"]
+[05B] part ID as curves result: null maxLevel: 51
+[05B] messages: ["The parameter \"curves\" has a wrong id type! Provide only following id types: [\"shape\",\"sketch-curve\"]"]
+[05C] EIF ID as curves result: null maxLevel: 51
+[05C] messages: ["The parameter \"curves\" has a wrong id type! Provide only following id types: [\"shape\",\"sketch-curve\"]"]
+[05D] solid ID as curves result: null maxLevel: 51
+[05D] messages: ["The parameter \"curves\" has a wrong id type! Provide only following id types: [\"shape\",\"sketch-curve\"]"]
+[filewrite] files/05-edge-cases-edge-cases.json (1432 bytes)

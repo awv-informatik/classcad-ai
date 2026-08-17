@@ -1,0 +1,4 @@
+[11] inst1 volume BEFORE: 24000
+[11] inst1 volume AFTER: 24000 (was queried before)
+[11] inst2 volume AFTER: 24000 (was NOT queried before)
+[filewrite] files/11-selective-lock-selective-lock.json (140 bytes)

@@ -1,0 +1,39 @@
+{
+  "individual": {
+    "lineId": 58,
+    "circleId": 66,
+    "geom": {
+      "arcs": [],
+      "circles": [
+        66
+      ],
+      "lines": [
+        58
+      ],
+      "points": []
+    }
+  },
+  "batch": {
+    "result": {
+      "arcsBy3Points": [],
+      "arcsByCenter": [],
+      "circles": [
+        83
+      ],
+      "lines": [
+        75
+      ],
+      "points": []
+    },
+    "geom": {
+      "arcs": [],
+      "circles": [
+        83
+      ],
+      "lines": [
+        75
+      ],
+      "points": []
+    }
+  }
+}

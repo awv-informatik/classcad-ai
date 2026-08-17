@@ -1,0 +1,16 @@
+{
+  "planarId": 216,
+  "updateResult": 216,
+  "updateMaxLevel": 31,
+  "cogBefore": {
+    "x": 15,
+    "y": 10,
+    "z": 17.5
+  },
+  "cogAfter": {
+    "x": 15,
+    "y": 10,
+    "z": 47.5
+  },
+  "zDelta": null
+}

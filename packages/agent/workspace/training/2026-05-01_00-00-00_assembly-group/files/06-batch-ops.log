@@ -1,0 +1,10 @@
+[06] batch create result: [115,119] maxLevel: 31
+[filewrite] files/06-batch-ops-batch-create.json (74 bytes)
+[06] batch getGroup result: [{"id":115,"instanceIds":[105,107],"name":"BatchG1"},{"id":119,"instanceIds":[107,109],"name":"BatchG2"},null]
+[06] batch getGroup maxLevel: 51
+[filewrite] files/06-batch-ops-batch-get.json (529 bytes)
+[06] g1Id: 115 g2Id: 119
+[06] batch update result: [115,119] maxLevel: 31
+[filewrite] files/06-batch-ops-batch-update.json (74 bytes)
+[06] verify renamed: {"id":115,"instanceIds":[105,107],"name":"RenamedBatch1"}
+[06] verify updated ids: {"id":119,"instanceIds":[105,107,109],"name":"BatchG2"}

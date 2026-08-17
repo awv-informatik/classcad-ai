@@ -1,0 +1,14 @@
+{
+  "tpl1": 22,
+  "tpl2": 68,
+  "sameId": false,
+  "getByName": 22,
+  "allTemplates": [
+    22,
+    68
+  ],
+  "volumes": {
+    "tpl1": 8000,
+    "tpl2": 512000
+  }
+}

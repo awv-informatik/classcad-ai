@@ -1,0 +1,16 @@
+[08] cylId: 61
+[08] lineIndex=0: result=-7, maxLevel=31
+[08] lineIndex=1: result=null, maxLevel=51
+[08] lineIndex=2: result=null, maxLevel=51
+[08] lineIndex=3: result=null, maxLevel=51
+[08] lineIndex=4: result=null, maxLevel=51
+[08] arcIndex=0: result=-8, maxLevel=31
+[08] arcIndex=1: result=-9, maxLevel=31
+[08] arcIndex=2: result=null, maxLevel=51
+[08] arcIndex=3: result=null, maxLevel=51
+[08] arcIndex=4: result=null, maxLevel=51
+[08] arc0: -8 arc1: -9
+[08] arc -8: pos=[{"x":-20,"y":2.4492935982947065e-15,"z":-30}]
+[08] arc -9: pos=[{"x":-20,"y":2.4492935982947065e-15,"z":30}]
+[08] fillet result: [ 61 ] maxLevel: 31
+[filewrite] files/08-fillet-cylinder-cyl-fillet-response.json (64 bytes)

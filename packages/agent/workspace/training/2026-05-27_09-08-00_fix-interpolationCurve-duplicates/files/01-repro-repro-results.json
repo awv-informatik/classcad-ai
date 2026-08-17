@@ -1,0 +1,54 @@
+{
+  "two-consecutive-duplicates": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.interpolationCurve",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"points\" must not contain consecutive duplicate points."
+      }
+    ]
+  },
+  "all-duplicates": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.interpolationCurve",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"points\" must not contain consecutive duplicate points."
+      }
+    ]
+  },
+  "empty-array": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.interpolationCurve",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"points\" must contain at least 2 points."
+      }
+    ]
+  },
+  "single-point": {
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.curve.interpolationCurve",
+        "code": 1014,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "The parameter \"points\" must contain at least 2 points."
+      }
+    ]
+  },
+  "valid-baseline": {
+    "maxLevel": 31,
+    "messages": []
+  }
+}

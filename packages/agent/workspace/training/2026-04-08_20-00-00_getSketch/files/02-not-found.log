@@ -1,0 +1,4 @@
+[02] result: null
+[02] maxLevel: 51
+[02] messages: [{"api":"v1.part.getSketch","code":1015,"level":51,"levelStr":"ERROR","message":"Sketch with name \"DoesNotExist\" does not exist"}]
+[filewrite] files/02-not-found-not-found-response.json (239 bytes)

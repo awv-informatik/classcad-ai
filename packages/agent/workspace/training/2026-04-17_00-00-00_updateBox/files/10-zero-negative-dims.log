@@ -1,0 +1,5 @@
+[10] boxId: 54
+[10] height=0 — result: 54 maxLevel: 51
+[filewrite] files/10-zero-negative-dims-zero-height-response.json (264 bytes)
+[10] width=-50 — result: 54 maxLevel: 51
+[filewrite] files/10-zero-negative-dims-negative-width-response.json (470 bytes)

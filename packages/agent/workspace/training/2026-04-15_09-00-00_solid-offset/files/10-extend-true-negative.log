@@ -1,0 +1,4 @@
+[10] boxId: 61 refId: 64
+[10] extend=TRUE neg result: 61 maxLevel: 31
+[10] messages: []
+[filewrite] files/10-extend-true-negative-ext-neg-response.json (54 bytes)

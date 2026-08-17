@@ -1,0 +1,26 @@
+{
+  "id": 309,
+  "mate1": {
+    "csys": 107,
+    "flip": "Z",
+    "path": [
+      295
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 198,
+    "flip": "Z",
+    "path": [
+      297
+    ],
+    "reorient": "0"
+  },
+  "name": "DupName",
+  "xOffset": 0,
+  "yOffset": 0,
+  "zOffsetLimits": {
+    "max": null,
+    "min": null
+  }
+}

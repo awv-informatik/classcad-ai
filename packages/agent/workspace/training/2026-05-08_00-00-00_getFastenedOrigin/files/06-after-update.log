@@ -1,0 +1,5 @@
+[06] before update — xOffset: 10 yOffset: 20
+[06] after update — xOffset: 99 yOffset: 20 zRotation: 0.7853981633974483
+[06] old name after rename — result: null maxLevel: 51
+[06] new name after rename — found: true
+[filewrite] files/06-after-update-after-update.json (647 bytes)

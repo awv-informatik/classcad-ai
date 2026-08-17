@@ -1,0 +1,18 @@
+{
+  "zeroLength": {
+    "result": 61,
+    "maxLevel": 31
+  },
+  "negativeLength": {
+    "result": 66,
+    "maxLevel": 31
+  },
+  "allNegative": {
+    "result": 69,
+    "maxLevel": 31
+  },
+  "normalRef": {
+    "result": 72,
+    "maxLevel": 31
+  }
+}

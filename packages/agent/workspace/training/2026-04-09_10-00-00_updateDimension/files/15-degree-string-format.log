@@ -1,0 +1,10 @@
+[15] 45deg result: 0 maxLevel: 31
+[filewrite] files/15-degree-string-format-45deg.json (53 bytes)
+[15] 90deg result: 0 maxLevel: 31
+[filewrite] files/15-degree-string-format-90deg.json (53 bytes)
+[15] 0deg result: 0 maxLevel: 31
+[filewrite] files/15-degree-string-format-0deg.json (53 bytes)
+[15] 360deg result: 0 maxLevel: 31
+[filewrite] files/15-degree-string-format-360deg.json (53 bytes)
+[15] 50mm result: 0 maxLevel: 31
+[filewrite] files/15-degree-string-format-50mm.json (53 bytes)

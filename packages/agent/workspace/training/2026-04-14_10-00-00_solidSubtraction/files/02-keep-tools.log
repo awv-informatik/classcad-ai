@@ -1,0 +1,4 @@
+[02] target: 61 tool: 64
+[02] result: 61 maxLevel: 31
+[02] tool still valid — copy result: null maxLevel: 51
+[filewrite] files/02-keep-tools-keeptools-result.json (63 bytes)

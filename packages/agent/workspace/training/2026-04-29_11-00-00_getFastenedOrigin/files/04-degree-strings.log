@@ -1,0 +1,5 @@
+[04] xRotation: 0.7853981633974483 (expected ~0.785 = 45deg in rad)
+[04] yRotation: 0.5235987755982988 (expected ~0.524 = 30deg in rad)
+[04] zRotation: 1.5707963267948966 (expected ~1.571 = 90deg in rad)
+[04] are values radians? true
+[filewrite] files/04-degree-strings-get-degree-strings.json (291 bytes)

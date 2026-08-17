@@ -1,0 +1,6 @@
+[13] containers after section: 1
+[13] container id=65 type=2 owner=67 verts=0 edges=4
+[13]   bbox min: [-40,-30,0] max: [40,30,0]
+[filewrite] files/13-verify-solid-unchanged-graphic-after-section.json (1496 bytes)
+[filewrite] files/13-verify-solid-unchanged-graphic-control.json (4 bytes)
+[13] control containers: 0

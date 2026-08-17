@@ -1,0 +1,4 @@
+[08] Testing XML with ClassCAD type names as elements...
+[08] <AssemblyRoot>: maxLevel:51 result:14 skipped:true
+[08] <CC_AssemblyRoot>: maxLevel:51 result:14 skipped:true
+[stderr] [run] Script error: Timeout (30000ms): Execute

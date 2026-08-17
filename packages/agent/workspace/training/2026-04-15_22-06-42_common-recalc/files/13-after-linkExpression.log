@@ -1,0 +1,6 @@
+[13] boxId: 56
+[13] H before link: {"expression":"","value":100}
+[13] linkWithExpression result: null maxLevel: 31
+[filewrite] files/13-after-linkExpression-structure-after-link.json (21279 bytes)
+[13] recalc result: null maxLevel: 31
+[filewrite] files/13-after-linkExpression-structure-after-recalc.json (21279 bytes)

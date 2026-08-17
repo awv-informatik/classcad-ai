@@ -1,0 +1,24 @@
+{
+  "sketch1": {
+    "arcs": [],
+    "circles": [
+      72
+    ],
+    "lines": [
+      64
+    ],
+    "points": []
+  },
+  "sketch2": {
+    "arcs": [],
+    "circles": [],
+    "lines": [
+      75
+    ],
+    "points": []
+  },
+  "sk1LineCount": 1,
+  "sk1CircleCount": 1,
+  "sk2LineCount": 1,
+  "sk2CircleCount": 0
+}

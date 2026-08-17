@@ -1,0 +1,18 @@
+[04] edgeId: 67
+[04] wpId: 91
+[04] sketch on WP id: 97
+[04] refGeo on WP sketch — result: [ 105 ] maxLevel: 31
+[04] refGeo on WP sketch — messages: []
+[filewrite] files/04-workplane-vs-default-refgeo-wp.json (65 bytes)
+[04] sketch on default plane id: 115
+[04] edgeId2 (re-fetched): 67
+[04] refGeo on default sketch — result: null maxLevel: 51
+[04] refGeo on default sketch — messages: [{"api":"v1.sketch.referenceGeometry","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in DefaultSketch.CreateUseGeometry:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "}]
+[filewrite] files/04-workplane-vs-default-refgeo-default.json (384 bytes)
+[04] sk3 (for setReferences): 121
+[04] setReferences result: null maxLevel: 31 messages: []
+[filewrite] files/04-workplane-vs-default-setReferences.json (56 bytes)
+[04] edgeId3 (re-fetched): 67
+[04] refGeo on setRef sketch — result: [ 131 ] maxLevel: 31
+[04] refGeo on setRef sketch — messages: []
+[filewrite] files/04-workplane-vs-default-refgeo-setref.json (65 bytes)

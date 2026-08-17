@@ -1,0 +1,6 @@
+[06] lineId: 58
+[06] splitCurves result: [[64,68]]
+[06] mergeBack result: null
+[06] mergeBack maxLevel: 31
+[filewrite] files/06-mergeback-mergeback-response.json (56 bytes)
+[filewrite] files/06-mergeback-structure-after-mergeback.json (30023 bytes)

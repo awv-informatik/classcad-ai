@@ -1,0 +1,5 @@
+[04] parallel result: 216 maxLevel: 31
+[04] COG (should be ≈[55,40,32.5]): {"x":55,"y":40,"z":32.5}
+[04] parallel2 result: null maxLevel: 51
+[04] COG2 (x clamped, y/z preserved?): undefined
+[filewrite] files/04-position-preservation-preservation-test.json (72 bytes)

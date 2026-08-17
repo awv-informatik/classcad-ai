@@ -1,0 +1,5 @@
+[10] union non-overlap: maxLevel: 31
+[10] s1 after union: true geoIds: [ 61 ]
+[10] s2 after union: false
+[10] subtraction non-overlap: maxLevel: 31
+[10] intersection non-overlap: maxLevel: 31

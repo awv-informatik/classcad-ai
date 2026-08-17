@@ -1,0 +1,15 @@
+[03] boxId: 54
+[03] brep IDs: {"lines":[75,78],"planes":[84],"points":[63]}
+[filewrite] files/03-sketch-on-face-brep-ids.json (87 bytes)
+[03] topFaceId: 84 edgeId1: 75 edgeId2: 78 vertexId: 63
+[03] sketchId: 89
+[03] post-sketch brep IDs: {"lines":[67,77]}
+[03] bottomEdge: 67 topBackEdge: 77
+[03] refGeo (bottom edge) result: [ 105 ] maxLevel: 31
+[03] refGeo messages: []
+[filewrite] files/03-sketch-on-face-refgeo-bottom-edge.json (65 bytes)
+[03] refGeo with open (bottom edge) result: [ 118 ] maxLevel: 31
+[03] refGeo with open messages: []
+[filewrite] files/03-sketch-on-face-refgeo-open-bottom.json (65 bytes)
+[03] sketch geometry: {"arcs":[],"circles":[],"lines":[105,118],"points":[]}
+[filewrite] files/03-sketch-on-face-sketch-geometry.json (84 bytes)

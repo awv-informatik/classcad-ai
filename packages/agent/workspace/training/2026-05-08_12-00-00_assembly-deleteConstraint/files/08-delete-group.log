@@ -1,0 +1,6 @@
+[08] groupId: 113
+[08] group before delete: {"id":113,"instanceIds":[105,107],"name":"TestGroup"}
+[08] delete group - result: null maxLevel: 31
+[filewrite] files/08-delete-group-delete-group.json (56 bytes)
+[08] group after delete: null maxLevel: 51
+[08] instances after group delete: [105,107]

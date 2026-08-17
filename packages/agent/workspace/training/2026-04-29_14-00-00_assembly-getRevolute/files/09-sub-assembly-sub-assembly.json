@@ -1,0 +1,25 @@
+{
+  "fromTemplate": {
+    "ok": true,
+    "maxLevel": 31,
+    "zOffset": 42
+  },
+  "fromRoot": {
+    "result": null,
+    "maxLevel": 51,
+    "messages": [
+      {
+        "api": "v1.assembly.getRevolute",
+        "code": 0,
+        "level": 51,
+        "levelStr": "ERROR",
+        "message": "There couldn't be found a constraint with name \"SubRev\" on product or product reference with id $12"
+      }
+    ]
+  },
+  "fromInstance": {
+    "ok": true,
+    "maxLevel": 31,
+    "zOffset": 42
+  }
+}

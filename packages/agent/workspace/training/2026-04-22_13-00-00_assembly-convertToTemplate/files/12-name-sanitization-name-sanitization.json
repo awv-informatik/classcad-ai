@@ -1,0 +1,12 @@
+{
+  "assemblyTemplate": {
+    "name": "Test__v1__sub",
+    "originalName": "Test (v1)/sub"
+  },
+  "convertToTemplate": {
+    "name": "Conv (v1)/sub",
+    "originalName": "Root"
+  },
+  "findUnsanitized": 12,
+  "findSanitized": null
+}

@@ -1,0 +1,8 @@
+[08] assembly ID — maxLevel: 51 msg: The provided id for the constraint is not a constraint or relation.
+[08] nonexistent ID — maxLevel: 51 msg: ToId()/TOID() didn't get an existing or valid id.
+[08] missing id — maxLevel: 51 msg: "id" must be provided for update.
+[08] invalid flip — maxLevel: 51 msg: Type "INVALID" is not supported to use as flip type.
+[08] invalid reorient — maxLevel: 51 msg: Type "45" is not supported to use as reorient type.
+[08] nonexistent csys — maxLevel: 51 msg: ToId()/TOID() didn't get an existing or valid id.
+[08] constraint still intact after errors? ✓ id: 119
+[filewrite] files/08-errors-error-results.json (2722 bytes)

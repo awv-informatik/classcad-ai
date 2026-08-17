@@ -1,0 +1,8 @@
+[08] face ID: 111 maxLevel: 31
+[08] positions count: 4
+[08] positions: [{"x":0,"y":0,"z":20},{"x":40,"y":0,"z":0},{"x":80,"y":0,"z":20},{"x":40,"y":0,"z":40}]
+[08] round-trip 4 positions: [ 111 ] maxLevel: 31
+[08] round-trip 2 positions: [ 111 ] maxLevel: 31
+[08] round-trip 1 position: [ 111 ] maxLevel: 31
+[08] positions as lines: [ 102, 98, 103, 106 ] maxLevel: 31
+[filewrite] files/08-plane-roundtrip-debug-plane-roundtrip-debug.json (768 bytes)

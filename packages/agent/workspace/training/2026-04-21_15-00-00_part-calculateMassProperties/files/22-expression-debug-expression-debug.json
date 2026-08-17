@@ -1,0 +1,25 @@
+{
+  "initial": {
+    "vol": 30000,
+    "expr": {
+      "expression": "",
+      "value": 50
+    }
+  },
+  "afterUpdate": {
+    "vol": 30000,
+    "expr": {
+      "expression": "",
+      "value": 50
+    }
+  },
+  "afterRecalc": {
+    "vol": 30000
+  },
+  "afterOpenClose": {
+    "vol": 30000
+  },
+  "afterRecalc2": {
+    "vol": 30000
+  }
+}

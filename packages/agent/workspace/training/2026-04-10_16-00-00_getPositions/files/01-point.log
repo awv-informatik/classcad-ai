@@ -1,0 +1,5 @@
+[01] pointId: 58
+[01] getPositions result: {"pos":{"x":25,"y":40,"z":0}}
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-point-point-response.json (119 bytes)

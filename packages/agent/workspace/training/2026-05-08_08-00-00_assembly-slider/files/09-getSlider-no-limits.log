@@ -1,0 +1,16 @@
+[09] getSlider result keys: [
+  'id',
+  'mate1',
+  'mate2',
+  'name',
+  'xOffset',
+  'yOffset',
+  'zOffsetLimits'
+]
+[09] xOffset: 10
+[09] yOffset: 5
+[09] zOffsetLimits: {"max":null,"min":null}
+[filewrite] files/09-getSlider-no-limits-getSlider-no-limits.json (333 bytes)
+[09] batch result: [216,null]
+[09] batch maxLevel: 51
+[filewrite] files/09-getSlider-no-limits-getSlider-batch.json (66158 bytes)

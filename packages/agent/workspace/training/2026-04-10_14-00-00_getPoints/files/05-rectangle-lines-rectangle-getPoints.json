@@ -1,0 +1,34 @@
+[
+  {
+    "lineIndex": 0,
+    "lineId": 58,
+    "result": {
+      "endId": 60,
+      "startId": 59
+    }
+  },
+  {
+    "lineIndex": 1,
+    "lineId": 64,
+    "result": {
+      "endId": 66,
+      "startId": 65
+    }
+  },
+  {
+    "lineIndex": 2,
+    "lineId": 70,
+    "result": {
+      "endId": 72,
+      "startId": 71
+    }
+  },
+  {
+    "lineIndex": 3,
+    "lineId": 76,
+    "result": {
+      "endId": 78,
+      "startId": 77
+    }
+  }
+]

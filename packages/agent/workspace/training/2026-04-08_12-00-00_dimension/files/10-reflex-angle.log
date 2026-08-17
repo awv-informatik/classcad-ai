@@ -1,0 +1,3 @@
+[10] ANGLE reflex=false result: 76 maxLevel: 31
+[10] ANGLE reflex=true result: 80 maxLevel: 31
+[filewrite] files/10-reflex-angle-reflex-responses.json (164 bytes)

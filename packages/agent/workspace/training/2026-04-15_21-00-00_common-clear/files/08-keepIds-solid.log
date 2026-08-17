@@ -1,0 +1,6 @@
+[08] partId: 4 eifId: 54 boxId: 61 cylId: 64
+[08] keepIds=[boxId] — result: null maxLevel: 31
+[08] messages: []
+[filewrite] files/08-keepIds-solid-keep-solid.json (56 bytes)
+[08] server alive: yes (empty version)
+[08] new partId: 4 maxLevel: 31

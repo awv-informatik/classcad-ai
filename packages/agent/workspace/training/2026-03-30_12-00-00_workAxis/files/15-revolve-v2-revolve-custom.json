@@ -1,0 +1,27 @@
+{
+  "result": 100,
+  "messages": [
+    {
+      "api": "v1.part.revolve",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in Sketch.GetNormal:CCObject can not be opened.\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/MemberSchnittstelle.cpp,     Line: 129] "
+    },
+    {
+      "api": "v1.part.revolve",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in PreCheckVisitor.VisitRevolve:[Type error: A variable  of the type NullMem (nicht initialisiertes Member) (NullMem) has been defined as type Punkt addressed.] \nFunction: CADH_CompareVecs\nFile: /Users/daniel/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2747] "
+    },
+    {
+      "api": "v1.part.revolve",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "[Evaluation error in Rev_custom.CreateCCOperation::PROC:Brep after revolve operation not manifold\nFunction: CADH_RevolveRegion\nFile: /Users/daniel/awv/classcad/runtime/Source/SMLibService/c/Extrusion.cpp,     Line: 716] "
+    }
+  ],
+  "maxLevel": 51
+}

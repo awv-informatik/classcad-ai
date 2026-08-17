@@ -1,0 +1,8 @@
+[14] box1: 54 box2: 91 box3: 128
+[14] before move "First": 54 match: true
+[14] before move "Second": 91 match: true
+[14] before move "Third": 128 match: true
+[14] after move "First": 54 match: true
+[14] after move "Second": 91 match: true
+[14] after move "Third": 128 match: true
+[filewrite] files/14-after-move-after-move.json (166 bytes)

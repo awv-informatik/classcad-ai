@@ -1,0 +1,35 @@
+{
+  "original": {
+    "endPos": {
+      "x": 20,
+      "y": 5,
+      "z": 0
+    },
+    "startPos": {
+      "x": 10,
+      "y": 5,
+      "z": 0
+    }
+  },
+  "copy": {
+    "endPos": {
+      "x": 40,
+      "y": 5,
+      "z": 0
+    },
+    "startPos": {
+      "x": 50,
+      "y": 5,
+      "z": 0
+    }
+  },
+  "symmetryX": 30,
+  "expectedCopyStart": {
+    "x": 50,
+    "y": 5
+  },
+  "expectedCopyEnd": {
+    "x": 40,
+    "y": 5
+  }
+}

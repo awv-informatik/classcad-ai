@@ -1,0 +1,5 @@
+[11] reorient=0: stored=0
+[11] reorient=90: stored=90
+[11] reorient=180: stored=180
+[11] reorient=270: stored=270
+[filewrite] files/11-reorient-reorient-results.json (1150 bytes)

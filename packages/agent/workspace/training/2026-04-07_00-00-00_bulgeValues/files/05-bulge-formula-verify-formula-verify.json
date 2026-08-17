@@ -1,0 +1,30 @@
+[
+  {
+    "bulge": 0,
+    "angleDeg": 0
+  },
+  {
+    "bulge": 0.2,
+    "angleDeg": 45.24
+  },
+  {
+    "bulge": 0.41421,
+    "angleDeg": 90
+  },
+  {
+    "bulge": 0.5773,
+    "angleDeg": 119.99
+  },
+  {
+    "bulge": 1,
+    "angleDeg": 180
+  },
+  {
+    "bulge": 2,
+    "angleDeg": 253.74
+  },
+  {
+    "bulge": 5,
+    "angleDeg": 314.76
+  }
+]

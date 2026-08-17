@@ -1,0 +1,7 @@
+[11] boxId: 54
+[11] updateBox result: 54 maxLevel: 31
+[11] recalc while open: result: null maxLevel: 31
+[11] recalc while open messages: []
+[11] closeFeature result: null maxLevel: 31
+[11] recalc after close: result: null maxLevel: 31
+[filewrite] files/11-recalc-vs-closeFeature-close-vs-recalc.json (300 bytes)

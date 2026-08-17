@@ -1,0 +1,5 @@
+[09] boxId: 54 cylId: 91
+[09] mixed valid+invalid — result: null maxLevel: 51
+[09] messages: [{"api":"v1.part.deleteFeature","code":0,"level":41,"levelStr":"WARNING","message":"ToId()/TOID() didn't get an existing or valid id."},{"api":"v1.part.deleteFeature","code":1006,"level":51,"levelStr":"ERROR","message":"An element of parameter \"ids\" has an invalid id!"}]
+[09] box survived: true cyl survived: true
+[filewrite] files/09-mixed-valid-invalid-mixed-response.json (537 bytes)

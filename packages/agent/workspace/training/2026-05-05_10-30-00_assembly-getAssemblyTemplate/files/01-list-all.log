@@ -1,0 +1,7 @@
+[01] asmId: 12
+[01] templates created: 22 32 42
+[filewrite] files/01-list-all-list-all-results.json (368 bytes)
+[01] no-args: [ 22, 32, 42 ] maxLevel: 31
+[01] empty-obj: [ 22, 32, 42 ] maxLevel: 31
+[01] undefined-name: [ 22, 32, 42 ] maxLevel: 31
+[01] all identical: true

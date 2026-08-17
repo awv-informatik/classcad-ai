@@ -1,0 +1,4 @@
+[06] empty name → name:  originalName: Root
+[06] special chars → name: My Sub/Asm (v2) originalName: Root
+[06] no param → name: Subassembly
+[filewrite] files/06-name-edge-cases-name-edges.json (196 bytes)

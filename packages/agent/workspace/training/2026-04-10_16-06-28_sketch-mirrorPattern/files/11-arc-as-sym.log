@@ -1,0 +1,5 @@
+[11] arc: 66
+[11] result: null
+[11] maxLevel: 51
+[11] messages: [{"api":"v1.sketch.mirrorPattern","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"symmetryLineId\" has a wrong id type! Provide only following id types: [\"sketch-line\"]"}]
+[filewrite] files/11-arc-as-sym-arc-as-sym.json (301 bytes)

@@ -1,0 +1,11 @@
+[19] PARALLEL 1 line: 67 maxLevel: 51
+[19] messages: [{"api":"v1.sketch.constraint","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "}]
+[19] HORIZONTAL on circle: 69 maxLevel: 51
+[19] messages: [{"api":"v1.sketch.constraint","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "}]
+[19] NONEXISTENT type: null maxLevel: 51
+[19] messages: [{"api":"v1.sketch.constraint","code":1013,"level":51,"levelStr":"ERROR","message":"The provided value for parameter \"type\" is not valid. Possible values are: [\"COINCIDENT\",\"COLINEAR\",\"CONCENTRIC\",\"EQUAL_LENGTH\",\"EQUAL_RADIUS\",\"FIXATION\",\"HORIZONTAL\",\"MIDPOINT\",\"PARALLEL\",\"PERPENDICULAR\",\"SPLINE_FIT_POINT\",\"SYMMETRY\",\"TANGENT\",\"VERTICAL\"]"}]
+[19] empty geomIds: 71 maxLevel: 51
+[19] messages: [{"api":"v1.sketch.constraint","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "},{"api":"v1.sketch.constraint","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketchSolverInterface.VisitHorizontalConstraint:[Index 0 ausserhalb des Arraybereichs] not defined !] "}]
+[19] EQUAL_LENGTH line+circle: null maxLevel: 51
+[19] messages: [{"api":"v1.sketch.constraint","code":0,"level":51,"levelStr":"ERROR","message":"Wrong number of geometry ids provided for a equal length constraint."},{"api":"v1.sketch.constraint","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketchSolverInterface.VisitParallelConstraint:[Index 1 ausserhalb des Arraybereichs] not defined !] "},{"api":"v1.sketch.constraint","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in SketchSolverInterface.VisitHorizontalConstraint:[Index 0 ausserhalb des Arraybereichs] not defined !] "}]
+[filewrite] files/19-error-cases-error-cases.json (2703 bytes)

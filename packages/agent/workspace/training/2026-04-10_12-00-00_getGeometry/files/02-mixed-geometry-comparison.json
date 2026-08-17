@@ -1,0 +1,36 @@
+{
+  "created": {
+    "arcsBy3Points": [],
+    "arcsByCenter": [
+      68
+    ],
+    "circles": [
+      73
+    ],
+    "lines": [
+      60,
+      64
+    ],
+    "points": [
+      58
+    ]
+  },
+  "queried": {
+    "arcs": [
+      68
+    ],
+    "circles": [
+      73
+    ],
+    "lines": [
+      60,
+      64
+    ],
+    "points": [
+      58
+    ]
+  },
+  "pointsMatch": true,
+  "linesMatch": true,
+  "circlesMatch": true
+}

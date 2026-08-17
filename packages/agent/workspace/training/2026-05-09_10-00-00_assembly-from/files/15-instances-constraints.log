@@ -1,0 +1,15 @@
+[15] Testing instances/constraints in JSON and comparing to create()...
+[15] instance entry: result: 14 maxLevel: 51
+[15]   ERROR: [Evaluation error in jsonAsmBuilder.CreateInstances:[Uninitialized member] not defined !] 
+[filewrite] files/15-instances-constraints-instance-entry.json (275 bytes)
+[15] instance productId: result: 14 maxLevel: 51
+[15]   ERROR: [Evaluation error in jsonAsmBuilder.CreateInstances:[Uninitialized member] not defined !] 
+[filewrite] files/15-instances-constraints-instance-productId.json (275 bytes)
+[15] constraint entry: result: 14 maxLevel: 51
+[15]   ERROR: Unknown constraint type!
+[15]   ERROR: [Evaluation error in jsonAsmBuilder.CreateConstraints:[CCVM::ldm: objId not found]] 
+[filewrite] files/15-instances-constraints-constraint-entry.json (422 bytes)
+[15] from() classes: AllObjects, CC_AssemblyContainer, CC_AssemblyRoot, CC_ConstraintSet, CC_ExpressionSet, CC_GeometrySet, CC_PartContainer, CC_WorkCSys
+[15] create() classes: AllObjects, CC_AssemblyContainer, CC_AssemblyRoot, CC_ConstraintSet, CC_ExpressionSet, CC_GeometrySet, CC_PartContainer, CC_WorkCSys
+[15] Same structure? true
+[filewrite] files/15-instances-constraints-from-vs-create.json (435 bytes)

@@ -1,0 +1,8 @@
+[10] created Base: 22 Pillar: 105
+[10] looked up Base: 22 Pillar: 105
+[10] match: true
+[10] all after instancing: [22,105]
+[10] base COG: { x: 40, y: 30, z: 5 }
+[10] pillar1 COG: { x: 10.003694488413, y: 10.003694488413002, z: 29.97783306952199 }
+[10] pillar2 COG: { x: 60.02216693047803, y: 40.01477795365198, z: 29.977833069521974 }
+[filewrite] files/10-workflow-workflow-results.json (466 bytes)

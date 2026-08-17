@@ -1,0 +1,6 @@
+[03] instances created — b1: 170 b2: 172 n1: 174
+[03] getInstance(Bolt_1): {"result":170,"maxLevel":31}
+[03] getInstance(all): {"result":[170,172,174],"maxLevel":31}
+[03] getInstance(NonExistent): {"result":[],"maxLevel":31,"messages":[]}
+[03] getInstance(Bolt_2): {"result":172,"maxLevel":31}
+[03] getInstance(ownerId=tpl1): {"result":null,"maxLevel":51,"messages":[{"api":"v1.assembly.getInstance","code":1001,"level":51,"levelStr":"ERROR","message":"The parameter \"ownerId\" has a wrong id type! Provide only following id types: [\"assembly\",\"instance\"]"}]}

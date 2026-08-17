@@ -1,0 +1,8 @@
+[08] pre-recalc edge: {"lines":[67]} maxLevel: 31
+[08] pre-recalc face: {"planes":[84]} maxLevel: 31
+[08] pre-recalc vertex: {"points":[59]} maxLevel: 31
+[08] post-recalc edge: {"lines":[98]} maxLevel: 31
+[08] post-recalc face: {"planes":[115]} maxLevel: 31
+[08] post-recalc vertex: {"points":[90]} maxLevel: 31
+[08] edge same? false | face same? false | vertex same? false
+[filewrite] files/08-pre-recalc-pre-vs-post-recalc.json (112 bytes)

@@ -1,0 +1,6 @@
+[07] target ID: 61
+[07] after union: result= 61 same target= true maxLevel= 31
+[07] after sub: result= 61 same target= true maxLevel= 31
+[07] after intersection: result= null same target= false maxLevel= 51
+[07] after merge: result= 61 same target= true maxLevel= 31
+[filewrite] files/07-chain-mixed-ops-chain-results.json (272 bytes)

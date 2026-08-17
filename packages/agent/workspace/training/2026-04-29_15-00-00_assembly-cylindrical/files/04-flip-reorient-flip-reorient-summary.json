@@ -1,0 +1,32 @@
+[
+  {
+    "name": "CylFlipZ",
+    "mate1Flip": "Z",
+    "mate2Flip": "Z",
+    "mate2Reorient": "0"
+  },
+  {
+    "name": "CylFlipNegZ",
+    "mate1Flip": "Z",
+    "mate2Flip": "-Z",
+    "mate2Reorient": "0"
+  },
+  {
+    "name": "CylFlipX",
+    "mate1Flip": "Z",
+    "mate2Flip": "X",
+    "mate2Reorient": "0"
+  },
+  {
+    "name": "CylReorient90",
+    "mate1Flip": "Z",
+    "mate2Flip": "Z",
+    "mate2Reorient": "90"
+  },
+  {
+    "name": "CylReorient180",
+    "mate1Flip": "Z",
+    "mate2Flip": "Z",
+    "mate2Reorient": "180"
+  }
+]

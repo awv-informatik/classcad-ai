@@ -1,0 +1,7 @@
+[08] 3.1 after leak cycle: ["NoneSplitted0(0)"]
+[08] 3.2 after 2nd postTrim: ["NoneSplitted0(0)"] (swept?)
+[08] 3.3 fresh cycle on leaked sketch -> containers: ["NoneSplitted0(0)"]
+[08] 3.5 trim-then-re-preTrim path -> containers: ["NoneSplitted0(0)","NoneSplitted0(0)"]
+[filewrite] files/08-noneSplitted0-leak-08-leak.json (208 bytes)
+[08] leak repro: NoneSplitted0(0) | 2nd-postTrim swept? false
+[08] CHECKS {"reproducedLeak":true,"secondPostTrimBehavior":true,"freshCycleWorks":true}

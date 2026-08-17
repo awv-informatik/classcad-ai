@@ -1,0 +1,20 @@
+{
+  "formula1": {
+    "result": 2,
+    "maxLevel": 31,
+    "endX": 119.99999999999999,
+    "expected": 120
+  },
+  "formula2": {
+    "result": 2,
+    "maxLevel": 31,
+    "endX": 70.71067811865476,
+    "expected": 70.71067811865476
+  },
+  "stringNum": {
+    "result": 2,
+    "maxLevel": 31,
+    "endX": 100,
+    "expected": 100
+  }
+}

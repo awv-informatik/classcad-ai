@@ -1,0 +1,20 @@
+{
+  "subInst": 117,
+  "childETId": 118,
+  "refInst": 120,
+  "cogBefore": {
+    "x": 30,
+    "y": 40,
+    "z": 7.5
+  },
+  "cogAfterGlobal": {
+    "x": 45,
+    "y": 39.99999999999999,
+    "z": 7.5
+  },
+  "globalResult": {
+    "result": null,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

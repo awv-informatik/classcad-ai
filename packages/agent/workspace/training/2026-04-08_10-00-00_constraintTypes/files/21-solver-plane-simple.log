@@ -1,0 +1,8 @@
+[21] Top plane ID: 38
+[21] sketch on Top plane: 52
+[21] BEFORE: bottom line end = (%s, %s) 60 0
+[21] updateDimension(100): result=%d maxLevel=%d 1 31
+[21] AFTER: bottom line end = (%s, %s) 100 0
+[21] MOVED? %s (before x=%d, after x=%d) true 60 100
+[21] COINCIDENT with plane: before=(%s,%s) after=(%s,%s) moved=%s 50 -20 40 -30 true
+[filewrite] files/21-solver-plane-simple-plane-solver-test.json (384 bytes)

@@ -1,0 +1,13 @@
+{
+  "batch": 51,
+  "single": 51,
+  "numeric": 51,
+  "eV": {
+    "expression": "t1mm+(hubProjIn*inchF)/2",
+    "value": 10.6172
+  },
+  "eD": {
+    "expression": "0.3125*inchF",
+    "value": 7.9375
+  }
+}

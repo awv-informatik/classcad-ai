@@ -1,0 +1,7 @@
+[09] created: 105 107
+[09] partial failure result: null maxLevel: 51
+[filewrite] files/09-partial-failure-partial-failure-response.json (440 bytes)
+[09] after partial failure, instances: [ 105, 107 ]
+[09] inst1 deleted? false
+[09] inst2 survives? true
+[filewrite] files/09-partial-failure-partial-failure-comparison.json (73 bytes)

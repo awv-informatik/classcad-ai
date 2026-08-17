@@ -1,0 +1,7 @@
+[02] set with JS booleans - maxLevel: 31
+[02] after JS booleans: {"angleTol":0,"chordHeightTol":0.5,"doCurveTessellation":0,"facetingParamsMode":1,"isCCGraphicEnabled":0,"isGraphicEnabled":0,"isInvisibleGraphicEnabled":1,"isSketchGraphicEnabled":0}
+[02] set with 0/1 integers - maxLevel: 31
+[02] after 0/1 integers: {"angleTol":0,"chordHeightTol":0.5,"doCurveTessellation":1,"facetingParamsMode":1,"isCCGraphicEnabled":1,"isGraphicEnabled":1,"isInvisibleGraphicEnabled":0,"isSketchGraphicEnabled":1}
+[02] isGraphicEnabled type after JS false: number value: 0
+[02] isGraphicEnabled type after int 1: number value: 1
+[filewrite] files/02-boolean-fields-boolean-fields.json (517 bytes)

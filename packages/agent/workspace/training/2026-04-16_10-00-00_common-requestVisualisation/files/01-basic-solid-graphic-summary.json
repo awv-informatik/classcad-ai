@@ -1,0 +1,39 @@
+{
+  "topKeys": [
+    "containers",
+    "properties"
+  ],
+  "containerCount": 1,
+  "container0Keys": [
+    "id",
+    "owner",
+    "type",
+    "properties",
+    "meshes",
+    "edges",
+    "vertices"
+  ],
+  "container0Properties": {
+    "material": {
+      "color": [
+        128,
+        128,
+        128
+      ],
+      "opacity": 1
+    },
+    "layer": "0",
+    "min": [
+      -30,
+      -20,
+      -15
+    ],
+    "max": [
+      30,
+      20,
+      15
+    ],
+    "chordHeightTol": 0.1,
+    "angleTol": 0
+  }
+}

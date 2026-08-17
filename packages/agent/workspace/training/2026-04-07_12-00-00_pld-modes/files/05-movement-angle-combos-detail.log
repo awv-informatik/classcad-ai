@@ -1,0 +1,7 @@
+[05a] xa+a → maxLevel: 31 result: null
+[05b] xr+a → maxLevel: 31
+[05c] yr+a → maxLevel: 31
+[05d] ya+ar → maxLevel: 31
+[05e] yr+ar → maxLevel: 31
+[05f] xa+ar → maxLevel: 31
+[filewrite] files/05-movement-angle-combos-detail-movement-angle-results.json (341 bytes)

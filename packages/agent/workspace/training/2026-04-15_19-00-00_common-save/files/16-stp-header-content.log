@@ -1,0 +1,15 @@
+[16] Default header:
+ HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('HeaderTest', '2026-04-15T19:20:53', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+[16] Custom header:
+ HEADER;
+FILE_DESCRIPTION(('STEP'), '1');
+FILE_NAME('HeaderTest', '2026-04-15T19:20:53', (''), (''), 'Express 3.1.2.0', 'Express Tool', 'Unknown');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+[16] custom name present: false
+[16] custom org present: false
+[filewrite] files/16-stp-header-content-stp-headers.json (486 bytes)

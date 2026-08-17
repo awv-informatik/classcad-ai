@@ -1,0 +1,5 @@
+[13] c2 center before: {"pos":{"x":50,"y":30,"z":0}}
+[13] constraint result: 68 maxLevel: 31
+[13] c2 center after: {"pos":{"x":0,"y":0,"z":0}}
+[13] isConcentric: true
+[filewrite] files/13-concentric-concentric-data.json (229 bytes)

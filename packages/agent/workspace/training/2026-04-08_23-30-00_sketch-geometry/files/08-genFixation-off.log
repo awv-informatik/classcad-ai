@@ -1,0 +1,6 @@
+[08a] default genFixation result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[58],"points":[]}
+[08a] maxLevel: 31
+[filewrite] files/08-genFixation-off-fixation-default-structure.json (27130 bytes)
+[08b] genFixation=false result: {"arcsBy3Points":[],"arcsByCenter":[],"circles":[],"lines":[72],"points":[]}
+[08b] maxLevel: 31
+[filewrite] files/08-genFixation-off-fixation-off-structure.json (34325 bytes)

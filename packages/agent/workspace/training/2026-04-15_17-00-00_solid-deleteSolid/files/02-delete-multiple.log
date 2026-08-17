@@ -1,0 +1,3 @@
+[02] box1: 61 box2: 64 box3: 67
+[02] deleteSolid result: null maxLevel: 31
+[filewrite] files/02-delete-multiple-delete-multi-response.json (56 bytes)

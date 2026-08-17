@@ -1,0 +1,4 @@
+[18] sphere bbox before: {"min":[20,-20,-20],"max":[60,20,20]}
+[18] sphere bbox after: {"min":[-60,-20,-20],"max":[-20,20,20]}
+[18] mirror result: 60 maxLevel: 31
+[filewrite] files/18-mirror-sphere-sphere-mirror.json (239 bytes)

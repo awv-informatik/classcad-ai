@@ -1,0 +1,5 @@
+[10] fillet feature counts: {"lineIndex":13,"arcIndex":2,"faceIndex":7,"pointIndex":10}
+[10] chamfer feature (after fillet) counts: {"lineIndex":16,"arcIndex":2,"faceIndex":8,"pointIndex":12}
+[10] fillet2 feature (after fillet+chamfer) counts: {"lineIndex":17,"arcIndex":3,"faceIndex":9,"pointIndex":14}
+[10] arc search near fillet midpoints: {"arcs":[[],[]]} maxLevel: 51
+[filewrite] files/10-find-fillet-arcs-fillet-arcs.json (383 bytes)

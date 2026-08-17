@@ -1,0 +1,30 @@
+[verify T3 sketch@24T] worst junction error: 5.193e-1 mm {"a":0,"xL":0,"yL":0,"PL":0,"QL":0.51928366,"QR":0.409257998,"PR":0,"yR":0,"xR":0,"cL":0,"cR2":0,"bL":0,"bR":0}
+[03] T4 explicit pattern update: open 31 update 31 657 close 31
+[03] ✓ {"label":"baseline21:root","ok":true,"errIn":4.440892098500626e-16}
+[03] ✓ {"label":"baseline21:tipcorner","ok":true,"errIn":2.7755575615628914e-17}
+[03] ✓ {"label":"baseline21:borewall","ok":true,"radErrIn":3.054424883575102e-7}
+[03] ✓ {"label":"baseline21:volume","ok":true,"cadIn3":1.85592,"mcAdjIn3":1.85065,"devPct":0.28}
+[03] ✓ {"label":"baseline21:chamfer-ring","ok":true,"worstErrMM":0.00001}
+[03] ✓ {"label":"T1-bore1.25:root","ok":true,"errIn":4.440892098500626e-16}
+[03] ✓ {"label":"T1-bore1.25:tipcorner","ok":true,"errIn":2.7755575615628914e-17}
+[03] ✓ {"label":"T1-bore1.25:borewall","ok":true,"radErrIn":1.8034418336476676e-7}
+[03] ✓ {"label":"T1-bore1.25:volume","ok":true,"cadIn3":1.57974,"mcAdjIn3":1.57468,"devPct":0.32}
+[03] ✓ {"label":"T1-bore1.25:chamfer-ring","ok":true,"worstErrMM":0}
+[03] ✓ {"label":"T2-hub0.7:root","ok":true,"errIn":4.440892098500626e-16}
+[03] ✓ {"label":"T2-hub0.7:tipcorner","ok":true,"errIn":2.7755575615628914e-17}
+[03] ✓ {"label":"T2-hub0.7:borewall","ok":true,"radErrIn":1.8034418325374446e-7}
+[03] ✓ {"label":"T2-hub0.7:volume","ok":true,"cadIn3":2.00619,"mcAdjIn3":2.00355,"devPct":0.13}
+[03] ✓ {"label":"T2-hub0.7:chamfer-ring","ok":true,"worstErrMM":0}
+[03] ✓ {"label":"T3-sketch-morph","ok":true,"worstMM":0.5193}
+[03] ✓ {"label":"T3-teeth24:root","ok":true,"errIn":0}
+[03] ✓ {"label":"T3-teeth24:tipcorner","ok":true,"errIn":2.7755575615628914e-17}
+[03] ✓ {"label":"T3-teeth24:borewall","ok":true,"radErrIn":1.8034418325374446e-7}
+[03] ✓ {"label":"T3-teeth24:volume","ok":true,"cadIn3":2.25364,"mcAdjIn3":2.24856,"devPct":0.23}
+[03] ✓ {"label":"T3-pattern-count-24 (space#22@330°)","ok":true,"errIn":2.220446049250313e-16}
+[03] ✓ {"label":"T4-explicit-pattern:root","ok":true,"errIn":0}
+[03] ✓ {"label":"T4-explicit-pattern:tipcorner","ok":true,"errIn":2.7755575615628914e-17}
+[03] ✓ {"label":"T4-explicit-pattern:borewall","ok":true,"radErrIn":1.8034418325374446e-7}
+[03] ✓ {"label":"T4-explicit-pattern:volume","ok":true,"cadIn3":2.25364,"mcAdjIn3":2.25209,"devPct":0.07}
+[03] ✓ {"label":"T4-pattern-count-24 (space#22@330°)","ok":true,"errIn":2.220446049250313e-16}
+[filewrite] files/03-parametric-sprocket-parametric-report.json (3076 bytes)
+[03] ALL CHECKS PASS (pattern-freeze limitation expected)

@@ -1,0 +1,5 @@
+[11] dim result: 72 maxLevel: 51
+[11] line end after @expr.myWidth=40: {"pos":{"x":80,"y":0,"z":0}}
+[11] formula dim: result: 84 maxLevel: 31
+[11] line2 end after "60+10": {"pos":{"x":70,"y":20,"z":0}}
+[filewrite] files/11-expression-value-expression-data.json (305 bytes)

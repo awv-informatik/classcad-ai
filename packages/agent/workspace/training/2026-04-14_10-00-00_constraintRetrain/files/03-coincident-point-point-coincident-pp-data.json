@@ -1,0 +1,37 @@
+{
+  "before": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 50,
+        "y": 10,
+        "z": 0
+      }
+    }
+  },
+  "after": {
+    "l1End": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "l2Start": {
+      "pos": {
+        "x": 40,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "constraintResult": 72,
+  "maxLevel": 31,
+  "coincident": true
+}

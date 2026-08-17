@@ -1,0 +1,5 @@
+[06] radius=0 result: [ 61 ] maxLevel: 31
+[filewrite] files/06-zero-negative-radius-zero-radius.json (79 bytes)
+[06] radius=-5 result: null maxLevel: 51
+[06] neg msg: level=51 "Set the parameter "id" = VOID is not allowed in this situation!"
+[filewrite] files/06-zero-negative-radius-negative-radius.json (270 bytes)

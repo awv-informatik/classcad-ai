@@ -1,0 +1,12 @@
+{
+  "twoDist": {
+    "result": 120,
+    "maxLevel": 31,
+    "messages": []
+  },
+  "distAngle": {
+    "result": 120,
+    "maxLevel": 31,
+    "messages": []
+  }
+}

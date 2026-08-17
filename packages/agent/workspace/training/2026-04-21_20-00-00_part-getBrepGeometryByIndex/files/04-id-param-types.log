@@ -1,0 +1,6 @@
+[04] feature ID: result=98, maxLevel=31
+[04] part ID: result=null, maxLevel=51
+[04] part ID messages: [Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:[Index 0 ausserhalb des Arraybereichs] not defined !] 
+[04] invalid ID: result=null, maxLevel=51
+[04] invalid ID messages: ToId()/TOID() didn't get an existing or valid id.; [Evaluation error in PartAPI_v1.getBrepGeometryByIndex::PROC:[CCVM::callsf: objId not found]] 
+[filewrite] files/04-id-param-types-id-types.json (979 bytes)

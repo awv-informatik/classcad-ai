@@ -1,0 +1,4 @@
+[filewrite] files/03-scale-identity-graphic-before.json (4 bytes)
+[03] scale factor=1 result: 61 maxLevel: 31
+[filewrite] files/03-scale-identity-scale-1-response.json (54 bytes)
+[filewrite] files/03-scale-identity-graphic-after.json (4 bytes)

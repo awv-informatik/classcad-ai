@@ -1,0 +1,41 @@
+{
+  "result": [
+    {
+      "id": 123,
+      "mate1": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          113
+        ],
+        "reorient": "0"
+      },
+      "mate2": {
+        "csys": 107,
+        "flip": "Z",
+        "path": [
+          115
+        ],
+        "reorient": "0"
+      },
+      "name": "F1",
+      "xOffset": 50,
+      "xRotation": 0,
+      "yOffset": 0,
+      "yRotation": 0,
+      "zOffset": 0,
+      "zRotation": 0
+    },
+    null
+  ],
+  "messages": [
+    {
+      "api": "v1.assembly.getFastened",
+      "code": 0,
+      "level": 51,
+      "levelStr": "ERROR",
+      "message": "There couldn't be found a constraint with name \"Nope\" on product or product reference with id $12"
+    }
+  ],
+  "maxLevel": 51
+}

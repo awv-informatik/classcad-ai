@@ -1,0 +1,6 @@
+[09] before xOffset: 10 yOffset: 20
+[09] after xOffset: 77 yOffset: 20 zRotation: 0.7853981633974483
+[filewrite] files/09-after-update-before-after-update.json (596 bytes)
+[09] old name result: null maxLevel: 51
+[09] new name result id: 119 maxLevel: 31
+[filewrite] files/09-after-update-rename-get.json (447 bytes)

@@ -1,0 +1,21 @@
+{
+  "name": "RollbackBar",
+  "class": "CC_RollbackBar",
+  "id": 20,
+  "flags": 4096,
+  "parent": 18,
+  "members": {
+    "_VERSION": {
+      "value": "0/2005_08_24_11:47",
+      "type": "string",
+      "visible": 1,
+      "expression": ""
+    },
+    "refObj": {
+      "value": 20,
+      "type": "id",
+      "visible": 1,
+      "expression": ""
+    }
+  }
+}

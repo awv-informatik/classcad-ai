@@ -1,0 +1,15 @@
+[
+  {
+    "id": 170,
+    "name": "SubAsm",
+    "class": "CC_Assembly",
+    "parent": 10,
+    "children": [
+      172,
+      174,
+      176,
+      180,
+      182
+    ]
+  }
+]

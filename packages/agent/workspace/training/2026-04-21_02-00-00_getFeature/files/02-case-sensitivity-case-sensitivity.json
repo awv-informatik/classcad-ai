@@ -1,0 +1,18 @@
+{
+  "exact": {
+    "result": 54,
+    "maxLevel": 31
+  },
+  "lowercase": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "uppercase": {
+    "result": null,
+    "maxLevel": 51
+  },
+  "mixed": {
+    "result": null,
+    "maxLevel": 51
+  }
+}

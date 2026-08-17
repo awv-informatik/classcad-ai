@@ -1,0 +1,21 @@
+{
+  "baseline": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "after1": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "after2": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "after3": {
+    "angleTol": 10,
+    "chordHeightTol": 0.3
+  },
+  "r1ml": 31,
+  "r2ml": 31,
+  "r3ml": 31
+}

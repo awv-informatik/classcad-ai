@@ -1,0 +1,10 @@
+[08] partId: 4
+[08] boxId: 54 cylId: 91
+[08] moveBefore(cyl) #1 result: null maxLevel: 31
+[08] moveBefore(cyl) #2 result: null maxLevel: 31
+[filewrite] files/08-moveBefore-same-position-moveBefore-same.json (56 bytes)
+[08] moveBefore(box) from mid result: null maxLevel: 31
+[08] moveBefore(cyl) from before-box result: null maxLevel: 31
+[filewrite] files/08-moveBefore-same-position-moveBefore-forward.json (56 bytes)
+[08] moveToEnd when already at end result: null maxLevel: 31
+[filewrite] files/08-moveBefore-same-position-moveToEnd-atEnd.json (56 bytes)

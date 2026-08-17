@@ -1,0 +1,10 @@
+[01b] trimming (inner): [76,91]
+[filewrite] files/01b-arc-geometry-diagnostic-01b-survivor-arcs.json (2619 bytes)
+[01b] arc 97 class CC_Arc endpoints [[29.999999999999993,40,0],[29.999999999999954,-40.000000000000036,0]]
+[01b]   members keys: bulge,_VERSION,radius,angleRangeLimited,rigidSetId,isConstruction,lgsState
+[01b]   radius = 49.99999999999999
+[01b]   angleRangeLimited = 0
+[01b] arc 103 class CC_Arc endpoints [[29.99999999999993,-39.99999999999994,0],[30.000000000000018,40.000000000000014,0]]
+[01b]   members keys: bulge,_VERSION,radius,angleRangeLimited,rigidSetId,isConstruction,lgsState
+[01b]   radius = 49.99999999999999
+[01b]   angleRangeLimited = 0

@@ -1,0 +1,5 @@
+[01] COINCIDENT maxLevel: 31 — l2.start after: {"x":55,"y":5,"z":0} (was 55,5; snap target 50,0)
+[01] DIAMETER value:45 on r=20 circle — maxLevel: 51 circle members: {"radius":{"value":20,"type":"real","visible":1,"expression":""},"_VERSION":{"value":"0/2001_2_2_9:19","type":"string","visible":0,"expression":""},"rigidSetId":{"value":0,"type":"id","visible":1,"expression":""}}
+[01] updateDimension result: 0 (0 = unsolved per create.md) maxLevel: 31
+[01] radius after updateDimension: { value: 20, type: 'real', visible: 1, expression: '' }
+[filewrite] files/01-control-no-planeid-control.json (913 bytes)

@@ -1,0 +1,13 @@
+[09] created CP: {"constraint":123,"instances":[113,125,127]}
+[09] getCircularPattern: {"angle":2.0943951023931953,"id":123,"instanceCount":3,"instanceId":113,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"CP1","offset":0}
+[filewrite] files/09-get-update-circular-get-cp-result.json (224 bytes)
+[09] nonexistent: null maxLevel: 51
+[09] update result: {"constraint":123,"instances":[113,125,127,160,162]}
+[09] update maxLevel: 31
+[09] after update get: {"angle":1.2566370614359172,"id":123,"instanceCount":5,"instanceId":113,"mate1":{"csys":107,"flip":"Z","path":[113],"reorient":"0"},"name":"CP1","offset":0}
+[09] inst 113 COG: {"x":15,"y":10,"z":7.5}
+[09] inst 125 COG: {"x":-4.875310247327326,"y":17.356017688176777,"z":7.4999999999999964}
+[09] inst 127 COG: {"x":-18.01310743854894,"y":0.7266088406376202,"z":7.5000000000000036}
+[09] inst 160 COG: {"x":-6.257402392699482,"y":-16.90694872813658,"z":7.5000000000000036}
+[09] inst 162 COG: {"x":14.145820078575753,"y":-11.175677800677825,"z":7.499999999999998}
+[filewrite] files/09-get-update-circular-update-cp-data.json (494 bytes)

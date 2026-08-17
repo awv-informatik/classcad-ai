@@ -1,0 +1,7 @@
+[01] box1: 61
+[01] box2: 64
+[01] subtraction result: 61
+[01] maxLevel: 31
+[01] messages: []
+[filewrite] files/01-basic-subtraction-subtraction-result.json (54 bytes)
+[01] box2 after subtraction — copy result: null maxLevel: 51

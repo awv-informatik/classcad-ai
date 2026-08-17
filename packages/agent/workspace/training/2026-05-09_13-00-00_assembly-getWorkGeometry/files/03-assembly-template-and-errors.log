@@ -1,0 +1,13 @@
+[03] wpId in template: 107
+[03] subAsmTpl: 113
+[03] subInst (inside sub-asm): 123
+[03] subAsmInst: 125
+[03] directInst: 128
+[03] subAsmTpl/Top: null maxLevel: 51 msg: Couldn't find work geometry with name: "Top"
+[03] subAsmInst/Top: null maxLevel: 51 msg: Couldn't find work geometry with name: "Top"
+[03] directInst/WPt1: 107 maxLevel: 31
+[03] directInst/NonExistent: null maxLevel: 51 msg: Couldn't find work geometry with name: "NonExistent"
+[03] directInst/empty: null maxLevel: 51 msg: Couldn't find work geometry with name: ""
+[03] directInst/top (lowercase): null maxLevel: 51
+[03] tplId/Top (expect fail): null maxLevel: 51 msg: The parameter "id" has a wrong id type! Provide only following id types: ["assembly","instance"]
+[filewrite] files/03-assembly-template-and-errors-results.json (1046 bytes)

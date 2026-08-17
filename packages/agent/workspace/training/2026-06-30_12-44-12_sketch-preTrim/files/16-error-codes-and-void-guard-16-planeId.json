@@ -1,0 +1,13 @@
+{
+  "label": "planeId",
+  "maxLevel": 51,
+  "isArray": false,
+  "nEntries": null,
+  "err": [
+    {
+      "level": 51,
+      "code": 1001,
+      "message": "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]"
+    }
+  ]
+}

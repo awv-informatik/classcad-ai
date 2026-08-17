@@ -1,0 +1,8 @@
+[04] box1: 54 box2: 91
+[04] whole feature color: 31
+[04] whole feature2 color: 31
+[04] index [0] on single-solid: 31
+[04] index [1] on single-solid: 51
+[04] index [1] msgs: [{"api":"v1.part.setAppearance","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in APIHelper.PrepareEntityObjs:[CCVM::ldm: objId not found]] "}]
+[04] empty indices: 31
+[filewrite] files/04-per-solid-index-index-results.json (469 bytes)

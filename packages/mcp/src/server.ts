@@ -59,18 +59,32 @@ async function main(): Promise<void> {
     {
       title: 'Switch session',
       description:
-        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its WebSocket lazily, so the first tool call decides which session is used. Two modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker, e.g. one Buerligons is already using; empty/omitted = fresh worker-assigned session. (2) url — a full ws(s):// URL from a multi-client server, typically carrying an invite token (e.g. wss://host/?invite=…); the MCP connects with it VERBATIM and joins that shared session. Without either, the MCP runs its own session as before. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
+        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its WebSocket lazily, so the first tool call decides which session is used. Two modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker, e.g. one Buerligons is already using; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (e.g. wss://host/?invite=…); the MCP connects with it VERBATIM and joins that shared session. An http(s):// APP SHARE LINK (e.g. http://localhost:5173/?invite=…) also works: its host is the web app, not the CAD server, so only the invite token is taken and applied to the configured worker URL. Without either, the MCP runs its own session as before. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
       inputSchema: {
         sessionId: z.string().optional()
           .describe('Target session id (named-session model). Empty string or omitted = no header (worker-assigned session).'),
         url: z.string().optional()
-          .describe('Full ws(s):// URL to connect to VERBATIM — e.g. a multi-client token/invite URL (wss://host/?invite=…). Takes precedence over sessionId.'),
+          .describe('ws(s):// URL to connect to VERBATIM — e.g. a multi-client token/invite URL (wss://host/?invite=…). An http(s):// app share link with ?invite= is accepted too: the invite token is extracted and applied to the configured worker URL. Takes precedence over sessionId.'),
       },
     },
     async ({ sessionId, url }) => {
       const target = sessionId && sessionId.length > 0 ? sessionId : null
       try {
-        if (url && url.length > 0) await client.reconnectUrl(url)
+        let wsUrl = url && url.length > 0 ? url : null
+        // App share links (http/https) point at the WEB APP, not the CAD
+        // server — carry over only the invite token onto the worker base URL.
+        if (wsUrl && /^https?:\/\//i.test(wsUrl)) {
+          const invite = new URL(wsUrl).searchParams.get('invite')
+          if (!invite) {
+            throw new Error(
+              `"${wsUrl}" is an http(s) app link without an ?invite= token. ` +
+              'Pass the ws(s):// URL of the ClassCAD server (optionally with ?invite=…), or an app share link that carries ?invite=.',
+            )
+          }
+          const base = client.baseUrl.replace(/\/+$/, '')
+          wsUrl = `${base}/?invite=${encodeURIComponent(invite)}`
+        }
+        if (wsUrl) await client.reconnectUrl(wsUrl)
         else await client.reconnect(target)
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)

@@ -39,6 +39,8 @@ export type Client = {
   reconnect: (sessionId: string | null) => Promise<void>
   /** Reconnect to a DIFFERENT server URL — e.g. a multi-client token/invite URL (`wss://…/?invite=…`), used verbatim. */
   reconnectUrl: (url: string) => Promise<void>
+  /** The configured worker URL (session-id reconnects always return to it). */
+  readonly baseUrl: string
   readonly ws: WebSocket | undefined
   readonly sessionId: string | null
   readonly url: string
@@ -310,6 +312,9 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     },
     get url() {
       return currentUrl
+    },
+    get baseUrl() {
+      return baseUrl
     },
   }
 }

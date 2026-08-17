@@ -95,7 +95,12 @@ export async function runScript(
 
   let fn: (...fnArgs: unknown[]) => Promise<unknown>
   try {
-    fn = new AsyncFunction('api', 'console', 'log', ...SHADOWED_GLOBALS, `'use strict';\n${code}`)
+    // The user code runs in an INNER async scope so its own declarations may
+    // freely shadow the shadowed globals (`const top = …`, `const parent = …`
+    // must not collide with the sandbox parameters — observed live in the
+    // browser host). Bare assignment to a shadowed name hits the harmless
+    // outer parameter instead of the real global.
+    fn = new AsyncFunction('api', 'console', 'log', ...SHADOWED_GLOBALS, `'use strict';\nreturn (async () => {\n${code}\n})();`)
   } catch (e) {
     return { ok: false, error: `Script syntax error: ${e instanceof Error ? e.message : String(e)}`, logs }
   }

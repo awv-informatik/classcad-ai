@@ -48,7 +48,8 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node test/smoke.mjs && node test/golden.mjs"
+    "test": "npm run build && node test/smoke.mjs && node test/golden.mjs",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "sharp": "^0.34.0"

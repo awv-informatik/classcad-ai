@@ -26,6 +26,7 @@ The cylinder is **base-anchored at the origin** — XY centered (axis on Z), but
 
 ## Gotchas
 
+- **Unknown parameters are SILENTLY IGNORED** (verified 2026-08-17): `xPosition`/`zPosition`/`translation` do not exist — the cylinder lands at the origin with no warning (COG-verified). Position exclusively via `references: [workCSysId]`.
 - **`references` only accepts `workcsys` IDs.** Passing a work plane, work axis, or work point ID fails with error code 1001: "wrong id type! Provide only following id types: ['workcsys']". The docs say "reference of the work coordinate system" — it means literally a workCSys.
 - **The cylinder follows the workCSys ORIENTATION, not just its origin.** The cylinder axis aligns with the csys z-axis. A csys with `rotation: [0, Math.PI/2, 0]` (z → world +X) produces a cylinder along +X. Verified 2026-06-10: csys `offset [30,40,20]` + `rotation [0, π/2, 0]`, cylinder d=12 h=50 → COG (54.96, 40.01, 20.01), i.e., base at the offset point, axis +X. `offset` is applied in WORLD coordinates (the rotation pivots about the csys origin, it does not rotate the offset).
 - **`workCSys` takes `offset` + `rotation` (Euler radians) — NOT `origin`/`xDirection`/`yDirection`.** Those param names are silently ignored (no error, maxLevel 31), leaving an identity csys at the world origin — the cylinder then lands at the drawing origin and the mistake is invisible until you measure. See `workCSys.md`.

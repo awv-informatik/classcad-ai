@@ -1,0 +1,14 @@
+# deps + build output
+node_modules/
+dist/
+
+# secrets — never commit tokens
+.env.local
+.env.*.local
+.copilot-oauth.json
+
+# packaging + logs + OS noise
+*.tgz
+npm-debug.log*
+yarn-error.log
+.DS_Store

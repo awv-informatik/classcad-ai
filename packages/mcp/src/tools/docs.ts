@@ -52,10 +52,12 @@ export function serverInstructions(): string {
   return [
     'ClassCAD MCP. run_script is the ONLY way to execute API calls (JavaScript against the live CAD session; ' +
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
-      'Before scripts that select geometry via api.tree()/api.graphic(), read describe_method("DATA") — the data contract. ' +
-      'Before sketch work: describe_method("SKETCHING"). Verify with numbers (calculateMassProperties) and snapshot renders.',
+      'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
+      'then fetch ALL their docs in ONE docs([...]) call (include "DATA" whenever a script reads api.tree()/api.graphic(), ' +
+      '"SKETCHING" before sketch work, and the matching recipe). After that, build in a FEW substantial staged scripts — ' +
+      'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders.',
     '',
-    'Method Index (v1) — every method, one line. Pick directly from here; use describe_method for exact parameters ' +
+    'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
       'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',
     '',
     discovery.methodIndex(),
@@ -87,15 +89,49 @@ export function registerDocsTools(server: McpServer): void {
     },
   )
 
+  // Bulk documentation — the PRIMARY doc tool (same as buerli-ai's `docs`):
+  // resolve many keys in one round instead of one describe_method per turn.
+  server.registerTool(
+    'docs',
+    {
+      title: 'Fetch documentation (bulk)',
+      description:
+        'Fetch documentation for MANY keys in ONE call — methods ("v1.part.box", bare "box"), topic docs ' +
+        '("DATA" = the tree/graphic contract for run_script, "STRUCTURE", "GRAPHICS", "SKETCHING"), domain ' +
+        'overviews ("api/part") and recipes ("recipes/parametric-part"). PLAN FIRST: pick every method your build ' +
+        'needs from the method index, then fetch them all here in one round (up to 24 keys) instead of one ' +
+        'doc per turn. Unknown keys are reported in a "not found" section with suggestions.',
+      inputSchema: {
+        keys: z.array(z.string()).min(1).max(24)
+          .describe('Documentation keys, e.g. ["DATA", "v1.part.extrusion", "v1.part.chamfer", "recipes/parametric-part"].'),
+      },
+    },
+    async ({ keys }) => {
+      const sections: string[] = []
+      const failures: string[] = []
+      for (const key of keys.slice(0, 24)) {
+        const res = discovery.describeMethod(key.trim())
+        if (res.kind === 'error') {
+          failures.push(`${key}: ${res.text}`)
+        } else {
+          const text = res.text.length > 40000 ? res.text.slice(0, 40000) + `\n\n[${key}: truncated at 40k chars]` : res.text
+          sections.push(`# ═══ ${key} ═══\n\n${text}`)
+        }
+      }
+      if (failures.length) sections.push(`# ═══ not found ═══\n${failures.join('\n')}`)
+      return { content: [{ type: 'text' as const, text: sections.join('\n\n') }] }
+    },
+  )
+
   server.registerTool(
     'describe_method',
     {
       title: 'Describe API method',
       description:
-        'Full documentation for one method: JSDoc summary + parameters, plus the trained trap/example notes ' +
-        'when present. Accepts full ("v1.part.box") or bare ("box") names — ambiguous bare names list the candidates. ' +
-        'Also serves WHOLE documents: "DATA" (the tree/graphic contract for run_script), "STRUCTURE", "GRAPHICS", ' +
-        '"SKETCHING", domain overviews ("api/part") and recipes ("recipes/parametric-part").',
+        'Full documentation for ONE key — prefer docs([...]) to fetch everything you need in a single round; ' +
+        'use this only for a single follow-up lookup. Accepts full ("v1.part.box") or bare ("box") names — ' +
+        'ambiguous bare names list the candidates. Also serves whole documents ("DATA", "SKETCHING", "api/part", ' +
+        '"recipes/parametric-part").',
       inputSchema: {
         method: z.string().describe('Method name ("v1.part.box", "box"), topic doc ("DATA", "SKETCHING") or recipe ("recipes/parametric-part").'),
       },

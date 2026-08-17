@@ -4,6 +4,7 @@ import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
 import { getDrawing } from '@buerli.io/core'
 import type { ToolExecutorContext, ToolHandler, ToolResult } from '../types'
 import { getMethodRegistry, type MethodRegistry } from './registry'
+import { getDiscovery } from './discovery'
 import { describeMethod, readDoc } from './skill'
 import { renderSessionData } from '@classcad/renderer'
 import { entryToPngBase64 } from '@classcad/renderer/browser'
@@ -77,50 +78,6 @@ function reflectMembers(obj: any): { methods: string[]; subNamespaces: string[] 
     o = Object.getPrototypeOf(o)
   }
   return { methods: [...methods].sort(), subNamespaces: [...subs].sort() }
-}
-
-// Common CAD-operation synonyms so a keyword search surfaces the right feature even
-// when the user's word differs from the API's — e.g. "split" → part.slice / solid.slice
-// (the API never uses "split" for solids; that word only hits 2D curve methods).
-const OP_SYNONYMS: Record<string, string[]> = {
-  split: ['slice', 'cut', 'divide', 'section', 'bisect', 'separate'],
-  slice: ['split', 'cut', 'section', 'divide'],
-  cut: ['slice', 'subtract', 'split', 'remove', 'pocket', 'section'],
-  section: ['slice', 'cut', 'split'],
-  hole: ['bore', 'drill', 'cut', 'pocket', 'subtract'],
-  bore: ['hole', 'drill'],
-  subtract: ['cut', 'difference', 'boolean', 'remove'],
-  difference: ['subtract', 'cut', 'boolean'],
-  union: ['add', 'join', 'combine', 'fuse', 'merge', 'boolean'],
-  join: ['union', 'combine', 'merge', 'fuse'],
-  combine: ['union', 'join', 'merge'],
-  intersect: ['intersection', 'common', 'boolean'],
-  round: ['fillet', 'blend'],
-  fillet: ['round', 'blend'],
-  chamfer: ['bevel'],
-  extrude: ['pad', 'protrusion', 'boss', 'extrusion'],
-  revolve: ['revolution', 'lathe', 'revolved'],
-  sweep: ['loft'],
-  loft: ['sweep'],
-  pattern: ['array', 'repeat'],
-  array: ['pattern', 'repeat'],
-  mirror: ['reflect', 'symmetry', 'pattern'],
-  hollow: ['shell', 'thin', 'thinwall'],
-  shell: ['hollow', 'thin'],
-  move: ['translate', 'transform', 'position', 'offset'],
-  rotate: ['turn', 'transform'],
-  scale: ['resize', 'transform'],
-  copy: ['duplicate', 'clone', 'instance'],
-  measure: ['bounds', 'distance', 'length', 'volume', 'mass', 'inspect'],
-  bounds: ['boundingbox', 'extent', 'size', 'measure'],
-}
-
-// Expand a raw filter into the set of lowercase terms to match (query tokens + synonyms).
-function expandSearchTerms(filter: string): string[] {
-  const tokens = filter.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
-  const out = new Set<string>(tokens)
-  for (const t of tokens) for (const syn of OP_SYNONYMS[t] ?? []) out.add(syn)
-  return [...out]
 }
 
 // ─── Individual tool handlers ─────────────────────────────────────────────────
@@ -219,55 +176,13 @@ const listMethods: ToolHandler = async (input, ctx) => {
 
   const ns = namespace || 'v1'
 
-  // ── v1: documented registry ──
+  // ── v1: documented registry, via the shared @classcad/skill/discovery module
+  // (ranked search over name + summary, CAD synonyms expanded — same logic as
+  // the ClassCAD MCP) ──
   if (ns === 'v1') {
-    const registry = getMethodRegistry()
-    if (!registry) return { error: 'Method registry not loaded. No method metadata available.' }
-    let entries = Object.entries(registry)
-    if (domain) entries = entries.filter(([k]) => k.startsWith(`v1.${domain}.`))
-
-    if (filter) {
-      // Rank over BOTH the method name and its summary, expanding the query with CAD
-      // synonyms (split↔slice↔cut, hole↔bore, round↔fillet, …) so a near-miss keyword
-      // still surfaces the right feature instead of nothing. Name hits weigh more.
-      const terms = expandSearchTerms(filter)
-      const scored = entries
-        .map(([name, info]) => {
-          const n = name.toLowerCase()
-          const s = String((info as any).summary ?? '').toLowerCase()
-          let score = 0
-          for (const t of terms) {
-            if (n.includes(t)) score += 2
-            if (s.includes(t)) score += 1
-          }
-          return { name, summary: (info as any).summary as string, score }
-        })
-        .filter(e => e.score > 0)
-        .sort((a, b) => b.score - a.score)
-
-      if (scored.length === 0) {
-        return {
-          result: {
-            namespace: 'v1',
-            query: filter,
-            methods: [],
-            note:
-              `No method matched "${filter}" (synonyms tried). Do NOT assume the operation doesn't exist or rebuild ` +
-              `the model manually — browse the relevant domain first, e.g. list_methods({ namespace: "v1", domain: ` +
-              `"part" }). Domains: part, assembly, sketch, solid, curve, common, drawing2d.`,
-          },
-        }
-      }
-      return {
-        result: {
-          namespace: 'v1',
-          note: 'Ranked by relevance (matches method name + summary; CAD synonyms expanded). Use describe_method for exact params.',
-          methods: scored.slice(0, 25).map(({ name, summary }) => ({ name, summary })),
-        },
-      }
-    }
-
-    return { result: { namespace: 'v1', methods: entries.map(([name, info]) => ({ name, summary: (info as any).summary })) } }
+    if (!getMethodRegistry()) return { error: 'Method registry not loaded. No method metadata available.' }
+    const res = getDiscovery().searchMethods({ domain, search: filter })
+    return { result: { namespace: 'v1', count: res.count, ...(res.note ? { note: res.note } : {}), methods: res.methods } }
   }
 
   if (ns === 'v0') return { error: 'v0 is legacy and not exposed — use v1.' }

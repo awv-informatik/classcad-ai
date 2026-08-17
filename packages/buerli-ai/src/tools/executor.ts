@@ -388,27 +388,20 @@ const snapshot: ToolHandler = async (input, ctx) => {
 // ─── Dispatcher ───────────────────────────────────────────────────────────────
 
 
-// Bulk documentation: resolve MANY keys in one round — methods, topic docs,
-// recipes, overviews. One agent round instead of one per document.
+// Bulk documentation — aggregation lives in the SHARED discovery module
+// (@classcad/skill/discovery bulkDocs, same source as the mcp's docs tool).
+// The injected resolver adds this host's extra key space (live browser
+// namespaces like structure.calculateProductBounds) via describeOne.
 const docsTool: ToolHandler = async (input, ctx) => {
   const { keys } = input as { keys?: unknown }
-  const list = Array.isArray(keys) ? keys.filter((k): k is string => typeof k === 'string' && k.trim() !== '') : []
-  if (list.length === 0) {
-    return { error: 'Provide keys: an array of documentation keys, e.g. ["v1.part.extrusion", "SKETCHING", "recipes/parametric-part"].' }
-  }
-  const sections: string[] = []
-  const failures: string[] = []
-  for (const key of list.slice(0, 24)) {
-    const r = await describeOne(key.trim(), ctx)
-    if (typeof r.result === 'string') {
-      const text = r.result.length > 40000 ? r.result.slice(0, 40000) + `\n\n[${key}: truncated at 40k chars]` : r.result
-      sections.push(`# ═══ ${key} ═══\n\n${text}`)
-    }
-    else if (r.result) sections.push(`# ═══ ${key} ═══\n\n${JSON.stringify(r.result)}`)
-    else failures.push(`${key}: ${r.error ?? 'not found'}`)
-  }
-  if (failures.length) sections.push(`# ═══ not found ═══\n${failures.join('\n')}`)
-  return { result: sections.join('\n\n') }
+  const res = await getDiscovery().bulkDocs(keys, async key => {
+    const r = await describeOne(key, ctx)
+    if (typeof r.result === 'string') return { text: r.result }
+    if (r.result) return { text: JSON.stringify(r.result) }
+    return { error: r.error ?? 'not found' }
+  })
+  if (res.empty) return { error: res.text }
+  return { result: res.text }
 }
 
 const HANDLERS: Record<string, ToolHandler> = {

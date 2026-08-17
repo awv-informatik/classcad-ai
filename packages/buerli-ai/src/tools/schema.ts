@@ -1,5 +1,6 @@
 // ─── MCP Tool Schema definitions ──────────────────────────────────────────────
 
+import { DOCS_MAX_KEYS, DOCS_TOOL } from '@classcad/skill/discovery'
 import type { McpToolSchema } from '../types'
 
 export const TOOL_SCHEMAS: McpToolSchema[] = [
@@ -149,22 +150,19 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
     },
   },
   {
-    name: 'docs',
+    // Contract shared with the mcp host — single source in @classcad/skill/discovery.
+    name: DOCS_TOOL.name,
     description:
-      'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
-      'unique bare name), topic docs ("DATA", "SKETCHING", "STRUCTURE", "GRAPHICS"), recipes ' +
-      '("recipes/parametric-part", "recipes/pattern-then-subtract", "recipes/direct-modeling-eif", ' +
-      '"recipes/verify-numerically"), domain overviews ("api/part"), or non-v1 paths ' +
-      '("structure.calculateProductBounds"). PLAN FIRST: pick every method you will need from the Method ' +
-      'Index in the system prompt, then fetch ALL of them plus the matching topic/recipe docs in ONE call — ' +
-      'each extra tool round costs a full model round-trip.',
+      DOCS_TOOL.description +
+      ' This host additionally resolves live browser namespace paths (e.g. "structure.calculateProductBounds"). ' +
+      'The method index is in the system prompt.',
     inputSchema: {
       type: 'object',
       properties: {
         keys: {
           type: 'array',
           items: { type: 'string' },
-          description: 'Documentation keys to fetch (up to 24), e.g. ["SKETCHING", "recipes/parametric-part", "v1.part.expression", "v1.part.extrusion", "v1.sketch.constraint", "v1.sketch.dimension"].',
+          description: `Documentation keys to fetch (up to ${DOCS_MAX_KEYS}), e.g. ["SKETCHING", "recipes/parametric-part", "v1.part.expression", "v1.part.extrusion", "v1.sketch.constraint", "v1.sketch.dimension"].`,
         },
       },
       required: ['keys'],

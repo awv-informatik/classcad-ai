@@ -51,5 +51,15 @@ const idx = d.methodIndex()
 check('index one line per method', idx.split('\n').length === Object.keys(registry).length)
 check('index memoized', d.methodIndex() === idx)
 
+// bulkDocs — the shared docs-tool implementation
+const bd = await d.bulkDocs(['v1.part.box', 'DATA', 'totally-bogus-xyz'])
+check('bulkDocs sections for found keys', bd.text.includes('# ═══ v1.part.box ═══') && bd.text.includes('# ═══ DATA ═══'))
+check('bulkDocs found/missing split', bd.found.length === 2 && bd.missing.length === 1)
+check('bulkDocs not-found section', bd.text.includes('# ═══ not found ═══') && bd.text.includes('totally-bogus-xyz'))
+const bdEmpty = await d.bulkDocs([])
+check('bulkDocs empty guard', bdEmpty.empty === true && bdEmpty.text.includes('Provide keys'))
+const bdResolved = await d.bulkDocs(['host.special', 'v1.part.box'], async k => (k === 'host.special' ? { text: 'HOSTDOC' } : null))
+check('bulkDocs host resolver wins, fallback works', bdResolved.text.includes('HOSTDOC') && bdResolved.text.includes('# ═══ v1.part.box ═══'))
+
 console.log(`\n${pass} passed, ${fail} failed`)
 process.exit(fail ? 1 : 0)

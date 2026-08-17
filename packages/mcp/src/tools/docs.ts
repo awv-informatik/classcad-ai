@@ -13,7 +13,7 @@ import { dirname, join } from 'path'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 import bundle from '@classcad/skill/bundle.json' with { type: 'json' }
-import { createDiscovery, type MethodRegistry } from '@classcad/skill/discovery'
+import { createDiscovery, DOCS_MAX_KEYS, DOCS_TOOL, type MethodRegistry } from '@classcad/skill/discovery'
 import { docs as scriptDocs } from '@classcad/script/docs'
 
 // Live-doc override (development): resolve doc keys against a skill checkout.
@@ -89,37 +89,22 @@ export function registerDocsTools(server: McpServer): void {
     },
   )
 
-  // Bulk documentation — the PRIMARY doc tool (same as buerli-ai's `docs`):
-  // resolve many keys in one round instead of one describe_method per turn.
+  // Bulk documentation — the PRIMARY doc tool. Contract AND implementation are
+  // the shared single source in @classcad/skill/discovery (DOCS_TOOL/bulkDocs);
+  // buerli-ai registers the identical tool from the same source.
   server.registerTool(
-    'docs',
+    DOCS_TOOL.name,
     {
       title: 'Fetch documentation (bulk)',
-      description:
-        'Fetch documentation for MANY keys in ONE call — methods ("v1.part.box", bare "box"), topic docs ' +
-        '("DATA" = the tree/graphic contract for run_script, "STRUCTURE", "GRAPHICS", "SKETCHING"), domain ' +
-        'overviews ("api/part") and recipes ("recipes/parametric-part"). PLAN FIRST: pick every method your build ' +
-        'needs from the method index, then fetch them all here in one round (up to 24 keys) instead of one ' +
-        'doc per turn. Unknown keys are reported in a "not found" section with suggestions.',
+      description: DOCS_TOOL.description,
       inputSchema: {
-        keys: z.array(z.string()).min(1).max(24)
+        keys: z.array(z.string()).min(1).max(DOCS_MAX_KEYS)
           .describe('Documentation keys, e.g. ["DATA", "v1.part.extrusion", "v1.part.chamfer", "recipes/parametric-part"].'),
       },
     },
     async ({ keys }) => {
-      const sections: string[] = []
-      const failures: string[] = []
-      for (const key of keys.slice(0, 24)) {
-        const res = discovery.describeMethod(key.trim())
-        if (res.kind === 'error') {
-          failures.push(`${key}: ${res.text}`)
-        } else {
-          const text = res.text.length > 40000 ? res.text.slice(0, 40000) + `\n\n[${key}: truncated at 40k chars]` : res.text
-          sections.push(`# ═══ ${key} ═══\n\n${text}`)
-        }
-      }
-      if (failures.length) sections.push(`# ═══ not found ═══\n${failures.join('\n')}`)
-      return { content: [{ type: 'text' as const, text: sections.join('\n\n') }] }
+      const res = await discovery.bulkDocs(keys)
+      return { content: [{ type: 'text' as const, text: res.text }] }
     },
   )
 

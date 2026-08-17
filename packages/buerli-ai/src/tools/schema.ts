@@ -4,6 +4,40 @@ import type { McpToolSchema } from '../types'
 
 export const TOOL_SCHEMAS: McpToolSchema[] = [
   {
+    name: 'run_script',
+    description:
+      'Execute JavaScript against the CAD API — THE tool for any build that involves computation, ' +
+      'repetition, or more than a handful of operations. The script runs app-side with:\n' +
+      '• api.v1.<domain>.<method>(args) — ClassCAD calls (single object arg), await-able, returns { result, maxLevel, ... }\n' +
+      '• api.<ns>.<method>(...) — buerli drawing APIs (structure, selection, …; positional args); ' +
+      'api.facade.<method>(...) — session utils (current drawing auto-targeted)\n' +
+      '• Math, full JS (variables, functions, loops), console.log/log(...) captured and returned\n' +
+      '• Use `return <value>` for the data you need back; keep it small (results are size-capped)\n' +
+      'Compute coordinates IN the script (trigonometry, loops over teeth/holes/segments) instead of ' +
+      'inlining hand-evaluated numbers. Check intermediate results with console.log and maxLevel. ' +
+      'No DOM/network access; the script must terminate (default timeout 60s on awaited work). ' +
+      'Prefer several small verified scripts over one huge one — state persists in the drawing between scripts.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        script: {
+          type: 'string',
+          description:
+            'JavaScript source. Executed as an async function body — use await directly, return a (small) summary value.',
+        },
+        label: {
+          type: 'string',
+          description: 'Short label describing what this script does (shown in the UI).',
+        },
+        timeoutMs: {
+          type: 'number',
+          description: 'Optional timeout for awaited work in ms (default 60000, max 300000).',
+        },
+      },
+      required: ['script'],
+    },
+  },
+  {
     name: 'call_api',
     description:
       'Call a method on any allowed API namespace — the first segment of the method path selects it:\n' +
@@ -31,45 +65,6 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
       },
       required: ['method'],
-    },
-  },
-  {
-    name: 'call_api_batch',
-    description:
-      'Run SEVERAL API calls in one turn, in order — use this for any known multi-step sequence ' +
-      '(adding a pipe segment, connecting parts, setting many params) instead of one call_api per ' +
-      'turn. It is far faster: one round-trip instead of N. Each entry is { method, args } exactly ' +
-      'like call_api. A later call may REFERENCE an earlier result with a "$N" placeholder anywhere ' +
-      'in its args: "$0" = whole (unwrapped) result of call 0, "$0.id" = its id field, "$2[0]" = ' +
-      'element 0. Id refs are forgiving: "$N" and "$N.id" BOTH reach the id whether the call ' +
-      'returned a bare id or { id } — when unsure, just use "$N.id" for ids. It stops at the first ' +
-      'error, reporting the failing call\'s args after substitution and how far it got (earlier ' +
-      'calls already mutated the drawing). PLAN the whole sequence and compute the numbers up front, ' +
-      'then send one batch — do not add one piece, inspect, repeat.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        calls: {
-          type: 'array',
-          description:
-            'Ordered list of { method, args } to run. "method" (required) is a namespaced path like ' +
-            '"v1.assembly.instance"; "args" is the same shape call_api takes (a flat object for v1). ' +
-            'Put "$N" reference strings anywhere in args to use an earlier result.',
-          items: {
-            type: 'object',
-            properties: {
-              method: { type: 'string', description: 'Namespaced method path, e.g. "v1.assembly.fastened".' },
-              args: {
-                type: ['object', 'array'],
-                description: 'Args for the method (may contain "$N" references). Omit if the method takes none.',
-                additionalProperties: true,
-              },
-            },
-            additionalProperties: true,
-          },
-        },
-      },
-      required: ['calls'],
     },
   },
   {
@@ -257,6 +252,81 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
           description: 'Optional base file name (the correct extension is added automatically). Default: "model".',
         },
       },
+    },
+  },
+  {
+    name: 'read_doc',
+    description:
+      'Read a whole knowledge document: topic docs ("SKETCHING" — read this BEFORE your first sketch work, ' +
+      '"STRUCTURE", "GRAPHICS"), per-domain API overviews ("api/part", "api/sketch", …) and worked ' +
+      'end-to-end RECIPES ("recipes/parametric-part", "recipes/pattern-then-subtract", ' +
+      '"recipes/direct-modeling-eif", "recipes/verify-numerically"). Recipes show the composed workflow ' +
+      'with its pitfalls — read the matching recipe before starting a multi-feature build. ' +
+      'Call with no args to list every available document. (Per-method docs: describe_method.)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        doc: {
+          type: 'string',
+          description: 'Document key, e.g. "SKETCHING", "api/part", "recipes/parametric-part". Omit to list all.',
+        },
+      },
+    },
+  },
+  {
+    name: 'checkpoint',
+    description:
+      'Save the ENTIRE current drawing state app-side (in-memory) so it can be restored later. ' +
+      'Take a checkpoint BEFORE any risky multi-step sequence (booleans over many bodies, big ' +
+      'regenerations, experimental approaches) — then a failed attempt costs one restore instead of ' +
+      'undo/delete archaeology. Cheap; keeps the last 5 per drawing (page-lifetime only).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        label: {
+          type: 'string',
+          description: 'Name for this checkpoint (e.g. "before-teeth-cut"). Reusing a label overwrites it.',
+        },
+      },
+    },
+  },
+  {
+    name: 'restore',
+    description:
+      'Replace the current drawing with a previously saved checkpoint — the clean way to start a ' +
+      'failed sequence over. All ids created after the checkpoint become stale: re-read them ' +
+      '(tree/find) before further operations. Without a label, restores the most recent checkpoint.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        label: {
+          type: 'string',
+          description: 'Checkpoint name to restore. Omit for the most recent one.',
+        },
+      },
+    },
+  },
+  {
+    name: 'notes',
+    description:
+      'Your persistent scratchpad for this drawing — survives even when old tool results are pruned ' +
+      'from the conversation. On long tasks, keep a CURRENT plan here: steps done, key ids ' +
+      '(part/feature/sketch ids you will need again), next action. Rewrite with "set" when it gets ' +
+      'stale — this is working state, not a log. Read it back with "get" whenever you lost track.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        action: {
+          type: 'string',
+          enum: ['get', 'set', 'append'],
+          description: '"get" returns the notes, "set" replaces them, "append" adds a line.',
+        },
+        text: {
+          type: 'string',
+          description: 'The notes content (for set/append).',
+        },
+      },
+      required: ['action'],
     },
   },
   {

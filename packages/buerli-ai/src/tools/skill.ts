@@ -22,6 +22,50 @@ export async function loadSkillBundle(jsonModule: Promise<{ default: SkillBundle
 }
 
 /**
+ * List the readable documents in the skill bundle, grouped for discovery.
+ * Topic docs (SKETCHING, …), domain overviews (api/part, …) and recipes
+ * (recipes/parametric-part, …) are whole-workflow documents — the per-method
+ * docs are served through describe_method instead.
+ */
+export function listDocs(): { topics: string[]; overviews: string[]; recipes: string[] } {
+  const keys = skillBundle ? Object.keys(skillBundle) : []
+  return {
+    topics: keys.filter(k => !k.includes('/')).sort(),
+    overviews: keys.filter(k => k.startsWith('api/')).sort(),
+    recipes: keys.filter(k => k.startsWith('recipes/')).sort(),
+  }
+}
+
+/**
+ * Read a whole document from the skill bundle by key — topic docs ("SKETCHING"),
+ * domain overviews ("api/part"), recipes ("recipes/parametric-part"), and also
+ * any per-method doc ("part/circularPattern"). Lookup is case-insensitive and
+ * tolerates a stray .md suffix.
+ */
+export function readDoc(name: string): ToolResult {
+  if (!skillBundle) return { error: 'Skill bundle not loaded — no documents available.' }
+  const raw = (name || '').trim().replace(/\.md$/i, '')
+  if (!raw) {
+    const docs = listDocs()
+    return { result: { available: docs } }
+  }
+  const doc =
+    skillBundle[raw] ??
+    (() => {
+      const lower = raw.toLowerCase()
+      const key = Object.keys(skillBundle!).find(k => k.toLowerCase() === lower)
+      return key ? skillBundle![key] : null
+    })()
+  if (doc) return { result: doc }
+  const docs = listDocs()
+  return {
+    error:
+      `No document "${raw}". Topics: ${docs.topics.join(', ')}. Overviews: ${docs.overviews.join(', ')}. ` +
+      `Recipes: ${docs.recipes.join(', ')}. (Per-method docs: use describe_method.)`,
+  }
+}
+
+/**
  * Describe a method — combines registry metadata with skill markdown docs.
  */
 export function describeMethod(method: string): ToolResult {
@@ -44,6 +88,13 @@ export function describeMethod(method: string): ToolResult {
 
   if (!entry && !skillBundle) {
     return { error: `Method "${method}" not found. No registry or skill data loaded.` }
+  }
+
+  // Not a method, but a whole document (topic doc, overview, recipe)? Serve it —
+  // "SKETCHING" or "recipes/parametric-part" should work from either tool.
+  if (!entry && skillBundle) {
+    const direct = readDoc(method)
+    if (direct.result && typeof direct.result === 'string') return direct
   }
 
   const parts: string[] = []

@@ -4,9 +4,13 @@ import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
 import { getDrawing } from '@buerli.io/core'
 import type { ToolExecutorContext, ToolHandler, ToolResult } from '../types'
 import { getMethodRegistry, type MethodRegistry } from './registry'
-import { describeMethod } from './skill'
+import { describeMethod, readDoc } from './skill'
 import { getSnapshotCapturer } from './snapshot'
 import { API_EXTRAS } from './apiExtras'
+import { toErrorMessage, base64ToArrayBuffer, extractBase64 } from './utils'
+import { runScriptHandler } from './script'
+import { checkpoint, restore } from './checkpoint'
+import { notes } from './notes'
 
 // API namespaces the agent can reach (the first path segment selects one):
 //   v1       — ClassCAD command API (createApi(id).v1; single object arg; documented).
@@ -81,27 +85,6 @@ function appendSignature(message: string, method: string): string {
   const params = entry?.params ?? API_EXTRAS[method]?.params
   if (!params?.length) return message
   return `${message}\n\nParameters for ${method}:\n${params.map(p => `  - ${p.name}: ${p.text}`).join('\n')}`
-}
-
-// ClassCAD/buerli often reject with a plain object (e.g. { type, text }) rather
-// than an Error, so `String(e)` would yield "[object Object]". Pull a human
-// message from the common fields, falling back to JSON so nothing is ever opaque.
-function toErrorMessage(e: unknown): string {
-  if (e == null) return 'Unknown error'
-  if (typeof e === 'string') return e
-  if (e instanceof Error) return e.message
-  if (typeof e === 'object') {
-    const o = e as Record<string, unknown>
-    for (const k of ['message', 'text', 'error', 'reason', 'detail']) {
-      if (typeof o[k] === 'string' && o[k]) return o[k] as string
-    }
-    try {
-      return JSON.stringify(e)
-    } catch {
-      /* fall through */
-    }
-  }
-  return String(e)
 }
 
 // Suggest close method names when the model guesses one that isn't in the registry.
@@ -214,109 +197,6 @@ const callApi: ToolHandler = async (input, ctx) => {
   } catch (e) {
     return { error: appendSignature(toErrorMessage(e), method) }
   }
-}
-
-// ─── call_api_batch — many calls in one turn, with result references ──────────
-// Multi-step sequences (add a segment, connect two ends) are data-dependent: instance → id
-// → getWorkGeometry → fastened. Running them one call_api per turn is slow (a full LLM
-// round-trip each). This runs them sequentially in ONE turn; any later call can reference an
-// earlier result with a "$N" placeholder ("$0.id", "$2", "$4[0]") anywhere in its args.
-
-// Strip ClassCAD response wrappers ({ result: { result: X, maxLevel } } → X) so a "$0.id"
-// reference reaches the value regardless of how deeply the API nests it.
-function unwrapValue(v: unknown): unknown {
-  let cur: any = v
-  for (let guard = 0; cur && typeof cur === 'object' && !Array.isArray(cur) && 'result' in cur && guard < 5; guard++) {
-    cur = cur.result
-  }
-  return cur
-}
-
-// Navigate a "$N" reference path. The model writes refs BLIND — it can't see results
-// mid-batch — and cc return shapes are inconsistent (instance → bare 105, loadProduct →
-// { id: 22 }, getFastened → a rich object). So be tolerant of the two id-shape guesses:
-//   • "$N.id" on a bare id (number/string)  → the id itself
-//   • "$N" landing on a single-key { id }   → its id
-// Anything genuinely missing THROWS with what the call actually returned — a silent
-// `undefined` would otherwise surface downstream as a cryptic engine type error.
-function resolveRefPath(ref: string, idx: number, path: string, prior: unknown[], methods: string[]): unknown {
-  let cur: any = prior[idx]
-  const tokens = path.match(/\.[^.[\]]+|\[\d+\]/g) || []
-  for (const tok of tokens) {
-    const key: string | number = tok[0] === '.' ? tok.slice(1) : parseInt(tok.slice(1, -1), 10)
-    if (key === 'id' && (typeof cur === 'number' || typeof cur === 'string')) continue
-    const next = cur == null ? undefined : cur[key]
-    if (next === undefined) {
-      let got: string
-      try { got = JSON.stringify(cur) ?? String(cur) } catch { got = String(cur) }
-      throw new Error(`"${ref}": call ${idx} (${methods[idx]}) returned ${got.slice(0, 200)} — it has no "${key}". Reference the shape it actually returned.`)
-    }
-    cur = next
-  }
-  if (cur && typeof cur === 'object' && !Array.isArray(cur)) {
-    const keys = Object.keys(cur)
-    if (keys.length === 1 && keys[0] === 'id') return cur.id
-  }
-  return cur
-}
-
-// Deep-replace "$N" / "$N.path" placeholder strings with prior calls' unwrapped results.
-function resolveRefs(value: any, prior: unknown[], methods: string[]): any {
-  if (typeof value === 'string') {
-    const m = value.match(/^\$(\d+)((?:\.[^.[\]]+|\[\d+\])*)$/)
-    if (!m) return value
-    const idx = parseInt(m[1], 10)
-    if (idx >= prior.length) throw new Error(`"${value}" references call ${idx}, which hasn't run yet (have 0..${prior.length - 1})`)
-    return resolveRefPath(value, idx, m[2] || '', prior, methods)
-  }
-  if (Array.isArray(value)) return value.map(v => resolveRefs(v, prior, methods))
-  if (value && typeof value === 'object') {
-    const out: Record<string, unknown> = {}
-    for (const [k, v] of Object.entries(value)) out[k] = resolveRefs(v, prior, methods)
-    return out
-  }
-  return value
-}
-
-const callApiBatch: ToolHandler = async (input, ctx) => {
-  const { calls } = input as { calls?: Array<{ method?: string; args?: unknown }> }
-  if (!Array.isArray(calls) || calls.length === 0) {
-    return { error: 'call_api_batch expects a non-empty "calls" array of { method, args }.' }
-  }
-  const values: unknown[] = [] // unwrapped result of each call so far (for $N references)
-  const results: Array<{ method: string; value?: unknown }> = []
-  for (let i = 0; i < calls.length; i++) {
-    const c = calls[i]
-    const ran = i === 0 ? 'No calls ran before this.' : `Calls 0..${i - 1} already ran and mutated the drawing — inspect state before retrying.`
-    if (!c || typeof c.method !== 'string') {
-      return { error: `call_api_batch call ${i}: each entry needs a "method" string. ${ran}` }
-    }
-    let resolvedArgs: unknown
-    try {
-      resolvedArgs = resolveRefs(c.args ?? {}, values, results.map(x => x.method))
-    } catch (e) {
-      return {
-        error: `call_api_batch call ${i} (${c.method}): ${toErrorMessage(e)} ${ran}`,
-        result: { ok: false, completed: i, failedIndex: i, results },
-      }
-    }
-    const r = await callApi({ method: c.method, args: resolvedArgs }, ctx)
-    if (r.error) {
-      // Echo the args AFTER $N substitution — a mis-shaped reference (undefined, whole
-      // object where an id belongs) is then self-evident instead of a downstream mystery.
-      let sent: string
-      try { sent = JSON.stringify(resolvedArgs) ?? 'undefined' } catch { sent = String(resolvedArgs) }
-      return {
-        error: `call_api_batch stopped at call ${i} (${c.method}): ${r.error}\nArgs as sent (after $N substitution): ${sent.slice(0, 400)}\n${ran}`,
-        // Carry the calls that DID run so the code panel can still show them.
-        result: { ok: false, completed: i, failedIndex: i, results },
-      }
-    }
-    const val = unwrapValue(r.result)
-    values.push(val)
-    results.push({ method: c.method, value: val })
-  }
-  return { result: { ok: true, completed: calls.length, results } }
 }
 
 const tree: ToolHandler = async (_input, ctx) => {
@@ -540,13 +420,6 @@ const describeMethodTool: ToolHandler = async (input, ctx) => {
   return { error: `"${method}" is not a known method. Use list_methods({ namespace: "${ns}" }) to discover it.` }
 }
 
-function base64ToArrayBuffer(b64: string): ArrayBuffer {
-  const bin = atob(b64)
-  const arr = new Uint8Array(bin.length)
-  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i)
-  return arr.buffer
-}
-
 const loadFile: ToolHandler = async (input, ctx) => {
   const { name } = input as { name: string }
   const att = ctx.attachments?.find(a => a.name === name)
@@ -586,19 +459,6 @@ const DOWNLOAD_FORMATS: Record<string, { fmt: string; ext: string; mime: string 
   STP: { fmt: 'STP', ext: 'step', mime: 'application/step' },
   STL: { fmt: 'STL', ext: 'stl', mime: 'model/stl' },
   OFB: { fmt: 'OFB', ext: 'ofb', mime: 'application/octet-stream' },
-}
-
-// v1.common.save returns { result: { success: 1, content: '<base64>' }, … } when no
-// file/url is set. Pull the base64 from result.content (with defensive fallbacks).
-function extractBase64(raw: unknown): string {
-  const strip = (s: string) => s.replace(/^data:[^;]+;base64,/, '')
-  if (typeof raw === 'string') return strip(raw)
-  if (!raw || typeof raw !== 'object') return ''
-  const o = raw as any
-  const content = o.result?.content ?? o.content ?? o.result?.data ?? o.data ?? o.value
-  if (typeof content === 'string') return strip(content)
-  if (typeof o.result === 'string') return strip(o.result)
-  return ''
 }
 
 function ensureExt(name: string, ext: string): string {
@@ -643,9 +503,14 @@ const snapshot: ToolHandler = async (input) => {
 
 // ─── Dispatcher ───────────────────────────────────────────────────────────────
 
+const readDocTool: ToolHandler = async input => {
+  const { doc } = input as { doc?: string }
+  return readDoc(doc ?? '')
+}
+
 const HANDLERS: Record<string, ToolHandler> = {
+  run_script: runScriptHandler,
   call_api: callApi,
-  call_api_batch: callApiBatch,
   tree,
   find,
   inspect,
@@ -653,9 +518,13 @@ const HANDLERS: Record<string, ToolHandler> = {
   set_selection: setSelection,
   list_methods: listMethods,
   describe_method: describeMethodTool,
+  read_doc: readDocTool,
   snapshot,
   load_file: loadFile,
   download,
+  checkpoint,
+  restore,
+  notes,
 }
 
 export async function executeTool(

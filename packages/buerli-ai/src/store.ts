@@ -22,6 +22,15 @@ export type CodeEvent =
   | { kind: 'user'; text: string }
   | { kind: 'load'; id?: string; name: string; status: 'running' | 'done' | 'error' }
   | {
+      /** A run_script execution — the script IS the code, rendered verbatim. */
+      kind: 'script'
+      id?: string
+      label?: string
+      text: string
+      status: 'running' | 'done' | 'error'
+      error?: string
+    }
+  | {
       /** Discovery call (find/inspect/get_selection) — not rendered, but gives an
        *  unresolved id its provenance (e.g. "from your selection"). */
       kind: 'lookup'
@@ -136,11 +145,10 @@ export const createAgentStore = () =>
                 // Capture API calls (≈ buerli lines) and file imports (preconditions).
                 const inp = event.input as any
                 let next = s.codeLog
-                if (event.name === 'call_api' && typeof inp?.method === 'string') {
+                if (event.name === 'run_script' && typeof inp?.script === 'string') {
+                  next = [...next, { kind: 'script', id: event.id, label: inp.label, text: inp.script, status: 'running' }]
+                } else if (event.name === 'call_api' && typeof inp?.method === 'string') {
                   next = [...next, { kind: 'call', id: event.id, method: inp.method, args: inp.args, status: 'running' }]
-                } else if (event.name === 'call_api_batch' && Array.isArray(inp?.calls)) {
-                  // One 'call' event holding the whole batch; the code panel expands its sub-calls.
-                  next = [...next, { kind: 'call', id: event.id, method: 'call_api_batch', args: inp, status: 'running' }]
                 } else if (event.name === 'load_file' && typeof inp?.name === 'string') {
                   next = [...next, { kind: 'load', id: event.id, name: inp.name, status: 'running' }]
                 } else if (event.name === 'get_selection' || event.name === 'find' || event.name === 'inspect') {
@@ -198,6 +206,7 @@ export const createAgentStore = () =>
                       if (e.kind === 'lookup') return { ...e, ret: event.result.result }
                       const status = (event.result.error ? 'error' : 'done') as 'done' | 'error'
                       if (e.kind === 'call') return { ...e, status, ret: event.result.result, error: event.result.error }
+                      if (e.kind === 'script') return { ...e, status, error: event.result.error }
                       return { ...e, status }
                     })
                   : s.codeLog
@@ -275,6 +284,19 @@ function toolLabel(name: string, input: Record<string, unknown>): string {
     case 'call_api':
     case 'describe_method':
       detail = str('method')
+      break
+    case 'run_script':
+      detail = str('label')
+      break
+    case 'read_doc':
+      detail = str('doc')
+      break
+    case 'checkpoint':
+    case 'restore':
+      detail = str('label')
+      break
+    case 'notes':
+      detail = str('action')
       break
     case 'list_methods':
       detail = str('domain') || str('filter')

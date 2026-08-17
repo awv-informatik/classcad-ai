@@ -4,6 +4,7 @@ import type { AgentConfig, ChatResponse, ImageInput, Message, ToolResult, ToolRe
 import { TOOL_SCHEMAS } from './tools/schema'
 import { executeTool } from './tools/executor'
 import { getMethodIndex } from './tools/registry'
+import { capJson } from './tools/utils'
 import { DEFAULT_SYSTEM_PROMPT } from './systemPrompt'
 
 export type AgentTurnEvent =
@@ -31,8 +32,8 @@ export async function* runAgentLoop(
   config: AgentConfig,
   images?: ImageInput[],
 ): AsyncGenerator<AgentTurnEvent> {
-  const maxIterations = config.maxIterations ?? 25
-  const maxTokens = config.maxTokens ?? 4096
+  const maxIterations = config.maxIterations ?? 40
+  const maxTokens = config.maxTokens ?? 8192
   const depth = config.depth ?? 0
   const systemPrompt = buildSystemPrompt(config)
 
@@ -62,6 +63,11 @@ export async function* runAgentLoop(
       yield { type: 'done', messages }
       return
     }
+
+    // Keep the sent history inside the model's context budget: once it grows past
+    // the budget, old tool results are replaced with stubs (recent turns and all
+    // user/assistant text survive). Without this, long builds die at the window.
+    pruneHistory(messages, config.contextLimit)
 
     let response: ChatResponse
 
@@ -185,6 +191,48 @@ export async function* runAgentLoop(
   yield { type: 'error', error: `Agent loop exceeded max iterations (${maxIterations}).` }
 }
 
+// ─── Context management ───────────────────────────────────────────────────────
+
+const CHARS_PER_TOKEN = 4 // rough, deliberately conservative
+const DEFAULT_CONTEXT_TOKENS = 120000
+const KEEP_RECENT_MESSAGES = 12
+const PRUNED_STUB = JSON.stringify({
+  pruned:
+    'Old tool result removed to save context. Re-run the tool if you need this data — key ids/state should live in your notes.',
+})
+
+function messageChars(m: Message): number {
+  const c: unknown = (m as any).content
+  if (typeof c === 'string') return c.length
+  try {
+    return JSON.stringify(c)?.length ?? 0
+  } catch {
+    return 0
+  }
+}
+
+/**
+ * Shrink the history toward the model's context budget by replacing OLD tool
+ * results with stubs, oldest first. Recent messages, and all user/assistant
+ * content, are never touched — the model keeps its plan and conversation; only
+ * stale tool payloads (tree dumps, long results, snapshot images) are dropped.
+ * Mutates in place so the pruning persists across turns instead of re-growing.
+ */
+function pruneHistory(messages: Message[], contextLimit?: number): void {
+  // 70% of the window for history — headroom for system prompt, tools, and output.
+  const budgetChars = (contextLimit ?? DEFAULT_CONTEXT_TOKENS) * CHARS_PER_TOKEN * 0.7
+  let total = messages.reduce((n, m) => n + messageChars(m), 0)
+  if (total <= budgetChars) return
+  for (let i = 0; i < messages.length - KEEP_RECENT_MESSAGES && total > budgetChars; i++) {
+    const m = messages[i]
+    if (m.role !== 'tool') continue
+    const size = messageChars(m)
+    if (size <= PRUNED_STUB.length + 64) continue // already small (or already stubbed)
+    m.content = PRUNED_STUB
+    total -= size - PRUNED_STUB.length
+  }
+}
+
 function buildSystemPrompt(config: AgentConfig): string {
   let prompt = config.systemPrompt ?? DEFAULT_SYSTEM_PROMPT
   if (config.extraContext) {
@@ -219,7 +267,7 @@ function buildToolResultContent(
   sendSnapshotImage: boolean,
 ): string | ToolResultContent[] {
   if (result.error) {
-    return JSON.stringify({ error: result.error })
+    return capJson({ error: result.error }, 12000)
   }
 
   // Snapshot results include an `image` field with base64 PNG data.
@@ -250,8 +298,9 @@ function buildToolResultContent(
 
   // Coalesce undefined (void-returning methods like facade.fetchTree) to null, so
   // the tool message content is always a valid string — JSON.stringify(undefined)
-  // returns undefined, which then breaks the providers' content handling.
-  return JSON.stringify(result.result ?? null)
+  // returns undefined, which then breaks the providers' content handling. Capped:
+  // one oversized result (a big tree, a verbose query) must not flood the context.
+  return capJson(result.result ?? null, 30000)
 }
 
 // ─── Subagent execution ───────────────────────────────────────────────────────
@@ -266,20 +315,27 @@ const SUBAGENT_PROMPTS: Record<string, string> = {
 }
 
 /**
- * Runs a subagent — a nested agent loop with a scoped system prompt.
- * The subagent has access to all the same tools but operates with a focused persona.
+ * Runs a subagent — a nested agent loop with a persona layered ON TOP of the full
+ * base system prompt. The persona must extend, not replace: without the base
+ * prompt the subagent loses the editor starting-state rules, tool guidance, and
+ * workflow discipline — exactly the knowledge it needs to execute its sub-task.
  */
 async function runSubagent(agentName: string, goal: string, parentConfig: AgentConfig): Promise<string> {
-  const persona = SUBAGENT_PROMPTS[agentName]
-  const subSystemPrompt = persona
-    ? `${persona}\n\nYour specific goal: ${goal}`
-    : `You are a specialist sub-agent named "${agentName}". Complete the following goal precisely and report results.\n\nGoal: ${goal}`
+  const persona =
+    SUBAGENT_PROMPTS[agentName] ??
+    `You are a specialist sub-agent named "${agentName}". Complete your goal precisely and report results.`
+  const base = parentConfig.systemPrompt ?? DEFAULT_SYSTEM_PROMPT
+  const subSystemPrompt =
+    `${base}\n\n## Sub-agent role\n${persona}\n` +
+    `You are working on ONE delegated sub-task inside a larger session. Do only your goal, ` +
+    `then summarize precisely what you created/changed (with the ids) — your final text is the ` +
+    `report your caller receives.\n\nYour specific goal: ${goal}`
 
   const subConfig: AgentConfig = {
     ...parentConfig,
     systemPrompt: subSystemPrompt,
-    extraContext: undefined,
-    maxIterations: Math.min(parentConfig.maxIterations ?? 25, 15), // cap subagent iterations
+    // keep extraContext — app-specific knowledge applies to sub-tasks too
+    maxIterations: Math.min(parentConfig.maxIterations ?? 40, 20), // cap subagent iterations
     depth: (parentConfig.depth ?? 0) + 1, // subagents run one level deeper and cannot re-delegate
   }
 

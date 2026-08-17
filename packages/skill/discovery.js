@@ -247,7 +247,82 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
         .join('\n')
       return indexCache
     },
+
+    /**
+     * Bulk documentation — THE single source for every host's `docs` tool
+     * (buerli-ai, mcp, …): resolve up to `DOCS_MAX_KEYS` keys in one round,
+     * cap each doc at `DOCS_PER_DOC_CAP` chars, emit `# ═══ key ═══` sections
+     * and a trailing "not found" section with the per-key error/suggestions.
+     *
+     * `resolveOne` (optional): async per-key resolver for hosts with extra
+     * key spaces (e.g. buerli-ai's live browser namespaces). It returns
+     * `{ text }` or `{ error }`; keys it does not handle can fall back to
+     * this discovery's describeMethod by returning null/undefined.
+     *
+     * → { text, found: string[], missing: string[] }
+     */
+    async bulkDocs(keys, resolveOne) {
+      const list = Array.isArray(keys) ? keys.filter(k => typeof k === 'string' && k.trim() !== '') : []
+      if (list.length === 0) {
+        return {
+          text: 'Provide keys: an array of documentation keys, e.g. ["v1.part.extrusion", "SKETCHING", "recipes/parametric-part"].',
+          found: [],
+          missing: [],
+          empty: true,
+        }
+      }
+      const sections = []
+      const failures = []
+      const found = []
+      const missing = []
+      for (const raw of list.slice(0, DOCS_MAX_KEYS)) {
+        const key = raw.trim()
+        let text = null
+        let error = null
+        if (resolveOne) {
+          const r = await resolveOne(key)
+          if (r && typeof r.text === 'string') text = r.text
+          else if (r && r.error) error = r.error
+        }
+        if (text == null && error == null) {
+          const res = this.describeMethod(key)
+          if (res.kind === 'error') error = res.text
+          else text = res.text
+        }
+        if (text != null) {
+          found.push(key)
+          const capped = text.length > DOCS_PER_DOC_CAP ? text.slice(0, DOCS_PER_DOC_CAP) + `\n\n[${key}: truncated at ${Math.round(DOCS_PER_DOC_CAP / 1000)}k chars]` : text
+          sections.push(`# ═══ ${key} ═══\n\n${capped}`)
+        } else {
+          missing.push(key)
+          failures.push(`${key}: ${error ?? 'not found'}`)
+        }
+      }
+      if (failures.length) sections.push(`# ═══ not found ═══\n${failures.join('\n')}`)
+      return { text: sections.join('\n\n'), found, missing }
+    },
   }
+}
+
+/** Shared limits for the bulk docs tool (single source across hosts). */
+export const DOCS_MAX_KEYS = 24
+export const DOCS_PER_DOC_CAP = 40000
+
+/**
+ * The shared `docs` tool contract — name + LLM-facing description, so every
+ * host advertises the SAME tool the same way. Hosts may append one sentence
+ * of surface-specific context (e.g. where their method index lives).
+ */
+export const DOCS_TOOL = {
+  name: 'docs',
+  description:
+    'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
+    'unique bare name), topic docs ("DATA", "SKETCHING", "STRUCTURE", "GRAPHICS"), recipes ' +
+    '("recipes/parametric-part", "recipes/pattern-then-subtract", "recipes/direct-modeling-eif", ' +
+    '"recipes/verify-numerically"), and domain overviews ("api/part"). PLAN FIRST: pick every method you ' +
+    `will need from the method index, then fetch ALL of them plus the matching topic/recipe docs in ONE ` +
+    `call (up to ${DOCS_MAX_KEYS} keys) — each extra tool round costs a full model round-trip. ` +
+    'Unknown keys come back in a "not found" section with suggestions.',
 }
 
 export default createDiscovery

@@ -10,13 +10,13 @@ agent hosts that compose them.
         KNOWLEDGE                                 HOSTS (agents live here)
 ┌──────────────────────────┐          ┌────────────────────────────────────────┐
 │ @classcad/skill          │          │ buerli-ai   in-app panel (browser)     │
-│  method-registry.json ───┼──┐       │  run_script · snapshot · read_doc ·    │
-│  bundle.json (docs) ─────┼──┤       │  describe/list_methods · tree/find/    │
+│  method-registry.json ───┼──┐       │  run_script · snapshot · docs(bulk) ·  │
+│  bundle.json (docs) ─────┼──┤       │  list_methods · tree/find/             │
 │  discovery (search/      │  ├──────▶│  inspect · selection · checkpoint ·    │
 │   describe/index) ───────┼──┘       │  notes · delegate                      │
 │                          │          │                                        │
 │ @classcad/script/docs    │          │ mcp         stdio server (any host)    │
-│  DATA · STRUCTURE ·      ├─────────▶│  run_script · snapshot · describe/     │
+│  DATA · STRUCTURE ·      ├─────────▶│  run_script · snapshot · docs(bulk) ·  │
 │  GRAPHICS (the data      │          │  list_methods · tree/find/inspect ·    │
 │  contract)               │          │  sessions · bridge                     │
 └──────────────────────────┘          │                                        │
@@ -56,11 +56,15 @@ Three ideas hold this together:
      `@classcad/script/docs` (browser-safe, no filesystem).
    - **`@classcad/skill/discovery`** is the single implementation of method
      search (CAD-synonym-expanded, ranked over name + summary), fuzzy
-     `describe_method` (bare names resolve, ambiguity lists candidates, typos
-     get suggestions), doc serving, and the compact **method index**. Both
-     hosts delegate to it — buerli-ai injects the index into its system
-     prompt, the MCP ships it in its initialize `instructions` — so every
-     agent knows the full method surface from turn one.
+     describe (bare names resolve, ambiguity lists candidates, typos get
+     suggestions), doc serving, the compact **method index**, and the
+     **`docs` bulk tool itself** (`bulkDocs` + the shared `DOCS_TOOL`
+     contract: key caps, per-doc caps, `# ═══ key ═══` sections, not-found
+     reporting). Both hosts register the identical tool from this one source —
+     buerli-ai injects the index into its system prompt and adds its live
+     browser namespaces via a resolver hook, the MCP ships the index in its
+     initialize `instructions` — so every agent knows the full method surface
+     from turn one and fetches all documentation in ONE round.
 
 3. **Verification is built in.** The deterministic renderer turns the live
    tree + graphic into images (named/arbitrary cameras, four-view sheets,
@@ -74,7 +78,7 @@ Three ideas hold this together:
 
 | Package | npm | What it is |
 | --- | --- | --- |
-| [`packages/skill`](packages/skill) | `@classcad/skill` | The knowledge: v1 method registry, curated per-method docs, topic guides (SKETCHING, …), worked recipes — plus the shared `discovery` module (search, describe, method index). Trained and verified session by session. |
+| [`packages/skill`](packages/skill) | `@classcad/skill` | The knowledge: v1 method registry, curated per-method docs, topic guides (SKETCHING, …), worked recipes — plus the shared `discovery` module (search, describe, method index, the `docs` bulk tool). Trained and verified session by session. |
 | [`packages/script`](packages/script) | `@classcad/script` | The universal script medium: `runScript`, `buildScriptApi`, the Node WS session (`connectSession`) — and the data contract in [`docs/`](packages/script/docs) (`DATA`, `STRUCTURE`, `GRAPHICS`), exported as `@classcad/script/docs`. |
 | [`packages/renderer`](packages/renderer) | `@classcad/renderer` | Deterministic session renderer: solids/sketches/curves/work geometry, arbitrary cameras, section, four-view sheets, diff with frame pinning, highlight/markers, annotate, x-ray. Portable core + node/browser adapters. |
 | [`packages/mcp`](packages/mcp) | `@awv-informatik/classcad-mcp` | Standalone MCP server over a ClassCAD worker (stdio): `run_script`, `snapshot`, discovery tools, tree/find/inspect, named sessions, viewer bridge. Serves the method index via initialize instructions. |
@@ -91,8 +95,8 @@ SKILL.md + references + recipes ──build──▶ bundle.json ─────
 packages/script/docs/*.md ────────build──▶ @classcad/script/docs ┘         │
                                                         ┌──────────────────┤
                                                  system prompt index   initialize
-                                                 + read_doc            instructions
-                                                 (buerli-ai)           + describe_method
+                                                 + docs([...])         instructions
+                                                 (buerli-ai)           + docs([...])
                                                                        (mcp)
 ```
 

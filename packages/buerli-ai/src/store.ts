@@ -62,6 +62,14 @@ export type AgentStoreState = {
   usage: { inputTokens?: number; outputTokens?: number } | null
   /** Ordered session log (user turns, loads, API calls) — source for the code panel. */
   codeLog: CodeEvent[]
+  /**
+   * Reasoning text of the CURRENT model round, streamed live (token by token).
+   * Non-null only while a round is thinking; cleared the moment the round's
+   * folded result (thinking block / text / tool calls) arrives. The panel
+   * renders a live ticker from it — the collapsible thinking blocks in
+   * `messages` remain the durable record.
+   */
+  liveThinking: string | null
   /** @internal Controller for the in-flight run, used by cancel(). */
   _controller: AbortController | null
 }
@@ -83,6 +91,7 @@ export const createAgentStore = () =>
     error: null,
     usage: null,
     codeLog: [],
+    liveThinking: null,
     _controller: null,
 
     async sendMessage(text: string, config: AgentConfig, images?: ImageInput[], files?: FileAttachment[]) {
@@ -109,6 +118,16 @@ export const createAgentStore = () =>
       const history = get().rawHistory
       let assistantText = ''
 
+      // Live thinking ticker: stream deltas accumulate per model round; every
+      // loop event marks the round's end and resets the buffer.
+      let liveBuf = ''
+      const onStreamDelta = (d: { thinking?: string; text?: string }) => {
+        if (d.thinking) {
+          liveBuf += d.thinking
+          set({ liveThinking: liveBuf })
+        }
+      }
+
       // Tell the model which files are attached so it can import them with load_file.
       const fileNote =
         files && files.length
@@ -117,7 +136,10 @@ export const createAgentStore = () =>
       const llmText = text + fileNote
 
       try {
-        for await (const event of runAgentLoop(llmText, history, { ...config, attachments: files, signal: controller.signal }, images)) {
+        for await (const event of runAgentLoop(llmText, history, { ...config, attachments: files, signal: controller.signal, onStreamDelta }, images)) {
+          // The folded round has landed — drop the live ticker for this round.
+          liveBuf = ''
+          if (get().liveThinking !== null) set({ liveThinking: null })
           switch (event.type) {
             case 'text':
               assistantText += event.text
@@ -260,7 +282,7 @@ export const createAgentStore = () =>
       } catch (e: any) {
         set({ error: e.message || String(e) })
       } finally {
-        set({ isRunning: false, _controller: null })
+        set({ isRunning: false, liveThinking: null, _controller: null })
       }
     },
 
@@ -270,7 +292,7 @@ export const createAgentStore = () =>
 
     reset() {
       get()._controller?.abort()
-      set({ messages: [], rawHistory: [], isRunning: false, error: null, usage: null, codeLog: [], _controller: null })
+      set({ messages: [], rawHistory: [], isRunning: false, error: null, usage: null, codeLog: [], liveThinking: null, _controller: null })
     },
   }))
 

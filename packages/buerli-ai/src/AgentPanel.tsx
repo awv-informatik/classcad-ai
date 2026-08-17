@@ -169,6 +169,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
 
   const messages = store(s => s.messages)
   const isRunning = store(s => s.isRunning)
+  const liveThinking = store(s => s.liveThinking)
   const error = store(s => s.error)
   const usage = store(s => s.usage)
   const codeLog = store(s => s.codeLog)
@@ -407,7 +408,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
               {messages.map((msg, i) => (
                 <MessageBubble key={i} message={msg} theme={t} />
               ))}
-              {isRunning && !toolActive && <ThinkingIndicator />}
+              {isRunning && !toolActive && (liveThinking ? <LiveThinkingTicker text={liveThinking} /> : <ThinkingIndicator />)}
               {error && <div style={errorStyle(t)}>Error: {error}</div>}
               <div ref={messagesEndRef} />
             </div>
@@ -960,6 +961,38 @@ function renderInline(text: string): React.ReactNode[] {
   }
   return nodes
 }
+
+// Live reasoning ticker — the model's thinking streams through here WHILE it
+// thinks: a few ghost lines, newest visible (column-reverse pins the tail),
+// no interaction. When the round completes, the store clears `liveThinking`
+// and the durable collapsible thinking block takes over.
+const LiveThinkingTicker: React.FC<{ text: string }> = ({ text }) => (
+  <div style={{ padding: '4px 0', display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+    <span style={{ ...pulseStyle, fontSize: 11, opacity: 0.6, lineHeight: '16px' }}>●</span>
+    <div
+      style={{
+        flex: 1,
+        maxHeight: 48, // ~3 lines
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column-reverse',
+      }}
+    >
+      <div
+        style={{
+          fontSize: 11,
+          lineHeight: '16px',
+          opacity: 0.5,
+          fontStyle: 'italic',
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word',
+        }}
+      >
+        {text.length > 1200 ? text.slice(-1200) : text}
+      </div>
+    </div>
+  </div>
+)
 
 const ThinkingIndicator: React.FC = () => (
   <div style={{ fontSize: 11, opacity: 0.6, padding: '4px 0', display: 'flex', alignItems: 'center', gap: 6 }}>

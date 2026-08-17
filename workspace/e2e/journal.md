@@ -81,13 +81,23 @@ chamfers. Inches.
 
 | Criterion | root agent (GT2) | buerli-ai | mcp |
 | --- | --- | --- | --- |
-| 3 strands from geometry | ✅ centers −0.399/0/+0.399 (spacing err 0.0), extents 0.162 (2.8e-17), tip lands 0.06825 | — pending | ✅ centers −0.399/0.000/+0.399 (spacing exactly K), extents 0.162 ×3 |
-| 40 teeth per strand | ✅ 40/40/40 (mesh AND edge points) | — | ✅ 40/40/40 (azimuth clusters) |
-| Root radius = Rr | ✅ worst err 4.4e-16 | — | ✅ worst err 2.2e-15 (brep-exact, 160 probes; tessellation cross-check 9.1e-8) |
-| Bore 0.750 / keyway floor 0.9375 | ✅ 5.5e-9 / exact | — | ✅ ±3e-6 / exact |
-| Volume | ✅ 12.0130 in³, own analytic 0.007% | — | ✅ 12.0097 in³ (0.027% vs GT2; own analytic 0.0043%) |
-| Sheet | ✅ | — | ✅ ([files/mcp-bench2/](files/mcp-bench2/)) |
-| Run shape | 1 pass, 36 calls, ~20 min, solid.* EIF path per recipe, 4 booleans total | — | 1 pass, 31 turns, 15 min, 12 run_scripts, revolve-based blank, ONE multi-tool subtraction |
+| 3 strands from geometry | ✅ centers −0.399/0/+0.399 (spacing err 0.0), extents 0.162 (2.8e-17), tip lands 0.06825 | ✅ centers −0.399/0.000/+0.399, extents 0.162 ×3 | ✅ centers −0.399/0.000/+0.399 (spacing exactly K), extents 0.162 ×3 |
+| 40 teeth per strand | ✅ 40/40/40 (mesh AND edge points) | ⚠️ 40 (middle plate only measured) | ✅ 40/40/40 (azimuth clusters) |
+| Root radius = Rr | ✅ worst err 4.4e-16 | ✅ worst err 8.9e-16 (brep arc-midpoints, 24 probes) — first probe CAUGHT the literal on-pitch-circle seat (floor Rp−Rs), agent re-centered to Rr+Rs by measurement | ✅ worst err 2.2e-15 (brep-exact, 160 probes; tessellation cross-check 9.1e-8) |
+| Bore 0.750 / keyway floor 0.9375 | ✅ 5.5e-9 / exact | ✅ exact / exact (width 0.375 exact) | ✅ ±3e-6 / exact |
+| Volume | ✅ 12.0130 in³, own analytic 0.007% | ⚠️ 12.820 in³ — +6.7% vs GT2, OUT of the ±1.5% band (see note) | ✅ 12.0097 in³ (0.027% vs GT2; own analytic 0.0043%) |
+| Sheet | ✅ | ✅ ([sheet](files/bench2-buerli-ai-sheet.png) + [axis section](files/bench2-buerli-ai-section.png) — smooth arcs, adaptive faceting live in-browser) | ✅ ([files/mcp-bench2/](files/mcp-bench2/)) |
+| Run shape | 1 pass, 36 calls, ~20 min, solid.* EIF path per recipe, 4 booleans total | 1 pass, ~35 min, ZERO manual continues, ZERO stream breaks (all rounds done=true/cleanTail=true); 1 bulk docs (19 keys) + 1 big build script + chamfers + verify loop | 1 pass, 31 turns, 15 min, 12 run_scripts, revolve-based blank, ONE multi-tool subtraction |
+
+**buerli-ai bench-#2 volume note:** the prompt does NOT pin the flank angle
+("straight tangent flanks opening past ODb") — GT2 and mcp chose the ANSI
+construction (~33.5° splay), this run chose 17° → narrower tooth gaps → more
+material. Partly legitimate design freedom, partly suspect tip tapers (the run
+books tapers+keyway+chamfers at ~0.03 in³ where GT2's tapers alone remove
+~0.4). FIX FOR THE BENCHMARK FILE: pin the flank half-angle (ANSI
+(35−60/N)°) or define the volume band per construction choice. The run PASSED
+every geometric criterion; the volume criterion needs this prompt refinement
+to be comparable across runs.
 
 MCP bench-#2 notes: same spec intelligence as GT2 (seat centered at Rr+Rs so
 the bottom lands on Rr — the "on the pitch circle" literalism cannot meet the
@@ -151,6 +161,7 @@ commits; buerli-ai mirror + websites submodule synced each time).
 | 23 | `recipes/parametric-part` taught the SILENT NO-OP form `updateExpression({id,name,value})` (returns result=1, changes nothing) — mcp bench agent hit ΔV=0 on the live-bore proof, cross-checked the method doc, and self-corrected to `toUpdate:[{name,value}]` | Recipe fixed (both occurrences), bundle rebuilt; all other docs already showed the correct form (expression.md's bare form is its deliberate ❌ example) |
 | 24 | Sheet/snapshot arcs render angular (mesh facets while brep edges stay smooth and poke out of the silhouette) — engine default faceting is `chordHeightTol 0.1` in MODEL UNITS (brutal for inch models: 0.1 in > a seat radius), and the params PERSIST WORKER-GLOBALLY across sessions. Same root as the bench-#2 probe confusion | Renderer: adaptive snapshot tessellation (chord = bboxDiag/3000 clamped, applied before the render fetch, previous worker params restored after; `quality:'fast'` opts out; skipped for pre-fetched graphic / recalc:false). verify-numerically recipe: tessellation-trap section (brep-exact probes or tighten+restore). Browser/buerligons snapshot path = follow-up candidate |
 | 25 | MCP `run_script` → `api.graphic()` returned meshes but 0 EDGES until the first snapshot (renderSession) happened to enable the DB settings — the MCP session adapter was the ONE graphic path without the lazy `setDatabaseSettings` ensure (node + browser sessions both have it). Surfaced in ph's invite-session test; explains why the mcp bench agents probed mesh-only | `ensureGraphics` in the MCP script adapter, keyed on a new client reconnect `generation` (use_session lands in a new session that needs its own ensure); e2e-verified edges on first `api.graphic()` |
+| 26 | Thinking was invisible WHILE streaming (bare pulsing dot; the reasoning only appeared as a collapsible block after the round folded) | LIVE THINKING TICKER: providers read the SSE body incrementally and emit reasoning/text deltas (`onDelta`); loop threads them as `onStreamDelta`; store keeps per-round `liveThinking`; panel shows a 3-line ghost ticker (column-reverse pins the newest line) that hands over to the collapsible block when the round lands |
 
 **Bench #2 × buerli-ai status (2026-08-17 evening):** three aborted attempts,
 all GitHub-side (502 token exchange → choiceless 16k round → major_outage).

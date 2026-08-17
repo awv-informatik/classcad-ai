@@ -91,6 +91,7 @@ export async function* runAgentLoop(
           model: config.model,
           reasoningEffort: config.reasoningEffort,
           signal: config.signal,
+          onDelta: config.onStreamDelta,
         })
         got = true
       } catch (e: any) {

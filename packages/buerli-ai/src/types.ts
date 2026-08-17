@@ -115,6 +115,13 @@ export type ChatParams = {
   reasoningEffort?: ReasoningEffort
   /** Abort signal — providers should forward this to fetch(). */
   signal?: AbortSignal
+  /**
+   * Live stream deltas (optional). Streaming providers call this as reasoning/
+   * text tokens arrive, BEFORE the folded response resolves — the UI renders a
+   * live thinking ticker from it. Purely advisory: the returned ChatResponse
+   * stays the single source of truth.
+   */
+  onDelta?: (delta: { thinking?: string; text?: string }) => void
 }
 
 // ─── MCP Tool Schema ──────────────────────────────────────────────────────────
@@ -201,6 +208,12 @@ export type AgentConfig = {
   onToolExecution?: (toolName: string, input: Record<string, unknown>) => void
   /** Callback fired when the agent produces a text response. */
   onTextResponse?: (text: string) => void
+  /**
+   * Live stream deltas from the CURRENT model round (reasoning/text tokens as
+   * they arrive) — drives the panel's live thinking ticker. The folded round
+   * result (thinking blocks, text, tool calls) remains the source of truth.
+   */
+  onStreamDelta?: (delta: { thinking?: string; text?: string }) => void
   /** Abort signal to cancel an in-flight run. */
   signal?: AbortSignal
   /** @internal Nesting depth — 0 for the top-level agent, incremented per subagent. */

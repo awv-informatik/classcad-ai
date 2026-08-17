@@ -208,6 +208,7 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
 
   const stopReason = choice.finish_reason === 'tool_calls' ? 'tool_use'
     : choice.finish_reason === 'stop' ? 'end_turn'
+    : choice.finish_reason === 'length' ? 'max_tokens' // output-limit truncation → loop auto-continues
     : choice.finish_reason ?? 'end_turn'
 
   const u = json.usage as { prompt_tokens?: number; completion_tokens?: number } | undefined

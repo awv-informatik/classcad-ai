@@ -81,13 +81,23 @@ chamfers. Inches.
 
 | Criterion | root agent (GT2) | buerli-ai | mcp |
 | --- | --- | --- | --- |
-| 3 strands from geometry | ✅ centers −0.399/0/+0.399 (spacing err 0.0), extents 0.162 (2.8e-17), tip lands 0.06825 | — pending | — pending |
-| 40 teeth per strand | ✅ 40/40/40 (mesh AND edge points) | — | — |
-| Root radius = Rr | ✅ worst err 4.4e-16 | — | — |
-| Bore 0.750 / keyway floor 0.9375 | ✅ 5.5e-9 / exact | — | — |
-| Volume | ✅ 12.0130 in³, own analytic 0.007% | — | — |
-| Sheet | ✅ | — | — |
-| Run shape | 1 pass, 36 calls, ~20 min, solid.* EIF path per recipe, 4 booleans total | — | — |
+| 3 strands from geometry | ✅ centers −0.399/0/+0.399 (spacing err 0.0), extents 0.162 (2.8e-17), tip lands 0.06825 | — pending | ✅ centers −0.399/0.000/+0.399 (spacing exactly K), extents 0.162 ×3 |
+| 40 teeth per strand | ✅ 40/40/40 (mesh AND edge points) | — | ✅ 40/40/40 (azimuth clusters) |
+| Root radius = Rr | ✅ worst err 4.4e-16 | — | ✅ worst err 2.2e-15 (brep-exact, 160 probes; tessellation cross-check 9.1e-8) |
+| Bore 0.750 / keyway floor 0.9375 | ✅ 5.5e-9 / exact | — | ✅ ±3e-6 / exact |
+| Volume | ✅ 12.0130 in³, own analytic 0.007% | — | ✅ 12.0097 in³ (0.027% vs GT2; own analytic 0.0043%) |
+| Sheet | ✅ | — | ✅ ([files/mcp-bench2/](files/mcp-bench2/)) |
+| Run shape | 1 pass, 36 calls, ~20 min, solid.* EIF path per recipe, 4 booleans total | — | 1 pass, 31 turns, 15 min, 12 run_scripts, revolve-based blank, ONE multi-tool subtraction |
+
+MCP bench-#2 notes: same spec intelligence as GT2 (seat centered at Rr+Rs so
+the bottom lands on Rr — the "on the pitch circle" literalism cannot meet the
+1e-13 check; both agents derived this independently). One honest blemish: a
+coarse-tessellation probe (default faceting chordHeightTol 0.1 emits no
+interior vertices on small faces) made the agent think the seat was uncut; it
+added a redundant patterned seat-disk subtraction, then PROVED it a geometric
+no-op (ΔV 5e-5 in³ ≈ noise) instead of hiding it. Faceting-probe caveat =
+doc candidate for the verification recipe. Contamination check: single
+non-MCP call (a Write to its own session memory), no repo access.
 
 ![gt2](files/gt2-agent-t35a40ss-sheet.png)
 
@@ -169,4 +179,7 @@ of the plate skills. Parked until #2 is green on all hosts.
   24 substantial run_scripts. Cleanest live-bore result of all hosts (0.013%).
   Distinguishing behavior: when the engine hung it TRIAGED (monitored the
   worker process, waited it out, wrote an interim report asking for a restart)
-  — the resumed session rebuilt and passed in 4 minutes. Bench #2 pending.
+  — the resumed session rebuilt and passed in 4 minutes. Bench #2 PASSED the
+  same evening in ONE clean 15-min pass (fresh agent): tightest root-radius
+  proof of any host (brep-exact 2.2e-15) and volume within 0.027% of GT2.
+  With both benchmarks green, mcp is the second host fully validated.

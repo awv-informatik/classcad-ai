@@ -382,6 +382,16 @@ assert.ok(leftHit && rightHit, `assembly places both instances (left ${leftHit},
   assert.ok(Buffer.compare(Buffer.from(xr.pixels), Buffer.from(xr2.pixels)) === 0, 'x-ray deterministic')
 }
 
+// 5a9. Layers: selective rendering
+{
+  const all = await renderSessionData({ tree, graphic, execute: fakeExecute }, { width: 200, height: 150 })
+  assert.deepEqual(all.map(e => e.type).sort(), ['sketch', 'solid'])
+  const solidOnly = await renderSessionData({ tree, graphic, execute: fakeExecute }, { width: 200, height: 150, layers: ['solid'] })
+  assert.deepEqual(solidOnly.map(e => e.type), ['solid'])
+  const sketchOnly = await renderSessionData({ tree, graphic, execute: fakeExecute }, { width: 200, height: 150, layers: ['sketch'] })
+  assert.deepEqual(sketchOnly.map(e => e.type), ['sketch'])
+}
+
 // 5b. Generalized camera: named-view equivalences + arbitrary views
 {
   const px = async view => (await renderSessionData({ tree, graphic }, { width: 200, height: 150, view }))[0].pixels

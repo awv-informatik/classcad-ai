@@ -67,7 +67,39 @@ export function createCopilotProvider(config: CopilotProviderConfig): LLMProvide
         throw new Error(`Copilot request failed (${res.status}): ${text}`)
       }
 
-      const raw = await res.text()
+      // Read the body INCREMENTALLY: the full text still feeds foldSse below
+      // (single source of truth), but complete SSE lines are scanned as they
+      // arrive so the UI can render live thinking/text (params.onDelta).
+      let raw = ''
+      const onDelta = params.onDelta
+      const bodyReader = onDelta ? res.body?.getReader() : null
+      if (bodyReader) {
+        const dec = new TextDecoder()
+        let lineBuf = ''
+        for (;;) {
+          const { done, value } = await bodyReader.read()
+          const chunk = done ? dec.decode() : dec.decode(value, { stream: true })
+          raw += chunk
+          lineBuf += chunk
+          let nl
+          while ((nl = lineBuf.indexOf('\n')) >= 0) {
+            const line = lineBuf.slice(0, nl).trim()
+            lineBuf = lineBuf.slice(nl + 1)
+            if (!line.startsWith('data:')) continue
+            const payload = line.slice(5).trim()
+            if (payload === '[DONE]') continue
+            try {
+              const j = JSON.parse(payload)
+              const d = j.choices?.[0]?.delta ?? {}
+              if (typeof d.reasoning_text === 'string' && d.reasoning_text) onDelta?.({ thinking: d.reasoning_text })
+              else if (typeof d.content === 'string' && d.content) onDelta?.({ text: d.content })
+            } catch { /* malformed line — foldSse below is the arbiter */ }
+          }
+          if (done) break
+        }
+      } else {
+        raw = await res.text()
+      }
       const json = raw.trimStart().startsWith('data:') ? foldSse(raw) : JSON.parse(raw)
       return adaptResponse(json)
     },

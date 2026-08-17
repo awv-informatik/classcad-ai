@@ -59,6 +59,8 @@ export async function* runAgentLoop(
   const MAX_NUDGES = 3
   let truncationRetries = 0
   const MAX_TRUNCATION_RETRIES = 8
+  let lostCallRetries = 0
+  const MAX_LOST_CALL_RETRIES = 8
 
   for (let iteration = 0; iteration < maxIterations; iteration++) {
     if (config.signal?.aborted) {
@@ -127,6 +129,20 @@ export async function* runAgentLoop(
       // tool call (typical symptom: narrated intent, then silence). This is not
       // the model choosing to stop — auto-continue on a separate, generous
       // budget so long builds don't die at the per-round output cap.
+      // Copilot sometimes reports finish_reason 'tool_calls' but DROPS the actual
+      // tool-call payload from the response (observed live: finish=tool_calls,
+      // tool_calls=0). The model wanted to continue — its call was lost in
+      // transit. Retry deterministically instead of ending the turn.
+      if (response.stop_reason === 'tool_use' && lostCallRetries < MAX_LOST_CALL_RETRIES) {
+        lostCallRetries++
+        messages.push({
+          role: 'user',
+          content:
+            'Your tool call was LOST IN TRANSIT (the provider reported a tool call but delivered none). ' +
+            'Re-issue the exact tool call now. If it was a large run_script, split it into two smaller scripts.',
+        })
+        continue
+      }
       if (response.stop_reason === 'max_tokens' && truncationRetries < MAX_TRUNCATION_RETRIES) {
         truncationRetries++
         messages.push({

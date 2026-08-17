@@ -134,4 +134,4 @@ const shell = g.containers.flatMap(c => c.meshes ?? []).find(m => {
 | where geometry actually is, face/edge selection | `api.graphic()` — ids payload-local |
 | exact brep coordinates for verification | `v1.part.getGeometryIds` (position-based) + `getGeometryPositions`, or filter the graphic |
 | volume/COG proof | `v1.part.calculateMassProperties` |
-| bounds | buerli clients: `structure.calculateProductBounds(id)` (positional args; no v1 equivalent) |
+| bounds | buerli clients: `api.structure.calculateProductBounds(id)` (positional args; guard `if (api.structure)` — browser-only namespace; no v1 equivalent) |

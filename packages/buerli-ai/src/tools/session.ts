@@ -151,9 +151,20 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
         await refreshAfterScript(drawingId, { recalc: o?.recalc === false || sawSolidCall ? false : true })
         graphicStale = false
       }
-      const containers = (getDrawing(drawingId) as any)?.graphic?.containers
+      const drawing = getDrawing(drawingId) as any
+      const containers = drawing?.graphic?.containers
       if (!containers) return null
-      return { containers: Object.values(containers) }
+      // Filter out containers owned by CONSUMED CC_Solids — the store can keep
+      // superseded tool bodies around (especially since the suppressed raw path
+      // skips buerli's per-call graphic cleanup), and rendering them stacks old
+      // tools on top of the current part.
+      const tree = drawing?.structure?.tree ?? {}
+      const live = (Object.values(containers) as import('@classcad/script').GraphicContainer[]).filter(c => {
+        const owner = c.owner != null ? (tree[String(c.owner)] as import('@classcad/script').TreeNode | undefined) : undefined
+        if (!owner || owner.class !== 'CC_Solid') return true // curves, sketches, unknown — keep
+        return (owner.members as Record<string, { value?: unknown }> | undefined)?.consumed?.value !== 1
+      })
+      return { containers: live }
     },
     usedSolidApi: () => sawSolidCall,
     namespaces: browserNamespaces(drawingId),

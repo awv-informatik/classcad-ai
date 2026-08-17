@@ -6,6 +6,9 @@ import type { ToolExecutorContext, ToolHandler, ToolResult } from '../types'
 import { getMethodRegistry, type MethodRegistry } from './registry'
 import { describeMethod, readDoc } from './skill'
 import { getSnapshotCapturer } from './snapshot'
+import { renderSessionData } from '@classcad/renderer'
+import { entryToPngBase64 } from '@classcad/renderer/browser'
+import { browserSession } from './session'
 import { API_EXTRAS } from './apiExtras'
 import { toErrorMessage, base64ToArrayBuffer, extractBase64 } from './utils'
 import { runScriptHandler } from './script'
@@ -487,17 +490,59 @@ const download: ToolHandler = async (input, ctx) => {
   }
 }
 
-const snapshot: ToolHandler = async (input) => {
-  const { label, width, height } = input as { label?: string; width?: number; height?: number }
-  const capturer = getSnapshotCapturer()
-  if (!capturer) {
-    return { error: 'No snapshot capturer registered. The host app must call setSnapshotCapturer().' }
+// snapshot — DETERMINISTIC render of the drawing via @classcad/renderer by
+// default (standard views, whole model in frame, full verification toolkit:
+// section/sheet/highlightAt/markers/annotate/xray/colors/frame/layers).
+// source: 'viewport' opts into the legacy live-canvas capture instead — that
+// shows exactly what the user currently sees (their camera, their zoom).
+const snapshot: ToolHandler = async (input, ctx) => {
+  const { label, width, height, source, ...renderOptions } = input as Record<string, any>
+
+  if (source === 'viewport') {
+    const capturer = getSnapshotCapturer()
+    if (!capturer) {
+      return { error: "source 'viewport' needs a registered capturer (the host app must call setSnapshotCapturer()). Omit source for a deterministic render instead." }
+    }
+    try {
+      const result = await capturer({ label, width, height })
+      return { result }
+    } catch (e) {
+      return { error: `Viewport snapshot failed: ${toErrorMessage(e)}` }
+    }
   }
+
   try {
-    const result = await capturer({ label, width, height })
-    return { result }
+    const session = browserSession(ctx.drawingId)
+    const [tree, graphic] = await Promise.all([session.getTree(), session.getGraphic()])
+    const entries = await renderSessionData(
+      { tree: tree as any, graphic: graphic as any, execute: session.execute as any },
+      {
+        width: width ?? 1024,
+        height: height ?? 768,
+        ...renderOptions,
+        layers: renderOptions.layers ?? ['solid'],
+      },
+    )
+    if (!entries.length) {
+      return { error: 'Nothing to render — the drawing has no visible content (or no graphic data is available yet).' }
+    }
+    const first = entries.find(e => e.kind === 'pixels') ?? entries[0]
+    const image = await entryToPngBase64(first)
+    const raster = first as { width?: number; height?: number; frame?: unknown; type?: string }
+    return {
+      result: {
+        image,
+        mimeType: 'image/png',
+        width: raster.width ?? width ?? 1024,
+        height: raster.height ?? height ?? 768,
+        label: label ?? raster.type ?? 'render',
+        // Reusable via options.frame for pixel-comparable before/after renders.
+        frame: raster.frame,
+        rendered: entries.map(e => e.type),
+      },
+    }
   } catch (e) {
-    return { error: `Snapshot failed: ${toErrorMessage(e)}` }
+    return { error: `Snapshot render failed: ${toErrorMessage(e)}` }
   }
 }
 

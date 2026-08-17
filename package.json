@@ -1,0 +1,15 @@
+{
+  "name": "classcad-ai",
+  "private": true,
+  "description": "ClassCAD AI monorepo — knowledge (skill), deterministic renderer, universal script executor, MCP server, buerli-ai panel, and the training agent.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

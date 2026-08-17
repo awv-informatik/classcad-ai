@@ -34,7 +34,7 @@ cc's training sessions are triggered by cron jobs inside OpenClaw. Each job spaw
       │ SOUL.md     │   │ PLAN.md      │   │ references/  │
       │ USER.md     │   │ training/    │   │   api/       │
       │ AGENTS.md   │   │              │   │   <domain>/  │
-      │ MEMORY.md   │   │              │   │              │
+      │             │   │              │   │              │
       │ TOOLS.md    │   │              │   │ (pkg/skill)  │
       └─────────────┘   └──────┬───────┘   └──────┬──▲────┘
                                │                  │  │
@@ -59,16 +59,12 @@ cc/
 ├── SOUL.md                  Behavioral rules: source discipline, training rigor
 ├── USER.md                  Human profile: ph, Berlin, direct, no filler
 ├── AGENTS.md                Purpose statement and session bootstrap checklist
-├── MEMORY.md                Long-term learned state and feedback from ph
 ├── TOOLS.md                 Harness docs, data capture, skill package layout
 ├── HEARTBEAT.md             (empty — training is human-driven, not scheduled)
-├── TODO.md                  Current task tracking
+├── workspace/TODO.md        Issue tracking (appended per session)
 │
 ├── scripts/                 Harness code (do not edit)
-│   ├── run.mjs              Test runner — connects, runs script, cleans up
-│   ├── client.mjs           WebSocket client for ClassCAD
-│   ├── render-direct.mjs    Isometric renderer (auto-detects solids/sketches/curves)
-│   ├── render.mjs           Alternate renderer
+│   ├── run.mjs              Test runner (api from @classcad/script, renders via @classcad/renderer)
 │   └── export.mjs           Export utility
 │
 ├── packages/
@@ -102,7 +98,7 @@ cc/
 │           └── changes.md   Git diff of skill changes made this session
 │
 ├── memory/                  Daily session notes (raw logs)
-└── package.json             Dependencies (@classcad/api-js)
+└── package.json             Root workspace config + agent dependencies
 ```
 
 ## Identity Files
@@ -113,7 +109,6 @@ cc/
 | `SOUL.md`     | Non-negotiable rules: source discipline, training rigor, never fabricate, read before code |
 | `USER.md`     | Who ph is: timezone, preferences, role as trainer, communication style                     |
 | `AGENTS.md`   | Session bootstrap: what to read on startup, how training works, workspace layout           |
-| `MEMORY.md`   | Accumulated knowledge: skill awareness, feedback corrections, learned patterns             |
 | `TOOLS.md`    | Harness documentation: how to run scripts, data capture, reference doc locations           |
 
 These files are read at the start of every session to reconstruct cc's working context.

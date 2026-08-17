@@ -72,7 +72,7 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug]
 
 **What the harness does:**
 
-- Connects to ClassCAD and passes `{ execute }` and `{ snapshot, filewrite }` to your script
+- Connects to ClassCAD and passes `api` (from `@classcad/script`) and `{ snapshot, filewrite, tree }` to your script
 - Runs your script's default export function
 - Saves snapshots (`snapshot('label')`) as PNGs + STEP + OFB to `files/`
 - Saves data dumps (`filewrite(data, 'label')`) as JSON/TXT/BIN to `files/`
@@ -256,15 +256,16 @@ Name scripts sequentially: `01-up.mjs`, `02-down.mjs`, `03-symmetric.mjs`, etc.
 
 ### `execute()`, `snapshot()`, and `filewrite()`
 
-**`api.v1.<domain>.<method>()`** — sends one API call using the typed @classcad/api-js wrapper. Returns the **full server envelope**:
+**`api.v1.<domain>.<method>()`** — sends one API call (`@classcad/script`, generated from the method registry — unknown names throw with suggestions). Returns the **full server envelope**:
 
 ```js
 const r = await api.v1.part.create({ name: 'Test' })
 // r.result    — the API return value (ID, object, array, void, etc.)
 // r.messages  — array of { message, level } server messages
-// r.maxLevel  — highest message level (0=ok, 41-50=warning, 51+=error)
+// r.maxLevel  — highest message level (31=info/success, 41-50=warning, 51+=error)
 // r.structure — full object tree of the drawing (huge — thousands of nodes)
-// r.graphic   — rendering data (usually null in CLI context)
+// r.graphic   — graphic payload (containers with meshes/edges) when the call produced one
+// Also: api.tree({ refresh? }) and api.graphic({ recalc? }) for direct structure/geometry access
 ```
 
 **All data is in `r`.** Log compact findings with `console.log`. For large data (structure trees, graphic payloads, base64 content), use `filewrite` instead. All console output is auto-captured to `files/<scriptName>.log`.
@@ -588,13 +589,13 @@ Before declaring a session done, verify every item:
 - Offset tools/cuts asymmetrically (shift in X _and_ Y, not just X)
 - Use different-sized bodies (e.g., a 100³ box and a 60×40×80 box)
 - Place cuts/additions where the silhouette changes (corners, off-center)
-- For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face). If the cut goes through an axis aligned with iso (so it appears edge-on), add a `'top'` or `'front'` snapshot showing the through-hole circle on the broad face.
+- For subtractions, position the tool so the cut is visible from the isometric view (not hidden inside or on the back face). If the cut appears edge-on in iso, add a `'top'`/`'front'` snapshot — or cut straight to the evidence with `section: { origin, normal }` / `xray: true`.
 - Bias modified regions toward the viewer-facing side (lower X and/or higher Y/Z)
 - The opposite side **(-X, +Y, -Z)** is the "back" of the iso view — easiest to accidentally hide geometry there
 - If a before/after pair looks identical, assume view placement is wrong first: reposition, try a different `view`, and re-run
 - **For parametric update tests:** always include a fixed-size reference body so scale changes are visible
 
-**Assemblies:** instances render at their world transforms (the renderer composes `CC_ProductReference` / `CC_ProductReferenceET` `coordinateSystem` chains). Same-template instances share a color so you can spot duplicates in the iso view. If you see all bodies stacked at the origin, the snapshot was taken before the 2026-05-01 renderer port — invalid for spatial claims, redo.
+**Assemblies:** instances render at their world transforms (the renderer composes `CC_ProductReference` / `CC_ProductReferenceET` `coordinateSystem` chains). Same-template instances share a color so you can spot duplicates in the iso view.
 
 ---
 

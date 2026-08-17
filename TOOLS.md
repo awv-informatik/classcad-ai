@@ -17,6 +17,8 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug] [--port <
 - `filewrite(data, 'label')` dumps objects → `.json`, strings → `.txt`, buffers → `.bin` to `files/`
 - All `console.log`/`.error`/`.warn` output is auto-captured to `<scriptName>.log` alongside `files/`
 - Harness clears the drawing after each run — every script starts fresh
+- **Pacing:** each run has ~20 s fixed overhead (connect + render + teardown). Batch ≤3–4 runs per Bash call (the 2-min tool wall), or run individually. Snapshots cost the most — drop `snapshot()` for numeric-proof scripts.
+- **`part.create` works ONCE per run** (a 2nd call returns VOID) — build everything on the one part
 
 ### Data available from API calls
 
@@ -24,7 +26,7 @@ Every `api.v1.<domain>.<method>()` call returns the full server envelope:
 
 - `r.result` — the API return value (ID, object, VOID, etc.)
 - `r.messages` — array of `{ message, level }` server messages
-- `r.maxLevel` — highest message level (0=ok, 41-50=warning, 51+=error)
+- `r.maxLevel` — highest message level (31=info/success, 41–50=warning, 51+=error)
 - `r.structure` — full object tree (feature tree, geometry nodes, parameters)
 - `r.graphic` — rendering data (mesh vertices, normals, indices, edges)
 
@@ -53,26 +55,13 @@ git diff packages/skill/references/ packages/skill/SKILL.md
 
 ## ClassCAD Server (classcad-cli)
 
-The server should already be running — ph starts it manually. **Do not restart it unless the worker is confirmed hung** (100% CPU, calls timing out with no output).
+Install: `~/dev/awv/classcad` (binary `runtime/output/arm64-osx-clang/release/classcad-cli`, `.classcad.ini` at the repo root). The worker listens on `ws://0.0.0.0:9094/` (the harness default) and needs ~3–4 s to initialize.
 
-If you must restart as a last resort:
+If nothing is listening on 9094, start a worker yourself — and kill it when done (see Cleanup rule). A worker ph started stays untouched unless it is confirmed hung (100% CPU, calls timing out):
 
 ```bash
-# 1. Kill the hung worker
-kill -9 $(ps aux | grep 'classcad-cli worker' | grep -v grep | awk '{print $2}')
-
-# 2. Wait for it to die
-sleep 2
-
-# 3. Restart from its install directory
 cd ~/dev/awv/classcad && ./runtime/output/arm64-osx-clang/release/classcad-cli worker &
 ```
-
-> **Path note (2026-06-10):** the install tree moved from `/Users/dev/dev/osx` to
-> `~/dev/awv/classcad` (binary under `runtime/output/arm64-osx-clang/release/`,
-> `.classcad.ini` at the repo root). Older paths in this file and in memory are stale.
-
-The worker listens on `ws://0.0.0.0:9094/` (the harness default). Give it ~3 seconds to initialize before running scripts.
 
 **Common cause of hangs:** passing invalid values to APIs (e.g., `radius <= 0` to `curve.circle`, single/duplicate points to `interpolationCurve`). Diagnose with `ps aux | grep classcad` — a hung worker shows 100% CPU.
 
@@ -82,13 +71,13 @@ If `kill -9` leaves the worker in UE (uninterruptible) state and the port stays 
 
 ```bash
 # Start worker on port 9095 instead
-cd /Users/dev/dev/osx && ./arm64-osx-release/classcad-cli worker -i .classcad-alt.ini &
+cd ~/dev/awv/classcad && ./runtime/output/arm64-osx-clang/release/classcad-cli worker -i .classcad-alt.ini &
 
 # Run scripts against it
 node scripts/run.mjs <script> --outdir <dir> --port 9095
 ```
 
-The file `/Users/dev/dev/osx/.classcad-alt.ini` is a copy of `.classcad.ini` with `wport=9095` and `hport=9095`. The zombie on port 9094 will clear when the machine reboots.
+`~/dev/awv/classcad/.classcad-alt.ini` is a copy of `.classcad.ini` with `wport=9095` and `hport=9095` (create it if missing). The zombie on port 9094 clears on reboot.
 
 ### Cleanup rule
 
@@ -109,19 +98,13 @@ The harness uses `@classcad/renderer` (workspace package `../renderer`) which au
 - Sketches → 2D plot
 - Curves → edge data plot
 
-Snapshots are PNG files in `files/`. They show wireframe/outline views — not photorealistic. Interior cavities (e.g., subtraction holes) may not be visible from all angles — that's a reason to take a second snapshot from a different `view`, not a reason to give up.
+Snapshots are PNG files in `files/` — flat-shaded solids with brep-edge overlay (native model colors by default; `colors: 'distinct'` for one color per body). Interior features (bores, cavities): don't hunt for a lucky angle — cut with `section: { origin, normal }` or use `xray: true`.
 
-> **Arc rendering (fixed 2026-07-01).** The sketch renderer used to draw every arc as its **minor (<180°) sweep**,
-> ignoring the arc's `bulge` — so a *major* arc (e.g. the outer arc of a union of two circles) rendered as its
-> minor-arc complement, making a union blob look like an intersection lens. The renderer now reads each
-> arc's signed `bulge` from the structure tree and derives the correct sweep in `tessellateArc`. If you see a
-> pre-2026-07-01 arc snapshot, distrust it for anything with arcs ≥180°. General rule that caught this: **when a
-> snapshot contradicts your numbers, measure the geometry (an arc's `bulge` = tan(includedAngle/4)) — don't trust
-> the picture.**
+Arcs are tessellated from their signed `bulge` (= tan(includedAngle/4)), so major arcs (≥180°) render correctly. General rule: **when a snapshot contradicts your numbers, measure the geometry — don't trust the picture** (the renderer auto-scales and the iso projection hides translations).
 
 ### View options
 
-`snapshot('label', { view, zoom, lookAt })` accepts a CAD view-cube selector:
+The `view` option takes a named CAD view-cube selector — or an arbitrary orthographic camera: `{ azimuth, elevation }` (degrees, Z-up turntable; 0/0 = front) / `{ direction: [x,y,z], up? }`. The named views:
 
 | view | Camera | Best for |
 |---|---|---|
@@ -142,8 +125,6 @@ Snapshots are PNG files in `files/`. They show wireframe/outline views — not p
 The renderer composes per-instance world transforms by walking `CC_ProductReference` / `CC_ProductReferenceET` nodes. Every leaf instance renders at its assembly-frame position; instances of the same template share a color (palette is keyed by template, not by container).
 
 Drawings without an assembly root render flat (one drawcall per container) — backwards-compatible with all part-only training scripts.
-
-**Historical note:** before the 2026-05-01 port, the cc renderer ignored instance transforms and drew every instance at the template origin. All assembly snapshots taken before that date are stacked-at-origin and unreliable for spatial verification. Numeric measurements (`calculateMassProperties`, `getGeometryPositions`) were not affected.
 
 ### Snapshot filename convention
 

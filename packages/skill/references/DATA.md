@@ -13,12 +13,12 @@ Returns the structure tree: `Record<id, node>`.
 {
   id: number
   class: string              // "CC_Part" | "CC_Solid" | "CC_Sketch" | "CC_Box" |
-                             // "CC_WorkPlane" | "CC_ExpressionSet" | …
+                             // "CC_WorkPlane" | "CC_ProductReference" | …
   name: string               // "Top", "Sketch", your feature names
   parent: number | null
   children?: number[]        // structural sub-objects (NOT the feature list)
-  members?: Record<string, { value: unknown; expression?: string }>
-  solids?: number[]          // on parts: the graphic container ids of its solids
+  members?: Record<string, { value: unknown; type: string; expression: string; visible: number }>
+  solids?: number[]          // on parts: container id of the latest tessellation (see below)
   coordinateSystem?: number[][] // [origin, xDir, yDir, zDir] where present
 }
 ```
@@ -28,13 +28,24 @@ Facts that matter:
 - **Tree ids are STABLE** — parts, features, sketches, work planes keep their
   id for the session. Safe to store and reuse across calls.
 - Features live under the part's `CC_EntitySet` child, not directly under the
-  part. Work planes (`Top`/`Front`/`Right`) and axes (`XAxis`…) exist on every
-  fresh part.
-- `members` carries parameters: `node.members.Radius?.value`,
-  `members.isConstruction?.value === 1`, `expression` shows an `@expr` binding.
-- A part's *current* brep container is `node.solids?.[0]` — it ROTATES to a new
-  id whenever a feature creates a new solid (boolean, fillet, …). Re-read after
+  part; each feature's `CC_Solid` result is a child of the feature. The ordered
+  build history is `CC_OperationSequence.children` (each step's
+  `members.refObj.value` → the feature/sketch node). Work planes
+  (`Top`/`Front`/`Right`) and axes (`XAxis`…) exist on every fresh part.
+- `members` carries parameters: `node.members.radius?.value`,
+  `members.isConstruction?.value === 1`. A bound param shows
+  `expression: "ExpressionSet.NAME"` (you write `'@expr.NAME'` in calls).
+  Expressions themselves live in the `CC_ExpressionSet`'s **members**.
+- The part's *current* brep is the `CC_Solid` node with
+  `members.consumed.value === 0` (superseded solids keep `consumed === 1`).
+  `node.solids?.[0]` is the graphic **container id** of the engine's latest
+  tessellation — it rotates on every solid-creating feature AND on recalc; the
+  stable tree↔graphic join is `container.owner === ccSolid.id`. Re-read after
   mutations; don't cache across features.
+- Assemblies: instances are `CC_ProductReference`/`CC_ProductReferenceET`
+  nodes — `members.productId.value` → the part/assembly definition,
+  `coordinateSystem` = LOCAL placement (accumulate along the reference chain
+  for world). Full anatomy + verified walk: [STRUCTURE.md](STRUCTURE.md).
 
 Selection idioms:
 
@@ -54,8 +65,8 @@ tessellation of the CURRENT model, in WORLD coordinates.
 
 ```ts
 {
-  id: number                 // the CADEntity id (matches a tree node)
-  owner: number              // the owning CC_Solid id
+  id: number                 // PAYLOAD-LOCAL container id (rotates on recalc)
+  owner: number              // the owning CC_Solid TREE id — the stable join
   type: number               // 1 = solid, 2 = curve shape
   properties: { material?: { color: [r, g, b] } }   // 0–255
   meshes: [{                 // ONE MESH PER FACE

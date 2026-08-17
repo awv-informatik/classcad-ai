@@ -5,13 +5,15 @@
  */
 
 import { existsSync, mkdirSync, cpSync } from 'node:fs'
-import { resolve, dirname } from 'node:path'
+import { resolve, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
 
-const apiDocs = resolve(root, 'node_modules/@classcad/api-js/doc/apis/v1')
+import { createRequire } from 'module'
+const apiJsRoot = dirname(createRequire(import.meta.url).resolve('@classcad/api-js/package.json'))
+const apiDocs = join(apiJsRoot, 'doc', 'apis', 'v1')
 const target = resolve(root, 'references/api')
 
 if (existsSync(apiDocs)) {

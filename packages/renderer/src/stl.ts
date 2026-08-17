@@ -14,7 +14,7 @@
  * Project a 3D point to isometric 2D + depth.
  * Standard isometric: rotate 45deg around Y, then ~35.264deg around X.
  */
-function projectIso(x, y, z) {
+function projectIso(x: any, y: any, z: any) {
   const a = Math.PI / 4
   const b = Math.asin(1 / Math.sqrt(3))
   const ca = Math.cos(a), sa = Math.sin(a)
@@ -33,11 +33,11 @@ function projectIso(x, y, z) {
  * @param {number} height
  * @returns {Buffer} RGBA pixel buffer
  */
-export function renderIsometric(triangles, width, height) {
+export function renderIsometric(triangles: any, width: any, height: any) {
   // Project all vertices for bounding box
   const allPts = []
   for (const tri of triangles) {
-    for (const [x, y, z] of tri.vertices) {
+    for (const [x, y, z] of tri.vertices as [number, number, number][]) {
       allPts.push(projectIso(x, y, z))
     }
   }
@@ -55,8 +55,8 @@ export function renderIsometric(triangles, width, height) {
   const midX = (minX + maxX) / 2, midY = (minY + maxY) / 2
 
   // Sort triangles back-to-front (painter's algorithm)
-  const projected = triangles.map(tri => {
-    const pts = tri.vertices.map(([x, y, z]) => {
+  const projected = triangles.map((tri: any) => {
+    const pts = tri.vertices.map(([x, y, z]: any[]) => {
       const [px, py, pz] = projectIso(x, y, z)
       return { sx: cx + (px - midX) * scale, sy: cy - (py - midY) * scale, depth: pz }
     })
@@ -66,20 +66,20 @@ export function renderIsometric(triangles, width, height) {
     const brightness = Math.max(0.25, Math.min(1, 0.3 + 0.7 * Math.abs(lz)))
     return { pts, avgDepth, brightness }
   })
-  projected.sort((a, b) => a.avgDepth - b.avgDepth)
+  projected.sort((a: any, b: any) => a.avgDepth - b.avgDepth)
 
   // Rasterise into RGBA buffer (white background)
   const buf = typeof Buffer !== 'undefined' ? Buffer.alloc(width * height * 4, 255) : new Uint8Array(width * height * 4).fill(255)
   for (let i = 3; i < buf.length; i += 4) buf[i] = 255
 
-  function setPixel(x, y, r, g, b) {
+  function setPixel(x: any, y: any, r: any, g: any, b: any) {
     const ix = Math.round(x), iy = Math.round(y)
     if (ix < 0 || ix >= width || iy < 0 || iy >= height) return
     const off = (iy * width + ix) * 4
     buf[off] = r; buf[off + 1] = g; buf[off + 2] = b; buf[off + 3] = 255
   }
 
-  function drawLine(x0, y0, x1, y1, r, g, b) {
+  function drawLine(x0: any, y0: any, x1: any, y1: any, r: any, g: any, b: any) {
     const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0)
     const sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1
     let err = dx - dy
@@ -93,8 +93,8 @@ export function renderIsometric(triangles, width, height) {
     }
   }
 
-  function fillTriangle(p0, p1, p2, r, g, b) {
-    const pts = [p0, p1, p2].sort((a, b) => a.sy - b.sy)
+  function fillTriangle(p0: any, p1: any, p2: any, r: any, g: any, b: any) {
+    const pts = [p0, p1, p2].sort((a: any, b: any) => a.sy - b.sy)
     const [top, mid, bot] = pts
     const totalH = bot.sy - top.sy
     if (totalH < 1) return
@@ -135,7 +135,7 @@ export function renderIsometric(triangles, width, height) {
  * renderIsometric. Pure — pass any Uint8Array/Buffer with binary STL bytes
  * (e.g. from v1.common.save({ format: 'STL', encoding: 'base64', stl: { binary: true } })).
  */
-export function parseSTL(buf) {
+export function parseSTL(buf: any) {
   const dv = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
   const triCount = dv.getUint32(80, true)
   const triangles = []

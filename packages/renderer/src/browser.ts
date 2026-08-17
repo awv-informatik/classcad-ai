@@ -8,10 +8,10 @@
  *   const png = await entryToPngBase64(entries[0])   // base64 PNG, no data: prefix
  */
 
-export * from './core.mjs'
-export * from './stl.mjs'
+export * from './core.js'
+export * from './stl.js'
 
-function makeCanvas(width, height) {
+function makeCanvas(width: any, height: any) {
   if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(width, height)
   const c = document.createElement('canvas')
   c.width = width
@@ -19,7 +19,7 @@ function makeCanvas(width, height) {
   return c
 }
 
-async function canvasToPngBase64(canvas) {
+async function canvasToPngBase64(canvas: any) {
   if (canvas.convertToBlob) {
     const blob = await canvas.convertToBlob({ type: 'image/png' })
     const buf = await blob.arrayBuffer()
@@ -32,9 +32,9 @@ async function canvasToPngBase64(canvas) {
 }
 
 /** Encode an RGBA pixel buffer (Uint8Array/Buffer) as base64 PNG. */
-export async function pixelsToPngBase64(pixels, width, height) {
+export async function pixelsToPngBase64(pixels: any, width: any, height: any) {
   const canvas = makeCanvas(width, height)
-  const ctx = canvas.getContext('2d')
+  const ctx = canvas.getContext('2d')!
   const img = ctx.createImageData(width, height)
   img.data.set(pixels instanceof Uint8ClampedArray ? pixels : new Uint8ClampedArray(pixels.buffer ?? pixels))
   ctx.putImageData(img, 0, 0)
@@ -42,12 +42,12 @@ export async function pixelsToPngBase64(pixels, width, height) {
 }
 
 /** Rasterize an SVG string to base64 PNG at its declared width/height. */
-export async function svgToPngBase64(svg, width, height) {
+export async function svgToPngBase64(svg: any, width?: any, height?: any) {
   const blob = new Blob([svg], { type: 'image/svg+xml' })
   const url = URL.createObjectURL(blob)
   try {
     const img = new Image()
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve: any, reject: any) => {
       img.onload = resolve
       img.onerror = () => reject(new Error('SVG rasterization failed'))
       img.src = url
@@ -55,7 +55,7 @@ export async function svgToPngBase64(svg, width, height) {
     const w = width ?? img.naturalWidth
     const h = height ?? img.naturalHeight
     const canvas = makeCanvas(w, h)
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d')!
     ctx.drawImage(img, 0, 0, w, h)
     return canvasToPngBase64(canvas)
   } finally {
@@ -64,7 +64,7 @@ export async function svgToPngBase64(svg, width, height) {
 }
 
 /** Encode one renderSessionData entry (pixels or svg) as base64 PNG. */
-export async function entryToPngBase64(entry) {
+export async function entryToPngBase64(entry: any) {
   if (entry.kind === 'pixels') return pixelsToPngBase64(entry.pixels, entry.width, entry.height)
   return svgToPngBase64(entry.svg)
 }

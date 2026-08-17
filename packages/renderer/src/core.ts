@@ -1,3 +1,9 @@
+import type {
+  AssemblyInstance, CameraView, DiffResult, Frame, Graphic, GraphicContainer,
+  Marker, OverlayPolyline, RasterResult, RenderOptions, SectionPlane,
+  SessionEntry, SessionSource, SolidRenderOptions, Tree, Vec3, RGB,
+} from './types.js'
+
 /**
  * render-direct.mjs — Direct renderer for ClassCAD session data.
  *
@@ -34,7 +40,7 @@
 
 
 // Allocate a white RGBA pixel buffer — Buffer in Node, Uint8Array in browsers.
-function allocPixels(byteLength) {
+function allocPixels(byteLength: any) {
   return typeof Buffer !== 'undefined' ? Buffer.alloc(byteLength, 255) : new Uint8Array(byteLength).fill(255)
 }
 
@@ -48,7 +54,7 @@ const IMG_H = 1200
 // Default isometric projection (CAD-cube corner view).
 // Rotates 45° around Y, then ~35.264° around X. Output: [screenX, screenY, depth]
 // where larger depth = closer to camera.
-function projectIso(x, y, z) {
+function projectIso(x: any, y: any, z: any) {
   const a = Math.PI / 4
   const b = Math.asin(1 / Math.sqrt(3))
   const ca = Math.cos(a), sa = Math.sin(a)
@@ -68,27 +74,27 @@ function projectIso(x, y, z) {
 //   right  = camera at +X looking -X
 //   left   = camera at -X looking +X
 //   iso    = the default isometric corner view
-const VIEWS = {
+const VIEWS: Record<string, (x: number, y: number, z: number) => number[]> = {
   iso:    projectIso,
-  top:    (x, y, z) => [x, y, z],
-  bottom: (x, y, z) => [x, -y, -z],
-  front:  (x, y, z) => [x, z, -y],
-  back:   (x, y, z) => [-x, z, y],
-  right:  (x, y, z) => [-y, z, x],
-  left:   (x, y, z) => [y, z, -x],
+  top:    (x: any, y: any, z: any) => [x, y, z],
+  bottom: (x: any, y: any, z: any) => [x, -y, -z],
+  front:  (x: any, y: any, z: any) => [x, z, -y],
+  back:   (x: any, y: any, z: any) => [-x, z, y],
+  right:  (x: any, y: any, z: any) => [-y, z, x],
+  left:   (x: any, y: any, z: any) => [y, z, -x],
 }
 
 export const VIEW_NAMES = Object.keys(VIEWS)
 
 // Module-level viewport state. Mutated by setViewport() at the start of each
 // renderSession call. Rendering is sequential so this is safe.
-let _project = projectIso
+let _project: (x: number, y: number, z: number) => number[] = projectIso
 let _zoom = 1
-let _lookAt = null
-let _forcedFrame = null   // set via setViewport({ frame }) — overrides auto-fit
-let _lastFrame = null     // frame actually used by the most recent viewTransform
+let _lookAt: [number, number, number] | null = null
+let _forcedFrame: { scale: number; midX: number; midY: number } | null = null   // set via setViewport({ frame }) — overrides auto-fit
+let _lastFrame: { scale: number; midX: number; midY: number } | null = null     // frame actually used by the most recent viewTransform
 
-function project(x, y, z) {
+function project(x: any, y: any, z: any) {
   return _project(x, y, z)
 }
 
@@ -103,7 +109,7 @@ function project(x, y, z) {
 // NAMED views follow CAD drawing conventions and are kept byte-stable; a
 // vector camera aimed like a named view may differ in handedness (e.g.
 // 'right' vs { azimuth: 90 } are mirror images — drawing vs photo convention).
-function projectionFromCamera(v) {
+function projectionFromCamera(v: any) {
   let dir = null
   if (Array.isArray(v.direction) && v.direction.length === 3) {
     dir = v.direction
@@ -130,7 +136,7 @@ function projectionFromCamera(v) {
   const r = [rx / rlen, ry / rlen, rz / rlen]
   const u = [r[1] * f[2] - r[2] * f[1], r[2] * f[0] - r[0] * f[2], r[0] * f[1] - r[1] * f[0]]
   // screen = [right, up, depth]; larger depth = closer to the camera.
-  return (x, y, z) => [
+  return (x: any, y: any, z: any) => [
     r[0] * x + r[1] * y + r[2] * z,
     u[0] * x + u[1] * y + u[2] * z,
     -(f[0] * x + f[1] * y + f[2] * z),
@@ -149,7 +155,7 @@ function projectionFromCamera(v) {
  *   center so renders of different model states are pixel-comparable. Overrides
  *   auto-fit, zoom and lookAt.
  */
-export function setViewport(opts = {}) {
+export function setViewport(opts: { view?: CameraView; zoom?: number; lookAt?: Vec3; frame?: Frame } = {}): void {
   const v = opts.view
   if (v && typeof v === 'object') {
     _project = projectionFromCamera(v) ?? projectIso
@@ -161,7 +167,7 @@ export function setViewport(opts = {}) {
   _forcedFrame = opts.frame && typeof opts.frame.scale === 'number' ? { ...opts.frame } : null
 }
 
-function bbox2d(pts) {
+function bbox2d(pts: any) {
   let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity
   for (const [x, y] of pts) {
     if (x < minX) minX = x; if (x > maxX) maxX = x
@@ -170,14 +176,14 @@ function bbox2d(pts) {
   return { minX, maxX, minY, maxY }
 }
 
-function viewTransform(pts2d, width, height, margin = 40) {
+function viewTransform(pts2d: any, width: any, height: any, margin: any = 40) {
   // A forced frame (setViewport({ frame })) wins over auto-fit, zoom and
   // lookAt — it pins scale AND center, making successive renders of a
   // CHANGING model pixel-comparable (the basis for diffImages).
   if (_forcedFrame) {
     const { scale, midX, midY } = _forcedFrame
     _lastFrame = { scale, midX, midY }
-    return (x, y) => [
+    return (x: any, y: any) => [
       width / 2 + (x - midX) * scale,
       height / 2 - (y - midY) * scale
     ]
@@ -196,7 +202,7 @@ function viewTransform(pts2d, width, height, margin = 40) {
     midY = (minY + maxY) / 2
   }
   _lastFrame = { scale, midX, midY }
-  return (x, y) => [
+  return (x: any, y: any) => [
     width / 2 + (x - midX) * scale,
     height / 2 - (y - midY) * scale
   ]
@@ -215,7 +221,7 @@ const IDENTITY4x4 = [
   0, 0, 0, 1,
 ]
 
-function multiply4x4(a, b) {
+function multiply4x4(a: any, b: any) {
   const r = new Array(16)
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
@@ -225,7 +231,7 @@ function multiply4x4(a, b) {
   return r
 }
 
-function applyMatPoint(m, x, y, z) {
+function applyMatPoint(m: any, x: any, y: any, z: any) {
   return [
     m[0]*x + m[1]*y + m[2]*z + m[3],
     m[4]*x + m[5]*y + m[6]*z + m[7],
@@ -233,7 +239,7 @@ function applyMatPoint(m, x, y, z) {
   ]
 }
 
-function applyMatVec(m, x, y, z) {
+function applyMatVec(m: any, x: any, y: any, z: any) {
   return [
     m[0]*x + m[1]*y + m[2]*z,
     m[4]*x + m[5]*y + m[6]*z,
@@ -244,7 +250,7 @@ function applyMatVec(m, x, y, z) {
 // coordinateSystem on instance nodes is observed as
 // [origin, xAxis, yAxis, zAxis] (4×3) for STEP imports. The API also accepts
 // the 3×3 form [origin, xDir, yDir] (zDir derived) and the 4×4 row form.
-function csToMatrix(cs) {
+function csToMatrix(cs: any) {
   if (!Array.isArray(cs) || cs.length < 3) return IDENTITY4x4.slice()
   if (cs.length === 4 && Array.isArray(cs[0]) && cs[0].length === 4) {
     return [
@@ -275,15 +281,15 @@ function csToMatrix(cs) {
  * cumulative world transform. Returns null when the drawing has no
  * CC_AssemblyRoot (single-part drawing — caller renders templates flat).
  */
-export function extractAssemblyInstances(tree) {
+export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null {
   let rootId = null
-  for (const [id, obj] of Object.entries(tree)) {
+  for (const [id, obj] of Object.entries<any>(tree)) {
     if (obj.class === 'CC_AssemblyRoot') { rootId = Number(id); break }
   }
   if (rootId == null) return null
 
   const solidByPart = new Map()
-  for (const [id, obj] of Object.entries(tree)) {
+  for (const [id, obj] of Object.entries<any>(tree)) {
     if (obj.class !== 'CC_Solid') continue
     let cur = obj.parent
     while (cur != null) {
@@ -294,8 +300,8 @@ export function extractAssemblyInstances(tree) {
     }
   }
 
-  const instances = []
-  function visit(node, parentMatrix) {
+  const instances: any[] = []
+  function visit(node: any, parentMatrix: any) {
     const matrix = multiply4x4(parentMatrix, csToMatrix(node.coordinateSystem))
     const pid = node.members?.productId?.value
     if (pid != null) {
@@ -331,10 +337,10 @@ export function extractAssemblyInstances(tree) {
 // Build the list of drawcalls. With instances: one drawcall per instance,
 // palette keyed by template (so all copies of the same part share a color).
 // Without: one drawcall per container at identity (the part-only render path).
-function buildDrawList(graphic, instances) {
+function buildDrawList(graphic: any, instances: any) {
   const containers = graphic.containers || []
   if (!instances || instances.length === 0) {
-    return containers.map((c, i) => ({ container: c, transform: null, paletteIdx: i }))
+    return containers.map((c: any, i: any) => ({ container: c, transform: null, paletteIdx: i }))
   }
   const containerByOwner = new Map()
   for (const c of containers) {
@@ -342,7 +348,7 @@ function buildDrawList(graphic, instances) {
   }
   const palByPart = new Map()
   let nextPal = 0
-  const draws = []
+  const draws: any[] = []
   for (const inst of instances) {
     const c = containerByOwner.get(Number(inst.ownerSolidId))
     if (!c) continue
@@ -353,8 +359,8 @@ function buildDrawList(graphic, instances) {
   return draws
 }
 
-function tessellateCircle(cx, cy, r, n = 64) {
-  const pts = []
+function tessellateCircle(cx: any, cy: any, r: any, n: any = 64) {
+  const pts: any[] = []
   for (let i = 0; i <= n; i++) {
     const a = (2 * Math.PI * i) / n
     pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)])
@@ -362,7 +368,7 @@ function tessellateCircle(cx, cy, r, n = 64) {
   return pts
 }
 
-function tessellateArc(start, end, center, n = 64, mid = null, bulge = null) {
+function tessellateArc(start: any, end: any, center: any, n: any = 64, mid: any = null, bulge: any = null) {
   // Preferred path: the arc's signed bulge (= tan(includedAngle/4)) fully determines the sweep,
   // including major arcs (|bulge| > 1). Derive the center from (start, end, bulge) so we don't depend
   // on a possibly-stale center, then sweep by the exact signed angle. Without this, the fallback below
@@ -379,7 +385,7 @@ function tessellateArc(start, end, center, n = 64, mid = null, bulge = null) {
       const cx = mx - uy * apo, cy = my + ux * apo
       const rr = Math.abs(R)
       const a0b = Math.atan2(start.y - cy, start.x - cx)
-      const pts = []
+      const pts: any[] = []
       for (let i = 0; i <= n; i++) { const a = a0b + (theta * i) / n; pts.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]) }
       return pts
     }
@@ -396,7 +402,7 @@ function tessellateArc(start, end, center, n = 64, mid = null, bulge = null) {
     if (a1 < a0) a1 += 2 * Math.PI
     if (a1 - a0 > Math.PI) a1 -= 2 * Math.PI
   }
-  const pts = []
+  const pts: any[] = []
   for (let i = 0; i <= n; i++) {
     const a = a0 + (a1 - a0) * i / n
     pts.push([center.x + r * Math.cos(a), center.y + r * Math.sin(a)])
@@ -420,9 +426,9 @@ export const COLOR_MODES = ['native', 'distinct']
 
 // Normalize a material color to [0..1] multipliers (engine sends 0–255 ints,
 // synthetic/test data may already be 0..1).
-function materialRgb(mat) {
+function materialRgb(mat: any) {
   const c = mat?.color
-  if (!Array.isArray(c) || c.length < 3 || c.some(v => typeof v !== 'number')) return null
+  if (!Array.isArray(c) || c.length < 3 || c.some((v: any) => typeof v !== 'number')) return null
   const m = Math.max(c[0], c[1], c[2])
   return m > 1 ? [c[0] / 255, c[1] / 255, c[2] / 255] : [c[0], c[1], c[2]]
 }
@@ -451,10 +457,10 @@ const BODY_PALETTES = [
 // reassigns them). highlightAt anchors highlights GEOMETRICALLY instead: for
 // each world point, the closest face mesh (by vertex distance) in THIS payload
 // is highlighted — robust across recalcs and tool boundaries.
-function resolveHighlightAt(graphic, instances, points) {
+function resolveHighlightAt(graphic: any, instances: any, points: any) {
   if (!Array.isArray(points) || points.length === 0) return []
   const drawList = buildDrawList(graphic, instances)
-  const ids = []
+  const ids: any[] = []
   for (const p of points) {
     if (!Array.isArray(p) || p.length !== 3) continue
     let best = null
@@ -483,7 +489,7 @@ function resolveHighlightAt(graphic, instances, points) {
 // shaded darker (back faces are not culled while a section is active).
 // The view keeps the UNSECTIONED model's framing, so a sectioned and an
 // unsectioned render of the same state are directly comparable.
-function normalizeSection(section) {
+function normalizeSection(section: any) {
   if (!section || !Array.isArray(section.origin) || !Array.isArray(section.normal)) return null
   const [nx, ny, nz] = section.normal
   const len = Math.hypot(nx, ny, nz)
@@ -491,12 +497,12 @@ function normalizeSection(section) {
   return { o: section.origin, n: [nx / len, ny / len, nz / len] }
 }
 
-const _planeDist = (p, s) => (p[0] - s.o[0]) * s.n[0] + (p[1] - s.o[1]) * s.n[1] + (p[2] - s.o[2]) * s.n[2]
+const _planeDist = (p: any, s: any) => (p[0] - s.o[0]) * s.n[0] + (p[1] - s.o[1]) * s.n[1] + (p[2] - s.o[2]) * s.n[2]
 
 // Sutherland-Hodgman: clip a world-space polygon to dot(p-o, n) <= 0.
-function clipPolyToSection(pts, s) {
-  const d = pts.map(p => _planeDist(p, s))
-  const out = []
+function clipPolyToSection(pts: any, s: any) {
+  const d = pts.map((p: any) => _planeDist(p, s))
+  const out: any[] = []
   for (let i = 0; i < pts.length; i++) {
     const j = (i + 1) % pts.length
     if (d[i] <= 0) out.push(pts[i])
@@ -547,8 +553,8 @@ function clipPolyToSection(pts, s) {
  *               produce a render (a sketch-only session renders on white).
  * Returns { pixels, width, height, frame } or null if no geometry.
  */
-export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, instances = null, optsOrColorMode = 'native') {
-  const opts = typeof optsOrColorMode === 'string' ? { colors: optsOrColorMode } : (optsOrColorMode ?? {})
+export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, optsOrColorMode: SolidRenderOptions | string = 'native'): RasterResult | null {
+  const opts: SolidRenderOptions & { overlays?: any[] } = typeof optsOrColorMode === 'string' ? { colors: optsOrColorMode as any } : (optsOrColorMode ?? {})
   const colorMode = opts.colors ?? 'native'
   const section = normalizeSection(opts.section)
   let highlightList = Array.isArray(opts.highlight) ? opts.highlight.map(Number) : []
@@ -557,20 +563,20 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
   }
   const highlightIds = highlightList.length ? new Set(highlightList) : null
   const HIGHLIGHT_RGB = [1.0, 0.45, 0.05] // signal orange
-  const overlays = Array.isArray(opts.overlays) ? opts.overlays.filter(o => Array.isArray(o?.pts) && o.pts.length >= 2) : []
+  const overlays = Array.isArray(opts.overlays) ? opts.overlays.filter((o: any) => Array.isArray(o?.pts) && o.pts.length >= 2) : []
   const annotate = !!opts.annotate
   const xray = !!opts.xray
   const xrayAlpha = typeof opts.xrayAlpha === 'number' && opts.xrayAlpha > 0 && opts.xrayAlpha < 1 ? opts.xrayAlpha : 0.42
   const wmin = [Infinity, Infinity, Infinity], wmax = [-Infinity, -Infinity, -Infinity]
-  const growBBox = (x, y, z) => {
+  const growBBox = (x: any, y: any, z: any) => {
     if (x < wmin[0]) wmin[0] = x; if (x > wmax[0]) wmax[0] = x
     if (y < wmin[1]) wmin[1] = y; if (y > wmax[1]) wmax[1] = y
     if (z < wmin[2]) wmin[2] = z; if (z > wmax[2]) wmax[2] = z
   }
 
-  const allPts2d = []
-  const tris = []  // { v0, v1, v2 (screen+depth), r, g, b }
-  const edgeLines = []
+  const allPts2d: any[] = []
+  const tris: any[] = []  // { v0, v1, v2 (screen+depth), r, g, b }
+  const edgeLines: any[] = []
 
   const drawList = buildDrawList(graphic, instances)
   for (const draw of drawList) {
@@ -590,7 +596,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
         // World-space triangle (instance transform applied). ALL original
         // vertices feed the auto-fit extent — including culled/clipped ones —
         // so framing stays stable across section/cull decisions.
-        const wv = []
+        const wv: any[] = []
         for (let j = 0; j < 3; j++) {
           const idx = indices[i + j]
           let vx = verts[idx*3], vy = verts[idx*3+1], vz = verts[idx*3+2]
@@ -628,7 +634,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
         const g = Math.round(shade * palette[1])
         const b = Math.round(shade * palette[2])
         for (const poly of polys) {
-          const tv = poly.map(([vx, vy, vz]) => {
+          const tv = poly.map(([vx, vy, vz]: any[]) => {
             const [px, py, pz] = project(vx, vy, vz)
             return { px, py, pz }
           })
@@ -639,7 +645,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
     for (const edge of (container.edges || [])) {
       const pts = edge.points
       // World-space polyline; original points always feed the extent.
-      const world = []
+      const world: any[] = []
       for (let i = 0; i < pts.length; i += 3) {
         let ex = pts[i], ey = pts[i+1], ez = pts[i+2]
         if (transform) [ex, ey, ez] = applyMatPoint(transform, ex, ey, ez)
@@ -648,11 +654,11 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
         allPts2d.push([px, py])
       }
       // Section: split the polyline at plane crossings, keep the ≤0 side.
-      const pieces = []
+      const pieces: any[] = []
       if (!section) {
         pieces.push(world)
       } else {
-        let cur = []
+        let cur: any[] = []
         for (let i = 0; i < world.length; i++) {
           const di = _planeDist(world[i], section)
           if (i > 0) {
@@ -676,7 +682,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
       const edgeHighlighted = highlightIds && highlightIds.has(Number(edge.id))
       for (const piece of pieces) {
         if (piece.length < 2) continue
-        const proj = piece.map(([ex, ey, ez]) => {
+        const proj: any = piece.map(([ex, ey, ez]: any[]) => {
           const [px, py, pz] = project(ex, ey, ez)
           return { px, py, pz }
         })
@@ -687,10 +693,10 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
   }
 
   // Overlay polylines participate in the fit (and can carry it alone).
-  const overlayProj = overlays.map(o => ({
+  const overlayProj = overlays.map((o: any) => ({
     color: Array.isArray(o.color) && o.color.length === 3 ? o.color : [0, 90, 220],
     dashed: !!o.dashed,
-    pts: o.pts.map(([x, y, z]) => {
+    pts: o.pts.map(([x, y, z]: any[]) => {
       const [px, py, pz] = project(x, y, z)
       allPts2d.push([px, py])
       return { px, py, pz }
@@ -707,18 +713,18 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
   // Rasterize triangles. X-ray: painter's algorithm back-to-front with fixed
   // alpha blending (no depth rejection) — hidden geometry shines through.
   if (xray) {
-    const withDepth = tris.map(tri => ({
+    const withDepth = tris.map((tri: any) => ({
       tri,
       d: (tri.v[0].pz + tri.v[1].pz + tri.v[2].pz) / 3,
     }))
-    withDepth.sort((a, b) => a.d - b.d) // far → near
+    withDepth.sort((a: any, b: any) => a.d - b.d) // far → near
     for (const { tri } of withDepth) {
-      const sv = tri.v.map(v => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+      const sv = tri.v.map((v: any) => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
       _rasterTriBlend(pixels, width, height, sv[0], sv[1], sv[2], tri.r, tri.g, tri.b, xrayAlpha)
     }
   } else {
     for (const tri of tris) {
-      const sv = tri.v.map(v => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+      const sv = tri.v.map((v: any) => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
       _rasterTri(pixels, zBuf, width, height, sv[0], sv[1], sv[2], tri.r, tri.g, tri.b)
     }
   }
@@ -728,9 +734,9 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
   const edgeColor = { r: 26, g: 26, b: 58 }
   const hlColor = { r: 230, g: 40, b: 30 }
   for (const epts of edgeLines) {
-    const sv = epts.map(v => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+    const sv = epts.map((v: any) => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
     for (let i = 0; i < sv.length - 1; i++) {
-      if (epts.highlighted) {
+      if ((epts as any).highlighted) {
         _rasterLine(pixels, zBuf, width, height, sv[i], sv[i+1], hlColor, xray ? 1e9 : 2)
         _rasterLine(pixels, zBuf, width, height, { ...sv[i], sy: sv[i].sy + 1 }, { ...sv[i+1], sy: sv[i+1].sy + 1 }, hlColor, xray ? 1e9 : 2)
       } else {
@@ -742,7 +748,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
   // Overlay polylines — always on top (huge z-bias defeats the depth test).
   for (const ov of overlayProj) {
     const col = { r: ov.color[0], g: ov.color[1], b: ov.color[2] }
-    const sv = ov.pts.map(v => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+    const sv = ov.pts.map((v: any) => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
     let dashAcc = 0
     for (let i = 0; i < sv.length - 1; i++) {
       if (ov.dashed) {
@@ -776,7 +782,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
       const [sx, sy] = xf(px, py)
       const cx = Math.round(sx), cy = Math.round(sy)
       const col = Array.isArray(m.color) && m.color.length === 3 ? m.color : [220, 30, 30]
-      const put = (x, y) => {
+      const put = (x: any, y: any) => {
         if (x < 0 || x >= width || y < 0 || y >= height) return
         const i = (y * width + x) * 4
         pixels[i] = col[0]; pixels[i+1] = col[1]; pixels[i+2] = col[2]; pixels[i+3] = 255
@@ -795,7 +801,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
   // Measurement overlay: extents, axes triad, scale bar.
   if (annotate && Number.isFinite(wmin[0])) {
     const ink = [60, 60, 60]
-    const fmt = v => (Math.abs(v - Math.round(v)) < 0.05 ? String(Math.round(v)) : v.toFixed(1))
+    const fmt = (v: any) => (Math.abs(v - Math.round(v)) < 0.05 ? String(Math.round(v)) : v.toFixed(1))
     // Extents (bottom right)
     const ext = `${fmt(wmax[0] - wmin[0])} X ${fmt(wmax[1] - wmin[1])} X ${fmt(wmax[2] - wmin[2])}`
     drawText(pixels, width, height, width - measureText(ext, 2) - 10, height - 24, ext, ink, 2)
@@ -818,7 +824,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
     }
     // Scale bar (bottom center): round model-unit length mapping to 60–140 px.
     const scale = _lastFrame?.scale
-    if (scale > 0) {
+    if (scale != null && scale > 0) {
       let L = Math.pow(10, Math.floor(Math.log10(100 / scale)))
       for (const m of [1, 2, 5, 10]) { if (L * m * scale >= 60) { L = L * m; break } }
       const px = L * scale
@@ -843,7 +849,7 @@ export function renderSolidZBuffer(graphic, width = IMG_W, height = IMG_H, insta
 }
 
 /** Rasterize a single triangle with per-pixel depth test */
-function _rasterTri(pixels, zBuf, w, h, v0, v1, v2, r, g, b) {
+function _rasterTri(pixels: any, zBuf: any, w: any, h: any, v0: any, v1: any, v2: any, r: any, g: any, b: any) {
   // Bounding box
   let minX = Math.floor(Math.min(v0.sx, v1.sx, v2.sx))
   let maxX = Math.ceil(Math.max(v0.sx, v1.sx, v2.sx))
@@ -873,7 +879,7 @@ function _rasterTri(pixels, zBuf, w, h, v0, v1, v2, r, g, b) {
 }
 
 /** Rasterize a triangle with ALPHA BLENDING and no depth test (x-ray mode). */
-function _rasterTriBlend(pixels, w, h, v0, v1, v2, r, g, b, alpha) {
+function _rasterTriBlend(pixels: any, w: any, h: any, v0: any, v1: any, v2: any, r: any, g: any, b: any, alpha: any) {
   let minX = Math.max(0, Math.floor(Math.min(v0.sx, v1.sx, v2.sx)))
   let maxX = Math.min(w - 1, Math.ceil(Math.max(v0.sx, v1.sx, v2.sx)))
   let minY = Math.max(0, Math.floor(Math.min(v0.sy, v1.sy, v2.sy)))
@@ -896,7 +902,7 @@ function _rasterTriBlend(pixels, w, h, v0, v1, v2, r, g, b, alpha) {
 }
 
 /** Rasterize a line with per-pixel depth test (Bresenham + interpolated Z) */
-function _rasterLine(pixels, zBuf, w, h, p0, p1, color, zBias = 0) {
+function _rasterLine(pixels: any, zBuf: any, w: any, h: any, p0: any, p1: any, color: any, zBias: any = 0) {
   let x0 = Math.round(p0.sx), y0 = Math.round(p0.sy)
   let x1 = Math.round(p1.sx), y1 = Math.round(p1.sy)
   const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0)
@@ -933,10 +939,10 @@ function _rasterLine(pixels, zBuf, w, h, p0, p1, color, zBias = 0) {
 }
 
 // Legacy SVG renderer (kept for sketch/curve paths)
-export function renderSolidSVG(graphic, width = IMG_W, height = IMG_H, instances = null, colorMode = 'native') {
-  const allPts2d = []
-  const triangles = []
-  const edges = []
+export function renderSolidSVG(graphic: any, width: any = IMG_W, height: any = IMG_H, instances: any = null, colorMode: any = 'native') {
+  const allPts2d: any[] = []
+  const triangles: any[] = []
+  const edges: any[] = []
 
   const drawList = buildDrawList(graphic, instances)
   for (const draw of drawList) {
@@ -948,7 +954,7 @@ export function renderSolidSVG(graphic, width = IMG_W, height = IMG_H, instances
         : materialRgb(mesh.material) ?? materialRgb(container.properties?.material) ?? fallback
       const verts = mesh.vertices, norms = mesh.normals, indices = mesh.indices
       for (let i = 0; i < indices.length; i += 3) {
-        const triVerts = []
+        const triVerts: any[] = []
         for (let j = 0; j < 3; j++) {
           const idx = indices[i + j]
           let vx = verts[idx*3], vy = verts[idx*3+1], vz = verts[idx*3+2]
@@ -968,7 +974,7 @@ export function renderSolidSVG(graphic, width = IMG_W, height = IMG_H, instances
     }
     for (const edge of (container.edges || [])) {
       const pts = edge.points
-      const projPts = []
+      const projPts: any[] = []
       for (let i = 0; i < pts.length; i += 3) {
         let ex = pts[i], ey = pts[i+1], ez = pts[i+2]
         if (transform) [ex, ey, ez] = applyMatPoint(transform, ex, ey, ez)
@@ -980,20 +986,20 @@ export function renderSolidSVG(graphic, width = IMG_W, height = IMG_H, instances
     }
   }
   if (allPts2d.length === 0) return null
-  triangles.sort((a, b) => a.avgDepth - b.avgDepth)
+  triangles.sort((a: any, b: any) => a.avgDepth - b.avgDepth)
   const xf = viewTransform(allPts2d, width, height)
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\n`
   svg += `<rect width="100%" height="100%" fill="white"/>\n`
   for (const tri of triangles) {
-    const pts = tri.verts.map(v => xf(v.px, v.py))
+    const pts = tri.verts.map((v: any) => xf(v.px, v.py))
     const shade = Math.round(100 + 130 * tri.brightness)
     const [pr, pg, pb] = tri.palette
     const r = Math.round(shade * pr), g = Math.round(shade * pg), b = Math.round(shade * pb)
-    svg += `<polygon points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="rgb(${r},${g},${b})" stroke="none"/>\n`
+    svg += `<polygon points="${pts.map((p: any) => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="rgb(${r},${g},${b})" stroke="none"/>\n`
   }
   for (const edgePts of edges) {
-    const pts = edgePts.map(p => xf(p[0], p[1]))
-    if (pts.length >= 2) svg += `<polyline points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#1a1a3a" stroke-width="1.5"/>\n`
+    const pts = edgePts.map((p: any) => xf(p[0], p[1]))
+    if (pts.length >= 2) svg += `<polyline points="${pts.map((p: any) => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#1a1a3a" stroke-width="1.5"/>\n`
   }
   svg += '</svg>'
   return svg
@@ -1009,12 +1015,12 @@ export function renderSolidSVG(graphic, width = IMG_W, height = IMG_H, instances
  * Walks the tree looking for CC_SketchDimensionSet with owner === sketchId,
  * then collects all CC_*FeatureDimension children.
  */
-export function extractDimensions(tree, sketchId) {
-  const dims = []
+export function extractDimensions(tree: any, sketchId: any) {
+  const dims: any[] = []
 
   // Find the CC_SketchDimensionSet that owns this sketch
   let dimSetId = null
-  for (const [id, obj] of Object.entries(tree)) {
+  for (const [id, obj] of Object.entries<any>(tree)) {
     if (obj.class === 'CC_SketchDimensionSet' && obj.members?.owner?.value === sketchId) {
       dimSetId = Number(id)
       break
@@ -1079,7 +1085,7 @@ export function extractDimensions(tree, sketchId) {
  * @param {Function} xf — viewTransform function (world → screen)
  * @returns {string} SVG elements string
  */
-function renderDimensionsSVG(dims, xf) {
+function renderDimensionsSVG(dims: any, xf: any) {
   let svg = ''
   const DIM_COLOR = '#555'
   const EXT_COLOR = '#999'
@@ -1101,7 +1107,7 @@ function renderDimensionsSVG(dims, xf) {
   return svg
 }
 
-function _renderLinearDim(dim, xf, color, extColor, arrowLen, extGap, extOver) {
+function _renderLinearDim(dim: any, xf: any, color: any, extColor: any, arrowLen: any, extGap: any, extOver: any) {
   const { startPt, endPt, angle, dimPt, value } = dim
 
   // Transform measurement points to screen
@@ -1163,7 +1169,7 @@ function _renderLinearDim(dim, xf, color, extColor, arrowLen, extGap, extOver) {
   return _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, extColor, arrowLen, extGap, extOver)
 }
 
-function _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, extColor, arrowLen, extGap, extOver) {
+function _drawLinearDimSVG(sx1: any, sy1: any, sx2: any, sy2: any, d1: any, d2: any, labelPos: any, value: any, color: any, extColor: any, arrowLen: any, extGap: any, extOver: any) {
   let svg = ''
 
   // Extension lines
@@ -1201,7 +1207,7 @@ function _drawLinearDimSVG(sx1, sy1, sx2, sy2, d1, d2, labelPos, value, color, e
   return svg
 }
 
-function _renderRadialDim(dim, xf, color, arrowLen, prefix) {
+function _renderRadialDim(dim: any, xf: any, color: any, arrowLen: any, prefix: any) {
   const { center, radius, value, dimPt } = dim
   let svg = ''
 
@@ -1233,7 +1239,7 @@ function _renderRadialDim(dim, xf, color, arrowLen, prefix) {
   return svg
 }
 
-function _renderAngularDim(dim, xf, color) {
+function _renderAngularDim(dim: any, xf: any, color: any) {
   const { startPt, endPt, cornerPt, value, dimPt } = dim
   let svg = ''
 
@@ -1249,14 +1255,14 @@ function _renderAngularDim(dim, xf, color) {
   if (sweep < 0) sweep += 2 * Math.PI
   if (sweep > Math.PI) sweep = sweep - 2 * Math.PI
 
-  const pts = []
+  const pts: any[] = []
   const n = 32
   for (let i = 0; i <= n; i++) {
     const a = a0 + sweep * i / n
     pts.push([cx + arcRadius * Math.cos(a), cy - arcRadius * Math.sin(a)])
   }
 
-  svg += `<polyline points="${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke="${color}" stroke-width="1"/>\n`
+  svg += `<polyline points="${pts.map((p: any) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke="${color}" stroke-width="1"/>\n`
 
   const midA = a0 + sweep / 2
   const textR = arcRadius + 12
@@ -1275,7 +1281,7 @@ function _renderAngularDim(dim, xf, color) {
  * Modifies each dim's dimPt in place. Extension lines stretch; lines + arrows + label move as a unit.
  * Uses geometry centroid to determine "outward" direction.
  */
-function _adjustDimPositions(dims, xf, geoSegments, geoCircles) {
+function _adjustDimPositions(dims: any, xf: any, geoSegments: any, geoCircles: any) {
   if (dims.length === 0) return
 
   // Geometry centroid (screen-space)
@@ -1285,7 +1291,7 @@ function _adjustDimPositions(dims, xf, geoSegments, geoCircles) {
   if (count > 0) { cx /= count; cy /= count }
 
   // Build label proxies for each dimension (screen-space position + size)
-  const proxies = []
+  const proxies: any[] = []
   for (const dim of dims) {
     if (!dim.dimPt) continue
 
@@ -1327,7 +1333,7 @@ function _adjustDimPositions(dims, xf, geoSegments, geoCircles) {
   }
 }
 
-function _formatValue(v) {
+function _formatValue(v: any) {
   if (v == null) return '?'
   // Show integer if close to one, otherwise 1 decimal
   return Math.abs(v - Math.round(v)) < 0.01 ? String(Math.round(v)) : v.toFixed(1)
@@ -1347,7 +1353,7 @@ function _formatValue(v) {
  * @param {Array} geoCircles - screen-space circles: [{ cx, cy, r }, ...]
  * @param {object} opts - { iterations, padding, geoClearance, outwardStrength }
  */
-function deOverlapLabels(labels, geoSegments = [], geoCircles = [], opts = {}) {
+function deOverlapLabels(labels: any, geoSegments: any = [], geoCircles: any = [], opts: any = {}) {
   if (labels.length === 0) return
   const { iterations = 30, padding = 4, geoClearance = 12, outwardStrength = 2.5 } = opts
 
@@ -1452,7 +1458,7 @@ function deOverlapLabels(labels, geoSegments = [], geoCircles = [], opts = {}) {
 // CONSTRAINT EXTRACTION — from structure tree
 // ═══════════════════════════════════════════════════════════════════════════
 
-const CONSTRAINT_SYMBOLS = {
+const CONSTRAINT_SYMBOLS: Record<string, string> = {
   Horizontal: 'H',
   Vertical: 'V',
   Perpendicular: '⊥',
@@ -1472,10 +1478,10 @@ const CONSTRAINT_SYMBOLS = {
  * Extract constraint data from the structure tree for a given sketch.
  * Skips auto-generated constraints (name starts with "Auto_").
  */
-export function extractConstraints(tree, sketchId) {
-  const constraints = []
+export function extractConstraints(tree: any, sketchId: any) {
+  const constraints: any[] = []
 
-  for (const [id, obj] of Object.entries(tree)) {
+  for (const [id, obj] of Object.entries<any>(tree)) {
     if (obj.parent !== sketchId) continue
     if (!obj.class?.startsWith('CC_2D') || !obj.class?.endsWith('Constraint')) continue
     // Skip auto-generated constraints (from genFixation, genIncidence, genTangency, genVertAndHoriz)
@@ -1489,8 +1495,8 @@ export function extractConstraints(tree, sketchId) {
 
     // Extract entity IDs
     const entities = (obj.members?.entities?.members || [])
-      .map(m => m.value)
-      .filter(v => v != null)
+      .map((m: any) => m.value)
+      .filter((v: any) => v != null)
 
     const symbol = CONSTRAINT_SYMBOLS[type] || type.charAt(0)
     constraints.push({ type, symbol, entities, name: obj.name, id: Number(id) })
@@ -1503,7 +1509,7 @@ export function extractConstraints(tree, sketchId) {
  * Render constraint badges as SVG elements.
  * Places small labeled pills near the midpoint of constrained geometry.
  */
-function renderConstraintsSVG(constraints, xf, posMap, labelCollector = []) {
+function renderConstraintsSVG(constraints: any, xf: any, posMap: any, labelCollector: any = []) {
   if (!constraints.length) return ''
   let svg = ''
 
@@ -1511,7 +1517,7 @@ function renderConstraintsSVG(constraints, xf, posMap, labelCollector = []) {
   const BADGE_BG = 'rgba(68, 136, 68, 0.15)'
   const FONT_SIZE = 14
 
-  const byEntity = {}
+  const byEntity: Record<string, any[]> = {}
   for (const c of constraints) {
     const primaryEntity = c.entities[0]
     if (primaryEntity == null) continue
@@ -1519,7 +1525,7 @@ function renderConstraintsSVG(constraints, xf, posMap, labelCollector = []) {
     byEntity[primaryEntity].push(c)
   }
 
-  for (const [entityId, cList] of Object.entries(byEntity)) {
+  for (const [entityId, cList] of Object.entries<any>(byEntity)) {
     const pos = posMap[entityId]
     if (!pos?.midpoint) continue
 
@@ -1556,11 +1562,11 @@ function renderConstraintsSVG(constraints, xf, posMap, labelCollector = []) {
  * @param {number} sketchId
  * @param {object} structureTree — for circle radius lookup
  */
-export async function fetchSketchData(execute, sketchId, structureTree = {}) {
+export async function fetchSketchData(execute: any, sketchId: any, structureTree: any = {}) {
   const geom = (await execute({ 'v1.sketch.getGeometry': [{ id: sketchId }] })).result
   if (!geom) return null
-  const items = []
-  const posMap = {}  // geomId → { midpoint: {x, y} } for constraint rendering
+  const items: any[] = []
+  const posMap: Record<string, any> = {}  // geomId → { midpoint: {x, y} } for constraint rendering
 
   for (const lineId of (geom.lines || [])) {
     const pos = (await execute({ 'v1.sketch.getPositions': [{ id: lineId }] })).result
@@ -1621,9 +1627,9 @@ export async function fetchSketchData(execute, sketchId, structureTree = {}) {
   return { items, posMap }
 }
 
-export function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions = [], constraints = [], posMap = {}) {
-  const allPts2d = []
-  const drawOps = []
+export function renderSketchSVG(items: any, width: any = IMG_W, height: any = IMG_H, dimensions: any = [], constraints: any = [], posMap: any = {}) {
+  const allPts2d: any[] = []
+  const drawOps: any[] = []
 
   for (const item of items) {
     if (item.type === 'line') {
@@ -1661,15 +1667,15 @@ export function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions
 
   for (const op of drawOps) {
     if (op.kind === 'line') {
-      const [s, e] = op.pts.map(p => xf(p[0], p[1]))
+      const [s, e] = op.pts.map((p: any) => xf(p[0], p[1]))
       // construction geometry: dashed, thin, distinct violet — reference-only, not part of the profile
       const style = op.construction ? `stroke="#a64dff" stroke-width="1.5" stroke-dasharray="6,4"` : `stroke="#0044aa" stroke-width="3"`
       svg += `<line x1="${s[0].toFixed(1)}" y1="${s[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}" ${style}/>\n`
     } else if (op.kind === 'polyline') {
-      const pts = op.pts.map(p => xf(p[0], p[1]))
+      const pts = op.pts.map((p: any) => xf(p[0], p[1]))
       const stroke = op.construction ? '#a64dff' : (op.color || '#0044aa')
       const extra = op.construction ? ` stroke-width="1.5" stroke-dasharray="6,4"` : ` stroke-width="3"`
-      svg += `<polyline points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${stroke}"${extra}/>\n`
+      svg += `<polyline points="${pts.map((p: any) => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${stroke}"${extra}/>\n`
     } else if (op.kind === 'point') {
       const [px, py] = xf(op.pos[0], op.pos[1])
       svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="#cc0000"/>\n`
@@ -1677,13 +1683,13 @@ export function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions
   }
 
   // Collect screen-space geometry for annotation placement
-  const geoSegments = [], geoCircles = []
+  const geoSegments: any[] = [], geoCircles = []
   for (const op of drawOps) {
     if (op.kind === 'line') {
-      const [s, e] = op.pts.map(p => xf(p[0], p[1]))
+      const [s, e] = op.pts.map((p: any) => xf(p[0], p[1]))
       geoSegments.push({ x1: s[0], y1: s[1], x2: e[0], y2: e[1] })
     } else if (op.kind === 'polyline' && op.pts.length > 1) {
-      const txPts = op.pts.map(p => xf(p[0], p[1]))
+      const txPts = op.pts.map((p: any) => xf(p[0], p[1]))
       for (let k = 0; k < txPts.length - 1; k++) {
         geoSegments.push({ x1: txPts[k][0], y1: txPts[k][1], x2: txPts[k + 1][0], y2: txPts[k + 1][1] })
       }
@@ -1704,7 +1710,7 @@ export function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions
   }
 
   // CONSTRAINT BADGES — free-floating, use label collector + de-overlap
-  const badgeCollector = []
+  const badgeCollector: any[] = []
   if (constraints.length > 0) {
     svg += renderConstraintsSVG(constraints, xf, posMap, badgeCollector)
   }
@@ -1730,15 +1736,15 @@ export function renderSketchSVG(items, width = IMG_W, height = IMG_H, dimensions
  * Renders edges that the server tessellated (lines, polylines).
  * For untessellated curves, falls back to bounding box or skips.
  */
-export function renderCurveSVG(graphic, width = IMG_W, height = IMG_H) {
-  const allPts2d = []
-  const drawOps = []
+export function renderCurveSVG(graphic: any, width: any = IMG_W, height: any = IMG_H) {
+  const allPts2d: any[] = []
+  const drawOps: any[] = []
 
   for (const container of (graphic.containers || [])) {
     if (container.type !== 2) continue  // type 2 = curve container
     for (const edge of (container.edges || [])) {
       const pts = edge.points
-      const pts2d = []
+      const pts2d: any[] = []
       for (let i = 0; i < pts.length; i += 3) {
         pts2d.push([pts[i], pts[i + 1]])
         allPts2d.push([pts[i], pts[i + 1]])
@@ -1760,8 +1766,8 @@ export function renderCurveSVG(graphic, width = IMG_W, height = IMG_H) {
   svg += `</g>\n`
 
   for (const op of drawOps) {
-    const pts = op.pts.map(p => xf(p[0], p[1]))
-    svg += `<polyline points="${pts.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${op.color}" stroke-width="2.5"/>\n`
+    const pts = op.pts.map((p: any) => xf(p[0], p[1]))
+    svg += `<polyline points="${pts.map((p: any) => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${op.color}" stroke-width="2.5"/>\n`
   }
   svg += '</svg>'
   return svg
@@ -1784,13 +1790,13 @@ const WG_COLORS = {
  * Extract work geometry definitions from the structure tree.
  * Returns arrays of { id, name, ...params } for each type.
  */
-export function extractWorkGeometry(tree) {
-  const planes = [], axes = [], points = [], csyses = []
+export function extractWorkGeometry(tree: any) {
+  const planes: any[] = [], axes = [], points = [], csyses = []
 
   // Default/built-in work geometry names to skip (they clutter the view)
   const builtins = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
 
-  for (const [id, obj] of Object.entries(tree)) {
+  for (const [id, obj] of Object.entries<any>(tree)) {
     // Skip built-in work geometry
     if (builtins.has(obj.name)) continue
     const m = obj.members || {}
@@ -1829,7 +1835,7 @@ export function extractWorkGeometry(tree) {
  * Compute the four corners of a work plane quad in 3D.
  * Given center position, normal, and size, returns [c0, c1, c2, c3].
  */
-function workPlaneCorners(pos, normal, size, offset) {
+function workPlaneCorners(pos: any, normal: any, size: any, offset: any) {
   const n = { x: normal.x, y: normal.y, z: normal.z }
   const len = Math.sqrt(n.x*n.x + n.y*n.y + n.z*n.z) || 1
   n.x /= len; n.y /= len; n.z /= len
@@ -1870,7 +1876,7 @@ function workPlaneCorners(pos, normal, size, offset) {
  * @param {Array} [extraPts2d] — additional 2D points for fitting the view (from solid rendering)
  * @returns {string|null} SVG string, or null if nothing to render
  */
-export function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPts2d = []) {
+export function renderWorkGeoSVG(workGeo: any, width: any = IMG_W, height: any = IMG_H, extraPts2d: any = []) {
   const { planes, axes, points, csyses } = workGeo
   if (!planes.length && !axes.length && !points.length && !csyses.length) return null
 
@@ -1878,9 +1884,9 @@ export function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPt
   const allPts2d = [...extraPts2d]
 
   // Pre-project all geometry
-  const projPlanes = planes.map(p => {
+  const projPlanes = planes.map((p: any) => {
     const corners = workPlaneCorners(p.pos, p.normal, p.size, p.offset)
-    const proj = corners.map(([x,y,z]) => {
+    const proj = corners.map(([x,y,z]: any[]) => {
       const [px, py] = project(x, y, z)
       allPts2d.push([px, py])
       return [px, py]
@@ -1894,39 +1900,39 @@ export function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPt
     return { ...p, proj, center: [center[0], center[1]] }
   })
 
-  const projAxes = axes.map(a => {
+  const projAxes = axes.map((a: any) => {
     const start = [a.pos.x, a.pos.y, a.pos.z]
     const end = [a.pos.x + a.dir.x * a.length, a.pos.y + a.dir.y * a.length, a.pos.z + a.dir.z * a.length]
-    const ps = project(...start)
-    const pe = project(...end)
+    const ps = project(...(start as [number, number, number]))
+    const pe = project(...(end as [number, number, number]))
     allPts2d.push([ps[0], ps[1]], [pe[0], pe[1]])
     return { ...a, start: [ps[0], ps[1]], end: [pe[0], pe[1]] }
   })
 
-  const projPoints = points.map(p => {
+  const projPoints = points.map((p: any) => {
     const [px, py] = project(p.pos.x, p.pos.y, p.pos.z)
     allPts2d.push([px, py])
     return { ...p, proj: [px, py] }
   })
 
   const csysArmLen = 30  // screen-space arm length will be scaled
-  const projCsyses = csyses.map(cs => {
+  const projCsyses = csyses.map((cs: any) => {
     const o = [cs.origin.x + cs.offset.x, cs.origin.y + cs.offset.y, cs.origin.z + cs.offset.z]
     const armLen = 25  // world units
     const xEnd = [o[0] + cs.xDir.x * armLen, o[1] + cs.xDir.y * armLen, o[2] + cs.xDir.z * armLen]
     const yEnd = [o[0] + cs.yDir.x * armLen, o[1] + cs.yDir.y * armLen, o[2] + cs.yDir.z * armLen]
     const zEnd = [o[0] + cs.zDir.x * armLen, o[1] + cs.zDir.y * armLen, o[2] + cs.zDir.z * armLen]
-    const po = project(...o)
-    const px = project(...xEnd)
-    const py = project(...yEnd)
-    const pz = project(...zEnd)
+    const po = project(...(o as [number, number, number]))
+    const px = project(...(xEnd as [number, number, number]))
+    const py = project(...(yEnd as [number, number, number]))
+    const pz = project(...(zEnd as [number, number, number]))
     for (const p of [po, px, py, pz]) allPts2d.push([p[0], p[1]])
     return { ...cs, origin: [po[0], po[1]], xEnd: [px[0], px[1]], yEnd: [py[0], py[1]], zEnd: [pz[0], pz[1]] }
   })
 
   if (allPts2d.length === 0) return null
   const xf = viewTransform(allPts2d, width, height)
-  const f = (x, y) => { const [sx, sy] = xf(x, y); return `${sx.toFixed(1)},${sy.toFixed(1)}` }
+  const f = (x: any, y: any) => { const [sx, sy] = xf(x, y); return `${sx.toFixed(1)},${sy.toFixed(1)}` }
 
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\n`
   svg += `<rect width="100%" height="100%" fill="white"/>\n`
@@ -1934,7 +1940,7 @@ export function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPt
 
   // Draw planes (semi-transparent quads with dashed border)
   for (const p of projPlanes) {
-    const pts = p.proj.map(([x,y]) => f(x, y)).join(' ')
+    const pts = p.proj.map(([x,y]: any[]) => f(x, y)).join(' ')
     svg += `<polygon points="${pts}" fill="${WG_COLORS.plane.fill}" stroke="${WG_COLORS.plane.stroke}" stroke-width="1.5" stroke-dasharray="6,3"/>\n`
     // Label
     const [lx, ly] = xf(p.center[0], p.center[1])
@@ -2003,10 +2009,10 @@ export function renderWorkGeoSVG(workGeo, width = IMG_W, height = IMG_H, extraPt
  * @param {object} tree — structure.tree from GetTree
  * @returns {{ solids: number[], sketches: number[], curves: number[], eifs: number[] }}
  */
-export function analyzeSession(tree) {
+export function analyzeSession(tree: Tree): { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } {
   const builtinNames = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
-  const result = { solids: [], sketches: [], curves: [], eifs: [], workGeo: [] }
-  for (const [id, obj] of Object.entries(tree)) {
+  const result: { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } = { solids: [], sketches: [], curves: [], eifs: [], workGeo: [] }
+  for (const [id, obj] of Object.entries<any>(tree)) {
     const nid = Number(id)
     if (obj.class === 'CC_Solid') result.solids.push(nid)
     if (obj.class === 'CC_Sketch') result.sketches.push(nid)
@@ -2025,7 +2031,7 @@ export function analyzeSession(tree) {
 // annotations). Deterministic, dependency-free.
 // ═══════════════════════════════════════════════════════════════════════════
 
-const FONT5X7 = {
+const FONT5X7: Record<string, string[]> = {
   A: ['.XX.','X..X','X..X','XXXX','X..X','X..X','X..X'],
   B: ['XXX.','X..X','X..X','XXX.','X..X','X..X','XXX.'],
   C: ['.XX.','X..X','X...','X...','X...','X..X','.XX.'],
@@ -2073,7 +2079,7 @@ const FONT5X7 = {
  * Draw text into an RGBA buffer with the built-in 5×7 font. Uppercases input;
  * unknown characters render as space. Returns the pixel width drawn.
  */
-export function drawText(pixels, width, height, x, y, text, color = [40, 40, 40], scale = 1) {
+export function drawText(pixels: Uint8Array, width: number, height: number, x: number, y: number, text: string, color: RGB | number[] = [40, 40, 40], scale: number = 1): number {
   let cx = Math.round(x)
   const cy = Math.round(y)
   for (const ch of String(text).toUpperCase()) {
@@ -2099,7 +2105,7 @@ export function drawText(pixels, width, height, x, y, text, color = [40, 40, 40]
 }
 
 /** Measure text width in pixels for the built-in font. */
-export function measureText(text, scale = 1) {
+export function measureText(text: string, scale: number = 1): number {
   let w = 0
   for (const ch of String(text).toUpperCase()) w += ((FONT5X7[ch] ?? FONT5X7[' '])[0].length + 1) * scale
   return w
@@ -2124,31 +2130,31 @@ const ORTHO_VIEWS = new Set(['top', 'bottom', 'front', 'back', 'left', 'right'])
  * @param {object} [opts] — { views: [tl,tr,bl,br], colors, section }
  * @returns {{pixels,width,height}|null}
  */
-export function renderSolidSheet(graphic, width = IMG_W, height = IMG_H, instances = null, opts = {}) {
+export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, opts: SolidRenderOptions & { views?: CameraView[] } = {}): RasterResult | null {
   const views = Array.isArray(opts.views) && opts.views.length === 4 ? opts.views : ['top', 'iso', 'front', 'right']
   const qw = Math.floor(width / 2)
   const qh = Math.floor(height / 2)
   const solidOpts = { colors: opts.colors, section: opts.section, highlight: opts.highlight, highlightAt: opts.highlightAt, markers: opts.markers, xray: opts.xray, annotate: opts.annotate }
 
   // Pass 1: auto-fit render per view to learn each frame.
-  const firstPass = views.map(view => {
-    setViewport({ view })
+  const firstPass = views.map((view: any) => {
+    setViewport({ view: view as any })
     return renderSolidZBuffer(graphic, qw, qh, instances, solidOpts)
   })
-  if (firstPass.every(r => r == null)) return null
+  if (firstPass.every((r: any) => r == null)) return null
 
   // Common scale across the ortho views (a drawing shares one scale).
   const orthoScales = views
-    .map((v, i) => (typeof v === 'string' && ORTHO_VIEWS.has(v) && firstPass[i]?.frame ? firstPass[i].frame.scale : null))
-    .filter(s => s != null)
-  const commonScale = orthoScales.length ? Math.min(...orthoScales) : null
+    .map((v: any, i: any) => (typeof v === 'string' && ORTHO_VIEWS.has(v) && firstPass[i]?.frame ? firstPass[i].frame.scale : null))
+    .filter((s: any) => s != null)
+  const commonScale: number | null = orthoScales.length ? Math.min(...(orthoScales as number[])) : null
 
   // Pass 2: re-render ortho views pinned to the common scale (own centers).
-  const quads = views.map((view, i) => {
+  const quads = views.map((view: any, i: any) => {
     const fp = firstPass[i]
     if (!fp) return null
     if (typeof view === 'string' && ORTHO_VIEWS.has(view) && commonScale != null && fp.frame && fp.frame.scale !== commonScale) {
-      setViewport({ view, frame: { scale: commonScale, midX: fp.frame.midX, midY: fp.frame.midY } })
+      setViewport({ view: view as any, frame: { scale: commonScale, midX: fp.frame.midX, midY: fp.frame.midY } })
       return renderSolidZBuffer(graphic, qw, qh, instances, solidOpts)
     }
     return fp
@@ -2164,8 +2170,8 @@ export function renderSolidSheet(graphic, width = IMG_W, height = IMG_H, instanc
     for (let y = 0; y < qh; y++) {
       const srcRow = y * qw * 4
       const dstRow = ((y + oy) * width + ox) * 4
-      quad.pixels.copy
-        ? quad.pixels.copy(pixels, dstRow, srcRow, srcRow + qw * 4)
+      ;(quad.pixels as any).copy
+        ? (quad.pixels as any).copy(pixels, dstRow, srcRow, srcRow + qw * 4)
         : pixels.set(quad.pixels.subarray(srcRow, srcRow + qw * 4), dstRow)
     }
   }
@@ -2182,17 +2188,17 @@ export function renderSolidSheet(graphic, width = IMG_W, height = IMG_H, instanc
   // Labels (top-left of each quadrant).
   for (let q = 0; q < 4; q++) {
     const [ox, oy] = offsets[q]
-    const name = typeof views[q] === 'string' ? views[q] : 'custom'
+    const name = typeof views[q] === 'string' ? (views[q] as string) : 'custom'
     drawText(pixels, width, height, ox + 8, oy + 8, name, [70, 70, 70], 2)
   }
-  return { pixels, width, height }
+  return { pixels, width, height, frame: null }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SKETCH → 3D OVERLAY — sketch curves as world-space polylines on the solid
 // ═══════════════════════════════════════════════════════════════════════════
 
-function _rodrigues(v, n, theta) {
+function _rodrigues(v: any, n: any, theta: any) {
   const c = Math.cos(theta), s = Math.sin(theta)
   const dot = n[0]*v[0] + n[1]*v[1] + n[2]*v[2]
   const cx = [n[1]*v[2] - n[2]*v[1], n[2]*v[0] - n[0]*v[2], n[0]*v[1] - n[1]*v[0]]
@@ -2203,8 +2209,8 @@ function _rodrigues(v, n, theta) {
   ]
 }
 
-const _unit = v => { const l = Math.hypot(v[0], v[1], v[2]) || 1; return [v[0]/l, v[1]/l, v[2]/l] }
-const _p3 = p => [p?.x ?? 0, p?.y ?? 0, p?.z ?? 0]
+const _unit = (v: any) => { const l = Math.hypot(v[0], v[1], v[2]) || 1; return [v[0]/l, v[1]/l, v[2]/l] }
+const _p3 = (p: any) => [p?.x ?? 0, p?.y ?? 0, p?.z ?? 0]
 
 /**
  * Turn one sketch's geometry (fetchSketchData items — WORLD coordinates) into
@@ -2213,7 +2219,7 @@ const _p3 = p => [p?.x ?? 0, p?.y ?? 0, p?.z ?? 0]
  * ([origin, xDir, yDir, zDir]); arcs sweep by their signed bulge about the
  * plane normal. Construction geometry renders dashed violet.
  */
-export function sketchToOverlays(items, sketchNode) {
+export function sketchToOverlays(items: any[], sketchNode: any): OverlayPolyline[] {
   const cs = Array.isArray(sketchNode?.coordinateSystem) && sketchNode.coordinateSystem.length >= 4
     ? sketchNode.coordinateSystem
     : [[0,0,0],[1,0,0],[0,1,0],[0,0,1]]
@@ -2222,7 +2228,7 @@ export function sketchToOverlays(items, sketchNode) {
   // NORMAL from the geometry itself: the cross product of two independent
   // in-plane direction vectors (line directions, arc radius vectors). Fall
   // back to the node cs when the sketch has no such directions (circle-only).
-  const dirs = []
+  const dirs: any[] = []
   for (const it of (items || [])) {
     if (it.type === 'line') {
       const s = _p3(it.startPos), e = _p3(it.endPos)
@@ -2251,15 +2257,15 @@ export function sketchToOverlays(items, sketchNode) {
   const u = _unit([n[1]*ref[2]-n[2]*ref[1], n[2]*ref[0]-n[0]*ref[2], n[0]*ref[1]-n[1]*ref[0]])
   const v = [n[1]*u[2]-n[2]*u[1], n[2]*u[0]-n[0]*u[2], n[0]*u[1]-n[1]*u[0]]
   const N = 48
-  const overlays = []
-  const colorFor = it => it.isConstruction ? [166, 77, 255] : [0, 90, 220]
+  const overlays: any[] = []
+  const colorFor = (it: any) => it.isConstruction ? [166, 77, 255] : [0, 90, 220]
 
   for (const it of (items || [])) {
     if (it.type === 'line') {
       overlays.push({ pts: [_p3(it.startPos), _p3(it.endPos)], color: colorFor(it), dashed: !!it.isConstruction })
     } else if (it.type === 'circle' && it.radius != null) {
       const c = _p3(it.center)
-      const pts = []
+      const pts: any[] = []
       for (let i = 0; i <= N; i++) {
         const a = (2 * Math.PI * i) / N
         pts.push([
@@ -2284,7 +2290,7 @@ export function sketchToOverlays(items, sketchNode) {
         if (theta > Math.PI) theta -= 2 * Math.PI
         if (theta < -Math.PI) theta += 2 * Math.PI
       }
-      const pts = []
+      const pts: any[] = []
       for (let i = 0; i <= N; i++) {
         const r = _rodrigues(v0, n, (theta * i) / N)
         pts.push([c[0] + r[0], c[1] + r[1], c[2] + r[2]])
@@ -2313,7 +2319,7 @@ export function sketchToOverlays(items, sketchNode) {
  *            pixels:Uint8Array|Buffer,width:number,height:number}}
  *   `pixels` visualizes the diff: unchanged content faded, changed pixels red.
  */
-export function diffImages(a, b, opts = {}) {
+export function diffImages(a: Pick<RasterResult, 'pixels' | 'width' | 'height'>, b: Pick<RasterResult, 'pixels' | 'width' | 'height'>, opts: { tolerance?: number } = {}): DiffResult {
   if (a.width !== b.width || a.height !== b.height) {
     throw new Error(`diffImages: size mismatch (${a.width}x${a.height} vs ${b.width}x${b.height})`)
   }
@@ -2417,15 +2423,15 @@ export function diffImages(a, b, opts = {}) {
  *   { type: 'curves',  kind: 'svg', svg }
  *   { type: 'workgeo', kind: 'svg', svg }
  */
-export async function renderSessionData(source, options = {}) {
+export async function renderSessionData(source: SessionSource, options: RenderOptions = {}): Promise<SessionEntry[]> {
   const { tree = {}, graphic = null, execute = null } = source
   const width = options.width || IMG_W
   const height = options.height || IMG_H
-  const out = []
+  const out: any[] = []
 
   setViewport({ view: options.view, zoom: options.zoom, lookAt: options.lookAt, frame: options.frame })
   const content = analyzeSession(tree)
-  const layerOn = (name) => !Array.isArray(options.layers) || options.layers.includes(name)
+  const layerOn = (name: any) => !Array.isArray(options.layers) || options.layers.includes(name)
 
   // ── SKETCH OVERLAYS (3D) ── collect before solids so they render INTO the
   // solid image; with no solid geometry they render standalone on white.
@@ -2434,7 +2440,7 @@ export async function renderSessionData(source, options = {}) {
     sketchOverlays = []
     for (const sketchId of content.sketches) {
       try {
-        const data = await fetchSketchData(task => execute(task), sketchId, tree)
+        const data = await fetchSketchData((task: any) => execute(task), sketchId, tree)
         if (data?.items?.length) sketchOverlays.push(...sketchToOverlays(data.items, tree[String(sketchId)]))
       } catch (e) { /* skip empty/inaccessible sketch */ }
     }
@@ -2442,8 +2448,8 @@ export async function renderSessionData(source, options = {}) {
   }
 
   // ── SOLIDS ── (type-1 containers with meshes; assemblies get per-instance transforms)
-  if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0)) {
-    const solidOnly = { ...graphic, containers: graphic.containers.filter(c => c.type === 1 && c.meshes?.length > 0) }
+  if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0)) {
+    const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0) }
     const instances = extractAssemblyInstances(tree)
     if (options.sheet) {
       // Four views in one image; options.sheet may be an array of 4 views.
@@ -2462,7 +2468,7 @@ export async function renderSessionData(source, options = {}) {
   }
 
   // Sketch overlay without solid geometry → standalone 3D sketch view.
-  if (sketchOverlays && !(layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some(c => c.type === 1 && c.meshes?.length > 0))) {
+  if (sketchOverlays && !(layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0))) {
     const zbuf = renderSolidZBuffer({ containers: [] }, width, height, null, { overlays: sketchOverlays, markers: options.markers })
     if (zbuf) out.push({ type: 'solid', kind: 'pixels', ...zbuf })
   }
@@ -2471,7 +2477,7 @@ export async function renderSessionData(source, options = {}) {
   if (execute && layerOn('sketch')) {
     for (const sketchId of content.sketches) {
       try {
-        const sketchData = await fetchSketchData(task => execute(task), sketchId, tree)
+        const sketchData = await fetchSketchData((task: any) => execute(task), sketchId, tree)
         const items = sketchData?.items
         const posMap = sketchData?.posMap || {}
         if (items && items.length > 0) {
@@ -2488,7 +2494,7 @@ export async function renderSessionData(source, options = {}) {
   }
 
   // ── CURVES ── (type-2 containers; server pushes only the first curve per shape)
-  if (layerOn('curves') && content.curves.length > 0 && graphic?.containers?.some(c => c.type === 2 && c.edges?.length > 0)) {
+  if (layerOn('curves') && content.curves.length > 0 && graphic?.containers?.some((c: any) => c.type === 2 && c.edges?.length > 0)) {
     const svg = renderCurveSVG(graphic, width, height)
     if (svg) out.push({ type: 'curves', kind: 'svg', svg })
   }

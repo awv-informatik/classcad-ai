@@ -9,8 +9,8 @@
 
 import { strict as assert } from 'assert'
 import { mkdirSync } from 'fs'
-import { renderSessionData, renderSolidZBuffer, VIEW_NAMES } from '../src/core.mjs'
-import { renderIsometric } from '../src/stl.mjs'
+import { renderSessionData, renderSolidZBuffer, VIEW_NAMES } from '../dist/core.js'
+import { renderIsometric } from '../dist/stl.js'
 
 // ── Synthetic cube graphic (12 triangles, 8 vertices, per-vertex normals) ──
 function cubeGraphic(size = 10) {
@@ -181,7 +181,7 @@ assert.ok(leftHit && rightHit, `assembly places both instances (left ${leftHit},
 
 // 5a3. Frame pinning + diffImages: before/after with locked frame → localized diff
 {
-  const { diffImages } = await import('../src/core.mjs')
+  const { diffImages } = await import('../dist/core.js')
   const [before] = await renderSessionData({ tree, graphic }, { width: 200, height: 150 })
   assert.ok(before.frame && before.frame.scale > 0, 'render returns its frame')
 
@@ -416,7 +416,7 @@ assert.equal(tri.length, 200 * 150 * 4)
 // throws with cause + remedies (never a silent empty render). Mock client:
 // GetTree reports a solid, but no graphic arrives from any source.
 try {
-  const { renderSession } = await import('../src/node.mjs')
+  const { renderSession } = await import('../dist/node.js')
   const mockClient = {
     request: async () => ({ structure: { tree } }),           // tree contains CC_Solid 30
     execute: async () => ({ result: null }),                  // recalc yields nothing
@@ -438,13 +438,13 @@ try {
 
 // 7. Node adapter: PNG bytes come out (skip silently if sharp is missing)
 try {
-  const { pixelsToPng, svgToPngBuffer } = await import('../src/node.mjs')
+  const { pixelsToPng, svgToPngBuffer } = await import('../dist/node.js')
   const png = await pixelsToPng(solid.pixels, solid.width, solid.height)
   assert.ok(png.length > 1000 && png[0] === 0x89 && png[1] === 0x50, 'valid PNG bytes')
   const sk = await svgToPngBuffer(sketch.svg)
   assert.ok(sk.length > 1000 && sk[0] === 0x89, 'sketch SVG → PNG')
   mkdirSync(new URL('./out', import.meta.url).pathname, { recursive: true })
-  const { savePNG, svgToPng } = await import('../src/node.mjs')
+  const { savePNG, svgToPng } = await import('../dist/node.js')
   await savePNG(solid.pixels, solid.width, solid.height, new URL('./out/cube.png', import.meta.url).pathname)
   await svgToPng(sketch.svg, new URL('./out/sketch.png', import.meta.url).pathname)
   console.log('node adapter: PNGs written to test/out/')

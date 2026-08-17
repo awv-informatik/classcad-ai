@@ -6,5 +6,6 @@
  *   import { renderSession } from '@classcad/renderer/node'      (sharp)
  *   import { entryToPngBase64 } from '@classcad/renderer/browser' (canvas)
  */
-export * from './core.mjs'
-export * from './stl.mjs'
+export * from './core.js'
+export * from './stl.js'
+export * from './types.js'

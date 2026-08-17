@@ -37,6 +37,23 @@ function rawClient(drawingId: DrawingID): { request: (cmd: Record<string, unknow
   return client && typeof client.request === 'function' ? client : null
 }
 
+// The engine omits brep EDGE data from graphic payloads until the graphic
+// database settings are enabled (same as the node session's lazy ensure) —
+// without them, snapshots render silhouettes with no edges. Once per drawing.
+const dbSettingsEnsured = new Set<string>()
+async function ensureGraphicSettings(drawingId: DrawingID): Promise<void> {
+  if (dbSettingsEnsured.has(String(drawingId))) return
+  dbSettingsEnsured.add(String(drawingId))
+  try {
+    const client = rawClient(drawingId)
+    const task = [{ 'v1.common.setDatabaseSettings': [{ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }] }]
+    if (client) await client.request({ command: 'Execute', task, options: { undoable: false } })
+    else await (createApi(drawingId) as any)?.v1?.common?.setDatabaseSettings?.({ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true })
+  } catch {
+    /* older engines — proceed without edges */
+  }
+}
+
 /** True when the rejected value is a ClassCAD response envelope (API error), not a transport failure. */
 function isEnvelope(e: unknown): e is Envelope {
   return !!e && typeof e === 'object' && ('maxLevel' in (e as object) || 'messages' in (e as object))
@@ -89,6 +106,7 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
   let graphicStale = false
 
   async function execute(task: Task): Promise<Envelope> {
+    await ensureGraphicSettings(drawingId)
     const [key, args] = Object.entries(task)[0] ?? []
     const segments = (key ?? '').split('.')
     if (segments.length !== 3 || segments[0] !== 'v1') {
@@ -145,6 +163,7 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
       return ((getDrawing(drawingId) as any)?.structure?.tree ?? {}) as import('@classcad/script').Tree
     },
     getGraphic: async (o?: { recalc?: boolean }) => {
+      await ensureGraphicSettings(drawingId)
       // Under suppression the store's graphic lags behind — refresh before the
       // script reads it (recalc regenerates; skipped for solid.*/recalc:false).
       if (graphicStale) {

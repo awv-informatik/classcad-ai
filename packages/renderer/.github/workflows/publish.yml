@@ -1,0 +1,24 @@
+# Publishes @classcad/renderer to npm whenever a version tag (v*) is pushed.
+# Requires the NPM_TOKEN secret (npm automation token with publish rights).
+#
+# Release flow:
+#   npm version patch        # bumps package.json + creates the v* tag
+#   git push --follow-tags   # push commit + tag → this workflow publishes
+name: publish
+on:
+  push:
+    tags: ['v*']
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm test
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

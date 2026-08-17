@@ -330,6 +330,58 @@ async function serve() {
         const reqHeaders = { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json', ...COPILOT_HEADERS }
         const t0 = Date.now()
         let upstream = await fetch(target, { method: req.method, headers: reqHeaders, body })
+
+        // SSE PASS-THROUGH: successful event streams are piped chunk-by-chunk so
+        // the client sees tokens LIVE (buffering here made the panel's thinking
+        // ticker impossible — the whole stream arrived in one lump at the end).
+        // The bytes are teed into a buffer for the same debug summary as before.
+        const upstreamCT = upstream.headers.get('content-type') || ''
+        if (upstream.ok && upstreamCT.includes('text/event-stream') && upstream.body) {
+          res.writeHead(upstream.status, {
+            'Content-Type': upstreamCT,
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+            'X-Accel-Buffering': 'no',
+          })
+          let streamed = ''
+          try {
+            for await (const chunk of upstream.body) {
+              res.write(chunk)
+              if (DEBUG) streamed += Buffer.from(chunk).toString('utf8')
+            }
+          } catch (err) {
+            console.error(`[proxy] upstream stream broke after ${Date.now() - t0}ms: ${err instanceof Error ? err.message : err}`)
+          } finally {
+            res.end()
+          }
+          if (DEBUG) {
+            const lines = streamed.split('\n').filter(l => l.startsWith('data:'))
+            const sawDone = lines.some(l => l.slice(5).trim() === '[DONE]')
+            let finish = '-'
+            let lastComplete = true
+            for (const l of lines) {
+              const p = l.slice(5).trim()
+              if (p === '[DONE]') continue
+              try {
+                const j = JSON.parse(p)
+                const f = j.choices?.[0]?.finish_reason
+                if (f) finish = f
+              } catch { lastComplete = false }
+            }
+            let shape = ` sse=${Math.round(streamed.length / 1024)}KB events=${lines.length} done=${sawDone} finish=${finish} cleanTail=${lastComplete} STREAMED`
+            if (!sawDone || !lastComplete) {
+              try {
+                const fs = await import('node:fs')
+                const dump = `/tmp/copilot-proxy-truncated-${Date.now()}.sse`
+                fs.writeFileSync(dump, streamed)
+                shape += ` dumped=${dump}`
+              } catch {}
+            }
+            console.log(`[proxy] ${upstreamPath} ${upstream.status} ${Date.now() - t0}ms${reqMeta}${shape}`)
+          }
+          return
+        }
+
         let text = await upstream.text()
 
         // Copilot 400s when a model rejects a field its /models entry implied it supports —

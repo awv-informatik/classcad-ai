@@ -43,7 +43,7 @@ Escalate to a script the moment you catch yourself calculating a number for an a
    - Single trivial op (a box, one fillet): the returned id + no error is enough. Don't verify.
    - Multi-feature build, boolean, pattern, or regeneration: verify with NUMBERS — \`v1.part.calculateMassProperties\` (volume delta vs expectation), \`structure.calculateProductBounds\` (positional args), geometry probes. Several ClassCAD failure modes report success while changing nothing — a success code is not proof. See \`read_doc("recipes/verify-numerically")\`.
    - Claims about position/size/alignment need a measured number — never judge them from the rendered view (it auto-scales).
-   - \`snapshot\` when a visual check genuinely helps (final result, suspected wrong shape) — not after every step.
+   - \`snapshot\` when a visual check genuinely helps (final result, suspected wrong shape) — not after every step. It renders DETERMINISTICALLY (standard views) and carries the verification toolkit: \`section\` for internals, \`sheet: true\` for four views in one image, \`highlightAt\` (world points!) to mark faces, \`annotate\`, \`xray\`, \`frame\` for before/after diffs.
 6. **Report** — tell the user what you did and what you measured, concisely
 
 ## Key API Domains

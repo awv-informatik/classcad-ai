@@ -195,26 +195,90 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
   {
     name: 'snapshot',
     description:
-      'Capture a screenshot of the current 3D viewport as a base64 PNG image. ' +
-      'Call after a meaningful geometry change (new part, completed feature, boolean, fillet) ' +
-      'to evaluate the visual result. Do NOT call after every parameter tweak or intermediate step — ' +
-      'batch changes and snapshot once at the end.\n\n' +
-      'By default the image matches the viewport aspect ratio with its longest side ' +
-      'capped at 1024px; only pass width/height to override.',
+      'Render the drawing as a PNG — DETERMINISTIC by default: standard views, whole model in frame, ' +
+      'reproducible (independent of what the user has zoomed/rotated to). Verification options: ' +
+      'section (cut through internals), sheet (four labeled views in one image), highlight/highlightAt ' +
+      '(faces/edges in signal color — use highlightAt with world POINTS across tool calls, face ids are ' +
+      'payload-local), markers (probe crosshairs), sketchOverlay (sketch curves on their real plane), ' +
+      'annotate (extents + axes triad + scale bar), xray (hidden geometry shines through), colors ' +
+      '"distinct" (one color per body), frame (pin an earlier snapshot\'s reported frame for ' +
+      'pixel-comparable before/after). recalc:false is MANDATORY for solid.*/entity-injection sessions. ' +
+      'source "viewport" instead captures the user\'s LIVE view (their camera/zoom) — use only when ' +
+      '"what does the user currently see?" is the question. ' +
+      'Use snapshots when a visual check genuinely helps — not after every step.',
     inputSchema: {
       type: 'object',
       properties: {
         label: {
           type: 'string',
-          description: 'Short label describing what this snapshot shows. Default: "snapshot".',
+          description: 'Short label describing what this snapshot shows. Default: "render".',
         },
-        width: {
-          type: 'number',
-          description: 'Optional. Override width in pixels. If only one of width/height is given, the other is derived from the viewport aspect ratio.',
+        width: { type: 'number', description: 'Image width in pixels (default 1024).' },
+        height: { type: 'number', description: 'Image height in pixels (default 768).' },
+        view: {
+          type: ['string', 'object'],
+          description:
+            'Camera: "iso" (default) | "top" | "bottom" | "front" | "back" | "left" | "right", or an ' +
+            'arbitrary orthographic camera { azimuth, elevation } (degrees, Z-up; 0/0 = front) / { direction: [x,y,z], up? }.',
+          additionalProperties: true,
         },
-        height: {
-          type: 'number',
-          description: 'Optional. Override height in pixels. If only one of width/height is given, the other is derived from the viewport aspect ratio.',
+        zoom: { type: 'number', description: 'Multiplier on the auto-fit scale (>1 zooms in).' },
+        lookAt: {
+          type: 'array', items: { type: 'number' },
+          description: 'World point [x,y,z] that lands at the image center.',
+        },
+        layers: {
+          type: 'array', items: { type: 'string', enum: ['solid', 'sketch', 'curves', 'workgeo'] },
+          description: 'Content layers to render. Default ["solid"].',
+        },
+        colors: {
+          type: 'string', enum: ['native', 'distinct'],
+          description: '"native" (default): the model\'s own colors. "distinct": one palette color per body — booleans/splits/patterns.',
+        },
+        section: {
+          type: 'object',
+          properties: {
+            origin: { type: 'array', items: { type: 'number' } },
+            normal: { type: 'array', items: { type: 'number' } },
+          },
+          description: 'Cut the solids at a plane; the positive side of the normal is removed (uncapped, interior shaded).',
+        },
+        sheet: {
+          type: ['boolean', 'array'],
+          description: 'true = four-view sheet (top/iso/front/right, shared ortho scale) in ONE image; or an array of 4 views.',
+        },
+        highlight: {
+          type: 'array', items: { type: 'number' },
+          description: 'Ids in signal color (container/solid/face-mesh/edge). Face/edge ids are payload-local — across tool calls use highlightAt.',
+        },
+        highlightAt: {
+          type: 'array', items: { type: 'array', items: { type: 'number' } },
+          description: 'World points [[x,y,z],…]: the closest FACE in the rendered payload is highlighted per point (geometrically anchored — robust).',
+        },
+        markers: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              position: { type: 'array', items: { type: 'number' } },
+              label: { type: 'string' },
+              color: { type: 'array', items: { type: 'number' } },
+            },
+          },
+          description: 'Probe markers (crosshair + label) at world coordinates, drawn on top.',
+        },
+        sketchOverlay: { type: 'boolean', description: 'Draw sketch curves in 3D on their actual plane over the solid render.' },
+        annotate: { type: 'boolean', description: 'Measurement overlay: bbox extents, view-oriented axes triad, scale bar.' },
+        xray: { type: 'boolean', description: 'Translucent bodies — hidden geometry shines through.' },
+        frame: {
+          type: 'object',
+          properties: { scale: { type: 'number' }, midX: { type: 'number' }, midY: { type: 'number' } },
+          description: 'Pin the frame reported by an earlier snapshot (same view/size) for pixel-comparable before/after.',
+        },
+        recalc: { type: 'boolean', description: 'Default true. MUST be false for solid.*/entity-injection sessions (recalc destroys injected bodies).' },
+        source: {
+          type: 'string', enum: ['render', 'viewport'],
+          description: '"render" (default): deterministic renderer. "viewport": the user\'s live 3D view as-is.',
         },
       },
     },

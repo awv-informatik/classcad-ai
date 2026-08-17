@@ -272,8 +272,10 @@ function buildToolResultContent(
 
   // Snapshot results include an `image` field with base64 PNG data.
   if (toolName === 'snapshot' && result.result && typeof result.result === 'object') {
-    const snap = result.result as { image?: string; mimeType?: string; width?: number; height?: number; label?: string }
-    const meta = { label: snap.label, width: snap.width, height: snap.height }
+    const snap = result.result as { image?: string; mimeType?: string; width?: number; height?: number; label?: string; frame?: unknown; rendered?: string[] }
+    // frame rides along so the model can pin it in a follow-up snapshot
+    // (pixel-comparable before/after); rendered lists what content was drawn.
+    const meta = { label: snap.label, width: snap.width, height: snap.height, frame: snap.frame, rendered: snap.rendered }
     if (snap.image && sendSnapshotImage) {
       return [
         { type: 'image', source: { type: 'base64', media_type: snap.mimeType ?? 'image/png', data: snap.image } },

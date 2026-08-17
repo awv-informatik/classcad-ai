@@ -129,6 +129,37 @@ GT2 findings:
 
 ---
 
+## Benchmark #3 — D35C13SS double-strand with style-C hub ([sprocket-double-prompt.md](sprocket-double-prompt.md))
+
+2 plates (t 0.162, K 0.399), HUB COLLARS Ø1.109375 × 0.4 on both sides +
+same-Ø spacer (LTB 1.361), bore 0.625 + 3/16×3/32 keyway, Ø0.25 radial set
+screw at 90° to the keyway on the back collar, 4 tip-taper faces. Flank angle
+PINNED at (35−60/N)° — the bench-#2 lesson. Inches.
+
+| Criterion | root agent (GT3) | buerli-ai | mcp |
+| --- | --- | --- | --- |
+| 2 strands from geometry | — pending | ✅ centers ±0.1995 exact, extents 0.162 exact (probe self-corrected: first pass caught taper bands) | — pending |
+| 13 teeth per strand | — | ✅ 13/13 | — |
+| Root radius = Rr | — | ✅ worst 5.6e-7 (mesh circle-fit; Rs err 2.7e-7) | — |
+| Hub/collar + spacer + LTB | — | ✅ 0.5546875 on all three faces (9.8e-10 brep), spans exact, LTB 1.3610 | — |
+| Bore / keyway | — | ✅ 0.3125 exact / floor 0.40625 exact | — |
+| Set screw | — | ✅ cylinder-fit R 0.1249987, center (y,z)=(0, 0.4805002), pierces hub OD → bore; visible in section | — |
+| Volume | — | ✅ 1.12069 in³ — inside examiner band [1.00, 1.37] and its own bracket | — |
+| Sheets | — | ✅ [sheet](files/bench3-buerli-ai-sheet.png) + [section](files/bench3-buerli-ai-section.png) | — |
+| Run shape | — | 1 pass, ~25 min: 1 bulk docs (19 keys) → ONE staged build script (blank+cutter+pattern+tapers+bore+keyway+screw, ONE subtraction) → chamfers+verify → probe refinements. First run on the fully monorepo-sourced stack (no submodule) | — |
+
+Bench-#3 buerli-ai notes:
+- **Interactive steering worked**: ph interjected mid-run ("the facetting is
+  rough, can this be fixed?") — the agent handled it as a side quest
+  (setFacetingParameters 0.0005 + recalc, verified chord dev 2.5e-6 from the
+  MESH, correctly noted b-rep numbers were never affected) and resumed
+  verification on ph's "you can continue".
+- **Viewport faceting gap**: the SNAPSHOT path auto-applies adaptive faceting,
+  but the buerligons 3D VIEWPORT renders the store tessellation at the engine
+  default (0.1 in model units — chunky for inch models). Improvement
+  candidate: adaptive default in the app / after part creation.
+- Live thinking ticker ran throughout (first bench with it).
+
 ## Defects & improvements history (2026-08-17)
 
 Chronological; each entry = defect observed → change shipped (classcad-ai

@@ -105,12 +105,9 @@ export function mapModelsResponse(json: any, opts: MapModelsOptions = {}): Provi
     // Prompt budget drives the context ring; output cap drives per-call max_tokens.
     const contextLimit: number | undefined =
       limits.max_prompt_tokens || limits.max_context_window_tokens || undefined
-    // The provider calls the Responses API non-streaming, so the effective cap is
-    // the smaller of max_output_tokens and max_non_streaming_output_tokens.
-    const rawMaxOut: number | undefined = limits.max_output_tokens || undefined
-    const nonStreamingCap: number | undefined = limits.max_non_streaming_output_tokens || undefined
+    // Chat providers stream since 2026-08-17, so the streaming output cap applies.
     const maxOutputTokens: number | undefined =
-      rawMaxOut && nonStreamingCap ? Math.min(rawMaxOut, nonStreamingCap) : rawMaxOut ?? nonStreamingCap
+      (limits.max_output_tokens || undefined) ?? (limits.max_non_streaming_output_tokens || undefined)
 
     const efforts = reasoningFor(id, caps.supports || {})
     // Vision: prefer the endpoint's explicit flag, else the family heuristic.

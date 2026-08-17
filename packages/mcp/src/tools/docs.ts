@@ -130,15 +130,33 @@ export function registerDocsTools(server: McpServer): void {
       title: 'Describe API method',
       description:
         'Return full documentation for one method: source JSDoc summary + parameters, ' +
-        'plus the LLM-oriented gotchas/examples doc from classcad-skill if present.',
+        'plus the LLM-oriented gotchas/examples doc from classcad-skill if present. ' +
+        'Also serves WHOLE documents: topic guides "DATA" (the tree/graphic contract for run_script — ' +
+        'shapes, id semantics, selection idioms), "SKETCHING", "STRUCTURE", "GRAPHICS", and worked ' +
+        'recipes like "recipes/parametric-part".',
       inputSchema: {
-        method: z.string().describe('Fully qualified method name, e.g. "v1.part.box".'),
+        method: z.string().describe('Method name ("v1.part.box"), topic doc ("DATA", "SKETCHING") or recipe ("recipes/parametric-part").'),
       },
     },
     async ({ method }) => {
       const entry = REGISTRY[method]
       if (!entry) {
-        return { isError: true, content: [{ type: 'text', text: `Unknown method "${method}". Use list_methods.` }] }
+        // Whole documents: topic guides (references/<NAME>.md) and recipes.
+        const skill = findSkillPath()
+        if (skill) {
+          const safe = method.replace(/\.md$/i, '').replace(/[^a-zA-Z0-9/_-]/g, '')
+          const candidates = [
+            join(skill, 'references', `${safe.toUpperCase()}.md`),
+            join(skill, 'references', `${safe}.md`),
+            join(skill, 'references', 'recipes', `${safe.replace(/^recipes\//, '')}.md`),
+          ]
+          for (const c of candidates) {
+            if (existsSync(c)) {
+              return { content: [{ type: 'text', text: readFileSync(c, 'utf8') }] }
+            }
+          }
+        }
+        return { isError: true, content: [{ type: 'text', text: `Unknown method or document "${method}". Use list_methods, or a topic doc: DATA, SKETCHING, STRUCTURE, GRAPHICS, recipes/<name>.` }] }
       }
       const sections = [formatEntry(entry)]
       const llmDoc = loadLLMDoc(entry.domain, entry.method)

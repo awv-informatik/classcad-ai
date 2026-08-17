@@ -11,11 +11,15 @@ history (git subtree); the old repos remain archived references.
 | [`packages/script`](packages/script) | `@classcad/script` (public) | The universal script medium: model-written JavaScript against a session-abstracted api (`api.v1.*`, `api.tree()`, `api.graphic()`), identical in the browser, the MCP and headless harnesses. TypeScript. |
 | [`packages/mcp`](packages/mcp) | `@awv-informatik/classcad-mcp` (public) | Standalone MCP server over a ClassCAD worker (stdio) — call/tree/docs/snapshot/run_script/bridge tools, composing skill + renderer + script. |
 | [`packages/buerli-ai`](packages/buerli-ai) | `@buerli.io/ai` (public) | The in-app agent panel for buerli applications: providers, agent loop, chat UI — its tools ride the shared packages. |
-| [`packages/agent`](packages/agent) | private | The training agent (cc): harness, journals, memory, and the training pipeline that feeds the skill. |
+
+The **training agent (cc)** lives at the repo ROOT — its harness (`scripts/`),
+journals (`workspace/`), memory and behavior MDs (`AGENTS.md`, `SOUL.md`, …)
+operate directly on the packages without path gymnastics
+(`knowledge/classcad-skill` remains as a symlink to `packages/skill`).
 
 Dependency direction: `skill` ← `mcp` → `renderer`/`script`; `buerli-ai` and
-`agent` compose all three. Scripts written against the guaranteed api surface
-run unchanged in every consumer.
+the agent compose all three. Scripts written against the guaranteed api
+surface run unchanged in every consumer.
 
 ## Working in the repo
 
@@ -26,4 +30,4 @@ npm run build      # per-package builds
 ```
 
 Publishing stays per-package (each keeps its npm name and `publishConfig`);
-`packages/agent` is private.
+the repo root (agent + workspaces) is private.

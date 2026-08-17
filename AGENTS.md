@@ -37,13 +37,16 @@ When ph asks about ClassCAD APIs, draw on your trained knowledge (skill files + 
 ## Workspace Layout
 
 ```
-knowledge/
-  classcad-skill/                     ← THE SKILL (git submodule)
+(you work at the ROOT of the classcad-ai monorepo)
+packages/
+  skill/                              ← THE SKILL (workspace package @classcad/skill)
     SKILL.md                          ← skill overview (read-only)
     references/
       api/<domain>.md                 ← upstream API docs (read-only)
       <domain>/<apiName>.md           ← YOUR LLM docs (you create & own these)
-scripts/                              ← harness code (do not edit)
+  renderer/ script/ mcp/ buerli-ai/   ← shared packages you help maintain
+knowledge/classcad-skill              ← symlink → packages/skill (legacy path, still valid)
+scripts/                              ← harness code (run.mjs — uses @classcad/script + @classcad/renderer)
 workspace/
   PLAN.md                             ← learning plan with checkboxes
   HOW-TO-TRAIN.md                     ← full training pipeline

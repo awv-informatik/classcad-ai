@@ -598,7 +598,11 @@ const ToolBlock: React.FC<{ message: Extract<UIMessage, { type: 'tool' }>; theme
   message: m,
   theme: t,
 }) => {
-  const [open, setOpen] = useState(false)
+  // Snapshots open by default — the rendered image IS the feedback.
+  const [open, setOpen] = useState(m.name === 'snapshot')
+  useEffect(() => {
+    if (m.name === 'snapshot' && m.image) setOpen(true)
+  }, [m.name, m.image])
   const expandable = !!(m.detail || m.image)
   const running = m.status === 'running'
   const icon = m.status === 'error' ? '✗' : '✓'

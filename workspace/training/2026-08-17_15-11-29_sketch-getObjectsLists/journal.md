@@ -24,9 +24,10 @@ no return shape).
 - Wrong ids fail CLEANLY: part id → 51 'wrong id type! Provide only ["sketch"]';
   bogus id → 51 'ToId() didn't get an existing or valid id.' — result null in
   both, so `.result.constraints` on a wrong-id call is exactly the observed crash.
-- OPEN: in the buerligons run (npm-shipped WASM build) the call returned result
-  null on a valid sketch id — not reproducible on the current native worker
-  (Jul 13). Engine-version variance suspected; re-probe in the next browser e2e.
-  Robust fallback either way: the tree scan per STRUCTURE.md (constraints =
-  *Constraint children of CC_Sketch; display dims under CC_DimensionSet ›
-  CC_SketchDimensionSet, master → solver constraint).
+- RESOLVED (live probe in buerligons, sketch 91): the npm-shipped WASM build
+  answers maxLevel 51, code 1201 "Unknown command v1.sketch.getObjectsLists",
+  result null — the method DOES NOT EXIST in that engine version. Works on the
+  current native worker (Jul 13). Doc updated accordingly: guard r.result,
+  fall back to the STRUCTURE.md tree scan (constraints = *Constraint children
+  of CC_Sketch; display dims under CC_DimensionSet › CC_SketchDimensionSet,
+  master → solver constraint).

@@ -31,9 +31,11 @@ All ids are tree ids (session-stable).
   and `result: null` — guard `r.result` before indexing
   (`r.result?.constraints ?? []`), or `.constraints` throws on null.
 - Works unchanged on CONSUMED sketches (after extrusion etc.).
-- AGENT NOTE: one in-app run (browser/WASM engine build) observed `result:
-  null` with maxLevel 31 on a valid sketch id — not reproducible on the
-  current native worker. If the result is null despite a valid id, fall back
-  to the tree scan (see [STRUCTURE.md](../../../script/docs/STRUCTURE.md)
-  sketch anatomy): constraints are `*Constraint` children of the `CC_Sketch`,
-  display dims live under `CC_SketchDimensionSet`.
+- **Not available on older engine builds.** The npm-shipped WASM engine
+  (buerli apps) responds with maxLevel 51, code 1201 `"Unknown command
+  v1.sketch.getObjectsLists"` and `result: null` — the method is newer than
+  that build (verified live in buerligons; works on current native workers).
+  ALWAYS guard `r.result` and fall back to the tree scan (see
+  [STRUCTURE.md](../../../script/docs/STRUCTURE.md) sketch anatomy):
+  constraints are `*Constraint` children of the `CC_Sketch`, display dims
+  live under `CC_DimensionSet › CC_SketchDimensionSet`.

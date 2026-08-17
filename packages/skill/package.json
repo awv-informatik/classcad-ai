@@ -1,7 +1,7 @@
 {
   "name": "@classcad/skill",
-  "version": "0.0.5",
-  "description": "LLM skill for the ClassCAD headless CAD engine — structured API references with verified annotations that help AI agents generate correct ClassCAD code",
+  "version": "0.0.6",
+  "description": "LLM skill for the ClassCAD headless CAD engine \u2014 structured API references with verified annotations that help AI agents generate correct ClassCAD code",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -28,14 +28,17 @@
     "SKILL.md",
     "references",
     "method-registry.json",
-    "bundle.json"
+    "bundle.json",
+    "discovery.js",
+    "discovery.d.ts"
   ],
   "scripts": {
     "copy-api-docs": "node scripts/copy-api-docs.mjs",
     "build:registry": "node scripts/build-registry.mjs",
     "build:bundle": "node scripts/build-bundle.mjs",
     "build": "node scripts/copy-api-docs.mjs && node scripts/build-registry.mjs && node scripts/build-bundle.mjs",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "node scripts/test-discovery.mjs"
   },
   "devDependencies": {
     "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.2.0/classcad-api-js-21.2.0.tgz",
@@ -43,5 +46,15 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    "./discovery": {
+      "types": "./discovery.d.ts",
+      "default": "./discovery.js"
+    },
+    "./method-registry.json": "./method-registry.json",
+    "./bundle.json": "./bundle.json",
+    "./package.json": "./package.json"
   }
 }

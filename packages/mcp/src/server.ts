@@ -12,7 +12,7 @@ import { z } from 'zod'
 import { connect } from './client.js'
 import { registerLifecycleTools } from './tools/lifecycle.js'
 import { registerStateTools } from './tools/state.js'
-import { registerDocsTools } from './tools/docs.js'
+import { registerDocsTools, serverInstructions } from './tools/docs.js'
 import { registerSnapshotTool } from './tools/snapshot.js'
 import { registerScriptTool } from './tools/script.js'
 import { registerBridgeTools } from './tools/bridge.js'
@@ -29,10 +29,15 @@ async function main(): Promise<void> {
   // at startup so it never creates a stray ephemeral session.
   const client = await connect(WS_URL, { graphics: true })
 
-  const server = new McpServer({
-    name: 'classcad',
-    version: VERSION,
-  })
+  const server = new McpServer(
+    {
+      name: 'classcad',
+      version: VERSION,
+    },
+    // The initialize-handshake instructions carry the full v1 method index —
+    // hosts surface them to the agent, so it knows every method from turn one.
+    { instructions: serverInstructions() },
+  )
 
   server.registerTool(
     'session_info',

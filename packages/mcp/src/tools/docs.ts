@@ -1,90 +1,65 @@
-// Discovery tools: list_methods, describe_method.
+// Discovery tools: list_methods, describe_method — thin MCP wrappers around the
+// shared @classcad/skill/discovery module (the SAME search/describe logic as
+// buerli-ai): CAD-synonym-expanded ranked search, fuzzy method resolution, and
+// whole-document serving (skill bundle + @classcad/script data-contract docs).
 //
-// Backed by the @classcad/skill npm package:
-//   - method-registry.json (generated there from @classcad/api-js JSDoc)
-//   - references/<domain>/<method>.md markdown docs
-//
-// describe_method composes both: the JSDoc summary + parameter list, plus the
-// rich LLM doc from references/<domain>/<method>.md when one exists.
-//
-// Skill path resolution and per-method markdown content are memoized — the
-// installed skill doesn't change during a session, so we hit disk at most once
-// per method instead of on every describe_method call.
+// Dev override: with CLASSCAD_SKILL_PATH set, docs are read live from that
+// skill checkout instead of the built bundle — edits show up without a rebuild.
 
 import { z } from 'zod'
 import { existsSync, readFileSync } from 'fs'
 import { createRequire } from 'module'
 import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
+import bundle from '@classcad/skill/bundle.json' with { type: 'json' }
+import { createDiscovery, type MethodRegistry } from '@classcad/skill/discovery'
 import { docs as scriptDocs } from '@classcad/script/docs'
 
-type RegistryEntry = { domain: string; method: string; summary: string; params: { name: string; text: string }[] }
-const REGISTRY = registry as Record<string, RegistryEntry>
-
-const here = dirname(fileURLToPath(import.meta.url))
-
-// The installed @classcad/skill package dir (holds references/<domain>/<method>.md).
-function npmSkillDir(): string | null {
-  try {
-    return dirname(createRequire(import.meta.url).resolve('@classcad/skill/package.json'))
-  } catch {
+// Live-doc override (development): resolve doc keys against a skill checkout.
+function diskResolver(): ((key: string) => string | null) | undefined {
+  const override = process.env.CLASSCAD_SKILL_PATH
+  const root = override ?? (() => {
+    try {
+      return dirname(createRequire(import.meta.url).resolve('@classcad/skill/package.json'))
+    } catch {
+      return undefined
+    }
+  })()
+  if (!override || !root) return undefined // no override → serve the built bundle
+  return (key: string) => {
+    const safe = key.replace(/[^a-zA-Z0-9/_-]/g, '')
+    for (const c of [join(root, 'references', `${safe}.md`), join(root, 'references', `${safe.toUpperCase()}.md`)]) {
+      if (existsSync(c)) return readFileSync(c, 'utf8')
+    }
     return null
   }
 }
 
-const SKILL_PATHS = [process.env.CLASSCAD_SKILL_PATH, npmSkillDir()].filter(Boolean) as string[]
+const discovery = createDiscovery({
+  registry: registry as MethodRegistry,
+  bundle: bundle as Record<string, string>,
+  extraDocs: scriptDocs,
+  resolveDoc: diskResolver(),
+})
 
-let skillPathCache: string | null | undefined = undefined
-function findSkillPath(): string | null {
-  if (skillPathCache !== undefined) return skillPathCache
-  for (const p of SKILL_PATHS) {
-    if (existsSync(join(p, 'references'))) {
-      skillPathCache = p
-      return p
-    }
-  }
-  skillPathCache = null
-  return null
-}
-
-const llmDocCache = new Map<string, string | null>()
-function loadLLMDoc(domain: string, method: string): string | null {
-  const key = `${domain}/${method}`
-  const cached = llmDocCache.get(key)
-  if (cached !== undefined) return cached
-  const skill = findSkillPath()
-  if (!skill) {
-    llmDocCache.set(key, null)
-    return null
-  }
-  const candidates = [
-    join(skill, 'references', domain, `${method}.md`),
-    join(skill, 'references', domain, 'generic.md'),
-  ]
-  for (const c of candidates) {
-    if (existsSync(c)) {
-      const text = readFileSync(c, 'utf8')
-      llmDocCache.set(key, text)
-      return text
-    }
-  }
-  llmDocCache.set(key, null)
-  return null
-}
-
-function formatEntry(entry: RegistryEntry): string {
-  const lines: string[] = []
-  lines.push(`# v1.${entry.domain}.${entry.method}`)
-  lines.push('')
-  if (entry.summary) lines.push(entry.summary)
-  if (entry.params.length) {
-    lines.push('')
-    lines.push('## Parameters')
-    for (const p of entry.params) lines.push(`- **${p.name}** — ${p.text}`)
-  }
-  return lines.join('\n')
+/**
+ * Server instructions for the MCP initialize handshake — hosts put this into
+ * the agent's context, so it knows the FULL method surface from turn one
+ * (mirrors the method index buerli-ai injects into its system prompt).
+ */
+export function serverInstructions(): string {
+  return [
+    'ClassCAD MCP. run_script is the ONLY way to execute API calls (JavaScript against the live CAD session; ' +
+      'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
+      'Before scripts that select geometry via api.tree()/api.graphic(), read describe_method("DATA") — the data contract. ' +
+      'Before sketch work: describe_method("SKETCHING"). Verify with numbers (calculateMassProperties) and snapshot renders.',
+    '',
+    'Method Index (v1) — every method, one line. Pick directly from here; use describe_method for exact parameters ' +
+      'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',
+    '',
+    discovery.methodIndex(),
+  ].join('\n')
 }
 
 export function registerDocsTools(server: McpServer): void {
@@ -93,35 +68,22 @@ export function registerDocsTools(server: McpServer): void {
     {
       title: 'List API methods',
       description:
-        'List available v1.<domain>.<method> endpoints. Returns method names only by default — pass withSummaries=true for one-line summaries (much larger). Filter by domain or substring(s) to narrow the set. `search` accepts either a single string or an array of strings (OR semantics) — e.g. ["delete", "remove"] returns methods matching either term in one call.',
+        'Search/list the v1.<domain>.<method> surface. With `search` (string or array, OR semantics): ' +
+        'ranked matches over method name + summary, CAD synonyms expanded (split→slice, hole→bore, round→fillet, …). ' +
+        'Without `search`: the full listing. withSummaries=false returns bare names (token-cheap). ' +
+        'A no-hit result does NOT mean the operation is missing — browse the domain instead.',
       inputSchema: {
         domain: z.enum(['assembly', 'common', 'curve', 'drawing2d', 'part', 'sketch', 'solid'])
           .optional().describe('Restrict to one domain.'),
         search: z.union([z.string(), z.array(z.string())]).optional()
-          .describe('Substring(s) to match against the method name (case-insensitive). Pass an array for OR semantics, e.g. ["delete", "remove"].'),
-        withSummaries: z.boolean().optional().describe('Include JSDoc summaries (default false — names only).'),
+          .describe('Keyword(s) to rank against name + summary (case-insensitive, synonyms expanded). Array = OR.'),
+        withSummaries: z.boolean().optional().describe('Include one-line summaries (default true).'),
+        limit: z.number().int().min(1).max(300).optional().describe('Max ranked results (default 25).'),
       },
     },
-    async ({ domain, search, withSummaries }) => {
-      const needles = (Array.isArray(search) ? search : search ? [search] : [])
-        .map(s => s.toLowerCase())
-        .filter(s => s.length > 0)
-      const names: string[] = []
-      const detailed: { method: string; summary: string }[] = []
-      for (const [key, entry] of Object.entries(REGISTRY)) {
-        if (domain && entry.domain !== domain) continue
-        if (needles.length > 0) {
-          const method = entry.method.toLowerCase()
-          const k = key.toLowerCase()
-          if (!needles.some(n => method.includes(n) || k.includes(n))) continue
-        }
-        if (withSummaries) detailed.push({ method: key, summary: entry.summary })
-        else names.push(key)
-      }
-      const payload = withSummaries
-        ? { count: detailed.length, methods: detailed }
-        : { count: names.length, methods: names }
-      return { content: [{ type: 'text', text: JSON.stringify(payload) }] }
+    async ({ domain, search, withSummaries, limit }) => {
+      const result = discovery.searchMethods({ domain, search, withSummaries, limit })
+      return { content: [{ type: 'text' as const, text: JSON.stringify(result) }] }
     },
   )
 
@@ -130,52 +92,20 @@ export function registerDocsTools(server: McpServer): void {
     {
       title: 'Describe API method',
       description:
-        'Return full documentation for one method: source JSDoc summary + parameters, ' +
-        'plus the LLM-oriented gotchas/examples doc from classcad-skill if present. ' +
-        'Also serves WHOLE documents: topic guides "DATA" (the tree/graphic contract for run_script — ' +
-        'shapes, id semantics, selection idioms), "SKETCHING", "STRUCTURE", "GRAPHICS", and worked ' +
-        'recipes like "recipes/parametric-part".',
+        'Full documentation for one method: JSDoc summary + parameters, plus the trained trap/example notes ' +
+        'when present. Accepts full ("v1.part.box") or bare ("box") names — ambiguous bare names list the candidates. ' +
+        'Also serves WHOLE documents: "DATA" (the tree/graphic contract for run_script), "STRUCTURE", "GRAPHICS", ' +
+        '"SKETCHING", domain overviews ("api/part") and recipes ("recipes/parametric-part").',
       inputSchema: {
-        method: z.string().describe('Method name ("v1.part.box"), topic doc ("DATA", "SKETCHING") or recipe ("recipes/parametric-part").'),
+        method: z.string().describe('Method name ("v1.part.box", "box"), topic doc ("DATA", "SKETCHING") or recipe ("recipes/parametric-part").'),
       },
     },
     async ({ method }) => {
-      const entry = REGISTRY[method]
-      if (!entry) {
-        const safe = method.replace(/\.md$/i, '').replace(/[^a-zA-Z0-9/_-]/g, '')
-        // Data-contract docs ship with @classcad/script (DATA, STRUCTURE, GRAPHICS).
-        const scriptDoc = scriptDocs[safe] ?? scriptDocs[safe.toUpperCase()]
-        if (scriptDoc) {
-          return { content: [{ type: 'text', text: scriptDoc }] }
-        }
-        // Whole documents: topic guides (references/<NAME>.md) and recipes.
-        const skill = findSkillPath()
-        if (skill) {
-          const candidates = [
-            join(skill, 'references', `${safe.toUpperCase()}.md`),
-            join(skill, 'references', `${safe}.md`),
-            join(skill, 'references', 'recipes', `${safe.replace(/^recipes\//, '')}.md`),
-          ]
-          for (const c of candidates) {
-            if (existsSync(c)) {
-              return { content: [{ type: 'text', text: readFileSync(c, 'utf8') }] }
-            }
-          }
-        }
-        return { isError: true, content: [{ type: 'text', text: `Unknown method or document "${method}". Use list_methods, or a topic doc: DATA, SKETCHING, STRUCTURE, GRAPHICS, recipes/<name>.` }] }
+      const res = discovery.describeMethod(method)
+      if (res.kind === 'error') {
+        return { isError: true, content: [{ type: 'text' as const, text: res.text }] }
       }
-      const sections = [formatEntry(entry)]
-      const llmDoc = loadLLMDoc(entry.domain, entry.method)
-      if (llmDoc) {
-        sections.push('---')
-        sections.push('# LLM doc (classcad-skill)')
-        sections.push('')
-        sections.push(llmDoc)
-      } else {
-        sections.push('---')
-        sections.push('_No LLM doc yet for this method. Source JSDoc only._')
-      }
-      return { content: [{ type: 'text', text: sections.join('\n\n') }] }
+      return { content: [{ type: 'text' as const, text: res.text }] }
     },
   )
 }

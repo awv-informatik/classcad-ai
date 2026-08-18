@@ -61,14 +61,14 @@ ln -s ../../node_modules/@classcad/skill .claude/skills/classcad
 
 `SKILL.md` carries Agent Skills frontmatter (`name: classcad`), so any skill-aware agent picks it up from there.
 
-**With [classcad-mcp](https://github.com/awv-informatik/classcad-mcp)** — the ClassCAD MCP server resolves this package automatically (via `CLASSCAD_SKILL_PATH` or a sibling `classcad-skill` checkout) and composes these docs into its `describe_method` tool.
+**With the [ClassCAD MCP server](https://github.com/awv-informatik/classcad-ai/tree/master/packages/mcp)** (`packages/mcp` in this monorepo) — it consumes this package directly (workspace dependency; `CLASSCAD_SKILL_PATH` overrides for live-doc development) and serves these docs through its `docs`/`describe_method` tools.
 
 **As plain context** — load `SKILL.md` as the index and pull `references/` files on demand. The per-API docs are self-contained.
 
 ## Related
 
 - [classcad.ch/docs](https://classcad.ch/docs/) — official ClassCAD documentation
-- [classcad-mcp](https://github.com/awv-informatik/classcad-mcp) — MCP server for driving ClassCAD from agents
+- [classcad-ai/packages/mcp](https://github.com/awv-informatik/classcad-ai/tree/master/packages/mcp) — MCP server for driving ClassCAD from agents
 - [buerli.io](https://buerli.io) — CAD-as-a-service built on ClassCAD
 
 ## License

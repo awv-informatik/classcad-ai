@@ -57,7 +57,10 @@ export function serverInstructions(): string {
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
       'then fetch ALL their docs in ONE docs([...]) call (include "DATA" whenever a script reads api.tree()/api.graphic(), ' +
       '"recipes/constrained-sketching" before sketch work, and the matching recipe). After that, build in a FEW substantial staged scripts — ' +
-      'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders.',
+      'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders. ' +
+      'Reproducing a drawing/image? Numbers only prove the model matches your INTENT — extract a per-view ' +
+      'topology/orientation checklist from the reference, probe each fact numerically, and never explain a ' +
+      'render-vs-reference difference with "viewing angle" (see recipes/verify-numerically).',
     '',
     'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
       'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',

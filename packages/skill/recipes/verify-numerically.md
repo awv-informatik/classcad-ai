@@ -67,6 +67,35 @@ Verification failures are findings, not annoyances: when measurement and
 expectation disagree, stop and investigate — one of them is wrong, and it is not
 always the model.
 
+## Reference reproduction — verify INTENT, not just execution
+
+Everything above validates "is the model what I intended to build?". When the
+task reproduces a REFERENCE (a drawing, an image, an existing part), that is
+the wrong question half the time: a mirrored/mis-oriented interpretation
+passes every volume/bounds/dimension check with green numbers, because the
+model faithfully matches the wrong intent (observed 2026-08-18: a half-round
+tower built with its bulge facing the wrong way — 11/11 numeric checks passed
+on a mirrored part; the agent SAW the difference in the renders and attributed
+it to viewing angle).
+
+Discipline for any reference reproduction:
+
+1. **Feature checklist BEFORE building.** From each reference view, list the
+   distinctive TOPOLOGY/ORIENTATION facts, not just sizes: which side an
+   opening faces, where a bulge points relative to another landmark, which
+   lines exist (or don't) in which view, what is asymmetric/chiral. These
+   rows sit next to the dimension checklist and gate completion the same way.
+2. **Convert each fact into a NUMERIC probe.** Orientation is measurable:
+   "bulge apex at the FAR end" → probe where material exists (mesh extents /
+   material-presence at a test point); "notch opens to the flat face" → probe
+   that the bore region is empty on that side and solid on the other. A fact
+   you can probe beats a fact you can eyeball.
+3. **Render the reference's own views** (same view directions) and check the
+   checklist row by row. "Roughly matches" is a FAIL: any visible difference
+   between render and reference is either EXPLAINED BY A MEASUREMENT or it is
+   a defect — "different viewing angle" is not an explanation, it is the
+   rationalization that ships mirrored parts.
+
 ## Tessellation trap (graphic-based probes)
 
 The mesh you probe is faceted at the drawing's chord tolerance — **default

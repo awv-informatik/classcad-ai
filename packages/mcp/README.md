@@ -18,7 +18,7 @@ Lets MCP-capable LLM hosts (Claude Code, VS Code Copilot, etc.) drive a live Cla
 ## Install from source
 
 ```bash
-git clone https://github.com/awv-informatik/classcad-mcp.git
+git clone https://github.com/awv-informatik/classcad-ai.git   # the MCP lives in packages/mcp
 cd classcad-mcp
 npm install
 npm run build

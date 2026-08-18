@@ -211,6 +211,41 @@ D35C13SS style-C from the 2026-08-10 training journal (double strand, hub
 both sides, set screw). Adds revolve/hub geometry + set-screw features on top
 of the plate skills. Parked until #2 is green on all hosts.
 
+## E2E loop: the mirrored C-cut (2026-08-18/19) — perception vs. task context
+
+ph's drawing-reproduction test (480×360 isometric, `hqdefault.jpg`) produced a
+MIRRORED C-cut in 2 buerli-ai runs and 4 MCP runs — every run process-clean,
+every run confidently wrong. Iterated the rules E2E against the real case
+until the MCP run converged:
+
+| It. | Rule state | Outcome | Finding |
+| --- | --- | --- | --- |
+| 0 | intent-gate only | mirrored | probes validated the misread premise |
+| 1 | + drawing-reproduction recipe (record, callout anchors) | mirrored | silhouette impression overrode the agent's OWN callout anchor |
+| 2 | + two-hypothesis adjudication, channel ranking | mirrored | "ribs land on flat faces" (mechanical prior) overrode a correct callout read |
+| 3 | + mechanics demoted to tie-breaker, operational leader-crossing test | mirrored | model HALLUCINATED the leader trace to fit its gestalt |
+| 4 | + 4× magnified crop supplied | mirrored | resolution alone doesn't fix it |
+| — | perception probe battery | **crop 3/3, full 2/3 correct; in-task 0/6** | task context collapses perception; isolated forced-choice works |
+| 5 | + perception-first pass in the recipe | mirrored | recipe fetched late/not at all — first image exposure ungoverned |
+| 6 | + perception-first directive INLINE in host instructions | **CORRECT** | frozen record with pixel-measured chord segments (gap=30=Ø, walls=15), mirror answer committed pre-render |
+
+Root cause: **not a knowledge gap and not resolution — task context.** Reading
+a drawing while planning a build collapses onto a gestalt; every evidence
+channel (silhouette, leader traces, mechanics) then confabulates to match.
+The same model answers the isolated binary image-space question correctly.
+
+The fix that converged (both hosts): the ALWAYS-present instructions order a
+forced-choice perception pass at FIRST image exposure — one binary image-space
+question per chirality-critical feature, pixel evidence, answers FROZEN —
+before dimensions, docs, or planning; `recipes/drawing-reproduction` carries
+the full protocol (record, adjudication, matched views, mirror check with
+pre-render commitment, second reading).
+
+Residual (n=1 at the converged state; genuine drawing ambiguities left for
+ph to adjudicate): the "70" reading (straight-edge length vs center distance
+— runs varied) and the bore/channel depth (through vs 15 deep — it. 6
+pixel-measured 15). Renders: [files/c-cut-e2e-6/](files/c-cut-e2e-6/).
+
 ## Planned: unified `recipes/verification.md` (ph, 2026-08-18)
 
 Merge verify-numerically (+ the drawing-reproduction protocol) into ONE

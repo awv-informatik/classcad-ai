@@ -22,6 +22,21 @@ from the same misread image. This recipe gates the interpretation half.
 Write the record down (notes tool / your plan) BEFORE the first build call.
 It is the contract the final verification tests against.
 
+0. **Forced-choice perception pass — FIRST, before everything else.**
+   Measured fact (2026-08-18): the same model read a C-ring's opening
+   direction wrong in 6/6 full CAD runs, but right in 3/3 when asked as an
+   isolated question — task context collapses perception onto a gestalt and
+   every later "evidence" confabulates around it. So: BEFORE inventorying
+   dimensions or planning anything, glance at the reference only to spot the
+   chirality-critical features (openings, notches, asymmetric bosses,
+   handedness of ribs), then answer ONE BINARY IMAGE-SPACE QUESTION per
+   feature, as if there were no task: "in image space, does the ring's gap
+   face the lower-left (where the rib enters) or the upper-right?" — answer
+   with pixel evidence (which edge, roughly where). Use a magnified crop of
+   the critical region if one is available or obtainable (3/3 vs 2/3 in the
+   measurement). These answers are FROZEN: the later holistic reading may
+   add facts but may NOT overturn them — if it disagrees, that is a LOW
+   CONFIDENCE conflict for the mirror check, not a revision.
 1. **Inventory**: which views does the reference show (iso, front, top, …)?
    What resolution is the image? Below ~800 px, fine features — especially
    chirality — are LOW CONFIDENCE: say so in the record.

@@ -56,7 +56,7 @@ export function serverInstructions(): string {
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
       'then fetch ALL their docs in ONE docs([...]) call (include "DATA" whenever a script reads api.tree()/api.graphic(), ' +
-      '"recipes/constrained-sketching" before sketch work, the matching build recipe, and ALWAYS "recipes/verify-numerically" — every build ends in verification). After that, build in a FEW substantial staged scripts — ' +
+      '"recipes/constrained-sketching" before sketch work, the matching build recipe, and ALWAYS "recipes/verify-numerically" — every build ends in verification; reproducing an image/drawing/part additionally REQUIRES "recipes/drawing-reproduction": write its reference record BEFORE building). After that, build in a FEW substantial staged scripts — ' +
       'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders. ' +
       'Reproducing a drawing/image? Numbers only prove the model matches your INTENT — extract a per-view ' +
       'topology/orientation checklist from the reference, probe each fact numerically, and never explain a ' +

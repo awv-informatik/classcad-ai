@@ -78,7 +78,9 @@ tower built with its bulge facing the wrong way — 11/11 numeric checks passed
 on a mirrored part; the agent SAW the difference in the renders and attributed
 it to viewing angle).
 
-Discipline for any reference reproduction:
+The full protocol (reference record, callout anchors, matched-view renders,
+second reading) is its own recipe: [recipes/drawing-reproduction](drawing-reproduction.md).
+Summary of the discipline:
 
 1. **Feature checklist BEFORE building.** From each reference view, list the
    distinctive TOPOLOGY/ORIENTATION facts, not just sizes: which side an

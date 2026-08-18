@@ -211,6 +211,25 @@ D35C13SS style-C from the 2026-08-10 training journal (double strand, hub
 both sides, set screw). Adds revolve/hub geometry + set-screw features on top
 of the plate skills. Parked until #2 is green on all hosts.
 
+## Planned: unified `recipes/verification.md` (ph, 2026-08-18)
+
+Merge verify-numerically (+ the drawing-reproduction protocol) into ONE
+umbrella recipe whose entry point is the INPUT TYPE — the case decides the
+regime:
+
+- **Plain-text spec** (numbers in the prompt): the numeric tiers — mass
+  properties, bounds, brep probes, parametric regen tests.
+- **Technical drawing** (dimensions/callouts present): perception-first
+  reference record (callout anchors, explicit chirality) → build → numeric
+  replay of the record → matched-view renders → second reading.
+- **Image/photo without dimensions**: no absolute numbers to check — verify
+  topology, feature counts, proportions/aspect ratios; state the assumed
+  scale explicitly.
+
+Shared toolbox underneath: probes, tessellation trap, "success codes lie",
+the second-reading rule. Do AFTER the c-cut E2E loop converges (changing the
+doc landscape mid-experiment would confound it).
+
 ## Per-host takeaways
 
 - **root agent**: the reference. Discovers everything from the repo MDs, one

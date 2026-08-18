@@ -34,17 +34,23 @@ It is the contract the final verification tests against.
    mirror. For every handedness/side/direction fact, write BOTH readings
    (e.g. "C opens toward the rounded end" vs "C opens away from it") and
    score each against the independent evidence channels:
-   - **callout approach** (which side does the leader enter from — leaders
-     come from open space),
+   - **callout approach** — with an OPERATIONAL test, not a feeling: trace
+     the leader from its text to the feature. Does it cross the part's
+     silhouette/material on the way? A leader that reaches an INNER feature
+     without crossing the surrounding ring's material tells you the gap is
+     on its approach side. Answer per leader: "crosses material: yes/no".
    - **silhouette/edge continuity**,
    - **hidden/dashed lines**,
-   - **mechanical function** (ribs land on flat faces, cuts open toward
-     reachable sides),
    - **symmetry** (which facts are even at mirror risk).
-   Channel ranking: at low resolution (<~800 px) a silhouette impression is
-   INADMISSIBLE as sole evidence for chirality — callout approach and
-   mechanical function outrank it. If your channels disagree, the fact is
-   LOW CONFIDENCE: say so in the record, and see the mirror check below.
+   Channel ranking: callout approach (with its crossing test) outranks
+   everything; at low resolution (<~800 px) a silhouette impression is
+   INADMISSIBLE as sole evidence for chirality. **Mechanical plausibility is
+   a PRIOR, not evidence** — it describes typical parts, not this part
+   (real parts DO have ribs meeting curved walls and cuts opening off the
+   plate); use it only to break ties when every image channel is silent,
+   never to override a callout reading. If your channels disagree, the fact
+   is LOW CONFIDENCE: say so in the record, and the mirror check below is
+   the decider.
 4. **Ambiguity is spoken, never swallowed**: if two readings survive, state
    the ambiguity. Interactive host → ask the user ONE confirmation question
    ("the C opens away from the rounded end — correct?"); one answer beats any
@@ -64,12 +70,13 @@ from the reference, don't patch silently.
    match the iso's octant; front/top/right for orthographic views). A
    comparison against an arbitrary ISO is not a comparison.
 2. **Mirror check (forced choice)** — for every chirality fact, and always
-   when one was LOW CONFIDENCE: render the matched view AND its mirror
-   (negate the azimuth). The mirrored camera shows what the mirrored part
-   would look like from the reference's viewpoint. Now answer three
-   IMAGE-SPACE questions independently: "in the REFERENCE, which image side
-   is the opening/asymmetric feature on?" — "in render A?" — "in render B?"
-   Then pick which render matches. Forced choice between two images is far
+   when one was LOW CONFIDENCE: FIRST, before rendering anything, write down
+   the reference's answer in image-space terms ("in the REFERENCE image, the
+   opening is on the upper-RIGHT of the tower"). Committing to it before
+   seeing your renders prevents the renders from steering the reading. THEN
+   render the matched view AND its mirror (negate the azimuth) and answer
+   the same image-space question for each render independently. Pick which
+   render matches the committed reference answer. Forced choice between two images is far
    more reliable than judging handedness in one. If the MIRROR matches, your
    reading is flipped: fix the model, don't re-argue the record.
 3. **Record replay, numerically**: walk the reference record row by row and

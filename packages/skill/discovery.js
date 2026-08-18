@@ -321,7 +321,7 @@ export const DOCS_TOOL = {
   description:
     'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
     'unique bare name), topic docs ("DATA", "STRUCTURE", "GRAPHICS"), recipes ' +
-    '("recipes/constrained-sketching" — alias "SKETCHING", "recipes/parametric-part", ' +
+    '("recipes/constrained-sketching", "recipes/parametric-part", ' +
     '"recipes/pattern-then-subtract", "recipes/direct-modeling-eif", ' +
     '"recipes/verify-numerically"), and domain overviews ("api/part"). PLAN FIRST: pick every method you ' +
     `will need from the method index, then fetch ALL of them plus the matching topic/recipe docs in ONE ` +

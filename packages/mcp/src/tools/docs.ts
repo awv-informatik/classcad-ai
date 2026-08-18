@@ -58,9 +58,14 @@ export function serverInstructions(): string {
       'then fetch ALL their docs in ONE docs([...]) call (include "DATA" whenever a script reads api.tree()/api.graphic(), ' +
       '"recipes/constrained-sketching" before sketch work, the matching build recipe, and ALWAYS "recipes/verify-numerically" — every build ends in verification; reproducing an image/drawing/part additionally REQUIRES "recipes/drawing-reproduction": write its reference record BEFORE building). After that, build in a FEW substantial staged scripts — ' +
       'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders. ' +
-      'Reproducing a drawing/image? Numbers only prove the model matches your INTENT — extract a per-view ' +
-      'topology/orientation checklist from the reference, probe each fact numerically, and never explain a ' +
-      'render-vs-reference difference with "viewing angle" (see recipes/verify-numerically).',
+      'REFERENCE IMAGES — perception before task (measured: chirality read wrong 6/6 in-task, right 3/3 asked ' +
+      'in isolation): the moment you FIRST look at a reference image, before extracting dimensions or planning, ' +
+      'answer one BINARY image-space question per chirality-critical feature (opening/notch/handedness): ' +
+      '"does the gap face X or Y in the image?", with pixel evidence — and FREEZE those answers; nothing later ' +
+      'may overturn them (conflicts go to the mirror check, not into a revision). Then fetch ' +
+      '"recipes/drawing-reproduction" and follow it end to end. Numbers only prove the model matches your ' +
+      'INTENT — probe each frozen fact numerically, and never explain a render-vs-reference difference with ' +
+      '"viewing angle".',
     '',
     'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
       'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',

@@ -10,8 +10,8 @@ Free-float AR-15 handguard, Daniel Defense MFR-inspired:
 - **Profile:** octagon, 40 across flats, low-profile-gas-block compatible
 - **Final:** single watertight solid, 101,240 mm³ ≈ **273 g in 7075-T6**
 
-![rail](/rail.png)
-![snap](/snap.png)
+![rail](rail.png)
+![snap](snap.png)
 
 ---
 

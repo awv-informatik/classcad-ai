@@ -41,8 +41,11 @@ discovery tools from this module — same code, same behavior, verbatim.
 import { createDiscovery, DOCS_TOOL } from '@classcad/skill/discovery'
 import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 import bundle from '@classcad/skill/bundle.json' with { type: 'json' }
+// The DATA/STRUCTURE/GRAPHICS contract docs are owned by the script medium —
+// hosts merge them in via `extraDocs` (the skill alone doesn't carry them):
+import { docs as scriptDocs } from '@classcad/script/docs'
 
-const discovery = createDiscovery({ registry, bundle })
+const discovery = createDiscovery({ registry, bundle, extraDocs: scriptDocs })
 const { text } = await discovery.bulkDocs(['DATA', 'v1.part.extrusion', 'v1.part.chamfer'])
 ```
 

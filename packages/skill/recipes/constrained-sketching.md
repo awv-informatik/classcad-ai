@@ -592,13 +592,13 @@ const bossPt = add(offset, scale(dir, tBoss))
 
 ## Related
 
-- [sketch/constraint.md](sketch/constraint.md) — geometric constraints
-- [sketch/dimension.md](sketch/dimension.md) — dimensional constraints
-- [sketch/circle.md](sketch/circle.md) — circle creation and querying
-- [sketch/line.md](sketch/line.md) — line creation
-- [sketch/arcByCenter.md](sketch/arcByCenter.md) — arc creation
-- [sketch/geometry.md](sketch/geometry.md) — batch geometry creation
-- [sketch/preTrim.md](sketch/preTrim.md) — split at intersections (stage)
-- [sketch/trim.md](sketch/trim.md) — mark segments for removal
-- [sketch/postTrim.md](sketch/postTrim.md) — apply trims / merge back
-- [sketch/splitCurve.md](sketch/splitCurve.md) — split one curve at explicit params
+- [sketch/constraint.md](../references/sketch/constraint.md) — geometric constraints
+- [sketch/dimension.md](../references/sketch/dimension.md) — dimensional constraints
+- [sketch/circle.md](../references/sketch/circle.md) — circle creation and querying
+- [sketch/line.md](../references/sketch/line.md) — line creation
+- [sketch/arcByCenter.md](../references/sketch/arcByCenter.md) — arc creation
+- [sketch/geometry.md](../references/sketch/geometry.md) — batch geometry creation
+- [sketch/preTrim.md](../references/sketch/preTrim.md) — split at intersections (stage)
+- [sketch/trim.md](../references/sketch/trim.md) — mark segments for removal
+- [sketch/postTrim.md](../references/sketch/postTrim.md) — apply trims / merge back
+- [sketch/splitCurve.md](../references/sketch/splitCurve.md) — split one curve at explicit params

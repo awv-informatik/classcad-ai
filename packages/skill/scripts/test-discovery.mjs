@@ -43,8 +43,14 @@ const docs = d.listDocs()
 check('listDocs groups', docs.topics.includes('DATA') && docs.recipes.length > 0 && docs.overviews.length > 0)
 
 // resolveDoc override wins
-const d2 = createDiscovery({ registry, bundle, resolveDoc: k => (k === 'SKETCHING' ? 'OVERRIDE' : null) })
-check('resolveDoc override consulted first', d2.readDoc('SKETCHING').text === 'OVERRIDE')
+const d2 = createDiscovery({ registry, bundle, resolveDoc: k => (k === 'DATA' ? 'OVERRIDE' : null) })
+check('resolveDoc override consulted first', d2.readDoc('DATA').text === 'OVERRIDE')
+
+// aliases: the historical SKETCHING key redirects to the recipe
+const ali = d.readDoc('SKETCHING')
+check('SKETCHING alias resolves', ali !== null && ali.key === 'recipes/constrained-sketching')
+check('alias via describeMethod', d.describeMethod('SKETCHING').kind === 'doc')
+check('recipes group lists constrained-sketching', d.listDocs().recipes.includes('recipes/constrained-sketching'))
 
 // index
 const idx = d.methodIndex()

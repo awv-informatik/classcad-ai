@@ -102,8 +102,11 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
   let indexCache = null
 
   function lookupDoc(name) {
-    const raw = String(name ?? '').trim().replace(/\.md$/i, '')
+    let raw = String(name ?? '').trim().replace(/\.md$/i, '')
     if (!raw) return null
+    // Renamed/moved documents keep answering to their historical keys.
+    const alias = DOC_ALIASES[raw] ?? DOC_ALIASES[raw.toUpperCase()]
+    if (alias) raw = alias
     const fromResolver = resolveDoc ? resolveDoc(raw) : null
     if (fromResolver) return { key: raw, text: fromResolver }
     if (docs[raw]) return { key: raw, text: docs[raw] }
@@ -317,12 +320,21 @@ export const DOCS_TOOL = {
   name: 'docs',
   description:
     'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
-    'unique bare name), topic docs ("DATA", "SKETCHING", "STRUCTURE", "GRAPHICS"), recipes ' +
-    '("recipes/parametric-part", "recipes/pattern-then-subtract", "recipes/direct-modeling-eif", ' +
+    'unique bare name), topic docs ("DATA", "STRUCTURE", "GRAPHICS"), recipes ' +
+    '("recipes/constrained-sketching" — alias "SKETCHING", "recipes/parametric-part", ' +
+    '"recipes/pattern-then-subtract", "recipes/direct-modeling-eif", ' +
     '"recipes/verify-numerically"), and domain overviews ("api/part"). PLAN FIRST: pick every method you ' +
     `will need from the method index, then fetch ALL of them plus the matching topic/recipe docs in ONE ` +
     `call (up to ${DOCS_MAX_KEYS} keys) — each extra tool round costs a full model round-trip. ` +
     'Unknown keys come back in a "not found" section with suggestions.',
+}
+
+/**
+ * Historical → canonical doc keys. Prompts, transcripts and muscle memory keep
+ * using the old names; the lookup transparently redirects them.
+ */
+export const DOC_ALIASES = {
+  SKETCHING: 'recipes/constrained-sketching',
 }
 
 export default createDiscovery

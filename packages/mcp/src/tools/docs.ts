@@ -29,7 +29,9 @@ function diskResolver(): ((key: string) => string | null) | undefined {
   if (!override || !root) return undefined // no override → serve the built bundle
   return (key: string) => {
     const safe = key.replace(/[^a-zA-Z0-9/_-]/g, '')
-    for (const c of [join(root, 'references', `${safe}.md`), join(root, 'references', `${safe.toUpperCase()}.md`)]) {
+    // Keys map to files: references/<domain>/<method>.md, or top-level dirs for
+    // prefixed keys (recipes/<name>.md lives at the package root).
+    for (const c of [join(root, 'references', `${safe}.md`), join(root, `${safe}.md`), join(root, 'references', `${safe.toUpperCase()}.md`)]) {
       if (existsSync(c)) return readFileSync(c, 'utf8')
     }
     return null
@@ -54,7 +56,7 @@ export function serverInstructions(): string {
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
       'then fetch ALL their docs in ONE docs([...]) call (include "DATA" whenever a script reads api.tree()/api.graphic(), ' +
-      '"SKETCHING" before sketch work, and the matching recipe). After that, build in a FEW substantial staged scripts — ' +
+      '"recipes/constrained-sketching" before sketch work, and the matching recipe). After that, build in a FEW substantial staged scripts — ' +
       'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders.',
     '',
     'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
@@ -115,10 +117,10 @@ export function registerDocsTools(server: McpServer): void {
       description:
         'Full documentation for ONE key — prefer docs([...]) to fetch everything you need in a single round; ' +
         'use this only for a single follow-up lookup. Accepts full ("v1.part.box") or bare ("box") names — ' +
-        'ambiguous bare names list the candidates. Also serves whole documents ("DATA", "SKETCHING", "api/part", ' +
+        'ambiguous bare names list the candidates. Also serves whole documents ("DATA", "api/part", ' +
         '"recipes/parametric-part").',
       inputSchema: {
-        method: z.string().describe('Method name ("v1.part.box", "box"), topic doc ("DATA", "SKETCHING") or recipe ("recipes/parametric-part").'),
+        method: z.string().describe('Method name ("v1.part.box", "box"), topic doc ("DATA") or recipe ("recipes/constrained-sketching", "recipes/parametric-part").'),
       },
     },
     async ({ method }) => {

@@ -97,7 +97,7 @@ AllObjects (id 1)
   `children` stay empty. A bound feature param shows
   `members.length.expression === "ExpressionSet.W"`.
 - **Work planes** `Top/Front/Right` carry **no** `coordinateSystem` — their
-  orientation is implicit (see [SKETCHING.md](../../skill/references/SKETCHING.md) plane mappings).
+  orientation is implicit (see [constrained-sketching](../../skill/recipes/constrained-sketching.md) plane mappings).
   `CC_WorkCSys` nodes DO carry one.
 - To answer *"is feature X under part Y?"* walk `node.parent` upward. Never
   `part.children.includes(featureId)` — features sit two levels down.
@@ -157,7 +157,7 @@ const producingFeature = t[String(solidNode.parent)]   // e.g. CC_Chamfer
 ## Sketch anatomy
 
 `sketch.create({ id: partId, planeId })` — `planeId` is MANDATORY for a live
-constraint solver (the #1 trap, see [SKETCHING.md](../../skill/references/SKETCHING.md); a sketch
+constraint solver (the #1 trap, see [constrained-sketching](../../skill/recipes/constrained-sketching.md); a sketch
 created without it accepts constraints/dimensions but never enforces them).
 
 ```

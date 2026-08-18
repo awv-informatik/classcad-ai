@@ -27,6 +27,7 @@
   "files": [
     "SKILL.md",
     "references",
+    "recipes",
     "method-registry.json",
     "bundle.json",
     "discovery.js",

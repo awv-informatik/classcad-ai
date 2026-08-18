@@ -11,7 +11,7 @@ ClassCAD is a headless, programmable parametric CAD engine driven entirely throu
 - [`SKILL.md`](SKILL.md) — entry point: domain index, all 254 APIs with one-line summaries, cross-cutting guides
 - `references/api/*.md` — source API documentation per domain (signatures, parameter tables, return types)
 - `references/<domain>/*.md` — per-API LLM docs: gotchas, dead ends, common errors, working examples
-- `references/SKETCHING.md` — the constrained-sketching workflow guide; the data contract (`DATA`/`STRUCTURE`/`GRAPHICS`) ships with [`@classcad/script`](https://www.npmjs.com/package/@classcad/script)
+- `recipes/*.md` — end-to-end verified workflow guides incl. `constrained-sketching.md`; the data contract (`DATA`/`STRUCTURE`/`GRAPHICS`) ships with [`@classcad/script`](https://www.npmjs.com/package/@classcad/script)
 - `method-registry.json` / `bundle.json` — build artifacts: the full v1 method registry (generated from engine JSDoc) and every doc bundled as JSON (browser-safe, no filesystem)
 
 Every per-API doc is **battle-tested**: the documented behavior was observed by executing real API calls against a live ClassCAD server — including the failure modes, silent no-ops, and doc discrepancies that source documentation doesn't cover.

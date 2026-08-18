@@ -26,7 +26,7 @@ Cross-cutting references that apply across every domain. Read these first when s
 
 | Reference                                       | Topic                                                                                  |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [SKETCHING.md](references/SKETCHING.md)         | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow    |
+| [recipes/constrained-sketching.md](recipes/constrained-sketching.md) | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow    |
 | [expressions.md](references/api/expressions.md) | Expression syntax: constants, math functions, inter-expression references, `@expr.`    |
 
 The **data contract** — what `api.tree()` and `api.graphic()` return and how to
@@ -390,8 +390,8 @@ Practical workflow guides for complex multi-API tasks.
 
 | Guide | Description | Reference |
 |-------|-------------|-----------|
-| **Sketching** | Reproducing technical drawings: dimension analysis, circle-based construction, trim workflow, constraint placement, iterative evaluation | [SKETCHING.md](references/SKETCHING.md) |
-| **Parametric part** | Expressions + constrained sketches + @expr dims, in-tree regeneration, liveness rules | [recipes/parametric-part.md](references/recipes/parametric-part.md) |
-| **Pattern → subtract** | N cutouts around an axis: one tool, merged pattern, single subtraction | [recipes/pattern-then-subtract.md](references/recipes/pattern-then-subtract.md) |
-| **Direct modeling (EIF)** | solid.* inside an entity injection: operation order, curve profiles with bulges, no recalc | [recipes/direct-modeling-eif.md](references/recipes/direct-modeling-eif.md) |
-| **Numeric verification** | Mass properties, bounds, brep probes — graded rules for when and how to verify | [recipes/verify-numerically.md](references/recipes/verify-numerically.md) |
+| **Sketching** | Reproducing technical drawings: dimension analysis, circle-based construction, trim workflow, constraint placement, iterative evaluation | [recipes/constrained-sketching.md](recipes/constrained-sketching.md) |
+| **Parametric part** | Expressions + constrained sketches + @expr dims, in-tree regeneration, liveness rules | [recipes/parametric-part.md](recipes/parametric-part.md) |
+| **Pattern → subtract** | N cutouts around an axis: one tool, merged pattern, single subtraction | [recipes/pattern-then-subtract.md](recipes/pattern-then-subtract.md) |
+| **Direct modeling (EIF)** | solid.* inside an entity injection: operation order, curve profiles with bulges, no recalc | [recipes/direct-modeling-eif.md](recipes/direct-modeling-eif.md) |
+| **Numeric verification** | Mass properties, bounds, brep probes — graded rules for when and how to verify | [recipes/verify-numerically.md](recipes/verify-numerically.md) |

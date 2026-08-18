@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// build-bundle.mjs — flatten references/ markdown into one importable JSON map.
+// build-bundle.mjs — flatten references/ + recipes/ markdown into one importable JSON map.
 //
 // Output: ./bundle.json — { "domain/method": "markdown content", ... }
 // Browser agents can't walk a directory of markdown at runtime; this gives them
@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
 const refsDir = join(root, 'references')
+const recipesDir = join(root, 'recipes')
 const outPath = join(root, 'bundle.json')
 
 const bundle = {}
@@ -29,6 +30,9 @@ function walk(dir, prefix = '') {
 }
 
 walk(refsDir)
+// Recipes live at the package top level (workflow guides, kebab-case) but keep
+// their historical "recipes/<name>" bundle keys.
+walk(recipesDir, 'recipes')
 
 mkdirSync(dirname(outPath), { recursive: true })
 writeFileSync(outPath, JSON.stringify(bundle, null, 2))

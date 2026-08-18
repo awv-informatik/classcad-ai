@@ -21,7 +21,7 @@ operation position 44 does not exist for an EIF at position 28. Inside an EIF th
 idiomatic profile source is the **curve API** (`curve.shape` +
 `curve.polyline2d`/`curve.advancedPolyline`), not the sketch API. Sketches are for
 parametric feature modeling; curves are for direct modeling
-([solid/curves-parameter](../solid/curves-parameter.md)).
+([solid/curves-parameter](../references/solid/curves-parameter.md)).
 
 ## Profiles: one polyline with bulges, not line/arc chains
 
@@ -31,7 +31,7 @@ segment:
 - `bulge = tan(sweepAngle / 4)`, positive = CCW arc, 0 = straight segment.
 - Do NOT assemble profiles from individual `curve.line` + `curve.arcByCenter` calls:
   in chains the kernel re-picks arc branches and ignores the clockwise flag —
-  profiles come out self-intersecting ([curve/arcByCenter](../curve/arcByCenter.md)).
+  profiles come out self-intersecting ([curve/arcByCenter](../references/curve/arcByCenter.md)).
 - Orient profiles with the shape rotation/transform (e.g. rotate an XY profile by
   `[Math.PI/2, 0, 0]` to stand it in XZ for a revolve about +Z).
 
@@ -51,7 +51,7 @@ blank revolve → subtract teeth → subtract bore → subtract keyway → subtr
 **Never call `common.recalc` in a direct/EIF flow** — it destroys the injected
 bodies (mass properties go null afterwards). The solid ops maintain their own state;
 just keep operating and read results directly
-([solid/subtraction](../solid/subtraction.md)).
+([solid/subtraction](../references/solid/subtraction.md)).
 
 ## Verify
 
@@ -70,7 +70,7 @@ degenerate boolean) destroyed it.
 
 ## Related
 
-[part/entityInjection](../part/entityInjection.md) ·
-[solid/curves-parameter](../solid/curves-parameter.md) ·
-[solid/target-tools-pattern](../solid/target-tools-pattern.md) ·
-[solid/subtraction](../solid/subtraction.md)
+[part/entityInjection](../references/part/entityInjection.md) ·
+[solid/curves-parameter](../references/solid/curves-parameter.md) ·
+[solid/target-tools-pattern](../references/solid/target-tools-pattern.md) ·
+[solid/subtraction](../references/solid/subtraction.md)

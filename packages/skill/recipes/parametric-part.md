@@ -31,18 +31,18 @@ await api.v1.part.expression({
 ```
 
 - **Only the `toCreate` array form creates expressions.** `part.expression({ id, name, value })`
-  is a silent no-op (returns result=1, creates nothing) — see [part/expression](../part/expression.md).
+  is a silent no-op (returns result=1, creates nothing) — see [part/expression](../references/part/expression.md).
 - `C:PI` is the built-in π constant. Trig (`sin`, `cos`, …) works inside value strings.
 - Change a parameter later with `part.updateExpression({ id, toUpdate: [{ name, value }] })` —
   the whole dependent chain recomputes and the model regenerates. The `toUpdate` array is
   REQUIRED: the bare `{ id, name, value }` form returns result=1 but changes NOTHING
-  (silent no-op — see [part/updateExpression](../part/updateExpression.md)).
+  (silent no-op — see [part/updateExpression](../references/part/updateExpression.md)).
 
 ## 2. Constrained sketch with @expr dimensions
 
 Create every sketch **with an explicit `planeId`** (a sketch without one has a dead
 solver — every value-dimension then fails with "Couldn't set the value", see
-[sketch/create](../sketch/create.md)). Then draw seed geometry roughly, constrain it,
+[sketch/create](../references/sketch/create.md)). Then draw seed geometry roughly, constrain it,
 and bind dimensions to expressions:
 
 ```js
@@ -60,7 +60,7 @@ await api.v1.sketch.dimension({
 - Distance dims between points (HD/VD) are **unsigned and branch-keeping**: the solver
   stays on the seed's side. Seed the sketch near the intended solution.
 - `sketch.getPositions` returns **world** coordinates, not sketch-local — map before
-  comparing against your local math ([sketch/getPositions](../sketch/getPositions.md)).
+  comparing against your local math ([sketch/getPositions](../references/sketch/getPositions.md)).
 
 ## 3. What stays live through booleans — and what doesn't
 
@@ -97,6 +97,6 @@ regen, check volume and probe a known feature position: see
 
 ## Related
 
-[part/expression-workflow](../part/expression-workflow.md) ·
-[sketch/dimension](../sketch/dimension.md) · [part/circularPattern](../part/circularPattern.md) ·
-[part/boolean](../part/boolean.md) · [SKETCHING](../SKETCHING.md)
+[part/expression-workflow](../references/part/expression-workflow.md) ·
+[sketch/dimension](../references/sketch/dimension.md) · [part/circularPattern](../references/part/circularPattern.md) ·
+[part/boolean](../references/part/boolean.md) · [SKETCHING](constrained-sketching.md)

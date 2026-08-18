@@ -34,7 +34,7 @@ await api.v1.sketch.updateGeometry({
 })
 ```
 
-`isConstruction` (boolean, default FALSE) marks a curve as construction / reference geometry — a skeleton (axes, bolt circles, symmetry/centerlines) that drives the real profile through constraints and dimensions but is not part of the profile itself. It is a curve property only (line/circle/arc); points cannot be construction. See `SKETCHING.md` (§ Construction geometry).
+`isConstruction` (boolean, default FALSE) marks a curve as construction / reference geometry — a skeleton (axes, bolt circles, symmetry/centerlines) that drives the real profile through constraints and dimensions but is not part of the profile itself. It is a curve property only (line/circle/arc); points cannot be construction. See `recipes/constrained-sketching` (§ Construction geometry).
 
 ## Return Value
 

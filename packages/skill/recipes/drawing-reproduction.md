@@ -30,18 +30,26 @@ It is the contract the final verification tests against.
    "Ø30 leader enters from the upper right and lands on the inner arc",
    "R30 touches the outer arc on the side facing the rounded end". Leaders
    point at real geometry; silhouette impressions can lie, callouts rarely do.
-3. **Orientation facts, landmark-relative, chirality explicit**: one line per
-   fact, each naming TWO features and their relation — "the C-opening faces
-   AWAY from the rounded base end", "the rib meets a FLAT vertical face on
-   the tower's inboard side", "the tower's curved wall faces the viewer in
-   the iso". Note the evidence for each line (callout, visible edge, hidden
-   line, shading).
-4. **Cross-checks**: mechanical plausibility (ribs land on flat faces, bosses
-   sit concentric to their bores, cuts open toward reachable sides) and
-   inter-view consistency. If two readings survive the cross-checks, DO NOT
-   pick silently: state the ambiguity, and in an interactive host ask the
-   user ONE confirmation question ("the C opens away from the rounded end —
-   correct?"). One answer beats any heuristic.
+3. **Chirality facts get a TWO-HYPOTHESIS adjudication** — first impressions
+   mirror. For every handedness/side/direction fact, write BOTH readings
+   (e.g. "C opens toward the rounded end" vs "C opens away from it") and
+   score each against the independent evidence channels:
+   - **callout approach** (which side does the leader enter from — leaders
+     come from open space),
+   - **silhouette/edge continuity**,
+   - **hidden/dashed lines**,
+   - **mechanical function** (ribs land on flat faces, cuts open toward
+     reachable sides),
+   - **symmetry** (which facts are even at mirror risk).
+   Channel ranking: at low resolution (<~800 px) a silhouette impression is
+   INADMISSIBLE as sole evidence for chirality — callout approach and
+   mechanical function outrank it. If your channels disagree, the fact is
+   LOW CONFIDENCE: say so in the record, and see the mirror check below.
+4. **Ambiguity is spoken, never swallowed**: if two readings survive, state
+   the ambiguity. Interactive host → ask the user ONE confirmation question
+   ("the C opens away from the rounded end — correct?"); one answer beats any
+   heuristic. Headless → pick the higher-ranked channel and SAY which channel
+   decided.
 
 ## Build
 
@@ -49,23 +57,31 @@ Implement the record (verify-numerically discipline per stage). The record is
 frozen — if mid-build evidence contradicts it, stop and re-derive the record
 from the reference, don't patch silently.
 
-## Final gate — three steps, in order
+## Final gate — four steps, in order
 
 1. **Matched-view renders**: one snapshot per reference view, oriented like
    the reference (snapshot supports named views AND `{azimuth, elevation}` —
    match the iso's octant; front/top/right for orthographic views). A
    comparison against an arbitrary ISO is not a comparison.
-2. **Record replay, numerically**: walk the reference record row by row and
+2. **Mirror check (forced choice)** — for every chirality fact, and always
+   when one was LOW CONFIDENCE: render the matched view AND its mirror
+   (negate the azimuth). The mirrored camera shows what the mirrored part
+   would look like from the reference's viewpoint. Now answer three
+   IMAGE-SPACE questions independently: "in the REFERENCE, which image side
+   is the opening/asymmetric feature on?" — "in render A?" — "in render B?"
+   Then pick which render matches. Forced choice between two images is far
+   more reliable than judging handedness in one. If the MIRROR matches, your
+   reading is flipped: fix the model, don't re-argue the record.
+3. **Record replay, numerically**: walk the reference record row by row and
    prove each orientation fact with a probe — material-presence at a test
    point, extents asymmetry, face position (see verify-numerically). A fact
    you can probe beats a fact you can eyeball.
-3. **Second reading**: with the build done, re-derive the chirality facts
+4. **Second reading**: with the build done, re-derive the chirality facts
    FROM THE REFERENCE IMAGE AGAIN — fresh, not from memory of your record —
-   and diff against the record. Fresh eyes after building catch misreads the
-   first pass locked in. Any difference between render and reference is
-   EXPLAINED BY A MEASUREMENT or it is a defect: "different viewing angle"
-   is never an explanation — it is the rationalization that ships mirrored
-   parts.
+   and diff against the record. Any difference between render and reference
+   is EXPLAINED BY A MEASUREMENT or it is a defect: "different viewing
+   angle" is never an explanation — it is the rationalization that ships
+   mirrored parts.
 
 ## Related
 

@@ -227,8 +227,12 @@ regime:
   scale explicitly.
 
 Shared toolbox underneath: probes, tessellation trap, "success codes lie",
-the second-reading rule. Do AFTER the c-cut E2E loop converges (changing the
-doc landscape mid-experiment would confound it).
+the second-reading rule. MANDATORY READING for every host: wired as a
+non-optional part of the build fetch in the mcp initialize instructions, the
+buerli-ai system prompt, AND the root-agent harness MDs (inherits the
+"NOT optional" status verify-numerically has today; the alias layer keeps the
+old keys serving). Do AFTER the c-cut E2E loop converges (changing the doc
+landscape mid-experiment would confound it).
 
 ## Per-host takeaways
 

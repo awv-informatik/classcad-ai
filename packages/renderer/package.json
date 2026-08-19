@@ -5,7 +5,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/awv-informatik/classcad-renderer.git"
+    "url": "git+https://github.com/awv-informatik/classcad-ai.git",
+    "directory": "packages/renderer"
   },
   "keywords": [
     "classcad",

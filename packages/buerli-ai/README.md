@@ -83,6 +83,8 @@ What the panel gives you out of the box:
 
 - **Model picker, thinking picker, and context ring** — capability-driven; each control
   appears only when the provider/model actually supports it.
+- **Live reasoning ticker** — the model's thinking streams into the panel while it
+  works (all built-in providers stream), so long silent stretches show progress.
 - **Attachments** — images (vision) and CAD files (STEP/IGES/STL…) via the `+` button.
 - **Stop** to abort a running turn; **per-tool status chips** with results and errors.
 - **Source panel** (`</>` in the header) — the session as a runnable, syntax-highlighted
@@ -114,9 +116,9 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 | `run_script`                       | THE execution medium: model-written JavaScript — `await api.v1.*`, `api.tree()`, `api.graphic()`; single ops and full builds alike; follow-up scripts attach to the existing model |
 | `tree` / `find` / `inspect`        | Read the structure tree, search nodes, full node detail                         |
 | `get_selection` / `set_selection`  | Read or set the user's 3D selection                                             |
-| `list_methods` / `describe_method` | Discover and document the 254 API methods                                       |
-| `read_doc`                         | Whole knowledge documents: topic guides (`SKETCHING`, …), API overviews, worked recipes |
-| `snapshot`                         | Deterministic render of the drawing (@classcad/renderer): standard views, section, sheet, highlightAt, markers, annotate, x-ray, frame pinning — sent to the model as vision when the selected model supports it |
+| `list_methods`                     | Discover methods: the documented v1 surface (264 methods, ranked keyword search with CAD synonyms) plus live reflection of the buerli namespaces |
+| `docs`                             | Bulk documentation — many keys in one call: per-method docs, topic guides (`DATA`, …), API overviews, worked recipes (`recipes/verification` is mandatory reading for every build). Same single-source discovery as the ClassCAD MCP server |
+| `snapshot`                         | Deterministic render of the drawing (@classcad/renderer): standard views, section, sheet, highlightAt, markers, annotate, x-ray, frame pinning — sent to the model as vision when the selected model supports it; tessellation is auto-tightened for the image and restored (`quality: 'fast'` opts out) |
 | `checkpoint` / `restore`           | In-memory save/rollback of the whole drawing — failed attempts become cheap     |
 | `notes`                            | Persistent per-drawing scratchpad (plan, key ids) that survives context pruning |
 | `load_file`                        | Import a user-attached CAD file                                                 |
@@ -192,6 +194,8 @@ function MyPanel() {
 - Non-React: same store via `useAgent.getState()` / `useAgent.subscribe()`.
 - `useAgent((s) => s.codeLog)` (`CodeEvent[]`) holds the API-call log for a source view;
   `reset()` clears the conversation.
+- `useAgent((s) => s.liveThinking)` — the in-flight reasoning text while a round
+  streams (`null` otherwise); render it for a live "thinking" ticker.
 
 **Model/thinking pickers** — `provider.getCapabilities()` returns
 `{ models: ModelOption[] }` (ids, context limits, reasoning levels); render your own
@@ -202,13 +206,19 @@ picker and pass the choice as `config.model` / `config.reasoningEffort`.
 ```ts
 import { runAgentLoop } from '@buerli.io/ai'
 for await (const ev of runAgentLoop('Create a 50mm box', [], config)) {
-  // ev.type: 'text' | 'thinking' | 'tool_start' | 'tool_end'
+  // ev.type: 'text' | 'thinking' | 'image' | 'tool_start' | 'tool_end'
   //        | 'subagent_start' | 'subagent_end' | 'usage' | 'error' | 'done'
 }
 ```
 
+Events arrive per completed block. For token-level streaming, set
+`config.onStreamDelta = ({ thinking, text }) => …` — the built-in providers stream
+deltas whenever the callback is present (this is what feeds the panel's live ticker).
+
 **Custom provider** — one method; must support tool-use blocks. Optionally add
-`getCapabilities()` to power the pickers:
+`getCapabilities()` to power the pickers. Streaming is optional: when `chat()` receives
+an `onDelta` callback in its params, pipe `{ thinking?, text? }` chunks through it as
+they arrive and still return the complete response at the end:
 
 ```ts
 const myProvider: LLMProvider = {

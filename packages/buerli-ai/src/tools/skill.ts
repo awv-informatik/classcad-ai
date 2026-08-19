@@ -1,9 +1,10 @@
-// ─── Skill docs — read_doc / describe_method ──────────────────────────────────
+// ─── Skill docs — bundle wiring + describeMethod ──────────────────────────────
 //
 // Thin ToolResult wrappers around the shared @classcad/skill/discovery module
 // (the SAME logic as the ClassCAD MCP). The skill bundle (domain/method →
 // markdown) is supplied at init time; the @classcad/script data-contract docs
-// (DATA, STRUCTURE, GRAPHICS) are always available.
+// (DATA, STRUCTURE, GRAPHICS) are always available. Whole-document serving goes
+// through the bulk `docs` tool (executor → discovery.bulkDocs).
 
 import { configureDiscovery, currentBundle, getDiscovery } from './discovery'
 import type { ToolResult } from '../types'
@@ -24,37 +25,6 @@ export async function loadSkillBundle(jsonModule: Promise<{ default: SkillBundle
 /** True once a bundle has been supplied (the script docs are available regardless). */
 export function hasSkillBundle(): boolean {
   return currentBundle() !== null
-}
-
-/**
- * List the readable documents, grouped for discovery: topic docs (DATA,
- * SKETCHING, …), domain overviews (api/part, …) and recipes
- * (recipes/parametric-part, …) — the per-method docs are served through
- * describe_method instead.
- */
-export function listDocs(): { topics: string[]; overviews: string[]; recipes: string[] } {
-  return getDiscovery().listDocs()
-}
-
-/**
- * Read a whole document by key — topic docs ("DATA", "SKETCHING"), domain
- * overviews ("api/part"), recipes ("recipes/parametric-part"), and any
- * per-method doc ("part/circularPattern"). Case-insensitive, tolerates a
- * stray .md suffix.
- */
-export function readDoc(name: string): ToolResult {
-  const raw = (name || '').trim()
-  if (!raw) {
-    return { result: { available: listDocs() } }
-  }
-  const doc = getDiscovery().readDoc(raw)
-  if (doc) return { result: doc.text }
-  const docs = listDocs()
-  return {
-    error:
-      `No document "${raw}". Topics: ${docs.topics.join(', ')}. Overviews: ${docs.overviews.join(', ')}. ` +
-      `Recipes: ${docs.recipes.join(', ')}. (Per-method docs: use describe_method.)`,
-  }
 }
 
 /**

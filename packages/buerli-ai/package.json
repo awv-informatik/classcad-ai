@@ -17,7 +17,8 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/awv-informatik/buerli-ai.git"
+    "url": "git+https://github.com/awv-informatik/classcad-ai.git",
+    "directory": "packages/buerli-ai"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -73,8 +74,8 @@
     "typescript": "^5.1.0",
     "zustand": "^4.5.7"
   },
-  "homepage": "https://github.com/awv-informatik/buerli-ai#readme",
+  "homepage": "https://github.com/awv-informatik/classcad-ai/tree/master/packages/buerli-ai#readme",
   "bugs": {
-    "url": "https://github.com/awv-informatik/buerli-ai/issues"
+    "url": "https://github.com/awv-informatik/classcad-ai/issues"
   }
 }

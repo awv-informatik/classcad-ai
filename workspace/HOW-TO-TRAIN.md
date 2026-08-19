@@ -91,8 +91,7 @@ constraints and dimensions are accepted, maxLevel 31, IDs returned — but never
 ```js
 const partR = await api.v1.part.create({ name: 'MyTopic' })
 const partId = partR.result
-const top = Object.values(partR.structure.tree)
-  .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
+const top = Object.values(partR.structure.tree).find((n) => n.class === 'CC_WorkPlane' && n.name === 'Top')
 const skId = (await api.v1.sketch.create({ id: partId, planeId: top.id })).result
 ```
 
@@ -273,6 +272,7 @@ const r = await api.v1.part.create({ name: 'Test' })
 **`snapshot('label')`** — captures current state as PNG + STEP + OFB into `files/`. Snapshots are real evidence — they show shape, topology, and spatial relationships that numbers alone can miss. The renderer auto-scales geometry to fill the viewport, so size-only changes on a single body produce identical-looking images. For size verification, use numeric data alongside snapshots. But **never dismiss a snapshot that contradicts your numbers** — if the picture shows something changed and your data says it didn't, your measurement is probably wrong.
 
 **`filewrite(data, 'label')`** — writes data to `files/`. Objects → `.json`, strings → `.txt`, buffers → `.bin`. **This is your primary verification tool.** Use it to persist:
+
 - API responses (`r.result`, `r.messages`, `r.maxLevel`) — to verify what the server actually returned
 - Graphic data (`r.graphic`) — to compare vertex counts, bounding boxes, mesh data before/after
 - Structure trees (`r.structure`) — to verify feature tree state, parameter values, object properties
@@ -321,8 +321,7 @@ After each run, append a section to `journal.md`. Two tiers — **brief** (behav
 export default async function (api, { snapshot, filewrite }) {
   const partR = await api.v1.part.create({ name: 'Test' })
   const partId = partR.result
-  const top = Object.values(partR.structure.tree)
-    .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
+  const top = Object.values(partR.structure.tree).find((n) => n.class === 'CC_WorkPlane' && n.name === 'Top')
   const skId = (await api.v1.sketch.create({ id: partId, planeId: top.id })).result
 
   const r = await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })
@@ -349,7 +348,7 @@ export default async function (api, { snapshot, filewrite }) {
 - [ ] The corresponding `update*` / `delete*` method tested (if it exists)
 - [ ] At least one realistic usage combining this API with its prerequisites
 - [ ] Behavioral claims verified with data (`filewrite` dumps, log values) AND visual evidence (snapshots) — both must agree
-- [ ] **Every question listed in the journal Goal section is answered in a named, specific script** (cite the script filename in the journal answer). Don't infer answers from snapshots that *imply* a thing — write a script that *measures* the thing.
+- [ ] **Every question listed in the journal Goal section is answered in a named, specific script** (cite the script filename in the journal answer). Don't infer answers from snapshots that _imply_ a thing — write a script that _measures_ the thing.
 - [ ] **Spatial claims** (origin, alignment, extent, dimension, range, default-position) — back each one with a numeric measurement: `getBrepGeometryByIndex` + `getGeometryPositions` for vertex coords, or `calculateMassProperties` for COG. Iso snapshots cannot verify spatial facts because of auto-zoom and projection ambiguity.
 
 If not done, pick the next gap and loop back. **When to move on from a failing method:** If a method fails after 3 attempts with different parameter variations, log it as a doc discrepancy in the journal and move on. The failure itself is a finding.
@@ -573,17 +572,17 @@ Before declaring a session done, verify every item:
 
 ### View options
 
-`snapshot('label', opts)` forwards every `@classcad/renderer` option — notably `sheet: true` (four labeled views in ONE image, shared ortho scale), `section`, `highlightAt`, `markers`, `annotate`, `xray`, `colors: 'distinct'`, `frame`, `recalc: false` (mandatory in solid.*/EIF flows). Classic camera args: `{ view, zoom, lookAt }` selects the camera. Default is `'iso'`. Available views:
+`snapshot('label', opts)` forwards every `@classcad/renderer` option — notably `sheet: true` (four labeled views in ONE image, shared ortho scale), `section`, `highlightAt`, `markers`, `annotate`, `xray`, `colors: 'distinct'`, `frame`, `recalc: false` (mandatory in solid.\*/EIF flows). Classic camera args: `{ view, zoom, lookAt }` selects the camera. Default is `'iso'`. Available views:
 
-| view | Camera direction | Use when |
-|---|---|---|
-| `'iso'` (default) | corner view | overall shape, rough placement |
-| `'top'` | looking -Z | hole or feature on the +Z (upper) face |
-| `'bottom'` | looking +Z | feature on the -Z (lower) face |
-| `'front'` | looking +Y | XZ side profile |
-| `'back'` | looking -Y | opposite side profile |
-| `'right'` | looking -X | YZ profile from +X side |
-| `'left'` | looking +X | YZ profile from -X side |
+| view              | Camera direction | Use when                               |
+| ----------------- | ---------------- | -------------------------------------- |
+| `'iso'` (default) | corner view      | overall shape, rough placement         |
+| `'top'`           | looking -Z       | hole or feature on the +Z (upper) face |
+| `'bottom'`        | looking +Z       | feature on the -Z (lower) face         |
+| `'front'`         | looking +Y       | XZ side profile                        |
+| `'back'`          | looking -Y       | opposite side profile                  |
+| `'right'`         | looking -X       | YZ profile from +X side                |
+| `'left'`          | looking +X       | YZ profile from -X side                |
 
 `zoom` (default 1) is a multiplier on the auto-fit scale. `lookAt: [x, y, z]` puts that world point at screen center.
 
@@ -713,7 +712,7 @@ Canonical `_setup.mjs` starting point:
 export async function makeSketch(api, { name = 'Session', plane = 'Top' } = {}) {
   const partR = await api.v1.part.create({ name })
   const partId = partR.result
-  const wp = Object.values(partR.structure.tree).find(n => n.class === 'CC_WorkPlane' && n.name === plane)
+  const wp = Object.values(partR.structure.tree).find((n) => n.class === 'CC_WorkPlane' && n.name === plane)
   if (!wp) throw new Error(`work plane '${plane}' not found`)
   const skId = (await api.v1.sketch.create({ id: partId, planeId: wp.id, name: 'S' })).result
   return { partId, skId, planeId: wp.id }
@@ -722,7 +721,7 @@ export async function makeSketch(api, { name = 'Session', plane = 'Top' } = {}) 
 /** getPositions normalized to plain [x, y, z] arrays. */
 export async function positions(api, id) {
   const r = await api.v1.sketch.getPositions({ id })
-  const v = o => (o ? [o.x, o.y, o.z] : null)
+  const v = (o) => (o ? [o.x, o.y, o.z] : null)
   return { maxLevel: r.maxLevel, startPos: v(r.result?.startPos), endPos: v(r.result?.endPos), pos: v(r.result?.pos) }
 }
 

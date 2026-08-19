@@ -13,7 +13,7 @@ node scripts/run.mjs <script-path> --outdir <session-folder> [--debug] [--port <
 - `--debug` disables all timeouts (connection + request) — useful when pausing in a debugger
 - Scripts receive `api` from `@classcad/script` — `api.v1.<domain>.<method>(params)` (registry-validated, typos throw with suggestions; same envelope as before: `{ result, maxLevel, messages, structure, graphic }`), plus `api.tree({ refresh? })` and `api.graphic({ recalc? })` for structure- and GEOMETRY-level self-service (filter meshes/edges/vertices directly). Helpers: `{ snapshot, filewrite, tree }`. The same script medium runs in buerli-ai and the ClassCAD MCP. Before scripts that select geometry via `api.tree()`/`api.graphic()`, read the data contract in `packages/script/docs/` — [DATA.md](packages/script/docs/DATA.md) (distilled), [STRUCTURE.md](packages/script/docs/STRUCTURE.md) (model tree, assemblies), [GRAPHICS.md](packages/script/docs/GRAPHICS.md) (graphic payload). MANDATORY for every build: [packages/skill/recipes/verification.md](packages/skill/recipes/verification.md) — input-type-keyed verification (perception-first reference record for drawings/images, numeric tiers for everything); with a reference image, Part I governs from FIRST image exposure — reference record before dimensions or planning, unconditional mirror-check gate after the build.
 - `snapshot('label')` saves PNG + STEP + OFB to `files/`
-- `snapshot('label', opts)` — second arg forwards EVERY `@classcad/renderer` option. Camera: named views `'iso'|'top'|'bottom'|'front'|'back'|'left'|'right'` or `{ azimuth, elevation }` / `{ direction, up }`; `zoom`, `lookAt`. Verification toolkit: `section: { origin, normal }` (cut through internals), `sheet: true` (four labeled views, shared ortho scale), `highlight: [ids]` / `highlightAt: [[x,y,z]]` (face at a world point — use points, face-mesh ids are payload-local!), `markers: [{ position, label }]`, `sketchOverlay: true`, `annotate: true` (extents + triad + scale bar), `xray: true`, `colors: 'distinct'`, `frame` (pin an earlier render's frame for pixel-comparable before/after; frames ride on the returned entries), `layers`, `recalc: false` (MANDATORY in solid.*/EIF flows — recalc destroys injected bodies), `source: 'stl'` (explicit export-render fallback; the error message names it when graphic data is missing). **Default is still plain `'iso'` — options must earn their cost.**
+- `snapshot('label', opts)` — second arg forwards EVERY `@classcad/renderer` option. Camera: named views `'iso'|'top'|'bottom'|'front'|'back'|'left'|'right'` or `{ azimuth, elevation }` / `{ direction, up }`; `zoom`, `lookAt`. Verification toolkit: `section: { origin, normal }` (cut through internals), `sheet: true` (four labeled views, shared ortho scale), `highlight: [ids]` / `highlightAt: [[x,y,z]]` (face at a world point — use points, face-mesh ids are payload-local!), `markers: [{ position, label }]`, `sketchOverlay: true`, `annotate: true` (extents + triad + scale bar), `xray: true`, `colors: 'distinct'`, `frame` (pin an earlier render's frame for pixel-comparable before/after; frames ride on the returned entries), `layers`, `recalc: false` (MANDATORY in solid.\*/EIF flows — recalc destroys injected bodies), `source: 'stl'` (explicit export-render fallback; the error message names it when graphic data is missing). **Default is still plain `'iso'` — options must earn their cost.**
 - `filewrite(data, 'label')` dumps objects → `.json`, strings → `.txt`, buffers → `.bin` to `files/`
 - All `console.log`/`.error`/`.warn` output is auto-captured to `<scriptName>.log` alongside `files/`
 - Harness clears the drawing after each run — every script starts fresh
@@ -49,10 +49,10 @@ git diff packages/skill/references/ packages/skill/SKILL.md
 
 ## Reference Docs
 
-| Source           | Location                                   | Purpose                                      |
-| ---------------- | ------------------------------------------ | -------------------------------------------- |
-| Skill references | `packages/skill/references/*.md` | Primary — your working docs with AGENT NOTEs |
-| Data contract    | `packages/script/docs/*.md` | DATA / STRUCTURE / GRAPHICS — what `api.tree()`/`api.graphic()` return, selection idioms |
+| Source           | Location                         | Purpose                                                                                  |
+| ---------------- | -------------------------------- | ---------------------------------------------------------------------------------------- |
+| Skill references | `packages/skill/references/*.md` | Primary — your working docs with AGENT NOTEs                                             |
+| Data contract    | `packages/script/docs/*.md`      | DATA / STRUCTURE / GRAPHICS — what `api.tree()`/`api.graphic()` return, selection idioms |
 
 ## ClassCAD Server (classcad-cli)
 
@@ -107,15 +107,15 @@ Arcs are tessellated from their signed `bulge` (= tan(includedAngle/4)), so majo
 
 The `view` option takes a named CAD view-cube selector — or an arbitrary orthographic camera: `{ azimuth, elevation }` (degrees, Z-up turntable; 0/0 = front) / `{ direction: [x,y,z], up? }`. The named views:
 
-| view | Camera | Best for |
-|---|---|---|
+| view              | Camera                              | Best for                                       |
+| ----------------- | ----------------------------------- | ---------------------------------------------- |
 | `'iso'` (default) | corner view, all three axes visible | overall shape, where things are roughly placed |
-| `'top'` | down -Z | broad face of an XY-plane part, hole on top |
-| `'bottom'` | up +Z | hole/feature on the underside |
-| `'front'` | +Y | side profile (XZ projection) |
-| `'back'` | -Y | opposite side profile |
-| `'right'` | -X | YZ profile from the right |
-| `'left'` | +X | YZ profile from the left |
+| `'top'`           | down -Z                             | broad face of an XY-plane part, hole on top    |
+| `'bottom'`        | up +Z                               | hole/feature on the underside                  |
+| `'front'`         | +Y                                  | side profile (XZ projection)                   |
+| `'back'`          | -Y                                  | opposite side profile                          |
+| `'right'`         | -X                                  | YZ profile from the right                      |
+| `'left'`          | +X                                  | YZ profile from the left                       |
 
 `zoom` is a fit-multiplier; >1 zooms in tighter. `lookAt: [x, y, z]` re-anchors the screen center to a specific world point — useful when you're zoomed in on a feature off-axis from the bounding-box center.
 
@@ -131,11 +131,11 @@ Drawings without an assembly root render flat (one drawcall per container) — b
 
 `snapshot('label')` does NOT produce `{scriptName}-{label}.png`. The renderer appends a **content-type suffix** based on what it finds in the drawing:
 
-| Content type | Suffix | Example |
-|---|---|---|
-| Solids | `-solid` | `01-basic-solid.png` |
-| Sketches | `-sketch-{SketchName}` | `01-basic-sketch-Sketch.png` |
-| Curves | `-curves` | `01-basic-curves.png` |
-| Work geometry | `-workgeo` | `01-basic-workgeo.png` |
+| Content type  | Suffix                 | Example                      |
+| ------------- | ---------------------- | ---------------------------- |
+| Solids        | `-solid`               | `01-basic-solid.png`         |
+| Sketches      | `-sketch-{SketchName}` | `01-basic-sketch-Sketch.png` |
+| Curves        | `-curves`              | `01-basic-curves.png`        |
+| Work geometry | `-workgeo`             | `01-basic-workgeo.png`       |
 
 A single `snapshot()` call may produce **multiple PNGs** (e.g., one for the solid and one for work geometry). The actual filenames are logged to stdout (captured in the `.log` file). **Always check the `.log` file or `ls files/*.png` before writing image links in the journal.**

@@ -15,12 +15,12 @@ two halves, and both need proof:
 
 ## Which regime? — the INPUT TYPE decides
 
-| Input | Regime |
-| --- | --- |
-| **Plain-text spec** (numbers in the prompt) | Part II only — no perception phase |
-| **Technical drawing** (image WITH dimension callouts) | Part I in full, then Part II; the frozen record drives the probes |
-| **Image/photo WITHOUT dimensions** | Part I in full; Part II verifies proportions, feature counts and topology instead of absolutes — state your assumed scale explicitly |
-| **Dynamic/iterative prompts** (user steers as you go) | Part II per increment; re-run the Part I questions whenever the wording implies a side, direction, or handedness |
+| Input                                                 | Regime                                                                                                                               |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Plain-text spec** (numbers in the prompt)           | Part II only — no perception phase                                                                                                   |
+| **Technical drawing** (image WITH dimension callouts) | Part I in full, then Part II; the frozen record drives the probes                                                                    |
+| **Image/photo WITHOUT dimensions**                    | Part I in full; Part II verifies proportions, feature counts and topology instead of absolutes — state your assumed scale explicitly |
+| **Dynamic/iterative prompts** (user steers as you go) | Part II per increment; re-run the Part I questions whenever the wording implies a side, direction, or handedness                     |
 
 ---
 
@@ -74,7 +74,7 @@ silent revision.
    bends to fit the favored reading.
 6. **Have fresh readers answer the open questions when the host provides
    them** (buerli-ai: `delegate` with `agent: "perception", withImages:
-   true`) — a fresh reader has no build task in context, which is the
+true`) — a fresh reader has no build task in context, which is the
    measured differentiator. ONE question per reader, several readers
    fanned out in parallel in the same response (one question per reader →
    6/6 correct; seven questions in one reader → handedness wrong).
@@ -146,7 +146,7 @@ reference, don't patch silently.
    itself. Best: hand reference + pair sheet to a fresh reader with the
    single question "which panel matches the reference?" (buerli-ai:
    `delegate` with `agent: "perception", withImages: true, withSnapshots:
-   true`). If the MIRROR panel matches, your reading was flipped: fix the
+true`). If the MIRROR panel matches, your reading was flipped: fix the
    model, don't re-argue the record.
 3. **Record replay, numerically**: walk the reference record row by row and
    prove each orientation fact with a probe — material-presence at a test
@@ -216,14 +216,14 @@ const pos = await api.v1.part.getGeometryPositions({ id: partId, geometryIds: [.
 
 ## When to verify
 
-| Situation | Verification |
-|---|---|
-| Single simple feature (a box, one fillet) | none — the returned id + no error is enough |
-| Multi-feature constructive build | Tier 1 after the final boolean, Tier 3 on one or two key features |
-| After every `updateExpression` regen | Tier 1 + Tier 3 on the changed feature |
-| Boolean/pattern/slice that could silently mis-cut | Tier 1 before AND after (delta check) |
-| Claim about position/alignment/extent | Tier 2 or Tier 3 — never from the rendered view alone |
-| Input reference present | ALL of Part I, with the record's facts probed via Tier 3 |
+| Situation                                         | Verification                                                      |
+| ------------------------------------------------- | ----------------------------------------------------------------- |
+| Single simple feature (a box, one fillet)         | none — the returned id + no error is enough                       |
+| Multi-feature constructive build                  | Tier 1 after the final boolean, Tier 3 on one or two key features |
+| After every `updateExpression` regen              | Tier 1 + Tier 3 on the changed feature                            |
+| Boolean/pattern/slice that could silently mis-cut | Tier 1 before AND after (delta check)                             |
+| Claim about position/alignment/extent             | Tier 2 or Tier 3 — never from the rendered view alone             |
+| Input reference present                           | ALL of Part I, with the record's facts probed via Tier 3          |
 
 Verification failures are findings, not annoyances: when measurement and
 expectation disagree, stop and investigate — one of them is wrong, and it is
@@ -242,7 +242,7 @@ The mesh you probe is faceted at the drawing's chord tolerance — **default
 - Cure 1 (exact): probe the BREP, not the mesh — `getGeometryIds` +
   `getGeometryPositions` return analytic positions.
 - Cure 2 (mesh): `common.setFacetingParameters({ angleTol: 0, chordHeightTol:
-  <bboxDiag/3000> })` + `recalc`, probe, then RESTORE the previous values —
+<bboxDiag/3000> })` + `recalc`, probe, then RESTORE the previous values —
   the setting persists worker-globally across sessions.
 - Snapshots are already safe: the renderer applies adaptive fine faceting for
   the image and restores the params (`quality: 'fast'` opts out).

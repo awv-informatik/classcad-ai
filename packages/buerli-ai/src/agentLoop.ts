@@ -1,6 +1,16 @@
 // ─── Agent loop — multi-turn tool-use conversation ────────────────────────────
 
-import type { AgentConfig, ChatResponse, ImageInput, Message, ToolResult, ToolResultContent, ToolUseBlock, ThinkingBlock, UserContentBlock } from './types'
+import type {
+  AgentConfig,
+  ChatResponse,
+  ImageInput,
+  Message,
+  ToolResult,
+  ToolResultContent,
+  ToolUseBlock,
+  ThinkingBlock,
+  UserContentBlock,
+} from './types'
 import { TOOL_SCHEMAS } from './tools/schema'
 import { executeTool } from './tools/executor'
 import { getMethodIndex } from './tools/registry'
@@ -38,7 +48,7 @@ export async function* runAgentLoop(
   const systemPrompt = buildSystemPrompt(config)
 
   // Subagents (depth > 0) cannot delegate — prevents unbounded recursion.
-  const tools = depth > 0 ? TOOL_SCHEMAS.filter(t => t.name !== 'delegate') : TOOL_SCHEMAS
+  const tools = depth > 0 ? TOOL_SCHEMAS.filter((t) => t.name !== 'delegate') : TOOL_SCHEMAS
 
   // The most recent snapshot renders, kept so a `delegate` can be handed the
   // actual pictures (withSnapshots) instead of a description of them.
@@ -47,8 +57,8 @@ export async function* runAgentLoop(
 
   // Mirror-gate bookkeeping (see the gate below, before `done`).
   const hadReferenceImages = depth === 0 && !!images && images.length > 0
-  let geometryWasBuilt = false   // a run_script actually ran
-  let mirrorJudged = false       // a fresh reader saw reference AND render
+  let geometryWasBuilt = false // a run_script actually ran
+  let mirrorJudged = false // a fresh reader saw reference AND render
   let mirrorNudges = 0
   let perceptionDelegated = false // an isolated reader read the reference
   let perceptionBlocks = 0
@@ -95,7 +105,7 @@ export async function* runAgentLoop(
     response = undefined as unknown as ChatResponse
     for (let attempt = 0; attempt < 3 && !got; attempt++) {
       try {
-        if (attempt > 0) await new Promise(r => setTimeout(r, 1500 * attempt))
+        if (attempt > 0) await new Promise((r) => setTimeout(r, 1500 * attempt))
         response = await config.provider.chat({
           system: systemPrompt,
           messages,
@@ -185,7 +195,10 @@ export async function* runAgentLoop(
       // (bounded) only when the text clearly trails off mid-action — it ends with
       // a colon or states intent — NOT merely because no tool ran, since plenty of
       // requests are answered with text alone (e.g. a question about an image).
-      const trailingText = textBlocks.map(b => b.text).join('').trimEnd()
+      const trailingText = textBlocks
+        .map((b) => b.text)
+        .join('')
+        .trimEnd()
       const looksIncomplete =
         trailingText.endsWith(':') ||
         /\b(let me|let's|i'?ll|i will|now i|first,? i)\b/i.test(trailingText) ||
@@ -246,19 +259,20 @@ export async function* runAgentLoop(
 
     // 2. Execute all concurrently (handlers never reject — they return error objects).
     const settled = await Promise.all(
-      toolUseBlocks.map(async tu => {
+      toolUseBlocks.map(async (tu) => {
         if (tu.name === 'delegate') {
-          const { agent, goal, withImages, withSnapshots } = tu.input as
-            { agent: string; goal: string; withImages?: boolean; withSnapshots?: boolean }
+          const { agent, goal, withImages, withSnapshots } = tu.input as {
+            agent: string
+            goal: string
+            withImages?: boolean
+            withSnapshots?: boolean
+          }
           // A judging delegate needs BOTH sides of the comparison: the user's
           // reference AND the renders. Without the renders it can only re-check
           // the reference against a DESCRIPTION — which is how a mirrored record
           // validates itself (measured: the mirror check judged panel A against
           // the record, not the image, and shipped a mirrored part).
-          const handOver = [
-            ...(withImages && images ? images : []),
-            ...(withSnapshots ? recentSnapshots : []),
-          ]
+          const handOver = [...(withImages && images ? images : []), ...(withSnapshots ? recentSnapshots : [])]
           // Counts as the mirror check only when the reader held BOTH sides.
           if (withImages && withSnapshots && recentSnapshots.length > 0) mirrorJudged = true
           if (withImages && agent === 'perception') perceptionDelegated = true
@@ -270,9 +284,7 @@ export async function* runAgentLoop(
         // the same model reading the same drawing WHILE planning a build gets it
         // wrong — the build task, not the eyes, is the failure. So the first
         // build call is blocked until an isolated reader has supplied the read.
-        if (
-          tu.name === 'run_script' && hadReferenceImages && !perceptionDelegated && perceptionBlocks < 1
-        ) {
+        if (tu.name === 'run_script' && hadReferenceImages && !perceptionDelegated && perceptionBlocks < 1) {
           perceptionBlocks++
           return {
             kind: 'tool' as const,
@@ -336,8 +348,7 @@ const CHARS_PER_TOKEN = 4 // rough, deliberately conservative
 const DEFAULT_CONTEXT_TOKENS = 120000
 const KEEP_RECENT_MESSAGES = 12
 const PRUNED_STUB = JSON.stringify({
-  pruned:
-    'Old tool result removed to save context. Re-run the tool if you need this data — key ids/state should live in your notes.',
+  pruned: 'Old tool result removed to save context. Re-run the tool if you need this data — key ids/state should live in your notes.',
 })
 
 function messageChars(m: Message): number {
@@ -400,18 +411,22 @@ function buildSystemPrompt(config: AgentConfig): string {
  * is already shown in the app UI, so by default the model just gets lightweight
  * metadata (never the base64 — stringifying the whole result would bloat the prompt).
  */
-function buildToolResultContent(
-  toolName: string,
-  result: ToolResult,
-  sendSnapshotImage: boolean,
-): string | ToolResultContent[] {
+function buildToolResultContent(toolName: string, result: ToolResult, sendSnapshotImage: boolean): string | ToolResultContent[] {
   if (result.error) {
     return capJson({ error: result.error }, 12000)
   }
 
   // Snapshot results include an `image` field with base64 PNG data.
   if (toolName === 'snapshot' && result.result && typeof result.result === 'object') {
-    const snap = result.result as { image?: string; mimeType?: string; width?: number; height?: number; label?: string; frame?: unknown; rendered?: string[] }
+    const snap = result.result as {
+      image?: string
+      mimeType?: string
+      width?: number
+      height?: number
+      label?: string
+      frame?: unknown
+      rendered?: string[]
+    }
     // frame rides along so the model can pin it in a follow-up snapshot
     // (pixel-comparable before/after); rendered lists what content was drawn.
     const meta = { label: snap.label, width: snap.width, height: snap.height, frame: snap.frame, rendered: snap.rendered }
@@ -454,17 +469,19 @@ function buildToolResultContent(
 
 /** Predefined subagent personas. */
 const SUBAGENT_PROMPTS: Record<string, string> = {
-  sketch: 'You are a 2D sketching specialist. Focus only on sketch creation: planes, lines, arcs, constraints, dimensions. Work precisely and report what you created.',
+  sketch:
+    'You are a 2D sketching specialist. Focus only on sketch creation: planes, lines, arcs, constraints, dimensions. Work precisely and report what you created.',
   boolean: 'You are a boolean operations specialist. Focus on combining solids: union, subtract, intersect. Report the resulting geometry.',
   fillet_chamfer: 'You are a fillet/chamfer specialist. Apply edge treatments precisely. Report which edges were modified.',
   assembly: 'You are an assembly specialist. Focus on component placement, mates, and constraints. Report the final assembly structure.',
-  analysis: 'You are a geometry analysis specialist. Inspect the model tree, measure properties, and report findings without modifying geometry.',
+  analysis:
+    'You are a geometry analysis specialist. Inspect the model tree, measure properties, and report findings without modifying geometry.',
   perception:
     'You are an image-perception reader with NO CAD task. You receive image(s) and one or more binary ' +
     'image-space questions. Answer each strictly from the pixels: name the evidence (which edge/region, ' +
     'approximate location), then give the verdict. Do not model, do not plan, do not touch CAD tools — ' +
     'just look and answer.\n' +
-    'Images arrive in order: the user\'s reference image(s) FIRST, then (when supplied) render(s) of the ' +
+    "Images arrive in order: the user's reference image(s) FIRST, then (when supplied) render(s) of the " +
     'model being checked — typically one image holding two candidate views labeled A and B. For such a ' +
     'comparison your job is a forced choice: decide which labeled panel matches the reference, naming the ' +
     'one feature that decides it. You are the ONLY unbiased judge in that loop — the caller cannot check ' +
@@ -483,8 +500,7 @@ const SUBAGENT_PROMPTS: Record<string, string> = {
  */
 async function runSubagent(agentName: string, goal: string, parentConfig: AgentConfig, images?: ImageInput[]): Promise<string> {
   const persona =
-    SUBAGENT_PROMPTS[agentName] ??
-    `You are a specialist sub-agent named "${agentName}". Complete your goal precisely and report results.`
+    SUBAGENT_PROMPTS[agentName] ?? `You are a specialist sub-agent named "${agentName}". Complete your goal precisely and report results.`
   // The perception reader deliberately runs WITHOUT the CAD base prompt: fresh
   // context is its entire value (task context is what mirrors perception), and
   // it must not build anything anyway.

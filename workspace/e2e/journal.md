@@ -246,6 +246,44 @@ ph to adjudicate): the "70" reading (straight-edge length vs center distance
 — runs varied) and the bore/channel depth (through vs 15 deep — it. 6
 pixel-measured 15). Renders: [files/c-cut-e2e-6/](files/c-cut-e2e-6/).
 
+### Post-convergence runs 7–8 (2026-08-19): regression, speed, and a relapse
+
+**Run 7** (regression after the `recipes/verification.md` merge): CORRECT —
+chord flush with the flat end, half-bore opening toward the flat end, rib on
+the curved wall. 11.5 min, 35 model turns.
+
+**Speed analysis** (ph): where does the wall time go? Measured on runs 6/7:
+tool execution (engine scripts, snapshots, docs) totals **<5 s** of a
+24-minute run — ~100% of wall time is model inference, dominated by a handful
+of giant thinking blocks (451 s/257 s/219 s in run 6; top-5 turns = 75–82% of
+each run). They sit right after (a) reading the reference crop (perception)
+and (b) reading the bulk docs dump (planning). Levers identified: reasoning
+effort (ph runs medium in buerli-ai anyway), merging the two mirror-check
+vision rounds into one, trimming the >50k-char docs payload.
+
+**Pair-sheet mirror check** (lever 2, implemented): `renderSolidSheet` now
+accepts **2 views** — full-height side-by-side panels labeled A | B; both
+host snapshot schemas expose it (`sheet: [matched, negated-azimuth]`), and
+verification.md's final gate asks for the pair in ONE render (one vision
+round instead of two, and a stronger forced choice: both candidates in the
+same frame).
+
+**Run 8** (pair-sheet test): the MECHANICS worked — the agent rendered
+`sheet: [{az 35},{az −35}]` labeled "mirror-check" unprompted. But the run
+RELAPSED on chirality: Phase 0 froze the WRONG reading ("C-opening faces the
+hole — confirmed from the magnified crop"), and every later check — probes,
+COG asymmetry, the mirror forced-choice — consistently validated the wrong
+record. 14.7 min. Score at the converged rule state: **2/3**, not 2/2.
+The lesson sharpened: the mirror check proves model-vs-RECORD; nothing after
+Phase 0 can prove record-vs-TRUTH. The residual failure mode is the
+perception pass itself sometimes freezing the mirrored answer (the isolated
+probe battery had already measured crop reading at 3/3 but full-image at 2/3
+— run 8 is that residual). Hardening candidate: ask the Phase-0 question
+BOTH ways (gap-faces-X and bulge-faces-X, full image AND crop independently);
+any disagreement ⇒ LOW CONFIDENCE + the ambiguity must be SPOKEN (headless:
+named channel; interactive: one user question).
+Renders: [files/c-cut-e2e-8/](files/c-cut-e2e-8/).
+
 ## Planned: unified `recipes/verification.md` (ph, 2026-08-18)
 
 Merge verify-numerically (+ the drawing-reproduction protocol) into ONE

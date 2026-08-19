@@ -55,7 +55,7 @@ await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targets: [blankId],
 
 Volume must drop by ~N × (single-cut volume); probe one cut at an azimuth other than
 the original's to prove the pattern actually cut everywhere —
-[recipes/verify-numerically](verify-numerically.md).
+[recipes/verification](verification.md).
 
 ## Related
 

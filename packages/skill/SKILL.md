@@ -394,4 +394,4 @@ Practical workflow guides for complex multi-API tasks.
 | **Parametric part** | Expressions + constrained sketches + @expr dims, in-tree regeneration, liveness rules | [recipes/parametric-part.md](recipes/parametric-part.md) |
 | **Pattern → subtract** | N cutouts around an axis: one tool, merged pattern, single subtraction | [recipes/pattern-then-subtract.md](recipes/pattern-then-subtract.md) |
 | **Direct modeling (EIF)** | solid.* inside an entity injection: operation order, curve profiles with bulges, no recalc | [recipes/direct-modeling-eif.md](recipes/direct-modeling-eif.md) |
-| **Numeric verification** | Mass properties, bounds, brep probes — graded rules for when and how to verify | [recipes/verify-numerically.md](recipes/verify-numerically.md) |
+| **Verification** (mandatory) | Input-type-keyed: perception-first reference records for drawings/images + numeric tiers (mass props, bounds, brep probes) for every build | [recipes/verification.md](recipes/verification.md) |

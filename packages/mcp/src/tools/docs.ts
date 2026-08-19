@@ -19,19 +19,25 @@ import { docs as scriptDocs } from '@classcad/script/docs'
 // Live-doc override (development): resolve doc keys against a skill checkout.
 function diskResolver(): ((key: string) => string | null) | undefined {
   const override = process.env.CLASSCAD_SKILL_PATH
-  const root = override ?? (() => {
-    try {
-      return dirname(createRequire(import.meta.url).resolve('@classcad/skill/package.json'))
-    } catch {
-      return undefined
-    }
-  })()
+  const root =
+    override ??
+    (() => {
+      try {
+        return dirname(createRequire(import.meta.url).resolve('@classcad/skill/package.json'))
+      } catch {
+        return undefined
+      }
+    })()
   if (!override || !root) return undefined // no override → serve the built bundle
   return (key: string) => {
     const safe = key.replace(/[^a-zA-Z0-9/_-]/g, '')
     // Keys map to files: references/<domain>/<method>.md, or top-level dirs for
     // prefixed keys (recipes/<name>.md lives at the package root).
-    for (const c of [join(root, 'references', `${safe}.md`), join(root, `${safe}.md`), join(root, 'references', `${safe.toUpperCase()}.md`)]) {
+    for (const c of [
+      join(root, 'references', `${safe}.md`),
+      join(root, `${safe}.md`),
+      join(root, 'references', `${safe.toUpperCase()}.md`),
+    ]) {
       if (existsSync(c)) return readFileSync(c, 'utf8')
     }
     return null
@@ -86,9 +92,13 @@ export function registerDocsTools(server: McpServer): void {
         'Without `search`: the full listing. withSummaries=false returns bare names (token-cheap). ' +
         'A no-hit result does NOT mean the operation is missing — browse the domain instead.',
       inputSchema: {
-        domain: z.enum(['assembly', 'common', 'curve', 'drawing2d', 'part', 'sketch', 'solid'])
-          .optional().describe('Restrict to one domain.'),
-        search: z.union([z.string(), z.array(z.string())]).optional()
+        domain: z
+          .enum(['assembly', 'common', 'curve', 'drawing2d', 'part', 'sketch', 'solid'])
+          .optional()
+          .describe('Restrict to one domain.'),
+        search: z
+          .union([z.string(), z.array(z.string())])
+          .optional()
           .describe('Keyword(s) to rank against name + summary (case-insensitive, synonyms expanded). Array = OR.'),
         withSummaries: z.boolean().optional().describe('Include one-line summaries (default true).'),
         limit: z.number().int().min(1).max(300).optional().describe('Max ranked results (default 25).'),
@@ -109,7 +119,10 @@ export function registerDocsTools(server: McpServer): void {
       title: 'Fetch documentation (bulk)',
       description: DOCS_TOOL.description,
       inputSchema: {
-        keys: z.array(z.string()).min(1).max(DOCS_MAX_KEYS)
+        keys: z
+          .array(z.string())
+          .min(1)
+          .max(DOCS_MAX_KEYS)
           .describe('Documentation keys, e.g. ["DATA", "v1.part.extrusion", "v1.part.chamfer", "recipes/parametric-part"].'),
       },
     },
@@ -129,7 +142,11 @@ export function registerDocsTools(server: McpServer): void {
         'ambiguous bare names list the candidates. Also serves whole documents ("DATA", "api/part", ' +
         '"recipes/parametric-part").',
       inputSchema: {
-        method: z.string().describe('Method name ("v1.part.box", "box"), topic doc ("DATA") or recipe ("recipes/constrained-sketching", "recipes/parametric-part").'),
+        method: z
+          .string()
+          .describe(
+            'Method name ("v1.part.box", "box"), topic doc ("DATA") or recipe ("recipes/constrained-sketching", "recipes/parametric-part").',
+          ),
       },
     },
     async ({ method }) => {

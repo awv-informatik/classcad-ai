@@ -2,16 +2,15 @@
 
 A practical guide for parsing 2D technical drawings and recreating them as ClassCAD sketches. Covers the full pipeline from dimension analysis through constraint-driven layout, trimming, and iterative evaluation.
 
-
 ## Sketch-plane local→world mappings (probed 2026-08-10)
 
 `getPositions` returns WORLD coordinates. The standard planes map sketch-local (x, y) as:
 
 | Plane | local x → | local y → | normal |
-|---|---|---|---|
-| Top | +X | +Y | +Z |
-| Front | +X | **−Z** | +Y |
-| Right | **+Z** | **−Y** | +X |
+| ----- | --------- | --------- | ------ |
+| Top   | +X        | +Y        | +Z     |
+| Front | +X        | **−Z**    | +Y     |
+| Right | **+Z**    | **−Y**    | +X     |
 
 `arcByCenter isClockwise: true` = math-NEGATIVE sweep in local coordinates on all three planes. Mirrored arcs traversed in reverse keep the SAME cw flag (the mirror flips the sweep, the reversal flips it back).
 
@@ -36,7 +35,7 @@ a solid profile as a separate, explicitly-requested artifact.
 0. Classify → 1. Analyze → 2. Checklist → 3. Recognize Shapes → 4. Constrain & Dimension → 5. Trim (conditional) → 6. Evaluate
 ```
 
-**The sketch is a conditioned model, not a coordinate dump.** Analysis (Steps 1–2) tells you the drawing's dimension *scheme*; constraints and dimensions (Step 4) hand that scheme to ClassCAD so the solver computes the layout. Hardcoding every coordinate works for a one-shot reproduction, but the result can't adapt — change one value and nothing follows. A constrained sketch re-solves (verified: re-dimensioning a boss Ø45→Ø60 moved its tangent fillet to the new exact position automatically).
+**The sketch is a conditioned model, not a coordinate dump.** Analysis (Steps 1–2) tells you the drawing's dimension _scheme_; constraints and dimensions (Step 4) hand that scheme to ClassCAD so the solver computes the layout. Hardcoding every coordinate works for a one-shot reproduction, but the result can't adapt — change one value and nothing follows. A constrained sketch re-solves (verified: re-dimensioning a boss Ø45→Ø60 moved its tangent fillet to the new exact position automatically).
 
 ---
 
@@ -64,15 +63,15 @@ Read the drawing systematically. Don't start coding until you've identified ever
 
 ### What to extract
 
-| Category | What to look for |
-|----------|-----------------|
-| Diameters (Ø) | Through-holes, bores, bosses. "3×Ø17" = 3 instances of the same feature |
-| Radii (R) | Profile arcs, fillets, transitions. "2× R.750" = 2 instances |
-| Linear dimensions | Horizontal, vertical, offset distances between features or datums |
-| Angles | Between construction lines, axes, features |
-| Center marks (+) | Crosshairs indicate circle/arc centers — count them |
-| Centerlines (dashed) | Construction geometry — horizontal, vertical, angled reference axes |
-| Concentric features | Multiple annotations at the same center |
+| Category             | What to look for                                                        |
+| -------------------- | ----------------------------------------------------------------------- |
+| Diameters (Ø)        | Through-holes, bores, bosses. "3×Ø17" = 3 instances of the same feature |
+| Radii (R)            | Profile arcs, fillets, transitions. "2× R.750" = 2 instances            |
+| Linear dimensions    | Horizontal, vertical, offset distances between features or datums       |
+| Angles               | Between construction lines, axes, features                              |
+| Center marks (+)     | Crosshairs indicate circle/arc centers — count them                     |
+| Centerlines (dashed) | Construction geometry — horizontal, vertical, angled reference axes     |
+| Concentric features  | Multiple annotations at the same center                                 |
 
 ### Cross-reference dimensions
 
@@ -104,7 +103,7 @@ Before writing any code, create a checklist. Every dimension annotation in the d
 - [ ] D1: Ø38 — DIAMETER — [hub outer circle] — hub bore
 - [ ] D2: 48 — HORIZONTAL_DISTANCE — [hub center → boss center] — boss position
 - [ ] D3: 14° — ANGLE — [arm axis ↔ horizontal centerline] — arm angle
-...
+      ...
 ```
 
 **Format**: `[ ] <id> <value> — <type> — [<anchors: from → to>] — <what it controls>`
@@ -115,6 +114,7 @@ center mark). The same references must be used when the dimension entity is crea
 substitutes later.
 
 This checklist serves three purposes:
+
 1. **Completeness** — forces you to account for every annotation before coding
 2. **Evaluation gate** — after building, check each box only when the placed geometry matches
 3. **Iteration tracker** — unchecked items tell you exactly what's still wrong
@@ -150,15 +150,15 @@ means working backwards, and errors compound.
 
 Before coding, list every original shape:
 
-| Visible feature | Original shapes |
-|----------------|----------------|
-| Oblong / slot | 2 circles (rounded ends) + 2 tangent lines (straight sides) |
-| Oblong with inner slot | 4 circles (2 outer + 2 inner at same centers, different radii) + tangent lines |
-| Smooth body contour | 1–2 large circles, trimmed to arcs |
-| Boss with hole | 2+ concentric circles |
-| Arm / extension at angle | End circles + waist circles + fillet circles at transitions |
-| Fillet between features | 1 small circle tangent to both adjacent shapes |
-| Triangular plate | 3+ circles at vertices + tangent lines between them |
+| Visible feature          | Original shapes                                                                |
+| ------------------------ | ------------------------------------------------------------------------------ |
+| Oblong / slot            | 2 circles (rounded ends) + 2 tangent lines (straight sides)                    |
+| Oblong with inner slot   | 4 circles (2 outer + 2 inner at same centers, different radii) + tangent lines |
+| Smooth body contour      | 1–2 large circles, trimmed to arcs                                             |
+| Boss with hole           | 2+ concentric circles                                                          |
+| Arm / extension at angle | End circles + waist circles + fillet circles at transitions                    |
+| Fillet between features  | 1 small circle tangent to both adjacent shapes                                 |
+| Triangular plate         | 3+ circles at vertices + tangent lines between them                            |
 
 ### Place full shapes first, trim later
 
@@ -227,11 +227,13 @@ const c1 = (await api.v1.sketch.circle({ id: skId, centerPos: [41, 40, 0], radiu
 const c2 = (await api.v1.sketch.circle({ id: skId, centerPos: [79, 40, 0], radius: 20 })).result
 const p1 = (await api.v1.sketch.getPoints({ id: c1 })).result.centerId
 const p2 = (await api.v1.sketch.getPoints({ id: c2 })).result.centerId
-await api.v1.sketch.constraint([                          // datum
+await api.v1.sketch.constraint([
+  // datum
   { id: skId, type: 'FIXATION', geomIds: [p1] },
   { id: skId, type: 'FIXATION', geomIds: [p2] },
 ])
-await api.v1.sketch.dimension([                           // drawing values
+await api.v1.sketch.dimension([
+  // drawing values
   { id: skId, type: 'DIAMETER', geomIds: [c1], value: 45 },
   { id: skId, type: 'DIAMETER', geomIds: [c2], value: 45 },
 ])
@@ -271,12 +273,17 @@ await api.v1.sketch.dimension({ id: skId, type: 'DIAMETER', geomIds: [circleId] 
 const ptA = (await api.v1.sketch.getPoints({ id: circleA })).result.centerId
 const ptB = (await api.v1.sketch.getPoints({ id: circleB })).result.centerId
 await api.v1.sketch.dimension({
-  id: skId, type: 'HORIZONTAL_DISTANCE', geomIds: [ptA, ptB]
+  id: skId,
+  type: 'HORIZONTAL_DISTANCE',
+  geomIds: [ptA, ptB],
 })
 
 // Angle between two lines (dimPos selects the angle sector)
 await api.v1.sketch.dimension({
-  id: skId, type: 'ANGLE', geomIds: [line1, line2], dimPos: [x, y, 0]
+  id: skId,
+  type: 'ANGLE',
+  geomIds: [line1, line2],
+  dimPos: [x, y, 0],
 })
 
 // "Distance to a center mark" (drawing crosshair with no geometry under it, e.g. a slot
@@ -284,7 +291,10 @@ await api.v1.sketch.dimension({
 const ctr = (await api.v1.sketch.point({ id: skId, pos: [xRough, yRough, 0] })).result
 await api.v1.sketch.constraint({ id: skId, type: 'COINCIDENT', geomIds: [ctr, axisLineId] })
 await api.v1.sketch.dimension({
-  id: skId, type: 'VERTICAL_DISTANCE', geomIds: [slotBottomEndPt, ctr], value: 3.5
+  id: skId,
+  type: 'VERTICAL_DISTANCE',
+  geomIds: [slotBottomEndPt, ctr],
+  value: 3.5,
 })
 ```
 
@@ -306,12 +316,12 @@ await api.v1.sketch.dimension({
 - **A tangent-chain junction can degenerate.** `TANGENT(line, arc)` + COINCIDENT shared
   endpoint has a spurious solution family at arc radius → 0 (line through the arc center).
   A consistent scheme never lands there; the symptoms (`R0` dims, `CalcBulges radius too
-  small`, `SetSE NullMem`) mean your explicit wiring contradicts the autos' seed-derived
+small`, `SetSE NullMem`) mean your explicit wiring contradicts the autos' seed-derived
   wiring — diff the junction bookkeeping against the seed adjacency, and re-run with autos
   off to expose the mis-wiring as a plain displacement (see the fully-explicit note, Step 3).
 
 - **TANGENT keeps the seeded branch.** Circle–circle/arc–circle tangency seeded EXTERNAL solves external (d = r1+r2); seeded INTERNAL stays internal (d = R−r) through creation and every re-solve — an R12 dome inside-tangent to Ø5.6 eye circles followed the internal branch exactly when the eyes were re-dimensioned to Ø7 (robot-head session).
-- **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param is a silent null no-op), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL_*, one update re-solves both sides in a single solvable step and the trap never triggers.
+- **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param is a silent null no-op), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL\_\*, one update re-solves both sides in a single solvable step and the trap never triggers.
 - **Don't pass `dimPos` at dimension creation** (except for ANGLE sector selection) — it can poison the whole `dimension` batch (maxLevel 51, VOID dims, half-driven sketch). Create dims bare, then place text via `updateDimensionPosition` (see `sketch/dimension.md`).
 - Rotational constraints preserve line length (HORIZONTAL on a 50-long tilted line keeps it 50).
 - Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
@@ -329,7 +339,7 @@ from operations**. Every curve creator takes an `isConstruction` flag (boolean, 
 
 ```js
 await api.v1.sketch.line({ id: skId, startPos: [0, -50, 0], endPos: [0, 50, 0], isConstruction: true }) // a symmetry axis
-await api.v1.sketch.circle({ id: skId, centerPos: [0, 0, 0], radius: 40, isConstruction: true })         // a bolt circle
+await api.v1.sketch.circle({ id: skId, centerPos: [0, 0, 0], radius: 40, isConstruction: true }) // a bolt circle
 ```
 
 - Available on `line`, `circle`, `arcByCenter`, `arcBy3Points`; on `rectangle` it flags all four lines; and per
@@ -344,6 +354,7 @@ a real circle made tangent to a construction axis at x=0 solved its center onto 
 the drawing's dimension scheme hangs off — exactly the dashed centerlines/reference axes from Step 1.
 
 **Hard rules:**
+
 - **Never feed construction curves to an operation.** `part.extrusion` on a normal profile builds a solid; passing
   construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error
   (`maxLevel 51`, "No usable (non-construction) geometry was selected for this operation."), not a solid — they form
@@ -395,12 +406,14 @@ dozens of segments; the hard part is deciding which to remove. The robust, gener
 
 ```js
 // per segment: keep iff material on exactly one side of the target region(s)
-const p1 = [mid[0] + eps*nx, mid[1] + eps*ny], p2 = [mid[0] - eps*nx, mid[1] - eps*ny]
-const keep = inAnyShape(p1) !== inAnyShape(p2)     // XOR → boundary
+const p1 = [mid[0] + eps * nx, mid[1] + eps * ny],
+  p2 = [mid[0] - eps * nx, mid[1] - eps * ny]
+const keep = inAnyShape(p1) !== inAnyShape(p2) // XOR → boundary
 ```
 
 **Computing a segment's midpoint + normal (do NOT use `interval`).** Look up the segment node by id in the
 structure tree and branch on its class:
+
 - **`CC_Line`** — midpoint = mean of `getPositions` endpoints; normal ⟂ the direction.
 - **`CC_Arc`** — derive it from the segment's signed **`bulge`** (`members.bulge.value`, = tan(includedAngle/4))
   and its endpoints `s,e`: `θ = 4·atan(bulge)`, `R = |s−e|/(2·sin(θ/2))`, center = chord-midpoint offset by
@@ -408,11 +421,11 @@ structure tree and branch on its class:
   math the arc renderer uses, and it is **robust for a circle cut any number of times**.
 
 > **Why not the `interval`→angle shortcut?** Mapping a circle-arc `interval` (turn-fraction from the +X seam) to an
-> angle only holds when a circle is cut into exactly **2** arcs. A circle cut 4× (by another circle *and* a line)
+> angle only holds when a circle is cut into exactly **2** arcs. A circle cut 4× (by another circle _and_ a line)
 > has sub-arc intervals that are not global turn-fractions, and the shortcut silently mis-locates the midpoint
 > (→ everything mis-classified). Always use the bulge geometry.
 
-**The naive rule fails.** "Trim iff the midpoint is inside another shape" has no *both-sides* notion: it keeps
+**The naive rule fails.** "Trim iff the midpoint is inside another shape" has no _both-sides_ notion: it keeps
 **dangling stubs** that lie outside every shape (e.g. a line overhanging past all the circles it crosses), and it
 mis-handles segments that are interior to the target region yet outside every individual placed shape. The XOR
 boundary test handles all of these uniformly. (Verified: on two circles + a diameter line overhanging both ends,
@@ -433,7 +446,7 @@ Two knobs (validated 2026-07-01 across lens/Reuleaux/crossing-rects/rounded-cell
   - `k = 1` → the **outer** union outline.
   - `k = 2` → the pairwise **overlap** (two circles → the lens; two rectangles → the central square).
   - `k = N` → the region inside **all N** shapes (3 circles → Reuleaux triangle; 4 circles → curvilinear "cushion").
-  Each increment of `k` strips one layer inward. This directly discards the outer curves and keeps the inner loop.
+    Each increment of `k` strips one layer inward. This directly discards the outer curves and keeps the inner loop.
 - **Arbitrary region predicate.** For inner loops that aren't a pure overlap (a specific grid cell, a cell with a
   circular bite, any composite void), keep a segment iff a caller predicate `region(P)→bool` **flips across the ±ε
   probe**. E.g. `region = P => inCell(P) && !inCircle(P, c, r)` carved a rounded inner cell out of a 32-segment
@@ -453,7 +466,7 @@ trim, `postTrim`, and check the realized geometry matches — a falsifiable test
 - Tangent-only contacts: a singly-tangent circle stays whole (staged as one full-circle part); a doubly-tangent circle (fillet between two shapes) splits into 2 arcs at the tangent points
 - **Drawing-faithful ≠ extrudable.** A sketch that keeps its boss/eye circles FULL (as drawings
   draw them) with the profile tangent to them is NOT a valid region: `part.extrusion` fails
-  with *"Brep after linear sweep not manifold"* — and still creates a broken feature object
+  with _"Brep after linear sweep not manifold"_ — and still creates a broken feature object
   (non-null result, maxLevel 51) that you must `part.deleteFeature`. To get a solid, rim-trim
   first: `preTrim` splits each doubly-tangent circle at its tangent points (plus any
   construction-centerline crossings — expect 4 segments, all minor arcs), trim the inner arcs
@@ -482,6 +495,7 @@ review (2026-07-02).
 ### Pass 3: Visual comparison
 
 Snapshot the sketch and compare side-by-side with the source:
+
 - Overall proportions and silhouette
 - Feature sizes relative to each other
 - Position offsets (centered vs shifted)
@@ -489,10 +503,10 @@ Snapshot the sketch and compare side-by-side with the source:
 
 ### Iteration triggers
 
-| Symptom | Fix |
-|---------|-----|
-| Dimension value wrong | Adjust circle center or radius |
-| Visual proportions off | Re-examine dimension interpretation |
+| Symptom                     | Fix                                                  |
+| --------------------------- | ---------------------------------------------------- |
+| Dimension value wrong       | Adjust circle center or radius                       |
+| Visual proportions off      | Re-examine dimension interpretation                  |
 | Profile has gaps after trim | Fix segment classification (contour vs hole vs slot) |
 | Dimensions overlap geometry | Use `updateDimensionPosition` or renderer de-overlap |
 
@@ -503,13 +517,14 @@ Snapshot the sketch and compare side-by-side with the source:
 For straight edges between circular features, compute tangent lines:
 
 **Equal-radius circles** (e.g., boss-to-boss edges):
+
 ```js
 function outerTangent(A, B, r) {
   const d = normalize(sub(B, A))
   const p = perp(d) // 90° rotation
   const mid = scale(add(A, B), 0.5)
   // Pick the perpendicular direction pointing away from body interior
-  const outerP = (len(add(mid, p)) > len(sub(mid, p))) ? p : scale(p, -1)
+  const outerP = len(add(mid, p)) > len(sub(mid, p)) ? p : scale(p, -1)
   return [add(A, scale(outerP, r)), add(B, scale(outerP, r))]
 }
 ```
@@ -524,10 +539,10 @@ function outerTangent(A, B, r) {
 
 When explicit coordinates aren't given, derive centers from tangency conditions between shapes:
 
-| Tangent type | Center-to-center distance |
-|-------------|--------------------------|
-| External (shapes on opposite sides) | d = R₁ + R₂ |
-| Internal (one inside the other) | d = \|R₁ − R₂\| |
+| Tangent type                        | Center-to-center distance |
+| ----------------------------------- | ------------------------- |
+| External (shapes on opposite sides) | d = R₁ + R₂               |
+| Internal (one inside the other)     | d = \|R₁ − R₂\|           |
 
 Two tangency conditions → two circle equations → subtract to get a linear equation → substitute back → solve the quadratic. Two solutions — pick the one on the correct side of the profile.
 
@@ -539,8 +554,8 @@ For narrow connecting arms (width W between a hub of radius R_h and a boss of ra
 
 ```js
 const dir = normalize(bossCenter) // direction hub → boss
-const perp = [-dir[1], dir[0]]     // perpendicular
-const hw = W / 2                    // half-width
+const perp = [-dir[1], dir[0]] // perpendicular
+const hw = W / 2 // half-width
 
 // Where the arm wall exits the hub circle
 const tHub = Math.sqrt(R_h ** 2 - hw ** 2)
@@ -549,7 +564,8 @@ const hubPt = add(scale(perp, hw), scale(dir, tHub))
 // Where it enters the boss circle (solve quadratic)
 const offset = scale(perp, hw)
 const v = sub(offset, bossCenter)
-const b = 2 * dot(v, dir), c = dot(v, v) - R_b ** 2
+const b = 2 * dot(v, dir),
+  c = dot(v, v) - R_b ** 2
 const tBoss = (-b - Math.sqrt(b * b - 4 * c)) / 2
 const bossPt = add(offset, scale(dir, tBoss))
 ```
@@ -559,30 +575,34 @@ const bossPt = add(offset, scale(dir, tBoss))
 ## ClassCAD Sketch API — Quick Reference
 
 ### Geometry creation
-| What | API | Key params |
-|------|-----|-----------|
-| Circle | `sketch.circle` | `centerPos`, `radius` |
-| Line | `sketch.line` | `startPos`, `endPos` |
-| Arc | `sketch.arcByCenter` | `startPos`, `endPos`, `centerPos`, `isClockwise` |
-| Batch | `sketch.geometry` | `circles`, `lines`, `arcsByCenter` arrays |
+
+| What   | API                  | Key params                                       |
+| ------ | -------------------- | ------------------------------------------------ |
+| Circle | `sketch.circle`      | `centerPos`, `radius`                            |
+| Line   | `sketch.line`        | `startPos`, `endPos`                             |
+| Arc    | `sketch.arcByCenter` | `startPos`, `endPos`, `centerPos`, `isClockwise` |
+| Batch  | `sketch.geometry`    | `circles`, `lines`, `arcsByCenter` arrays        |
 
 ### Querying
-| What | API | Returns |
-|------|-----|---------|
-| All geometry IDs | `sketch.getGeometry` | `{ points, lines, arcs, circles }` |
-| Child point IDs | `sketch.getPoints` | `{ startId, endId }` / `{ centerId }` |
-| Coordinates | `sketch.getPositions` | `{ pos }` / `{ startPos, endPos }` |
+
+| What             | API                   | Returns                               |
+| ---------------- | --------------------- | ------------------------------------- |
+| All geometry IDs | `sketch.getGeometry`  | `{ points, lines, arcs, circles }`    |
+| Child point IDs  | `sketch.getPoints`    | `{ startId, endId }` / `{ centerId }` |
+| Coordinates      | `sketch.getPositions` | `{ pos }` / `{ startPos, endPos }`    |
 
 ### Modifying
-| What | API | Notes |
-|------|-----|-------|
-| Move geometry | `sketch.updateGeometry` | Raw position set, requires ALL coords |
-| Delete | `sketch.deleteObject` | `{ ids: [id1, id2, ...] }` |
-| Split at intersections | `sketch.preTrim` | Staged — needs postTrim; structured result |
-| Mark for removal | `sketch.trim` | Only preTrim segment IDs |
-| Apply trims | `sketch.postTrim` | Commits staged state |
+
+| What                   | API                     | Notes                                      |
+| ---------------------- | ----------------------- | ------------------------------------------ |
+| Move geometry          | `sketch.updateGeometry` | Raw position set, requires ALL coords      |
+| Delete                 | `sketch.deleteObject`   | `{ ids: [id1, id2, ...] }`                 |
+| Split at intersections | `sketch.preTrim`        | Staged — needs postTrim; structured result |
+| Mark for removal       | `sketch.trim`           | Only preTrim segment IDs                   |
+| Apply trims            | `sketch.postTrim`       | Commits staged state                       |
 
 ### Common pitfalls
+
 - **A sketch without `planeId` has a DEAD solver** — constraints and dimensions are accepted (maxLevel 31, IDs returned!) but never enforced; `updateDimension` returns 0; `dimension` with `value` errors (51) without resizing. Always pass `planeId` to `sketch.create` — and verify the id you pass actually resolved (an undefined lookup is accepted silently). This silent mode makes constraints look like inert metadata and value-dims look broken; both work on a properly created sketch.
 - **Z must be 0** for all 2D sketch coordinates — non-zero Z is a hard error (code 1014)
 - **FIXATION on a line does not lock its length** — fix both endpoints individually for a true datum

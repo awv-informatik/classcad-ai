@@ -70,8 +70,8 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
           origin: z.array(z.number()).length(3),
           normal: z.array(z.number()).length(3),
         }).optional().describe('Cut the solids at a plane; the positive side of the normal is removed (uncapped, interior shaded).'),
-        sheet: z.union([z.boolean(), z.array(viewSchema).length(4)]).optional()
-          .describe('Four-view sheet in ONE image (true = top/iso/front/right; ortho views share one scale).'),
+        sheet: z.union([z.boolean(), z.array(viewSchema).length(4), z.array(viewSchema).length(2)]).optional()
+          .describe('Multi-view sheet in ONE image. true or 4 views = quadrants (default top/iso/front/right; ortho views share one scale). 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.'),
         highlight: z.array(z.number()).optional()
           .describe('Ids rendered in signal color: graphic container ids, owning solid ids, face mesh ids, edge ids. CAUTION: face/edge ids are only stable within one graphic payload (recalc reassigns them) — across tool calls use highlightAt.'),
         highlightAt: z.array(z.array(z.number()).length(3)).optional()

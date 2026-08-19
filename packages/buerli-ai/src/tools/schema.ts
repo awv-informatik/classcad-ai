@@ -219,7 +219,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
         sheet: {
           type: ['boolean', 'array'],
-          description: 'true = four-view sheet (top/iso/front/right, shared ortho scale) in ONE image; or an array of 4 views.',
+          description: 'Multi-view sheet in ONE image. true or an array of 4 views = quadrants (default top/iso/front/right, shared ortho scale). An array of 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.',
         },
         highlight: {
           type: 'array', items: { type: 'number' },
@@ -357,18 +357,29 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       'the same tools but operates with a scoped persona and goal. Use this for complex tasks ' +
       'that benefit from separation of concerns (e.g. delegate sketching to the sketch specialist ' +
       'while you focus on the overall part structure).\n\n' +
-      'Available agents: sketch, boolean, fillet_chamfer, assembly, analysis.\n' +
+      'Available agents: sketch, boolean, fillet_chamfer, assembly, analysis, perception.\n' +
+      'The perception agent is a FRESH-EYES image reader: it sees only the attached image(s) and your binary ' +
+      'image-space question(s), with no task context (pass withImages: true) — use it for the perception ' +
+      'pass on reference images.\n' +
       'You can also use any custom name — it will run with a generic specialist prompt.',
     inputSchema: {
       type: 'object',
       properties: {
         agent: {
           type: 'string',
-          description: 'Name of the specialist to delegate to: sketch, boolean, fillet_chamfer, assembly, analysis, or a custom name.',
+          description: 'Name of the specialist to delegate to: sketch, boolean, fillet_chamfer, assembly, analysis, perception, or a custom name.',
         },
         goal: {
           type: 'string',
-          description: 'Clear, specific goal for the sub-agent. Include all necessary context (IDs, dimensions, constraints).',
+          description: 'Clear, specific goal for the sub-agent. Include all necessary context (IDs, dimensions, constraints — or, for perception, the exact binary questions).',
+        },
+        withImages: {
+          type: 'boolean',
+          description: 'Pass the images attached to the CURRENT user message on to the sub-agent (required for perception delegations — the sub-agent cannot see them otherwise).',
+        },
+        withSnapshots: {
+          type: 'boolean',
+          description: 'Pass your last snapshot render(s) on to the sub-agent. Combine with withImages for the mirror check: the reader then holds BOTH the reference and your A|B pair and can judge which panel matches the reference itself — instead of you comparing a render against your own written record, which cannot detect a mirrored record.',
         },
       },
       required: ['agent', 'goal'],

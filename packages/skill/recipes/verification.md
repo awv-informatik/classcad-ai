@@ -26,61 +26,98 @@ two halves, and both need proof:
 
 # Part I — perception first (any input reference)
 
+The measured differentiator (2026-08-18/19 series): the same model that
+misreads a part's handedness while planning a build reads it correctly when
+asked in isolation — wrong 6/6 with a build task in context, right 9/9
+without one. Perception is not the bottleneck; build-task context is, and
+in-task probes then VALIDATE a misreading because every probe target
+derives from it. This phase therefore (a) converts handedness questions
+into LOCAL alignment questions, and (b) moves the reading outside the
+build context wherever the host allows.
+
 ## Phase 0 — the REFERENCE RECORD (before any modeling)
 
 Write the record down (notes tool / your plan) BEFORE the first build call.
-It is the contract the final verification tests against.
+It is the contract the final verification tests against, and it is FROZEN:
+the later holistic reading may add facts but may not overturn them — a
+disagreement marks the fact LOW CONFIDENCE for the mirror check, never a
+silent revision.
 
-0. **Forced-choice perception pass — FIRST, before everything else.**
-   Measured fact (2026-08-18): the same model read a C-ring's opening
-   direction wrong in 6/6 full CAD runs, but right in 3/3 when asked as an
-   isolated question — task context collapses perception onto a gestalt and
-   every later "evidence" confabulates around it. So: BEFORE inventorying
-   dimensions or planning anything, glance at the reference only to spot the
-   chirality-critical features (openings, notches, asymmetric bosses,
-   handedness of ribs), then answer ONE BINARY IMAGE-SPACE QUESTION per
-   feature, as if there were no task: "in image space, does the ring's gap
-   face the lower-left (where the rib enters) or the upper-right?" — answer
-   with pixel evidence (which edge, roughly where). Use a magnified crop of
-   the critical region if one is available or obtainable (3/3 vs 2/3 in the
-   measurement). These answers are FROZEN: the later holistic reading may
-   add facts but may NOT overturn them — if it disagrees, that is a LOW
-   CONFIDENCE conflict for the mirror check, not a revision.
-1. **Inventory**: which views does the reference show (iso, front, top, …)?
-   What resolution is the image? Below ~800 px, fine features — especially
-   chirality — are LOW CONFIDENCE: say so in the record.
-2. **Callout anchors** — the strongest spatial evidence in a drawing. For
-   every dimension callout, write what its leader/arrows physically TOUCH:
-   "Ø30 leader enters from the upper right and lands on the inner arc".
-   Leaders point at real geometry; silhouette impressions can lie, callouts
-   rarely do. (No callouts — a photo? Anchor on shadows, contact lines and
-   feature counts instead, and verify proportions rather than absolutes.)
-3. **Chirality facts get a TWO-HYPOTHESIS adjudication** — first impressions
-   mirror. For every handedness/side/direction fact, write BOTH readings
-   (e.g. "C opens toward the rounded end" vs "C opens away from it") and
-   score each against the independent evidence channels:
-   - **callout approach** — with an OPERATIONAL test, not a feeling: trace
-     the leader from its text to the feature. Does it cross the part's
-     silhouette/material on the way? A leader that reaches an INNER feature
-     without crossing the surrounding ring's material tells you the gap is
-     on its approach side. Answer per leader: "crosses material: yes/no".
-   - **silhouette/edge continuity**,
-   - **hidden/dashed lines**,
-   - **symmetry** (which facts are even at mirror risk).
-   Channel ranking: callout approach (with its crossing test) outranks
-   everything; at low resolution (<~800 px) a silhouette impression is
-   INADMISSIBLE as sole evidence for chirality. **Mechanical plausibility is
-   a PRIOR, not evidence** — it describes typical parts, not this part
-   (real parts DO have ribs meeting curved walls and cuts opening off the
-   plate); use it only to break ties when every image channel is silent,
-   never to override a callout reading. If your channels disagree, the fact
-   is LOW CONFIDENCE: say so in the record, and the mirror check below is
-   the decider.
-4. **Ambiguity is spoken, never swallowed**: if two readings survive, state
-   the ambiguity. Interactive host → ask the user ONE confirmation question
-   ("the C opens away from the rounded end — correct?"); one answer beats any
-   heuristic. Headless → pick the higher-ranked channel and SAY which channel
-   decided.
+1. **Inventory** — which views the reference shows (iso, front, top, …),
+   and the image resolution. Below ~800 px, fine features — especially
+   handedness — are LOW CONFIDENCE: say so in the record.
+2. **Callout anchors** — for every dimension callout, write what its
+   leader/arrows physically TOUCH ("Ø30 leader enters upper-right, lands
+   on the inner arc") and whether the leader CROSSES the part's material
+   on the way — a leader that reaches an inner feature without crossing
+   the surrounding material tells you the gap is on its approach side.
+   Callouts outrank silhouette impressions; at low resolution a silhouette
+   impression alone is inadmissible for handedness. (Photo without
+   callouts: anchor on shadows, contact lines and feature counts; verify
+   proportions rather than absolutes.)
+3. **List every side/direction/handedness fact** — every asymmetry the
+   part cannot be mirrored across, whatever the part is. ALL of them, not
+   just the ones that feel uncertain: for handedness, confidence and
+   accuracy are uncorrelated — the confident readings were the wrong ones.
+4. **Resolve by COINCIDENCE before rotation.** Hunt for alignments first:
+   flush faces, tangencies, shared centrelines, collinear silhouette
+   edges, features lining up across views. "Is this face flush with that
+   one?" is local and objective; "which way does it open?" needs the
+   mental rotation that is measurably unreliable — and one found
+   coincidence usually pins the whole orientation for free.
+5. **Remaining facts get a TWO-HYPOTHESIS test with a pre-registered
+   observable** — write BOTH mirror readings and what each PREDICTS for
+   one concrete pixel observable (material/void sequence along a line, an
+   edge count, what a leader touches); only THEN read the observable off
+   the image (magnified crop if one was supplied) and let it decide.
+   Prediction before observation: collected afterwards, the observable
+   bends to fit the favored reading.
+6. **Have fresh readers answer the open questions when the host provides
+   them** (buerli-ai: `delegate` with `agent: "perception", withImages:
+   true`) — a fresh reader has no build task in context, which is the
+   measured differentiator. ONE question per reader, several readers
+   fanned out in parallel in the same response (one question per reader →
+   6/6 correct; seven questions in one reader → handedness wrong).
+   Readers answer what is VISIBLE, nothing else: what a dimension MEANS,
+   what is hidden, how deep a bore goes are USER questions — asked anyway,
+   a reader fabricates confident detail. Reader disagrees with you ⇒ LOW
+   CONFIDENCE, record it.
+7. **Write the verdicts + evidence into the record**, then freeze it.
+
+Bounds on the whole phase:
+
+- The supplied image(s) ARE the evidence base. Do not manufacture crop
+  batteries — self-cropping runs took 25–50 min against ~12 for plain
+  reads, with no accuracy gain.
+- **Mechanical plausibility is a PRIOR, not evidence** — it describes
+  typical parts, not this part (real parts DO have ribs meeting curved
+  walls and cuts opening off the plate). Tie-breaker when every image
+  channel is silent; never an override of a callout reading.
+- **"Symmetric about a plane" exempts nothing** — symmetry about one
+  plane says nothing about asymmetries along the other axes, and the
+  feature at risk is usually on one of those.
+- Every dimension, axis and relation must be traceable to something you
+  can point at in THIS image. "I recognize this part" is recall, not
+  reading — the remembered variant differs.
+
+**Stopping rule — bounded inquiry, then ASK or DECLARE.** One
+discriminating observation plus the reader round is the whole budget per
+fact. Not settled ⇒ the fact is UNDECIDABLE from the input, which is a
+RESULT, not a failure:
+
+- **Interactive host: ASK the user.** Once, all open questions batched,
+  each with your best reading as the default so a one-word reply unblocks
+  you ("I read the 70 as centre→far end; the bore looks through — confirm
+  or correct?"). Every handedness fact goes into the batch
+  UNCONDITIONALLY — confidence does not filter the list. One batched
+  question is the fast path; the wrong part is the stall.
+- **Headless: DECLARE.** Record both readings, choose by channel rank
+  (callout > silhouette), state which channel decided and what would
+  overturn it.
+
+Either way stop looking: re-cropping, upscaling and re-reading past this
+point add no information — elaborate analysis is what an agent does
+INSTEAD of asking.
 
 ## Build
 
@@ -94,16 +131,23 @@ reference, don't patch silently.
    the reference (snapshot supports named views AND `{azimuth, elevation}` —
    match the iso's octant; front/top/right for orthographic views). A
    comparison against an arbitrary ISO is not a comparison.
-2. **Mirror check (forced choice)** — for every chirality fact, and always
-   when one was LOW CONFIDENCE: FIRST, before rendering anything, write down
-   the reference's answer in image-space terms ("in the REFERENCE image, the
-   opening is on the upper-RIGHT of the tower"). Committing to it before
-   seeing your renders prevents the renders from steering the reading. THEN
-   render the matched view AND its mirror (negate the azimuth) and answer
-   the same image-space question for each render independently. Pick which
-   render matches the committed reference answer. Forced choice between two
-   images is far more reliable than judging handedness in one. If the MIRROR
-   matches, your reading is flipped: fix the model, don't re-argue the record.
+2. **Mirror check (forced choice) — UNCONDITIONAL, judged against the
+   IMAGE.** Reference image in ⇒ pair render and independent verdict out,
+   every time. There is no precondition to assess — not "the part looks
+   symmetric", not "I am confident": each self-granted exemption has
+   shipped a mirrored part. Procedure: FIRST write the reference's answer
+   in image-space terms ("in the REFERENCE image, the opening is on the
+   upper-RIGHT of the tower") — committed before any render can steer the
+   reading. THEN render the matched view and its mirror as ONE image —
+   `sheet: [matchedView, sameViewWithNegatedAzimuth]` gives side-by-side
+   panels labeled A | B — answer the committed question for each panel
+   independently, and pick the matching panel. Judge against the reference
+   IMAGE, never against your own record: a mirrored record validates
+   itself. Best: hand reference + pair sheet to a fresh reader with the
+   single question "which panel matches the reference?" (buerli-ai:
+   `delegate` with `agent: "perception", withImages: true, withSnapshots:
+   true`). If the MIRROR panel matches, your reading was flipped: fix the
+   model, don't re-argue the record.
 3. **Record replay, numerically**: walk the reference record row by row and
    prove each orientation fact with a probe — material-presence at a test
    point, extents asymmetry, face position (Part II Tier 3). A fact you can

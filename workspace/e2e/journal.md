@@ -329,3 +329,88 @@ landscape mid-experiment would confound it).
   same evening in ONE clean 15-min pass (fresh agent): tightest root-radius
   proof of any host (brep-exact 2.2e-15) and volume within 0.027% of GT2.
   With both benchmarks green, mcp is the second host fully validated.
+
+## Runs 9–18 + interactive test (2026-08-19): what actually breaks
+
+A long tuning campaign (rule versions v2–v6, runs 9–18, plus ph's own
+buerligons run). Chirality outcome at each state: 9 PASS, 10 FAIL, 11 PASS,
+16 FAIL, 17 PASS, 8/18 aborted. NOTHING from this campaign is committed
+except this journal — the rules did not converge, and three findings below
+explain why the earlier "convergence" was partly an artifact.
+
+### 1. The harness was measuring itself (invalidates the timing data)
+
+Every headless run used `--allowedTools "mcp__classcad Read Write"` — **Bash
+was never allowed**. Every crop attempt returned "This command requires
+approval", and the agent kept retrying and reasoning around the wall:
+run 9 3 denials, run 11 4, run 14 5, run 16 **13**. So the "pixel forensics"
+diagnosis was half wrong (much of it was retry-after-denial) and every
+wall-clock number from runs 9–16 is contaminated. Only runs ≥17 (Bash+Agent
+allowed) are comparable. Lesson: log denied tool calls in every E2E summary.
+
+### 2. The mirror check was CIRCULAR — the gate could never work
+
+The final gate told the agent to commit the reference reading in writing,
+then render the A|B pair and pick the matching panel. But the committed
+answer comes FROM the record, so the comparison is render-vs-DESCRIPTION,
+both derived from the same misreading. ph's buerligons run stated it exactly:
+*"I judged panel A against my record's description of the reference, not
+against a fresh read of your image. A coherently mirrored record validates
+itself."* Every "passed" mirror check in this campaign is therefore weak
+evidence. Fix (mechanism, not prose): `delegate` gained `withSnapshots`, the
+loop keeps the last renders, and the judging goes to a fresh reader holding
+the REFERENCE and the A|B pair at once — one forced choice, no record in
+between, and no stake in the answer.
+
+### 3. Delegates confabulate outside their competence
+
+The fresh-eyes delegate is reliable ONLY for pure image-space chirality (the
+measured 3/3 isolated condition). Asked six mixed questions it invented pixel
+coordinates and answered confidently WRONG on dimension semantics ("70 =
+overall length", "45 = plate-top to cylinder-top", "~90° missing, pie-slice
+cut") — and the main agent then burned many minutes reconciling the
+contradictions. A subagent cannot know what a dimension MEASURES, what is
+hidden, or which convention a drawing follows. Those are USER questions.
+The perception persona now answers "NOT ANSWERABLE FROM THE IMAGE" for them.
+
+### 4. Elaborate analysis is what an agent does INSTEAD of asking
+
+ph's question — "why don't they just ask the user?" — is the crux, and the
+answer is threefold: headless runs have no user (so the whole E2E harness
+optimizes the one regime where asking is impossible — the wrong proxy for an
+interactive product); "ask the user" appeared ONCE in the buerli prompt,
+buried; and completion bias makes asking read as failure ("the user asked me
+to build it, I shouldn't stall"). The cure is licensing plus mechanism, not
+more reasoning. Now: a prominent Ask-don't-guess section, ask EARLY, ONCE,
+BATCHED, with a default so one word unblocks; a subagent is explicitly not a
+substitute for the user. Next escalation if that still fails: an `ask_user`
+TOOL — a tool call feels like progress, ending the turn feels like giving up.
+
+### 5. Confidence must not gate the chirality question
+
+The buerligons run DID ask (height, bore depth) but skipped the collar
+orientation *"because I felt confident about it"* — and shipped it mirrored.
+Its own post-mortem: for handedness, confidence and accuracy are
+uncorrelated. So every side/direction/handedness fact goes into the question
+batch UNCONDITIONALLY.
+
+### 6. Arc direction is a separate, cheap bug
+
+The same run also flipped a base arc: `isClockwise` was intuited, not
+computed. The skill data was correct and explicit; the agent simply did not
+apply it, because arc direction feels trivial. "Clockwise" has no fixed
+meaning without a viewing direction. constrained-sketching.md now carries the
+arithmetic: name ONE angle the arc must pass through, check which sweep
+contains it. Volume verification caught this one — the numeric tier works.
+
+### Standing conclusion
+
+Prose does not reliably steer behavior: run 18 produced 28 self-made crop
+files with "do NOT manufacture your own crops" verbatim in its instructions.
+What works is mechanism — the A|B pair render catches mirrors because it
+forces a PICTURE; "think more carefully" catches nothing. Prefer building the
+affordance over writing the rule. Also: the ClassCAD worker died mid-campaign
+(spinning at 99% CPU / 2.9 GB RSS beforehand — likely TODO #174), taking
+buerligons down with it; two parallel E2E runs on the worker ph is also using
+was a bad idea. Use the disposable ports (9096/9097) for parallel work, and
+`sample <pid>` BEFORE restarting a hung worker.

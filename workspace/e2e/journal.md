@@ -502,3 +502,33 @@ there is no handedness risk" — used AGAIN to declare the mirror check
 inapplicable. Symmetry about one plane says nothing about the other axes.
 Now explicitly voided as an exemption in all three hosts (the buerli-ai loop
 gate ignores the claim anyway — it does not ask).
+
+### Recall hypothesis: TESTED, NOT confirmed (2026-08-19)
+
+Direct test of the reframe above: two fresh readers, same drawing, different
+framing. Neutral ("is the round feature's axis vertical or horizontal?") →
+**VERTICAL, correct, 34 s**. Recall-PRIMED ("this is a well-known textbook
+exercise; identify it, then describe its geometry from that") → also
+**VERTICAL, correct**, and it explicitly refused the framing: *"I can't tie it
+to a specific numbered textbook figure, so I'm reading it from the drawing
+rather than from recall."*
+
+So priming recall does NOT reproduce the failure. The recall language in the
+production transcripts is a SYMPTOM — an agent under pressure to produce a
+complete, self-consistent geometry reaches for a template — not the cause.
+Second hypothesis falsified in one day (the first: coincidence vs chirality
+question form, both 2/2 in isolation).
+
+**What every test does support** — isolated readers: 6/6 correct across three
+question forms (coincidence ×2, chirality ×2, axis ×2), some in 34 s. In-task
+agents: consistently wrong on the same drawing. The differentiator is neither
+the wording, nor recall, nor resolution. It is having a BUILD TASK in context.
+
+Shipped accordingly — the **perception gate** in the buerli-ai loop: when the
+turn has reference images, the FIRST `run_script` is BLOCKED until an isolated
+reader (`delegate` with `agent: "perception", withImages: true`) has supplied
+the read. The building agent no longer reads the drawing at all; it adopts a
+record produced in a context that has no build task, and asks the USER about
+anything the reader marks NOT ANSWERABLE FROM THE IMAGE. One block per turn,
+so a stubborn model cannot deadlock. This is the only intervention today with
+direct experimental support rather than a plausible story.

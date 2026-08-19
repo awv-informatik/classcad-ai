@@ -2171,22 +2171,25 @@ export function measureText(text: string, scale: number = 1): number {
 const ORTHO_VIEWS = new Set(['top', 'bottom', 'front', 'back', 'left', 'right'])
 
 /**
- * Render four views of the solids into ONE image (quadrants TL, TR, BL, BR).
+ * Render four views of the solids into ONE image (quadrants TL, TR, BL, BR),
+ * or TWO views side by side (full-height panels A | B — e.g. a view and its
+ * mirror for a forced-choice chirality check).
  * Default layout: top / iso / front / right — third-angle-ish (top above
  * front, right beside front, iso in the free corner). All ORTHO views share a
  * COMMON scale (like a technical drawing), the iso quadrant auto-fits itself.
- * Labels use the built-in font.
+ * Labels use the built-in font; custom {azimuth,…} views are labeled A, B, ….
  *
  * @param {object} graphic — graphic payload (containers)
  * @param {number} width/height — sheet size
  * @param {Array|null} instances — assembly instances (see renderSolidZBuffer)
- * @param {object} [opts] — { views: [tl,tr,bl,br], colors, section }
+ * @param {object} [opts] — { views: [tl,tr,bl,br] | [left,right], colors, section }
  * @returns {{pixels,width,height}|null}
  */
 export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, opts: SolidRenderOptions & { views?: CameraView[] } = {}): RasterResult | null {
-  const views = Array.isArray(opts.views) && opts.views.length === 4 ? opts.views : ['top', 'iso', 'front', 'right']
+  const views = Array.isArray(opts.views) && (opts.views.length === 2 || opts.views.length === 4) ? opts.views : ['top', 'iso', 'front', 'right']
+  const rows = views.length === 2 ? 1 : 2
   const qw = Math.floor(width / 2)
-  const qh = Math.floor(height / 2)
+  const qh = Math.floor(height / rows)
   const solidOpts = { colors: opts.colors, section: opts.section, highlight: opts.highlight, highlightAt: opts.highlightAt, markers: opts.markers, xray: opts.xray, annotate: opts.annotate }
 
   // Pass 1: auto-fit render per view to learn each frame.
@@ -2215,8 +2218,8 @@ export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height
 
   // Composite.
   const pixels = allocPixels(width * height * 4)
-  const offsets = [[0, 0], [qw, 0], [0, qh], [qw, qh]]
-  for (let q = 0; q < 4; q++) {
+  const offsets = views.map((_: any, i: number) => [(i % 2) * qw, Math.floor(i / 2) * qh])
+  for (let q = 0; q < views.length; q++) {
     const quad = quads[q]
     if (!quad) continue
     const [ox, oy] = offsets[q]
@@ -2230,18 +2233,20 @@ export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height
   }
   // Divider lines.
   const grey = [190, 190, 190]
-  for (let x = 0; x < width; x++) {
-    const i = (qh * width + x) * 4
-    pixels[i] = grey[0]; pixels[i+1] = grey[1]; pixels[i+2] = grey[2]
+  if (rows === 2) {
+    for (let x = 0; x < width; x++) {
+      const i = (qh * width + x) * 4
+      pixels[i] = grey[0]; pixels[i+1] = grey[1]; pixels[i+2] = grey[2]
+    }
   }
   for (let y = 0; y < height; y++) {
     const i = (y * width + qw) * 4
     pixels[i] = grey[0]; pixels[i+1] = grey[1]; pixels[i+2] = grey[2]
   }
-  // Labels (top-left of each quadrant).
-  for (let q = 0; q < 4; q++) {
+  // Labels (top-left of each panel); custom camera views get letters.
+  for (let q = 0; q < views.length; q++) {
     const [ox, oy] = offsets[q]
-    const name = typeof views[q] === 'string' ? (views[q] as string) : 'custom'
+    const name = typeof views[q] === 'string' ? (views[q] as string) : String.fromCharCode(65 + q)
     drawText(pixels, width, height, ox + 8, oy + 8, name, [70, 70, 70], 2)
   }
   return { pixels, width, height, frame: null }
@@ -2456,10 +2461,11 @@ export function diffImages(a: Pick<RasterResult, 'pixels' | 'width' | 'height'>,
  * @param {Array<'solid'|'sketch'|'curves'|'workgeo'>} [options.layers] — content
  *   types to render. Default: all detected. Skipped layers cost nothing (their
  *   queries don't run).
- * @param {boolean|string[]} [options.sheet] — render the solids as a FOUR-VIEW
- *   SHEET (one image, quadrants TL/TR/BL/BR; default top/iso/front/right; the
- *   ortho views share one scale like a technical drawing). Pass an array of 4
- *   view names to pick the quadrants. Entry type becomes 'sheet'.
+ * @param {boolean|CameraView[]} [options.sheet] — render the solids as a SHEET
+ *   in one image: `true` or 4 views = quadrants TL/TR/BL/BR (default
+ *   top/iso/front/right; ortho views share one scale like a technical drawing);
+ *   2 views = full-height side-by-side panels labeled A | B (e.g. a view and
+ *   its mirror for a forced-choice chirality check). Entry type becomes 'sheet'.
  * @param {{scale:number,midX:number,midY:number}} [options.frame] — pin the view
  *   frame to one returned by an earlier solid render (same view/size) so
  *   before/after images are pixel-comparable; feed both to diffImages.

@@ -406,6 +406,18 @@ Create or update: `packages/skill/references/<domain>/*.md`
 - If it already exists, update it with new findings.
 - **If an existing statement is WRONG, replace it in place.** Never append a dated correction, footnote, or "History:" note under the wrong claim — an agent must read only the correct fact, not the error first and the fix below. Keep short provenance ("verified YYYY-MM-DD") on the corrected statement; put the story of how the error happened into the journal and TODO instead.
 
+### Recipes (`packages/skill/recipes/*.md`) — special rules
+
+Recipes are workflow docs agents must read in full before building, so signal
+density IS the product. A new finding enters a recipe as an **imperative rule of
+at most ~2 lines** plus a provenance tag ("measured YYYY-MM-DD"); the derivation,
+incident narrative and supporting numbers go to the session journal (e2e findings:
+`workspace/e2e/journal.md`), never into the recipe. A rule that still needs a
+paragraph of persuasion is not converged — keep it in the journal until it is.
+Wrong recipe rules are rewritten in place, same as LLM docs. Doctrine lives in
+the recipe ONCE: system prompts (buerli-ai, MCP instructions, TOOLS.md) carry
+only a pointer plus host-specific mechanics, never a copy.
+
 **Example paths:**
 
 - `references/common/getAppVersion.md`

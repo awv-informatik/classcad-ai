@@ -15,6 +15,14 @@ A practical guide for parsing 2D technical drawings and recreating them as Class
 
 `arcByCenter isClockwise: true` = math-NEGATIVE sweep in local coordinates on all three planes. Mirrored arcs traversed in reverse keep the SAME cw flag (the mirror flips the sweep, the reversal flips it back).
 
+**Compute the `isClockwise` flag, never intuit it.** "Clockwise" depends on
+which side of the plane you view from and on the y-convention, so a spatial
+hunch is a coin flip. Arithmetic settles it: take the start and end angles
+about the centre, name ONE angle the arc must pass through (the side the
+bulge faces), and check which sweep contains it — start 90°, end 270°, bulge
+toward −X ⇒ the arc must pass 180° ⇒ counter-clockwise ⇒ `isClockwise:
+false`. A flipped flag silently mirrors the profile.
+
 ## The Method
 
 **Don't hand-compute the layout — and don't assume the drawing is an outline.** Technical
@@ -45,9 +53,8 @@ Two questions before any analysis:
 
 **When the method's expectation and the drawing image disagree, the drawing wins — it is the
 spec.** Stop and re-classify instead of making the drawing fit the method. This is the
-drawing-side mirror of the snapshot-vs-data rule. Past failure (2026-07-02, robot-head):
-closed Ø5.6 eye circles were converted into boundary arcs by force-applying a trim-everything
-method — the image plainly showed complete circles.
+drawing-side mirror of the snapshot-vs-data rule: circles the image shows closed stay closed
+— never force a trim-everything method onto them (verified 2026-07-02).
 
 ---
 
@@ -173,21 +180,18 @@ Disable a flag selectively only when it would fight the design intent — e.g.
 or `genTangency: false` when overlapping skeleton circles must stay independently placeable
 until trimming.
 
-**Fully explicit scheme (the conditioned-reproduction workflow): prefer autos OFF, and know
-the failure mode.** With exactly-computed seeds + every tangency/coincidence created
-explicitly, autos are pure duplicates. Verified on a 19-curve build (mounting-plate,
-2026-07-02): duplication itself is harmless — autos ON and OFF both solve rough→exact at
-2.8e-14 **when the explicit wiring is consistent with the seeds**. The danger: autos wire
-junctions FROM THE SEED GEOMETRY; your explicit constraints wire them from your bookkeeping.
-If those disagree (classic bug: mirrored arcs whose start/end roles got swapped, wired by a
-side-uniform loop), the two constraint sets contradict — and `DoSolve` does not just flag a
-loser, it DIVERGES GLOBALLY: batches return 51 with `CalcBulges radius too small` /
-`SetSE NullMem`, small arcs collapse to radius 0, and every later dimension refuses its value
-(even for satisfied, unrelated subgraphs). With autos OFF the same bookkeeping bug is benign:
-the explicit set alone is solvable, the solver quietly slides the mis-wired arcs into the
-role-swapped layout, and the numeric readback catches the few-mm displacement. That's the
-argument for `genIncidence/genTangency/genVertAndHoriz: false` in fully explicit builds — one
-source of truth turns a catastrophic wreck into a visible, diagnosable offset.
+**Fully explicit scheme (the conditioned-reproduction workflow): prefer autos OFF.** With
+exact seeds + every tangency/coincidence created explicitly, autos are pure duplicates —
+harmless while consistent (autos ON and OFF both solve rough→exact at 2.8e-14; verified
+2026-07-02 on a 19-curve build). But autos wire junctions FROM THE SEED GEOMETRY, your
+explicit constraints from your bookkeeping; if those disagree (classic bug: endpoint roles
+swapped on mirrored arcs), `DoSolve` does not flag a loser — it DIVERGES GLOBALLY: batches
+return 51 with `CalcBulges radius too small` / `SetSE NullMem`, small arcs collapse to
+radius 0, and unrelated dimensions refuse their values. With autos OFF the same bookkeeping
+bug is benign: the explicit set alone is solvable, the solver slides the mis-wired arcs into
+a role-swapped layout, and the numeric readback catches the displacement. One source of
+truth (`genIncidence/genTangency/genVertAndHoriz: false`) turns a catastrophic wreck into a
+diagnosable offset.
 
 This gives you a "skeleton" of overlapping shapes. Snapshot and compare against the source — you should be able to trace the final profile through the outermost arcs. If the shapes don't overlap in the right places, fix the layout scheme (anchors, dimensions) before proceeding.
 
@@ -212,8 +216,7 @@ point). Redundant annotations are still annotations: create them as driven dims 
 geometry (a center mark, a virtual point), materialize the reference first (sketch point +
 constraints — see the center-mark pattern below). Encoding an annotation only implicitly (a
 coincidence that happens to produce the value) is NOT a reproduction of the drawing's
-dimension scheme. Past failure (2026-07-02, robot-head): three annotations (slot width 3,
-3.5-to-center, 8 eye-to-jaw) existed only implicitly or re-anchored, and the review bounced.
+dimension scheme (verified 2026-07-02: implicit or re-anchored annotations bounce review).
 
 ### Worked example — the solver does the tangent math
 
@@ -302,12 +305,10 @@ await api.v1.sketch.dimension({
   forces the contact into the segment.
 - **A tangent-chain junction can degenerate.** `TANGENT(line, arc)` + COINCIDENT shared
   endpoint has a spurious solution family at arc radius → 0 (line through the arc center).
-  A consistent scheme never lands there — every observed collapse (R dim reading "R0",
-  `CalcBulges radius too small`, `SetSE NullMem`) traced back to explicit junction wiring
-  that CONTRADICTED the auto-constraints' seed-derived wiring (endpoint roles swapped on
-  mirrored arcs). If you see these symptoms, diff your junction bookkeeping against the seed
-  adjacency before blaming the solver — and re-run with autos off to expose the mis-wiring
-  as a plain displacement.
+  A consistent scheme never lands there; the symptoms (`R0` dims, `CalcBulges radius too
+  small`, `SetSE NullMem`) mean your explicit wiring contradicts the autos' seed-derived
+  wiring — diff the junction bookkeeping against the seed adjacency, and re-run with autos
+  off to expose the mis-wiring as a plain displacement (see the fully-explicit note, Step 3).
 
 - **TANGENT keeps the seeded branch.** Circle–circle/arc–circle tangency seeded EXTERNAL solves external (d = r1+r2); seeded INTERNAL stays internal (d = R−r) through creation and every re-solve — an R12 dome inside-tangent to Ø5.6 eye circles followed the internal branch exactly when the eyes were re-dimensioned to Ø7 (robot-head session).
 - **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param is a silent null no-op), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL_*, one update re-solves both sides in a single solvable step and the trap never triggers.

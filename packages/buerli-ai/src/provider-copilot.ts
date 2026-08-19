@@ -293,7 +293,10 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
     : choice.finish_reason === 'tool_calls' ? 'tool_use'
     : choice.finish_reason === 'stop' ? 'end_turn'
     : choice.finish_reason === 'length' ? 'max_tokens' // output-limit truncation → loop auto-continues
-    : choice.finish_reason ?? 'end_turn'
+    // No finish_reason at all = stream died before one arrived (e.g. upstream 500
+    // mid-reasoning). Not a completed turn — auto-continue instead of ending the
+    // round silently on partial content.
+    : choice.finish_reason || 'max_tokens'
 
   const u = json.usage as { prompt_tokens?: number; completion_tokens?: number } | undefined
   return {

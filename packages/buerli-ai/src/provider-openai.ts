@@ -313,7 +313,12 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
     : choice.finish_reason === 'tool_calls' ? 'tool_use'
     : choice.finish_reason === 'stop' ? 'end_turn'
     : choice.finish_reason === 'length' ? 'max_tokens' // output-limit truncation → loop auto-continues
-    : choice.finish_reason ?? 'end_turn'
+    // NO finish_reason at all = the stream died before the upstream could report
+    // one (observed: an upstream 500 mid-reasoning, the SSE just ends). That is
+    // NOT a completed turn: treating it as 'end_turn' ends the round silently
+    // with whatever partial content arrived — to the user the agent simply stops
+    // mid-thought. Treat it as truncation so the loop auto-continues instead.
+    : choice.finish_reason || 'max_tokens'
 
   const u = json.usage as { prompt_tokens?: number; completion_tokens?: number } | undefined
   return {

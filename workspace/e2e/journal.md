@@ -414,3 +414,46 @@ affordance over writing the rule. Also: the ClassCAD worker died mid-campaign
 buerligons down with it; two parallel E2E runs on the worker ph is also using
 was a bad idea. Use the disposable ports (9096/9097) for parallel work, and
 `sample <pid>` BEFORE restarting a hung worker.
+
+### Isolated question-form experiment (2026-08-19, n=4)
+
+ph asked the right question: are we fixing the CORRECTION pass instead of the
+cause? Campaign data showed passing runs put the tower's flat face flush with
+the plate end (x=70) and mentioning "flush/collinear" 34–48×, while failing
+runs cut through the cylinder AXIS (x=40) and mentioned it 4–6×. Hypothesis:
+asking a COINCIDENCE question ("is this face coplanar with that one?") beats
+asking a CHIRALITY question ("which way does it open?"), because alignment is
+local and needs no mental rotation.
+
+Test: four fresh readers, same drawing, image + one question only, no task.
+Two got the coincidence form, two the chirality form.
+
+| Form | Verdicts | Time |
+| --- | --- | --- |
+| Coincidence ("flat face flush with plate end?") | FLUSH, FLUSH — both correct | 110 s, 298 s |
+| Chirality ("does the C open toward or away?") | AWAY, AWAY — both correct | 226 s, 640 s |
+
+**Accuracy hypothesis: NOT supported.** 4/4 correct — in isolation both forms
+work, reproducing the old 3/3-isolated result. Whatever breaks in-task is not
+the question's wording.
+
+**Two things the experiment DID establish:**
+
+1. *Cost*: coincidence answers came ~2× faster (mean 204 s vs 433 s; n=2 each,
+   directional only), consistent with alignment being cheaper than rotation.
+2. *Verifiability — the real payoff*: both coincidence readers returned the
+   SAME re-checkable observable ("one unbroken vertical at x≈392, plate top and
+   bottom edges terminate on it with zero offset"), whereas the chirality
+   answers were judgements ("all remaining material lies left of the chord").
+   A coincidence claim converts DIRECTLY into a numeric probe on the model —
+   "is face A coplanar with face B?" is a brep query — so the frozen record
+   becomes testable against geometry instead of against a render. That is
+   exactly the circularity that sank the mirror check (render judged against
+   the record's own description). Prefer coincidences not because they are
+   seen better, but because they produce claims the numeric tier can falsify.
+
+**Caveat on the campaign correlation**: "flush mentions" may be a CONSEQUENCE
+of the correct reading rather than its cause — a run that places the chord at
+x=70 necessarily describes it as flush. The correlation is suggestive, not
+causal, and the isolated test cannot separate them. Only an in-task run under
+the new coincidence-first instruction can.

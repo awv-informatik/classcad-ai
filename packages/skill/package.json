@@ -5,11 +5,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/awv-informatik/classcad-skill.git"
+    "url": "git+https://github.com/awv-informatik/classcad-ai.git",
+    "directory": "packages/skill"
   },
-  "homepage": "https://github.com/awv-informatik/classcad-skill#readme",
+  "homepage": "https://github.com/awv-informatik/classcad-ai/tree/master/packages/skill#readme",
   "bugs": {
-    "url": "https://github.com/awv-informatik/classcad-skill/issues"
+    "url": "https://github.com/awv-informatik/classcad-ai/issues"
   },
   "keywords": [
     "classcad",

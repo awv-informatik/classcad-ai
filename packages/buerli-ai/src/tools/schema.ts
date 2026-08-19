@@ -162,7 +162,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         keys: {
           type: 'array',
           items: { type: 'string' },
-          description: `Documentation keys to fetch (up to ${DOCS_MAX_KEYS}), e.g. ["SKETCHING", "recipes/parametric-part", "v1.part.expression", "v1.part.extrusion", "v1.sketch.constraint", "v1.sketch.dimension"].`,
+          description: `Documentation keys to fetch (up to ${DOCS_MAX_KEYS}), e.g. ["recipes/constrained-sketching", "recipes/parametric-part", "v1.part.expression", "v1.part.extrusion", "v1.sketch.constraint", "v1.sketch.dimension"].`,
         },
       },
       required: ['keys'],

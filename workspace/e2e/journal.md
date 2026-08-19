@@ -458,3 +458,47 @@ of the correct reading rather than its cause — a run that places the chord at
 x=70 necessarily describes it as flush. The correlation is suggestive, not
 causal, and the isolated test cannot separate them. Only an in-task run under
 the new coincidence-first instruction can.
+
+### The real root cause: RECALL substituting for perception (2026-08-19)
+
+ph's third buerligons run produced the worst result yet — not a mirrored
+feature but a DIFFERENT PART: a horizontal-axis boss (bearing-block style)
+where the drawing shows a vertical tower with a vertical bore. Its thinking
+says why, repeatedly and explicitly: *"I'm trying to recall the classic
+isometric drawing exercise this resembles"*, *"This matches a known isometric
+view drawing example"*. It recognised the drawing as a familiar textbook part
+and reconstructed THAT from memory, then fitted the callouts to it (even
+producing a satisfying self-consistency check: the rib tangent length "exactly
+22" — consistent with the remembered geometry, not the drawn one).
+
+This reframes the entire campaign. We treated the problem as chirality
+perception (mental rotation, low resolution, task-context collapse). Those are
+real, but downstream of this: **recall is the upstream contaminant**, and it
+explains what perception alone did not —
+
+- why the readings are so CONFIDENT (recall feels like knowledge, not
+  assumption, so it never trips uncertainty and never generates a question —
+  which is also why "ask the user when unsure" never fired for the collar);
+- why every evidence channel confabulates (the agent is confirming a template,
+  not reading an image);
+- why the error is so CONSISTENT across runs (the same remembered variant);
+- why it can get worse rather than better (a different, more wrong template
+  gets recalled).
+
+Earlier transcripts carry the same tell — "maybe this is a standard textbook
+exercise I should recognize", "this reminds me of a classic CAD tutorial part"
+— which we read as harmless narration at the time.
+
+Shipped (all three hosts): recognition is declared a CONTAMINANT, not
+evidence — "this is that classic exercise" is a STOP signal, and every
+dimension, axis and relation must be traceable to something pointable in THIS
+image ("a fact you cannot point at is not a fact"). Caveat: the previous
+iteration's "name your default construction" instruction may have *amplified*
+template matching; it is kept but explicitly subordinated as a hypothesis to
+falsify.
+
+Also, second recurrence: "the part is symmetric about the XZ mid-plane, so
+there is no handedness risk" — used AGAIN to declare the mirror check
+inapplicable. Symmetry about one plane says nothing about the other axes.
+Now explicitly voided as an exemption in all three hosts (the buerli-ai loop
+gate ignores the claim anyway — it does not ask).

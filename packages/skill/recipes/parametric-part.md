@@ -93,7 +93,7 @@ Small parameter changes (bore 25.4→30, hub +20 %) regenerate exactly in one st
 
 Don't trust success codes — several failure modes above report success. After a
 regen, check volume and probe a known feature position: see
-[recipes/verify-numerically](verify-numerically.md).
+[recipes/verification](verification.md).
 
 ## Related
 

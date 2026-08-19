@@ -51,6 +51,10 @@ const ali = d.readDoc('SKETCHING')
 check('SKETCHING alias resolves', ali !== null && ali.key === 'recipes/constrained-sketching')
 check('alias via describeMethod', d.describeMethod('SKETCHING').kind === 'doc')
 check('recipes group lists constrained-sketching', d.listDocs().recipes.includes('recipes/constrained-sketching'))
+const a1 = d.readDoc('recipes/verify-numerically')
+check('verify-numerically alias -> verification', a1 !== null && a1.key === 'recipes/verification')
+const a2 = d.readDoc('recipes/drawing-reproduction')
+check('drawing-reproduction alias -> verification', a2 !== null && a2.key === 'recipes/verification')
 
 // index
 const idx = d.methodIndex()

@@ -321,9 +321,9 @@ export const DOCS_TOOL = {
   description:
     'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
     'unique bare name), topic docs ("DATA", "STRUCTURE", "GRAPHICS"), recipes ' +
-    '("recipes/constrained-sketching", "recipes/parametric-part", ' +
-    '"recipes/pattern-then-subtract", "recipes/direct-modeling-eif", ' +
-    '"recipes/verify-numerically", "recipes/drawing-reproduction"), and domain overviews ("api/part"). PLAN FIRST: pick every method you ' +
+    '("recipes/verification" — MANDATORY in every build fetch, "recipes/constrained-sketching", ' +
+    '"recipes/parametric-part", "recipes/pattern-then-subtract", ' +
+    '"recipes/direct-modeling-eif"), and domain overviews ("api/part"). PLAN FIRST: pick every method you ' +
     `will need from the method index, then fetch ALL of them plus the matching topic/recipe docs in ONE ` +
     `call (up to ${DOCS_MAX_KEYS} keys) — each extra tool round costs a full model round-trip. ` +
     'Unknown keys come back in a "not found" section with suggestions.',
@@ -335,6 +335,8 @@ export const DOCS_TOOL = {
  */
 export const DOC_ALIASES = {
   SKETCHING: 'recipes/constrained-sketching',
+  'recipes/verify-numerically': 'recipes/verification',
+  'recipes/drawing-reproduction': 'recipes/verification',
 }
 
 export default createDiscovery

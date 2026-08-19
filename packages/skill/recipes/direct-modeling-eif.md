@@ -56,7 +56,7 @@ just keep operating and read results directly
 ## Verify
 
 `part.calculateMassProperties` after the final op (volume, COG), plus one or two
-geometry probes — [recipes/verify-numerically](verify-numerically.md). If mass
+geometry probes — [recipes/verification](verification.md). If mass
 properties return null on a body that existed a step earlier, a recalc (or a
 degenerate boolean) destroyed it.
 

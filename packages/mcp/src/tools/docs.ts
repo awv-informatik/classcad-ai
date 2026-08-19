@@ -56,14 +56,14 @@ export function serverInstructions(): string {
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
       'then fetch ALL their docs in ONE docs([...]) call (include "DATA" whenever a script reads api.tree()/api.graphic(), ' +
-      '"recipes/constrained-sketching" before sketch work, the matching build recipe, and ALWAYS "recipes/verify-numerically" — every build ends in verification; reproducing an image/drawing/part additionally REQUIRES "recipes/drawing-reproduction": write its reference record BEFORE building). After that, build in a FEW substantial staged scripts — ' +
+      '"recipes/constrained-sketching" before sketch work, the matching build recipe, and ALWAYS "recipes/verification" — every build ends in verification, and for input references its Part I (reference record) comes BEFORE building). After that, build in a FEW substantial staged scripts — ' +
       'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders. ' +
       'REFERENCE IMAGES — perception before task (measured: chirality read wrong 6/6 in-task, right 3/3 asked ' +
       'in isolation): the moment you FIRST look at a reference image, before extracting dimensions or planning, ' +
       'answer one BINARY image-space question per chirality-critical feature (opening/notch/handedness): ' +
       '"does the gap face X or Y in the image?", with pixel evidence — and FREEZE those answers; nothing later ' +
       'may overturn them (conflicts go to the mirror check, not into a revision). Then fetch ' +
-      '"recipes/drawing-reproduction" and follow it end to end. Numbers only prove the model matches your ' +
+      '"recipes/verification" and follow its Part I end to end. Numbers only prove the model matches your ' +
       'INTENT — probe each frozen fact numerically, and never explain a render-vs-reference difference with ' +
       '"viewing angle".',
     '',

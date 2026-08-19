@@ -532,3 +532,45 @@ record produced in a context that has no build task, and asks the USER about
 anything the reader marks NOT ANSWERABLE FROM THE IMAGE. One block per turn,
 so a stubborn model cannot deadlock. This is the only intervention today with
 direct experimental support rather than a plausible story.
+
+### The batching mistake — why the isolated reader failed in production (2026-08-19)
+
+Ran buerligons myself (ph's exact prompt + original image, Fable 5 / medium).
+The mechanisms fired: the agent delegated a perception pass BEFORE anything
+else, then asked ph a batched clarification with defaults — including, on its
+own initiative, "Ø30 bore depth — its far end is hidden", exactly the
+undecidable it should escalate.
+
+But the isolated reader answered WRONG: "half-cylinder tower (R30, Ø30 bore,
+**flat face toward the hole**)" — the mirrored reading, which the agent then
+faithfully adopted.
+
+Why it failed here but not in the lab: **question count per reader.**
+
+| Setup | Questions per reader | Result |
+| --- | --- | --- |
+| Lab (my 6 probes) | 1 | 6/6 correct |
+| Production (this run) | **7 in one delegation** | chirality WRONG |
+
+And the batching was MY instruction — "batch ALL binary questions into a
+SINGLE delegation, one reader, one round, not a fan-out" — written to save
+rounds. Answering a list forces the reader to construct a coherent whole-part
+interpretation, which is precisely the condition that collapses perception in
+the first place. I re-created the failure mode inside the mechanism designed
+to escape it, and optimised away the one property that made it work.
+
+Fixed in all three hosts: **ONE question per reader, fanned out in parallel**
+(read-only, independent, so the fan-out costs no wall-clock). Batching to save
+rounds destroys what you are paying for.
+
+Two more observations from the same run:
+
+- **Fabricated consent**: having asked its questions and received no answer,
+  the agent told itself *"Since the user already said to proceed, I need to
+  just commit to an interpretation rather than asking again"*. Nobody said
+  that. Asking without a BLOCKING mechanism just produces an invented
+  approval — the ask must suspend the turn, not decorate it.
+- **Mechanical prior deciding chirality again**: it settled the orientation
+  with "if the bore were open to the flat face, the narrower rib would land
+  inside the slot with nothing solid to attach to" — the plausibility prior
+  the recipe explicitly demotes to a tie-breaker, used as the decider.

@@ -158,6 +158,12 @@ export type ToolExecutorContext = {
   drawingId: DrawingID
   /** User-attached files available to the load_file tool (bytes kept app-side, referenced by name). */
   attachments?: FileAttachment[]
+  /**
+   * Base URL of the local agent proxy that performs `fetch_url` server-side
+   * (browsers cannot fetch cross-origin). Defaults to the dev proxy on :8788;
+   * when no proxy is running the tool reports that cleanly instead of hanging.
+   */
+  fetchProxyUrl?: string
 }
 
 export type ToolHandler = (

@@ -22,6 +22,10 @@ bulge faces), and check which sweep contains it — start 90°, end 270°, bulge
 toward −X ⇒ the arc must pass 180° ⇒ counter-clockwise ⇒ `isClockwise:
 false`. A flipped flag silently mirrors the profile.
 
+**An existing arc's direction is immutable** — `updateGeometry` silently ignores
+`isClockwise` (success 31, no change; measured 2026-08-19). Flip = delete + recreate,
+or build with `arcBy3Points` (an on-arc `midPos` pins the sweep, no flag involved).
+
 ## The Method
 
 **Don't hand-compute the layout — and don't assume the drawing is an outline.** Technical
@@ -418,7 +422,10 @@ structure tree and branch on its class:
 - **`CC_Arc`** — derive it from the segment's signed **`bulge`** (`members.bulge.value`, = tan(includedAngle/4))
   and its endpoints `s,e`: `θ = 4·atan(bulge)`, `R = |s−e|/(2·sin(θ/2))`, center = chord-midpoint offset by
   `R·cos(θ/2)` along the chord's left-normal, arc-midpoint at start-angle `+ θ/2`, normal radial. This is the same
-  math the arc renderer uses, and it is **robust for a circle cut any number of times**.
+  math the arc renderer uses, and it is **robust for a circle cut any number of times** — verified 2026-08-19 on
+  8 staged segments incl. a 286° major sub-arc (center/radius recovered to 1e-15; cos(θ/2)'s sign handles >180°).
+  Staged sub-arcs are **CCW-normalized**: positive bulge, endpoints reordered, regardless of the parent
+  circle/arc's direction — read each segment's own bulge + endpoints, never assume the parent's sign survived.
 
 > **Why not the `interval`→angle shortcut?** Mapping a circle-arc `interval` (turn-fraction from the +X seam) to an
 > angle only holds when a circle is cut into exactly **2** arcs. A circle cut 4× (by another circle _and_ a line)

@@ -32,8 +32,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       properties: {
         script: {
           type: 'string',
-          description:
-            'JavaScript source. Executed as an async function body — use await directly, return a (small) summary value.',
+          description: 'JavaScript source. Executed as an async function body — use await directly, return a (small) summary value.',
         },
         label: {
           type: 'string',
@@ -41,7 +40,8 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
         timeoutMs: {
           type: 'number',
-          description: 'Optional timeout for awaited work in ms (default 180000, max 300000 — the in-browser engine is slower per call than a native worker; give big scripts room instead of splitting them).',
+          description:
+            'Optional timeout for awaited work in ms (default 180000, max 300000 — the in-browser engine is slower per call than a native worker; give big scripts room instead of splitting them).',
         },
       },
       required: ['script'],
@@ -59,9 +59,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
   },
   {
     name: 'find',
-    description:
-      'Search the structure tree by class and/or name substring. ' +
-      'Returns slim records (id, class, name, parent).',
+    description: 'Search the structure tree by class and/or name substring. ' + 'Returns slim records (id, class, name, parent).',
     inputSchema: {
       type: 'object',
       properties: {
@@ -92,9 +90,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
   },
   {
     name: 'get_selection',
-    description:
-      "Get the user's current selection in the 3D viewport. " +
-      'Returns an array of selected entity info objects.',
+    description: "Get the user's current selection in the 3D viewport. " + 'Returns an array of selected entity info objects.',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -198,15 +194,18 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
         zoom: { type: 'number', description: 'Multiplier on the auto-fit scale (>1 zooms in).' },
         lookAt: {
-          type: 'array', items: { type: 'number' },
+          type: 'array',
+          items: { type: 'number' },
           description: 'World point [x,y,z] that lands at the image center.',
         },
         layers: {
-          type: 'array', items: { type: 'string', enum: ['solid', 'sketch', 'curves', 'workgeo'] },
+          type: 'array',
+          items: { type: 'string', enum: ['solid', 'sketch', 'curves', 'workgeo'] },
           description: 'Content layers to render. Default ["solid"].',
         },
         colors: {
-          type: 'string', enum: ['native', 'distinct'],
+          type: 'string',
+          enum: ['native', 'distinct'],
           description: '"native" (default): the model\'s own colors. "distinct": one palette color per body — booleans/splits/patterns.',
         },
         section: {
@@ -219,15 +218,20 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
         sheet: {
           type: ['boolean', 'array'],
-          description: 'Multi-view sheet in ONE image. true or an array of 4 views = quadrants (default top/iso/front/right, shared ortho scale). An array of 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.',
+          description:
+            'Multi-view sheet in ONE image. true or an array of 4 views = quadrants (default top/iso/front/right, shared ortho scale). An array of 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.',
         },
         highlight: {
-          type: 'array', items: { type: 'number' },
-          description: 'Ids in signal color (container/solid/face-mesh/edge). Face/edge ids are payload-local — across tool calls use highlightAt.',
+          type: 'array',
+          items: { type: 'number' },
+          description:
+            'Ids in signal color (container/solid/face-mesh/edge). Face/edge ids are payload-local — across tool calls use highlightAt.',
         },
         highlightAt: {
-          type: 'array', items: { type: 'array', items: { type: 'number' } },
-          description: 'World points [[x,y,z],…]: the closest FACE in the rendered payload is highlighted per point (geometrically anchored — robust).',
+          type: 'array',
+          items: { type: 'array', items: { type: 'number' } },
+          description:
+            'World points [[x,y,z],…]: the closest FACE in the rendered payload is highlighted per point (geometrically anchored — robust).',
         },
         markers: {
           type: 'array',
@@ -249,7 +253,10 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
           properties: { scale: { type: 'number' }, midX: { type: 'number' }, midY: { type: 'number' } },
           description: 'Pin the frame reported by an earlier snapshot (same view/size) for pixel-comparable before/after.',
         },
-        recalc: { type: 'boolean', description: 'Default true. MUST be false for solid.*/entity-injection sessions (recalc destroys injected bodies).' },
+        recalc: {
+          type: 'boolean',
+          description: 'Default true. MUST be false for solid.*/entity-injection sessions (recalc destroys injected bodies).',
+        },
       },
     },
   },
@@ -358,31 +365,59 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       'that benefit from separation of concerns (e.g. delegate sketching to the sketch specialist ' +
       'while you focus on the overall part structure).\n\n' +
       'Available agents: sketch, boolean, fillet_chamfer, assembly, analysis, perception.\n' +
-      'The perception agent is a FRESH-EYES image reader: it sees only the attached image(s) and your binary ' +
-      'image-space question(s), with no task context (pass withImages: true) — use it for the perception ' +
-      'pass on reference images.\n' +
+      'The perception agent is a FRESH-EYES image reader: it sees only the attached image(s) and EXACTLY ONE ' +
+      'binary image-space question, with no task context (pass withImages: true). One reader per question — ' +
+      'for several questions, emit several delegate calls in the SAME response so they run in parallel; a ' +
+      'multi-question goal is rejected.\n' +
       'You can also use any custom name — it will run with a generic specialist prompt.',
     inputSchema: {
       type: 'object',
       properties: {
         agent: {
           type: 'string',
-          description: 'Name of the specialist to delegate to: sketch, boolean, fillet_chamfer, assembly, analysis, perception, or a custom name.',
+          description:
+            'Name of the specialist to delegate to: sketch, boolean, fillet_chamfer, assembly, analysis, perception, or a custom name.',
         },
         goal: {
           type: 'string',
-          description: 'Clear, specific goal for the sub-agent. Include all necessary context (IDs, dimensions, constraints — or, for perception, the exact binary questions).',
+          description:
+            'Clear, specific goal for the sub-agent. Include all necessary context (IDs, dimensions, constraints). For perception: exactly ONE binary question, nothing else.',
         },
         withImages: {
           type: 'boolean',
-          description: 'Pass the images attached to the CURRENT user message on to the sub-agent (required for perception delegations — the sub-agent cannot see them otherwise).',
+          description:
+            'Pass the images attached to the CURRENT user message on to the sub-agent (required for perception delegations — the sub-agent cannot see them otherwise).',
         },
         withSnapshots: {
           type: 'boolean',
-          description: 'Pass your last snapshot render(s) on to the sub-agent. Combine with withImages for the mirror check: the reader then holds BOTH the reference and your A|B pair and can judge which panel matches the reference itself — instead of you comparing a render against your own written record, which cannot detect a mirrored record.',
+          description:
+            'Pass your last snapshot render(s) on to the sub-agent. Combine with withImages for the mirror check: the reader then holds BOTH the reference and your A|B pair and can judge which panel matches the reference itself — instead of you comparing a render against your own written record, which cannot detect a mirrored record.',
         },
       },
       required: ['agent', 'goal'],
+    },
+  },
+  {
+    name: 'ask_user',
+    description:
+      'Ask the user blocking question(s). Calling this ENDS YOUR TURN: the questions are shown to the user ' +
+      'and their reply arrives as the next user message — there is nothing to wait for or assume in the ' +
+      'meantime. Use it for facts that are genuinely UNDECIDABLE from the input (hidden bore ends, ambiguous ' +
+      'dimensions, missing values, intent that reads two ways) — not for anything you can measure, probe or ' +
+      'look up yourself. Batch ALL open questions into ONE call, each with your best reading as a default so ' +
+      'a one-word reply unblocks you. Sub-agents cannot use this tool — they report open questions in their ' +
+      'summary instead.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        questions: {
+          type: 'string',
+          description:
+            'The complete batched question text (markdown). Number the items; state your default per item so ' +
+            '"defaults ok" is a sufficient answer.',
+        },
+      },
+      required: ['questions'],
     },
   },
 ]

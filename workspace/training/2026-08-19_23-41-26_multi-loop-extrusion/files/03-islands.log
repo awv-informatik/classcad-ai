@@ -1,0 +1,5 @@
+[03a] island: ext 75 maxLevel 31 vol 39706.74 (39709.73 = annulus+island, 37699.11 = island ignored) bodies 1
+[03b] straddling: ext 245 maxLevel 51 vol undefined [{"api":"v1.part.extrusion","code":1121,"level":51,"levelStr":"ERROR","message":"Curves used for Straddle (CC_Extrusion) self intersect at least at position {50,-8,0}. Please make\r\n\t\t\tsure that t bodies 1
+[03c] regions: [{"id":353,"name":"SketchRegion","parent":10}]
+[03c] base vol 10429.05 (expect 10429.2) → +region-extrude: 447 maxLevel 31 vol 20858.97 (expect 20858.4 if region reused) []
+[filewrite] files/03-islands-results.json (249 bytes)

@@ -96,6 +96,10 @@ Bounds on the whole phase:
 - **"Symmetric about a plane" exempts nothing** — symmetry about one
   plane says nothing about asymmetries along the other axes, and the
   feature at risk is usually on one of those.
+- **Never invent geometry to explain a reading.** A reader answer that
+  implies an otherwise unevidenced feature (a gap, a slot, a cut) is a USER
+  question, not a record fact — one misread "ring gap" became an invented
+  cut that every probe then validated (measured 2026-08-19).
 - Every dimension, axis and relation must be traceable to something you
   can point at in THIS image. "I recognize this part" is recall, not
   reading — the remembered variant differs.
@@ -143,7 +147,10 @@ reference, don't patch silently.
    panels labeled A | B — answer the committed question for each panel
    independently, and pick the matching panel. Judge against the reference
    IMAGE, never against your own record: a mirrored record validates
-   itself. Best: hand reference + pair sheet to a fresh reader with the
+   itself. A reader that reports missing or incomplete images is a FAILED
+   gate — fix the handover and re-run it; judging the comparison yourself
+   is not a fallback (measured 2026-08-19). Best: hand reference + pair
+   sheet to a fresh reader with the
    single question "which panel matches the reference?" (buerli-ai:
    `delegate` with `agent: "perception", withImages: true, withSnapshots:
 true`). If the MIRROR panel matches, your reading was flipped: fix the

@@ -1,0 +1,16 @@
+{
+  "island": {
+    "ext": 75,
+    "vol": 39706.737178873445
+  },
+  "straddle": {
+    "ext": 245,
+    "maxLevel": 51
+  },
+  "regionReuse": {
+    "regions": 1,
+    "ext": 447,
+    "volBase": 10429.048521489622,
+    "volBoth": 20858.971151932987
+  }
+}

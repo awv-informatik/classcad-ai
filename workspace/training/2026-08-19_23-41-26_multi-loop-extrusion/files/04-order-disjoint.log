@@ -1,0 +1,3 @@
+[04a] [inner, outer]: maxLevel 31 vol 25131.91 (25132.74 = annulus regardless of order)
+[04b] two plates+holes: maxLevel 31 vol 22429.23 (22429.20 = each hole assigned to ITS outer)
+[filewrite] files/04-order-disjoint-results.json (71 bytes)

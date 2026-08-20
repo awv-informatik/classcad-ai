@@ -433,7 +433,7 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 
 - **Session:** `2026-07-02_12-55-31_mounting-plate-sketch` (journal §§ 01–10, esp. the matrix in § 10)
 - **Error:** ❌ When an explicit COINCIDENT wires the WRONG endpoint of an arc (start/end roles swapped on mirrored arcs) while auto-constraints wire the junction from the seed positions, every subsequent `DoSolve` fails and wrecks the sketch: `SketchSolverInterface.DoSolve: The specified radius for CalcBulges is too small`, `<DIM>.SetSE: NullMem {x,y,0} ist nicht definiert`, `Line length on angular dimension became zero!`; small arcs collapse to radius 0; EVERY later dimension refuses its value (`Couldn't set the value for dimension $N`) — including dims on satisfied, fully decoupled subgraphs (a plain Ø22 bore). Normal conflicting constraints are handled silently via `lgsState 0` — this class instead diverges from an already-satisfied state and destroys geometry.
-- **Trigger:** exactly-seeded batch geometry (gen* ON) + explicit chain constraints whose endpoint bookkeeping contradicts the seed adjacency; then any constraint/dimension creation that triggers a solve.
+- **Trigger:** exactly-seeded batch geometry (gen\* ON) + explicit chain constraints whose endpoint bookkeeping contradicts the seed adjacency; then any constraint/dimension creation that triggers a solve.
 - **Workaround:** with `genIncidence/genTangency/genVertAndHoriz: false` the same wiring bug is benign — the explicit set alone is solvable and the mis-wiring shows as a small role-swap displacement caught by numeric readback. Ideally the solver would report the contradictory pair instead of diverging.
 
 ### 178. [ ] ⚠️ sketch renderer — `arcByCenter` arcs misdrawn in the 2D sketch plot
@@ -1299,3 +1299,14 @@ When done, mark the entry `[✅]` and append a sub-bullet with the classcad/ccla
 - **⚠️→✅ HANG ROOT-CAUSED & FIXED:** `OperationsHelper.UpdateRegion` soft-filters construction curves (warning "Selection of construction geometry is not allowed") but kept going; a construction-ONLY selection left sketchCurves+regions empty, then it created an empty region and PreviewFeature hung building a solid from it. Fix: bail with a clear error the moment filtering leaves nothing usable, before the empty region is created. cclasses branch `fix/construction-extrude-hang` (874c3598, unpushed). Verified: construction-only extrude now returns fast at maxLevel 51 ("Cannot extrude: no usable (non-construction) geometry was selected" + "no sketch region"); normal extrude still builds; worker stays responsive.
 - **Renderer:** `scripts/render-direct.mjs` reads `isConstruction` per curve and draws it dashed violet (`#a64dff`, dasharray 6,4, width 1.5). Verified across all creation paths.
 - **Docs:** added `isConstruction` to line/circle/arcByCenter/arcBy3Points/rectangle/geometry/updateGeometry/getGeometry .md + a "Construction geometry" section in SKETCHING.md.
+
+### 173. [✅] 🏋️ TRAIN: multi-loop extrusion — outer boundary + inner hole loops in ONE profile
+
+- **Session:** `2026-08-19_23-41-26_multi-loop-extrusion` (4 scripts, all volume-verified against analytic values)
+- **Answers:** nested loops in one `references` array AUTO-SUBTRACT (annulus/plate-with-holes = one body, no boolean); containment is even-odd (islands re-materialize); loop order irrelevant; disjoint outers + their holes combine in one call; straddling loops → hard error 1121 + broken feature id to delete; `CC_SketchRegion` ("SketchRegion") exists only post-extrusion and its id re-extrudes the same holed profile.
+- **Side-findings:** `updateExtrusion` changing `references` on a committed feature → 1200 "not active and open" (param-only updates fine); graphic container count unreliable as body count in a part (island case: 2 solids, 1 container) — volume is the probe.
+- **Docs:** extrusion.md + "Profiles with holes (multi-loop)" section.
+
+### 174b. [ ] 🔧 packages/script — validate PARAM NAMES against the registry, not just method names
+
+- **Trigger:** same run — `arcBy3Points({ passagePos })` (hallucinated param) was silently ignored; call returned null for missing `midPos`, cost a round + a wrong diagnosis. Registry has the param tables; unknown-param throw with suggestion would catch this class at the source.

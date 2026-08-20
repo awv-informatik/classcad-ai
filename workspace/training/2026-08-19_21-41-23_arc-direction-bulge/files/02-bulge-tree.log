@@ -1,0 +1,7 @@
+[02] quarter cw=true bulge -2.4142135623730954 vol 1428.40 cog -0.58,-0.58,2.50
+[02] quarter cw=false bulge 0.4142135623730953 vol 142.70 cog 5.84,5.84,2.50
+[02] semi cw=true bulge -0.9999999999999999 vol 785.39 cog -0.00,4.24,2.50
+[02] semi cw=false bulge 0.9999999999999999 vol 785.37 cog 0.00,-4.24,2.50
+[02] semiV cw=true bulge -0.9999999999999999 vol 785.53 cog -4.24,-0.00,2.50
+[02] semiV cw=false bulge 0.9999999999999999 vol 785.40 cog 4.24,0.00,2.50
+[filewrite] files/02-bulge-tree-bulges.json (5187 bytes)

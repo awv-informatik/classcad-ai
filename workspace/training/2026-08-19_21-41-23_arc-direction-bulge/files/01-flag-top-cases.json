@@ -1,0 +1,30 @@
+[
+  {
+    "label": "quarter cw=true",
+    "arc": 60,
+    "chord": 65,
+    "ext": 71,
+    "volume": 1428.4047438442399
+  },
+  {
+    "label": "quarter cw=false",
+    "arc": 142,
+    "chord": 147,
+    "ext": 153,
+    "volume": 142.69924122337463
+  },
+  {
+    "label": "semi cw=true",
+    "arc": 224,
+    "chord": 229,
+    "ext": 235,
+    "volume": 785.3874906640643
+  },
+  {
+    "label": "semi cw=false",
+    "arc": 306,
+    "chord": 311,
+    "ext": 317,
+    "volume": 785.3739415332934
+  }
+]

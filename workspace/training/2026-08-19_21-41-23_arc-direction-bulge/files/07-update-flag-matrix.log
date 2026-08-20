@@ -1,0 +1,5 @@
+[07a] created cw=false bulge 0.4142 → update newPos + cw=true: bulge 0.4142 maxLevel 31 start {"x":20,"y":0,"z":0}
+[07b] created cw=false, update newPos NO flag: bulge 0.4142 maxLevel 31
+[07b2] created cw=true, update newPos NO flag: bulge -2.4142 maxLevel 31
+[07c] control fresh cw=true at new pos: bulge -2.4142
+[filewrite] files/07-update-flag-matrix-updflag.json (195 bytes)

@@ -1,0 +1,4 @@
+[05a] flip: before bulge 0.4142 vol 142.7 → after bulge 0.4142 vol 142.7 updateMaxLevel 31
+[05b] swapped, cw=false: bulge 2.4142 vol 1428.4 cog -0.58,-0.58
+[05c] mirrored+reversed, cw=false: bulge 0.4142 vol 142.7 cog -5.84,5.84 (expect minor, cog −5.84,+5.84)
+[filewrite] files/05-update-flip-swap-update.json (866 bytes)

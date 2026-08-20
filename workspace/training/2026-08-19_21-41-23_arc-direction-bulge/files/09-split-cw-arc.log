@@ -1,0 +1,5 @@
+[09] parent bulge -2.4142135623730954
+[09] split into 2 segments
+[09] seg 83 bulge 1.00000 θ 180.0° start (0.00,10.00) end (-0.00,-10.00)
+[09] seg 88 bulge 0.41421 θ 90.0° start (-0.00,-10.00) end (10.00,-0.00)
+[filewrite] files/09-split-cw-arc-cw-splits.json (606 bytes)

@@ -1,7 +1,7 @@
 {
   "name": "@classcad/skill",
   "version": "0.0.6",
-  "description": "LLM skill for the ClassCAD headless CAD engine \u2014 structured API references with verified annotations that help AI agents generate correct ClassCAD code",
+  "description": "LLM skill for the ClassCAD headless CAD engine — structured API references with verified annotations that help AI agents generate correct ClassCAD code",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -32,7 +32,9 @@
     "method-registry.json",
     "bundle.json",
     "discovery.js",
-    "discovery.d.ts"
+    "discovery.d.ts",
+    "prompts.js",
+    "prompts.d.ts"
   ],
   "scripts": {
     "copy-api-docs": "node scripts/copy-api-docs.mjs",
@@ -54,6 +56,10 @@
     "./discovery": {
       "types": "./discovery.d.ts",
       "default": "./discovery.js"
+    },
+    "./prompts": {
+      "types": "./prompts.d.ts",
+      "default": "./prompts.js"
     },
     "./method-registry.json": "./method-registry.json",
     "./bundle.json": "./bundle.json",

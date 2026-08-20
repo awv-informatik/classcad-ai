@@ -1,0 +1,16 @@
+[
+  {
+    "label": "outer-only",
+    "ext": 74,
+    "maxLevel": 31,
+    "vol": 28273.771364735538,
+    "bodies": 1
+  },
+  {
+    "label": "outer+inner",
+    "ext": 112,
+    "maxLevel": 31,
+    "vol": 25131.907678283056,
+    "bodies": 1
+  }
+]

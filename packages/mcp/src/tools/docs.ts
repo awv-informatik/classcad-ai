@@ -11,6 +11,7 @@ import { existsSync, readFileSync } from 'fs'
 import { createRequire } from 'module'
 import { dirname, join } from 'path'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { RECIPES_POINTER, REFERENCE_IMAGE_POINTER } from '@classcad/skill/prompts'
 import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 import bundle from '@classcad/skill/bundle.json' with { type: 'json' }
 import { createDiscovery, DOCS_MAX_KEYS, DOCS_TOOL, type MethodRegistry } from '@classcad/skill/discovery'
@@ -61,18 +62,12 @@ export function serverInstructions(): string {
     'ClassCAD MCP. run_script is the ONLY way to execute API calls (JavaScript against the live CAD session; ' +
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
-      'then fetch ALL their docs in ONE docs([...]) call (include "DATA" whenever a script reads api.tree()/api.graphic(), ' +
-      '"recipes/constrained-sketching" before sketch work, the matching build recipe, and ALWAYS "recipes/verification" — every build ends in verification, and for input references its Part I (reference record) comes BEFORE building). After that, build in a FEW substantial staged scripts — ' +
+      'then fetch ALL their docs in ONE docs([...]) call — include "DATA" whenever a script reads api.tree()/api.graphic(). ' +
+      RECIPES_POINTER +
+      ' After that, build in a FEW substantial staged scripts — ' +
       'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders. ' +
-      'REFERENCE IMAGES: "recipes/verification" Part I governs from FIRST image exposure, before extracting ' +
-      'dimensions or planning — fetch it and follow it to the letter: reference record first (handedness resolved ' +
-      'by coincidence questions; one question per fresh reader when the harness offers subagents; undecidables ' +
-      'ASKED of the user or, headless, DECLARED with the deciding channel; record frozen), then build, then the ' +
-      'final gate — the A|B pair-sheet mirror check (snapshot sheet: [matched view, same view with negated ' +
-      'azimuth]), UNCONDITIONAL for every image-referenced build and judged against the reference IMAGE, never ' +
-      'against your own record. In-task handedness readings are measurably unreliable even when confident; the ' +
-      'record, the readers and the gate exist because of that. Numbers prove the model matches your INTENT — ' +
-      'probe each frozen fact numerically, and never explain a render-vs-reference difference with "viewing angle".',
+      'REFERENCE IMAGES: ' +
+      REFERENCE_IMAGE_POINTER,
     '',
     'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
       'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',

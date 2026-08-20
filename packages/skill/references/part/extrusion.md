@@ -11,7 +11,7 @@ Creates a parametric extrusion feature inside a part by sweeping a 2D sketch pro
 ## Key Parameters
 
 - `id` — **part ID** (not sketch ID, not region ID, not EIF ID)
-- `references` — **required**. Array of sketch region IDs or sketch contour element IDs (line IDs). Both work. Must form a closed profile — open profiles fail with "not manifold."
+- `references` — **required**. Array of sketch region IDs or sketch contour element IDs (line IDs). Both work. Must form a closed profile — open profiles fail with "not manifold." Multiple loops in one array form holes — see "Profiles with holes" below.
 - `type` — extrusion direction mode:
   - `'UP'` (default) — extrudes along sketch plane normal (+Z for XY plane)
   - `'DOWN'` — extrudes opposite to sketch normal
@@ -29,6 +29,16 @@ Creates a parametric extrusion feature inside a part by sweeping a 2D sketch pro
 Feature ID (numeric) on success, with maxLevel=31. The feature ID works with `openFeature`, `closeFeature`, `updateExtrusion`.
 
 On error: returns null or a feature ID with maxLevel=51 (degenerate feature).
+
+## Profiles with holes (multi-loop) — measured 2026-08-19
+
+- **Nested loops auto-subtract.** Pass ALL loops' curve ids in ONE `references` array: `[outerCircle, innerCircle]` → annulus, one body (vol 25131.9 ≈ analytic, r=30/10×h=10); rectangle lines + hole circles → plate with holes, one body. No boolean needed for holes that live in the same sketch.
+- **Containment is even-odd**: an island inside a hole materializes again — `[r40, r20, r8]` → annulus + island post (volume matches analytic sum).
+- **Loop order is irrelevant** — `[inner, outer]` ≡ `[outer, inner]`.
+- **Disjoint outers combine in one call**, each hole assigned to its containing outer: two plates + their two holes in one array → both plates-with-holes from one feature.
+- **Loops must not touch or cross.** A hole straddling the outline fails with error 1121 "Curves … self intersect at least at position {x,y,z}" — and STILL returns a feature id at maxLevel 51 that you must `deleteFeature`.
+- **`CC_SketchRegion` exists only AFTER a curve-based extrusion** (child of the sketch, named "SketchRegion") — a fresh sketch has none, so first-time extrusion goes by curve ids. `getSketchRegion({ id: partId, name: 'SketchRegion' })` resolves it; passing the region id in `references` re-extrudes the SAME multi-loop profile, holes included (verified: volume exactly doubled extruding the region the other way).
+- Caveat: `updateExtrusion` CHANGING `references` on a committed feature errored 1200 "not allowed to update. It's not active and open" — param-only updates (`limit2`, type) are verified working. Recreate the feature, or open it first (`openFeature`), for reference changes.
 
 ## Gotchas
 
@@ -48,16 +58,16 @@ On error: returns null or a feature ID with maxLevel=51 (degenerate feature).
 
 ## Common Errors
 
-| Code | Message | Cause | Fix |
-|------|---------|-------|-----|
-| — | "The provided id for the part is not a part id." | Passed sketch/region/EIF ID as `id` | Use part ID from `part.create` |
-| — | "The parameter 'references' must be provided" | `references` omitted | Always pass `references` |
-| 1122 | "Nothing was selected" | Empty `references: []` | Pass at least one region or line ID |
-| 1122 | "Height not valid. Value for height must be greater than 0" | `limit2: 0` | Use positive or negative limit2 |
-| 1122 | "Direction can't be perpendicular to the normal vector of sketch plane" | Direction in sketch plane | Direction must have component along sketch normal |
-| — | "Brep after linear sweep not manifold" | Open profile (lines don't form closed loop) | Ensure closed profile |
-| 1001 | "capEnds has the wrong type" | Passed string instead of integer | Use `1` or `0`, not `'TRUE'`/`'FALSE'` |
-| — | "Sketch.GetNormal:CCObject can not be opened" | Sketch created without `planeId` | Set `planeId` on `sketch.create` |
+| Code | Message                                                                 | Cause                                       | Fix                                               |
+| ---- | ----------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------- |
+| —    | "The provided id for the part is not a part id."                        | Passed sketch/region/EIF ID as `id`         | Use part ID from `part.create`                    |
+| —    | "The parameter 'references' must be provided"                           | `references` omitted                        | Always pass `references`                          |
+| 1122 | "Nothing was selected"                                                  | Empty `references: []`                      | Pass at least one region or line ID               |
+| 1122 | "Height not valid. Value for height must be greater than 0"             | `limit2: 0`                                 | Use positive or negative limit2                   |
+| 1122 | "Direction can't be perpendicular to the normal vector of sketch plane" | Direction in sketch plane                   | Direction must have component along sketch normal |
+| —    | "Brep after linear sweep not manifold"                                  | Open profile (lines don't form closed loop) | Ensure closed profile                             |
+| 1001 | "capEnds has the wrong type"                                            | Passed string instead of integer            | Use `1` or `0`, not `'TRUE'`/`'FALSE'`            |
+| —    | "Sketch.GetNormal:CCObject can not be opened"                           | Sketch created without `planeId`            | Set `planeId` on `sketch.create`                  |
 
 ## Working Example
 
@@ -67,64 +77,78 @@ const topId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Top' })).r
 
 // Create sketch WITH planeId
 const skId = (await api.v1.sketch.create({ id: partId, planeId: topId })).result
-const rectIds = (await api.v1.sketch.rectangle({
-  id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0]
-})).result
+const rectIds = (
+  await api.v1.sketch.rectangle({
+    id: skId,
+    startPos: [0, 0, 0],
+    endPos: [80, 50, 0],
+  })
+).result
 const regionId = (await api.v1.sketch.sketchRegion({ id: skId, geomIds: rectIds })).result
 
 // Extrusion from region
-const extId = (await api.v1.part.extrusion({
-  id: partId,
-  name: 'MyExtrusion',
-  references: [regionId],
-  type: 'UP',
-  limit2: 60,
-})).result
+const extId = (
+  await api.v1.part.extrusion({
+    id: partId,
+    name: 'MyExtrusion',
+    references: [regionId],
+    type: 'UP',
+    limit2: 60,
+  })
+).result
 // extId → 96 (feature ID)
 
 // Alternative: pass line IDs directly (no region needed)
-const extId2 = (await api.v1.part.extrusion({
-  id: partId,
-  references: rectIds, // [58, 64, 70, 76]
-  limit2: 40,
-})).result
+const extId2 = (
+  await api.v1.part.extrusion({
+    id: partId,
+    references: rectIds, // [58, 64, 70, 76]
+    limit2: 40,
+  })
+).result
 
 // Expression-driven
 await api.v1.part.expression({ id: partId, toCreate: [{ name: 'H', value: 50 }] })
-const extId3 = (await api.v1.part.extrusion({
-  id: partId,
-  references: [regionId],
-  limit2: '@expr.H',
-  taperAngle: 0.1,
-})).result
+const extId3 = (
+  await api.v1.part.extrusion({
+    id: partId,
+    references: [regionId],
+    limit2: '@expr.H',
+    taperAngle: 0.1,
+  })
+).result
 
 // Custom direction (diagonal extrusion)
-const extId4 = (await api.v1.part.extrusion({
-  id: partId,
-  references: [regionId],
-  type: 'CUSTOM',
-  direction: [1, 0, 1], // diagonal — magnitude doesn't matter
-  limit1: 0,
-  limit2: 50,
-})).result
+const extId4 = (
+  await api.v1.part.extrusion({
+    id: partId,
+    references: [regionId],
+    type: 'CUSTOM',
+    direction: [1, 0, 1], // diagonal — magnitude doesn't matter
+    limit1: 0,
+    limit2: 50,
+  })
+).result
 
 // Sheet body (no caps)
-const extId5 = (await api.v1.part.extrusion({
-  id: partId,
-  references: [regionId],
-  limit2: 40,
-  capEnds: 0, // integer, NOT string
-})).result
+const extId5 = (
+  await api.v1.part.extrusion({
+    id: partId,
+    references: [regionId],
+    limit2: 40,
+    capEnds: 0, // integer, NOT string
+  })
+).result
 ```
 
 ## Type Behavior
 
-| Type | Direction | limit1 | limit2 | Result |
-|------|-----------|--------|--------|--------|
-| UP | +sketch normal | ignored | distance in + direction | Extrudes "up" from sketch |
-| DOWN | -sketch normal | ignored | distance in - direction | Extrudes "down" from sketch |
-| SYMMETRIC | both | ignored | total distance split equally | Centers on sketch plane |
-| CUSTOM | user-specified `direction` | start offset | end offset | Extrudes along custom vector |
+| Type      | Direction                  | limit1       | limit2                       | Result                       |
+| --------- | -------------------------- | ------------ | ---------------------------- | ---------------------------- |
+| UP        | +sketch normal             | ignored      | distance in + direction      | Extrudes "up" from sketch    |
+| DOWN      | -sketch normal             | ignored      | distance in - direction      | Extrudes "down" from sketch  |
+| SYMMETRIC | both                       | ignored      | total distance split equally | Centers on sketch plane      |
+| CUSTOM    | user-specified `direction` | start offset | end offset                   | Extrudes along custom vector |
 
 **Note:** "up" and "down" are relative to the sketch plane normal, not world Z. A sketch on the Front plane (normal=[0,1,0]) extrudes along Y for UP.
 

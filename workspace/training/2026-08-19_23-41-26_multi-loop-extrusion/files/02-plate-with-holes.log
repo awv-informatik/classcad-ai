@@ -1,0 +1,9 @@
+[02] rect lines: [60,64,70,76] holes: 92 95
+[02] all-curves: ext 100 vol 55977.92 (expect 55978.76) bodies 1
+[02] region nodes post-extrude: [{"id":104,"class":"CC_SketchRegion","name":"SketchRegion","parent":10}]
+[02] getSketchRegion("SketchRegion"): 104 maxLevel 31
+[02] getSketchRegion("Region"): null maxLevel 51
+[02] getSketchRegion("Region1"): null maxLevel 51
+[02] getSketchRegion("SketchRegion1"): null maxLevel 51
+[02] +straddling hole: update maxLevel 51 vol 55977.92 [{"api":"v1.part.updateExtrusion","code":1200,"level":51,"levelStr":"ERROR","message":"The provided feature is not allowed to update. It's not active and open."},{"api":"v1.part.updateExtrusion","code
+[filewrite] files/02-plate-with-holes-results.json (2586 bytes)

@@ -1,0 +1,7 @@
+[01] part 4 topPlane 38
+[01] expect vol: minorSeg 142.70 majorSeg 1428.10 semi 785.40
+[01] quarter cw=true arc 60 ext 71 vol 1428.405 cog undefined
+[01] quarter cw=false arc 142 ext 153 vol 142.699 cog undefined
+[01] semi cw=true arc 224 ext 235 vol 785.387 cog undefined
+[01] semi cw=false arc 306 ext 317 vol 785.374 cog undefined
+[filewrite] files/01-flag-top-cases.json (489 bytes)

@@ -21,6 +21,7 @@ Creates one or multiple arcs defined by start, mid, and end positions in a sketc
 ## midPos Behavior
 
 midPos does double duty:
+
 1. **Selects the circle** — three non-collinear points define exactly one circle. Different midPos values with the same start/end produce different circles with different radii and centers.
 2. **Selects the arc** — midPos determines which of the two arcs between start and end is used (minor vs major arc).
 
@@ -29,10 +30,19 @@ midPos must lie on the desired arc. It does not merely indicate "curvature direc
 ## Internal Representation
 
 arcBy3Points creates the same `CC_CircularArc` node as `arcByCenter`. The server computes the center from the 3 input points. After creation, the arc is indistinguishable from one created via `arcByCenter`:
+
 - Same structure: arc + 3 child points (end, start, center)
 - Same query methods (`getPositions`, `getPoints`, `getGeometry`)
 - Same update method (`updateGeometry` with `arcsByCenter` key)
 - Same deletion method (`deleteObject`)
+
+## Direction & bulge
+
+The stored tree bulge (`members.bulge.value` = tan(signedSweep/4), positive = CCW in sketch-local coords) follows from which side `midPos` sits on — measured 2026-08-19: apex-above semicircle → −1.0 (≡ `arcByCenter` cw=true), minor-arc-via-45°-midpoint → +0.4142 (≡ cw=false). Because `midPos` pins the sweep geometrically, arcBy3Points is the **flag-free way to build arcs**: you can't get the complement through direction confusion, only by placing `midPos` on the wrong side. Direction is still fixed at creation (`updateGeometry` ignores `isClockwise`).
+
+## Param-name trap
+
+The third point is **`midPos`** — in BOTH the sketch and curve domains. An invented name (`passagePos`, `pointPos`, …) is **silently ignored**: the call fails with a null result for missing `midPos`, and the script layer offers no typo suggestion (it validates method names, not param names; observed in production 2026-08-19). Fetch this doc before first use.
 
 ## Return Value
 
@@ -61,16 +71,19 @@ const r = await api.v1.sketch.arcBy3Points([
 ## Querying Arc Data
 
 **`getPositions(arcId)`** — works directly on arc IDs. Returns computed center:
+
 ```js
 { startPos: { x, y, z }, endPos: { x, y, z }, centerPos: { x, y, z } }
 ```
 
 **`getPoints(arcId)`** — returns child point IDs:
+
 ```js
 { startId: id, endId: id, centerId: id }
 ```
 
 **`getGeometry(sketchId)`** — arcs appear in the `arcs` array:
+
 ```js
 { arcs: [id, ...], circles: [...], lines: [...], points: [...] }
 ```
@@ -82,12 +95,14 @@ Use `updateGeometry` with the **`arcsByCenter`** array (same key as arcByCenter 
 ```js
 await api.v1.sketch.updateGeometry({
   id: skId,
-  arcsByCenter: [{
-    id: arcId,
-    startPos: [-20, 0, 0],
-    centerPos: [0, 0, 0],
-    endPos: [20, 0, 0],
-  }]
+  arcsByCenter: [
+    {
+      id: arcId,
+      startPos: [-20, 0, 0],
+      centerPos: [0, 0, 0],
+      endPos: [20, 0, 0],
+    },
+  ],
 })
 ```
 
@@ -111,12 +126,12 @@ Returns null on success (maxLevel=31). `getPositions`/`getPoints` on deleted arc
 
 ## Common Errors
 
-| Error | Code | Level | Cause |
-|-------|------|-------|-------|
-| "startPos which is a 2D point, must have a z-value of 0!" | 1014 | 51 (ERROR) | Non-zero Z coordinate |
-| "Invalid arc parameters" | 0 | 51 (ERROR) | Collinear, coincident, or degenerate points |
-| "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]" | 1001 | 51 (ERROR) | Passed part ID instead of sketch ID |
-| "The parameter \"midPos\" must be provided in the api call!" | 1004 | 51 (ERROR) | Missing required parameter |
+| Error                                                                                     | Code | Level      | Cause                                       |
+| ----------------------------------------------------------------------------------------- | ---- | ---------- | ------------------------------------------- |
+| "startPos which is a 2D point, must have a z-value of 0!"                                 | 1014 | 51 (ERROR) | Non-zero Z coordinate                       |
+| "Invalid arc parameters"                                                                  | 0    | 51 (ERROR) | Collinear, coincident, or degenerate points |
+| "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]" | 1001 | 51 (ERROR) | Passed part ID instead of sketch ID         |
+| "The parameter \"midPos\" must be provided in the api call!"                              | 1004 | 51 (ERROR) | Missing required parameter                  |
 
 ## Working Example
 
@@ -125,12 +140,14 @@ const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const skId = (await api.v1.sketch.create({ id: partId })).result
 
 // Create an arc from (0,0,0) through (20,20,0) to (40,0,0)
-const arcId = (await api.v1.sketch.arcBy3Points({
-  id: skId,
-  startPos: [0, 0, 0],
-  midPos: [20, 20, 0],
-  endPos: [40, 0, 0],
-})).result
+const arcId = (
+  await api.v1.sketch.arcBy3Points({
+    id: skId,
+    startPos: [0, 0, 0],
+    midPos: [20, 20, 0],
+    endPos: [40, 0, 0],
+  })
+).result
 
 // Query — returns computed center
 const pos = (await api.v1.sketch.getPositions({ id: arcId })).result
@@ -139,21 +156,30 @@ const pos = (await api.v1.sketch.getPositions({ id: arcId })).result
 // Update (uses arcsByCenter key)
 await api.v1.sketch.updateGeometry({
   id: skId,
-  arcsByCenter: [{
-    id: arcId,
-    startPos: [-20, 0, 0],
-    centerPos: [0, 0, 0],
-    endPos: [20, 0, 0],
-  }]
+  arcsByCenter: [
+    {
+      id: arcId,
+      startPos: [-20, 0, 0],
+      centerPos: [0, 0, 0],
+      endPos: [20, 0, 0],
+    },
+  ],
 })
 
 // Use in closed profile
-const lineId = (await api.v1.sketch.line({
-  id: skId, startPos: [40, 0, 0], endPos: [0, 0, 0]
-})).result
-const regionId = (await api.v1.sketch.sketchRegion({
-  id: skId, geomIds: [arcId, lineId]
-})).result
+const lineId = (
+  await api.v1.sketch.line({
+    id: skId,
+    startPos: [40, 0, 0],
+    endPos: [0, 0, 0],
+  })
+).result
+const regionId = (
+  await api.v1.sketch.sketchRegion({
+    id: skId,
+    geomIds: [arcId, lineId],
+  })
+).result
 ```
 
 ## Related

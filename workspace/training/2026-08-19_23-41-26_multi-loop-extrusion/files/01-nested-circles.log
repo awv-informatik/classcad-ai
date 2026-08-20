@@ -1,0 +1,5 @@
+[01] regions in tree: []
+[filewrite] files/01-nested-circles-region-nodes.json (2 bytes)
+[01] refs=outer-only: ext 74 maxLevel 31 vol 28273.77 bodies 1
+[01] refs=outer+inner: ext 112 maxLevel 31 vol 25131.91 bodies 1
+[filewrite] files/01-nested-circles-results.json (240 bytes)

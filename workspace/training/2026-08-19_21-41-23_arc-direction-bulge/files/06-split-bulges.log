@@ -1,0 +1,12 @@
+[06 A: circle+line] circle 60 split into 2 segments
+[06 A: circle+line] seg 78 bulge 1.00000 θ 180.0° R 10.0000 center (-0.0000,0.0000) → centerErr 3.7e-32 rErr 0.0e+0 ✓
+[06 A: circle+line] seg 83 bulge 1.00000 θ 180.0° R 10.0000 center (0.0000,0.0000) → centerErr 1.1e-31 rErr 0.0e+0 ✓
+[06 B: circle+line+circle] circle 108 split into 4 segments
+[06 B: circle+line+circle] seg 134 bulge 0.37796 θ 82.8° R 10.0000 center (-0.0000,0.0000) → centerErr 1.2e-15 rErr 1.8e-15 ✓
+[06 B: circle+line+circle] seg 139 bulge 0.21525 θ 48.6° R 10.0000 center (0.0000,0.0000) → centerErr 0.0e+0 rErr 1.8e-15 ✓
+[06 B: circle+line+circle] seg 144 bulge 1.00000 θ 180.0° R 10.0000 center (0.0000,-0.0000) → centerErr 1.2e-31 rErr 0.0e+0 ✓
+[06 B: circle+line+circle] seg 149 bulge 0.21525 θ 48.6° R 10.0000 center (-0.0000,0.0000) → centerErr 4.4e-16 rErr 1.8e-15 ✓
+[06 C: major sub-arc] circle 185 split into 2 segments
+[06 C: major sub-arc] seg 203 bulge 3.00000 θ 286.3° R 10.0000 center (0.0000,-0.0000) → centerErr 3.6e-15 rErr 3.6e-15 ✓
+[06 C: major sub-arc] seg 208 bulge 0.33333 θ 73.7° R 10.0000 center (-0.0000,-0.0000) → centerErr 1.8e-15 rErr 1.8e-15 ✓
+[filewrite] files/06-split-bulges-splits.json (4625 bytes)

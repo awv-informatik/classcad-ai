@@ -1,0 +1,284 @@
+[
+  {
+    "label": "quarter cw=true",
+    "arc": 60,
+    "bulge": -2.4142135623730954,
+    "cls": "CC_Arc",
+    "infoKeys": [
+      "constraints",
+      "dimensions",
+      "geometry",
+      "id",
+      "isConstruction",
+      "isReference",
+      "status",
+      "type"
+    ],
+    "info": {
+      "constraints": [],
+      "dimensions": [],
+      "geometry": {
+        "centerId": 63,
+        "endId": 61,
+        "radius": 10,
+        "startId": 62
+      },
+      "id": 60,
+      "isConstruction": 0,
+      "isReference": 0,
+      "status": "OK",
+      "type": "ARC"
+    },
+    "posStart": {
+      "x": 10,
+      "y": 0,
+      "z": 0
+    },
+    "posEnd": {
+      "x": 0,
+      "y": 10,
+      "z": 0
+    },
+    "volume": 1428.4047438442399,
+    "cog": {
+      "x": -0.5810122853894424,
+      "y": -0.5810544752307939,
+      "z": 2.499415801887486
+    }
+  },
+  {
+    "label": "quarter cw=false",
+    "arc": 106,
+    "bulge": 0.4142135623730953,
+    "cls": "CC_Arc",
+    "infoKeys": [
+      "constraints",
+      "dimensions",
+      "geometry",
+      "id",
+      "isConstruction",
+      "isReference",
+      "status",
+      "type"
+    ],
+    "info": {
+      "constraints": [],
+      "dimensions": [],
+      "geometry": {
+        "centerId": 109,
+        "endId": 107,
+        "radius": 9.999999999999996,
+        "startId": 108
+      },
+      "id": 106,
+      "isConstruction": 0,
+      "isReference": 0,
+      "status": "OK",
+      "type": "ARC"
+    },
+    "posStart": {
+      "x": 10,
+      "y": 0,
+      "z": 0
+    },
+    "posEnd": {
+      "x": 0,
+      "y": 10,
+      "z": 0
+    },
+    "volume": 142.69924122337463,
+    "cog": {
+      "x": 5.838394048322348,
+      "y": 5.838818053172574,
+      "z": 2.498223399485569
+    }
+  },
+  {
+    "label": "semi cw=true",
+    "arc": 152,
+    "bulge": -0.9999999999999999,
+    "cls": "CC_Arc",
+    "infoKeys": [
+      "constraints",
+      "dimensions",
+      "geometry",
+      "id",
+      "isConstruction",
+      "isReference",
+      "status",
+      "type"
+    ],
+    "info": {
+      "constraints": [],
+      "dimensions": [],
+      "geometry": {
+        "centerId": 155,
+        "endId": 153,
+        "radius": 10,
+        "startId": 154
+      },
+      "id": 152,
+      "isConstruction": 0,
+      "isReference": 0,
+      "status": "OK",
+      "type": "ARC"
+    },
+    "posStart": {
+      "x": -10,
+      "y": 0,
+      "z": 0
+    },
+    "posEnd": {
+      "x": 10,
+      "y": 0,
+      "z": 0
+    },
+    "volume": 785.3874906640643,
+    "cog": {
+      "x": -0.0000767494783356238,
+      "y": 4.240296421356596,
+      "z": 2.499356832061615
+    }
+  },
+  {
+    "label": "semi cw=false",
+    "arc": 198,
+    "bulge": 0.9999999999999999,
+    "cls": "CC_Arc",
+    "infoKeys": [
+      "constraints",
+      "dimensions",
+      "geometry",
+      "id",
+      "isConstruction",
+      "isReference",
+      "status",
+      "type"
+    ],
+    "info": {
+      "constraints": [],
+      "dimensions": [],
+      "geometry": {
+        "centerId": 201,
+        "endId": 199,
+        "radius": 9.999999999999998,
+        "startId": 200
+      },
+      "id": 198,
+      "isConstruction": 0,
+      "isReference": 0,
+      "status": "OK",
+      "type": "ARC"
+    },
+    "posStart": {
+      "x": -10,
+      "y": 0,
+      "z": 0
+    },
+    "posEnd": {
+      "x": 10,
+      "y": 0,
+      "z": 0
+    },
+    "volume": 785.3739415332934,
+    "cog": {
+      "x": 0.00007674947833363975,
+      "y": -4.240296421356595,
+      "z": 2.499356832061615
+    }
+  },
+  {
+    "label": "semiV cw=true",
+    "arc": 244,
+    "bulge": -0.9999999999999999,
+    "cls": "CC_Arc",
+    "infoKeys": [
+      "constraints",
+      "dimensions",
+      "geometry",
+      "id",
+      "isConstruction",
+      "isReference",
+      "status",
+      "type"
+    ],
+    "info": {
+      "constraints": [],
+      "dimensions": [],
+      "geometry": {
+        "centerId": 247,
+        "endId": 245,
+        "radius": 10,
+        "startId": 246
+      },
+      "id": 244,
+      "isConstruction": 0,
+      "isReference": 0,
+      "status": "OK",
+      "type": "ARC"
+    },
+    "posStart": {
+      "x": 0,
+      "y": -10,
+      "z": 0
+    },
+    "posEnd": {
+      "x": 0,
+      "y": 10,
+      "z": 0
+    },
+    "volume": 785.5348517204118,
+    "cog": {
+      "x": -4.240296421356597,
+      "y": -0.00007674947833552746,
+      "z": 2.4993568320616153
+    }
+  },
+  {
+    "label": "semiV cw=false",
+    "arc": 290,
+    "bulge": 0.9999999999999999,
+    "cls": "CC_Arc",
+    "infoKeys": [
+      "constraints",
+      "dimensions",
+      "geometry",
+      "id",
+      "isConstruction",
+      "isReference",
+      "status",
+      "type"
+    ],
+    "info": {
+      "constraints": [],
+      "dimensions": [],
+      "geometry": {
+        "centerId": 293,
+        "endId": 291,
+        "radius": 10,
+        "startId": 292
+      },
+      "id": 290,
+      "isConstruction": 0,
+      "isReference": 0,
+      "status": "OK",
+      "type": "ARC"
+    },
+    "posStart": {
+      "x": 0,
+      "y": -10,
+      "z": 0
+    },
+    "posEnd": {
+      "x": 0,
+      "y": 10,
+      "z": 0
+    },
+    "volume": 785.4017208963922,
+    "cog": {
+      "x": 4.240296421356595,
+      "y": 0.00007674947833556203,
+      "z": 2.499356832061615
+    }
+  }
+]

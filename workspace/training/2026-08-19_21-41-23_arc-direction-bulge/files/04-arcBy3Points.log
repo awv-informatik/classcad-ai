@@ -1,0 +1,5 @@
+[04] mid +y apex bulge -1.00000 vol 785.39 cog -0.00,4.24 start {"x":-10,"y":0,"z":0}
+[04] mid -y apex bulge 1.00000 vol 785.37 cog 0.00,-4.24 start {"x":-10,"y":0,"z":0}
+[04] minor via 45deg bulge 0.41421 vol 142.70 cog 5.84,5.84 start {"x":10,"y":0,"z":0}
+[04] major via 225deg bulge -2.41421 vol 1428.40 cog -0.58,-0.58 start {"x":10,"y":0,"z":0}
+[filewrite] files/04-arcBy3Points-arc3p.json (1951 bytes)

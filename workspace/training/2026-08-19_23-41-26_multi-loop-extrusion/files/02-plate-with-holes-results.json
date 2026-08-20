@@ -1,0 +1,116 @@
+{
+  "ext": 100,
+  "vol": 55977.91853758142,
+  "bodies": 1,
+  "regionNodes": [
+    {
+      "name": "SketchRegion",
+      "class": "CC_SketchRegion",
+      "id": 104,
+      "flags": 0,
+      "parent": 10,
+      "members": {
+        "sketch": {
+          "value": 54,
+          "type": "id",
+          "visible": 1,
+          "expression": ""
+        },
+        "_VERSION": {
+          "value": "1/2024_4_10_16:00",
+          "type": "string",
+          "visible": 0,
+          "expression": ""
+        },
+        "curves": {
+          "members": [
+            {
+              "value": 60,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 64,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 70,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 76,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 92,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 95,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "type": "array",
+          "visible": 1,
+          "expression": ""
+        },
+        "selected": {
+          "members": [
+            {
+              "value": 60,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 64,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 70,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 76,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 92,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            },
+            {
+              "value": 95,
+              "type": "id",
+              "visible": 1,
+              "expression": ""
+            }
+          ],
+          "type": "array",
+          "visible": 1,
+          "expression": ""
+        }
+      }
+    }
+  ],
+  "straddleVol": 55977.91853758142,
+  "straddleLevel": 51
+}

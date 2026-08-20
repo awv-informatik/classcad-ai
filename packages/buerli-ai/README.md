@@ -111,19 +111,20 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 
 ## What the agent can do (tools)
 
-| Tool                               | Purpose                                                                         |
-| ---------------------------------- | ------------------------------------------------------------------------------- |
-| `run_script`                       | THE execution medium: model-written JavaScript — `await api.v1.*`, `api.tree()`, `api.graphic()`; single ops and full builds alike; follow-up scripts attach to the existing model |
-| `tree` / `find` / `inspect`        | Read the structure tree, search nodes, full node detail                         |
-| `get_selection` / `set_selection`  | Read or set the user's 3D selection                                             |
-| `list_methods`                     | Discover methods: the documented v1 surface (264 methods, ranked keyword search with CAD synonyms) plus live reflection of the buerli namespaces |
-| `docs`                             | Bulk documentation — many keys in one call: per-method docs, topic guides (`DATA`, …), API overviews, worked recipes (`recipes/verification` is mandatory reading for every build). Same single-source discovery as the ClassCAD MCP server |
-| `snapshot`                         | Deterministic render of the drawing (@classcad/renderer): standard views, section, sheet, highlightAt, markers, annotate, x-ray, frame pinning — sent to the model as vision when the selected model supports it; tessellation is auto-tightened for the image and restored (`quality: 'fast'` opts out) |
-| `checkpoint` / `restore`           | In-memory save/rollback of the whole drawing — failed attempts become cheap     |
-| `notes`                            | Persistent per-drawing scratchpad (plan, key ids) that survives context pruning |
-| `load_file`                        | Import a user-attached CAD file                                                 |
-| `download`                         | Export STEP/STL/OFB as a download button in the chat                            |
-| `delegate`                         | Hand a sub-task to a specialist sub-agent (runs with the full base prompt)      |
+| Tool                              | Purpose                                                                                                                                                                                                                                                                                                  |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run_script`                      | THE execution medium: model-written JavaScript — `await api.v1.*`, `api.tree()`, `api.graphic()`; single ops and full builds alike; follow-up scripts attach to the existing model                                                                                                                       |
+| `tree` / `find` / `inspect`       | Read the structure tree, search nodes, full node detail                                                                                                                                                                                                                                                  |
+| `get_selection` / `set_selection` | Read or set the user's 3D selection                                                                                                                                                                                                                                                                      |
+| `list_methods`                    | Discover methods: the documented v1 surface (264 methods, ranked keyword search with CAD synonyms) plus live reflection of the buerli namespaces                                                                                                                                                         |
+| `docs`                            | Bulk documentation — many keys in one call: per-method docs, topic guides (`DATA`, …), API overviews, worked recipes (`recipes/verification` is mandatory reading for every build). Same single-source discovery as the ClassCAD MCP server                                                              |
+| `snapshot`                        | Deterministic render of the drawing (@classcad/renderer): standard views, section, sheet, highlightAt, markers, annotate, x-ray, frame pinning — sent to the model as vision when the selected model supports it; tessellation is auto-tightened for the image and restored (`quality: 'fast'` opts out) |
+| `checkpoint` / `restore`          | In-memory save/rollback of the whole drawing — failed attempts become cheap                                                                                                                                                                                                                              |
+| `notes`                           | Persistent per-drawing scratchpad (plan, key ids) that survives context pruning                                                                                                                                                                                                                          |
+| `ask_user`                        | Blocking question(s) to the user — ends the turn; the reply arrives as the next message                                                                                                                                                                                                                  |
+| `load_file`                       | Import a user-attached CAD file                                                                                                                                                                                                                                                                          |
+| `download`                        | Export STEP/STL/OFB as a download button in the chat                                                                                                                                                                                                                                                     |
+| `delegate`                        | Hand a sub-task to a specialist sub-agent (runs with the full base prompt)                                                                                                                                                                                                                               |
 
 Everything executes in the browser against the buerli API — no extra server for CAD.
 The ClassCAD knowledge (method registry + curated docs + recipes) ships via the
@@ -133,6 +134,28 @@ The ClassCAD knowledge (method registry + curated docs + recipes) ships via the
 Long sessions stay healthy on their own: oversized tool results are size-capped, and
 when the history approaches the model's context window, old tool results are pruned —
 recent turns, all conversation text, and the agent's `notes` survive.
+
+## Inside the agent loop
+
+`runAgentLoop` is a plain tool-use cycle with two kinds of self-correction layered on:
+
+- **Recovery nudges** — bounded, synthetic user messages that repair transport/model
+  hiccups instead of killing the run: a provider that reports a tool call but drops the
+  payload is asked to re-issue it; a response truncated at the output cap is told to
+  continue where it left off; a model that narrates intent ("let me build…") without
+  emitting the call is nudged to act. Transient endpoint errors are retried.
+- **Verification gates** (reference-image turns) — the enforcement arm of
+  `recipes/verification`, in code where it cannot be argued away: the first
+  `run_script` is blocked until an isolated `perception` reader has read the drawing
+  (one question per reader — in-task readings are the measured failure mode), and the
+  turn cannot end until a fresh reader judged an A|B pair render against the reference
+  image. Each gate fires at most once per turn, so a stubborn model ends the turn
+  rather than looping.
+- **Sub-agents** — `delegate` runs a nested loop one level deeper (no re-delegation),
+  persona layered on top of the full base prompt. Exception: the `perception` reader
+  runs with NO base prompt — fresh, task-free context is its entire value; it can be
+  handed the user's reference images (`withImages`) and recent snapshot renders
+  (`withSnapshots`) for judging.
 
 ## Production
 

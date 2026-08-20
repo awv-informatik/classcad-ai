@@ -1,0 +1,5 @@
+[03] planes {"Top":38,"Front":42,"Right":46}
+[03] Top bulge 0.41421 vol 142.70 cog 5.838,5.839,2.498 expected 5.83797,5.83797,2.5 ✓
+[03] Front bulge 0.41421 vol 142.72 cog 5.838,2.498,-5.839 expected 5.83797,2.5,-5.83797 ✓
+[03] Right bulge 0.41421 vol 142.68 cog 2.498,-5.839,5.838 expected 2.5,-5.83797,5.83797 ✓
+[filewrite] files/03-planes-planes.json (967 bytes)

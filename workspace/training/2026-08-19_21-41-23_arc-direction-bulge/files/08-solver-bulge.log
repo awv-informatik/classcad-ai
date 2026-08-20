@@ -1,0 +1,6 @@
+[08 baseline r=10] bulge 0.414214 θ 90.00° R(bulge) 10.000000 R(positions) 10.000000 Δ 0.00e+0 ✓
+[08] updateDimension r=15 → 1
+[08 after r=15] bulge 0.414214 θ 90.00° R(bulge) 15.000000 R(positions) 15.000000 Δ 3.55e-15 ✓
+[08] updateDimension r=6 → 1
+[08 after r=6] bulge 0.414214 θ 90.00° R(bulge) 6.000000 R(positions) 6.000000 Δ 8.88e-16 ✓
+[filewrite] files/08-solver-bulge-solver.json (982 bytes)

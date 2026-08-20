@@ -1,4 +1,4 @@
-# Recipe: Direct modeling with solid.* inside an Entity Injection Feature (EIF)
+# Recipe: Direct modeling with solid.\* inside an Entity Injection Feature (EIF)
 
 For programmatic, non-parametric construction (imported logic, generated geometry,
 one-shot builds) use the **solid API inside an entity injection feature** — not a
@@ -67,11 +67,11 @@ degenerate boolean) destroyed it.
 
 ## When to prefer this over the feature tree
 
-| Situation | Use |
-|---|---|
-| Model should regenerate on parameter change | feature tree + expressions → [recipes/parametric-part](parametric-part.md) |
-| Generated one-shot geometry, imported/computed shapes | EIF + solid.* (this recipe) |
-| User will edit features interactively later | feature tree |
+| Situation                                             | Use                                                                        |
+| ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| Model should regenerate on parameter change           | feature tree + expressions → [recipes/parametric-part](parametric-part.md) |
+| Generated one-shot geometry, imported/computed shapes | EIF + solid.\* (this recipe)                                               |
+| User will edit features interactively later           | feature tree                                                               |
 
 ## Related
 

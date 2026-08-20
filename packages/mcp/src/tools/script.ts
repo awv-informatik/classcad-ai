@@ -50,7 +50,7 @@ function sessionFor(client: Client): ScriptSession {
         try {
           const r = await client.execute({ 'v1.common.recalc': [{}] })
           const g = (r as { graphic?: import('@classcad/script').Graphic }).graphic
-          if (g?.containers?.some(c => (c.meshes?.length ?? 0) > 0 || (c.edges?.length ?? 0) > 0)) return g
+          if (g?.containers?.some((c) => (c.meshes?.length ?? 0) > 0 || (c.edges?.length ?? 0) > 0)) return g
         } catch {
           /* fall back to accumulated graphic */
         }
@@ -83,7 +83,9 @@ export function registerScriptTool(server: McpServer, client: Client): void {
         'scripts: a follow-up script ATTACHES to the existing model (re-discover via api.tree(); tree ids ' +
         'are stable; NEVER part.create when a part already exists). Even a single operation is a run_script.',
       inputSchema: {
-        script: z.string().describe('JavaScript source. Executed as an async function body — use await directly, return a (small) summary value.'),
+        script: z
+          .string()
+          .describe('JavaScript source. Executed as an async function body — use await directly, return a (small) summary value.'),
         label: z.string().optional().describe('Short label describing what this script does.'),
         timeoutMs: z.number().int().min(1000).max(300000).optional().describe('Timeout for awaited work in ms (default 60000).'),
       },

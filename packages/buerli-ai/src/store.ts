@@ -10,8 +10,28 @@ export type UIMessage =
   | { type: 'user'; text: string; images?: string[]; files?: string[] }
   | { type: 'assistant'; text: string }
   | { type: 'thinking'; text: string; collapsed?: boolean }
-  | { type: 'tool'; id?: string; name: string; label?: string; status: 'running' | 'done' | 'error'; detail?: string; input?: Record<string, unknown>; result?: unknown; image?: string; download?: { filename: string; mimeType: string; data: string } }
-  | { type: 'subagent'; id?: string; name: string; goal: string; status: 'running' | 'done'; summary?: string; images?: number; snapshots?: number }
+  | {
+      type: 'tool'
+      id?: string
+      name: string
+      label?: string
+      status: 'running' | 'done' | 'error'
+      detail?: string
+      input?: Record<string, unknown>
+      result?: unknown
+      image?: string
+      download?: { filename: string; mimeType: string; data: string }
+    }
+  | {
+      type: 'subagent'
+      id?: string
+      name: string
+      goal: string
+      status: 'running' | 'done'
+      summary?: string
+      images?: number
+      snapshots?: number
+    }
 
 /**
  * Ordered session events captured for the code-mirror panel. Enough to generate a
@@ -98,7 +118,7 @@ export const createAgentStore = () =>
       if (get().isRunning) return
 
       const controller = new AbortController()
-      set(s => ({
+      set((s) => ({
         isRunning: true,
         error: null,
         messages: [
@@ -106,8 +126,8 @@ export const createAgentStore = () =>
           {
             type: 'user',
             text,
-            images: images?.map(im => `data:${im.mediaType};base64,${im.data}`),
-            files: files?.map(f => f.name),
+            images: images?.map((im) => `data:${im.mediaType};base64,${im.data}`),
+            files: files?.map((f) => f.name),
           },
         ],
         // Record the request so the code panel can annotate what each block was for.
@@ -131,19 +151,24 @@ export const createAgentStore = () =>
       // Tell the model which files are attached so it can import them with load_file.
       const fileNote =
         files && files.length
-          ? `\n\n[Attached files — import with load_file using the exact name: ${files.map(f => f.name).join(', ')}]`
+          ? `\n\n[Attached files — import with load_file using the exact name: ${files.map((f) => f.name).join(', ')}]`
           : ''
       const llmText = text + fileNote
 
       try {
-        for await (const event of runAgentLoop(llmText, history, { ...config, attachments: files, signal: controller.signal, onStreamDelta }, images)) {
+        for await (const event of runAgentLoop(
+          llmText,
+          history,
+          { ...config, attachments: files, signal: controller.signal, onStreamDelta },
+          images,
+        )) {
           // The folded round has landed — drop the live ticker for this round.
           liveBuf = ''
           if (get().liveThinking !== null) set({ liveThinking: null })
           switch (event.type) {
             case 'text':
               assistantText += event.text
-              set(s => {
+              set((s) => {
                 const msgs = [...s.messages]
                 // Update or add assistant message
                 const last = msgs[msgs.length - 1]
@@ -157,13 +182,13 @@ export const createAgentStore = () =>
               break
 
             case 'thinking':
-              set(s => ({
+              set((s) => ({
                 messages: [...s.messages, { type: 'thinking', text: event.text, collapsed: true }],
               }))
               break
 
             case 'tool_start':
-              set(s => {
+              set((s) => {
                 // Capture API calls (≈ buerli lines) and file imports (preconditions).
                 const inp = event.input as any
                 let next = s.codeLog
@@ -194,10 +219,10 @@ export const createAgentStore = () =>
               break
 
             case 'tool_end':
-              set(s => {
+              set((s) => {
                 const msgs = [...s.messages]
                 // Match by id so concurrent same-named tools update the right row.
-                const i = msgs.findIndex(m => m.type === 'tool' && m.id === event.id && m.status === 'running')
+                const i = msgs.findIndex((m) => m.type === 'tool' && m.id === event.id && m.status === 'running')
                 if (i >= 0) {
                   const prev = msgs[i] as Extract<UIMessage, { type: 'tool' }>
                   const r = event.result
@@ -218,17 +243,22 @@ export const createAgentStore = () =>
                     detail = formatToolResult(r.result)
                   }
                   msgs[i] = {
-                    type: 'tool', id: event.id, name: event.name,
+                    type: 'tool',
+                    id: event.id,
+                    name: event.name,
                     label: r.error ? prev.label : enrichLabel(event.name, prev.label, r.result),
-                    status: r.error ? 'error' : 'done', detail, image, download,
+                    status: r.error ? 'error' : 'done',
+                    detail,
+                    image,
+                    download,
                     input: prev.input,
                     result: image || download ? undefined : sanitizeForUi(r.result),
                   }
                 }
                 // Finalise the matching code-log entry: status, return value (for ID
                 // threading), and any error message.
-                const codeLog = s.codeLog.some(e => 'id' in e && e.id === event.id)
-                  ? s.codeLog.map(e => {
+                const codeLog = s.codeLog.some((e) => 'id' in e && e.id === event.id)
+                  ? s.codeLog.map((e) => {
                       if (!('id' in e) || e.id !== event.id) return e
                       if (e.kind === 'lookup') return { ...e, ret: event.result.result }
                       const status = (event.result.error ? 'error' : 'done') as 'done' | 'error'
@@ -244,18 +274,26 @@ export const createAgentStore = () =>
               break
 
             case 'subagent_start':
-              set(s => ({
+              set((s) => ({
                 messages: [
                   ...s.messages,
-                  { type: 'subagent', id: event.id, name: event.name, goal: event.goal, status: 'running', images: event.images, snapshots: event.snapshots },
+                  {
+                    type: 'subagent',
+                    id: event.id,
+                    name: event.name,
+                    goal: event.goal,
+                    status: 'running',
+                    images: event.images,
+                    snapshots: event.snapshots,
+                  },
                 ],
               }))
               break
 
             case 'subagent_end':
-              set(s => {
+              set((s) => {
                 const msgs = [...s.messages]
-                const i = msgs.findIndex(m => m.type === 'subagent' && m.id === event.id && m.status === 'running')
+                const i = msgs.findIndex((m) => m.type === 'subagent' && m.id === event.id && m.status === 'running')
                 if (i >= 0) {
                   const prev = msgs[i] as Extract<UIMessage, { type: 'subagent' }>
                   msgs[i] = { ...prev, status: 'done', summary: event.summary }
@@ -309,7 +347,7 @@ function toolLabel(name: string, input: Record<string, unknown>): string {
   let detail = ''
   switch (name) {
     case 'docs': {
-      const keys = Array.isArray(input?.keys) ? (input.keys as unknown[]).filter(k => typeof k === 'string') : []
+      const keys = Array.isArray(input?.keys) ? (input.keys as unknown[]).filter((k) => typeof k === 'string') : []
       detail = keys.length <= 4 ? keys.join(', ') : `${keys.slice(0, 4).join(', ')} +${keys.length - 4}`
       break
     }
@@ -391,7 +429,7 @@ function sanitizeForUi(value: unknown, depth = 0): unknown {
   if (value == null || typeof value !== 'object') return value
   if (depth >= 6) return '…'
   if (Array.isArray(value)) {
-    const head = value.slice(0, 200).map(v => sanitizeForUi(v, depth + 1))
+    const head = value.slice(0, 200).map((v) => sanitizeForUi(v, depth + 1))
     if (value.length > 200) head.push(`… (+${value.length - 200} items)`)
     return head
   }

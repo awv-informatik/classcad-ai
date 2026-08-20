@@ -9,7 +9,16 @@
 // This adapter maps our internal Message[]/ContentBlock[] to/from that shape so
 // the rest of the agent (loop, tools, UI) is unchanged.
 
-import type { ChatParams, ChatResponse, ContentBlock, LLMProvider, McpToolSchema, Message, ToolResultContent, UserContentBlock } from './types'
+import type {
+  ChatParams,
+  ChatResponse,
+  ContentBlock,
+  LLMProvider,
+  McpToolSchema,
+  Message,
+  ToolResultContent,
+  UserContentBlock,
+} from './types'
 import { mapModelsResponse, modelsUrlFrom } from './capabilities'
 
 export type ResponsesProviderConfig = {
@@ -59,7 +68,7 @@ export function createResponsesProvider(config: ResponsesProviderConfig): LLMPro
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${config.apiKey}`,
+          Authorization: `Bearer ${config.apiKey}`,
           ...config.headers,
         },
         body: JSON.stringify(body),
@@ -101,7 +110,10 @@ export function createResponsesProvider(config: ResponsesProviderConfig): LLMPro
                 onDelta({ thinking: j.delta })
               } else if (j.type === 'response.output_text.delta' && typeof j.delta === 'string' && j.delta) {
                 onDelta({ text: j.delta })
-              } else if ((j.type === 'response.completed' || j.type === 'response.incomplete' || j.type === 'response.failed') && j.response) {
+              } else if (
+                (j.type === 'response.completed' || j.type === 'response.incomplete' || j.type === 'response.failed') &&
+                j.response
+              ) {
                 finalResponse = j.response
               }
             } catch {
@@ -119,7 +131,7 @@ export function createResponsesProvider(config: ResponsesProviderConfig): LLMPro
     // the Copilot proxy and OpenAI). Rejects on CORS/404 → the panel hides the picker.
     async getCapabilities() {
       const res = await fetch(modelsUrlFrom(endpoint), {
-        headers: { 'Authorization': `Bearer ${config.apiKey}`, ...config.headers },
+        headers: { Authorization: `Bearer ${config.apiKey}`, ...config.headers },
       })
       if (!res.ok) throw new Error(`models request failed (${res.status})`)
       // This provider only speaks the Responses surface, so list only responses-capable models.
@@ -138,7 +150,7 @@ function buildInput(messages: Message[]): unknown[] {
       const parts: unknown[] =
         typeof msg.content === 'string'
           ? [{ type: 'input_text', text: msg.content }]
-          : (msg.content as UserContentBlock[]).map(block =>
+          : (msg.content as UserContentBlock[]).map((block) =>
               block.type === 'image'
                 ? { type: 'input_image', image_url: `data:${block.source.media_type};base64,${block.source.data}` }
                 : { type: 'input_text', text: block.text },
@@ -175,7 +187,7 @@ function buildInput(messages: Message[]): unknown[] {
       if (images.length > 0) {
         out.push({
           role: 'user',
-          content: images.map(im => ({
+          content: images.map((im) => ({
             type: 'input_image',
             image_url: `data:${im.source.media_type};base64,${im.source.data}`,
           })),
@@ -190,7 +202,7 @@ function buildInput(messages: Message[]): unknown[] {
 
 function convertTools(tools: McpToolSchema[]): unknown[] {
   // Responses API uses a FLAT function tool shape (no nested "function" wrapper).
-  return tools.map(t => ({
+  return tools.map((t) => ({
     type: 'function',
     name: t.name,
     description: t.description,
@@ -229,7 +241,7 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
     }
   }
 
-  const hasToolUse = content.some(b => b.type === 'tool_use')
+  const hasToolUse = content.some((b) => b.type === 'tool_use')
   const u = json.usage as { input_tokens?: number; output_tokens?: number } | undefined
   // Responses API signals output-limit truncation via status/incomplete_details.
   // Surfacing it lets the agent loop auto-continue instead of ending the turn

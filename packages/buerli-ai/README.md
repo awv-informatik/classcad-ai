@@ -122,9 +122,10 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 | `checkpoint` / `restore`          | In-memory save/rollback of the whole drawing — failed attempts become cheap                                                                                                                                                                                                                              |
 | `notes`                           | Persistent per-drawing scratchpad (plan, key ids) that survives context pruning                                                                                                                                                                                                                          |
 | `ask_user`                        | Blocking question(s) to the user — ends the turn; the reply arrives as the next message                                                                                                                                                                                                                  |
+| `fetch_url`                       | One GET through the local proxy (see below): a page as readable text plus the image URLs it shows, or an image itself. A fetched image becomes a conversation reference image, so the verification gates apply to it as to an attachment. Not a browser — no link following, no logins, and no JavaScript execution |
 | `load_file`                       | Import a user-attached CAD file                                                                                                                                                                                                                                                                          |
 | `download`                        | Export STEP/STL/OFB as a download button in the chat                                                                                                                                                                                                                                                     |
-| `delegate`                        | Hand a sub-task to a specialist sub-agent (runs with the full base prompt)                                                                                                                                                                                                                               |
+| `delegate`                        | Hand a sub-task to a specialist sub-agent (sketch, boolean, fillet_chamfer, assembly, analysis — layered on the full base prompt). `perception` is the exception: a fresh-eyes image reader with NO CAD prompt and no task context, given `withImages` (the user's references) and optionally `withSnapshots` (your renders) so it can judge a render against the reference itself |
 
 Everything executes in the browser against the buerli API — no extra server for CAD.
 The ClassCAD knowledge (method registry + curated docs + recipes) ships via the
@@ -150,7 +151,9 @@ recent turns, all conversation text, and the agent's `notes` survive.
   (one question per reader — in-task readings are the measured failure mode), and the
   turn cannot end until a fresh reader judged an A|B pair render against the reference
   image. Each gate fires at most once per turn, so a stubborn model ends the turn
-  rather than looping.
+  rather than looping. Reference images are tracked across the whole conversation,
+  and an image pulled by `fetch_url` is registered as one — otherwise a drawing
+  arriving as a tool result would walk past every gate.
 - **Sub-agents** — `delegate` runs a nested loop one level deeper (no re-delegation),
   persona layered on top of the full base prompt. Exception: the `perception` reader
   runs with NO base prompt — fresh, task-free context is its entire value; it can be
@@ -255,10 +258,11 @@ const myProvider: LLMProvider = {
 variant; pass the JSONs yourself
 (`import bundle from '@classcad/skill/bundle.json' with { type: 'json' }`).
 
-## GitHub Copilot (optional)
+## The local proxy (GitHub Copilot + web fetch)
 
-If your team has a GitHub Copilot subscription, the package ships a small local proxy
-(browsers can't call `api.githubcopilot.com` directly):
+The package ships a small local proxy for the two things a browser cannot do itself:
+call `api.githubcopilot.com` (if your team has a Copilot subscription), and fetch
+arbitrary web pages (CORS):
 
 ```bash
 npx copilot-proxy auth   # one-time GitHub device-flow login
@@ -270,3 +274,26 @@ The proxy stores a `COPILOT_OAUTH_TOKEN` in `./.env.local` — that token is a s
 secret: keep the file gitignored and never expose it to client code. This is a development
 convenience, not a multi-user production gateway. (For Node contexts where you already
 hold a Copilot session token, `createCopilotProvider({ token })` calls the API directly.)
+
+### `POST /v1/fetch` — the web fetch behind `fetch_url`
+
+`{ "url": "https://…" }` → `{ kind: 'text', title, text, images[] }` for HTML/JSON/plain
+text (markup stripped, entities decoded, the page's image URLs resolved absolute), or
+`{ kind: 'image', mediaType, base64 }` for png/jpeg/gif/webp. Independent of Copilot —
+it works whether or not you use Copilot as the model provider.
+
+A local process fetching model-chosen URLs is an SSRF risk: it can reach what the page
+cannot — your CAD worker on `:9094`, LAN devices, cloud metadata at `169.254.169.254`.
+The endpoint is therefore bounded, and the bound that matters is the third one:
+
+- http/https only, **ports 80/443 only**, GET only, 5 MB and 15 s caps;
+- **every resolved ADDRESS is checked, not the hostname** — private, loopback, link-local,
+  CGNAT and multicast ranges are refused at the socket's DNS lookup, so a name that
+  resolves public once and private on the next lookup (DNS rebinding) cannot get through;
+- every redirect hop is re-validated the same way;
+- no credentials, no cookies, no local headers outbound; nothing set inbound;
+- content-type allowlist — anything else is rejected rather than guessed at.
+
+**It cannot run JavaScript.** Client-rendered pages return a near-empty shell; static
+pages, docs, raw files, API endpoints and images work. When a fetched HTML page yields
+almost no text, the response says so and suggests a direct resource URL instead.

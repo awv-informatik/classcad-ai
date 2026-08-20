@@ -165,6 +165,30 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
     },
   },
   {
+    name: 'fetch_url',
+    description:
+      'Fetch ONE http/https URL through the local agent proxy and return its content — a single GET, ' +
+      'not a browser: no link following, no sessions, no logins, no cookies. Use it to read a spec page, ' +
+      'a datasheet, an API/JSON endpoint, or to pull a reference DRAWING or PHOTO the user linked.\n' +
+      'Returns readable text for HTML/JSON/plain text, or the picture itself for png/jpeg/gif/webp. ' +
+      'A fetched image becomes a REFERENCE IMAGE for this conversation — the verification gates arm on it ' +
+      'exactly as if the user had attached it, so read it with perception readers before building.\n' +
+      'LIMIT — worth knowing before you reach for it: a plain fetch cannot run JavaScript. Sites that ' +
+      'render their content client-side return a near-empty shell; static pages, documentation, raw files ' +
+      'and JSON endpoints work fine. When a page comes back empty, prefer a direct resource URL (the image ' +
+      'file itself, a raw/export link, an API endpoint) or ask the user to paste the content instead of ' +
+      'retrying the same page.\n' +
+      'Only http/https on ports 80/443; private, loopback and link-local addresses are refused by the proxy.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        url: { type: 'string', description: 'Absolute http(s) URL to fetch.' },
+        reason: { type: 'string', description: 'Short note on what you expect to find (shown in the UI).' },
+      },
+      required: ['url'],
+    },
+  },
+  {
     name: 'snapshot',
     description:
       'Render the drawing as a PNG — DETERMINISTIC by default: standard views, whole model in frame, ' +

@@ -49,7 +49,8 @@ export async function* runAgentLoop(
 
   // Subagents (depth > 0) cannot delegate (unbounded recursion) and cannot reach
   // the user (their "user" is the caller — open questions go into the summary).
-  const tools = depth > 0 ? TOOL_SCHEMAS.filter((t) => t.name !== 'delegate' && t.name !== 'ask_user') : TOOL_SCHEMAS
+  const tools =
+    depth > 0 ? TOOL_SCHEMAS.filter((t) => t.name !== 'delegate' && t.name !== 'ask_user' && t.name !== 'fetch_url') : TOOL_SCHEMAS
 
   // The most recent snapshot renders, kept so a `delegate` can be handed the
   // actual pictures (withSnapshots) instead of a description of them.
@@ -62,7 +63,7 @@ export async function* runAgentLoop(
   // attachments, and a `withImages` handover must still deliver the actual drawing
   // (measured failure: the gate reader got only the A|B sheet, no reference, and the
   // agent then judged the match itself against its own misread record).
-  const hadReferenceImages = depth === 0 && !!images && images.length > 0
+  let hadReferenceImages = depth === 0 && !!images && images.length > 0
   const historyImages: ImageInput[] =
     depth === 0
       ? history
@@ -74,7 +75,7 @@ export async function* runAgentLoop(
           )
       : []
   const referenceImages: ImageInput[] = [...historyImages, ...(images ?? [])].slice(-4)
-  const conversationHasReferenceImages = depth === 0 && referenceImages.length > 0
+  let conversationHasReferenceImages = depth === 0 && referenceImages.length > 0
   let geometryWasBuilt = false // a run_script actually ran
   let mirrorJudged = false // a fresh reader saw reference AND render
   let mirrorNudges = 0
@@ -384,6 +385,19 @@ export async function* runAgentLoop(
           attachments: config.attachments,
         })
         if (tu.name === 'run_script' && !result.error) geometryWasBuilt = true
+        // A drawing fetched from the web is a REFERENCE, exactly like an attached
+        // one — register it so the perception and mirror gates arm and `withImages`
+        // handovers carry it. Without this, an image arriving as a tool result
+        // would walk straight past every gate we built.
+        if (tu.name === 'fetch_url' && depth === 0 && result.result && typeof result.result === 'object') {
+          const fetched = result.result as { kind?: string; image?: string; mediaType?: string }
+          if (fetched.kind === 'image' && fetched.image) {
+            referenceImages.push({ data: fetched.image, mediaType: fetched.mediaType ?? 'image/png' })
+            while (referenceImages.length > 4) referenceImages.shift()
+            hadReferenceImages = true
+            conversationHasReferenceImages = true
+          }
+        }
         if (tu.name === 'snapshot' && result.result && typeof result.result === 'object') {
           const snap = result.result as { image?: string; mimeType?: string }
           if (snap.image) {
@@ -500,6 +514,19 @@ function buildSystemPrompt(config: AgentConfig): string {
 function buildToolResultContent(toolName: string, result: ToolResult, sendSnapshotImage: boolean): string | ToolResultContent[] {
   if (result.error) {
     return capJson({ error: result.error }, 12000)
+  }
+
+  // A fetched image is sent as a vision block — the model must SEE the reference
+  // it just pulled, not read a description of it. (Registered as a conversation
+  // reference image in the loop, so the gates arm on it.)
+  if (toolName === 'fetch_url' && result.result && typeof result.result === 'object') {
+    const f = result.result as { kind?: string; image?: string; mediaType?: string; finalUrl?: string; bytes?: number; note?: string }
+    if (f.kind === 'image' && f.image) {
+      return [
+        { type: 'image', source: { type: 'base64', media_type: f.mediaType ?? 'image/png', data: f.image } },
+        { type: 'text', text: JSON.stringify({ finalUrl: f.finalUrl, mediaType: f.mediaType, bytes: f.bytes, note: f.note }) },
+      ]
+    }
   }
 
   // Snapshot results include an `image` field with base64 PNG data.

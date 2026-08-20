@@ -404,6 +404,72 @@ const docsTool: ToolHandler = async (input, ctx) => {
   return { result: res.text }
 }
 
+
+const DEFAULT_FETCH_PROXY = 'http://localhost:8788'
+
+/**
+ * Single-shot web fetch through the local agent proxy. The browser cannot fetch
+ * cross-origin, so the proxy does it — with the SSRF guardrails living THERE
+ * (http/https only, ports 80/443, private/loopback/link-local refused on every
+ * resolved address and every redirect hop, no cookies or credentials, 5 MB cap).
+ * Images come back as pictures and are registered by the agent loop as
+ * conversation reference images, so the verification gates arm on them.
+ */
+const fetchUrl: ToolHandler = async (input, ctx) => {
+  const url = String(input.url ?? '').trim()
+  if (!url) return { error: 'fetch_url needs a "url".' }
+  const base = (ctx.fetchProxyUrl || DEFAULT_FETCH_PROXY).replace(/\/+$/, '')
+  let res: Response
+  try {
+    res = await fetch(`${base}/v1/fetch`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ url }),
+    })
+  } catch {
+    return {
+      error:
+        `Could not reach the local agent proxy at ${base}. Web fetching needs it running ` +
+        `(\`npx copilot-proxy\`). Ask the user to start it, or continue without the page.`,
+    }
+  }
+  const data = (await res.json().catch(() => null)) as
+    | { error?: string; kind?: string; text?: string; title?: string; note?: string; finalUrl?: string; contentType?: string; base64?: string; mediaType?: string; bytes?: number; images?: string[] }
+    | null
+  if (!data) return { error: 'The proxy returned an unreadable response.' }
+  if (!res.ok || data.error) return { error: data.error || `fetch failed (${res.status})` }
+  if (data.kind === 'image') {
+    return {
+      result: {
+        kind: 'image',
+        finalUrl: data.finalUrl,
+        mediaType: data.mediaType,
+        bytes: data.bytes,
+        image: data.base64,
+        note: 'Registered as a reference image for this conversation — the perception and mirror gates now apply.',
+      },
+    }
+  }
+  const text = data.text ?? ''
+  return {
+    result: {
+      kind: 'text',
+      finalUrl: data.finalUrl,
+      contentType: data.contentType,
+      title: data.title,
+      bytes: data.bytes,
+      // The pictures a page shows are often the actual payload (a drawing, a
+      // dimension table). Stripping tags loses them, so they come back as URLs:
+      // fetch_url one of these to pull the image itself — it then counts as a
+      // reference image and the verification gates apply.
+      images: data.images?.length ? data.images : undefined,
+      truncated: text.length > 40000 || undefined,
+      text: text.slice(0, 40000),
+      note: data.note,
+    },
+  }
+}
+
 const HANDLERS: Record<string, ToolHandler> = {
   run_script: runScriptHandler,
   tree,
@@ -419,6 +485,7 @@ const HANDLERS: Record<string, ToolHandler> = {
   checkpoint,
   restore,
   notes,
+  fetch_url: fetchUrl,
 }
 
 export async function executeTool(

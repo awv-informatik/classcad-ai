@@ -167,10 +167,7 @@ export type ToolExecutorContext = {
   fetchProxyUrl?: string
 }
 
-export type ToolHandler = (
-  input: Record<string, unknown>,
-  ctx: ToolExecutorContext,
-) => Promise<ToolResult>
+export type ToolHandler = (input: Record<string, unknown>, ctx: ToolExecutorContext) => Promise<ToolResult>
 
 // ─── Agent configuration ──────────────────────────────────────────────────────
 

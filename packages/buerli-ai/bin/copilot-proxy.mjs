@@ -183,7 +183,7 @@ async function deviceFlow() {
   const interval = (dc.interval || 5) * 1000
   const deadline = Date.now() + (dc.expires_in || 900) * 1000
   while (Date.now() < deadline) {
-    await new Promise(r => setTimeout(r, interval))
+    await new Promise((r) => setTimeout(r, interval))
     const res = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
       headers: { Accept: 'application/json' },
@@ -271,7 +271,7 @@ async function listModels() {
   const r = await fetch(COPILOT_MODELS, { headers: { Authorization: 'Bearer ' + tok, ...COPILOT_HEADERS } })
   const j = await r.json()
   const rows = (j.data || j.models || [])
-    .map(m => ({ id: m.id || m.name, vendor: m.vendor || (m.id || '').split('/')[0] }))
+    .map((m) => ({ id: m.id || m.name, vendor: m.vendor || (m.id || '').split('/')[0] }))
     .sort((a, b) => String(a.id).localeCompare(String(b.id)))
   for (const m of rows) console.log(m.id)
 }
@@ -292,205 +292,254 @@ async function serve() {
     console.warn(`[proxy] startup token exchange failed (transient?) — serving anyway; will retry per request. ${msg.slice(0, 160)}`)
   }
 
+  // ─── Safe URL fetch (POST /v1/fetch) ──────────────────────────────────────────
+  //
+  // The browser cannot fetch arbitrary sites (CORS); this local process can — which
+  // makes the endpoint an SSRF hole unless bounded. A local fetcher can reach what
+  // the page cannot: the ClassCAD worker on :9094, LAN devices, cloud metadata at
+  // 169.254.169.254. Hence: http/https only, ports 80/443 only, every resolved
+  // ADDRESS checked (not just the hostname — that is what defeats DNS rebinding,
+  // since a name may resolve public once and private on the next lookup), every
+  // redirect hop re-checked, no credentials out, no cookies either way, hard size
+  // and time caps, GET only.
 
-// ─── Safe URL fetch (POST /v1/fetch) ──────────────────────────────────────────
-//
-// The browser cannot fetch arbitrary sites (CORS); this local process can — which
-// makes the endpoint an SSRF hole unless bounded. A local fetcher can reach what
-// the page cannot: the ClassCAD worker on :9094, LAN devices, cloud metadata at
-// 169.254.169.254. Hence: http/https only, ports 80/443 only, every resolved
-// ADDRESS checked (not just the hostname — that is what defeats DNS rebinding,
-// since a name may resolve public once and private on the next lookup), every
-// redirect hop re-checked, no credentials out, no cookies either way, hard size
-// and time caps, GET only.
+  const FETCH_MAX_BYTES = 5 * 1024 * 1024
+  const FETCH_TIMEOUT_MS = 15000
+  const FETCH_MAX_REDIRECTS = 5
+  const FETCH_PORTS = new Set([80, 443])
+  const FETCH_IMAGE_TYPES = new Set(['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'])
+  const FETCH_TEXT_TYPES = /^(text\/|application\/(json|xml|xhtml\+xml|rss\+xml|javascript))/
 
-const FETCH_MAX_BYTES = 5 * 1024 * 1024
-const FETCH_TIMEOUT_MS = 15000
-const FETCH_MAX_REDIRECTS = 5
-const FETCH_PORTS = new Set([80, 443])
-const FETCH_IMAGE_TYPES = new Set(['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'])
-const FETCH_TEXT_TYPES = /^(text\/|application\/(json|xml|xhtml\+xml|rss\+xml|javascript))/
-
-/** True for any address an outside caller must never be able to reach through us. */
-function isBlockedAddress(ip) {
-  const v = net.isIP(ip)
-  if (!v) return true
-  if (v === 4) {
-    const p = ip.split('.').map(Number)
-    if (p.some(n => !Number.isInteger(n) || n < 0 || n > 255)) return true
-    const [a, b] = p
-    if (a === 0 || a === 10 || a === 127) return true            // this-host, private, loopback
-    if (a === 169 && b === 254) return true                       // link-local incl. cloud metadata
-    if (a === 172 && b >= 16 && b <= 31) return true              // private
-    if (a === 192 && b === 168) return true                       // private
-    if (a === 100 && b >= 64 && b <= 127) return true             // CGNAT
-    if (a === 192 && b === 0) return true                         // IETF protocol assignments
-    if (a === 198 && (b === 18 || b === 19)) return true          // benchmarking
-    if (a >= 224) return true                                     // multicast + reserved + broadcast
+  /** True for any address an outside caller must never be able to reach through us. */
+  function isBlockedAddress(ip) {
+    const v = net.isIP(ip)
+    if (!v) return true
+    if (v === 4) {
+      const p = ip.split('.').map(Number)
+      if (p.some((n) => !Number.isInteger(n) || n < 0 || n > 255)) return true
+      const [a, b] = p
+      if (a === 0 || a === 10 || a === 127) return true // this-host, private, loopback
+      if (a === 169 && b === 254) return true // link-local incl. cloud metadata
+      if (a === 172 && b >= 16 && b <= 31) return true // private
+      if (a === 192 && b === 168) return true // private
+      if (a === 100 && b >= 64 && b <= 127) return true // CGNAT
+      if (a === 192 && b === 0) return true // IETF protocol assignments
+      if (a === 198 && (b === 18 || b === 19)) return true // benchmarking
+      if (a >= 224) return true // multicast + reserved + broadcast
+      return false
+    }
+    const ip6 = ip.toLowerCase().split('%')[0]
+    if (ip6 === '::1' || ip6 === '::') return true
+    const mapped = ip6.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/)
+    if (mapped) return isBlockedAddress(mapped[1])
+    // v4-mapped in HEX form (::ffff:a9fe:a9fe = 169.254.169.254) — normalize, re-check.
+    const hexMapped = ip6.match(/^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/)
+    if (hexMapped) {
+      const hi = parseInt(hexMapped[1], 16)
+      const lo = parseInt(hexMapped[2], 16)
+      return isBlockedAddress(`${hi >> 8}.${hi & 255}.${lo >> 8}.${lo & 255}`)
+    }
+    const head = ip6.split(':')[0]
+    if (/^f[cd]/.test(head)) return true // unique local fc00::/7
+    if (/^fe[89ab]/.test(head)) return true // link-local fe80::/10
+    if (/^ff/.test(head)) return true // multicast
     return false
   }
-  const ip6 = ip.toLowerCase().split('%')[0]
-  if (ip6 === '::1' || ip6 === '::') return true
-  const mapped = ip6.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/)
-  if (mapped) return isBlockedAddress(mapped[1])
-  // v4-mapped in HEX form (::ffff:a9fe:a9fe = 169.254.169.254) — normalize, re-check.
-  const hexMapped = ip6.match(/^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/)
-  if (hexMapped) {
-    const hi = parseInt(hexMapped[1], 16)
-    const lo = parseInt(hexMapped[2], 16)
-    return isBlockedAddress(`${hi >> 8}.${hi & 255}.${lo >> 8}.${lo & 255}`)
+
+  /** dns.lookup wrapper that refuses to hand a blocked address to the socket. */
+  function guardedLookup(hostname, options, callback) {
+    dns.lookup(hostname, { ...options, all: true }, (err, addresses) => {
+      if (err) return callback(err)
+      const list = Array.isArray(addresses) ? addresses : [addresses]
+      const ok = list.filter((a) => !isBlockedAddress(a.address))
+      if (!ok.length) {
+        return callback(Object.assign(new Error(`blocked address for ${hostname} (private/loopback/link-local)`), { code: 'EBLOCKED' }))
+      }
+      if (options && options.all) return callback(null, ok)
+      callback(null, ok[0].address, ok[0].family)
+    })
   }
-  const head = ip6.split(':')[0]
-  if (/^f[cd]/.test(head)) return true                            // unique local fc00::/7
-  if (/^fe[89ab]/.test(head)) return true                         // link-local fe80::/10
-  if (/^ff/.test(head)) return true                               // multicast
-  return false
-}
 
-/** dns.lookup wrapper that refuses to hand a blocked address to the socket. */
-function guardedLookup(hostname, options, callback) {
-  dns.lookup(hostname, { ...options, all: true }, (err, addresses) => {
-    if (err) return callback(err)
-    const list = Array.isArray(addresses) ? addresses : [addresses]
-    const ok = list.filter(a => !isBlockedAddress(a.address))
-    if (!ok.length) {
-      return callback(Object.assign(new Error(`blocked address for ${hostname} (private/loopback/link-local)`), { code: 'EBLOCKED' }))
+  function assertFetchableUrl(u) {
+    let url
+    try {
+      url = new URL(u)
+    } catch {
+      throw new Error('not a valid URL')
     }
-    if (options && options.all) return callback(null, ok)
-    callback(null, ok[0].address, ok[0].family)
-  })
-}
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') throw new Error('only http/https URLs are allowed')
+    const port = url.port ? Number(url.port) : url.protocol === 'https:' ? 443 : 80
+    if (!FETCH_PORTS.has(port)) throw new Error('only ports 80 and 443 are allowed')
+    if (net.isIP(url.hostname) && isBlockedAddress(url.hostname)) throw new Error('blocked address (private/loopback/link-local)')
+    return url
+  }
 
-function assertFetchableUrl(u) {
-  let url
-  try { url = new URL(u) } catch { throw new Error('not a valid URL') }
-  if (url.protocol !== 'http:' && url.protocol !== 'https:') throw new Error('only http/https URLs are allowed')
-  const port = url.port ? Number(url.port) : url.protocol === 'https:' ? 443 : 80
-  if (!FETCH_PORTS.has(port)) throw new Error('only ports 80 and 443 are allowed')
-  if (net.isIP(url.hostname) && isBlockedAddress(url.hostname)) throw new Error('blocked address (private/loopback/link-local)')
-  return url
-}
-
-/** One hop. Resolves { status, headers, body, location }. */
-function fetchOnce(url) {
-  return new Promise((resolve, reject) => {
-    const mod = url.protocol === 'https:' ? https : http
-    const req = mod.request(
-      {
-        protocol: url.protocol,
-        hostname: url.hostname,
-        port: url.port || (url.protocol === 'https:' ? 443 : 80),
-        path: url.pathname + url.search,
-        method: 'GET',
-        lookup: guardedLookup,
-        // Deliberately minimal and anonymous: no Authorization, no Cookie, no
-        // local headers. The target must learn nothing about this machine.
-        headers: {
-          'user-agent': 'buerli-ai-fetch/1.0 (+local dev proxy)',
-          accept: 'text/html,application/xhtml+xml,text/plain,application/json,image/*;q=0.8,*/*;q=0.5',
-          'accept-language': 'en,de;q=0.8',
+  /** One hop. Resolves { status, headers, body, location }. */
+  function fetchOnce(url) {
+    return new Promise((resolve, reject) => {
+      const mod = url.protocol === 'https:' ? https : http
+      const req = mod.request(
+        {
+          protocol: url.protocol,
+          hostname: url.hostname,
+          port: url.port || (url.protocol === 'https:' ? 443 : 80),
+          path: url.pathname + url.search,
+          method: 'GET',
+          lookup: guardedLookup,
+          // Deliberately minimal and anonymous: no Authorization, no Cookie, no
+          // local headers. The target must learn nothing about this machine.
+          headers: {
+            'user-agent': 'buerli-ai-fetch/1.0 (+local dev proxy)',
+            accept: 'text/html,application/xhtml+xml,text/plain,application/json,image/*;q=0.8,*/*;q=0.5',
+            'accept-language': 'en,de;q=0.8',
+          },
         },
-      },
-      res => {
-        const chunks = []
-        let size = 0
-        res.on('data', c => {
-          size += c.length
-          if (size > FETCH_MAX_BYTES) { req.destroy(new Error('response exceeds 5 MB cap')); return }
-          chunks.push(c)
-        })
-        res.on('end', () => resolve({ status: res.statusCode || 0, headers: res.headers, body: Buffer.concat(chunks) }))
-      },
+        (res) => {
+          const chunks = []
+          let size = 0
+          res.on('data', (c) => {
+            size += c.length
+            if (size > FETCH_MAX_BYTES) {
+              req.destroy(new Error('response exceeds 5 MB cap'))
+              return
+            }
+            chunks.push(c)
+          })
+          res.on('end', () => resolve({ status: res.statusCode || 0, headers: res.headers, body: Buffer.concat(chunks) }))
+        },
+      )
+      req.setTimeout(FETCH_TIMEOUT_MS, () => req.destroy(new Error('timed out after 15s')))
+      req.on('error', reject)
+      req.end()
+    })
+  }
+
+  /** Follow redirects manually so every hop is re-validated. */
+  async function safeFetch(rawUrl) {
+    let url = assertFetchableUrl(rawUrl)
+    for (let hop = 0; hop <= FETCH_MAX_REDIRECTS; hop++) {
+      const r = await fetchOnce(url)
+      const loc = r.headers.location
+      if (r.status >= 300 && r.status < 400 && loc) {
+        url = assertFetchableUrl(new URL(loc, url).toString())
+        continue
+      }
+      return { ...r, finalUrl: url.toString() }
+    }
+    throw new Error('too many redirects')
+  }
+
+  /** Decode the entities a real page actually contains (German text is full of them). */
+  const NAMED_ENTITIES = {
+    nbsp: ' ',
+    amp: '&',
+    lt: '<',
+    gt: '>',
+    quot: '"',
+    apos: "'",
+    szlig: 'ß',
+    auml: 'ä',
+    ouml: 'ö',
+    uuml: 'ü',
+    Auml: 'Ä',
+    Ouml: 'Ö',
+    Uuml: 'Ü',
+    eacute: 'é',
+    egrave: 'è',
+    agrave: 'à',
+    ccedil: 'ç',
+    deg: '°',
+    euro: '€',
+    hellip: '…',
+    ndash: '–',
+    mdash: '—',
+    laquo: '«',
+    raquo: '»',
+    bdquo: '„',
+    ldquo: '“',
+    rdquo: '”',
+    sbquo: '‚',
+    lsquo: '‘',
+    rsquo: '’',
+    times: '×',
+    divide: '÷',
+    plusmn: '±',
+    micro: 'µ',
+    middot: '·',
+    bull: '•',
+    copy: '©',
+    reg: '®',
+    trade: '™',
+    frac12: '½',
+    frac14: '¼',
+    sup2: '²',
+    sup3: '³',
+  }
+  function decodeEntities(str) {
+    return str
+      .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+      .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+      .replace(/&([a-z]+\d*);/gi, (m, name) => (name in NAMED_ENTITIES ? NAMED_ENTITIES[name] : m))
+  }
+
+  /**
+   * HTML → readable text + the images the page shows. The model needs prose, not
+   * markup — but on a page like a drawing exercise the PICTURES are the payload,
+   * and stripping tags throws their URLs away. So they come back as an absolute,
+   * deduped list the agent can fetch in a second call.
+   */
+  function htmlToText(html, baseUrl) {
+    const title = (html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1]
+
+    const images = []
+    const seen = new Set()
+    const push = (raw) => {
+      if (!raw || raw.startsWith('data:')) return
+      let abs
+      try {
+        abs = new URL(raw, baseUrl).toString()
+      } catch {
+        return
+      }
+      if (!/^https?:/.test(abs) || seen.has(abs)) return
+      seen.add(abs)
+      if (images.length < 25) images.push(abs)
+    }
+    for (const m of html.matchAll(/<img\b[^>]*>/gi)) {
+      const tag = m[0]
+      const src = (tag.match(/\bsrc\s*=\s*["']([^"']+)["']/i) || [])[1]
+      const alt = (tag.match(/\balt\s*=\s*["']([^"']*)["']/i) || [])[1]
+      // Prefer the largest candidate a srcset offers, else the plain src.
+      const srcset = (tag.match(/\bsrcset\s*=\s*["']([^"']+)["']/i) || [])[1]
+      if (srcset) {
+        const best = srcset
+          .split(',')
+          .map((x) => x.trim().split(/\s+/)[0])
+          .filter(Boolean)
+          .pop()
+        push(best)
+      }
+      push(src)
+      void alt
+    }
+    // Direct links to image files count too (thumbnails often link the full size).
+    for (const m of html.matchAll(/<a\b[^>]*href\s*=\s*["']([^"']+\.(?:png|jpe?g|gif|webp|svg))(?:\?[^"']*)?["']/gi)) push(m[1])
+
+    const text = decodeEntities(
+      html
+        .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+        .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+        .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
+        .replace(/<!--[\s\S]*?-->/g, ' ')
+        .replace(/<\/(p|div|li|tr|h[1-6]|section|article|br)>/gi, '\n')
+        .replace(/<[^>]+>/g, ' '),
     )
-    req.setTimeout(FETCH_TIMEOUT_MS, () => req.destroy(new Error('timed out after 15s')))
-    req.on('error', reject)
-    req.end()
-  })
-}
+      .replace(/[ \t\f\v]+/g, ' ')
+      .replace(/\n\s*\n\s*\n+/g, '\n\n')
+      .trim()
 
-/** Follow redirects manually so every hop is re-validated. */
-async function safeFetch(rawUrl) {
-  let url = assertFetchableUrl(rawUrl)
-  for (let hop = 0; hop <= FETCH_MAX_REDIRECTS; hop++) {
-    const r = await fetchOnce(url)
-    const loc = r.headers.location
-    if (r.status >= 300 && r.status < 400 && loc) {
-      url = assertFetchableUrl(new URL(loc, url).toString())
-      continue
-    }
-    return { ...r, finalUrl: url.toString() }
+    return { title: title ? decodeEntities(title).trim() : undefined, text, images }
   }
-  throw new Error('too many redirects')
-}
-
-/** Decode the entities a real page actually contains (German text is full of them). */
-const NAMED_ENTITIES = {
-  nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", szlig: 'ß',
-  auml: 'ä', ouml: 'ö', uuml: 'ü', Auml: 'Ä', Ouml: 'Ö', Uuml: 'Ü',
-  eacute: 'é', egrave: 'è', agrave: 'à', ccedil: 'ç', deg: '°', euro: '€',
-  hellip: '…', ndash: '–', mdash: '—', laquo: '«', raquo: '»',
-  bdquo: '„', ldquo: '“', rdquo: '”', sbquo: '‚', lsquo: '‘', rsquo: '’',
-  times: '×', divide: '÷', plusmn: '±', micro: 'µ', middot: '·', bull: '•',
-  copy: '©', reg: '®', trade: '™', frac12: '½', frac14: '¼', sup2: '²', sup3: '³',
-}
-function decodeEntities(str) {
-  return str
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
-    .replace(/&([a-z]+\d*);/gi, (m, name) => (name in NAMED_ENTITIES ? NAMED_ENTITIES[name] : m))
-}
-
-/**
- * HTML → readable text + the images the page shows. The model needs prose, not
- * markup — but on a page like a drawing exercise the PICTURES are the payload,
- * and stripping tags throws their URLs away. So they come back as an absolute,
- * deduped list the agent can fetch in a second call.
- */
-function htmlToText(html, baseUrl) {
-  const title = (html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1]
-
-  const images = []
-  const seen = new Set()
-  const push = raw => {
-    if (!raw || raw.startsWith('data:')) return
-    let abs
-    try { abs = new URL(raw, baseUrl).toString() } catch { return }
-    if (!/^https?:/.test(abs) || seen.has(abs)) return
-    seen.add(abs)
-    if (images.length < 25) images.push(abs)
-  }
-  for (const m of html.matchAll(/<img\b[^>]*>/gi)) {
-    const tag = m[0]
-    const src = (tag.match(/\bsrc\s*=\s*["']([^"']+)["']/i) || [])[1]
-    const alt = (tag.match(/\balt\s*=\s*["']([^"']*)["']/i) || [])[1]
-    // Prefer the largest candidate a srcset offers, else the plain src.
-    const srcset = (tag.match(/\bsrcset\s*=\s*["']([^"']+)["']/i) || [])[1]
-    if (srcset) {
-      const best = srcset.split(',').map(x => x.trim().split(/\s+/)[0]).filter(Boolean).pop()
-      push(best)
-    }
-    push(src)
-    void alt
-  }
-  // Direct links to image files count too (thumbnails often link the full size).
-  for (const m of html.matchAll(/<a\b[^>]*href\s*=\s*["']([^"']+\.(?:png|jpe?g|gif|webp|svg))(?:\?[^"']*)?["']/gi)) push(m[1])
-
-  const text = decodeEntities(
-    html
-      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-      .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
-      .replace(/<!--[\s\S]*?-->/g, ' ')
-      .replace(/<\/(p|div|li|tr|h[1-6]|section|article|br)>/gi, '\n')
-      .replace(/<[^>]+>/g, ' '),
-  )
-    .replace(/[ \t\f\v]+/g, ' ')
-    .replace(/\n\s*\n\s*\n+/g, '\n\n')
-    .trim()
-
-  return { title: title ? decodeEntities(title).trim() : undefined, text, images }
-}
-
 
   const server = http.createServer((req, res) => {
     const origin = req.headers.origin
@@ -512,7 +561,7 @@ function htmlToText(html, baseUrl) {
     // generic forwarder, which would otherwise proxy /fetch to Copilot.
     if (req.method === 'POST' && /^\/(v1\/)?fetch$/.test(req.url)) {
       const inChunks = []
-      req.on('data', c => inChunks.push(c))
+      req.on('data', (c) => inChunks.push(c))
       req.on('end', async () => {
         const fail = (code, message) => {
           res.writeHead(code, { 'content-type': 'application/json' })
@@ -521,33 +570,52 @@ function htmlToText(html, baseUrl) {
         let target
         try {
           target = JSON.parse(Buffer.concat(inChunks).toString('utf8') || '{}').url
-        } catch { return fail(400, 'body must be JSON: { "url": "https://…" }') }
+        } catch {
+          return fail(400, 'body must be JSON: { "url": "https://…" }')
+        }
         if (!target || typeof target !== 'string') return fail(400, 'missing "url"')
         try {
           const r = await safeFetch(target)
-          const ctype = String(r.headers['content-type'] || '').split(';')[0].trim().toLowerCase()
+          const ctype = String(r.headers['content-type'] || '')
+            .split(';')[0]
+            .trim()
+            .toLowerCase()
           if (r.status >= 400) return fail(502, `upstream responded ${r.status}`)
           if (FETCH_IMAGE_TYPES.has(ctype)) {
             res.writeHead(200, { 'content-type': 'application/json' })
-            return res.end(JSON.stringify({
-              kind: 'image', finalUrl: r.finalUrl, status: r.status,
-              mediaType: ctype === 'image/jpg' ? 'image/jpeg' : ctype,
-              bytes: r.body.length, base64: r.body.toString('base64'),
-            }))
+            return res.end(
+              JSON.stringify({
+                kind: 'image',
+                finalUrl: r.finalUrl,
+                status: r.status,
+                mediaType: ctype === 'image/jpg' ? 'image/jpeg' : ctype,
+                bytes: r.body.length,
+                base64: r.body.toString('base64'),
+              }),
+            )
           }
           if (FETCH_TEXT_TYPES.test(ctype)) {
             const raw = r.body.toString('utf8')
             const isHtml = /html/.test(ctype)
             const { title, text, images } = isHtml ? htmlToText(raw, r.finalUrl) : { title: undefined, text: raw, images: [] }
             res.writeHead(200, { 'content-type': 'application/json' })
-            return res.end(JSON.stringify({
-              kind: 'text', finalUrl: r.finalUrl, status: r.status, contentType: ctype,
-              title, bytes: r.body.length, text, images,
-              // Honest about the ceiling: a JS-rendered page yields a shell here.
-              note: isHtml && text.length < 200
-                ? 'Very little text — this page probably renders its content with JavaScript, which a plain fetch cannot execute. Try a direct resource URL (image, raw file, API/JSON endpoint) or ask the user to paste the content.'
-                : undefined,
-            }))
+            return res.end(
+              JSON.stringify({
+                kind: 'text',
+                finalUrl: r.finalUrl,
+                status: r.status,
+                contentType: ctype,
+                title,
+                bytes: r.body.length,
+                text,
+                images,
+                // Honest about the ceiling: a JS-rendered page yields a shell here.
+                note:
+                  isHtml && text.length < 200
+                    ? 'Very little text — this page probably renders its content with JavaScript, which a plain fetch cannot execute. Try a direct resource URL (image, raw file, API/JSON endpoint) or ask the user to paste the content.'
+                    : undefined,
+              }),
+            )
           }
           return fail(415, `unsupported content-type "${ctype || 'unknown'}" — only text/HTML/JSON and png/jpeg/gif/webp are returned`)
         } catch (e) {
@@ -563,7 +631,7 @@ function htmlToText(html, baseUrl) {
     const upstreamPath = req.url.replace(/^\/v1(?=\/)/, '') || '/'
     const target = COPILOT_BASE + upstreamPath
     const chunks = []
-    req.on('data', c => chunks.push(c))
+    req.on('data', (c) => chunks.push(c))
     req.on('end', async () => {
       try {
         const tok = await getSessionToken(oauth)
@@ -593,7 +661,7 @@ function htmlToText(html, baseUrl) {
           res.writeHead(upstream.status, {
             'Content-Type': upstreamCT,
             'Cache-Control': 'no-cache',
-            'Connection': 'keep-alive',
+            Connection: 'keep-alive',
             'X-Accel-Buffering': 'no',
           })
           let streamed = ''
@@ -608,8 +676,8 @@ function htmlToText(html, baseUrl) {
             res.end()
           }
           if (DEBUG) {
-            const lines = streamed.split('\n').filter(l => l.startsWith('data:'))
-            const sawDone = lines.some(l => l.slice(5).trim() === '[DONE]')
+            const lines = streamed.split('\n').filter((l) => l.startsWith('data:'))
+            const sawDone = lines.some((l) => l.slice(5).trim() === '[DONE]')
             let finish = '-'
             let lastComplete = true
             for (const l of lines) {
@@ -619,7 +687,9 @@ function htmlToText(html, baseUrl) {
                 const j = JSON.parse(p)
                 const f = j.choices?.[0]?.finish_reason
                 if (f) finish = f
-              } catch { lastComplete = false }
+              } catch {
+                lastComplete = false
+              }
             }
             let shape = ` sse=${Math.round(streamed.length / 1024)}KB events=${lines.length} done=${sawDone} finish=${finish} cleanTail=${lastComplete} STREAMED`
             if (!sawDone || !lastComplete) {
@@ -643,17 +713,22 @@ function htmlToText(html, baseUrl) {
         // and adopt the first variant that succeeds, so the panel needn't know each quirk.
         if (!upstream.ok && upstream.status === 400 && upstreamPath === '/chat/completions') {
           let rb
-          try { rb = JSON.parse(body.toString('utf8')) } catch {}
+          try {
+            rb = JSON.parse(body.toString('utf8'))
+          } catch {}
           const variants = []
           if (rb && rb.reasoning_effort != null) {
-            const v = { ...rb }; delete v.reasoning_effort
+            const v = { ...rb }
+            delete v.reasoning_effort
             variants.push(['dropped reasoning_effort', v])
           }
           if (rb && rb.max_tokens != null && rb.max_completion_tokens == null) {
-            const v = { ...rb, max_completion_tokens: rb.max_tokens }; delete v.max_tokens
+            const v = { ...rb, max_completion_tokens: rb.max_tokens }
+            delete v.max_tokens
             variants.push(['max_tokens→max_completion_tokens', v])
             if (rb.reasoning_effort != null) {
-              const v2 = { ...v }; delete v2.reasoning_effort
+              const v2 = { ...v }
+              delete v2.reasoning_effort
               variants.push(['both', v2])
             }
           }
@@ -682,7 +757,7 @@ function htmlToText(html, baseUrl) {
             // status=incomplete + reason max_output_tokens = truncation (the model was
             // cut off, possibly before its tool call) — the key signal for dying turns.
             if (j.object === 'response' || Array.isArray(j.output)) {
-              const items = (j.output ?? []).map(o => o.type).join(',')
+              const items = (j.output ?? []).map((o) => o.type).join(',')
               shape = ` status=${j.status ?? '-'}${j.incomplete_details ? ` incomplete=${j.incomplete_details.reason}` : ''} output=[${items}]`
             } else if (Array.isArray(j.choices)) {
               // Chat Completions shape: finish_reason is THE signal (stop | length | tool_calls).
@@ -697,8 +772,8 @@ function htmlToText(html, baseUrl) {
           // finish_reason seen, and whether the final data line is complete
           // JSON (a cut mid-line means upstream truncated the stream).
           if (!shape && text.trimStart().startsWith('data:')) {
-            const lines = text.split('\n').filter(l => l.startsWith('data:'))
-            const sawDone = lines.some(l => l.slice(5).trim() === '[DONE]')
+            const lines = text.split('\n').filter((l) => l.startsWith('data:'))
+            const sawDone = lines.some((l) => l.slice(5).trim() === '[DONE]')
             let finish = '-'
             let lastComplete = true
             for (const l of lines) {
@@ -708,7 +783,9 @@ function htmlToText(html, baseUrl) {
                 const j = JSON.parse(p)
                 const f = j.choices?.[0]?.finish_reason
                 if (f) finish = f
-              } catch { lastComplete = false }
+              } catch {
+                lastComplete = false
+              }
             }
             shape = ` sse=${Math.round(text.length / 1024)}KB events=${lines.length} done=${sawDone} finish=${finish} cleanTail=${lastComplete}`
             if (!sawDone || !lastComplete) {
@@ -755,7 +832,7 @@ function htmlToText(html, baseUrl) {
 
 const cmd = process.argv[2]
 const run = cmd === 'auth' ? ensureOAuth().then(() => {}) : cmd === 'models' ? listModels() : serve()
-run.catch(e => {
+run.catch((e) => {
   console.error('\n' + ((e && e.message) || e) + '\n')
   process.exit(1)
 })

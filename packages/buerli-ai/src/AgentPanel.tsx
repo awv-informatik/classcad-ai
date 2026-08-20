@@ -100,9 +100,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   theme,
 }) => {
   const [input, setInput] = useState('')
-  const [attachments, setAttachments] = useState<
-    { name: string; data: string; mediaType: string; kind: 'image' | 'file' }[]
-  >([])
+  const [attachments, setAttachments] = useState<{ name: string; data: string; mediaType: string; kind: 'image' | 'file' }[]>([])
   // Provider-declared capabilities (models + which support reasoning). Loaded once
   // on mount; null until then / when the provider exposes none. Drives both pickers
   // so each only appears when it's genuinely supported.
@@ -118,11 +116,11 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
     let cancelled = false
     provider
       .getCapabilities()
-      .then(c => {
+      .then((c) => {
         if (cancelled || !c || !c.models?.length) return
         setCaps(c)
         // Keep the seeded selection if it's a real model; otherwise fall back.
-        setModelId(prev => (prev && c.models.some(m => m.id === prev) ? prev : c.defaultModel ?? c.models[0]?.id))
+        setModelId((prev) => (prev && c.models.some((m) => m.id === prev) ? prev : (c.defaultModel ?? c.models[0]?.id)))
       })
       .catch(() => {})
     return () => {
@@ -134,10 +132,10 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   // the reasoning picker appears only when the *selected* model supports it. Before
   // caps load, fall back to the prop-based opt-in so a configured level shows at once.
   const models = caps?.models ?? []
-  const selectedModel = models.find(m => m.id === modelId)
+  const selectedModel = models.find((m) => m.id === modelId)
   const showModelPicker = models.length > 1
   const reasoningLevels: ReasoningEffort[] = caps
-    ? selectedModel?.reasoningEfforts ?? []
+    ? (selectedModel?.reasoningEfforts ?? [])
     : reasoningEffort !== undefined
       ? ['low', 'medium', 'high'] // safe shared subset until discovery replaces it
       : []
@@ -167,12 +165,12 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   }
   const store = storeRef.current
 
-  const messages = store(s => s.messages)
-  const isRunning = store(s => s.isRunning)
-  const liveThinking = store(s => s.liveThinking)
-  const error = store(s => s.error)
-  const usage = store(s => s.usage)
-  const codeLog = store(s => s.codeLog)
+  const messages = store((s) => s.messages)
+  const isRunning = store((s) => s.isRunning)
+  const liveThinking = store((s) => s.liveThinking)
+  const error = store((s) => s.error)
+  const usage = store((s) => s.usage)
+  const codeLog = store((s) => s.codeLog)
   const callCount = codeLog.reduce((n, e) => n + (e.kind === 'call' || e.kind === 'script' ? 1 : 0), 0)
   // Code-mirror side panel: a generic buerli script generated from the session.
   const [codeOpen, setCodeOpen] = useState(false)
@@ -182,8 +180,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   // tool is already ✓ done and the model is making its next (often slow) LLM call —
   // the indicator must stay visible so the panel never looks idle mid-run.
   const lastMsg = messages[messages.length - 1]
-  const toolActive =
-    !!lastMsg && (lastMsg.type === 'tool' || lastMsg.type === 'subagent') && lastMsg.status === 'running'
+  const toolActive = !!lastMsg && (lastMsg.type === 'tool' || lastMsg.type === 'subagent') && lastMsg.status === 'running'
 
   // Merge theme with defaults
   const t = { ...DEFAULT_THEME, ...theme }
@@ -207,10 +204,8 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
     const text = input.trim()
     if ((!text && attachments.length === 0) || isRunning) return
     setInput('')
-    const imgs = attachments.filter(a => a.kind === 'image').map(a => ({ data: a.data, mediaType: a.mediaType }))
-    const files = attachments
-      .filter(a => a.kind === 'file')
-      .map(a => ({ name: a.name, mediaType: a.mediaType, data: a.data }))
+    const imgs = attachments.filter((a) => a.kind === 'image').map((a) => ({ data: a.data, mediaType: a.mediaType }))
+    const files = attachments.filter((a) => a.kind === 'file').map((a) => ({ name: a.name, mediaType: a.mediaType, data: a.data }))
     setAttachments([])
 
     const config: AgentConfig = {
@@ -231,7 +226,24 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
     }
 
     store.getState().sendMessage(text, config, imgs.length ? imgs : undefined, files.length ? files : undefined)
-  }, [input, attachments, isRunning, provider, drawingId, maxIterations, effectiveMaxTokens, ringLimit, modelId, showReasoning, effort, systemPrompt, extraContext, selectedModel, sendSnapshotsToModel, store])
+  }, [
+    input,
+    attachments,
+    isRunning,
+    provider,
+    drawingId,
+    maxIterations,
+    effectiveMaxTokens,
+    ringLimit,
+    modelId,
+    showReasoning,
+    effort,
+    systemPrompt,
+    extraContext,
+    selectedModel,
+    sendSnapshotsToModel,
+    store,
+  ])
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -260,7 +272,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
       reader.onload = () => {
         const url = String(reader.result)
         const data = url.slice(url.indexOf(',') + 1)
-        setAttachments(prev => [
+        setAttachments((prev) => [
           ...prev,
           {
             name: file.name,
@@ -275,7 +287,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   }, [])
 
   const removeAttachment = useCallback((i: number) => {
-    setAttachments(prev => prev.filter((_, idx) => idx !== i))
+    setAttachments((prev) => prev.filter((_, idx) => idx !== i))
   }, [])
 
   // ─── Floating window: drag, resize, collapse ─────────────────────────────
@@ -299,7 +311,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
       if (!d) return
       const x = clamp(d.ox + (e.clientX - d.px), 120 - rect.w, window.innerWidth - 120)
       const y = clamp(d.oy + (e.clientY - d.py), 0, window.innerHeight - 40)
-      setRect(r => ({ ...r, x, y }))
+      setRect((r) => ({ ...r, x, y }))
     },
     [rect.w],
   )
@@ -324,7 +336,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
     if (!r) return
     const w = clamp(r.ow + (e.clientX - r.px), 300, window.innerWidth - 16)
     const h = clamp(r.oh + (e.clientY - r.py), 240, window.innerHeight - 16)
-    setRect(rc => ({ ...rc, w, h }))
+    setRect((rc) => ({ ...rc, w, h }))
   }, [])
 
   const onResizePointerUp = useCallback((e: React.PointerEvent) => {
@@ -352,37 +364,26 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   return (
     <div
       className={`cad-agent-panel cad-agent-panel--floating ${className ?? ''}`}
-      style={{ ...floatingPanelStyle(rect, collapsed, t), ...cssVars }}
-    >
+      style={{ ...floatingPanelStyle(rect, collapsed, t), ...cssVars }}>
       {/* Header — doubles as the drag handle */}
-      <div
-        style={headerStyle(t)}
-        onPointerDown={onHeaderPointerDown}
-        onPointerMove={onHeaderPointerMove}
-        onPointerUp={onHeaderPointerUp}
-      >
+      <div style={headerStyle(t)} onPointerDown={onHeaderPointerDown} onPointerMove={onHeaderPointerMove} onPointerUp={onHeaderPointerUp}>
         <span style={{ fontWeight: 600, fontSize: 13 }}>AI Assistant</span>
         <div style={{ display: 'flex', gap: 6 }}>
           <button
-            onClick={() => setCodeOpen(o => !o)}
+            onClick={() => setCodeOpen((o) => !o)}
             style={headerBtnStyle(t, codeOpen)}
-            title={codeOpen ? 'Hide session code' : 'Show session code'}
-          >
+            title={codeOpen ? 'Hide session code' : 'Show session code'}>
             {'</>'}
             {callCount > 0 && <span style={codeBadgeStyle(t)}>{callCount}</span>}
           </button>
-          <button
-            onClick={() => setCollapsed(c => !c)}
-            style={headerBtnStyle(t)}
-            title={collapsed ? 'Expand' : 'Collapse'}
-          >
+          <button onClick={() => setCollapsed((c) => !c)} style={headerBtnStyle(t)} title={collapsed ? 'Expand' : 'Collapse'}>
             {collapsed ? '▢' : '—'}
           </button>
-          <button onClick={handleReset} style={headerBtnStyle(t)} title="Clear conversation">
+          <button onClick={handleReset} style={headerBtnStyle(t)} title='Clear conversation'>
             ↺
           </button>
           {onClose && (
-            <button onClick={onClose} style={headerBtnStyle(t)} title="Close">
+            <button onClick={onClose} style={headerBtnStyle(t)} title='Close'>
               ✕
             </button>
           )}
@@ -400,9 +401,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
                 <div style={emptyStyle}>
                   Ask me to create or modify CAD geometry.
                   <br />
-                  <span style={{ fontSize: 11, opacity: 0.7 }}>
-                    e.g. "Create a box 100x50x30 with 5mm fillets on all edges"
-                  </span>
+                  <span style={{ fontSize: 11, opacity: 0.7 }}>e.g. "Create a box 100x50x30 with 5mm fillets on all edges"</span>
                 </div>
               )}
               {messages.map((msg, i) => (
@@ -422,14 +421,14 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
                   a.kind === 'image' ? (
                     <div key={i} style={attachmentChipStyle(t)} title={a.name}>
                       <img src={`data:${a.mediaType};base64,${a.data}`} alt={a.name} style={attachmentThumbStyle} />
-                      <button onClick={() => removeAttachment(i)} style={attachmentRemoveStyle} title="Remove">
+                      <button onClick={() => removeAttachment(i)} style={attachmentRemoveStyle} title='Remove'>
                         ×
                       </button>
                     </div>
                   ) : (
                     <div key={i} style={fileChipStyle(t)} title={a.name}>
                       <span style={fileChipNameStyle}>{a.name}</span>
-                      <button onClick={() => removeAttachment(i)} style={fileChipRemoveStyle(t)} title="Remove">
+                      <button onClick={() => removeAttachment(i)} style={fileChipRemoveStyle(t)} title='Remove'>
                         ×
                       </button>
                     </div>
@@ -438,43 +437,33 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
               </div>
             )}
             <div style={inputRowStyle}>
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                style={attachBtnStyle(t)}
-                title="Attach image"
-                disabled={isRunning}
-              >
+              <button onClick={() => fileInputRef.current?.click()} style={attachBtnStyle(t)} title='Attach image' disabled={isRunning}>
                 +
               </button>
               <textarea
                 ref={inputRef}
                 value={input}
-                onChange={e => setInput(e.target.value)}
+                onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Describe what to create or modify..."
+                placeholder='Describe what to create or modify...'
                 disabled={isRunning}
                 rows={2}
                 style={inputFieldStyle(t)}
               />
               {isRunning ? (
-                <button onClick={handleStop} style={stopBtnStyle(t)} title="Stop">
+                <button onClick={handleStop} style={stopBtnStyle(t)} title='Stop'>
                   ■
                 </button>
               ) : (
-                <button
-                  onClick={handleSend}
-                  disabled={!input.trim() && attachments.length === 0}
-                  style={sendBtnStyle(t)}
-                  title="Send"
-                >
+                <button onClick={handleSend} disabled={!input.trim() && attachments.length === 0} style={sendBtnStyle(t)} title='Send'>
                   ▶
                 </button>
               )}
             </div>
             <input
               ref={fileInputRef}
-              type="file"
-              accept="image/*,.stp,.step,.igs,.iges,.stl,.brep,.obj,.sat,.x_t,.x_b,.of1,.ofb"
+              type='file'
+              accept='image/*,.stp,.step,.igs,.iges,.stl,.brep,.obj,.sat,.x_t,.x_b,.of1,.ofb'
               multiple
               onChange={onFilesSelected}
               style={{ display: 'none' }}
@@ -502,7 +491,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
             onPointerDown={onResizePointerDown}
             onPointerMove={onResizePointerMove}
             onPointerUp={onResizePointerUp}
-            title="Drag to resize"
+            title='Drag to resize'
           />
         </>
       )}
@@ -520,7 +509,7 @@ const MessageBubble: React.FC<{ message: UIMessage; theme: Required<AgentPanelTh
           {message.images && message.images.length > 0 && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: message.text ? 6 : 0 }}>
               {message.images.map((src, i) => (
-                <img key={i} src={src} alt="" style={{ maxWidth: 140, maxHeight: 140, borderRadius: 6, display: 'block' }} />
+                <img key={i} src={src} alt='' style={{ maxWidth: 140, maxHeight: 140, borderRadius: 6, display: 'block' }} />
               ))}
             </div>
           )}
@@ -571,7 +560,7 @@ const SubagentBlock: React.FC<{ message: Extract<UIMessage, { type: 'subagent' }
   const handedParts = [m.images ? `${m.images} ref` : '', m.snapshots ? `${m.snapshots} snap` : ''].filter(Boolean)
   return (
     <div style={subagentCardStyle(cardStatus, t)}>
-      <div onClick={() => expandable && setOpen(o => !o)} style={toolHeaderStyle(expandable)}>
+      <div onClick={() => expandable && setOpen((o) => !o)} style={toolHeaderStyle(expandable)}>
         {running ? (
           <Spinner />
         ) : (
@@ -585,9 +574,17 @@ const SubagentBlock: React.FC<{ message: Extract<UIMessage, { type: 'subagent' }
         </span>
         {handedParts.length > 0 && (
           <span
-            title="images handed to this reader"
-            style={{ marginLeft: 6, flexShrink: 0, fontSize: 9, opacity: 0.7, padding: '1px 5px', borderRadius: 4, background: 'rgba(120,180,255,0.12)', border: '1px solid rgba(120,180,255,0.3)' }}
-          >
+            title='images handed to this reader'
+            style={{
+              marginLeft: 6,
+              flexShrink: 0,
+              fontSize: 9,
+              opacity: 0.7,
+              padding: '1px 5px',
+              borderRadius: 4,
+              background: 'rgba(120,180,255,0.12)',
+              border: '1px solid rgba(120,180,255,0.3)',
+            }}>
             📎 {handedParts.join(' + ')}
           </span>
         )}
@@ -623,26 +620,26 @@ const ToolBlock: React.FC<{ message: Extract<UIMessage, { type: 'tool' }>; theme
   // Chips whose header already says everything stay closed (except on error).
   const NO_BODY = new Set(['checkpoint', 'restore'])
   const expandable =
-    m.status === 'error'
-      ? !!(m.detail || m.input)
-      : !NO_BODY.has(m.name) && !!(m.detail || m.image || m.input || m.result != null)
+    m.status === 'error' ? !!(m.detail || m.input) : !NO_BODY.has(m.name) && !!(m.detail || m.image || m.input || m.result != null)
   const running = m.status === 'running'
   const icon = m.status === 'error' ? '✗' : '✓'
   const iconColor = m.status === 'error' ? '#ff8888' : '#62c46e'
   return (
     <div style={toolCardStyle(m.status, t)}>
-      <div onClick={() => expandable && setOpen(o => !o)} style={toolHeaderStyle(expandable)}>
-        {running ? (
-          <Spinner />
-        ) : (
-          <span style={{ color: iconColor, width: 10, textAlign: 'center', flexShrink: 0 }}>{icon}</span>
-        )}
+      <div onClick={() => expandable && setOpen((o) => !o)} style={toolHeaderStyle(expandable)}>
+        {running ? <Spinner /> : <span style={{ color: iconColor, width: 10, textAlign: 'center', flexShrink: 0 }}>{icon}</span>}
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.label ?? m.name}</span>
         {expandable && <span style={{ marginLeft: 6, opacity: 0.4, fontSize: 9, flexShrink: 0 }}>{open ? '▾' : '▸'}</span>}
       </div>
       {m.download && (
-        <button type="button" onClick={() => triggerDownload(m.download!)} style={downloadBtnStyle(t)} title={`Download ${m.download.filename}`}>
-          <span aria-hidden style={{ fontSize: 13 }}>⬇</span>
+        <button
+          type='button'
+          onClick={() => triggerDownload(m.download!)}
+          style={downloadBtnStyle(t)}
+          title={`Download ${m.download.filename}`}>
+          <span aria-hidden style={{ fontSize: 13 }}>
+            ⬇
+          </span>
           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Download {m.download.filename}</span>
         </button>
       )}
@@ -655,7 +652,10 @@ const ToolBlock: React.FC<{ message: Extract<UIMessage, { type: 'tool' }>; theme
 // ── Per-tool expanded detail — structure over truncation ─────────────────────
 
 const detailSectionTitle: React.CSSProperties = {
-  fontSize: 9, opacity: 0.55, textTransform: 'uppercase', letterSpacing: 0.5,
+  fontSize: 9,
+  opacity: 0.55,
+  textTransform: 'uppercase',
+  letterSpacing: 0.5,
   padding: '5px 8px 0',
 }
 
@@ -696,7 +696,7 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
         {logs.length > 0 && (
           <>
             <div style={detailSectionTitle}>console ({logs.length})</div>
-            <pre style={toolDetailInnerStyle}>{logs.map(l => String(l)).join('\n')}</pre>
+            <pre style={toolDetailInnerStyle}>{logs.map((l) => String(l)).join('\n')}</pre>
           </>
         )}
         {res.returned != null && (
@@ -714,22 +714,28 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
     const text = typeof m.result === 'string' ? m.result : ''
     const missing = new Set<string>()
     const nf = text.split('# ═══ not found ═══')[1]
-    if (nf) for (const line of nf.split('\n')) {
-      const k = line.split(':')[0]?.trim()
-      if (k) missing.add(k)
-    }
+    if (nf)
+      for (const line of nf.split('\n')) {
+        const k = line.split(':')[0]?.trim()
+        if (k) missing.add(k)
+      }
     return (
       <div style={{ padding: '4px 8px 8px', display: 'flex', flexWrap: 'wrap', gap: 4 }}>
         {(m.input.keys as unknown[]).map((k, i) => {
           const key = String(k)
           const miss = missing.has(key)
           return (
-            <span key={i} style={{
-              fontSize: 10, padding: '2px 6px', borderRadius: 4,
-              background: miss ? 'rgba(255,120,120,0.15)' : 'rgba(120,255,150,0.10)',
-              border: `1px solid ${miss ? 'rgba(255,120,120,0.35)' : 'rgba(120,255,150,0.25)'}`,
-            }}>
-              {miss ? '✗ ' : '✓ '}{key}
+            <span
+              key={i}
+              style={{
+                fontSize: 10,
+                padding: '2px 6px',
+                borderRadius: 4,
+                background: miss ? 'rgba(255,120,120,0.15)' : 'rgba(120,255,150,0.10)',
+                border: `1px solid ${miss ? 'rgba(255,120,120,0.35)' : 'rgba(120,255,150,0.25)'}`,
+              }}>
+              {miss ? '✗ ' : '✓ '}
+              {key}
             </span>
           )
         })}
@@ -749,7 +755,9 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
     const res = (m.result ?? {}) as { notes?: string }
     const text =
       action === 'append'
-        ? (typeof m.input?.text === 'string' ? m.input.text : res.notes ?? '')
+        ? typeof m.input?.text === 'string'
+          ? m.input.text
+          : (res.notes ?? '')
         : (res.notes ?? (typeof m.input?.text === 'string' ? m.input.text : ''))
     if (!text) return <pre style={toolDetailInnerStyle}>(empty)</pre>
     return (
@@ -769,10 +777,15 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
     const shown = nodes.slice(0, 150)
     return (
       <div>
-        <div style={detailSectionTitle}>{nodes.length} node{nodes.length === 1 ? '' : 's'}</div>
+        <div style={detailSectionTitle}>
+          {nodes.length} node{nodes.length === 1 ? '' : 's'}
+        </div>
         <pre style={{ ...toolDetailInnerStyle, whiteSpace: 'pre' }}>
           {shown
-            .map(n => `#${String(n.id ?? '').padEnd(6)} ${String(n.class ?? '').padEnd(26)} ${n.name ?? ''}${n.parent != null ? `  ← #${n.parent}` : ''}`)
+            .map(
+              (n) =>
+                `#${String(n.id ?? '').padEnd(6)} ${String(n.class ?? '').padEnd(26)} ${n.name ?? ''}${n.parent != null ? `  ← #${n.parent}` : ''}`,
+            )
             .join('\n')}
           {nodes.length > shown.length ? `\n… +${nodes.length - shown.length} more` : ''}
         </pre>
@@ -792,7 +805,12 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
         <div style={detailSectionTitle}>node</div>
         <pre style={toolDetailInnerStyle}>
           {scalars.map(([k, v]) => `${k}: ${String(v)}`).join('\n')}
-          {chain.length ? `\npath: ${chain.map(p => p.name || p.class).reverse().join(' / ')}` : ''}
+          {chain.length
+            ? `\npath: ${chain
+                .map((p) => p.name || p.class)
+                .reverse()
+                .join(' / ')}`
+            : ''}
         </pre>
         {members.length > 0 && (
           <>
@@ -800,7 +818,10 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
             <pre style={toolDetailInnerStyle}>
               {members
                 .slice(0, 60)
-                .map(([k, v]) => `${k}: ${v != null && typeof v === 'object' ? JSON.stringify((v as { value?: unknown }).value ?? v)?.slice(0, 120) : String(v)}`)
+                .map(
+                  ([k, v]) =>
+                    `${k}: ${v != null && typeof v === 'object' ? JSON.stringify((v as { value?: unknown }).value ?? v)?.slice(0, 120) : String(v)}`,
+                )
                 .join('\n')}
               {members.length > 60 ? `\n… +${members.length - 60} more` : ''}
             </pre>
@@ -817,7 +838,10 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
       <pre style={toolDetailInnerStyle}>
         {items.length === 0
           ? 'no selection'
-          : items.slice(0, 50).map(it => (it != null && typeof it === 'object' ? JSON.stringify(it) : String(it))).join('\n')}
+          : items
+              .slice(0, 50)
+              .map((it) => (it != null && typeof it === 'object' ? JSON.stringify(it) : String(it)))
+              .join('\n')}
       </pre>
     )
   }
@@ -829,7 +853,10 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Req
     if (list) {
       return (
         <pre style={toolDetailInnerStyle}>
-          {list.slice(0, 100).map(x => (typeof x === 'string' ? x : JSON.stringify(x))).join('\n')}
+          {list
+            .slice(0, 100)
+            .map((x) => (typeof x === 'string' ? x : JSON.stringify(x)))
+            .join('\n')}
           {list.length > 100 ? `\n… +${list.length - 100} more` : ''}
         </pre>
       )
@@ -908,9 +935,7 @@ const ThinkingBlock: React.FC<{ text: string }> = ({ text }) => {
         <span style={{ fontSize: 10 }}>{expanded ? '▼' : '▶'}</span>
         <span style={{ fontStyle: 'italic', opacity: 0.7 }}>Thinking…</span>
       </button>
-      {expanded && (
-        <pre style={thinkingContentStyle}>{text}</pre>
-      )}
+      {expanded && <pre style={thinkingContentStyle}>{text}</pre>}
     </div>
   )
 }
@@ -1063,7 +1088,7 @@ function splitRow(row: string): string[] {
     .replace(/^\|/, '')
     .replace(/\|$/, '')
     .split('|')
-    .map(c => c.trim())
+    .map((c) => c.trim())
 }
 
 // Inline formatting: `code` first (to protect its contents), then **bold**/*italic*.
@@ -1103,33 +1128,35 @@ function renderInline(text: string): React.ReactNode[] {
 const LiveThinkingTicker: React.FC<{ text: string }> = ({ text }) => {
   // Collapse paragraph breaks — blank lines make the 3-line window jump as
   // they scroll through; single newlines keep the sentence flow readable.
-  const flow = text.replace(/\s*\n\s*\n+\s*/g, ' ').replace(/\n/g, ' ').replace(/ {2,}/g, ' ').trimEnd()
+  const flow = text
+    .replace(/\s*\n\s*\n+\s*/g, ' ')
+    .replace(/\n/g, ' ')
+    .replace(/ {2,}/g, ' ')
+    .trimEnd()
   return (
-  <div style={{ padding: '4px 0', display: 'flex', gap: 6, alignItems: 'flex-start' }}>
-    <span style={{ ...pulseStyle, fontSize: 11, opacity: 0.6, lineHeight: '16px' }}>●</span>
-    <div
-      style={{
-        flex: 1,
-        maxHeight: 48, // ~3 lines
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column-reverse',
-      }}
-    >
+    <div style={{ padding: '4px 0', display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+      <span style={{ ...pulseStyle, fontSize: 11, opacity: 0.6, lineHeight: '16px' }}>●</span>
       <div
         style={{
-          fontSize: 11,
-          lineHeight: '16px',
-          opacity: 0.5,
-          fontStyle: 'italic',
-          whiteSpace: 'pre-wrap',
-          wordBreak: 'break-word',
-        }}
-      >
-        {flow.length > 1200 ? flow.slice(-1200) : flow}
+          flex: 1,
+          maxHeight: 48, // ~3 lines
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column-reverse',
+        }}>
+        <div
+          style={{
+            fontSize: 11,
+            lineHeight: '16px',
+            opacity: 0.5,
+            fontStyle: 'italic',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+          }}>
+          {flow.length > 1200 ? flow.slice(-1200) : flow}
+        </div>
       </div>
     </div>
-  </div>
   )
 }
 
@@ -1160,16 +1187,16 @@ const ContextRing: React.FC<{ used?: number; limit?: number; theme: Required<Age
   return (
     <span title={title} style={{ display: 'inline-flex', alignItems: 'center' }}>
       <svg width={size} height={size} style={{ transform: 'rotate(-90deg)', display: 'block' }}>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth={sw} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill='none' stroke='rgba(255,255,255,0.18)' strokeWidth={sw} />
         {used != null && limit ? (
           <circle
             cx={size / 2}
             cy={size / 2}
             r={r}
-            fill="none"
+            fill='none'
             stroke={t.accent}
             strokeWidth={sw}
-            strokeLinecap="round"
+            strokeLinecap='round'
             strokeDasharray={`${circ * frac} ${circ}`}
           />
         ) : null}
@@ -1190,8 +1217,7 @@ const EFFORT_META: Record<string, { label: string; hint: string }> = {
   high: { label: 'High', hint: 'Slower · deeper reasoning' },
   xhigh: { label: 'Extra high', hint: 'Deepest · slowest' },
 }
-const effortMeta = (v: string): { label: string; hint?: string } =>
-  EFFORT_META[v] ?? { label: v.charAt(0).toUpperCase() + v.slice(1) }
+const effortMeta = (v: string): { label: string; hint?: string } => EFFORT_META[v] ?? { label: v.charAt(0).toUpperCase() + v.slice(1) }
 
 const ReasoningPicker: React.FC<{
   value: ReasoningEffort
@@ -1205,12 +1231,11 @@ const ReasoningPicker: React.FC<{
   return (
     <span style={{ position: 'relative', display: 'inline-flex' }}>
       <button
-        type="button"
-        onClick={() => !disabled && setOpen(o => !o)}
+        type='button'
+        onClick={() => !disabled && setOpen((o) => !o)}
         disabled={disabled}
         title={`Thinking level: ${value} — click to change`}
-        style={reasoningBtnStyle(t, open, disabled)}
-      >
+        style={reasoningBtnStyle(t, open, disabled)}>
         <span style={{ opacity: 0.5 }}>think</span>
         <span style={{ fontWeight: 600 }}>{value}</span>
         <span style={{ fontSize: 8, lineHeight: 1, opacity: 0.6 }}>{open ? '▾' : '▴'}</span>
@@ -1219,22 +1244,21 @@ const ReasoningPicker: React.FC<{
         <>
           {/* Click-away backdrop — closes the menu on any outside click. */}
           <div style={pickerBackdropStyle} onClick={() => setOpen(false)} />
-          <div style={pickerMenuStyle(t)} role="listbox">
-            {levels.map(lvl => {
+          <div style={pickerMenuStyle(t)} role='listbox'>
+            {levels.map((lvl) => {
               const meta = effortMeta(lvl)
               return (
                 <button
                   key={lvl}
-                  type="button"
-                  role="option"
+                  type='button'
+                  role='option'
                   aria-selected={lvl === value}
                   title={meta.hint}
                   onClick={() => {
                     onChange(lvl)
                     setOpen(false)
                   }}
-                  style={pickerItemStyle(t, lvl === value)}
-                >
+                  style={pickerItemStyle(t, lvl === value)}>
                   {meta.label}
                 </button>
               )
@@ -1256,16 +1280,15 @@ const ModelPicker: React.FC<{
   theme: Required<AgentPanelTheme>
 }> = ({ models, value, onChange, disabled, theme: t }) => {
   const [open, setOpen] = useState(false)
-  const current = models.find(m => m.id === value)
+  const current = models.find((m) => m.id === value)
   return (
     <span style={{ position: 'relative', display: 'inline-flex' }}>
       <button
-        type="button"
-        onClick={() => !disabled && setOpen(o => !o)}
+        type='button'
+        onClick={() => !disabled && setOpen((o) => !o)}
         disabled={disabled}
         title={`Model: ${current?.label ?? value ?? '—'} — click to change`}
-        style={reasoningBtnStyle(t, open, disabled)}
-      >
+        style={reasoningBtnStyle(t, open, disabled)}>
         <span style={{ fontWeight: 600, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {current?.label ?? value ?? 'model'}
         </span>
@@ -1274,20 +1297,19 @@ const ModelPicker: React.FC<{
       {open && (
         <>
           <div style={pickerBackdropStyle} onClick={() => setOpen(false)} />
-          <div style={{ ...pickerMenuStyle(t), minWidth: 160, maxHeight: 280, overflowY: 'auto' }} role="listbox">
-            {models.map(m => (
+          <div style={{ ...pickerMenuStyle(t), minWidth: 160, maxHeight: 280, overflowY: 'auto' }} role='listbox'>
+            {models.map((m) => (
               <button
                 key={m.id}
-                type="button"
-                role="option"
+                type='button'
+                role='option'
                 aria-selected={m.id === value}
                 title={m.contextLimit ? `${m.id} · ${fmtTokens(m.contextLimit)} ctx` : m.id}
                 onClick={() => {
                   onChange(m.id)
                   setOpen(false)
                 }}
-                style={pickerItemStyle(t, m.id === value)}
-              >
+                style={pickerItemStyle(t, m.id === value)}>
                 {m.label ?? m.id}
               </button>
             ))}
@@ -1356,7 +1378,12 @@ function highlightCode(code: string): React.ReactNode[] {
       if (JS_KEYWORDS.test(ident)) color = CODE_COLORS.keyword
       else if (/^\s*:/.test(code.slice(re.lastIndex))) color = CODE_COLORS.property
     } else if (punct) color = CODE_COLORS.punct
-    if (color) out.push(<span key={i++} style={{ color }}>{full}</span>)
+    if (color)
+      out.push(
+        <span key={i++} style={{ color }}>
+          {full}
+        </span>,
+      )
     else out.push(full) // whitespace + plain identifiers (api, method segments)
   }
   return out
@@ -1387,8 +1414,10 @@ const CodePanel: React.FC<{ log: CodeEvent[]; theme: Required<AgentPanelTheme> }
   return (
     <div style={codePanelStyle(t)}>
       <div style={codeToolbarStyle(t)}>
-        <span style={{ opacity: 0.7 }}>{callCount === 0 ? 'Session script' : `${callCount} call${callCount === 1 ? '' : 's'} · generic`}</span>
-        <button onClick={copy} disabled={!code} style={codeCopyBtnStyle(t)} title="Copy script">
+        <span style={{ opacity: 0.7 }}>
+          {callCount === 0 ? 'Session script' : `${callCount} call${callCount === 1 ? '' : 's'} · generic`}
+        </span>
+        <button onClick={copy} disabled={!code} style={codeCopyBtnStyle(t)} title='Copy script'>
           {copied ? '✓ Copied' : 'Copy'}
         </button>
       </div>
@@ -1442,8 +1471,7 @@ function ensureKeyframes(): void {
   const el = document.createElement('style')
   el.id = 'cad-agent-keyframes'
   el.textContent =
-    '@keyframes cad-agent-spin{to{transform:rotate(360deg)}}' +
-    '@keyframes cad-agent-pulse{0%,100%{opacity:.3}50%{opacity:1}}'
+    '@keyframes cad-agent-spin{to{transform:rotate(360deg)}}' + '@keyframes cad-agent-pulse{0%,100%{opacity:.3}50%{opacity:1}}'
   document.head.appendChild(el)
 }
 
@@ -1861,11 +1889,7 @@ const contextBarStyle = (t: Required<AgentPanelTheme>): React.CSSProperties => (
   flexShrink: 0,
 })
 
-const reasoningBtnStyle = (
-  t: Required<AgentPanelTheme>,
-  open: boolean,
-  disabled?: boolean,
-): React.CSSProperties => ({
+const reasoningBtnStyle = (t: Required<AgentPanelTheme>, open: boolean, disabled?: boolean): React.CSSProperties => ({
   display: 'inline-flex',
   alignItems: 'center',
   gap: 4,

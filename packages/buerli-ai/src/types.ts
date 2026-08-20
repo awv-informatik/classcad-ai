@@ -138,7 +138,8 @@ export type McpToolSchema = {
 }
 
 export type JsonSchemaProperty = {
-  type: string | string[]
+  type?: string | string[]
+  anyOf?: JsonSchemaProperty[]
   description?: string
   items?: JsonSchemaProperty
   properties?: Record<string, JsonSchemaProperty>

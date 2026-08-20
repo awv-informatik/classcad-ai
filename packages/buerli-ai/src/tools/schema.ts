@@ -242,7 +242,10 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
           description: 'Cut the solids at a plane; the positive side of the normal is removed (uncapped, interior shaded).',
         },
         sheet: {
-          type: ['boolean', 'array'],
+          // anyOf, not type:['boolean','array'] — Copilot's Gemini rejects mixed
+          // type unions containing 'array' with "invalid request body" (measured
+          // 2026-08-20; every write errored until snapshot's schema was isolated).
+          anyOf: [{ type: 'boolean' }, { type: 'array', items: {} }],
           description:
             'Multi-view sheet in ONE image. true or an array of 4 views = quadrants (default top/iso/front/right, shared ortho scale). An array of 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.',
         },
@@ -389,6 +392,12 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       'the same tools but operates with a scoped persona and goal. Use this for complex tasks ' +
       'that benefit from separation of concerns (e.g. delegate sketching to the sketch specialist ' +
       'while you focus on the overall part structure).\n\n' +
+      'Do NOT delegate what one script can compute: N read-only queries over the same drawing ' +
+      '(bounds, mass properties, tree lookups) are ONE run_script with a loop — a delegate per query ' +
+      'pays LLM rounds for a for-loop. Delegate JUDGMENT and multi-step sub-builds, not arithmetic.\n' +
+      'Independent sub-tasks: compose ALL goals first, then emit every delegate call in ONE response — ' +
+      'same-response calls run concurrently; emitting them one by one as you write them serializes the ' +
+      'work (measured: announced "in parallel", ran 4× sequential).\n\n' +
       'Available agents: sketch, boolean, fillet_chamfer, assembly, analysis, perception.\n' +
       'The perception agent is a FRESH-EYES image reader: it sees only the attached image(s) and EXACTLY ONE ' +
       'binary image-space question, with no task context (pass withImages: true). One reader per question — ' +

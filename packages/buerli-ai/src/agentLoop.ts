@@ -47,8 +47,9 @@ export async function* runAgentLoop(
   const depth = config.depth ?? 0
   const systemPrompt = buildSystemPrompt(config)
 
-  // Subagents (depth > 0) cannot delegate — prevents unbounded recursion.
-  const tools = depth > 0 ? TOOL_SCHEMAS.filter((t) => t.name !== 'delegate') : TOOL_SCHEMAS
+  // Subagents (depth > 0) cannot delegate (unbounded recursion) and cannot reach
+  // the user (their "user" is the caller — open questions go into the summary).
+  const tools = depth > 0 ? TOOL_SCHEMAS.filter((t) => t.name !== 'delegate' && t.name !== 'ask_user') : TOOL_SCHEMAS
 
   // The most recent snapshot renders, kept so a `delegate` can be handed the
   // actual pictures (withSnapshots) instead of a description of them.
@@ -56,7 +57,24 @@ export async function* runAgentLoop(
   const MAX_HANDOVER_SNAPSHOTS = 2
 
   // Mirror-gate bookkeeping (see the gate below, before `done`).
+  // Fresh images gate the perception read (this turn); reference images from EARLIER
+  // turns still matter — ask_user→answer→build flows build in a turn without fresh
+  // attachments, and a `withImages` handover must still deliver the actual drawing
+  // (measured failure: the gate reader got only the A|B sheet, no reference, and the
+  // agent then judged the match itself against its own misread record).
   const hadReferenceImages = depth === 0 && !!images && images.length > 0
+  const historyImages: ImageInput[] =
+    depth === 0
+      ? history
+          .filter((m) => m.role === 'user' && Array.isArray(m.content))
+          .flatMap((m) =>
+            (m.content as UserContentBlock[])
+              .filter((b): b is Extract<UserContentBlock, { type: 'image' }> => b?.type === 'image' && b.source?.type === 'base64')
+              .map((b) => ({ data: b.source.data, mediaType: b.source.media_type })),
+          )
+      : []
+  const referenceImages: ImageInput[] = [...historyImages, ...(images ?? [])].slice(-4)
+  const conversationHasReferenceImages = depth === 0 && referenceImages.length > 0
   let geometryWasBuilt = false // a run_script actually ran
   let mirrorJudged = false // a fresh reader saw reference AND render
   let mirrorNudges = 0
@@ -193,15 +211,19 @@ export async function* runAgentLoop(
       // Some models narrate their intent ("let me grab the tree…" / "let me call
       // it correctly:") and end the turn without emitting the tool call. Nudge
       // (bounded) only when the text clearly trails off mid-action — it ends with
-      // a colon or states intent — NOT merely because no tool ran, since plenty of
-      // requests are answered with text alone (e.g. a question about an image).
+      // a colon or its FINAL, unterminated sentence states intent. End-anchored on
+      // purpose: an unanchored intent match fired on legitimate questions to the
+      // user ("…let me confirm before building… I'll build it parametrically.")
+      // and the nudge then impersonated the user's consent — the fabricated-consent
+      // failure, manufactured by the loop itself. Questions belong to ask_user;
+      // text-only endings that merely MENTION future work are complete answers.
       const trailingText = textBlocks
         .map((b) => b.text)
         .join('')
         .trimEnd()
       const looksIncomplete =
         trailingText.endsWith(':') ||
-        /\b(let me|let's|i'?ll|i will|now i|first,? i)\b/i.test(trailingText) ||
+        /\b(let me|let's|i'?ll|i will|now i|first,? i)\b[^.!?]*$/i.test(trailingText) ||
         // announced-action endings: "Now building.", "Proceeding.", "Starting with the blank."
         /\b(now|next)\b[^.!?]*\b(build|creat|proceed|start|continu|mov|writ|run)\w*[.!]?$/i.test(trailingText)
       if (looksIncomplete && nudges < MAX_NUDGES) {
@@ -222,12 +244,12 @@ export async function* runAgentLoop(
       // feature mirrored. So there is NO condition to judge: reference images in,
       // pair-render + independent verdict out. Bounded to one nudge; if the model
       // ignores it, the turn ends anyway rather than looping.
-      if (hadReferenceImages && geometryWasBuilt && !mirrorJudged && mirrorNudges < 1) {
+      if (conversationHasReferenceImages && geometryWasBuilt && !mirrorJudged && mirrorNudges < 1) {
         mirrorNudges++
         messages.push({
           role: 'user',
           content:
-            'Before you finish: this turn reproduced a reference image, so the mirror check is required — ' +
+            'Before you finish: this build derives from a reference image, so the mirror check is required — ' +
             'no symmetry argument exempts it, and "I am confident" is not a reason to skip (for handedness, ' +
             'confidence and accuracy are uncorrelated). Your numeric checks cannot catch a mirrored reading ' +
             'because their targets came from that same reading. Do exactly this now: (1) snapshot with ' +
@@ -251,6 +273,8 @@ export async function* runAgentLoop(
       if (tu.name === 'delegate') {
         const { agent, goal } = tu.input as { agent: string; goal: string }
         yield { type: 'subagent_start', id: tu.id, name: agent, goal }
+      } else if (tu.name === 'ask_user') {
+        // no chip — the question text is emitted as an assistant message below
       } else {
         yield { type: 'tool_start', id: tu.id, name: tu.name, input: tu.input }
         config.onToolExecution?.(tu.name, tu.input)
@@ -272,12 +296,63 @@ export async function* runAgentLoop(
           // the reference against a DESCRIPTION — which is how a mirrored record
           // validates itself (measured: the mirror check judged panel A against
           // the record, not the image, and shipped a mirrored part).
-          const handOver = [...(withImages && images ? images : []), ...(withSnapshots ? recentSnapshots : [])]
-          // Counts as the mirror check only when the reader held BOTH sides.
-          if (withImages && withSnapshots && recentSnapshots.length > 0) mirrorJudged = true
-          if (withImages && agent === 'perception') perceptionDelegated = true
-          const summary = await runSubagent(agent, goal, config, handOver.length ? handOver : undefined)
+          // referenceImages spans the whole conversation — withImages must deliver
+          // the drawing even when the build turn carries no fresh attachments.
+          const handOver = [...(withImages ? referenceImages : []), ...(withSnapshots ? recentSnapshots : [])]
+          // ONE question per perception reader — answering a list forces the reader
+          // to build a whole-part interpretation, which is the exact condition that
+          // breaks perception (measured: 1 question → 6/6 correct; 7 in one reader →
+          // wrong). Enforced here because the prose keeps being skimmed.
+          if (agent === 'perception') {
+            const qMarks = (goal.match(/\?/g) || []).length
+            const listItems = (goal.match(/(?:^|\n)\s*(?:\d+[.)]|[-*])\s+/g) || []).length
+            if (qMarks > 1 || listItems > 1) {
+              return {
+                kind: 'subagent' as const,
+                tu,
+                summary:
+                  'REJECTED — one question per perception reader. This goal contains several questions; a reader ' +
+                  'handed a list reconstructs the whole part and fails exactly like an in-task reading (measured: ' +
+                  'one question → 6/6 correct; seven in one reader → wrong). Re-emit as SEVERAL delegate calls — ' +
+                  'one question each, all in the SAME response so they run in parallel.',
+              }
+            }
+          }
+          // Counts as the mirror check only when the reader actually HELD both
+          // sides — a handover with no reference images is a failed gate, not a pass.
+          if (withImages && referenceImages.length > 0 && withSnapshots && recentSnapshots.length > 0) mirrorJudged = true
+          if (withImages && referenceImages.length > 0 && agent === 'perception') perceptionDelegated = true
+          let summary = await runSubagent(agent, goal, config, handOver.length ? handOver : undefined)
+          if (agent === 'perception' && withSnapshots && !withImages && conversationHasReferenceImages) {
+            summary +=
+              '\n\n[loop] Reference images exist in this conversation but withImages was not set, so the reader ' +
+              'could not see the drawing. This did NOT count as the mirror gate — re-delegate with ' +
+              'withImages: true AND withSnapshots: true.'
+          }
           return { kind: 'subagent' as const, tu, summary }
+        }
+        // ASK_USER — suspends the turn. The result closes the tool-use protocol so
+        // the history stays valid; the user's reply arrives as the next user message.
+        if (tu.name === 'ask_user') {
+          if (depth > 0) {
+            return {
+              kind: 'tool' as const,
+              tu,
+              result: {
+                error: 'No user is reachable at sub-agent depth — report the open question in your final summary instead.',
+              } as ToolResult,
+            }
+          }
+          return {
+            kind: 'ask' as const,
+            tu,
+            result: {
+              result: {
+                status: 'delivered',
+                note: 'Questions shown to the user; this turn ends now. The reply arrives as the next user message — do not proceed on assumptions in the meantime.',
+              },
+            } as ToolResult,
+          }
         }
         // PERCEPTION GATE. Measured repeatedly: a reader given ONLY the image and
         // a question answers correctly (6/6 across three question forms), while
@@ -299,8 +374,8 @@ export async function* runAgentLoop(
                 'reconstructs the whole part and fails exactly like an in-task reading does. Cover every ' +
                 'question your geometry depends on — axis directions, which side each opening faces, which ' +
                 'faces are flush/collinear, feature counts. Take the verdicts as your reference record, write ' +
-                'them into `notes`, then run this script. Ask the USER about anything a reader cannot answer ' +
-                'from the image.',
+                'them into `notes`, then run this script. Ask the USER (`ask_user`) about anything a reader ' +
+                'cannot answer from the image.',
             } as ToolResult,
           }
         }
@@ -326,6 +401,10 @@ export async function* runAgentLoop(
         const { agent } = s.tu.input as { agent: string }
         yield { type: 'subagent_end', id: s.tu.id, name: agent, summary: s.summary }
         messages.push({ role: 'tool', tool_use_id: s.tu.id, content: s.summary })
+      } else if (s.kind === 'ask') {
+        const q = (s.tu.input as { questions?: string })?.questions
+        if (typeof q === 'string' && q.trim()) yield { type: 'text', text: q }
+        messages.push({ role: 'tool', tool_use_id: s.tu.id, content: JSON.stringify(s.result.result) })
       } else {
         yield { type: 'tool_end', id: s.tu.id, name: s.tu.name, result: s.result }
         messages.push({
@@ -334,6 +413,13 @@ export async function* runAgentLoop(
           content: buildToolResultContent(s.tu.name, s.result, config.sendSnapshotsToModel ?? false),
         })
       }
+    }
+
+    // ask_user suspends the turn — the user's reply is the only thing that may
+    // continue this conversation (asking must block, not decorate).
+    if (settled.some((s) => s.kind === 'ask')) {
+      yield { type: 'done', messages }
+      return
     }
 
     // Loop continues — model will see tool results and respond
@@ -477,8 +563,8 @@ const SUBAGENT_PROMPTS: Record<string, string> = {
   analysis:
     'You are a geometry analysis specialist. Inspect the model tree, measure properties, and report findings without modifying geometry.',
   perception:
-    'You are an image-perception reader with NO CAD task. You receive image(s) and one or more binary ' +
-    'image-space questions. Answer each strictly from the pixels: name the evidence (which edge/region, ' +
+    'You are an image-perception reader with NO CAD task. You receive image(s) and ONE binary ' +
+    'image-space question. Answer it strictly from the pixels: name the evidence (which edge/region, ' +
     'approximate location), then give the verdict. Do not model, do not plan, do not touch CAD tools — ' +
     'just look and answer.\n' +
     "Images arrive in order: the user's reference image(s) FIRST, then (when supplied) render(s) of the " +

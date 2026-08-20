@@ -2,6 +2,12 @@
 
 A practical guide for parsing 2D technical drawings and recreating them as ClassCAD sketches. Covers the full pipeline from dimension analysis through constraint-driven layout, trimming, and iterative evaluation.
 
+**This recipe is the DEFAULT build path whenever the input exhibits dimensions** — not an
+opt-in for explicitly "parametric" requests. Reproduce the dimension scheme with constraints
+and dimensions (the checklist below); hand-compute only what the solver cannot express. A
+hardcoded coordinate layout passes every shape check and is still dead geometry — it cannot
+regenerate when a value changes.
+
 ## Sketch-plane local→world mappings (probed 2026-08-10)
 
 `getPositions` returns WORLD coordinates. The standard planes map sketch-local (x, y) as:

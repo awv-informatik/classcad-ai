@@ -5,12 +5,13 @@
 // api.tree(), api.graphic(), api.env) run unchanged in all of them.
 
 import { z } from 'zod'
+import { createRequire } from 'module'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 import { runScript, type MethodRegistry, type ScriptSession, type Task } from '@classcad/script'
 import type { Client } from '../client.js'
 
-const REGISTRY = registry as MethodRegistry
+// Runtime require — keeps the registry JSON out of tsc's type space (OOM risk).
+const REGISTRY = createRequire(import.meta.url)('@classcad/skill/method-registry.json') as MethodRegistry
 
 // The engine omits brep EDGE data from graphic payloads until the graphic
 // database settings are enabled — same lazy ensure as the @classcad/script

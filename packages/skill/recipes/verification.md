@@ -15,12 +15,12 @@ two halves, and both need proof:
 
 ## Which regime? — the INPUT TYPE decides
 
-| Input                                                 | Regime                                                                                                                               |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Plain-text spec** (numbers in the prompt)           | Part II only — no perception phase                                                                                                   |
-| **Technical drawing** (image WITH dimension callouts) | Part I in full, then Part II; the frozen record drives the probes                                                                    |
-| **Image/photo WITHOUT dimensions**                    | Part I in full; Part II verifies proportions, feature counts and topology instead of absolutes — state your assumed scale explicitly |
-| **Dynamic/iterative prompts** (user steers as you go) | Part II per increment; re-run the Part I questions whenever the wording implies a side, direction, or handedness                     |
+| Input                                                 | Regime                                                                                                                                                                                        |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plain-text spec** (numbers in the prompt)           | Part II only — no perception phase                                                                                                                                                            |
+| **Technical drawing** (image WITH dimension callouts) | Part I in full, then Part II; the frozen record drives the probes. Build path: recipes/constrained-sketching — dimension checklist → constraints + dimensions; the solver lays out the sketch |
+| **Image/photo WITHOUT dimensions**                    | Part I in full; Part II verifies proportions, feature counts and topology instead of absolutes — state your assumed scale explicitly                                                          |
+| **Dynamic/iterative prompts** (user steers as you go) | Part II per increment; re-run the Part I questions whenever the wording implies a side, direction, or handedness                                                                              |
 
 ---
 

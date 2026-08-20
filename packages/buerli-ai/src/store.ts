@@ -11,7 +11,7 @@ export type UIMessage =
   | { type: 'assistant'; text: string }
   | { type: 'thinking'; text: string; collapsed?: boolean }
   | { type: 'tool'; id?: string; name: string; label?: string; status: 'running' | 'done' | 'error'; detail?: string; input?: Record<string, unknown>; result?: unknown; image?: string; download?: { filename: string; mimeType: string; data: string } }
-  | { type: 'subagent'; id?: string; name: string; goal: string; status: 'running' | 'done'; summary?: string }
+  | { type: 'subagent'; id?: string; name: string; goal: string; status: 'running' | 'done'; summary?: string; images?: number; snapshots?: number }
 
 /**
  * Ordered session events captured for the code-mirror panel. Enough to generate a
@@ -218,7 +218,8 @@ export const createAgentStore = () =>
                     detail = formatToolResult(r.result)
                   }
                   msgs[i] = {
-                    type: 'tool', id: event.id, name: event.name, label: prev.label,
+                    type: 'tool', id: event.id, name: event.name,
+                    label: r.error ? prev.label : enrichLabel(event.name, prev.label, r.result),
                     status: r.error ? 'error' : 'done', detail, image, download,
                     input: prev.input,
                     result: image || download ? undefined : sanitizeForUi(r.result),
@@ -246,7 +247,7 @@ export const createAgentStore = () =>
               set(s => ({
                 messages: [
                   ...s.messages,
-                  { type: 'subagent', id: event.id, name: event.name, goal: event.goal, status: 'running' },
+                  { type: 'subagent', id: event.id, name: event.name, goal: event.goal, status: 'running', images: event.images, snapshots: event.snapshots },
                 ],
               }))
               break
@@ -257,7 +258,7 @@ export const createAgentStore = () =>
                 const i = msgs.findIndex(m => m.type === 'subagent' && m.id === event.id && m.status === 'running')
                 if (i >= 0) {
                   const prev = msgs[i] as Extract<UIMessage, { type: 'subagent' }>
-                  msgs[i] = { type: 'subagent', id: event.id, name: event.name, goal: prev.goal, status: 'done', summary: event.summary }
+                  msgs[i] = { ...prev, status: 'done', summary: event.summary }
                 }
                 return { messages: msgs }
               })
@@ -346,8 +347,36 @@ function toolLabel(name: string, input: Record<string, unknown>): string {
     case 'download':
       detail = str('format') || str('filename')
       break
+    case 'load_file':
+      detail = str('name')
+      break
   }
   return detail ? `${name} · ${detail}` : name
+}
+
+/** Fold result facts (counts, classes) into the chip label once the call finished. */
+function enrichLabel(name: string, label: string | undefined, result: unknown): string | undefined {
+  const r = result as any
+  const base = label ?? name
+  switch (name) {
+    case 'tree':
+      return typeof r?.nodeCount === 'number' ? `tree · ${r.nodeCount} nodes` : base
+    case 'find':
+      return typeof r?.count === 'number' ? `${base} → ${r.count}` : base
+    case 'list_methods': {
+      if (Array.isArray(r?.methods)) return `${base} → ${r.methods.length}`
+      if (Array.isArray(r?.namespaces)) return `${base} → ${r.namespaces.length} namespaces`
+      return base
+    }
+    case 'get_selection':
+      return Array.isArray(r) ? `get_selection · ${r.length} item${r.length === 1 ? '' : 's'}` : base
+    case 'set_selection':
+      return typeof r?.count === 'number' ? `set_selection · ${r.count} item${r.count === 1 ? '' : 's'}` : base
+    case 'inspect':
+      return typeof r?.class === 'string' ? `${base} ${r.class}${r.name ? ` “${r.name}”` : ''}` : base
+    default:
+      return base
+  }
 }
 
 /**

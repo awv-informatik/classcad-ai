@@ -42,9 +42,18 @@ export function createResponsesProvider(config: ResponsesProviderConfig): LLMPro
 
       // Reasoning effort (gpt-5.x / o-series). Sent only when set so non-reasoning
       // models aren't handed a field they'd reject. `minimal` is the GPT-5 floor.
+      // summary: 'auto' asks for the reasoning SUMMARY — the only reasoning text
+      // OpenAI exposes — which streams as reasoning_summary_text deltas (verified
+      // live through the Copilot proxy, gpt-5.6-sol: 77 delta events) and lands as
+      // output items of type 'reasoning'. Endpoints that don't support summaries
+      // simply omit them; nothing breaks.
       if (params.reasoningEffort) {
-        body.reasoning = { effort: params.reasoningEffort }
+        body.reasoning = { effort: params.reasoningEffort, summary: 'auto' }
       }
+
+      // Stream when the caller wants live deltas — the panel's thinking ticker.
+      const onDelta = params.onDelta
+      if (onDelta) body.stream = true
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -62,8 +71,48 @@ export function createResponsesProvider(config: ResponsesProviderConfig): LLMPro
         throw new Error(`Responses request failed (${res.status}): ${text}`)
       }
 
-      const json = await res.json()
-      return adaptResponse(json)
+      if (!onDelta) {
+        const json = await res.json()
+        return adaptResponse(json)
+      }
+
+      // SSE: pipe reasoning-summary and output-text deltas live; the final
+      // `response.completed` event carries the complete response object, which
+      // feeds the SAME adaptResponse as the non-streaming path.
+      let finalResponse: Record<string, unknown> | null = null
+      const bodyReader = res.body?.getReader()
+      if (bodyReader) {
+        const dec = new TextDecoder()
+        let lineBuf = ''
+        for (;;) {
+          const { done, value } = await bodyReader.read()
+          const chunk = done ? dec.decode() : dec.decode(value, { stream: true })
+          lineBuf += chunk
+          let nl
+          while ((nl = lineBuf.indexOf('\n')) >= 0) {
+            const line = lineBuf.slice(0, nl).trim()
+            lineBuf = lineBuf.slice(nl + 1)
+            if (!line.startsWith('data:')) continue
+            const payload = line.slice(5).trim()
+            if (payload === '[DONE]') continue
+            try {
+              const j = JSON.parse(payload) as { type?: string; delta?: unknown; response?: Record<string, unknown> }
+              if (j.type === 'response.reasoning_summary_text.delta' && typeof j.delta === 'string' && j.delta) {
+                onDelta({ thinking: j.delta })
+              } else if (j.type === 'response.output_text.delta' && typeof j.delta === 'string' && j.delta) {
+                onDelta({ text: j.delta })
+              } else if ((j.type === 'response.completed' || j.type === 'response.incomplete' || j.type === 'response.failed') && j.response) {
+                finalResponse = j.response
+              }
+            } catch {
+              /* malformed line — the completed event is the arbiter */
+            }
+          }
+          if (done) break
+        }
+      }
+      if (!finalResponse) throw new Error('Responses stream ended without a response.completed event.')
+      return adaptResponse(finalResponse)
     },
 
     // Discover selectable models from the sibling `/models` endpoint (works through
@@ -154,7 +203,16 @@ function adaptResponse(json: Record<string, unknown>): ChatResponse {
   const output = Array.isArray(json.output) ? (json.output as any[]) : []
 
   for (const item of output) {
-    if (item.type === 'message') {
+    if (item.type === 'reasoning') {
+      // Reasoning summaries (requested via reasoning.summary) — fold into a
+      // thinking block so the panel renders them like Anthropic thinking.
+      const parts = Array.isArray(item.summary) ? item.summary : []
+      const text = parts
+        .map((p: { type?: string; text?: string }) => (p?.type === 'summary_text' && p.text ? p.text : ''))
+        .filter(Boolean)
+        .join('\n\n')
+      if (text.trim()) content.push({ type: 'thinking', thinking: text } as ContentBlock)
+    } else if (item.type === 'message') {
       const parts = Array.isArray(item.content) ? item.content : []
       for (const p of parts) {
         if ((p.type === 'output_text' || p.type === 'text') && p.text && p.text.trim()) {

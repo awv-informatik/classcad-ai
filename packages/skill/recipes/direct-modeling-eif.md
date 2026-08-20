@@ -5,6 +5,11 @@ one-shot builds) use the **solid API inside an entity injection feature** — no
 long feature tree you never intend to edit. The result is one clean feature in the
 tree, like Onshape custom features do it.
 
+**NOT for reproducing dimensioned input.** A technical drawing or dimensioned spec
+is constrained-sketching territory (dimension checklist → constraints + dimensions;
+the solver lays out the sketch) — this recipe's territory is geometry with no
+dimension scheme to honor.
+
 ## Operation order — the rule that shapes everything
 
 **The EIF is a feature and can only consume features created BEFORE it** in the

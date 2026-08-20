@@ -22,7 +22,7 @@ export type AgentTurnEvent =
   | { type: 'thinking'; text: string }
   | { type: 'tool_start'; id: string; name: string; input: Record<string, unknown> }
   | { type: 'tool_end'; id: string; name: string; result: ToolResult }
-  | { type: 'subagent_start'; id: string; name: string; goal: string }
+  | { type: 'subagent_start'; id: string; name: string; goal: string; images?: number; snapshots?: number }
   | { type: 'subagent_end'; id: string; name: string; summary: string }
   | { type: 'usage'; inputTokens?: number; outputTokens?: number }
   | { type: 'error'; error: string }
@@ -64,15 +64,20 @@ export async function* runAgentLoop(
   // (measured failure: the gate reader got only the A|B sheet, no reference, and the
   // agent then judged the match itself against its own misread record).
   let hadReferenceImages = depth === 0 && !!images && images.length > 0
+  // Reference images live in user messages AND in fetch_url results (tool messages
+  // tagged meta.referenceImage) — a fetched drawing is a reference exactly like an
+  // attached one and must survive turn boundaries.
+  const extractImageBlocks = (content: unknown): ImageInput[] =>
+    Array.isArray(content)
+      ? (content as Array<{ type?: string; source?: { type?: string; data?: string; media_type?: string } }>)
+          .filter((b) => b?.type === 'image' && b.source?.type === 'base64' && typeof b.source.data === 'string')
+          .map((b) => ({ data: b.source!.data!, mediaType: b.source!.media_type ?? 'image/png' }))
+      : []
   const historyImages: ImageInput[] =
     depth === 0
       ? history
-          .filter((m) => m.role === 'user' && Array.isArray(m.content))
-          .flatMap((m) =>
-            (m.content as UserContentBlock[])
-              .filter((b): b is Extract<UserContentBlock, { type: 'image' }> => b?.type === 'image' && b.source?.type === 'base64')
-              .map((b) => ({ data: b.source.data, mediaType: b.source.media_type })),
-          )
+          .filter((m) => (m.role === 'user' && Array.isArray(m.content)) || (m.role === 'tool' && m.meta?.referenceImage))
+          .flatMap((m) => extractImageBlocks(m.content))
       : []
   const referenceImages: ImageInput[] = [...historyImages, ...(images ?? [])].slice(-4)
   let conversationHasReferenceImages = depth === 0 && referenceImages.length > 0
@@ -272,8 +277,20 @@ export async function* runAgentLoop(
     // 1. Announce every call up front (in order) so the UI shows them start together.
     for (const tu of toolUseBlocks) {
       if (tu.name === 'delegate') {
-        const { agent, goal } = tu.input as { agent: string; goal: string }
-        yield { type: 'subagent_start', id: tu.id, name: agent, goal }
+        const { agent, goal, withImages, withSnapshots } = tu.input as {
+          agent: string
+          goal: string
+          withImages?: boolean
+          withSnapshots?: boolean
+        }
+        yield {
+          type: 'subagent_start',
+          id: tu.id,
+          name: agent,
+          goal,
+          images: withImages ? referenceImages.length : 0,
+          snapshots: withSnapshots ? recentSnapshots.length : 0,
+        }
       } else if (tu.name === 'ask_user') {
         // no chip — the question text is emitted as an assistant message below
       } else {
@@ -421,10 +438,17 @@ export async function* runAgentLoop(
         messages.push({ role: 'tool', tool_use_id: s.tu.id, content: JSON.stringify(s.result.result) })
       } else {
         yield { type: 'tool_end', id: s.tu.id, name: s.tu.name, result: s.result }
+        const isRefImage =
+          s.tu.name === 'fetch_url' && !s.result.error && (s.result.result as { kind?: string } | undefined)?.kind === 'image'
+        const docKeys =
+          s.tu.name === 'docs' && !s.result.error && Array.isArray((s.tu.input as { keys?: unknown }).keys)
+            ? ((s.tu.input as { keys: unknown[] }).keys.filter((k) => typeof k === 'string') as string[])
+            : undefined
         messages.push({
           role: 'tool',
           tool_use_id: s.tu.id,
           content: buildToolResultContent(s.tu.name, s.result, config.sendSnapshotsToModel ?? false),
+          ...(isRefImage ? { meta: { referenceImage: true } } : docKeys?.length ? { meta: { docKeys } } : {}),
         })
       }
     }
@@ -473,13 +497,35 @@ function pruneHistory(messages: Message[], contextLimit?: number): void {
   const budgetChars = (contextLimit ?? DEFAULT_CONTEXT_TOKENS) * CHARS_PER_TOKEN * 0.7
   let total = messages.reduce((n, m) => n + messageChars(m), 0)
   if (total <= budgetChars) return
+  // The LAST 4 reference-image tool results (fetched drawings) are load-bearing —
+  // pruning one forces a refetch round (observed). Protect them; older ones prune.
+  const refIdx = messages.flatMap((m, i) => (m.role === 'tool' && m.meta?.referenceImage ? [i] : []))
+  const protectedRefs = new Set(refIdx.slice(-4))
+  const stub = (m: Message): number => {
+    const size = messageChars(m)
+    if (size <= PRUNED_STUB.length + 64) return 0 // already small (or already stubbed)
+    // Docs get a stub that names what vanished: a model that lost its recipe built
+    // "from memory" instead of refetching — the defection that ships dead geometry.
+    const keys = m.role === 'tool' ? m.meta?.docKeys : undefined
+    m.content = keys?.length
+      ? JSON.stringify({
+          pruned: `Documentation removed to save context: ${keys.join(', ')}. REFETCH docs([...]) before building on any of it — do NOT reconstruct API usage or recipe steps from memory of a pruned doc.`,
+        })
+      : PRUNED_STUB
+    return size - messageChars(m)
+  }
+  // Pass 1: ordinary tool results, oldest first. Docs results are load-bearing
+  // doctrine — they survive as long as anything else can be pruned instead.
   for (let i = 0; i < messages.length - KEEP_RECENT_MESSAGES && total > budgetChars; i++) {
     const m = messages[i]
-    if (m.role !== 'tool') continue
-    const size = messageChars(m)
-    if (size <= PRUNED_STUB.length + 64) continue // already small (or already stubbed)
-    m.content = PRUNED_STUB
-    total -= size - PRUNED_STUB.length
+    if (m.role !== 'tool' || protectedRefs.has(i) || m.meta?.docKeys?.length) continue
+    total -= stub(m)
+  }
+  // Pass 2 (still over budget): docs results too, oldest first, with the naming stub.
+  for (let i = 0; i < messages.length - KEEP_RECENT_MESSAGES && total > budgetChars; i++) {
+    const m = messages[i]
+    if (m.role !== 'tool' || protectedRefs.has(i) || !m.meta?.docKeys?.length) continue
+    total -= stub(m)
   }
 }
 

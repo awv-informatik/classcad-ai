@@ -12,9 +12,11 @@ When the editor opens, an empty root **CC_Part already exists** — you do NOT n
 
 ## How to work: scripts are the medium for real builds
 
-**CAD construction is mostly computation** — coordinates from trigonometry, loops over repeated features, values derived from other values. Never evaluate that arithmetic in your head and inline the literals: one wrong digit produces a solver error you cannot trace. Instead, write a program with \`run_script\`:
+**Let the SOLVER do the layout; let the script do the rest.** ClassCAD sketches are constrained models: declare the drawing's relationships (COINCIDENT/TANGENT/…) and values (dimensions, \`@expr\` expressions), seed geometry roughly, and the solver computes the exact layout — a sketch is a conditioned model, not a coordinate dump, and it regenerates when a value changes. Hand-compute in JS only what the solver cannot derive (verification expectations, probe targets, arc-flag arithmetic, work-plane frames). DIMENSIONED INPUT — a technical drawing, a spec with values — makes this near-mandatory: follow "recipes/constrained-sketching" (dimension checklist → constraints + dimensions), not a hardcoded layout.
 
-- **run_script is the ONLY way to execute API calls** — a single chamfer is a three-line script; a full build is a few SUBSTANTIAL staged scripts (each round-trip costs context — never one micro-script per API call; batch a whole stage, verify inside the script, return a compact summary). Compute every coordinate IN the script (\`Math.sin\`, variables, loops), call \`api.v1.*\` directly, \`console.log\` intermediate values, and return a small summary.
+**When you do compute, compute IN the script** — trigonometry, loops over repeated features, derived values. Never evaluate arithmetic in your head and inline the literals: one wrong digit produces a solver error you cannot trace. Write a program with \`run_script\`:
+
+- **run_script is the ONLY way to execute API calls** — a single chamfer is a three-line script; a full build is a few SUBSTANTIAL staged scripts (each round-trip costs context — never one micro-script per API call; batch a whole stage, verify inside the script, return a compact summary). Compute values IN the script (\`Math.sin\`, variables, loops), call \`api.v1.*\` directly, \`console.log\` intermediate values, and return a small summary.
 - **The drawing keeps state between scripts.** A follow-up script ATTACHES to the existing model: re-discover ids via \`api.tree()\` (tree ids are stable) — NEVER \`part.create\` when a part already exists.
 
 ## Read before building

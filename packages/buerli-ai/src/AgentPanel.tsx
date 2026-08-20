@@ -564,10 +564,11 @@ const SubagentBlock: React.FC<{ message: Extract<UIMessage, { type: 'subagent' }
 }) => {
   const [open, setOpen] = useState(false)
   const running = m.status === 'running'
-  const errored = !running && !!m.summary && /^subagent error/i.test(m.summary.trim())
+  const errored = !running && !!m.summary && /^(subagent error|rejected)/i.test(m.summary.trim())
   const cardStatus = running ? 'running' : errored ? 'error' : 'done'
-  const expandable = !running && !!m.summary
+  const expandable = !!(m.goal || m.summary)
   const caption = m.goal || m.name
+  const handedParts = [m.images ? `${m.images} ref` : '', m.snapshots ? `${m.snapshots} snap` : ''].filter(Boolean)
   return (
     <div style={subagentCardStyle(cardStatus, t)}>
       <div onClick={() => expandable && setOpen(o => !o)} style={toolHeaderStyle(expandable)}>
@@ -579,14 +580,29 @@ const SubagentBlock: React.FC<{ message: Extract<UIMessage, { type: 'subagent' }
           </span>
         )}
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          <span style={{ opacity: 0.55 }}>sub agent: </span>
+          <span style={{ opacity: 0.55 }}>sub agent · {m.name}: </span>
           {caption}
         </span>
+        {handedParts.length > 0 && (
+          <span
+            title="images handed to this reader"
+            style={{ marginLeft: 6, flexShrink: 0, fontSize: 9, opacity: 0.7, padding: '1px 5px', borderRadius: 4, background: 'rgba(120,180,255,0.12)', border: '1px solid rgba(120,180,255,0.3)' }}
+          >
+            📎 {handedParts.join(' + ')}
+          </span>
+        )}
         {expandable && <span style={{ marginLeft: 6, opacity: 0.4, fontSize: 9, flexShrink: 0 }}>{open ? '▾' : '▸'}</span>}
       </div>
-      {open && m.summary && (
+      {open && (
         <div style={mdDetailStyle}>
-          <Markdown text={m.summary} theme={t} />
+          <div style={detailSectionTitle}>question</div>
+          <Markdown text={m.goal} theme={t} />
+          {m.summary && (
+            <>
+              <div style={detailSectionTitle}>answer</div>
+              <Markdown text={m.summary} theme={t} />
+            </>
+          )}
         </div>
       )}
     </div>
@@ -604,7 +620,12 @@ const ToolBlock: React.FC<{ message: Extract<UIMessage, { type: 'tool' }>; theme
   useEffect(() => {
     if (m.name === 'snapshot' && m.image) setOpen(true)
   }, [m.name, m.image])
-  const expandable = !!(m.detail || m.image || m.input || m.result != null)
+  // Chips whose header already says everything stay closed (except on error).
+  const NO_BODY = new Set(['checkpoint', 'restore'])
+  const expandable =
+    m.status === 'error'
+      ? !!(m.detail || m.input)
+      : !NO_BODY.has(m.name) && !!(m.detail || m.image || m.input || m.result != null)
   const running = m.status === 'running'
   const icon = m.status === 'error' ? '✗' : '✓'
   const iconColor = m.status === 'error' ? '#ff8888' : '#62c46e'
@@ -626,7 +647,7 @@ const ToolBlock: React.FC<{ message: Extract<UIMessage, { type: 'tool' }>; theme
         </button>
       )}
       {open && m.image && <img src={m.image} alt={m.label ?? 'snapshot'} style={toolImageStyle} />}
-      {open && <ToolDetail m={m} />}
+      {open && <ToolDetail m={m} theme={t} />}
     </div>
   )
 }
@@ -658,7 +679,7 @@ const CodeView: React.FC<{ code: string }> = ({ code }) => (
 )
 
 /** Expanded body of a tool chip: shows WHAT the call did and what came back. */
-const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }> }> = ({ m }) => {
+const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }>; theme: Required<AgentPanelTheme> }> = ({ m, theme }) => {
   // Errors: the message itself is the detail.
   if (m.status === 'error' && m.detail) {
     return <pre style={{ ...toolDetailInnerStyle, color: '#ff9d9d' }}>{m.detail}</pre>
@@ -720,6 +741,119 @@ const ToolDetail: React.FC<{ m: Extract<UIMessage, { type: 'tool' }> }> = ({ m }
   // snapshot meta rides under the image.
   if (m.name === 'snapshot') {
     return m.detail ? <pre style={toolDetailInnerStyle}>{m.detail}</pre> : null
+  }
+
+  // notes: the note IS the content — render it once, as prose.
+  if (m.name === 'notes') {
+    const action = typeof m.input?.action === 'string' ? m.input.action : 'get'
+    const res = (m.result ?? {}) as { notes?: string }
+    const text =
+      action === 'append'
+        ? (typeof m.input?.text === 'string' ? m.input.text : res.notes ?? '')
+        : (res.notes ?? (typeof m.input?.text === 'string' ? m.input.text : ''))
+    if (!text) return <pre style={toolDetailInnerStyle}>(empty)</pre>
+    return (
+      <div>
+        <div style={detailSectionTitle}>{action === 'append' ? 'appended' : 'notes'}</div>
+        <div style={mdDetailStyle}>
+          <Markdown text={text} theme={theme} />
+        </div>
+      </div>
+    )
+  }
+
+  // tree / find: slim node table, never JSON.
+  if ((m.name === 'tree' || m.name === 'find') && m.result != null && typeof m.result === 'object') {
+    const r = m.result as { nodes?: Array<{ id: unknown; class?: string; name?: string; parent?: unknown }> }
+    const nodes = Array.isArray(r.nodes) ? r.nodes : []
+    const shown = nodes.slice(0, 150)
+    return (
+      <div>
+        <div style={detailSectionTitle}>{nodes.length} node{nodes.length === 1 ? '' : 's'}</div>
+        <pre style={{ ...toolDetailInnerStyle, whiteSpace: 'pre' }}>
+          {shown
+            .map(n => `#${String(n.id ?? '').padEnd(6)} ${String(n.class ?? '').padEnd(26)} ${n.name ?? ''}${n.parent != null ? `  ← #${n.parent}` : ''}`)
+            .join('\n')}
+          {nodes.length > shown.length ? `\n… +${nodes.length - shown.length} more` : ''}
+        </pre>
+      </div>
+    )
+  }
+
+  // inspect: node summary + members table.
+  if (m.name === 'inspect' && m.result != null && typeof m.result === 'object') {
+    const r = m.result as Record<string, unknown> & { parentChain?: Array<{ id: unknown; class?: string; name?: string }> }
+    const chain = Array.isArray(r.parentChain) ? r.parentChain : []
+    const skip = new Set(['parentChain', 'members'])
+    const scalars = Object.entries(r).filter(([k, v]) => !skip.has(k) && (v == null || typeof v !== 'object'))
+    const members = r.members && typeof r.members === 'object' ? Object.entries(r.members as Record<string, unknown>) : []
+    return (
+      <div>
+        <div style={detailSectionTitle}>node</div>
+        <pre style={toolDetailInnerStyle}>
+          {scalars.map(([k, v]) => `${k}: ${String(v)}`).join('\n')}
+          {chain.length ? `\npath: ${chain.map(p => p.name || p.class).reverse().join(' / ')}` : ''}
+        </pre>
+        {members.length > 0 && (
+          <>
+            <div style={detailSectionTitle}>members ({members.length})</div>
+            <pre style={toolDetailInnerStyle}>
+              {members
+                .slice(0, 60)
+                .map(([k, v]) => `${k}: ${v != null && typeof v === 'object' ? JSON.stringify((v as { value?: unknown }).value ?? v)?.slice(0, 120) : String(v)}`)
+                .join('\n')}
+              {members.length > 60 ? `\n… +${members.length - 60} more` : ''}
+            </pre>
+          </>
+        )}
+      </div>
+    )
+  }
+
+  // selection: plain item list.
+  if (m.name === 'get_selection' || m.name === 'set_selection') {
+    const items = Array.isArray(m.result) ? m.result : Array.isArray(m.input?.items) ? (m.input.items as unknown[]) : []
+    return (
+      <pre style={toolDetailInnerStyle}>
+        {items.length === 0
+          ? 'no selection'
+          : items.slice(0, 50).map(it => (it != null && typeof it === 'object' ? JSON.stringify(it) : String(it))).join('\n')}
+      </pre>
+    )
+  }
+
+  // list_methods: ranked names/namespaces as a list.
+  if (m.name === 'list_methods' && m.result != null && typeof m.result === 'object') {
+    const r = m.result as { methods?: unknown[]; namespaces?: unknown[] }
+    const list = Array.isArray(r.methods) ? r.methods : Array.isArray(r.namespaces) ? r.namespaces : null
+    if (list) {
+      return (
+        <pre style={toolDetailInnerStyle}>
+          {list.slice(0, 100).map(x => (typeof x === 'string' ? x : JSON.stringify(x))).join('\n')}
+          {list.length > 100 ? `\n… +${list.length - 100} more` : ''}
+        </pre>
+      )
+    }
+  }
+
+  // describe_method: the doc is markdown — render it.
+  if (m.name === 'describe_method' && typeof m.result === 'string') {
+    return (
+      <div style={mdDetailStyle}>
+        <Markdown text={m.result} theme={theme} />
+      </div>
+    )
+  }
+
+  // load_file: name + outcome, never payload bytes.
+  if (m.name === 'load_file') {
+    const name = typeof m.input?.name === 'string' ? m.input.name : ''
+    return (
+      <div>
+        <pre style={toolDetailInnerStyle}>{name}</pre>
+        {m.result != null && <PrettyJson v={m.result} />}
+      </div>
+    )
   }
 
   // Generic: structured input + result, scrollable, explicitly truncated.

@@ -12,12 +12,16 @@
 
 /** Which recipe to fetch for which task class — and that verification is always one of them. */
 export const RECIPES_POINTER =
-  'Sketch work needs "recipes/constrained-sketching"; multi-feature builds need the matching recipe — ' +
-  '"recipes/parametric-part" (expressions + constraints + regeneration), "recipes/pattern-then-subtract" ' +
-  '(N cutouts around an axis), "recipes/direct-modeling-eif" (programmatic one-shot construction) — and ' +
-  'ALWAYS "recipes/verification": every build ends in verification, so it belongs in the SAME bulk fetch ' +
-  'as the build docs. Recipes encode the composed workflow WITH its pitfalls — imitating them is faster ' +
-  'and safer than composing from method docs.'
+  'Pick the build recipe by the INPUT, not the verb: reproducing DIMENSIONED geometry — a technical ' +
+  'drawing, a fetched or attached drawing image, a spec with values, whatever the part type — is ' +
+  '"recipes/constrained-sketching" territory (dimension checklist → constraints + dimensions; the solver ' +
+  'lays out the sketch). A hardcoded coordinate layout is dead geometry: it passes shape checks and cannot ' +
+  'regenerate. "recipes/parametric-part" adds expressions + regeneration across features; ' +
+  '"recipes/pattern-then-subtract" covers N cutouts around an axis; "recipes/direct-modeling-eif" is for ' +
+  'one-shot solids WITHOUT a dimensioned reference — never for drawing reproduction. ALWAYS include ' +
+  '"recipes/verification": every build ends in verification, so it belongs in the SAME bulk fetch as the ' +
+  'build docs. Recipes encode the composed workflow WITH its pitfalls — imitating them is faster and safer ' +
+  'than composing from method docs.'
 
 /** The reference-image discipline: recipes/verification Part I, start to final gate. */
 export const REFERENCE_IMAGE_POINTER =

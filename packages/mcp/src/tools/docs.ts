@@ -12,10 +12,14 @@ import { createRequire } from 'module'
 import { dirname, join } from 'path'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { RECIPES_POINTER, REFERENCE_IMAGE_POINTER } from '@classcad/skill/prompts'
-import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
-import bundle from '@classcad/skill/bundle.json' with { type: 'json' }
 import { createDiscovery, DOCS_MAX_KEYS, DOCS_TOOL, type MethodRegistry } from '@classcad/skill/discovery'
 import { docs as scriptDocs } from '@classcad/script/docs'
+
+// Loaded at runtime, NOT as static imports: tsc otherwise ingests the multi-MB
+// bundle.json as a literal type — observed to OOM the compiler on some setups.
+const requireJson = createRequire(import.meta.url)
+const registry = requireJson('@classcad/skill/method-registry.json') as MethodRegistry
+const bundle = requireJson('@classcad/skill/bundle.json') as Record<string, string>
 
 // Live-doc override (development): resolve doc keys against a skill checkout.
 function diskResolver(): ((key: string) => string | null) | undefined {

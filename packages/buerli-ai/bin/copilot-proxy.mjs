@@ -333,6 +333,13 @@ function isBlockedAddress(ip) {
   if (ip6 === '::1' || ip6 === '::') return true
   const mapped = ip6.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/)
   if (mapped) return isBlockedAddress(mapped[1])
+  // v4-mapped in HEX form (::ffff:a9fe:a9fe = 169.254.169.254) — normalize, re-check.
+  const hexMapped = ip6.match(/^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/)
+  if (hexMapped) {
+    const hi = parseInt(hexMapped[1], 16)
+    const lo = parseInt(hexMapped[2], 16)
+    return isBlockedAddress(`${hi >> 8}.${hi & 255}.${lo >> 8}.${lo & 255}`)
+  }
   const head = ip6.split(':')[0]
   if (/^f[cd]/.test(head)) return true                            // unique local fc00::/7
   if (/^fe[89ab]/.test(head)) return true                         // link-local fe80::/10

@@ -8,7 +8,7 @@ import type { DrawingID } from '@buerli.io/core'
 export type Message =
   | { role: 'user'; content: string | UserContentBlock[] }
   | { role: 'assistant'; content: Array<ContentBlock> }
-  | { role: 'tool'; tool_use_id: string; content: string | ToolResultContent[] }
+  | { role: 'tool'; tool_use_id: string; content: string | ToolResultContent[]; meta?: { referenceImage?: boolean; docKeys?: string[] } }
 
 /** Content a user message can carry — text and/or attached images. */
 export type UserContentBlock =

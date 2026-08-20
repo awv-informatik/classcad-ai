@@ -20,8 +20,9 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       '• api.facade / api.structure / api.selection — browser-only extras (guard with `if (api.facade)` for portable scripts).\n' +
       '• Math, full JS (variables, functions, loops), console.log/log(...) captured and returned.\n' +
       '• Use `return <value>` for the data you need back; keep it small (results are size-capped).\n' +
-      'Compute coordinates IN the script (trigonometry, loops over teeth/holes/segments) instead of ' +
-      'inlining hand-evaluated numbers. Scripts using only api.v1/tree/graphic run unchanged in the ' +
+      'Compute values IN the script (trigonometry, loops over teeth/holes/segments) instead of ' +
+      'inlining hand-evaluated numbers — but for sketch LAYOUT prefer constraints + dimensions: the ' +
+      'solver computes the layout (see recipes/constrained-sketching). Scripts using only api.v1/tree/graphic run unchanged in the ' +
       'ClassCAD MCP and headless harnesses. No DOM/network access; the script must terminate ' +
       '(default timeout 180s on awaited work — the in-browser engine is slow per call, so give scripts room). ' +
       'Prefer FEW SUBSTANTIAL staged scripts over many micro-scripts: batch a whole stage, verify inside the ' +

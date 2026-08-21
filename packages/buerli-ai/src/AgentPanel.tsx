@@ -100,7 +100,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   theme,
 }) => {
   const [input, setInput] = useState('')
-  const [attachments, setAttachments] = useState<{ name: string; data: string; mediaType: string; kind: 'image' | 'file' }[]>([])
+  const [attachments, setAttachments] = useState<{ name: string; data: string; mediaType: string; kind: 'image' | 'file' | 'text' }[]>([])
   // Provider-declared capabilities (models + which support reasoning). Loaded once
   // on mount; null until then / when the provider exposes none. Drives both pickers
   // so each only appears when it's genuinely supported.
@@ -206,6 +206,17 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
     setInput('')
     const imgs = attachments.filter((a) => a.kind === 'image').map((a) => ({ data: a.data, mediaType: a.mediaType }))
     const files = attachments.filter((a) => a.kind === 'file').map((a) => ({ name: a.name, mediaType: a.mediaType, data: a.data }))
+    // Text/code attachments ride IN the message as fenced blocks. The header must
+    // NOT resemble the load_file attachment note — a model pattern-matched
+    // "[Attached file: x.js]" onto that convention, called load_file, and reported
+    // the file unavailable instead of reading the inlined content below it.
+    const textAtts = attachments.filter((a) => a.kind === 'text')
+    const textBlocks = textAtts
+      .map(
+        (a) =>
+          `\n\nThe full content of "${a.name}" is inlined here (do NOT call load_file for it):\n\`\`\`${/\.(m?js|cjs|ts)$/i.test(a.name) ? 'js' : ''}\n${a.data}\n\`\`\``,
+      )
+      .join('')
     setAttachments([])
 
     const config: AgentConfig = {
@@ -225,7 +236,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
       sendSnapshotsToModel: sendSnapshotsToModel ?? selectedModel?.vision ?? false,
     }
 
-    store.getState().sendMessage(text, config, imgs.length ? imgs : undefined, files.length ? files : undefined)
+    store.getState().sendMessage(text + textBlocks, config, imgs.length ? imgs : undefined, files.length ? files : undefined)
   }, [
     input,
     attachments,
@@ -263,28 +274,53 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
     store.getState().reset()
   }, [store])
 
-  const onFilesSelected = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? [])
-    e.target.value = '' // allow re-picking the same file
+  const ingestFiles = useCallback((files: File[]) => {
     for (const file of files) {
       const isImage = file.type.startsWith('image/')
+      // Code/text files are embedded into the message text at send — load_file
+      // only imports CAD formats, and the model wants the CONTENT anyway.
+      const isText = /\.(m?js|cjs|ts|json|txt|md|csv)$/i.test(file.name)
       const reader = new FileReader()
       reader.onload = () => {
-        const url = String(reader.result)
-        const data = url.slice(url.indexOf(',') + 1)
+        const raw = String(reader.result)
+        const data = isText ? raw.slice(0, 120000) : raw.slice(raw.indexOf(',') + 1)
         setAttachments((prev) => [
           ...prev,
           {
             name: file.name,
             data,
             mediaType: file.type || (isImage ? 'image/png' : 'application/octet-stream'),
-            kind: isImage ? 'image' : 'file',
+            kind: isImage ? 'image' : isText ? 'text' : 'file',
           },
         ])
       }
-      reader.readAsDataURL(file)
+      if (isText) reader.readAsText(file)
+      else reader.readAsDataURL(file)
     }
   }, [])
+
+  const onFilesSelected = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      ingestFiles(Array.from(e.target.files ?? []))
+      e.target.value = '' // allow re-picking the same file
+    },
+    [ingestFiles],
+  )
+
+  const onDragOver = useCallback((e: React.DragEvent) => {
+    // preventDefault is required or the browser opens the file instead of firing drop
+    if (e.dataTransfer.types.includes('Files')) e.preventDefault()
+  }, [])
+
+  const onDrop = useCallback(
+    (e: React.DragEvent) => {
+      const files = Array.from(e.dataTransfer.files ?? [])
+      if (files.length === 0) return
+      e.preventDefault()
+      ingestFiles(files)
+    },
+    [ingestFiles],
+  )
 
   const removeAttachment = useCallback((i: number) => {
     setAttachments((prev) => prev.filter((_, idx) => idx !== i))
@@ -364,7 +400,9 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   return (
     <div
       className={`cad-agent-panel cad-agent-panel--floating ${className ?? ''}`}
-      style={{ ...floatingPanelStyle(rect, collapsed, t), ...cssVars }}>
+      style={{ ...floatingPanelStyle(rect, collapsed, t), ...cssVars }}
+      onDragOver={onDragOver}
+      onDrop={onDrop}>
       {/* Header — doubles as the drag handle */}
       <div style={headerStyle(t)} onPointerDown={onHeaderPointerDown} onPointerMove={onHeaderPointerMove} onPointerUp={onHeaderPointerUp}>
         <span style={{ fontWeight: 600, fontSize: 13 }}>AI Assistant</span>
@@ -463,7 +501,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
             <input
               ref={fileInputRef}
               type='file'
-              accept='image/*,.stp,.step,.igs,.iges,.stl,.brep,.obj,.sat,.x_t,.x_b,.of1,.ofb'
+              accept='image/*,.stp,.step,.igs,.iges,.stl,.brep,.obj,.sat,.x_t,.x_b,.of1,.ofb,.js,.mjs,.cjs,.ts,.json,.txt,.md,.csv'
               multiple
               onChange={onFilesSelected}
               style={{ display: 'none' }}

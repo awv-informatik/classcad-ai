@@ -13,50 +13,18 @@ import type { Client } from '../client.js'
 // Runtime require — keeps the registry JSON out of tsc's type space (OOM risk).
 const REGISTRY = createRequire(import.meta.url)('@classcad/skill/method-registry.json') as MethodRegistry
 
-// The engine omits brep EDGE data from graphic payloads until the graphic
-// database settings are enabled — same lazy ensure as the @classcad/script
-// node session and the browser session (this adapter was the one graphic
-// path WITHOUT it: api.graphic() returned meshes but 0 edges until the first
-// snapshot happened to enable the settings). Keyed on the client's reconnect
-// generation — a use_session reconnect lands in a NEW session that needs its
-// own ensure.
-const graphicsEnsured = new WeakMap<object, number>()
-async function ensureGraphics(client: Client): Promise<void> {
-  if (graphicsEnsured.get(client) === client.generation) return
-  graphicsEnsured.set(client, client.generation)
-  try {
-    await client.execute({
-      'v1.common.setDatabaseSettings': [
-        { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
-      ],
-    })
-  } catch {
-    /* older servers — proceed without edges */
-  }
-}
-
-/** Adapt the MCP's WS client to the @classcad/script session contract. */
+/**
+ * Adapt the MCP's WS client to the @classcad/script session contract. Tree and
+ * graphic come from the client's cached, pull-on-demand accessors: mutations
+ * carry no payloads, one GetTree fills both caches, and a second api.tree() /
+ * api.graphic() without a mutation in between is a no-op.
+ */
 function sessionFor(client: Client): ScriptSession {
   return {
     env: 'node',
     execute: (task: Task) => client.execute(task) as ReturnType<ScriptSession['execute']>,
-    getTree: async (o?: { refresh?: boolean }) => {
-      if (o?.refresh || !client.getStructure()) await client.refreshTree()
-      return (client.getStructure()?.tree ?? {}) as import('@classcad/script').Tree
-    },
-    getGraphic: async (o?: { recalc?: boolean }) => {
-      await ensureGraphics(client)
-      if (o?.recalc !== false) {
-        try {
-          const r = await client.execute({ 'v1.common.recalc': [{}] })
-          const g = (r as { graphic?: import('@classcad/script').Graphic }).graphic
-          if (g?.containers?.some((c) => (c.meshes?.length ?? 0) > 0 || (c.edges?.length ?? 0) > 0)) return g
-        } catch {
-          /* fall back to accumulated graphic */
-        }
-      }
-      return client.getLastGraphic() as import('@classcad/script').Graphic | null
-    },
+    getTree: (o?: { refresh?: boolean }) => client.getTree(o) as Promise<import('@classcad/script').Tree>,
+    getGraphic: (o?: { recalc?: boolean }) => client.getGraphic(o) as Promise<import('@classcad/script').Graphic | null>,
   }
 }
 

@@ -29,7 +29,8 @@ export function registerStateTools(server: McpServer, client: Client): void {
       },
     },
     async ({ refresh }) => {
-      if (refresh) await client.refreshTree()
+      // Pulls when the cache is stale (or `refresh`), then the structure is current.
+      await client.getTree({ refresh })
       const t = client.getStructure()
       if (!t) {
         return { content: [{ type: 'text', text: JSON.stringify({ tree: null, hint: 'No structure cached yet — make any API call first, or pass refresh=true.' }) }] }
@@ -58,7 +59,8 @@ export function registerStateTools(server: McpServer, client: Client): void {
       },
     },
     async ({ type, name, refresh }) => {
-      if (refresh) await client.refreshTree()
+      // Pulls when the cache is stale (or `refresh`), then the structure is current.
+      await client.getTree({ refresh })
       const t = client.getStructure()
       if (!t) return { content: [{ type: 'text', text: '[]' }] }
       const needle = name?.toLowerCase()
@@ -82,7 +84,8 @@ export function registerStateTools(server: McpServer, client: Client): void {
       },
     },
     async ({ id, refresh }) => {
-      if (refresh) await client.refreshTree()
+      // Pulls when the cache is stale (or `refresh`), then the structure is current.
+      await client.getTree({ refresh })
       const t = client.getStructure()
       const node = t?.tree[String(id)] ?? null
       if (!node) {

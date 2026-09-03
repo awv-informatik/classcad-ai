@@ -3,8 +3,20 @@
 // client (curve-container accumulation, structure snapshots, INFO filtering).
 //
 // The returned session ALSO satisfies the @classcad/renderer node-client
-// contract ({ execute, request, getLastGraphic }), so one connection serves
-// scripts and renders alike.
+// contract ({ execute, request, getLastGraphic, getGraphic }), so one
+// connection serves scripts and renders alike.
+//
+// ── Emission model (v1, per request) ─────────────────────────────────────────
+// CommandConfig is PER COMMAND on the server; a connect-time Configuration
+// command has no persistent effect. So every request carries its own flags:
+//   • mutations (execute) → SUPPRESS: no structure, no graphics, messages on.
+//     A 100-command script costs 100 small Results, not 100 trees + graphics.
+//   • pull() → one GetTree with PULL flags: full structure snapshot AND full
+//     graphic bundled on that single Result. Both caches are filled by the
+//     same round trip.
+// A mutation counter makes the caches self-invalidating: api.tree() /
+// api.graphic() only hit the server when something changed since the last
+// pull — `tree(); tree()` or `tree(); graphic()` is one request, not two.
 
 import WebSocket from 'ws'
 import { randomUUID } from 'node:crypto'
@@ -13,8 +25,41 @@ import type { Envelope, ScriptSession, Task } from './types.js'
 const DEFAULT_URL = 'ws://0.0.0.0:9094/'
 const REQUEST_TIMEOUT = 30_000
 
+/** Per-request flags for mutations: results only (plus messages for error handling). */
+export const SUPPRESS_EMISSION: Record<string, unknown> = {
+  sendStructure: false,
+  sendGraphic_Kernel: false,
+  sendGraphic_Sketch: false,
+  sendGraphic_StructureObj: false,
+  sendGraphic_Invisible: false,
+  sendMessages: true,
+  sendMessages_Immediately: false,
+}
+
+/** Per-request flags for the one pull: bundled snapshot + JSON graphic on the Result. */
+export function pullEmission(graphics: boolean): Record<string, unknown> {
+  return {
+    sendStructure: true,
+    sendStructure_Patch: false,
+    sendStructure_Immediately: false,
+    // Kernel graphics only — the content the harness/renderer contract has
+    // always been built on. Sketch/structure-object/invisible categories are
+    // deliberately off so renders stay identical to the previous behavior.
+    sendGraphic_Kernel: graphics,
+    sendGraphic_Sketch: false,
+    sendGraphic_StructureObj: false,
+    sendGraphic_Invisible: false,
+    sendGraphic_Compressed: false,
+    sendGraphic_Immediately: false,
+    sendGraphic_ImmediatelyBinary: false,
+    sendGraphic_Multipackage: false,
+    sendMessages: true,
+    sendMessages_Immediately: false,
+  }
+}
+
 export interface NodeSessionOptions {
-  /** Enable server-side graphic push. @defaultValue true */
+  /** Include kernel graphics in pulls (api.graphic()). @defaultValue true */
   graphics?: boolean
   /** Disable all timeouts (debugging). @defaultValue false */
   debug?: boolean
@@ -23,12 +68,19 @@ export interface NodeSessionOptions {
 }
 
 export interface NodeSession extends ScriptSession {
-  /** Raw protocol request (e.g. `request('GetTree')`). */
-  request(command: string, extra?: Record<string, unknown>): Promise<Envelope>
-  /** Latest accumulated graphic payload (renderer-client contract). */
+  /**
+   * Raw protocol request (e.g. `request('GetTree')`). Counts as a potential
+   * mutation unless `extra.config` marks it read-only via `track: false`.
+   */
+  request(command: string, extra?: Record<string, unknown>, opts?: { track?: boolean }): Promise<Envelope>
+  /** Latest pulled graphic payload (renderer-client contract). */
   getLastGraphic(): { containers?: any[] } | null
-  /** Latest structure snapshot ({ tree, root, … }). */
+  /** Latest pulled structure snapshot ({ tree, root, … }). */
   getStructure(): Record<string, any> | null
+  /** Fetch structure + graphic in one round trip (forced; caches update). */
+  pull(): Promise<void>
+  /** Number of tracked requests since connect — cache-invalidation key. */
+  readonly version: number
   close(): void
 }
 
@@ -40,6 +92,10 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
 
   let lastGraphic: { containers?: any[] } | null = null
   let lastStructure: Record<string, any> | null = null
+  // Cache bookkeeping: `version` bumps on every tracked request; a pull records
+  // the version it served. Equal → caches are current → no round trip.
+  let version = 0
+  let pulledVersion = -1
 
   const ws = new WebSocket(url)
   await new Promise<void>((resolve, reject) => {
@@ -73,24 +129,11 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     // Filter INFO traces (level 31).
     const messages = ((frame.messages as any[]) || []).filter(m => m.level > 31)
 
-    // Accumulate graphic: curve containers (type 2) accumulate across
-    // responses (the server pushes only the FIRST curve per shape); solid
-    // containers (type 1) are replaced by the latest frame that has any.
+    // A pull delivers the COMPLETE graphic — replace, never merge (a merge
+    // would keep containers of deleted bodies alive).
     if (frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
-      if (!lastGraphic) {
-        lastGraphic = frame.graphic
-      } else {
-        const incoming: any[] = frame.graphic.containers || []
-        const existing: any[] = lastGraphic.containers || []
-        const curveById = new Map<number, any>()
-        for (const c of existing) if (c.type === 2) curveById.set(c.id, c)
-        for (const c of incoming) if (c.type === 2) curveById.set(c.id, c)
-        const nonCurve = incoming.filter(c => c.type !== 2)
-        const oldNonCurve = nonCurve.length > 0 ? [] : existing.filter(c => c.type !== 2)
-        lastGraphic = { ...frame.graphic, containers: [...oldNonCurve, ...nonCurve, ...curveById.values()] }
-      }
+      lastGraphic = frame.graphic
     }
-    // Structure snapshots ride along on every Result — cache defensively.
     if (frame.structure && typeof frame.structure === 'object' && !Array.isArray(frame.structure)) {
       lastStructure = frame.structure
     }
@@ -105,32 +148,14 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
   }
   ws.on('message', (d: WebSocket.RawData, b: boolean) => handleFrame(d, b))
 
-  // Mandatory Configuration (enables server push).
-  send({
-    command: 'Configuration',
-    commandVersion: 'v1',
-    config: {
-      sendStructure: true,
-      sendStructure_Patch: true,
-      sendStructure_Immediately: false,
-      sendGraphic_Kernel: graphics,
-      sendGraphic_StructureObj: graphics,
-      sendGraphic_Sketch: graphics,
-      sendGraphic_Compressed: false,
-      sendGraphic_Immediately: false,
-      sendGraphic_ImmediatelyBinary: false,
-      sendGraphic_Multipackage: false,
-      sendMessages: true,
-      sendMessages_Immediately: false,
-    },
-  })
-  await new Promise(r => setTimeout(r, 300))
-
-  function request(command: string, extra: Record<string, unknown> = {}): Promise<Envelope> {
+  function request(command: string, extra: Record<string, unknown> = {}, o: { track?: boolean } = {}): Promise<Envelope> {
+    if (o.track !== false) version++
     const transactionID = randomUUID()
     return new Promise<Envelope>((resolve, reject) => {
       pending.set(transactionID, { resolve, reject })
-      send({ command, commandVersion: 'v1', transactionID, ...extra })
+      // Suppression is the default for every request; callers pass their own
+      // `config` (pull, or a script that explicitly wants payloads) to override.
+      send({ command, commandVersion: 'v1', transactionID, config: SUPPRESS_EMISSION, ...extra })
       if (!debug) {
         setTimeout(() => {
           if (pending.has(transactionID)) {
@@ -144,27 +169,42 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
 
   const execute = (task: Task) => request('Execute', { task: [task], options: { undoable: false } })
 
+  /** One round trip fills BOTH caches. Not tracked — it is not a mutation. */
+  async function pull(): Promise<void> {
+    const at = version
+    await request('GetTree', { config: pullEmission(graphics) }, { track: false })
+    pulledVersion = at
+  }
+  const isCurrent = () => pulledVersion === version && lastStructure !== null
+
   async function getTree(o?: { refresh?: boolean }): Promise<Record<string, any>> {
-    if (o?.refresh || !lastStructure) {
-      // Any read-only call refreshes the snapshot (structure rides every Result).
-      await execute({ 'v1.common.getAppVersion': [{}] } as Task)
-    }
+    if (o?.refresh || !isCurrent()) await pull()
     return lastStructure?.tree ?? {}
   }
 
   // The engine omits brep EDGE data from graphic payloads until the graphic
   // database settings are enabled — ensure them ONCE, lazily, so scripts get
   // full geometry from api.graphic() without knowing about the setting.
+  // Untracked: it changes engine settings, not the model.
   let graphicsEnsured = false
   async function ensureGraphics(): Promise<void> {
     if (graphicsEnsured) return
     graphicsEnsured = true
     try {
-      await execute({
-        'v1.common.setDatabaseSettings': [
-          { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
-        ],
-      } as Task)
+      await request(
+        'Execute',
+        {
+          task: [
+            {
+              'v1.common.setDatabaseSettings': [
+                { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
+              ],
+            },
+          ],
+          options: { undoable: false },
+        },
+        { track: false },
+      )
     } catch {
       /* older servers — proceed without edges */
     }
@@ -172,17 +212,17 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
 
   async function getGraphic(o?: { recalc?: boolean }): Promise<{ containers?: any[] } | null> {
     await ensureGraphics()
-    // Recalc-first for fresh state (cached graphic may be stale/intermediate);
-    // recalc DESTROYS entity-injection bodies — callers pass recalc:false there.
-    if (o?.recalc !== false) {
+    // recalc is OPT-IN: it regenerates the whole model and DESTROYS
+    // entity-injection bodies. The pull alone reflects the current model —
+    // every command already regenerated its own feature.
+    if (o?.recalc === true) {
       try {
-        const r = await execute({ 'v1.common.recalc': [{}] } as Task)
-        const g = r.graphic as { containers?: any[] } | null
-        if (g?.containers?.some(c => c.meshes?.length > 0 || c.edges?.length > 0)) return g
+        await execute({ 'v1.common.recalc': [{}] } as Task)
       } catch {
-        /* fall through to accumulated graphic */
+        /* pull below still serves the current state */
       }
     }
+    if (!isCurrent()) await pull()
     return lastGraphic
   }
 
@@ -192,8 +232,12 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     request,
     getTree,
     getGraphic,
+    pull,
     getLastGraphic: () => lastGraphic,
     getStructure: () => lastStructure,
+    get version() {
+      return version
+    },
     namespaces: opts.namespaces,
     close: () => {
       if (ws.readyState <= WebSocket.OPEN) ws.close()

@@ -45,6 +45,16 @@ export async function svgToPng(svg: any, pngPath: any) {
 export async function fetchGraphic(client: any, { recalc = true }: { recalc?: boolean } = {}) {
   const { execute, getLastGraphic } = client
   let graphic: any = null
+  // Modern clients (@classcad/script NodeSession, the MCP client) expose a
+  // cached, pull-on-demand getGraphic(): mutations no longer carry graphics,
+  // so a recalc Result is empty and the accumulated graphic is only as fresh
+  // as the last pull. getGraphic() pulls when stale; `recalc` stays opt-in.
+  if (typeof client.getGraphic === 'function') {
+    try {
+      const g = await client.getGraphic({ recalc })
+      if (g?.containers?.some((c: any) => c.meshes?.length > 0 || c.edges?.length > 0)) return g
+    } catch (e) { /* fall back to the legacy path below */ }
+  }
   if (recalc) {
     try {
       const r = await execute({ 'v1.common.recalc': [{}] })

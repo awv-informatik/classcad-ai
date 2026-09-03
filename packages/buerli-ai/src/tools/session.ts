@@ -3,8 +3,8 @@
 //
 // Guaranteed surface (identical to the MCP/harness sessions):
 //   execute    — v1 commands; during scripts they go through the RAW client
-//                with per-call `disableGraphics` (see below), falling back to
-//                createApi when the raw client isn't reachable
+//                with a per-call graphic-suppressing `config` (see below),
+//                falling back to createApi when the raw client isn't reachable
 //   getTree    — the live structure tree from the store
 //   getGraphic — the live SCG graphic containers from the store (meshes/edges/
 //                vertices — scripts filter geometry themselves)
@@ -12,15 +12,15 @@
 // optional namespaces — scripts guard them (`if (api.facade) …`) or stay
 // portable by sticking to the guaranteed surface.
 //
-// ── Per-call graphic suppression ──────────────────────────────────────────────
-// The engine merges per-command config over the connection defaults for EVERY
-// command (CommandFactory::MergeConfiguration; without commandVersion the v0
-// branch reads root-level fields such as `disableGraphics`). Serializing the
-// graphic on every response is what makes the in-browser engine slow and
-// memory-hungry (std::bad_alloc in the response path), so run_script executes
-// its mutations with `disableGraphics: true` and the graphic is refreshed ONCE
-// afterwards. Structure/tree patches stay enabled throughout — api.tree() and
-// the model tree UI remain live.
+// ── Per-call graphic suppression (v1) ─────────────────────────────────────────
+// CommandConfig is PER COMMAND on the engine (CommandFactory::MergeConfiguration
+// reads the request's `config` for v1). Serializing the graphic on every
+// response is what makes the in-browser engine slow and memory-hungry
+// (std::bad_alloc in the response path), so run_script executes its mutations
+// with a v1 `config` that turns every graphic category off, and the graphic is
+// pulled ONCE afterwards (fetchTree = GetTree, whose Result carries structure
+// AND graphic). Structure patches stay enabled throughout — they are small,
+// and api.tree() plus the model tree UI remain live during the script.
 
 import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
 // Internal module — the raw per-drawing client cache is not re-exported by the
@@ -71,27 +71,29 @@ function normalizeError(prefix: string, e: unknown): Error {
 }
 
 /**
- * Refresh tree + graphic after a graphic-suppressed run. Goes through the
- * regular createApi path so the store gets its usual post-command cleanup.
- * `recalc: false` skips the graphic-regenerating recalc (EIF/solid.* sessions —
- * recalc destroys injected bodies; the tree still refreshes).
+ * Refresh tree + graphic after a graphic-suppressed run: ONE pull via
+ * fetchTree (GetTree) — its Result carries the full structure AND the full
+ * graphic, which the client applies to the store. `recalc: true` regenerates
+ * the model first; it is opt-in because recalc DESTROYS entity-injection
+ * bodies (EIF/solid.* sessions).
  */
 export async function refreshAfterScript(drawingId: DrawingID, opts?: { recalc?: boolean }): Promise<void> {
+  if (opts?.recalc === true) {
+    try {
+      await (createApi(drawingId) as any)?.v1?.common?.recalc?.({})
+    } catch {
+      /* the pull below still serves the current state */
+    }
+  }
   try {
     await (BuerliCadFacade as any)?.utils?.fetchTree?.(drawingId)
-  } catch {
-    /* tree patches kept the store close enough */
-  }
-  if (opts?.recalc === false) return
-  try {
-    await (createApi(drawingId) as any)?.v1?.common?.recalc?.({})
   } catch {
     /* stale viewport is better than a failed script result */
   }
 }
 
 export interface BrowserSessionOptions {
-  /** Execute mutations with per-call `disableGraphics` (run_script does this; refresh once afterwards). */
+  /** Execute mutations with a per-call v1 config that suppresses graphics (run_script does this; pull once afterwards). */
   suppressGraphics?: boolean
 }
 
@@ -133,9 +135,13 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
     if (client) {
       const envelope = {
         command: 'Execute',
+        commandVersion: 'v1',
         task: [{ [`v1.${domain}.${method}`]: [args?.[0] ?? {}] }],
         options: { undoable: false },
-        disableGraphics: true, // per-call: engine skips graphic serialization for this response
+        // Per-call (v1): no graphic categories for this response; structure
+        // patches and messages keep flowing. Merged over the client's own
+        // per-request profile by WSClient / read directly by the WASM engine.
+        config: { sendGraphic_Kernel: false, sendGraphic_Sketch: false, sendGraphic_StructureObj: false, sendGraphic_Invisible: false },
       }
       try {
         graphicStale = true
@@ -177,10 +183,12 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
     },
     getGraphic: async (o?: { recalc?: boolean }) => {
       await ensureGraphicSettings(drawingId)
-      // Under suppression the store's graphic lags behind — refresh before the
-      // script reads it (recalc regenerates; skipped for solid.*/recalc:false).
+      // Under suppression the store's graphic lags behind — pull once before
+      // the script reads it. Cached: a second graphic() without a mutation in
+      // between is a no-op. recalc only when explicitly requested (and never
+      // after solid.* calls — it would destroy the injected bodies).
       if (graphicStale) {
-        await refreshAfterScript(drawingId, { recalc: o?.recalc === false || sawSolidCall ? false : true })
+        await refreshAfterScript(drawingId, { recalc: o?.recalc === true && !sawSolidCall })
         graphicStale = false
       }
       const drawing = getDrawing(drawingId) as any

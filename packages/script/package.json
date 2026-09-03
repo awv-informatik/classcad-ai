@@ -40,8 +40,9 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json && node scripts/build-docs.mjs",
-    "test": "npm run build && node test/unit.mjs",
-    "prepare": "npm run build"
+    "test": "npm run build && node test/unit.mjs && node test/emission-live.mjs",
+    "prepare": "npm run build",
+    "postbuild": "node --test test/emission.mjs"
   },
   "dependencies": {
     "ws": "^8.19.0"

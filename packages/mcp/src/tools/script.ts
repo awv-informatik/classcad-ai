@@ -15,9 +15,12 @@ const REGISTRY = createRequire(import.meta.url)('@classcad/skill/method-registry
 
 /**
  * Adapt the MCP's WS client to the @classcad/script session contract. Tree and
- * graphic come from the client's cached, pull-on-demand accessors: mutations
- * carry no payloads, one GetTree fills both caches, and a second api.tree() /
- * api.graphic() without a mutation in between is a no-op.
+ * graphic come from the client's cached, pull-on-demand accessors; the
+ * emission config pair lets runScript suppress payloads for the duration of
+ * the script (and restore the connection's previous flags afterwards), so a
+ * 100-command script costs 100 small Results while the MCP's connection
+ * otherwise keeps the engine defaults - important when it is docked into a
+ * session shared with an interactive app.
  */
 function sessionFor(client: Client): ScriptSession {
   return {
@@ -25,6 +28,8 @@ function sessionFor(client: Client): ScriptSession {
     execute: (task: Task) => client.execute(task) as ReturnType<ScriptSession['execute']>,
     getTree: (o?: { refresh?: boolean }) => client.getTree(o) as Promise<import('@classcad/script').Tree>,
     getGraphic: (o?: { recalc?: boolean }) => client.getGraphic(o) as Promise<import('@classcad/script').Graphic | null>,
+    getEmissionConfig: () => client.getEmissionConfig(),
+    setEmissionConfig: (partial: Record<string, unknown>) => client.setEmissionConfig(partial),
   }
 }
 
@@ -60,6 +65,16 @@ export function registerScriptTool(server: McpServer, client: Client): void {
     },
     async ({ script, timeoutMs }) => {
       const res = await runScript(script, sessionFor(client), { registry: REGISTRY, timeoutMs })
+      // The script ran with payloads suppressed and the connection's flags
+      // are restored again. One GetTree now: its Result carries the full
+      // structure and graphic, refreshes our caches, and - broadcast by the
+      // server - brings a shared session's other clients up to date with
+      // everything the script changed while they received nothing.
+      try {
+        await client.pull()
+      } catch {
+        /* the tools pull again on demand */
+      }
       if (!res.ok) {
         const tail = res.logs.length ? `\nConsole output before the error:\n${res.logs.slice(-20).join('\n')}` : ''
         return { content: [{ type: 'text' as const, text: `${res.error}${tail}` }], isError: true }

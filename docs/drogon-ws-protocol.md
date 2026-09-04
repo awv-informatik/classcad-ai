@@ -62,7 +62,7 @@ Named sessions are created via `GET /session` on the HTTP controller and deleted
 
 ### Handshake
 
-Standard WebSocket upgrade — no sub-protocols or custom headers required. After the socket opens, the client **must** send a `Configuration` command before any other commands.
+Standard WebSocket upgrade — no sub-protocols or custom headers required. A fresh connection starts with the server's default emission config (full content, bundled delivery); send `SetEmissionConfig` first if you want something else (see 5.1).
 
 ---
 
@@ -172,12 +172,15 @@ All commands are JSON text frames:
 }
 ```
 
-### 5.1 Configuration (required first command)
+### 5.1 SetEmissionConfig / GetEmissionConfig (per-connection emission config)
+
+The emission flags are kept **per connection**. A fresh connection has full content (structure, all graphic categories, messages) in bundled delivery (everything on the `Result` frame). `SetEmissionConfig` merges a partial `config` object into the connection config and replies with the effective flags in `result`; `GetEmissionConfig` only replies. Both are tracked (`transactionID` is echoed). A `config` field on any other request is ignored. Two explicit requests ignore the flags: `GetTree`/`Sync` always return the structure, `v1.common.requestVisualisation` always returns its graphic.
 
 ```json
 {
-  "command": "Configuration",
+  "command": "SetEmissionConfig",
   "commandVersion": "v1",
+  "transactionID": "<uuid>",
   "config": {
     "sendStructure": true,
     "sendStructure_Patch": true,
@@ -195,7 +198,7 @@ All commands are JSON text frames:
 }
 ```
 
-No `transactionID` needed. Without this command, the server will not push any data back.
+Reply: `{ "command": "Result", "_from_": "SetEmissionConfig", "_transactionID_": "<uuid>", "result": { ...all flags } }`. The legacy `Configuration` command (engine init) also persists its `config` for backwards compatibility.
 
 **Flag effects:**
 
@@ -353,16 +356,15 @@ const pkg = JSON.parse(inflated)
 
 Fallback: if inflation fails, try parsing as raw JSON (uncompressed).
 
-### 6.5 Configuration response
+### 6.5 SetEmissionConfig / GetEmissionConfig response
 
-No `_transactionID_` — these are untracked:
+Tracked like any other command:
 
 ```json
-{ "command": "Message", "_from_": "Configuration", "maxLevel": 51, "messages": [...] }
-{ "command": "Result", "_from_": "Configuration", "result": 1 }
+{ "command": "Result", "_from_": "SetEmissionConfig", "_transactionID_": "<uuid>", "result": { "sendStructure": false, "sendGraphic_Kernel": false, ... } }
 ```
 
-A `maxLevel: 51` message `"ClassCAD is already initialized!"` is **normal** — the engine was initialized by a prior session.
+An engine that predates the config commands answers with an "Unknown command" error and no `result` (old CommandFactory builds), or with `result: ""` and no error at all (old WASM builds) — clients treat both as "emission config not supported". (The legacy `Configuration` reply still carries the benign `maxLevel: 51` "ClassCAD is already initialized!" message.)
 
 ---
 
@@ -514,15 +516,15 @@ The worker echoes `headerStr` verbatim at the start of every response frame. For
 | Acknowledgements | Socket.IO callback ack                           | No ack needed                             |
 | Undo events      | Dedicated `undo` event: `{ stack, current, id }` | **Not yet implemented**                   |
 | INFO traces      | Not included                                     | Included (must filter `level <= 31`)      |
-| Configuration    | Implicit on init                                 | Explicit command required                 |
+| Emission config  | Fixed per server process                         | Per connection (`SetEmissionConfig`/`GetEmissionConfig`)  |
 
 ---
 
 ## 13. Known Gotchas
 
-1. **Must send Configuration first** — without it, no data is pushed back.
+1. **Emission flags live on the connection** — `SetEmissionConfig` once (or whenever needed); a `config` field on other requests is ignored. `GetTree` always returns the structure and `requestVisualisation` always returns its graphic, whatever the flags.
 2. **INFO trace messages inflate `messages.length`** — filter `level > 31` before checking success.
-3. **Configuration "already initialized" is normal** — benign `maxLevel: 51` on engine reuse.
+3. **Legacy `Configuration` "already initialized" is normal** — benign `maxLevel: 51` on engine reuse (the command now also persists its flags).
 4. **`result` may be double-wrapped** — always check `data.result?.result`.
 5. **Binary frames are deflate-raw** — use `pako.inflate(data, { raw: true })`, not `inflate(data)`.
 6. **Undo/Redo state not pushed** — unlike Socket.IO, no `undo` events. Client must manage state from results.

@@ -8,6 +8,7 @@
 // CAD API, which is the actual capability boundary.
 
 import { buildScriptApi } from './api.js'
+import { suppressEmission } from './emission.js'
 import type { RunScriptOptions, RunScriptResult, ScriptSession } from './types.js'
 
 const DEFAULT_TIMEOUT_MS = 60_000
@@ -107,6 +108,11 @@ export async function runScript(
 
   const timeout = Math.min(Math.max(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS, 1000), MAX_TIMEOUT_MS)
   let timer: ReturnType<typeof setTimeout> | undefined
+  // Script-scoped emission suppression: the connection's flags are switched
+  // to results-only for THIS run and restored in the finally below - never
+  // for the lifetime of the session (a session may share the engine session
+  // with an interactive app that relies on the broadcast of what we emit).
+  const restoreEmission = opts.suppressEmission === false ? async () => {} : await suppressEmission(session)
   try {
     const shadowValues = SHADOWED_GLOBALS.map(() => undefined)
     const run = fn(api, consoleShim, consoleShim.log, ...shadowValues)
@@ -127,5 +133,6 @@ export async function runScript(
     return { ok: false, error: `Script failed: ${e instanceof Error ? e.message : String(e)}`, logs }
   } finally {
     if (timer) clearTimeout(timer)
+    await restoreEmission()
   }
 }

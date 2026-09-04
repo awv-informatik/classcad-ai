@@ -183,17 +183,17 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
   if (content.solids.length > 0 && !hasSolidGraphic) {
     throw new Error(
       `No graphic data for ${content.solids.length} solid(s) in the session. ` +
-      `Likely cause: the client is connected with graphics disabled (Configuration sendGraphic_Kernel=false), ` +
-      `or the server did not push graphic containers. ` +
-      `Fix: reconnect with graphics enabled — or render the STL export instead: ` +
+      `Likely cause: the connection's emission config has graphics disabled (setEmissionConfig sendGraphic_Kernel=false ` +
+      `and the client's pull did not switch it on), or the server did not push graphic containers. ` +
+      `Fix: pull with graphics enabled (client.getGraphic()) — or render the STL export instead: ` +
       `renderSession(client, prefix, outDir, { source: 'stl' }) (marked as source "stl" in the result; no brep edges).`,
     )
   }
   if (content.solids.length === 0 && content.curves.length > 0 && !hasCurveGraphic) {
     throw new Error(
       `No graphic data for ${content.curves.length} curve shape(s) in the session. ` +
-      `Likely cause: the client is connected with graphics disabled, or curve tessellation is off ` +
-      `(setDatabaseSettings doCurveTessellation). There is no STL path for curves — reconnect with graphics enabled.`,
+      `Likely cause: the connection's emission config has graphics disabled (setEmissionConfig), or curve tessellation is off ` +
+      `(setDatabaseSettings doCurveTessellation). There is no STL path for curves — pull with graphics enabled.`,
     )
   }
 

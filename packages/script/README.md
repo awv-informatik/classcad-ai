@@ -150,17 +150,23 @@ connectSession(url = 'ws://0.0.0.0:9094/', opts?: NodeSessionOptions): Promise<N
 
 Connects to a ClassCAD worker (classcad-cli) over WebSocket and returns a
 ready [`ScriptSession`](#scriptsession). It handles the protocol details for
-you: the mandatory `Configuration` handshake, request/response correlation
-with timeouts, INFO-message filtering, structure snapshots (they ride along on
-every `Result` frame), and curve-container accumulation (the server pushes
-graphic data only for the first curve per shape).
+you: request/response correlation with timeouts, INFO-message filtering, and
+the pull-on-demand caches behind `api.tree()` / `api.graphic()` (one `GetTree`
+when something changed). The connection itself keeps the engine's emission
+defaults — important when it shares an engine session with an interactive
+app; `runScript` suppresses structure/graphic emission for the duration of
+ONE script (`GetEmissionConfig` → `SetEmissionConfig(SUPPRESS_EMISSION)` → run
+→ restore), so a 100-command script is 100 small Results, and pulls inside
+the script switch the kernel graphic on around their `GetTree`.
 
-**`NodeSessionOptions`:** `graphics` (default `true` — server-side graphic
-push), `debug` (default `false` — disables all timeouts), `namespaces`
-(extra capabilities to expose on the script api).
+**`NodeSessionOptions`:** `graphics` (default `true` — include the kernel
+graphic in pulls), `debug` (default `false` — disables all timeouts),
+`namespaces` (extra capabilities to expose on the script api).
 
 **`NodeSession`** extends `ScriptSession` with `request(command, extra?)`
-(raw protocol commands like `GetTree`), `getLastGraphic()`, `getStructure()`
+(raw protocol commands like `GetTree`), `getEmissionConfig()` / `setEmissionConfig(partial)`
+(the connection's emission flags; `runScript` uses them, callers changing
+them by hand must restore), `pull()`, `getLastGraphic()`, `getStructure()`
 and `close()`. It deliberately **also satisfies the `@classcad/renderer`
 node-client contract**, so one connection serves scripts and renders:
 

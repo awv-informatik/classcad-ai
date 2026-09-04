@@ -14,7 +14,7 @@ import { runScript } from '@classcad/script'
 import type { MethodRegistry } from '@classcad/script'
 import type { ToolExecutorContext, ToolResult } from '../types'
 import { getMethodRegistry } from './registry'
-import { browserSession, refreshAfterScript } from './session'
+import { browserSession, refreshAfterScript, withEmissionConfig, SUPPRESS_GRAPHICS } from './session'
 
 export async function runScriptHandler(
   input: Record<string, unknown>,
@@ -25,20 +25,27 @@ export async function runScriptHandler(
     return { error: 'run_script expects a "script" string containing JavaScript code.' }
   }
 
-  // Script mutations run with per-call graphic suppression (the engine skips
-  // graphic serialization per response — the WASM's main cost); the viewport is
-  // refreshed once afterwards.
+  // The script runs under its own CONNECTION config (every graphic category
+  // off — the engine skips graphic serialization per response, the WASM's main
+  // cost); withEmissionConfig restores the app's config afterwards, also when
+  // the script throws. The viewport is refreshed once afterwards.
   const session = browserSession(ctx.drawingId, { suppressGraphics: true })
-  const res = await runScript(script, session, {
-    registry: (getMethodRegistry() ?? undefined) as MethodRegistry | undefined,
-    // The browser/WASM engine is much slower per call than a native worker —
-    // default to 180s so one substantial script fits (the executor caps at 300s).
-    timeoutMs: timeoutMs ?? 180_000,
-  })
+  const res = await withEmissionConfig(ctx.drawingId, SUPPRESS_GRAPHICS, () =>
+    runScript(script, session, {
+      registry: (getMethodRegistry() ?? undefined) as MethodRegistry | undefined,
+      // The browser/WASM engine is much slower per call than a native worker —
+      // default to 180s so one substantial script fits (the executor caps at 300s).
+      timeoutMs: timeoutMs ?? 180_000,
+    }),
+  )
 
-  // One refresh instead of per-call graphic pushes: tree + regenerated graphic
-  // (recalc skipped when the script used v1.solid.* — recalc destroys those bodies).
-  await refreshAfterScript(ctx.drawingId, { recalc: !session.usedSolidApi() })
+  // One pull instead of per-call graphic pushes: with the app's config restored,
+  // fetchTree (GetTree) brings the full structure AND graphic into the store in
+  // a single round trip. No recalc: every command already regenerated its own
+  // feature, and recalc would destroy entity-injection bodies (v1.solid.*).
+  // Callers that need a re-tessellation (snapshot's adaptive faceting) ask for
+  // it explicitly.
+  await refreshAfterScript(ctx.drawingId)
 
   if (!res.ok) {
     const logTail = res.logs.length ? `\nConsole output before the error:\n${res.logs.slice(-20).join('\n')}` : ''

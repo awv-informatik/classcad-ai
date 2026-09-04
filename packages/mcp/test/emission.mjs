@@ -1,46 +1,68 @@
 // Emission contract of the MCP client — runs on every build (postbuild).
-// Same properties as @classcad/script's node session (see there), through the
-// Client used by run_script, tree/find/graphic and snapshot.
+// The client never configures the connection on its own (it may be docked
+// into a session shared with an interactive app); run_script suppresses per
+// script through @classcad/script's runScript, which is exercised here with
+// the same session adapter run_script uses.
 import { test } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { connect } from '../dist/client.js'
-import { startFakeWorker, isMutation, isPull, suppressed } from '../../script/test/fake-worker.mjs'
+import { runScript } from '@classcad/script'
+import { startFakeWorker, isMutation, isPull, isSetEmissionConfig, isSuppressProfile, isRestoreProfile, carriesNoConfig } from '../../script/test/fake-worker.mjs'
 
-test('mcp client: suppress on mutation, pull once, cache until the next mutation', async () => {
+const sessionFor = c => ({
+  env: 'node',
+  execute: t => c.execute(t),
+  getTree: o => c.getTree(o),
+  getGraphic: o => c.getGraphic(o),
+  getEmissionConfig: () => c.getEmissionConfig(),
+  setEmissionConfig: p => c.setEmissionConfig(p),
+})
+
+test('mcp client: engine defaults outside scripts, suppression scoped to a script', async () => {
   const worker = await startFakeWorker()
   const c = await connect(worker.url, { debug: true })
   try {
-    await c.execute({ 'v1.part.create': [{ name: 'P' }] }) // opens lazily; bootstrap pulls once
-    const bootstrapPulls = worker.frames.filter(isPull).length
-    assert.ok(bootstrapPulls >= 1, 'bootstrap pulls the session state')
-    assert.equal(worker.frames.filter(f => f.command === 'Configuration').length, 0, 'no Configuration command')
+    const r0 = await c.execute({ 'v1.part.create': [{ name: 'P' }] }) // opens lazily; bootstrap pulls once
+    assert.equal(worker.frames.filter(isSetEmissionConfig).length, 0, 'nothing configured on connect')
+    assert.equal(worker.frames.filter(f => f.command === 'Configuration').length, 0, 'no legacy Configuration command')
+    assert.ok(worker.frames.filter(isPull).length >= 1, 'bootstrap pulls the session state')
+    assert.ok(r0.structure?.tree, 'unsuppressed Result carries the structure')
+    assert.ok(r0.graphic?.containers?.length, 'unsuppressed Result carries the graphic')
 
-    for (let i = 0; i < 5; i++) await c.execute({ 'v1.sketch.line': [{ id: 1 }] })
-    const muts = worker.frames.filter(isMutation)
-    assert.ok(muts.length >= 6)
-    assert.ok(muts.every(suppressed), 'every mutation carries the suppress config')
+    const start = worker.frames.length
+    const res = await runScript(`
+      for (let i = 0; i < 5; i++) await api.v1.sketch.line({ id: 1 })
+      const t = await api.tree(); const g = await api.graphic(); const g2 = await api.graphic()
+      const err = await api.v1.part.fail({})
+      const rv = await api.v1.common.requestVisualisation({ ids: [87] })
+      return { nodes: Object.keys(t).length, containers: g?.containers?.length, same: g === g2, errLevel: err.maxLevel, errStructure: err.structure, rvGraphic: rv.graphic?.containers?.length }
+    `, sessionFor(c))
+    assert.equal(res.ok, true, res.error)
+    const f = worker.frames.slice(start)
+    assert.equal(f[0].command, 'GetEmissionConfig')
+    assert.ok(isSuppressProfile(f[1]), 'suppress profile set for the script')
+    assert.ok(isRestoreProfile(f[f.length - 1]), 'previous flags restored after the script')
+    assert.ok(f.every(carriesNoConfig), 'no request other than SetEmissionConfig carries a config field')
+    assert.equal(f.filter(isMutation).length, 7)
+    assert.equal(res.returned.errStructure, null, 'suppressed Result carries no structure')
+    assert.equal(res.returned.errLevel, 51)
+    assert.ok(res.returned.rvGraphic, 'requestVisualisation delivers its graphic while suppressed')
+    assert.ok(res.returned.containers && res.returned.same, 'graphic pulled once and cached')
+    const pulls = f.filter(isPull)
+    assert.equal(pulls.length, 1, 'tree()+graphic()+graphic() = one pull')
+    const i = f.indexOf(pulls[0])
+    assert.deepEqual([f[i - 1].command, f[i + 1].command], ['SetEmissionConfig', 'SetEmissionConfig'], 'kernel graphic toggled around the GetTree')
 
-    const before = worker.frames.filter(isPull).length
-    const tree = await c.getTree()
-    assert.ok(tree[4])
-    await c.getTree()
-    const g = await c.getGraphic()
-    assert.ok(g?.containers?.length)
-    await c.getGraphic()
-    assert.equal(worker.frames.filter(isPull).length, before + 1, 'tree();tree();graphic();graphic() = one pull')
-
-    await c.execute({ 'v1.part.extrusion': [{ id: 4 }] })
-    await c.getTree()
-    assert.equal(worker.frames.filter(isPull).length, before + 2, 'mutation invalidates → one new pull')
-
-    const err = await c.execute({ 'v1.part.fail': [{}] })
-    assert.equal(err.maxLevel, 51)
-    assert.equal(err.messages.length, 1)
-    assert.equal(err.graphic, null)
-
-    // legacy accessors stay coherent with the pull cache
+    // outside again: a plain pull refreshes the caches (what run_script does after every script)
+    const before = worker.frames.length
+    await c.pull()
+    const tail = worker.frames.slice(before)
+    assert.deepEqual(tail.map(x => x.command), ['GetTree'], 'plain GetTree, no toggling')
     assert.ok(c.getStructure()?.tree?.[4])
     assert.ok(c.getLastGraphic()?.containers?.length)
+    const cfg = await c.getEmissionConfig()
+    assert.equal(cfg.sendGraphic_Kernel, true)
+    assert.equal(cfg.sendStructure, true)
   } finally {
     c.close()
     await worker.close()

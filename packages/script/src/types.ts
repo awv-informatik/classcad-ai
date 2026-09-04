@@ -114,6 +114,15 @@ export interface ScriptSession {
   getGraphic(opts?: { recalc?: boolean }): Promise<Graphic | null>
   /** Optional client capabilities injected into the script api (e.g. buerli's facade/structure/selection). */
   namespaces?: Record<string, unknown>
+  /**
+   * Per-connection emission config of the engine (GetEmissionConfig /
+   * SetEmissionConfig). When both are present, runScript suppresses payloads
+   * for the duration of a script and restores the previous flags afterwards
+   * (see emission.ts). Sessions that manage suppression themselves (the
+   * browser session) leave them out.
+   */
+  getEmissionConfig?(): Promise<Record<string, unknown>>
+  setEmissionConfig?(partial: Record<string, unknown>): Promise<Record<string, unknown>>
   close?(): void | Promise<void>
 }
 
@@ -145,6 +154,12 @@ export interface RunScriptOptions extends BuildApiOptions {
   maxLogChars?: number
   /** Max JSON size of the returned value. @defaultValue 24000 */
   maxResultChars?: number
+  /**
+   * Suppress structure/graphic emission on the session's connection while the
+   * script runs and restore the previous flags afterwards (only when the
+   * session exposes getEmissionConfig/setEmissionConfig). @defaultValue true
+   */
+  suppressEmission?: boolean
 }
 
 /** Outcome of a script run. Never throws — errors are reported here, with the log tail. */

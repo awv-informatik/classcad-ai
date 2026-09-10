@@ -73,6 +73,11 @@ export function serverInstructions(): string {
       'REFERENCE IMAGES: ' +
       REFERENCE_IMAGE_POINTER,
     '',
+    'ENGINES: the MCP runs on a ClassCAD worker (Drogon server), inside a buerli app (share link with ?bridge=), or on its OWN local ' +
+      'WASM engine (no server, no browser). A share link/URL decides by itself; otherwise use_session(engine="auto"|"drogon"|"wasm") — ' +
+      'auto = worker if reachable else local WASM. "use WASM / local / offline" → engine "wasm"; "my Drogon/ClassCAD server" → "drogon". ' +
+      'session_info shows what is in use.',
+    '',
     'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
       'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',
     '',

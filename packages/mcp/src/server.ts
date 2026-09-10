@@ -36,6 +36,7 @@ type Health = {
   name?: string
   version?: string
   build?: string
+  draining?: boolean
   pid?: number
   sessions?: number
   bridge?: string | null
@@ -106,7 +107,9 @@ async function spawnDaemon(): Promise<Health | null> {
 function stale(h: Health): boolean {
   if (h.version !== VERSION) return true
   const mine = daemonBuildStamp()
-  return !!h.build && mine !== 'unknown' && h.build !== mine
+  if (mine === 'unknown') return false
+  // No stamp at all = a daemon from before stamps existed = older.
+  return !h.build || h.build !== mine
 }
 
 async function ensureDaemon(): Promise<Health | null> {
@@ -124,9 +127,22 @@ async function ensureDaemon(): Promise<Health | null> {
       /* fall through: use it as is */
     }
     if (h && stale(h)) {
-      log(`daemon ${h.version} (build ${h.build ?? '?'}) still has ${h.sessions ?? '?'} session(s); using it as is — it picks up the new build once all its tabs are closed (or: close them and POST ${DAEMON_URL}/shutdown)`)
-      return h
+      // Busy with other tabs. Tell it to drain (newer daemons stop taking
+      // sessions and exit after the last one) and run THIS tab on the new
+      // code in-process — without the bridge listener, which the old daemon
+      // still holds. The next tab after the old one is gone starts a fresh daemon.
+      try {
+        await fetch(`${DAEMON_URL}/shutdown?drain=1`, { method: 'POST', signal: AbortSignal.timeout(1500) })
+      } catch {
+        /* an old daemon without drain support: it leaves when idle */
+      }
+      log(`daemon ${h.version} (build ${h.build ?? '?'}) still serves ${h.sessions ?? '?'} other tab(s) — this tab runs the current build in-process (no bridge listener until that daemon is gone; restart the other tabs to move them)`)
+      return null
     }
+  }
+  if (h?.draining) {
+    log('daemon is draining; this tab runs in-process')
+    return null
   }
   if (h) return h
   if (await portInUse()) {
@@ -217,7 +233,7 @@ async function main(): Promise<void> {
     await proxyToDaemon()
     return
   }
-  log('no daemon available — serving in-process (no bridge listener: in-app engines cannot attach)')
+  log('serving in-process (no bridge listener: in-app engines cannot attach; the worker and the local WASM engine work as usual)')
   await serveInProcess()
 }
 

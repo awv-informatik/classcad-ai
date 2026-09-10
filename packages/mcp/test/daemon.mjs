@@ -5,6 +5,9 @@
 //   3. sessions are independent (session_info per session)
 //   4. when the last shim goes away the daemon exits after the idle period
 //   5. a foreign program on the daemon port → the shim serves in-process
+//   6. a daemon of another build that still has sessions is told to drain:
+//      the new shim serves in-process, the old daemon refuses new sessions
+//      and exits right after its last session
 import { test } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { spawn } from 'node:child_process'
@@ -105,6 +108,52 @@ test('daemon: foreign program on the port → the shim serves in-process', async
   } finally {
     await a.exit()
     foreign.close()
+    await worker.close()
+  }
+})
+
+test('daemon: another build with live sessions → drain, new shim in-process', async () => {
+  const worker = await startFakeWorker()
+  const port = await freePort()
+  const env = {
+    CLASSCAD_MCP_PORT: String(port),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: worker.url,
+    CLASSCAD_DAEMON_IDLE_MS: '60000',
+  }
+  const old = shim({ ...env, CLASSCAD_MCP_BUILD: 'build-A' })
+  try {
+    await old.init()
+    const h1 = await health(port)
+    assert.equal(h1.build, 'build-A')
+    assert.equal(h1.sessions, 1)
+    const neu = shim({ ...env, CLASSCAD_MCP_BUILD: 'build-B' })
+    try {
+      await neu.init()
+      assert.match(neu.stderr(), /runs the current build in-process/, 'new shim serves itself')
+      const h2 = await health(port)
+      assert.equal(h2.pid, h1.pid, 'old daemon still there')
+      assert.equal(h2.draining, true, 'old daemon drains')
+      assert.equal(h2.sessions, 1, 'the new tab is not a session of the old daemon')
+      const tools = await neu.call('tools/list', {})
+      assert.ok(tools.result.tools.some(t => t.name === 'run_script'))
+      // a third shim of the OLD build is refused by the draining daemon and serves in-process too
+      const third = shim({ ...env, CLASSCAD_MCP_BUILD: 'build-A' })
+      try {
+        await third.init()
+        assert.match(third.stderr(), /draining; this tab runs in-process/)
+      } finally {
+        await third.exit()
+      }
+    } finally {
+      await neu.exit()
+    }
+    await old.exit()
+    let gone = false
+    for (let i = 0; i < 20; i++) { await sleep(250); if (!(await health(port))) { gone = true; break } }
+    assert.ok(gone, 'drained daemon exits right after its last session (no idle wait)')
+  } finally {
+    try { old.p.kill() } catch {}
     await worker.close()
   }
 })

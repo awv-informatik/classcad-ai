@@ -20,7 +20,9 @@
 //
 // HTTP surface (127.0.0.1 only):
 //   GET  /health   → { name:'classcad-mcp', version, build, pid, sessions, apps, bridge, bridgeListen, logFile, uptimeMs }
-//   POST /shutdown → exits when no session is active (409 otherwise)
+//   POST /shutdown → exits when no session is active (409 otherwise);
+//                    ?drain=1 → stops taking NEW sessions (503) and exits as
+//                    soon as the current ones are gone (a newer build waits)
 //   POST/GET/DELETE /mcp → MCP Streamable HTTP (session id in mcp-session-id)
 // A shim may pass `x-classcad-ws-url` on its initialize request to choose the
 // worker URL for that session (defaults to the daemon's CLASSCAD_WS_URL).
@@ -48,6 +50,8 @@ export const DAEMON_HOST = '127.0.0.1'
  * and the shim compares it with the file next to itself.
  */
 export function daemonBuildStamp(): string {
+  // Test hook: lets the daemon contract simulate "another build".
+  if (process.env.CLASSCAD_MCP_BUILD) return process.env.CLASSCAD_MCP_BUILD
   try {
     return new Date(statSync(fileURLToPath(import.meta.url)).mtimeMs).toISOString()
   } catch {
@@ -134,6 +138,9 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
   let bridgeRegistry: BridgeRegistry | null = null
   let bridgeRetry: ReturnType<typeof setTimeout> | null = null
   let closing = false
+  // Draining: a newer build asked us to go. Existing sessions run to their
+  // end, new ones are refused, exit right after the last one closes.
+  let draining = false
   const bindBridge = async () => {
     try {
       bridgeRegistry = await startBridgeServer({ listen: bridgeListen, log })
@@ -180,7 +187,12 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       /* already closed */
     }
     log(`session ${id} closed (${why}); ${sessions.size} left`)
-    if (sessions.size === 0) armIdle()
+    if (sessions.size === 0) {
+      if (draining) {
+        log('drained — exiting for the newer build')
+        setTimeout(() => void shutdown(0), 50)
+      } else armIdle()
+    }
   }
 
   const httpServer = createServer(async (req, res) => {
@@ -193,6 +205,7 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
           build: daemonBuildStamp(),
           pid: process.pid,
           sessions: sessions.size,
+          draining,
           apps: appCount(),
           bridge: bridgeRegistry?.url ?? null,
           bridgeListen,
@@ -203,6 +216,12 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       }
       if (url.pathname === '/shutdown' && req.method === 'POST') {
         if (sessions.size > 0) {
+          if (url.searchParams.get('drain') === '1') {
+            draining = true
+            log(`draining: ${sessions.size} session(s) keep running, no new ones; exit when they are gone`)
+            sendJson(res, 202, { ok: true, draining: true, sessions: sessions.size })
+            return
+          }
           sendJson(res, 409, { ok: false, sessions: sessions.size, error: 'sessions active' })
           return
         }
@@ -234,6 +253,10 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       const body = await readJsonBody(req)
       if (!isInitializeRequest(body)) {
         sendJson(res, 400, { jsonrpc: '2.0', error: { code: -32000, message: 'Bad request: expected initialize' }, id: null })
+        return
+      }
+      if (draining) {
+        sendJson(res, 503, { jsonrpc: '2.0', error: { code: -32000, message: 'daemon is draining (a newer build is waiting)' }, id: null })
         return
       }
 

@@ -26,6 +26,8 @@
 import WebSocket from 'ws'
 import { randomUUID } from 'crypto'
 import type { ApiResult, Graphic, Message, Structure } from './types.js'
+import type { AppConnection, BridgeRegistry } from './bridge/server.js'
+import type { EngineExecuteResult } from './bridge/protocol.js'
 
 const DEFAULT_URL = 'ws://0.0.0.0:9094/'
 const REQUEST_TIMEOUT = 30_000
@@ -52,6 +54,8 @@ export type ConnectOptions = {
   graphics?: boolean // default true — include kernel graphics in pulls
   debug?: boolean // default false — disables all timeouts
   sessionId?: string | null // optional — initial session id to send as ClassCAD-Session-Id header
+  /** Accessor for the bridge registry (apps announcing share tokens); needed for reconnectBridge. */
+  bridge?: () => BridgeRegistry | null
 }
 
 export type Client = {
@@ -78,6 +82,18 @@ export type Client = {
   reconnect: (sessionId: string | null) => Promise<void>
   /** Reconnect to a DIFFERENT server URL — e.g. a multi-client token/invite URL (`wss://…/?invite=…`), used verbatim. */
   reconnectUrl: (url: string) => Promise<void>
+  /**
+   * Attach to an in-app engine (WASM) through the bridge: the app announced
+   * `token` on the MCP's bridge listener; from then on every engine command
+   * is relayed to the app (engine.execute) instead of a WebSocket worker.
+   */
+  reconnectBridge: (token: string) => Promise<void>
+  /** 'ws' (a ClassCAD worker over WebSocket) or 'bridge' (an app's in-page engine). */
+  readonly transport: 'ws' | 'bridge'
+  /** The share token this client joined with (invite or bridge token), or null. */
+  readonly shareToken: string | null
+  /** True while the engine link is usable. */
+  readonly connected: boolean
   /** The configured worker URL (session-id reconnects always return to it). */
   readonly baseUrl: string
   /** Increments on every reconnect/reconnectUrl — cache invalidation key for per-session state. */
@@ -123,9 +139,101 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // Single-flight guard so concurrent tool calls share one open attempt.
   let connectPromise: Promise<void> | null = null
 
-  function send(obj: object): void {
+  // ── Bridge transport (in-app engines) ──
+  // Instead of a WebSocket to a worker, commands go to the app that announced
+  // `bridgeToken` on the bridge listener; the app runs them on its WASM engine
+  // and returns everything the engine emitted. The replies are normalized to
+  // the worker's frame shape and fed through handleFrame like WS frames.
+  let transport: 'ws' | 'bridge' = 'ws'
+  let bridgeConn: AppConnection | null = null
+  let bridgeToken: string | null = null
+  let bridgeUnsubClose: (() => void) | null = null
+  let bridgePeerId: string | null = null
+  // The invite token of a server session joined via reconnectUrl (?invite=…).
+  let inviteToken: string | null = null
+  // In-app engines emit graphic as binary packages per command (no bundled
+  // graphic on GetTree). Accumulate containers by id so a pull can hand the
+  // renderer the complete picture; the renderer drops consumed bodies itself.
+  const bridgeContainers = new Map<string, any>()
+
+  function send(obj: Record<string, unknown>): void {
+    if (transport === 'bridge') {
+      sendViaBridge(obj)
+      return
+    }
     if (!ws) throw new Error('WebSocket not open')
     ws.send(JSON.stringify(obj))
+  }
+
+  function sendViaBridge(req: Record<string, unknown>): void {
+    const conn = bridgeConn
+    const txId = String(req.transactionID)
+    if (!conn) {
+      const entry = pending.get(txId)
+      pending.delete(txId)
+      entry?.reject(new Error('bridge not attached — call use_session with the app\'s share link'))
+      return
+    }
+    conn.request<EngineExecuteResult>('engine.execute', req).then(
+      res => deliverBridgeResult(req, res),
+      err => {
+        const entry = pending.get(txId)
+        if (entry) {
+          pending.delete(txId)
+          entry.reject(err instanceof Error ? err : new Error(String(err)))
+        }
+      },
+    )
+  }
+
+  /** Turns an engine.execute reply into worker-shaped Result frames and delivers them. */
+  function deliverBridgeResult(req: Record<string, unknown>, res: EngineExecuteResult): void {
+    for (const pkg of res.binaryMessages ?? []) {
+      for (const c of (pkg as any)?.containers ?? []) {
+        if (c && c.id != null) bridgeContainers.set(String(c.id), c)
+      }
+    }
+    let delivered = false
+    for (const m of res.messages ?? []) {
+      if (m.command !== 'Result') continue
+      const frame: Record<string, any> = {
+        ...m,
+        _from_: m._from_ ?? m.from ?? req.command,
+        _transactionID_: m._transactionID_ ?? m.transactionID ?? req.transactionID,
+      }
+      if (frame._from_ === 'GetTree' || frame._from_ === 'Sync') {
+        // Legacy engines put the structure into `result`; the WS worker puts it into `structure`.
+        if (!frame.structure && frame.result && typeof frame.result === 'object' && 'tree' in frame.result) {
+          frame.structure = frame.result
+          delete frame.result
+        }
+        // A pull delivers the COMPLETE graphic: the accumulated containers.
+        frame.graphic = { containers: [...bridgeContainers.values()] }
+      }
+      delivered = true
+      handleFrame(Buffer.from(JSON.stringify(frame)), false)
+    }
+    if (!delivered) {
+      const txId = String(req.transactionID)
+      const entry = pending.get(txId)
+      if (entry) {
+        pending.delete(txId)
+        entry.reject(new Error(`engine returned no Result for ${String(req.command)}`))
+      }
+    }
+  }
+
+  function detachBridge(): void {
+    if (bridgeUnsubClose) bridgeUnsubClose()
+    bridgeUnsubClose = null
+    const conn = bridgeConn
+    bridgeConn = null
+    if (conn && bridgePeerId) {
+      conn.request('session.detached', { peerId: bridgePeerId }).catch(() => {})
+    }
+    bridgePeerId = null
+    bridgeToken = null
+    bridgeContainers.clear()
   }
 
   function handleFrame(data: WebSocket.RawData, isBinary: boolean): void {
@@ -196,6 +304,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // the in-flight open. After a successful open, ws stays defined; close()
   // and reconnect() reset it as needed.
   async function ensureOpen(): Promise<void> {
+    if (transport === 'bridge') {
+      if (bridgeConn) return
+      throw new Error('The app behind the share link is gone (bridge closed). Reopen the share in the app and call use_session again.')
+    }
     if (ws && ws.readyState === WebSocket.OPEN) return
     if (connectPromise) return connectPromise
     connectPromise = openWs(currentSessionId).finally(() => {
@@ -209,6 +321,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   function close(): void {
+    if (transport === 'bridge') detachBridge()
     if (ws && ws.readyState <= WebSocket.OPEN) ws.close()
   }
 
@@ -351,7 +464,72 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // Open (or replace) the underlying WebSocket. Used both for the initial
   // connect() call and for reconnect(sessionId). Resets cached structure /
   // graphic state and rejects any in-flight requests on the old socket.
+  function resetCaches(): void {
+    for (const [, entry] of pending) {
+      try {
+        entry.reject(new Error('WebSocket reconnecting'))
+      } catch {}
+    }
+    pending.clear()
+    lastGraphic = null
+    lastStructure = null
+    treeVersion = -1
+    graphicVersion = -1
+    knownKernel = null
+  }
+
+  async function openBridge(token: string): Promise<void> {
+    const registry = opts.bridge?.() ?? null
+    if (!registry) throw new Error('The bridge listener is not running in this MCP (CLASSCAD_BRIDGE_LISTEN failed to bind).')
+    if (ws && ws.readyState <= WebSocket.OPEN) {
+      try {
+        ws.close()
+      } catch {}
+      ws = undefined
+    }
+    detachBridge()
+    resetCaches()
+    transport = 'bridge'
+    bridgeToken = token
+    const conn = await registry.waitFor(token, 5_000)
+    if (!conn) {
+      transport = 'ws'
+      bridgeToken = null
+      throw new Error(
+        `No app has announced share token "${token}" on ${registry.url}. ` +
+          'Create the share in the app first (it connects to this MCP when the token is minted), then call use_session again.',
+      )
+    }
+    if (conn.kind !== 'bridge') {
+      transport = 'ws'
+      bridgeToken = null
+      throw new Error(`Token "${token}" belongs to a server session (invite), not an in-app engine — pass it as ?invite= instead.`)
+    }
+    bridgeConn = conn
+    bridgePeerId = randomUUID()
+    bridgeUnsubClose = conn.onClose(() => {
+      if (bridgeConn !== conn) return
+      bridgeConn = null
+      for (const [, entry] of pending) {
+        try {
+          entry.reject(new Error('bridge closed — the app revoked the share or went away'))
+        } catch {}
+      }
+      pending.clear()
+    })
+    try {
+      await conn.request('session.attached', { peerId: bridgePeerId, role: 'edit', client: 'classcad-mcp' })
+    } catch {
+      /* older apps without the session.* handlers still relay engine commands */
+    }
+    await bootstrapSession()
+  }
+
   async function openWs(sessionId: string | null): Promise<void> {
+    if (transport === 'bridge') {
+      detachBridge()
+      transport = 'ws'
+    }
     if (ws && ws.readyState <= WebSocket.OPEN) {
       try {
         ws.close()
@@ -388,6 +566,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
 
   async function reconnect(sessionId: string | null): Promise<void> {
     generation++
+    inviteToken = null
     // Always perform an open so the caller gets back a connected, usable
     // socket. Cancels any in-flight ensureOpen() so it doesn't race with us.
     connectPromise = null
@@ -402,7 +581,20 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     connectPromise = null
     currentUrl = newUrl
     currentSessionId = null
+    try {
+      inviteToken = new URL(newUrl).searchParams.get('invite')
+    } catch {
+      inviteToken = null
+    }
     await openWs(null)
+  }
+
+  async function reconnectBridge(token: string): Promise<void> {
+    generation++
+    connectPromise = null
+    currentSessionId = null
+    inviteToken = null
+    await openBridge(token)
   }
 
   // No eager open here. The WS is opened on first request/execute/pull call
@@ -423,8 +615,18 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     refreshTree,
     reconnect,
     reconnectUrl,
+    reconnectBridge,
     get ws() {
       return ws
+    },
+    get transport() {
+      return transport
+    },
+    get shareToken() {
+      return bridgeToken ?? inviteToken
+    },
+    get connected() {
+      return transport === 'bridge' ? bridgeConn !== null : !!ws && ws.readyState === WebSocket.OPEN
     },
     get sessionId() {
       return currentSessionId

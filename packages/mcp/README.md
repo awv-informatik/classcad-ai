@@ -142,7 +142,7 @@ Most hosts accept the Claude-style `mcpServers` JSON. Use the block from the Cla
 | `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, highlights, markers)            |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
 | `save` / `load` / `clear` / `checkpoint` / `restore` | OFB / STEP / STL persistence, undo points                                     |
-| `session_info` / `use_session` | Connection status; attach to a named session or an invite link                                     |
+| `session_info` / `use_session` | Connection status (transport ws/bridge); attach to a named session, an invite link, or an in-app engine's `?bridge=` link |
 | `bridge.list_clients` / `bridge.get_selection` / `bridge.set_selection` | Read/write the selection of a connected CC app (see bridge) |
 
 `snapshot` returns the PNG as an inline image block **for the model** and writes it to `CLASSCAD_SNAPSHOT_DIR`. Claude Code and the desktop app's Code tab do not show tool-result images to the user — the tool result says so and names the saved file, so the model can hand it over (Claude Code: `SendUserFile`). The desktop app's chat renders it directly.
@@ -169,6 +169,10 @@ use_session(url="wss://cad.example/?invite=…")       # or the worker URL direc
 ```
 
 The MCP then joins that session as a guest; the app sees every change the model makes. `session_info` reports the current session, `use_session()` without arguments returns to a fresh one.
+
+**In-app engines (WASM).** A buerli app that runs ClassCAD in the page (`WASMClient`, e.g. buerligons.io) has no server anyone could connect to. Its share links carry `?bridge=<token>` instead: when the app mints the token it opens an outbound WebSocket to this MCP's bridge listener (`CLASSCAD_BRIDGE_LISTEN`, default `ws://localhost:9096/bridge`) and announces it; `use_session(url)` with such a link attaches the MCP to that app, and from then on every engine command is relayed to the page (`engine.execute`) — `run_script`, `tree`, `snapshot` all work, the app's view follows, and revoking the share in the app ends the MCP session. The app must stay open, the MCP must run on the same machine as the browser (or the app must be pointed at the listener with `?mcpBridge=ws://…`), and the published WASM engine has no per-connection emission config, so scripts run without suppression there.
+
+Same API on both sides: `client.createInvite()` / `revokeInvite()` / `peers` / `invites` and `buildShareUrl()` from `@buerli.io/classcad` work for server sessions and in-app engines alike; only the query parameter differs (`?invite=` vs `?bridge=`).
 
 ### Emission model
 

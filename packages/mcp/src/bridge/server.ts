@@ -1,9 +1,12 @@
 // bridge/server.ts — WebSocket listener for CC apps to opt into.
 //
-// Apps connect outbound to ws://localhost:9095/bridge (default) and send an
-// `announce` message with their sessionId. The MCP keeps a registry of these
-// connections, keyed by sessionId. The bridge tools route requests to the
-// right connection based on the cc MCP's currently-attached session.
+// Apps connect outbound to ws://localhost:9096/bridge (default) and send an
+// `announce` with a share token. The MCP keeps a registry of these
+// connections keyed by clientId and indexed by token. Two uses:
+//   • kind 'invite'  — app-state bridge (selection) next to a server session
+//     the MCP joined with the same token.
+//   • kind 'bridge'  — the engine transport itself for in-app (WASM) engines:
+//     client.ts relays every engine command through `engine.execute`.
 
 import { WebSocketServer, WebSocket } from 'ws'
 import type {
@@ -14,6 +17,7 @@ import type {
   RequestMessage,
   ResponseMessage,
   SelectionEntity,
+  ShareKind,
 } from './protocol.js'
 import { PROTOCOL_VERSION } from './protocol.js'
 
@@ -27,6 +31,10 @@ type Pending = {
 
 export type AppConnection = {
   clientId: string
+  /** The share token this connection serves. */
+  token: string
+  kind: ShareKind
+  /** @deprecated alias of `token` (pre-token announces). */
   sessionId: string
   drawingId: string
   app: string
@@ -35,6 +43,8 @@ export type AppConnection = {
   protocolVersion: number
   announcedAt: number
   request: <T = unknown>(method: BridgeMethod, params?: unknown) => Promise<T>
+  // Register a callback for when this app connection goes away; returns the unsubscribe.
+  onClose: (cb: () => void) => () => void
   // Cached state populated by event:selection.changed.
   cachedSelection: SelectionEntity[] | null
   // Underlying socket; close to disconnect.
@@ -42,11 +52,14 @@ export type AppConnection = {
 }
 
 export type BridgeRegistry = {
-  // List all connections, optionally filtered by sessionId.
-  list: (sessionId?: string) => AppConnection[]
-  // Get a single connection for a session. If multiple are registered,
+  // List all connections, optionally filtered by token.
+  list: (token?: string) => AppConnection[]
+  // Get a single connection for a token. If multiple are registered,
   // returns the most recently announced one. Returns null if none.
-  pick: (sessionId: string, clientId?: string) => AppConnection | null
+  pick: (token: string, clientId?: string) => AppConnection | null
+  // Like pick, but waits up to timeoutMs for an app to announce the token
+  // (apps announce as soon as they mint a token; the user may paste the link first).
+  waitFor: (token: string, timeoutMs?: number) => Promise<AppConnection | null>
   // Subscribe to selection events for a session — the cb fires on every
   // selection.changed event. Returns an unsubscribe function.
   onSelectionChanged: (sessionId: string, cb: (items: SelectionEntity[]) => void) => () => void
@@ -72,9 +85,13 @@ export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<
   const connections = new Map<string, AppConnection>() // clientId → conn
   const selectionListeners = new Map<string, Set<(items: SelectionEntity[]) => void>>()
 
+  // Resolvers waiting for a token to be announced (waitFor).
+  const waiters = new Map<string, Set<(c: AppConnection) => void>>()
+
   wss.on('connection', (socket) => {
     let conn: AppConnection | null = null
     const pending = new Map<number, Pending>()
+    const closeListeners = new Set<() => void>()
 
     const sendRaw = (env: BridgeEnvelope) => {
       try {
@@ -109,9 +126,16 @@ export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<
       if (env.type === 'announce') {
         const a = env as AnnounceMessage
         if (conn) return // ignore re-announce on the same socket
+        // Token: current apps send `token` + `kind`; the modeler used to send
+        // its Drogon invite as `invite`, older builds a `sessionId`.
+        const token = a.token ?? a.invite ?? a.sessionId
+        if (!token) return
+        const kind: ShareKind = a.kind ?? 'invite'
         conn = {
           clientId: a.clientId,
-          sessionId: a.sessionId,
+          token,
+          kind,
+          sessionId: token,
           drawingId: a.drawingId,
           app: a.app,
           appVersion: a.appVersion,
@@ -119,10 +143,21 @@ export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<
           protocolVersion: a.protocolVersion,
           announcedAt: Date.now(),
           request,
+          onClose: (cb: () => void) => {
+            closeListeners.add(cb)
+            return () => {
+              closeListeners.delete(cb)
+            }
+          },
           cachedSelection: null,
           socket,
         }
         connections.set(a.clientId, conn)
+        const waiting = waiters.get(token)
+        if (waiting) {
+          waiters.delete(token)
+          for (const resolve of waiting) resolve(conn)
+        }
         return
       }
       if (env.type === 'response') {
@@ -159,6 +194,8 @@ export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<
       }
       pending.clear()
       if (conn) connections.delete(conn.clientId)
+      for (const cb of closeListeners) try { cb() } catch {}
+      closeListeners.clear()
     })
 
     socket.on('error', () => { /* close handler will fire */ })
@@ -173,17 +210,39 @@ export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<
 
   return {
     url: `ws://${host}:${port}${path}`,
-    list: (sessionId?: string) => {
+    list: (token?: string) => {
       const all = [...connections.values()]
-      return sessionId ? all.filter(c => c.sessionId === sessionId) : all
+      return token ? all.filter(c => c.token === token) : all
     },
-    pick: (sessionId: string, clientId?: string) => {
+    pick: (token: string, clientId?: string) => {
       if (clientId) return connections.get(clientId) ?? null
-      const matches = [...connections.values()].filter(c => c.sessionId === sessionId)
+      const matches = [...connections.values()].filter(c => c.token === token)
       if (matches.length === 0) return null
       // most recently announced wins
       matches.sort((a, b) => b.announcedAt - a.announcedAt)
       return matches[0]
+    },
+    waitFor: (token: string, timeoutMs = 5_000) => {
+      const now = [...connections.values()].filter(c => c.token === token).sort((a, b) => b.announcedAt - a.announcedAt)[0]
+      if (now) return Promise.resolve(now)
+      return new Promise<AppConnection | null>(resolve => {
+        let set = waiters.get(token)
+        if (!set) {
+          set = new Set()
+          waiters.set(token, set)
+        }
+        const target = set
+        const cb = (c: AppConnection) => {
+          clearTimeout(timer)
+          resolve(c)
+        }
+        const timer = setTimeout(() => {
+          target.delete(cb)
+          if (target.size === 0) waiters.delete(token)
+          resolve(null)
+        }, timeoutMs)
+        target.add(cb)
+      })
     },
     onSelectionChanged: (sessionId: string, cb: (items: SelectionEntity[]) => void) => {
       let set = selectionListeners.get(sessionId)

@@ -1,6 +1,6 @@
 // bridge/server.ts — WebSocket listener for CC apps to opt into.
 //
-// Apps connect outbound to ws://localhost:9096/bridge (default) and send an
+// Apps connect outbound to ws://127.0.0.1:9096/bridge (default) and send an
 // `announce` with a share token. The MCP keeps a registry of these
 // connections keyed by clientId and indexed by token. Two uses:
 //   • kind 'invite'  — app-state bridge (selection) next to a server session
@@ -69,15 +69,21 @@ export type BridgeRegistry = {
 }
 
 export type StartBridgeOptions = {
-  // Where to listen. Default ws://localhost:9095/bridge.
+  // Where to listen. Default ws://127.0.0.1:9096/bridge.
   // The path is fixed at /bridge; only host:port is configurable.
   listen?: string
+  // Where to report announces and closes (the daemon passes its log).
+  log?: (msg: string) => void
 }
 
 export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<BridgeRegistry> {
-  const listen = opts.listen ?? 'ws://localhost:9096/bridge'
+  const listen = opts.listen ?? 'ws://127.0.0.1:9096/bridge'
   const url = new URL(listen)
-  const host = url.hostname || 'localhost'
+  // Bind ONE address family explicitly. 'localhost' resolves to ::1 or
+  // 127.0.0.1 depending on the platform, so two processes could both hold
+  // "localhost:9096" and apps would land on either — the reason the MCP
+  // runs as a single daemon in the first place.
+  const host = (url.hostname || '127.0.0.1') === 'localhost' ? '127.0.0.1' : url.hostname
   const port = Number(url.port || '9096')
   const path = url.pathname || '/bridge'
 
@@ -153,6 +159,7 @@ export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<
           socket,
         }
         connections.set(a.clientId, conn)
+        opts.log?.(`app ${a.clientId} (${a.app}) announced token ${token} [${a.kind ?? 'bridge'}]; ${connections.size} app(s)`)
         const waiting = waiters.get(token)
         if (waiting) {
           waiters.delete(token)
@@ -193,7 +200,10 @@ export async function startBridgeServer(opts: StartBridgeOptions = {}): Promise<
         if (p.timer) clearTimeout(p.timer)
       }
       pending.clear()
-      if (conn) connections.delete(conn.clientId)
+      if (conn) {
+        connections.delete(conn.clientId)
+        opts.log?.(`app ${conn.clientId} (${conn.app}) gone (token ${conn.token}); ${connections.size} app(s)`)
+      }
       for (const cb of closeListeners) try { cb() } catch {}
       closeListeners.clear()
     })

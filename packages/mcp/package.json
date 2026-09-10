@@ -21,7 +21,7 @@
     "dev": "tsc --watch",
     "start": "node dist/server.js",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "postbuild": "node --test test/emission.mjs",
+    "postbuild": "node --test test/emission.mjs test/daemon.mjs",
     "test": "npm run build && node test/emission-live.mjs"
   },
   "dependencies": {

@@ -9,14 +9,23 @@ Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cu
 ## How it works
 
 ```
- Claude / VS Code / …  ── stdio ──►  classcad-mcp  ── WebSocket ──►  ClassCAD worker (classcad-cli)
-                                        │                               ▲
-                                        └── bridge (ws) ◄── buerligons ─┘  (optional, same session)
+ Claude tab 1 ── stdio ──► classcad-mcp (shim) ──┐
+ Claude tab 2 ── stdio ──► classcad-mcp (shim) ──┤ HTTP (MCP Streamable HTTP, 127.0.0.1:9095)
+ VS Code      ── stdio ──► classcad-mcp (shim) ──┘
+                                                 ▼
+                                   classcad-mcp daemon (ONE per machine)
+                                     session 1 ── WebSocket ──► ClassCAD worker (classcad-cli, :9094)
+                                     session 2 ── WebSocket ──► ClassCAD worker
+                                     session 3 ── bridge ─────► buerligons.io tab (WASM engine in the page)
+                                     bridge listener ws://127.0.0.1:9096/bridge  ◄── apps announce share tokens
 ```
 
-- The MCP is a **stdio** server: the host starts it as a child process, one per session. It never starts an engine itself.
-- The engine is a **`classcad-cli worker`** reachable over WebSocket — on your machine (`ws://localhost:9094/`), in Docker, or a hosted instance (`wss://…`). Set it with `CLASSCAD_WS_URL`.
-- The connection is opened lazily on the first tool call, so an idle MCP never creates a stray session.
+- Every host starts the MCP as a **stdio** child process (`node dist/server.js` or `npx @awv-informatik/classcad-mcp`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9095`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
+- The **daemon** is the actual MCP. It holds one MCP server instance **per session** (per tab: own engine connection, emission config, caches, tool queue) and the one **bridge listener** apps connect to. With no session left and no app attached to its bridge it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
+- Why a daemon: the in-app bridge means the MCP *listens* on a port, and a port belongs to exactly one process. With one MCP process per tab, the second tab could not bind (or bound the other address family of `localhost` and got half the apps). Users who only talk to a `classcad-cli worker` (Drogon) never notice the daemon; it starts, serves the tab, and quits a minute after the last tab closes.
+- The engine is a **`classcad-cli worker`** reachable over WebSocket — on your machine (`ws://localhost:9094/`), in Docker, or a hosted instance (`wss://…`). Set it with `CLASSCAD_WS_URL`; each shim passes its own value to the daemon, so different tabs may use different workers. The MCP never starts an engine itself.
+- The engine connection is opened lazily on the first tool call, so an idle session never creates a stray engine session.
+- Fallback: if `127.0.0.1:9095` is held by something that is not a classcad daemon, the shim serves the MCP in-process (everything works except the in-app bridge) and says so on stderr.
 
 ---
 
@@ -129,7 +138,22 @@ Most hosts accept the Claude-style `mcpServers` JSON. Use the block from the Cla
 | `CLASSCAD_WS_URL`        | WebSocket URL of the ClassCAD worker. Default `ws://localhost:9094/`. Any reachable worker works (`wss://…`).     |
 | `CLASSCAD_SNAPSHOT_DIR`  | Where `snapshot` writes its PNGs. Default `<tmpdir>/classcad-snapshots`.                                          |
 | `CLASSCAD_SKILL_PATH`    | Use a local `classcad-skill` checkout for docs instead of the installed `@classcad/skill` package.                |
-| `CLASSCAD_BRIDGE_LISTEN` | Listener for the in-app bridge (see below). Default `ws://localhost:9096/bridge`; the MCP starts even if it cannot bind. |
+| `CLASSCAD_BRIDGE_LISTEN` | Listener for the in-app bridge (see below). Default `ws://127.0.0.1:9096/bridge`. The daemon starts even if it cannot bind and retries every 5 s. |
+| `CLASSCAD_MCP_PORT`      | Port of the daemon's HTTP endpoint on `127.0.0.1`. Default `9095`. Shim and daemon must agree (the shim passes it on when it starts the daemon). |
+| `CLASSCAD_MCP_URL`       | Full daemon URL instead of `http://127.0.0.1:<port>` (rarely needed).                                             |
+| `CLASSCAD_DAEMON_IDLE_MS`| How long the daemon lives without any session and without any app on the bridge before it exits. Default `60000`. |
+| `CLASSCAD_MCP_LOG`       | Daemon log file. Default `<tmpdir>/classcad-mcp/daemon.log` (the shim prints the path on stderr at startup).       |
+
+Set them in the host's MCP config `env` block; the shim passes them on to the daemon it starts. `CLASSCAD_WS_URL` is per session — the daemon receives it with every new session, so two tabs can point at different workers.
+
+### The daemon in practice
+
+- **Which process is which:** `classcad-mcp` shim = the process your host started (`dist/server.js`), one per tab, exits with the tab. `dist/daemon.js` = the one long-lived process; `GET http://127.0.0.1:9095/health` shows its pid, version, active session count, attached app count, bridge address and log file.
+- **Multiple tabs:** each tab is one session in the same daemon. Sessions are independent (a script in tab A does not touch tab B's caches). `session_info` shows what a tab is attached to.
+- **Lifetime:** the daemon exits a minute after the last session closed, unless an app still holds a bridge (a shared buerligons.io tab keeps it alive, so the next tab attaches instantly). Apps reconnect by themselves within 5 s after a daemon restart; `use_session` waits 8 s for that. A shim exits when its host closes stdin or sends SIGTERM; the daemon drops that session immediately.
+- **Upgrades:** after `npm run build` (or a package update) the next shim notices the version mismatch, asks the running daemon to shut down (it does so when no session is active) and starts the new one. Tabs still connected to the old daemon keep working until they are restarted; the new build is used once *all* old tabs are gone (until then the shim prints a warning and, if the old MCP still holds the bridge port, the new daemon serves without a bridge and retries).
+- **Logs:** the shim writes one line per session start/end to stderr (visible in the host's MCP log); the daemon writes to `CLASSCAD_MCP_LOG`. Run it by hand to watch: `CLASSCAD_MCP_DAEMON=1 node dist/daemon.js` (logs to stderr when `CLASSCAD_MCP_LOG` is unset).
+- **Troubleshooting:** `curl http://127.0.0.1:9095/health` — no answer means no daemon (the next tool call starts one); an answer without `"bridge"` means port 9096 is held by another program (usually an old MCP process — close that tab or kill it, the daemon retries by itself); a `name` other than `classcad-mcp` means a foreign program owns 9095 (set `CLASSCAD_MCP_PORT`). `curl -X POST http://127.0.0.1:9095/shutdown` stops an idle daemon. Ports: 9094 worker (engine), 9095 daemon, 9096 bridge — all on `127.0.0.1` except the worker.
 
 ---
 
@@ -170,7 +194,7 @@ use_session(url="wss://cad.example/?invite=…")       # or the worker URL direc
 
 The MCP then joins that session as a guest; the app sees every change the model makes. `session_info` reports the current session, `use_session()` without arguments returns to a fresh one.
 
-**In-app engines (WASM).** A buerli app that runs ClassCAD in the page (`WASMClient`, e.g. buerligons.io) has no server anyone could connect to. Its share links carry `?bridge=<token>` instead: when the app mints the token it opens an outbound WebSocket to this MCP's bridge listener (`CLASSCAD_BRIDGE_LISTEN`, default `ws://localhost:9096/bridge`) and announces it; `use_session(url)` with such a link attaches the MCP to that app, and from then on every engine command is relayed to the page (`engine.execute`) — `run_script`, `tree`, `snapshot` all work, the app's view follows, and revoking the share in the app ends the MCP session. The app must stay open, the MCP must run on the same machine as the browser (or the app must be pointed at the listener with `?mcpBridge=ws://…`), and the published WASM engine has no per-connection emission config, so scripts run without suppression there.
+**In-app engines (WASM).** A buerli app that runs ClassCAD in the page (`WASMClient`, e.g. buerligons.io) has no server anyone could connect to. Its share links carry `?bridge=<token>` instead: when the app mints the token it opens an outbound WebSocket to the daemon's bridge listener (`CLASSCAD_BRIDGE_LISTEN`, default `ws://127.0.0.1:9096/bridge`) and announces it; `use_session(url)` with such a link attaches the MCP to that app, and from then on every engine command is relayed to the page (`engine.execute`) — `run_script`, `tree`, `snapshot` all work, the app's view follows, and revoking the share in the app ends the MCP session. The app must stay open, the MCP must run on the same machine as the browser (or the app must be pointed at the listener with `?mcpBridge=ws://…`), and the published WASM engine has no per-connection emission config, so scripts run without suppression there.
 
 Same API on both sides: `client.createInvite()` / `revokeInvite()` / `peers` / `invites` and `buildShareUrl()` from `@buerli.io/classcad` work for server sessions and in-app engines alike; only the query parameter differs (`?invite=` vs `?bridge=`).
 
@@ -196,7 +220,7 @@ The MCP can read and write *client-side* state (selection today; view, current p
                        ws://localhost:9094 (the ClassCAD worker)
 ```
 
-- The MCP listens on `CLASSCAD_BRIDGE_LISTEN` (default `ws://localhost:9096/bridge`).
+- The daemon listens on `CLASSCAD_BRIDGE_LISTEN` (default `ws://127.0.0.1:9096/bridge` — `127.0.0.1` on purpose: `localhost` may resolve to IPv6 in the browser and IPv4 in Node, and a listener binds one of them). One listener per machine, shared by all sessions; the token in the app's share link decides which session an app belongs to.
 - The app connects outbound and sends an `announce` with its `sessionId`, `drawingId`, app name and capabilities; the MCP routes `bridge.*` calls to the app whose session matches the one `use_session` attached to.
 - No app connected → the bridge tools return a clean "no bridge connected"; everything else works unchanged.
 
@@ -222,10 +246,13 @@ Selection entities carry resolved fields (`kind`, `position`, `normal`) and the 
 npm install                      # monorepo root
 npm run build                    # skill → script → renderer → mcp (+ buerli-ai)
 cd packages/mcp
-npm run build                    # tsc; postbuild runs the emission contract tests against a fake worker
+npm run build                    # tsc; postbuild runs the emission + daemon contract tests against a fake worker
 npm test                         # + live tests against a worker on CLASSCAD_WS_URL (skipped if none)
-node dist/server.js              # run the server on stdio by hand
+node dist/server.js              # the stdio shim by hand (starts/uses the daemon)
+CLASSCAD_MCP_DAEMON=1 node dist/daemon.js   # the daemon in the foreground, logging to stderr
 ```
+
+Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fallback), `src/daemon.ts` (HTTP endpoint, sessions, bridge listener, idle exit), `src/mcp-server.ts` (the MCP server: tools wired to one engine client — what a session is), `src/client.ts` (engine client: WebSocket to a worker or bridge to an app), `src/bridge/` (listener + protocol), `src/tools/`, `src/queue.ts` (per-session tool queue). `test/daemon.mjs` is the daemon contract: two shims → one daemon with two independent sessions, idle exit, foreign-port fallback.
 
 ### Publishing
 

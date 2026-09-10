@@ -357,7 +357,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   async function ensureOpen(): Promise<void> {
     if (transport === 'bridge') {
       if (bridgeConn) return
-      throw new Error('The app behind the share link is gone (bridge closed). Reopen the share in the app and call use_session again.')
+      throw new Error(
+        'The app behind the share link is gone (bridge closed). Either reopen the share in the app and call use_session with the new link, ' +
+          'or leave the app: use_session with engine "wasm" runs on the MCP\'s own local engine, engine "drogon" on the ClassCAD worker, "auto" picks.',
+      )
     }
     if (transport === 'wasm' && localEngine) return
     if (transport === 'ws' && ws && ws.readyState === WebSocket.OPEN) return

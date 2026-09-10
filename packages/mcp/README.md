@@ -2,162 +2,183 @@
 
 Model Context Protocol server for the [ClassCAD](https://classcad.io) CAD engine.
 
-Lets MCP-capable LLM hosts (Claude Code, VS Code Copilot, etc.) drive a live ClassCAD session: create parts, run booleans, sketch, inspect the structure tree, render snapshots, and save/load OFB.
+Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cursor, …) drive a live ClassCAD session: build parts and assemblies through scripts, inspect the structure tree, render snapshots, save/load OFB/STEP, and dock into a session an interactive app (buerligons) already has open.
 
-## Status
+---
 
-`v0.1` — under active development. Not yet on npm; install from source.
+## How it works
+
+```
+ Claude / VS Code / …  ── stdio ──►  classcad-mcp  ── WebSocket ──►  ClassCAD worker (classcad-cli)
+                                        │                               ▲
+                                        └── bridge (ws) ◄── buerligons ─┘  (optional, same session)
+```
+
+- The MCP is a **stdio** server: the host starts it as a child process, one per session. It never starts an engine itself.
+- The engine is a **`classcad-cli worker`** reachable over WebSocket — on your machine (`ws://localhost:9094/`), in Docker, or a hosted instance (`wss://…`). Set it with `CLASSCAD_WS_URL`.
+- The connection is opened lazily on the first tool call, so an idle MCP never creates a stray session.
 
 ---
 
 ## Prerequisites
 
-- **Node.js 20+**
-- A **`classcad-cli worker`** running and reachable over WebSocket. Default URL is `ws://localhost:9094/`. Override per-server with the `CLASSCAD_WS_URL` env var.
+- **Node.js 20+** (`node`, `npx`)
+- A running **ClassCAD worker**. Locally:
 
-## Install from source
+  ```bash
+  classcad-cli worker            # listens on ws://localhost:9094/
+  ```
 
-```bash
-git clone https://github.com/awv-informatik/classcad-ai.git   # the MCP lives in packages/mcp
-cd classcad-mcp
-npm install
-npm run build
-```
-
-`npm install` pulls **`@classcad/skill`**, which carries the method registry and the markdown references that power the rich `describe_method` LLM-doc tails.
-
-The server speaks MCP over stdio:
-
-```bash
-node dist/server.js
-```
-
-Use the absolute path to `dist/server.js` in the config snippets below. On Windows, forward slashes work fine in JSON — Node accepts them.
+  Without a worker the MCP still starts; the first tool call then fails with a connection error and works again as soon as the worker is up.
 
 ---
 
-## Configure your MCP host
+## Install
 
-### Claude Code (CLI)
+### From npm (recommended)
 
-Two options.
+Nothing to check out or build — the host runs the package through `npx`, which downloads it on first use and caches it:
 
-**Recommended — `claude mcp add` (writes to `~/.claude.json`):**
-
-```bash
-claude mcp add classcad node /abs/path/to/classcad-mcp/dist/server.js \
-  --env CLASSCAD_WS_URL=ws://localhost:9094/
+```
+npx -y @awv-informatik/classcad-mcp
 ```
 
-Add `--scope project` to scope the server to the current project's `.mcp.json` instead of your user config:
+That command is what you register with your host (see below). `npx -y` skips the install prompt; the package pulls `@classcad/script`, `@classcad/renderer` (rendering via `sharp`, prebuilt binaries) and `@classcad/skill` (method registry + reference docs).
+
+> npm 11+ prints a warning that `sharp`'s install script was not run. That is fine — `sharp` ships prebuilt binaries and loads without it.
+
+### From source
 
 ```bash
-claude mcp add classcad node /abs/path/to/classcad-mcp/dist/server.js \
+git clone https://github.com/awv-informatik/classcad-ai.git
+cd classcad-ai
+npm install
+npm run build          # builds skill, script, renderer, then the MCP
+```
+
+The server is then `packages/mcp/dist/server.js`; use its absolute path in the host config instead of the `npx` command.
+
+---
+
+## Configure your host
+
+Every host needs the same three things: the command (`npx -y @awv-informatik/classcad-mcp` or `node /abs/path/to/dist/server.js`), the worker URL in `CLASSCAD_WS_URL`, and a restart of the host so it spawns the server.
+
+### Claude Code (CLI, and the Code tab of the desktop app)
+
+```bash
+claude mcp add classcad --scope user \
   --env CLASSCAD_WS_URL=ws://localhost:9094/ \
-  --scope project
+  -- npx -y @awv-informatik/classcad-mcp
 ```
 
-**Manual — JSON config:**
+`--scope user` writes to `~/.claude.json` (all projects); `--scope project` writes `.mcp.json` in the current repo instead. Verify with `claude mcp list` — the entry should show `✔ Connected`. Tools appear in the **next** session (each session spawns its own MCP process); in a running session use `/mcp` to reconnect.
 
-Edit `~/.claude.json` (user-level) or `.mcp.json` at the repo root (project-level):
+Manual equivalent in `~/.claude.json` / `.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "classcad": {
-      "command": "node",
-      "args": ["/abs/path/to/classcad-mcp/dist/server.js"],
+      "command": "npx",
+      "args": ["-y", "@awv-informatik/classcad-mcp"],
       "env": { "CLASSCAD_WS_URL": "ws://localhost:9094/" }
     }
   }
 }
 ```
 
-Reload the Claude Code session (`/mcp` to verify; the classcad tools should be listed).
+### Claude desktop app (Chat / Cowork)
+
+The chat side of the desktop app has its **own** config and does not read `~/.claude.json`:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add the same `mcpServers` block as above. The app is not started from a shell, so it has no `PATH`: if `npx`/`node` are not found, use absolute paths (macOS Homebrew: `/opt/homebrew/bin/npx`; `which npx` tells you). Quit and reopen the app — it spawns MCP servers only at startup. The server then shows up under Settings → Developer, and the chat renders snapshot images inline.
 
 ### VS Code — GitHub Copilot Chat (agent mode)
 
-VS Code 1.95+ with GitHub Copilot in **agent mode** supports MCP servers. Configure via Command Palette → **MCP: Add Server**, or edit one of:
-
-- **Workspace:** `.vscode/mcp.json` (commits with the repo)
-- **User:** the file opened by **MCP: Open User Configuration**
+Command Palette → **MCP: Add Server**, or edit `.vscode/mcp.json` (workspace) / the user MCP config:
 
 ```jsonc
 {
   "servers": {
     "classcad": {
       "type": "stdio",
-      "command": "node",
-      "args": ["/abs/path/to/classcad-mcp/dist/server.js"],
+      "command": "npx",
+      "args": ["-y", "@awv-informatik/classcad-mcp"],
       "env": { "CLASSCAD_WS_URL": "ws://localhost:9094/" }
     }
   }
 }
 ```
 
-Note the schema differences from Claude:
+(Top-level key `servers`, and an explicit `"type": "stdio"`.) Switch Copilot Chat to **Agent** mode; the classcad tools become selectable.
 
-- Top-level key is `servers`, not `mcpServers`
-- Each entry needs an explicit `"type": "stdio"`
+### Cursor / Windsurf / other hosts
 
-Open Copilot Chat, switch to **Agent** mode, and the classcad tools become selectable in the tool picker.
-
-### Cursor / Windsurf / other MCP hosts
-
-Most other hosts accept the Claude-style `mcpServers` JSON shape. Drop the snippet from the Claude Code manual-config section into the host's MCP config file (consult the host's docs for the path).
-
----
-
-## Tools
-
-| Tool              | Status | Purpose                                                   |
-| ----------------- | ------ | --------------------------------------------------------- |
-| `session_info`    | ✓      | Connection status (incl. current session id)              |
-| `use_session`     | ✓      | Reconnect to a specific `ClassCAD-Session-Id` (or back to default) |
-| `clear`           | ✓      | Wipe the drawing                                          |
-| `save` / `load`   | ✓      | OFB / STP / STL / JSON persistence                        |
-| `tree`            | ✓      | Cached structure tree (full or refreshed)                 |
-| `find`            | ✓      | Search nodes by class / name substring                    |
-| `inspect`         | ✓      | Full node detail + parent chain                           |
-| `run_script`      | ✓      | THE execution medium: JavaScript against `api.v1.*` / `api.tree()` / `api.graphic()`; follow-up scripts attach to the existing model |
-| `list_methods`    | ✓      | Enumerate API endpoints (filter by domain or substring)   |
-| `describe_method` | ✓      | JSDoc + LLM-oriented gotchas from classcad-skill          |
-| `snapshot`        | ✓      | Inline PNG render — single composite of the requested layers |
-| `bridge.list_clients`   | ✓ | Enumerate CC apps that connected an app-state bridge for the current session |
-| `bridge.get_selection`  | ✓ | Read the connected app's current selection (resolved + raw triplet) |
-| `bridge.set_selection`  | ✓ | Set the connected app's selection from raw `{containerId, graphicId, prodRefId}` triplets |
-
-`snapshot` accepts `view` (`iso` default, plus `top`/`bottom`/`front`/`back`/`left`/`right`), `zoom`, `lookAt`, and `layers`. **Default `layers` = `["solid"]`** — only the 3D model. Other layers (`sketch`, `curves`, `workgeo`) are opt-in. When multiple layers are requested they are MERGED into one PNG: the 3D layers (solid, curves, workgeo) share a camera and are alpha-composited; sketches sit beneath the 3D view as a row of 2D panels.
-
-The `bridge.*` tools require a CC app to have connected a bridge for the same `ClassCAD-Session-Id` that `use_session` is attached to. If no bridge is registered, these tools return a `"no bridge connected"` error and the rest of the MCP keeps working unchanged. See [App-state bridge](#app-state-bridge) below.
+Most hosts accept the Claude-style `mcpServers` JSON. Use the block from the Claude Code section in the host's MCP config file.
 
 ---
 
 ## Environment variables
 
-| Variable                  | Purpose                                                                |
-| ------------------------- | ---------------------------------------------------------------------- |
-| `CLASSCAD_WS_URL`         | WebSocket URL of the classcad-cli worker. Default: `ws://localhost:9094/` |
-| `CLASSCAD_SKILL_PATH`     | Override the path to a `classcad-skill` checkout for `describe_method`. By default the installed `@classcad/skill` package is used; falls back to JSDoc-only if unavailable. |
-| `CLASSCAD_BRIDGE_LISTEN`  | URL where the MCP listens for inbound app bridge connections. Default: `ws://localhost:9096/bridge`. Set to a different port if 9096 is taken. The MCP starts up cleanly even if this listener fails to bind — bridge tools just report "no bridge connected" until it succeeds. |
+| Variable                 | Purpose                                                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `CLASSCAD_WS_URL`        | WebSocket URL of the ClassCAD worker. Default `ws://localhost:9094/`. Any reachable worker works (`wss://…`).     |
+| `CLASSCAD_SNAPSHOT_DIR`  | Where `snapshot` writes its PNGs. Default `<tmpdir>/classcad-snapshots`.                                          |
+| `CLASSCAD_SKILL_PATH`    | Use a local `classcad-skill` checkout for docs instead of the installed `@classcad/skill` package.                |
+| `CLASSCAD_BRIDGE_LISTEN` | Listener for the in-app bridge (see below). Default `ws://localhost:9096/bridge`; the MCP starts even if it cannot bind. |
 
-### Attaching to an existing session
+---
 
-By default the MCP connects without a `ClassCAD-Session-Id` header, so the worker assigns a fresh session. To steer a session another client is already using (e.g. a Buerligons window with session `test-session`), call the `use_session` tool from the host:
+## Tools
+
+| Tool                    | Purpose                                                                                                   |
+| ----------------------- | --------------------------------------------------------------------------------------------------------- |
+| `run_script`            | **The** execution medium: JavaScript against `api.v1.*`, `api.tree()`, `api.graphic()`. State persists between scripts; follow-up scripts attach to the existing model. |
+| `tree` / `find` / `inspect` | Structure tree (cached, pulled on demand), search by class/name, full node detail with parent chain |
+| `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, highlights, markers)            |
+| `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
+| `save` / `load` / `clear` / `checkpoint` / `restore` | OFB / STEP / STL persistence, undo points                                     |
+| `session_info` / `use_session` | Connection status; attach to a named session or an invite link                                     |
+| `bridge.list_clients` / `bridge.get_selection` / `bridge.set_selection` | Read/write the selection of a connected CC app (see bridge) |
+
+`snapshot` returns the PNG as an inline image block **for the model** and writes it to `CLASSCAD_SNAPSHOT_DIR`. Claude Code and the desktop app's Code tab do not show tool-result images to the user — the tool result says so and names the saved file, so the model can hand it over (Claude Code: `SendUserFile`). The desktop app's chat renders it directly.
+
+**Tool calls are serialized.** All tools share one engine connection and one drawing, so the server runs one tool call at a time (docs lookups excepted). A `snapshot` issued in parallel with a `run_script` waits for the script instead of rendering a half-built model. Subagents of a session use the same MCP process and therefore the same queue.
+
+---
+
+## Sessions: your own, or one an app already has open
+
+By default the MCP gets a fresh session from the worker. Two ways to work on a session that already exists:
+
+**Named session** (`ClassCAD-Session-Id` model):
 
 ```
 use_session(sessionId="test-session")
 ```
 
-Subsequent tool calls operate on that shared session. Call `use_session()` with no argument (or `sessionId=""`) to reconnect with no header. `session_info` reports the current session id.
+**Invite link** (multi-client server): in buerligons open *Session Management → Create* and hand the link to the model:
+
+```
+use_session(url="https://app.example/?invite=…")     # app share link — the token is applied to CLASSCAD_WS_URL
+use_session(url="wss://cad.example/?invite=…")       # or the worker URL directly
+```
+
+The MCP then joins that session as a guest; the app sees every change the model makes. `session_info` reports the current session, `use_session()` without arguments returns to a fresh one.
+
+### Emission model
+
+The engine keeps an emission config **per connection** (`GetEmissionConfig`/`SetEmissionConfig`). The MCP leaves its connection at the engine defaults, so an app sharing the session keeps receiving structure and graphic for everything the model does. While a `run_script` runs, payloads are switched off for that script only (results only — a 100-command script is 100 small replies) and restored afterwards; the MCP pulls once after every script so the app and its own caches converge. `api.tree()` / `api.graphic()` inside a script pull on demand and are cached until the next mutation.
 
 ---
 
 ## App-state bridge
 
-The classcad MCP can read and write *client-side* state (selections, picks, soon: more) of any CC-based app — provided the app opens an outbound WebSocket back to the MCP and announces itself for the same session. This bridges the gap between server-side ClassCAD state (structure tree, geometry — already accessible via the existing tools) and *app*-side state which only the running app knows about.
-
-### How it works
+The MCP can read and write *client-side* state (selection today; view, current product, hover planned) of a CC app — provided the app opens an outbound WebSocket to the MCP and announces itself for the same session. It complements the server-side state the other tools already see.
 
 ```
                                      announce + events     ┌────────────────┐
@@ -168,104 +189,40 @@ The classcad MCP can read and write *client-side* state (selections, picks, soon
                                   └──────┘
                                      │
                                      ▼
-                       ws://localhost:9094 (existing classcad)
+                       ws://localhost:9094 (the ClassCAD worker)
 ```
 
-- The MCP boots a small WS listener (default `ws://localhost:9096/bridge`).
-- A CC app, on startup, opens an outbound WebSocket to that URL and sends an `announce` message with its `sessionId`, `drawingId`, app name, and a list of capabilities it implements.
-- The MCP keeps a registry keyed by `sessionId`. The `bridge.*` tools route requests to the app whose `sessionId` matches whatever `use_session` is currently attached to.
-- If no app is connected for the current session, the bridge tools return a clean error — the rest of the MCP is unaffected.
+- The MCP listens on `CLASSCAD_BRIDGE_LISTEN` (default `ws://localhost:9096/bridge`).
+- The app connects outbound and sends an `announce` with its `sessionId`, `drawingId`, app name and capabilities; the MCP routes `bridge.*` calls to the app whose session matches the one `use_session` attached to.
+- No app connected → the bridge tools return a clean "no bridge connected"; everything else works unchanged.
 
-The bridge is purely **additive**: rest of the MCP keeps working with no app attached, and apps can opt in or out per page-load.
-
-### v1 capabilities
-
-Currently `selection.*` only — read and write. View / camera, current product, hover, etc. will follow.
-
-| Capability         | What the app exposes |
-| ------------------ | -------------------- |
-| `selection.read`   | The user's current selection — kind (`face`/`edge`/`vertex`/...), `classcadId`, optional resolved `position`/`normal`, and the raw `{containerId, graphicId, prodRefId}` triplet that round-trips into ClassCAD API calls. |
-| `selection.write`  | Setting the selection from raw triplets (or `classcadId`s the bridge can resolve). |
-
-There's no Promise-based "pick" method by design — natural-flow conversation ("pick stuff in the UI, then tell me to do X") plus `bridge.get_selection` is strictly more flexible than a blocking pick API. The user keeps full control of view, multi-select, and pause-to-think; the model reads the final selection when the user signals intent.
-
-### Implementing a bridge for your app
-
-The wire format is a JSON envelope per message — see `src/bridge/protocol.ts` for the full type surface.
-
-On open, the app sends:
+Wire format (see `src/bridge/protocol.ts`):
 
 ```json
-{
-  "type": "announce",
-  "protocolVersion": 1,
-  "sessionId": "test-session",
-  "drawingId": "<your drawing id>",
-  "app": "buerligons",
-  "capabilities": ["selection.read", "selection.write"],
-  "clientId": "buerligons-abc123"
-}
-```
+{ "type": "announce", "protocolVersion": 1, "sessionId": "test-session", "drawingId": "<id>", "app": "buerligons",
+  "capabilities": ["selection.read", "selection.write"], "clientId": "buerligons-abc123" }
 
-Then it handles inbound `request` messages (the MCP asking for something) and emits `event` messages (the app pushing state changes):
-
-```json
-// MCP → app
+// MCP → app                         // app → MCP
 { "type": "request", "id": 7, "method": "selection.get" }
-
-// app → MCP (response to id 7)
-{ "type": "response", "id": 7, "result": [{"kind":"face", "classcadId":460, "raw":{"containerId":514, "graphicId":-17, "prodRefId":319}}] }
-
-// app → MCP (push, on user pick)
-{ "type": "event", "channel": "selection.changed", "payload": {"items": [...]} }
+{ "type": "response", "id": 7, "result": [{ "kind": "face", "classcadId": 460, "raw": { "containerId": 514, "graphicId": -17, "prodRefId": 319 } }] }
+{ "type": "event", "channel": "selection.changed", "payload": { "items": [] } }
 ```
 
-Selection entities carry **both** resolved fields (`position`, `normal`, `kind`) and the raw triplet `{containerId, graphicId, prodRefId}`. The MCP can pass `raw.graphicId` straight into a ClassCAD API call (e.g. `v1.sketch.create({planeId: raw.graphicId})`) without needing to resolve anything client-side.
-
-### Reference implementation: buerligons
-
-`packages/modeler/src/mcpBridge.ts` in the buerli monorepo is a complete reference implementation in ~200 lines. It reuses two buerli APIs that already do the right thing:
-
-- `getDrawing(id).interaction.selected` — current selection (read)
-- `drawing.api.interaction.setSelected([info])` — set selection (write)
-
-In `initBuerli.ts`, it's wired up post-`client.on('connected')`:
-
-```ts
-const mcpBridgeUrl = new URLSearchParams(window.location.search).get('mcpBridge')
-                  ?? (sessionId ? 'ws://localhost:9096/bridge' : null)
-if (mcpBridgeUrl && sessionId) {
-  client.on('connected', () => {
-    connectMcpBridge({ url: mcpBridgeUrl, drawingId: id, sessionId, app: 'buerligons' })
-  })
-}
-```
-
-The bridge auto-reconnects with backoff; if the MCP isn't running the WS open just fails silently and buerligons works normally. Pass `?mcpBridge=off` to disable the default.
-
-### End-to-end usage
-
-1. Start `classcad-cli worker` on `:9094`.
-2. Start a Claude Code (or other MCP host) session — the cc MCP starts and binds the bridge listener on `:9096`.
-3. Open buerligons (or any CC app with a bridge) at `?sessionId=<your-session>` — it auto-connects the bridge.
-4. From the host: `use_session("<your-session>")`, then any of:
-   - `bridge.list_clients` — confirm the app is registered.
-   - `bridge.get_selection` — read what the user has currently selected. Combine with a `run_script` calling `api.v1.sketch.create({ planeId: result.items[0].raw.graphicId })` to act on it.
-   - `bridge.set_selection [{containerId, graphicId, prodRefId}]` — highlight an entity in the app's UI (e.g. to show the user what an LLM-driven action is about to operate on).
+Selection entities carry resolved fields (`kind`, `position`, `normal`) and the raw `{containerId, graphicId, prodRefId}` triplet that goes straight into API calls (e.g. `v1.sketch.create({ planeId: raw.graphicId })`). Reference implementation: `packages/modeler/src/mcpBridge.ts` in the buerli monorepo (~200 lines; `?mcpBridge=off` disables it).
 
 ---
 
-## Build pipeline
+## Development
 
-`npm run build` does two things:
+```bash
+npm install                      # monorepo root
+npm run build                    # skill → script → renderer → mcp (+ buerli-ai)
+cd packages/mcp
+npm run build                    # tsc; postbuild runs the emission contract tests against a fake worker
+npm test                         # + live tests against a worker on CLASSCAD_WS_URL (skipped if none)
+node dist/server.js              # run the server on stdio by hand
+```
 
-1. `tsc` — compiles `src/**/*.ts` → `dist/`.
-2. `node scripts/copy-build-assets.mjs` — copies `render.mjs` into `dist/`.
+### Publishing
 
-The method registry and skill markdown come from the **`@classcad/skill`** npm dependency
-(the registry is generated there from `@classcad/api-js` JSDoc): `run_script`/`list_methods`/
-`describe_method` import `@classcad/skill/method-registry.json` and read
-`references/<domain>/<method>.md` from the installed package. Set `CLASSCAD_SKILL_PATH`
-to use a local classcad-skill checkout instead.
-
-`npm run clean` removes `dist/`. Both scripts are cross-platform — they call into Node, not shell `cp` / `rm`.
+The MCP depends on three sibling packages that must be on npm first, in this order: `@classcad/skill` (its `prepublishOnly` regenerates the registry from `@classcad/api-js`), `@classcad/script`, `@classcad/renderer`, then `@awv-informatik/classcad-mcp` — each with `npm publish --access public`. A dry run: `npm pack` in each package, then install the four tarballs into an empty directory and run the server.

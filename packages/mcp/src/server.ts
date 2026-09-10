@@ -17,6 +17,7 @@ import { registerSnapshotTool } from './tools/snapshot.js'
 import { registerScriptTool } from './tools/script.js'
 import { registerBridgeTools } from './tools/bridge.js'
 import { startBridgeServer, type BridgeRegistry } from './bridge/server.js'
+import { serializeTools } from './queue.js'
 
 const WS_URL = process.env.CLASSCAD_WS_URL ?? 'ws://0.0.0.0:9094/'
 const BRIDGE_LISTEN = process.env.CLASSCAD_BRIDGE_LISTEN ?? 'ws://localhost:9096/bridge'
@@ -38,6 +39,11 @@ async function main(): Promise<void> {
     // hosts surface them to the agent, so it knows every method from turn one.
     { instructions: serverInstructions() },
   )
+
+  // One tool call at a time: every tool below shares this client's single
+  // engine connection and drawing (see queue.ts for the reasoning, incl.
+  // subagents). Must run before the first registerTool.
+  serializeTools(server)
 
   server.registerTool(
     'session_info',

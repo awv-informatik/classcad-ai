@@ -36,7 +36,8 @@
   "files": [
     "dist",
     "docs",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json && node scripts/build-docs.mjs",

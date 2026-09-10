@@ -46,7 +46,9 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       title: 'Snapshot drawing',
       description:
         'Render the current drawing as an inline PNG (also written to disk under $CLASSCAD_SNAPSHOT_DIR or <tmpdir>/classcad-snapshots). ' +
-        'The host renders the image directly — no follow-up Read is needed. ' +
+        'The image is returned to the MODEL as an inline image block — no follow-up Read is needed to see it. ' +
+        'The USER may not see tool results (Claude Code / desktop Code tab do not render them): ' +
+        'send the saved PNG path through the host\'s file-sending tool (e.g. SendUserFile) if the user should see the render. ' +
         'Call after a meaningful geometry change, NOT after every parameter tweak. ' +
         'Verification options: section (cut through internals), sheet (four labeled views, shared ortho scale), ' +
         'highlight (face/edge/body ids in signal color), markers (probe crosshairs at world points), ' +
@@ -136,11 +138,13 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         }
       }
 
-      // Inline image first (that's what the user sees), then the path note and —
-      // when available — the frame, so a later snapshot can pin it (before/after).
+      // Inline image first (what the MODEL sees), then the path note — with a reminder
+      // that the user may not see tool-result images — and, when available, the
+      // frame, so a later snapshot can pin it (before/after).
       const noteLines = [paths.length === 1 ? `Saved: ${paths[0]}` : `Saved:\n${paths.join('\n')}`]
       const framed = renders.find(r => (r as any).frame)
       if (framed && (framed as any).frame) noteLines.push(`frame: ${JSON.stringify((framed as any).frame)}`)
+      noteLines.push('Note: the user may not see this image in their transcript — send the saved file via the host\'s file-sending tool (e.g. SendUserFile) if they should see it.')
       return {
         content: [
           ...imageBlocks,

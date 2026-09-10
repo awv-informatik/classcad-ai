@@ -1,95 +1,65 @@
-// bridge/protocol.ts — Wire protocol shared between the cc MCP and any
-// CC-based app that wants to expose its client-side state (selection, etc.).
+// bridge/protocol.ts — wire protocol between a buerli app and this MCP.
 //
-// This file is the canonical source of truth for the bridge protocol. The
-// modeler-side equivalent (packages/modeler/src/mcpBridge.ts) mirrors these
-// types verbatim. Keep them in sync.
-//
-// Plain TS — no Node-only or browser-only imports. Importable from both.
+// Mirror of @buerli.io/classcad's src/bridge/protocol.ts (source of truth
+// there). Apps open an OUTBOUND WebSocket to the MCP's bridge listener and
+// announce a share token. Two kinds:
+//   • 'invite' — the app runs against a ClassCAD server; the MCP joins the
+//     server session with the token (use_session) and uses the bridge for
+//     app state (selection) only.
+//   • 'bridge' — the engine runs inside the app (WASM); the MCP relays its
+//     engine commands over this link (engine.execute) — the bridge IS the
+//     engine transport.
+// Plain TS, importable from Node and the browser.
 
 export const PROTOCOL_VERSION = 1
 
-export type Capability =
-  | 'selection.read'
-  | 'selection.write'
+export type Capability = 'engine.execute' | 'selection.read' | 'selection.write'
 
-export type RawSelection = {
-  containerId: number
-  graphicId: number
-  prodRefId: number
-}
+export type RawSelection = { containerId: number; graphicId: number; prodRefId: number }
 
 export type SelectionEntity = {
-  // High-level kind, derived from the underlying graphic type.
   kind: 'face' | 'edge' | 'vertex' | 'curve' | 'unknown'
-  // ClassCAD object id of the owning solid/instance (when resolvable).
   classcadId?: number
-  // World position for vertices, face center for faces, midpoint for edges.
   position?: { x: number; y: number; z: number }
-  // World normal for faces.
   normal?: { x: number; y: number; z: number }
-  // The underlying ClassCAD graphic-type tag (PLANE, CYLINDER, NURBSCURVE, ...).
   graphicType?: string
-  // Always present — round-trip these into a ClassCAD API call directly.
   raw: RawSelection
 }
 
-// --- Envelopes ---------------------------------------------------------
+export type ShareKind = 'invite' | 'bridge'
 
 export type AnnounceMessage = {
   type: 'announce'
   protocolVersion: number
-  sessionId: string
+  /** The share token this connection serves (one bridge connection per token). */
+  token: string
+  kind: ShareKind
   drawingId: string
-  app: string            // human-readable app name, e.g. 'buerligons'
+  app: string
   appVersion?: string
   capabilities: Capability[]
-  // Stable per-process id so the MCP can disambiguate multiple bridges
-  // for the same session.
+  /** Stable per-connection id so the MCP can tell apart several apps for one token. */
   clientId: string
+  /** Legacy (pre-token) announce field; treated as the token when `token` is absent. */
+  sessionId?: string
+  /** Legacy modeler announce field; treated as an 'invite' token when `token` is absent. */
+  invite?: string
 }
 
-export type RequestMessage = {
-  type: 'request'
-  id: number
-  method: BridgeMethod
-  params?: unknown
-}
-
-export type ResponseMessage = {
-  type: 'response'
-  id: number
-  result?: unknown
-  error?: { code: string; message: string }
-}
-
-export type EventMessage = {
-  type: 'event'
-  channel: BridgeEventChannel
-  payload: unknown
-}
-
+export type RequestMessage = { type: 'request'; id: number; method: BridgeMethod; params?: unknown }
+export type ResponseMessage = { type: 'response'; id: number; result?: unknown; error?: { code: string; message: string } }
+export type EventMessage = { type: 'event'; channel: BridgeEventChannel; payload: unknown }
 export type BridgeEnvelope = AnnounceMessage | RequestMessage | ResponseMessage | EventMessage
 
-// --- Methods (MCP → app) -----------------------------------------------
+/** Methods the MCP calls on the app. */
+export type BridgeMethod = 'engine.execute' | 'session.attached' | 'session.detached' | 'selection.get' | 'selection.set'
 
-export type BridgeMethod =
-  | 'selection.get'
-  | 'selection.set'
+/** engine.execute reply: the engine's text messages and inflated binary graphic packages, in emission order. */
+export type EngineExecuteResult = { messages: Record<string, any>[]; binaryMessages: Record<string, any>[] }
+export type SessionAttachedParams = { peerId: string; role?: 'edit' | 'view'; client?: string }
 
 export type SelectionGetResult = SelectionEntity[]
-
-export type SelectionSetParams = {
-  // Pass either the raw triplet or a classcadId (which the bridge resolves).
-  items: Array<RawSelection | { classcadId: number }>
-  // If true, replace the current selection. Otherwise add to it.
-  replace?: boolean
-}
-
-// --- Events (app → MCP) ------------------------------------------------
+export type SelectionSetParams = { items: Array<RawSelection | { classcadId: number }>; replace?: boolean }
 
 export type BridgeEventChannel = 'selection.changed'
-
-export type SelectionChangedPayload = {
-  items: SelectionEntity[]
-}
+export type SelectionChangedPayload = { items: SelectionEntity[] }

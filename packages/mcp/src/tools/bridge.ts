@@ -1,9 +1,10 @@
 // Bridge tools: route requests to a CC app's bridge connection.
 //
-// All tools are scoped by the cc MCP's currently-attached sessionId
-// (set via use_session). If no app has connected a bridge for that session,
-// tools return a clean "no bridge connected" error and the user can keep
-// using the rest of the cc MCP unaffected.
+// All tools are scoped by the share token the cc MCP is currently attached
+// with (use_session: an invite for a server session, or a bridge token for
+// an in-app engine). If no app has connected a bridge for that token, tools
+// return a clean "no bridge connected" error and the user can keep using the
+// rest of the cc MCP unaffected.
 
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
@@ -24,15 +25,16 @@ function noBridgeError(sessionId: string | null) {
         error: 'no bridge connected',
         sessionId,
         hint: sessionId
-          ? `No CC app has registered a bridge for session "${sessionId}". Start your app with the bridge enabled (e.g. ?mcpBridge=ws://localhost:9096/bridge) and reload.`
-          : 'No session is attached. Call use_session first, then try again.',
+          ? `No CC app has registered a bridge for token "${sessionId}". Create the share in the app (Session Management) and start the app with the bridge enabled (e.g. ?mcpBridge=on).`
+          : 'No shared session is attached. Call use_session with the app\'s share link first, then try again.',
       }),
     }],
   }
 }
 
 function pickConn(client: Client, registry: BridgeRegistry, clientId?: string) {
-  const sid = client.sessionId
+  // The token the MCP joined with (invite or bridge) selects the app.
+  const sid = client.shareToken
   if (!sid) return { conn: null, sid: null as string | null }
   return { conn: registry.pick(sid, clientId), sid }
 }
@@ -47,14 +49,15 @@ export function registerBridgeTools(
     {
       title: 'List bridge clients',
       description:
-        'List CC apps that have opened a bridge connection for the currently-attached session (set via use_session). Returns connection metadata and capabilities. Empty list = no bridge available; the cc MCP still works for ClassCAD-only operations.',
+        'List CC apps that have opened a bridge connection for the share token the MCP is attached with (use_session with an app share link; both ?invite= and ?bridge= links). Returns connection metadata and capabilities (engine.execute = the app hosts the engine). Empty list = no bridge available; the cc MCP still works for ClassCAD-only operations.',
       inputSchema: {},
     },
     async () => {
-      const sid = client.sessionId
+      const sid = client.shareToken
       const clients = registry.list(sid ?? undefined).map(c => ({
         clientId: c.clientId,
-        sessionId: c.sessionId,
+        token: c.token,
+        kind: c.kind,
         drawingId: c.drawingId,
         app: c.app,
         appVersion: c.appVersion,
@@ -65,7 +68,7 @@ export function registerBridgeTools(
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ sessionId: sid, count: clients.length, clients, bridgeUrl: registry.url }),
+          text: JSON.stringify({ shareToken: sid, transport: client.transport, count: clients.length, clients, bridgeUrl: registry.url }),
         }],
       }
     },

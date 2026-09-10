@@ -24,11 +24,24 @@ const BRIDGE_LISTEN = process.env.CLASSCAD_BRIDGE_LISTEN ?? 'ws://localhost:9096
 const VERSION = '0.1.0'
 
 async function main(): Promise<void> {
+  // Optional in-app bridge listener, started FIRST so the client can attach
+  // to in-app engines through it (use_session with a ?bridge= share link). CC
+  // apps connect outbound to this WS to expose their client-side state
+  // (selection) or, for WASM engines, to serve the engine itself. If the port
+  // is busy or listening fails, the rest of the MCP still starts — the bridge
+  // tools just report "no bridge connected" until the listener succeeds.
+  let bridgeRegistry: BridgeRegistry | null = null
+  try {
+    bridgeRegistry = await startBridgeServer({ listen: BRIDGE_LISTEN })
+  } catch (err) {
+    process.stderr.write(`[classcad-mcp] bridge listener failed (${BRIDGE_LISTEN}): ${err instanceof Error ? err.message : err}\n`)
+  }
+
   // Build the client without opening the WS. The first tool call that needs
   // the worker will open it — either use_session (with a named session) or
   // any geometry tool (with no session header). This keeps the MCP passive
   // at startup so it never creates a stray ephemeral session.
-  const client = await connect(WS_URL, { graphics: true })
+  const client = await connect(WS_URL, { graphics: true, bridge: () => bridgeRegistry })
 
   const server = new McpServer(
     {
@@ -49,13 +62,18 @@ async function main(): Promise<void> {
     'session_info',
     {
       title: 'Session info',
-      description: 'Return ClassCAD MCP session status: WS URL, current session id (null = worker-assigned default), connection state, package version.',
+      description: 'Return ClassCAD MCP session status: transport (ws worker or in-app bridge), WS URL, current session id (null = worker-assigned default), share token, connection state, package version.',
       inputSchema: {},
     },
     async () => {
-      const ws = client.ws
-      const connected = ws ? ws.readyState === ws.OPEN : false
-      const info = { wsUrl: client.url, sessionId: client.sessionId, connected, version: VERSION }
+      const info = {
+        transport: client.transport,
+        wsUrl: client.transport === 'ws' ? client.url : null,
+        sessionId: client.sessionId,
+        shareToken: client.shareToken,
+        connected: client.connected,
+        version: VERSION,
+      }
       return { content: [{ type: 'text', text: JSON.stringify(info) }] }
     },
   )
@@ -65,7 +83,7 @@ async function main(): Promise<void> {
     {
       title: 'Switch session',
       description:
-        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its WebSocket lazily, so the first tool call decides which session is used. Two modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker, e.g. one Buerligons is already using; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (e.g. wss://host/?invite=…); the MCP connects with it VERBATIM and joins that shared session. An http(s):// APP SHARE LINK (e.g. http://localhost:5173/?invite=…) also works: its host is the web app, not the CAD server, so only the invite token is taken and applied to the configured worker URL. Without either, the MCP runs its own session as before. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
+        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its engine link lazily, so the first tool call decides which session is used. Modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (wss://host/?invite=…); connected VERBATIM. (3) an http(s):// APP SHARE LINK from a buerli app\'s Session Management: with ?invite=… the token is applied to the configured worker URL (the app runs against a ClassCAD server); with ?bridge=… the app runs the engine IN-PAGE (WASM) and the MCP attaches to it through the bridge listener — every command then runs inside that app, and the app must stay open. Without either, the MCP runs its own session. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
       inputSchema: {
         sessionId: z.string().optional()
           .describe('Target session id (named-session model). Empty string or omitted = no header (worker-assigned session).'),
@@ -80,11 +98,20 @@ async function main(): Promise<void> {
         // App share links (http/https) point at the WEB APP, not the CAD
         // server — carry over only the invite token onto the worker base URL.
         if (wsUrl && /^https?:\/\//i.test(wsUrl)) {
-          const invite = new URL(wsUrl).searchParams.get('invite')
+          const params = new URL(wsUrl).searchParams
+          const bridge = params.get('bridge')
+          if (bridge) {
+            // In-app engine: attach through the bridge, no worker involved.
+            await client.reconnectBridge(bridge)
+            return {
+              content: [{ type: 'text', text: JSON.stringify({ ok: true, transport: 'bridge', shareToken: bridge }) }],
+            }
+          }
+          const invite = params.get('invite')
           if (!invite) {
             throw new Error(
-              `"${wsUrl}" is an http(s) app link without an ?invite= token. ` +
-              'Pass the ws(s):// URL of the ClassCAD server (optionally with ?invite=…), or an app share link that carries ?invite=.',
+              `"${wsUrl}" is an http(s) app link without an ?invite= or ?bridge= token. ` +
+              'Pass the ws(s):// URL of the ClassCAD server (optionally with ?invite=…), or an app share link that carries ?invite= / ?bridge=.',
             )
           }
           const base = client.baseUrl.replace(/\/+$/, '')
@@ -114,17 +141,8 @@ async function main(): Promise<void> {
   registerSnapshotTool(server, client)
   registerScriptTool(server, client)
 
-  // Optional in-app bridge listener. CC apps connect outbound to this WS to
-  // expose their client-side state (selection, etc.). If the port is busy or
-  // listening fails, the rest of the MCP still starts — the bridge tools just
-  // report "no bridge connected" until the listener succeeds.
-  let bridgeRegistry: BridgeRegistry | null = null
-  try {
-    bridgeRegistry = await startBridgeServer({ listen: BRIDGE_LISTEN })
-    registerBridgeTools(server, client, bridgeRegistry)
-  } catch (err) {
-    process.stderr.write(`[classcad-mcp] bridge listener failed (${BRIDGE_LISTEN}): ${err instanceof Error ? err.message : err}\n`)
-  }
+  // Bridge tools (app-state read/write) — only when the listener is up.
+  if (bridgeRegistry) registerBridgeTools(server, client, bridgeRegistry)
 
   // Cleanly close the WS on shutdown.
   const shutdown = () => {

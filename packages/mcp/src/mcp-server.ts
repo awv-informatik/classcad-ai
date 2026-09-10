@@ -6,7 +6,8 @@
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
-import { connect, type Client } from './client.js'
+import { connect, type Client, type EnginePolicy } from './client.js'
+import { DEFAULT_WASM_ORIGIN, DEFAULT_WASM_VERSION, defaultWasmDir, type LocalWasmOptions } from './engine/wasm.js'
 import { registerLifecycleTools } from './tools/lifecycle.js'
 import { registerStateTools } from './tools/state.js'
 import { registerDocsTools, serverInstructions } from './tools/docs.js'
@@ -24,6 +25,12 @@ export type McpServerOptions = {
   wsUrl: string
   /** The shared bridge registry (apps announcing share tokens); null when no listener runs. */
   bridge: () => BridgeRegistry | null
+  /** Engine policy when nothing else decides: 'auto' (worker, else local WASM), 'drogon', 'wasm'. Default 'auto'. */
+  engine?: EnginePolicy
+  /** Local WASM engine settings (key, origin, …); null = not available. */
+  wasm?: LocalWasmOptions | null
+  /** Where the instance reports engine decisions. */
+  log?: (msg: string) => void
 }
 
 /** Builds a connected-ready MCP server: the engine client plus all tools. Nothing is opened yet. */
@@ -33,7 +40,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   // the worker will open it — either use_session (with a named session) or
   // any geometry tool (with no session header). This keeps the MCP passive
   // at startup so it never creates a stray ephemeral session.
-  const client = await connect(opts.wsUrl, { graphics: true, bridge: opts.bridge })
+  const client = await connect(opts.wsUrl, { graphics: true, bridge: opts.bridge, engine: opts.engine, wasm: opts.wasm, log: opts.log })
 
   const server = new McpServer(
     {
@@ -54,16 +61,26 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     'session_info',
     {
       title: 'Session info',
-      description: 'Return ClassCAD MCP session status: transport (ws worker or in-app bridge), WS URL, current session id (null = worker-assigned default), share token, connection state, package version.',
+      description: 'Return ClassCAD MCP session status: transport (ws = ClassCAD worker, bridge = an app\'s in-page engine, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, share token, connection state, package version.',
       inputSchema: {},
     },
     async () => {
+      const local = client.localEngine
       const info = {
         transport: client.transport,
+        enginePolicy: client.engine,
         wsUrl: client.transport === 'ws' ? client.url : null,
         sessionId: client.sessionId,
         shareToken: client.shareToken,
         connected: client.connected,
+        wasm: {
+          available: client.wasmAvailable,
+          running: local !== null,
+          version: local?.version ?? opts.wasm?.version ?? DEFAULT_WASM_VERSION,
+          origin: local?.origin ?? opts.wasm?.origin ?? DEFAULT_WASM_ORIGIN,
+          dir: local?.dir ?? opts.wasm?.dir ?? defaultWasmDir(opts.wasm?.version ?? DEFAULT_WASM_VERSION),
+          memoryMB: local?.memoryMB ?? null,
+        },
         version: VERSION,
       }
       return { content: [{ type: 'text', text: JSON.stringify(info) }] }
@@ -75,15 +92,17 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     {
       title: 'Switch session',
       description:
-        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its engine link lazily, so the first tool call decides which session is used. Modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (wss://host/?invite=…); connected VERBATIM. (3) an http(s):// APP SHARE LINK from a buerli app\'s Session Management: with ?invite=… the token is applied to the configured worker URL (the app runs against a ClassCAD server); with ?bridge=… the app runs the engine IN-PAGE (WASM) and the MCP attaches to it through the bridge listener — every command then runs inside that app, and the app must stay open. Without either, the MCP runs its own session. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
+        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its engine link lazily, so the first tool call decides which session is used. Modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (wss://host/?invite=…); connected VERBATIM. (3) an http(s):// APP SHARE LINK from a buerli app\'s Session Management: with ?invite=… the token is applied to the configured worker URL (the app runs against a ClassCAD server); with ?bridge=… the app runs the engine IN-PAGE (WASM) and the MCP attaches to it through the bridge listener — every command then runs inside that app, and the app must stay open. Without either, the MCP runs its own session. (4) engine — WHICH ENGINE runs that own session: "drogon" = the configured ClassCAD worker (server), "wasm" = the MCP\'s OWN local engine (the published WASM build hosted in this process, no server and no browser needed; requires a configured key), "auto" (default) = the worker if reachable, otherwise the local engine. Use "drogon" when the user says to connect to their (Drogon/ClassCAD) server, "wasm" when they say WASM/local/offline; a token or URL always decides by itself. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
       inputSchema: {
         sessionId: z.string().optional()
-          .describe('Target session id (named-session model). Empty string or omitted = no header (worker-assigned session).'),
+          .describe('Target session id (named-session model, worker only). Empty string or omitted = no header (worker-assigned session).'),
         url: z.string().optional()
           .describe('ws(s):// URL to connect to VERBATIM — e.g. a multi-client token/invite URL (wss://host/?invite=…). An http(s):// app share link with ?invite= is accepted too: the invite token is extracted and applied to the configured worker URL. Takes precedence over sessionId.'),
+        engine: z.enum(['auto', 'drogon', 'wasm']).optional()
+          .describe('Engine for the MCP\'s own session when no url is given: auto (worker, else local WASM), drogon (the ClassCAD worker only), wasm (the local engine only). Sticks for the session until changed.'),
       },
     },
-    async ({ sessionId, url }) => {
+    async ({ sessionId, url, engine }) => {
       const target = sessionId && sessionId.length > 0 ? sessionId : null
       try {
         let wsUrl = url && url.length > 0 ? url : null
@@ -110,7 +129,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
           wsUrl = `${base}/?invite=${encodeURIComponent(invite)}`
         }
         if (wsUrl) await client.reconnectUrl(wsUrl)
-        else await client.reconnect(target)
+        else await client.reconnect(target, engine)
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
         return {
@@ -121,7 +140,13 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ ok: true, sessionId: client.sessionId, wsUrl: client.url }),
+          text: JSON.stringify({
+            ok: true,
+            transport: client.transport,
+            engine: client.transport === 'wasm' ? 'wasm (local, in this process)' : 'drogon (ClassCAD worker)',
+            sessionId: client.sessionId,
+            wsUrl: client.transport === 'ws' ? client.url : null,
+          }),
         }],
       }
     },

@@ -19,7 +19,7 @@
 //     a tab is shared).
 //
 // HTTP surface (127.0.0.1 only):
-//   GET  /health   → { name:'classcad-mcp', version, pid, sessions, apps, bridge, bridgeListen, logFile, uptimeMs }
+//   GET  /health   → { name:'classcad-mcp', version, build, pid, sessions, apps, bridge, bridgeListen, logFile, uptimeMs }
 //   POST /shutdown → exits when no session is active (409 otherwise)
 //   POST/GET/DELETE /mcp → MCP Streamable HTTP (session id in mcp-session-id)
 // A shim may pass `x-classcad-ws-url` on its initialize request to choose the
@@ -27,7 +27,7 @@
 
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http'
 import { randomUUID } from 'node:crypto'
-import { appendFileSync, mkdirSync } from 'node:fs'
+import { appendFileSync, mkdirSync, statSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
@@ -36,9 +36,24 @@ import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
 import { startBridgeServer, type BridgeRegistry } from './bridge/server.js'
-import type { Client } from './client.js'
+import type { Client, EnginePolicy } from './client.js'
+import { wasmOptionsFromEnv, type LocalWasmOptions } from './engine/wasm.js'
 
 export const DAEMON_HOST = '127.0.0.1'
+
+/**
+ * Build stamp of the daemon code: the mtime of daemon.js. The package version
+ * only changes on releases; during development every `npm run build` must
+ * make the next shim replace a running (idle) daemon, so /health reports this
+ * and the shim compares it with the file next to itself.
+ */
+export function daemonBuildStamp(): string {
+  try {
+    return new Date(statSync(fileURLToPath(import.meta.url)).mtimeMs).toISOString()
+  } catch {
+    return 'unknown'
+  }
+}
 export const DEFAULT_DAEMON_PORT = 9095
 export const DEFAULT_BRIDGE_LISTEN = 'ws://127.0.0.1:9096/bridge'
 /** Exit after this long without any session (ms). */
@@ -53,6 +68,10 @@ export type DaemonOptions = {
   idleMs?: number
   /** Where to log (a file path); undefined = stderr. */
   logFile?: string
+  /** Default engine policy for sessions that do not name one. */
+  engine?: EnginePolicy
+  /** Default local WASM settings (a session may pass its own key/origin in headers). */
+  wasm?: LocalWasmOptions | null
 }
 
 export type DaemonHandle = { url: string; port: number; close: () => Promise<void> }
@@ -171,6 +190,7 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
         sendJson(res, 200, {
           name: 'classcad-mcp',
           version: VERSION,
+          build: daemonBuildStamp(),
           pid: process.pid,
           sessions: sessions.size,
           apps: appCount(),
@@ -218,16 +238,26 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       }
 
       // A new MCP session: its own server instance and engine client. The shim
-      // may name the worker it was configured with.
-      const headerWs = req.headers['x-classcad-ws-url']
-      const sessionWsUrl = typeof headerWs === 'string' && headerWs.length > 0 ? headerWs : wsUrl
-      const { server, client } = await createMcpServer({ wsUrl: sessionWsUrl, bridge: () => bridgeRegistry })
-      const transport = new StreamableHTTPServerTransport({
+      // may name the worker, the engine policy and the local-WASM key/origin it
+      // was configured with (loopback headers; the daemon's own env is the default).
+      const hdr = (name: string): string | undefined => {
+        const v = req.headers[name]
+        return typeof v === 'string' && v.length > 0 ? v : undefined
+      }
+      const sessionWsUrl = hdr('x-classcad-ws-url') ?? wsUrl
+      const enginePolicy = (hdr('x-classcad-engine') as EnginePolicy | undefined) ?? opts.engine ?? 'auto'
+      const key = hdr('x-classcad-wasm-key') ?? opts.wasm?.key
+      const sessionWasm: LocalWasmOptions | null = key
+        ? { ...(opts.wasm ?? { key }), key, origin: hdr('x-classcad-wasm-origin') ?? opts.wasm?.origin }
+        : null
+      const sessionLog = (msg: string) => log(`[${transport.sessionId ?? 'new'}] ${msg}`)
+      const { server, client } = await createMcpServer({ wsUrl: sessionWsUrl, bridge: () => bridgeRegistry, engine: enginePolicy, wasm: sessionWasm, log: sessionLog })
+      const transport: StreamableHTTPServerTransport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: id => {
           disarmIdle()
           sessions.set(id, { transport, server, client, createdAt: Date.now() })
-          log(`session ${id} opened (worker ${sessionWsUrl}); ${sessions.size} active`)
+          log(`session ${id} opened (worker ${sessionWsUrl}, engine ${enginePolicy}, local wasm ${sessionWasm ? 'available' : 'no key'}); ${sessions.size} active`)
         },
       })
       transport.onclose = () => {
@@ -291,6 +321,8 @@ if (isMain) {
     bridgeListen: process.env.CLASSCAD_BRIDGE_LISTEN,
     idleMs: process.env.CLASSCAD_DAEMON_IDLE_MS ? Number(process.env.CLASSCAD_DAEMON_IDLE_MS) : undefined,
     logFile: process.env.CLASSCAD_MCP_LOG ?? (process.env.CLASSCAD_MCP_DAEMON === '1' ? defaultDaemonLogFile() : undefined),
+    engine: process.env.CLASSCAD_ENGINE as EnginePolicy | undefined,
+    wasm: wasmOptionsFromEnv(),
   }).catch(err => {
     // Typically EADDRINUSE: another daemon won the race, or a foreign program
     // holds the port. The shim polls /health and decides what to do.

@@ -22,12 +22,30 @@
 //
 // Supports reconnecting with a different ClassCAD-Session-Id header at runtime
 // via reconnect(sessionId) — used by the use_session MCP tool.
+//
+// ── Three engines, one client ────────────────────────────────────────────────
+//   ws     a ClassCAD worker (Drogon) over WebSocket - own session or a shared
+//          one (?invite=). The default.
+//   bridge an app's in-page WASM engine reached through the bridge listener
+//          (?bridge= share link); commands are relayed to the page.
+//   wasm   the MCP's OWN engine: the published WASM build hosted in a worker
+//          thread of this process (engine/wasm.ts). Needs a key.
+// Which one is used: a token/URL decides by itself (invite → ws, bridge →
+// bridge). Without one the ENGINE POLICY applies (opts.engine / use_session's
+// engine argument): 'auto' tries the worker first and falls back to the local
+// WASM when the worker is not reachable; 'drogon' insists on the worker;
+// 'wasm' goes local right away. The replies of both WASM paths have the same
+// shape (messages + binary packages) and share one delivery path.
 
 import WebSocket from 'ws'
 import { randomUUID } from 'crypto'
 import type { ApiResult, Graphic, Message, Structure } from './types.js'
 import type { AppConnection, BridgeRegistry } from './bridge/server.js'
 import type { EngineExecuteResult } from './bridge/protocol.js'
+import { startLocalEngine, type LocalEngine, type LocalWasmOptions } from './engine/wasm.js'
+
+export type EnginePolicy = 'auto' | 'drogon' | 'wasm'
+export type Transport = 'ws' | 'bridge' | 'wasm'
 
 const DEFAULT_URL = 'ws://0.0.0.0:9094/'
 const REQUEST_TIMEOUT = 30_000
@@ -56,6 +74,12 @@ export type ConnectOptions = {
   sessionId?: string | null // optional — initial session id to send as ClassCAD-Session-Id header
   /** Accessor for the bridge registry (apps announcing share tokens); needed for reconnectBridge. */
   bridge?: () => BridgeRegistry | null
+  /** Which engine to use when no token/URL decides it. Default 'auto'. */
+  engine?: EnginePolicy
+  /** Settings of the local WASM engine; null/undefined = no key = not available. */
+  wasm?: LocalWasmOptions | null
+  /** Where connection decisions are reported (stderr / daemon log). */
+  log?: (msg: string) => void
 }
 
 export type Client = {
@@ -79,7 +103,7 @@ export type Client = {
   setEmissionConfig: (partial: Record<string, unknown>) => Promise<Record<string, unknown>>
   /** @deprecated alias of pull() that returns the structure — kept for existing tools. */
   refreshTree: () => Promise<Structure | null>
-  reconnect: (sessionId: string | null) => Promise<void>
+  reconnect: (sessionId: string | null, engine?: EnginePolicy) => Promise<void>
   /** Reconnect to a DIFFERENT server URL — e.g. a multi-client token/invite URL (`wss://…/?invite=…`), used verbatim. */
   reconnectUrl: (url: string) => Promise<void>
   /**
@@ -88,8 +112,14 @@ export type Client = {
    * is relayed to the app (engine.execute) instead of a WebSocket worker.
    */
   reconnectBridge: (token: string) => Promise<void>
-  /** 'ws' (a ClassCAD worker over WebSocket) or 'bridge' (an app's in-page engine). */
-  readonly transport: 'ws' | 'bridge'
+  /** 'ws' (a ClassCAD worker over WebSocket), 'bridge' (an app's in-page engine) or 'wasm' (the MCP's own engine). */
+  readonly transport: Transport
+  /** The engine policy in force when no token/URL decides ('auto' | 'drogon' | 'wasm'). */
+  readonly engine: EnginePolicy
+  /** True when a key for the local WASM engine is configured. */
+  readonly wasmAvailable: boolean
+  /** The running local engine, if any. */
+  readonly localEngine: LocalEngine | null
   /** The share token this client joined with (invite or bridge token), or null. */
   readonly shareToken: string | null
   /** True while the engine link is usable. */
@@ -144,8 +174,16 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // `bridgeToken` on the bridge listener; the app runs them on its WASM engine
   // and returns everything the engine emitted. The replies are normalized to
   // the worker's frame shape and fed through handleFrame like WS frames.
-  let transport: 'ws' | 'bridge' = 'ws'
+  let transport: Transport = 'ws'
   let bridgeConn: AppConnection | null = null
+  // ── Local WASM engine (engine/wasm.ts) ──
+  // Started on first use under the 'wasm' policy (or 'auto' with the worker
+  // unreachable); kept for the client's lifetime — a restart costs seconds
+  // and there is no other session to switch to. close() terminates it.
+  let localEngine: LocalEngine | null = null
+  let policy: EnginePolicy = opts.engine ?? 'auto'
+  const wasmAvailable = () => !!opts.wasm?.key
+  const log = opts.log ?? (() => {})
   let bridgeToken: string | null = null
   let bridgeUnsubClose: (() => void) | null = null
   let bridgePeerId: string | null = null
@@ -157,25 +195,38 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   const bridgeContainers = new Map<string, any>()
 
   function send(obj: Record<string, unknown>): void {
-    if (transport === 'bridge') {
-      sendViaBridge(obj)
+    if (transport === 'bridge' || transport === 'wasm') {
+      sendViaEngine(obj)
       return
     }
     if (!ws) throw new Error('WebSocket not open')
     ws.send(JSON.stringify(obj))
   }
 
-  function sendViaBridge(req: Record<string, unknown>): void {
-    const conn = bridgeConn
+  /** Bridge and local WASM: one request → everything the engine emitted for it. */
+  function sendViaEngine(req: Record<string, unknown>): void {
     const txId = String(req.transactionID)
-    if (!conn) {
-      const entry = pending.get(txId)
-      pending.delete(txId)
-      entry?.reject(new Error('bridge not attached — call use_session with the app\'s share link'))
-      return
+    let run: Promise<EngineExecuteResult>
+    if (transport === 'wasm') {
+      if (!localEngine) {
+        const entry = pending.get(txId)
+        pending.delete(txId)
+        entry?.reject(new Error('local WASM engine is not running'))
+        return
+      }
+      run = localEngine.execute(req)
+    } else {
+      const conn = bridgeConn
+      if (!conn) {
+        const entry = pending.get(txId)
+        pending.delete(txId)
+        entry?.reject(new Error('bridge not attached — call use_session with the app\'s share link'))
+        return
+      }
+      run = conn.request<EngineExecuteResult>('engine.execute', req)
     }
-    conn.request<EngineExecuteResult>('engine.execute', req).then(
-      res => deliverBridgeResult(req, res),
+    run.then(
+      res => deliverEngineResult(req, res),
       err => {
         const entry = pending.get(txId)
         if (entry) {
@@ -186,8 +237,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     )
   }
 
-  /** Turns an engine.execute reply into worker-shaped Result frames and delivers them. */
-  function deliverBridgeResult(req: Record<string, unknown>, res: EngineExecuteResult): void {
+  /** Turns an engine reply (bridge or local WASM) into worker-shaped Result frames and delivers them. */
+  function deliverEngineResult(req: Record<string, unknown>, res: EngineExecuteResult): void {
     for (const pkg of res.binaryMessages ?? []) {
       for (const c of (pkg as any)?.containers ?? []) {
         if (c && c.id != null) bridgeContainers.set(String(c.id), c)
@@ -308,12 +359,63 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       if (bridgeConn) return
       throw new Error('The app behind the share link is gone (bridge closed). Reopen the share in the app and call use_session again.')
     }
-    if (ws && ws.readyState === WebSocket.OPEN) return
+    if (transport === 'wasm' && localEngine) return
+    if (transport === 'ws' && ws && ws.readyState === WebSocket.OPEN) return
     if (connectPromise) return connectPromise
-    connectPromise = openWs(currentSessionId).finally(() => {
+    connectPromise = openByPolicy(policy, currentSessionId).finally(() => {
       connectPromise = null
     })
     return connectPromise
+  }
+
+  /**
+   * Opens the engine the policy asks for. 'auto' = the worker, and when it
+   * is not reachable (refused/timeout — not a failure AFTER connecting) the
+   * local WASM engine, if a key is configured. Explicit session ids only
+   * make sense on a worker: with one given, 'auto' does not fall back.
+   */
+  async function openByPolicy(how: EnginePolicy, sessionId: string | null): Promise<void> {
+    if (how === 'wasm') {
+      if (!wasmAvailable()) throw new Error('No local WASM engine: set CLASSCAD_WASM_KEY (a ClassCAD key from classcad.ch/user) to let the MCP host the engine itself, or use engine "drogon" with a running ClassCAD worker.')
+      await openWasm()
+      return
+    }
+    try {
+      await openWs(sessionId)
+    } catch (err) {
+      const unreachable = err instanceof Error && (err as Error & { connectFailure?: boolean }).connectFailure === true
+      if (how === 'auto' && unreachable && !sessionId && wasmAvailable()) {
+        log(`no ClassCAD worker at ${currentUrl} (${(err as Error).message}) — using the local WASM engine`)
+        await openWasm()
+        return
+      }
+      if (unreachable && how === 'auto' && !wasmAvailable()) {
+        throw new Error(
+          `No ClassCAD worker reachable at ${currentUrl} (${(err as Error).message}). Start one (classcad-cli worker) or set CLASSCAD_WS_URL — ` +
+            'or set CLASSCAD_WASM_KEY so the MCP can host the engine itself (local WASM).',
+        )
+      }
+      throw err
+    }
+  }
+
+  /** Switches this client to the MCP's own WASM engine (started on first use). */
+  async function openWasm(): Promise<void> {
+    if (ws && ws.readyState <= WebSocket.OPEN) {
+      try {
+        ws.close()
+      } catch {}
+      ws = undefined
+    }
+    if (transport === 'bridge') detachBridge()
+    resetCaches()
+    transport = 'wasm'
+    currentSessionId = null
+    inviteToken = null
+    if (!localEngine) {
+      localEngine = await startLocalEngine({ ...opts.wasm!, log })
+      await bootstrapSession()
+    }
   }
 
   function execute<T = unknown>(task: object): Promise<ApiResult<T>> {
@@ -323,6 +425,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   function close(): void {
     if (transport === 'bridge') detachBridge()
     if (ws && ws.readyState <= WebSocket.OPEN) ws.close()
+    if (localEngine) {
+      localEngine.close()
+      localEngine = null
+    }
   }
 
   function getLastGraphic(): Graphic | null {
@@ -528,10 +634,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   async function openWs(sessionId: string | null): Promise<void> {
-    if (transport === 'bridge') {
-      detachBridge()
-      transport = 'ws'
-    }
+    if (transport === 'bridge') detachBridge()
+    // Leaving the local engine for a worker: the engine stays warm in case
+    // the policy brings us back; close() ends it with the client.
+    transport = 'ws'
     if (ws && ws.readyState <= WebSocket.OPEN) {
       try {
         ws.close()
@@ -553,10 +659,19 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     const sock = new WebSocket(currentUrl, wsOpts)
     ws = sock
 
+    // Failures HERE mean "no worker there" (refused, unreachable, timeout) —
+    // marked so the policy can fall back; failures after the open are not.
     await new Promise<void>((resolve, reject) => {
+      const fail = (err: Error) => {
+        ;(err as Error & { connectFailure?: boolean }).connectFailure = true
+        try {
+          sock.close()
+        } catch {}
+        reject(err)
+      }
       sock.on('open', () => resolve())
-      sock.on('error', (err) => reject(err))
-      if (!debug) setTimeout(() => reject(new Error('Connection timeout')), CONNECT_TIMEOUT)
+      sock.on('error', (err) => fail(err))
+      if (!debug) setTimeout(() => fail(new Error('Connection timeout')), CONNECT_TIMEOUT)
     })
     sock.on('message', (d, b) => handleFrame(d, b))
 
@@ -566,7 +681,11 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     await bootstrapSession()
   }
 
-  async function reconnect(sessionId: string | null): Promise<void> {
+  /**
+   * use_session without a URL: a named worker session, or "whatever the
+   * policy says" (engine argument; undefined keeps the client's policy).
+   */
+  async function reconnect(sessionId: string | null, engine?: EnginePolicy): Promise<void> {
     generation++
     inviteToken = null
     // Always perform an open so the caller gets back a connected, usable
@@ -574,7 +693,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     connectPromise = null
     currentUrl = baseUrl
     currentSessionId = sessionId
-    await openWs(sessionId)
+    if (engine) policy = engine
+    await openByPolicy(sessionId ? 'drogon' : policy, sessionId)
   }
 
   async function reconnectUrl(newUrl: string): Promise<void> {
@@ -624,11 +744,22 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     get transport() {
       return transport
     },
+    get engine() {
+      return policy
+    },
+    get wasmAvailable() {
+      return wasmAvailable()
+    },
+    get localEngine() {
+      return localEngine
+    },
     get shareToken() {
       return bridgeToken ?? inviteToken
     },
     get connected() {
-      return transport === 'bridge' ? bridgeConn !== null : !!ws && ws.readyState === WebSocket.OPEN
+      if (transport === 'bridge') return bridgeConn !== null
+      if (transport === 'wasm') return localEngine !== null
+      return !!ws && ws.readyState === WebSocket.OPEN
     },
     get sessionId() {
       return currentSessionId

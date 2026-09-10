@@ -17,9 +17,14 @@ import { dirname, join } from 'node:path'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
 import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
-import { DAEMON_HOST, DEFAULT_DAEMON_PORT, defaultDaemonLogFile } from './daemon.js'
+import { DAEMON_HOST, DEFAULT_DAEMON_PORT, defaultDaemonLogFile, daemonBuildStamp } from './daemon.js'
+import { wasmOptionsFromEnv } from './engine/wasm.js'
+import type { EnginePolicy } from './client.js'
 
 const WS_URL = process.env.CLASSCAD_WS_URL ?? DEFAULT_WS_URL
+/** Engine policy for this tab's session: auto (worker, else local WASM) | drogon | wasm. */
+const ENGINE = (process.env.CLASSCAD_ENGINE as EnginePolicy | undefined) ?? 'auto'
+const WASM = wasmOptionsFromEnv()
 const DAEMON_PORT = Number(process.env.CLASSCAD_MCP_PORT ?? DEFAULT_DAEMON_PORT)
 /** Full daemon base URL override (tests, unusual setups). */
 const DAEMON_URL = process.env.CLASSCAD_MCP_URL ?? `http://${DAEMON_HOST}:${DAEMON_PORT}`
@@ -30,6 +35,7 @@ const log = (msg: string) => process.stderr.write(`[classcad-mcp] ${msg}\n`)
 type Health = {
   name?: string
   version?: string
+  build?: string
   pid?: number
   sessions?: number
   bridge?: string | null
@@ -96,11 +102,18 @@ async function spawnDaemon(): Promise<Health | null> {
  * Finds a daemon of this version, or starts one. Returns null when neither is
  * possible (foreign program on the port) — the caller then serves in-process.
  */
+/** True when the running daemon is another version or another build of this package. */
+function stale(h: Health): boolean {
+  if (h.version !== VERSION) return true
+  const mine = daemonBuildStamp()
+  return !!h.build && mine !== 'unknown' && h.build !== mine
+}
+
 async function ensureDaemon(): Promise<Health | null> {
   let h = await health()
-  if (h && h.version !== VERSION) {
-    // An older daemon (from a previous install) — ask it to leave when idle.
-    log(`daemon ${h.version} running, this MCP is ${VERSION}: asking it to shut down`)
+  if (h && stale(h)) {
+    // An older daemon (previous install or previous build) — ask it to leave when idle.
+    log(`daemon ${h.version} (build ${h.build ?? '?'}) running, this MCP is ${VERSION} (build ${daemonBuildStamp()}): asking it to shut down`)
     try {
       const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', signal: AbortSignal.timeout(1500) })
       if (res.ok) {
@@ -110,8 +123,8 @@ async function ensureDaemon(): Promise<Health | null> {
     } catch {
       /* fall through: use it as is */
     }
-    if (h && h.version !== VERSION) {
-      log(`daemon ${h.version} still has sessions; using it (restart it later for ${VERSION})`)
+    if (h && stale(h)) {
+      log(`daemon ${h.version} (build ${h.build ?? '?'}) still has ${h.sessions ?? '?'} session(s); using it as is — it picks up the new build once all its tabs are closed (or: close them and POST ${DAEMON_URL}/shutdown)`)
       return h
     }
   }
@@ -131,7 +144,15 @@ async function ensureDaemon(): Promise<Health | null> {
 /** Forward stdio (host) ⇄ HTTP (daemon) message by message. */
 async function proxyToDaemon(): Promise<void> {
   const upstream = new StreamableHTTPClientTransport(new URL(`${DAEMON_URL}/mcp`), {
-    requestInit: { headers: { 'x-classcad-ws-url': WS_URL } },
+    // Per-session settings travel as loopback headers: the daemon may have
+    // been started by another tab with a different configuration.
+    requestInit: {
+      headers: {
+        'x-classcad-ws-url': WS_URL,
+        'x-classcad-engine': ENGINE,
+        ...(WASM ? { 'x-classcad-wasm-key': WASM.key, ...(WASM.origin ? { 'x-classcad-wasm-origin': WASM.origin } : {}) } : {}),
+      },
+    },
   })
   const stdio = new StdioServerTransport()
   let done = false
@@ -173,7 +194,7 @@ async function proxyToDaemon(): Promise<void> {
 
 /** Last resort: the MCP in this process, without a bridge listener. */
 async function serveInProcess(): Promise<void> {
-  const { server, client } = await createMcpServer({ wsUrl: WS_URL, bridge: () => null })
+  const { server, client } = await createMcpServer({ wsUrl: WS_URL, bridge: () => null, engine: ENGINE, wasm: WASM, log })
   const shutdown = () => {
     try {
       client.close()

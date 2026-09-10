@@ -31,8 +31,9 @@ For the full wire protocol, configuration flags, session lifecycle, frame schema
 
 ```
 1. Open WebSocket → ws://host:port/  (port 9094 default dev)
-2. Send Configuration command (REQUIRED — enables server push)
-3. Send GetTree → receive full structure snapshot
+2. Send SetEmissionConfig with the emission profile of this connection (optional —
+   the default is full content on every Result; scripting sets everything off)
+3. Send GetTree → receive full structure snapshot (always, whatever the flags)
 4. Ready for Execute commands
 ```
 
@@ -70,9 +71,9 @@ The Drogon server injects INFO-level (level=31) trace messages (`COMMANDCALL:`, 
 
 The WSClient filters these out before building the ServerResponse. If you see features created but not auto-opening, check this filtering.
 
-### 2. Configuration is Mandatory
+### 2. Emission config is per connection
 
-Without sending a Configuration command first, the server processes commands but **never pushes** structure, graphics, or messages back. The UI will appear frozen.
+The server keeps the emission flags per connection: `SetEmissionConfig { config: {...} }` merges a partial set and echoes the effective flags, `GetEmissionConfig` echoes them. A fresh connection has full content in bundled delivery. A `config` field on any other request is ignored. `GetTree` always returns the structure and `v1.common.requestVisualisation` always returns its graphic, so a fully suppressed connection can still fetch both explicitly.
 
 ### 3. result Double-Wrapping
 
@@ -198,7 +199,7 @@ function handleFrame(data, isBinary) {
 }
 ```
 
-### Connection + Configuration (must be first)
+### Connection + SetEmissionConfig (scripting profile)
 
 ```js
 ws = new WebSocket(WS_URL)
@@ -208,9 +209,9 @@ await new Promise((resolve, reject) => {
 })
 ws.on('message', (data, isBinary) => handleFrame(data, isBinary))
 
-// Configuration is MANDATORY — without it the server silently swallows commands
-send({
-  command: 'Configuration', commandVersion: 'v1',
+// Per-connection emission config: set once, restore/change any time.
+// Scripting wants results only — the tree comes from GetTree on demand.
+await request('SetEmissionConfig', {
   config: {
     sendStructure: true,          // get structure in Result frames
     sendStructure_Patch: true,
@@ -225,20 +226,19 @@ send({
     sendMessages: true,
     sendMessages_Immediately: false,
   },
-})
-await new Promise(r => setTimeout(r, 300))   // wait for config ack
+})   // tracked: resolves with the effective flags in `result`
 ```
 
 ### Key Findings from Live Testing
 
-#### Configuration response includes an ERROR message — this is normal
-The first Configuration command returns `maxLevel: 51` with message `"ClassCAD is already initialized!"`. This is **not a failure** — ignore it. The config `result` will be `1` (success).
+#### SetEmissionConfig replies with the effective flags
+`result` is the full flag set after the merge — feed it back into a later `SetEmissionConfig` to restore. (The legacy `Configuration` command still answers with the benign `maxLevel: 51` "ClassCAD is already initialized!" message.)
 
 #### `ws.on('message')` callback signature
 With the `ws` npm package, the callback is `(data, isBinary)` — **not** `(data)`. Check `isBinary` to skip binary graphic frames. Checking `Buffer.isBuffer(data)` alone is unreliable because text frames also arrive as Buffers.
 
 #### Disable all `sendGraphic_*` flags for scripting
-Graphics produce binary frames and bloat responses. For headless scripting (no 3D viewport), disable all graphic flags in the Configuration. Structure data still comes through in Result frames.
+Graphics produce binary frames and bloat responses. For headless scripting (no 3D viewport), switch all graphic categories off with `SetEmissionConfig`. Scope it to a script (read the config, suppress, run, restore — what `@classcad/script`'s `runScript` does) rather than for the whole connection: in a shared session the server broadcasts what YOU emit, so a permanently suppressed client starves the other participants. To read the graphic while suppressed either switch `sendGraphic_Kernel` on around one `GetTree` or call `v1.common.requestVisualisation({ ids })` for specific solids — it delivers its graphic regardless of the flags.
 
 #### Set `sendStructure_Immediately: false` for scripting
 When `true`, structure arrives as intermediate frames that need separate handling. When `false`, structure is bundled into the final `Result` frame, simplifying the client.
@@ -283,7 +283,8 @@ for (let i = 0; i < 10; i++) {
 const positions = (await api.v1.part.getGeometryPositions({ elems: [faceId1, edgeId2] })).result
 // → [{ id: -1, positions: [{x,y,z}, ...] }, ...]
 
-// 7. Get full structure tree (raw protocol — not available through api.v1.*)
+// 7. Get full structure tree (raw protocol — not available through api.v1.*).
+//    GetTree returns the structure even when sendStructure is off.
 const tree = await request('GetTree')
 // → tree.structure.tree has all objects with members, children, etc.
 ```

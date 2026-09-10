@@ -6,17 +6,23 @@
 // contract ({ execute, request, getLastGraphic, getGraphic }), so one
 // connection serves scripts and renders alike.
 //
-// ── Emission model (v1, per request) ─────────────────────────────────────────
-// CommandConfig is PER COMMAND on the server; a connect-time Configuration
-// command has no persistent effect. So every request carries its own flags:
-//   • mutations (execute) → SUPPRESS: no structure, no graphics, messages on.
-//     A 100-command script costs 100 small Results, not 100 trees + graphics.
-//   • pull() → one GetTree with PULL flags: full structure snapshot AND full
-//     graphic bundled on that single Result. Both caches are filled by the
-//     same round trip.
-// A mutation counter makes the caches self-invalidating: api.tree() /
-// api.graphic() only hit the server when something changed since the last
-// pull — `tree(); tree()` or `tree(); graphic()` is one request, not two.
+// ── Emission model (per CONNECTION, suppression per SCRIPT) ──────────────────
+// The engine keeps ONE CommandConfig per connection (a per-request `config`
+// field is ignored). This session does NOT touch it on connect: the
+// connection runs with the engine's defaults (full content, bundled), so an
+// interactive app sharing the same engine session keeps receiving our
+// mutations' structure and graphic through the server's broadcast.
+//   • runScript() (executor) reads the config, switches to SUPPRESS_EMISSION
+//     (no structure, no graphics, messages on) for the duration of ONE
+//     script and restores the previous flags afterwards - a 100-command
+//     script costs 100 small Results, not 100 trees + graphics.
+//   • pull() → GetTree. The structure ALWAYS comes back (GetTree is an
+//     explicit request, the engine ignores sendStructure for it). Inside a
+//     suppressed script the pull switches sendGraphic_Kernel on around the
+//     GetTree (PULL_GRAPHIC_ON) and back; outside it is a plain GetTree.
+// Caches: a mutation counter makes them self-invalidating; a Result that
+// carries the structure (full emission outside scripts) keeps the tree cache
+// current without a pull, the complete graphic only ever comes from a pull.
 
 import WebSocket from 'ws'
 import { randomUUID } from 'node:crypto'
@@ -25,38 +31,9 @@ import type { Envelope, ScriptSession, Task } from './types.js'
 const DEFAULT_URL = 'ws://0.0.0.0:9094/'
 const REQUEST_TIMEOUT = 30_000
 
-/** Per-request flags for mutations: results only (plus messages for error handling). */
-export const SUPPRESS_EMISSION: Record<string, unknown> = {
-  sendStructure: false,
-  sendGraphic_Kernel: false,
-  sendGraphic_Sketch: false,
-  sendGraphic_StructureObj: false,
-  sendGraphic_Invisible: false,
-  sendMessages: true,
-  sendMessages_Immediately: false,
-}
-
-/** Per-request flags for the one pull: bundled snapshot + JSON graphic on the Result. */
-export function pullEmission(graphics: boolean): Record<string, unknown> {
-  return {
-    sendStructure: true,
-    sendStructure_Patch: false,
-    sendStructure_Immediately: false,
-    // Kernel graphics only — the content the harness/renderer contract has
-    // always been built on. Sketch/structure-object/invisible categories are
-    // deliberately off so renders stay identical to the previous behavior.
-    sendGraphic_Kernel: graphics,
-    sendGraphic_Sketch: false,
-    sendGraphic_StructureObj: false,
-    sendGraphic_Invisible: false,
-    sendGraphic_Compressed: false,
-    sendGraphic_Immediately: false,
-    sendGraphic_ImmediatelyBinary: false,
-    sendGraphic_Multipackage: false,
-    sendMessages: true,
-    sendMessages_Immediately: false,
-  }
-}
+import { PULL_GRAPHIC_ON, SUPPRESS_EMISSION } from './emission.js'
+// Re-exported for existing importers; the profiles live in ./emission.ts.
+export { SUPPRESS_EMISSION, PULL_GRAPHIC_ON }
 
 export interface NodeSessionOptions {
   /** Include kernel graphics in pulls (api.graphic()). @defaultValue true */
@@ -70,9 +47,17 @@ export interface NodeSessionOptions {
 export interface NodeSession extends ScriptSession {
   /**
    * Raw protocol request (e.g. `request('GetTree')`). Counts as a potential
-   * mutation unless `extra.config` marks it read-only via `track: false`.
+   * mutation unless `opts.track === false` marks it read-only.
    */
   request(command: string, extra?: Record<string, unknown>, opts?: { track?: boolean }): Promise<Envelope>
+  /** Effective per-connection emission config of this session (server-side state). */
+  getEmissionConfig(): Promise<Record<string, unknown>>
+  /**
+   * Merge `partial` into this session's connection config and return the
+   * effective flags. runScript uses this pair to suppress payloads for one
+   * script and restore them; callers changing it by hand must restore too.
+   */
+  setEmissionConfig(partial: Record<string, unknown>): Promise<Record<string, unknown>>
   /** Latest pulled graphic payload (renderer-client contract). */
   getLastGraphic(): { containers?: any[] } | null
   /** Latest pulled structure snapshot ({ tree, root, … }). */
@@ -88,14 +73,24 @@ export interface NodeSession extends ScriptSession {
 export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessionOptions = {}): Promise<NodeSession> {
   const graphics = opts.graphics !== false
   const debug = opts.debug === true
-  const pending = new Map<string, { resolve: (v: Envelope) => void; reject: (e: Error) => void }>()
+  const pending = new Map<string, { resolve: (v: Envelope) => void; reject: (e: Error) => void; at: number }>()
 
   let lastGraphic: { containers?: any[] } | null = null
   let lastStructure: Record<string, any> | null = null
-  // Cache bookkeeping: `version` bumps on every tracked request; a pull records
-  // the version it served. Equal → caches are current → no round trip.
+  // Cache bookkeeping: `version` bumps on every tracked request. treeVersion
+  // is the version whose structure the tree cache holds (fed by every Result
+  // that carries a structure snapshot - full emission - or by a pull);
+  // graphicVersion the one the graphic cache holds (fed by pulls only: an
+  // Execute Result under full emission carries the changed ids' graphic, not
+  // the complete model). Equal to `version` → current → no round trip.
   let version = 0
-  let pulledVersion = -1
+  let treeVersion = -1
+  let graphicVersion = -1
+  // Last known sendGraphic_Kernel of the connection, learned from every
+  // GetEmissionConfig/SetEmissionConfig echo. null = never asked (engine
+  // default: on). Lets pull() decide without an extra round trip whether it
+  // has to switch the kernel graphic on for the GetTree.
+  let knownKernel: boolean | null = null
 
   const ws = new WebSocket(url)
   await new Promise<void>((resolve, reject) => {
@@ -129,13 +124,18 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     // Filter INFO traces (level 31).
     const messages = ((frame.messages as any[]) || []).filter(m => m.level > 31)
 
-    // A pull delivers the COMPLETE graphic — replace, never merge (a merge
-    // would keep containers of deleted bodies alive).
-    if (frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
+    // A pull (GetTree/Sync) delivers the COMPLETE graphic — replace, never
+    // merge (a merge would keep containers of deleted bodies alive). Graphic
+    // on other Results covers only the changed ids and is ignored here.
+    const isPull = frame._from_ === 'GetTree' || frame._from_ === 'Sync'
+    if (isPull && frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
       lastGraphic = frame.graphic
+      graphicVersion = Math.max(graphicVersion, entry.at)
     }
+    // Every structure snapshot is complete (the engine sends the whole tree).
     if (frame.structure && typeof frame.structure === 'object' && !Array.isArray(frame.structure)) {
       lastStructure = frame.structure
+      treeVersion = Math.max(treeVersion, entry.at)
     }
 
     entry.resolve({
@@ -152,10 +152,11 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     if (o.track !== false) version++
     const transactionID = randomUUID()
     return new Promise<Envelope>((resolve, reject) => {
-      pending.set(transactionID, { resolve, reject })
-      // Suppression is the default for every request; callers pass their own
-      // `config` (pull, or a script that explicitly wants payloads) to override.
-      send({ command, commandVersion: 'v1', transactionID, config: SUPPRESS_EMISSION, ...extra })
+      // `at`: the model version this request's Result describes.
+      pending.set(transactionID, { resolve, reject, at: version })
+      // No emission flags travel with a request — the engine keeps them per
+      // connection (see SUPPRESS_EMISSION / setEmissionConfig).
+      send({ command, commandVersion: 'v1', transactionID, ...extra })
       if (!debug) {
         setTimeout(() => {
           if (pending.has(transactionID)) {
@@ -169,16 +170,43 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
 
   const execute = (task: Task) => request('Execute', { task: [task], options: { undoable: false } })
 
-  /** One round trip fills BOTH caches. Not tracked — it is not a mutation. */
+  // Per-connection emission config (untracked: it changes what the engine
+  // SENDS, not the model). The reply carries the effective flags in `result`;
+  // an engine without the commands answers without `result`. Nothing is set
+  // on connect - runScript scopes the suppression to a script (emission.ts).
+  const rememberKernel = (cfg: Record<string, unknown> | undefined) => {
+    if (cfg && typeof cfg.sendGraphic_Kernel === 'boolean') knownKernel = cfg.sendGraphic_Kernel
+    return cfg
+  }
+  const getEmissionConfig = async () =>
+    rememberKernel((await request('GetEmissionConfig', {}, { track: false })).result as Record<string, unknown>) as Record<string, unknown>
+  const setEmissionConfig = async (partial: Record<string, unknown>) =>
+    rememberKernel((await request('SetEmissionConfig', { config: partial }, { track: false })).result as Record<string, unknown>) as Record<string, unknown>
+
+  /**
+   * Fill BOTH caches with one GetTree. Not tracked — it is not a mutation.
+   * GetTree always returns the structure; inside a suppressed script the
+   * kernel graphic is switched on around it and back to what it was.
+   */
   async function pull(): Promise<void> {
     const at = version
-    await request('GetTree', { config: pullEmission(graphics) }, { track: false })
-    pulledVersion = at
+    const toggle = graphics && knownKernel === false
+    if (toggle) await setEmissionConfig(PULL_GRAPHIC_ON)
+    try {
+      await request('GetTree', {}, { track: false })
+      // A pull is the only source of the complete graphic: whatever it
+      // delivered (possibly nothing, e.g. graphics:false) is current now.
+      graphicVersion = Math.max(graphicVersion, at)
+    } finally {
+      if (toggle) await setEmissionConfig({ sendGraphic_Kernel: false })
+    }
   }
-  const isCurrent = () => pulledVersion === version && lastStructure !== null
+  const treeCurrent = () => treeVersion === version && lastStructure !== null
+  // No null check on lastGraphic: a pull that delivered no graphic (graphics:false, empty model) is still current.
+  const graphicCurrent = () => graphicVersion === version
 
   async function getTree(o?: { refresh?: boolean }): Promise<Record<string, any>> {
-    if (o?.refresh || !isCurrent()) await pull()
+    if (o?.refresh || !treeCurrent()) await pull()
     return lastStructure?.tree ?? {}
   }
 
@@ -222,7 +250,7 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
         /* pull below still serves the current state */
       }
     }
-    if (!isCurrent()) await pull()
+    if (!graphicCurrent()) await pull()
     return lastGraphic
   }
 
@@ -233,6 +261,8 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     getTree,
     getGraphic,
     pull,
+    getEmissionConfig,
+    setEmissionConfig,
     getLastGraphic: () => lastGraphic,
     getStructure: () => lastStructure,
     get version() {

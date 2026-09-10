@@ -3,16 +3,22 @@
 // Connects to a Drogon WS server and exposes promise-based execute()/request()
 // helpers plus a cached structure tree / graphic that MCP tools read.
 //
-// ── Emission model (v1, per request) ─────────────────────────────────────────
-// CommandConfig is PER COMMAND on the server; a connect-time Configuration
-// command has no persistent effect. So every request carries its own flags:
-//   • mutations (execute) → SUPPRESS: no structure, no graphics, messages on.
-//     A 100-command script costs 100 small Results, not 100 trees + graphics.
-//   • pull() → one GetTree with PULL flags: full structure snapshot AND full
-//     graphic bundled on that single Result. Both caches are filled by the
-//     same round trip.
-// A mutation counter makes the caches self-invalidating: getTree()/getGraphic()
-// only hit the server when something changed since the last pull.
+// ── Emission model (per CONNECTION, suppression per SCRIPT) ──────────────────
+// The engine keeps ONE CommandConfig per connection (a per-request `config`
+// field is ignored). This client does NOT touch it on connect: the MCP may
+// dock into a session shared with an interactive app (invite URL), and the
+// server broadcasts what the ORIGINATOR of a command emits - a permanently
+// suppressed MCP would mutate the model without the app ever seeing it. So
+// the connection runs with the engine's defaults (full content, bundled);
+// run_script suppresses payloads for the duration of ONE script (runScript
+// in @classcad/script reads, switches, restores) and pulls once afterwards
+// so the app and the caches converge.
+//   • pull() → GetTree. The structure ALWAYS comes back (GetTree is an
+//     explicit request); inside a suppressed script the pull switches
+//     sendGraphic_Kernel on around it (PULL_GRAPHIC_ON) and back.
+// Caches: a mutation counter makes them self-invalidating; a Result that
+// carries the structure keeps the tree cache current without a pull, the
+// complete graphic only ever comes from a pull.
 //
 // Supports reconnecting with a different ClassCAD-Session-Id header at runtime
 // via reconnect(sessionId) — used by the use_session MCP tool.
@@ -25,41 +31,19 @@ const DEFAULT_URL = 'ws://0.0.0.0:9094/'
 const REQUEST_TIMEOUT = 30_000
 const CONNECT_TIMEOUT = 5_000
 
-/** Per-request flags for mutations: results only (plus messages for error handling). */
-export const SUPPRESS_EMISSION: Record<string, unknown> = {
-  sendStructure: false,
-  sendGraphic_Kernel: false,
-  sendGraphic_Sketch: false,
-  sendGraphic_StructureObj: false,
-  sendGraphic_Invisible: false,
-  sendMessages: true,
-  sendMessages_Immediately: false,
-}
-
-/** Per-request flags for the one pull: bundled snapshot + JSON graphic on the Result. */
-export function pullEmission(graphics: boolean): Record<string, unknown> {
-  return {
-    sendStructure: true,
-    sendStructure_Patch: false,
-    sendStructure_Immediately: false,
-    // Kernel graphics only — the content the renderer contract has always
-    // been built on; other categories stay off so renders don't change.
-    sendGraphic_Kernel: graphics,
-    sendGraphic_Sketch: false,
-    sendGraphic_StructureObj: false,
-    sendGraphic_Invisible: false,
-    sendGraphic_Compressed: false,
-    sendGraphic_Immediately: false,
-    sendGraphic_ImmediatelyBinary: false,
-    sendGraphic_Multipackage: false,
-    sendMessages: true,
-    sendMessages_Immediately: false,
-  }
-}
+/**
+ * Around a graphic pull inside a suppressed script: kernel graphics only —
+ * the content the renderer contract has always been built on. Switched back
+ * right after the GetTree. (The suppression profile itself lives in
+ * @classcad/script's emission.ts and is applied by runScript.)
+ */
+export const PULL_GRAPHIC_ON: Record<string, unknown> = { sendGraphic_Kernel: true }
 
 type PendingEntry = {
   resolve: (r: ApiResult) => void
   reject: (e: Error) => void
+  /** The model version this request's Result describes (cache bookkeeping). */
+  at: number
 }
 
 type Id = number | string
@@ -83,8 +67,12 @@ export type Client = {
   getTree: (o?: { refresh?: boolean }) => Promise<Structure['tree']>
   /** Graphic, pulled only when stale. `recalc: true` regenerates first (destroys entity-injection bodies). */
   getGraphic: (o?: { recalc?: boolean }) => Promise<Graphic | null>
-  /** Forced pull of structure + graphic in one round trip. */
+  /** Forced pull of structure + graphic (GetTree, with the kernel graphic switched on around it). */
   pull: () => Promise<void>
+  /** Effective per-connection emission config (server-side state). */
+  getEmissionConfig: () => Promise<Record<string, unknown>>
+  /** Merge `partial` into the connection config; returns the effective flags. Restore SUPPRESS_EMISSION when done. */
+  setEmissionConfig: (partial: Record<string, unknown>) => Promise<Record<string, unknown>>
   /** @deprecated alias of pull() that returns the structure — kept for existing tools. */
   refreshTree: () => Promise<Structure | null>
   reconnect: (sessionId: string | null) => Promise<void>
@@ -115,10 +103,18 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
 
   let lastGraphic: Graphic | null = null
   let lastStructure: Structure | null = null
-  // Cache bookkeeping: `version` bumps on every tracked request; a pull records
-  // the version it served. Equal → caches are current → no round trip.
+  // Cache bookkeeping: `version` bumps on every tracked request. treeVersion
+  // is the version whose structure the tree cache holds (fed by every Result
+  // that carries a structure snapshot - full emission - or by a pull);
+  // graphicVersion the one the graphic cache holds (fed by pulls only).
+  // Equal to `version` → current → no round trip.
   let version = 0
-  let pulledVersion = -1
+  let treeVersion = -1
+  let graphicVersion = -1
+  // Last known sendGraphic_Kernel of the connection (from every config echo);
+  // null = never asked (engine default: on). pull() uses it to decide
+  // whether the kernel graphic must be switched on for the GetTree.
+  let knownKernel: boolean | null = null
   let ws: WebSocket | undefined = undefined
   // Tracks the *intended* session id. Starts as the value passed to connect()
   // (typically null) and is updated by reconnect(). It only becomes the
@@ -153,13 +149,18 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     }
     const messages: Message[] = (frame.messages || []).filter((m: Message) => m.level > 31)
 
-    // A pull delivers the COMPLETE graphic — replace, never merge (a merge
-    // would keep containers of deleted bodies alive).
-    if (frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
+    // A pull (GetTree/Sync) delivers the COMPLETE graphic — replace, never
+    // merge (a merge would keep containers of deleted bodies alive). Graphic
+    // on other Results covers only the changed ids and is ignored here.
+    const isPull = frame._from_ === 'GetTree' || frame._from_ === 'Sync'
+    if (isPull && frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
       lastGraphic = frame.graphic as Graphic
+      graphicVersion = Math.max(graphicVersion, entry.at)
     }
+    // Every structure snapshot is complete (the engine sends the whole tree).
     if (frame.structure && typeof frame.structure === 'object' && !Array.isArray(frame.structure)) {
       lastStructure = frame.structure as Structure
+      treeVersion = Math.max(treeVersion, entry.at)
     }
 
     entry.resolve({
@@ -176,10 +177,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     if (o.track !== false) version++
     const transactionID = randomUUID()
     return new Promise((resolve, reject) => {
-      pending.set(transactionID, { resolve: resolve as (r: ApiResult) => void, reject })
-      // Suppression is the default for every request; callers pass their own
-      // `config` (pull, or a tool that explicitly wants payloads) to override.
-      send({ command, commandVersion: 'v1', transactionID, config: SUPPRESS_EMISSION, ...extra })
+      pending.set(transactionID, { resolve: resolve as (r: ApiResult) => void, reject, at: version })
+      // No emission flags travel with a request — the engine keeps them per
+      // connection (see SUPPRESS_EMISSION / setEmissionConfig in openWs).
+      send({ command, commandVersion: 'v1', transactionID, ...extra })
       if (!debug) {
         setTimeout(() => {
           if (pending.has(transactionID)) {
@@ -218,16 +219,45 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     return lastStructure
   }
 
-  /** One round trip fills BOTH caches. Not tracked — it is not a mutation. */
+  // Per-connection emission config (untracked: it changes what the engine
+  // SENDS, not the model). The reply carries the effective flags in `result`;
+  // an engine without the commands answers without `result`. Nothing is set
+  // on connect - run_script scopes the suppression to a script.
+  function rememberKernel(cfg: Record<string, unknown> | undefined): Record<string, unknown> {
+    if (cfg && typeof cfg.sendGraphic_Kernel === 'boolean') knownKernel = cfg.sendGraphic_Kernel
+    return cfg as Record<string, unknown>
+  }
+  async function getEmissionConfig(): Promise<Record<string, unknown>> {
+    return rememberKernel((await request('GetEmissionConfig', {}, { track: false })).result as Record<string, unknown>)
+  }
+  async function setEmissionConfig(partial: Record<string, unknown>): Promise<Record<string, unknown>> {
+    return rememberKernel((await request('SetEmissionConfig', { config: partial }, { track: false })).result as Record<string, unknown>)
+  }
+
+  /**
+   * Fill BOTH caches with one GetTree. Not tracked — it is not a mutation.
+   * GetTree always returns the structure; inside a suppressed script the
+   * kernel graphic is switched on around it and back to what it was.
+   */
   async function pull(): Promise<void> {
     const at = version
-    await request('GetTree', { config: pullEmission(graphics) }, { track: false })
-    pulledVersion = at
+    const toggle = graphics && knownKernel === false
+    if (toggle) await setEmissionConfig(PULL_GRAPHIC_ON)
+    try {
+      await request('GetTree', {}, { track: false })
+      // A pull is the only source of the complete graphic: whatever it
+      // delivered (possibly nothing, e.g. graphics:false) is current now.
+      graphicVersion = Math.max(graphicVersion, at)
+    } finally {
+      if (toggle) await setEmissionConfig({ sendGraphic_Kernel: false })
+    }
   }
-  const isCurrent = () => pulledVersion === version && lastStructure !== null
+  const treeCurrent = () => treeVersion === version && lastStructure !== null
+  // No null check on lastGraphic: a pull that delivered no graphic (graphics:false, empty model) is still current.
+  const graphicCurrent = () => graphicVersion === version
 
   async function getTree(o?: { refresh?: boolean }): Promise<Structure['tree']> {
-    if (o?.refresh || !isCurrent()) await pull()
+    if (o?.refresh || !treeCurrent()) await pull()
     return (lastStructure?.tree ?? {}) as Structure['tree']
   }
 
@@ -269,7 +299,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         /* pull below still serves the current state */
       }
     }
-    if (!isCurrent()) await pull()
+    if (!graphicCurrent()) await pull()
     return lastGraphic
   }
 
@@ -335,7 +365,9 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     pending.clear()
     lastGraphic = null
     lastStructure = null
-    pulledVersion = -1
+    treeVersion = -1
+    graphicVersion = -1
+    knownKernel = null
 
     const wsOpts: WebSocket.ClientOptions = sessionId ? { headers: { 'ClassCAD-Session-Id': sessionId } } : {}
     const sock = new WebSocket(currentUrl, wsOpts)
@@ -348,8 +380,9 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     })
     sock.on('message', (d, b) => handleFrame(d, b))
 
-    // No Configuration command: it has no persistent effect on the server.
-    // Flags travel with every request (see SUPPRESS_EMISSION / pullEmission).
+    // No emission config is set here on purpose (see the header): the
+    // connection keeps the engine's defaults so a shared session's app sees
+    // everything this client emits. run_script suppresses per script.
     await bootstrapSession()
   }
 
@@ -385,6 +418,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     getTree,
     getGraphic,
     pull,
+    getEmissionConfig,
+    setEmissionConfig,
     refreshTree,
     reconnect,
     reconnectUrl,

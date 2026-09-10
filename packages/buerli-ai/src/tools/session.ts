@@ -2,9 +2,7 @@
 // @buerli.io/core store) to the @classcad/script session contract.
 //
 // Guaranteed surface (identical to the MCP/harness sessions):
-//   execute    — v1 commands; during scripts they go through the RAW client
-//                with a per-call graphic-suppressing `config` (see below),
-//                falling back to createApi when the raw client isn't reachable
+//   execute    — v1 commands through createApi (the app's own client)
 //   getTree    — the live structure tree from the store
 //   getGraphic — the live SCG graphic containers from the store (meshes/edges/
 //                vertices — scripts filter geometry themselves)
@@ -12,29 +10,63 @@
 // optional namespaces — scripts guard them (`if (api.facade) …`) or stay
 // portable by sticking to the guaranteed surface.
 //
-// ── Per-call graphic suppression (v1) ─────────────────────────────────────────
-// CommandConfig is PER COMMAND on the engine (CommandFactory::MergeConfiguration
-// reads the request's `config` for v1). Serializing the graphic on every
-// response is what makes the in-browser engine slow and memory-hungry
-// (std::bad_alloc in the response path), so run_script executes its mutations
-// with a v1 `config` that turns every graphic category off, and the graphic is
-// pulled ONCE afterwards (fetchTree = GetTree, whose Result carries structure
-// AND graphic). Structure patches stay enabled throughout — they are small,
-// and api.tree() plus the model tree UI remain live during the script.
+// ── Graphic suppression during scripts (per-CONNECTION config) ───────────────
+// The engine keeps ONE emission config per connection; run_script switches
+// every graphic category off for the duration of the script and restores the
+// app's config afterwards (BuerliCadFacade.utils.withEmissionConfig — a try/finally
+// around SetEmissionConfig). Serializing the graphic on every response is what makes
+// the in-browser engine slow and memory-hungry (std::bad_alloc in the response
+// path); with suppression a 100-command script costs 100 small Results, and
+// the graphic is pulled ONCE afterwards (fetchTree = GetTree, whose Result
+// carries structure AND graphic under the restored config). Structure patches
+// stay enabled throughout — they are small, and api.tree() plus the model tree
+// UI remain live during the script. On engines without GetEmissionConfig/SetEmissionConfig
+// (older WASM builds) withEmissionConfig runs the script with the fixed config.
 
 import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
-// Internal module — the raw per-drawing client cache is not re-exported by the
-// package index. No `exports` map in package.json, so the deep import is valid.
-// @ts-ignore — no type declarations for the deep path
-import { Globals } from '@buerli.io/classcad/build/esm/globals'
 import { getDrawing } from '@buerli.io/core'
 import type { ScriptSession, Task, Envelope } from '@classcad/script'
 import type { DrawingID } from '@buerli.io/core'
 
-/** The raw AwvNodeClient for a drawing, or null (older client builds). */
-function rawClient(drawingId: DrawingID): { request: (cmd: Record<string, unknown>) => Promise<Envelope> } | null {
-  const client = (Globals as any)?.clientCache?.[drawingId]
-  return client && typeof client.request === 'function' ? client : null
+// Emission debug trace (console.debug — visible with "Verbose" in devtools).
+// Reports what each script command cost the store: node/container counts
+// before and after, so suppression and the one pull are observable.
+function storeStats(drawingId: DrawingID): { nodes: number; containers: number } {
+  const d = getDrawing(drawingId) as any
+  return {
+    nodes: Object.keys(d?.structure?.tree ?? {}).length,
+    containers: Object.keys(d?.graphic?.containers ?? {}).length,
+  }
+}
+function dbg(msg: string, data?: Record<string, unknown>): void {
+  try {
+    // eslint-disable-next-line no-console
+    console.debug(`[buerli-ai emission] ${msg}`, data ?? '')
+  } catch {
+    /* logging must never break a script */
+  }
+}
+
+/** Connection config for a running script: no graphic category is sent. */
+export const SUPPRESS_GRAPHICS: Record<string, boolean> = {
+  sendGraphic_Kernel: false,
+  sendGraphic_Sketch: false,
+  sendGraphic_StructureObj: false,
+  sendGraphic_Invisible: false,
+}
+/** Connection config for one graphic pull inside a suppressed script (kernel + sketch content). */
+const PULL_GRAPHICS: Record<string, boolean> = { sendGraphic_Kernel: true, sendGraphic_Sketch: true }
+
+/**
+ * Runs `fn` with a temporary per-connection emission config (restored
+ * afterwards, also on error). Delegates to BuerliCadFacade.utils.withEmissionConfig;
+ * on buerli builds without it, or engines without SetEmissionConfig, `fn` runs with
+ * the fixed config — the pre-suppression behaviour.
+ */
+export async function withEmissionConfig<T>(drawingId: DrawingID, partial: Record<string, boolean>, fn: () => Promise<T>): Promise<T> {
+  const facadeWithConfig = (BuerliCadFacade as any)?.utils?.withEmissionConfig
+  if (typeof facadeWithConfig !== 'function') return fn()
+  return facadeWithConfig(drawingId, partial, fn)
 }
 
 // The engine omits brep EDGE data from graphic payloads until the graphic
@@ -45,13 +77,19 @@ async function ensureGraphicSettings(drawingId: DrawingID): Promise<void> {
   if (dbSettingsEnsured.has(String(drawingId))) return
   dbSettingsEnsured.add(String(drawingId))
   try {
-    const client = rawClient(drawingId)
-    const task = [{ 'v1.common.setDatabaseSettings': [{ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }] }]
-    if (client) await client.request({ command: 'Execute', task, options: { undoable: false } })
-    else await (createApi(drawingId) as any)?.v1?.common?.setDatabaseSettings?.({ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true })
+    await (createApi(drawingId) as any)?.v1?.common?.setDatabaseSettings?.({ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true })
   } catch {
     /* older engines — proceed without edges */
   }
+}
+
+// Emission debug hook (dev only): lets a devtools session read store stats and
+// the facade's config helpers directly — used to verify suppression on the
+// WASM transport, where no other handle exists from outside the bundle.
+try {
+  ;(globalThis as any).__buerliAiEmissionDebug = { storeStats, getDrawing, utils: (BuerliCadFacade as any)?.utils }
+} catch {
+  /* non-browser hosts */
 }
 
 /** True when the rejected value is a ClassCAD response envelope (API error), not a transport failure. */
@@ -71,13 +109,18 @@ function normalizeError(prefix: string, e: unknown): Error {
 }
 
 /**
- * Refresh tree + graphic after a graphic-suppressed run: ONE pull via
- * fetchTree (GetTree) — its Result carries the full structure AND the full
- * graphic, which the client applies to the store. `recalc: true` regenerates
- * the model first; it is opt-in because recalc DESTROYS entity-injection
- * bodies (EIF/solid.* sessions).
+ * Refresh tree + graphic: ONE pull via fetchTree (GetTree) — its Result
+ * carries the full structure AND, when the connection config allows graphics,
+ * the full graphic, which the client applies to the store. After a script the
+ * app's config is restored, so a plain fetchTree brings both. INSIDE a
+ * suppressed script (api.graphic()) pass `graphics: true`: the pull then runs
+ * under a temporary graphic-enabled config. `recalc: true` regenerates the
+ * model first; it is opt-in because recalc DESTROYS entity-injection bodies
+ * (EIF/solid.* sessions).
  */
-export async function refreshAfterScript(drawingId: DrawingID, opts?: { recalc?: boolean }): Promise<void> {
+export async function refreshAfterScript(drawingId: DrawingID, opts?: { recalc?: boolean; graphics?: boolean }): Promise<void> {
+  const before = storeStats(drawingId)
+  dbg('pull start (fetchTree)', { recalc: opts?.recalc === true, graphics: opts?.graphics === true, before })
   if (opts?.recalc === true) {
     try {
       await (createApi(drawingId) as any)?.v1?.common?.recalc?.({})
@@ -86,14 +129,22 @@ export async function refreshAfterScript(drawingId: DrawingID, opts?: { recalc?:
     }
   }
   try {
-    await (BuerliCadFacade as any)?.utils?.fetchTree?.(drawingId)
+    const fetchTree = () => (BuerliCadFacade as any)?.utils?.fetchTree?.(drawingId)
+    if (opts?.graphics === true) await withEmissionConfig(drawingId, PULL_GRAPHICS, fetchTree)
+    else await fetchTree()
   } catch {
     /* stale viewport is better than a failed script result */
   }
+  dbg('pull done', { after: storeStats(drawingId) })
 }
 
 export interface BrowserSessionOptions {
-  /** Execute mutations with a per-call v1 config that suppresses graphics (run_script does this; pull once afterwards). */
+  /**
+   * The session runs inside a graphic-suppressed connection config (run_script
+   * wraps the script in withEmissionConfig). Only affects api.graphic(): the
+   * store's graphic lags behind, so a read pulls once under a temporary
+   * graphic-enabled config.
+   */
   suppressGraphics?: boolean
 }
 
@@ -130,39 +181,24 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
       solidApiDrawings.add(String(drawingId))
     }
 
-    // Preferred path: raw client with per-call graphic suppression.
-    const client = opts.suppressGraphics ? rawClient(drawingId) : null
-    if (client) {
-      const envelope = {
-        command: 'Execute',
-        commandVersion: 'v1',
-        task: [{ [`v1.${domain}.${method}`]: [args?.[0] ?? {}] }],
-        options: { undoable: false },
-        // Per-call (v1): no graphic categories for this response; structure
-        // patches and messages keep flowing. Merged over the client's own
-        // per-request profile by WSClient / read directly by the WASM engine.
-        config: { sendGraphic_Kernel: false, sendGraphic_Sketch: false, sendGraphic_StructureObj: false, sendGraphic_Invisible: false },
-      }
-      try {
-        graphicStale = true
-        return (await client.request(envelope)) as Envelope
-      } catch (e: unknown) {
-        // The client REJECTS on maxLevel >= error but the rejection IS the
-        // response envelope — surface it like the node session does (scripts
-        // read maxLevel/messages; execute only throws on transport failures).
-        if (isEnvelope(e)) return e
-        throw normalizeError(`v1.${domain}.${method} failed`, e)
-      }
-    }
-
-    // Fallback: the regular createApi path (also used when suppression is off).
+    // The app's own client: what the engine sends back (graphic or not) is
+    // decided by the CONNECTION config, which run_script sets around the whole
+    // script (withEmissionConfig) — nothing per call.
     const fn = (createApi(drawingId) as any)?.v1?.[domain]?.[method]
     if (typeof fn !== 'function') {
       throw new Error(`v1.${domain}.${method} is not available on this client.`)
     }
+    if (opts.suppressGraphics) graphicStale = true
     try {
-      return (await fn(args?.[0] ?? {})) as Envelope
+      const before = storeStats(drawingId)
+      const res = (await fn(args?.[0] ?? {})) as Envelope
+      const after = storeStats(drawingId)
+      dbg(`execute v1.${domain}.${method}`, { suppressed: !!opts.suppressGraphics, maxLevel: res?.maxLevel, before, after, graphicDelta: after.containers - before.containers })
+      return res
     } catch (e: unknown) {
+      // The client REJECTS on maxLevel >= error but the rejection IS the
+      // response envelope — surface it like the node session does (scripts
+      // read maxLevel/messages; execute only throws on transport failures).
       if (isEnvelope(e)) return e
       throw normalizeError(`v1.${domain}.${method} failed`, e)
     }
@@ -184,20 +220,23 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
     getGraphic: async (o?: { recalc?: boolean }) => {
       await ensureGraphicSettings(drawingId)
       // Under suppression the store's graphic lags behind — pull once before
-      // the script reads it. Cached: a second graphic() without a mutation in
+      // the script reads it, under a temporary graphic-enabled config (the
+      // script's own config suppresses graphics, GetTree alone would bring
+      // only the tree). Cached: a second graphic() without a mutation in
       // between is a no-op. recalc only when explicitly requested (and never
       // after solid.* calls — it would destroy the injected bodies).
+      dbg('getGraphic', { stale: graphicStale, recalc: o?.recalc === true && !sawSolidCall })
       if (graphicStale) {
-        await refreshAfterScript(drawingId, { recalc: o?.recalc === true && !sawSolidCall })
+        await refreshAfterScript(drawingId, { recalc: o?.recalc === true && !sawSolidCall, graphics: true })
         graphicStale = false
       }
       const drawing = getDrawing(drawingId) as any
       const containers = drawing?.graphic?.containers
       if (!containers) return null
       // Filter out containers owned by CONSUMED CC_Solids — the store can keep
-      // superseded tool bodies around (especially since the suppressed raw path
-      // skips buerli's per-call graphic cleanup), and rendering them stacks old
-      // tools on top of the current part.
+      // superseded tool bodies around, and rendering them stacks old tools on
+      // top of the current part. (Kept from the raw-client era; may become
+      // unnecessary now that every call goes through buerli's own cleanup.)
       const tree = drawing?.structure?.tree ?? {}
       const live = (Object.values(containers) as import('@classcad/script').GraphicContainer[]).filter(c => {
         const owner = c.owner != null ? (tree[String(c.owner)] as import('@classcad/script').TreeNode | undefined) : undefined

@@ -291,6 +291,7 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
   const solidByPart = new Map()
   for (const [id, obj] of Object.entries<any>(tree)) {
     if (obj.class !== 'CC_Solid') continue
+    if (isConsumedSolid(tree, Number(id))) continue // superseded body — its container is stale
     let cur = obj.parent
     while (cur != null) {
       const p = tree[String(cur)]
@@ -2062,6 +2063,18 @@ export async function applyAdaptiveFaceting(host: { execute: (task: any) => Prom
   }
 }
 
+/**
+ * True when `solidId` names a CC_Solid that a later feature has superseded
+ * (`members.consumed.value === 1`). The kernel's graphic pull still ships a
+ * container for such bodies, and drawing them stacks the old body on top of
+ * the current part (a chamfered box renders as a cube with a frame on it).
+ */
+export function isConsumedSolid(tree: Tree, solidId: number | null | undefined): boolean {
+  if (solidId == null) return false
+  const node: any = tree[String(solidId)]
+  return node?.class === 'CC_Solid' && node.members?.consumed?.value === 1
+}
+
 export function analyzeSession(tree: Tree): { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } {
   const builtinNames = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
   const result: { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } = { solids: [], sketches: [], curves: [], eifs: [], workGeo: [] }
@@ -2508,7 +2521,7 @@ export async function renderSessionData(source: SessionSource, options: RenderOp
 
   // ── SOLIDS ── (type-1 containers with meshes; assemblies get per-instance transforms)
   if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0)) {
-    const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0) }
+    const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedSolid(tree, c.owner)) }
     const instances = extractAssemblyInstances(tree)
     if (options.sheet) {
       // Four views in one image; options.sheet may be an array of 4 views.

@@ -3,3 +3,4 @@
 export * from './types.js'
 export { buildScriptApi } from './api.js'
 export { runScript } from './executor.js'
+export { SUPPRESS_EMISSION, PULL_GRAPHIC_ON, suppressEmission } from './emission.js'

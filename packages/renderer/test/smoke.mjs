@@ -126,6 +126,39 @@ const leftHit = Array.from({ length: 100 }, (_, x) => x).some(coloredAt)
 const rightHit = Array.from({ length: 100 }, (_, x) => 300 + x).some(coloredAt)
 assert.ok(leftHit && rightHit, `assembly places both instances (left ${leftHit}, right ${rightHit})`)
 
+// 5b. Consumed solids: a body superseded by a later feature (members.consumed === 1)
+// still arrives as a graphic container from the kernel. It must NOT be drawn —
+// stacking it on the live body renders a chamfered box as a cube with a frame.
+// The stale body is deliberately BIGGER than the live one, so drawing it would
+// change both the auto-fit frame and the pixels.
+{
+  const stale = cubeGraphic(30)
+  stale.containers[0].id = 101
+  stale.containers[0].owner = 31
+  stale.containers[0].meshes[0].id = 3
+  stale.containers[0].edges[0].id = 4
+  const twoBodies = { ...graphic, containers: [...graphic.containers, ...stale.containers] }
+  const partTree = {
+    '20': { id: 20, class: 'CC_Part', name: 'Part', parent: null, children: [30, 31] },
+    '30': { id: 30, class: 'CC_Solid', name: 'Live', parent: 20, members: { consumed: { value: 0 } } },
+    '31': { id: 31, class: 'CC_Solid', name: 'Stale', parent: 20, members: { consumed: { value: 1 } } },
+  }
+  const liveOnlyTree = { '20': { ...partTree['20'], children: [30] }, '30': partTree['30'] }
+  const [withStale] = await renderSessionData({ tree: partTree, graphic: twoBodies }, { width: 400, height: 300, colors: 'distinct' })
+  const [liveOnly] = await renderSessionData({ tree: liveOnlyTree, graphic }, { width: 400, height: 300, colors: 'distinct' })
+  assert.ok(Buffer.compare(Buffer.from(withStale.pixels), Buffer.from(liveOnly.pixels)) === 0, 'consumed solid is not drawn (part render)')
+
+  // Same for the assembly path: the instance must bind to the LIVE solid, not the stale one.
+  const asmStale = {
+    ...asmTree,
+    '20': { ...asmTree['20'], children: [30, 31] },
+    '30': partTree['30'],
+    '31': partTree['31'],
+  }
+  const [asmWithStale] = await renderSessionData({ tree: asmStale, graphic: twoBodies }, { width: 400, height: 300 })
+  assert.ok(Buffer.compare(Buffer.from(asmWithStale.pixels), Buffer.from(asm.pixels)) === 0, 'consumed solid is not drawn (assembly render)')
+}
+
 // 5a. Color modes: native uses the model's material, distinct uses the palette
 {
   const redGraphic = cubeGraphic()

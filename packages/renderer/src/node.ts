@@ -152,8 +152,21 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
       })
     } catch (e) { /* older servers may not support it — render without edges */ }
   }
-  const treeResult = await client.request('GetTree')
-  const tree = treeResult.structure?.tree || {}
+  // Structure tree: prefer the session's cached, pull-on-demand getTree()
+  // (@classcad/script NodeSession, the MCP client) — one round trip at most,
+  // and immune to whatever emission flags the connection currently has. A
+  // raw GetTree stays the fallback for bare clients; on engines with the
+  // per-connection config model it always carries the structure, on older
+  // per-request setups it may come back without one (the session's own
+  // suppression flags ride along) — then the render would see no solids.
+  let tree: any = null
+  if (typeof client.getTree === 'function') {
+    try { tree = await client.getTree() } catch (e) { /* fall back to the raw request below */ }
+  }
+  if (!tree || Object.keys(tree).length === 0) {
+    const treeResult = await client.request('GetTree')
+    tree = treeResult.structure?.tree || tree || {}
+  }
   // options.graphic: render a PRE-FETCHED payload instead of fetching fresh.
   // Use when ids (highlight targets from a script's api.graphic()) must match
   // the rendered graphic exactly — a fresh recalc can rotate container/mesh ids.
@@ -183,17 +196,17 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
   if (content.solids.length > 0 && !hasSolidGraphic) {
     throw new Error(
       `No graphic data for ${content.solids.length} solid(s) in the session. ` +
-      `Likely cause: the client is connected with graphics disabled (Configuration sendGraphic_Kernel=false), ` +
-      `or the server did not push graphic containers. ` +
-      `Fix: reconnect with graphics enabled — or render the STL export instead: ` +
+      `Likely cause: the connection's emission config has graphics disabled (setEmissionConfig sendGraphic_Kernel=false ` +
+      `and the client's pull did not switch it on), or the server did not push graphic containers. ` +
+      `Fix: pull with graphics enabled (client.getGraphic()) — or render the STL export instead: ` +
       `renderSession(client, prefix, outDir, { source: 'stl' }) (marked as source "stl" in the result; no brep edges).`,
     )
   }
   if (content.solids.length === 0 && content.curves.length > 0 && !hasCurveGraphic) {
     throw new Error(
       `No graphic data for ${content.curves.length} curve shape(s) in the session. ` +
-      `Likely cause: the client is connected with graphics disabled, or curve tessellation is off ` +
-      `(setDatabaseSettings doCurveTessellation). There is no STL path for curves — reconnect with graphics enabled.`,
+      `Likely cause: the connection's emission config has graphics disabled (setEmissionConfig), or curve tessellation is off ` +
+      `(setDatabaseSettings doCurveTessellation). There is no STL path for curves — pull with graphics enabled.`,
     )
   }
 

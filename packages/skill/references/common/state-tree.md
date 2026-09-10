@@ -128,8 +128,12 @@ constraints in the active sketch").
 
 ## Findings & gotchas
 
-- **Structure rides every Result frame.** No need for a separate `GetTree`
-  command — the cache stays current as a side effect of any API call.
+- **Structure arrives on demand inside a script.** While a script runs the
+  harness switches structure and graphics off on its connection (restored
+  afterwards) and pulls the tree with one `GetTree` when `api.tree()` is read
+  after a change — `GetTree` always returns the structure, whatever the
+  flags. Repeated reads without a mutation in between are served from the
+  cache. Outside a script every Result carries the structure again.
 - **`updateBox` can return `maxLevel: 51` even when the update succeeds** —
   topology unchanged and the new value present in the tree. Error level alone
   is not proof of failure; verify against the tree.

@@ -152,8 +152,21 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
       })
     } catch (e) { /* older servers may not support it — render without edges */ }
   }
-  const treeResult = await client.request('GetTree')
-  const tree = treeResult.structure?.tree || {}
+  // Structure tree: prefer the session's cached, pull-on-demand getTree()
+  // (@classcad/script NodeSession, the MCP client) — one round trip at most,
+  // and immune to whatever emission flags the connection currently has. A
+  // raw GetTree stays the fallback for bare clients; on engines with the
+  // per-connection config model it always carries the structure, on older
+  // per-request setups it may come back without one (the session's own
+  // suppression flags ride along) — then the render would see no solids.
+  let tree: any = null
+  if (typeof client.getTree === 'function') {
+    try { tree = await client.getTree() } catch (e) { /* fall back to the raw request below */ }
+  }
+  if (!tree || Object.keys(tree).length === 0) {
+    const treeResult = await client.request('GetTree')
+    tree = treeResult.structure?.tree || tree || {}
+  }
   // options.graphic: render a PRE-FETCHED payload instead of fetching fresh.
   // Use when ids (highlight targets from a script's api.graphic()) must match
   // the rendered graphic exactly — a fresh recalc can rotate container/mesh ids.

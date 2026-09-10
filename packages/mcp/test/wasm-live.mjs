@@ -1,5 +1,5 @@
-// Local WASM engine contract — LIVE: needs a ClassCAD key (CLASSCAD_WASM_KEY)
-// and downloads the release assets on first run (~60 MB). Skipped otherwise.
+// Local WASM engine contract — LIVE: downloads the release assets on first
+// run (~85 MB; the dev key is built in, CLASSCAD_WASM_KEY overrides).
 //   1. engine policy "wasm": the shim serves a session on the MCP's own engine
 //      (no worker, no daemon bridge involved) — run_script, tree, snapshot work
 //   2. policy "auto" with no worker reachable: falls back to the local engine
@@ -14,7 +14,6 @@ import { dirname, join } from 'node:path'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
-const KEY = process.env.CLASSCAD_WASM_KEY
 const freePort = () => new Promise(r => { const s = createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)) }) })
 
 function shim(env) {
@@ -30,14 +29,13 @@ function shim(env) {
   return { p, call, init, tool, exit, stderr: () => stderr.join('') }
 }
 
-test('local WASM engine through the MCP (policy wasm / auto fallback / drogon)', { skip: !KEY && 'CLASSCAD_WASM_KEY not set' }, async () => {
+test('local WASM engine through the MCP (policy wasm / auto fallback / drogon)', async () => {
   const deadWorker = `ws://127.0.0.1:${await freePort()}/`   // nothing listens here
   const base = {
     CLASSCAD_MCP_PORT: String(await freePort()),
     CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: deadWorker,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
-    CLASSCAD_WASM_KEY: KEY,
   }
   // 1. policy wasm
   const a = shim({ ...base, CLASSCAD_ENGINE: 'wasm' })

@@ -480,7 +480,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
 
   async function openBridge(token: string): Promise<void> {
     const registry = opts.bridge?.() ?? null
-    if (!registry) throw new Error('The bridge listener is not running in this MCP (CLASSCAD_BRIDGE_LISTEN failed to bind).')
+    if (!registry) throw new Error('The bridge listener is not running in this MCP (CLASSCAD_BRIDGE_LISTEN failed to bind, or the MCP runs in-process without a daemon).')
     if (ws && ws.readyState <= WebSocket.OPEN) {
       try {
         ws.close()
@@ -491,7 +491,9 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     resetCaches()
     transport = 'bridge'
     bridgeToken = token
-    const conn = await registry.waitFor(token, 5_000)
+    // Apps reconnect with backoff (buerli connectBridge: 500 ms … 5 s) after a
+    // daemon restart; wait longer than the largest backoff step.
+    const conn = await registry.waitFor(token, 8_000)
     if (!conn) {
       transport = 'ws'
       bridgeToken = null

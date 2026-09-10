@@ -10,7 +10,8 @@
   "main": "dist/server.js",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=20"
@@ -24,13 +25,13 @@
     "test": "npm run build && node test/emission-live.mjs"
   },
   "dependencies": {
-    "@classcad/skill": "0.x",
+    "@classcad/skill": "^0.0.6",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "sharp": "^0.34.5",
     "ws": "^8.19.0",
     "zod": "^4.4.3",
-    "@classcad/renderer": "0.x",
-    "@classcad/script": "0.x"
+    "@classcad/renderer": "^0.1.0",
+    "@classcad/script": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

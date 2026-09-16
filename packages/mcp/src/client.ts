@@ -745,19 +745,32 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     const sock = new WebSocket(currentUrl, wsOpts)
     ws = sock
 
+    sock.on('error', (err) => log(`ClassCAD WebSocket error: ${err.message}`))
+
     // Failures HERE mean "no worker there" (refused, unreachable, timeout) —
     // marked so the policy can fall back; failures after the open are not.
     await new Promise<void>((resolve, reject) => {
+      let timer: ReturnType<typeof setTimeout> | undefined
+      const cleanup = () => {
+        if (timer) clearTimeout(timer)
+        sock.off('open', opened)
+        sock.off('error', fail)
+      }
+      const opened = () => {
+        cleanup()
+        resolve()
+      }
       const fail = (err: Error) => {
+        cleanup()
         ;(err as Error & { connectFailure?: boolean }).connectFailure = true
         try {
           sock.close()
         } catch {}
         reject(err)
       }
-      sock.on('open', () => resolve())
-      sock.on('error', (err) => fail(err))
-      if (!debug) setTimeout(() => fail(new Error('Connection timeout')), CONNECT_TIMEOUT)
+      sock.once('open', opened)
+      sock.once('error', fail)
+      if (!debug) timer = setTimeout(() => fail(new Error('Connection timeout')), CONNECT_TIMEOUT)
     })
     sock.on('message', (d, b) => handleFrame(d, b))
 

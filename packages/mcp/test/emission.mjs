@@ -68,3 +68,19 @@ test('mcp client: engine defaults outside scripts, suppression scoped to a scrip
     await worker.close()
   }
 })
+
+test('successful connection survives its handshake timeout', async () => {
+  const worker = await startFakeWorker()
+  const c = await connect(worker.url)
+  try {
+    await c.execute({ 'v1.part.create': [{ name: 'P' }] })
+    const socket = c.ws
+    await new Promise(resolve => setTimeout(resolve, 5200))
+    assert.equal(socket.readyState, 1, 'successful socket must remain open after 5 s')
+    await c.execute({ 'v1.sketch.line': [{ id: 1 }] })
+    assert.equal(c.ws, socket, 'the existing session must be preserved')
+  } finally {
+    c.close()
+    await worker.close()
+  }
+})

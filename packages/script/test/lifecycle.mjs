@@ -21,3 +21,10 @@ test('worker disconnect rejects immediately even with debug timeouts disabled',a
  const s=await connectSession(`ws://127.0.0.1:${server.address().port}`,{debug:true})
  try{await assert.rejects(s.execute({'v1.part.box':[{}]}),/disconnected/)}finally{s.close();await new Promise(r=>server.close(r))}
 })
+test('failed parallel work retains lease until other operations settle',async()=>{
+ let finish
+ const s={env:'node',execute:async task=>Object.keys(task)[0].endsWith('fail')?Promise.reject(Error('bad')):new Promise(r=>finish=r),getTree:async()=>({}),getGraphic:async()=>null}
+ const run=runScript('await Promise.all([api.v1.part.wait({}),api.v1.part.fail({})])',s)
+ await new Promise(r=>setTimeout(r,5));assert.equal(isSessionBusy(s),true)
+ finish({});assert.equal((await run).ok,false);assert.equal(isSessionBusy(s),false)
+})

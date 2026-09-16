@@ -157,7 +157,7 @@ Takes all of [`RenderOptions`](#renderoptions--the-complete-configuration-object
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `recalc` | boolean | `true` | recalc before rendering for fresh graphic state. **`common.recalc` destroys entity-injection (direct-modeling) bodies** — pass `false` for `solid.*`/EIF sessions. |
+| `recalc` | boolean | `false` | Pull current graphics without regeneration. Set true explicitly to regenerate. **`common.recalc` destroys entity-injection (direct-modeling) bodies** — pass `false` for `solid.*`/EIF sessions. |
 | `ensureGraphics` | boolean | `true` | set the graphic database settings first (required for brep edges). |
 | `source` | `'graphic'` \| `'stl'` | `'graphic'` | `'stl'` renders the tessellated **STL export** through the same z-buffer/view pipeline instead of the engine graphic — the explicit opt-in fallback for graphics-disabled clients, and an independent check of what the exported file actually contains. Never chosen automatically; marked `source: 'stl'` in the result; no brep edges. |
 
@@ -170,7 +170,7 @@ await renderSession(client, 'check', './out', { source: 'stl' })   // explicit S
 
 | Function | Signature | Description |
 | --- | --- | --- |
-| `fetchGraphic` | `(client, { recalc? }?) => Promise<graphic>` | freshest graphic: recalc first (see EIF caveat above), else the client's accumulated graphic. |
+| `fetchGraphic` | `(client, { recalc? }?) => Promise<graphic>` | Pull current graphics; regeneration is opt-in. Refresh failures propagate instead of returning stale cached geometry. |
 | `pixelsToPng` | `(pixels, w, h) => Promise<Buffer>` | RGBA → PNG bytes (sharp). |
 | `savePNG` | `(pixels, w, h, path) => Promise<void>` | RGBA → PNG file. |
 | `svgToPngBuffer` | `(svg) => Promise<Buffer>` | SVG → PNG bytes. |

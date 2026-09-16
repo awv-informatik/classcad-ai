@@ -163,6 +163,14 @@ export function drawingUsedSolidApi(drawingId: DrawingID): boolean {
   return solidApiDrawings.has(String(drawingId))
 }
 
+// Stable across store object replacements during model updates.
+const executionKeys = new Map<string, object>()
+function executionKey(drawingId: DrawingID): object {
+  const id = String(drawingId)
+  if (!executionKeys.has(id)) executionKeys.set(id, {})
+  return executionKeys.get(id)!
+}
+
 /** Create a ScriptSession over the live buerli drawing. */
 export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions = {}): BrowserScriptSession {
   let sawSolidCall = false
@@ -206,7 +214,7 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
 
   return {
     env: 'browser',
-    executionKey: getDrawing(drawingId) as object,
+    executionKey: executionKey(drawingId),
     execute,
     getTree: async (o?: { refresh?: boolean }) => {
       if (o?.refresh) {

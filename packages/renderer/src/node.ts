@@ -55,9 +55,7 @@ export async function svgToPng(svg: any, pngPath: any) {
 }
 
 /**
- * Fetch the freshest graphic payload from a live harness client: recalc first
- * (cached graphic may be stale/intermediate), fall back to the client's
- * accumulated last graphic.
+ * Fetch current graphics without regeneration by default. Propagate refresh errors.
  *
  * CAVEAT: `common.recalc` DESTROYS entity-injection (EIF/direct-modeling)
  * bodies. Pass `recalc: false` when the session used solid.* / entityInjection
@@ -130,7 +128,7 @@ async function renderStlSource(client: any, options: any) {
  *   EIF/direct-modeling sessions) and
  *   `source: 'graphic' | 'stl'` (default 'graphic'; 'stl' renders the STL export
  *   instead — explicit fallback for graphics-disabled clients, marked in the result),
- *   `quality: 'fine' | 'fast'` (default 'fine': adaptive chord tolerance scaled to
+ *   `quality: 'fine' | 'fast'` (explicit 'fine' together with recalc:true: adaptive chord tolerance scaled to
  *   the model bbox before the render fetch, previous worker params restored after;
  *   'fast' keeps the session's current tessellation)
  * @returns {Promise<{ type: string, file: string, source?: 'stl' }[]>}

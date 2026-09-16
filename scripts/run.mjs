@@ -114,6 +114,7 @@ async function main() {
         ...opts,
       })
       for (const r of renders) pngs.push(`files/${r.file}`)
+      artifacts.push({ kind: 'snapshot', label, ok: true, files: pngs })
     } catch (e) {
       artifacts.push({ kind: 'snapshot', label, ok: false, error: e.message })
       throw e

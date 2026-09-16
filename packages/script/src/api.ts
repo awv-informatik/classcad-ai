@@ -1,3 +1,4 @@
+import { captureInspection, currentSolids, graphicBounds, edgeCandidates, uniqueEdge, inspectSolid } from './inspection.js'
 // buildScriptApi — the `api` object handed to scripts.
 //
 // Guaranteed surface (identical in every environment):
@@ -11,7 +12,7 @@
 
 import type { BuildApiOptions, Envelope, MethodRegistry, ScriptSession, Task } from './types.js'
 
-const CORE_KEYS = new Set(['v1', 'tree', 'graphic', 'env'])
+const CORE_KEYS = new Set(['v1', 'tree', 'graphic', 'env', 'inspect'])
 
 // Bounded edit distance (≤ max) — enough to catch typos like bxo→box.
 function editDistanceAtMost(a: string, b: string, max: number): boolean {
@@ -135,6 +136,7 @@ export function buildScriptApi(session: ScriptSession, opts: BuildApiOptions = {
     tree: (o?: { refresh?: boolean }) => session.getTree(o),
     graphic: (o?: { recalc?: boolean }) => session.getGraphic(o),
     env: session.env,
+    inspect: { capture: () => captureInspection(original), currentSolids, graphicBounds, edgeCandidates, uniqueEdge, solid: (id: number) => inspectSolid(original, id) },
   }
   // Injected client capabilities (facade/structure/selection/…). Core keys win.
   for (const [key, value] of Object.entries(session.namespaces ?? {})) {

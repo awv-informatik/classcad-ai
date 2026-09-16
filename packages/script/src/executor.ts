@@ -78,15 +78,25 @@ export async function runScript(
   const key = session.executionKey ?? session
   if (activeRuns.has(key)) return { ok: false, pending: true, error: 'Session busy: previous work is unresolved; do not retry mutations.', logs: [] }
   let cancelled = false
+  const inFlight = new Set<Promise<unknown>>()
   const guard = () => { if (cancelled || opts.signal?.aborted) throw new Error('Run cancelled; no further CAD calls permitted') }
   const guardNamespace = (value: any): any => {
     if (!value || (typeof value !== 'object' && typeof value !== 'function')) return value
     return new Proxy(value, {
       get: (target, prop) => guardNamespace(Reflect.get(target, prop)),
-      apply: (target, receiver, args) => { guard(); return Reflect.apply(target, receiver, args) },
+      apply: (target, receiver, args) => {
+        guard()
+        const result: any = Reflect.apply(target, receiver, args)
+        if (result && typeof result.then === 'function') {
+          const tracked = Promise.resolve(result)
+          inFlight.add(tracked)
+          void tracked.then(() => inFlight.delete(tracked), () => inFlight.delete(tracked))
+        }
+        return result
+      },
     })
   }
-  const api = guardNamespace(buildScriptApi(session, opts))
+  const api = guardNamespace(buildScriptApi(guardNamespace(session), opts))
 
   const logs: string[] = []
   let logChars = 0
@@ -135,9 +145,14 @@ export async function runScript(
       guard()
       restore = opts.suppressEmission === false ? restore : await suppressEmission(session)
       guard()
-      const invoke = () => fn(api, consoleShim, consoleShim.log, ...SHADOWED_GLOBALS.map(() => undefined))
+      const invoke = async () => {
+        try { return await fn(api, consoleShim, consoleShim.log, ...SHADOWED_GLOBALS.map(() => undefined)) }
+        finally { cancelled = true; await Promise.allSettled([...inFlight]) }
+      }
       return await (session.withRunScope ? session.withRunScope(invoke) : invoke())
     } finally {
+      cancelled = true
+      await Promise.allSettled([...inFlight])
       try { await restore() } finally { activeRuns.delete(key) }
     }
   })()

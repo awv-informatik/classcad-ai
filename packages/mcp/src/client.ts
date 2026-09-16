@@ -39,6 +39,7 @@
 
 import WebSocket from 'ws'
 import { randomUUID } from 'crypto'
+import { connect as tcpConnect } from 'net'
 import type { ApiResult, Graphic, Message, Structure } from './types.js'
 import type { AppConnection, BridgeRegistry } from './bridge/server.js'
 import type { EngineExecuteResult } from './bridge/protocol.js'
@@ -50,6 +51,31 @@ export type Transport = 'ws' | 'bridge' | 'wasm'
 const DEFAULT_URL = 'ws://0.0.0.0:9094/'
 const REQUEST_TIMEOUT = 30_000
 const CONNECT_TIMEOUT = 5_000
+/** How often an 'auto' session that fell back to WASM looks for a worker again (ms). */
+const WORKER_PROBE_MS = 3_000
+
+/** True when something accepts TCP connections at the worker URL's host:port. */
+function workerListening(url: string): Promise<boolean> {
+  let host: string
+  let port: number
+  try {
+    const u = new URL(url)
+    host = u.hostname.replace(/^\[|\]$/g, '')
+    port = Number(u.port || (u.protocol === 'wss:' ? 443 : 80))
+  } catch {
+    return Promise.resolve(false)
+  }
+  return new Promise(resolve => {
+    const sock = tcpConnect({ host, port })
+    const done = (ok: boolean) => {
+      sock.destroy()
+      resolve(ok)
+    }
+    sock.once('connect', () => done(true))
+    sock.once('error', () => done(false))
+    sock.setTimeout(500, () => done(false))
+  })
+}
 
 /**
  * Around a graphic pull inside a suppressed script: kernel graphics only —
@@ -182,6 +208,13 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // and there is no other session to switch to. close() terminates it.
   let localEngine: LocalEngine | null = null
   let policy: EnginePolicy = opts.engine ?? 'auto'
+  // 'auto' landed on the local engine because no worker answered. The order is
+  // token > worker > WASM, so a worker that comes up later takes over — while
+  // the drawing is still empty; after that, switching would lose the model.
+  let autoFallback = false
+  let lastWorkerProbe = 0
+  let workerWaitingLogged = false
+  let probing = false
   const wasmAvailable = () => !!opts.wasm?.key
   const log = opts.log ?? (() => {})
   let bridgeToken: string | null = null
@@ -362,7 +395,19 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
           'or leave the app: use_session with engine "wasm" runs on the MCP\'s own local engine, engine "drogon" on the ClassCAD worker, "auto" picks.',
       )
     }
-    if (transport === 'wasm' && localEngine) return
+    if (transport === 'wasm' && localEngine) {
+      // Not single-flight on purpose: the probe itself reads the tree through
+      // request() → ensureOpen(), which must pass straight through (probing).
+      if (autoFallback && policy === 'auto' && !probing) {
+        probing = true
+        try {
+          await preferWorker()
+        } finally {
+          probing = false
+        }
+      }
+      return
+    }
     if (transport === 'ws' && ws && ws.readyState === WebSocket.OPEN) return
     if (connectPromise) return connectPromise
     connectPromise = openByPolicy(policy, currentSessionId).finally(() => {
@@ -378,6 +423,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
    * make sense on a worker: with one given, 'auto' does not fall back.
    */
   async function openByPolicy(how: EnginePolicy, sessionId: string | null): Promise<void> {
+    autoFallback = false
     if (how === 'wasm') {
       if (!wasmAvailable()) throw new Error('No local WASM engine: set CLASSCAD_WASM_KEY (a ClassCAD key from classcad.ch/user) to let the MCP host the engine itself, or use engine "drogon" with a running ClassCAD worker.')
       await openWasm()
@@ -388,8 +434,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     } catch (err) {
       const unreachable = err instanceof Error && (err as Error & { connectFailure?: boolean }).connectFailure === true
       if (how === 'auto' && unreachable && !sessionId && wasmAvailable()) {
-        log(`no ClassCAD worker at ${currentUrl} (${(err as Error).message}) — using the local WASM engine`)
+        log(`no ClassCAD worker at ${currentUrl} (${(err as Error).message || (err as { code?: string }).code || 'refused'}) — using the local WASM engine until one is up`)
         await openWasm()
+        autoFallback = true
+        lastWorkerProbe = Date.now()
         return
       }
       if (unreachable && how === 'auto' && !wasmAvailable()) {
@@ -399,6 +447,41 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         )
       }
       throw err
+    }
+  }
+
+  /**
+   * The 'auto' fallback, re-checked before commands (throttled): a worker that
+   * is listening now takes over an EMPTY local drawing. MCP tool calls run
+   * one at a time (queue.ts), so nothing else is mid-command on the engine.
+   */
+  async function preferWorker(): Promise<void> {
+    const now = Date.now()
+    if (now - lastWorkerProbe < WORKER_PROBE_MS) return
+    lastWorkerProbe = now
+    if (!(await workerListening(currentUrl))) return
+    let empty = false
+    try {
+      const tree = await getTree({ refresh: true })
+      empty = Object.values(tree).every((n: any) => n?.class === 'AllObjects')
+    } catch {
+      return
+    }
+    if (!empty) {
+      if (!workerWaitingLogged) {
+        log(`ClassCAD worker at ${currentUrl} is up, but this session's model lives on the local WASM engine — staying there (use_session engine "drogon" starts fresh on the worker)`)
+        workerWaitingLogged = true
+      }
+      autoFallback = false
+      return
+    }
+    try {
+      await openWs(null)
+      autoFallback = false
+      log(`ClassCAD worker at ${currentUrl} is up — moved this (still empty) session from the local WASM engine to the worker`)
+    } catch (err) {
+      log(`worker at ${currentUrl} listens but did not open (${(err as Error).message}) — staying on the local WASM engine`)
+      await openWasm()
     }
   }
 

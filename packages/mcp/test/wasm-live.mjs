@@ -80,3 +80,39 @@ test('local WASM engine through the MCP (policy wasm / auto fallback / drogon)',
     await c.exit()
   }
 })
+
+test('auto: a worker that comes up later takes over an EMPTY local session, never a modeled one', async () => {
+  const { startFakeWorker } = await import('../../script/test/fake-worker.mjs')
+  const workerPort = await freePort()
+  const env = {
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${workerPort}/`,   // nothing there yet
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'auto',
+  }
+  const empty = shim(env)
+  const modeled = shim(env)
+  let worker
+  try {
+    await empty.init()
+    await modeled.init()
+    // both fall back: no worker
+    assert.equal((await empty.tool('run_script', { script: 'return 1' })).isError, false)
+    assert.equal((await empty.tool('session_info')).value.transport, 'wasm')
+    const built = await modeled.tool('run_script', { script: 'await api.v1.part.create({ name: "Kept" }); return 1' })
+    assert.equal(built.isError, false, built.text)
+    assert.equal((await modeled.tool('session_info')).value.transport, 'wasm')
+
+    worker = await startFakeWorker({ port: workerPort })
+    await new Promise(r => setTimeout(r, 3200))   // past the probe throttle
+    await empty.tool('run_script', { script: 'return 2' })
+    assert.equal((await empty.tool('session_info')).value.transport, 'ws', 'empty session moved to the worker')
+    await modeled.tool('run_script', { script: 'return 2' })
+    assert.equal((await modeled.tool('session_info')).value.transport, 'wasm', 'session with a model stays on WASM')
+  } finally {
+    await empty.exit()
+    await modeled.exit()
+    await worker?.close()
+  }
+})

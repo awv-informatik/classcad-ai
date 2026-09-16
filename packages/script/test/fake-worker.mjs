@@ -29,7 +29,7 @@ export const SERVER_DEFAULT_CONFIG = {
  */
 export async function startFakeWorker(opts = {}) {
   const configCommands = opts.configCommands !== false
-  const wss = new WebSocketServer({ port: 0 })
+  const wss = new WebSocketServer({ port: opts.port ?? 0 })
   await new Promise(r => wss.once('listening', r))
   const frames = []
   let counter = 500

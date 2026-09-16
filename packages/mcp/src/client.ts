@@ -603,12 +603,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     // recalc is OPT-IN: it regenerates the whole model and DESTROYS
     // entity-injection bodies. The pull alone reflects the current model.
     if (o?.recalc === true) {
-      try {
-        await execute({ 'v1.common.recalc': [{}] })
-      } catch {
-        /* pull below still serves the current state */
-      }
+      const result = await execute({ 'v1.common.recalc': [{}] })
+      if ((result.maxLevel ?? 0) >= 51) throw new Error('Model regeneration failed: ' + JSON.stringify(result.messages))
     }
+
     if (!graphicCurrent()) await pull()
     return lastGraphic
   }

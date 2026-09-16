@@ -63,31 +63,16 @@ export async function svgToPng(svg: any, pngPath: any) {
  * bodies. Pass `recalc: false` when the session used solid.* / entityInjection
  * flows — the accumulated graphic is used as-is then.
  */
-export async function fetchGraphic(client: any, { recalc = true }: { recalc?: boolean } = {}) {
-  const { execute, getLastGraphic } = client
-  let graphic: any = null
-  // Modern clients (@classcad/script NodeSession, the MCP client) expose a
-  // cached, pull-on-demand getGraphic(): mutations no longer carry graphics,
-  // so a recalc Result is empty and the accumulated graphic is only as fresh
-  // as the last pull. getGraphic() pulls when stale; `recalc` stays opt-in.
-  if (typeof client.getGraphic === 'function') {
-    try {
-      const g = await client.getGraphic({ recalc })
-      if (g?.containers?.some((c: any) => c.meshes?.length > 0 || c.edges?.length > 0)) return g
-    } catch (e) { /* fall back to the legacy path below */ }
-  }
+export async function fetchGraphic(client: any, { recalc = false }: { recalc?: boolean } = {}) {
+  // A failed refresh is an error, never permission to show cached geometry.
+  if (typeof client.getGraphic === 'function') return client.getGraphic({ recalc })
   if (recalc) {
-    try {
-      const r = await execute({ 'v1.common.recalc': [{}] })
-      if (r.graphic?.containers?.some((c: any) => c.meshes?.length > 0 || c.edges?.length > 0)) {
-        graphic = r.graphic
-      }
-    } catch (e) { /* fall back below */ }
+    const result = await client.execute({ 'v1.common.recalc': [{}] })
+    if ((result.maxLevel ?? 0) >= 51) throw new Error('Snapshot regeneration failed')
   }
-  if (!graphic?.containers?.some((c: any) => c.meshes?.length > 0 || c.edges?.length > 0)) {
-    graphic = getLastGraphic?.() ?? graphic
-  }
-  return graphic
+  const result = await client.request('GetTree')
+  if ((result.maxLevel ?? 0) >= 51) throw new Error('Snapshot graphics refresh failed')
+  return result.graphic ?? null
 }
 
 /**
@@ -141,7 +126,7 @@ async function renderStlSource(client: any, options: any) {
  *   plus `graphic` (render this pre-fetched payload instead of fetching —
  *   keeps ids stable for highlights), `colors: 'native' | 'distinct'` ('native' default: the model's own
  *   ClassCAD colors; 'distinct': one palette color per body — use to tell bodies
- *   apart in booleans/splits/patterns), `recalc` (default true; set false for
+ *   apart in booleans/splits/patterns), `recalc` (default false; keep false for
  *   EIF/direct-modeling sessions) and
  *   `source: 'graphic' | 'stl'` (default 'graphic'; 'stl' renders the STL export
  *   instead — explicit fallback for graphics-disabled clients, marked in the result),
@@ -157,7 +142,7 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
     await savePNG(zbuf.pixels, zbuf.width, zbuf.height, `${outDir}/${file}`)
     // source: 'stl' marks this as the fallback/export-verification path — the
     // image shows the tessellated EXPORT, not the engine's brep graphic (no edges).
-    return [{ type: 'solid', file, source: 'stl' }]
+    return [{ type: 'solid', file, source: 'stl', metadata: { source: 'stl', regenerated: false, revision: client.version ?? null, facetingTol: options.facetingTol ?? 0.1, angleTol: options.angleTol ?? 6 } }]
   }
   // Without these database settings the server omits brep EDGE data from the
   // graphic containers — solids then render without their edge overlay. The
@@ -181,22 +166,15 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
   // per-request setups it may come back without one (the session's own
   // suppression flags ride along) — then the render would see no solids.
   let tree: any = null
-  if (typeof client.getTree === 'function') {
-    try { tree = await client.getTree() } catch (e) { /* fall back to the raw request below */ }
-  }
-  if (!tree || Object.keys(tree).length === 0) {
-    const treeResult = await client.request('GetTree')
-    tree = treeResult.structure?.tree || tree || {}
-  }
   // options.graphic: render a PRE-FETCHED payload instead of fetching fresh.
   // Use when ids (highlight targets from a script's api.graphic()) must match
   // the rendered graphic exactly — a fresh recalc can rotate container/mesh ids.
-  let graphic = options.graphic ?? await fetchGraphic(client, { recalc: options.recalc !== false })
+  let graphic = options.graphic ?? await fetchGraphic(client, { recalc: options.recalc === true })
 
   // Adaptive fine tessellation for the render (see applyAdaptiveFaceting).
   // Skipped when: quality 'fast' requested, a pre-fetched payload must keep its
   // ids stable, or recalc is forbidden (EIF/solid.* — re-tessellation needs it).
-  if (options.quality !== 'fast' && !options.graphic && options.recalc !== false) {
+  if (options.quality === 'fine' && !options.graphic && options.recalc === true) {
     const restore = await applyAdaptiveFaceting(client, graphic)
     if (restore) {
       try {
@@ -208,6 +186,15 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
       }
     }
   }
+
+  const revision = client.version ?? null
+  tree = options.tree ?? (typeof client.getTree === 'function'
+    ? await client.getTree()
+    : (await client.request('GetTree')).structure?.tree ?? {})
+  if (revision !== null && client.version !== revision) throw new Error('Model changed during snapshot capture; retry when idle')
+  const metadata = { source: 'graphic', revision, capturedAt: new Date().toISOString(),
+    regenerated: options.recalc === true, quality: options.recalc === true ? (options.quality ?? 'current') : 'current',
+    warnings: revision === null ? ['Model revision unavailable; capture consistency cannot be verified.'] : [] }
 
   // Explicit failure instead of a silent empty render: the tree says there is
   // renderable content, but no graphic containers arrived for it.
@@ -247,7 +234,7 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
     if (e.kind === 'pixels') await savePNG(e.pixels, e.width, e.height, `${outDir}/${file}`, e.labels)
     else await svgToPng(e.svg, `${outDir}/${file}`)
 
-    const entry: any = { type: e.type, file }
+    const entry: any = { type: e.type, file, metadata }
     if (e.sketchId != null) { entry.sketchId = e.sketchId; entry.name = e.name }
     if (e.frame) entry.frame = e.frame   // reusable via options.frame for before/after
     rendered.push(entry)

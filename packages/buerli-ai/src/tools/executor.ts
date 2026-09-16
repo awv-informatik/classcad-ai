@@ -337,13 +337,19 @@ const snapshot: ToolHandler = async (input, ctx) => {
   const { label, width, height, quality, ...renderOptions } = input as Record<string, any>
   try {
     const session = browserSession(ctx.drawingId)
-    let [tree, graphic] = await Promise.all([session.getTree(), session.getGraphic()])
+    if (renderOptions.recalc === true) {
+      if (drawingUsedSolidApi(ctx.drawingId)) throw new Error('Regeneration would destroy injected bodies; omit recalc')
+      const result = await session.execute({ 'v1.common.recalc': [{}] })
+      if ((result.maxLevel ?? 0) >= 51) throw new Error('Snapshot regeneration failed')
+    }
+    let graphic = await session.getGraphic()
+    let tree = await session.getTree()
     // Adaptive fine tessellation for the render — same central helper as the
     // node hosts (@classcad/renderer core). Needs a recalc to re-tessellate,
     // so it is skipped when the drawing ever used v1.solid.* (recalc destroys
     // injected bodies) or when the caller asks for quality:'fast'. Previous
     // worker params are restored — they persist globally across sessions.
-    if (quality !== 'fast' && !drawingUsedSolidApi(ctx.drawingId)) {
+    if (renderOptions.recalc === true && quality === 'fine' && !drawingUsedSolidApi(ctx.drawingId)) {
       const restore = await applyAdaptiveFaceting(session, graphic)
       if (restore) {
         try {
@@ -379,6 +385,7 @@ const snapshot: ToolHandler = async (input, ctx) => {
         // Reusable via options.frame for pixel-comparable before/after renders.
         frame: raster.frame,
         rendered: entries.map(e => e.type),
+        capture: { source: 'graphic', regenerated: renderOptions.recalc === true, revision: null, warnings: ['Browser model revision unavailable.'] },
       },
     }
   } catch (e) {

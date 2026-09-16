@@ -199,7 +199,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
       'payload-local), markers (probe crosshairs), sketchOverlay (sketch curves on their real plane), ' +
       'annotate (extents + axes triad + scale bar), xray (hidden geometry shines through), colors ' +
       '"distinct" (one color per body), frame (pin an earlier snapshot\'s reported frame for ' +
-      'pixel-comparable before/after). recalc:false is MANDATORY for solid.*/entity-injection sessions. ' +
+      'pixel-comparable before/after). Snapshots do not regenerate by default. Keep recalc:false for solid.*/entity-injection sessions. ' +
       'Use snapshots when a visual check genuinely helps — not after every step.',
     inputSchema: {
       type: 'object',
@@ -283,7 +283,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
         recalc: {
           type: 'boolean',
-          description: 'Default true. MUST be false for solid.*/entity-injection sessions (recalc destroys injected bodies).',
+          description: 'Default false. MUST stay false for solid.*/entity-injection sessions (recalc destroys injected bodies).',
         },
       },
     },

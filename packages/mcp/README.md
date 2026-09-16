@@ -137,7 +137,7 @@ Most hosts accept the Claude-style `mcpServers` JSON. Use the block from the Cla
 | Variable                 | Purpose                                                                                                          |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
 | `CLASSCAD_WS_URL`        | WebSocket URL of the ClassCAD worker. Default `ws://localhost:9094/`. Any reachable worker works (`wss://…`).     |
-| `CLASSCAD_SNAPSHOT_DIR`  | Where `snapshot` writes its PNGs. Default `<tmpdir>/classcad-snapshots`.                                          |
+| `CLASSCAD_SNAPSHOT_DIR`  | Where `snapshot` writes its PNGs when the call passes no `outDir`. Default `<tmpdir>/classcad-snapshots`.        |
 | `CLASSCAD_SKILL_PATH`    | Use a local `classcad-skill` checkout for docs instead of the installed `@classcad/skill` package.                |
 | `CLASSCAD_BRIDGE_LISTEN` | Listener for the in-app bridge (see below). Default `ws://127.0.0.1:9096/bridge`. The daemon starts even if it cannot bind and retries every 5 s. |
 | `CLASSCAD_MCP_PORT`      | Port of the daemon's HTTP endpoint on `127.0.0.1`. Default `9095`. Shim and daemon must agree (the shim passes it on when it starts the daemon). |
@@ -181,7 +181,7 @@ Set them in the host's MCP config `env` block; the shim passes them on to the da
 | `session_info` / `use_session` | Connection status (transport ws/bridge); attach to a named session, an invite link, or an in-app engine's `?bridge=` link |
 | `bridge.list_clients` / `bridge.get_selection` / `bridge.set_selection` | Read/write the selection of a connected CC app (see bridge) |
 
-`snapshot` returns the PNG as an inline image block **for the model** and writes it to `CLASSCAD_SNAPSHOT_DIR`. Claude Code and the desktop app's Code tab do not show tool-result images to the user — the tool result says so and names the saved file, so the model can hand it over (Claude Code: `SendUserFile`). The desktop app's chat renders it directly.
+`snapshot` returns the PNG as an inline image block **for the model** and writes it to `CLASSCAD_SNAPSHOT_DIR`. Claude Code and the desktop app's Code tab do not show tool-result images to the user — the tool result says so and names the saved file, so the model can hand it over (Claude Code: `SendUserFile`). The desktop app's chat renders it directly. Claude Code only previews sent files that live in the session's own folders (scratchpad or project) — anything else arrives as a grey placeholder card — so the tool tells the model to pass `outDir` = its scratchpad.
 
 **Tool calls are serialized.** All tools share one engine connection and one drawing, so the server runs one tool call at a time (docs lookups excepted). A `snapshot` issued in parallel with a `run_script` waits for the script instead of rendering a half-built model. Subagents of a session use the same MCP process and therefore the same queue.
 

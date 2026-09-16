@@ -19,6 +19,7 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
 import { DAEMON_HOST, DEFAULT_DAEMON_PORT, defaultDaemonLogFile, daemonBuildStamp } from './daemon.js'
 import { wasmOptionsFromEnv } from './engine/wasm.js'
+import type { JSONRPCMessage } from '@modelcontextprotocol/sdk/types.js'
 import type { EnginePolicy } from './client.js'
 
 const WS_URL = process.env.CLASSCAD_WS_URL ?? DEFAULT_WS_URL
@@ -157,20 +158,99 @@ async function ensureDaemon(): Promise<Health | null> {
   return h
 }
 
-/** Forward stdio (host) ⇄ HTTP (daemon) message by message. */
+/** Id of the initialize request the shim replays on a new daemon; its response is not the host's. */
+const REPLAY_ID = 'classcad-shim-reinitialize'
+
+/**
+ * Forward stdio (host) ⇄ HTTP (daemon) message by message.
+ *
+ * The daemon may go away under a live tab (`classcad-mcp stop --force`, a
+ * crash). The host initialized once and will not do it again, so the shim
+ * keeps the host's initialize request: when a send fails it finds or starts a
+ * daemon, replays the handshake there and resends. The tab continues on a
+ * fresh session (an empty drawing) instead of hanging on unanswered requests.
+ */
 async function proxyToDaemon(): Promise<void> {
-  const upstream = new StreamableHTTPClientTransport(new URL(`${DAEMON_URL}/mcp`), {
-    // Per-session settings travel as loopback headers: the daemon may have
-    // been started by another tab with a different configuration.
-    requestInit: {
-      headers: {
-        'x-classcad-ws-url': WS_URL,
-        'x-classcad-engine': ENGINE,
-        ...(WASM ? { 'x-classcad-wasm-key': WASM.key, ...(WASM.origin ? { 'x-classcad-wasm-origin': WASM.origin } : {}) } : {}),
-      },
-    },
-  })
   const stdio = new StdioServerTransport()
+  let upstream!: StreamableHTTPClientTransport
+  let hostInitialize: JSONRPCMessage | null = null
+  const replayWaiters = new Set<() => void>()
+
+  const connect = async (): Promise<StreamableHTTPClientTransport> => {
+    const t = new StreamableHTTPClientTransport(new URL(`${DAEMON_URL}/mcp`), {
+      // Per-session settings travel as loopback headers: the daemon may have
+      // been started by another tab with a different configuration.
+      requestInit: {
+        headers: {
+          'x-classcad-ws-url': WS_URL,
+          'x-classcad-engine': ENGINE,
+          ...(WASM ? { 'x-classcad-wasm-key': WASM.key, ...(WASM.origin ? { 'x-classcad-wasm-origin': WASM.origin } : {}) } : {}),
+        },
+      },
+    })
+    t.onmessage = m => {
+      if ('id' in m && m.id === REPLAY_ID) {
+        for (const resolve of replayWaiters) resolve()
+        replayWaiters.clear()
+        return
+      }
+      stdio.send(m).catch(err => log(`stdio send failed: ${err?.message ?? err}`))
+    }
+    t.onerror = err => log(`daemon transport error: ${err.message}`)
+    t.onclose = () => {
+      if (t === upstream) void finish('daemon closed the session')
+    }
+    await t.start()
+    return t
+  }
+
+  /** New daemon session for this tab, handshake replayed. False when no daemon can be reached. */
+  const reconnect = async (): Promise<boolean> => {
+    const h = await ensureDaemon()
+    if (!h || !hostInitialize || !('method' in hostInitialize)) return false
+    const previous = upstream
+    upstream = await connect()
+    previous.close().catch(() => {})
+    const answered = new Promise<void>(resolve => replayWaiters.add(resolve))
+    await upstream.send({ ...hostInitialize, id: REPLAY_ID } as JSONRPCMessage)
+    await Promise.race([answered, sleep(15_000).then(() => Promise.reject(new Error('initialize not answered')))])
+    await upstream.send({ jsonrpc: '2.0', method: 'notifications/initialized' })
+    log(`reconnected to daemon ${h.version} (pid ${h.pid}) — new session, previous drawing state is gone`)
+    return true
+  }
+
+  const forward = async (m: JSONRPCMessage) => {
+    if ('method' in m && m.method === 'initialize') hostInitialize = m
+    try {
+      await upstream.send(m)
+      return
+    } catch (err) {
+      log(`daemon send failed: ${(err as Error)?.message ?? err} — reconnecting`)
+    }
+    try {
+      if (hostInitialize && m !== hostInitialize && (await reconnect())) {
+        await upstream.send(m)
+        return
+      }
+    } catch (err) {
+      log(`reconnect failed: ${(err as Error)?.message ?? err}`)
+    }
+    // Unrecoverable: answer the host instead of leaving the request pending, then end the tab's MCP.
+    if ('method' in m && 'id' in m) {
+      await stdio
+        .send({ jsonrpc: '2.0', id: m.id, error: { code: -32000, message: 'ClassCAD MCP daemon unreachable — restart the MCP' } })
+        .catch(() => {})
+    }
+    void finish('daemon unreachable')
+  }
+
+  // Serial: a reconnect must finish before the next host message goes out.
+  let queue = Promise.resolve()
+  stdio.onmessage = m => {
+    queue = queue.then(() => forward(m))
+  }
+
+  upstream = await connect()
   let done = false
   const finish = async (why: string) => {
     if (done) return
@@ -189,14 +269,6 @@ async function proxyToDaemon(): Promise<void> {
     } catch {}
     process.exit(0)
   }
-  upstream.onmessage = m => {
-    stdio.send(m).catch(err => log(`stdio send failed: ${err?.message ?? err}`))
-  }
-  stdio.onmessage = m => {
-    upstream.send(m).catch(err => log(`daemon send failed: ${err?.message ?? err}`))
-  }
-  upstream.onerror = err => log(`daemon transport error: ${err.message}`)
-  upstream.onclose = () => void finish('daemon closed the session')
   stdio.onclose = () => void finish('host closed stdio')
   process.on('SIGINT', () => void finish('SIGINT'))
   process.on('SIGTERM', () => void finish('SIGTERM'))
@@ -204,7 +276,6 @@ async function proxyToDaemon(): Promise<void> {
   // A host that ends our stdin (instead of killing us) must still end the daemon session.
   process.stdin.on('end', () => void finish('host closed stdin'))
   process.stdin.on('close', () => void finish('host closed stdin'))
-  await upstream.start()
   await stdio.start()
 }
 
@@ -237,7 +308,103 @@ async function main(): Promise<void> {
   await serveInProcess()
 }
 
-main().catch(err => {
-  process.stderr.write(`[classcad-mcp] FATAL: ${err?.message ?? err}\n`)
-  process.exit(1)
-})
+const USAGE = `classcad-mcp — ClassCAD MCP server (stdio). Hosts start it without arguments.
+
+Daemon commands:
+  classcad-mcp status          show the running daemon (pid, build, sessions, apps, log file)
+  classcad-mcp stop            stop the daemon if no session is active
+  classcad-mcp stop --force    terminate it now: EVERY connected tab loses its ClassCAD session
+                               (models in them are gone) until its host restarts the MCP
+`
+
+const pidAlive = (pid: number): boolean => {
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch (err) {
+    return (err as NodeJS.ErrnoException).code === 'EPERM'
+  }
+}
+
+/** Waits until the daemon neither answers /health nor has a live pid. */
+async function waitGone(pid: number | undefined, ms: number): Promise<boolean> {
+  const deadline = Date.now() + ms
+  while (Date.now() < deadline) {
+    if (!(await health()) && !(pid && pidAlive(pid))) return true
+    await sleep(100)
+  }
+  return false
+}
+
+async function stopDaemon(force: boolean): Promise<number> {
+  const h = await health()
+  if (!h) {
+    console.log(`no classcad-mcp daemon at ${DAEMON_URL}`)
+    return 0
+  }
+  if (!force) {
+    const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', signal: AbortSignal.timeout(1500) })
+    if (res.status === 409) {
+      console.error(
+        `daemon pid ${h.pid} has ${h.sessions} active session(s) — not stopped.\n` +
+          `\`classcad-mcp stop --force\` ends them: every connected tab loses its ClassCAD session until its host restarts the MCP.`,
+      )
+      return 1
+    }
+    if (!res.ok) {
+      console.error(`daemon refused to stop: HTTP ${res.status}`)
+      return 1
+    }
+  } else {
+    if (!h.pid) {
+      console.error('daemon did not report its pid — cannot force it')
+      return 1
+    }
+    // SIGTERM runs the daemon's own shutdown: sessions closed, bridge and port released.
+    process.kill(h.pid, 'SIGTERM')
+  }
+  if (await waitGone(h.pid, 5000)) {
+    console.log(`stopped daemon pid ${h.pid}${force ? ` (${h.sessions ?? 0} session(s) ended)` : ''}`)
+    return 0
+  }
+  if (force && h.pid) {
+    process.kill(h.pid, 'SIGKILL')
+    if (await waitGone(h.pid, 2000)) {
+      console.log(`killed daemon pid ${h.pid} (did not exit on SIGTERM)`)
+      return 0
+    }
+  }
+  console.error(`daemon pid ${h.pid} is still running`)
+  return 1
+}
+
+async function cli(command: string, args: string[]): Promise<number> {
+  if (command === 'status') {
+    const h = await health()
+    if (!h) {
+      console.log(`no classcad-mcp daemon at ${DAEMON_URL}`)
+      return 1
+    }
+    console.log(JSON.stringify(h, null, 2))
+    return 0
+  }
+  if (command === 'stop') return stopDaemon(args.includes('--force'))
+  console.log(USAGE)
+  return 0
+}
+
+const [command, ...args] = process.argv.slice(2)
+if (command === 'status' || command === 'stop' || command === 'help' || command === '--help') {
+  cli(command, args).then(
+    code => process.exit(code),
+    err => {
+      process.stderr.write(`[classcad-mcp] ${err?.message ?? err}\n`)
+      process.exit(1)
+    },
+  )
+} else {
+  main().catch(err => {
+    process.stderr.write(`[classcad-mcp] FATAL: ${err?.message ?? err}\n`)
+    process.exit(1)
+  })
+}

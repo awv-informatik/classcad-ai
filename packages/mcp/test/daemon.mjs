@@ -8,9 +8,13 @@
 //   6. a daemon of another build that still has sessions is told to drain:
 //      the new shim serves in-process, the old daemon refuses new sessions
 //      and exits right after its last session
+//   7. browsers are refused: an Origin header or a non-loopback Host → 403
+//   8. `classcad-mcp stop` refuses while sessions are active, `stop --force`
+//      terminates the daemon; its shims reconnect to a fresh daemon on the next call
 import { test } from 'node:test'
 import { strict as assert } from 'node:assert'
-import { spawn } from 'node:child_process'
+import { spawn, execFile } from 'node:child_process'
+import { request } from 'node:http'
 import { createServer } from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
@@ -154,6 +158,68 @@ test('daemon: another build with live sessions → drain, new shim in-process', 
     assert.ok(gone, 'drained daemon exits right after its last session (no idle wait)')
   } finally {
     try { old.p.kill() } catch {}
+    await worker.close()
+  }
+})
+
+/** Raw HTTP (fetch forbids setting Host). */
+const rawPost = (port, path, headers) => new Promise((resolve, reject) => {
+  const req = request({ host: '127.0.0.1', port, path, method: 'POST', headers }, res => { res.resume(); res.on('end', () => resolve(res.statusCode)) })
+  req.on('error', reject)
+  req.end()
+})
+const runCli = (env, ...args) => new Promise(resolve => {
+  execFile(process.execPath, [SERVER, ...args], { env: { ...process.env, ...env }, timeout: 15000 }, (err, stdout, stderr) => resolve({ code: err ? err.code ?? 1 : 0, stdout, stderr }))
+})
+
+test('daemon: browser requests refused, CLI stop / stop --force', async () => {
+  const worker = await startFakeWorker()
+  const port = await freePort()
+  const env = {
+    CLASSCAD_MCP_PORT: String(port),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: worker.url,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+  }
+  const a = shim(env)
+  try {
+    await a.init()
+    const h = await health(port)
+    assert.equal(h.sessions, 1)
+
+    // 7. a web page (Origin) or a DNS-rebound name (Host) cannot reach any endpoint
+    assert.equal(await rawPost(port, '/shutdown', { origin: 'https://evil.example' }), 403, 'Origin refused')
+    assert.equal(await rawPost(port, '/mcp', { host: `evil.example:${port}`, 'content-type': 'application/json' }), 403, 'rebound Host refused')
+    assert.equal(await rawPost(port, '/shutdown', { host: `localhost:${port}` }), 409, 'loopback client still served')
+
+    // 8. status / stop / stop --force
+    const status = await runCli(env, 'status')
+    assert.equal(status.code, 0)
+    assert.equal(JSON.parse(status.stdout).pid, h.pid)
+    const polite = await runCli(env, 'stop')
+    assert.equal(polite.code, 1, 'stop refuses with an active session')
+    assert.match(polite.stderr, /--force/)
+    assert.equal((await health(port))?.pid, h.pid, 'daemon still running')
+    const forced = await runCli(env, 'stop', '--force')
+    assert.equal(forced.code, 0, forced.stderr)
+    assert.equal(await health(port), null, 'daemon gone')
+    const again = await runCli(env, 'stop')
+    assert.equal(again.code, 0)
+    assert.match(again.stdout, /no classcad-mcp daemon/)
+
+    // 9. the tab survives: its next call starts a fresh daemon and replays the handshake
+    const info = await a.tool('session_info')
+    assert.equal(info.transport, 'ws', 'tool call answered after the forced stop')
+    const h2 = await health(port)
+    assert.ok(h2 && h2.pid !== h.pid, 'a new daemon serves the tab')
+    assert.equal(h2.sessions, 1)
+    assert.match(a.stderr(), /reconnected to daemon/)
+    await a.exit()
+    let gone = false
+    for (let i = 0; i < 40; i++) { await sleep(250); if (!(await health(port))) { gone = true; break } }
+    assert.ok(gone, 'new daemon exits after the idle period')
+  } finally {
+    try { a.p.kill() } catch {}
     await worker.close()
   }
 })

@@ -10,7 +10,7 @@ import { connect, type Client, type EnginePolicy } from './client.js'
 import { DEFAULT_WASM_ORIGIN, DEFAULT_WASM_VERSION, defaultWasmDir, type LocalWasmOptions } from './engine/wasm.js'
 import { registerLifecycleTools } from './tools/lifecycle.js'
 import { registerStateTools } from './tools/state.js'
-import { registerDocsTools, serverInstructions } from './tools/docs.js'
+import { DAEMON_NOTE, registerDocsTools, serverInstructions } from './tools/docs.js'
 import { registerSnapshotTool } from './tools/snapshot.js'
 import { registerScriptTool } from './tools/script.js'
 import { registerBridgeTools } from './tools/bridge.js'
@@ -61,7 +61,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     'session_info',
     {
       title: 'Session info',
-      description: 'Return ClassCAD MCP session status: transport (ws = ClassCAD worker, bridge = an app\'s in-page engine, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, share token, connection state, package version.',
+      description: 'Return ClassCAD MCP session status: transport (ws = ClassCAD worker, bridge = an app\'s in-page engine, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, share token, connection state, package version. ' + DAEMON_NOTE,
       inputSchema: {},
     },
     async () => {

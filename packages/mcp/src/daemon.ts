@@ -41,6 +41,7 @@ import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
 import { startBridgeServer, type BridgeRegistry } from './bridge/server.js'
 import type { Client, EnginePolicy } from './client.js'
 import { wasmOptionsFromEnv, type LocalWasmOptions } from './engine/wasm.js'
+import { DEFAULT_DAEMON_PORT } from './ports.js'
 
 export const DAEMON_HOST = '127.0.0.1'
 
@@ -95,7 +96,8 @@ function isLoopbackClient(req: IncomingMessage): boolean {
     return false
   }
 }
-export const DEFAULT_DAEMON_PORT = 9095
+
+export { DEFAULT_DAEMON_PORT }
 export const DEFAULT_BRIDGE_LISTEN = 'ws://127.0.0.1:9096/bridge'
 /** Exit after this long without any session (ms). */
 export const DEFAULT_IDLE_MS = 60_000

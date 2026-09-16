@@ -11,6 +11,7 @@ import { existsSync, readFileSync } from 'fs'
 import { createRequire } from 'module'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
+import { DEFAULT_DAEMON_PORT } from '../ports.js'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { RECIPES_POINTER, REFERENCE_IMAGE_POINTER } from '@classcad/skill/prompts'
 import { createDiscovery, DOCS_MAX_KEYS, DOCS_TOOL, type MethodRegistry } from '@classcad/skill/discovery'
@@ -65,7 +66,7 @@ const CLI = `node "${fileURLToPath(new URL('../server.js', import.meta.url))}"`
  * hosts may cut long instructions, a tool description always arrives.
  */
 export const DAEMON_NOTE =
-  'DAEMON: every tab of this MCP is a session in ONE shared daemon process per machine (127.0.0.1:9095); it exits a minute after its last session. ' +
+  `DAEMON: every tab of this MCP is a session in ONE shared daemon process per machine (127.0.0.1:${DEFAULT_DAEMON_PORT}); it exits a minute after its last session. ` +
   'Rebuilt MCP/renderer code only runs in a new daemon — an idle one is replaced automatically. Shell commands: ' +
   `\`${CLI} status\` (pid, build, sessions); ` +
   `\`${CLI} stop\` (stops it only when no session is active); ` +
@@ -91,7 +92,8 @@ export function serverInstructions(): string {
     '',
     'ENGINES: the MCP runs on a ClassCAD worker (Drogon server), inside a buerli app (share link with ?bridge=), or on its OWN local ' +
       'WASM engine (no server, no browser). A share link/URL decides by itself; otherwise use_session(engine="auto"|"drogon"|"wasm") — ' +
-      'auto = worker if reachable else local WASM. "use WASM / local / offline" → engine "wasm"; "my Drogon/ClassCAD server" → "drogon". ' +
+      'auto = worker if reachable else local WASM; a worker that comes up later takes over while the local drawing is still empty (a modeled session stays put). ' +
+      '"use WASM / local / offline" → engine "wasm"; "my Drogon/ClassCAD server" → "drogon". ' +
       'session_info shows what is in use.',
     '',
     DAEMON_NOTE,

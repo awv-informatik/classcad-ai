@@ -15,22 +15,22 @@ export * from './stl.js'
 
 /** Encode an RGBA pixel buffer as PNG bytes. */
 export async function pixelsToPng(pixels: any, width: any, height: any) {
-  return sharp(pixels, { raw: { width, height, channels: 4 } }).png().toBuffer()
+  return sharp(pixels, { raw: { width, height, channels: 4 } }).withMetadata({ density: 72 }).png().toBuffer()
 }
 
 /** Save an RGBA pixel buffer as a PNG file. */
 export async function savePNG(pixels: any, width: any, height: any, path: any) {
-  await sharp(pixels, { raw: { width, height, channels: 4 } }).png().toFile(path)
+  await sharp(pixels, { raw: { width, height, channels: 4 } }).withMetadata({ density: 72 }).png().toFile(path)
 }
 
 /** Rasterize an SVG string to PNG bytes. */
 export async function svgToPngBuffer(svg: any) {
-  return sharp(Buffer.from(svg)).png().toBuffer()
+  return sharp(Buffer.from(svg)).withMetadata({ density: 72 }).png().toBuffer()
 }
 
 /** Rasterize an SVG string to a PNG file. */
 export async function svgToPng(svg: any, pngPath: any) {
-  await sharp(Buffer.from(svg)).png().toFile(pngPath)
+  await sharp(Buffer.from(svg)).withMetadata({ density: 72 }).png().toFile(pngPath)
 }
 
 /**

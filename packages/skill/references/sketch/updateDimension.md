@@ -9,7 +9,7 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
 
 ## Key Parameters
 
-- **`id`** (required) — dimension ID (returned by `sketch.dimension`). Only accepts dimension IDs — sketch, line, constraint, etc. are rejected with code 1001.
+- **`id`** (required) — the `CC_*FeatureDimension` ID returned by `sketch.dimension`. When recovering it from `api.tree()`, select the feature-dimension node, not the identically named `CC_2D*Constraint` node referenced by `members.master.value`. Constraint IDs are rejected with code 1001; see [dimension](dimension.md#return-value).
 - **`value`** (required) — the new value. Accepts:
   - **Numbers:** `50`, `3.14`, `0`
   - **Formula strings:** `'50+70'`, `'sqrt(2)*50'`, `'100'`

@@ -24,7 +24,7 @@ await api.v1.part.closeFeature({ id: extId })
 - `type` — change extrusion direction mode: `'UP'`, `'DOWN'`, `'SYMMETRIC'`, `'CUSTOM'`.
 - `limit2` — extrusion distance. Accepts numbers or expressions (`'@expr.H'`). Negative values reverse direction.
 - `limit1` — start offset (CUSTOM type only). Creates a gap between the sketch plane and the extrusion start.
-- `direction` — `[x, y, z]` vector (CUSTOM type only). Only needed when first switching to CUSTOM — the feature remembers the previous direction across type transitions.
+- `direction` — **sketch-local** vector (CUSTOM only): `[0,0,1]` follows the sketch normal, including on Front/Right planes. The feature remembers the direction across type transitions.
 - `taperAngle` — radians. Positive = inward (top smaller), negative = outward. Set to 0 to remove taper.
 - `capEnds` — integer `1` (solid) or `0` (sheet). NOT string `'TRUE'`/`'FALSE'` — that gives error 1001.
 

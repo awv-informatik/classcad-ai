@@ -19,7 +19,7 @@ Creates a parametric extrusion feature inside a part by sweeping a 2D sketch pro
   - `'CUSTOM'` — extrudes along a user-specified `direction` vector
 - `limit2` — extrusion distance (default: 100). Accepts numbers or expressions (`'@expr.H'`). Negative values reverse the direction.
 - `limit1` — start offset, only used with CUSTOM type (default: 0)
-- `direction` — `[x, y, z]` vector, **only used with CUSTOM type**. Silently ignored for UP/DOWN/SYMMETRIC. Must not be perpendicular to the sketch plane normal. Magnitude is irrelevant — `limit2` controls the distance (unlike `solid.extrusion` where direction magnitude IS the distance).
+- `direction` — vector in **sketch-local coordinates**, only used with CUSTOM. Use `[0,0,1]` for the sketch normal on Top, Front and Right planes alike (world +Z, +Y and +X respectively). Passing world `[1,0,0]` to a Right-plane sketch instead selects an in-plane direction and fails. Ignored for UP/DOWN/SYMMETRIC; magnitude is irrelevant because the limits control distance.
 - `taperAngle` — taper angle in radians (default: 0). Positive = inward taper (top smaller), negative = outward. Accepts expressions.
 - `capEnds` — **integer boolean** (1 or 0, NOT strings 'TRUE'/'FALSE'). `1` (default) = solid body, `0` = sheet body (no top/bottom caps).
 - `name` — feature name (default: "Extrusion")
@@ -148,7 +148,7 @@ const extId5 = (
 | UP        | +sketch normal             | ignored      | distance in + direction      | Extrudes "up" from sketch    |
 | DOWN      | -sketch normal             | ignored      | distance in - direction      | Extrudes "down" from sketch  |
 | SYMMETRIC | both                       | ignored      | total distance split equally | Centers on sketch plane      |
-| CUSTOM    | user-specified `direction` | start offset | end offset                   | Extrudes along custom vector |
+| CUSTOM    | sketch-local `direction` | start offset | end offset                   | `[0,0,1]` follows sketch normal |
 
 **Note:** "up" and "down" are relative to the sketch plane normal, not world Z. A sketch on the Front plane (normal=[0,1,0]) extrudes along Y for UP.
 

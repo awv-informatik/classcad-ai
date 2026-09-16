@@ -59,7 +59,7 @@ test('node session: no config on connect, suppression scoped to runScript, pull 
     const muts = f.filter(isMutation)
     assert.equal(muts.length, 8, '5 lines + extrusion + fail + requestVisualisation, all bare')
     assert.ok(f.every(carriesNoConfig), 'no request other than SetEmissionConfig carries a config field')
-    assert.equal(res.returned.errStructure, undefined, 'suppressed Result carries no structure')
+    assert.equal(res.returned.errStructure, null, 'suppressed Result carries no structure')
     assert.equal(res.returned.errGraphic, null, 'suppressed Result carries no graphic')
     assert.equal(res.returned.errLevel, 51)
     assert.equal(res.returned.errMsgs, 1)

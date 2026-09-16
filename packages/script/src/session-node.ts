@@ -1,3 +1,4 @@
+import { PendingRequests, completeGraphic, normalizeResult, withEmissionOverride } from './session-common.js'
 // Node/WS session — connects to a ClassCAD worker (classcad-cli) and
 // implements ScriptSession. Port of the battle-tested classcad-agent harness
 // client (curve-container accumulation, structure snapshots, INFO filtering).
@@ -75,7 +76,7 @@ export interface NodeSession extends ScriptSession {
 export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessionOptions = {}): Promise<NodeSession> {
   const graphics = opts.graphics !== false
   const debug = opts.debug === true
-  const pending = new Map<string, { resolve: (v: Envelope) => void; reject: (e: Error) => void; at: number }>()
+  const pending = new PendingRequests<Envelope>()
 
   let lastGraphic: { containers?: any[] } | null = null
   let lastStructure: Record<string, any> | null = null
@@ -126,20 +127,12 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     if (frame.command !== 'Result') return
     pending.delete(txId)
 
-    let result = frame.result
-    // Unwrap double-wrapped result envelopes.
-    if (result && typeof result === 'object' && 'result' in result && Object.keys(result).length <= 3) {
-      result = result.result
-    }
-    // Filter INFO traces (level 31).
-    const messages = ((frame.messages as any[]) || []).filter(m => m.level > 31)
-
     // A pull (GetTree/Sync) delivers the COMPLETE graphic — replace, never
     // merge (a merge would keep containers of deleted bodies alive). Graphic
     // on other Results covers only the changed ids and is ignored here.
-    const isPull = frame._from_ === 'GetTree' || frame._from_ === 'Sync'
-    if (isPull && frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
-      lastGraphic = frame.graphic
+    const complete = completeGraphic(frame)
+    if (complete.present) {
+      lastGraphic = complete.graphic
       graphicVersion = Math.max(graphicVersion, entry.at)
     }
     // Every structure snapshot is complete (the engine sends the whole tree).
@@ -148,19 +141,13 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
       treeVersion = Math.max(treeVersion, entry.at)
     }
 
-    entry.resolve({
-      result,
-      messages,
-      maxLevel: frame.maxLevel,
-      structure: frame.structure,
-      graphic: frame.graphic ?? null,
-    })
+    entry.resolve(normalizeResult(frame))
   }
   ws.on('message', (d: WebSocket.RawData, b: boolean) => handleFrame(d, b))
+  ws.on('error', error => pending.rejectAll(error))
   ws.on('close', () => {
-    
-    for (const entry of pending.values()) entry.reject(new Error('Worker disconnected; in-flight mutation outcome unknown'))
-    pending.clear()
+    outcomeUnknown = true
+    pending.rejectAll(new Error('Worker disconnected; in-flight mutation outcome unknown'))
   })
 
 
@@ -170,19 +157,12 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     const transactionID = randomUUID()
     return new Promise<Envelope>((resolve, reject) => {
       // `at`: the model version this request's Result describes.
-      pending.set(transactionID, { resolve, reject, at: version })
+      pending.register(transactionID, { resolve, reject, at: version }, { command, timeoutMs: debug ? undefined : opts.requestTimeoutMs ?? REQUEST_TIMEOUT, onTimeout: () => { outcomeUnknown = true } })
       // No emission flags travel with a request — the engine keeps them per
       // connection (see SUPPRESS_EMISSION / setEmissionConfig).
-      send({ command, commandVersion: 'v1', transactionID, ...extra })
-      if (!debug) {
-        setTimeout(() => {
-          if (pending.has(transactionID)) {
-            pending.delete(transactionID)
-            outcomeUnknown = true
-            reject(new Error(`Request timeout: ${command}; mutation outcome unknown, reconnect required`))
-          }
-        }, opts.requestTimeoutMs ?? REQUEST_TIMEOUT).unref()
-      }
+      try { send({ command, commandVersion: 'v1', transactionID, ...extra }) }
+      catch (error) { pending.delete(transactionID); reject(error as Error) }
+
     })
   }
 
@@ -209,15 +189,12 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
   async function pull(): Promise<void> {
     const at = version
     const toggle = graphics && knownKernel === false
-    if (toggle) await setEmissionConfig(PULL_GRAPHIC_ON)
-    try {
+    const read = async () => {
       await request('GetTree', {}, { track: false })
-      // A pull is the only source of the complete graphic: whatever it
-      // delivered (possibly nothing, e.g. graphics:false) is current now.
       graphicVersion = Math.max(graphicVersion, at)
-    } finally {
-      if (toggle) await setEmissionConfig({ sendGraphic_Kernel: false })
     }
+    if (toggle) await withEmissionOverride({ getEmissionConfig, setEmissionConfig }, PULL_GRAPHIC_ON, read)
+    else await read()
   }
   const treeCurrent = () => treeVersion === version && lastStructure !== null
   // No null check on lastGraphic: a pull that delivered no graphic (graphics:false, empty model) is still current.

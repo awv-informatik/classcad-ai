@@ -233,3 +233,53 @@ no filesystem access needed).
 | `@buerli.io/ai` (browser panel) | `run_script` tool = `runScript` over its browser session; buerli namespaces injected as optional capabilities |
 | `classcad-mcp` (MCP server) | `run_script` tool over its WS client |
 | the training harness (`scripts/run.mjs`) | training scripts receive `buildScriptApi(session, { registry })` as their `api` |
+
+## Execution reliability and inspection
+
+`runScript` accepts `strict`, `onOperation`, `signal`, and `timeoutMs`. Strict
+mode rejects engine error envelopes (level ≥51); raw envelopes remain the
+library default for diagnostic scripts. MCP, browser run_script, and the
+training harness enable strict mode. `onOperation` reports method, feature
+name, timing and engine messages. Logs retain the latest entries under their
+size limits.
+
+A timeout/cancellation prevents subsequent API calls; it does not kill a
+native operation already running. `pending:true` and `isSessionBusy(session)`
+mean work has not settled. The execution lease remains held through outstanding
+parallel calls and emission restoration. MCP and browser drawing tools refuse
+new work while that lease is held. This is not rollback. A transport request
+timeout leaves the session outcome unknown and requires reconnection; inspect
+the drawing before retrying a mutation. Synchronous infinite JavaScript loops
+cannot be interrupted by this cooperative executor.
+
+Node sessions and MCP clients separately accept `connectTimeoutMs` and
+`requestTimeoutMs`; runScript has its own whole-run deadline. Complete empty
+graphics clear old geometry. Both adapters normalize missing structure and
+graphics to null. Connection teardown rejects pending requests.
+
+Scripts can use `api.inspect`:
+
+```js
+const capture = await api.inspect.capture();
+const solids = api.inspect.currentSolids(capture);
+const bounds = api.inspect.graphicBounds(capture, solids);
+const edge = api.inspect.uniqueEdge(capture, [10, 0, 0], 0.05, [solids[0]]);
+// Use edge.id only in this model state. Recapture after any mutation/recalculation.
+return { solids, bounds, edge };
+```
+
+`edgeCandidates` returns all matching edges, their distances, tolerance and
+capture revision. `uniqueEdge` rejects zero or multiple matches. Bounds are
+approximate tessellated bounds in graphic coordinates; instance transforms
+are not applied. `api.inspect.solid(id)` adds native mass properties but does
+not certify B-rep validity. Revisions are local client mutation counters, not
+persistent topology identities or cross-client synchronization guarantees.
+
+The training harness writes `run-result.json` and exits nonzero on errors.
+Snapshots no longer implicitly export files: call
+`await helpers.exportArtifact('STP', 'part')` or `'OFB'`/`'STL'` explicitly.
+Requested export failures are reported and fail the run.
+
+Run the monorepo's `npm run test:reliability` for the offline adapter, lifecycle,
+harness and renderer regressions. `node packages/script/test/emission-live.mjs`
+is the optional real-worker smoke test (`CLASSCAD_URL` selects the worker).

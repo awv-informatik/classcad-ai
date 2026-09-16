@@ -66,7 +66,7 @@ try {
   assert.equal(f[f.length - 1].command, 'SetEmissionConfig', 'flags restored after the script')
   assert.equal(f[f.length - 1].config.sendStructure, true)
   assert.ok(f.filter(x => x.command === 'Execute').every(x => x.config === undefined), 'mutations carry no config field')
-  assert.equal(res.returned.extStructure, undefined, 'suppressed Result carries no structure')
+  assert.equal(res.returned.extStructure, null, 'suppressed Result carries no structure')
   assert.equal(res.returned.extGraphic, null, 'suppressed Result carries no graphic')
   assert.ok(res.returned.meshes, 'graphic pulled with meshes')
   assert.ok(res.returned.hasExtrusion, 'tree pulled with the extrusion')

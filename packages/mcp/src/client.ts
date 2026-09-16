@@ -1,3 +1,4 @@
+import { PendingRequests, completeGraphic, normalizeResult, withEmissionOverride } from '@classcad/script'
 // client.ts — ClassCAD WebSocket client (TS port of scripts/client.mjs).
 //
 // Connects to a Drogon WS server and exposes promise-based execute()/request()
@@ -167,7 +168,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   const graphics = opts.graphics !== false
   const debug = opts.debug === true
   let outcomeUnknown = false
-  const pending = new Map<string, PendingEntry>()
+  const pending = new PendingRequests<ApiResult>()
   // The URL is used VERBATIM — it may carry a multi-client token/invite query
   // (e.g. wss://host/?invite=…), in which case the server itself decides the
   // session. currentUrl is mutable (reconnectUrl switches servers at runtime);
@@ -338,18 +339,12 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     if (frame.command !== 'Result') return
     pending.delete(txId)
 
-    let result = frame.result
-    if (result && typeof result === 'object' && 'result' in result && Object.keys(result).length <= 3) {
-      result = (result as any).result
-    }
-    const messages: Message[] = (frame.messages || []).filter((m: Message) => m.level > 31)
-
     // A pull (GetTree/Sync) delivers the COMPLETE graphic — replace, never
     // merge (a merge would keep containers of deleted bodies alive). Graphic
     // on other Results covers only the changed ids and is ignored here.
-    const isPull = frame._from_ === 'GetTree' || frame._from_ === 'Sync'
-    if (isPull && frame.graphic && (frame.graphic.containers?.length > 0 || frame.graphic.properties)) {
-      lastGraphic = frame.graphic as Graphic
+    const complete = completeGraphic(frame)
+    if (complete.present) {
+      lastGraphic = complete.graphic
       graphicVersion = Math.max(graphicVersion, entry.at)
     }
     // Every structure snapshot is complete (the engine sends the whole tree).
@@ -358,13 +353,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       treeVersion = Math.max(treeVersion, entry.at)
     }
 
-    entry.resolve({
-      result,
-      messages,
-      maxLevel: frame.maxLevel ?? 0,
-      structure: frame.structure ?? null,
-      graphic: frame.graphic ?? null,
-    })
+    entry.resolve(normalizeResult(frame))
   }
 
   async function request<T = unknown>(command: string, extra: object = {}, o: { track?: boolean } = {}): Promise<ApiResult<T>> {
@@ -373,19 +362,12 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     if (o.track !== false) version++
     const transactionID = randomUUID()
     return new Promise((resolve, reject) => {
-      pending.set(transactionID, { resolve: resolve as (r: ApiResult) => void, reject, at: version })
+      pending.register(transactionID, { resolve: resolve as (r: ApiResult) => void, reject, at: version }, { command, timeoutMs: debug ? undefined : opts.requestTimeoutMs ?? REQUEST_TIMEOUT, onTimeout: () => { outcomeUnknown = true } })
       // No emission flags travel with a request — the engine keeps them per
       // connection (see SUPPRESS_EMISSION / setEmissionConfig in openWs).
-      send({ command, commandVersion: 'v1', transactionID, ...extra })
-      if (!debug) {
-        setTimeout(() => {
-          if (pending.has(transactionID)) {
-            pending.delete(transactionID)
-            outcomeUnknown = true
-            reject(new Error(`Request timeout: ${command}; mutation outcome unknown, reconnect required`))
-          }
-        }, opts.requestTimeoutMs ?? REQUEST_TIMEOUT).unref()
-      }
+      try { send({ command, commandVersion: 'v1', transactionID, ...extra }) }
+      catch (error) { pending.delete(transactionID); reject(error as Error) }
+
     })
   }
 
@@ -552,15 +534,12 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   async function pull(): Promise<void> {
     const at = version
     const toggle = graphics && knownKernel === false
-    if (toggle) await setEmissionConfig(PULL_GRAPHIC_ON)
-    try {
+    const read = async () => {
       await request('GetTree', {}, { track: false })
-      // A pull is the only source of the complete graphic: whatever it
-      // delivered (possibly nothing, e.g. graphics:false) is current now.
       graphicVersion = Math.max(graphicVersion, at)
-    } finally {
-      if (toggle) await setEmissionConfig({ sendGraphic_Kernel: false })
     }
+    if (toggle) await withEmissionOverride({ getEmissionConfig, setEmissionConfig }, PULL_GRAPHIC_ON, read)
+    else await read()
   }
   const treeCurrent = () => treeVersion === version && lastStructure !== null
   // No null check on lastGraphic: a pull that delivered no graphic (graphics:false, empty model) is still current.

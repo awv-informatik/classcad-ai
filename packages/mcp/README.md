@@ -297,3 +297,19 @@ Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fa
 ### Publishing
 
 The MCP depends on three sibling packages that must be on npm first, in this order: `@classcad/skill` (its `prepublishOnly` regenerates the registry from `@classcad/api-js`), `@classcad/script`, `@classcad/renderer`, then `@awv-informatik/classcad-mcp` — each with `npm publish --access public`. A dry run: `npm pack` in each package, then install the four tarballs into an empty directory and run the server.
+
+## Build failure and cancellation behavior
+
+`run_script` rejects engine errors and reports progress when the caller supplies
+an MCP progress token. The request's cancellation signal stops subsequent CAD
+calls; an already-running native operation can still complete. While such work
+is unresolved, drawing tools return a busy error; documentation and session
+information remain available. No automatic retry or rollback is performed.
+A transport timeout requires reconnecting and checking the drawing before
+retrying a mutation.
+
+Snapshots default to **no regeneration**, return capture metadata, and report
+refresh errors. Set `recalc:true` explicitly when rebuilding geometry is intended;
+use `quality:'fine'` with it for adaptive refinement. Keep regeneration disabled
+for injected bodies. The shared `api.inspect` helpers are documented in
+`packages/script/README.md`.

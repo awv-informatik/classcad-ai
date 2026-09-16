@@ -105,6 +105,31 @@ function v1Permissive(session: ScriptSession): Record<string, unknown> {
  * browser, the MCP, the harness and CI.
  */
 export function buildScriptApi(session: ScriptSession, opts: BuildApiOptions = {}): Record<string, unknown> {
+  const original = session
+  session = {
+    ...original,
+    execute: async task => {
+      const method = Object.keys(task)[0]
+      const name = task[method]?.[0]?.name as string | undefined
+      const startedAt = Date.now()
+      const emit = (event: import('./types.js').OperationEvent) => {
+        try { opts.onOperation?.(event) } catch { /* diagnostics must not change execution */ }
+      }
+      emit({ phase: 'start', method, name, startedAt })
+      try {
+        const result = await original.execute(task)
+        emit({ phase: 'end', method, name, startedAt, durationMs: Date.now() - startedAt,
+          maxLevel: result.maxLevel, messages: result.messages })
+        if (opts.strict && (result.maxLevel ?? 0) >= 51) {
+          throw new Error(`${method}${name ? ' (' + name + ')' : ''}: ${result.messages?.map(m => m.message).join('; ') || 'Engine error'}`)
+        }
+        return result
+      } catch (error) {
+        emit({ phase: 'error', method, name, startedAt, durationMs: Date.now() - startedAt, error: String(error) })
+        throw error
+      }
+    },
+  }
   const api: Record<string, unknown> = {
     v1: opts.registry ? v1FromRegistry(session, opts.registry) : v1Permissive(session),
     tree: (o?: { refresh?: boolean }) => session.getTree(o),

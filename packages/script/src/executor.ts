@@ -75,12 +75,13 @@ export async function runScript(
   const logs: string[] = []
   let logChars = 0
   const capture = (level: string) => (...args: unknown[]) => {
-    if (logs.length >= maxLogEntries || logChars >= maxLogChars) return
     const line =
       (level === 'log' ? '' : `[${level}] `) +
       args.map(a => (typeof a === 'string' ? a : capJson(a, 2000))).join(' ')
-    logs.push(line)
-    logChars += line.length
+    const bounded = line.slice(-maxLogChars)
+    logs.push(bounded)
+    logChars += bounded.length
+    while (logs.length > maxLogEntries || logChars > maxLogChars) logChars -= logs.shift()!.length
   }
   const consoleShim = {
     log: capture('log'),

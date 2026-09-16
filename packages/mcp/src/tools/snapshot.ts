@@ -65,6 +65,8 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
           .describe('Absolute directory for the PNG (created if missing). Pass your session scratchpad when the user should see the file — hosts preview only files in session folders.'),
         width: z.number().int().min(64).max(4096).optional().describe('Pixels (default 1200).'),
         height: z.number().int().min(64).max(4096).optional().describe('Pixels (default 900).'),
+        supersample: z.number().int().min(1).max(4).optional()
+          .describe('Anti-aliasing: render at k× and downscale to width×height (default 2; 1 = raw aliased pixels). Output size and image tokens are unchanged.'),
         view: viewSchema.optional().describe('Camera: named view (default "iso") or arbitrary orthographic camera.'),
         zoom: z.number().min(0.05).max(50).optional()
           .describe('Multiplier on auto-fit scale. 1=fit-all (default), >1 zooms in.'),
@@ -116,6 +118,8 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         renders = await renderSession(client, prefix, dir, {
           width: options.width ?? 1200,
           height: options.height ?? 900,
+          supersample: options.supersample ?? 2,
+          vectorText: true,
           ...options,
           layers: options.layers ?? ['solid'],
         })

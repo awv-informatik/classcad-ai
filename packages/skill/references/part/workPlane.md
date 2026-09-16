@@ -25,7 +25,7 @@ Creates a work plane feature — an invisible construction reference used as a s
 
 - **`references`** — array of brep or work geometry IDs. Not needed for USERDEFINED. Order matters: point-type refs first, direction/face refs second (for POINTNORMAL, POINTFACE).
 - **`normal`** — `[x,y,z]` vector, USERDEFINED only. Default `[1,0,0]` (YZ plane, **not** XY despite some doc headers).
-- **`position`** — `[x,y,z]` center point, USERDEFINED only. Default `[0,0,0]`.
+- **`position`** — `[x,y,z]` center point, USERDEFINED only. Default `[0,0,0]`. The key is `position` — `origin` (and `xDirection`) are ignored without a message, leaving the plane at `[0,0,0]`.
 - **`offset`** — distance along normal. Works on all types. Default `0`.
 - **`angle`** — radians or expression string, LINEPLANEANGLE only. Accepts `Math.PI/4` or `'45deg'`.
 
@@ -36,7 +36,7 @@ Creates a work plane feature — an invisible construction reference used as a s
 ```
 
 Returns the feature ID of the created work plane. Use this ID as:
-- `plane` param in `sketch.create` — sketch on this plane
+- `planeId` param in `sketch.create` — sketch on this plane
 - `references` element in `part.mirror` — mirror across this plane
 - Reference for other work geometry or features
 
@@ -84,9 +84,10 @@ const wpId = (await api.v1.part.workPlane({
 })).result
 
 // Sketch on the work plane
-const skId = (await api.v1.sketch.create({ id: partId, plane: wpId })).result
+const skId = (await api.v1.sketch.create({ id: partId, planeId: wpId })).result
 
-// Referenced: offset from a brep face
+// Referenced: offset from the top face of an 80×60×40 box
+await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })
 const topFace = (await api.v1.part.getGeometryIds({
   id: partId,
   planes: [{ positions: [[40, 30, 40]] }]
@@ -117,8 +118,4 @@ const wp3 = (await api.v1.part.workPlane({
 
 ## Related
 
-- `part.updateWorkPlane` — modify after creation (name, type, refs, offset, angle, position, normal)
-- `part.getWorkGeometry` — find work plane by name
-- `sketch.create` — create sketch on a work plane (pass wp ID as `plane` param)
-- `part.mirror` — mirror geometry across a work plane
-- `part.workAxis`, `part.workPoint`, `part.workCSys` — other work geometry types
+`part.updateWorkPlane` · `part.getWorkGeometry` · `sketch.create` · `part.mirror` · `part.workAxis`

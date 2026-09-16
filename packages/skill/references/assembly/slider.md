@@ -22,7 +22,9 @@ Creates a slider constraint between two instances. Allows 1 degree of freedom: t
 
 **X/Y are FIXED, not free.** Unlike parallel (which has xOffsetLimits/yOffsetLimits ranges), slider uses fixed `xOffset` and `yOffset` values. The solver sets inst2's X/Y position to exactly these values relative to mate1's csys origin. Default is 0 for both.
 
-**Z is the one free DOF.** Initial Z position from the instance's `transformation` is preserved. If `zOffsetLimits` are set, Z is clamped to [min, max] with ~0.001 solver epsilon.
+**The rail is mate1's csys Z-axis.** inst2 takes mate1's csys orientation and slides along its Z-axis; `xOffset`/`yOffset` run along the csys X/Y. Example: mate1 csys `offset [40,0,20]` + `rotation [0,0,π/2]`, `xOffset: 10` → inst2 at `[40,10,z]`, rotated 90° about Z. Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
+
+**Z is the one free DOF.** The instance keeps its current position along the rail. If `zOffsetLimits` are set, Z is clamped to [min, max] with ~0.001 solver epsilon.
 
 **All rotation is locked.** There are no rotation limits params. The mate.reorient param applies a fixed rotation offset (0°, 90°, 180°, 270° around Z) — it's always visible since the rotation DOF is locked (unlike parallel where free rotation absorbs the offset).
 
@@ -169,11 +171,11 @@ const asmId = (await api.v1.assembly.create({})).result
 
 const tplA = (await api.v1.assembly.partTemplate({ name: 'Rail' })).result
 await api.v1.part.box({ id: tplA, name: 'Box', length: 100, width: 20, height: 10 })
-const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  // csys at part origin
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Block' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 20, width: 20, height: 15 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -198,9 +200,4 @@ const sliderId = (await api.v1.assembly.slider({
 
 ## Related
 
-- `assembly.parallel` — 4 DOF (X/Y/Z translation + Z rotation)
-- `assembly.cylindrical` — 2 DOF (Z-rotation + Z-translation)
-- `assembly.revolute` — 1 DOF (Z-rotation only)
-- `assembly.fastened` — 0 DOF (rigid)
-- `assembly.updateSlider` — modify after creation
-- `assembly.getSlider` — query by name
+`assembly.parallel` · `assembly.cylindrical` · `assembly.revolute` · `assembly.fastened` · `assembly.updateSlider` · `assembly.getSlider`

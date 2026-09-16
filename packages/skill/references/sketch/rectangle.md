@@ -59,7 +59,7 @@ const rect = await api.v1.sketch.rectangle({ id: skId, startPos: [0,0,0], endPos
 const ext = await api.v1.part.extrusion({ id: partId, references: rect.result, limit2: 30 })
 ```
 
-Do NOT create a sketchRegion and pass it — extrusion with a region ID fails with "CCObject can not be opened". Pass the line IDs directly.
+A sketch region works as well: `sketchRegion({ id: skId, geomIds: rect.result })` → `extrusion({ references: [regionId] })`. Both forms need a sketch created with `planeId`.
 
 ## Working Example
 
@@ -86,7 +86,4 @@ const centered = await api.v1.sketch.rectangle({
 
 ## Related
 
-- `sketch.line` — individual line creation
-- `sketch.geometry` — generic multi-type geometry creation (can also create rectangles)
-- `sketch.sketchRegion` — create a region from closed contours (pass line IDs as `geomIds`)
-- `part.extrusion` — extrude rectangle into a solid (pass line IDs as `references`)
+`sketch.line` · `sketch.geometry` · `sketch.sketchRegion` · `part.extrusion`

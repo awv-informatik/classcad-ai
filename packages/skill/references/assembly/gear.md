@@ -55,7 +55,7 @@ The gear automatically propagates to constr2. **Do not drive constr2 directly** 
 
 ### Solver behavior without drive
 
-With offset=0 and no drive, both revolutes start at angle=0 (gear satisfied trivially). With offset≠0, the solver finds an arbitrary equilibrium distributing the constraint across both free revolute DOFs. To get predictable behavior with offset, **always explicitly drive constr1** via `update3DConstraintValue`.
+With offset=0 and no drive, both revolutes start at angle=0 (gear satisfied trivially). With offset≠0 and no drive, the solver distributes the offset across both free revolute DOFs (ratio 1, offset 90°: both arms at 45°, repeatable). To place a specific arm at a specific angle, **explicitly drive constr1** via `update3DConstraintValue`.
 
 ## Return Value
 
@@ -108,7 +108,7 @@ Failure (all return `result: null, maxLevel: 51`):
 - **Revolute-only.** Despite docs saying "constraint", gear only accepts revolute constraint IDs. Cylindrical, fastened, etc. all fail.
 - **Counter-rotation is built in.** Positive ratio means opposite rotation direction (like meshing gears). Use negative ratio for same-direction coupling (belt/pulleys).
 - **Self-linking is silently allowed.** Passing the same revolute for both constr1 and constr2 succeeds without error.
-- **Offset without drive is unpredictable.** The solver redistributes offset across free revolute DOFs. Always explicitly drive constr1 to get deterministic positions.
+- **Offset without drive is split across both arms.** The result is repeatable but neither arm sits at 0; drive constr1 explicitly to choose the angles.
 - **calculateMassProperties materializes instances.** After calling `calculateMassProperties(instanceId)`, constraint updates (including gear-driven motion) may not propagate to the materialized instance. Measure only after final positioning.
 
 ## Common Errors
@@ -128,15 +128,15 @@ const asmId = (await api.v1.assembly.create({})).result
 
 const tplA = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tplA, name: 'Box', length: 80, width: 60, height: 10 })
-const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  // csys at part origin
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Gear1' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 60, width: 15, height: 8 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
 
 const tplC = (await api.v1.assembly.partTemplate({ name: 'Gear2' })).result
 await api.v1.part.box({ id: tplC, name: 'Box', length: 40, width: 12, height: 6 })
-const wcsC = (await api.v1.part.workCSys({ id: tplC, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsC = (await api.v1.part.workCSys({ id: tplC, name: 'Csys' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -175,8 +175,4 @@ await api.v1.assembly.update3DConstraintValue({
 
 ## Related
 
-- `assembly.revolute` — the constraint type gear operates on
-- `assembly.updateGear` — modify after creation
-- `assembly.getGear` — query by name
-- `assembly.group` — groups instances together (different from gear)
-- `assembly.update3DConstraintValue` — drives rotation that gear propagates
+`assembly.revolute` · `assembly.updateGear` · `assembly.getGear` · `assembly.group` · `assembly.update3DConstraintValue`

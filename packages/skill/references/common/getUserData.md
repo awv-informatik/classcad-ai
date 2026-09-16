@@ -25,7 +25,7 @@ Reads a string value from an object's user data map by key. Returns the value if
 - **User data is session-only.** Not persisted across OFB save/load. After reloading a file, all user data is gone.
 - **User data is not copied on duplication.** `solid.copy` and similar operations do not carry user data to the copy.
 - **Overwrite trap.** If you set a key, then set it again with a new value (without removing first), the value does NOT change — `setUserData` silently ignores duplicate keys. To update: `removeUserData` → `setUserData`.
-- **id=0 and nonexistent IDs** produce `maxLevel: 51`, error code 1006. Negative IDs may hang the server.
+- **id=0 and nonexistent IDs** produce `maxLevel: 51`, error code 1006. Negative IDs (`id: -1`) crash the ClassCAD worker — never pass them.
 
 ## Common Errors
 
@@ -73,7 +73,4 @@ const empty = (await api.v1.common.getUserData({ id: partId, key: 'color' })).re
 
 ## Related
 
-- `common.setUserData` — write a key-value pair (silent no-op if key exists)
-- `common.removeUserData` — delete a single key (required before re-setting)
-- `common.clearUserData` — delete all keys from an object
-- `common.getUserDataKeys` — list all keys (hash map order, not predictable)
+`common.setUserData` · `common.removeUserData` · `common.clearUserData` · `common.getUserDataKeys`

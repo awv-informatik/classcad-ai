@@ -19,9 +19,9 @@ Creates a cylindrical constraint between two instances. Allows 2 degrees of free
 
 ## Alignment Semantics (CRITICAL — differs from revolute)
 
-**X,Y alignment is the same as fastened/revolute.** With default flip, inst2's X,Y position snaps to inst1's origin.
+**The axis is mate1's csys Z-axis.** inst2 is moved onto that axis (mate2's csys origin on the line, axes aligned). Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]` (csys Z = world −Y), inst2 starting at `[200,7,3]` → inst2 at `[40,7,20]`: on the axis, keeping its position along it. Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
 
-**Z is a FREE DOF.** Unlike revolute (which has a fixed `zOffset` param), cylindrical preserves the initial Z-offset from the instance's transformation. The solver does not move inst2 along Z unless `zOffsetLimits` force clamping.
+**Z (along the axis) is a FREE DOF.** Unlike revolute (which has a fixed `zOffset` param), cylindrical preserves the initial Z-offset from the instance's transformation. The solver does not move inst2 along Z unless `zOffsetLimits` force clamping.
 
 **No `zOffset` parameter.** Passing `zOffset` is silently ignored — no error, no effect. Use `zOffsetLimits: { min: N, max: N }` to lock inst2 at a specific Z-offset.
 
@@ -133,7 +133,7 @@ Pass array of `{ id, name }`. Returns `Array<result|null>`. One null contaminate
 - **No `zOffset` parameter.** Unlike revolute, cylindrical does NOT accept `zOffset`. Passing it is silently ignored. To set a fixed Z position, use `zOffsetLimits: { min: N, max: N }`.
 - **Z-offset comes from instance transformation.** The initial Z position is whatever the instance was placed at. The solver preserves it unless limits force clamping.
 - **Ungrounded instances both move.** Same as revolute — always ground at least one instance with fastenedOrigin.
-- **csys position is irrelevant.** The csys ID is required but its origin/axes don't determine alignment.
+- **The csys defines the axis.** The joint slides and rotates along/around mate1's csys Z-axis.
 - **Duplicate names allowed.** Creating two with the same name succeeds silently.
 - **Same-instance error.** Using the same instance for both mates gives error 1014: "probably belong to the same rigid set."
 - **Reorient invisible without limits.** Free rotation DOF absorbs the reorient offset.
@@ -146,11 +146,11 @@ const asmId = (await api.v1.assembly.create({})).result
 
 const tplA = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tplA, name: 'Box', length: 60, width: 40, height: 10 })
-const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  // csys at part origin
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Piston' })).result
-await api.v1.part.cylinder({ id: tplB, name: 'Rod', radius: 5, height: 50 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+await api.v1.part.cylinder({ id: tplB, name: 'Rod', diameter: 10, height: 50 })
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -174,8 +174,4 @@ const cylId = (await api.v1.assembly.cylindrical({
 
 ## Related
 
-- `assembly.revolute` — 1 DOF (rotation only), has fixed `zOffset` instead of `zOffsetLimits`
-- `assembly.fastened` — 0 DOF (rigid)
-- `assembly.updateCylindrical` — modify after creation
-- `assembly.getCylindrical` — query by name
-- `assembly.slider` — 1 DOF (translation only)
+`assembly.revolute` · `assembly.fastened` · `assembly.updateCylindrical` · `assembly.getCylindrical` · `assembly.slider`

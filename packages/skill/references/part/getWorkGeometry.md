@@ -27,8 +27,8 @@ Every new part has these built-in work geometries:
 |------|-------|
 | Work planes | `Top`, `Front`, `Right` |
 | Work axes | `XAxis`, `YAxis`, `ZAxis` |
-| Work CSys | `Origin` |
-| Work points | *(none — no built-in work points)* |
+| Work points | `Origin` (a work point at [0,0,0] — not a work csys) |
+| Work CSys | *(none — create one with `part.workCSys`)* |
 
 **These are the exact names.** Not `WorkPlane_Top`, not `XY`, not `X`. Case matters.
 
@@ -56,14 +56,14 @@ const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const topId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Top' })).result
 const frontId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Front' })).result
 
-// Look up built-in axes and CSys
+// Look up built-in axes and the Origin work point
 const xAxisId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'XAxis' })).result
 const originId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Origin' })).result
 
 // Look up user-created work geometry
 const wpId = (await api.v1.part.workPlane({
   id: partId, name: 'MyPlane',
-  origin: [0, 0, 50], normal: [0, 0, 1], xDirection: [1, 0, 0]
+  position: [0, 0, 50], normal: [0, 0, 1]
 })).result
 const found = (await api.v1.part.getWorkGeometry({ id: partId, name: 'MyPlane' })).result
 // found === wpId
@@ -71,5 +71,4 @@ const found = (await api.v1.part.getWorkGeometry({ id: partId, name: 'MyPlane' }
 
 ## Related
 
-- `part.workPlane` / `part.workAxis` / `part.workCSys` / `part.workPoint` — create the geometry this looks up
-- `part.updateWorkPlane` etc. — use with `openFeature` to rename, then look up by new name
+`part.workPlane` / `part.workAxis` / `part.workCSys` / `part.workPoint` · `part.updateWorkPlane`

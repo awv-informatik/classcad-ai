@@ -61,5 +61,4 @@ await api.v1.part.closeFeature({ id: mirrorId })
 
 ## Related
 
-- `part.mirror` — create the mirror feature
-- `part.openFeature` / `part.closeFeature` — required before/after update
+`part.mirror` · `part.openFeature` / `part.closeFeature`

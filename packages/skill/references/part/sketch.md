@@ -67,8 +67,8 @@ const sk2 = (await api.v1.part.sketch({
 
 // On a solid face
 const boxId = (await api.v1.part.box({ id: partId, length: 100, width: 80, height: 60 })).result
-// Get face ID from graphic data
-const faceId = boxR.graphic.containers[0].meshes[0].id
+// Face id by position: the top face of the 100×80×60 box
+const faceId = (await api.v1.part.getGeometryIds({ id: partId, planes: [{ positions: [[50, 40, 60]] }] })).result.planes[0]
 const sk3 = (await api.v1.part.sketch({
   id: partId, planeId: faceId, name: 'FaceSketch',
 })).result
@@ -76,8 +76,4 @@ const sk3 = (await api.v1.part.sketch({
 
 ## Related
 
-- `sketch.create` — identical alias in the sketch namespace
-- `part.getSketch` — retrieve sketch ID by name (first match only)
-- `sketch.deleteSketch` — delete sketches by ID array
-- `sketch.setWorkPlane` — reassign sketch to a different work plane
-- `part.workPlane` — create work planes to place sketches on
+`sketch.create` · `part.getSketch` · `sketch.deleteSketch` · `sketch.setWorkPlane` · `part.workPlane`

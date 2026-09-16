@@ -100,6 +100,4 @@ await api.v1.assembly.transformInstance({
 
 ## Related
 
-- `assembly.transformInstanceTo` — sets absolute position (not relative)
-- `assembly.instance` — create instances with initial transform
-- `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints` — constraint-respecting motion
+`assembly.transformInstanceTo` · `assembly.instance` · `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints`

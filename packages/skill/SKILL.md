@@ -28,6 +28,8 @@ Cross-cutting references that apply across every domain. Read these first when s
 | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
 | [recipes/constrained-sketching.md](recipes/constrained-sketching.md) | 2D sketching primer: planes, profiles, constraints, regions, sketch-to-feature flow    |
 | [expressions.md](references/api/expressions.md) | Expression syntax: constants, math functions, inter-expression references, `@expr.`    |
+| [part/expression-workflow.md](references/part/expression-workflow.md) | Expression lifecycle within a part: bindings, updates, rename/delete/unlink behavior |
+| [assembly/generic.md](references/assembly/generic.md) | Templates vs. instances, instance placement in the tree, when the constraint solver runs; constraints mount instances by their work csys (`assembly/fastened.md`) |
 
 The **data contract** — what `api.tree()` and `api.graphic()` return and how to
 select geometry from it — ships with `@classcad/script`
@@ -392,6 +394,7 @@ Practical workflow guides for complex multi-API tasks.
 |-------|-------------|-----------|
 | **Sketching** | Reproducing technical drawings: dimension analysis, circle-based construction, trim workflow, constraint placement, iterative evaluation | [recipes/constrained-sketching.md](recipes/constrained-sketching.md) |
 | **Parametric part** | Expressions + constrained sketches + @expr dims, in-tree regeneration, liveness rules | [recipes/parametric-part.md](recipes/parametric-part.md) |
+| **Assembly parameters** | Values shared by several parts of an assembly: parameter part, refresh sequence, recalc vs. constraint solve, csys driven by expressions | [recipes/assembly-parameters.md](recipes/assembly-parameters.md) |
 | **Pattern → subtract** | N cutouts around an axis: one tool, merged pattern, single subtraction | [recipes/pattern-then-subtract.md](recipes/pattern-then-subtract.md) |
 | **Direct modeling (EIF)** | solid.* inside an entity injection: operation order, curve profiles with bulges, no recalc | [recipes/direct-modeling-eif.md](recipes/direct-modeling-eif.md) |
 | **Verification** (mandatory) | Input-type-keyed: perception-first reference records for drawings/images + numeric tiers (mass props, bounds, brep probes) for every build | [recipes/verification.md](recipes/verification.md) |

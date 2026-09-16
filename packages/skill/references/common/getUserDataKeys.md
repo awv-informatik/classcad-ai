@@ -22,7 +22,7 @@ No other parameters. This is a read-only query.
 
 - **Order is hash map order.** Keys are NOT returned in insertion order or lexicographic order. The order is determined by the internal hash map and is not predictable. Do not rely on any specific ordering.
 - **Per-object isolation.** Keys on a parent object (part) do not include keys from child objects (entity injections, sketches, work planes). Each object's user data is fully independent.
-- **Cannot query VOID objects.** Some APIs (e.g., `solid.box`) return VOID instead of an ID. Passing null/VOID gives error code 1001.
+- **Cannot query VOID objects.** Passing null/VOID (e.g. the result of a failed call) gives error code 1001.
 - **User data is session-only.** Not persisted across OFB save/load. After reloading, `getUserDataKeys` returns `[]`.
 
 ## Common Errors
@@ -68,7 +68,4 @@ const hasMaterial = keys.includes('material') // → true
 
 ## Related
 
-- `common.setUserData` — write a key-value pair (silent no-op if key exists)
-- `common.getUserData` — read a value by key
-- `common.removeUserData` — delete a single key
-- `common.clearUserData` — delete all keys from an object
+`common.setUserData` · `common.getUserData` · `common.removeUserData` · `common.clearUserData`

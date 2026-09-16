@@ -25,7 +25,7 @@ Creates a work point feature — an invisible construction point used as a refer
 | `2POINTS` | 2 | Midpoint between 2 points | brep-vertex, sketch-point |
 
 - **`references`** — array of geometry IDs. Not needed for USERDEFINED.
-- **`position`** — `[x,y,z]` numeric array, USERDEFINED only. Default `[0,0,0]`. **Numbers only, no expressions.**
+- **`position`** — `[x,y,z]`, USERDEFINED only. Default `[0,0,0]`. For expressions pass the whole vector as one string: `position: '[@expr.X, 0, 0]'` — live, the point follows `updateExpression`. `['@expr.X', 0, 0]` (expression inside a JS array) fails with a type error.
 
 ## Return Value
 
@@ -43,8 +43,8 @@ Returns the feature ID. Use this ID as:
 - **BREPVERTEX rejects work point IDs** — only sketch-point and vertex types. Despite being called "BREPVERTEX", sketch points are valid.
 - **BARYCENTER rejects work plane IDs** — only face-plane (brep faces). The docs say "brep-face or work-plane" but work plane IDs are rejected with "wrong id type".
 - **2POINTS with same point twice succeeds** — unlike workAxis.2POINTS which errors "null vector", workPoint.2POINTS returns the point itself (midpoint = same point). No error.
-- **Expression strings in position fail** — numbers only, same as all work geometry.
-- **No built-in work points** — unlike work planes (Top/Front/Right), work axes (XAxis/YAxis/ZAxis), and work CSys (Origin), parts have no built-in work points.
+- **Expressions in `position` need the string-vector form** — `'[@expr.X, 0, 0]'` works (same for all work geometry vectors); an expression string as an array element fails.
+- **One built-in work point: `Origin`** at [0,0,0] (`getWorkGeometry({ id, name: 'Origin' })`). Parts have built-in work planes (Top/Front/Right) and axes (XAxis/YAxis/ZAxis), but no built-in work csys.
 
 ## Common Errors
 
@@ -105,7 +105,4 @@ const wp4 = (await api.v1.part.workPoint({
 
 ## Related
 
-- `part.updateWorkPoint` — modify after creation (requires openFeature/closeFeature)
-- `part.getWorkGeometry` — find work point by name
-- `part.workAxis` — uses work points as POINTDIRECTION/2POINTS references
-- `part.workCSys` — uses work points as XYAXISORIGIN origin
+`part.updateWorkPoint` · `part.getWorkGeometry` · `part.workAxis` · `part.workCSys`

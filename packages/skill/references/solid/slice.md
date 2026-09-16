@@ -2,11 +2,10 @@
 
 Cuts a solid at a defined plane. The target solid is modified **in place** — no new solid is created (with `keepBoth: false`).
 
-## CRITICAL: keepBoth hangs the server
+## keepBoth
 
-**`keepBoth: true` (the default!) causes the server to hang permanently at 100% CPU.** There is no error, no timeout, no response — the server becomes completely unresponsive and must be `kill -9`'d. This is a kernel bug.
-
-**Always pass `keepBoth: false` explicitly.** Never rely on the default.
+- `keepBoth: true` (the default) keeps both halves: the target becomes one half and the call returns the id of the new solid holding the other half (80×60×40 box sliced at z=0: two solids, total volume 192000).
+- `keepBoth: false` keeps only the negative side (see below) and returns nothing.
 
 ## Prerequisites
 
@@ -19,7 +18,7 @@ Cuts a solid at a defined plane. The target solid is modified **in place** — n
 - `target` — ID of the solid to slice
 - `originPos` — `[x, y, z]` point on the cutting plane
 - `normal` — `[x, y, z]` direction vector of the plane normal. **The side the normal points toward is REMOVED.** Does not need to be unit length — only direction matters.
-- `keepBoth` — **always pass `false`**. Default is `true` which hangs the server.
+- `keepBoth` — `true` (default): keep both halves, returns the id of the second solid; `false`: keep only the negative side.
 
 ## Doc Discrepancy: Normal Direction
 
@@ -69,7 +68,7 @@ Normal vector magnitude is irrelevant. `[0,0,100]` behaves identically to `[0,0,
 
 ## Gotchas
 
-- **Default `keepBoth` hangs the server.** This is the #1 trap. Always pass `keepBoth: false`.
+- **Default `keepBoth` is `true`** — you get two solids. Pass `keepBoth: false` to discard the positive side.
 - **Normal direction is opposite of docs.** The normal points toward the discarded side, not the kept side. The docs say "negative side removed" but actually the positive side is removed.
 - **Centered geometry.** Primitives created without `translation` are centered at origin. A box with `height: 40` spans z=-20 to z=20, NOT z=0 to z=40. Plan your slice `originPos` accordingly.
 - **Auto-scaling hides size changes.** Slicing a solo solid in half produces identical-looking snapshots. Use `r.graphic.containers[].properties.min/max` to verify bounding box changes numerically, or include a reference body.
@@ -90,7 +89,7 @@ await api.v1.solid.slice({
   target: boxId,
   originPos: [0, 0, 0],
   normal: [0, 0, 1],
-  keepBoth: false, // ALWAYS pass this — default hangs the server
+  keepBoth: false, // discard the top half (default true keeps both)
 })
 // boxId now references the bottom half (z: -20 to 0)
 // boxId is still valid for subsequent operations

@@ -24,8 +24,8 @@ Calling `updateWorkAxis` without `openFeature` produces: "The provided feature i
 - **`name`** — rename the feature. Old name stops resolving via `getWorkGeometry`.
 - **`type`** — change the axis type. When switching to a referenced type, provide matching `references`.
 - **`references`** — new reference IDs. Can be updated alone without re-specifying type — the axis retains its current type.
-- **`position`** — new position (USERDEFINED only). Numeric array only, no expressions.
-- **`direction`** — new direction vector (USERDEFINED only). Numeric array only, no expressions.
+- **`position`** — new position (USERDEFINED only). Numeric array, or a string vector with expressions: `'[@expr.X, 5, 0]'`.
+- **`direction`** — new direction vector (USERDEFINED only). Numeric array, or a string vector with expressions.
 
 ## Return Value
 
@@ -95,6 +95,4 @@ await api.v1.part.closeFeature({ id: waId })
 
 ## Related
 
-- `part.openFeature` / `part.closeFeature` — required gate pattern
-- `part.workAxis` — create work axes
-- `part.getWorkGeometry` — find work axis by name
+`part.openFeature` / `part.closeFeature` · `part.workAxis` · `part.getWorkGeometry`

@@ -113,6 +113,4 @@ await api.v1.common.setDatabaseSettings({ chordHeightTol: 0.05, angleTol: 5, fac
 
 ## Related
 
-- `common.getDatabaseSettings` — read counterpart
-- `common.getFacetingParameters` / `common.setFacetingParameters` — convenience accessor for chord/angle only
-- `common.setAppearance` — per-entity tessellation overrides (relevant when facetingParamsMode=1)
+`common.getDatabaseSettings` · `common.getFacetingParameters` / `common.setFacetingParameters` · `common.setAppearance`

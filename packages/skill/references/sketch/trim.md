@@ -80,8 +80,5 @@ await api.v1.sketch.postTrim({ id: skId })                   // finalize → sur
 
 ## Related
 
-- `sketch.preTrim` — step 1: stages the splits and gives you the segment ids `trim` consumes (read it first).
-- `sketch.postTrim` — step 3: finalizes; trimmed-curve survivors get new ids, untrimmed keep originals. (Own task.)
-- `sketch.getPositions` — identify which staged segment is which by endpoint; confirms a trimmed segment is dead.
-- `~~sketch.trimCurves~~` (deprecated) — the old step-2 paired with `splitAllCurves`/`splitCurvesMergeBack`; had a
+`sketch.preTrim` · `sketch.postTrim` · `sketch.getPositions` · `~~sketch.trimCurves~~`
   many-segment worker-hang. Use `trim`.

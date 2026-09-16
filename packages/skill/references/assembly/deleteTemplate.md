@@ -62,8 +62,4 @@ await api.v1.assembly.deleteTemplate({ ids: [tpl2] })
 
 ## Related
 
-- `assembly.partTemplate` — create a part template
-- `assembly.assemblyTemplate` — create an assembly template
-- `assembly.getPartTemplate` — verify templates after deletion
-- `assembly.deleteInstance` — delete instances without touching templates
-- `assembly.convertToTemplate` — convert root assembly to template
+`assembly.partTemplate` · `assembly.assemblyTemplate` · `assembly.getPartTemplate` · `assembly.deleteInstance` · `assembly.convertToTemplate`

@@ -97,8 +97,4 @@ Dimension coordinates are in 3D model space. For FRONT view: X is horizontal, Z 
 
 ## Related
 
-- `drawing2d.dimension` — create dimensions (before view creation)
-- `drawing2d.centerView` — center views to origin after creation
-- `drawing2d.placeView` — reposition views with offsets
-- `drawing2d.getBoundaryBoxFromView` — get min/max bounds of each view (returns in input types order, unlike `view()`)
-- `drawing2d.exportSVG` / `drawing2d.exportDXF` — export views to file formats
+`drawing2d.dimension` · `drawing2d.centerView` · `drawing2d.placeView` · `drawing2d.getBoundaryBoxFromView` · `drawing2d.exportSVG` / `drawing2d.exportDXF`

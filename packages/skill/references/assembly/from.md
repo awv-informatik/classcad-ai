@@ -296,10 +296,4 @@ Numeric verification: NB1's children COG at root origin; NB2's children offset +
 
 ## Related
 
-- `assembly.create` — create an empty assembly root (what `from()` calls internally)
-- `assembly.partTemplate` / `assemblyTemplate` — create empty templates (what `from()` calls)
-- `assembly.instance` — create instances (`from()` uses this with `isLocal: true`)
-- `assembly.loadProduct` — load a single OFB/STP into a template (what `from()` uses internally for URL refs)
-- `assembly.fastened` / `fastenedOrigin` / `cylindrical` / `revolute` / `planar` / `parallel` / `slider` / `linearPattern` — the underlying constraint APIs `from()` dispatches to
-- `common.clear` — `from()` calls this implicitly at start
-- `common.load` — load an entire OFB drawing (different — replaces drawing with a saved file)
+`assembly.create` · `assembly.partTemplate` / `assemblyTemplate` · `assembly.instance` · `assembly.loadProduct` · `assembly.fastened` / `fastenedOrigin` / `cylindrical` / `revolute` / `planar` / `parallel` / `slider` / `linearPattern` · `common.clear` · `common.load`

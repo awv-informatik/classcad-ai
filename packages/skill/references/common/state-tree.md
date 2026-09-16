@@ -134,9 +134,7 @@ constraints in the active sketch").
   after a change — `GetTree` always returns the structure, whatever the
   flags. Repeated reads without a mutation in between are served from the
   cache. Outside a script every Result carries the structure again.
-- **`updateBox` can return `maxLevel: 51` even when the update succeeds** —
-  topology unchanged and the new value present in the tree. Error level alone
-  is not proof of failure; verify against the tree.
+- **`updateBox` needs `openFeature` first** — without it the call fails with 1200 "not active and open"; inside open/close a parameter update returns maxLevel 31.
 - **`frame.structure` is the same on `getAppVersion` as on the previous mutation**
   — the server sends current state, not "state diff since last call".
 - **Tree size grows fast.** A part-create alone is 24 nodes / ~19 KB JSON. A

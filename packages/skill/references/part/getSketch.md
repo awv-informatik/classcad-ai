@@ -59,7 +59,4 @@ const found = (await api.v1.part.getSketch({ id: partId, name: 'FrontProfile' })
 
 ## Related
 
-- `part.sketch` / `sketch.create` — create sketches (what you look up with this API)
-- `part.getSketchRegion` — similar lookup but for sketch regions (uses region names, not sketch names)
-- `part.getWorkGeometry` — analogous name-based lookup for work geometry
-- `sketch.deleteSketch` — delete sketches by ID
+`part.sketch` / `sketch.create` · `part.getSketchRegion` · `part.getWorkGeometry` · `sketch.deleteSketch`

@@ -50,5 +50,4 @@ await api.v1.part.closeFeature({ id: rId })
 
 ## Related
 
-- `part.rotation` — create the rotation feature
-- `part.openFeature` / `part.closeFeature` — required gate for all updates
+`part.rotation` · `part.openFeature` / `part.closeFeature`

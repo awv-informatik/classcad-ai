@@ -69,6 +69,4 @@ await api.v1.part.closeFeature({ id: ccId })
 
 ## Related
 
-- `part.updateCompositeCurve` — modify after creation
-- `part.openFeature` / `part.closeFeature` — required gate for updates
-- `part.getGeometryIds` — find brep edge/face IDs for references
+`part.updateCompositeCurve` · `part.openFeature` / `part.closeFeature` · `part.getGeometryIds`

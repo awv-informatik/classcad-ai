@@ -30,7 +30,7 @@ Returns `null` (VOID). maxLevel 31 on success. No ID is returned — the curve m
 
 ## Gotchas
 
-- **CRITICAL: Empty points array `[]` HANGS THE SERVER.** The worker spins at 100% CPU indefinitely. No error is returned. You must `kill -9` the worker and restart. **Always validate that points array is non-empty before calling.**
+- **CRITICAL: Empty points array `[]` CRASHES THE CLASSCAD WORKER** (connection lost, process exits; the worker must be restarted). **Always validate that the points array has at least 2 entries before calling.**
 - **Minimum 2 control points.** A single point fails with error code 0, level 51: `"creation of nurbs curve failed with error: 1007"`. Not a hang, just an error.
 - **Duplicate control points are accepted silently.** All points identical (e.g., `[[10,10,0], [10,10,0], [10,10,0]]`) succeeds with maxLevel 31 — creates a degenerate zero-length curve. No warning.
 - **Points must be 3-element arrays.** `[x, y]` (2D) returns error: `"point must have exactly 3 real values"`.
@@ -58,7 +58,7 @@ Returns single VOID response, maxLevel 31 on success.
 | 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
 | 0 | ERROR | `"point must have exactly 3 real values"` | Used 2D point `[x,y]` instead of `[x,y,z]` |
 | 0 | ERROR | `"creation of nurbs curve failed with error: 1007"` | Only 1 control point (need >= 2) |
-| — | HANG | (no response) | Empty points array `[]` |
+| — | CRASH | Worker disconnected | Empty points array `[]` |
 
 ## Working Example
 
@@ -81,6 +81,4 @@ await api.v1.curve.bezierCurve({
 
 ## Related
 
-- `curve.interpolationCurve` — curve that passes through all points (unlike Bezier, which only approximates)
-- `curve.line` — straight line (simpler than degree-1 Bezier)
-- `curve.shape` — create the shape container this requires
+`curve.interpolationCurve` · `curve.line` · `curve.shape`

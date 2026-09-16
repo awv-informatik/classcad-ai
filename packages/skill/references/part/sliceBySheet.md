@@ -22,23 +22,21 @@ New feature ID on success (maxLevel 31). Both target and tool features are consu
 
 ## Creating a Sheet Body (the tool)
 
-Use `part.extrusion` with `capEnds: 0` to create a sheet. The open extrusion produces a tube (4 walls without caps). Position the rectangle so one wall passes through the solid at the desired cut location.
+Use `part.extrusion` with `capEnds: 0` to create a sheet. The open extrusion produces a tube (walls without caps). Position the profile so one wall passes through the solid at the desired cut location and the other walls stay outside it.
 
-**CRITICAL: The sketch plane determines whether the result is a solid or a sheet.**
-- **Front (XZ) or Right (YZ) plane → CC_Solid result ✓**
-- **Top (XY) plane → CC_Sheet result ✗** — the slice produces a sheet body instead of a solid half, making the result unusable in boolean operations
+**Sketch-plane coordinates are mapped to world axes** — on the Front plane, local y → world **−Z** (see `sketch/getPositions`). A wall at world z=20 needs local y=−20.
 
-Always create the cutting sheet from the **Front or Right** plane, never the Top plane.
+**Check the result is a solid.** Sheets from any plane can work (verified: Front `UP`, Top `SYMMETRIC`), but some placements leave a `CC_Sheet` instead of a solid half (seen with Front `DOWN`/`SYMMETRIC` in a setup where `UP` worked). After slicing, `calculateMassProperties` must return the expected volume.
 
 ### Example: horizontal cut at z=20
 
 ```js
 const frontId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Front' })).result
 const skId = (await api.v1.sketch.create({ id: partId, planeId: frontId })).result
-// On XZ plane: sketch x = world x, sketch y = world z
-// Bottom edge at z=20 is the cutting wall. Other edges extend far outside the solid.
+// Front plane: sketch x = world x, sketch y = world −z
+// Edge at local y=−20 (world z=20) is the cutting wall. Other edges extend far outside the solid.
 const rectIds = (await api.v1.sketch.rectangle({
-  id: skId, startPos: [-20, 20, 0], endPos: [100, 200, 0],
+  id: skId, startPos: [-20, -20, 0], endPos: [100, -200, 0],
 })).result
 const regionId = (await api.v1.sketch.sketchRegion({ id: skId, geomIds: rectIds })).result
 // Extrude along +Y to span the solid
@@ -56,7 +54,7 @@ The returned slice feature ID is valid for subsequent operations (boolean, anoth
 
 ## Gotchas
 
-- **Sketch plane matters.** Sheets from the Top (XY) plane produce CC_Sheet results — the solid is destroyed and the result is an unusable surface body. Use Front (XZ) or Right (YZ) plane instead.
+- **Verify the result.** Some sheet placements produce a `CC_Sheet` result instead of a solid (mass properties then fail). Check the volume after slicing; mind the local→world axis mapping of the sketch plane.
 - **`inverted` must be integer 0 or 1.** Passing `true`, `false`, `'TRUE'`, or `'FALSE'` fails with misleading error: `"\"id\" must be provided to create CC_SliceBySheet"`. Use `0` or `1`.
 - **Tool must be a sheet body.** Passing a solid as the tool gives: `"The solid selected as sheet body used for SliceBySheet (CC_SliceBySheet) is not a sheet"`. A degenerate feature is still created.
 - **No-intersection is a silent no-op.** If the sheet doesn't intersect the target, the operation succeeds (maxLevel 31) and the solid is preserved unchanged. No error, no warning.
@@ -79,11 +77,11 @@ const boxId = (await api.v1.part.box({
   id: partId, name: 'Box', length: 80, width: 60, height: 50,
 })).result
 
-// Create sheet from Front (XZ) plane — cutting at z=20
+// Create sheet from Front (XZ) plane — cutting at z=20 (local y=−20)
 const frontId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Front' })).result
 const skId = (await api.v1.sketch.create({ id: partId, planeId: frontId })).result
 const rectIds = (await api.v1.sketch.rectangle({
-  id: skId, startPos: [-20, 20, 0], endPos: [100, 200, 0],
+  id: skId, startPos: [-20, -20, 0], endPos: [100, -200, 0],
 })).result
 const regionId = (await api.v1.sketch.sketchRegion({ id: skId, geomIds: rectIds })).result
 const sheetId = (await api.v1.part.extrusion({
@@ -91,7 +89,7 @@ const sheetId = (await api.v1.part.extrusion({
   type: 'UP', limit2: 80, capEnds: 0,
 })).result
 
-// Slice — keeps one side of the cut
+// Slice — keeps the part below z=20 (volume 80×60×20 = 96000)
 const sliceId = (await api.v1.part.sliceBySheet({
   id: partId,
   target: boxId,
@@ -116,7 +114,4 @@ const sliceId = (await api.v1.part.sliceBySheet({
 
 ## Related
 
-- `part.updateSliceBySheet` — modify after creation (requires `openFeature`/`closeFeature`)
-- `part.slice` — simpler version using a work plane
-- `part.extrusion` — create the sheet tool with `capEnds: 0`
-- `part.boolean` — similar consumption pattern
+`part.updateSliceBySheet` · `part.slice` · `part.extrusion` · `part.boolean`

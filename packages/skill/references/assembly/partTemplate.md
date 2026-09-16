@@ -54,7 +54,7 @@ const tplId = (await api.v1.assembly.partTemplate({ name: 'Bracket' })).result
 const boxId = (await api.v1.part.box({ id: tplId, name: 'Body', length: 50, width: 30, height: 20 })).result
 const wcsId = (await api.v1.part.workCSys({
   id: tplId, name: 'MateCSys',
-  origin: [25, 15, 20], xDirection: [1, 0, 0], yDirection: [0, 1, 0],
+  offset: [25, 15, 20],
 })).result
 
 // Return to assembly context (good practice, not strictly required)
@@ -75,9 +75,4 @@ const inst2 = (await api.v1.assembly.instance({
 
 ## Related
 
-- `assembly.assemblyTemplate` — create a sub-assembly template (for nested assemblies)
-- `assembly.getPartTemplate` — retrieve template by name or get all
-- `assembly.deleteTemplate` — remove a template
-- `assembly.instance` — instantiate a template (accepts numeric ID or name string as `productId`)
-- `assembly.setCurrentProduct` — switch context between assembly and templates
-- `assembly.convertToTemplate` — convert current root assembly into a template
+`assembly.assemblyTemplate` · `assembly.getPartTemplate` · `assembly.deleteTemplate` · `assembly.instance` · `assembly.setCurrentProduct` · `assembly.convertToTemplate`

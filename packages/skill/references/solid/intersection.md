@@ -31,7 +31,7 @@ Computes the boolean intersection of solids — keeps only the volume shared by 
 
 - **Non-overlapping bodies destroy the target.** Unlike union (which creates a compound solid from disjoint bodies), intersection of disjoint bodies produces nothing — the target is removed. Error code 1014, same as subtraction when tool envelops target. Always verify overlap before calling.
 - **Consumed tools are gone.** After a default intersection (keepTools=false), tool solid IDs are invalid. Referencing them in a later call returns a clean `"...has an invalid id!"` error (code 1006, maxLevel 51) — not a hang.
-- **`solid.copy` on intersection results may fail.** After intersection (with or without keepTools), calling `solid.copy` on the modified target returned null (maxLevel=51). Use `keepTools: true` and translate/reuse the tool instead if you need duplicates.
+- **`solid.copy` works on intersection results.** After an overlapping intersection, `copy({ target, translation })` returns a new solid with the intersected volume. (A disjoint intersection destroys the target — see `target-tools-pattern.md`.)
 - **Multiple tools = n-way intersection.** `tools: [A, B]` produces `target ∩ A ∩ B` — the common volume of all solids. All tools consumed.
 - **Empty tools array is a no-op.** `tools: []` succeeds silently — returns target ID unchanged, maxLevel=31.
 
@@ -91,7 +91,4 @@ await api.v1.solid.intersection({ id: eifId, target: body2, tools: [tool] })
 
 ## Related
 
-- `solid.union` — boolean union (same target/tools/keepTools pattern)
-- `solid.subtraction` — boolean subtract (same pattern)
-- `solid.merge` — NOT a boolean operation (different semantics)
-- `solid.copy` — duplicate a solid (note: may not work on intersection results)
+`solid.union` · `solid.subtraction` · `solid.merge` · `solid.copy`

@@ -41,7 +41,8 @@ After moveToEnd: BoxRef → CylRef → RollbackBar           (all active again)
 await api.v1.part.operationMoveBefore({ id: partId, featureId: boolId })
 // Bar is now before boolean — only box + cyl are active
 
-const sphereId = (await api.v1.part.sphere({ id: partId, radius: 12, position: [-20, 10, 20] })).result
+const sphereCS = (await api.v1.part.workCSys({ id: partId, name: 'SphereCS', offset: [-20, 10, 20] })).result
+const sphereId = (await api.v1.part.sphere({ id: partId, radius: 12, references: [sphereCS] })).result
 // Sphere is created at the bar position (before the boolean)
 
 await api.v1.part.operationMoveToEnd({ id: partId })
@@ -95,7 +96,7 @@ await api.v1.part.operationMoveToEnd({ id: partId })
 ```js
 const partId = (await api.v1.part.create({ name: 'Test' })).result
 const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
-const cylId = (await api.v1.part.cylinder({ id: partId, radius: 20, height: 60 })).result
+const cylId = (await api.v1.part.cylinder({ id: partId, diameter: 40, height: 60 })).result
 
 // Roll back before cylinder — only box visible
 await api.v1.part.operationMoveBefore({ id: partId, featureId: cylId })
@@ -106,7 +107,4 @@ await api.v1.part.operationMoveToEnd({ id: partId })
 
 ## Related
 
-- `part.openFeature` / `part.closeFeature` — the editing gate (uses GhostRollbackBar, a different mechanism)
-- `rollback-bars.md` — RollbackBar vs GhostRollbackBar conceptual overview
-- `part.getFeature` — find features by name (works regardless of bar position)
-- `part.deleteFeature` — permanently removes features (vs moveBefore which just hides them)
+`part.openFeature` / `part.closeFeature` · `rollback-bars.md` · `part.getFeature` · `part.deleteFeature`

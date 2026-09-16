@@ -55,6 +55,4 @@ const r = await api.v1.part.getSketchRegion({ id: partId, name: 'Profile' })
 
 ## Related
 
-- `sketch.getSketchRegion` — same lookup but scoped to a single sketch (takes sketch ID)
-- `sketch.sketchRegion` — creates the region this API looks up
-- `sketch.updateSketchRegion` — updates geometry of an existing region
+`sketch.getSketchRegion` · `sketch.sketchRegion` · `sketch.updateSketchRegion`

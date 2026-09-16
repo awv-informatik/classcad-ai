@@ -106,7 +106,4 @@ The `isDirty` member tracks whether recalculation is pending:
 
 ## Related
 
-- `part.openFeature` / `part.closeFeature` — the GhostRollbackBar API
-- `part.operationMoveBefore` / `part.operationMoveToEnd` — the RollbackBar API
-- `part.getFeature` — finds features regardless of either bar's position
-- `part.deleteFeature` — dangerous on rolled-back features (see deleteFeature.md)
+`part.openFeature` / `part.closeFeature` · `part.operationMoveBefore` / `part.operationMoveToEnd` · `part.getFeature` · `part.deleteFeature`

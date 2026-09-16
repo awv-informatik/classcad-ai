@@ -87,6 +87,4 @@ await api.v1.sketch.setWorkPlane({ id: skId, planeId: 42 })
 
 ## Related
 
-- `sketch.create` — initial sketch placement (accepts faces too, unlike setWorkPlane)
-- `part.workPlane` — create the target work plane
-- `part.updateWorkPlane` — modify a work plane's position/normal after creation
+`sketch.create` · `part.workPlane` · `part.updateWorkPlane`

@@ -140,7 +140,8 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
           type: 'string',
           description:
             '(v1 only) Search by intent/keyword. Matches method NAMES and SUMMARIES, ranked by relevance, and expands ' +
-            'common CAD synonyms (e.g. "split" also finds slice/cut/section; "hole" finds bore/drill). Prefer describing ' +
+            'common CAD synonyms (e.g. "split" also finds slice/cut/section; "hole" finds bore/drill). Also returns `docs`: ' +
+            'recipes/guides matching the topic (e.g. "shared parameters assembly" → recipes/assembly-parameters). Prefer describing ' +
             'the operation you want ("split solid", "cut", "fillet") over guessing an exact name.',
         },
       },

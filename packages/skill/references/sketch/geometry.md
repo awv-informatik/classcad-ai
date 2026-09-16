@@ -97,7 +97,4 @@ const r = await api.v1.sketch.geometry({
 
 ## Related
 
-- `sketch.point`, `sketch.line`, `sketch.circle`, `sketch.arcByCenter`, `sketch.arcBy3Points` — individual creation APIs (equivalent results)
-- `sketch.getGeometry` — retrieve all geometry IDs from a sketch
-- `sketch.deleteObject` — delete created geometry by ID
-- `sketch.constraint` — add constraints manually (when gen flags are off)
+`sketch.point` · `sketch.getGeometry` · `sketch.deleteObject` · `sketch.constraint`

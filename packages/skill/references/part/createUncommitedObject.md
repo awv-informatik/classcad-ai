@@ -123,6 +123,4 @@ await api.v1.part.closeFeature({ id: cylId })
 
 ## Related
 
-- `part.openFeature` / `part.closeFeature` — required for commit/decline
-- `part.update*` — the update APIs that configure the feature between open and close
-- `part.getFeature` — find committed features by name (requires `recalc` for uncommitted)
+`part.openFeature` / `part.closeFeature` · `part.update*` · `part.getFeature`

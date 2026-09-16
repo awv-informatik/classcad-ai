@@ -52,7 +52,7 @@ AllObjects (1)
 
 ## Gotchas
 
-- **Second `part.create` returns `null`.** The docs say "clears the drawing and creates a new part" but in practice, calling `part.create` twice in the same session returns `null` on the second call. The first part remains intact. **One `part.create` per cleared drawing** — `common.clear` first if you need a fresh part.
+- **Second `part.create` is refused.** It fails with "There is already a root assembly or part which must be removed first" (result null); the first part remains intact. **One `part.create` per cleared drawing** — `common.clear` first if you need a fresh part.
 - **partId is always 4** in a clean session — don't hardcode it, but expect it.
 - **Empty part has no visible geometry** — exports (OFB/STEP) succeed but there is nothing to render yet.
 - `structure.root` is NOT the tree root (AllObjects). It's the "root product" (the part). AllObjects (id=1) is the actual tree root with `parent: null`.
@@ -74,8 +74,4 @@ const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 
 ## Related
 
-- `common.clear` — clears the drawing; call it before re-creating a part
-- `part.expression` — add named variables to the part
-- `part.workPlane` / `part.workAxis` — add custom work geometry (defaults already exist)
-- `part.entityInjection` — create a container for direct geometry (curves, solids)
-- `part.sketch` / `sketch.create` — create sketches inside the part
+`common.clear` · `part.expression` · `part.workPlane` / `part.workAxis` · `part.entityInjection` · `part.sketch` / `sketch.create`

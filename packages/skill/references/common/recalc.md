@@ -25,7 +25,7 @@ Most ClassCAD operations auto-recalculate. You almost never need to call `recalc
 | Operation | Auto-recalculates? | recalc needed? |
 |---|---|---|
 | `part.closeFeature` | Yes | No |
-| `part.updateExpression` | Yes | No |
+| `part.updateExpression` | Yes — that part, then solves assemblies containing it | No |
 | `part.linkWithExpression` | Yes | No |
 | `part.unlinkExpression` | Yes | No |
 | `sketch.updateDimension` | Yes | No |
@@ -38,6 +38,11 @@ Most ClassCAD operations auto-recalculate. You almost never need to call `recalc
 - **After manual state manipulation** where internal consistency may be lost (e.g., custom batch operations modifying multiple features without close cycles)
 - **As a "just in case" safety call** when you're unsure if a prior operation triggered recalculation — it's safe and idempotent
 - **In batch calls** to force a recalc between other operations
+- **After changing a value other parts read by path** (e.g. `Params.ExpressionSet.W`). `part.updateExpression` only regenerates the part it targets; `recalc()` re-evaluates every part. Each call is one pass, so a part reading a value through another consuming part needs a second call. See `recipes/assembly-parameters`.
+
+## What recalc does not do
+
+- **It does not run the assembly constraint solver.** Part geometry and work csys regenerate, but constrained instances keep their placement. If a mounting csys moved, follow with `part.updateExpression` on an instanced part or an update on the affected constraint — see `assembly/generic.md` → Constraint Solving.
 
 ## Gotchas
 
@@ -73,7 +78,4 @@ await api.v1.common.batch({
 
 ## Related
 
-- `part.closeFeature` — auto-recalculates after feature edits (no recalc needed)
-- `part.updateExpression` — auto-recalculates expressions and bound features (no recalc needed)
-- `common.load` — loaded state is already consistent (no recalc needed)
-- `common.clear` — recalc is safe after any clear variant
+`part.closeFeature` · `part.updateExpression` · `common.load` · `common.clear`

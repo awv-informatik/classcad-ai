@@ -64,7 +64,7 @@ if (res.maxLevel >= 51) {
 | 41       | warning     | Precursor to error (always paired with 51)|
 | 51       | error       | Call failed — result is `null`            |
 
-In practice, `maxLevel == 31` means success, `maxLevel >= 51` means failure. Warning-only (41 without 51) was not observed in testing — warnings always accompany errors as precursors (e.g., the ToId warning before an invalid ID error).
+In practice, `maxLevel == 31` means success, `maxLevel >= 51` means failure. Warning-only results exist: `evaluateExpression` with named expressions returns the correct value at maxLevel 41. Warnings also precede errors (e.g., the ToId warning before an invalid ID error).
 
 **Caveat:** `result === null` is **NOT** a reliable failure indicator. VOID-returning APIs (`setObjectName`, `setAppearance`, `recalc`, etc.) return `null` on success. And `evaluateExpression` with `silent: true` returns `null` with `maxLevel: 31` on failure. Use `maxLevel` for failure detection, not result nullity.
 
@@ -143,11 +143,11 @@ Extra/unknown parameters are silently ignored — no warning.
 
 | Category | Functions | Notes |
 |----------|-----------|-------|
-| Trig | `sin`, `cos`, `tan`, `asin`, `acos`, `atan` | All radians. **`atan2` does NOT exist.** |
+| Trig | `sin`, `cos`, `tan`, `asin`, `acos`, `atan` | All radians. Two-argument `atan(y, x)` is atan2 (`atan(1,-1)` = 2.356); there is no function named `atan2`. |
 | Math | `sqrt`, `pow(x,y)`, `abs`, `exp` | `pow` is the only way to exponentiate |
 | Logarithmic | `log` (base 10), `ln` (natural) | `log(100)` → `2`, `ln(exp(1))` → `1` |
 | Min/Max | `min(a,b)`, `max(a,b)` | Work on reals |
-| **Missing** | `floor`, `ceil`, `round`, `mod`, `atan2`, `if` | None of these exist |
+| **Missing** | `floor`, `ceil`, `mod`, `atan2` (use `atan(y, x)`), `if` | None of these exist; `round(x, d)` does (`round(2.567,2)` = 2.57) |
 
 **Constants:** Only `C:PI` (3.14159...). `C:E`, `C:2PI`, `C:HALF_PI`, `C:INF` do **NOT** exist. Use `exp(1)` for Euler's number.
 
@@ -179,7 +179,7 @@ Every object in ClassCAD has a unique integer ID. IDs are the primary mechanism 
 - **Creation:** APIs like `part.create`, `part.box`, `sketch.create`, `sketch.line` return IDs. Single-object APIs return a number; multi-object APIs (e.g. `sketch.rectangle`) return `Array<number>`.
 - **Consumption:** Most APIs take an `id` parameter to identify which object to operate on. The `common.*` APIs (`setObjectName`, `setUserData`, `transformObjectWithMatrix`) accept ANY valid object ID regardless of class.
 - **Deletion:** `part.deleteFeature({ ids: [...] })` removes features. Deleted IDs become invalid immediately and are never recycled.
-- **Clear:** `common.clear()` invalidates ALL IDs. IDs restart from the same sequence (part.create → 4 again). `clear({ keepIds: [id] })` preserves the named object AND its entire subtree — all children, features, and solids survive with their original IDs.
+- **Clear:** `common.clear()` invalidates ALL IDs. IDs restart from the same sequence (part.create → 4 again). `clear({ keepIds: [id] })` keeps the named objects with their IDs, but not the solid geometry inside them (part + EIF kept, mass properties afterwards fail).
 
 ### ID Validation
 
@@ -282,7 +282,7 @@ Default work planes: Top (XY, Z-normal), Front (XZ, Y-normal), Right (YZ, X-norm
 
 **`deg` suffix in expressions:** The expression engine supports `Ndeg` to convert degrees to radians: `180deg` → `3.14159...` (PI), `sin(90deg)` → `1`. There is no `rad` suffix (angles are already radians).
 
-**Trig functions:** `sin`, `cos`, `tan`, `asin`, `acos`, `atan` — all in radians. **`atan2` does NOT exist** — use `atan` (single-argument) only.
+**Trig functions:** `sin`, `cos`, `tan`, `asin`, `acos`, `atan` — all in radians. There is no `atan2` function — use two-argument `atan(y, x)`.
 
 ## Rotation Vectors
 
@@ -314,6 +314,4 @@ matrix: [
 
 ## Related
 
-- `common.batch` — runs multiple API calls, returns nested envelopes
-- `common.evaluateExpression` — useful for testing result types (real, point, VOID)
-- `common.getAppVersion` / `common.getClassFileVersion` — simplest stateless calls for connection testing
+`common.batch` · `common.evaluateExpression` · `common.getAppVersion` / `common.getClassFileVersion`

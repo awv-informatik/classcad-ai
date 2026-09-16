@@ -4,6 +4,8 @@ How to build a model that **regenerates in-tree** when a master parameter change
 not a script that must be re-run. Verified end-to-end on a 21→24-tooth sprocket
 (tooth form, bore, keyway, hub, tapers, chamfer — all live).
 
+Parameters shared by several parts of an assembly: `recipes/assembly-parameters`.
+
 ## The architecture
 
 ```
@@ -47,16 +49,17 @@ and bind dimensions to expressions:
 
 ```js
 const sk = (await api.v1.sketch.create({ id: partId, planeId: topPlaneId })).result
-const c  = (await api.v1.sketch.circle({ id: sk, center: [0, 0], radius: 10 })).result
+const c  = (await api.v1.sketch.circle({ id: sk, centerPos: [0, 0, 0], radius: 10 })).result
 await api.v1.sketch.dimension({
   id: sk, type: 'DIAMETER', geomIds: [c],
   value: '@expr.boreDia',            // ← live binding; regenerates on updateExpression
 })
 ```
 
-- `@expr.NAME` works at creation AND via `updateDimension` — for length/distance/radius
-  dims. **ANGLE dimensions reject `@expr`** (error 51); encode angles through geometry or
-  constraints instead.
+- `@expr.NAME` works at creation AND via `updateDimension` — for length, distance, radius,
+  diameter and angle dims. Formulas with the prefix work too (`'@expr.W*2'`). **Angle
+  expressions are radians** (`'C:PI/6'` or a number); `a_r()`-based expressions do not drive
+  the sketch.
 - Distance dims between points (HD/VD) are **unsigned and branch-keeping**: the solver
   stays on the seed's side. Seed the sketch near the intended solution.
 - `sketch.getPositions` returns **world** coordinates, not sketch-local — map before
@@ -70,8 +73,8 @@ Features get consumed (by patterns, by booleans). Liveness after consumption:
 |---|---|---|
 | Sketch dimension (`@expr`) | regenerates exactly through extrusion → pattern copies → boolean → brep | ✅ use this for everything |
 | `circularPattern` count/angle, **`merged: 1`** | fully live (single-brep tool; subtraction is count-independent) | ✅ always merge pattern-then-subtract |
-| `circularPattern` count/angle, `merged: 0` | silently frozen; even explicit update reports success and changes nothing | ❌ avoid |
-| Primitive feature param (e.g. cylinder `diameter: '@expr.D'`) | geometry **corrupts** on regen | ❌ route through a sketch instead |
+| `circularPattern` count/angle, `merged: 0` | does not regenerate correctly (count 4→6 left the target uncut) | ❌ avoid |
+| Primitive feature param (e.g. cylinder `diameter: '@expr.D'`) | regenerates correctly in a single subtraction; one complex multi-boolean model regenerated a consumed primitive wrongly | ✅ verify volume after updates in long boolean chains |
 | Edge-referenced chamfer/fillet downstream | tracks the regenerated topology | ✅ safe as tree tip |
 
 ## 4. Regeneration: step large parameter jumps

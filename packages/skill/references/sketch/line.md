@@ -64,7 +64,7 @@ await api.v1.sketch.updateGeometry({
 })
 ```
 
-**Both `startPos` and `endPos` are required** in the update call. Omitting either → error 1004. Partial updates are not supported.
+Partial updates work: pass only `startPos` or only `endPos`.
 
 ## Querying Lines
 
@@ -126,10 +126,4 @@ await api.v1.sketch.deleteObject({ ids: [lineId2] })
 
 ## Related
 
-- `sketch.getPoints` — get startId/endId of a line
-- `sketch.getPositions` — get world coordinates of a point
-- `sketch.updateGeometry` — move line endpoints (requires both startPos and endPos)
-- `sketch.deleteObject` — delete lines and other sketch geometry
-- `sketch.point` — standalone points; lines create implicit CC_Point children
-- `sketch.constraint` — manually add constraints between geometry
-- `sketch.rectangle` — creates 4 lines forming a rectangle
+`sketch.getPoints` · `sketch.getPositions` · `sketch.updateGeometry` · `sketch.deleteObject` · `sketch.point` · `sketch.constraint` · `sketch.rectangle`

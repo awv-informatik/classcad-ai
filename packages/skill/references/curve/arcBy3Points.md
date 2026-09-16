@@ -97,8 +97,4 @@ await api.v1.curve.line({ id: shapeId, startPos: [30, 0, 0], endPos: [0, 0, 0] }
 
 ## Related
 
-- `curve.shape` — create the container this consumes
-- `curve.arcByCenter` — arc defined by center, start, end, and clockwise flag
-- `curve.arcByCenterRadAngle` — arc defined by center, radius, and start/end angles
-- `curve.line`, `curve.circle` — other curve types in the same shape
-- `curve.deleteShape` / `curve.cleanShape` — remove arcs (no per-arc delete)
+`curve.shape` · `curve.arcByCenter` · `curve.arcByCenterRadAngle` · `curve.line` · `curve.deleteShape` / `curve.cleanShape`

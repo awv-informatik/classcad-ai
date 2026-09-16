@@ -130,8 +130,4 @@ const ext3 = (await api.v1.solid.extrusion({
 
 ## Related
 
-- `solid.extrusion` — sweep along direction vector
-- `solid.revolve` — sweep around axis
-- `curve.shape` — create a shape container for curve.* APIs
-- `sketch.rectangle`, `sketch.line`, `sketch.circle` — create sketch-curve elements
-- `part.extrusion` — feature version that uses `references` param (accepts sketchRegion, different from `curves`)
+`solid.extrusion` · `solid.revolve` · `curve.shape` · `sketch.rectangle` · `part.extrusion`

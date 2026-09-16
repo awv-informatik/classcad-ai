@@ -14,7 +14,7 @@ The ClassCAD assembly system uses a **template/instance** architecture. Template
 ### Instances
 
 - **Lightweight references** — not copies of geometry. Each instance is a `CC_ProductReference` node.
-- Structure tree members: `productId` (template link), `isDirty`, `localPath`, `ownPart`, `productRefsET`, `_VERSION`. The transform is stored internally — **not visible** in the structure tree member dump.
+- Structure tree members: `productId` (template link), `isDirty`, `localPath`, `ownPart`, `productRefsET`, `_VERSION`. The placement is a node field, not a member: `(await api.tree())[instanceId].coordinateSystem` → `[origin, xDir, yDir, zDir]` in assembly coordinates. Read it to verify where constraints put an instance.
 - Live under `CC_AssemblyRoot` or inside assembly templates.
 - Have NO children in the structure tree — geometry comes from the linked template.
 
@@ -75,6 +75,28 @@ await api.v1.assembly.setCurrentProduct({ id: asmId })
 // All unmaterialized instances now reflect the change
 ```
 
+If constraints are mounted on geometry that moved with this change (a csys driven by the changed dimension), check instance placement afterwards — see Constraint Solving below.
+
+## Constraint Solving
+
+The constraint solver places instances. It runs when a constraint is created or updated (`fastened`, `updateFastened`, …) and at the end of `part.updateExpression` for every assembly that contains the updated part. `common.recalc()` regenerates part geometry but does **not** run the solver, so instances mounted on a csys that moved keep their previous placement after a recalc.
+
+To re-solve after geometry changed: call `part.updateExpression` on an instanced part (re-assigning an existing expression to its current formula is enough), or re-apply a value on an affected constraint (e.g. `updateFastened({ id, zOffset: 0 })`).
+
+## Parameters and Expressions
+
+**Assemblies do not host expressions — only parts do.** `part.expression` accepts part and part-template IDs; assembly IDs are rejected (`wrong id type ... ["part"]`).
+
+Shared parameters for several parts live in a **parameter part**: a part template holding only expressions, read by other parts through an object path.
+
+```js
+const Params = (await api.v1.assembly.partTemplate({ name: 'Params' })).result
+await api.v1.part.expression({ id: Params, toCreate: [{ name: 'W', value: 40 }] })
+await api.v1.part.expression({ id: Shell, toCreate: [{ name: 'H', value: 'Params.ExpressionSet.W' }] })
+```
+
+Propagating a change needs a refresh of each consuming part — full pattern, reasons and caveats: `recipes/assembly-parameters`.
+
 ### Getting fresh geometry on materialized instances
 
 ```js
@@ -102,9 +124,4 @@ const newInst = (await api.v1.assembly.instance({
 
 ## Related
 
-- `assembly.create` — creates the root assembly
-- `assembly.partTemplate` / `assembly.assemblyTemplate` — create templates
-- `assembly.instance` — create instances
-- `assembly.deleteTemplate` / `assembly.deleteInstance` — deletion
-- `assembly.setCurrentProduct` — context switching
-- `assembly.calculateMassProperties` — mass/COG queries
+`assembly.create` · `assembly.partTemplate` / `assembly.assemblyTemplate` · `assembly.instance` · `assembly.deleteTemplate` / `assembly.deleteInstance` · `assembly.setCurrentProduct` · `assembly.calculateMassProperties` · `assembly.fastened` · `recipes/assembly-parameters`

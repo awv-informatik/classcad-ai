@@ -101,10 +101,4 @@ const extId3 = (await api.v1.solid.extrusion({
 
 ## Related
 
-- `curves-parameter.md` — full reference on the `curves` parameter (accepted types, mixing, edge cases)
-- `solid.revolve` — revolve a profile around an axis (instead of sweeping along a vector)
-- `solid.deleteSolid` — remove solids from an EIF
-- `curve.shape` + `curve.advancedPolyline` — create the profile for extrusion
-- `curve.circle` — create a circular profile (extrudes into a cylinder)
-- `sketch.rectangle` / `sketch.line` — alternative: sketch-based profile
-- `generic.md` — common transform parameters (rotation, translation, rotateFirst)
+`curves-parameter.md` · `solid.revolve` · `solid.deleteSolid` · `curve.shape` · `curve.circle` · `sketch.rectangle` / `sketch.line` · `generic.md`

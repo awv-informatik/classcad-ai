@@ -27,9 +27,9 @@ The section's graphic data is a container with `type: 2` (curves) containing edg
 
 Edge IDs are negative (internal/generated).
 
-## CRITICAL: Do NOT deleteSolid a Section
+## deleteSolid and sections
 
-**`solid.deleteSolid(target: sectionId)` deletes the ORIGINAL SOLID, not the section curves.** The CC_CurveEntity resolves to the wrong geometry target — calling deleteSolid on it destroys the solid that was sectioned while the section curves survive. There is no known safe way to programmatically remove section curves without also destroying the source solid.
+`solid.deleteSolid` takes `ids` (an array of **solid** ids). A section result is a curve entity, so `deleteSolid({ id: eifId, ids: [sectionId] })` is rejected (`wrong id type ... ["solid"]`) and the source solid stays. `deleteSolid` without `ids` deletes **all** solids in the EIF — passing the section id under another key (e.g. `target`) does exactly that.
 
 ## Edge Cases
 
@@ -67,7 +67,7 @@ Each section creates a separate CC_CurveEntity with its own ID. They all coexist
 
 ## Gotchas
 
-- **`deleteSolid` trap.** Never call `solid.deleteSolid` on a section entity — it destroys the original solid. See CRITICAL section above.
+- **`deleteSolid` needs `ids`.** Section ids are rejected (not solids); omitting `ids` deletes every solid in the EIF. See above.
 - **Empty sections are silent.** No-intersection and zero-normal cases return a valid ID with no error. Check the graphic container's edges array to know if curves were actually produced.
 - **Curves are tessellated.** Circular/elliptical cross-sections are polygon approximations, not exact analytic curves. Expect ~65 points for a full circle.
 - **Normal only affects winding.** Unlike `slice` where normal determines which side is kept/removed, for `section` the normal only changes the edge traversal direction (CCW vs CW by right-hand rule). The cross-section shape is identical.

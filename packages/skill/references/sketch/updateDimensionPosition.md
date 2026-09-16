@@ -82,6 +82,4 @@ After:  dimPt.value = {x:50, y:60, z:0}, dimPt.expression = "{50,60,0}"
 
 ## Related
 
-- `sketch.dimension` — create the dimension this positions
-- `sketch.updateDimension` — change the dimension value (length, angle, etc.)
-- `sketch.deleteObject` — delete a dimension (use `ids: [dimId]`)
+`sketch.dimension` · `sketch.updateDimension` · `sketch.deleteObject`

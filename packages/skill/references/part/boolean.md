@@ -38,7 +38,7 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
 |---|---|---|
 | Return value | New feature ID | Target solid ID (unchanged) |
 | Input consumption | Target AND tools consumed | Only tools consumed (with `keepTools: false`) |
-| Self-reference (target === tool) | **Succeeds safely** | **Hangs server** (100% CPU) |
+| Self-reference (target === tool) | **Succeeds safely** | **Error**: "requires distinct target and tool entities" |
 | Empty tools `[]` | **Error** (code 1004) | Silent no-op |
 | Non-overlapping bodies | **Succeeds silently** (all types) | SUB/INT can error (code 1014) |
 | `keepTools` param | Not available | Available |
@@ -59,12 +59,13 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
   - **`circularPattern` with `merged: 1`**: count/angle (`@expr`-bound) stay fully live through
     the subtraction — the merged single-brep tool makes the boolean independent of the instance
     count (verified: tooth count 21→24 regenerated the subtracted body exactly). With
-    `merged: 0` the count/angle freeze silently once consumed, and explicit
-    `openFeature`+`updateCircularPattern`+`closeFeature` reports success while changing nothing —
-    **always merge patterns that feed booleans**;
-  - `@expr`-bound params of other consumed primitives can CORRUPT on update (part.cylinder
-    diameter: hole teleported, exactly ¼ of the expected material change, maxLevel 31
-    throughout) — prefer sketch-based tools for parameters that must stay live;
+    `merged: 0` a consumed pattern does not regenerate correctly (count 4→6 reported success
+    and left the target uncut) — **always merge patterns that feed booleans**;
+  - `@expr`-bound params of consumed primitives regenerate correctly in a single subtraction
+    (part.cylinder `diameter: '@expr.D'`, D 10→20: volume and hole position exact). One complex
+    sprocket model with patterns and several booleans regenerated a consumed cylinder wrongly
+    (hole moved, ¼ of the expected material change, maxLevel 31) — in long boolean chains,
+    verify volume after parameter updates;
   - **downstream edge-referenced features TRACK the regen**: a `part.chamfer` (tree tip) whose
     edge refs were collected on the 1.0"-bore rims followed a sketch-dim regen to a 1.25" bore
     exactly (chamfer ring at the new radius, error 0 mm) — brep-id-based references survive
@@ -73,7 +74,7 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
   cylinder + extrusions) works — one consumption chain beats sequential booleans for tool-heavy
   builds (verified 2026-08-10, sprocket generator).
 - **Empty tools is an error**, not a no-op. Error: `"The type \"0\" is not supported in PrepareAPIParams!"` (code 1004).
-- **Multiple `part.create` calls in one session** clear the drawing and can cause confusing `"id" must be provided"` errors. Use one `part.create` per cleared drawing.
+- **One root part per drawing.** A second `part.create` is refused ("There is already a root assembly or part"); `common.clear()` first, or use part templates in an assembly.
 - **No `keepTools` param.** Tools are always consumed. If you need a feature for multiple operations, create separate features for each.
 
 ## Common Errors
@@ -120,6 +121,4 @@ const subId = (await api.v1.part.boolean({
 
 ## Related
 
-- `part.updateBoolean` — modify type/name after creation (requires `openFeature`/`closeFeature`)
-- `solid.union` / `solid.subtraction` / `solid.intersection` — direct-mode booleans (different behavior)
-- `part.openFeature` / `part.closeFeature` — required gate for `updateBoolean`
+`part.updateBoolean` · `solid.union` / `solid.subtraction` / `solid.intersection` · `part.openFeature` / `part.closeFeature`

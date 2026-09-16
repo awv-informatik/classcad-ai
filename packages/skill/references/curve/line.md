@@ -73,7 +73,4 @@ await api.v1.curve.line([
 
 ## Related
 
-- `curve.shape` — create the container this consumes
-- `curve.circle`, `curve.arcBy3Points`, etc. — other curve types in the same shape
-- `curve.polyline2d` — alternative for connected line sequences
-- `curve.deleteShape` / `curve.cleanShape` — remove lines (no per-line delete)
+`curve.shape` · `curve.circle` · `curve.polyline2d` · `curve.deleteShape` / `curve.cleanShape`

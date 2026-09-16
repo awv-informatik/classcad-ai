@@ -24,7 +24,7 @@ Requests tessellated rendering data (meshes, edges, curves) for specific geometr
 | Work geometry ID | ❌ | `graphic: null`, no error |
 | Nonexistent ID (999999) | ❌ | Error 1006 "invalid id" |
 | Zero (0) | ❌ | Error |
-| Negative (-1) | 💀 | **HANGS SERVER** — 100% CPU, requires kill -9 |
+| Negative (-1) | 💀 | **CRASHES THE WORKER** — connection lost, process exits |
 
 ## Return Value
 
@@ -101,7 +101,7 @@ Per-feature faceting (set via `setAppearance`) overrides global settings and is 
 ## Gotchas
 
 - **Only works with solid/shape IDs** — feature IDs, part IDs, etc. return `graphic: null` silently (no error). This means part-level features (`part.box`) are not directly queryable.
-- **Negative IDs hang the server** — never pass negative values in the `ids` array. Requires `kill -9` to recover.
+- **Negative IDs crash the worker** — never pass negative values in the `ids` array; the worker process exits and must be restarted.
 - **Empty array is a no-op** — `ids: []` returns `graphic: null`, maxLevel 31 (no error).
 - **Live data** — returns current geometry state. After booleans, mesh counts and bounding boxes update. Consumed solid IDs become invalid (error 1006).
 - **`container.id` ≠ `container.owner`** — `owner` is the solid ID you passed; `id` is the graphic container child. Both work as input to subsequent calls.
@@ -138,6 +138,4 @@ console.log('vertices:', c.vertices.length)  // 8
 
 ## Related
 
-- `common.setAppearance` — set color, transparency, faceting (this API reads them back)
-- `common.setFacetingParameters` / `common.getFacetingParameters` — global faceting settings
-- `common.setDatabaseSettings` — toggle graphic generation
+`common.setAppearance` · `common.setFacetingParameters` / `common.getFacetingParameters` · `common.setDatabaseSettings`

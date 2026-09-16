@@ -38,11 +38,11 @@ On error: returns null or a feature ID with maxLevel=51 (degenerate feature).
 - **Disjoint outers combine in one call**, each hole assigned to its containing outer: two plates + their two holes in one array → both plates-with-holes from one feature.
 - **Loops must not touch or cross.** A hole straddling the outline fails with error 1121 "Curves … self intersect at least at position {x,y,z}" — and STILL returns a feature id at maxLevel 51 that you must `deleteFeature`.
 - **`CC_SketchRegion` exists only AFTER a curve-based extrusion** (child of the sketch, named "SketchRegion") — a fresh sketch has none, so first-time extrusion goes by curve ids. `getSketchRegion({ id: partId, name: 'SketchRegion' })` resolves it; passing the region id in `references` re-extrudes the SAME multi-loop profile, holes included (verified: volume exactly doubled extruding the region the other way).
-- Caveat: `updateExtrusion` CHANGING `references` on a committed feature errored 1200 "not allowed to update. It's not active and open" — param-only updates (`limit2`, type) are verified working. Recreate the feature, or open it first (`openFeature`), for reference changes.
+- `updateExtrusion` can change `references` too (e.g. rectangle → circle) inside `openFeature`/`closeFeature`. Error 1200 "not active and open" means the feature was not opened.
 
 ## Gotchas
 
-- **Sketch MUST have `planeId` set.** Without it, extrusion produces maxLevel=51 error (`Sketch.GetNormal:CCObject can not be opened`) even though geometry may be created. Always pass `planeId` to `sketch.create`.
+- **Pass `planeId` to `sketch.create`.** Without it, curve references still extrude (default XY plane), but region references fail with `Sketch.GetNormal:CCObject can not be opened`, and the sketch's constraint solver does not run.
 - **`references` is required** despite the bracket notation in docs. Omitting it gives: "The parameter 'references' must be provided."
 - **Empty `references: []` creates a broken feature.** Returns a feature ID with maxLevel=51: "Nothing was selected." The feature exists but is degenerate.
 - **`capEnds` is an integer, not a string.** Passing `'TRUE'` or `'FALSE'` fails with: "has the wrong type! It should be of type (boolean)". Use `1` or `0`.
@@ -67,7 +67,7 @@ On error: returns null or a feature ID with maxLevel=51 (degenerate feature).
 | 1122 | "Direction can't be perpendicular to the normal vector of sketch plane" | Direction in sketch plane                   | Direction must have component along sketch normal |
 | —    | "Brep after linear sweep not manifold"                                  | Open profile (lines don't form closed loop) | Ensure closed profile                             |
 | 1001 | "capEnds has the wrong type"                                            | Passed string instead of integer            | Use `1` or `0`, not `'TRUE'`/`'FALSE'`            |
-| —    | "Sketch.GetNormal:CCObject can not be opened"                           | Sketch created without `planeId`            | Set `planeId` on `sketch.create`                  |
+| —    | "Sketch.GetNormal:CCObject can not be opened"                           | Region reference from a sketch without `planeId` | Set `planeId` on `sketch.create`                  |
 
 ## Working Example
 
@@ -154,9 +154,4 @@ const extId5 = (
 
 ## Related
 
-- [`part.updateExtrusion`](updateExtrusion.md) — modify after creation (requires `openFeature`/`closeFeature`)
-- `part.boolean` — combine extrusion with other features (union, subtraction, intersection)
-- `sketch.sketchRegion` — create the region reference
-- `sketch.rectangle` / `sketch.line` / `sketch.circle` — create contour elements for references
-- `part.box` — simpler alternative for rectangular solids (no sketch needed)
-- `solid.extrusion` — direct extrusion in EIF (no feature tree, no update, direction magnitude = distance)
+[`part.updateExtrusion`](updateExtrusion.md) · `part.boolean` · `sketch.sketchRegion` · `sketch.rectangle` / `sketch.line` / `sketch.circle` · `part.box` · `solid.extrusion`

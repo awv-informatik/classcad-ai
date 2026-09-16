@@ -20,12 +20,24 @@ export interface DescribeResult {
 }
 
 export interface BulkDocsResult {
-  /** The assembled tool result: `# ═══ key ═══` sections + a "not found" section. */
+  /**
+   * The assembled tool result, at most `budget` chars: an optional "response budget reached"
+   * header naming the deferred keys, `# ═══ key ═══` sections, and a "not found" section.
+   */
   text: string
+  /** Keys served (as requested, including `#page` suffixes). */
   found: string[]
   missing: string[]
+  /** Valid keys that did not fit the budget — to be requested in a follow-up call. */
+  deferred: string[]
   /** Set when no valid keys were provided (text carries the usage hint). */
   empty?: boolean
+}
+
+export interface DocSearchResult {
+  count: number
+  docs: Array<{ key: string; title: string; chars: number; pages: number; headings: string[] }>
+  note?: string
 }
 
 /** Per-key resolver override for hosts with extra key spaces (live namespaces …). */
@@ -40,14 +52,21 @@ export interface Discovery {
   }): SearchResult
   describeMethod(name: string): DescribeResult
   readDoc(name: string): { key: string; text: string } | null
-  listDocs(): { topics: string[]; overviews: string[]; recipes: string[] }
+  listDocs(): { topics: string[]; overviews: string[]; recipes: string[]; guides: string[] }
+  /** Search recipes, topic docs and guides by topic (not per-method notes, not api/* overviews). */
+  searchDocs(opts?: { search?: string | string[]; limit?: number; budget?: number }): DocSearchResult
   methodIndex(): string
-  /** Bulk documentation — the single source for every host's `docs` tool. */
-  bulkDocs(keys: unknown, resolveOne?: ResolveOne): Promise<BulkDocsResult>
+  /** Compact `key — title` index of recipes and guides. */
+  docIndex(): string
+  /** Bulk documentation — the single source for every host's `docs` tool. Size-budgeted, oversized docs paged. */
+  bulkDocs(keys: unknown, resolveOne?: ResolveOne, opts?: { budget?: number }): Promise<BulkDocsResult>
 }
 
 /** Shared limits for the bulk docs tool. */
 export const DOCS_MAX_KEYS: number
+/** Max chars in one docs response. */
+export const DOCS_RESPONSE_BUDGET: number
+/** @deprecated Docs are paged, not truncated; equals DOCS_RESPONSE_BUDGET. */
 export const DOCS_PER_DOC_CAP: number
 
 /** Shared `docs` tool contract (name + LLM-facing description). */

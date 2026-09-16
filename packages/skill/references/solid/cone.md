@@ -84,11 +84,4 @@ const pointedId = (await api.v1.solid.cone({
 
 ## Related
 
-- `solid.deleteSolid` — remove solids from an EIF
-- `solid.copy` — duplicate a solid with optional transform
-- `solid.translation` / `solid.rotation` / `solid.scale` — transform existing solids
-- `solid.union` / `solid.subtraction` / `solid.intersection` — boolean operations between solids
-- `part.entityInjection` — create the required EIF container
-- `solid.cylinder` — similar primitive (also fully centered at origin)
-- `solid.box` — similar primitive (also fully centered at origin)
-- `solid.sphere` — similar primitive (centered at origin)
+`solid.deleteSolid` · `solid.copy` · `solid.translation` / `solid.rotation` / `solid.scale` · `solid.union` / `solid.subtraction` / `solid.intersection` · `part.entityInjection` · `solid.cylinder` · `solid.box` · `solid.sphere`

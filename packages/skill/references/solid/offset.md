@@ -34,8 +34,10 @@ spins at 100% CPU. Check subtraction results before exporting.
 
 Two takeaways:
 - **Always check the `maxLevel` of each boolean before continuing.** A multi-tool subtraction
-  (`tools: [a, b, c]` in one call) can return a `nonmanifold` error (maxLevel 51) and leave the
-  target only partially cut; building/exporting on top of that unchecked state is what bites.
+  (`tools: [a, b, c]` in one call) gives the same result as sequential calls for separate tools
+  (plate minus 3 cylinders: identical, exact volume), but in the sprocket session it returned a
+  `nonmanifold` error (maxLevel 51) and left the target partially cut; building/exporting on top of
+  that unchecked state is what bites.
 - The STEP/OFB-export-hangs-on-corrupt-state behavior is a real but separate issue (see the
   `common.clear` + export hang entry in the project TODO). It is not specific to offset.
 

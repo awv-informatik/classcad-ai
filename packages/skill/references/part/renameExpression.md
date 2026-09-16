@@ -68,24 +68,25 @@ Same rules as `expression()` creation:
 - **Cannot rename to an existing name** — error 1014 "X already exists"
 - **Cannot rename to the same name** — treated as a collision with itself (error, not a no-op)
 
-## WARNING: Rename Breaks @expr Feature Bindings
+## Bindings Follow the Rename
 
-Renaming auto-updates **formula references** (other expressions), but does **NOT** update `@expr.NAME` bindings on features. Features that were created with `@expr.oldName` or linked via `linkWithExpression` to the old name will **freeze at the last value** — they do NOT follow the rename. No warning is emitted.
-
-**Workaround:** After renaming, re-link affected features:
+Every binding to the expression is rewritten to the new name and stays live: feature parameters bound with `@expr.NAME` or `linkWithExpression` (stored as `ExpressionSet.<newName>`) and sketch dimensions bound with `@expr.NAME`.
 
 ```js
-await api.v1.part.renameExpression({ id: partId, toRename: [{ name: 'H', newName: 'height' }] })
-// Box still frozen at old H value — must re-link
-await api.v1.part.linkWithExpression({ id: boxId, exprName: 'height', name: 'height' })
+await api.v1.part.renameExpression({ id: partId, toRename: [{ name: 'H', newName: 'Height' }] })
+// box.height now references ExpressionSet.Height
+await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'Height', value: 30 }] })
+// box follows → height 30
 ```
+
+If bindings look frozen after a rename, check that the rename happened (`getExpression` with the new name): the direct `{ id, name, newName }` form returns result=1 and renames nothing.
 
 ## Edge Cases
 
 - **Empty `toRename: []`** — no-op, result=1.
 - **Omitted `toRename`** — no-op, result=1.
 - **Non-existent name** — result=0, code 1014 "X does not exist and can not be renamed".
-- **Array param form** — does NOT work. result=null, code 1001.
+- **Array param form** — works: `renameExpression([{ id, toRename: [...] }, ...])`.
 
 ## Common Errors
 
@@ -123,7 +124,4 @@ await api.v1.part.renameExpression({
 
 ## Related
 
-- `part.expression` — create expressions (uses `toCreate` array)
-- `part.getExpression` — read expression value and formula
-- `part.updateExpression` — change value/formula (uses `toUpdate` array)
-- `part.deleteExpression` — remove expressions (uses `toDelete` array of strings)
+`part.expression` · `part.getExpression` · `part.updateExpression` · `part.deleteExpression`

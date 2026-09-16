@@ -69,7 +69,4 @@ const pattern = await api.v1.sketch.linearPattern({
 
 ## Related
 
-- `sketch.linearPattern` — repeats a rigid set in X/Y grid
-- `sketch.circularPattern` — repeats a rigid set around a center point
-- `sketch.mirrorPattern` — mirrors a rigid set across a line
-- `sketch.deleteObject` — delete the rigid set (preserves member geometry)
+`sketch.linearPattern` · `sketch.circularPattern` · `sketch.mirrorPattern` · `sketch.deleteObject`

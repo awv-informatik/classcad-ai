@@ -80,6 +80,4 @@ const boxR = await api.v1.solid.box({ id: eifId, length: 50, width: 40, height: 
 
 ## Related
 
-- `common.setDatabaseSettings` — write counterpart (sets current AND initial values)
-- `common.getFacetingParameters` / `common.setFacetingParameters` — convenience accessor for chord/angle only
-- `common.setAppearance` — per-entity tessellation overrides (relevant when mode=1)
+`common.setDatabaseSettings` · `common.getFacetingParameters` / `common.setFacetingParameters` · `common.setAppearance`

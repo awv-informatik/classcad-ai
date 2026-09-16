@@ -42,7 +42,7 @@ Always returns `null` (VOID) on success. maxLevel=31 (info) on success, 51 (erro
 
 ## Gotchas
 
-- **No partial property updates.** You must provide ALL properties for each geometry type. Omitting `radius` from a circle or `endPos` from a line triggers error code 1004: `The parameter "X" must be provided in the api call!`
+- **Partial updates work.** Pass only what changes: `circles: [{ id, radius: 9 }]` keeps the center, `lines: [{ id, endPos }]` keeps the start.
 - **Constraints are NOT enforced.** This is a raw position setter. Moving one endpoint of a constrained rectangle does NOT drag the connected lines. The constraint solver is not triggered. If you need to resize/move constrained geometry, you must update ALL affected items yourself in one batch call with consistent positions.
 - **Shared points are separate.** Auto-coincidence constraints create separate point IDs (not shared IDs). Moving one coincident point via `updateGeometry` does NOT move the other — they just become non-coincident until the solver runs.
 - **Sketch ID ownership not validated.** The `id` parameter must be a "sketch" type (passing a part ID gives error 1001), but the server does not check whether the geometry items actually belong to that sketch. Geometry is updated by its own ID regardless.
@@ -97,7 +97,4 @@ const r = await api.v1.sketch.updateGeometry({
 
 ## Related
 
-- `sketch.geometry` — batch-create geometry (the creation counterpart)
-- `sketch.getPositions` — read current positions of points/lines/arcs (not circles)
-- `sketch.getPoints` — get point IDs (startId, endId, centerId) of a geometry item
-- `sketch.moveGeometry` — translate geometry by a delta vector (simpler for moves)
+`sketch.geometry` · `sketch.getPositions` · `sketch.getPoints` · `sketch.moveGeometry`

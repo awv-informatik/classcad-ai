@@ -31,7 +31,7 @@ Returns `null` (VOID) on failure.
 - **`offset` silently overrides `radius`.** If you pass both, `radius` is ignored with no warning.
 - **Zero offset or radius is an error.** Produces "Invalid arc parameters" (maxLevel=51). Must be > 0.
 - **Offset must not exceed line length.** Clear error: "Can't create a fillet with offset larger than line length!"
-- **Lines must share an incident point.** Two separate lines at the same coordinate position may not be "connected" — they need to share the same point object. Rectangle lines are inherently connected. Separate `sketch.line` calls with matching coordinates may work if the sketcher auto-merges the points (tested and confirmed), but this is less reliable than lines from a single geometric operation.
+- **Lines must share an incident point.** Two separate lines at the same coordinate position may not be "connected" — they need to share the same point object. Rectangle lines are inherently connected. Separate `sketch.line` calls that meet at the same coordinate work too (the auto-coincidence joins them).
 - **Cannot fillet the same pair twice.** After filleting, the original lines no longer share a point (the arc separates them). A second fillet on the same line IDs fails with "Lines don't have incident points!"
 - **Only `sketch-line` IDs accepted.** Passing arc, circle, or other sketch element IDs fails with error code 1001.
 - **Negative offset creates an exterior fillet.** Instead of rounding the corner inward, the lines are extended beyond their intersection and the arc connects them on the outside. The absolute value determines the size.
@@ -83,6 +83,4 @@ for (let i = 0; i < 4; i++) {
 
 ## Related
 
-- `sketch.line` — creates lines to fillet
-- `sketch.rectangle` — creates connected lines (good fillet target)
-- `sketch.constraint` — fillet implicitly adds tangent constraints
+`sketch.line` · `sketch.rectangle` · `sketch.constraint`

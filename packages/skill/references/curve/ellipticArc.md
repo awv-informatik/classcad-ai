@@ -34,9 +34,8 @@ Returns `null` (VOID). maxLevel 31 on success. No ID is returned for individual 
 ## Gotchas
 
 - **`radius1 <= 0` or `radius2 <= 0` is rejected with a proper error** (code 1014, maxLevel 51, message `"The parameters \"radius1\" and \"radius2\" must both be greater than 0."`). Previously hung the server in an infinite loop — fixed alongside `curve.circle` in the same branch.
-- **CRITICAL: Parallel xAxis and normal HANGS THE SERVER.** If `xAxis` is parallel to `normal` (e.g., both `[0,0,1]`), the worker spins at 100% CPU indefinitely. No error is returned. You must `kill -9` the worker and restart. **Always ensure xAxis and normal are not parallel.**
-- **CRITICAL: Negative angles likely HANG THE SERVER.** Based on identical engine behavior with `arcByCenterRadAngle`, negative values for `startAngle` or `endAngle` should be assumed to hang. Always validate `>= 0`.
-- **CRITICAL: Angles beyond 2*PI likely HANG THE SERVER.** Same assumption as above. Keep angles in `[0, 2*PI]`.
+- **Parallel xAxis and normal are rejected** with `The parameter "normal" and "xAxis" must be orthogonal.`
+- **Negative angles and angles beyond 2π are accepted** (maxLevel 31, no hang). Keep angles in `[0, 2π]` for predictable arcs.
 - **`radius1` and `radius2` are positional, not semantic.** `radius1` is always along `xAxis`, `radius2` is perpendicular. If `radius2 > radius1`, the visual major axis is perpendicular to `xAxis`. There is no requirement that `radius1 > radius2`.
 - **Equal radii produce a circular arc.** When `radius1 == radius2`, the result is equivalent to `arcByCenterRadAngle` with that radius.
 - **Points must be 3-element arrays.** Passing `[x, y]` (2D) returns error.
@@ -74,7 +73,7 @@ Returns single VOID response, maxLevel 31 on success.
 | 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
 | 0 | ERROR | `"point must have exactly 3 real values"` | Used 2D point `[x,y]` instead of `[x,y,z]` |
 | 1014 | ERROR | `"The parameters \"radius1\" and \"radius2\" must both be greater than 0."` | Either radius `<= 0` |
-| — | HANG | (no response) | Negative angles, angles > 2*PI, or parallel xAxis/normal (still broken — separate TODOs) |
+| — | ERROR | "normal" and "xAxis" must be orthogonal | xAxis parallel to normal |
 
 ## Working Example
 
@@ -117,7 +116,4 @@ await api.v1.curve.ellipticArc({
 
 ## Related
 
-- `curve.ellipse` — full closed ellipse (no angle params needed)
-- `curve.arcByCenterRadAngle` — circular arc by angle (single radius)
-- `curve.arcByCenter` — circular arc by center, start/end positions, and clockwise flag
-- `curve.shape` — create the shape container this requires
+`curve.ellipse` · `curve.arcByCenterRadAngle` · `curve.arcByCenter` · `curve.shape`

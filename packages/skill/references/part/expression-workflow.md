@@ -131,7 +131,7 @@ Works across feature types — box and cylinder can share the same expression.
 
 ## Geometry Updates Immediately
 
-`updateExpression` updates expression values, derived expressions, and feature geometry in a single call. No `common.recalc()` needed:
+`updateExpression` updates expression values, derived expressions, and feature geometry **of that part** in a single call. No `common.recalc()` needed:
 
 ```js
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 200 }] })
@@ -139,19 +139,15 @@ await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 
 // Box geometry using @expr.H is already updated ✓
 ```
 
+Other parts are not part of that update. **Values shared by several parts of an assembly** (assemblies host no expressions): `recipes/assembly-parameters`.
+
 ## Gotchas
 
-- **⚠️ @expr on boolean-consumed features: sketch dims and MERGED patterns stay live; primitive
-  feature params can corrupt** (verified 2026-08-10, sprocket-parametric-B): sketch-dimension
-  bindings regenerate the consumed chain exactly; `circularPattern` count/angle stay live IF the
-  pattern was created with `merged: 1` (with `merged: 0` they freeze silently once consumed); a
-  consumed `part.cylinder` with `diameter:'@expr.D'` produced a corrupted partial regen on update
-  (hole teleported, ¼ of the expected volume change, maxLevel 31). Route live parameters through
-  sketches or merged patterns. See `part/boolean.md` for the full matrix.
-- **@expr also works in sketch dimension values** (LIVE — see `sketch/dimension.md`); ANGLE dims
-  are the exception.
+- **@expr on boolean-consumed features.** Sketch-dimension bindings and `circularPattern` with `merged: 1` regenerate through booleans. A consumed `part.cylinder` with `diameter: '@expr.D'` in a single subtraction also updates correctly (D 10→20: volume and hole position exact). One complex model (a sprocket with patterns and several booleans) showed a wrong partial regeneration of a consumed primitive; when a boolean chain gets complex, verify volume after updates. With `merged: 0`, a consumed pattern does not regenerate correctly on count changes (the subtraction was lost) — use `merged: 1`. See `part/boolean.md`.
+- **@expr also works in sketch dimension values**, including ANGLE (expression in radians) — see `sketch/dimension.md`.
+- **Vectors take expressions as one string.** `offset: '[0, 0, @expr.H]'`, `position: '[@expr.X, 0, 0]'` work and stay live; `['@expr.X', 0, 0]` (expression inside a JS array) fails with a type error.
 - **Deleting a linked expression does NOT destroy the feature.** The parameter freezes at the expression's last value (same as unlink). No warning is emitted.
-- **Renaming a linked expression BREAKS the binding.** Features that referenced the old name via @expr freeze at the last value. The feature does NOT auto-update to the new name. No warning. If you rename, you must re-link features afterward.
+- **Renaming keeps bindings live.** `@expr` and `linkWithExpression` bindings (and sketch dimensions) are rewritten to the new name.
 - **Inline formulas are dead strings.** `height: '30 + 30'` is evaluated once at creation and never updated. Use @expr for live bindings.
 - **linkWithExpression silently accepts bad param names.** Linking to `'fakeParam'` returns success. Always verify parameter names.
 - **unlinkExpression freezes at current value, not original.** A box created with height=40, linked to H=120, then unlinked → height=120 (not 40).
@@ -192,11 +188,4 @@ await api.v1.part.updateExpression({
 
 ## Related
 
-- `part.expression` — create named expressions
-- `part.getExpression` — read expression value
-- `part.updateExpression` — change expression value (uses `toUpdate` array!)
-- `part.deleteExpression` — remove expression (linked features freeze)
-- `part.renameExpression` — rename expression (BREAKS @expr bindings!)
-- `part.linkWithExpression` — post-hoc binding
-- `part.unlinkExpression` — disconnect (freezes current value)
-- `common.recalc` — full drawing recalculation (not needed after `updateExpression` — geometry auto-updates)
+`part.expression` · `part.getExpression` · `part.updateExpression` · `part.deleteExpression` · `part.renameExpression` · `part.linkWithExpression` · `part.unlinkExpression` · `common.recalc` · `assembly/generic.md`

@@ -32,7 +32,7 @@ However, when IDs are valid but deletion breaks downstream features (e.g., delet
 ## Gotchas
 
 - **Atomic on invalid IDs.** One bad ID in the array prevents ALL deletions. Validate IDs first.
-- **NEVER delete during openFeature/closeFeature.** Deleting ANY feature (even unrelated ones) while inside an editing session corrupts the context. `closeFeature` will fail with error 1001 afterward. Always close the editing session first.
+- **Don't delete the feature you have open.** Deleting an unrelated feature while another is open works (open box → delete cylinder → close box: all maxLevel 31).
 - **Rolled-back features CAN be deleted** — but with errors. deleteFeature on a feature behind the rollback bar produces internal errors (maxLevel 51, "Index N ausserhalb des Arraybereichs") BUT the feature is still permanently removed. This is dangerous — the errors are misleading and the model state may be inconsistent. Always `operationMoveToEnd` before deleting.
 - **Built-in origin geometry CAN be deleted.** Top, Front, Right planes and X/Y/Z axes are deletable. Be careful — downstream features referencing origin geometry will break.
 - **Double-delete fails.** Deleting an already-deleted feature gives error 1006 ("invalid id") — the ID ceases to exist after first deletion.
@@ -52,7 +52,7 @@ However, when IDs are valid but deletion breaks downstream features (e.g., delet
 ```js
 const partId = (await api.v1.part.create({ name: 'Test' })).result
 const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
-const cylId = (await api.v1.part.cylinder({ id: partId, radius: 20, height: 60 })).result
+const cylId = (await api.v1.part.cylinder({ id: partId, diameter: 40, height: 60 })).result
 
 // Delete both features in one call
 const r = await api.v1.part.deleteFeature({ ids: [boxId, cylId] })
@@ -66,6 +66,4 @@ await api.v1.part.deleteFeature({ ids: [boxId, cylId] }) // now safe to delete o
 
 ## Related
 
-- `part.getFeature` — find feature ID by name (pair with deleteFeature to delete by name)
-- `part.operationMoveBefore` — hide features without deleting (reversible alternative)
-- `part.openFeature` / `part.closeFeature` — editing gate. Never delete while open.
+`part.getFeature` · `part.operationMoveBefore` · `part.openFeature` / `part.closeFeature`

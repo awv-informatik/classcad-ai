@@ -79,6 +79,4 @@ const r2 = await api.v1.sketch.copyGeometry({
 
 ## Related
 
-- `sketch.copyFrom` — copies geometry between different sketches
-- `sketch.moveGeometry` — moves instead of copying
-- `sketch.linearPattern` / `sketch.circularPattern` / `sketch.mirrorPattern` — patterned copies
+`sketch.copyFrom` · `sketch.moveGeometry` · `sketch.linearPattern` / `sketch.circularPattern` / `sketch.mirrorPattern`

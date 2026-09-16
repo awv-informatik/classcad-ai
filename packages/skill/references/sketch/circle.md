@@ -72,7 +72,7 @@ await api.v1.sketch.updateGeometry({
 })
 ```
 
-**Both `centerPos` and `radius` are required.** Omitting either → error 1004. Partial updates are not supported.
+Partial updates work: `circles: [{ id, radius: 9 }]` keeps the center; `centerPos` alone keeps the radius.
 
 ## Deletion
 
@@ -127,9 +127,4 @@ await api.v1.sketch.deleteObject({ ids: [circleId] })
 
 ## Related
 
-- `sketch.getPoints` — get centerId (then use getPositions on that)
-- `sketch.getGeometry` — list all circles in a sketch
-- `sketch.updateGeometry` — update circle position and radius
-- `sketch.deleteObject` — delete circles
-- `sketch.constraint` — manually add constraints to circle centers
-- `sketch.sketchRegion` — create regions from closed circles
+`sketch.getPoints` · `sketch.getGeometry` · `sketch.updateGeometry` · `sketch.deleteObject` · `sketch.constraint` · `sketch.sketchRegion`

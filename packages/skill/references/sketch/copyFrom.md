@@ -61,6 +61,4 @@ await api.v1.sketch.copyFrom({ id: dstSk, toCopyId: srcSk })
 
 ## Related
 
-- `sketch.copyGeometry` — copies specific elements within the same sketch, with translation offset and optional constraint control. Returns new IDs when `doCopyConstraints: false`.
-- `sketch.loadFrom` — copies sketch geometry from an OFB file (by URL, path, or data) into a sketch.
-- `sketch.moveGeometry` — moves elements instead of copying.
+`sketch.copyGeometry` · `sketch.loadFrom` · `sketch.moveGeometry`

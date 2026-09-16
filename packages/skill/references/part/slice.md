@@ -36,7 +36,7 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
 
 - **`reference` is required.** The docs mark it as optional with `(default=xy)`, but omitting it always errors: `"The parameter \"reference\" must be provided in the api call!"` (code 1004). Always pass a work plane ID.
 - **Plane missing the solid is a silent no-op.** If the plane doesn't intersect any target, the slice succeeds (maxLevel 31) and the solid is preserved on whichever side of the plane it falls. No error, no warning.
-- **Multiple `part.create` calls in one session** clear the drawing. Build one slice scenario per cleared drawing.
+- **One root part per drawing.** A second `part.create` is refused until `common.clear()`.
 - **Angled planes work.** The work plane normal doesn't need to be axis-aligned — diagonal cuts are supported.
 
 ## Common Errors
@@ -58,9 +58,8 @@ const boxId = (await api.v1.part.box({ id: partId, name: 'Box', length: 80, widt
 const wpId = (await api.v1.part.workPlane({
   id: partId,
   name: 'CutPlane',
-  origin: [0, 0, 20],
+  position: [0, 0, 20],
   normal: [0, 0, 1],
-  xDirection: [1, 0, 0],
 })).result
 
 // Slice: keep +Z side (z=20 to z=60)
@@ -84,7 +83,8 @@ const sliceId = (await api.v1.part.slice({
 
 ```js
 const box1 = (await api.v1.part.box({ id: partId, name: 'Box1', length: 50, width: 30, height: 40 })).result
-const box2 = (await api.v1.part.box({ id: partId, name: 'Box2', length: 30, width: 50, height: 60, translation: [60, 0, 0] })).result
+const box2CS = (await api.v1.part.workCSys({ id: partId, name: 'Box2CS', offset: [60, 0, 0] })).result
+const box2 = (await api.v1.part.box({ id: partId, name: 'Box2', length: 30, width: 50, height: 60, references: [box2CS] })).result
 
 const sliceId = (await api.v1.part.slice({
   id: partId,
@@ -96,7 +96,4 @@ const sliceId = (await api.v1.part.slice({
 
 ## Related
 
-- `part.updateSlice` — modify reference, inverted, name after creation (requires `openFeature`/`closeFeature`)
-- `part.sliceBySheet` — slice using a sheet body instead of a work plane
-- `part.boolean` — similar consumption pattern, different operation
-- `part.workPlane` — create the reference plane this consumes
+`part.updateSlice` · `part.sliceBySheet` · `part.boolean` · `part.workPlane`

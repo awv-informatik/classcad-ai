@@ -31,7 +31,7 @@ This applies to all constraint types:
 ## What Gets Preserved
 
 - **Deleting a gear/group relation** does NOT delete the underlying constraints or instances. Only the relation linkage is removed.
-- **Deleting a group** does NOT delete the grouped instances. Only the organizational metadata is removed.
+- **Deleting a group** does NOT delete the grouped instances. Only the rigid coupling between them is removed.
 - **Undeleted constraints** in the same assembly are completely unaffected.
 
 ## Empty Array
@@ -53,10 +53,7 @@ Double-deleting an already-deleted constraint produces the same 1006 error as a 
 const asmId = (await api.v1.assembly.create({})).result
 const tpl = (await api.v1.assembly.partTemplate({ name: 'Block' })).result
 await api.v1.part.box({ id: tpl, name: 'B', length: 40, width: 30, height: 20 })
-const wcs = (await api.v1.part.workCSys({
-  id: tpl, name: 'Csys', origin: [0, 0, 0],
-  xDirection: [1, 0, 0], yDirection: [0, 1, 0],
-})).result
+const wcs = (await api.v1.part.workCSys({ id: tpl, name: 'Csys' })).result  // csys at part origin
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
 const inst1 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'A' })).result
@@ -81,6 +78,4 @@ await api.v1.assembly.deleteConstraint({ ids: [fId] })
 
 ## Related
 
-- `assembly.fastened` / `assembly.revolute` / etc. — create the constraints this deletes
-- `assembly.deleteInstance` — deletes instances (different from deleting constraints)
-- `assembly.gear` / `assembly.group` — relation types this can also delete
+`assembly.fastened` / `assembly.revolute` · `assembly.deleteInstance` · `assembly.gear` / `assembly.group`

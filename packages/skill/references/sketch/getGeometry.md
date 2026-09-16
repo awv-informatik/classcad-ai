@@ -71,8 +71,4 @@ const r = await api.v1.sketch.getGeometry({ id: skId })
 
 ## Related
 
-- `sketch.geometry` — batch-create geometry (creation counterpart)
-- `sketch.getPoints` — get start/end point IDs of a curve
-- `sketch.getPositions` — get actual coordinates of geometry
-- `sketch.sketchRegion` — create a region (whose ID can scope this query)
-- `sketch.deleteObject` — delete geometry (reflected immediately by this query)
+`sketch.geometry` · `sketch.getPoints` · `sketch.getPositions` · `sketch.sketchRegion` · `sketch.deleteObject`

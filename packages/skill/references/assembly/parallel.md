@@ -25,7 +25,7 @@ Creates a parallel constraint between two instances. Allows 4 degrees of freedom
 
 **Initial position is preserved (like cylindrical, unlike planar).** With default flip and no limits, the solver preserves the instance's initial X, Y, and Z position from its `transformation`. This is because the constraint only enforces orientation (axes parallel) — if the axes are already aligned, there's nothing to solve.
 
-**Flip triggers a full re-solve.** With non-default flip (e.g., `'-Z'`), the solver actively re-solves and resets inst2 to mate1's origin (same alignment as fastened/revolute). The position is NOT preserved when flip changes orientation.
+**Orientation comes from the csys.** inst2's axes are aligned with mate1's csys axes. When that requires rotating inst2 (a rotated csys or a non-default flip), the solver re-solves and places inst2 on mate1's csys origin. Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]`, inst2 starting at `[200,7,3]` → inst2 at `[40,0,20]`, tilted onto the csys. With a csys whose axes already match inst2's orientation, inst2 stays where it is.
 
 **Limits clamp from current position.** When offset limits are applied, the solver clamps the current position to the valid range (with ~0.001 solver epsilon). Limits on one axis don't affect other axes.
 
@@ -159,10 +159,10 @@ Example: parallel with xOffsetLimits [10,20] → inst2 clamped to x=20. Remove l
 
 ## Gotchas
 
-- **Position preserved with default flip only.** With default flip 'Z' and no limits, all initial positions are preserved. Non-default flip triggers a re-solve that resets inst2 to mate1's origin. Use offset limits to re-position after flipping.
+- **Position preserved only when no rotation is needed.** If inst2 already matches mate1's csys orientation, its position is kept. A rotated csys or non-default flip re-solves and places inst2 on mate1's csys origin. Use offset limits to re-position afterwards.
 - **No `zOffset` parameter.** Unlike planar/revolute, parallel has no fixed z-offset. Use `zOffsetLimits: { min: N, max: N }` to lock Z at a specific value.
 - **Ungrounded instances both move.** Always ground at least one instance with fastenedOrigin.
-- **csys position is irrelevant.** The csys ID is required but its origin/axes don't determine alignment.
+- **The csys defines the reference orientation** (and the reset point when a re-solve happens).
 - **Duplicate names allowed.** Creating two with the same name succeeds silently. `getParallel` returns the first.
 - **Solver epsilon ~0.001.** Clamped positions have tiny offsets (e.g., min=10 → x≈10.001).
 - **Reorient invisible without limits.** Free rotation DOF absorbs the reorient offset.
@@ -183,11 +183,11 @@ const asmId = (await api.v1.assembly.create({})).result
 
 const tplA = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tplA, name: 'Box', length: 80, width: 60, height: 10 })
-const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  // csys at part origin
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Block' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 30, width: 20, height: 15 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -213,10 +213,4 @@ const parId = (await api.v1.assembly.parallel({
 
 ## Related
 
-- `assembly.planar` — 3 DOF (X,Y translation + Z rotation, Z-translation fixed by zOffset)
-- `assembly.cylindrical` — 2 DOF (Z-rotation + Z-translation)
-- `assembly.revolute` — 1 DOF (Z-rotation only)
-- `assembly.fastened` — 0 DOF (rigid)
-- `assembly.slider` — 1 DOF (translation only)
-- `assembly.updateParallel` — modify after creation
-- `assembly.getParallel` — query by name
+`assembly.planar` · `assembly.cylindrical` · `assembly.revolute` · `assembly.fastened` · `assembly.slider` · `assembly.updateParallel` · `assembly.getParallel`

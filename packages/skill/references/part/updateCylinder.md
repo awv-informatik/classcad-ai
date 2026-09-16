@@ -67,7 +67,7 @@ await api.v1.part.closeFeature({ id: cylId })
 
 // Move cylinder to a WCS
 const wcsId = (await api.v1.part.workCSys({
-  id: partId, origin: [50, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0],
+  id: partId, offset: [50, 0, 0],
 })).result
 await api.v1.part.openFeature({ id: cylId })
 await api.v1.part.updateCylinder({ id: cylId, references: [wcsId] })
@@ -82,7 +82,4 @@ await api.v1.part.closeFeature({ id: cylId })
 
 ## Related
 
-- `part.cylinder` — create the cylinder feature this updates
-- `part.openFeature` / `part.closeFeature` — required gate pattern
-- `part.workCSys` — create coordinate systems for `references`
-- `part.linkWithExpression` — alternative way to bind expressions post-hoc
+`part.cylinder` · `part.openFeature` / `part.closeFeature` · `part.workCSys` · `part.linkWithExpression`

@@ -86,6 +86,4 @@ await api.v1.curve.interpolationCurve({
 
 ## Related
 
-- `curve.bezierCurve` — curve that approximates toward control points (doesn't pass through them)
-- `curve.line` — straight line (simpler than degree-1 interpolation)
-- `curve.shape` — create the shape container this requires
+`curve.bezierCurve` · `curve.line` · `curve.shape`

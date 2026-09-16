@@ -73,7 +73,4 @@ const center = (await api.v1.sketch.getPositions({ id: circPts.centerId })).resu
 
 ## Related
 
-- `sketch.getPoints` — get point IDs (startId, endId, centerId) of a curve; needed for circle workaround
-- `sketch.getGeometry` — get all geometry IDs in a sketch grouped by type
-- `sketch.updateGeometry` — update positions (getPositions reflects changes immediately)
-- `sketch.moveGeometry` — alternative for moving geometry
+`sketch.getPoints` · `sketch.getGeometry` · `sketch.updateGeometry` · `sketch.moveGeometry`

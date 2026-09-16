@@ -23,7 +23,7 @@ Which format to use depends on your goal: full-fidelity persistence, cross-syste
 | STL | ✅ | ❌ | — | — | — | ❌ |
 | DXF | ❌ | ❌ | — | — | — | — |
 
-**⚠️ IWP load is unreliable.** Loads without error but may not produce renderable solid geometry. Prefer STP for interchange.
+**IWP load works for solids** (box round trip: volume exact). IDs and expressions are not preserved; prefer STP for interchange with other tools.
 
 ## Size Comparison
 
@@ -99,11 +99,10 @@ Three versions: AP203 (v1), AP214 (v2, default), AP242 (v3).
 - **Geometry perfectly preserved** — STL byte-for-byte identical before/after roundtrip
 - Use `loaded.result.id` as the new root, re-discover other IDs
 
-### IWP — Unreliable
+### IWP — geometry only
 - IDs change
 - Expressions gone
-- Geometry may not be renderable (no solid content after load in testing)
-- **Avoid for roundtrip.** Use STP instead.
+- Solid geometry restored (box round trip: volume exact)
 
 ## SCG — Export Only
 
@@ -135,4 +134,4 @@ OFB+deflate scales best because compression improves with more repetitive data. 
 2. **For CAD interchange:** `STP` + `encoding: 'base64'`. Universal, geometry-perfect.
 3. **For mesh/viz export:** `STL` + `encoding: 'base64'`. Set `stl.facetingTol` for curved surfaces.
 4. **For minimal wire transfer:** OFB+deflate for parametric models, STL for flat geometry.
-5. **Never use:** DXF (broken), SCG for roundtrip (export-only), IWP for roundtrip (unreliable).
+5. **Never use:** DXF (not available on this worker — `drawing2d.isDXFAvailable()` returns 0), SCG for roundtrip (export-only).

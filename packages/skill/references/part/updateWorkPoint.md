@@ -90,6 +90,4 @@ await api.v1.part.closeFeature({ id: wpId })
 
 ## Related
 
-- `part.workPoint` — create work points
-- `part.openFeature` / `part.closeFeature` — required wrapper for updates
-- `part.getWorkGeometry` — find work point by name after rename
+`part.workPoint` · `part.openFeature` / `part.closeFeature` · `part.getWorkGeometry`

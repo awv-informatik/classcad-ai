@@ -117,8 +117,4 @@ await api.v1.curve.polyline2d({
 
 ## Related
 
-- `curve.shape` — create the shape container this operates on
-- `curve.advancedPolyline` — more powerful PLD-based polyline with radius fillets, chamfers, relative coordinates
-- `curve.deleteShape` — delete the shape containing the polyline
-- `curve.line` — single line segment (simpler for just one segment)
-- `curve.arcByCenter` / `curve.arcBy3Points` — standalone arcs (when you don't need a polyline)
+`curve.shape` · `curve.advancedPolyline` · `curve.deleteShape` · `curve.line` · `curve.arcByCenter` / `curve.arcBy3Points`

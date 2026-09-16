@@ -1,6 +1,6 @@
 # assembly.group
 
-Creates a group constraint that tags instances as belonging together. This is **organizational metadata only** — it does NOT create a kinematic link. Moving one grouped instance does not move others.
+Creates a group constraint that makes instances move as one rigid set under the constraint solver: moving one grouped instance with `moveUnderConstraints` moves the others by the same translation/rotation.
 
 ## Prerequisites
 
@@ -15,11 +15,9 @@ Creates a group constraint that tags instances as belonging together. This is **
 
 ## What Group IS and IS NOT
 
-**IS:** A named label saying "these instances belong together." Useful for organizational purposes, BOM grouping, or application-level logic that queries group membership.
+**IS:** A rigid coupling for the solver. Grouped instances A (at x=0) and B (at x=30), then `startMovingUnderConstraints({ instanceIds: [A], mucType: 'TRANSLATION_2D', pivotInfo: [0,0,0] })` + `moveUnderConstraints({ offset: [50,20,0] })` → A at [50,20,0], B at [80,20,0].
 
-**IS NOT:** A kinematic constraint. Moving one grouped instance with `transformInstanceTo` does NOT move the others. Group has zero DOF constraints — no spatial coupling of any kind.
-
-Verified: `transformInstanceTo` on inst1 moved it to y=80 while grouped partner inst2 stayed at y=0. COG measurement confirmed both before/after.
+**IS NOT:** Applied by the direct placement calls. `transformInstance`/`transformInstanceTo` set one instance's transform without running the solver, so grouped partners stay where they are until the next solve.
 
 ## Return Value
 
@@ -115,7 +113,7 @@ const inst1 = (await api.v1.assembly.instance({ productId: tplA, ownerId: asmId,
 const inst2 = (await api.v1.assembly.instance({ productId: tplB, ownerId: asmId, name: 'I2',
   transformation: [[60, 0, 0], [1, 0, 0], [0, 1, 0]] })).result
 
-// Group them (organizational — no kinematic effect)
+// Group them (they move as one rigid set under constraints)
 const groupId = (await api.v1.assembly.group({
   id: asmId, name: 'Subunit', instanceIds: [inst1, inst2],
 })).result
@@ -130,6 +128,4 @@ const g = (await api.v1.assembly.getGroup({ id: asmId, name: 'Assembly_Left' }))
 
 ## Related
 
-- `assembly.gear` — links revolute constraints (kinematic relation, unlike group)
-- `assembly.fastened` — rigidly locks two instances together (kinematic, unlike group)
-- `assembly.deleteConstraint` — can delete a group constraint by ID
+`assembly.gear` · `assembly.fastened` · `assembly.deleteConstraint`

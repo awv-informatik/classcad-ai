@@ -88,6 +88,4 @@ await api.v1.curve.ellipse({
 
 ## Related
 
-- `curve.ellipticArc` — partial ellipse arc (adds `startAngle`, `endAngle`)
-- `curve.circle` — full circle (single radius; same `radius <= 0` rejection behavior)
-- `curve.shape` — create the shape container this requires
+`curve.ellipticArc` · `curve.circle` · `curve.shape`

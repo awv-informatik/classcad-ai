@@ -121,7 +121,4 @@ const r = await api.v1.assembly.exportNode({
 
 ## Related
 
-- `assembly.loadProduct` — import OFB/STP as template (pairs with exportNode for roundtrip)
-- `common.save` — save the entire drawing (not just a node)
-- `common.load` — load a complete model (replaces drawing)
-- `assembly.from` — create assembly from JSON/ECXML (input-only, no OFB/STP)
+`assembly.loadProduct` · `common.save` · `common.load` · `assembly.from`

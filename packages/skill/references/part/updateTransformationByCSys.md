@@ -47,5 +47,4 @@ await api.v1.part.closeFeature({ id: tId })
 
 ## Related
 
-- `part.transformationByCSys` — create the feature this updates
-- `part.openFeature` / `part.closeFeature` — required wrapping for updates
+`part.transformationByCSys` · `part.openFeature` / `part.closeFeature`

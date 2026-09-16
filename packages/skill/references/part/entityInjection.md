@@ -14,10 +14,10 @@ Creates an entity injection feature inside a part. This is the **required contai
 ## Return Value
 
 Returns the entity injection feature ID (numeric). This is the ID you pass to:
-- `solid.box`, `solid.cylinder`, `solid.sphere`, `solid.cone`, `solid.torus`, etc. as `id`
+- `solid.box`, `solid.cylinder`, `solid.sphere`, `solid.cone`, etc. as `id`
 - `curve.shape` as `id`
 - `solid.deleteSolid` as `id`
-- `solid.copySolid` as `id`
+- `solid.copy` as `id`
 
 ## Gotchas
 
@@ -29,7 +29,7 @@ Returns the entity injection feature ID (numeric). This is the ID you pass to:
   Idiomatic direct modeling needs no sketch at all: fill `curve.shape`s inside the EIF
   (rainer review 2026-08-12, sprocket-solid-A).
 - **Solid/curve APIs reject part IDs.** If you pass a part ID to `solid.box`, you get error 1001: `The parameter "id" has a wrong id type! Provide only following id types: ["entityinjection"]`. You must create an entity injection first.
-- **No retrieval by name.** There is no `getEntityInjection` API. `getWorkGeometry` and `getSketch` do not find entity injections. You must store the ID at creation time.
+- **Retrieval by name via `part.getFeature`** once the EIF contains a solid (`getFeature({ id, name: 'Geometry' })`); on an empty EIF it fails with "does not contain any entities".
 - **No `updateEntityInjection` API.** Use `common.setObjectName` to rename. Use `part.deleteFeature({ ids: [eifId] })` to delete (cascades — all contained solids/curves are also deleted).
 - **`deleteFeature` takes `ids` (array), not `id`.** Common mistake: `deleteFeature({ id: eifId })` fails with error 1004. Correct: `deleteFeature({ ids: [eifId] })`.
 - **`bodies` member is misleading.** In the structure tree, the EI node has a `members.bodies` array that is always empty. Actual contained solids appear in the `children` array. Do not check `bodies` to enumerate solids.
@@ -82,9 +82,4 @@ See `references/part/id-hierarchy.md` for the full ID type mapping across domain
 
 ## Related
 
-- `solid.box`, `solid.cylinder`, etc. — consume the EI ID
-- `curve.shape` — creates curve container inside the EI
-- `solid.deleteSolid` — delete individual solids from within an EI
-- `part.deleteFeature` — delete the entire EI (cascades)
-- `common.setObjectName` — rename the EI after creation
-- `references/part/id-hierarchy.md` — full ID hierarchy documentation
+`solid.box` · `curve.shape` · `solid.deleteSolid` · `part.deleteFeature` · `common.setObjectName` · `references/part/id-hierarchy.md`

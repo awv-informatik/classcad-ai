@@ -9,7 +9,7 @@ Complete guide to the expression language used in `part.expression`, `common.eva
 | `+` | `a + b` | Addition |
 | `-` | `a - b` | Subtraction |
 | `*` | `a * b` | Multiplication |
-| `/` | `a / b` | Division (returns null on /0) |
+| `/` | `a / b` | Division (/0 is an evaluation error) |
 | `-` (unary) | `-a`, `-(a + b)` | Negation |
 | `()` | `(a + b) * c` | Grouping |
 
@@ -116,7 +116,7 @@ await api.v1.part.expression({
 - Scientific notation works: `1e3`, `1e-10`, `1e100`
 - Max value: ~`1e308`. `1e309` overflows to null.
 - `pow(0, 0) = 1`
-- Division by zero → null (no error with evaluateExpression)
+- Division by zero → evaluation error (`evaluateExpression` throws "could not be evaluated"; with `silent: true` the result is null)
 - `sqrt(-1)` → null, `asin(2)` → null (domain errors return null silently)
 
 ## `common.evaluateExpression` Behavior
@@ -124,7 +124,7 @@ await api.v1.part.expression({
 - Returns the numeric result directly (not wrapped in an object)
 - Returns `null` for invalid/error expressions
 - `silent: true` suppresses error messages (maxLevel stays 31) but result is still null for errors
-- **Cannot reference named expressions** even with `id` parameter — the `id` param does not give access to a part's expression set. It's standalone math only.
+- **Named expressions need the ExpressionSet id.** `evaluateExpression({ id: expressionSetId, expression: 'L * 2' })` resolves the part's expressions (result correct, warning level 41). With the part id or no id, names don't resolve. Find the id in the tree: the `CC_ExpressionSet` node whose parent is the part.
 
 ## Real-World Expression Patterns
 

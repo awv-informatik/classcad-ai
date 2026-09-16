@@ -115,7 +115,4 @@ const twistId4 = (await api.v1.part.twist({
 
 ## Related
 
-- [`part.updateTwist`](updateTwist.md) — modify after creation (requires `openFeature`/`closeFeature`)
-- [`part.extrusion`](extrusion.md) — straight extrusion without twist (twist with angle=0 is equivalent)
-- `part.boolean` — combine twist with other features
-- `sketch.sketchRegion` — create the region reference
+[`part.updateTwist`](updateTwist.md) · [`part.extrusion`](extrusion.md) · `part.boolean` · `sketch.sketchRegion`

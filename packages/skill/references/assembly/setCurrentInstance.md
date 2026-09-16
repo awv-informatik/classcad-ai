@@ -79,7 +79,4 @@ await api.v1.assembly.setCurrentInstance({ id: asmId })
 
 ## Related
 
-- `assembly.setCurrentProduct` — direct product switching with rollback info
-- `assembly.instance` — create instances
-- `assembly.getInstance` — query instances from an owner
-- `part.openFeature` / `part.closeFeature` — required for template editing after context switch
+`assembly.setCurrentProduct` · `assembly.instance` · `assembly.getInstance` · `part.openFeature` / `part.closeFeature`

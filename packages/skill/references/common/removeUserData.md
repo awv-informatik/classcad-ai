@@ -22,7 +22,7 @@ Removes a single user data entry by key from an object. Part of the five-method 
 - **Idempotent.** Removing a key that doesn't exist is a silent no-op — `maxLevel: 31`, no error, no warning. Safe to call without checking existence first. Double-removing is also fine.
 - **Required for updates.** `setUserData` is a no-op on existing keys. To change a value: `removeUserData({ id, key })` → `setUserData({ id, key, value: newValue })`.
 - **Per-object isolation.** Removing a key from one object does not affect the same key on any other object.
-- **VOID IDs fail.** Some APIs (e.g., `solid.box`) return VOID instead of an ID. Passing null/VOID as `id` gives error code 1001.
+- **VOID IDs fail.** Passing null/VOID as `id` (e.g. the result of a failed call) gives error code 1001.
 
 ## Common Errors
 
@@ -57,7 +57,4 @@ await api.v1.common.setUserData({ id: partId, key: 'version', value: 'v2' })
 
 ## Related
 
-- `common.setUserData` — write a key-value pair (no-op if key exists — must remove first to update)
-- `common.getUserData` — read a value by key
-- `common.clearUserData` — remove ALL keys from an object
-- `common.getUserDataKeys` — list all keys on an object
+`common.setUserData` · `common.getUserData` · `common.clearUserData` · `common.getUserDataKeys`

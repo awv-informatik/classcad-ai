@@ -77,10 +77,13 @@ The solver projects the requested motion onto the available DOF:
 The `rotation` param uses three **orthogonal** direction vectors, not angles:
 
 ```js
-// 90° CCW around Z:
+// 90° CLOCKWISE around Z (viewed from +Z): an instance at (80,0) ends at (0,−80)
 rotation: { xDir: [0, -1, 0], yDir: [1, 0, 0], zDir: [0, 0, 1] }
 
-// 45° CCW around Z:
+// 90° counter-clockwise around Z:
+rotation: { xDir: [0, 1, 0], yDir: [-1, 0, 0], zDir: [0, 0, 1] }
+
+// 45° CLOCKWISE around Z:
 rotation: { xDir: [0.707, -0.707, 0], yDir: [0.707, 0.707, 0], zDir: [0, 0, 1] }
 
 // 45° around X:
@@ -94,7 +97,7 @@ rotation: { xDir: [1, 0, 0], yDir: [0, 1, 0], zDir: [0, 0, 1] }
 
 ### Composition order: rotation first, then translation
 
-When both `rotation` and `offset` are provided, rotation is applied first around the pivot point, then translation is applied in world-space. Confirmed numerically: for an instance at COG (80,10,5), a 90° Z rotation + offset(0,20,0) yields COG (10,-60,5) = rotate(80,10)→(10,-80) then +(0,20)→(10,-60).
+When both `rotation` and `offset` are provided, rotation is applied first around the pivot point, then translation is applied in world-space. Confirmed numerically: for an instance at COG (80,10,5), the clockwise 90° Z basis + offset(0,20,0) yields COG (10,-60,5) = rotate(80,10)→(10,-80) then +(0,20)→(10,-60).
 
 ### Identity move as undo
 
@@ -115,13 +118,13 @@ All three APIs return `VOID` (null) with maxLevel=31 on success.
 ## Server Leniency
 
 The three-step workflow is **not strictly enforced**, but skipping steps is dangerous:
-- `moveUnderConstraints` without prior `startMoving`: **hangs the worker** (100% CPU, requires kill -9)
-- `finishMovingUnderConstraints` without prior `startMoving`: **hangs the worker** (100% CPU, requires kill -9)
+- `moveUnderConstraints` without prior `startMoving`: **crashes the worker** (connection lost, process exits)
+- `finishMovingUnderConstraints` without prior `startMoving`: **crashes the worker**
 - Double `startMovingUnderConstraints` without finish: second start succeeds
 - Double `finishMovingUnderConstraints`: safe, idempotent (second call is a no-op)
-- `moveUnderConstraints` with invalid assembly ID: **hangs the worker** (100% CPU)
+- `moveUnderConstraints` with invalid assembly ID: clean error ("has an invalid id")
 
-**Always use the full start → move → finish sequence.** Out-of-order calls risk worker hangs.
+**Always use the full start → move → finish sequence.** Out-of-order calls crash the worker.
 
 ## Common Errors
 
@@ -145,9 +148,9 @@ Empty `instanceIds` array (`[]`) is silently accepted without error.
 - **Rotation limits are silently clamped.** No error for beyond-limit requests.
 - **pivotInfo is ignored for constrained joints.** The constraint's axis/point takes precedence.
 - **Multi-instance motion works.** All instances in `instanceIds` move together with the same transform.
-- **Worker hang risk.** Calling `moveUnderConstraints` without a prior `startMoving`, or with an invalid assembly ID, can hang the worker at 100% CPU. Always follow the full start → move → finish sequence.
+- **Worker crash risk.** Calling `moveUnderConstraints` or `finishMovingUnderConstraints` without a prior `startMoving` crashes the worker. Always follow the full start → move → finish sequence.
 - **No bounds on offset values.** Negative and very large (1e6+) offsets work fine — no overflow or bounds checking.
-- **transformInstance has no lasting effect on constrained instances.** The API call succeeds but the constraint solver snaps the position back. Use MUC for constrained motion, transformInstance/transformInstanceTo for unconstrained.
+- **transformInstance on a constrained instance lasts only until the next solve.** It moves the instance immediately (fastened at x=60, +50 → x=110), and the next constraint solve (e.g. `updateFastened`, `part.updateExpression` on an instanced part) puts it back (x=60). Use MUC for constrained motion, transformInstance/transformInstanceTo for unconstrained.
 
 ## State Machine
 
@@ -161,8 +164,8 @@ Empty `instanceIds` array (`[]`) is silently accepted without error.
 | finish → finish | ✅ | Idempotent |
 | start → start | ✅ | Second overwrites first |
 | finish → start | ✅ | New session |
-| idle → move | ❌ | **Worker hang** (100% CPU) |
-| idle → finish | ❌ | **Worker hang** (100% CPU) |
+| idle → move | ❌ | **Worker crash** |
+| idle → finish | ❌ | **Worker crash** |
 
 ## Working Example
 
@@ -170,17 +173,11 @@ Empty `instanceIds` array (`[]`) is silently accepted without error.
 const asmId = (await api.v1.assembly.create({})).result
 const tplA = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tplA, name: 'Box', length: 60, width: 40, height: 10 })
-const wcsA = (await api.v1.part.workCSys({
-  id: tplA, name: 'Wcs', origin: [0,0,0],
-  xDirection: [1,0,0], yDirection: [0,1,0],
-})).result
+const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Wcs' })).result  // csys at part origin
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Arm' })).result
 await api.v1.part.box({ id: tplB, name: 'Arm', length: 80, width: 20, height: 8 })
-const wcsB = (await api.v1.part.workCSys({
-  id: tplB, name: 'Wcs', origin: [0,0,0],
-  xDirection: [1,0,0], yDirection: [0,1,0],
-})).result
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Wcs' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 const inst1 = (await api.v1.assembly.instance({
@@ -231,6 +228,4 @@ await api.v1.assembly.finishMovingUnderConstraints({ id: asmId })
 
 ## Related
 
-- `assembly.transformInstance` — relative 4x4 delta (ignores constraints)
-- `assembly.transformInstanceTo` — absolute position (ignores constraints)
-- `assembly.revolute` / `assembly.cylindrical` / `assembly.slider` / `assembly.planar` / `assembly.spherical` — constraint types that define available DOF
+`assembly.transformInstance` · `assembly.transformInstanceTo` · `assembly.revolute` / `assembly.cylindrical` / `assembly.slider` / `assembly.planar` / `assembly.spherical`

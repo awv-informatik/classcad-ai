@@ -38,7 +38,7 @@ Patterns a rigid set (or single geometry element) in a linear/rectangular grid a
 - **Count=0 and negative counts are silent no-ops.** geometry contains only the original, dimensions are [null, null], but a constraint node is still created. No error.
 - **Fractional counts are floored.** `xCount: 2.5` → 2 total (original + 1 copy).
 - **Single geometry ID works as rigidSetId.** The API auto-wraps it. The first ID in the returned `geometry` array will be a new rigid set ID, not the original geometry ID.
-- **Multiple `part.create` calls in one session invalidate prior IDs.** Build each pattern in a fresh, cleared drawing.
+- **One root per drawing.** A second `part.create` is refused ("There is already a root assembly or part"); use `common.clear()` first, or part templates in an assembly.
 
 ## Updating Pattern Spacing
 
@@ -85,8 +85,4 @@ await api.v1.sketch.updateDimension({ id: r.result.dimensions[0], value: 50 })
 
 ## Related
 
-- `sketch.rigidSet` — create the rigid set input
-- `sketch.circularPattern` — pattern around a center point
-- `sketch.mirrorPattern` — mirror across a line
-- `sketch.updateDimension` — change pattern spacing after creation
-- `sketch.deleteObject` — delete the pattern constraint (preserves geometry)
+`sketch.rigidSet` · `sketch.circularPattern` · `sketch.mirrorPattern` · `sketch.updateDimension` · `sketch.deleteObject`

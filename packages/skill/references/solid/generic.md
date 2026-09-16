@@ -21,7 +21,7 @@ Rotation always happens around the **world origin** `(0, 0, 0)` — not the soli
 
 All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) are origin-centered, so an un-translated solid's center coincides with the rotation pivot — it spins in place. Once a solid is translated away from origin, rotation orbits it around the origin instead of spinning it locally.
 
-**To rotate around a solid's own center:** use `rotateFirst: false` — translate the solid to where you want it, then apply a rotation. The rotation will orbit the solid around the origin from its translated position.
+**To rotate around a solid's own center:** use `rotateFirst: true` (the default) — rotation happens at the origin, where the primitive is centered, then the solid is translated. `rotateFirst: false` orbits the translated solid around the origin (box translated to [100,0,0], rotated 90° about Z → COG [0,100,0]).
 
 ## Gotchas
 
@@ -69,7 +69,4 @@ const box3 = (await api.v1.solid.box({
 
 ## Related
 
-- `solid.translation` — transform an existing solid (post-creation)
-- `solid.rotation` — rotate an existing solid (post-creation, ZYX order, docs say "z-part first, then y-part, then x-part")
-- `solid.copy` — duplicate with optional rotation/translation/rotateFirst (same params)
-- `common.transformObjectWithMatrix` — arbitrary 4×4 transform matrix
+`solid.translation` · `solid.rotation` · `solid.copy` · `common.transformObjectWithMatrix`

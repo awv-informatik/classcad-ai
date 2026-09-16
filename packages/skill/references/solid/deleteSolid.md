@@ -77,6 +77,4 @@ const r2 = await api.v1.solid.deleteSolid({ id: eifId })
 
 ## Related
 
-- `solid.copy` — duplicate a solid (copies survive deletion of their source)
-- `solid.box` / `solid.sphere` / etc. — creation APIs whose results can be deleted
-- `solid.union` / `solid.subtraction` — boolean operations that consume solids (different from deletion)
+`solid.copy` · `solid.box` / `solid.sphere` · `solid.union` / `solid.subtraction`

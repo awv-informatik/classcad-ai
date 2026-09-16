@@ -62,5 +62,4 @@ const f3 = await api.v1.sketch.fillet({ id: skId, lineIds: [lineIds[0], lineIds[
 
 ## Related
 
-- `sketch.fillet` — creates the fillet that this API undoes
-- `sketch.rectangle` — creates connected lines suitable for filleting
+`sketch.fillet` · `sketch.rectangle`

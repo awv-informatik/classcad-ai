@@ -70,7 +70,4 @@ await api.v1.drawing2d.placeView({
 
 ## Related
 
-- `drawing2d.view` — create views (must be called first)
-- `drawing2d.centerView` — center views to origin (use before placeView to normalize)
-- `drawing2d.getBoundaryBoxFromView` — get min/max bounds to verify placement
-- `drawing2d.exportSVG` / `drawing2d.exportDXF` — export the final layout
+`drawing2d.view` · `drawing2d.centerView` · `drawing2d.getBoundaryBoxFromView` · `drawing2d.exportSVG` / `drawing2d.exportDXF`

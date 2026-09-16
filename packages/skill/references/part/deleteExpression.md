@@ -75,7 +75,7 @@ Deleting an expression used by a feature via `@expr.NAME` or `linkWithExpression
 - **Duplicate names** — `['x', 'x']` succeeds (result=1). First occurrence deletes, second is silently ignored.
 - **Delete order** — order does not matter for cross-referenced expressions. Both `['derived', 'base']` and `['base', 'derived']` succeed.
 - **Recreate after delete** — works fine. Delete then `expression()` with same name succeeds.
-- **Array param form** — does NOT work. Returns result=null, code 1001. Use separate calls per part.
+- **Array param form** — works: `deleteExpression([{ id: partA, toDelete: [...] }, { id: partB, toDelete: [...] }])`.
 
 ## Common Errors
 
@@ -112,7 +112,4 @@ await api.v1.part.expression({ id: partId, toCreate: [{ name: 'width', value: 20
 
 ## Related
 
-- `part.expression` — create expressions (uses `toCreate` array)
-- `part.getExpression` — read expression value and formula
-- `part.updateExpression` — change value/formula (uses `toUpdate` array)
-- `part.renameExpression` — rename expressions (uses `toRename` array)
+`part.expression` · `part.getExpression` · `part.updateExpression` · `part.renameExpression`

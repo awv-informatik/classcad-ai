@@ -113,7 +113,4 @@ await api.v1.part.closeFeature({ id: cylId })
 
 ## Related
 
-- `part.updateCylinder` — modify after creation
-- `part.openFeature` / `part.closeFeature` — required before/after any update
-- `part.workCSys` — create coordinate systems for `references`
-- `solid.cylinder` — direct (non-parametric) cylinder in entity injection
+`part.updateCylinder` · `part.openFeature` / `part.closeFeature` · `part.workCSys` · `solid.cylinder`

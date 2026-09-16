@@ -122,9 +122,4 @@ const torusId = (await api.v1.solid.revolve({
 
 ## Related
 
-- `curves-parameter.md` — full reference on the `curves` parameter (accepted types, mixing, edge cases)
-- `solid.extrusion` — sweep a profile along a vector (instead of revolving around an axis)
-- `solid.deleteSolid` — remove solids from an EIF (no `updateRevolve` exists)
-- `curve.shape` + `curve.advancedPolyline` — create rectangular/polygonal profiles
-- `curve.circle` — create circular profiles (use `centerPos`, not `center`)
-- `generic.md` — common transform parameters (rotation, translation, rotateFirst)
+`curves-parameter.md` · `solid.extrusion` · `solid.deleteSolid` · `curve.shape` · `curve.circle` · `generic.md`

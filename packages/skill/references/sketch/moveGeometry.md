@@ -1,6 +1,6 @@
 # sketch.moveGeometry
 
-Moves sketch geometry by a translation vector. This is a **raw translation** — it does NOT trigger the constraint solver. Only the specified items move; connected/constrained geometry stays in place.
+Moves sketch geometry by a translation vector. On a sketch created with `planeId` the move runs through the constraint solver: connected/constrained geometry follows (moving the right side of a rectangle +10 stretches the top and bottom lines to 90). Without a plane it is a raw translation.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ maxLevel=31 on success, 51 on error.
 
 ## Gotchas
 
-- **No constraint solving.** Moving one side of a rectangle does NOT drag the other sides. This is identical to `updateGeometry` in this regard — it's a raw position update, not a parametric move. To move a rectangle as a unit, pass ALL 4 line IDs in `geomIds`.
+- **Constraint-aware (sketch with `planeId`).** Moving one side of a rectangle drags the connected sides; a move that conflicts with constraints returns maxLevel 51 and leaves geometry unchanged. This differs from `updateGeometry`, which sets positions without solving. To move a rectangle as a unit, pass ALL 4 line IDs in `geomIds`.
 - **Z must be exactly 0.** Even though `translation` is typed as `point` ([x,y,z]), the Z component must be 0. Non-zero Z triggers error 1014: `"translation" which is a 2D point, must have a z-value of 0!`
 - **Empty geomIds is a no-op.** Passing `[]` returns result=0, maxLevel=31, no error.
 - **All geometry types work.** Points, lines, circles, arcs (both arcByCenter and arcBy3Points) all move correctly. For arcs, all control points (start, end, center) are translated uniformly.
@@ -86,6 +86,4 @@ await api.v1.sketch.moveGeometry({
 
 ## Related
 
-- `sketch.updateGeometry` — set absolute positions (more verbose but more control)
-- `sketch.getPositions` — verify positions after move
-- `sketch.geometry` — batch-create geometry (IDs from `.result.lines`, `.result.circles`, etc.)
+`sketch.updateGeometry` · `sketch.getPositions` · `sketch.geometry`

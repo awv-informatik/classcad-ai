@@ -42,21 +42,37 @@ const OP_SYNONYMS = {
   scale: ['resize', 'transform'],
   copy: ['duplicate', 'clone', 'instance'],
   measure: ['bounds', 'distance', 'length', 'volume', 'mass', 'inspect'],
+  expression: ['parameter', 'variable', 'formula'],
+  parameter: ['expression', 'variable', 'parametric'],
+  parametric: ['expression', 'parameter', 'regeneration'],
+  variable: ['expression', 'parameter'],
+  global: ['shared', 'parameter'],
+  shared: ['global', 'parameter'],
+  constraint: ['joint', 'mate', 'fastened'],
+  joint: ['constraint', 'mate'],
+  mate: ['constraint', 'joint'],
+  assembly: ['instance', 'template', 'product'],
   bounds: ['boundingbox', 'extent', 'size', 'measure'],
 }
 
-/** Expand a query into lowercase match terms (tokens + CAD synonyms). */
-function expandSearchTerms(search) {
+/** Expand a query into lowercase match terms (tokens + CAD synonyms unless `synonyms: false`). */
+function expandSearchTerms(search, { synonyms = true } = {}) {
   const raw = Array.isArray(search) ? search : [search]
   const out = new Set()
   for (const part of raw) {
     for (const t of String(part ?? '').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)) {
       out.add(t)
-      for (const syn of OP_SYNONYMS[t] ?? []) out.add(syn)
+      if (synonyms) for (const syn of OP_SYNONYMS[t] ?? []) out.add(syn)
     }
   }
   return [...out]
 }
+
+/** Filler words that match nearly every document — ignored by the document search. */
+const DOC_SEARCH_STOPWORDS = new Set([
+  'a', 'an', 'the', 'and', 'or', 'of', 'to', 'in', 'on', 'for', 'with', 'by', 'is', 'are', 'be', 'how', 'do',
+  'i', 'my', 'it', 'that', 'this', 'from', 'as', 'at', 'part', 'parts', 'use', 'using', 'make', 'create', 'get',
+])
 
 /** First sentence of a summary, collapsed and capped, for compact listings. */
 function brief(summary) {
@@ -115,13 +131,46 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
     return key ? { key, text: docs[key] } : null
   }
 
+  /** A `<domain>/<method>` key that only carries a method's detailed notes. */
+  function isMethodNotes(key) {
+    const [domain, method, ...rest] = key.split('/')
+    return rest.length === 0 && method != null && registry[`v1.${domain}.${method}`] != null
+  }
+
   function listDocs() {
     const keys = Object.keys(docs)
     return {
       topics: keys.filter(k => !k.includes('/')).sort(),
       overviews: keys.filter(k => k.startsWith('api/')).sort(),
       recipes: keys.filter(k => k.startsWith('recipes/')).sort(),
+      guides: keys.filter(k => k.includes('/') && !k.startsWith('api/') && !k.startsWith('recipes/') && !isMethodNotes(k)).sort(),
     }
+  }
+
+  /** First `# ` heading of a doc, used as its title. */
+  function docTitle(text) {
+    const line = String(text ?? '').split('\n').find(l => /^#\s/.test(l))
+    return line ? line.replace(/^#\s+/, '').replace(/^Recipe:\s*/i, '').trim() : ''
+  }
+
+  /**
+   * Split a doc into pages of at most `size` chars, cutting at the last heading
+   * (then blank line, then newline) before the limit so sections stay whole.
+   */
+  function paginate(text, size) {
+    const pages = []
+    let rest = text
+    while (rest.length > size) {
+      const window = rest.slice(0, size)
+      let cut = Math.max(window.lastIndexOf('\n## '), window.lastIndexOf('\n# '), window.lastIndexOf('\n### '))
+      if (cut < size * 0.4) cut = window.lastIndexOf('\n\n')
+      if (cut < size * 0.4) cut = window.lastIndexOf('\n')
+      if (cut <= 0) cut = size
+      pages.push(rest.slice(0, cut))
+      rest = rest.slice(cut).replace(/^\n+/, '')
+    }
+    pages.push(rest)
+    return pages
   }
 
   /** Resolve a method name: exact key → case-insensitive → bare name (unique across domains). */
@@ -202,11 +251,20 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
       if (resolved) {
         const { key, entry } = resolved
         const parts = [`# ${key}`, '', `**Summary**: ${entry.summary ?? ''}`]
-        if (entry.params?.length) {
-          parts.push('', '**Parameters**:')
-          for (const p of entry.params) parts.push(`- \`${p.name}\`: ${p.text}`)
-        }
         const doc = lookupDoc(`${entry.domain}/${entry.method}`)
+        if (entry.params?.length) {
+          // Parameters the detailed notes already describe (`name` in backticks)
+          // are listed by name only; the rest keep their contract text.
+          const described = p => {
+            const leaf = p.name.replace(/^param\.?/, '').split('.').pop().replace(/\[\]$/, '')
+            return doc != null && leaf !== '' && doc.text.includes(`\`${leaf}\``)
+          }
+          const brief = entry.params.filter(p => p.name !== 'param' && described(p)).map(p => `\`${p.name.replace(/^param\./, '')}\``)
+          const full = entry.params.filter(p => !(p.name !== 'param' && described(p)))
+          parts.push('', '**Parameters**:')
+          for (const p of full) parts.push(`- \`${p.name}\`: ${p.text}`)
+          if (brief.length) parts.push(`- Described in the notes below: ${brief.join(', ')}`)
+        }
         if (doc) parts.push('', '---', '', '# Detailed notes', '', doc.text)
         else parts.push('', '_No detailed notes for this method yet — JSDoc summary only._')
         return { kind: 'method', text: parts.join('\n') }
@@ -233,8 +291,65 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
       return lookupDoc(name)
     },
 
-    /** The readable documents, grouped: topics / api overviews / recipes. */
+    /** The readable documents, grouped: topics / api overviews / recipes / guides. */
     listDocs,
+
+    /**
+     * Search the workflow documents — recipes, topic docs and guides (not the
+     * per-method notes, which searchMethods covers, and not the huge api/*
+     * overviews). Ranked over key (×4), title (×3), headings (×2) and body
+     * (×1 per distinct term), CAD synonyms expanded.
+     * → { count, docs: [{ key, title, chars, pages, headings }], note? }
+     */
+    searchDocs({ search, limit = 6, budget = DOCS_RESPONSE_BUDGET } = {}) {
+      // Query words count fully, their synonyms half; filler words are ignored.
+      const direct = expandSearchTerms(search ?? '', { synonyms: false }).filter(t => !DOC_SEARCH_STOPWORDS.has(t))
+      const synonyms = expandSearchTerms(direct).filter(t => !direct.includes(t))
+      if (direct.length === 0) return { count: 0, docs: [] }
+      const weighted = [...direct.map(t => [t, 1]), ...synonyms.map(t => [t, 0.5])]
+      const keys = Object.keys(docs).filter(k => !k.startsWith('api/') && !isMethodNotes(k))
+      const scored = keys
+        .map(key => {
+          const text = docs[key]
+          const lowerKey = key.toLowerCase()
+          const title = docTitle(text)
+          const lowerTitle = title.toLowerCase()
+          const headings = text.split('\n').filter(l => /^#{2,3}\s/.test(l)).map(l => l.replace(/^#+\s+/, ''))
+          const lowerHeadings = headings.map(h => h.toLowerCase())
+          const body = text.toLowerCase()
+          let score = 0
+          let covered = 0
+          const hitHeadings = new Set()
+          for (const [t, w] of weighted) {
+            let hit = false
+            if (lowerKey.includes(t)) { score += 4 * w; hit = true }
+            if (lowerTitle.includes(t)) { score += 3 * w; hit = true }
+            const hIdx = lowerHeadings.findIndex(h => h.includes(t))
+            if (hIdx >= 0) { score += 2 * w; hit = true; if (w === 1) hitHeadings.add(headings[hIdx]) }
+            if (body.includes(t)) { score += 1 * w; hit = true }
+            if (hit && w === 1) covered++
+          }
+          score += 2 * covered // docs matching more of the query words rank higher
+          if (score > 0 && key.startsWith('recipes/')) score += 3 // composed workflows first
+          return { key, title, chars: text.length, pages: Math.ceil(text.length / budget), headings: [...hitHeadings].slice(0, 3), score }
+        })
+        .filter(e => e.score >= 3)
+        .sort((a, b) => b.score - a.score || a.key.localeCompare(b.key))
+      return {
+        count: scored.length,
+        docs: scored.slice(0, limit).map(({ score, ...rest }) => rest),
+        ...(scored.length ? { note: 'Workflow documents matching the search — fetch with docs([...keys]).' } : {}),
+      }
+    },
+
+    /**
+     * Compact index of the workflow documents (recipes + guides, `key — title`),
+     * for system prompts / MCP instructions next to methodIndex().
+     */
+    docIndex() {
+      const { recipes, guides } = listDocs()
+      return [...recipes, ...guides].map(k => `${k} — ${docTitle(docs[k])}`).join('\n')
+    },
 
     /**
      * Compact one-line-per-method index of the whole v1 surface
@@ -253,33 +368,48 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
 
     /**
      * Bulk documentation — THE single source for every host's `docs` tool
-     * (buerli-ai, mcp, …): resolve up to `DOCS_MAX_KEYS` keys in one round,
-     * cap each doc at `DOCS_PER_DOC_CAP` chars, emit `# ═══ key ═══` sections
-     * and a trailing "not found" section with the per-key error/suggestions.
+     * (buerli-ai, mcp, …). Resolves up to `DOCS_MAX_KEYS` keys and packs them
+     * into ONE response of at most `budget` chars (default
+     * `DOCS_RESPONSE_BUDGET`), so the result never exceeds a host's tool-output
+     * limit:
+     *   - docs are served whole, in request order, while they fit;
+     *   - docs that don't fit are DEFERRED — listed at the top with the exact
+     *     keys to request next (nothing is silently dropped or truncated);
+     *   - a doc larger than the budget is split into pages at headings;
+     *     `key` serves page 1, `key#2` … the rest (the page footer says so).
+     * A trailing "not found" section carries per-key errors/suggestions.
      *
      * `resolveOne` (optional): async per-key resolver for hosts with extra
      * key spaces (e.g. buerli-ai's live browser namespaces). It returns
      * `{ text }` or `{ error }`; keys it does not handle can fall back to
      * this discovery's describeMethod by returning null/undefined.
      *
-     * → { text, found: string[], missing: string[] }
+     * → { text, found: string[], missing: string[], deferred: string[] }
      */
-    async bulkDocs(keys, resolveOne) {
+    async bulkDocs(keys, resolveOne, { budget = DOCS_RESPONSE_BUDGET } = {}) {
       const list = Array.isArray(keys) ? keys.filter(k => typeof k === 'string' && k.trim() !== '') : []
       if (list.length === 0) {
         return {
           text: 'Provide keys: an array of documentation keys, e.g. ["v1.part.extrusion", "SKETCHING", "recipes/parametric-part"].',
           found: [],
           missing: [],
+          deferred: [],
           empty: true,
         }
       }
+      const unique = [...new Set(list.map(k => k.trim()))]
+      const overLimit = unique.slice(DOCS_MAX_KEYS)
       const sections = []
       const failures = []
       const found = []
       const missing = []
-      for (const raw of list.slice(0, DOCS_MAX_KEYS)) {
-        const key = raw.trim()
+      const deferred = []
+      const pageSize = Math.max(Math.floor(budget * 0.9), budget - 1000) // room for the section header and page footer
+      let used = 0
+      for (const requested of unique.slice(0, DOCS_MAX_KEYS)) {
+        const pageMatch = requested.match(/^(.*)#(\d+)$/)
+        const key = pageMatch ? pageMatch[1] : requested
+        const page = pageMatch ? Math.max(1, Number(pageMatch[2])) : 1
         let text = null
         let error = null
         if (resolveOne) {
@@ -292,24 +422,50 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
           if (res.kind === 'error') error = res.text
           else text = res.text
         }
-        if (text != null) {
-          found.push(key)
-          const capped = text.length > DOCS_PER_DOC_CAP ? text.slice(0, DOCS_PER_DOC_CAP) + `\n\n[${key}: truncated at ${Math.round(DOCS_PER_DOC_CAP / 1000)}k chars]` : text
-          sections.push(`# ═══ ${key} ═══\n\n${capped}`)
-        } else {
-          missing.push(key)
-          failures.push(`${key}: ${error ?? 'not found'}`)
+        if (text == null) {
+          missing.push(requested)
+          failures.push(`${requested}: ${error ?? 'not found'}`)
+          continue
         }
+        const pages = text.length > pageSize ? paginate(text, pageSize) : [text]
+        if (page > pages.length) {
+          missing.push(requested)
+          failures.push(`${requested}: "${key}" has ${pages.length} page(s)`)
+          continue
+        }
+        const label = pages.length > 1 ? `${key} (page ${page}/${pages.length})` : key
+        const footer = page < pages.length ? `\n\n[${key}: page ${page}/${pages.length} — continue with "${key}#${page + 1}"]` : ''
+        const section = `# ═══ ${label} ═══\n\n${pages[page - 1]}${footer}`
+        if (used + section.length > budget && used > 0) {
+          deferred.push(requested)
+          continue
+        }
+        sections.push(section)
+        used += section.length + 2
+        found.push(requested)
       }
+      deferred.push(...overLimit)
       if (failures.length) sections.push(`# ═══ not found ═══\n${failures.join('\n')}`)
-      return { text: sections.join('\n\n'), found, missing }
+      const header = deferred.length
+        ? `# ═══ response budget reached ═══\nServed ${found.length} of ${found.length + deferred.length} docs. NOT included yet — ` +
+          `request these next in another docs call: ${JSON.stringify(deferred)}\n\n`
+        : ''
+      return { text: header + sections.join('\n\n'), found, missing, deferred }
     },
   }
 }
 
 /** Shared limits for the bulk docs tool (single source across hosts). */
 export const DOCS_MAX_KEYS = 24
-export const DOCS_PER_DOC_CAP = 40000
+/**
+ * Max chars in ONE docs response. Tool outputs above ~25k tokens are rejected
+ * or spilled to a file by hosts (Claude Code's default MCP output limit). An
+ * 82k-char doc response exceeded that limit; doc markdown runs ~0.3–0.36
+ * tokens/char, so 64k chars (plus the ≤1k deferral header) stays below it.
+ */
+export const DOCS_RESPONSE_BUDGET = 64000
+/** @deprecated Docs are no longer truncated; oversized docs are paged. Kept for importers. */
+export const DOCS_PER_DOC_CAP = DOCS_RESPONSE_BUDGET
 
 /**
  * The shared `docs` tool contract — name + LLM-facing description, so every
@@ -322,11 +478,15 @@ export const DOCS_TOOL = {
     'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
     'unique bare name), topic docs ("DATA", "STRUCTURE", "GRAPHICS"), recipes ' +
     '("recipes/verification" — MANDATORY in every build fetch, "recipes/constrained-sketching", ' +
-    '"recipes/parametric-part", "recipes/pattern-then-subtract", ' +
-    '"recipes/direct-modeling-eif"), and domain overviews ("api/part"). PLAN FIRST: pick every method you ' +
-    `will need from the method index, then fetch ALL of them plus the matching topic/recipe docs in ONE ` +
-    `call (up to ${DOCS_MAX_KEYS} keys) — each extra tool round costs a full model round-trip. ` +
-    'Unknown keys come back in a "not found" section with suggestions.',
+    '"recipes/parametric-part", "recipes/assembly-parameters", "recipes/pattern-then-subtract", ' +
+    '"recipes/direct-modeling-eif"), guides ("part/expression-workflow", "assembly/generic", …) and domain ' +
+    'overviews ("api/part"). PLAN FIRST: pick every method you will need from the method index, then request ' +
+    `them plus the matching recipe/guide docs in ONE call (up to ${DOCS_MAX_KEYS} keys), recipes first. ` +
+    `Each response is capped at ~${Math.round(DOCS_RESPONSE_BUDGET / 1000)}k chars: docs that don't fit are ` +
+    'listed at the TOP as "NOT included yet" — request exactly those keys in a follow-up call before building. ' +
+    'Docs larger than one response are paged: "key" is page 1, "key#2" the next (the page footer says so). ' +
+    'Unknown keys come back in a "not found" section with suggestions. Find recipes/guides by topic with the ' +
+    'method search (list_methods), which also returns matching documents.',
 }
 
 /**

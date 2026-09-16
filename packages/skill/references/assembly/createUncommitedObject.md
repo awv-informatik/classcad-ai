@@ -130,7 +130,4 @@ await api.v1.part.closeFeature({ id: revId })
 
 ## Related
 
-- `part.createUncommitedObject` — same pattern for part features (singleton-constrained, unlike assembly)
-- `part.openFeature` / `part.closeFeature` — required for commit/decline
-- `assembly.update*` — the update APIs that configure the constraint between open and close
-- `assembly.get*` — query committed constraints by name
+`part.createUncommitedObject` · `part.openFeature` / `part.closeFeature` · `assembly.update*` · `assembly.get*`

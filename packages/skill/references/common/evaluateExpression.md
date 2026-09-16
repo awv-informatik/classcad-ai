@@ -97,6 +97,4 @@ if (tryExpr.result !== null) { /* use it */ }
 
 ## Related
 
-- `part.expression` — create named expressions inside a part
-- `part.getExpression` — read back an expression's value
-- `part.linkWithExpression` — connect expressions to feature parameters
+`part.expression` · `part.getExpression` · `part.linkWithExpression`

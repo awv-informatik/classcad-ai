@@ -14,7 +14,7 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
   - **Numbers:** `50`, `3.14`, `0`
   - **Formula strings:** `'50+70'`, `'sqrt(2)*50'`, `'100'`
   - **Angle strings:** `'30deg'`, `'60deg'` (for ANGLE/ANGLEOX dimensions)
-  - **Live expression bindings:** `'@expr.NAME'` — binds the dim to the expression (result 2) and keeps tracking it: a later `updateExpression` re-solves the sketch immediately (verified 2026-08-10). The expression must EXIST — see Gotchas. Bare expression names, `$NAME`, and formula strings referencing expressions still fail (result=0).
+  - **Live expression bindings:** `'@expr.NAME'` or a formula with the prefix (`'@expr.W*2'`) — binds the dim to the expression and keeps tracking it: a later `updateExpression` re-solves the sketch immediately. Works on ANGLE dims with the expression in radians. The expression must EXIST — see Gotchas. Names without the `@expr.` prefix and `$NAME` fail (result=0).
 
 ## Return Value
 
@@ -32,7 +32,7 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
 
 | Value | Meaning | When |
 |-------|---------|------|
-| `0` | Not solved / solver failed | Over-constrained, negative value, expression string, conflicting constraints |
+| `0` | Not solved / solver failed | Over-constrained, negative value, conflicting constraints, sketch without `planeId` |
 | `1` | Solved, under-constrained | Some degrees of freedom remain (e.g., circle with RADIUS dim but no center constraint) |
 | `2` | Well-constrained | Fully determined — no remaining DOF |
 
@@ -52,7 +52,8 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
 
 ## Gotchas
 
-- **Expression binding WORKS via `value: '@expr.NAME'` — and is LIVE** (verified 2026-08-10: bind via updateDimension → result 2; subsequent `updateExpression` moved the geometry with no further calls). Requirements & limits: the expression must exist — create it with `part.expression({toCreate: [...]})`; the direct `{id,name,value}` form is a SILENT NO-OP returning result=1, and `@expr` on the never-created expression then fails with result=0 (check `getExpression` first when a binding misbehaves). `linkWithExpression` on a dimension still fails ("Datamember ... not found") — `@expr` in `value` IS the binding path. Bare names, `$NAME`, and expression-referencing formula strings still fail (result=0). ANGLE/ANGLEOX + @expr fails (maxLevel 51) — use numeric `'NNdeg'` strings there.
+- **Expression binding via `value: '@expr.NAME'` is LIVE** (bind via updateDimension → result 2; a later `updateExpression` moves the geometry with no further calls). Requirements: the expression must exist — create it with `part.expression({toCreate: [...]})`; the direct `{id,name,value}` form is a SILENT NO-OP returning result=1, and `@expr` on the never-created expression then fails with result=0 (check `getExpression` first when a binding misbehaves). Names without the `@expr.` prefix and `$NAME` fail (result=0). ANGLE dims: the expression must be in radians (`C:PI/6` or a number) — see `sketch/dimension.md`.
+- **Bind dimensions with `@expr` in `value`, not `linkWithExpression`.** `linkWithExpression` on a dimension throws "Datamember ... not found" and leaves an unresolvable reference on the dimension; later sketch calls in that sketch then fail with the same error.
 - **Return value is NOT boolean.** The API docs say `result: boolean` but actual values are 0, 1, or 2 (solver state enum). Use `result > 0` to check success.
 - **Negative values fail silently.** result=0, no error messages, but geometry may partially change to `|value|`. Avoid negative values.
 - **Zero is valid.** Collapses geometry to zero length/radius (result=2).
@@ -62,8 +63,7 @@ Updates a dimension's value and re-solves the sketch. The solver immediately rep
 - **Sequential updates work.** Call updateDimension multiple times — each update re-solves.
 - **result=0 doesn't always mean "no change."** For ANGLE/ANGLEOX, the solver may partially converge (geometry moves) but still report 0 if the sketch is under-determined.
 - **NO batch form.** Passing an ARRAY of `{id, value}` params (like `dimension`/`constraint`
-  accept) returns `result: null` with no messages and updates NOTHING. Loop single calls
-  (verified 2026-07-02).
+  accept) throws an `objId` evaluation error and updates nothing. Loop single calls.
 - **Symmetric dimension pairs traverse an unsolvable intermediate.** Updating "2×" twins one
   at a time (e.g. two Ø5.6 bosses that a dome is tangent to, symmetric about a fixed axis)
   makes the FIRST call return `result 0` — correctly, the asymmetric state is contradictory —
@@ -119,7 +119,4 @@ await api.v1.sketch.updateDimension({ id: dimId, value: 'sqrt(2)*100' })
 
 ## Related
 
-- `sketch.dimension` — create the dimension this updates
-- `sketch.updateDimensionPosition` — move dimension text position (does not change value)
-- `sketch.constraint` — geometric constraints (non-dimensional)
-- `sketch.deleteObject` — delete a dimension (`ids: [dimId]`)
+`sketch.dimension` · `sketch.updateDimensionPosition` · `sketch.constraint` · `sketch.deleteObject`

@@ -31,7 +31,7 @@ Only DOF-matching names have any effect. Non-DOF names are **silent no-ops** (ma
 | cylindrical | Z translation + Z rotation | Z_OFFSET, Z_ROTATION |
 | slider | Z translation | Z_OFFSET |
 | planar | X/Y translation + Z rotation | X_OFFSET, Y_OFFSET, Z_ROTATION |
-| parallel | X/Y translation + Z rotation | X_OFFSET, Y_OFFSET, Z_ROTATION |
+| parallel | X/Y/Z translation + Z rotation | X_OFFSET, Y_OFFSET, Z_OFFSET, Z_ROTATION |
 | fastened | None (rigid) | None — all 4 are silent no-ops |
 | fastenedOrigin | None (rigid) | None — all 4 are silent no-ops |
 | spherical | X/Y rotation | **None** — Z_ROTATION is a no-op, X/Y_ROTATION don't exist |
@@ -40,7 +40,7 @@ Only DOF-matching names have any effect. Non-DOF names are **silent no-ops** (ma
 
 ## No Readback
 
-The get* APIs (`getRevolute`, `getCylindrical`, etc.) do NOT return the current DOF value. They only return structural parameters (mates, limits, name). The DOF position can only be verified through `calculateMassProperties` (COG measurement) or `getGeometryPositions`.
+The get* APIs (`getRevolute`, `getCylindrical`, etc.) do NOT return the current DOF value. They only return structural parameters (mates, limits, name). Read the resulting placement from the structure tree: `(await api.tree({ refresh: true }))[instanceId].coordinateSystem` → `[origin, xDir, yDir, zDir]` (after `Z_ROTATION: '90deg'`, xDir = [0,1,0]).
 
 ## Value Types
 
@@ -74,7 +74,7 @@ Returns null, maxLevel=31 on success (single result, not per-item).
 
 - **Silent no-ops on rigid constraints.** Calling with a fastened/fastenedOrigin ID returns success but does nothing. No error, no warning. Easy to mistake for a successful update.
 - **Silent no-ops for non-DOF names.** Calling Z_OFFSET on a revolute (which only has Z rotation DOF) returns success but does nothing.
-- **No readback.** You cannot query the current DOF value through any API. The only verification is spatial measurement.
+- **No DOF readback via get* APIs.** Verify the instance placement via `coordinateSystem` in the structure tree.
 - **Each call replaces, not accumulates.** `Z_ROTATION: '45deg'` then `Z_ROTATION: '90deg'` sets the angle to 90°, not 135°.
 - **Deg strings only for rotation.** `X_OFFSET: '50mm'` doesn't work — offset values must be numbers.
 
@@ -95,10 +95,7 @@ All errors include a cascading internal error: `"[Evaluation error in AssemblyAP
 const asmId = (await api.v1.assembly.create({})).result
 const tpl = (await api.v1.assembly.partTemplate({ name: 'Arm' })).result
 await api.v1.part.box({ id: tpl, name: 'B', length: 80, width: 15, height: 8 })
-const wcs = (await api.v1.part.workCSys({
-  id: tpl, name: 'Csys', origin: [0, 0, 0],
-  xDirection: [1, 0, 0], yDirection: [0, 1, 0],
-})).result
+const wcs = (await api.v1.part.workCSys({ id: tpl, name: 'Csys' })).result  // csys at part origin
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
 const inst1 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'Base' })).result
@@ -120,14 +117,11 @@ await api.v1.assembly.update3DConstraintValue({ id: revId, name: 'Z_ROTATION', v
 // Drive to 45° (replaces, not adds)
 await api.v1.assembly.update3DConstraintValue({ id: revId, name: 'Z_ROTATION', value: '45deg' })
 
-// Verify via mass properties (only way to read back the DOF value)
-const mp = (await api.v1.assembly.calculateMassProperties({ id: inst2 })).result
-// mp.cog will reflect the 45° rotation
+// Verify via the instance placement (measuring the instance itself would materialize it)
+const place = (await api.tree({ refresh: true }))[inst2].coordinateSystem
+// place[1] (xDir) ≈ [0.707, 0.707, 0] for 45°
 ```
 
 ## Related
 
-- `assembly.revolute` / `assembly.cylindrical` / `assembly.slider` / `assembly.planar` / `assembly.parallel` — constraints this API drives
-- `assembly.updateRevolute` / `assembly.updateCylindrical` / etc. — update structural params (mates, limits, name)
-- `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints` — alternative motion workflow
-- `assembly.calculateMassProperties` — verify DOF position (only readback method)
+`assembly.revolute` / `assembly.cylindrical` / `assembly.slider` / `assembly.planar` / `assembly.parallel` · `assembly.updateRevolute` / `assembly.updateCylindrical` · `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints` · `assembly/generic.md`

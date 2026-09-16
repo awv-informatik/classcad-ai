@@ -82,14 +82,13 @@ Takes `ids` (array of shape IDs). Removes all curves from the shapes but preserv
 
 ### Key Behavior
 
-- **Always reports maxLevel=51** with internal error: `"Trying to open database which does not exist"`. This is a server-side bug, not a user error. **The operation succeeds despite the error.**
+- Returns maxLevel 31 on a shape with curves.
 - After cleaning, `geometryIdList` becomes `undefined` (empty).
 - Cleaned shapes accept new curves normally — the shape ID remains valid.
-- Calling cleanShape on an already-empty shape also triggers the same internal error.
 
 ### Gotchas
 
-- **Do not treat maxLevel=51 as failure** for cleanShape. Check whether the shape still exists in the structure tree rather than relying on maxLevel.
+- Check that the shape still exists in the structure tree if you plan to reuse it.
 
 ### Working Example
 
@@ -105,6 +104,4 @@ await api.v1.curve.circle({ id: shapeId, centerPos: [0, 0, 0], radius: 20 })
 
 ## Related
 
-- `part.entityInjection` — must create this first to hold shapes
-- `curve.line`, `curve.circle`, `curve.arc*`, etc. — consume the shape ID
-- `common.setObjectName` — rename a shape after creation
+`part.entityInjection` · `curve.line` · `common.setObjectName`

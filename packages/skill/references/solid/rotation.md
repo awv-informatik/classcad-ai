@@ -22,7 +22,7 @@ Returns the **target solid ID** (same ID, not a new one). maxLevel=31 on success
 
 - **Angles are in radians.** π/2 ≈ 1.5708 = 90°. π ≈ 3.14159 = 180°. 2π ≈ 6.28318 = 360°.
 - **Rotation order is Z→Y→X (Euler angles).** A single call `rotation: [rx, ry, rz]` applies Z first, then Y, then X. This is an intrinsic Euler convention — after the Z rotation, the Y rotation happens in the Z-rotated frame, then X in the ZY-rotated frame.
-- **Combined ≠ sequential.** `rotation([π/4, π/4, 0])` is NOT the same as two separate calls `rotation([0, π/4, 0])` then `rotation([π/4, 0, 0])`. A single combined call uses Euler decomposition; separate calls each rotate around world axes at the solid's current orientation.
+- **Combined = sequential in z → y → x order.** `rotation([π/4, π/4, 0])` gives the same result as `rotation([0, π/4, 0])` then `rotation([π/4, 0, 0])` (both: COG (35.36, 25, −25) for an 80×40×20 box at x=50). The other order (x first, then y) differs.
 - **Rotation center is the origin.** Rotation is around the part coordinate system origin `[0,0,0]`. A body offset from the origin will **orbit** around it, not spin in place. To rotate a body around its own center: translate to origin → rotate → translate back.
 - **Cumulative.** Successive single-axis calls stack: two calls of `[0, 0, π/4]` equal one `[0, 0, π/2]`.
 - **Zero vector is a no-op.** `[0, 0, 0]` succeeds silently.
@@ -70,7 +70,4 @@ await api.v1.solid.translation({ id: eifId, target: box2, translation: [100, 0, 
 
 ## Related
 
-- `solid.translation` — translate a solid by a vector
-- `solid.scale` — scale a solid by a factor
-- `solid.mirror` — mirror a solid across a plane
-- `solid.copy` — copy a solid (supports translation + rotation params at creation time)
+`solid.translation` · `solid.scale` · `solid.mirror` · `solid.copy`

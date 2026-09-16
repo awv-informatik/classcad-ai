@@ -69,6 +69,4 @@ Works on: parts, entity injections, solid bodies, sketches, work planes, work ax
 
 ## Related
 
-- `common.transformObjectWithMatrix` — transform with a 4x4 matrix (more general, supports isGlobal flag)
-- `solid.translation` / `solid.rotation` — relative transforms on solids (cumulative, not absolute)
-- `part.workPlane` / `part.updateWorkPlane` — alternative way to position work planes
+`common.transformObjectWithMatrix` · `solid.translation` / `solid.rotation` · `part.workPlane` / `part.updateWorkPlane`

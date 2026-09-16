@@ -80,8 +80,4 @@ const [a, b, c] = (await api.v1.assembly.instance([
 
 ## Related
 
-- `assembly.getInstance` — query instances by owner/name
-- `assembly.deleteInstance` — remove instances
-- `assembly.setCurrentProduct` — switch context to assembly root after template work
-- `assembly.partTemplate` / `assembly.assemblyTemplate` — create templates to instance
-- `assembly.calculateMassProperties` — spatial verification (use root ID, not instance ID)
+`assembly.getInstance` · `assembly.deleteInstance` · `assembly.setCurrentProduct` · `assembly.partTemplate` / `assembly.assemblyTemplate` · `assembly.calculateMassProperties`

@@ -101,7 +101,7 @@ await api.v1.sketch.updateGeometry({
 })
 ```
 
-**All three positions (startPos, endPos, centerPos) are required.** Omitting any → error 1004. No partial updates.
+Positions can be updated individually; keep start and end equidistant from the center.
 
 **`isClockwise` CANNOT be changed via updateGeometry** — the flag is accepted and silently ignored (maxLevel 31, bulge and geometry unchanged; measured 2026-08-19 with both unchanged and new positions). Position updates preserve the creation-time sweep character (minor stays minor, CW stays CW). To flip direction: `deleteObject` + recreate.
 
@@ -115,7 +115,7 @@ Returns VOID on success. `getPoints`/`getPositions` on deleted arc returns null 
 
 ## Gotchas
 
-- **Radius must match** — `|start-center|` must equal `|end-center|`. No tolerance.
+- **Radius must match** — `|start-center|` must equal `|end-center|` within ~1e-9: a 1e-9 difference is accepted, 1e-6 is rejected (warning 1014, no arc).
 - **getPositions works on arcs** — unlike circles, no two-step workaround needed.
 - **updateGeometry requires all three positions** — cannot update just one endpoint.
 - **isClockwise determines which arc** — same three points, different direction = complementary arcs; TRUE (the default!) = math-negative sweep in sketch-local coords.
@@ -185,11 +185,4 @@ const regionId = (
 
 ## Related
 
-- `sketch.arcBy3Points` — arc defined by start, mid, end (no center)
-- `sketch.circle` — use for full circles (arcByCenter rejects start==end)
-- `sketch.getPositions` — query arc positions directly (works on arcs, unlike circles)
-- `sketch.getPoints` — get startId, endId, centerId
-- `sketch.getGeometry` — list all arcs in a sketch
-- `sketch.updateGeometry` — update arc via `arcsByCenter` array
-- `sketch.deleteObject` — delete arcs
-- `sketch.sketchRegion` — create regions from closed profiles including arcs
+`sketch.arcBy3Points` · `sketch.circle` · `sketch.getPositions` · `sketch.getPoints` · `sketch.getGeometry` · `sketch.updateGeometry` · `sketch.deleteObject` · `sketch.sketchRegion`

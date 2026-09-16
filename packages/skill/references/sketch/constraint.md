@@ -169,10 +169,4 @@ await api.v1.sketch.constraint([
 
 ## Related
 
-- `sketch.create` — must set `planeId` for solver to work
-- `sketch.dimension` — dimensional constraints (OFFSET, RADIUS, etc.)
-- `sketch.updateDimension` — modify dimension values (triggers solver)
-- `sketch.getPoints` — get point IDs from geometry (needed for COINCIDENT, MIDPOINT, etc.)
-- `sketch.getPositions` — read point coordinates to verify constraint effects
-- `sketch.moveGeometry` — constraint-aware with active solver
-- `sketch.generateAutoConstraints` — auto-detect constraints from geometry positions
+`sketch.create` · `sketch.dimension` · `sketch.updateDimension` · `sketch.getPoints` · `sketch.getPositions` · `sketch.moveGeometry` · `sketch.generateAutoConstraints`

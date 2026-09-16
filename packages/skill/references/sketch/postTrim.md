@@ -82,6 +82,4 @@ await api.v1.sketch.postTrim({ id: skId })   // VOID; staging cleaned, constrain
 
 ## Related
 
-- `sketch.preTrim` — step 1: creates the staging this finalizes. `sketch.trim` — step 2: removes segments.
-- `part.closeFeature` — finalizes a staged sketch implicitly (auto-postTrim equivalent).
-- `sketch.updateDimension` — works after postTrim on a planed sketch (re-fetch the dimension by name first).
+`sketch.preTrim` · `part.closeFeature` · `sketch.updateDimension`

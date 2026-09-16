@@ -17,7 +17,7 @@ Creates a spherical (ball-joint) constraint between two instances. Locks 3 trans
 
 ## Alignment Semantics (CRITICAL)
 
-**Same as all other assembly constraints.** The csys position and axes have NO spatial effect. With zero offsets, inst2 is placed at inst1's origin regardless of where the csys origins are in their templates. The csys is required by the API but only serves as an identifier.
+**The csys origins are the ball center.** inst2 moves so that mate2's csys origin coincides with mate1's csys origin; orientation stays free. Example: mate1 csys at `offset [40,0,20]`, mate2 csys at its part origin → inst2 at `[40,0,20]`, orientation unchanged. Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
 
 **No offset params.** Unlike revolute (zOffset), cylindrical (zOffset), slider (xOffset/yOffset), or parallel (xOffset/yOffset/zOffset), spherical has NO offset parameters. The only way to separate the two instances is through `moveUnderConstraints` or by removing the constraint.
 
@@ -27,7 +27,7 @@ Spherical constrains 3 DOF, leaving 3 free:
 - **Locked:** X-translation, Y-translation, Z-translation (origins coincide)
 - **Free:** X-rotation, Y-rotation, Z-rotation (all rotations unconstrained)
 
-With no motion commands, the solver places inst2 at the default rotation (identity). The free rotation DOFs only become active via `moveUnderConstraints` or when external constraints interact.
+With no motion commands, inst2 keeps its current orientation (an instance created at 45° about Z stays at 45°); only its position moves onto the ball center. The free rotation DOFs only become active via `moveUnderConstraints` or when external constraints interact.
 
 ## flip and reorient — NO EFFECT
 
@@ -101,17 +101,11 @@ await api.v1.assembly.spherical([
 const asmId = (await api.v1.assembly.create({})).result
 const tpl = (await api.v1.assembly.partTemplate({ name: 'Arm' })).result
 await api.v1.part.box({ id: tpl, name: 'B', length: 40, width: 10, height: 8 })
-const wcs = (await api.v1.part.workCSys({
-  id: tpl, name: 'Mate', origin: [0, 0, 0],
-  xDirection: [1, 0, 0], yDirection: [0, 1, 0],
-})).result
+const wcs = (await api.v1.part.workCSys({ id: tpl, name: 'Mate' })).result  // csys at part origin
 
 const tpl2 = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tpl2, name: 'B', length: 60, width: 60, height: 10 })
-const wcs2 = (await api.v1.part.workCSys({
-  id: tpl2, name: 'Mate', origin: [0, 0, 0],
-  xDirection: [1, 0, 0], yDirection: [0, 1, 0],
-})).result
+const wcs2 = (await api.v1.part.workCSys({ id: tpl2, name: 'Mate' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 const inst1 = (await api.v1.assembly.instance({ productId: tpl2, ownerId: asmId })).result
@@ -140,9 +134,4 @@ await api.v1.assembly.updateSpherical({ id: sId, yRotationLimits: null })
 
 ## Related
 
-- `assembly.fastened` — 0 DOF (all locked)
-- `assembly.revolute` — 1 DOF (Z-rotation)
-- `assembly.cylindrical` — 2 DOF (Z-rotation + Z-translation)
-- `assembly.slider` — 1 DOF (Z-translation)
-- `assembly.planar` — 3 DOF (X/Y translation + Z-rotation)
-- `assembly.parallel` — 5 DOF (all translations + Z-rotation + one more)
+`assembly.fastened` · `assembly.revolute` · `assembly.cylindrical` · `assembly.slider` · `assembly.planar` · `assembly.parallel`

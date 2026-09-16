@@ -66,9 +66,9 @@ await api.v1.part.closeFeature({ id: boxId })
 // box is now 80x100x120, geometry recalculated
 
 // Sequential edits on different features: close first, then open next
-const cylId = (await api.v1.part.cylinder({ id: partId, radius: 30, height: 50 })).result
+const cylId = (await api.v1.part.cylinder({ id: partId, diameter: 60, height: 50 })).result
 await api.v1.part.openFeature({ id: cylId })
-await api.v1.part.updateCylinder({ id: cylId, radius: 15 })
+await api.v1.part.updateCylinder({ id: cylId, diameter: 30 })
 await api.v1.part.closeFeature({ id: cylId })
 ```
 

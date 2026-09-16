@@ -21,7 +21,7 @@ Returns `result: null` (VOID) with `maxLevel: 31` on success. No useful return v
 - **Overwrite is a silent no-op.** Calling `setUserData` on a key that already exists does nothing — no error, no warning, `maxLevel: 31`. The value stays unchanged. To update a value, you must `removeUserData` first, then `setUserData` again.
 - **Not persisted across save/load.** User data is session-only. Saving to OFB and reloading loses all user data. Not documented in the API reference.
 - **Not copied on duplication.** If the object is copied (e.g., `solid.copy`), the copy has no user data. Documented.
-- **Never pass negative IDs.** `id: -1` hangs the server at 100% CPU. IDs 0 and 9999 (nonexistent) produce proper errors (`maxLevel: 51`).
+- **Never pass negative IDs.** `id: -1` crashes the ClassCAD worker (process exits). IDs 0 and 9999 (nonexistent) produce proper errors (`maxLevel: 51`).
 - **Key ordering is undefined.** `getUserDataKeys` does not return keys in insertion order — it's hash map order.
 
 ## Common Errors
@@ -32,7 +32,7 @@ Returns `result: null` (VOID) with `maxLevel: 31` on success. No useful return v
 | `maxLevel: 51`, "invalid id" | Nonexistent or zero ID | Verify the object ID exists |
 | Value unchanged after set | Key already exists (silent no-op) | Call `removeUserData` first, then `setUserData` |
 | Data missing after load | User data not persisted in OFB | Re-set after loading |
-| Server hang | Negative ID passed | Never use negative IDs |
+| Worker crash | Negative ID passed | Never use negative IDs |
 
 ## Usage Hints
 
@@ -69,7 +69,4 @@ await api.v1.common.clearUserData({ id: partId })
 
 ## Related
 
-- `common.getUserData` — read a value by key
-- `common.removeUserData` — remove a single key
-- `common.clearUserData` — remove all keys from an object
-- `common.getUserDataKeys` — list all keys on an object
+`common.getUserData` · `common.removeUserData` · `common.clearUserData` · `common.getUserDataKeys`

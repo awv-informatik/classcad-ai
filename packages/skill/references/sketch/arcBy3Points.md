@@ -106,7 +106,7 @@ await api.v1.sketch.updateGeometry({
 })
 ```
 
-**All three positions (startPos, endPos, centerPos) are required.** No partial updates. Note: update uses center-based parameterization, not 3-point.
+Update with the `arcsBy3Points` key (`startPos`, `endPos`, `midPos`): moving `midPos` from [20,20] to [20,10] on a 0→40 arc moves the center to [20,−15].
 
 ## Deletion
 
@@ -121,7 +121,7 @@ Returns null on success (maxLevel=31). `getPositions`/`getPoints` on deleted arc
 - **genTangency only works with curves** — generates `CC_2DTangentSketchConstraint` for arc-to-arc adjacency but NOT for line-to-arc, even when geometrically tangent.
 - **Collinear/coincident points → ERROR** — "Invalid arc parameters" (code=0, level=51). All degenerate point configurations (collinear, start==mid, start==end, all identical) produce the same error.
 - **Non-zero Z → error 1014** — `"startPos which is a 2D point, must have a z-value of 0!"`. Same as all sketch geometry.
-- **Update uses arcsByCenter key** — even though created via arcBy3Points, the update API uses center-based parameterization.
+- **Update uses the `arcsBy3Points` key** with `startPos` / `endPos` / `midPos`.
 - **midPos must be on the arc** — it's not just a curvature hint. Wrong midPos = wrong circle = wrong arc.
 
 ## Common Errors
@@ -153,15 +153,15 @@ const arcId = (
 const pos = (await api.v1.sketch.getPositions({ id: arcId })).result
 // pos → { startPos: {x:0,y:0,z:0}, endPos: {x:40,y:0,z:0}, centerPos: {x:20,y:0,z:0} }
 
-// Update (uses arcsByCenter key)
+// Update (arcsBy3Points key)
 await api.v1.sketch.updateGeometry({
   id: skId,
-  arcsByCenter: [
+  arcsBy3Points: [
     {
       id: arcId,
-      startPos: [-20, 0, 0],
-      centerPos: [0, 0, 0],
-      endPos: [20, 0, 0],
+      startPos: [0, 0, 0],
+      midPos: [20, 10, 0],
+      endPos: [40, 0, 0],
     },
   ],
 })
@@ -184,11 +184,4 @@ const regionId = (
 
 ## Related
 
-- `sketch.arcByCenter` — arc defined by start, end, center (same internal representation)
-- `sketch.circle` — full circles
-- `sketch.getPositions` — query arc positions (works directly on arc IDs)
-- `sketch.getPoints` — get startId, endId, centerId
-- `sketch.getGeometry` — list all arcs in a sketch
-- `sketch.updateGeometry` — update arc via `arcsByCenter` array
-- `sketch.deleteObject` — delete arcs
-- `sketch.sketchRegion` — create regions from closed profiles including arcs
+`sketch.arcByCenter` · `sketch.circle` · `sketch.getPositions` · `sketch.getPoints` · `sketch.getGeometry` · `sketch.updateGeometry` · `sketch.deleteObject` · `sketch.sketchRegion`

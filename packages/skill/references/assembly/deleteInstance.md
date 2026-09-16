@@ -45,6 +45,4 @@ const remaining = (await api.v1.assembly.getInstance({ ownerId: asmId })).result
 
 ## Related
 
-- `assembly.instance` — create instances
-- `assembly.getInstance` — query instances
-- `assembly.deleteTemplate` — deletes template + cascades to all its instances
+`assembly.instance` · `assembly.getInstance` · `assembly.deleteTemplate`

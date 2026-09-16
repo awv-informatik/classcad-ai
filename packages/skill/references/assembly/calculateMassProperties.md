@@ -86,6 +86,4 @@ const rInst = await api.v1.assembly.calculateMassProperties({ id: inst2 })
 
 ## Related
 
-- `part.calculateMassProperties` — identical function in part namespace
-- `assembly.instance` — create instances whose mass properties you can measure
-- `assembly.transformInstance` — reposition instances (changes their COG in assembly coords)
+`part.calculateMassProperties` · `assembly.instance` · `assembly.transformInstance`

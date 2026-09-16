@@ -84,6 +84,4 @@ await api.v1.curve.circle([
 
 ## Related
 
-- `curve.shape` — create the container this consumes
-- `curve.line`, `curve.arcBy3Points`, etc. — other curve types in the same shape
-- `curve.deleteShape` / `curve.cleanShape` — remove circles (no per-circle delete)
+`curve.shape` · `curve.line` · `curve.deleteShape` / `curve.cleanShape`

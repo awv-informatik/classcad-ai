@@ -76,11 +76,14 @@ const partId = (await api.v1.part.create({ name: 'UpdateDemo' })).result
 
 // Create features — all BEFORE the boolean
 const plate = (await api.v1.part.box({ id: partId, name: 'Plate', length: 120, width: 80, height: 10 })).result
-const riser = (await api.v1.part.box({ id: partId, name: 'Riser', length: 15, width: 60, height: 60, translation: [0, 10, 10] })).result
+const riserCS = (await api.v1.part.workCSys({ id: partId, name: 'RiserCS', offset: [0, 10, 10] })).result
+const riser = (await api.v1.part.box({ id: partId, name: 'Riser', length: 15, width: 60, height: 60, references: [riserCS] })).result
 const bodyId = (await api.v1.part.boolean({ id: partId, type: 'UNION', target: plate, tools: [riser] })).result
 
-const hole = (await api.v1.part.cylinder({ id: partId, name: 'Hole', diameter: 12, height: 20, translation: [80, 40, -5] })).result
-const slot = (await api.v1.part.box({ id: partId, name: 'Slot', length: 30, width: 8, height: 20, translation: [65, 36, -5] })).result
+const holeCS = (await api.v1.part.workCSys({ id: partId, name: 'HoleCS', offset: [80, 40, -5] })).result
+const hole = (await api.v1.part.cylinder({ id: partId, name: 'Hole', diameter: 12, height: 20, references: [holeCS] })).result
+const slotCS = (await api.v1.part.workCSys({ id: partId, name: 'SlotCS', offset: [65, 36, -5] })).result
+const slot = (await api.v1.part.box({ id: partId, name: 'Slot', length: 30, width: 8, height: 20, references: [slotCS] })).result
 
 // Subtract hole
 const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', target: bodyId, tools: [hole] })).result
@@ -94,5 +97,4 @@ await api.v1.part.closeFeature({ id: subId })
 
 ## Related
 
-- `part.boolean` — creates the boolean feature this updates
-- `part.openFeature` / `part.closeFeature` — required gate for all update APIs
+`part.boolean` · `part.openFeature` / `part.closeFeature`

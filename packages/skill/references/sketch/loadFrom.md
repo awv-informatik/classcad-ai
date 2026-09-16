@@ -78,7 +78,4 @@ await api.v1.sketch.loadFrom({
 
 ## Related
 
-- `sketch.copyFrom` — copies geometry from an in-memory sketch to another sketch. Simpler when both sketches exist in the same session.
-- `sketch.copyGeometry` — copies specific elements within or between sketches, with translation offset.
-- `common.save` — produces OFB data/files that `loadFrom` can consume.
-- `common.load` — loads an entire drawing from a file (replaces everything), vs. `sketch.loadFrom` which targets a single sketch.
+`sketch.copyFrom` · `sketch.copyGeometry` · `common.save` · `common.load`

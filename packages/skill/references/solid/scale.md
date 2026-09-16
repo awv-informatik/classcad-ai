@@ -74,7 +74,4 @@ await api.v1.solid.translation({ id: eifId, target: box2, translation: [100, 0, 
 
 ## Related
 
-- `solid.translation` — translate a solid by a vector
-- `solid.rotation` — rotate a solid by Euler angles (also orbits origin)
-- `solid.mirror` — mirror a solid across a plane (proper mirroring, unlike negative scale)
-- `solid.copy` — copy a solid (supports translation + rotation at creation)
+`solid.translation` · `solid.rotation` · `solid.mirror` · `solid.copy`

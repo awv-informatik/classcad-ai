@@ -7,10 +7,10 @@ pattern it, subtract the pattern. Verified on bolt circles and sprocket tooth sp
 
 ```js
 // 1. One tool body (extrusion of the cutout profile, a cylinder, …)
-const toolId = (await api.v1.part.extrusion({ id: partId, sketch: cutSketch, height: 20 })).result
+const toolId = (await api.v1.part.extrusion({ id: partId, references: [cutRegion], type: 'UP', limit2: 20 })).result
 
 // 2. Pattern it — MERGED, so the copies become a single brep
-const axis = (await api.v1.part.workAxis({ id: partId, origin: [0,0,0], direction: [0,0,1] })).result
+const axis = (await api.v1.part.workAxis({ id: partId, position: [0,0,0], direction: [0,0,1] })).result
 const pat = (await api.v1.part.circularPattern({
   id: partId,
   targets: [toolId],
@@ -21,7 +21,7 @@ const pat = (await api.v1.part.circularPattern({
 })).result
 
 // 3. Subtract the PATTERN (not the original tool)
-await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targets: [blankId], tools: [pat] })
+await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', target: blankId, tools: [pat] })
 ```
 
 ## The three rules
@@ -33,9 +33,9 @@ await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targets: [blankId],
 
 2. **Always `merged: 1` when the pattern feeds a boolean.** Merged, the pattern is
    one brep and the subtraction is independent of the instance count — `count`/`angle`
-   (including `@expr` bindings) stay fully live afterwards. Unmerged patterns freeze
-   silently once consumed: expression updates and even explicit
-   `updateCircularPattern` report success and change nothing.
+   (including `@expr` bindings) stay fully live afterwards. Unmerged patterns don't
+   regenerate correctly once consumed: a count update reports success but produces a
+   wrong result (the subtraction can disappear entirely).
 
 3. **`angle` is the spacing, not the span.** `angle: 0` puts every copy in the same
    place. Full circle → `2π/count`. `count` includes the original.

@@ -11,6 +11,11 @@ import { buildScriptApi } from './api.js'
 import { suppressEmission } from './emission.js'
 import type { RunScriptOptions, RunScriptResult, ScriptSession } from './types.js'
 
+const activeRuns = new WeakSet<object>()
+export function isSessionBusy(session: ScriptSession): boolean {
+  return activeRuns.has(session.executionKey ?? session)
+}
+
 const DEFAULT_TIMEOUT_MS = 60_000
 const MAX_TIMEOUT_MS = 300_000
 
@@ -70,7 +75,18 @@ export async function runScript(
     return { ok: false, error: 'runScript expects a JavaScript source string.', logs: [] }
   }
 
-  const api = buildScriptApi(session, opts)
+  const key = session.executionKey ?? session
+  if (activeRuns.has(key)) return { ok: false, pending: true, error: 'Session busy: previous work is unresolved; do not retry mutations.', logs: [] }
+  let cancelled = false
+  const guard = () => { if (cancelled || opts.signal?.aborted) throw new Error('Run cancelled; no further CAD calls permitted') }
+  const guardNamespace = (value: any): any => {
+    if (!value || (typeof value !== 'object' && typeof value !== 'function')) return value
+    return new Proxy(value, {
+      get: (target, prop) => guardNamespace(Reflect.get(target, prop)),
+      apply: (target, receiver, args) => { guard(); return Reflect.apply(target, receiver, args) },
+    })
+  }
+  const api = guardNamespace(buildScriptApi(session, opts))
 
   const logs: string[] = []
   let logChars = 0
@@ -108,32 +124,39 @@ export async function runScript(
   }
 
   const timeout = Math.min(Math.max(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS, 1000), MAX_TIMEOUT_MS)
+  const startedAt = Date.now()
   let timer: ReturnType<typeof setTimeout> | undefined
-  // Script-scoped emission suppression: the connection's flags are switched
-  // to results-only for THIS run and restored in the finally below - never
-  // for the lifetime of the session (a session may share the engine session
-  // with an interactive app that relies on the broadcast of what we emit).
-  const restoreEmission = opts.suppressEmission === false ? async () => {} : await suppressEmission(session)
+  let onAbort: (() => void) | undefined
+  activeRuns.add(key)
+  // The lease belongs to the actual work, not the caller's waiting period.
+  const work = (async () => {
+    let restore = async () => {}
+    try {
+      guard()
+      restore = opts.suppressEmission === false ? restore : await suppressEmission(session)
+      guard()
+      const invoke = () => fn(api, consoleShim, consoleShim.log, ...SHADOWED_GLOBALS.map(() => undefined))
+      return await (session.withRunScope ? session.withRunScope(invoke) : invoke())
+    } finally {
+      try { await restore() } finally { activeRuns.delete(key) }
+    }
+  })()
   try {
-    const shadowValues = SHADOWED_GLOBALS.map(() => undefined)
-    const run = fn(api, consoleShim, consoleShim.log, ...shadowValues)
     const returned = await Promise.race([
-      run,
-      new Promise((_, reject) => {
-        timer = setTimeout(
-          () =>
-            reject(
-              new Error(`Script exceeded ${timeout}ms (awaited work still pending). Split it into smaller scripts.`),
-            ),
-          timeout,
-        )
+      work,
+      new Promise<never>((_, reject) => {
+        const stop = (message: string) => { cancelled = true; reject(new Error(message)) }
+        timer = setTimeout(() => stop(`Script exceeded ${timeout}ms; in-flight work may still complete. Do not retry mutations until the session is idle.`), timeout)
+        onAbort = () => stop('Script cancelled; in-flight work may still complete.')
+        opts.signal?.addEventListener('abort', onAbort, { once: true })
+        if (opts.signal?.aborted) onAbort()
       }),
     ])
-    return { ok: true, returned: capReturned(returned, maxResultChars), logs }
+    return { ok: true, returned: capReturned(returned, maxResultChars), logs, durationMs: Date.now() - startedAt }
   } catch (e) {
-    return { ok: false, error: `Script failed: ${e instanceof Error ? e.message : String(e)}`, logs }
+    return { ok: false, pending: activeRuns.has(key), error: `Script failed: ${e instanceof Error ? e.message : String(e)}`, logs, durationMs: Date.now() - startedAt }
   } finally {
     if (timer) clearTimeout(timer)
-    await restoreEmission()
+    if (onAbort) opts.signal?.removeEventListener('abort', onAbort)
   }
 }

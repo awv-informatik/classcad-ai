@@ -95,6 +95,9 @@ const registry = {
   const slow = await runScript(`await new Promise(r => setTimeout(r, 5000)); return 1`, session, { timeoutMs: 1000 })
   assert.equal(slow.ok, false)
   assert.match(slow.error, /exceeded 1000ms/)
+  assert.equal(slow.pending, true)
+  assert.equal((await runScript('return 1', session)).pending, true)
+  await new Promise(r => setTimeout(r, 4100))
 }
 
 // 8. Caps: oversized return value truncated EXPLICITLY, not silently

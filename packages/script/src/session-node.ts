@@ -36,6 +36,8 @@ import { PULL_GRAPHIC_ON, SUPPRESS_EMISSION } from './emission.js'
 export { SUPPRESS_EMISSION, PULL_GRAPHIC_ON }
 
 export interface NodeSessionOptions {
+  requestTimeoutMs?: number
+  connectTimeoutMs?: number
   /** Include kernel graphics in pulls (api.graphic()). @defaultValue true */
   graphics?: boolean
   /** Disable all timeouts (debugging). @defaultValue false */
@@ -92,11 +94,19 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
   // has to switch the kernel graphic on for the GetTree.
   let knownKernel: boolean | null = null
 
+  let outcomeUnknown = false
   const ws = new WebSocket(url)
   await new Promise<void>((resolve, reject) => {
-    ws.on('open', () => resolve())
-    ws.on('error', (e: Error) => reject(e))
-    if (!debug) setTimeout(() => reject(new Error('Connection timeout')), 5000)
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const finish = (error?: Error) => {
+      if (timer) clearTimeout(timer)
+      ws.off('open', opened); ws.off('error', failed)
+      if (error) { ws.terminate(); reject(error) } else resolve()
+    }
+    const opened = () => finish()
+    const failed = (error: Error) => finish(error)
+    ws.once('open', opened); ws.once('error', failed)
+    if (!debug) timer = setTimeout(() => finish(new Error('Connection timeout')), opts.connectTimeoutMs ?? 5000)
   })
 
   const send = (obj: Record<string, unknown>) => ws.send(JSON.stringify(obj))
@@ -147,8 +157,15 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     })
   }
   ws.on('message', (d: WebSocket.RawData, b: boolean) => handleFrame(d, b))
+  ws.on('close', () => {
+    
+    for (const entry of pending.values()) entry.reject(new Error('Worker disconnected; in-flight mutation outcome unknown'))
+    pending.clear()
+  })
+
 
   function request(command: string, extra: Record<string, unknown> = {}, o: { track?: boolean } = {}): Promise<Envelope> {
+    if (outcomeUnknown) return Promise.reject(new Error('Session outcome unknown after request timeout; reconnect before further work'))
     if (o.track !== false) version++
     const transactionID = randomUUID()
     return new Promise<Envelope>((resolve, reject) => {
@@ -161,9 +178,10 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
         setTimeout(() => {
           if (pending.has(transactionID)) {
             pending.delete(transactionID)
-            reject(new Error(`Timeout (${REQUEST_TIMEOUT}ms): ${command}`))
+            outcomeUnknown = true
+            reject(new Error(`Request timeout: ${command}; mutation outcome unknown, reconnect required`))
           }
-        }, REQUEST_TIMEOUT)
+        }, opts.requestTimeoutMs ?? REQUEST_TIMEOUT).unref()
       }
     })
   }

@@ -102,6 +102,9 @@ export interface Graphic {
  */
 export interface ScriptSession {
   env: 'node' | 'browser'
+  /** Shared identity for adapters addressing the same drawing. */
+  executionKey?: object
+  withRunScope?<T>(run: () => Promise<T>): Promise<T>
   /** Execute one ClassCAD command (task form). Never rejects for API errors — those live in the envelope. */
   execute(task: Task): Promise<Envelope>
   /** Current structure tree (id → node; ids are session-stable). `refresh: true` forces a server round-trip where applicable. */
@@ -163,6 +166,7 @@ export interface BuildApiOptions {
 export interface RunScriptOptions extends BuildApiOptions {
   /** Timeout for awaited work in ms. @defaultValue 60000 (max 300000) */
   timeoutMs?: number
+  signal?: AbortSignal
   /** Max captured console entries. @defaultValue 300 */
   maxLogEntries?: number
   /** Max total captured console characters. @defaultValue 16000 */
@@ -180,6 +184,8 @@ export interface RunScriptOptions extends BuildApiOptions {
 /** Outcome of a script run. Never throws — errors are reported here, with the log tail. */
 export interface RunScriptResult {
   ok: boolean
+  pending?: boolean
+  durationMs?: number
   /** The script's return value (JSON-capped), when ok. */
   returned?: unknown
   /** Captured console output (also present on failure — printf debugging survives errors). */

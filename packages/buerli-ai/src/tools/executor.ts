@@ -1,3 +1,4 @@
+import { isSessionBusy } from '@classcad/script'
 // ─── Tool executor — dispatches tool calls to their handlers ──────────────────
 
 import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
@@ -493,6 +494,9 @@ export async function executeTool(
   input: Record<string, unknown>,
   ctx: ToolExecutorContext,
 ): Promise<ToolResult> {
+  if (!['list_methods', 'docs', 'notes', 'fetch_url'].includes(toolName) && isSessionBusy(browserSession(ctx.drawingId))) {
+    return { error: 'Session busy: previous script work is unresolved. Wait before further drawing operations.' }
+  }
   const handler = HANDLERS[toolName]
   if (!handler) {
     return { error: `Unknown tool: "${toolName}"` }

@@ -206,6 +206,7 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
 
   return {
     env: 'browser',
+    executionKey: getDrawing(drawingId) as object,
     execute,
     getTree: async (o?: { refresh?: boolean }) => {
       if (o?.refresh) {

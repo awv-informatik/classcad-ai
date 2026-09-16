@@ -13,14 +13,14 @@
 
 import { z } from 'zod'
 import { mkdirSync, readFileSync } from 'fs'
-import { join, resolve } from 'path'
+import { isAbsolute, join, resolve } from 'path'
 import { tmpdir } from 'os'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { Client } from '../client.js'
 import { renderSession } from '@classcad/renderer/node'
 
-function snapshotDir(): string {
-  const envDir = process.env.CLASSCAD_SNAPSHOT_DIR
+function snapshotDir(outDir?: string): string {
+  const envDir = outDir ?? process.env.CLASSCAD_SNAPSHOT_DIR
   const dir = envDir ? resolve(envDir) : join(tmpdir(), 'classcad-snapshots')
   mkdirSync(dir, { recursive: true })
   return dir
@@ -45,10 +45,12 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
     {
       title: 'Snapshot drawing',
       description:
-        'Render the current drawing as an inline PNG (also written to disk under $CLASSCAD_SNAPSHOT_DIR or <tmpdir>/classcad-snapshots). ' +
+        'Render the current drawing as an inline PNG (also written to disk: outDir, else $CLASSCAD_SNAPSHOT_DIR, else <tmpdir>/classcad-snapshots). ' +
         'The image is returned to the MODEL as an inline image block — no follow-up Read is needed to see it. ' +
         'The USER may not see tool results (Claude Code / desktop Code tab do not render them): ' +
         'send the saved PNG path through the host\'s file-sending tool (e.g. SendUserFile) if the user should see the render. ' +
+        'Hosts preview only files inside the session\'s own folders (Claude Code: the scratchpad directory or the project) — anywhere else the user gets a grey placeholder card. ' +
+        'So when you intend to send the render, pass outDir = your scratchpad directory (or a folder in the project). ' +
         'Call after a meaningful geometry change, NOT after every parameter tweak. ' +
         'Verification options: section (cut through internals), sheet (four labeled views, shared ortho scale), ' +
         'highlight (face/edge/body ids in signal color), markers (probe crosshairs at world points), ' +
@@ -57,6 +59,10 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         'frame (pin an earlier snapshot\'s reported frame for pixel-comparable before/after).',
       inputSchema: {
         label: z.string().optional().describe('Filename label. Default "snapshot".'),
+        outDir: z
+          .string()
+          .optional()
+          .describe('Absolute directory for the PNG (created if missing). Pass your session scratchpad when the user should see the file — hosts preview only files in session folders.'),
         width: z.number().int().min(64).max(4096).optional().describe('Pixels (default 1200).'),
         height: z.number().int().min(64).max(4096).optional().describe('Pixels (default 900).'),
         view: viewSchema.optional().describe('Camera: named view (default "iso") or arbitrary orthographic camera.'),
@@ -97,9 +103,12 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       },
     },
     async (input) => {
-      const { label, ...options } = input as Record<string, any>
+      const { label, outDir, ...options } = input as Record<string, any>
       const safeLabel = ((label as string) ?? 'snapshot').replace(/[^a-zA-Z0-9_-]/g, '_')
-      const dir = snapshotDir()
+      if (outDir !== undefined && !isAbsolute(outDir)) {
+        return { content: [{ type: 'text' as const, text: `outDir must be an absolute path (the daemon's working directory is not yours): ${outDir}` }], isError: true }
+      }
+      const dir = snapshotDir(outDir)
       const prefix = `${safeLabel}-${timestamp()}`
 
       let renders: Array<{ type: string; file: string; frame?: unknown }>
@@ -144,7 +153,10 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       const noteLines = [paths.length === 1 ? `Saved: ${paths[0]}` : `Saved:\n${paths.join('\n')}`]
       const framed = renders.find(r => (r as any).frame)
       if (framed && (framed as any).frame) noteLines.push(`frame: ${JSON.stringify((framed as any).frame)}`)
-      noteLines.push('Note: the user may not see this image in their transcript — send the saved file via the host\'s file-sending tool (e.g. SendUserFile) if they should see it.')
+      noteLines.push(
+        'Note: the user may not see this image in their transcript — send the saved file via the host\'s file-sending tool (e.g. SendUserFile) if they should see it.' +
+          (outDir ? '' : ' Hosts preview only files in session folders: re-run with outDir = your scratchpad before sending, or the user sees a grey placeholder.'),
+      )
       return {
         content: [
           ...imageBlocks,

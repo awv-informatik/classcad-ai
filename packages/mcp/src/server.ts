@@ -313,8 +313,8 @@ const USAGE = `classcad-mcp — ClassCAD MCP server (stdio). Hosts start it with
 Daemon commands:
   classcad-mcp status          show the running daemon (pid, build, sessions, apps, log file)
   classcad-mcp stop            stop the daemon if no session is active
-  classcad-mcp stop --force    terminate it now: EVERY connected tab loses its ClassCAD session
-                               (models in them are gone) until its host restarts the MCP
+  classcad-mcp stop --force    terminate it now: EVERY connected tab loses its drawing and
+                               reconnects to a fresh daemon on its next tool call
 `
 
 const pidAlive = (pid: number): boolean => {
@@ -347,7 +347,7 @@ async function stopDaemon(force: boolean): Promise<number> {
     if (res.status === 409) {
       console.error(
         `daemon pid ${h.pid} has ${h.sessions} active session(s) — not stopped.\n` +
-          `\`classcad-mcp stop --force\` ends them: every connected tab loses its ClassCAD session until its host restarts the MCP.`,
+          `\`classcad-mcp stop --force\` ends them: every connected tab loses its drawing and reconnects on its next tool call.`,
       )
       return 1
     }

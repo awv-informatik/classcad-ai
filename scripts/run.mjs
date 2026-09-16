@@ -87,7 +87,14 @@ async function main() {
 
   // 1. Connect — the session serves the script api AND the renderer.
   const session = await connectSession(wsUrl, { debug })
-  const api = buildScriptApi(session, { registry })
+  const operations = []
+  const artifacts = []
+  const startedAt = Date.now()
+  let failure = null
+  const api = buildScriptApi(session, { registry, strict: true, onOperation: event => {
+    operations.push(event)
+    if (operations.length > 100) operations.shift()
+  } })
 
   // Snapshot helper — captures PNGs + exports to files/
   // Forwards EVERY @classcad/renderer option: { view (named or {azimuth,
@@ -108,24 +115,28 @@ async function main() {
       })
       for (const r of renders) pngs.push(`files/${r.file}`)
     } catch (e) {
-      console.error(`[snapshot] ${e.message}`)
+      artifacts.push({ kind: 'snapshot', label, ok: false, error: e.message })
+      throw e
     }
 
-    // Export STEP + OFB
-    try {
-      const stepR = await session.execute({ 'v1.common.save': [{ format: 'STP', encoding: 'base64', stp: { version: 2 } }] })
-      if (stepR.result?.success && stepR.result?.content) {
-        writeFileSync(join(filesDir, `${prefix}.stp`), Buffer.from(stepR.result.content, 'base64'))
-      }
-    } catch (_) {}
-    try {
-      const ofbR = await session.execute({ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] })
-      if (ofbR.result?.success && ofbR.result?.content) {
-        writeFileSync(join(filesDir, `${prefix}.ofb`), Buffer.from(ofbR.result.content, 'base64'))
-      }
-    } catch (_) {}
 
     return pngs
+  }
+
+  // Exports are explicit; a preview no longer silently creates CAD artifacts.
+  async function exportArtifact(format, label = scriptName) {
+    if (!['STP', 'OFB', 'STL'].includes(format)) throw new Error('Unsupported export format: ' + format)
+    const file = `${label.replace(/[^a-zA-Z0-9_-]/g, '_')}.${format.toLowerCase()}`
+    try {
+      const result = await session.execute({ 'v1.common.save': [{ format, encoding: 'base64' }] })
+      if (!result.result?.success || !result.result?.content) throw new Error('Export returned no content')
+      writeFileSync(join(filesDir, file), Buffer.from(result.result.content, 'base64'))
+      artifacts.push({ kind: 'export', format, file, ok: true })
+      return `files/${file}`
+    } catch (e) {
+      artifacts.push({ kind: 'export', format, file, ok: false, error: e.message })
+      throw e
+    }
   }
 
   // Tree helper — returns the cached structure from the latest Result frame.
@@ -197,8 +208,10 @@ async function main() {
   }
 
   try {
-    await scriptFn(api, { snapshot, filewrite, tree })
+    await scriptFn(api, { snapshot, exportArtifact, filewrite, tree })
   } catch (e) {
+    failure = e.message
+    process.exitCode = 1
     console.error(`[run] Script error: ${e.message}`)
   }
 
@@ -212,6 +225,12 @@ async function main() {
     writeFileSync(logFile, logLines.join('\n') + '\n')
     console.log(`[run] Log saved: ${logFile} (${logLines.length} lines)`)
   }
+
+  writeFileSync(join(outDir, 'run-result.json'), JSON.stringify({
+    ok: failure === null && artifacts.every(a => a.ok), error: failure,
+    durationMs: Date.now() - startedAt, operations, artifacts,
+  }, null, 2))
+  if (artifacts.some(a => !a.ok)) process.exitCode = 1
 
   // 3. Clear + disconnect
   try { await session.execute({ 'v1.common.clear': [{}] }) } catch (_) {}

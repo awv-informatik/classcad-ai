@@ -135,7 +135,22 @@ export interface MethodRegistryEntry {
 }
 export type MethodRegistry = Record<string, MethodRegistryEntry>
 
+export interface OperationEvent {
+  phase: 'start' | 'end' | 'error'
+  method: string
+  name?: string
+  startedAt: number
+  durationMs?: number
+  maxLevel?: number
+  messages?: Envelope['messages']
+  error?: string
+}
+
 export interface BuildApiOptions {
+  /** Throw on engine ERROR envelopes; false preserves raw envelopes for diagnostics. */
+  strict?: boolean
+  onOperation?: (event: OperationEvent) => void
+
   /**
    * The v1 method registry. With it, `api.v1` is a concrete object validated
    * against the real API — typos throw immediately with suggestions. Without

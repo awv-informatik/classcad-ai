@@ -99,7 +99,7 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         frame: z.object({ scale: z.number(), midX: z.number(), midY: z.number() }).optional()
           .describe('Pin the frame reported by an earlier snapshot (same view/size) for pixel-comparable before/after.'),
         recalc: z.boolean().optional()
-          .describe('Default true. Set false for solid.*/entity-injection sessions — recalc destroys injected bodies.'),
+          .describe('Default false. Opt in only to regenerate; keep false for solid.*/entity-injection sessions — recalc destroys injected bodies.'),
         source: z.enum(['graphic', 'stl']).optional()
           .describe('"stl": render the tessellated STL export instead of the engine graphic (explicit fallback; no brep edges).'),
       },
@@ -126,7 +126,7 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       } catch (e) {
         // renderSession fails LOUDLY with cause + remedies (e.g. no graphic
         // data → suggests source: "stl"). Surface that verbatim to the model.
-        return { content: [{ type: 'text' as const, text: e instanceof Error ? e.message : String(e) }] }
+        return { isError: true, content: [{ type: 'text' as const, text: e instanceof Error ? e.message : String(e) }] }
       }
 
       const imageBlocks: Array<{ type: 'image'; data: string; mimeType: string }> = []
@@ -155,6 +155,7 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       // that the user may not see tool-result images — and, when available, the
       // frame, so a later snapshot can pin it (before/after).
       const noteLines = [paths.length === 1 ? `Saved: ${paths[0]}` : `Saved:\n${paths.join('\n')}`]
+      noteLines.push(`capture: ${JSON.stringify((renders[0] as any)?.metadata)}`)
       const framed = renders.find(r => (r as any).frame)
       if (framed && (framed as any).frame) noteLines.push(`frame: ${JSON.stringify((framed as any).frame)}`)
       noteLines.push(

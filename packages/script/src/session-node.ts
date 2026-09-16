@@ -262,12 +262,10 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     // entity-injection bodies. The pull alone reflects the current model —
     // every command already regenerated its own feature.
     if (o?.recalc === true) {
-      try {
-        await execute({ 'v1.common.recalc': [{}] } as Task)
-      } catch {
-        /* pull below still serves the current state */
-      }
+      const result = await execute({ 'v1.common.recalc': [{}] })
+      if ((result.maxLevel ?? 0) >= 51) throw new Error('Model regeneration failed: ' + JSON.stringify(result.messages))
     }
+
     if (!graphicCurrent()) await pull()
     return lastGraphic
   }

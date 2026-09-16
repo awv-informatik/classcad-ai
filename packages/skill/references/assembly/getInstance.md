@@ -63,5 +63,4 @@ const children = (await api.v1.assembly.getInstance({ ownerId: subAsmInst })).re
 
 ## Related
 
-- `assembly.instance` — create instances
-- `assembly.deleteInstance` — remove instances
+`assembly.instance` · `assembly.deleteInstance`

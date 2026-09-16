@@ -84,6 +84,7 @@ This differs from `expression()` creation, where broken formulas get seed value 
 - **Derived expressions auto-cascade.** Updating `base` immediately propagates to `doubled = base * 2`.
 - **Cross-references in same call work.** Updating `base` and `derived = 'base * 3'` in one `toUpdate` array correctly resolves: derived sees the new base value.
 - **Feature geometry recalculates automatically.** Features bound via `@expr.NAME` or `linkWithExpression` update their geometry as part of the `updateExpression` response.
+- **Scope is the target part, then its assemblies.** The call re-evaluates this part's `ExpressionSet`, regenerates its features, and solves every assembly that contains the part (constrained instances move). Other parts that read this part's values by path (`Params.ExpressionSet.W`) are not re-evaluated — refresh them with their own `updateExpression` or `common.recalc()`. Pattern: `recipes/assembly-parameters`.
 
 ```js
 await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'S', value: 100 }] })
@@ -95,9 +96,9 @@ await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'S', value: 
 
 - **Empty `toUpdate: []`** — no-op, result=1.
 - **Omitted `toUpdate`** — no-op, result=1.
-- **Same value** — no-op, result=1 (no error for redundant update).
+- **Same value** — result=1, no error. The part is still re-evaluated and its assemblies solved, so re-assigning the current formula works as a refresh (e.g. to pick up a changed `Params.ExpressionSet.W`).
 - **Duplicate names** — last wins. `[{ name: 'x', value: 100 }, { name: 'x', value: 200 }]` → x=200.
-- **Array param form** — does NOT work. Passing an array of `{ id, toUpdate }` objects returns result=null, code 1001. Use separate calls for different parts.
+- **Array param form** — works: `updateExpression([{ id: partA, toUpdate: [...] }, { id: partB, toUpdate: [...] }])` updates several parts in one call.
 
 ## Common Errors
 
@@ -143,8 +144,4 @@ await api.v1.part.updateExpression({
 
 ## Related
 
-- `part.expression` — create expressions (uses `toCreate` array)
-- `part.getExpression` — read expression value and formula
-- `part.deleteExpression` — remove expressions (uses `toDelete` array)
-- `part.renameExpression` — rename expressions (uses `toRename` array)
-- `common.recalc` — full drawing recalculation (not needed after `updateExpression` — geometry auto-updates)
+`part.expression` · `part.getExpression` · `part.deleteExpression` · `part.renameExpression` · `common.recalc`

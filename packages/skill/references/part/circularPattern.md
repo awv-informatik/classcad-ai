@@ -33,11 +33,10 @@ Feature ID (numeric) on success, maxLevel=31 (info). Returns the feature ID even
   `tools: [patternId]` cuts all N instances; `tools: [toolId, patternId]` fails with error 1014
   "already been consumed", and the message **names an arbitrary other tool** (e.g. a later,
   perfectly valid one), not the offending consumed target — highly misleading when debugging.
-- **Use `merged: 1` for pattern-then-subtract — UNMERGED patterns freeze in booleans** (verified
-  2026-08-10, sprocket sessions): with `merged: 0`, once the pattern is consumed as a boolean
-  tool, `@expr`-bound count/angle stop tracking their expressions, and even explicit
-  `openFeature`+`updateCircularPattern`+`closeFeature` reports success (maxLevel 31) while
-  changing nothing. With **`merged: 1`** the pattern emits a single brep, the subtraction is
+- **Use `merged: 1` for pattern-then-subtract — UNMERGED patterns don't regenerate correctly in
+  booleans**: with `merged: 0`, once the pattern is consumed as a boolean tool, changing the
+  `@expr`-bound count reports success but the result is wrong (count 4→6 left the target
+  completely uncut). With **`merged: 1`** the pattern emits a single brep, the subtraction is
   independent of the instance count, and **count/angle remain fully live through the boolean**
   (verified: tooth count 21→24 via `updateExpression` regenerated the subtracted sprocket
   exactly — new tooth positions and volume both brep-verified). The SEED shape is live in both
@@ -62,15 +61,16 @@ Feature ID (numeric) on success, maxLevel=31 (info). Returns the feature ID even
 ```js
 const partId = (await api.v1.part.create({ name: 'CircDemo' })).result
 
+const armCS = (await api.v1.part.workCSys({ id: partId, name: 'ArmCS', offset: [40, -5, 0] })).result
 const boxId = (await api.v1.part.box({
   id: partId, name: 'Arm',
   length: 20, width: 10, height: 30,
-  xPosition: 40, yPosition: -5, zPosition: 0,
+  references: [armCS],  // primitives are positioned by a workCSys
 })).result
 
 const waZ = (await api.v1.part.workAxis({
   id: partId, name: 'CenterAxis',
-  origin: [0, 0, 0], direction: [0, 0, 1],
+  position: [0, 0, 0], direction: [0, 0, 1],
 })).result
 
 // 6 copies at 60° intervals (full circle)
@@ -91,10 +91,12 @@ await api.v1.part.expression({
     { name: 'armAngle', value: '2*C:PI/armCount' },
   ],
 })
+// A pattern consumes its targets — pattern a fresh body
+const arm2 = (await api.v1.part.box({ id: partId, name: 'Arm2', length: 20, width: 10, height: 30, references: [armCS] })).result
 const cpExpr = (await api.v1.part.circularPattern({
   id: partId,
   name: 'ExprArms',
-  targets: [boxId],
+  targets: [arm2],
   references: [waZ],
   angle: '@expr.armAngle',
   count: '@expr.armCount',
@@ -103,8 +105,4 @@ const cpExpr = (await api.v1.part.circularPattern({
 
 ## Related
 
-- `part.updateCircularPattern` — modify after creation (requires openFeature/closeFeature)
-- `part.linearPattern` — linear copies along one or two directions
-- `part.mirror` — reflection across a plane
-- `part.workAxis` — create rotation axis references
-- `part.getGeometryIds` — get brep edge IDs for axis references
+`part.updateCircularPattern` · `part.linearPattern` · `part.mirror` · `part.workAxis` · `part.getGeometryIds`

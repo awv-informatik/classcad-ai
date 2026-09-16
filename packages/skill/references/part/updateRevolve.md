@@ -40,7 +40,7 @@ Returns the **feature ID** (same ID as creation), not VOID. maxLevel=31 on succe
 ## Expression Auto-Recalc Caveat
 
 - **Binding set at creation time** (`part.revolve({ endAngle: '@expr.ANG' })`) creates a live parametric link. Changing the expression value via `updateExpression` auto-recalcs geometry — no open/close or recalc() needed.
-- **Binding set via `updateRevolve`** (`updateRevolve({ endAngle: '@expr.ANG' })`) appears to bake in the current value rather than creating a live link. `updateExpression` does NOT auto-recalc the geometry. To get live binding after creation, use `linkWithExpression` instead.
+- **Binding set via `updateRevolve` is live.** `updateRevolve({ endAngle: '@expr.ANG' })` inside open/close, then `updateExpression` ANG π→π/2, halves the volume.
 
 ## Gotchas
 
@@ -100,8 +100,4 @@ await api.v1.part.closeFeature({ id: revId })
 
 ## Related
 
-- `part.revolve` — create the feature this updates
-- `part.openFeature` / `part.closeFeature` — required gate pattern
-- `part.expression` / `part.updateExpression` — drive params with expressions
-- `part.linkWithExpression` — create live expression binding after creation
-- `sketch.sketchRegion` — create profile references
+`part.revolve` · `part.openFeature` / `part.closeFeature` · `part.expression` / `part.updateExpression` · `part.linkWithExpression` · `sketch.sketchRegion`

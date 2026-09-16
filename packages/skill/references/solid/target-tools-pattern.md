@@ -89,7 +89,7 @@ When a target is destroyed (e.g., intersection of non-overlapping bodies, code 1
 
 | Operation | Return value | maxLevel | Behavior |
 |---|---|---|---|
-| `solid.translation` | target ID | 31 | **Silent no-op** — no error, no warning |
+| `solid.translation` | — | — | **Crashes the ClassCAD worker** (connection lost, process exits) |
 | `solid.union` | `null` | 51 | Error: "There must be two valid solids" |
 | `solid.merge` | **target ID** | 51 | Error (but misleadingly returns the dead ID) |
 
@@ -100,13 +100,9 @@ When a target is destroyed (e.g., intersection of non-overlapping bodies, code 1
 1. **Consumed tool IDs are invalid.** Referencing one returns a clean `"...has an invalid id!"` error (code 1006), not a hang. Track which IDs are still valid.
 2. **Self-boolean is rejected.** Passing the same ID as target and tool returns a clean error (`"...requires distinct target and tool entities..."`), not a hang.
 3. **Empty tools is a no-op, not an error.** Don't rely on error detection for empty tools arrays.
-4. **Destroyed targets are inconsistently handled.** Translation silently ignores them; merge returns misleading values.
+4. **Never reuse a destroyed target.** `solid.translation` on it crashes the worker; merge returns misleading values. After an intersection that reports "Target solid was removed", drop the id.
 5. **`id` doesn't scope the operation.** It must be a valid EIF but doesn't restrict which solids participate.
 
 ## Related
 
-- `solid.union` — boolean add
-- `solid.subtraction` — boolean subtract
-- `solid.intersection` — boolean intersect
-- `solid.merge` — geometry concatenation (not a boolean)
-- `solid.copy` — duplicate a solid (use before self-boolean)
+`solid.union` · `solid.subtraction` · `solid.intersection` · `solid.merge` · `solid.copy`

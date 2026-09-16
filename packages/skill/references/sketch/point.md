@@ -102,7 +102,4 @@ const pts = (await api.v1.sketch.point([
 
 ## Related
 
-- `sketch.getPositions` — retrieve point position (returns world coords)
-- `sketch.deleteObject` — delete points (and other sketch geometry)
-- `sketch.line` — lines create implicit CC_Point children at endpoints
-- `sketch.constraint` — manually add constraints between points
+`sketch.getPositions` · `sketch.deleteObject` · `sketch.line` · `sketch.constraint`

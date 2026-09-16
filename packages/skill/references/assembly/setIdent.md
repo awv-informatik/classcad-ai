@@ -97,7 +97,4 @@ const inst2 = (await api.v1.assembly.instance({
 
 ## Related
 
-- `assembly.instance` — accepts `ident` param at creation
-- `assembly.create` — accepts `ident` param at creation
-- `common.setObjectName` — sets name (different from ident)
-- `assembly.getInstance` — queries by name, NOT by ident
+`assembly.instance` · `assembly.create` · `common.setObjectName` · `assembly.getInstance`

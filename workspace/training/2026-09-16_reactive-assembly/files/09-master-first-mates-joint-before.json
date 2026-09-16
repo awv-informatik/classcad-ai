@@ -1,0 +1,26 @@
+{
+  "id": 379,
+  "mate1": {
+    "csys": 128,
+    "flip": "Z",
+    "path": [
+      355
+    ],
+    "reorient": "0"
+  },
+  "mate2": {
+    "csys": 258,
+    "flip": "Z",
+    "path": [
+      371
+    ],
+    "reorient": "0"
+  },
+  "name": "ButtonRest",
+  "xOffset": 13,
+  "xRotation": 0,
+  "yOffset": 3,
+  "yRotation": 0,
+  "zOffset": 0,
+  "zRotation": 0
+}

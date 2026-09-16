@@ -60,8 +60,4 @@ const inst = (await api.v1.assembly.instance({ productId: tplId, ownerId: asmId 
 
 ## Related
 
-- `assembly.partTemplate` — create a part template to populate with geometry
-- `assembly.assemblyTemplate` — create a sub-assembly template
-- `assembly.setCurrentProduct` — switch context between assembly and templates
-- `assembly.instance` — instantiate templates (accepts both numeric ID and template name string as `productId`)
-- `common.clear` — clear drawing before create if content exists
+`assembly.partTemplate` · `assembly.assemblyTemplate` · `assembly.setCurrentProduct` · `assembly.instance` · `common.clear`

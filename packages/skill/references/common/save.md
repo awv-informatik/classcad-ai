@@ -78,7 +78,7 @@ Measured on the same box geometry (80x60x40), all base64 encoded:
 ### STL
 
 - **Must use `encoding: 'base64'`** for data-string saves. Without it, binary content is truncated to the 32-char header in JSON transport.
-- `stl.binary` — default TRUE. Setting to `0` (FALSE) did not produce observable ASCII output in data-string mode.
+- `stl.binary` — default TRUE. `false`/`0` writes ASCII STL (content starts with `solid`).
 - `stl.facetingTol` / `stl.angleTol` — only affect curved surfaces. Flat-faced geometry (boxes) is unaffected. Tighter tolerances → more triangles → larger files (significant for spheres/cylinders).
 - Size varies dramatically with geometry: a box is ~900 b64 chars, a sphere is ~240,000.
 
@@ -128,7 +128,4 @@ const newPartId = loaded.result.id // use this ID going forward
 
 ## Related
 
-- `common.load` — load from data string or file
-- `common.clear` — clear the drawing before loading
-- `common.recalc` — recalculate after loading
-- `format-comparison.md` — detailed format comparison with size benchmarks and roundtrip fidelity
+`common.load` · `common.clear` · `common.recalc` · `format-comparison.md`

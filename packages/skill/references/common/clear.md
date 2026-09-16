@@ -70,11 +70,9 @@ await api.v1.common.clear({})
 
 **Always validate IDs before passing them to keepIds.** A single bad ID prevents the entire clear.
 
-### STEP/OFB export hazard after keepIds
+### Export after keepIds
 
-After `clear({ keepIds: [...] })`, exporting to STEP/OFB via `common.save` may hang the server on the partially-cleared state. **`recalc` and mesh rendering work fine.** The hang only occurs during geometry export.
-
-**Workaround:** Create new valid geometry before exporting. Once new features are added to the kept containers, export works normally.
+After `clear({ keepIds: [part, eif] })`, `common.save` to OFB and STP returns normally (maxLevel 31). The kept containers hold no solids, so add geometry before exporting anything meaningful.
 
 ## Working Example
 
@@ -119,6 +117,4 @@ const newBoxId = (await api.v1.solid.box({ id: eifId, length: 30, width: 30, hei
 
 ## Related
 
-- `common.recalc` — safe to call after any clear variant
-- `common.save` / `common.load` — save before clear to preserve state; clear after load to start fresh
-- `part.create` — works after clear; aborted clear (invalid keepIds) blocks it until recovery clear
+`common.recalc` · `common.save` / `common.load` · `part.create`

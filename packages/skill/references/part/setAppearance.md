@@ -33,7 +33,7 @@ Sets visual appearance properties (color, transparency, faceting quality) on a p
 | Part container ID | ❌ | Error 1007: "must be an operation id" |
 | Sketch ID | ❌ | Error 1007 |
 | Work geometry ID | ❌ | Error 1007 |
-| Boolean feature result | ❌ | `part.boolean` returns VOID — no ID to target. Color the input features instead. |
+| Boolean feature result | ✅ | `part.boolean` returns the boolean feature id — color that. Its consumed inputs are rejected ("already been consumed"). |
 
 ## Consumed Feature Restriction (Error 1014)
 
@@ -47,7 +47,7 @@ Box1 → Fillet1 → Chamfer1
 Each new feature consumes its predecessor. Only the **final feature in the chain** (the "tip") is a valid target. Targeting a consumed feature returns:
 - Error 1014: `"Entity 'Box1' is not available. It has already been consumed/used in another operation."`
 
-**Exception:** `part.boolean` returns VOID — it doesn't create a new feature, so the boolean's input features (target and tools) remain valid targets.
+**Booleans:** `part.boolean` returns a new feature id and consumes its target and tools — set the appearance on the boolean result, not on the inputs.
 
 **Both `part.setAppearance` and `common.setAppearance` enforce this restriction identically.**
 
@@ -118,6 +118,4 @@ Appearance properties persist through OFB save/load cycles.
 
 ## Related
 
-- `common.setAppearance` — identical behavior, different namespace
-- `common.setFacetingParameters` / `common.getFacetingParameters` — global faceting settings
-- `common.requestVisualisation` — read back stored appearance data (returns null in CLI mode)
+`common.setAppearance` · `common.setFacetingParameters` / `common.getFacetingParameters` · `common.requestVisualisation`

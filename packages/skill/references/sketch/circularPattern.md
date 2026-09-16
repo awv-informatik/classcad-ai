@@ -97,9 +97,4 @@ await api.v1.sketch.updateDimension({ id: r.result.dimension, value: Math.PI / 6
 
 ## Related
 
-- `sketch.rigidSet` — create the rigid set input
-- `sketch.linearPattern` — pattern in X/Y grid
-- `sketch.mirrorPattern` — mirror across a line
-- `sketch.updateDimension` — change angle spacing after creation
-- `sketch.deleteObject` — delete the pattern constraint (preserves geometry)
-- `sketch.getPoints` — get point IDs from line/arc endpoints for use as centerId
+`sketch.rigidSet` · `sketch.linearPattern` · `sketch.mirrorPattern` · `sketch.updateDimension` · `sketch.deleteObject` · `sketch.getPoints`

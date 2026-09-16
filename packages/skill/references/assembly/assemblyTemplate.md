@@ -101,9 +101,4 @@ const table2 = (await api.v1.assembly.instance({
 
 ## Related
 
-- `assembly.partTemplate` — create a part template (for geometry inside assemblies)
-- `assembly.getAssemblyTemplate` — retrieve by name or get all
-- `assembly.deleteTemplate` — remove a template
-- `assembly.instance` — instantiate a template
-- `assembly.setCurrentProduct` — switch context between assembly levels
-- `assembly.convertToTemplate` — convert root assembly into a template
+`assembly.partTemplate` · `assembly.getAssemblyTemplate` · `assembly.deleteTemplate` · `assembly.instance` · `assembly.setCurrentProduct` · `assembly.convertToTemplate`

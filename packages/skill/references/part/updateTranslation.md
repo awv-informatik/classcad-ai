@@ -55,5 +55,4 @@ await api.v1.part.closeFeature({ id: tId })
 
 ## Related
 
-- `part.translation` — create the translation feature
-- `part.openFeature` / `part.closeFeature` — required gate for all updates
+`part.translation` · `part.openFeature` / `part.closeFeature`

@@ -18,7 +18,7 @@ Loads a model from a data string, file path, or URL into the drawing. The drawin
 - `doClear` — set to `1` (TRUE) to auto-clear the drawing before loading. Preferred over a separate `clear()` call.
 - `encoding` — `'base64'`. Must match the encoding used on save.
 - `compression` — `'deflate'`. Must match the compression used on save.
-- `stp.asPart` — set to `1` (TRUE) to flatten assembly structure into a single part. Works but generates an error-level message (`"CreateNamedPoint not found"`, maxLevel=51). Geometry loads fine despite the error.
+- `stp.asPart` — set to `1` (TRUE) to flatten assembly structure into a single part (loads at maxLevel 31).
 - `ofb.geometry` — 2 (geometry), 3 (graphics), 4 (both). No observable effect in CLI mode. Default (2) is fine.
 - `ident` — documented as "custom string identifier for the loaded root product". No observable effect in testing (OFB). May only apply to non-OFB imports.
 
@@ -76,7 +76,6 @@ This means after an OFB load, you can immediately use previously-known IDs to ad
 - **STP ID shift.** Never hardcode IDs across an STP save/load boundary. Always use `result.id` from load.
 - **SCG is export-only.** Despite being saveable, SCG cannot be loaded back. This is not documented in the API — the only way to discover it is the validation error.
 - **Mismatched format.** Loading data with the wrong format produces a generic error (`"No product could be loaded"`) rather than a specific "wrong format" message.
-- **`stp.asPart` warning.** On load, `stp.asPart: 1` returns maxLevel=51 with a "CreateNamedPoint" error. The geometry is fine — check `result.id` existence, not just maxLevel.
 
 ## Common Errors
 
@@ -87,7 +86,6 @@ This means after an OFB load, you can immediately use previously-known IDs to ad
 | `"Import has to contain a CC_Product."` + `"Nothing could be loaded!"` | Corrupt/empty data | Verify the data string from save |
 | `"The provided value for parameter \"format\" is not valid."` (code 1013) | Unsupported format (SCG/STL/DXF) | Use OFB, STP, or IWP |
 | `"No product could be loaded, expected a CC_Product"` | Format mismatch (e.g., OFB data with STP format) | Match format to actual data |
-| `"CreateNamedPoint not found"` (maxLevel=51) | `stp.asPart: 1` | Harmless — geometry loads fine |
 
 ## Working Example
 
@@ -132,7 +130,4 @@ await api.v1.common.load({ file: '/path/to/model.stp', format: 'STP' })
 
 ## Related
 
-- `common.save` — save the model to data string or file
-- `common.clear` — clear the drawing (required before load, unless using `doClear`)
-- `common.recalc` — recalculate the drawing (not needed after basic load)
-- `format-comparison.md` — detailed format comparison with size benchmarks and roundtrip fidelity
+`common.save` · `common.clear` · `common.recalc` · `format-comparison.md`

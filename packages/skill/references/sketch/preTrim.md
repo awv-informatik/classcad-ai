@@ -132,8 +132,4 @@ await api.v1.sketch.postTrim({ id: skId })                      // finalize → 
 
 ## Related
 
-- `sketch.splitCurve` — split at explicit `[0,1]` params; commits immediately; destroys the source id. Shared result shape.
-- `sketch.trim` — step 2: remove staged segments by id (returns VOID). (Own task — see `trim.md` when trained.)
-- `sketch.postTrim` — step 3: finalize/restore (returns VOID). (Own task — see `postTrim.md` when trained.)
-- `sketch.getPositions` — read segment/arc endpoints (fails on whole-circle parts → `getPoints`→`centerId`).
-- `sketch.getGeometry` — **shows only original ids mid-workflow**; not a source of staged segment ids.
+`sketch.splitCurve` · `sketch.trim` · `sketch.postTrim` · `sketch.getPositions` · `sketch.getGeometry`

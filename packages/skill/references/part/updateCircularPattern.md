@@ -16,7 +16,7 @@ Modifies an existing circular pattern feature. Only pass the fields you want to 
 - `angle` — change angular spacing (radians)
 - `count` — change number of instances (includes original)
 - `inverted` — toggle rotation direction (0=CCW, 1=CW)
-- `merged` — toggle merge (note: `merged: 1` inherits the same boolean error 1001 bug as `circularPattern`)
+- `merged` — toggle merge (`0` → `1` works on an existing pattern)
 
 All fields are optional — partial updates work. Only pass what changed.
 
@@ -30,7 +30,7 @@ Feature ID on success, maxLevel=31. Returns null on failure (maxLevel=51).
 - **Partial updates work.** `{ id: cpId, count: 8 }` changes only the count.
 - **Rotation axis can be changed.** Updating `references` completely reorients the pattern — e.g., switching from Z-axis to X-axis changes a horizontal ring into a vertical one.
 - **Targets can be changed.** Add or remove features from the pattern via update.
-- **merged still fails** — same boolean error 1001 as `circularPattern`.
+- **merged can be switched on after creation** — `updateCircularPattern({ id, merged: 1 })` inside open/close returns maxLevel 31.
 
 ## Common Errors
 
@@ -69,5 +69,4 @@ await api.v1.part.closeFeature({ id: cpId })
 
 ## Related
 
-- `part.circularPattern` — create the pattern
-- `part.openFeature` / `part.closeFeature` — required gate for all updates
+`part.circularPattern` · `part.openFeature` / `part.closeFeature`

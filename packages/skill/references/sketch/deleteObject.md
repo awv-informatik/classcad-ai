@@ -63,6 +63,4 @@ const r = await api.v1.sketch.deleteObject({ ids: [line, circ] })
 
 ## Related
 
-- `sketch.deleteSketch` — deletes an entire sketch (not individual objects within it)
-- `sketch.getGeometry` — verify what remains after deletion
-- `sketch.constraint` / `sketch.dimension` — objects that cascade-delete when their geometry is removed
+`sketch.deleteSketch` · `sketch.getGeometry` · `sketch.constraint` / `sketch.dimension`

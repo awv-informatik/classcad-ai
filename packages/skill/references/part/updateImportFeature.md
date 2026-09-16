@@ -56,7 +56,7 @@ The update completely replaces all child solids under the CC_Import entity. If t
 ```js
 // Create source geometry and save as STP
 const srcPart = (await api.v1.part.create({ name: 'Source' })).result
-await api.v1.part.cylinder({ id: srcPart, radius: 25, height: 50 })
+await api.v1.part.cylinder({ id: srcPart, diameter: 50, height: 50 })
 const stpData = (await api.v1.common.save({
   format: 'STP', compression: 'deflate', encoding: 'base64',
 })).result.content
@@ -83,5 +83,4 @@ await api.v1.common.recalc({})
 
 ## Related
 
-- `part.importFeature` — create the import feature this updates
-- `part.openFeature` / `part.closeFeature` — required wrapping for all update operations
+`part.importFeature` · `part.openFeature` / `part.closeFeature`

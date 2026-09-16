@@ -70,7 +70,7 @@ const edge2 = (await api.v1.part.getBrepGeometryByIndex({
 ## Gotchas
 
 - **Edge IDs invalidate after each fillet call.** A fillet rebuilds the brep topology. Any previously-obtained edge IDs become invalid. Always re-query edges (via `getGeometryIds` or `getBrepGeometryByIndex`) before applying another fillet.
-- **Radius limit is geometry-dependent.** There's no simple "radius < half shortest face" rule. On a 40x30x20 box, radius=12 works but radius=16 fails. Test incrementally if unsure.
+- **Radius limit is geometry-dependent** (adjacent faces of the edge). On a 40×30×20 box, radius 16 on a 40-long edge works (volume drop exact). Test incrementally if unsure and check `maxLevel` and volume.
 - **Negative radius → error.** `maxLevel: 51` with misleading "id = VOID" message.
 - **Zero radius → silent no-op.** Accepted without error but does nothing.
 - **Invalid geomIds → full failure.** Passing non-edge IDs (solid IDs, part IDs, nonexistent IDs) fails the entire call. No partial application.
@@ -130,7 +130,4 @@ await api.v1.solid.fillet({ id: eifId, radius: 8, geomIds: [newEdge] })  // work
 
 ## Related
 
-- `part.getGeometryIds` — find brep edges by position (preferred for fillet)
-- `part.getBrepGeometryByIndex` — enumerate brep edges by index
-- `part.getGeometryPositions` — get edge midpoints (returns `{x, y, z}` objects)
-- `solid.offset` — related edge/face operation (offsets entire solid shell)
+`part.getGeometryIds` · `part.getBrepGeometryByIndex` · `part.getGeometryPositions` · `solid.offset`

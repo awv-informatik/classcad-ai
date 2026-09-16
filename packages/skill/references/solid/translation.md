@@ -58,7 +58,4 @@ const r = await api.v1.solid.translation({ id: eifId, target: boxId, translation
 
 ## Related
 
-- `solid.rotation` — rotate a solid by Euler angles
-- `solid.scale` — scale a solid by a factor
-- `solid.mirror` — mirror a solid across a plane
-- `solid.copy` — copy a solid (supports translation + rotation params at creation time)
+`solid.rotation` · `solid.scale` · `solid.mirror` · `solid.copy`

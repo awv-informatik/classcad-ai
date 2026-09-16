@@ -42,7 +42,7 @@ Returns the chamfer **feature ID** (numeric). This ID is used for `updateChamfer
   chamfer call — and verify completeness afterwards by probing the chamfer's outer edge
   (radius + distance1) at multiple azimuths. Neither maxLevel (31, success) nor volume-level
   checks catch a partial rim chamfer.
-- **Edge IDs require `recalc()` first.** After creating geometry (e.g., `part.box`), call `recalc()` before `getGeometryIds`. Without recalc, the IDs are preliminary — they work for EQUAL_DISTANCE but fail for TWO_DISTANCES and DISTANCE_ANGLE with: `"An element of parameter 'references' has an invalid id!"`.
+- **Edge IDs from `getGeometryIds` work right away** — no `recalc()` needed (TWO_DISTANCES on ids queried directly after `part.box`: volume drop exact). `"An element of parameter 'references' has an invalid id!"` means a stale id — re-query after geometry changes.
 - **Oversized distance creates degenerate features.** If `distance1` exceeds what the adjacent faces can accommodate, the chamfer is created (non-null result) but with `maxLevel=51` and error `"Chamfer could not be applied to all edges."`. The feature exists in the tree but geometry is broken. Always check `maxLevel >= 51`.
 - **Edge IDs change after chamfer creation.** The BRep topology changes when a chamfer is added. If you need to reference edges of the chamfered geometry (e.g., for a second chamfer), call `recalc()` + `getGeometryIds` again.
 - **Default distance1=2 is very small.** On typical parts (50-100mm scale), a chamfer at distance1=2 is barely visible. Use 5-15 for visible results.
@@ -103,7 +103,4 @@ await api.v1.part.closeFeature({ id: chamferId })
 
 ## Related
 
-- `part.fillet` — rounded edge instead of flat chamfer
-- `part.updateChamfer` — modify after creation
-- `part.getGeometryIds` — find brep edge IDs by position
-- `part.openFeature` / `part.closeFeature` — required for updateChamfer
+`part.fillet` · `part.updateChamfer` · `part.getGeometryIds` · `part.openFeature` / `part.closeFeature`

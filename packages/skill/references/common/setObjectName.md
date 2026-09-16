@@ -77,7 +77,4 @@ await api.v1.common.setObjectName({ id: eifId, name: 'MainBody' })
 
 ## Related
 
-- `part.create` — `name` param sets initial name at creation
-- `part.entityInjection` — `name` param sets initial name
-- `part.workPlane` / `workAxis` / `workCSys` / `workPoint` — `name` param sets initial name
-- `part.getWorkGeometry` — looks up work geometry by name (affected by renames)
+`part.create` · `part.entityInjection` · `part.workPlane` / `workAxis` / `workCSys` / `workPoint` · `part.getWorkGeometry`

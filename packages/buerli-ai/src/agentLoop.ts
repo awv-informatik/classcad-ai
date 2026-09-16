@@ -13,7 +13,7 @@ import type {
 } from './types'
 import { TOOL_SCHEMAS } from './tools/schema'
 import { executeTool } from './tools/executor'
-import { getMethodIndex } from './tools/registry'
+import { getDocIndex, getMethodIndex } from './tools/registry'
 import { capJson } from './tools/utils'
 import { DEFAULT_SYSTEM_PROMPT } from './systemPrompt'
 
@@ -546,6 +546,14 @@ function buildSystemPrompt(config: AgentConfig): string {
       'parameters before your first call_api. (list_methods is still for filtering, or for the reflected ' +
       'non-v1 namespaces — facade/structure/interaction/selection/geometry — which are NOT in this index.)\n\n' +
       index
+  }
+  const docIndex = getDocIndex()
+  if (docIndex) {
+    prompt +=
+      '\n\n## Document Index\n' +
+      'Recipes (composed workflows) and guides (cross-cutting behavior), key — title. Fetch with docs([...]); ' +
+      'list_methods({ namespace: "v1", filter }) also ranks these by topic.\n\n' +
+      docIndex
   }
   return prompt
 }

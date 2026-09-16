@@ -22,8 +22,8 @@ await api.v1.part.closeFeature({ id: csId })
 - **`name`** — rename the feature.
 - **`type`** — change type. `"CUSTOM"` or `"XYAXISORIGIN"`. Switching to XYAXISORIGIN without refs **silently succeeds** (unlike updateWorkAxis which errors).
 - **`references`** — new reference IDs for XYAXISORIGIN. Can update alone without re-specifying type.
-- **`offset`** — `[x,y,z]` translation vector. Numbers only.
-- **`rotation`** — `[rx,ry,rz]` Euler angles in radians. Numbers only.
+- **`offset`** — `[x,y,z]` translation vector. Numeric array, or a string vector with expressions: `'[0, 0, @expr.H]'`.
+- **`rotation`** — `[rx,ry,rz]` Euler angles in radians. Numeric array, or a string vector with expressions: `'[0, 0, @expr.A]'`.
 - **`inverted`** — boolean, mirrors X-axis.
 
 ## Return Value
@@ -39,7 +39,7 @@ Returns the same CSys ID on success (maxLevel 31).
 - **openFeature/closeFeature is mandatory.** #1 mistake.
 - **`id` is the CSys ID, not the part ID.**
 - **Type change to XYAXISORIGIN without refs succeeds silently** — maxLevel=31, no error. This differs from updateWorkAxis which errors "missing references". The CSys may be in an undefined reference state.
-- **Built-in Origin: geometry changes blocked with unusual errors.** Offset update fails with "param must have the format: [value_any, isExpression_bl]" (different from other work geometry's "cannot be changed" message). Rename fails with internal error but **rename takes effect** — same quirk as all built-in work geometry.
+- **The built-in `Origin` is a work point, not a csys** — `updateWorkCSys` on it fails (e.g. offset update: "param must have the format: [value_any, isExpression_bl]").
 - **Multiple updates in one open session work.**
 - **No-op update is harmless** — returns maxLevel 31.
 
@@ -83,6 +83,4 @@ await api.v1.part.closeFeature({ id: csId })
 
 ## Related
 
-- `part.openFeature` / `part.closeFeature` — required gate pattern
-- `part.workCSys` — create work coordinate systems
-- `part.getWorkGeometry` — find CSys by name (built-in: `Origin`)
+`part.openFeature` / `part.closeFeature` · `part.workCSys` · `part.getWorkGeometry`

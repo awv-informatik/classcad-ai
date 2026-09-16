@@ -118,6 +118,4 @@ await api.v1.part.closeFeature({ id: filletId })
 
 ## Related
 
-- `part.chamfer` / `part.updateChamfer` — flat angled cut instead of rounded edge
-- `part.getGeometryIds` — find brep edge IDs by position
-- `part.openFeature` / `part.closeFeature` — required for updateFillet
+`part.chamfer` / `part.updateChamfer` · `part.getGeometryIds` · `part.openFeature` / `part.closeFeature`

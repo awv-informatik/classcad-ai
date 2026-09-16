@@ -96,7 +96,4 @@ await api.v1.curve.scaleShape({ id: shapeId, factor: 2.0 })
 
 ## Related
 
-- `curve.translateShape` — translate a shape by a vector
-- `curve.rotateShape` — rotate a shape by Euler angles
-- `curve.transformShape` — apply a 4x4 transformation matrix (no scaling allowed in matrix — use scaleShape instead)
-- `curve.shape` — create the shape container this operates on
+`curve.translateShape` · `curve.rotateShape` · `curve.transformShape` · `curve.shape`

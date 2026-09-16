@@ -82,7 +82,4 @@ await api.v1.part.closeFeature({ id: tId })
 
 ## Related
 
-- `part.updateTransformationByCSys` — modify after creation (requires openFeature/closeFeature)
-- `part.workCSys` — create the coordinate systems this consumes
-- `part.translation` — simpler: move along a direction by a distance
-- `part.rotation` — simpler: rotate around an axis by an angle
+`part.updateTransformationByCSys` · `part.workCSys` · `part.translation` · `part.rotation`

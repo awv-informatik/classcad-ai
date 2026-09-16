@@ -85,8 +85,4 @@ await api.v1.assembly.instance({ productId: convertedId, ownerId: newRoot })
 
 ## Related
 
-- `assembly.assemblyTemplate` — creates a fresh empty assembly template (vs. converting existing root)
-- `assembly.deleteTemplate` — deletes converted templates (cascade-deletes instances)
-- `assembly.getAssemblyTemplate` — find the converted template by name or list all
-- `assembly.setCurrentProduct` — switch into/out of the converted template to modify it
-- `assembly.instance` — instantiate the converted template into the new root
+`assembly.assemblyTemplate` · `assembly.deleteTemplate` · `assembly.getAssemblyTemplate` · `assembly.setCurrentProduct` · `assembly.instance`

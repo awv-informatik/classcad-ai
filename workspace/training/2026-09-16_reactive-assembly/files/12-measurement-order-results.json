@@ -1,0 +1,50 @@
+[
+  {
+    "mode": "instance-first",
+    "height": 3,
+    "volume": 2454,
+    "sum": 2454,
+    "fastenedZ": 14.499999999999998,
+    "pass": true
+  },
+  {
+    "mode": "instance-first",
+    "height": 5,
+    "volume": 2490,
+    "sum": 2490,
+    "fastenedZ": 17.500000000000007,
+    "pass": true
+  },
+  {
+    "mode": "instance-first",
+    "height": 2,
+    "volume": 2436,
+    "sum": 2436,
+    "fastenedZ": 12.999999999999996,
+    "pass": true
+  },
+  {
+    "mode": "instance-recalc-root",
+    "height": 3,
+    "volume": 2454,
+    "sum": 2454,
+    "fastenedZ": 14.499999999999998,
+    "pass": true
+  },
+  {
+    "mode": "instance-recalc-root",
+    "height": 5,
+    "volume": 2490,
+    "sum": 2490,
+    "fastenedZ": 17.500000000000007,
+    "pass": true
+  },
+  {
+    "mode": "instance-recalc-root",
+    "height": 2,
+    "volume": 2436,
+    "sum": 2436,
+    "fastenedZ": 12.999999999999996,
+    "pass": true
+  }
+]

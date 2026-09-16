@@ -125,6 +125,4 @@ STL is binary by default. Without `encoding: 'base64'`, the raw save produces a 
 
 ## Related
 
-- `save.md` — full save API documentation
-- `load.md` — full load API documentation
-- `format-comparison.md` — format capabilities and size comparison
+`save.md` · `load.md` · `format-comparison.md`

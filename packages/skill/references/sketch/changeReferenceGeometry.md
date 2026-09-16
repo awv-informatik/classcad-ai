@@ -41,5 +41,4 @@ await api.v1.sketch.changeReferenceGeometry({ id: skId, geomId: lineId, refId: b
 
 ## Related
 
-- `sketch.referenceGeometry` — create the reference geometry in the first place
-- `sketch.unlinkReferenceGeometry` — disconnect the link (reverse operation)
+`sketch.referenceGeometry` · `sketch.unlinkReferenceGeometry`

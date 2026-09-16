@@ -1,6 +1,6 @@
 # sketch.sketchRegion
 
-Creates a sketch region from sketch geometry (curves/points). A region represents a closed profile area within a sketch. Region IDs are used for lookup and structural purposes but **NOT** for extrusion — pass curve IDs directly to `part.extrusion` instead.
+Creates a sketch region from sketch geometry (curves/points). A region represents a closed profile area within a sketch. Region IDs can be passed to `part.extrusion` / `part.revolve` as `references` (curve IDs work too).
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ Creates a sketch region from sketch geometry (curves/points). A region represent
 
 - **No closure validation.** `sketchRegion` does NOT check that `geomIds` form a closed contour. A single line, disconnected lines, or open geometry all create regions silently (maxLevel=31, no error). These may fail when used downstream.
 - **Empty geomIds is allowed.** Passing `[]` creates an empty region with no geometry (no error).
-- **Do NOT pass region IDs to `part.extrusion`.** Extrusion with a region ID as `references` fails with `"CCObject can not be opened"`. Always pass the raw curve IDs (line, arc, circle IDs) directly.
+- **Region IDs work as extrusion references** (`part.extrusion({ references: [regionId] })`), as do raw curve IDs. The sketch must be created with `planeId`; on a sketch without a plane, extrusion fails with `"CCObject can not be opened"`.
 - **Default naming quirk.** First region is `SketchRegion` (no number). Second is `SketchRegion0`, third is `SketchRegion1`, etc. The numbering starts at 0 from the second region onward.
 - **Name collision with existing objects.** If you pass a `name` that matches an existing object in the drawing (e.g., default work planes "Top", "Front", "Right"), the system silently auto-suffixes with "0" (e.g., "Right" → "Right0"). The name you pass to `sketchRegion` is NOT necessarily the name stored. This affects subsequent `getSketchRegion` lookups — you must use the actual stored name.
 

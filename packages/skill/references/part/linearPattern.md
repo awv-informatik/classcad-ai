@@ -55,7 +55,7 @@ const boxId = (await api.v1.part.box({
 
 const waX = (await api.v1.part.workAxis({
   id: partId, name: 'AxisX',
-  origin: [0, 0, 0], direction: [1, 0, 0],
+  position: [0, 0, 0], direction: [1, 0, 0],
 })).result
 
 // 1D pattern: 4 boxes along X, 40mm apart
@@ -69,13 +69,15 @@ const lpId = (await api.v1.part.linearPattern({
 // 2D grid: add Y direction
 const waY = (await api.v1.part.workAxis({
   id: partId, name: 'AxisY',
-  origin: [0, 0, 0], direction: [0, 1, 0],
+  position: [0, 0, 0], direction: [0, 1, 0],
 })).result
 
+// A pattern consumes its targets — each example uses a fresh body
+const box2 = (await api.v1.part.box({ id: partId, name: 'Box2', length: 20, width: 15, height: 25 })).result
 const gridId = (await api.v1.part.linearPattern({
   id: partId,
   name: 'Grid',
-  targets: [boxId],
+  targets: [box2],
   dir1: { references: [waX], distance: 30, count: 4 },
   dir2: { references: [waY], distance: 30, count: 3 },
 })).result
@@ -86,18 +88,15 @@ await api.v1.part.expression({
   id: partId,
   toCreate: [{ name: 'spacing', value: 35 }],
 })
+const box3 = (await api.v1.part.box({ id: partId, name: 'Box3', length: 20, width: 15, height: 25 })).result
 const exprLp = (await api.v1.part.linearPattern({
   id: partId,
   name: 'ExprLP',
-  targets: [boxId],
+  targets: [box3],
   dir1: { references: [waX], distance: '@expr.spacing', count: 5 },
 })).result
 ```
 
 ## Related
 
-- `part.updateLinearPattern` — modify after creation (requires openFeature/closeFeature)
-- `part.circularPattern` — circular copies around an axis
-- `part.mirror` — reflection across a plane
-- `part.workAxis` — create direction references
-- `part.getGeometryIds` — get brep edge IDs for direction references
+`part.updateLinearPattern` · `part.circularPattern` · `part.mirror` · `part.workAxis` · `part.getGeometryIds`

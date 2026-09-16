@@ -101,7 +101,4 @@ await api.v1.sketch.generateAutoConstraints({
 
 ## Related
 
-- `sketch.constraint` — manual constraint creation (explicit type + geomIds)
-- `sketch.line`, `sketch.circle`, etc. — auto-generate constraints at creation time
-- `sketch.loadFrom` — loads geometry that may lack auto-constraints (prime candidate for autoGen)
-- `sketch.getGeometry` — inspect the structure tree for constraint nodes
+`sketch.constraint` · `sketch.line` · `sketch.loadFrom` · `sketch.getGeometry`

@@ -88,6 +88,4 @@ if (r.result === null) console.log('Constraint not found')
 
 ## Related
 
-- `assembly.fastenedOrigin` — create a fastenedOrigin constraint
-- `assembly.updateFastenedOrigin` — modify constraint params
-- `assembly.getFastened` — query fastened constraints (same pattern, different constraint type)
+`assembly.fastenedOrigin` · `assembly.updateFastenedOrigin` · `assembly.getFastened`

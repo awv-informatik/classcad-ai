@@ -41,7 +41,7 @@ const boxId = (await api.v1.part.box({
 
 const waX = (await api.v1.part.workAxis({
   id: partId, name: 'AxisX',
-  origin: [0, 0, 0], direction: [1, 0, 0],
+  position: [0, 0, 0], direction: [1, 0, 0],
 })).result
 
 // Move the box 50mm in +X
@@ -58,9 +58,10 @@ await api.v1.part.expression({
   id: partId,
   toCreate: [{ name: 'offset', value: 60 }],
 })
+// A translation consumes its target — move the result of the first translation
 const tExpr = (await api.v1.part.translation({
   id: partId,
-  targets: [boxId],
+  targets: [tId],
   references: [waX],
   distance: '@expr.offset',
 })).result
@@ -68,7 +69,4 @@ const tExpr = (await api.v1.part.translation({
 
 ## Related
 
-- `part.updateTranslation` — modify after creation (requires openFeature/closeFeature)
-- `part.rotation` — rotate features around an axis
-- `part.transformationByCSys` — transform by coordinate system
-- `solid.translation` — direct (non-parametric) translation
+`part.updateTranslation` · `part.rotation` · `part.transformationByCSys` · `solid.translation`

@@ -52,7 +52,7 @@ Creates a circular pattern of instances — copies of a seed instance rotated ar
 - The rotation axis passes through the WCS origin. Instances rotate around that point, not around the seed
 - `offset` is per-copy along the rotation axis — offset=25 with instanceCount=6 means the last copy is 125mm from the seed along the axis
 - `updateCircularPattern` takes the constraint ID, not the assembly ID
-- Use `part.calculateMassProperties({ id: instanceId }).result.cog` to verify instance positions — `assembly.calculateMassProperties` has different return field names
+- Verify instance positions via `coordinateSystem` in the structure tree (`part.` and `assembly.calculateMassProperties` return the same format; measuring an instance materializes it)
 
 ## Working Example
 
@@ -62,7 +62,7 @@ const tplId = (await api.v1.assembly.partTemplate({ name: 'Block' })).result
 await api.v1.part.box({ id: tplId, length: 30, width: 20, height: 15 })
 const wcsId = (await api.v1.part.workCSys({
   id: tplId, name: 'WCS',
-  origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0]
+  offset: [0, 0, 0]
 })).result
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -70,7 +70,7 @@ const inst = (await api.v1.assembly.instance({
   productId: tplId, ownerId: asmId, name: 'Seed'
 })).result
 await api.v1.assembly.fastenedOrigin({
-  id: asmId, instance: inst, name: 'FO',
+  id: asmId, name: 'FO',
   mate1: { path: [inst], csys: wcsId }
 })
 
@@ -105,7 +105,4 @@ const info = (await api.v1.assembly.getCircularPattern({
 
 ## Related
 
-- `assembly.linearPattern` — linear spacing pattern
-- `assembly.deleteConstraint` — remove a pattern
-- `assembly.fastenedOrigin` — ground the seed instance before patterning
-- `assembly.instance` — create the seed instance
+`assembly.linearPattern` · `assembly.deleteConstraint` · `assembly.fastenedOrigin` · `assembly.instance`

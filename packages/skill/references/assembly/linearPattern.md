@@ -49,11 +49,11 @@ Creates a linear pattern of instances — copies of a seed instance spaced along
 ## Gotchas
 
 - `dir1.count` includes the seed — count=3 means 3 total, not 3 copies. This differs from what "number of copies" might suggest
-- `mate1.flip` determines the pattern direction, NOT the direction vector. Default "Z" patterns along the WCS Z axis
+- The pattern runs along the Z axis of `mate1`'s csys (after `flip`). A csys rotated `[π/2,0,0]` (Z → world −Y) with distance 50 puts the copy at [0,−50,0]
 - `mate2` is required for 2D grids (dir2). Without it, dir2 is ignored. Use `mate2.flip` to pick the second axis (e.g., flip="X" for X-direction)
 - Total instances for a 2D grid = dir1.count × dir2.count
 - `updateLinearPattern` takes the constraint ID, not the assembly ID
-- `assembly.calculateMassProperties` has a different return format than `part.calculateMassProperties` — use `part.calculateMassProperties({ id: instanceId })` with `.result.cog` to measure instance positions
+- Verify instance positions via `coordinateSystem` in the structure tree (`part.` and `assembly.calculateMassProperties` return the same format; measuring an instance materializes it)
 
 ## Working Example
 
@@ -63,7 +63,7 @@ const tplId = (await api.v1.assembly.partTemplate({ name: 'Block' })).result
 await api.v1.part.box({ id: tplId, length: 40, width: 30, height: 20 })
 const wcsId = (await api.v1.part.workCSys({
   id: tplId, name: 'WCS',
-  origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0]
+  offset: [0, 0, 0]
 })).result
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -71,7 +71,7 @@ const inst = (await api.v1.assembly.instance({
   productId: tplId, ownerId: asmId, name: 'Seed'
 })).result
 await api.v1.assembly.fastenedOrigin({
-  id: asmId, instance: inst, name: 'FO',
+  id: asmId, name: 'FO',
   mate1: { path: [inst], csys: wcsId }
 })
 
@@ -106,7 +106,4 @@ const info = (await api.v1.assembly.getLinearPattern({
 
 ## Related
 
-- `assembly.circularPattern` — angular pattern around an axis
-- `assembly.deleteConstraint` — remove a pattern
-- `assembly.fastenedOrigin` — ground the seed instance before patterning
-- `assembly.instance` — create the seed instance
+`assembly.circularPattern` · `assembly.deleteConstraint` · `assembly.fastenedOrigin` · `assembly.instance`

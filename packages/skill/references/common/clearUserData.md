@@ -24,7 +24,7 @@ No other parameters. This is the simplest API in the user data set.
 - **Per-object only.** Clearing a part does not cascade to child objects (entity injections, sketches, etc.). Each object's user data is independent.
 - **Enables re-set.** After `clearUserData`, the same keys can be set again with `setUserData` — unlike the overwrite trap where `setUserData` on an existing key is a no-op. This makes `clearUserData` the proper "wipe and start fresh" mechanism.
 - **User data is session-only.** Not persisted across OFB save/load. After reloading, all user data is already gone.
-- **Never pass negative IDs.** May hang the server (consistent with all user data APIs).
+- **Never pass negative IDs.** `setUserData` with `id: -1` crashes the worker; treat all user data APIs the same.
 
 ## Common Errors
 
@@ -33,7 +33,7 @@ No other parameters. This is the simplest API in the user data set.
 | `maxLevel: 51`, code 1006 | Invalid or zero ID | Verify object ID exists |
 | `maxLevel: 51`, code 1006 + warning | Nonexistent ID (e.g., 9999) | Use a valid, existing ID |
 | `maxLevel: 51`, code 1004 | Missing `id` parameter | Always pass `id` |
-| Server hang | Negative ID | Never use negative IDs |
+| Worker crash | Negative ID | Never use negative IDs |
 
 ## Usage Hints
 
@@ -62,7 +62,4 @@ const keys = (await api.v1.common.getUserDataKeys({ id: partId })).result
 
 ## Related
 
-- `common.setUserData` — write a key-value pair (no-op if key exists — clear first to bulk-update)
-- `common.getUserData` — read a value by key
-- `common.removeUserData` — remove a single key (for targeted removal vs. clearing all)
-- `common.getUserDataKeys` — list all keys on an object
+`common.setUserData` · `common.getUserData` · `common.removeUserData` · `common.getUserDataKeys`

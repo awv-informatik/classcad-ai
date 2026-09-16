@@ -60,6 +60,4 @@ for (const id of ids) {
 
 ## Related
 
-- `sketch.create` / `part.sketch` — create sketches
-- `sketch.deleteObject` — delete sub-sketch items (geometry, constraints, dimensions)
-- `part.getSketch` — verify sketch exists before/after deletion
+`sketch.create` / `part.sketch` · `sketch.deleteObject` · `part.getSketch`

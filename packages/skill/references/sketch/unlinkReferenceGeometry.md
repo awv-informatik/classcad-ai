@@ -43,5 +43,4 @@ await api.v1.sketch.changeReferenceGeometry({ id: skId, geomId: lineId, refId: o
 
 ## Related
 
-- `sketch.referenceGeometry` — create the reference geometry
-- `sketch.changeReferenceGeometry` — relink to a different brep element (can also re-establish after unlink)
+`sketch.referenceGeometry` · `sketch.changeReferenceGeometry`

@@ -33,8 +33,8 @@ Default tessellation produces ~2000 vertices and ~3800 triangles. The sphere has
 
 ## Gotchas
 
-- **radius=0 hangs the server.** No error, no timeout — the worker goes to 100% CPU and must be killed. This is worse than `solid.box` which silently accepts zero dimensions.
-- **Negative radius hangs the server.** Same behavior as radius=0. **Always validate radius > 0 before calling.**
+- **radius=0 is accepted without error** (returns an id, maxLevel 31) — a degenerate sphere. Validate radius > 0 yourself.
+- **Negative radius uses the absolute value** — `radius: -5` builds a radius-5 sphere (volume 523.6).
 - Very small (0.001) and very large (10000) positive radii work fine.
 - Rotation has no visual effect on a sphere (it's rotationally symmetric), but `rotateFirst=false` with both rotation and translation will orbit the sphere's center around the origin, producing a different final position.
 
@@ -44,7 +44,7 @@ Default tessellation produces ~2000 vertices and ~3800 triangles. The sphere has
 |---|---|---|
 | `"The parameter \"radius\" must be provided"` (code 1004, level 51) | Missing radius | Add `radius` parameter |
 | `"The parameter \"id\" has a wrong id type!"` (code 1001, level 51) | Passed part ID instead of EIF ID | Use the ID from `part.entityInjection`, not `part.create` |
-| Server hang (100% CPU, no response) | radius ≤ 0 | Kill worker, restart, always validate radius > 0 |
+| Degenerate or unexpected sphere | radius ≤ 0 (0 → empty, negative → \|radius\|) | Validate radius > 0 before calling |
 
 ## Usage Hints
 
@@ -74,9 +74,4 @@ const sphere2Id = (await api.v1.solid.sphere({
 
 ## Related
 
-- `solid.box` / `solid.cylinder` / `solid.cone` — other primitive solids
-- `solid.deleteSolid` — remove solids from an EIF
-- `solid.copy` — duplicate a solid with optional transform
-- `solid.translation` / `solid.rotation` / `solid.scale` — transform existing solids
-- `solid.union` / `solid.subtraction` / `solid.intersection` — boolean operations between solids
-- `part.entityInjection` — create the required EIF container
+`solid.box` / `solid.cylinder` / `solid.cone` · `solid.deleteSolid` · `solid.copy` · `solid.translation` / `solid.rotation` / `solid.scale` · `solid.union` / `solid.subtraction` / `solid.intersection` · `part.entityInjection`

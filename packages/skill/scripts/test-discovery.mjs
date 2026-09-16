@@ -71,5 +71,39 @@ check('bulkDocs empty guard', bdEmpty.empty === true && bdEmpty.text.includes('P
 const bdResolved = await d.bulkDocs(['host.special', 'v1.part.box'], async k => (k === 'host.special' ? { text: 'HOSTDOC' } : null))
 check('bulkDocs host resolver wins, fallback works', bdResolved.text.includes('HOSTDOC') && bdResolved.text.includes('# ═══ v1.part.box ═══'))
 
+// bulkDocs — response budget, deferral, paging (tool output must stay under host limits)
+const { DOCS_RESPONSE_BUDGET } = await import('../discovery.js')
+const bigAsk = ['recipes/assembly-parameters', 'recipes/verification', 'recipes/parametric-part', 'recipes/constrained-sketching',
+  'v1.part.box', 'v1.part.cylinder', 'v1.part.workCSys', 'v1.assembly.fastened', 'v1.assembly.fastenedOrigin',
+  'v1.assembly.instance', 'v1.part.calculateMassProperties', 'v1.part.getGeometryIds', 'v1.part.getGeometryPositions']
+const big = await d.bulkDocs(bigAsk)
+check('budget: response never exceeds DOCS_RESPONSE_BUDGET', big.text.length <= DOCS_RESPONSE_BUDGET + 600)
+check('budget: every key is served or deferred (nothing dropped)', big.found.length + big.deferred.length === bigAsk.length)
+check('budget: deferred keys named at the top', big.deferred.length > 0 && big.text.startsWith('# ═══ response budget reached') && big.text.includes(JSON.stringify(big.deferred)))
+check('budget: first requested doc served whole', big.found[0] === 'recipes/assembly-parameters')
+const follow = await d.bulkDocs(big.deferred)
+check('budget: follow-up call serves deferred keys', follow.found.length > 0)
+const paged = await d.bulkDocs(['api/part'])
+check('paging: oversized doc serves page 1 within budget', paged.text.length <= DOCS_RESPONSE_BUDGET && /page 1\/\d+/.test(paged.text) && paged.text.includes('"api/part#2"'))
+const p2 = await d.bulkDocs(['api/part#2'])
+check('paging: key#2 serves page 2', p2.found[0] === 'api/part#2' && /page 2\/\d+/.test(p2.text))
+const pBad = await d.bulkDocs(['api/part#99'])
+check('paging: out-of-range page reported', pBad.missing[0] === 'api/part#99' && pBad.text.includes('page(s)'))
+const small = await d.bulkDocs(['v1.part.box', 'api/part'], null, { budget: 8000 })
+check('budget option: host can lower the budget', small.found[0] === 'v1.part.box' && small.deferred[0] === 'api/part' && small.text.length <= 8000)
+const dup = await d.bulkDocs(['v1.part.box', 'v1.part.box'])
+check('duplicate keys served once', dup.found.length === 1)
+
+// searchDocs — recipes and guides are findable by topic
+const sd = d.searchDocs({ search: 'shared parameters across assembly parts' })
+check('searchDocs finds assembly-parameters recipe first', sd.docs[0]?.key === 'recipes/assembly-parameters')
+const sd2 = d.searchDocs({ search: 'rename expression binding' })
+check('searchDocs finds guides (expression-workflow)', sd2.docs.some(x => x.key === 'part/expression-workflow'))
+check('searchDocs excludes per-method notes and api overviews', d.searchDocs({ search: 'box' }).docs.every(x => x.key !== 'part/box' && !x.key.startsWith('api/')))
+check('searchDocs empty query', d.searchDocs({ search: '' }).count === 0)
+check('listDocs guides group', docs.guides.includes('part/expression-workflow') && !docs.guides.includes('part/box'))
+const di = d.docIndex()
+check('docIndex lists recipes and guides with titles', di.includes('recipes/assembly-parameters — ') && di.includes('assembly/generic — '))
+
 console.log(`\n${pass} passed, ${fail} failed`)
 process.exit(fail ? 1 : 0)

@@ -183,7 +183,16 @@ const listMethods: ToolHandler = async (input, ctx) => {
   if (ns === 'v1') {
     if (!getMethodRegistry()) return { error: 'Method registry not loaded. No method metadata available.' }
     const res = getDiscovery().searchMethods({ domain, search: filter })
-    return { result: { namespace: 'v1', count: res.count, ...(res.note ? { note: res.note } : {}), methods: res.methods } }
+    const docs = filter ? getDiscovery().searchDocs({ search: filter }) : null
+    return {
+      result: {
+        namespace: 'v1',
+        count: res.count,
+        ...(res.note ? { note: res.note } : {}),
+        methods: res.methods,
+        ...(docs && docs.count > 0 ? { docs: docs.docs, docsNote: docs.note } : {}),
+      },
+    }
   }
 
   if (ns === 'v0') return { error: 'v0 is legacy and not exposed — use v1.' }

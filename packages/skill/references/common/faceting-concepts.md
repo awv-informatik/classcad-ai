@@ -123,8 +123,4 @@ Per-entity faceting is visible in `requestVisualisation` results: `container.pro
 
 ## Related
 
-- `common.getDatabaseSettings` / `common.setDatabaseSettings` — global tessellation control
-- `common.getFacetingParameters` / `common.setFacetingParameters` — chord/angle convenience API
-- `common.setAppearance` — per-entity tessellation overrides
-- `common.requestVisualisation` — retrieve tessellated mesh data
-- `common.save` — export with format-specific tessellation (STL facetingTol)
+`common.getDatabaseSettings` / `common.setDatabaseSettings` · `common.getFacetingParameters` / `common.setFacetingParameters` · `common.setAppearance` · `common.requestVisualisation` · `common.save`

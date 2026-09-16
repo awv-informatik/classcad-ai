@@ -116,6 +116,4 @@ await api.v1.common.clearUserData({ id: partId })
 
 ## Related
 
-- `common.setObjectName` / `common.getObjectName` — built-in name property (not user data)
-- `common.save` / `common.load` — user data is lost during save/load
-- `solid.copy` — user data is not copied
+`common.setObjectName` / `common.getObjectName` · `common.save` / `common.load` · `solid.copy`

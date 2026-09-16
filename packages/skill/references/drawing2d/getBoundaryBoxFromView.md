@@ -78,7 +78,4 @@ const topHeight = bboxes[0].max.y - bboxes[0].min.y   // 60
 
 ## Related
 
-- `drawing2d.view` — create views (must be called first)
-- `drawing2d.centerView` — center views to origin
-- `drawing2d.placeView` — reposition views with offsets
-- `drawing2d.exportSVG` / `drawing2d.exportDXF` — export the final layout
+`drawing2d.view` · `drawing2d.centerView` · `drawing2d.placeView` · `drawing2d.exportSVG` / `drawing2d.exportDXF`

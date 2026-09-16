@@ -49,7 +49,7 @@ Calculates the center of gravity (COG) and volume of a part, assembly, instance,
 
 - **Feature IDs don't work** — the most common mistake. Use the part ID, not the feature ID returned by `part.box()` etc. Error: `"The parameter 'id' has a wrong id type! Provide only following id types: ['part/assembly','instance','solid']"`
 - **Empty parts crash** — calling on a part with no solid geometry returns a NullMem server error, not a graceful zero. Always ensure geometry exists first.
-- **Degenerate cones crash** — `part.cone` with `tDiameter=0` (or very small values like 0.001) causes the same NullMem crash. Workaround: use `tDiameter >= 1`.
+- **Cone top diameter must be > 0** — `tDiameter: 0` is rejected at creation ("Value for top diameter must be greater than 0"). Small values work (`0.001`: volume within 0.0004% of the pointed cone).
 - **COG is `{x,y,z}` not `[x,y,z]`** — despite the docs describing the return as `point`, the COG comes back as an object with named keys, not an array. Access via `result.cog.x`, not `result.cog[0]`.
 
 ## Common Errors
@@ -58,7 +58,7 @@ Calculates the center of gravity (COG) and volume of a part, assembly, instance,
 |---|---|---|
 | "wrong id type" | 1001 | Passed a feature, sketch, work geometry, or entity injection ID |
 | "invalid id" | 1006 | ID doesn't exist |
-| NullMem evaluation error | 0 | Empty part or degenerate cone (tDiameter=0) |
+| NullMem evaluation error | 0 | Empty part (no solid) |
 
 ## Working Example
 
@@ -99,6 +99,4 @@ const rInst = await api.v1.part.calculateMassProperties({ id: instanceId })
 
 ## Related
 
-- `part.box` / `part.sphere` / `part.cylinder` — create geometry to measure
-- `part.getGeometryIds` — find brep elements by position
-- `common.recalc` — ensure geometry is up-to-date before measuring
+`part.box` / `part.sphere` / `part.cylinder` · `part.getGeometryIds` · `common.recalc`

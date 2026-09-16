@@ -79,6 +79,4 @@ await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 
 
 ## Related
 
-- `part.linkWithExpression` — connect an expression to a feature param (post-hoc)
-- `@expr.NAME` syntax — bind expressions at feature creation time
-- `part.expression` — create named expressions
+`part.linkWithExpression` · `@expr.NAME` · `part.expression`

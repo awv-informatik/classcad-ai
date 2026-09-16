@@ -40,8 +40,8 @@ await api.v1.part.closeFeature({ id: sliceId })
 const partId = (await api.v1.part.create({ name: 'UpdateDemo' })).result
 const boxId = (await api.v1.part.box({ id: partId, name: 'Box', length: 80, width: 50, height: 60 })).result
 
-const wp1 = (await api.v1.part.workPlane({ id: partId, name: 'Low', origin: [0, 0, 15], normal: [0, 0, 1], xDirection: [1, 0, 0] })).result
-const wp2 = (await api.v1.part.workPlane({ id: partId, name: 'High', origin: [0, 0, 45], normal: [0, 0, 1], xDirection: [1, 0, 0] })).result
+const wp1 = (await api.v1.part.workPlane({ id: partId, name: 'Low', position: [0, 0, 15], normal: [0, 0, 1] })).result
+const wp2 = (await api.v1.part.workPlane({ id: partId, name: 'High', position: [0, 0, 45], normal: [0, 0, 1] })).result
 
 const sliceId = (await api.v1.part.slice({
   id: partId,
@@ -62,5 +62,4 @@ await api.v1.part.closeFeature({ id: sliceId })
 
 ## Related
 
-- `part.slice` — creates the feature this updates
-- `part.openFeature` / `part.closeFeature` — required gate for all `update*` calls
+`part.slice` · `part.openFeature` / `part.closeFeature`

@@ -5,7 +5,7 @@ Finds brep geometry elements (edges, faces, vertices) by providing positions on 
 ## Prerequisites
 
 - A part with geometry (e.g., `part.box`, `part.cylinder`, etc.)
-- **Must call `recalc()` before querying.** Pre-recalc IDs are "preliminary" — they differ from post-recalc IDs and may fail with some APIs (e.g., TWO_DISTANCES chamfer). Always recalc first.
+- **No `recalc()` needed before querying.** Ids queried right after creating a feature work with fillet and all chamfer types. Re-query after later changes to the geometry.
 
 ## Key Parameters
 
@@ -15,9 +15,9 @@ Finds brep geometry elements (edges, faces, vertices) by providing positions on 
 - `circles` — `[{ pos: [x,y,z] }]` — find circular edges (works for cylinders, cones, and any near-360° arc)
 - `points` — `[{ pos: [x,y,z] }]` — find vertices by exact position
 - `planes` — `[{ positions: [[x,y,z], ...] }]` — find flat faces
-- `cylinders` — `[{ positions: [[x,y,z], [x,y,z], ...] }]` — find cylindrical faces (2+ points required)
-- `cones` — `[{ positions: [[x,y,z], [x,y,z], ...] }]` — find conical faces (2+ points required)
-- `spheres` — `[{ positions: [[x,y,z], [x,y,z], ...] }]` — find spherical faces (2+ points required)
+- `cylinders` — `[{ positions: [[x,y,z], ...] }]` — find cylindrical faces (one off-seam point is enough)
+- `cones` — `[{ positions: [[x,y,z], ...] }]` — find conical faces
+- `spheres` — `[{ positions: [[x,y,z], ...] }]` — find spherical faces
 - `nurbsCurves` — `[{ pos: [x,y,z] }]` — find NURBS curve edges (freeform geometry only)
 - `nurbsSurfaces` — `[{ positions: [[x,y,z], ...] }]` — find NURBS faces (freeform geometry only)
 
@@ -45,9 +45,9 @@ All params are optional — query only the types you need.
 - **Edges** (lines, arcs, circles, nurbsCurves): use `pos` (singular) — a single `[x,y,z]` point
 - **Faces** (planes, cylinders, cones, spheres, nurbsSurfaces): use `positions` (plural) — an array of `[x,y,z]` points
 
-### Curved faces need 2+ positions
+### Curved faces: one off-seam position is enough
 
-Flat faces (`planes`) work with a single position. But curved faces (`cylinders`, `cones`, `spheres`, `nurbsSurfaces`) **need at least 2 positions** to disambiguate. With 1 position, the lookup fails (maxLevel 51). Use points on the surface, or edge midpoints of adjacent edges.
+A single position on the surface finds a curved face (`cylinders: [{ positions: [[0, r, z]] }]`) — as long as it is not on the seam line (next section). A point on the seam line alone fails with "no geometry could be found"; with several positions, one off-seam point is enough.
 
 ### Circles vs arcs
 
@@ -56,7 +56,7 @@ Flat faces (`planes`) work with a single position. But curved faces (`cylinders`
 
 ### Seam vertex avoidance
 
-Cylinders, cones, and spheres have a **seam line** in the +X direction. The seam vertex (at [+radius, 0, Z]) causes `circles` lookups to fail. Use any other position: the center of the circle, a rim point at 90° or 180°, or the midpoint opposite the seam (at [-radius, 0, Z]).
+Cylinders, cones, and spheres have a **seam line** in the local +X direction (`[+radius, 0, z]` for a cylinder at the part origin). Points on it fail: the seam vertex for `circles` lookups, and any point of the seam line for `cylinders` face lookups (e.g. `[15, 0, 30]` on a Ø30×60 cylinder). Use any other position: a rim/surface point at 90° or 180° (`[0, r, z]`, `[-r, 0, z]`), or the circle center for solid caps.
 
 ### Position tolerance
 
@@ -77,8 +77,8 @@ Flatten and keep numeric ids only: `[...arcs, ...circles, ...lines].flat().filte
 
 ### Revolve rim circles may be unreachable by edge lookup — use the face
 
-On a revolved solid (after boolean), the outer rim circles of a cylindrical band (e.g. a hub OD)
-were NOT found by `arcs` or `circles` at an exact on-edge position, while `lines` happily returned
+Rim circles are found by `circles` at an off-seam rim point (revolve about Y, rim r=40 at y=0: `[0,0,40]` and `[-40,0,0]` hit, the seam point `[40,0,0]` misses; `arcs` never finds full circles). In one sprocket model (after booleans) the outer rim circles of a hub OD
+were NOT found by `arcs` or `circles` at an on-edge position, while `lines` happily returned
 a far-away straight edge (looks like a hit, is a red herring — always verify the found id via
 `getGeometryPositions`). Robust alternative: look up the **cylindrical face**
 (`cylinders: [{ positions: [p1, p2] }]`) and read `getGeometryPositions(faceId)` — it returns the
@@ -94,7 +94,7 @@ before doubting the geometry.
 
 ### IDs change after topology operations
 
-Fillet, chamfer, boolean, and other topology-modifying features change all brep IDs. After any such operation, call `recalc()` then re-query with `getGeometryIds`. Never cache brep IDs across topology changes.
+Fillet, chamfer, boolean, and other topology-modifying features change brep IDs. After any such operation, re-query with `getGeometryIds`. Never cache brep IDs across topology changes.
 
 ## Common Errors
 
@@ -148,19 +148,15 @@ const r = await api.v1.part.getGeometryIds({
 
 **Circle-center lookup only works when the center lies ON a face.** A solid cylinder's top-circle center sits on the cap face → regime 1 (nearest-on-face) finds it. For HOLE mouths the center floats in the void → regime 2 (<0.05 tolerance) → lookup fails with "no geometry could be found". Verified 2026-06-10 on Ø18.63/Ø10/Ø8.1 hole rims: center probes all failed, rim points at 90° off-seam all succeeded. For holes, always probe a rim point: `[cx, cy + r, z]`. Note the seam direction is the cylinder's LOCAL +x — for a hole drilled along world X via a rotated csys (`rotation [0, π/2, 0]`), the seam maps to world −Z, so a world-+Y rim point is safely off-seam.
 
-### Curved face lookup (2+ positions required)
+### Curved face lookup (off-seam point)
 
 ```js
 const r = await api.v1.part.getGeometryIds({
   id: partId,
-  cylinders: [{ positions: [[radius, 0, height/2], [0, radius, height/2]] }],
+  cylinders: [{ positions: [[0, radius, height/2]] }],  // 90° from the +X seam line
 })
 ```
 
 ## Related
 
-- `part.getGeometryPositions` — inverse operation: given brep IDs, returns identifying positions
-- `part.getBrepGeometryIndex` / `part.getBrepGeometryByIndex` — index-based brep access
-- `part.fillet` / `part.chamfer` — primary consumers of edge IDs from this API
-- `part.workPlane` / `part.workAxis` — can use brep face/edge IDs as references
-- `part.compositeCurve` — uses brep edge IDs
+`part.getGeometryPositions` · `part.getBrepGeometryIndex` / `part.getBrepGeometryByIndex` · `part.fillet` / `part.chamfer` · `part.workPlane` / `part.workAxis` · `part.compositeCurve`

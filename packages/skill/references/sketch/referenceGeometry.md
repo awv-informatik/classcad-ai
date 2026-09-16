@@ -85,7 +85,4 @@ const r = await api.v1.sketch.referenceGeometry({ id: skId, brepIds: [edgeId] })
 
 ## Related
 
-- `sketch.changeReferenceGeometry` — relink projected geometry to a different brep element
-- `sketch.unlinkReferenceGeometry` — disconnect the associative link (geometry stays, frozen)
-- `sketch.setReferences` — set/change the sketch's plane, axis, and origin references
-- `part.getGeometryIds` — obtain brep element IDs by position
+`sketch.changeReferenceGeometry` · `sketch.unlinkReferenceGeometry` · `sketch.setReferences` · `part.getGeometryIds`

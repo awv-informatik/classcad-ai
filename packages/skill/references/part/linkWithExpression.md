@@ -86,6 +86,4 @@ await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 
 
 ## Related
 
-- `part.unlinkExpression` — disconnect an expression from a feature param (freezes current value)
-- `part.expression` — create named expressions
-- `@expr.NAME` syntax — bind expressions at feature creation time (alternative to linkWithExpression)
+`part.unlinkExpression` · `part.expression` · `@expr.NAME`

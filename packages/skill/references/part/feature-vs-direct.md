@@ -1,6 +1,6 @@
 # Feature Primitives vs Direct Solids
 
-ClassCAD offers two paradigms for creating 3D geometry. They produce identical visual results but differ in capabilities, API surface, and ID types. **The two paradigms are strictly isolated for boolean operations — you cannot mix them.**
+ClassCAD offers two paradigms for creating 3D geometry. They produce identical visual results but differ in capabilities, API surface, and ID types. **Booleans connect them at feature level:** `part.boolean` takes feature ids, and an entity injection is a feature, so an EIF can be a boolean target or tool. Individual solid ids are not accepted by `part.boolean`.
 
 ## The Two Paradigms
 
@@ -20,13 +20,13 @@ ClassCAD offers two paradigms for creating 3D geometry. They produce identical v
 - Dimensions are strictly `real` — strings of any kind are rejected (code 1001: "wrong type! It should be of type (real)")
 - Positioned via `translation`, `rotation`, `rotateFirst` params
 
-## Critical: Paradigms Don't Mix for Booleans
+## Booleans Across Paradigms
 
-`part.boolean` requires all IDs (target and tools) to be type "feature". Passing a solid ID as a tool → error code 1001: "wrong id type! Provide only following id types: ['feature']".
+`part.boolean` requires all IDs (target and tools) to be type "feature". Passing a solid ID as a tool → error code 1001: "wrong id type! Provide only following id types: ['feature']". Pass the **EIF id** instead: `part.boolean({ type: 'SUBTRACTION', target: boxFeature, tools: [eifId] })` subtracts all solids in the EIF (volume exact).
 
 `solid.subtraction`/`union`/`intersection` require all IDs to be type "solid". Passing a feature ID → error.
 
-**Both paradigms can coexist in the same part** — a part can contain feature boxes AND entity injection features simultaneously. They just can't interact via boolean operations.
+**Both paradigms can coexist in the same part** — a part can contain feature boxes AND entity injection features simultaneously, and `part.boolean` combines them through the EIF feature id.
 
 ## ID Type Implications
 

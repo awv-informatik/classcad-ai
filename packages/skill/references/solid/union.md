@@ -74,7 +74,4 @@ await api.v1.solid.union({ id: eifId, target: box1, tools: [box3] })
 
 ## Related
 
-- `solid.subtraction` — boolean subtract (same target/tools pattern)
-- `solid.intersection` — boolean intersect (same target/tools pattern)
-- `solid.merge` — NOT a union (different operation, same parameter pattern)
-- `solid.copy` — duplicate a solid (use before unioning a solid with a copy of itself)
+`solid.subtraction` · `solid.intersection` · `solid.merge` · `solid.copy`

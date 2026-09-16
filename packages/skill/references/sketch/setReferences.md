@@ -46,7 +46,7 @@ const partId = (await api.v1.part.create({})).result
 const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
 const wpId = (await api.v1.part.workPlane({
   id: partId, name: 'WP1',
-  origin: [0, 0, 20], normal: [0, 0, 1], xDirection: [1, 0, 0]
+  position: [0, 0, 20], normal: [0, 0, 1]
 })).result
 
 // Create sketch without planeId (default XY)
@@ -57,13 +57,11 @@ await api.v1.sketch.setReferences({ id: skId, planeId: wpId })
 
 // Can also set axis and origin
 const waId = (await api.v1.part.workAxis({
-  id: partId, name: 'WA1', origin: [0, 0, 0], direction: [1, 1, 0]
+  id: partId, name: 'WA1', position: [0, 0, 0], direction: [1, 1, 0]
 })).result
 await api.v1.sketch.setReferences({ id: skId, planeId: wpId, axisId: waId, isXAxis: 1 })
 ```
 
 ## Related
 
-- `sketch.create` — `planeId` parameter sets the initial plane reference at creation time
-- `sketch.referenceGeometry` — requires a plane reference to work (setReferences can provide this)
-- `sketch.setWorkPlane` — alternative way to position a sketch
+`sketch.create` · `sketch.referenceGeometry` · `sketch.setWorkPlane`

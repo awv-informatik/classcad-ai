@@ -32,6 +32,12 @@ export function getMethodIndex(): string {
   return getDiscovery().methodIndex()
 }
 
+/** Compact `key — title` index of the recipes and guides, injected next to the method index. */
+export function getDocIndex(): string {
+  if (!currentRegistry()) return ''
+  return getDiscovery().docIndex()
+}
+
 /**
  * Load the registry from a JSON module.
  * Usage: `await loadMethodRegistry(import('./path/to/method-registry.json'))`

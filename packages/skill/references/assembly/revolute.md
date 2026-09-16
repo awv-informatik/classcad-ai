@@ -19,28 +19,28 @@ Creates a revolute (hinge) constraint between two instances. Allows 1 degree of 
 
 ## Alignment Semantics (CRITICAL)
 
-**Same as fastened.** With zero offsets, inst2 is placed at inst1's origin regardless of csys positions. The csys is required by the API but only serves as an identifier — it does not define a mounting point.
+**Same as fastened: the csys pair is the mounting definition.** mate2's csys is placed on mate1's csys origin with its Z-axis on mate1's Z-axis. The joint rotates around **mate1's csys Z-axis**. Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]` (csys Z = world −Y) → inst2 sits at `[40,0,20]`, tilted onto that axis.
 
-The csys position and orientation have NO effect on the base alignment. To offset inst2 along the rotation axis, use `zOffset`.
+Place the csys at the hinge (build it with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`). To shift inst2 along the rotation axis, use `zOffset`.
 
 ## DOF and Behavior
 
-Revolute constrains 5 DOF, leaving 1 free: rotation around the Z-axis of the joint. The "Z-axis" is the world Z-axis when both mates use default axes (`xDirection: [1,0,0], yDirection: [0,1,0]`).
+Revolute constrains 5 DOF, leaving 1 free: rotation around the Z-axis of mate1's csys.
 
-With no rotation limits and no motion commands, the solver places inst2 at the default rotation (angle=0). The free DOF only becomes visible when:
+With no rotation limits and no motion commands, inst2 keeps its current rotation angle about the joint axis (an instance created at 45° stays at 45°). The free DOF only becomes visible when:
 1. `zRotationLimits` constrain the range
 2. `moveUnderConstraints` applies motion
 3. External constraints interact with the revolute
 
 ## zOffset
 
-Shifts inst2 along the revolute Z-axis. With default csys axes, this is the world Z-axis.
+Shifts inst2 along the joint axis (mate1's csys Z).
 
-Example: `zOffset: 25` moves inst2's origin 25 units above inst1's origin along Z.
+Example: `zOffset: 10` with the tilted csys above → inst2 at `[40,-10,20]` (10 along csys Z = world −Y).
 
 ## zRotationLimits
 
-Defines the angular range for the free rotation DOF. Does NOT affect initial placement — the arm stays at angle=0 when created. Limits are enforced during motion.
+Defines the angular range for the free rotation DOF. Does NOT affect initial placement — the arm keeps its current angle when created. Limits are enforced during motion.
 
 - Radians: `{ min: -1.5708, max: 1.5708 }` → ±90°
 - Degree strings: `{ min: '-45deg', max: '180deg' }` → converted to radians on storage
@@ -175,10 +175,10 @@ All failures are non-destructive — constraint state is fully preserved after a
 ## Gotchas
 
 - **Ungrounded instances both move.** If neither instance has a fastenedOrigin, the solver repositions both to satisfy the constraint. Always ground at least one instance first.
-- **csys position is irrelevant.** The csys ID is required but its origin/axes don't determine alignment. inst2 goes to inst1's origin with zero offsets.
+- **The csys defines hinge point and axis.** With zero offsets, mate2's csys sits on mate1's csys and rotates around its Z-axis.
 - **Duplicate names allowed.** Creating two revolute constraints with the same name succeeds silently. `getRevolute` may return either one.
 - **Reorient is invisible without limits.** The free rotation DOF absorbs the reorient offset. Only visible when limits lock the joint or motion is applied.
-- **Limits don't affect initial position.** inst2 starts at angle=0 regardless of limits. Limits are enforced during subsequent motion.
+- **Limits don't affect initial position.** inst2 keeps its current angle regardless of limits. Limits are enforced during subsequent motion.
 - **Missing required params give cryptic errors.** Omitting mate2 or csys produces "Evaluation error in AbstractAPI.PrepareAPIParams" (maxLevel=51).
 
 ## Working Example
@@ -188,11 +188,11 @@ const asmId = (await api.v1.assembly.create({})).result
 
 const tplA = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tplA, name: 'Box', length: 60, width: 40, height: 10 })
-const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  // csys at part origin
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Arm' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 80, width: 20, height: 8 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -215,8 +215,4 @@ const revId = (await api.v1.assembly.revolute({
 
 ## Related
 
-- `assembly.fastened` — rigid constraint (0 DOF), same alignment semantics
-- `assembly.updateRevolute` — modify after creation
-- `assembly.getRevolute` — query by name
-- `assembly.cylindrical` — 2 DOF (rotation + translation along axis)
-- `assembly.startMovingUnderConstraints` / `moveUnderConstraints` — animate the revolute DOF
+`assembly.fastened` · `assembly.updateRevolute` · `assembly.getRevolute` · `assembly.cylindrical` · `assembly.startMovingUnderConstraints` / `moveUnderConstraints`

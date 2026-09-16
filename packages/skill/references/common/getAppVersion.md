@@ -39,5 +39,4 @@ const r = await api.v1.common.getAppVersion({})
 
 ## Related
 
-- `common.getClassFileVersion` — same pattern, also returns `""` on this server
-- `common.batch` — can include this as a batch job
+`common.getClassFileVersion` · `common.batch`

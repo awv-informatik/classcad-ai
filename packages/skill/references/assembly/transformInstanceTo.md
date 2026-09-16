@@ -125,6 +125,4 @@ await api.v1.assembly.transformInstanceTo({
 
 ## Related
 
-- `assembly.transformInstance` — applies relative 4x4 delta (composes with current transform)
-- `assembly.instance` — create instances with initial transform (accepts both 3-point and 4x4)
-- `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints` — constraint-respecting motion
+`assembly.transformInstance` · `assembly.instance` · `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints`

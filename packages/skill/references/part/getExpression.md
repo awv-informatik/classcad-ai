@@ -84,7 +84,4 @@ if (r.result.value === null) {
 
 ## Related
 
-- `part.expression` — create expressions (returns result=1/0, not the value)
-- `part.updateExpression` — change value/formula (uses `toUpdate` array)
-- `part.deleteExpression` — remove (uses `toDelete` array)
-- `part.renameExpression` — rename (uses `toRename` array with `{ name, newName }`)
+`part.expression` · `part.updateExpression` · `part.deleteExpression` · `part.renameExpression`

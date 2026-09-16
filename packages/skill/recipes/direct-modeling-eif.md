@@ -53,17 +53,18 @@ blank revolve → subtract teeth → subtract bore → subtract keyway → subtr
 
 ## The recalc trap
 
-**Never call `common.recalc` in a direct/EIF flow** — it destroys the injected
-bodies (mass properties go null afterwards). The solid ops maintain their own state;
-just keep operating and read results directly
+**Don't call `common.recalc` in a direct/EIF flow — it isn't needed.** The solid ops
+maintain their own state; read results directly. A recalc invalidates `curve.shape` ids,
+and in one complex session (sprocket blank minus many tools) it destroyed the body;
+a simple box − cylinder subtraction survived a recalc unchanged
 ([solid/subtraction](../references/solid/subtraction.md)).
 
 ## Verify
 
 `part.calculateMassProperties` after the final op (volume, COG), plus one or two
 geometry probes — [recipes/verification](verification.md). If mass
-properties return null on a body that existed a step earlier, a recalc (or a
-degenerate boolean) destroyed it.
+properties return null on a body that existed a step earlier, a degenerate boolean
+(or, in complex cases, a recalc) destroyed it.
 
 ## When to prefer this over the feature tree
 

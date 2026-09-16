@@ -122,6 +122,4 @@ const refound = await api.v1.part.getGeometryIds({
 
 ## Related
 
-- `part.getGeometryIds` — inverse operation: given positions, returns brep element IDs
-- `part.getBrepGeometryIndex` / `part.getBrepGeometryByIndex` — index-based brep access
-- `part.fillet` / `part.chamfer` — primary consumers of brep element IDs
+`part.getGeometryIds` · `part.getBrepGeometryIndex` / `part.getBrepGeometryByIndex` · `part.fillet` / `part.chamfer`

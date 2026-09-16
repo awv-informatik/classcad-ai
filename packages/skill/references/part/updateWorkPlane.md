@@ -44,7 +44,7 @@ Returns the same work plane ID on success (maxLevel 31). Returns ID with maxLeve
 - **Changing type without references creates a broken feature.** E.g., switching to PLANE without `references` sets maxLevel 51 ("missing references") but the feature persists in a broken state.
 - **Built-in planes (Top/Front/Right) cannot have geometry modified.** Offset, normal, and position changes are blocked: "WorkGeometry created by the system cannot be changed!" However, **renaming built-ins works** — the name change takes effect despite maxLevel 51.
 - **Multiple updates in one open session work.** Call `updateWorkPlane` multiple times between `openFeature` and `closeFeature` — each call takes effect. Only one `closeFeature` needed.
-- **No-op update (only `id`) returns maxLevel 51.** Always provide at least one property to change.
+- **No-op update (only `id`)** returns maxLevel 31 (nothing changes).
 
 ## Common Errors
 
@@ -89,6 +89,4 @@ await api.v1.part.closeFeature({ id: wpId })
 
 ## Related
 
-- `part.openFeature` / `part.closeFeature` — required gate pattern
-- `part.workPlane` — create work planes
-- `part.getWorkGeometry` — find work plane by name
+`part.openFeature` / `part.closeFeature` · `part.workPlane` · `part.getWorkGeometry`

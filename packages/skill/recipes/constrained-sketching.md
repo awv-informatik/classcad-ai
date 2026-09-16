@@ -215,7 +215,7 @@ Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces
 
 1. **Anchor the datum** — `FIXATION` on reference geometry first; without an anchor the solver chooses what to move. Place the datum point EXACTLY at its drawing coordinates before fixing — FIXATION freezes the current position, it doesn't know where the point "should" be. One exactly-placed fixed point per sketch is enough; everything else can be seeded rough. To lock a line completely, fix its two **endpoints** individually: FIXATION on the line itself locks position/direction but NOT length — the solver will happily stretch a "fixed" line to satisfy a COINCIDENT or EQUAL_LENGTH elsewhere (verified).
 2. **Relate** — COINCIDENT (connect), TANGENT (tangency), CONCENTRIC, PARALLEL / PERPENDICULAR, HORIZONTAL / VERTICAL, SYMMETRY (axis FIRST in geomIds). Full tables in `sketch/constraint.md`.
-3. **Dimension** — drive sizes/distances to the drawing's values. `value` at creation WORKS; omit `value` to lock the current measurement instead. Formulas (`'60+10'`) work; angles need the `'45deg'` suffix; `@expr.NAME` binds linear/radial dims to expressions LIVE (updateExpression → sketch re-solves; verified 2026-08-10); ANGLE dims reject `@expr`.
+3. **Dimension** — drive sizes/distances to the drawing's values. `value` at creation WORKS; omit `value` to lock the current measurement instead. Formulas (`'60+10'`) work; angles need the `'45deg'` suffix; `@expr.NAME` binds linear, radial and angle dims to expressions LIVE (updateExpression → sketch re-solves); angle expressions are radians (`'C:PI/6'`).
 
 ### One annotation = one dimension entity
 
@@ -258,7 +258,7 @@ await api.v1.sketch.constraint([
 
 Seed rough geometry on the correct SIDE of the intended solution (here: above the waist) — among valid solutions the solver takes the nearest/minimal-motion one. Circle–circle TANGENT solves to external tangency (center distance = r1 + r2).
 
-**Rough ≠ sloppy:** seeds must still be valid geometry. `arcByCenter` rejects arcs whose endpoints aren't equidistant from the center (zero tolerance) — generate arc seeds from center + radius + two angles, and put the roughness into those values, not into hand-typed endpoint coordinates.
+**Rough ≠ sloppy:** seeds must still be valid geometry. `arcByCenter` rejects arcs whose endpoints aren't equidistant from the center (tolerance below 1e-6) — generate arc seeds from center + radius + two angles, and put the roughness into those values, not into hand-typed endpoint coordinates.
 
 ### Chain vs trim — pick by topology knowledge
 
@@ -331,8 +331,8 @@ small`, `SetSE NullMem`) mean your explicit wiring contradicts the autos' seed-d
   off to expose the mis-wiring as a plain displacement (see the fully-explicit note, Step 3).
 
 - **TANGENT keeps the seeded branch.** Circle–circle/arc–circle tangency seeded EXTERNAL solves external (d = r1+r2); seeded INTERNAL stays internal (d = R−r) through creation and every re-solve — an R12 dome inside-tangent to Ø5.6 eye circles followed the internal branch exactly when the eyes were re-dimensioned to Ø7 (robot-head session).
-- **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param is a silent null no-op), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL\_\*, one update re-solves both sides in a single solvable step and the trap never triggers.
-- **Don't pass `dimPos` at dimension creation** (except for ANGLE sector selection) — it can poison the whole `dimension` batch (maxLevel 51, VOID dims, half-driven sketch). Create dims bare, then place text via `updateDimensionPosition` (see `sketch/dimension.md`).
+- **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param throws an error and updates nothing), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL\_\*, one update re-solves both sides in a single solvable step and the trap never triggers.
+- **Don't pass `dimPos` at dimension creation** (except for ANGLE sector selection) — on HD/VD point pairs it throws `InitDimensionByPosition not found`. Create dims bare, then place text via `updateDimensionPosition` (see `sketch/dimension.md`).
 - Rotational constraints preserve line length (HORIZONTAL on a 50-long tilted line keeps it 50).
 - Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
 - Deleting a constraint does NOT revert geometry.
@@ -444,8 +444,8 @@ mis-handles segments that are interior to the target region yet outside every in
 boundary test handles all of these uniformly. (Verified: on two circles + a diameter line overhanging both ends,
 the naive rule left two dangling line stubs; the boundary test produced the clean 2-arc union outline.)
 
-**Operational rules.** Run **one trim workflow per harness run** — two independent `preTrim→trim→postTrim` cycles
-in the same run interfere (`trim` resolves `curveIds` globally). Trimming a circle down to arcs can leave the
+**Operational rules.** Several `preTrim→trim→postTrim` cycles in one sketch work; always take `curveIds` from the
+current cycle's `preTrim` result (a new `preTrim` invalidates earlier segment ids). Trimming a circle down to arcs can leave the
 circle's **center point** behind as an isolated `points[]` entry — delete it with `deleteObject` if the profile
 must be point-clean.
 
@@ -608,7 +608,8 @@ const bossPt = add(offset, scale(dir, tBoss))
 
 | What                   | API                     | Notes                                      |
 | ---------------------- | ----------------------- | ------------------------------------------ |
-| Move geometry          | `sketch.updateGeometry` | Raw position set, requires ALL coords      |
+| Move geometry          | `sketch.moveGeometry`   | Solver-aware translation (planed sketch)   |
+| Set positions          | `sketch.updateGeometry` | Raw position set, partial updates allowed  |
 | Delete                 | `sketch.deleteObject`   | `{ ids: [id1, id2, ...] }`                 |
 | Split at intersections | `sketch.preTrim`        | Staged — needs postTrim; structured result |
 | Mark for removal       | `sketch.trim`           | Only preTrim segment IDs                   |
@@ -626,13 +627,4 @@ const bossPt = add(offset, scale(dir, tBoss))
 
 ## Related
 
-- [sketch/constraint.md](../references/sketch/constraint.md) — geometric constraints
-- [sketch/dimension.md](../references/sketch/dimension.md) — dimensional constraints
-- [sketch/circle.md](../references/sketch/circle.md) — circle creation and querying
-- [sketch/line.md](../references/sketch/line.md) — line creation
-- [sketch/arcByCenter.md](../references/sketch/arcByCenter.md) — arc creation
-- [sketch/geometry.md](../references/sketch/geometry.md) — batch geometry creation
-- [sketch/preTrim.md](../references/sketch/preTrim.md) — split at intersections (stage)
-- [sketch/trim.md](../references/sketch/trim.md) — mark segments for removal
-- [sketch/postTrim.md](../references/sketch/postTrim.md) — apply trims / merge back
-- [sketch/splitCurve.md](../references/sketch/splitCurve.md) — split one curve at explicit params
+[sketch/constraint.md](../references/sketch/constraint.md) · [sketch/dimension.md](../references/sketch/dimension.md) · [sketch/circle.md](../references/sketch/circle.md) · [sketch/line.md](../references/sketch/line.md) · [sketch/arcByCenter.md](../references/sketch/arcByCenter.md) · [sketch/geometry.md](../references/sketch/geometry.md) · [sketch/preTrim.md](../references/sketch/preTrim.md) · [sketch/trim.md](../references/sketch/trim.md) · [sketch/postTrim.md](../references/sketch/postTrim.md) · [sketch/splitCurve.md](../references/sketch/splitCurve.md)

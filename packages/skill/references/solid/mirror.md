@@ -94,7 +94,4 @@ await api.v1.solid.mirror({
 
 ## Related
 
-- `solid.translation` — translate a solid by a vector
-- `solid.rotation` — rotate a solid by Euler angles
-- `solid.scale` — scale a solid by a factor (negative factor flips normals — use `mirror` instead)
-- `solid.copy` — copy a solid (supports translation + rotation at creation)
+`solid.translation` · `solid.rotation` · `solid.scale` · `solid.copy`

@@ -111,10 +111,4 @@ const inst = (await api.v1.assembly.instance({
 
 ## Related
 
-- `assembly.exportNode` — export a template or instance as OFB/STP (pairs with loadProduct for roundtrip)
-- `assembly.partTemplate` — create a blank part template (alternative to loading pre-made)
-- `assembly.assemblyTemplate` — create a blank assembly template
-- `assembly.instance` — instantiate a loaded template
-- `assembly.getPartTemplate` / `assembly.getAssemblyTemplate` — find loaded templates by name
-- `common.load` — load a complete model (replaces drawing)
-- `common.save` — save the entire drawing (use with loadProduct for part import)
+`assembly.exportNode` · `assembly.partTemplate` · `assembly.assemblyTemplate` · `assembly.instance` · `assembly.getPartTemplate` / `assembly.getAssemblyTemplate` · `common.load` · `common.save`

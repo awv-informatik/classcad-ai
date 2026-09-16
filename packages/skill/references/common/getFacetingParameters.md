@@ -34,5 +34,4 @@ const fp = (await api.v1.common.getFacetingParameters()).result
 
 ## Related
 
-- `common.setFacetingParameters` — write counterpart (requires both params)
-- `common.getDatabaseSettings` — superset that includes facetingParamsMode and other fields
+`common.setFacetingParameters` · `common.getDatabaseSettings`

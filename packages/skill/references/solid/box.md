@@ -79,8 +79,4 @@ const box2Id = (await api.v1.solid.box({
 
 ## Related
 
-- `solid.deleteSolid` — remove solids from an EIF
-- `solid.copy` — duplicate a solid with optional transform
-- `solid.translation` / `solid.rotation` / `solid.scale` — transform existing solids
-- `solid.union` / `solid.subtraction` / `solid.intersection` — boolean operations between solids
-- `part.entityInjection` — create the required EIF container
+`solid.deleteSolid` · `solid.copy` · `solid.translation` / `solid.rotation` / `solid.scale` · `solid.union` / `solid.subtraction` / `solid.intersection` · `part.entityInjection`

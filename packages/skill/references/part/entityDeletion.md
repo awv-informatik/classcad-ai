@@ -73,9 +73,7 @@ const delId3 = (await api.v1.part.entityDeletion({
 
 ## Related
 
-- `part.updateEntityDeletion` — modify targets after creation (requires open/close gate)
-- `part.linearPattern` / `part.circularPattern` — primary use case for indexed deletion
-- `part.openFeature` / `part.closeFeature` — required gate for updates
+`part.updateEntityDeletion` · `part.linearPattern` / `part.circularPattern` · `part.openFeature` / `part.closeFeature`
 
 # part.updateEntityDeletion
 

@@ -1,0 +1,680 @@
+{
+  "ok": true,
+  "error": null,
+  "durationMs": 976,
+  "operations": [
+    {
+      "phase": "start",
+      "method": "v1.part.expression",
+      "startedAt": 1789590257031
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.expression",
+      "startedAt": 1789590257031,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.box",
+      "name": "ShoulderProbe",
+      "startedAt": 1789590257035
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.box",
+      "name": "ShoulderProbe",
+      "startedAt": 1789590257035,
+      "durationMs": 8,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.workCSys",
+      "name": "ShoulderDatum",
+      "startedAt": 1789590257043
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.workCSys",
+      "name": "ShoulderDatum",
+      "startedAt": 1789590257043,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.partTemplate",
+      "name": "SwitchReference",
+      "startedAt": 1789590257047
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.partTemplate",
+      "name": "SwitchReference",
+      "startedAt": 1789590257047,
+      "durationMs": 11,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.box",
+      "startedAt": 1789590257058
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.box",
+      "startedAt": 1789590257058,
+      "durationMs": 7,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.workCSys",
+      "name": "HubDatum",
+      "startedAt": 1789590257065
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.workCSys",
+      "name": "HubDatum",
+      "startedAt": 1789590257065,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.instance",
+      "name": "Shell",
+      "startedAt": 1789590257069
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.instance",
+      "name": "Shell",
+      "startedAt": 1789590257069,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.instance",
+      "name": "SwitchReference",
+      "startedAt": 1789590257072
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.instance",
+      "name": "SwitchReference",
+      "startedAt": 1789590257072,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.fastenedOrigin",
+      "startedAt": 1789590257076
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.fastenedOrigin",
+      "startedAt": 1789590257076,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.fastened",
+      "name": "ShellSeatHeight",
+      "startedAt": 1789590257081
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.fastened",
+      "name": "ShellSeatHeight",
+      "startedAt": 1789590257081,
+      "durationMs": 7,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.instance",
+      "name": "ButtonA",
+      "startedAt": 1789590257088
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.instance",
+      "name": "ButtonA",
+      "startedAt": 1789590257088,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.instance",
+      "name": "ButtonB",
+      "startedAt": 1789590257091
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.instance",
+      "name": "ButtonB",
+      "startedAt": 1789590257091,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.slider",
+      "name": "ButtonTravel",
+      "startedAt": 1789590257094
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.slider",
+      "name": "ButtonTravel",
+      "startedAt": 1789590257094,
+      "durationMs": 7,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.assembly.fastened",
+      "name": "ButtonRest",
+      "startedAt": 1789590257101
+    },
+    {
+      "phase": "end",
+      "method": "v1.assembly.fastened",
+      "name": "ButtonRest",
+      "startedAt": 1789590257101,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257108
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257108,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257112
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257112
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257112,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257112,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257118
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257118,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257122
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257122,
+      "durationMs": 13,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257135
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257135,
+      "durationMs": 11,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257146
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257146,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257150
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257150,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257154
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257154
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257154,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257154,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257160
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257160,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257163
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257163,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257167
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257167,
+      "durationMs": 13,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257180
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257180,
+      "durationMs": 13,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257193
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257193,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257197
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257197,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257200
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257200
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257200,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257200,
+      "durationMs": 7,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257207
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257207,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257210
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257210,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257215
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257215,
+      "durationMs": 15,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257230
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257230,
+      "durationMs": 13,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257243
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257243,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257247
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257247,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257250
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257250
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257250,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257250,
+      "durationMs": 8,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257258
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257258,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257262
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257262
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257262,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257262,
+      "durationMs": 7,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257269
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257269,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257273
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257273,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257277
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257277,
+      "durationMs": 16,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257293
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.updateExpression",
+      "startedAt": 1789590257293,
+      "durationMs": 15,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257308
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257309
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257308,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257309,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257315
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789590257315,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    }
+  ],
+  "artifacts": []
+}

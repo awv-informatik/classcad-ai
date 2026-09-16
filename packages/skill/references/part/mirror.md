@@ -22,7 +22,7 @@ Feature ID (numeric) on success, with maxLevel=31 (info). Empty messages array. 
 
 ## Gotchas
 
-- **`references` only accepts work plane IDs.** The docs say "selected planes or faces" but brep face IDs fail with error 1006. Use `getWorkGeometry` to get built-in plane IDs, or create custom planes with `part.workPlane`.
+- **`references` accepts work planes and planar brep faces** (face id from `getGeometryIds({ planes: [...] })`). Error 1006 means the id is invalid (e.g. stale), not the wrong kind.
 - **Mirror creates separate bodies, never merges.** Even when mirrored geometry overlaps the original, the result is independent bodies that coexist.
 - **Empty `references: []` creates a degenerate feature.** Returns a feature ID but maxLevel=51 — the feature exists in the tree with no valid geometry. Always check `maxLevel >= 51`.
 - **Chain mirrors work.** You can mirror a mirror feature to create multi-axis symmetry (e.g., mirror across X, then mirror that across Y = 4 copies).
@@ -31,7 +31,7 @@ Feature ID (numeric) on success, with maxLevel=31 (info). Empty messages array. 
 
 | Code | Message | Cause | Fix |
 |------|---------|-------|-----|
-| 1006 | "An element of parameter 'references' has an invalid id!" | Brep face ID or invalid ID in references | Use a work plane ID instead |
+| 1006 | "An element of parameter 'references' has an invalid id!" | Invalid or stale ID in references | Re-query the plane/face id |
 | 1006 | "An element of parameter 'targets' has an invalid id!" | Invalid feature ID in targets | Verify feature IDs |
 | 1004 | '"targets" must be provided in the api call!' | Missing targets param | Pass `targets: [featureId]` |
 | 1004 | "The type '0' is not supported in PrepareAPIParams!" | Empty targets array `[]` | Provide at least one target |
@@ -45,7 +45,7 @@ const partId = (await api.v1.part.create({ name: 'MirrorDemo' })).result
 // Create offset geometry
 const wcs = (await api.v1.part.workCSys({
   id: partId, name: 'WCS1',
-  origin: [20, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0],
+  offset: [20, 0, 0],
 })).result
 const boxId = (await api.v1.part.box({
   id: partId, name: 'Box1',
@@ -74,8 +74,4 @@ const mirror2 = (await api.v1.part.mirror({
 
 ## Related
 
-- `part.updateMirror` — modify after creation (requires openFeature/closeFeature)
-- `part.getWorkGeometry` — get built-in plane IDs (`Top`, `Front`, `Right`)
-- `part.workPlane` — create custom mirror planes
-- `part.linearPattern` — linear copies (different from reflection)
-- `part.circularPattern` — circular copies
+`part.updateMirror` · `part.getWorkGeometry` · `part.workPlane` · `part.linearPattern` · `part.circularPattern`

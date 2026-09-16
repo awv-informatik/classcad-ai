@@ -96,7 +96,4 @@ await api.v1.part.closeFeature({ id: extId })
 
 ## Related
 
-- `part.extrusion` — create the feature this updates
-- `part.openFeature` / `part.closeFeature` — required gate pattern
-- `part.expression` / `part.updateExpression` — drive params with expressions
-- `sketch.sketchRegion` — create profile references
+`part.extrusion` · `part.openFeature` / `part.closeFeature` · `part.expression` / `part.updateExpression` · `sketch.sketchRegion`

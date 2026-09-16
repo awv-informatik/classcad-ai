@@ -11,7 +11,7 @@ Locks an instance to the assembly origin (world [0,0,0]). Unlike `fastened` (whi
 
 - `id` — assembly root ID (required)
 - `mate1.path` — `[instanceId]` (required)
-- `mate1.csys` — work coordinate system ID from the template (required but has **no spatial effect**)
+- `mate1.csys` — work coordinate system ID from the template (required). This csys is the point of the part that is placed on the assembly origin
 - `mate1.flip` — `'Z'` (default), `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`. Rotates the instance orientation before offsets
 - `mate1.reorient` — `'0'` (default), `'90'`, `'180'`, `'270'`. CW rotation around the main axis in 90° steps
 - `xOffset` / `yOffset` / `zOffset` — translation from assembly origin in **world frame** (default 0)
@@ -21,9 +21,16 @@ Locks an instance to the assembly origin (world [0,0,0]). Unlike `fastened` (whi
 
 ## Alignment Semantics (CRITICAL)
 
-**The csys has NO spatial effect.** Position, origin, and axis orientation of the csys are all irrelevant — tested with csys at origin, at box center, and with rotated axes; all produce identical positioning. The csys is required by the API but serves only as an identifier.
+**The csys is placed on the assembly origin.** With zero offsets and no rotation, the instance moves so that mate1's csys coincides with the assembly origin and axes. Offsets then translate in the assembly frame; rotations rotate around the assembly origin.
 
-With zero offsets and no rotation, the instance is placed at the assembly origin [0,0,0]. Offsets translate from there in world frame. Rotations rotate around the origin before offsets are applied.
+| Template csys (40×30×20 plate) | Params | Instance placement |
+|---|---|---|
+| at part origin | — | `[0,0,0]` |
+| `offset [40,0,20]` | — | `[-40,0,-20]` (csys point sits on the assembly origin) |
+| `offset [40,0,20]` + `rotation [0,0,π/2]` | — | `[0,40,-20]`, rotated −90° about Z (csys axes align with assembly axes) |
+| same rotated csys | `xOffset: 5` | `[5,40,-20]` — offset along assembly X |
+
+Build the csys with `part.workCSys({ offset, rotation })`. `origin`/`xDirection`/`yDirection` are not `workCSys` parameters and are ignored, which leaves the csys at the part origin.
 
 ## Return Value
 
@@ -56,7 +63,7 @@ All mate1 sub-params can be updated independently. Pass `mate1: { flip: '-Z' }` 
 
 - **mate1.flip** — instance repositions immediately. All 6 values work in updates.
 - **mate1.reorient** — instance repositions immediately. All 4 values work.
-- **mate1.csys** — stored ID changes but has no spatial effect (same as creation).
+- **mate1.csys** — changes which point of the part sits on the assembly origin (see Alignment Semantics).
 - **mate1.path** — retargets the constraint to a different instance. The new instance is repositioned. **The old instance retains its last constrained position** (does not revert to initial transformation).
 
 ### Batch Updates
@@ -78,8 +85,9 @@ Multiple param types can be updated in a single call (flip + reorient + offsets 
 
 ## Gotchas
 
-- **CSys does NOT define a mounting point.** Same as `fastened` — the csys is a dummy identifier.
-- **Offsets are world-frame.** A rotated csys does not remap offset directions.
+- **The csys defines which point and orientation of the part sit on the assembly origin.** A csys at the part origin keeps the part's own frame aligned with the assembly.
+- **Offsets are in the assembly frame.** A rotated csys rotates the part but does not remap offset directions.
+- **Use an explicit `part.workCSys`.** The built-in `Origin` from `getWorkGeometry` is a work point and is rejected as `csys` (`wrong id type ... ["workcsys"]`).
 - **Duplicate constraints silently accepted.** Two fastenedOrigin constraints on the same instance both succeed (no error), but the first one wins — the second has no effect on positioning.
 - **Deg strings → radians.** Stored internally as radians. getFastenedOrigin returns radians.
 
@@ -101,10 +109,7 @@ Multiple param types can be updated in a single call (flip + reorient + offsets 
 const asmId = (await api.v1.assembly.create({})).result
 const tpl = (await api.v1.assembly.partTemplate({ name: 'Plate' })).result
 await api.v1.part.box({ id: tpl, name: 'B', length: 40, width: 30, height: 20 })
-const wcs = (await api.v1.part.workCSys({
-  id: tpl, name: 'Mate', origin: [0, 0, 0],
-  xDirection: [1, 0, 0], yDirection: [0, 1, 0],
-})).result
+const wcs = (await api.v1.part.workCSys({ id: tpl, name: 'Mate' })).result  // csys at part origin
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
 const inst = (await api.v1.assembly.instance({
@@ -135,8 +140,4 @@ const state = (await api.v1.assembly.getFastenedOrigin({ id: asmId, name: 'FO_Ba
 
 ## Related
 
-- `assembly.fastened` — constrains two instances relative to each other (uses mate1 AND mate2)
-- `assembly.updateFastenedOrigin` — modify constraint params
-- `assembly.getFastenedOrigin` — query constraint by name
-- `assembly.instance` — create instances to constrain
-- `part.workCSys` — create the csys required by mate params
+`assembly.fastened` · `assembly.updateFastenedOrigin` · `assembly.getFastenedOrigin` · `assembly.instance` · `part.workCSys`

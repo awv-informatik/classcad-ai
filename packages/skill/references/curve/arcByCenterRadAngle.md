@@ -29,9 +29,8 @@ All points must be `[x, y, z]` — no 2D shorthand.
 ## Gotchas
 
 - **`radius <= 0` is rejected with a proper error** (code 1014, maxLevel 51, message `"The parameter \"radius\" must be greater than 0."`). Previously hung the server in an infinite loop — fixed alongside `curve.circle` in the same branch.
-- **CRITICAL: Negative angles HANG THE SERVER.** Any negative value for `startAngle` or `endAngle` (even `-0.1`) causes the ClassCAD worker to spin at 100% CPU indefinitely. No error is returned. You must `kill -9` the worker and restart. **Always validate that both angles are >= 0 before calling.**
-- **CRITICAL: Angles beyond 2*PI HANG THE SERVER.** `endAngle=4*PI` or any value > 2*PI causes the same hang. Exactly 2*PI is fine (creates full circle), but nothing beyond.
-- **CRITICAL: Parallel xAxis and normal can HANG THE SERVER.** The docs say "should be different" — violating this causes inconsistent behavior: some parallel pairs work, others hang. **Always ensure xAxis and normal are not parallel.**
+- **Negative angles and angles beyond 2π are accepted** (`startAngle: -0.1`, `endAngle: 4π`: maxLevel 31, no hang). Keep angles in `[0, 2π]` for predictable arcs.
+- **xAxis must be orthogonal to normal** — a parallel pair (e.g. `xAxis: [0,0,1]` with the default normal) is rejected with `The parameter "normal" and "xAxis" must be orthogonal.`
 - **No clockwise sweep.** There is no `isClockwise` flag. To get a clockwise-looking arc, use reversed angles (start > end), which produces the complement counterclockwise arc.
 - **No individual arc IDs.** Like other curve APIs, arcs merge into the shape's geometry. No per-arc addressing or deletion.
 - Instead of negative angles, use the equivalent positive angle: `-PI/2` → `3*PI/2`.
@@ -69,7 +68,7 @@ Returns single VOID response, maxLevel 31 on success.
 | 1004 | ERROR | `"The parameter \"<name>\" must be provided..."` | Missing required parameter |
 | 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
 | 1014 | ERROR | `"The parameter \"radius\" must be greater than 0."` | `radius <= 0` |
-| — | HANG | (no response) | Negative angles, angles > 2*PI, or parallel xAxis/normal (still broken — separate TODOs) |
+| — | ERROR | "normal" and "xAxis" must be orthogonal | xAxis parallel to normal |
 
 ## Working Example
 
@@ -120,8 +119,4 @@ await api.v1.curve.arcByCenterRadAngle({
 
 ## Related
 
-- `curve.shape` — create the container this consumes
-- `curve.arcByCenter` — arc by center, start point, end point, and clockwise flag (uses positions, not angles)
-- `curve.arcBy3Points` — arc defined by 3 points (no center/angles needed)
-- `curve.circle` — simpler full circle (but `arcByCenterRadAngle` with 0→2*PI also works)
-- `curve.line` — commonly paired for closed profiles (e.g., rounded rectangles)
+`curve.shape` · `curve.arcByCenter` · `curve.arcBy3Points` · `curve.circle` · `curve.line`

@@ -79,7 +79,7 @@ const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 // Optional: create a WCS for positioning
 const wcsId = (await api.v1.part.workCSys({
   id: partId, name: 'WCS1',
-  origin: [50, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0],
+  offset: [50, 0, 0],
 })).result
 
 // Create sphere at WCS position
@@ -97,7 +97,4 @@ await api.v1.part.closeFeature({ id: sphereId })
 
 ## Related
 
-- `part.updateSphere` — modify after creation
-- `part.openFeature` / `part.closeFeature` — required before/after any update
-- `part.workCSys` — create coordinate systems for `references`
-- `solid.sphere` — direct (non-parametric) sphere in entity injection
+`part.updateSphere` · `part.openFeature` / `part.closeFeature` · `part.workCSys` · `solid.sphere`

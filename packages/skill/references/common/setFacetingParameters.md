@@ -87,6 +87,4 @@ const fp = (await api.v1.common.getFacetingParameters()).result
 
 ## Related
 
-- `common.getFacetingParameters` — read counterpart
-- `common.getDatabaseSettings` / `common.setDatabaseSettings` — superset API for all 8 settings (supports partial updates)
-- `common.setAppearance` — per-entity tessellation overrides (when facetingParamsMode=1)
+`common.getFacetingParameters` · `common.getDatabaseSettings` / `common.setDatabaseSettings` · `common.setAppearance`

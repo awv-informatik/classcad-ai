@@ -8,7 +8,7 @@ Creates named expressions (parametric variables) inside a part. Expressions are 
 
 ## Key Parameters
 
-- `id` — part ID (required)
+- `id` — part ID or part-template ID (required). Assemblies have no expression set: assembly IDs are rejected with `wrong id type ... ["part"]`. For values shared by several parts, see `recipes/assembly-parameters`.
 - `toCreate` — array of `{ name, value }` objects (required for each item, but array itself can be empty/omitted for a no-op)
   - `name` — string, word chars only (`[a-zA-Z_][a-zA-Z0-9_]*`). Must start with a non-digit. Spaces and special chars are rejected (error 1014).
   - `value` — `real | string`. Numbers are stored directly. Strings are parsed as math expressions (e.g., `'width * 2'`, `'C:PI * pow(radius, 2)'`).
@@ -29,6 +29,7 @@ The `param` argument accepts both a single object and an array of objects (each 
 - **Order in `toCreate` doesn't matter** — forward and backward references both resolve
 - Cross-call references work — expressions created in a prior `expression()` call can be referenced
 - Math functions (`sin`, `sqrt`, `pow`, etc.) and `C:PI` all work in formula values
+- Another part's expression is readable by object path: `{ name: 'H', value: 'Params.ExpressionSet.W' }`. The value is read when this part is evaluated — changes in `Params` reach this part on its next `updateExpression` or on `common.recalc()`
 
 ## Gotchas
 
@@ -197,10 +198,4 @@ await api.v1.part.updateExpression({
 
 ## Related
 
-- `part.getExpression` — read back an expression's formula and current value
-- `part.updateExpression` — change an existing expression's value (uses `toUpdate` array!)
-- `part.deleteExpression` — remove an expression
-- `part.renameExpression` — rename an expression
-- `part.linkWithExpression` — programmatically bind an expression to a feature parameter (`{ id: featureId, exprName, name }`)
-- `common.evaluateExpression` — evaluate a formula (pass ExpressionSet ID 6 to reference named expressions)
-- `common.recalc` — full drawing recalculation (not needed after `updateExpression` — geometry auto-updates)
+`part.getExpression` · `part.updateExpression` · `part.deleteExpression` · `part.renameExpression` · `part.linkWithExpression` · `common.evaluateExpression` · `common.recalc`

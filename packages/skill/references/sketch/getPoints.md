@@ -58,6 +58,4 @@ const startPos = (await api.v1.sketch.getPositions({ id: pts.startId })).result
 
 ## Related
 
-- `sketch.getPositions` — resolve point/curve IDs to coordinates
-- `sketch.getGeometry` — get all geometry IDs in a sketch grouped by type
-- `sketch.line`, `sketch.arcByCenter`, `sketch.arcBy3Points`, `sketch.circle` — curve creation APIs
+`sketch.getPositions` · `sketch.getGeometry` · `sketch.line`

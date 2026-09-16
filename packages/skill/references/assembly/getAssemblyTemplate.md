@@ -56,8 +56,4 @@ const inst = (await api.v1.assembly.instance({ productId: bracketId, ownerId: as
 
 ## Related
 
-- `assembly.getPartTemplate` — same pattern for part templates (searches PartContainer)
-- `assembly.assemblyTemplate` — create a new assembly template
-- `assembly.deleteTemplate` — remove templates (immediately reflected in getAssemblyTemplate)
-- `assembly.convertToTemplate` — convert root assembly into a template (appears in listing)
-- `assembly.instance` — instantiate a template (accepts the ID returned by getAssemblyTemplate)
+`assembly.getPartTemplate` · `assembly.assemblyTemplate` · `assembly.deleteTemplate` · `assembly.convertToTemplate` · `assembly.instance`

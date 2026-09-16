@@ -104,7 +104,7 @@ Note: a **construction line** (`isConstruction:true`) **can** be split (the trim
 ## Working example
 
 ```js
-// One part.create per run — a 2nd call returns VOID and poisons the drawing.
+// One root per drawing — a 2nd part.create is refused until common.clear().
 const partR = await api.v1.part.create({ name: 'P' })
 const partId = partR.result
 const topPlaneId = Object.values(partR.structure.tree).find(n => n.class === 'CC_WorkPlane' && n.name === 'Top').id
@@ -119,7 +119,7 @@ const firstCutVertex = (await api.v1.sketch.getPositions({ id: segs[0].id })).re
 
 ## Related
 
-- `sketch.preTrim` / `sketch.trim` / `sketch.postTrim` — the intersection-based trim workflow (use when you don't
+`sketch.preTrim` / `sketch.trim` / `sketch.postTrim`
   know the cut parameters). `preTrim` returns the **same structured shape** as `splitCurve`.
 - `sketch.getPositions` — read segment endpoints (works on line/arc ids; **fails on circle ids** — use `getPoints`→`centerId`).
 - `sketch.getGeometry` — confirm the new segment ids / that the original is gone.

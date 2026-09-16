@@ -65,7 +65,7 @@ Fully 3D — all three points can have arbitrary X, Y, Z coordinates. The arc pl
 
 ## Gotchas
 
-- **CRITICAL: center == start or center == end HANGS THE SERVER.** Zero-radius arcs cause the ClassCAD worker to spin at 100% CPU indefinitely. No error is returned. You must `kill -9` the worker and restart it. **Always validate that centerPos differs from startPos and endPos before calling.**
+- **center == start or center == end is rejected** with "Created end point differs from the input values" (zero radius vs. the other endpoint). Validate that centerPos differs from startPos and endPos.
 - **startPos and endPos must be equidistant from centerPos.** The server uses `|startPos - centerPos|` as the radius. If `|endPos - centerPos|` differs, you get error code=0, level=51 with message about "Created end point differs from the input values" and the offset distance.
 - **No individual arc IDs.** Like lines and circles, arcs merge into the shape's geometry. No per-arc addressing, updating, or deletion.
 - **Points must be `[x, y, z]`** — `[x, y]` fails with: `"If point is defined as array, it must have exactly 3 real values"`.
@@ -81,7 +81,7 @@ Fully 3D — all three points can have arbitrary X, Y, Z coordinates. The arc pl
 | 1004 | ERROR | `"The parameter \"id\" must be provided..."` | Missing id |
 | 0 | ERROR | `"Created end point differs from the input values..."` | startPos and endPos at different radii from center |
 | 0 | ERROR | `"...must have exactly 3 real values"` | Point array not exactly 3 elements |
-| — | HANG | (no response) | centerPos == startPos or centerPos == endPos (zero radius) |
+| 0 | ERROR | Created end point differs from the input values | centerPos == startPos or centerPos == endPos (zero radius) |
 
 ## Working Example
 
@@ -122,9 +122,4 @@ await api.v1.curve.arcByCenter({
 
 ## Related
 
-- `curve.shape` — create the container this consumes
-- `curve.arcBy3Points` — arc defined by start, mid, end (no center needed)
-- `curve.arcByCenterRadAngle` — arc defined by center, radius, and start/end angles
-- `curve.circle` — simpler way to create full circles (but arcByCenter with start==end also works)
-- `curve.line` — commonly paired for closed profiles (e.g., rounded rectangles)
-- `curve.deleteShape` / `curve.cleanShape` — remove arcs (no per-arc delete)
+`curve.shape` · `curve.arcBy3Points` · `curve.arcByCenterRadAngle` · `curve.circle` · `curve.line` · `curve.deleteShape` / `curve.cleanShape`

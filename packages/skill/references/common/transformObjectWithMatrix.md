@@ -103,7 +103,4 @@ Works on: solid bodies, entity injections, parts, part features (part.box etc.),
 
 ## Related
 
-- `common.setObjectCoordSystem` — absolute positioning (set origin + axes)
-- `solid.translation` / `solid.rotation` — relative transforms on solids within EIFs (also cumulative)
-- `solid.mirror` — for reflection operations (since mirror matrices are rejected here)
-- `curve.transformShape` — 4×4 matrix on curve shapes (orthogonal only, no scaling)
+`common.setObjectCoordSystem` · `solid.translation` / `solid.rotation` · `solid.mirror` · `curve.transformShape`

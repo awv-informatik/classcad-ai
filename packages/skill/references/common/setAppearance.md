@@ -19,7 +19,7 @@ The `target` must be an **operation/feature ID**. Not all IDs work:
 | Sketch ID | ❌ | Error 1007: "must be an operation id" |
 | Work geometry ID (work plane, axis, etc.) | ❌ | Error 1007: "must be an operation id" |
 | Pattern feature (`linearPattern`, `circularPattern`) | ✅ | Supports per-instance indexing |
-| Boolean feature result | ❌ | `part.boolean` returns VOID — no ID to target |
+| Boolean feature result | ✅ | Use the id returned by `part.boolean` (its consumed inputs are rejected) |
 | Consumed feature (has downstream features) | ❌ | Error 1014: feature consumed by later operation |
 | Invalid/nonexistent ID | ❌ | Error 1006: "invalid id" |
 
@@ -118,7 +118,4 @@ Appearance properties (color, transparency, faceting) persist through OFB save/l
 
 ## Related
 
-- `part.setAppearance` — identical behavior, different namespace
-- `common.requestVisualisation` — read back stored appearance data (returns null in CLI mode)
-- `common.setFacetingParameters` / `common.getFacetingParameters` — global faceting settings
-- `common.setDatabaseSettings` — global database settings
+`part.setAppearance` · `common.requestVisualisation` · `common.setFacetingParameters` / `common.getFacetingParameters` · `common.setDatabaseSettings`

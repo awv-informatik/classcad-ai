@@ -34,15 +34,16 @@ Feature ID (numeric) on success, maxLevel=31.
 ```js
 const partId = (await api.v1.part.create({ name: 'RotDemo' })).result
 
+const boxCS = (await api.v1.part.workCSys({ id: partId, name: 'BoxCS', offset: [20, 0, 0] })).result
 const boxId = (await api.v1.part.box({
   id: partId, name: 'Box1',
   length: 40, width: 15, height: 20,
-  xPosition: 20, yPosition: 0, zPosition: 0,
+  references: [boxCS],  // primitives are positioned by a workCSys
 })).result
 
 const waZ = (await api.v1.part.workAxis({
   id: partId, name: 'AxisZ',
-  origin: [0, 0, 0], direction: [0, 0, 1],
+  position: [0, 0, 0], direction: [0, 0, 1],
 })).result
 
 // Rotate 45° CCW around Z
@@ -59,9 +60,10 @@ await api.v1.part.expression({
   id: partId,
   toCreate: [{ name: 'tilt', value: 'C:PI/6' }],
 })
+// A rotation consumes its target — rotate the result of the first rotation
 const rExpr = (await api.v1.part.rotation({
   id: partId,
-  targets: [boxId],
+  targets: [rId],
   references: [waZ],
   angle: '@expr.tilt',
 })).result
@@ -69,7 +71,4 @@ const rExpr = (await api.v1.part.rotation({
 
 ## Related
 
-- `part.updateRotation` — modify after creation (requires openFeature/closeFeature)
-- `part.translation` — move features along a direction
-- `part.circularPattern` — create rotated copies (not in-place rotation)
-- `solid.rotation` — direct (non-parametric) rotation
+`part.updateRotation` · `part.translation` · `part.circularPattern` · `solid.rotation`

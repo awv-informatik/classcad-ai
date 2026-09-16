@@ -87,7 +87,4 @@ await api.v1.curve.union2d({ target: s1, tool: s2 })
 
 ## Related
 
-- `curve.shape` — create the shape containers these operate on
-- `curve.polyline2d` / `curve.circle` / `curve.advancedPolyline` — create closed curves inside shapes
-- `curve.deleteShape` — manually delete shapes
-- `solid.union` / `solid.subtraction` / `solid.intersection` — 3D boolean equivalents for solid bodies
+`curve.shape` · `curve.polyline2d` / `curve.circle` / `curve.advancedPolyline` · `curve.deleteShape` · `solid.union` / `solid.subtraction` / `solid.intersection`

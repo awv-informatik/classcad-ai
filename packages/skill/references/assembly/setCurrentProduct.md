@@ -84,6 +84,4 @@ await api.v1.assembly.setCurrentProduct({ id: prev })
 
 ## Related
 
-- `assembly.setCurrentInstance` — instance navigation with automatic product setting
-- `assembly.instance` — create instances
-- `part.openFeature` / `part.closeFeature` — required for template editing after context switch
+`assembly.setCurrentInstance` · `assembly.instance` · `part.openFeature` / `part.closeFeature`

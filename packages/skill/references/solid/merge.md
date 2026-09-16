@@ -90,7 +90,4 @@ await api.v1.solid.subtraction({ id: eifId, target: box1, tools: [cyl] })
 
 ## Related
 
-- `solid.union` — boolean union (resolves overlaps, produces watertight geometry)
-- `solid.subtraction` — boolean subtract (same target/tools pattern)
-- `solid.intersection` — boolean intersect (same target/tools pattern)
-- `solid.copy` — duplicate a solid (use before merging a solid with a copy of itself)
+`solid.union` · `solid.subtraction` · `solid.intersection` · `solid.copy`

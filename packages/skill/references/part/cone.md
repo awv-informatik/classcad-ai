@@ -105,8 +105,4 @@ await api.v1.part.closeFeature({ id: coneId })
 
 ## Related
 
-- `part.updateCone` — modify after creation
-- `part.openFeature` / `part.closeFeature` — required before/after any update
-- `part.workCSys` — create coordinate systems for `references`
-- `solid.cone` — direct (non-parametric) cone in entity injection
-- `part.cylinder` — if you need equal top/bottom diameters
+`part.updateCone` · `part.openFeature` / `part.closeFeature` · `part.workCSys` · `solid.cone` · `part.cylinder`

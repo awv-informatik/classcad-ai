@@ -64,5 +64,4 @@ await api.v1.part.closeFeature({ id: lpId })
 
 ## Related
 
-- `part.linearPattern` — create the pattern
-- `part.openFeature` / `part.closeFeature` — required gate for all updates
+`part.linearPattern` · `part.openFeature` / `part.closeFeature`

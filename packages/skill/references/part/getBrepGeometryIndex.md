@@ -12,7 +12,7 @@ Returns the 0-based index of a brep element within its type category in a brep c
 
 - `id` — the **feature ID** (e.g., the ID returned from `part.box`, `part.fillet`, etc.). **NOT a part ID** — passing a part ID fails with "Not a brep!" error.
 - `geomId` — the brep element ID to index. Must be a valid brep element (edge, face, or vertex).
-- `solidIndex` — (optional, default 0) which solid within the feature. Only relevant for multi-solid features (e.g., boolean with `keepTools: true`). Out-of-range values produce error.
+- `solidIndex` — (optional, default 0) which solid within the feature. Only relevant for features holding several solids (e.g. an unmerged pattern or an entity injection). Out-of-range values produce error.
 
 ## Return Value
 
@@ -111,7 +111,4 @@ if (belongs === -1) {
 
 ## Related
 
-- `part.getBrepGeometryByIndex` — inverse: index → brep element ID
-- `part.getGeometryIds` — find brep element IDs by position (primary source of geomId values)
-- `part.getGeometryPositions` — get positions for brep element IDs
-- `part.fillet` / `part.chamfer` — primary consumers of brep element IDs
+`part.getBrepGeometryByIndex` · `part.getGeometryIds` · `part.getGeometryPositions` · `part.fillet` / `part.chamfer`

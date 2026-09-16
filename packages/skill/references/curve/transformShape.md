@@ -75,8 +75,8 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 - **Recalc invalidates ALL shape IDs in the drawing**, not just the shape being operated on. If you have shapes in multiple parts, one recalc invalidates them all.
 - **Empty shapes cannot be transformed.** A shape with no curves gives error 1006.
 - **Error message says `ids` (plural)** even though the parameter is `id` (singular). Same as translateShape/rotateShape.
-- **Non-orthogonal matrices are silently accepted.** The docs say "matrices must be orthogonal" but this is NOT enforced. Scaling and shear matrices return maxLevel 31 (no error). However, the resulting geometry is corrupted/distorted. **Always use orthogonal matrices.** For scaling, use `scaleShape` instead.
-- **Scaling is NOT ignored.** The docs say "scaling part of the 4x4 matrix will be ignored" — this is incorrect. Scaling matrices are applied and produce visually broken geometry (diagonal lines instead of proper shapes). There is no error or warning.
+- **Non-orthogonal matrices are accepted** (maxLevel 31) — orthogonality is not enforced.
+- **Scaling in the matrix is applied, not ignored.** A uniform `diag(2,2,2)` on a 30×20 rectangle extrudes to 60×40 (volume ×4, COG scaled). Shear/non-uniform matrices were not verified — `scaleShape` is the explicit way to scale.
 - **Left-handed matrices ARE properly rejected.** A matrix with negative determinant (e.g., mirror/reflection) returns error 1014 with a clear message.
 - **The graphic data in the response is incremental**, not the full transformed state. Do not use `r.graphic` to verify transform results.
 
@@ -128,11 +128,8 @@ await api.v1.curve.transformShape({
 
 - **Use `transformShape`** when you need to apply rotation + translation in a single call, or when you already have a transformation matrix from another source.
 - **Use `translateShape`/`rotateShape`** for simple translate-only or rotate-only operations — simpler API, same behavior.
-- **Use `scaleShape`** for scaling — never put scaling into the 4x4 matrix.
+- **Use `scaleShape`** for scaling when you only need a scale factor.
 
 ## Related
 
-- `curve.translateShape` — translate by a vector (simpler for translation-only)
-- `curve.rotateShape` — rotate by Euler angles (simpler for rotation-only)
-- `curve.scaleShape` — scale by a factor (the correct way to scale)
-- `curve.shape` — create the shape container this operates on
+`curve.translateShape` · `curve.rotateShape` · `curve.scaleShape` · `curve.shape`

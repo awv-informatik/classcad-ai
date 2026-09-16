@@ -184,8 +184,11 @@ script from the design math — blank minus holes, etc.). Rules of thumb:
   roughly the right magnitude. Unchanged volume after a "successful" update
   = frozen feature.
 - N patterned cuts → missing instances show up as `+1/N` volume steps.
+- Tolerance: planar solids match exactly; curved solids deviate slightly from the analytic
+  value (cylinder ≈ −0.002 %, sphere ≈ +0.014 %) — that is the kernel's volume integration,
+  not a modeling error. Compare with a relative tolerance around 0.05 %.
 - Null mass properties on a body that existed a step earlier = the body was
-  destroyed (e.g. `common.recalc` in a direct/EIF flow, or a failed boolean).
+  destroyed (e.g. a failed or degenerate boolean).
 - Photo-input case: no absolute volume to check — verify RATIOS (feature
   size vs overall extent) and counts against the image instead.
 
@@ -205,8 +208,8 @@ Extent = `max − min`. Use for "the part is 80 long", "centered on origin",
 Prove a specific feature exists where the math says it should:
 
 ```js
-const ids = await api.v1.part.getGeometryIds({ id: partId, /* filter: circles/arcs/cylinders/lines */ })
-const pos = await api.v1.part.getGeometryPositions({ id: partId, geometryIds: [...] })
+const ids = await api.v1.part.getGeometryIds({ id: partId, cylinders: [{ positions: [[0, r, z]] }] })  // a point ON the face; avoid the +X seam line [r, 0, z]
+const pos = await api.v1.part.getGeometryPositions({ elems: [...] })
 ```
 
 - Entries for types with no match come back as **empty arrays (truthy!)** —

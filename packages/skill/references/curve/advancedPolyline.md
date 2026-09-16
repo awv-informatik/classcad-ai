@@ -55,7 +55,7 @@ Returns `VOID` (null). Curves are added to the shape container. No ID returned.
 ## Gotchas
 
 - **First PLD must be absolute.** Starting with `xr`/`yr` gives: `"First point must be defined in absolute coordinates ('xa', 'ya')"`.
-- **Minimum 2 PLDs.** 1 point → internal error (array index out of bounds). Empty array `[]` → silent no-op.
+- **Minimum 2 PLDs.** ⚠️ A single PLD entry **crashes the ClassCAD worker** (connection lost, process exits) — always pass at least 2. Empty array `[]` → silent no-op.
 - **`r: 0` is accepted as a sharp corner** (equivalent to omitting `r`). No fillet is created. Verified empirically — the older "internal error in `CurveHelper.ComputeFillet`" claim was either stale or fixed silently.
 - **`r: negative` is rejected** with error code 1014, message `"The parameter \"pld[i].r\" (fillet radius) must be >= 0 when provided."` Previously a negative `r` was silently accepted and produced **corrupted geometry** at the corner (visible malformed protrusion); fixed alongside `curve.circle` in branch `fix/curve-circle-zero-radius-hang`.
 - **`c: 0` is a no-op.** Accepted silently, no chamfer applied. Safe but pointless.
@@ -89,8 +89,7 @@ The system validates PLD entries and gives specific error messages for invalid c
 | `"Can't create a chamfer with offset larger than line length!"` | `c` value exceeds adjacent edge length | Reduce chamfer or increase edge length |
 | `"Both 'r' and 'c' must not be specified"` | Both `r` and `c` on same PLD entry | Use only one per vertex |
 | `"Can't create a fillet between parallel lines!"` | Zero-length closing segment with `r` on first point | Don't use `r` on first point when path already returns to origin |
-| Array index out of bounds in `ComputeFillet` | `r: 0` | Omit `r` instead of setting to 0 |
-| Array index out of bounds in `advancedPolyline::PROC` | Only 1 PLD entry | Provide at least 2 PLD entries |
+| Worker crash (connection lost) | Only 1 PLD entry | Provide at least 2 PLD entries |
 
 ## Working Example
 
@@ -161,7 +160,4 @@ await api.v1.curve.advancedPolyline({
 
 ## Related
 
-- `curve.polyline2d` — simpler polyline with points+bulges (no PLD, no radius/chamfer)
-- `curve.shape` — create the shape container
-- `curve.deleteShape` — delete the shape
-- `curve.line` / `curve.arcByCenter` — individual segments (simpler for single elements)
+`curve.polyline2d` · `curve.shape` · `curve.deleteShape` · `curve.line` / `curve.arcByCenter`

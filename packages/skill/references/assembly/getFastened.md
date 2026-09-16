@@ -9,7 +9,7 @@ Queries a fastened constraint by name. Returns the full constraint state includi
 
 ## Key Parameters
 
-- `id` — assembly root ID. **Only the assembly root works** — passing an instance ID or template ID returns an error despite the docs suggesting they're accepted.
+- `id` — the assembly that holds the constraint: the root, an assembly template, or an instance of a sub-assembly (a constraint `J` inside template `Sub` is found via `getFastened({ id: subInstance, name: 'J' })`). Part instances fail.
 - `name` — the constraint name (string, exact match)
 
 ## Return Value
@@ -51,7 +51,7 @@ Not-found entries are `null` within the array. `maxLevel` reflects the worst cas
 
 ## Gotchas
 
-- **Instance ID does NOT work as `id`.** Docs say "id of the assembly or instance" but the server rejects non-assembly IDs with `"The provided product or product reference id is not a Assembly."` (error level 51). Always pass the assembly root ID.
+- **Part instance IDs do NOT work as `id`** — `"The provided product or product reference id is not a Assembly."` (error level 51). Sub-assembly instances and assembly templates do work.
 - **Duplicate names return first match.** If two constraints share the same name, `getFastened` returns the one created first. The second constraint is unreachable by name — use constraint IDs instead.
 - **Reflects updates immediately.** After `updateFastened`, a `getFastened` query returns the updated values. After a rename via `updateFastened`, the old name is gone — query by the new name.
 - **`useCurrentTransform` offsets are stored.** When a constraint was created with `useCurrentTransform: 1`, the back-computed offsets appear in the result as regular offset values.
@@ -88,6 +88,4 @@ if (r.result === null) console.log('Constraint not found')
 
 ## Related
 
-- `assembly.fastened` — create a fastened constraint
-- `assembly.updateFastened` — modify constraint params
-- `assembly.getFastenedOrigin` — query fastenedOrigin constraints (same pattern, different type)
+`assembly.fastened` · `assembly.updateFastened` · `assembly.getFastenedOrigin`

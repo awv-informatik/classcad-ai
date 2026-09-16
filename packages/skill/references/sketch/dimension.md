@@ -20,7 +20,8 @@ Creates dimensional constraints in a sketch. Dimensions are active constraints �
   - Numbers: `50`, `3.14`
   - Formula strings: `'60+10'`, `'sqrt(2)*50'`
   - Angle strings with `deg` suffix: `'60deg'`, `'45deg'`
-  - **`@expr.NAME` WORKS and binds LIVE** (verified 2026-08-10 on OFFSET and RADIUS; ANGLE fails with maxLevel 51). `value: '@expr.W'` sets the dim from the expression AND keeps tracking it — a later `updateExpression` re-solves the sketch immediately, no recalc. The referenced expression MUST exist (`toCreate` form!) — a missing name errors 51 "Couldn't set the value for dimension". Formula strings referencing expressions (`'W*2'`), bare names, and `$NAME` still fail.
+  - **`@expr.NAME` binds LIVE** on OFFSET, HORIZONTAL_DISTANCE, RADIUS, DIAMETER, ANGLE and ANGLEOX dims. `value: '@expr.W'` sets the dim from the expression AND keeps tracking it — a later `updateExpression` re-solves the sketch immediately, no recalc. Formulas with the prefix work too: `'@expr.W*2'`, `'2*@expr.W'`. The referenced expression MUST exist (`toCreate` form!) — a missing name errors 51 "Couldn't set the value for dimension". Names without the `@expr.` prefix (`'W*2'`) and `$NAME` fail.
+  - **ANGLE + `@expr`: the expression is in radians.** `A = 'C:PI/6'` or `A = 0.5236` → 30°. A plain degree number (`A = 30`) is read as 30 rad. An expression written with `a_r()` (`A = 'a_r(30)'`) is accepted and stored but does not drive the sketch — write angle expressions with `C:PI` or as numbers.
 - **`name`** (optional) — custom name for the dimension in the structure tree. Default auto-names vary by type.
 - **`dimPos`** (optional) — `[x, y, 0]` position for the dimension text. For ANGLE, also selects which angular sector to constrain.
 - **`reflex`** (optional, ANGLE only) — `true` to constrain the outer angle (>180°). Default `false`.
@@ -66,16 +67,14 @@ const ids = (await api.v1.sketch.dimension([
 - **Auto-value (omit `value`)** locks the current measurement without resizing. The dimension constrains the geometry to its current size/angle.
 - **Fix an anchor first.** Without a FIXATION constraint, the solver may move geometry in unexpected ways. Always fix at least one reference point.
 - **Formulas work:** `'60+10'`, `'sqrt(2)*50'`, `'45deg'`. Evaluated at creation time.
-- **`@expr.NAME` in `value` binds the dimension to the expression, LIVE** (verified 2026-08-10: OFFSET and RADIUS bound at creation and followed `updateExpression` immediately; also works via `updateDimension`). **ANGLE dims reject @expr** (maxLevel 51). The referenced expression MUST exist: `part.expression({id, name, value})` (missing `toCreate`) is a silent no-op that LOOKS successful, and `@expr` on the resulting nonexistent expression errors 51 "Couldn't set the value". When an @expr dim fails, check `getExpression` FIRST.
+- **`@expr.NAME` in `value` binds the dimension to the expression, LIVE** — at creation and via `updateDimension`, on linear, radial and angular dims (angle expressions in radians, see `value` above). The referenced expression MUST exist: `part.expression({id, name, value})` (missing `toCreate`) is a silent no-op that LOOKS successful, and `@expr` on the resulting nonexistent expression errors 51 "Couldn't set the value". When an @expr dim fails, check `getExpression` FIRST.
 
 ## Gotchas
 
-- **⚠️ `dimPos` at CREATION can poison a whole batch.** Passing `dimPos` on
-  HORIZONTAL_DISTANCE/VERTICAL_DISTANCE point-pair dims inside a batch made the batch return
-  maxLevel 51 with several dims created as VOID and the solve left incomplete (observed
-  2026-07-02 on a 21-dim batch; not isolated to a single type). Safe route: create all
-  dimensions WITHOUT `dimPos`, then place text with `updateDimensionPosition` — that works on
-  every type. (`dimPos` for ANGLE sector selection is a different, documented use.)
+- **`dimPos` at creation fails for HORIZONTAL_DISTANCE/VERTICAL_DISTANCE point pairs** with
+  `Function InitDimensionByPosition not found` (engine error; the call throws). Create those
+  dimensions without `dimPos` and place the text with `updateDimensionPosition`. (`dimPos` for
+  ANGLE sector selection is a different, documented use.)
 - **HD/VD point-pair dims are UNSIGNED and branch-keeping** (probed 2026-08-10): geomIds order is
   irrelevant, `value` is an absolute distance, and the solver keeps the SEED's side (up/down,
   left/right) — even when the seed is far off. Consequence: the side of a feature is encoded ONLY
@@ -87,7 +86,7 @@ const ids = (await api.v1.sketch.dimension([
   Mitigate by stepping large parameter changes, or add side-encoding constraints.
 - **DIAMETER value is diameter, not radius.** `value: 60` on a circle means radius=30.
 - **ANGLE value needs `deg` suffix.** Use `'60deg'` not `60`. Without the suffix, the value is interpreted as radians.
-- **Negative values create broken dimensions.** A negative OFFSET value creates the dimension (gets an ID) but fails to set the value (maxLevel=51). The dimension exists in a broken state.
+- **Negative values at creation fail** with `Couldn't set the value for dimension` (maxLevel 51). Via `updateDimension` a negative value returns result 0 and the geometry takes `|value|`.
 - **RADIUS on a line → null.** Wrong geometry type for RADIUS/DIAMETER returns null with error "Datamember radius not found".
 - **OFFSET on a circle → null.** Wrong geometry type returns "Wrong number of geometry ids for offset".
 - **ANGLE needs 2 lines.** Single line → array index error. Use ANGLEOX for angle-to-X-axis on a single line.
@@ -141,7 +140,4 @@ const dims = (await api.v1.sketch.dimension([
 
 ## Related
 
-- `sketch.updateDimension` — change dimension value after creation (numbers, formula strings, or `@expr.NAME` live bindings)
-- `sketch.updateDimensionPosition` — move dimension text position
-- `sketch.constraint` — geometric constraints (non-dimensional)
-- `sketch.deleteObject` — delete a dimension (`ids: [dimId]`)
+`sketch.updateDimension` · `sketch.updateDimensionPosition` · `sketch.constraint` · `sketch.deleteObject`

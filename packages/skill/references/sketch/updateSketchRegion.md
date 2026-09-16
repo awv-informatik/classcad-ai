@@ -81,7 +81,4 @@ await api.v1.sketch.updateSketchRegion({
 
 ## Related
 
-- `sketch.sketchRegion` — create a region (accepts curves AND points)
-- `sketch.getSketchRegion` — find region by name
-- `sketch.getGeometry` — verify region contents after update
-- `part.getSketchRegion` — find region by name across all sketches in a part
+`sketch.sketchRegion` · `sketch.getSketchRegion` · `sketch.getGeometry` · `part.getSketchRegion`

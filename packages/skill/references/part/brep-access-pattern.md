@@ -140,12 +140,12 @@ This pattern works on any geometry — boxes, boolean unions, extrusions.
 
 When a straight edge is filleted:
 - The original line edge is **removed** from the brep
-- Two new arc edges are created (the fillet tangent edges)
+- Two new line edges are created (the fillet tangent edges, offset by the radius on each adjacent face); the fillet's end edges are arcs
 - One new cylindrical face is created (the fillet surface)
 - Adjacent faces are trimmed
 - Position-based lookup with `lines` at the old position **fails** — the edge no longer exists as a line
 
-To find remaining unfilleted edges, query at positions not affected by the fillet. To find the fillet arcs, use index-based enumeration with `arcIndex`.
+To find remaining unfilleted edges, query at positions not affected by the fillet. The tangent edges are found with `lines` at their new positions (e.g. r=10 on the top-front edge of a box: [x, 0, H−10] and [x, 10, H]); the end arcs via `arcIndex`.
 
 ## Multi-Step Sequential Pattern
 
@@ -201,7 +201,7 @@ Vertical:     [0,0,H/2], [L,0,H/2], [L,W,H/2], [0,W,H/2]
 
 ## Common Mistakes
 
-1. **Not calling `recalc()` before `getGeometryIds`** — pre-recalc IDs are preliminary and may not work with all operations (especially TWO_DISTANCES chamfer).
+1. **Using ids from before a later feature change** — query brep ids after the feature they belong to exists; ids from an earlier state can go stale. (A `recalc()` is not required: a TWO_DISTANCES chamfer on ids queried right after `part.box` works.)
 
 2. **Using `circles` for boolean hole edges** — use `arcs` instead. Circle/arc type depends on edge origin, not shape.
 
@@ -213,8 +213,4 @@ Vertical:     [0,0,H/2], [L,0,H/2], [L,W,H/2], [0,W,H/2]
 
 ## Related
 
-- `part.getGeometryIds` — position-based brep element lookup
-- `part.getGeometryPositions` — get positions for brep element IDs
-- `part.getBrepGeometryIndex` / `part.getBrepGeometryByIndex` — index-based brep access
-- `part.fillet` / `part.chamfer` — primary consumers of edge IDs
-- `part.workPlane` / `part.workAxis` — can use brep face/edge IDs as references
+`part.getGeometryIds` · `part.getGeometryPositions` · `part.getBrepGeometryIndex` / `part.getBrepGeometryByIndex` · `part.fillet` / `part.chamfer` · `part.workPlane` / `part.workAxis`

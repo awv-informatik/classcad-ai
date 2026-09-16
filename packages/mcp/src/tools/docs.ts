@@ -83,7 +83,8 @@ export function serverInstructions(): string {
     'ClassCAD MCP. run_script is the ONLY way to execute API calls (JavaScript against the live CAD session; ' +
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
-      'then fetch ALL their docs in ONE docs([...]) call — include "DATA" whenever a script reads api.tree()/api.graphic(). ' +
+      'then request ALL their docs in ONE docs([...]) call, recipes first — include "DATA" whenever a script reads api.tree()/api.graphic(). ' +
+      'A docs response is size-capped: keys listed under "NOT included yet" at its top must be requested in a follow-up call before building. ' +
       RECIPES_POINTER +
       ' After that, build in a FEW substantial staged scripts — ' +
       'not one method per round. Verify with numbers (calculateMassProperties) and snapshot renders. ' +
@@ -102,6 +103,11 @@ export function serverInstructions(): string {
       'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',
     '',
     discovery.methodIndex(),
+    '',
+    'Document Index — recipes (composed workflows) and guides (cross-cutting behavior), key — title. ' +
+      'Fetch with docs([...]); list_methods({ search }) also ranks these by topic:',
+    '',
+    discovery.docIndex(),
   ].join('\n')
 }
 
@@ -112,8 +118,11 @@ export function registerDocsTools(server: McpServer): void {
       title: 'List API methods',
       description:
         'Search/list the v1.<domain>.<method> surface. With `search` (string or array, OR semantics): ' +
-        'ranked matches over method name + summary, CAD synonyms expanded (split→slice, hole→bore, round→fillet, …). ' +
-        'Without `search`: the full listing. withSummaries=false returns bare names (token-cheap). ' +
+        'ranked matches over method name + summary, CAD synonyms expanded (split→slice, hole→bore, round→fillet, …), ' +
+        'PLUS `docs`: the recipes/guides whose title, headings or text match (e.g. "shared parameters assembly" → ' +
+        'recipes/assembly-parameters) — search by what you want to build, then fetch those docs. ' +
+        'Without `search`: the full method listing plus `documents` (every recipe and guide, key — title). ' +
+        'withSummaries=false returns bare names (token-cheap). ' +
         'A no-hit result does NOT mean the operation is missing — browse the domain instead.',
       inputSchema: {
         domain: z
@@ -130,7 +139,16 @@ export function registerDocsTools(server: McpServer): void {
     },
     async ({ domain, search, withSummaries, limit }) => {
       const result = discovery.searchMethods({ domain, search, withSummaries, limit })
-      return { content: [{ type: 'text' as const, text: JSON.stringify(result) }] }
+      const hasSearch = search != null && (Array.isArray(search) ? search.length > 0 : String(search).trim() !== '')
+      const docs = hasSearch ? discovery.searchDocs({ search }) : null
+      const payload = hasSearch
+        ? docs && docs.count > 0
+          ? { ...result, docs: docs.docs, docsNote: docs.note }
+          : result
+        : domain
+          ? result
+          : { ...result, documents: discovery.docIndex().split('\n') }
+      return { content: [{ type: 'text' as const, text: JSON.stringify(payload) }] }
     },
   )
 
@@ -164,7 +182,8 @@ export function registerDocsTools(server: McpServer): void {
         'Full documentation for ONE key — prefer docs([...]) to fetch everything you need in a single round; ' +
         'use this only for a single follow-up lookup. Accepts full ("v1.part.box") or bare ("box") names — ' +
         'ambiguous bare names list the candidates. Also serves whole documents ("DATA", "api/part", ' +
-        '"recipes/parametric-part").',
+        '"recipes/parametric-part"). Same size cap and paging as docs: a large document answers with page 1 and ' +
+        'names the next page ("api/part#2").',
       inputSchema: {
         method: z
           .string()
@@ -174,8 +193,8 @@ export function registerDocsTools(server: McpServer): void {
       },
     },
     async ({ method }) => {
-      const res = discovery.describeMethod(method)
-      if (res.kind === 'error') {
+      const res = await discovery.bulkDocs([method])
+      if (res.found.length === 0) {
         return { isError: true, content: [{ type: 'text' as const, text: res.text }] }
       }
       return { content: [{ type: 'text' as const, text: res.text }] }

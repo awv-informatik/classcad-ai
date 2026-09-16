@@ -83,5 +83,4 @@ const importId = (await api.v1.part.importFeature({
 
 ## Related
 
-- `part.updateImportFeature` — modify after creation (change data source, name)
-- `common.save` — export current model to STP/OFB/STL data or file
+`part.updateImportFeature` · `common.save`

@@ -62,7 +62,7 @@ No space, no underscore — just the type name with a zero-indexed number append
 - **First-match only.** If duplicate names exist (e.g., two features both named "Box" via `setObjectName`), returns the first-created one. Later duplicates are unreachable by name.
 - **Rollback does not hide features.** Even when rolled back via `openFeature`, all features in the tree are findable — `getFeature` ignores rollback bar position.
 - **Feature reordering has no effect.** `operationMoveBefore` changes tree order but does not affect name lookup.
-- **Use `setObjectName` to rename, not `updateBox({ name })`.** The `name` param on `updateBox` does not update the lookup name. Only `common.setObjectName` changes what `getFeature` sees.
+- **Renaming works through `update*({ name })`** inside open/close — `getFeature` finds the new name. `common.setObjectName` works too.
 - **After rename, old name stops working.** `setObjectName` is a true rename — the previous name returns null.
 
 ## Common Errors
@@ -91,12 +91,9 @@ const found = (await api.v1.part.getFeature({ id: partId, name: 'MainBox' })).re
 // Use the ID for updates
 await api.v1.part.openFeature({ id: found })
 await api.v1.part.updateBox({ id: found, height: 200 })
-await api.v1.part.closeFeature({ id: partId })
+await api.v1.part.closeFeature({ id: found })
 ```
 
 ## Related
 
-- `part.getSketch` — name-based lookup for sketches (getFeature cannot find sketches)
-- `part.getWorkGeometry` — name-based lookup for work geometry
-- `common.setObjectName` — rename a feature (changes what getFeature finds)
-- `part.deleteFeature` — delete a feature by ID (pair with getFeature to delete by name)
+`part.getSketch` · `part.getWorkGeometry` · `common.setObjectName` · `part.deleteFeature`

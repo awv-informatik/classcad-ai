@@ -46,18 +46,18 @@ On error: returns null with maxLevel=51, or returns a feature ID with maxLevel=5
 ## Gotchas
 
 - **`inverted` is an integer, not a boolean.** Passing JS `true`/`false` or string `'TRUE'`/`'FALSE'` fails with a misleading error: `"id" must be provided to create CC_Revolve"`. Use `1` or `0`.
-- **Inline math expressions don't work.** `endAngle: '3.14/2'` fails. Only named expressions with `@expr.` prefix are accepted: `endAngle: '@expr.ANG'`.
+- **Angles accept numbers, formulas and expressions** (radians): `Math.PI / 2`, `'C:PI/2'`, `'@expr.ANG'`. `"id" must be provided` is not caused by the angle — check `inverted` first.
 - **Profile crossing the axis creates a degenerate feature.** Returns a feature ID but maxLevel=51: "The brep elements of at least one face are not well defined." Keep the profile entirely on one side of the axis.
 - **Profile touching the axis is fine.** A profile starting at x=0 (on the axis) produces a solid cylinder with no center hole.
-- **Cross-part revolve bug.** Creating revolve features in two different parts within the same drawing session fails — the second `part.revolve` call returns null with "id must be provided" (code 1004). Workaround: multiple revolves in the same part work fine. If you need revolves in different parts, use separate drawing sessions (clear between them).
-- **Sketch MUST have `planeId` set.** Same requirement as extrusion — without it, revolve may produce maxLevel=51 errors.
+- **Revolves in several parts work** — e.g. one per part template in an assembly. A drawing holds one root part; a second `part.create` is refused, which can leave a later call without a valid `id`.
+- **Pass `planeId` to `sketch.create`** — same as extrusion: region references need it, and the sketch solver only runs with it.
 - **`references` is required.** Despite bracket notation in docs. Omitting it gives: "The parameter 'references' must be provided."
 
 ## Common Errors
 
 | Code | Message | Cause | Fix |
 |------|---------|-------|-----|
-| 1004 | "id" must be provided to create CC_Revolve | Wrong type for `inverted` (JS bool/string), inline expression string, or cross-part bug | Use integer 1/0 for inverted; use `@expr.` prefix; keep revolves in one part |
+| 1004 | "id" must be provided to create CC_Revolve | Wrong type for `inverted` (JS bool/string), or `id` undefined | Use integer 1/0 for inverted; check the part id |
 | 0 | "brep elements of at least one face are not well defined" | Profile crosses the revolve axis | Keep profile entirely on one side of the axis |
 | — | "The parameter 'references' must be provided" | Missing `references` | Always pass `references` |
 
@@ -132,9 +132,4 @@ const revId6 = (await api.v1.part.revolve({
 
 ## Related
 
-- [`part.updateRevolve`](updateRevolve.md) — modify after creation (requires `openFeature`/`closeFeature`)
-- `part.workAxis` — create custom revolve axes
-- `part.getWorkGeometry` — find built-in axes (XAxis, YAxis, ZAxis)
-- `sketch.sketchRegion` — create the region reference
-- `part.extrusion` — linear sweep alternative (same profile setup)
-- `part.boolean` — combine revolve with other features
+[`part.updateRevolve`](updateRevolve.md) · `part.workAxis` · `part.getWorkGeometry` · `sketch.sketchRegion` · `part.extrusion` · `part.boolean`

@@ -21,15 +21,15 @@ Creates a planar constraint between two instances. Allows 3 degrees of freedom: 
 
 ## Alignment Semantics (CRITICAL — differs from cylindrical)
 
-**Same as fastened/revolute.** With zero offsets, inst2 is placed at inst1's origin. The csys is required by the API but only serves as an identifier — it does not define a mounting point.
+**The plane is mate1's csys XY-plane.** mate2's csys is placed in that plane with its Z-axis on mate1's Z-axis; `zOffset` moves along mate1's csys Z. Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]` (csys Z = world −Y), `zOffset: 10` → inst2 at `[40,-10,20]`, tilted onto the csys. Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
 
-**All free DOFs default to 0.** Unlike cylindrical (which preserves the initial Z-offset), planar does NOT preserve initial X/Y position or rotation. The solver resets all free DOFs to 0 regardless of the instance's `transformation`. If limits constrain the range, the default(0) is clamped to the nearest valid value (min if 0 < min, max if 0 > max).
+**Free translations start at 0, free rotation is kept.** Unlike cylindrical (which preserves the initial Z-offset), planar places inst2 at x=0, y=0 in mate1's csys regardless of the instance's `transformation`; the rotation about Z keeps the instance's current angle (an instance created at 45° stays at 45°). If limits constrain the range, the default(0) is clamped to the nearest valid value (min if 0 < min, max if 0 > max).
 
 ## DOF and Behavior
 
 Planar constrains 3 DOF (Z-translation fixed, X-rotation locked, Y-rotation locked), leaving 3 free: X-translation, Y-translation, Z-rotation.
 
-With no limits, the solver places inst2 at default position (x=0, y=0, angle=0 relative to mate1). The free DOFs only become visible/constrained when:
+With no limits, the solver places inst2 at x=0, y=0 relative to mate1 and keeps its current rotation. The free DOFs only become visible/constrained when:
 1. `xOffsetLimits` / `yOffsetLimits` constrain the translation ranges
 2. `zRotationLimits` constrain the rotation range
 3. `moveUnderConstraints` applies motion
@@ -92,9 +92,9 @@ With limits locked at angle=0:
 
 ## Gotchas
 
-- **Free DOFs reset to 0.** Unlike cylindrical, planar does NOT preserve initial X/Y position. All free DOFs default to 0, clamped by limits. This is a key behavioral difference.
+- **Free translations reset to 0, rotation is kept.** Unlike cylindrical, planar does NOT preserve initial X/Y position (clamped by limits); the current rotation angle is preserved.
 - **Ungrounded instances both move.** Always ground at least one instance with fastenedOrigin.
-- **csys position is irrelevant.** The csys ID is required but its origin/axes don't determine alignment.
+- **The csys defines the plane.** Free X/Y and rotation are measured in mate1's csys; with no limits inst2 lands on mate1's csys origin.
 - **Duplicate names allowed.** Creating two with the same name succeeds silently. `getPlanar` returns the first.
 - **Reorient invisible without limits.** Free rotation DOF absorbs the reorient offset.
 - **Limits don't affect initial position.** inst2 starts at 0 regardless of limits. Limits are clamping bounds, not initial values.
@@ -117,11 +117,11 @@ const asmId = (await api.v1.assembly.create({})).result
 
 const tplA = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tplA, name: 'Box', length: 100, width: 80, height: 10 })
-const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  // csys at part origin
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Slider' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 30, width: 20, height: 15 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys', origin: [0, 0, 0], xDirection: [1, 0, 0], yDirection: [0, 1, 0] })).result
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
@@ -203,7 +203,7 @@ Pass array of `{ id, name }` objects. Returns `Array<result|null>`.
 - `xOffsetLimits: { min: null, max: null }` — remove X limits
 - `yOffsetLimits: { min: null, max: null }` — remove Y limits
 - `zRotationLimits: { min: null, max: null }` — remove rotation limits
-- `mate2: { path: [instId], csys: wcsId, flip: '-Z', reorient: '90' }` — change flip/reorient (must include path+csys)
+- `mate2: { flip: '-Z' }` — change flip/reorient (path and csys can be omitted)
 - `name: 'NewName'` — rename; old name immediately unfindable via getPlanar
 - Batch: `updatePlanar([{ id: c1, ... }, { id: c2, ... }])` — returns `[c1Id, c2Id]`
 
@@ -215,13 +215,13 @@ Example: planar with yOffsetLimits [30,70] → inst2 at y≈30. Remove limits �
 
 This applies to all three limit types (xOffsetLimits, yOffsetLimits, zRotationLimits).
 
-### Mate updates require full sub-object
+### Mate updates accept partial sub-objects
 
-Unlike revolute (where you can pass flip-only without path/csys), planar requires the full mate sub-object when updating flip or reorient:
+Flip or reorient can be updated alone, like on revolute (`mate2: { flip: '-Z' }` flips inst2's Z axis):
 ```js
 await api.v1.assembly.updatePlanar({
   id: constraintId,
-  mate2: { path: [inst2], csys: wcsB, flip: '-Z', reorient: '90' }
+  mate2: { flip: '-Z' }
 })
 ```
 
@@ -237,8 +237,4 @@ All failures are non-destructive — constraint state is fully preserved after a
 
 ## Related
 
-- `assembly.revolute` — 1 DOF (rotation only), has fixed `zOffset`
-- `assembly.cylindrical` — 2 DOF (rotation + Z-translation), preserves initial Z-offset (differs from planar)
-- `assembly.fastened` — 0 DOF (rigid)
-- `assembly.slider` — 1 DOF (translation only)
-- `assembly.startMovingUnderConstraints` / `moveUnderConstraints` — animate the planar DOFs
+`assembly.revolute` · `assembly.cylindrical` · `assembly.fastened` · `assembly.slider` · `assembly.startMovingUnderConstraints` / `moveUnderConstraints`

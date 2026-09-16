@@ -1,0 +1,212 @@
+[
+  {
+    "label": "before",
+    "source": {
+      "expression": "",
+      "value": 2
+    },
+    "derived": {
+      "expression": "Shell.ExpressionSet.seat_height - 10",
+      "value": 2
+    },
+    "shell": {
+      "cog": {
+        "x": 5,
+        "y": 5,
+        "z": 6
+      },
+      "volume": 1200
+    },
+    "plunger": {
+      "cog": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1
+      },
+      "volume": 18
+    },
+    "assembly": {
+      "cog": {
+        "x": 5.480582524271845,
+        "y": 4.898058252427185,
+        "z": 5.854368932038835
+      },
+      "volume": 1236
+    }
+  },
+  {
+    "label": "update-only",
+    "source": {
+      "expression": "",
+      "value": 3
+    },
+    "derived": {
+      "expression": "Shell.ExpressionSet.seat_height - 10",
+      "value": 2
+    },
+    "shell": {
+      "cog": {
+        "x": 5,
+        "y": 5,
+        "z": 6
+      },
+      "volume": 1200
+    },
+    "plunger": {
+      "cog": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1
+      },
+      "volume": 18
+    },
+    "assembly": {
+      "cog": {
+        "x": 5.480582524271845,
+        "y": 4.898058252427185,
+        "z": 5.854368932038835
+      },
+      "volume": 1236
+    }
+  },
+  {
+    "label": "one-recalc",
+    "source": {
+      "expression": "",
+      "value": 3
+    },
+    "derived": {
+      "expression": "Shell.ExpressionSet.seat_height - 10",
+      "value": 3
+    },
+    "shell": {
+      "cog": {
+        "x": 4.999999999999999,
+        "y": 4.999999999999999,
+        "z": 6.5
+      },
+      "volume": 1300
+    },
+    "plunger": {
+      "cog": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1
+      },
+      "volume": 18
+    },
+    "assembly": {
+      "cog": {
+        "x": 5.4446107784431135,
+        "y": 4.90568862275449,
+        "z": 6.3517964071856285
+      },
+      "volume": 1336
+    }
+  },
+  {
+    "label": "two-recalcs",
+    "source": {
+      "expression": "",
+      "value": 3
+    },
+    "derived": {
+      "expression": "Shell.ExpressionSet.seat_height - 10",
+      "value": 3
+    },
+    "shell": {
+      "cog": {
+        "x": 4.999999999999999,
+        "y": 4.999999999999999,
+        "z": 6.5
+      },
+      "volume": 1300
+    },
+    "plunger": {
+      "cog": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1.5
+      },
+      "volume": 27
+    },
+    "assembly": {
+      "cog": {
+        "x": 5.6580502215657305,
+        "y": 4.860413589364844,
+        "z": 6.300590841949778
+      },
+      "volume": 1354
+    }
+  },
+  {
+    "label": "reload",
+    "source": {
+      "expression": "",
+      "value": 3
+    },
+    "derived": {
+      "expression": "Shell.ExpressionSet.seat_height - 10",
+      "value": 3
+    },
+    "shell": {
+      "cog": {
+        "x": 4.999999999999999,
+        "y": 4.999999999999999,
+        "z": 6.5
+      },
+      "volume": 1300
+    },
+    "plunger": {
+      "cog": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1.5
+      },
+      "volume": 27
+    },
+    "assembly": {
+      "cog": {
+        "x": 5.6580502215657305,
+        "y": 4.860413589364844,
+        "z": 6.300590841949778
+      },
+      "volume": 1354
+    }
+  },
+  {
+    "label": "reload-edit-recalc",
+    "source": {
+      "expression": "",
+      "value": 4
+    },
+    "derived": {
+      "expression": "Shell.ExpressionSet.seat_height - 10",
+      "value": 4
+    },
+    "shell": {
+      "cog": {
+        "x": 4.999999999999999,
+        "y": 5,
+        "z": 7
+      },
+      "volume": 1400
+    },
+    "plunger": {
+      "cog": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1.5
+      },
+      "volume": 27
+    },
+    "assembly": {
+      "cog": {
+        "x": 5.612792297111416,
+        "y": 4.870013755158184,
+        "z": 6.795735900962861
+      },
+      "volume": 1454
+    }
+  }
+]

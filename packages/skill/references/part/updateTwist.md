@@ -30,5 +30,4 @@ await api.v1.part.closeFeature({ id: twistId })
 
 ## Related
 
-- [`part.twist`](twist.md) — create the feature
-- [`part.openFeature`](openFeature.md) — must call before update
+[`part.twist`](twist.md) · [`part.openFeature`](openFeature.md)

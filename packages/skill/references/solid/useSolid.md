@@ -33,7 +33,7 @@ Returns `id[]` — array of new solid IDs created in the destination EI. One ID 
 ## Gotchas
 
 - **Cannot mix plain IDs and objects in `from`.** `from: [featureId, { id: otherId, indices: [0] }]` fails with error 1001. Use one form exclusively.
-- **Passing part IDs or solid IDs in `from` causes an internal server crash** (code 0, not a clean error message). Only pass feature IDs: entity injection IDs or part-level feature IDs (box, extrusion, etc.).
+- **Passing part IDs or solid IDs in `from` fails with an internal evaluation error** (code 0, `OBJ_ErrorMessage` message; the worker keeps running). Only pass feature IDs: entity injection IDs or part-level feature IDs (box, extrusion, etc.).
 - **Empty `from` array `[]` is rejected** with error 1001.
 - **Empty source feature** (EI with no solids) returns `[]` with maxLevel=31 — no error, just empty result.
 - **Consumption error message is misleading.** Says "Entity 'X' is not available" but the check is per-solid, not per-entity. With indices, only consumed indices are blocked.
@@ -50,7 +50,7 @@ Returns `id[]` — array of new solid IDs created in the destination EI. One ID 
 | 1001 | ERROR | `The parameter "from" has the wrong type! It should be of type (Array<object>\|Array<id>)` | Empty `from` array |
 | 1006 | ERROR | `An element of parameter "from" has an invalid id!` | Nonexistent feature ID |
 | 0 | ERROR | `[Evaluation error ... objId not found]` | Invalid index (out of range for the feature's solid count) |
-| 0 | ERROR | `[Evaluation error ... OBJ_ErrorMessage ...]` | Part ID or solid ID passed in `from` (internal crash) |
+| 0 | ERROR | `[Evaluation error ... OBJ_ErrorMessage ...]` | Part ID or solid ID passed in `from` (internal error) |
 
 ## Usage Hints
 
@@ -89,7 +89,4 @@ const selected = (await api.v1.solid.useSolid({
 
 ## Related
 
-- `solid.copy` — independent copy (NOT parametric — changes don't propagate)
-- `solid.deleteSolid` — remove solids from an EI (including useSolid'd references)
-- `part.entityInjection` — create the destination container
-- `part.box`, `part.extrusion`, `part.revolve` — part-level features whose solids can be referenced via useSolid
+`solid.copy` · `solid.deleteSolid` · `part.entityInjection` · `part.box`

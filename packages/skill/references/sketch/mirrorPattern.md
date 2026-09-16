@@ -83,8 +83,4 @@ const r = await api.v1.sketch.mirrorPattern({ id: skId, rigidSetId: rsId, symmet
 
 ## Related
 
-- `sketch.rigidSet` — create the rigid set input
-- `sketch.linearPattern` — pattern in X/Y grid (has count/distance parameters)
-- `sketch.circularPattern` — pattern around a center point (has angle/count parameters)
-- `sketch.deleteObject` — delete the pattern constraint (preserves geometry)
-- `sketch.getGeometry` — inspect member geometry inside the copy rigid set
+`sketch.rigidSet` · `sketch.linearPattern` · `sketch.circularPattern` · `sketch.deleteObject` · `sketch.getGeometry`

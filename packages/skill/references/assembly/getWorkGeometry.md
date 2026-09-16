@@ -18,7 +18,7 @@ Looks up a work geometry feature by name on an assembly instance. Returns the te
 |---|---|---|
 | Instance (CC_ProductReference) | Yes | Yes — from linked part template |
 | ET instance (CC_ProductReferenceET) | Yes | Yes — same as above |
-| Assembly root | Yes | **No** — always "Couldn't find" |
+| Assembly root | Yes | Yes — the root's own `BaseWCSys` |
 | Assembly template | Yes | **No** — always "Couldn't find" |
 | Part template | **No** — wrong id type error | N/A |
 
@@ -52,7 +52,7 @@ Every part template has these built-in work geometries (same as `part.getWorkGeo
 - **Part template IDs rejected** — use `part.getWorkGeometry` for templates, `assembly.getWorkGeometry` for instances.
 - **Returns template IDs, not instance IDs** — the returned ID is from the template scope, shared across all instances of that template. This is correct for constraint mate references.
 - **Sub-assembly instances have no work geometry** — querying a sub-assembly instance for a part's work geometry fails. To access nested part work geometry, first get the ET instance ID via `getInstance({ ownerId: subAsmInst })`, then call `getWorkGeometry` on that ET ID.
-- **Assembly roots have no work geometry** — the call is accepted but always returns "Couldn't find."
+- **Assembly roots have `BaseWCSys`** — `getWorkGeometry({ id: rootId, name: 'BaseWCSys' })` returns its id; part work geometry is looked up on instances.
 
 ## Common Errors
 
@@ -71,7 +71,7 @@ const tplId = (await api.v1.assembly.partTemplate({ name: 'Bracket' })).result
 await api.v1.part.box({ id: tplId, name: 'Body', length: 60, width: 40, height: 10 })
 const wcsId = (await api.v1.part.workCSys({
   id: tplId, name: 'MatePoint',
-  origin: [30, 20, 10], xDirection: [1, 0, 0], yDirection: [0, 1, 0]
+  offset: [30, 20, 10]
 })).result
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
@@ -110,6 +110,4 @@ const wcs = (await api.v1.assembly.getWorkGeometry({ id: etIds[0], name: 'MatePo
 
 ## Related
 
-- `part.getWorkGeometry` — same lookup but accepts part/instance IDs (use for template-level queries)
-- `assembly.fastened` / `assembly.revolute` etc. — constraint APIs that consume the returned WCS IDs as mate references
-- `assembly.getInstance` — needed to get ET instance IDs for nested sub-assembly access
+`part.getWorkGeometry` · `assembly.fastened` / `assembly.revolute` · `assembly.getInstance`

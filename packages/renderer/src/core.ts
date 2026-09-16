@@ -1,5 +1,5 @@
 import type {
-  AssemblyInstance, CameraView, DiffResult, Frame, Graphic, GraphicContainer,
+  AssemblyInstance, CameraView, DiffResult, Frame, Graphic, GraphicContainer, TextLabel,
   Marker, OverlayPolyline, RasterResult, RenderOptions, SectionPlane,
   SessionEntry, SessionSource, SolidRenderOptions, Tree, Vec3, RGB,
 } from './types.js'
@@ -93,6 +93,15 @@ let _zoom = 1
 let _lookAt: [number, number, number] | null = null
 let _forcedFrame: { scale: number; midX: number; midY: number } | null = null   // set via setViewport({ frame }) — overrides auto-fit
 let _lastFrame: { scale: number; midX: number; midY: number } | null = null     // frame actually used by the most recent viewTransform
+// Supersampling factor of the raster being drawn: every fixed pixel size
+// (line weight, markers, text, margins) is multiplied by it, so a render at
+// k× resolution box-filtered back down looks like the 1× render, anti-aliased.
+let _px = 1
+// Vector text: when on, drawText records labels here instead of stamping the
+// 5×7 bitmap font; they travel with the RasterResult and an adapter draws
+// them with a real font at output resolution (crisp, not scaled-up blocks).
+let _vectorText = false
+let _textSink: TextLabel[] | null = null
 
 function project(x: any, y: any, z: any) {
   return _project(x, y, z)
@@ -176,7 +185,7 @@ function bbox2d(pts: any) {
   return { minX, maxX, minY, maxY }
 }
 
-function viewTransform(pts2d: any, width: any, height: any, margin: any = 40) {
+function viewTransform(pts2d: any, width: any, height: any, margin: any = 40 * _px) {
   // A forced frame (setViewport({ frame })) wins over auto-fit, zoom and
   // lookAt — it pins scale AND center, making successive renders of a
   // CHANGING model pixel-comparable (the basis for diffImages).
@@ -555,6 +564,18 @@ function clipPolyToSection(pts: any, s: any) {
  * Returns { pixels, width, height, frame } or null if no geometry.
  */
 export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, optsOrColorMode: SolidRenderOptions | string = 'native'): RasterResult | null {
+  const outerSink = _textSink
+  _textSink = _vectorText ? [] : null
+  try {
+    const r = _renderSolidZBuffer(graphic, width, height, instances, optsOrColorMode)
+    if (r && _textSink) r.labels = _textSink
+    return r
+  } finally {
+    _textSink = outerSink
+  }
+}
+
+function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, instances: AssemblyInstance[] | null, optsOrColorMode: SolidRenderOptions | string): RasterResult | null {
   const opts: SolidRenderOptions & { overlays?: any[] } = typeof optsOrColorMode === 'string' ? { colors: optsOrColorMode as any } : (optsOrColorMode ?? {})
   const colorMode = opts.colors ?? 'native'
   const section = normalizeSection(opts.section)
@@ -739,7 +760,7 @@ export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, heig
     for (let i = 0; i < sv.length - 1; i++) {
       if ((epts as any).highlighted) {
         _rasterLine(pixels, zBuf, width, height, sv[i], sv[i+1], hlColor, xray ? 1e9 : 2)
-        _rasterLine(pixels, zBuf, width, height, { ...sv[i], sy: sv[i].sy + 1 }, { ...sv[i+1], sy: sv[i+1].sy + 1 }, hlColor, xray ? 1e9 : 2)
+        _rasterLine(pixels, zBuf, width, height, { ...sv[i], sy: sv[i].sy + _px }, { ...sv[i+1], sy: sv[i+1].sy + _px }, hlColor, xray ? 1e9 : 2)
       } else {
         _rasterLine(pixels, zBuf, width, height, sv[i], sv[i+1], edgeColor, xray ? 1e9 : 0.5)
       }
@@ -757,9 +778,9 @@ export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, heig
         const segLen = Math.hypot(sv[i+1].sx - sv[i].sx, sv[i+1].sy - sv[i].sy)
         let t = 0
         while (t < segLen) {
-          const phase = (dashAcc + t) % 10
-          const runLen = phase < 6 ? Math.min(6 - phase, segLen - t) : Math.min(10 - phase, segLen - t)
-          if (phase < 6 && runLen > 0.2) {
+          const phase = (dashAcc + t) % (10 * _px)
+          const runLen = phase < 6 * _px ? Math.min(6 * _px - phase, segLen - t) : Math.min(10 * _px - phase, segLen - t)
+          if (phase < 6 * _px && runLen > 0.2) {
             const t0 = t / segLen, t1 = (t + runLen) / segLen
             _rasterLine(pixels, zBuf, width, height,
               { sx: sv[i].sx + (sv[i+1].sx - sv[i].sx) * t0, sy: sv[i].sy + (sv[i+1].sy - sv[i].sy) * t0, sz: sv[i].sz },
@@ -768,7 +789,7 @@ export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, heig
           }
           t += runLen
         }
-        dashAcc = (dashAcc + segLen) % 10
+        dashAcc = (dashAcc + segLen) % (10 * _px)
       } else {
         _rasterLine(pixels, zBuf, width, height, sv[i], sv[i+1], col, 1e9)
       }
@@ -783,19 +804,23 @@ export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, heig
       const [sx, sy] = xf(px, py)
       const cx = Math.round(sx), cy = Math.round(sy)
       const col = Array.isArray(m.color) && m.color.length === 3 ? m.color : [220, 30, 30]
-      const put = (x: any, y: any) => {
-        if (x < 0 || x >= width || y < 0 || y >= height) return
-        const i = (y * width + x) * 4
-        pixels[i] = col[0]; pixels[i+1] = col[1]; pixels[i+2] = col[2]; pixels[i+3] = 255
+      const put = (x0: any, y0: any) => {
+        for (let dy = 0; dy < _px; dy++) for (let dx = 0; dx < _px; dx++) {
+          const x = x0 + dx, y = y0 + dy
+          if (x < 0 || x >= width || y < 0 || y >= height) continue
+          const i = (y * width + x) * 4
+          pixels[i] = col[0]; pixels[i+1] = col[1]; pixels[i+2] = col[2]; pixels[i+3] = 255
+        }
       }
-      const R = 7
+      const R = 7 * _px
       for (let d = -R; d <= R; d++) { put(cx + d, cy); put(cx, cy + d) } // cross
-      for (let a = 0; a < 32; a++) { // circle
-        const x = Math.round(cx + (R - 2) * Math.cos((a * Math.PI) / 16))
-        const y = Math.round(cy + (R - 2) * Math.sin((a * Math.PI) / 16))
+      const circleSteps = 32 * _px
+      for (let a = 0; a < circleSteps; a++) { // circle
+        const x = Math.round(cx + (R - 2 * _px) * Math.cos((2 * a * Math.PI) / circleSteps))
+        const y = Math.round(cy + (R - 2 * _px) * Math.sin((2 * a * Math.PI) / circleSteps))
         put(x, y)
       }
-      if (m.label) drawText(pixels, width, height, cx + R + 4, cy - 6, m.label, col, 2)
+      if (m.label) drawText(pixels, width, height, cx + R + 4 * _px, cy - 6 * _px, m.label, col, 2 * _px)
     }
   }
 
@@ -805,9 +830,9 @@ export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, heig
     const fmt = (v: any) => (Math.abs(v - Math.round(v)) < 0.05 ? String(Math.round(v)) : v.toFixed(1))
     // Extents (bottom right)
     const ext = `${fmt(wmax[0] - wmin[0])} X ${fmt(wmax[1] - wmin[1])} X ${fmt(wmax[2] - wmin[2])}`
-    drawText(pixels, width, height, width - measureText(ext, 2) - 10, height - 24, ext, ink, 2)
+    drawText(pixels, width, height, width - measureText(ext, 2 * _px) - 10 * _px, height - 24 * _px, ext, ink, 2 * _px, 'end')
     // Axes triad (bottom left) — directions follow the current view projection.
-    const anchor = [34, height - 34]
+    const anchor = [34 * _px, height - 34 * _px]
     const axes = [
       { d: [1, 0, 0], color: [200, 40, 40], label: 'X' },
       { d: [0, 1, 0], color: [40, 150, 40], label: 'Y' },
@@ -818,31 +843,31 @@ export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, heig
       const len = Math.hypot(dx, dy)
       if (len < 1e-6) continue // axis points into the screen in this view
       const ux = dx / len, uy = -dy / len // screen y grows downward
-      const L = 26
+      const L = 26 * _px
       const tip = { sx: anchor[0] + ux * L, sy: anchor[1] + uy * L, sz: 1e12 }
       _rasterLine(pixels, zBuf, width, height, { sx: anchor[0], sy: anchor[1], sz: 1e12 }, tip, { r: ax.color[0], g: ax.color[1], b: ax.color[2] }, 1e12)
-      drawText(pixels, width, height, tip.sx + ux * 4 - 2, tip.sy + uy * 4 - 3, ax.label, ax.color, 1)
+      drawText(pixels, width, height, tip.sx + (ux * 4 - 2) * _px, tip.sy + (uy * 4 - 3) * _px, ax.label, ax.color, _px)
     }
     // Scale bar (bottom center): round model-unit length mapping to 60–140 px.
     const scale = _lastFrame?.scale
     if (scale != null && scale > 0) {
-      let L = Math.pow(10, Math.floor(Math.log10(100 / scale)))
-      for (const m of [1, 2, 5, 10]) { if (L * m * scale >= 60) { L = L * m; break } }
+      let L = Math.pow(10, Math.floor(Math.log10(100 * _px / scale)))
+      for (const m of [1, 2, 5, 10]) { if (L * m * scale >= 60 * _px) { L = L * m; break } }
       const px = L * scale
-      const y0 = height - 16
+      const y0 = height - 16 * _px
       const x0 = Math.round(width / 2 - px / 2)
-      for (let x = 0; x <= px; x++) {
-        const i = (y0 * width + Math.min(width - 1, x0 + x)) * 4
-        pixels[i] = ink[0]; pixels[i+1] = ink[1]; pixels[i+2] = ink[2]; pixels[i+3] = 255
-      }
-      for (const xx of [x0, Math.round(x0 + px)]) {
-        for (let dy = -4; dy <= 0; dy++) {
-          const i = ((y0 + dy) * width + Math.min(width - 1, xx)) * 4
+      const ink1 = (x: number, y: number) => {
+        for (let t = 0; t < _px; t++) {
+          const i = ((y + t) * width + Math.min(width - 1, x)) * 4
           pixels[i] = ink[0]; pixels[i+1] = ink[1]; pixels[i+2] = ink[2]; pixels[i+3] = 255
         }
       }
+      for (let x = 0; x <= px; x++) ink1(x0 + x, y0)
+      for (const xx of [x0, Math.round(x0 + px)]) {
+        for (let dy = -4 * _px; dy <= 0; dy++) for (let t = 0; t < _px; t++) ink1(xx + t, y0 + dy)
+      }
       const lbl = fmt(L)
-      drawText(pixels, width, height, width / 2 - measureText(lbl, 1) / 2, y0 - 14, lbl, ink, 1)
+      drawText(pixels, width, height, width / 2 - measureText(lbl, _px) / 2, y0 - 14 * _px, lbl, ink, _px, 'middle')
     }
   }
 
@@ -903,6 +928,20 @@ function _rasterTriBlend(pixels: any, w: any, h: any, v0: any, v1: any, v2: any,
 }
 
 /** Rasterize a line with per-pixel depth test (Bresenham + interpolated Z) */
+const LINE_STAMP_1X = [[1,0],[-1,0],[0,1],[0,-1]]
+const _lineStamps = new Map<number, number[][]>()
+function lineStamp(k: number): number[][] {
+  let s = _lineStamps.get(k)
+  if (!s) {
+    s = []
+    for (let oy = -k; oy <= k; oy++) for (let ox = -k; ox <= k; ox++) {
+      if ((ox || oy) && ox * ox + oy * oy <= k * k) s.push([ox, oy])
+    }
+    _lineStamps.set(k, s)
+  }
+  return s
+}
+
 function _rasterLine(pixels: any, zBuf: any, w: any, h: any, p0: any, p1: any, color: any, zBias: any = 0) {
   let x0 = Math.round(p0.sx), y0 = Math.round(p0.sy)
   let x1 = Math.round(p1.sx), y1 = Math.round(p1.sy)
@@ -919,8 +958,8 @@ function _rasterLine(pixels: any, zBuf: any, w: any, h: any, p0: any, p1: any, c
       if (z >= zBuf[idx] - 0.01) {  // small bias to draw edges on surfaces
         const pi = idx * 4
         pixels[pi] = color.r; pixels[pi+1] = color.g; pixels[pi+2] = color.b; pixels[pi+3] = 255
-        // Also draw neighboring pixels for ~2px width
-        for (const [ox, oy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+        // Also draw neighboring pixels for ~2px width (a disc of radius _px when supersampling)
+        for (const [ox, oy] of _px === 1 ? LINE_STAMP_1X : lineStamp(_px)) {
           const nx = x0+ox, ny = y0+oy
           if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
             const ni = ny * w + nx
@@ -2145,7 +2184,13 @@ const FONT5X7: Record<string, string[]> = {
  * Draw text into an RGBA buffer with the built-in 5×7 font. Uppercases input;
  * unknown characters render as space. Returns the pixel width drawn.
  */
-export function drawText(pixels: Uint8Array, width: number, height: number, x: number, y: number, text: string, color: RGB | number[] = [40, 40, 40], scale: number = 1): number {
+export function drawText(pixels: Uint8Array, width: number, height: number, x: number, y: number, text: string, color: RGB | number[] = [40, 40, 40], scale: number = 1, anchor: TextLabel['anchor'] = 'start'): number {
+  if (_textSink) {
+    // (x, y) is the top-left of the bitmap glyph box, cap height 7·scale.
+    const ax = anchor === 'end' ? x + measureText(text, scale) : anchor === 'middle' ? x + measureText(text, scale) / 2 : x
+    _textSink.push({ x: ax, y: y + 7 * scale, capHeight: 7 * scale, text: String(text).toUpperCase(), color: [color[0], color[1], color[2]], anchor })
+    return measureText(text, scale)
+  }
   let cx = Math.round(x)
   const cy = Math.round(y)
   for (const ch of String(text).toUpperCase()) {
@@ -2246,23 +2291,39 @@ export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height
   }
   // Divider lines.
   const grey = [190, 190, 190]
-  if (rows === 2) {
-    for (let x = 0; x < width; x++) {
-      const i = (qh * width + x) * 4
+  for (let t = 0; t < _px; t++) {
+    if (rows === 2) {
+      for (let x = 0; x < width; x++) {
+        const i = ((qh + t) * width + x) * 4
+        pixels[i] = grey[0]; pixels[i+1] = grey[1]; pixels[i+2] = grey[2]
+      }
+    }
+    for (let y = 0; y < height; y++) {
+      const i = (y * width + qw + t) * 4
       pixels[i] = grey[0]; pixels[i+1] = grey[1]; pixels[i+2] = grey[2]
     }
   }
-  for (let y = 0; y < height; y++) {
-    const i = (y * width + qw) * 4
-    pixels[i] = grey[0]; pixels[i+1] = grey[1]; pixels[i+2] = grey[2]
-  }
   // Labels (top-left of each panel); custom camera views get letters.
-  for (let q = 0; q < views.length; q++) {
-    const [ox, oy] = offsets[q]
-    const name = typeof views[q] === 'string' ? (views[q] as string) : String.fromCharCode(65 + q)
-    drawText(pixels, width, height, ox + 8, oy + 8, name, [70, 70, 70], 2)
+  // Vector text: the panels' own labels move with their panel.
+  const labels: TextLabel[] | null = _vectorText ? [] : null
+  if (labels) {
+    for (let q = 0; q < views.length; q++) {
+      const [ox, oy] = offsets[q]
+      for (const l of quads[q]?.labels ?? []) labels.push({ ...l, x: l.x + ox, y: l.y + oy })
+    }
   }
-  return { pixels, width, height, frame: null }
+  const outerSink = _textSink
+  _textSink = labels
+  try {
+    for (let q = 0; q < views.length; q++) {
+      const [ox, oy] = offsets[q]
+      const name = typeof views[q] === 'string' ? (views[q] as string) : String.fromCharCode(65 + q)
+      drawText(pixels, width, height, ox + 8 * _px, oy + 8 * _px, name, [70, 70, 70], 2 * _px)
+    }
+  } finally {
+    _textSink = outerSink
+  }
+  return labels ? { pixels, width, height, frame: null, labels } : { pixels, width, height, frame: null }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2495,13 +2556,60 @@ export function diffImages(a: Pick<RasterResult, 'pixels' | 'width' | 'height'>,
  *   { type: 'curves',  kind: 'svg', svg }
  *   { type: 'workgeo', kind: 'svg', svg }
  */
+/**
+ * Run a raster render at `options.supersample`× resolution (fixed pixel sizes
+ * scaled along via _px) and box-filter it back to width×height: anti-aliased
+ * faces, edges and text at the same output size. A pinned frame is scaled in
+ * and the reported frame scaled back, so frames stay in output pixels.
+ */
+function supersampled(options: RenderOptions, width: number, height: number, render: (w: number, h: number) => RasterResult | null): RasterResult | null {
+  const k = Math.max(1, Math.min(4, Math.round(options.supersample ?? 1)))
+  if (k === 1) return render(width, height)
+  if (options.frame) setViewport({ view: options.view, zoom: options.zoom, lookAt: options.lookAt, frame: { ...options.frame, scale: options.frame.scale * k } })
+  _px = k
+  let big: RasterResult | null
+  try {
+    big = render(width * k, height * k)
+  } finally {
+    _px = 1
+    if (options.frame) setViewport({ view: options.view, zoom: options.zoom, lookAt: options.lookAt, frame: options.frame })
+  }
+  if (!big) return null
+  const pixels = allocPixels(width * height * 4)
+  const n = k * k
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let r = 0, g = 0, b = 0, a = 0
+      for (let sy = 0; sy < k; sy++) {
+        let i = ((y * k + sy) * big.width + x * k) * 4
+        for (let sx = 0; sx < k; sx++, i += 4) { r += big.pixels[i]; g += big.pixels[i+1]; b += big.pixels[i+2]; a += big.pixels[i+3] }
+      }
+      const o = (y * width + x) * 4
+      pixels[o] = (r + n / 2) / n; pixels[o+1] = (g + n / 2) / n; pixels[o+2] = (b + n / 2) / n; pixels[o+3] = (a + n / 2) / n
+    }
+  }
+  const frame = big.frame ? { ...big.frame, scale: big.frame.scale / k } : big.frame
+  const out: RasterResult = { pixels, width, height, frame }
+  if (big.labels) out.labels = big.labels.map(l => ({ ...l, x: l.x / k, y: l.y / k, capHeight: l.capHeight / k }))
+  return out
+}
+
 export async function renderSessionData(source: SessionSource, options: RenderOptions = {}): Promise<SessionEntry[]> {
-  const { tree = {}, graphic = null, execute = null } = source
   const width = options.width || IMG_W
   const height = options.height || IMG_H
   const out: any[] = []
 
   setViewport({ view: options.view, zoom: options.zoom, lookAt: options.lookAt, frame: options.frame })
+  _vectorText = !!options.vectorText
+  try {
+    return await renderSessionEntries(source, options, width, height, out)
+  } finally {
+    _vectorText = false
+  }
+}
+
+async function renderSessionEntries(source: SessionSource, options: RenderOptions, width: number, height: number, out: any[]): Promise<SessionEntry[]> {
+  const { tree = {}, graphic = null, execute = null } = source
   const content = analyzeSession(tree)
   const layerOn = (name: any) => !Array.isArray(options.layers) || options.layers.includes(name)
 
@@ -2525,23 +2633,23 @@ export async function renderSessionData(source: SessionSource, options: RenderOp
     const instances = extractAssemblyInstances(tree)
     if (options.sheet) {
       // Four views in one image; options.sheet may be an array of 4 views.
-      const sheet = renderSolidSheet(solidOnly, width, height, instances, {
+      const sheet = supersampled(options, width, height, (w, h) => renderSolidSheet(solidOnly, w, h, instances, {
         views: Array.isArray(options.sheet) ? options.sheet : undefined,
         colors: options.colors ?? 'native',
         section: options.section,
         highlight: options.highlight,
         markers: options.markers,
-      })
+      }))
       if (sheet) out.push({ type: 'sheet', kind: 'pixels', ...sheet })
     } else {
-      const zbuf = renderSolidZBuffer(solidOnly, width, height, instances, { colors: options.colors ?? 'native', section: options.section, highlight: options.highlight, highlightAt: options.highlightAt, markers: options.markers, overlays: sketchOverlays ?? undefined, annotate: options.annotate, xray: options.xray, xrayAlpha: options.xrayAlpha })
+      const zbuf = supersampled(options, width, height, (w, h) => renderSolidZBuffer(solidOnly, w, h, instances, { colors: options.colors ?? 'native', section: options.section, highlight: options.highlight, highlightAt: options.highlightAt, markers: options.markers, overlays: sketchOverlays ?? undefined, annotate: options.annotate, xray: options.xray, xrayAlpha: options.xrayAlpha }))
       if (zbuf) out.push({ type: 'solid', kind: 'pixels', ...zbuf })
     }
   }
 
   // Sketch overlay without solid geometry → standalone 3D sketch view.
   if (sketchOverlays && !(layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0))) {
-    const zbuf = renderSolidZBuffer({ containers: [] }, width, height, null, { overlays: sketchOverlays, markers: options.markers })
+    const zbuf = supersampled(options, width, height, (w, h) => renderSolidZBuffer({ containers: [] }, w, h, null, { overlays: sketchOverlays, markers: options.markers }))
     if (zbuf) out.push({ type: 'solid', kind: 'pixels', ...zbuf })
   }
 

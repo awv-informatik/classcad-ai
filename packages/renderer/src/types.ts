@@ -29,6 +29,21 @@ export interface RasterResult {
   height: number
   /** The view frame this render used — reusable via {@link RenderOptions.frame}. */
   frame: Frame | null
+  /** Text still to draw over `pixels` ({@link RenderOptions.vectorText}); absent when text was rasterized. */
+  labels?: TextLabel[]
+}
+
+/** A label for an adapter to draw with a real font, in output pixels. */
+export interface TextLabel {
+  /** Anchor x (left, center or right edge per `anchor`). */
+  x: number
+  /** Baseline y. */
+  y: number
+  /** Height of a capital letter in pixels. */
+  capHeight: number
+  text: string
+  color: [number, number, number]
+  anchor: 'start' | 'middle' | 'end'
 }
 
 /**
@@ -134,6 +149,19 @@ export interface AssemblyInstance {
 export interface RenderOptions {
   /** Image width in pixels. @defaultValue `1600` */
   width?: number
+  /**
+   * Anti-aliasing for raster (solid/sheet) renders: draw at k× resolution and
+   * box-filter down to width×height — same output size, smooth edges and text.
+   * 1–4. @defaultValue `1`
+   */
+  supersample?: number
+  /**
+   * Draw labels (sheet titles, markers, annotate overlay) with a real font at
+   * output resolution instead of the built-in 5×7 bitmap font. Raster entries
+   * then carry `labels`; the Node adapter composites them (sharp/SVG).
+   * @defaultValue `false`
+   */
+  vectorText?: boolean
   /** Image height in pixels. @defaultValue `1200` */
   height?: number
   /** Camera: named view or arbitrary orthographic camera. @defaultValue `'iso'` */

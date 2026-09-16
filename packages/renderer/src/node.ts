@@ -9,6 +9,7 @@
 import sharp from 'sharp'
 import { renderSessionData, renderSolidZBuffer, analyzeSession, setViewport, applyAdaptiveFaceting } from './core.js'
 import { parseSTL } from './stl.js'
+import type { TextLabel } from './types.js'
 
 export * from './core.js'
 export * from './stl.js'
@@ -18,9 +19,29 @@ export async function pixelsToPng(pixels: any, width: any, height: any) {
   return sharp(pixels, { raw: { width, height, channels: 4 } }).withMetadata({ density: 72 }).png().toBuffer()
 }
 
-/** Save an RGBA pixel buffer as a PNG file. */
-export async function savePNG(pixels: any, width: any, height: any, path: any) {
-  await sharp(pixels, { raw: { width, height, channels: 4 } }).withMetadata({ density: 72 }).png().toFile(path)
+/** Save an RGBA pixel buffer as a PNG file; `labels` are drawn on top with a real font. */
+export async function savePNG(pixels: any, width: any, height: any, path: any, labels?: TextLabel[]) {
+  let img = sharp(pixels, { raw: { width, height, channels: 4 } })
+  if (labels?.length) img = sharp(await img.composite([{ input: Buffer.from(labelsToSvg(labels, width, height)), top: 0, left: 0 }]).png().toBuffer())
+  await img.withMetadata({ density: 72 }).png().toFile(path)
+}
+
+const escapeXml = (t: string) => t.replace(/[<>&"']/g, c => `&#${c.charCodeAt(0)};`)
+
+/**
+ * Labels as an SVG overlay of the image size. A monospace font keeps the bitmap
+ * font's metrics: cap height ≈ 0.72 em and advance ≈ 0.6 em ≈ 6 px per 7 px of
+ * cap height, so text widths match the layout the renderer measured.
+ */
+export function labelsToSvg(labels: TextLabel[], width: number, height: number): string {
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">`
+  for (const l of labels) {
+    const size = Math.max(11, l.capHeight / 0.72)
+    svg +=
+      `<text x="${l.x.toFixed(1)}" y="${l.y.toFixed(1)}" text-anchor="${l.anchor}" font-family="Menlo, 'SF Mono', Monaco, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace" ` +
+      `font-size="${size.toFixed(1)}" font-weight="600" fill="rgb(${l.color.join(',')})">${escapeXml(l.text)}</text>`
+  }
+  return svg + '</svg>'
 }
 
 /** Rasterize an SVG string to PNG bytes. */
@@ -223,7 +244,7 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
     else if (e.type === 'curves') file = `${prefix}-curves.png`
     else file = `${prefix}-${e.type}.png`
 
-    if (e.kind === 'pixels') await savePNG(e.pixels, e.width, e.height, `${outDir}/${file}`)
+    if (e.kind === 'pixels') await savePNG(e.pixels, e.width, e.height, `${outDir}/${file}`, e.labels)
     else await svgToPng(e.svg, `${outDir}/${file}`)
 
     const entry: any = { type: e.type, file }

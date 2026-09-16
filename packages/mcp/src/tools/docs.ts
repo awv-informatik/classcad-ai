@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { existsSync, readFileSync } from 'fs'
 import { createRequire } from 'module'
 import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { RECIPES_POINTER, REFERENCE_IMAGE_POINTER } from '@classcad/skill/prompts'
 import { createDiscovery, DOCS_MAX_KEYS, DOCS_TOOL, type MethodRegistry } from '@classcad/skill/discovery'
@@ -56,6 +57,21 @@ const discovery = createDiscovery({
   resolveDoc: diskResolver(),
 })
 
+/** This install's CLI, so agents get a command that runs as written. */
+const CLI = `node "${fileURLToPath(new URL('../server.js', import.meta.url))}"`
+
+/**
+ * Daemon lifecycle for agents. Shared by the instructions and session_info:
+ * hosts may cut long instructions, a tool description always arrives.
+ */
+export const DAEMON_NOTE =
+  'DAEMON: every tab of this MCP is a session in ONE shared daemon process per machine (127.0.0.1:9095); it exits a minute after its last session. ' +
+  'Rebuilt MCP/renderer code only runs in a new daemon — an idle one is replaced automatically. Shell commands: ' +
+  `\`${CLI} status\` (pid, build, sessions); ` +
+  `\`${CLI} stop\` (stops it only when no session is active); ` +
+  `\`${CLI} stop --force\` (terminates it NOW — every connected tab, this one included, loses its ClassCAD tools and the models in them ` +
+  'until its host restarts the MCP: ask the user first). Never kill daemon processes by hand.'
+
 /**
  * Server instructions for the MCP initialize handshake — hosts put this into
  * the agent's context, so it knows the FULL method surface from turn one
@@ -77,6 +93,8 @@ export function serverInstructions(): string {
       'WASM engine (no server, no browser). A share link/URL decides by itself; otherwise use_session(engine="auto"|"drogon"|"wasm") — ' +
       'auto = worker if reachable else local WASM. "use WASM / local / offline" → engine "wasm"; "my Drogon/ClassCAD server" → "drogon". ' +
       'session_info shows what is in use.',
+    '',
+    DAEMON_NOTE,
     '',
     'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
       'and trap notes, list_methods to filter. Never conclude an operation does not exist without checking this index:',

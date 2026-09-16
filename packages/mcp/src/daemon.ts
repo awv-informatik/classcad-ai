@@ -18,7 +18,8 @@
 //     (a Drogon-only user never notices it; a WASM user has it running while
 //     a tab is shared).
 //
-// HTTP surface (127.0.0.1 only):
+// HTTP surface (127.0.0.1 only; requests with an Origin header or a
+// non-loopback Host are refused with 403 — no browser may drive it):
 //   GET  /health   → { name:'classcad-mcp', version, build, pid, sessions, apps, bridge, bridgeListen, logFile, uptimeMs }
 //   POST /shutdown → exits when no session is active (409 otherwise);
 //                    ?drain=1 → stops taking NEW sessions (503) and exits as
@@ -43,19 +44,55 @@ import { wasmOptionsFromEnv, type LocalWasmOptions } from './engine/wasm.js'
 
 export const DAEMON_HOST = '127.0.0.1'
 
+/** Code the daemon loads besides its own dist: a rebuild of any of them is a new build. */
+const BUILD_DEPENDENCIES = ['@classcad/renderer/node', '@classcad/script']
+
 /**
- * Build stamp of the daemon code: the mtime of daemon.js. The package version
- * only changes on releases; during development every `npm run build` must
- * make the next shim replace a running (idle) daemon, so /health reports this
- * and the shim compares it with the file next to itself.
+ * Build stamp of the daemon code: the newest mtime of daemon.js and the
+ * workspace packages it runs (renderer, script). The package version only
+ * changes on releases; during development every `npm run build` must make the
+ * next shim replace a running (idle) daemon, so /health reports the stamp the
+ * daemon STARTED with and the shim compares it with the files on disk now.
  */
 export function daemonBuildStamp(): string {
   // Test hook: lets the daemon contract simulate "another build".
   if (process.env.CLASSCAD_MCP_BUILD) return process.env.CLASSCAD_MCP_BUILD
+  const files = [import.meta.url]
+  for (const dep of BUILD_DEPENDENCIES) {
+    try {
+      files.push(import.meta.resolve(dep))
+    } catch {
+      /* not resolvable from here: only daemon.js counts */
+    }
+  }
+  let newest = 0
+  for (const file of files) {
+    try {
+      newest = Math.max(newest, statSync(fileURLToPath(file)).mtimeMs)
+    } catch {
+      /* missing file: ignore */
+    }
+  }
+  return newest > 0 ? new Date(newest).toISOString() : 'unknown'
+}
+
+const LOOPBACK_HOSTNAMES = new Set(['127.0.0.1', 'localhost', '[::1]'])
+
+/**
+ * Only local non-browser clients (the shims, curl, the CLI) may talk to the
+ * daemon. Binding 127.0.0.1 keeps the network out but not web pages: a page can
+ * fire simple requests at loopback, and DNS rebinding makes it same-origin.
+ * Browsers always send Origin on POST and cross-origin requests, and a rebound
+ * request carries the attacker's hostname in Host — reject both.
+ */
+function isLoopbackClient(req: IncomingMessage): boolean {
+  if (req.headers.origin !== undefined) return false
+  const host = req.headers.host
+  if (!host) return false
   try {
-    return new Date(statSync(fileURLToPath(import.meta.url)).mtimeMs).toISOString()
+    return LOOPBACK_HOSTNAMES.has(new URL(`http://${host}`).hostname)
   } catch {
-    return 'unknown'
+    return false
   }
 }
 export const DEFAULT_DAEMON_PORT = 9095
@@ -128,6 +165,8 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
   const idleMs = opts.idleMs ?? DEFAULT_IDLE_MS
   const log = makeLog(opts.logFile)
   const startedAt = Date.now()
+  // Taken once: the code this process runs, not whatever a later build left on disk.
+  const build = daemonBuildStamp()
 
   // The bridge listener: one per machine, hence one per daemon. Apps announce
   // their share tokens here; sessions attach to them through the registry.
@@ -197,12 +236,17 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
 
   const httpServer = createServer(async (req, res) => {
     try {
+      if (!isLoopbackClient(req)) {
+        log(`refused ${req.method} ${req.url} (host ${req.headers.host ?? '-'}, origin ${req.headers.origin ?? '-'})`)
+        sendJson(res, 403, { error: 'forbidden: local non-browser clients only' })
+        return
+      }
       const url = new URL(req.url ?? '/', `http://${DAEMON_HOST}`)
       if (url.pathname === '/health') {
         sendJson(res, 200, {
           name: 'classcad-mcp',
           version: VERSION,
-          build: daemonBuildStamp(),
+          build,
           pid: process.pid,
           sessions: sessions.size,
           draining,

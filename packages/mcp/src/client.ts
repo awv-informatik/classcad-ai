@@ -96,6 +96,8 @@ type Id = number | string
 
 export type ConnectOptions = {
   graphics?: boolean // default true — include kernel graphics in pulls
+  requestTimeoutMs?: number
+  connectTimeoutMs?: number
   debug?: boolean // default false — disables all timeouts
   sessionId?: string | null // optional — initial session id to send as ClassCAD-Session-Id header
   /** Accessor for the bridge registry (apps announcing share tokens); needed for reconnectBridge. */
@@ -164,6 +166,7 @@ export type Client = {
 export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = {}): Promise<Client> {
   const graphics = opts.graphics !== false
   const debug = opts.debug === true
+  let outcomeUnknown = false
   const pending = new Map<string, PendingEntry>()
   // The URL is used VERBATIM — it may carry a multi-client token/invite query
   // (e.g. wss://host/?invite=…), in which case the server itself decides the
@@ -365,6 +368,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   async function request<T = unknown>(command: string, extra: object = {}, o: { track?: boolean } = {}): Promise<ApiResult<T>> {
+    if (outcomeUnknown) throw new Error('Session outcome unknown after request timeout; reconnect before further work')
     await ensureOpen()
     if (o.track !== false) version++
     const transactionID = randomUUID()
@@ -377,9 +381,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         setTimeout(() => {
           if (pending.has(transactionID)) {
             pending.delete(transactionID)
-            reject(new Error(`Timeout (${REQUEST_TIMEOUT}ms): ${command}`))
+            outcomeUnknown = true
+            reject(new Error(`Request timeout: ${command}; mutation outcome unknown, reconnect required`))
           }
-        }, REQUEST_TIMEOUT)
+        }, opts.requestTimeoutMs ?? REQUEST_TIMEOUT).unref()
       }
     })
   }
@@ -657,6 +662,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // connect() call and for reconnect(sessionId). Resets cached structure /
   // graphic state and rejects any in-flight requests on the old socket.
   function resetCaches(): void {
+    outcomeUnknown = false
     for (const [, entry] of pending) {
       try {
         entry.reject(new Error('WebSocket reconnecting'))
@@ -770,9 +776,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       }
       sock.once('open', opened)
       sock.once('error', fail)
-      if (!debug) timer = setTimeout(() => fail(new Error('Connection timeout')), CONNECT_TIMEOUT)
+      if (!debug) timer = setTimeout(() => fail(new Error('Connection timeout')), opts.connectTimeoutMs ?? CONNECT_TIMEOUT)
     })
     sock.on('message', (d, b) => handleFrame(d, b))
+  sock.on('close', () => {
+    if (ws !== sock) return
+    for (const entry of pending.values()) entry.reject(new Error('Worker disconnected; in-flight mutation outcome unknown'))
+    pending.clear()
+  })
+
 
     // No emission config is set here on purpose (see the header): the
     // connection keeps the engine's defaults so a shared session's app sees

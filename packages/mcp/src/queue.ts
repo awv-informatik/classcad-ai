@@ -24,6 +24,9 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 
 /** Tools that only read package data (no engine access) and stay unqueued. */
+const busyChecks = new WeakMap<McpServer, () => boolean>()
+export function setDrawingBusy(server: McpServer, check: () => boolean): void { busyChecks.set(server, check) }
+
 export const UNQUEUED_TOOLS = new Set(['list_methods', 'describe_method', 'docs', 'session_info'])
 
 /**
@@ -38,7 +41,9 @@ export function serializeTools(server: McpServer, exclude: Set<string> = UNQUEUE
   ;(server as any).registerTool = (name: string, config: unknown, handler: (...args: any[]) => any) => {
     if (exclude.has(name)) return original(name, config, handler)
     const queued = (...args: any[]) => {
-      const run = tail.then(() => handler(...args))
+      const run = tail.then(() => busyChecks.get(server)?.()
+        ? { isError: true, content: [{ type: 'text', text: 'Session busy: timed-out work is unresolved. Wait before changing or inspecting the drawing.' }] }
+        : handler(...args))
       // Whatever happens to this call, the next one may start afterwards.
       tail = run.then(
         () => undefined,

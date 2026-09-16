@@ -1,3 +1,4 @@
+import { setDrawingBusy } from '../queue.js'
 // run_script — execute model-written JavaScript against the live session.
 //
 // Powered by @classcad/script: the same script medium as buerli-ai and the
@@ -7,7 +8,7 @@
 import { z } from 'zod'
 import { createRequire } from 'module'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { runScript, type MethodRegistry, type ScriptSession, type Task } from '@classcad/script'
+import { runScript, isSessionBusy, type MethodRegistry, type ScriptSession, type Task } from '@classcad/script'
 import type { Client } from '../client.js'
 
 // Runtime require — keeps the registry JSON out of tsc's type space (OOM risk).
@@ -22,8 +23,12 @@ const REGISTRY = createRequire(import.meta.url)('@classcad/skill/method-registry
  * otherwise keeps the engine defaults - important when it is docked into a
  * session shared with an interactive app.
  */
+const sessions = new WeakMap<Client, ScriptSession>()
 function sessionFor(client: Client): ScriptSession {
-  return {
+  const previous = sessions.get(client)
+  if (previous) return previous
+  const session: ScriptSession = {
+    executionKey: client,
     env: 'node',
     execute: (task: Task) => client.execute(task) as ReturnType<ScriptSession['execute']>,
     getTree: (o?: { refresh?: boolean }) => client.getTree(o) as Promise<import('@classcad/script').Tree>,
@@ -31,9 +36,12 @@ function sessionFor(client: Client): ScriptSession {
     getEmissionConfig: () => client.getEmissionConfig(),
     setEmissionConfig: (partial: Record<string, unknown>) => client.setEmissionConfig(partial),
   }
+  sessions.set(client, session)
+  return session
 }
 
 export function registerScriptTool(server: McpServer, client: Client): void {
+  setDrawingBusy(server, () => isSessionBusy(sessionFor(client)))
   server.registerTool(
     'run_script',
     {
@@ -63,15 +71,26 @@ export function registerScriptTool(server: McpServer, client: Client): void {
         timeoutMs: z.number().int().min(1000).max(300000).optional().describe('Timeout for awaited work in ms (default 60000).'),
       },
     },
-    async ({ script, timeoutMs }) => {
-      const res = await runScript(script, sessionFor(client), { registry: REGISTRY, timeoutMs })
+    async ({ script, timeoutMs }, extra) => {
+      let operationCount = 0
+      const session = sessionFor(client)
+      const res = await runScript(script, session, { registry: REGISTRY, timeoutMs, strict: true, signal: extra.signal,
+        onOperation: event => {
+          if (extra._meta?.progressToken !== undefined && event.phase === 'start') {
+            void extra.sendNotification({ method: 'notifications/progress', params: {
+              progressToken: extra._meta.progressToken, progress: ++operationCount,
+              message: `${event.method}${event.name ? ': ' + event.name : ''}`,
+            } }).catch(() => {})
+          }
+        },
+      })
       // The script ran with payloads suppressed and the connection's flags
       // are restored again. One GetTree now: its Result carries the full
       // structure and graphic, refreshes our caches, and - broadcast by the
       // server - brings a shared session's other clients up to date with
       // everything the script changed while they received nothing.
       try {
-        await client.pull()
+        if (!isSessionBusy(session)) await client.pull()
       } catch {
         /* the tools pull again on demand */
       }

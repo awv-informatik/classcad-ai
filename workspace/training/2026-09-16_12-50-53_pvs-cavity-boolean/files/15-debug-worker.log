@@ -1,0 +1,1338 @@
+[0;32m[2026-09-16 13:20:23.939][INFO] STARTING CLASSCAD...
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Current working directory  : /Users/dev/dev/awv/classcad
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.ini
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.ini
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.user.ini
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config file: /Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/worker.ini
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Ensure CompressionService is loaded
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Ensure JWTService is loaded
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Run the command 'worker'
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Current working directory  : /Users/dev/dev/awv/classcad
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Executable | file name     : classcad-cli
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Executable | file path     : /Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/classcad-cli
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Executable | directory     : /Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | verbose file name : /Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/files/worker.log
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | verbose level     : 16583
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | log level         : debug
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | data path         : ./data
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | class path        : 
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | classes system    : ./cclasses/Source;System;Common.*;BaseModeling.*;CAD;Sheet;
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | classes user      : ./cclasses/Source/Tests;*;
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | classes user      : ./standalone/t3d/Source;T3D.*;T3DSolidEditor.*;T3DSolidEditor;T3DTesting;GTC.*;ISO_Tool.*;ISOChecker.*;
+[0m[0;32m[2026-09-16 13:20:23.940][INFO] Config | classes user      : ./cclasses/Source/FeatureModeler;*;
+[0m[0;32m[2026-09-16 13:20:24.372][VERB] libSMLibService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.374][VERB] libSMLibExpressService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.375][VERB] libBrepSimplificationService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.377][VERB] libECXMLService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.377][VERB] libJWTService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.377][VERB] libGenericService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.379][VERB] libLGSService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.381][VERB] libLGS3DService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.384][VERB] libIDEConnectionService.dylib is loaded
+[0m[2026-09-16 13:20:24] [info] asio listen error: system:48 (Address already in use)
+[0;32m[2026-09-16 13:20:24.384][VERB] libRapidXmlService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.384][VERB] libNetworkService.dylib is loaded
+[0m[0;32m[2026-09-16 13:20:24.385][VERB] libTestService.dylib is loaded
+[0m[0;31m[2026-09-16 13:20:24.386][ERROR] The Service-DLL DxfService could not be loaded.
+ErrorCode: dlopen(DxfServiced.dylib, 0x0001): tried: 'DxfServiced.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSDxfServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/DxfServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/DxfServiced.dylib' (no such file), '/usr/lib/DxfServiced.dylib' (no such file, not in dyld cache), 'DxfServiced.dylib' (no such file)
+The service functions of this DLL are therefore not available.
+[0m[0;32m[2026-09-16 13:20:24.386][VERB] libCryptoRtService.dylib is loaded
+[0m[0;31m[2026-09-16 13:20:24.387][ERROR] The Service-DLL CryptoDevService could not be loaded.
+ErrorCode: dlopen(CryptoDevServiced.dylib, 0x0001): tried: 'CryptoDevServiced.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSCryptoDevServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/CryptoDevServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/CryptoDevServiced.dylib' (no such file), '/usr/lib/CryptoDevServiced.dylib' (no such file, not in dyld cache), 'CryptoDevServiced.dylib' (no such file)
+The service functions of this DLL are therefore not available.
+[0m[0;33m[2026-09-16 13:20:24.399][WARN] Path does not exist '/Users/dev/dev/awv/classcad/standalone/t3d/Source'. It is defined for class path 't3d'.
+[0m[0;32m[2026-09-16 13:20:24.400][INFO] Load classes for 'system' from '/Users/dev/dev/awv/classcad/cclasses/Source'
+[0m[0;32m[2026-09-16 13:20:24.522][INFO] Load classes for 'tests' from '/Users/dev/dev/awv/classcad/cclasses/Source/Tests'
+[0m[0;32m[2026-09-16 13:20:24.604][INFO] Load classes for 't3d' from '/Users/dev/dev/awv/classcad/standalone/t3d/Source'
+[0m[0;33m[2026-09-16 13:20:24.604][WARN] Tried to load from invalid class path 't3d'
+[0m[0;32m[2026-09-16 13:20:24.604][INFO] Load classes for 'fm' from '/Users/dev/dev/awv/classcad/cclasses/Source/FeatureModeler'
+[0m[0;32m[2026-09-16 13:20:24.619][VERB] 0x74b81b1f80 Create Zeichnung
+[0m[0;32m[2026-09-16 13:20:24.619][VERB] 0x74b81b1f80 SetZeichnung
+[0m[0;32m[2026-09-16 13:20:24.619][VERB] Grundklasse::InitApplication was successful.
+[0m[0;32m[2026-09-16 13:20:24.619][VERB] [info] Initializing BaseModelerApp
+[0m[0;32m[2026-09-16 13:20:24.619][VERB] Change application string/text encoding to UTF-8
+[0m[0;32m[2026-09-16 13:20:24.620][VERB] [info] Developer mode is active
+[0m[0;32m[2026-09-16 13:20:24.620][VERB] [info] Initializing BuerliDemoApp
+[0m[0;32m[2026-09-16 13:20:24.620][VERB] API v0/common already registered!
+[0m[0;32m[2026-09-16 13:20:24.620][VERB] API v0/basemodeler already registered!
+[0m[0;32m[2026-09-16 13:20:24.621][VERB] Registered API's:
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]   v0
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     assemblybuilder
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     basemodeler
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     common
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     developer
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     drawing2d
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     feature
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     geometry
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     geometryformatconverter
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     network
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     sketcher
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     solid
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     tooling
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]   v1
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     assembly
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     brep
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     common
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     curve
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     drawing2d
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     part
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     script
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     sketch
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     solid
+[0m[0;32m[2026-09-16 13:20:24.621][VERB]     utils
+[0m[0;32m[2026-09-16 13:20:24.621][VERB] 0x74b81b2700 Create Zeichnung
+[0m[0;32m[2026-09-16 13:20:24.621][VERB] 0x74b81b2700 SetZeichnung
+[0m[0;32m[2026-09-16 13:20:24.622][INFO] WorkerCommandCompletion: 824 completion candidates built
+[0m[0;32m[2026-09-16 13:20:24.622][INFO] Server start listen on 0.0.0.0:19094 for http and ws connections
+[0m[0;32m[2026-09-16 13:20:24.622][INFO] Server start listen on 0.0.0.0:19095 for https and wss connections
+[0m[0;32m[2026-09-16 13:20:25.627][INFO] Worker is ready
+[0m
+
+[0;32m[2026-09-16 13:20:27.047][INFO] GET /
+[0m[0;32m[2026-09-16 13:20:27.047][VERB] 0x74b81b2b80 Create Zeichnung
+[0m[0;32m[2026-09-16 13:20:27.047][INFO] WS handleNewConnection: created main session="920d6c72-9f0c-4acb-b77b-53d5e6795619"
+[0m[0;32m[2026-09-16 13:20:27.049][INFO] GET /
+[0m[0;32m[2026-09-16 13:20:27.050][VERB] 0x74b81b2d00 Create Zeichnung
+[0m[0;32m[2026-09-16 13:20:27.050][INFO] WS handleNewConnection: created main session="50398c5f-1c0b-49eb-90ad-ff0d2c8377d3"
+[0m[0;32m[2026-09-16 13:20:27.055][VERB] 0x74b81b2d00 SetZeichnung
+[0m[0;32m[2026-09-16 13:20:27.055][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.create",[{"name":"Base"}]])
+[0m[0;32m[2026-09-16 13:20:27.070][VERB] RETURN: {"result":"$4"}
+[0m[0;32m[2026-09-16 13:20:27.078][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.expression",[{"toCreate":[{"value":23.8,"name":"seam"},{"value":3,"name":"rear_roof_raise"},{"value":4,"name":"pocket_corner_blend_r"},{"value":4.5,"name":"rear_pillar_envelope_r"},{"value":1.3,"name":"skin_growth"},{"value":1.67,"name":"outer_chamfer"} ...
+[0m[0;32m[2026-09-16 13:20:27.110][VERB] RETURN: {"result":1}
+[0m[0;32m[2026-09-16 13:20:27.110][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"XAxis","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.111][VERB] RETURN: {"result":"$26"}
+[0m[0;32m[2026-09-16 13:20:27.111][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"YAxis","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.111][VERB] RETURN: {"result":"$30"}
+[0m[0;32m[2026-09-16 13:20:27.111][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"ZAxis","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.111][VERB] RETURN: {"result":"$34"}
+[0m[0;32m[2026-09-16 13:20:27.112][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"Top","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.112][VERB] RETURN: {"result":"$38"}
+[0m[0;32m[2026-09-16 13:20:27.112][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"Front","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.112][VERB] RETURN: {"result":"$42"}
+[0m[0;32m[2026-09-16 13:20:27.112][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"Right","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.113][VERB] RETURN: {"result":"$46"}
+[0m[0;32m[2026-09-16 13:20:27.113][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F3_makeBox_cad_primitives_py_8_plane","offset":"@expr.d4_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.118][VERB] RETURN: {"result":"$56"}
+[0m[0;32m[2026-09-16 13:20:27.119][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":56,"name":"F3_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.121][VERB] RETURN: {"result":"$62"}
+[0m[0;32m[2026-09-16 13:20:27.122][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[1.4,-1.3,0],"id":62,"genFixation":0,"endPos":[52.4,27.3,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.130][VERB] RETURN: {"result":["$68","$72","$78","$84"]}
+[0m[0;32m[2026-09-16 13:20:27.131][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":68}]])
+[0m[0;32m[2026-09-16 13:20:27.131][VERB] RETURN: {"result":{"endId":"$70","startId":"$69"}}
+[0m[0;32m[2026-09-16 13:20:27.131][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":62}]])
+[0m[0;32m[2026-09-16 13:20:27.134][VERB] RETURN: {"result":"$100"}
+[0m[0;32m[2026-09-16 13:20:27.134][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":62,"geomIds":[100]}]])
+[0m[0;32m[2026-09-16 13:20:27.136][VERB] RETURN: {"result":"$102"}
+[0m[0;32m[2026-09-16 13:20:27.137][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d5_position_x","name":"position_x","id":62,"geomIds":[100,69]}]])
+[0m[0;32m[2026-09-16 13:20:27.148][VERB] RETURN: {"result":"$106"}
+[0m[0;32m[2026-09-16 13:20:27.148][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d6_position_y","name":"position_y","id":62,"geomIds":[100,69]}]])
+[0m[0;32m[2026-09-16 13:20:27.155][VERB] RETURN: {"result":"$110"}
+[0m[0;32m[2026-09-16 13:20:27.155][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d7_width","name":"width","id":62,"geomIds":[68]}]])
+[0m[0;32m[2026-09-16 13:20:27.163][VERB] RETURN: {"result":"$114"}
+[0m[0;32m[2026-09-16 13:20:27.163][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d8_depth","name":"depth","id":62,"geomIds":[72]}]])
+[0m[0;32m[2026-09-16 13:20:27.171][VERB] RETURN: {"result":"$118"}
+[0m[0;32m[2026-09-16 13:20:27.173][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[68,72,78,84],"name":"F3_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d9_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.181][VERB] RETURN: {"result":"$122"}
+[0m[0;32m[2026-09-16 13:20:27.182][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F10_makeBox_cad_primitives_py_8_plane","offset":"@expr.d11_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.186][VERB] RETURN: {"result":"$165"}
+[0m[0;32m[2026-09-16 13:20:27.186][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":165,"name":"F10_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.188][VERB] RETURN: {"result":"$171"}
+[0m[0;32m[2026-09-16 13:20:27.189][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[-1.3,1.4,0],"id":171,"genFixation":0,"endPos":[55.1,24.6,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.195][VERB] RETURN: {"result":["$177","$181","$187","$193"]}
+[0m[0;32m[2026-09-16 13:20:27.195][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":177}]])
+[0m[0;32m[2026-09-16 13:20:27.196][VERB] RETURN: {"result":{"endId":"$179","startId":"$178"}}
+[0m[0;32m[2026-09-16 13:20:27.196][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":171}]])
+[0m[0;32m[2026-09-16 13:20:27.198][VERB] RETURN: {"result":"$209"}
+[0m[0;32m[2026-09-16 13:20:27.198][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":171,"geomIds":[209]}]])
+[0m[0;32m[2026-09-16 13:20:27.200][VERB] RETURN: {"result":"$211"}
+[0m[0;32m[2026-09-16 13:20:27.200][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d12_position_x","name":"position_x","id":171,"geomIds":[209,178]}]])
+[0m[0;32m[2026-09-16 13:20:27.207][VERB] RETURN: {"result":"$215"}
+[0m[0;32m[2026-09-16 13:20:27.207][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d13_position_y","name":"position_y","id":171,"geomIds":[209,178]}]])
+[0m[0;32m[2026-09-16 13:20:27.213][VERB] RETURN: {"result":"$219"}
+[0m[0;32m[2026-09-16 13:20:27.214][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d14_width","name":"width","id":171,"geomIds":[177]}]])
+[0m[0;32m[2026-09-16 13:20:27.221][VERB] RETURN: {"result":"$223"}
+[0m[0;32m[2026-09-16 13:20:27.222][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d15_depth","name":"depth","id":171,"geomIds":[181]}]])
+[0m[0;32m[2026-09-16 13:20:27.231][VERB] RETURN: {"result":"$227"}
+[0m[0;32m[2026-09-16 13:20:27.231][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[177,181,187,193],"name":"F10_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d16_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.237][VERB] RETURN: {"result":"$231"}
+[0m[0;32m[2026-09-16 13:20:27.237][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F17_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d18_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.241][VERB] RETURN: {"result":"$274"}
+[0m[0;32m[2026-09-16 13:20:27.241][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":274,"name":"F17_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.244][VERB] RETURN: {"result":"$280"}
+[0m[0;32m[2026-09-16 13:20:27.244][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":280,"genFixation":0,"centerPos":[1.4,1.4,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.246][VERB] RETURN: {"result":"$286"}
+[0m[0;32m[2026-09-16 13:20:27.246][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":286}]])
+[0m[0;32m[2026-09-16 13:20:27.246][VERB] RETURN: {"result":{"centerId":"$287"}}
+[0m[0;32m[2026-09-16 13:20:27.246][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":280}]])
+[0m[0;32m[2026-09-16 13:20:27.247][VERB] RETURN: {"result":"$289"}
+[0m[0;32m[2026-09-16 13:20:27.248][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":280,"geomIds":[289]}]])
+[0m[0;32m[2026-09-16 13:20:27.248][VERB] RETURN: {"result":"$291"}
+[0m[0;32m[2026-09-16 13:20:27.249][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d19_position_x","name":"position_x","id":280,"geomIds":[289,287]}]])
+[0m[0;32m[2026-09-16 13:20:27.254][VERB] RETURN: {"result":"$295"}
+[0m[0;32m[2026-09-16 13:20:27.254][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d20_position_y","name":"position_y","id":280,"geomIds":[289,287]}]])
+[0m[0;32m[2026-09-16 13:20:27.260][VERB] RETURN: {"result":"$299"}
+[0m[0;32m[2026-09-16 13:20:27.260][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d21_radius","name":"radius","id":280,"geomIds":[286]}]])
+[0m[0;32m[2026-09-16 13:20:27.267][VERB] RETURN: {"result":"$303"}
+[0m[0;32m[2026-09-16 13:20:27.268][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[286],"name":"F17_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d22_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.275][VERB] RETURN: {"result":"$307"}
+[0m[0;32m[2026-09-16 13:20:27.275][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F23_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d24_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.279][VERB] RETURN: {"result":"$329"}
+[0m[0;32m[2026-09-16 13:20:27.279][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":329,"name":"F23_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.281][VERB] RETURN: {"result":"$335"}
+[0m[0;32m[2026-09-16 13:20:27.281][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":335,"genFixation":0,"centerPos":[1.4,24.6,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.283][VERB] RETURN: {"result":"$341"}
+[0m[0;32m[2026-09-16 13:20:27.283][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":341}]])
+[0m[0;32m[2026-09-16 13:20:27.283][VERB] RETURN: {"result":{"centerId":"$342"}}
+[0m[0;32m[2026-09-16 13:20:27.283][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":335}]])
+[0m[0;32m[2026-09-16 13:20:27.285][VERB] RETURN: {"result":"$344"}
+[0m[0;32m[2026-09-16 13:20:27.285][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":335,"geomIds":[344]}]])
+[0m[0;32m[2026-09-16 13:20:27.286][VERB] RETURN: {"result":"$346"}
+[0m[0;32m[2026-09-16 13:20:27.286][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d25_position_x","name":"position_x","id":335,"geomIds":[344,342]}]])
+[0m[0;32m[2026-09-16 13:20:27.291][VERB] RETURN: {"result":"$350"}
+[0m[0;32m[2026-09-16 13:20:27.291][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d26_position_y","name":"position_y","id":335,"geomIds":[344,342]}]])
+[0m[0;32m[2026-09-16 13:20:27.296][VERB] RETURN: {"result":"$354"}
+[0m[0;32m[2026-09-16 13:20:27.297][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d27_radius","name":"radius","id":335,"geomIds":[341]}]])
+[0m[0;32m[2026-09-16 13:20:27.303][VERB] RETURN: {"result":"$358"}
+[0m[0;32m[2026-09-16 13:20:27.304][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[341],"name":"F23_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d28_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.310][VERB] RETURN: {"result":"$362"}
+[0m[0;32m[2026-09-16 13:20:27.310][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F29_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d30_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.314][VERB] RETURN: {"result":"$384"}
+[0m[0;32m[2026-09-16 13:20:27.314][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":384,"name":"F29_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.316][VERB] RETURN: {"result":"$390"}
+[0m[0;32m[2026-09-16 13:20:27.317][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":390,"genFixation":0,"centerPos":[52.4,1.4,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.318][VERB] RETURN: {"result":"$396"}
+[0m[0;32m[2026-09-16 13:20:27.318][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":396}]])
+[0m[0;32m[2026-09-16 13:20:27.318][VERB] RETURN: {"result":{"centerId":"$397"}}
+[0m[0;32m[2026-09-16 13:20:27.318][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":390}]])
+[0m[0;32m[2026-09-16 13:20:27.320][VERB] RETURN: {"result":"$399"}
+[0m[0;32m[2026-09-16 13:20:27.320][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":390,"geomIds":[399]}]])
+[0m[0;32m[2026-09-16 13:20:27.321][VERB] RETURN: {"result":"$401"}
+[0m[0;32m[2026-09-16 13:20:27.321][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d31_position_x","name":"position_x","id":390,"geomIds":[399,397]}]])
+[0m[0;32m[2026-09-16 13:20:27.326][VERB] RETURN: {"result":"$405"}
+[0m[0;32m[2026-09-16 13:20:27.327][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d32_position_y","name":"position_y","id":390,"geomIds":[399,397]}]])
+[0m[0;32m[2026-09-16 13:20:27.332][VERB] RETURN: {"result":"$409"}
+[0m[0;32m[2026-09-16 13:20:27.332][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d33_radius","name":"radius","id":390,"geomIds":[396]}]])
+[0m[0;32m[2026-09-16 13:20:27.338][VERB] RETURN: {"result":"$413"}
+[0m[0;32m[2026-09-16 13:20:27.338][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[396],"name":"F29_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d34_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.344][VERB] RETURN: {"result":"$417"}
+[0m[0;32m[2026-09-16 13:20:27.344][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F35_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d36_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.348][VERB] RETURN: {"result":"$439"}
+[0m[0;32m[2026-09-16 13:20:27.348][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":439,"name":"F35_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.351][VERB] RETURN: {"result":"$445"}
+[0m[0;32m[2026-09-16 13:20:27.351][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":445,"genFixation":0,"centerPos":[52.4,24.6,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.352][VERB] RETURN: {"result":"$451"}
+[0m[0;32m[2026-09-16 13:20:27.353][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":451}]])
+[0m[0;32m[2026-09-16 13:20:27.353][VERB] RETURN: {"result":{"centerId":"$452"}}
+[0m[0;32m[2026-09-16 13:20:27.353][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":445}]])
+[0m[0;32m[2026-09-16 13:20:27.354][VERB] RETURN: {"result":"$454"}
+[0m[0;32m[2026-09-16 13:20:27.355][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":445,"geomIds":[454]}]])
+[0m[0;32m[2026-09-16 13:20:27.356][VERB] RETURN: {"result":"$456"}
+[0m[0;32m[2026-09-16 13:20:27.356][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d37_position_x","name":"position_x","id":445,"geomIds":[454,452]}]])
+[0m[0;32m[2026-09-16 13:20:27.361][VERB] RETURN: {"result":"$460"}
+[0m[0;32m[2026-09-16 13:20:27.361][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d38_position_y","name":"position_y","id":445,"geomIds":[454,452]}]])
+[0m[0;32m[2026-09-16 13:20:27.367][VERB] RETURN: {"result":"$464"}
+[0m[0;32m[2026-09-16 13:20:27.368][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d39_radius","name":"radius","id":445,"geomIds":[451]}]])
+[0m[0;32m[2026-09-16 13:20:27.373][VERB] RETURN: {"result":"$468"}
+[0m[0;32m[2026-09-16 13:20:27.373][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[451],"name":"F35_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d40_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.378][VERB] RETURN: {"result":"$472"}
+[0m[0;32m[2026-09-16 13:20:27.379][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F41_makeBox_cad_primitives_py_8_plane","offset":"@expr.d42_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.383][VERB] RETURN: {"result":"$494"}
+[0m[0;32m[2026-09-16 13:20:27.383][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":494,"name":"F41_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.385][VERB] RETURN: {"result":"$500"}
+[0m[0;32m[2026-09-16 13:20:27.386][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[1.4,20.1,0],"id":500,"genFixation":0,"endPos":[56.4,65.9,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.393][VERB] RETURN: {"result":["$506","$510","$516","$522"]}
+[0m[0;32m[2026-09-16 13:20:27.393][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":506}]])
+[0m[0;32m[2026-09-16 13:20:27.393][VERB] RETURN: {"result":{"endId":"$508","startId":"$507"}}
+[0m[0;32m[2026-09-16 13:20:27.393][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":500}]])
+[0m[0;32m[2026-09-16 13:20:27.396][VERB] RETURN: {"result":"$538"}
+[0m[0;32m[2026-09-16 13:20:27.396][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":500,"geomIds":[538]}]])
+[0m[0;32m[2026-09-16 13:20:27.398][VERB] RETURN: {"result":"$540"}
+[0m[0;32m[2026-09-16 13:20:27.398][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d43_position_x","name":"position_x","id":500,"geomIds":[538,507]}]])
+[0m[0;32m[2026-09-16 13:20:27.403][VERB] RETURN: {"result":"$544"}
+[0m[0;32m[2026-09-16 13:20:27.404][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d44_position_y","name":"position_y","id":500,"geomIds":[538,507]}]])
+[0m[0;32m[2026-09-16 13:20:27.410][VERB] RETURN: {"result":"$548"}
+[0m[0;32m[2026-09-16 13:20:27.410][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d45_width","name":"width","id":500,"geomIds":[506]}]])
+[0m[0;32m[2026-09-16 13:20:27.418][VERB] RETURN: {"result":"$552"}
+[0m[0;32m[2026-09-16 13:20:27.418][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d46_depth","name":"depth","id":500,"geomIds":[510]}]])
+[0m[0;32m[2026-09-16 13:20:27.426][VERB] RETURN: {"result":"$556"}
+[0m[0;32m[2026-09-16 13:20:27.427][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[506,510,516,522],"name":"F41_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d47_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.432][VERB] RETURN: {"result":"$560"}
+[0m[0;32m[2026-09-16 13:20:27.432][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F48_makeBox_cad_primitives_py_8_plane","offset":"@expr.d49_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.436][VERB] RETURN: {"result":"$603"}
+[0m[0;32m[2026-09-16 13:20:27.437][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":603,"name":"F48_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.439][VERB] RETURN: {"result":"$609"}
+[0m[0;32m[2026-09-16 13:20:27.439][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[-1.3,22.8,0],"id":609,"genFixation":0,"endPos":[59.1,63.2,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.446][VERB] RETURN: {"result":["$615","$619","$625","$631"]}
+[0m[0;32m[2026-09-16 13:20:27.446][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":615}]])
+[0m[0;32m[2026-09-16 13:20:27.446][VERB] RETURN: {"result":{"endId":"$617","startId":"$616"}}
+[0m[0;32m[2026-09-16 13:20:27.446][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":609}]])
+[0m[0;32m[2026-09-16 13:20:27.449][VERB] RETURN: {"result":"$647"}
+[0m[0;32m[2026-09-16 13:20:27.449][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":609,"geomIds":[647]}]])
+[0m[0;32m[2026-09-16 13:20:27.451][VERB] RETURN: {"result":"$649"}
+[0m[0;32m[2026-09-16 13:20:27.451][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d50_position_x","name":"position_x","id":609,"geomIds":[647,616]}]])
+[0m[0;32m[2026-09-16 13:20:27.456][VERB] RETURN: {"result":"$653"}
+[0m[0;32m[2026-09-16 13:20:27.456][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d51_position_y","name":"position_y","id":609,"geomIds":[647,616]}]])
+[0m[0;32m[2026-09-16 13:20:27.463][VERB] RETURN: {"result":"$657"}
+[0m[0;32m[2026-09-16 13:20:27.464][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d52_width","name":"width","id":609,"geomIds":[615]}]])
+[0m[0;32m[2026-09-16 13:20:27.472][VERB] RETURN: {"result":"$661"}
+[0m[0;32m[2026-09-16 13:20:27.473][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d53_depth","name":"depth","id":609,"geomIds":[619]}]])
+[0m[0;32m[2026-09-16 13:20:27.493][VERB] RETURN: {"result":"$665"}
+[0m[0;32m[2026-09-16 13:20:27.494][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[615,619,625,631],"name":"F48_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d54_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.499][VERB] RETURN: {"result":"$669"}
+[0m[0;32m[2026-09-16 13:20:27.500][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F55_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d56_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.503][VERB] RETURN: {"result":"$712"}
+[0m[0;32m[2026-09-16 13:20:27.503][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":712,"name":"F55_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.506][VERB] RETURN: {"result":"$718"}
+[0m[0;32m[2026-09-16 13:20:27.506][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":718,"genFixation":0,"centerPos":[1.4,22.8,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.508][VERB] RETURN: {"result":"$724"}
+[0m[0;32m[2026-09-16 13:20:27.508][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":724}]])
+[0m[0;32m[2026-09-16 13:20:27.508][VERB] RETURN: {"result":{"centerId":"$725"}}
+[0m[0;32m[2026-09-16 13:20:27.508][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":718}]])
+[0m[0;32m[2026-09-16 13:20:27.509][VERB] RETURN: {"result":"$727"}
+[0m[0;32m[2026-09-16 13:20:27.509][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":718,"geomIds":[727]}]])
+[0m[0;32m[2026-09-16 13:20:27.510][VERB] RETURN: {"result":"$729"}
+[0m[0;32m[2026-09-16 13:20:27.511][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d57_position_x","name":"position_x","id":718,"geomIds":[727,725]}]])
+[0m[0;32m[2026-09-16 13:20:27.516][VERB] RETURN: {"result":"$733"}
+[0m[0;32m[2026-09-16 13:20:27.516][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d58_position_y","name":"position_y","id":718,"geomIds":[727,725]}]])
+[0m[0;32m[2026-09-16 13:20:27.522][VERB] RETURN: {"result":"$737"}
+[0m[0;32m[2026-09-16 13:20:27.522][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d59_radius","name":"radius","id":718,"geomIds":[724]}]])
+[0m[0;32m[2026-09-16 13:20:27.528][VERB] RETURN: {"result":"$741"}
+[0m[0;32m[2026-09-16 13:20:27.529][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[724],"name":"F55_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d60_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.534][VERB] RETURN: {"result":"$745"}
+[0m[0;32m[2026-09-16 13:20:27.535][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F61_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d62_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.538][VERB] RETURN: {"result":"$767"}
+[0m[0;32m[2026-09-16 13:20:27.539][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":767,"name":"F61_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.541][VERB] RETURN: {"result":"$773"}
+[0m[0;32m[2026-09-16 13:20:27.541][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":773,"genFixation":0,"centerPos":[1.4,63.2,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.543][VERB] RETURN: {"result":"$779"}
+[0m[0;32m[2026-09-16 13:20:27.543][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":779}]])
+[0m[0;32m[2026-09-16 13:20:27.543][VERB] RETURN: {"result":{"centerId":"$780"}}
+[0m[0;32m[2026-09-16 13:20:27.543][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":773}]])
+[0m[0;32m[2026-09-16 13:20:27.545][VERB] RETURN: {"result":"$782"}
+[0m[0;32m[2026-09-16 13:20:27.545][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":773,"geomIds":[782]}]])
+[0m[0;32m[2026-09-16 13:20:27.546][VERB] RETURN: {"result":"$784"}
+[0m[0;32m[2026-09-16 13:20:27.546][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d63_position_x","name":"position_x","id":773,"geomIds":[782,780]}]])
+[0m[0;32m[2026-09-16 13:20:27.551][VERB] RETURN: {"result":"$788"}
+[0m[0;32m[2026-09-16 13:20:27.551][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d64_position_y","name":"position_y","id":773,"geomIds":[782,780]}]])
+[0m[0;32m[2026-09-16 13:20:27.557][VERB] RETURN: {"result":"$792"}
+[0m[0;32m[2026-09-16 13:20:27.558][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d65_radius","name":"radius","id":773,"geomIds":[779]}]])
+[0m[0;32m[2026-09-16 13:20:27.563][VERB] RETURN: {"result":"$796"}
+[0m[0;32m[2026-09-16 13:20:27.563][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[779],"name":"F61_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d66_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.569][VERB] RETURN: {"result":"$800"}
+[0m[0;32m[2026-09-16 13:20:27.570][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F67_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d68_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.574][VERB] RETURN: {"result":"$822"}
+[0m[0;32m[2026-09-16 13:20:27.574][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":822,"name":"F67_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.576][VERB] RETURN: {"result":"$828"}
+[0m[0;32m[2026-09-16 13:20:27.577][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":828,"genFixation":0,"centerPos":[56.4,22.8,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.578][VERB] RETURN: {"result":"$834"}
+[0m[0;32m[2026-09-16 13:20:27.578][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":834}]])
+[0m[0;32m[2026-09-16 13:20:27.578][VERB] RETURN: {"result":{"centerId":"$835"}}
+[0m[0;32m[2026-09-16 13:20:27.578][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":828}]])
+[0m[0;32m[2026-09-16 13:20:27.579][VERB] RETURN: {"result":"$837"}
+[0m[0;32m[2026-09-16 13:20:27.580][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":828,"geomIds":[837]}]])
+[0m[0;32m[2026-09-16 13:20:27.581][VERB] RETURN: {"result":"$839"}
+[0m[0;32m[2026-09-16 13:20:27.581][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d69_position_x","name":"position_x","id":828,"geomIds":[837,835]}]])
+[0m[0;32m[2026-09-16 13:20:27.586][VERB] RETURN: {"result":"$843"}
+[0m[0;32m[2026-09-16 13:20:27.586][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d70_position_y","name":"position_y","id":828,"geomIds":[837,835]}]])
+[0m[0;32m[2026-09-16 13:20:27.592][VERB] RETURN: {"result":"$847"}
+[0m[0;32m[2026-09-16 13:20:27.592][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d71_radius","name":"radius","id":828,"geomIds":[834]}]])
+[0m[0;32m[2026-09-16 13:20:27.597][VERB] RETURN: {"result":"$851"}
+[0m[0;32m[2026-09-16 13:20:27.598][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[834],"name":"F67_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d72_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.604][VERB] RETURN: {"result":"$855"}
+[0m[0;32m[2026-09-16 13:20:27.604][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F73_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d74_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.608][VERB] RETURN: {"result":"$877"}
+[0m[0;32m[2026-09-16 13:20:27.609][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":877,"name":"F73_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.611][VERB] RETURN: {"result":"$883"}
+[0m[0;32m[2026-09-16 13:20:27.611][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":883,"genFixation":0,"centerPos":[56.4,63.2,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.612][VERB] RETURN: {"result":"$889"}
+[0m[0;32m[2026-09-16 13:20:27.612][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":889}]])
+[0m[0;32m[2026-09-16 13:20:27.612][VERB] RETURN: {"result":{"centerId":"$890"}}
+[0m[0;32m[2026-09-16 13:20:27.613][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":883}]])
+[0m[0;32m[2026-09-16 13:20:27.614][VERB] RETURN: {"result":"$892"}
+[0m[0;32m[2026-09-16 13:20:27.614][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":883,"geomIds":[892]}]])
+[0m[0;32m[2026-09-16 13:20:27.615][VERB] RETURN: {"result":"$894"}
+[0m[0;32m[2026-09-16 13:20:27.615][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d75_position_x","name":"position_x","id":883,"geomIds":[892,890]}]])
+[0m[0;32m[2026-09-16 13:20:27.620][VERB] RETURN: {"result":"$898"}
+[0m[0;32m[2026-09-16 13:20:27.620][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d76_position_y","name":"position_y","id":883,"geomIds":[892,890]}]])
+[0m[0;32m[2026-09-16 13:20:27.626][VERB] RETURN: {"result":"$902"}
+[0m[0;32m[2026-09-16 13:20:27.627][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d77_radius","name":"radius","id":883,"geomIds":[889]}]])
+[0m[0;32m[2026-09-16 13:20:27.632][VERB] RETURN: {"result":"$906"}
+[0m[0;32m[2026-09-16 13:20:27.632][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[889],"name":"F73_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d78_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.638][VERB] RETURN: {"result":"$910"}
+[0m[0;32m[2026-09-16 13:20:27.639][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F79_makeBox_cad_primitives_py_8_plane","offset":"@expr.d80_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.642][VERB] RETURN: {"result":"$932"}
+[0m[0;32m[2026-09-16 13:20:27.643][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":932,"name":"F79_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.645][VERB] RETURN: {"result":"$938"}
+[0m[0;32m[2026-09-16 13:20:27.645][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[48.8,-1.3,0],"id":938,"genFixation":0,"endPos":[89.8,40.8,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.653][VERB] RETURN: {"result":["$944","$948","$954","$960"]}
+[0m[0;32m[2026-09-16 13:20:27.653][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":944}]])
+[0m[0;32m[2026-09-16 13:20:27.653][VERB] RETURN: {"result":{"endId":"$946","startId":"$945"}}
+[0m[0;32m[2026-09-16 13:20:27.653][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":938}]])
+[0m[0;32m[2026-09-16 13:20:27.656][VERB] RETURN: {"result":"$976"}
+[0m[0;32m[2026-09-16 13:20:27.656][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":938,"geomIds":[976]}]])
+[0m[0;32m[2026-09-16 13:20:27.659][VERB] RETURN: {"result":"$978"}
+[0m[0;32m[2026-09-16 13:20:27.659][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d81_position_x","name":"position_x","id":938,"geomIds":[976,945]}]])
+[0m[0;32m[2026-09-16 13:20:27.665][VERB] RETURN: {"result":"$982"}
+[0m[0;32m[2026-09-16 13:20:27.665][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d82_position_y","name":"position_y","id":938,"geomIds":[976,945]}]])
+[0m[0;32m[2026-09-16 13:20:27.672][VERB] RETURN: {"result":"$986"}
+[0m[0;32m[2026-09-16 13:20:27.672][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d83_width","name":"width","id":938,"geomIds":[944]}]])
+[0m[0;32m[2026-09-16 13:20:27.679][VERB] RETURN: {"result":"$990"}
+[0m[0;32m[2026-09-16 13:20:27.680][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d84_depth","name":"depth","id":938,"geomIds":[948]}]])
+[0m[0;32m[2026-09-16 13:20:27.688][VERB] RETURN: {"result":"$994"}
+[0m[0;32m[2026-09-16 13:20:27.688][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[944,948,954,960],"name":"F79_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d85_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.694][VERB] RETURN: {"result":"$998"}
+[0m[0;32m[2026-09-16 13:20:27.695][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F86_makeBox_cad_primitives_py_8_plane","offset":"@expr.d87_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.698][VERB] RETURN: {"result":"$1041"}
+[0m[0;32m[2026-09-16 13:20:27.698][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1041,"name":"F86_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.701][VERB] RETURN: {"result":"$1047"}
+[0m[0;32m[2026-09-16 13:20:27.701][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[46.1,1.4,0],"id":1047,"genFixation":0,"endPos":[92.5,38.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.708][VERB] RETURN: {"result":["$1053","$1057","$1063","$1069"]}
+[0m[0;32m[2026-09-16 13:20:27.708][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1053}]])
+[0m[0;32m[2026-09-16 13:20:27.709][VERB] RETURN: {"result":{"endId":"$1055","startId":"$1054"}}
+[0m[0;32m[2026-09-16 13:20:27.709][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1047}]])
+[0m[0;32m[2026-09-16 13:20:27.711][VERB] RETURN: {"result":"$1085"}
+[0m[0;32m[2026-09-16 13:20:27.711][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1047,"geomIds":[1085]}]])
+[0m[0;32m[2026-09-16 13:20:27.713][VERB] RETURN: {"result":"$1087"}
+[0m[0;32m[2026-09-16 13:20:27.713][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d88_position_x","name":"position_x","id":1047,"geomIds":[1085,1054]}]])
+[0m[0;32m[2026-09-16 13:20:27.719][VERB] RETURN: {"result":"$1091"}
+[0m[0;32m[2026-09-16 13:20:27.719][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d89_position_y","name":"position_y","id":1047,"geomIds":[1085,1054]}]])
+[0m[0;32m[2026-09-16 13:20:27.727][VERB] RETURN: {"result":"$1095"}
+[0m[0;32m[2026-09-16 13:20:27.727][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d90_width","name":"width","id":1047,"geomIds":[1053]}]])
+[0m[0;32m[2026-09-16 13:20:27.734][VERB] RETURN: {"result":"$1099"}
+[0m[0;32m[2026-09-16 13:20:27.734][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d91_depth","name":"depth","id":1047,"geomIds":[1057]}]])
+[0m[0;32m[2026-09-16 13:20:27.742][VERB] RETURN: {"result":"$1103"}
+[0m[0;32m[2026-09-16 13:20:27.743][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1053,1057,1063,1069],"name":"F86_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d92_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.747][VERB] RETURN: {"result":"$1107"}
+[0m[0;32m[2026-09-16 13:20:27.748][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F93_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d94_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.751][VERB] RETURN: {"result":"$1150"}
+[0m[0;32m[2026-09-16 13:20:27.752][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1150,"name":"F93_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.754][VERB] RETURN: {"result":"$1156"}
+[0m[0;32m[2026-09-16 13:20:27.754][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":1156,"genFixation":0,"centerPos":[48.8,1.4,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.756][VERB] RETURN: {"result":"$1162"}
+[0m[0;32m[2026-09-16 13:20:27.756][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1162}]])
+[0m[0;32m[2026-09-16 13:20:27.756][VERB] RETURN: {"result":{"centerId":"$1163"}}
+[0m[0;32m[2026-09-16 13:20:27.756][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1156}]])
+[0m[0;32m[2026-09-16 13:20:27.757][VERB] RETURN: {"result":"$1165"}
+[0m[0;32m[2026-09-16 13:20:27.758][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1156,"geomIds":[1165]}]])
+[0m[0;32m[2026-09-16 13:20:27.759][VERB] RETURN: {"result":"$1167"}
+[0m[0;32m[2026-09-16 13:20:27.759][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d95_position_x","name":"position_x","id":1156,"geomIds":[1165,1163]}]])
+[0m[0;32m[2026-09-16 13:20:27.763][VERB] RETURN: {"result":"$1171"}
+[0m[0;32m[2026-09-16 13:20:27.763][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d96_position_y","name":"position_y","id":1156,"geomIds":[1165,1163]}]])
+[0m[0;32m[2026-09-16 13:20:27.769][VERB] RETURN: {"result":"$1175"}
+[0m[0;32m[2026-09-16 13:20:27.770][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d97_radius","name":"radius","id":1156,"geomIds":[1162]}]])
+[0m[0;32m[2026-09-16 13:20:27.775][VERB] RETURN: {"result":"$1179"}
+[0m[0;32m[2026-09-16 13:20:27.775][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1162],"name":"F93_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d98_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.781][VERB] RETURN: {"result":"$1183"}
+[0m[0;32m[2026-09-16 13:20:27.782][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F99_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d100_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.786][VERB] RETURN: {"result":"$1205"}
+[0m[0;32m[2026-09-16 13:20:27.786][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1205,"name":"F99_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.788][VERB] RETURN: {"result":"$1211"}
+[0m[0;32m[2026-09-16 13:20:27.789][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":1211,"genFixation":0,"centerPos":[48.8,38.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.790][VERB] RETURN: {"result":"$1217"}
+[0m[0;32m[2026-09-16 13:20:27.790][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1217}]])
+[0m[0;32m[2026-09-16 13:20:27.790][VERB] RETURN: {"result":{"centerId":"$1218"}}
+[0m[0;32m[2026-09-16 13:20:27.790][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1211}]])
+[0m[0;32m[2026-09-16 13:20:27.791][VERB] RETURN: {"result":"$1220"}
+[0m[0;32m[2026-09-16 13:20:27.792][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1211,"geomIds":[1220]}]])
+[0m[0;32m[2026-09-16 13:20:27.793][VERB] RETURN: {"result":"$1222"}
+[0m[0;32m[2026-09-16 13:20:27.793][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d101_position_x","name":"position_x","id":1211,"geomIds":[1220,1218]}]])
+[0m[0;32m[2026-09-16 13:20:27.798][VERB] RETURN: {"result":"$1226"}
+[0m[0;32m[2026-09-16 13:20:27.798][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d102_position_y","name":"position_y","id":1211,"geomIds":[1220,1218]}]])
+[0m[0;32m[2026-09-16 13:20:27.803][VERB] RETURN: {"result":"$1230"}
+[0m[0;32m[2026-09-16 13:20:27.803][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d103_radius","name":"radius","id":1211,"geomIds":[1217]}]])
+[0m[0;32m[2026-09-16 13:20:27.809][VERB] RETURN: {"result":"$1234"}
+[0m[0;32m[2026-09-16 13:20:27.810][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1217],"name":"F99_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d104_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.815][VERB] RETURN: {"result":"$1238"}
+[0m[0;32m[2026-09-16 13:20:27.815][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F105_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d106_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.819][VERB] RETURN: {"result":"$1260"}
+[0m[0;32m[2026-09-16 13:20:27.820][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1260,"name":"F105_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.822][VERB] RETURN: {"result":"$1266"}
+[0m[0;32m[2026-09-16 13:20:27.822][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":1266,"genFixation":0,"centerPos":[89.8,1.4,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.824][VERB] RETURN: {"result":"$1272"}
+[0m[0;32m[2026-09-16 13:20:27.824][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1272}]])
+[0m[0;32m[2026-09-16 13:20:27.824][VERB] RETURN: {"result":{"centerId":"$1273"}}
+[0m[0;32m[2026-09-16 13:20:27.825][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1266}]])
+[0m[0;32m[2026-09-16 13:20:27.826][VERB] RETURN: {"result":"$1275"}
+[0m[0;32m[2026-09-16 13:20:27.826][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1266,"geomIds":[1275]}]])
+[0m[0;32m[2026-09-16 13:20:27.827][VERB] RETURN: {"result":"$1277"}
+[0m[0;32m[2026-09-16 13:20:27.827][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d107_position_x","name":"position_x","id":1266,"geomIds":[1275,1273]}]])
+[0m[0;32m[2026-09-16 13:20:27.832][VERB] RETURN: {"result":"$1281"}
+[0m[0;32m[2026-09-16 13:20:27.832][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d108_position_y","name":"position_y","id":1266,"geomIds":[1275,1273]}]])
+[0m[0;32m[2026-09-16 13:20:27.837][VERB] RETURN: {"result":"$1285"}
+[0m[0;32m[2026-09-16 13:20:27.838][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d109_radius","name":"radius","id":1266,"geomIds":[1272]}]])
+[0m[0;32m[2026-09-16 13:20:27.843][VERB] RETURN: {"result":"$1289"}
+[0m[0;32m[2026-09-16 13:20:27.844][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1272],"name":"F105_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d110_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.849][VERB] RETURN: {"result":"$1293"}
+[0m[0;32m[2026-09-16 13:20:27.850][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F111_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d112_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.853][VERB] RETURN: {"result":"$1315"}
+[0m[0;32m[2026-09-16 13:20:27.854][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1315,"name":"F111_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.856][VERB] RETURN: {"result":"$1321"}
+[0m[0;32m[2026-09-16 13:20:27.856][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":1321,"genFixation":0,"centerPos":[89.8,38.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.858][VERB] RETURN: {"result":"$1327"}
+[0m[0;32m[2026-09-16 13:20:27.858][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1327}]])
+[0m[0;32m[2026-09-16 13:20:27.858][VERB] RETURN: {"result":{"centerId":"$1328"}}
+[0m[0;32m[2026-09-16 13:20:27.858][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1321}]])
+[0m[0;32m[2026-09-16 13:20:27.859][VERB] RETURN: {"result":"$1330"}
+[0m[0;32m[2026-09-16 13:20:27.859][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1321,"geomIds":[1330]}]])
+[0m[0;32m[2026-09-16 13:20:27.860][VERB] RETURN: {"result":"$1332"}
+[0m[0;32m[2026-09-16 13:20:27.861][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d113_position_x","name":"position_x","id":1321,"geomIds":[1330,1328]}]])
+[0m[0;32m[2026-09-16 13:20:27.865][VERB] RETURN: {"result":"$1336"}
+[0m[0;32m[2026-09-16 13:20:27.866][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d114_position_y","name":"position_y","id":1321,"geomIds":[1330,1328]}]])
+[0m[0;32m[2026-09-16 13:20:27.871][VERB] RETURN: {"result":"$1340"}
+[0m[0;32m[2026-09-16 13:20:27.871][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d115_radius","name":"radius","id":1321,"geomIds":[1327]}]])
+[0m[0;32m[2026-09-16 13:20:27.877][VERB] RETURN: {"result":"$1344"}
+[0m[0;32m[2026-09-16 13:20:27.878][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1327],"name":"F111_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d116_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.883][VERB] RETURN: {"result":"$1348"}
+[0m[0;32m[2026-09-16 13:20:27.884][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F117_makeBox_shell_skin_py_38_plane","offset":"@expr.d118_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.887][VERB] RETURN: {"result":"$1370"}
+[0m[0;32m[2026-09-16 13:20:27.888][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1370,"name":"F117_makeBox_shell_skin_py_38_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.890][VERB] RETURN: {"result":"$1376"}
+[0m[0;32m[2026-09-16 13:20:27.890][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[89.8,-1.3,0],"id":1376,"genFixation":0,"endPos":[92.5,40.8,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.896][VERB] RETURN: {"result":["$1382","$1386","$1392","$1398"]}
+[0m[0;32m[2026-09-16 13:20:27.896][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1382}]])
+[0m[0;32m[2026-09-16 13:20:27.897][VERB] RETURN: {"result":{"endId":"$1384","startId":"$1383"}}
+[0m[0;32m[2026-09-16 13:20:27.897][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1376}]])
+[0m[0;32m[2026-09-16 13:20:27.899][VERB] RETURN: {"result":"$1414"}
+[0m[0;32m[2026-09-16 13:20:27.900][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1376,"geomIds":[1414]}]])
+[0m[0;32m[2026-09-16 13:20:27.901][VERB] RETURN: {"result":"$1416"}
+[0m[0;32m[2026-09-16 13:20:27.902][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d119_position_x","name":"position_x","id":1376,"geomIds":[1414,1383]}]])
+[0m[0;32m[2026-09-16 13:20:27.908][VERB] RETURN: {"result":"$1420"}
+[0m[0;32m[2026-09-16 13:20:27.908][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d120_position_y","name":"position_y","id":1376,"geomIds":[1414,1383]}]])
+[0m[0;32m[2026-09-16 13:20:27.915][VERB] RETURN: {"result":"$1424"}
+[0m[0;32m[2026-09-16 13:20:27.916][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d121_width","name":"width","id":1376,"geomIds":[1382]}]])
+[0m[0;32m[2026-09-16 13:20:27.923][VERB] RETURN: {"result":"$1428"}
+[0m[0;32m[2026-09-16 13:20:27.924][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d122_depth","name":"depth","id":1376,"geomIds":[1386]}]])
+[0m[0;32m[2026-09-16 13:20:27.931][VERB] RETURN: {"result":"$1432"}
+[0m[0;32m[2026-09-16 13:20:27.932][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1382,1386,1392,1398],"name":"F117_makeBox_shell_skin_py_38","taperAngle":0,"limit2":"@expr.d123_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.937][VERB] RETURN: {"result":"$1436"}
+[0m[0;32m[2026-09-16 13:20:27.938][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F124_makeBox_cad_primitives_py_8_plane","offset":"@expr.d125_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.941][VERB] RETURN: {"result":"$1479"}
+[0m[0;32m[2026-09-16 13:20:27.942][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1479,"name":"F124_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.944][VERB] RETURN: {"result":"$1485"}
+[0m[0;32m[2026-09-16 13:20:27.944][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[88.05,-7,0],"id":1485,"genFixation":0,"endPos":[92.5,5,0]}]])
+[0m[0;32m[2026-09-16 13:20:27.951][VERB] RETURN: {"result":["$1491","$1495","$1501","$1507"]}
+[0m[0;32m[2026-09-16 13:20:27.952][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1491}]])
+[0m[0;32m[2026-09-16 13:20:27.952][VERB] RETURN: {"result":{"endId":"$1493","startId":"$1492"}}
+[0m[0;32m[2026-09-16 13:20:27.952][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1485}]])
+[0m[0;32m[2026-09-16 13:20:27.954][VERB] RETURN: {"result":"$1523"}
+[0m[0;32m[2026-09-16 13:20:27.954][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1485,"geomIds":[1523]}]])
+[0m[0;32m[2026-09-16 13:20:27.956][VERB] RETURN: {"result":"$1525"}
+[0m[0;32m[2026-09-16 13:20:27.956][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d126_position_x","name":"position_x","id":1485,"geomIds":[1523,1492]}]])
+[0m[0;32m[2026-09-16 13:20:27.962][VERB] RETURN: {"result":"$1529"}
+[0m[0;32m[2026-09-16 13:20:27.962][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d127_position_y","name":"position_y","id":1485,"geomIds":[1523,1492]}]])
+[0m[0;32m[2026-09-16 13:20:27.969][VERB] RETURN: {"result":"$1533"}
+[0m[0;32m[2026-09-16 13:20:27.969][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d128_width","name":"width","id":1485,"geomIds":[1491]}]])
+[0m[0;32m[2026-09-16 13:20:27.977][VERB] RETURN: {"result":"$1537"}
+[0m[0;32m[2026-09-16 13:20:27.977][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d129_depth","name":"depth","id":1485,"geomIds":[1495]}]])
+[0m[0;32m[2026-09-16 13:20:27.986][VERB] RETURN: {"result":"$1541"}
+[0m[0;32m[2026-09-16 13:20:27.987][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1491,1495,1501,1507],"name":"F124_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d130_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.993][VERB] RETURN: {"result":"$1545"}
+[0m[0;32m[2026-09-16 13:20:27.993][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F132_makeBox_cad_primitives_py_8_plane","offset":"@expr.d133_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:27.997][VERB] RETURN: {"result":"$1588"}
+[0m[0;32m[2026-09-16 13:20:27.998][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1588,"name":"F132_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.000][VERB] RETURN: {"result":"$1594"}
+[0m[0;32m[2026-09-16 13:20:28.000][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[85.35,-4,0],"id":1594,"genFixation":0,"endPos":[88.05,-1.3,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.007][VERB] RETURN: {"result":["$1600","$1604","$1610","$1616"]}
+[0m[0;32m[2026-09-16 13:20:28.007][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1600}]])
+[0m[0;32m[2026-09-16 13:20:28.007][VERB] RETURN: {"result":{"endId":"$1602","startId":"$1601"}}
+[0m[0;32m[2026-09-16 13:20:28.008][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1594}]])
+[0m[0;32m[2026-09-16 13:20:28.010][VERB] RETURN: {"result":"$1632"}
+[0m[0;32m[2026-09-16 13:20:28.010][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1594,"geomIds":[1632]}]])
+[0m[0;32m[2026-09-16 13:20:28.011][VERB] RETURN: {"result":"$1634"}
+[0m[0;32m[2026-09-16 13:20:28.012][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d134_position_x","name":"position_x","id":1594,"geomIds":[1632,1601]}]])
+[0m[0;32m[2026-09-16 13:20:28.018][VERB] RETURN: {"result":"$1638"}
+[0m[0;32m[2026-09-16 13:20:28.018][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d135_position_y","name":"position_y","id":1594,"geomIds":[1632,1601]}]])
+[0m[0;32m[2026-09-16 13:20:28.024][VERB] RETURN: {"result":"$1642"}
+[0m[0;32m[2026-09-16 13:20:28.025][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d136_width","name":"width","id":1594,"geomIds":[1600]}]])
+[0m[0;32m[2026-09-16 13:20:28.032][VERB] RETURN: {"result":"$1646"}
+[0m[0;32m[2026-09-16 13:20:28.033][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d137_depth","name":"depth","id":1594,"geomIds":[1604]}]])
+[0m[0;32m[2026-09-16 13:20:28.041][VERB] RETURN: {"result":"$1650"}PVS_DELETE_PE 0x74b5331540
+PVS_DELETE_PE 0x74b5331900
+PVS_DELETE_PE 0x74b5331b80
+PVS_DELETE_PE 0x74b5331cc0
+
+[0m[0;32m[2026-09-16 13:20:28.042][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1600,1604,1610,1616],"name":"F132_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d138_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.047][VERB] RETURN: {"result":"$1654"}
+[0m[0;32m[2026-09-16 13:20:28.047][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F139_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d140_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.051][VERB] RETURN: {"result":"$1697"}
+[0m[0;32m[2026-09-16 13:20:28.052][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1697,"name":"F139_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.054][VERB] RETURN: {"result":"$1703"}
+[0m[0;32m[2026-09-16 13:20:28.055][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":2.7,"id":1703,"genFixation":0,"centerPos":[85.35,-4,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.056][VERB] RETURN: {"result":"$1709"}
+[0m[0;32m[2026-09-16 13:20:28.057][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1709}]])
+[0m[0;32m[2026-09-16 13:20:28.057][VERB] RETURN: {"result":{"centerId":"$1710"}}
+[0m[0;32m[2026-09-16 13:20:28.057][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1703}]])
+[0m[0;32m[2026-09-16 13:20:28.058][VERB] RETURN: {"result":"$1712"}
+[0m[0;32m[2026-09-16 13:20:28.058][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1703,"geomIds":[1712]}]])
+[0m[0;32m[2026-09-16 13:20:28.060][VERB] RETURN: {"result":"$1714"}
+[0m[0;32m[2026-09-16 13:20:28.060][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d141_position_x","name":"position_x","id":1703,"geomIds":[1712,1710]}]])
+[0m[0;32m[2026-09-16 13:20:28.065][VERB] RETURN: {"result":"$1718"}
+[0m[0;32m[2026-09-16 13:20:28.065][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d142_position_y","name":"position_y","id":1703,"geomIds":[1712,1710]}]])
+[0m[0;32m[2026-09-16 13:20:28.070][VERB] RETURN: {"result":"$1722"}
+[0m[0;32m[2026-09-16 13:20:28.071][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d143_radius","name":"radius","id":1703,"geomIds":[1709]}]])
+[0m[0;32m[2026-09-16 13:20:28.077][VERB] RETURN: {"result":"$1726"}
+[0m[0;32m[2026-09-16 13:20:28.078][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1709],"name":"F139_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d144_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.084][VERB] RETURN: {"result":"$1730"}
+[0m[0;32m[2026-09-16 13:20:28.085][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"SUBTRACTION","tools":[1730],"target":1654,"name":"F131_cut_housing_shell_py_25","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.093][VERB] RETURN: {"result":"$1752"}
+[0m[0;32m[2026-09-16 13:20:28.093][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F145_makeBox_cad_primitives_py_8_plane","offset":"@expr.d146_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.097][VERB] RETURN: {"result":"$1770"}
+[0m[0;32m[2026-09-16 13:20:28.098][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1770,"name":"F145_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.100][VERB] RETURN: {"result":"$1776"}
+[0m[0;32m[2026-09-16 13:20:28.100][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[88.05,30,0],"id":1776,"genFixation":0,"endPos":[92.5,41.3,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.107][VERB] RETURN: {"result":["$1782","$1786","$1792","$1798"]}
+[0m[0;32m[2026-09-16 13:20:28.108][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1782}]])
+[0m[0;32m[2026-09-16 13:20:28.108][VERB] RETURN: {"result":{"endId":"$1784","startId":"$1783"}}
+[0m[0;32m[2026-09-16 13:20:28.108][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1776}]])
+[0m[0;32m[2026-09-16 13:20:28.110][VERB] RETURN: {"result":"$1814"}
+[0m[0;32m[2026-09-16 13:20:28.110][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1776,"geomIds":[1814]}]])
+[0m[0;32m[2026-09-16 13:20:28.112][VERB] RETURN: {"result":"$1816"}
+[0m[0;32m[2026-09-16 13:20:28.112][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d147_position_x","name":"position_x","id":1776,"geomIds":[1814,1783]}]])
+[0m[0;32m[2026-09-16 13:20:28.118][VERB] RETURN: {"result":"$1820"}
+[0m[0;32m[2026-09-16 13:20:28.119][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d148_position_y","name":"position_y","id":1776,"geomIds":[1814,1783]}]])
+[0m[0;32m[2026-09-16 13:20:28.126][VERB] RETURN: {"result":"$1824"}
+[0m[0;32m[2026-09-16 13:20:28.126][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d149_width","name":"width","id":1776,"geomIds":[1782]}]])
+[0m[0;32m[2026-09-16 13:20:28.134][VERB] RETURN: {"result":"$1828"}
+[0m[0;32m[2026-09-16 13:20:28.134][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d150_depth","name":"depth","id":1776,"geomIds":[1786]}]])
+[0m[0;32m[2026-09-16 13:20:28.143][VERB] RETURN: {"result":"$1832"}
+[0m[0;32m[2026-09-16 13:20:28.144][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1782,1786,1792,1798],"name":"F145_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d151_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.149][VERB] RETURN: {"result":"$1836"}
+[0m[0;32m[2026-09-16 13:20:28.150][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F152_makeBox_cad_primitives_py_8_plane","offset":"@expr.d153_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.154][VERB] RETURN: {"result":"$1879"}
+[0m[0;32m[2026-09-16 13:20:28.155][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1879,"name":"F152_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.157][VERB] RETURN: {"result":"$1885"}
+[0m[0;32m[2026-09-16 13:20:28.158][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[88.05,30,0],"id":1885,"genFixation":0,"endPos":[92.5,38,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.165][VERB] RETURN: {"result":["$1891","$1895","$1901","$1907"]}
+[0m[0;32m[2026-09-16 13:20:28.165][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":1891}]])
+[0m[0;32m[2026-09-16 13:20:28.165][VERB] RETURN: {"result":{"endId":"$1893","startId":"$1892"}}
+[0m[0;32m[2026-09-16 13:20:28.165][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1885}]])
+[0m[0;32m[2026-09-16 13:20:28.168][VERB] RETURN: {"result":"$1923"}
+[0m[0;32m[2026-09-16 13:20:28.168][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1885,"geomIds":[1923]}]])
+[0m[0;32m[2026-09-16 13:20:28.171][VERB] RETURN: {"result":"$1925"}
+[0m[0;32m[2026-09-16 13:20:28.172][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d154_position_x","name":"position_x","id":1885,"geomIds":[1923,1892]}]])
+[0m[0;32m[2026-09-16 13:20:28.177][VERB] RETURN: {"result":"$1929"}
+[0m[0;32m[2026-09-16 13:20:28.178][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d155_position_y","name":"position_y","id":1885,"geomIds":[1923,1892]}]])
+[0m[0;32m[2026-09-16 13:20:28.185][VERB] RETURN: {"result":"$1933"}
+[0m[0;32m[2026-09-16 13:20:28.185][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d156_width","name":"width","id":1885,"geomIds":[1891]}]])
+[0m[0;32m[2026-09-16 13:20:28.192][VERB] RETURN: {"result":"$1937"}
+[0m[0;32m[2026-09-16 13:20:28.192][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d157_depth","name":"depth","id":1885,"geomIds":[1895]}]])
+[0m[0;32m[2026-09-16 13:20:28.200][VERB] RETURN: {"result":"$1941"}
+[0m[0;32m[2026-09-16 13:20:28.200][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[1891,1895,1901,1907],"name":"F152_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d158_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.205][VERB] RETURN: {"result":"$1945"}
+[0m[0;32m[2026-09-16 13:20:28.206][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F160_makeBox_cad_primitives_py_8_plane","offset":"@expr.d161_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.210][VERB] RETURN: {"result":"$1988"}
+[0m[0;32m[2026-09-16 13:20:28.211][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":1988,"name":"F160_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.213][VERB] RETURN: {"result":"$1994"}
+[0m[0;32m[2026-09-16 13:20:28.213][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[59.1,40.8,0],"id":1994,"genFixation":0,"endPos":[63.1,44.8,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.220][VERB] RETURN: {"result":["$2000","$2004","$2010","$2016"]}
+[0m[0;32m[2026-09-16 13:20:28.220][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":2000}]])
+[0m[0;32m[2026-09-16 13:20:28.221][VERB] RETURN: {"result":{"endId":"$2002","startId":"$2001"}}
+[0m[0;32m[2026-09-16 13:20:28.221][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":1994}]])
+[0m[0;32m[2026-09-16 13:20:28.223][VERB] RETURN: {"result":"$2032"}
+[0m[0;32m[2026-09-16 13:20:28.224][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":1994,"geomIds":[2032]}]])
+[0m[0;32m[2026-09-16 13:20:28.226][VERB] RETURN: {"result":"$2034"}
+[0m[0;32m[2026-09-16 13:20:28.226][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d162_position_x","name":"position_x","id":1994,"geomIds":[2032,2001]}]])
+[0m[0;32m[2026-09-16 13:20:28.233][VERB] RETURN: {"result":"$2038"}
+[0m[0;32m[2026-09-16 13:20:28.233][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d163_position_y","name":"position_y","id":1994,"geomIds":[2032,2001]}]])
+[0m[0;32m[2026-09-16 13:20:28.240][VERB] RETURN: {"result":"$2042"}
+[0m[0;32m[2026-09-16 13:20:28.240][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d164_width","name":"width","id":1994,"geomIds":[2000]}]])
+[0m[0;32m[2026-09-16 13:20:28.248][VERB] RETURN: {"result":"$2046"}
+[0m[0;32m[2026-09-16 13:20:28.248][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d165_depth","name":"depth","id":1994,"geomIds":[2004]}]])
+[0m[0;32m[2026-09-16 13:20:28.259][VERB] RETURN: {"result":"$2050"}
+[0m[0;32m[2026-09-16 13:20:28.259][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[2000,2004,2010,2016],"name":"F160_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d166_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.265][VERB] RETURN: {"result":"$2054"}
+[0m[0;32m[2026-09-16 13:20:28.265][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F167_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d168_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.270][VERB] RETURN: {"result":"$2097"}
+[0m[0;32m[2026-09-16 13:20:28.270][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":2097,"name":"F167_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.272][VERB] RETURN: {"result":"$2103"}
+[0m[0;32m[2026-09-16 13:20:28.273][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":4,"id":2103,"genFixation":0,"centePVS_DELETE_PE 0x74b66b1680
+PVS_DELETE_PE 0x74b66b1a40
+PVS_DELETE_PE 0x74b66b1cc0
+PVS_DELETE_PE 0x74b66b1e00
+rPos":[63.1,44.8,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.274][VERB] RETURN: {"result":"$2109"}
+[0m[0;32m[2026-09-16 13:20:28.274][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":2109}]])
+[0m[0;32m[2026-09-16 13:20:28.274][VERB] RETURN: {"result":{"centerId":"$2110"}}
+[0m[0;32m[2026-09-16 13:20:28.275][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":2103}]])
+[0m[0;32m[2026-09-16 13:20:28.276][VERB] RETURN: {"result":"$2112"}
+[0m[0;32m[2026-09-16 13:20:28.276][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":2103,"geomIds":[2112]}]])
+[0m[0;32m[2026-09-16 13:20:28.277][VERB] RETURN: {"result":"$2114"}
+[0m[0;32m[2026-09-16 13:20:28.277][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d169_position_x","name":"position_x","id":2103,"geomIds":[2112,2110]}]])
+[0m[0;32m[2026-09-16 13:20:28.282][VERB] RETURN: {"result":"$2118"}
+[0m[0;32m[2026-09-16 13:20:28.282][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d170_position_y","name":"position_y","id":2103,"geomIds":[2112,2110]}]])
+[0m[0;32m[2026-09-16 13:20:28.288][VERB] RETURN: {"result":"$2122"}
+[0m[0;32m[2026-09-16 13:20:28.288][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d171_radius","name":"radius","id":2103,"geomIds":[2109]}]])
+[0m[0;32m[2026-09-16 13:20:28.294][VERB] RETURN: {"result":"$2126"}
+[0m[0;32m[2026-09-16 13:20:28.295][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[2109],"name":"F167_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d172_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.301][VERB] RETURN: {"result":"$2130"}
+[0m[0;32m[2026-09-16 13:20:28.301][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"SUBTRACTION","tools":[2130],"target":2054,"name":"F159_cut_housing_shell_py_39","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.307][VERB] RETURN: {"result":"$2152"}
+[0m[0;32m[2026-09-16 13:20:28.308][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F174_makeBox_cad_primitives_py_8_plane","offset":"@expr.d175_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.312][VERB] RETURN: {"result":"$2170"}
+[0m[0;32m[2026-09-16 13:20:28.312][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":2170,"name":"F174_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.314][VERB] RETURN: {"result":"$2176"}
+[0m[0;32m[2026-09-16 13:20:28.314][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[42.1,16.1,0],"id":2176,"genFixation":0,"endPos":[46.1,20.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.321][VERB] RETURN: {"result":["$2182","$2186","$2192","$2198"]}
+[0m[0;32m[2026-09-16 13:20:28.321][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":2182}]])
+[0m[0;32m[2026-09-16 13:20:28.321][VERB] RETURN: {"result":{"endId":"$2184","startId":"$2183"}}
+[0m[0;32m[2026-09-16 13:20:28.322][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":2176}]])
+[0m[0;32m[2026-09-16 13:20:28.324][VERB] RETURN: {"result":"$2214"}
+[0m[0;32m[2026-09-16 13:20:28.324][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":2176,"geomIds":[2214]}]])
+[0m[0;32m[2026-09-16 13:20:28.326][VERB] RETURN: {"result":"$2216"}
+[0m[0;32m[2026-09-16 13:20:28.326][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d176_position_x","name":"position_x","id":2176,"geomIds":[2214,2183]}]])
+[0m[0;32m[2026-09-16 13:20:28.332][VERB] RETURN: {"result":"$2220"}
+[0m[0;32m[2026-09-16 13:20:28.333][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d177_position_y","name":"position_y","id":2176,"geomIds":[2214,2183]}]])
+[0m[0;32m[2026-09-16 13:20:28.348][VERB] RETPVS_DELETE_PE 0x74b53a2d00
+PVS_DELETE_PE 0x74b53a30c0
+PVS_DELETE_PE 0x74b53a3340
+PVS_DELETE_PE 0x74b53a3480
+URN: {"result":"$2224"}
+[0m[0;32m[2026-09-16 13:20:28.349][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d178_width","name":"width","id":2176,"geomIds":[2182]}]])
+[0m[0;32m[2026-09-16 13:20:28.363][VERB] RETURN: {"result":"$2228"}
+[0m[0;32m[2026-09-16 13:20:28.364][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d179_depth","name":"depth","id":2176,"geomIds":[2186]}]])
+[0m[0;32m[2026-09-16 13:20:28.373][VERB] RETURN: {"result":"$2232"}
+[0m[0;32m[2026-09-16 13:20:28.374][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[2182,2186,2192,2198],"name":"F174_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d180_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.379][VERB] RETURN: {"result":"$2236"}
+[0m[0;32m[2026-09-16 13:20:28.380][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F181_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d182_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.384][VERB] RETURN: {"result":"$2279"}
+[0m[0;32m[2026-09-16 13:20:28.385][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":2279,"name":"F181_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.387][VERB] RETURN: {"result":"$2285"}
+[0m[0;32m[2026-09-16 13:20:28.387][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":4,"id":2285,"genFixation":0,"centerPos":[42.1,16.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.389][VERB] RETURN: {"result":"$2291"}
+[0m[0;32m[2026-09-16 13:20:28.389][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":2291}]])
+[0m[0;32m[2026-09-16 13:20:28.389][VERB] RETURN: {"result":{"centerId":"$2292"}}
+[0m[0;32m[2026-09-16 13:20:28.389][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":2285}]])
+[0m[0;32m[2026-09-16 13:20:28.391][VERB] RETURN: {"result":"$2294"}
+[0m[0;32m[2026-09-16 13:20:28.391][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":2285,"geomIds":[2294]}]])
+[0m[0;32m[2026-09-16 13:20:28.392][VERB] RETURN: {"result":"$2296"}
+[0m[0;32m[2026-09-16 13:20:28.393][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d183_position_x","name":"position_x","id":2285,"geomIds":[2294,2292]}]])
+[0m[0;32m[2026-09-16 13:20:28.398][VERB] RETURN: {"result":"$2300"}
+[0m[0;32m[2026-09-16 13:20:28.399][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d184_position_y","name":"position_y","id":2285,"geomIds":[2294,2292]}]])
+[0m[0;32m[2026-09-16 13:20:28.406][VERB] RETURN: {"result":"$2304"}
+[0m[0;32m[2026-09-16 13:20:28.407][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d185_radius","name":"radius","id":2285,"geomIds":[2291]}]])
+[0m[0;32m[2026-09-16 13:20:28.414][VERB] RETURN: {"result":"$2308"}
+[0m[0;32m[2026-09-16 13:20:28.414][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[2291],"name":"F181_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d186_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.421][VERB] RETURN: {"result":"$2312"}
+[0m[0;32m[2026-09-16 13:20:28.422][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"SUBTRACTION","tools":[2312],"target":2236,"name":"F173_cut_housing_shell_py_48","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.429][VERB] RETURN: {"result":"$2334"}
+[0m[0;32m[2026-09-16 13:20:28.430][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F187_makeCylinder_cad_primitives_py_12_plane","offset":"@expr.d188_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.434][VERB] RETURN: {"result":"$2352"}
+[0m[0;32m[2026-09-16 13:20:28.434][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":2352,"name":"F187_makeCylinder_cad_primitives_py_12_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.436][VERB] RETURN: {"result":"$2358"}
+[0m[0;32m[2026-09-16 13:20:28.437][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.circle",[{"radius":4.5,"id":2358,"genFixation":0,"centerPos":[86.8,38.9,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.438][VERB] RETURN: {"result":"$2364"}
+[0m[0;32m[2026-09-16 13:20:28.439][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":2364}]])
+[0m[0;32m[2026-09-16 13:20:28.439][VERB] RETURN: {"result":{"centerId":"$2365"}}
+[0m[0;32m[2026-09-16 13:20:28.439][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":2358}]])
+[0m[0;32m[2026-09-16 13:20:28.440][VERB] RETURN: {"result":"$2367"}
+[0m[0;32m[2026-09-16 13:20:28.440][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":2358,"geomIds":[2367]}]])
+[0m[0;32m[2026-09-16 13:20:28.442][VERB] RETURN: {"result":"$2369"}
+[0m[0;32m[2026-09-16 13:20:28.442][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d189_position_x","name":"position_x","id":2358,"geomIds":[2367,2365]}]])
+[0m[0;32m[2026-09-16 13:20:28.447][VERB] RETURN: {"result":"$2373"}
+[0m[0;32m[2026-09-16 13:20:28.447][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d190_position_y","name":"position_y","id":2358,"geomIds":[2367,2365]}]])
+[0m[0;32m[2026-09-16 13:20:28.453][VERB] RETURN: {"result":"$2377"}
+[0m[0;32m[2026-09-16 13:20:28.453][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"RADIUS","value":"@expr.d191_radius","name":"radius","id":2358,"geomIds":[2364]}]])
+[0m[0;32m[2026-09-16 13:20:28.459][VERB] RETURN: {"result":"$2381"}
+[0m[0;32m[2026-09-16 13:20:28.459][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[2364],"name":"F187_makeCylinder_cad_primitives_py_12","taperAngle":0,"limit2":"@expr.d192_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.465][VERB] RETURN: {"result":"$2385"}
+[0m[0;32m[2026-09-16 13:20:28.465][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F193_makeBox_cad_primitives_py_8_plane","offset":"@expr.d194_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.469][VERB] RETURN: {"result":"$2407"}
+[0m[0;32m[2026-09-16 13:20:28.469][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":2407,"name":"F193_makeBox_cad_primitives_py_8_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.472][VERB] RETURN: {"result":"$2413"}
+[0m[0;32m[2026-09-16 13:20:28.472][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[86.8,30,0],"id":2413,"genFixation":0,"endPos":[92.5,43,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.479][VERB] RETURN: {"result":["$2419","$2423","$2429","$2435"]}
+[0m[0;32m[2026-09-16 13:20:28.479][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":2419}]])
+[0m[0;32m[2026-09-16 13:20:28.480][VERB] RETURN: {"result":{"endId":"$2421","startId":"$2420"}}
+[0m[0;32m[2026-09-16 13:20:28.480][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":2413}]])
+[0m[0;32m[2026-09-16 13:20:28.482][VERB] RETURN: {"result":"$2451"}
+[0m[0;32m[2026-09-16 13:20:28.482][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":2413,"geomIds":[2451]}]])
+[0m[0;32m[2026-09-16 13:20:28.484][VERB] RETURN: {"result":"$2453"}
+[0m[0;32m[2026-09-16 13:20:28.487][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d195_position_x","name":"position_x","id":2413,"geomIds":[2451,2420]}]])
+[0m[0;32m[2026-09-16 13:20:28.493][VERB] RETURN: {"result":"$2457"}
+[0m[0;32m[2026-09-16 13:20:28.494][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d196_position_y","name":"position_y","id":2413,"geomIds":[2451,2420]}]])
+[0m[0;32m[2026-09-16 13:20:28.500][VERB] RETURN: {"result":"$2461"}
+[0m[0;32m[202PVS_DELETE_PE 0x74b4cc1540
+PVS_DELETE_PE 0x74b4cc1900
+PVS_DELETE_PE 0x74b4cc1a40
+PVS_DELETE_PE 0x74b4cc1b80
+PVS_DELETE_PE 0x74b4cc1f40
+PVS_DELETE_PE 0x74b4cc2300
+PVS_DELETE_PE 0x74b4cc2440
+PVS_DELETE_PE 0x74b4cc2580
+PVS_DELETE_PE 0x74b4cc26c0
+PVS_DELETE_PE 0x74b4cc2800
+PVS_DELETE_PE 0x74b4cc2940
+PVS_DELETE_PE 0x74b4cc2a80
+PVS_DELETE_PE 0x74b4cfa440
+PVS_DELETE_PE 0x74b4cfaa80
+PVS_DELETE_PE 0x74b4cfabc0
+PVS_DELETE_PE 0x74b4cfae40
+PVS_DELETE_PE 0x74b4cfaf80
+PVS_DELETE_PE 0x74b4cfb480
+PVS_DELETE_PE 0x74b4cfb5c0
+PVS_DELETE_PE 0x74b4cfb840
+PVS_DELETE_PE 0x74b4cfb980
+PVS_DELETE_PE 0x74b4cfa580
+PVS_DELETE_PE 0x74b4cfbac0
+PVS_DELETE_PE 0x74b4cfb700
+PVS_DELETE_PE 0x74b4cf88c0
+PVS_DELETE_PE 0x74b4cfb340
+PVS_DELETE_PE 0x74b4cfa940
+PVS_DELETE_PE 0x74b4cf8780
+PVS_DELETE_PE 0x74b4cfb840
+PVS_DELETE_PE 0x74b4cfb480
+PVS_DELETE_PE 0x74b4cfaf80
+PVS_DELETE_PE 0x74b4cfad00
+PVS_DELETE_PE 0x74b4cfae40
+PVS_DELETE_PE 0x74b4cf8a00
+PVS_DELETE_PE 0x74b4cf8500
+PVS_DELETE_PE 0x74b4cf83c0
+PVS_DELETE_PE 0x74b4cfbe80
+PVS_DELETE_PE 0x74b4cfbc00
+PVS_DELETE_PE 0x74b4cfa800
+PVS_DELETE_PE 0x74b4cfb480
+PVS_DELETE_PE 0x74b4ccd040
+PVS_DELETE_PE 0x74b4ccd2c0
+PVS_DELETE_PE 0x74b4ccda40
+PVS_DELETE_PE 0x74b4ccdb80
+PVS_DELETE_PE 0x74b4cce300
+PVS_DELETE_PE 0x74b4ccd680
+PVS_DELETE_PE 0x74b4ccd7c0
+PVS_DELETE_PE 0x74b4cce1c0
+PVS_DELETE_PE 0x74b4ccef80
+PVS_DELETE_PE 0x74b4ccee40
+PVS_DELETE_PE 0x74b4ccf700
+PVS_DELETE_PE 0x74b4ccf840
+PVS_DELETE_PE 0x74b4ccd400
+PVS_DELETE_PE 0x74b4ccdf40
+PVS_DELETE_PE 0x74b4cce440
+PVS_DELETE_PE 0x74b4ccdcc0
+PVS_DELETE_PE 0x74b4ccc140
+PVS_DELETE_PE 0x74b53dbd40
+PVS_DELETE_PE 0x74b53dbe80
+PVS_DELETE_PE 0x74b53d97c0
+PVS_DELETE_PE 0x74b53daa80
+PVS_DELETE_PE 0x74b53d9180
+PVS_DELETE_PE 0x74b53d92c0
+PVS_DELETE_PE 0x74b53d8780
+PVS_DELETE_PE 0x74b53dae40
+PVS_DELETE_PE 0x74b53dad00
+PVS_DELETE_PE 0x74b53d9900
+PVS_DELETE_PE 0x74b53db0c0
+PVS_DELETE_PE 0x74b53d9540
+PVS_DELETE_PE 0x74b53d9400
+PVS_DELETE_PE 0x74b4c03c00
+PVS_DELETE_PE 0x74b4c03980
+PVS_DELETE_PE 0x74b4c03840
+PVS_DELETE_PE 0x74b4c03700
+PVS_DELETE_PE 0x74b4c035c0
+PVS_DELETE_PE 0x74b4cdb840
+PVS_DELETE_PE 0x74b4cdbac0
+PVS_DELETE_PE 0x74b4cd88c0
+PVS_DELETE_PE 0x74b4cdbd40
+PVS_DELETE_PE 0x74b4c14000
+PVS_DELETE_PE 0x74b53d8500
+PVS_DELETE_PE 0x74b53db980
+PVS_DELETE_PE 0x74b53a3480
+PVS_DELETE_PE 0x74b53a2d00
+PVS_DELETE_PE 0x74b53a1180
+PVS_DELETE_PE 0x74b4cdbe80
+PVS_DELETE_PE 0x74b4cdb480
+PVS_DELETE_PE 0x74b4cd88c0
+PVS_DELETE_PE 0x74b4cdbac0
+PVS_DELETE_PE 0x74b4cdb840
+PVS_DELETE_PE 0x74b4c15180
+PVS_DELETE_PE 0x74b4c14f00
+PVS_DELETE_PE 0x74b4c14dc0
+PVS_DELETE_PE 0x74b4c14a00
+PVS_DELETE_PE 0x74b4c14780
+PVS_DELETE_PE 0x74b4c03840
+PVS_DELETE_PE 0x74b4c03340
+PVS_DELETE_PE 0x74b4c02300
+PVS_DELETE_PE 0x74b4c03ac0
+PVS_DELETE_PE 0x74b4c012c0
+PVS_DELETE_PE 0x74b4c01040
+PVS_DELETE_PE 0x74b4c00f00
+PVS_DELETE_PE 0x74b4c00640
+PVS_DELETE_PE 0x74b4c17200
+PVS_DELETE_PE 0x74b4c16f80
+PVS_DELETE_PE 0x74b4c16e40
+PVS_DELETE_PE 0x74b4c16bc0
+PVS_DELETE_PE 0x74b4c16940
+PVS_DELETE_PE 0x74b4c166c0
+PVS_DELETE_PE 0x74b4c16580
+PVS_DELETE_PE 0x74b4c14000
+PVS_DELETE_PE 0x74b4c14780
+PVS_DELETE_PE 0x74b4c148c0
+PVS_DELETE_PE 0x74b4c15540
+PVS_DELETE_PE 0x74b4c15680
+PVS_DELETE_PE 0x74b4c15f40
+PVS_DELETE_PE 0x74b4c16080
+PVS_DELETE_PE 0x74b4c16300
+PVS_DELETE_PE 0x74b4c143c0
+PVS_DELETE_PE 0x74b4c14140
+PVS_DELETE_PE 0x74b4c17d40
+PVS_DELETE_PE 0x74b4c17c00
+PVS_DELETE_PE 0x74b4c17840
+PVS_DELETE_PE 0x74b4c16440
+PVS_DELETE_PE 0x74b4c175c0
+PVS_DELETE_PE 0x74b4c17340
+PVS_DELETE_PE 0x74b4c15a40
+PVS_DELETE_PE 0x74b4c15cc0
+PVS_DELETE_PE 0x74b4c14000
+PVS_DELETE_PE 0x74b4c17480
+PVS_DELETE_PE 0x74b4cc3700
+PVS_DELETE_PE 0x74b4cc3e80
+PVS_DELETE_PE 0x74b4cc2300
+PVS_DELETE_PE 0x74b4cc2440
+PVS_DELETE_PE 0x74b4cc1a40
+PVS_DELETE_PE 0x74b4cc26c0
+PVS_DELETE_PE 0x74b4cc2f80
+PVS_DELETE_PE 0x74b4cc3980
+PVS_DELETE_PE 0x74b4cc2e40
+PVS_DELETE_PE 0x74b4cc2a80
+PVS_DELETE_PE 0x74b4c30b40
+PVS_DELETE_PE 0x74b4c30780
+PVS_DELETE_PE 0x74b4c30640
+PVS_DELETE_PE 0x74b4c30500
+PVS_DELETE_PE 0x74b4c303c0
+PVS_DELETE_PE 0x74b4c30280
+PVS_DELETE_PE 0x74b4cfa940
+PVS_DELETE_PE 0x74b4cf9f40
+PVS_DELETE_PE 0x74b4cf9040
+PVS_DELETE_PE 0x74b4cf8f00
+PVS_DELETE_PE 0x74b4cf8c80
+PVS_DELETE_PE 0x74b4cf8b40
+PVS_DELETE_PE 0x74b4cf9400
+PVS_DELETE_PE 0x74b4cf9540
+PVS_DELETE_PE 0x74b4cf8dc0
+PVS_DELETE_PE 0x74b4cf9a40
+PVS_DELETE_PE 0x74b4c32080
+PVS_DELETE_PE 0x74b4c32300
+PVS_DELETE_PE 0x74b4c335c0
+PVS_DELETE_PE 0x74b4c33480
+PVS_DELETE_PE 0x74b4c32440
+PVS_DELETE_PE 0x74b4c31e00
+PVS_DELETE_PE 0x74b4c31f40
+PVS_DELETE_PE 0x74b4c32080
+PVS_DELETE_PE 0x74b4c33ac0
+PVS_DELETE_PE 0x74b4c33c00
+PVS_DELETE_PE 0x74b4c3e800
+PVS_DELETE_PE 0x74b4c3ef80
+PVS_DELETE_PE 0x74b4c3f0c0
+PVS_DELETE_PE 0x74b4c3fe80
+PVS_DELETE_PE 0x74b4c3fc00
+PVS_DELETE_PE 0x74b4c3f980
+PVS_DELETE_PE 0x74b4c3f840
+PVS_DELETE_PE 0x74b4c3f700
+PVS_DELETE_PE 0x74b4c30780
+PVS_DELETE_PE 0x74b4c33200
+PVS_DELETE_PE 0x74b4c32e40
+PVS_DELETE_PE 0x74b4c330c0
+PVS_DELETE_PE 0x74b4c312c0
+PVS_DELETE_PE 0x74b4c30f00
+PVS_DELETE_PE 0x74b4c33d40
+PVS_DELETE_PE 0x74b4c303c0
+PVS_DELETE_PE 0x74b4c30280
+PVS_DELETE_PE 0x74b4c32a80
+PVS_DELETE_PE 0x74b4c32bc0
+PVS_DELETE_PE 0x74b4c32800
+PVS_DELETE_PE 0x74b4cce580
+PVS_DELETE_PE 0x74b4ccc640
+PVS_DELETE_PE 0x74b4ccf0c0
+PVS_DELETE_PE 0x74b4ccd900
+PVS_DELETE_PE 0x74b4ccfac0
+PVS_DELETE_PE 0x74b4cccf00
+PVS_DELETE_PE 0x74b4ccd7c0
+PVS_DELETE_PE 0x74b4ccee40
+PVS_DELETE_PE 0x74b4ccc3c0
+PVS_DELETE_PE 0x74b4c3f480
+PVS_DELETE_PE 0x74b4c3db80
+PVS_DELETE_PE 0x74b4c3f840
+PVS_DELETE_PE 0x74b4c3ef80
+PVS_DELETE_PE 0x74b4c3e580
+PVS_DELETE_PE 0x74b4c3de00
+PVS_DELETE_PE 0x74b4c3dcc0
+PVS_DELETE_PE 0x74b4c3d040
+PVS_DELETE_PE 0x74b4c3c8c0
+PVS_DELETE_PE 0x74b4c3f200
+PVS_DELETE_PE 0x74b4c3f340
+PVS_DELETE_PE 0x74b4c3f5c0
+PVS_DELETE_PE 0x74b4c3cb40
+PVS_DELETE_PE 0x74b4c3e1c0
+PVS_DELETE_PE 0x74b4c3e300
+PVS_DELETE_PE 0x74b4c3d900
+PVS_DELETE_PE 0x74b4c58f00
+PVS_DELETE_PE 0x74b4c59680
+PVS_DELETE_PE 0x74b4c59900
+PVS_DELETE_PE 0x74b4c5be80
+PVS_DELETE_PE 0x74b4c5b840
+PVS_DELETE_PE 0x74b4c5aa80
+PVS_DELETE_PE 0x74b4c5ae40
+PVS_DELETE_PE 0x74b4c5af80
+PVS_DELETE_PE 0x74b4c5b200
+PVS_DELETE_PE 0x74b4c5bac0
+PVS_DELETE_PE 0x74b4c5b980
+PVS_DELETE_PE 0x74b4c9c500
+PVS_DELETE_PE 0x74b4c9c280
+PVS_DELETE_PE 0x74b4c9c140
+PVS_DELETE_PE 0x74b4c5a6c0
+PVS_DELETE_PE 0x74b4c5b700
+PVS_DELETE_PE 0x74b4c5b0c0
+PVS_DELETE_PE 0x74b4c5ad00
+PVS_DELETE_PE 0x74b4c597c0
+PVS_DELETE_PE 0x74b4c5a580
+PVS_DELETE_PE 0x74b4c5a440
+PVS_DELETE_PE 0x74b4c5bd40
+PVS_DELETE_PE 0x74b4c9f700
+PVS_DELETE_PE 0x74b4c9f480
+PVS_DELETE_PE 0x74b4c9f200
+PVS_DELETE_PE 0x74b4c9ef80
+PVS_DELETE_PE 0x74b4c9ee40
+PVS_DELETE_PE 0x74b4c9ea80
+PVS_DELETE_PE 0x74b4c9e800
+PVS_DELETE_PE 0x74b4c9e6c0
+PVS_DELETE_PE 0x74b4c9e580
+PVS_DELETE_PE 0x74b4c9e300
+PVS_DELETE_PE 0x74b4c9e080
+PVS_DELETE_PE 0x74b4c9df40
+PVS_DELETE_PE 0x74b4c69cc0
+PVS_DELETE_PE 0x74b4c6a580
+PVS_DELETE_PE 0x74b4c6b5c0
+PVS_DELETE_PE 0x74b4c6b480
+PVS_DELETE_PE 0x74b4c69f40
+PVS_DELETE_PE 0x74b4c69e00
+PVS_DELETE_PE 0x74b4c6a080
+PVS_DELETE_PE 0x74b4c69400
+PVS_DELETE_PE 0x74b4cb0b40
+PVS_DELETE_PE 0x74b4cb0a00
+PVS_DELETE_PE 0x74b4cb0640
+PVS_DELETE_PE 0x74b4cb0500
+PVS_DELETE_PE 0x74b4cb03c0
+PVS_DELETE_PE 0x74b4cb0280
+PVS_DELETE_PE 0x74b4cb0000
+PVS_DELETE_PE 0x74b4cc21c0
+PVS_DELETE_PE 0x74b4cc35c0
+6-09-16 13:20:28.500][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d197_width","name":"width","id":2413,"geomIds":[2419]}]])
+[0m[0;32m[2026-09-16 13:20:28.509][VERB] RETURN: {"result":"$2465"}
+[0m[0;32m[2026-09-16 13:20:28.509][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d198_depth","name":"depth","id":2413,"geomIds":[2423]}]])
+[0m[0;32m[2026-09-16 13:20:28.518][VERB] RETURN: {"result":"$2469"}
+[0m[0;32m[2026-09-16 13:20:28.519][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[2419,2423,2429,2435],"name":"F193_makeBox_cad_primitives_py_8","taperAngle":0,"limit2":"@expr.d199_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.525][VERB] RETURN: {"result":"$2473"}
+[0m[0;32m[2026-09-16 13:20:28.525][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"UNION","tools":[231,307,362,417,472,560,669,745,800,855,910,998,1107,1183,1238,1293,1348,1436,1545,1752,1836,1945,2152,2334,2385,2473],"target":122,"name":"F2_union_cad_primitives_py_17","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.572][VERB] RETURN: {"result":"$2516"}
+[0m[0;32m[2026-09-16 13:20:28.573][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setDatabaseSettings",[{"isSketchGraphicEnabled":1,"isGraphicEnabled":1,"isCCGraphicEnabled":1,"doCurveTessellation":1}]])
+[0m[0;32m[2026-09-16 13:20:28.575][VERB] RETURN: {"result":null}
+[0m[2026-09-16 13:20:28.621][DEBUG] Build graphic in: 30ms
+[0;32m[2026-09-16 13:20:28.637][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.chamfer",[{"references":[2823,3034,2933,3097,2625,3098,2780,2794,2793,2705,2781,2670,2680,2814,2813,3084,3083,3077,3073,3121,3120,3155,3154,3022,3090,2994,3032,3150,3151,3152,3153],"name":"F1_chamfer_shell_skin_py_17","id":4,"distance1":"@expr.d200_cham ...
+[0m[0;32m[2026-09-16 13:20:28.820][VERB] RETURN: {"result":"$3169"}
+[0m[0;32m[2026-09-16 13:20:28.821][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":38,"name":"F201_chamfer_shell_skin_py_17_middle_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:28.824][VERB] RETURN: {"result":"$3508"}
+[0m[0;32m[2026-09-16 13:20:28.824][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":3508}]])
+[0m[0;32m[2026-09-16 13:20:28.825][VERB] RETURN: {"result":"$3514"}
+[0m[0;32m[2026-09-16 13:20:28.826][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":3508,"geomIds":[3514]}]])
+[0m[0;32m[2026-09-16 13:20:28.827][VERB] RETURN: {"result":"$3516"}
+[0m[0;32m[2026-09-16 13:20:28.827][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,1.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[53,1.6,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.829][VERB] RETURN: {"result":"$3518"}
+[0m[0;32m[2026-09-16 13:20:28.829][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3518}]])
+[0m[0;32m[2026-09-16 13:20:28.829][VERB] RETURN: {"result":{"endId":"$3520","startId":"$3519"}}
+[0m[0;32m[2026-09-16 13:20:28.829][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d202_x","name":"x","id":3508,"geomIds":[3514,3519]}]])
+[0m[0;32m[2026-09-16 13:20:28.835][VERB] RETURN: {"result":"$3524"}
+[0m[0;32m[2026-09-16 13:20:28.835][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d203_y","name":"y","id":3508,"geomIds":[3514,3519]}]])
+[0m[0;32m[2026-09-16 13:20:28.841][VERB] RETURN: {"result":"$3528"}
+[0m[0;32m[2026-09-16 13:20:28.841][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d204_x","name":"x","id":3508,"geomIds":[3514,3520]}]])
+[0m[0;32m[2026-09-16 13:20:28.847][VERB] RETURN: {"result":"$3532"}
+[0m[0;32m[2026-09-16 13:20:28.848][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d205_y","name":"y","id":3508,"geomIds":[3514,3520]}]])
+[0m[0;32m[2026-09-16 13:20:28.856][VERB] RETURN: {"result":"$3536"}
+[0m[0;32m[2026-09-16 13:20:28.857][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53,1.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[53.5,2.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.861][VERB] RETURN: {"result":"$3538"}
+[0m[0;32m[2026-09-16 13:20:28.861][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3538}]])
+[0m[0;32m[2026-09-16 13:20:28.861][VERB] RETURN: {"result":{"endId":"$3540","startId":"$3539"}}
+[0m[0;32m[2026-09-16 13:20:28.861][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d206_x","name":"x","id":3508,"geomIds":[3514,3539]}]])
+[0m[0;32m[2026-09-16 13:20:28.870][VERB] RETURN: {"result":"$3544"}
+[0m[0;32m[2026-09-16 13:20:28.870][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d207_y","name":"y","id":3508,"geomIds":[3514,3539]}]])
+[0m[0;32m[2026-09-16 13:20:28.880][VERB] RETURN: {"result":"$3548"}
+[0m[0;32m[2026-09-16 13:20:28.880][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d208_x","name":"x","id":3508,"geomIds":[3514,3540]}]])
+[0m[0;32m[2026-09-16 13:20:28.891][VERB] RETURN: {"result":"$3552"}
+[0m[0;32m[2026-09-16 13:20:28.892][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d209_y","name":"y","id":3508,"geomIds":[3514,3540]}]])
+[0m[0;32m[2026-09-16 13:20:28.905][VERB] RETURN: {"result":"$3556"}
+[0m[0;32m[2026-09-16 13:20:28.905][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53.5,2.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[53.5,25.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.911][VERB] RETURN: {"result":"$3558"}
+[0m[0;32m[2026-09-16 13:20:28.911][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3558}]])
+[0m[0;32m[2026-09-16 13:20:28.913][VERB] RETURN: {"result":{"endId":"$3560","startId":"$3559"}}
+[0m[0;32m[2026-09-16 13:20:28.913][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d210_x","name":"x","id":3508,"geomIds":[3514,3559]}]])
+[0m[0;32m[2026-09-16 13:20:28.926][VERB] RETURN: {"result":"$3564"}
+[0m[0;32m[2026-09-16 13:20:28.926][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d211_y","name":"y","id":3508,"geomIds":[3514,3559]}]])
+[0m[0;32m[2026-09-16 13:20:28.940][VERB] RETURN: {"result":"$3568"}
+[0m[0;32m[2026-09-16 13:20:28.941][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d212_x","name":"x","id":3508,"geomIds":[3514,3560]}]])
+[0m[0;32m[2026-09-16 13:20:28.953][VERB] RETURN: {"result":"$3572"}
+[0m[0;32m[2026-09-16 13:20:28.953][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d213_y","name":"y","id":3508,"geomIds":[3514,3560]}]])
+[0m[0;32m[2026-09-16 13:20:28.966][VERB] RETURN: {"result":"$3576"}
+[0m[0;32m[2026-09-16 13:20:28.966][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53.5,25.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[53,25.6,0]}]])
+[0m[0;32m[2026-09-16 13:20:28.972][VERB] RETURN: {"result":"$3578"}
+[0m[0;32m[2026-09-16 13:20:28.972][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3578}]])
+[0m[0;32m[2026-09-16 13:20:28.973][VERB] RETURN: {"result":{"endId":"$3580","startId":"$3579"}}
+[0m[0;32m[2026-09-16 13:20:28.973][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d214_x","name":"x","id":3508,"geomIds":[3514,3579]}]])
+[0m[0;32m[2026-09-16 13:20:28.986][VERB] RETURN: {"result":"$3584"}
+[0m[0;32m[2026-09-16 13:20:28.987][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d215_y","name":"y","id":3508,"geomIds":[3514,3579]}]])
+[0m[0;32m[2026-09-16 13:20:29.001][VERB] RETURN: {"result":"$3588"}
+[0m[0;32m[2026-09-16 13:20:29.002][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d216_x","name":"x","id":3508,"geomIds":[3514,3580]}]])
+[0m[0;32m[2026-09-16 13:20:29.017][VERB] RETURN: {"result":"$3592"}
+[0m[0;32m[2026-09-16 13:20:29.017][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d217_y","name":"y","id":3508,"geomIds":[3514,3580]}]])
+[0m[0;32m[2026-09-16 13:20:29.033][VERB] RETURN: {"result":"$3596"}
+[0m[0;32m[2026-09-16 13:20:29.033][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53,25.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[2.1,25.6,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.041][VERB] RETURN: {"result":"$3598"}
+[0m[0;32m[2026-09-16 13:20:29.042][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3598}]])
+[0m[0;32m[2026-09-16 13:20:29.042][VERB] RETURN: {"result":{"endId":"$3600","startId":"$3599"}}
+[0m[0;32m[2026-09-16 13:20:29.042][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d218_x","name":"x","id":3508,"geomIds":[3514,3599]}]])
+[0m[0;32m[2026-09-16 13:20:29.059][VERB] RETURN: {"result":"$3604"}
+[0m[0;32m[2026-09-16 13:20:29.059][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d219_y","name":"y","id":3508,"geomIds":[3514,3599]}]])
+[0m[0;32m[2026-09-16 13:20:29.077][VERB] RETURN: {"result":"$3608"}
+[0m[0;32m[2026-09-16 13:20:29.078][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d220_x","name":"x","id":3508,"geomIds":[3514,3600]}]])
+[0m[0;32m[2026-09-16 13:20:29.097][VERB] RETURN: {"result":"$3612"}
+[0m[0;32m[2026-09-16 13:20:29.097][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d221_y","name":"y","id":3508,"geomIds":[3514,3600]}]])
+[0m[0;32m[2026-09-16 13:20:29.116][VERB] RETURN: {"result":"$3616"}
+[0m[0;32m[2026-09-16 13:20:29.116][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,25.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[1.6,25.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.126][VERB] RETURN: {"result":"$3618"}
+[0m[0;32m[2026-09-16 13:20:29.126][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3618}]])
+[0m[0;32m[2026-09-16 13:20:29.126][VERB] RETURN: {"result":{"endId":"$3620","startId":"$3619"}}
+[0m[0;32m[2026-09-16 13:20:29.127][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d222_x","name":"x","id":3508,"geomIds":[3514,3619]}]])
+[0m[0;32m[2026-09-16 13:20:29.146][VERB] RETURN: {"result":"$3624"}
+[0m[0;32m[2026-09-16 13:20:29.146][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d223_y","name":"y","id":3508,"geomIds":[3514,3619]}]])
+[0m[0;32m[2026-09-16 13:20:29.167][VERB] RETURN: {"result":"$3628"}
+[0m[0;32m[2026-09-16 13:20:29.167][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d224_x","name":"x","id":3508,"geomIds":[3514,3620]}]])
+[0m[0;32m[2026-09-16 13:20:29.188][VERB] RETURN: {"result":"$3632"}
+[0m[0;32m[2026-09-16 13:20:29.188][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d225_y","name":"y","id":3508,"geomIds":[3514,3620]}]])
+[0m[0;32m[2026-09-16 13:20:29.210][VERB] RETURN: {"result":"$3636"}
+[0m[0;32m[2026-09-16 13:20:29.211][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,25.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[1.6,2.1,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.222][VERB] RETURN: {"result":"$3638"}
+[0m[0;32m[2026-09-16 13:20:29.222][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3638}]])
+[0m[0;32m[2026-09-16 13:20:29.222][VERB] RETURN: {"result":{"endId":"$3640","startId":"$3639"}}
+[0m[0;32m[2026-09-16 13:20:29.223][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d226_x","name":"x","id":3508,"geomIds":[3514,3639]}]])
+[0m[0;32m[2026-09-16 13:20:29.245][VERB] RETURN: {"result":"$3644"}
+[0m[0;32m[2026-09-16 13:20:29.246][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d227_y","name":"y","id":3508,"geomIds":[3514,3639]}]])
+[0m[0;32m[2026-09-16 13:20:29.269][VERB] RETURN: {"result":"$3648"}
+[0m[0;32m[2026-09-16 13:20:29.270][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d228_x","name":"x","id":3508,"geomIds":[3514,3640]}]])
+[0m[0;32m[2026-09-16 13:20:29.294][VERB] RETURN: {"result":"$3652"}
+[0m[0;32m[2026-09-16 13:20:29.294][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d229_y","name":"y","id":3508,"geomIds":[3514,3640]}]])
+[0m[0;32m[2026-09-16 13:20:29.320][VERB] RETURN: {"result":"$3656"}
+[0m[0;32m[2026-09-16 13:20:29.320][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,2.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":3508,"endPos":[2.1,1.6,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.333][VERB] RETURN: {"result":"$3658"}
+[0m[0;32m[2026-09-16 13:20:29.333][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":3658}]])
+[0m[0;32m[2026-09-16 13:20:29.334][VERB] RETURN: {"result":{"endId":"$3660","startId":"$3659"}}
+[0m[0;32m[2026-09-16 13:20:29.334][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d230_x","name":"x","id":3508,"geomIds":[3514,3659]}]])
+[0m[0;32m[2026-09-16 13:20:29.359][VERB] RETURN: {"result":"$3664"}
+[0m[0;32m[2026-09-16 13:20:29.360][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d231_y","name":"y","id":3508,"geomIds":[3514,3659]}]])
+[0m[0;32m[2026-09-16 13:20:29.386][VERB] RETURN: {"result":"$3668"}
+[0m[0;32m[2026-09-16 13:20:29.387][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d232_x","name":"x","id":3508,"geomIds":[3514,3660]}]])
+[0m[0;32m[2026-09-16 13:20:29.413][VERB] RETURN: {"result":"$3672"}
+[0m[0;32m[2026-09-16 13:20:29.414][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d233_y","name":"y","id":3508,"geomIds":[3514,3660]}]])
+[0m[0;32m[2026-09-16 13:20:29.442][VERB] RETURN: {"result":"$3676"}
+[0m[0;32m[2026-09-16 13:20:29.443][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[3518,3538,3558,3578,3598,3618,3638,3658],"name":"F201_chamfer_shell_skin_py_17_middle","taperAngle":0,"limit2":"@expr.d234_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:29.449][VERB] RETURN: {"result":"$3680"}
+[0m[0;32m[2026-09-16 13:20:29.449][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F201_chamfer_shell_skin_py_17_middle_2","id":4,"targets":[3680],"distance":"@expr.d235_position"}]])
+[0m[0;32m[2026-09-16 13:20:29.455][VERB] RETURN: {"result":"$3751"}
+[0m[0;32m[2026-09-16 13:20:29.455][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[3518,3538,3558,3578,3598,3618,3638,3658],"name":"F201_chamfer_shell_skin_py_17_bottom","taperAngle":0.78539816339745,"limit2":"@expr.d236_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:29.464][VERB] RETURN: {"result":"$3762"}
+[0m[0;32m[2026-09-16 13:20:29.464][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F201_chamfer_shell_skin_py_17_bottom_2","id":4,"targets":[3762],"distance":"@expr.d237_poPVS_DELETE_PE 0x74b3555180
+PVS_DELETE_PE 0x74b3555400
+PVS_DELETE_PE 0x74b3555680
+PVS_DELETE_PE 0x74b3555900
+PVS_DELETE_PE 0x74b3555b80
+PVS_DELETE_PE 0x74b3555e00
+PVS_DELETE_PE 0x74b3556080
+PVS_DELETE_PE 0x74b35561c0
+PVS_DELETE_PE 0x74b353c640
+PVS_DELETE_PE 0x74b353c3c0
+PVS_DELETE_PE 0x74b353c140
+PVS_DELETE_PE 0x74b3527e80
+PVS_DELETE_PE 0x74b3527c00
+PVS_DELETE_PE 0x74b3527980
+PVS_DELETE_PE 0x74b3527700
+PVS_DELETE_PE 0x74b35275c0
+sition"}]])
+[0m[0;32m[2026-09-16 13:20:29.469][VERB] RETURN: {"result":"$3825"}
+[0m[0;32m[2026-09-16 13:20:29.469][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[3518,3538,3558,3578,3598,3618,3638,3658],"name":"F201_chamfer_shell_skin_py_17_top","taperAngle":0.78539816339745,"limit2":"@expr.d238_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:29.478][VERB] RETURN: {"result":"$3836"}
+[0m[0;32m[2026-09-16 13:20:29.478][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F201_chamfer_shell_skin_py_17_top_2","id":4,"targets":[3836],"distance":"@expr.d239_position"}]])
+[0m[0;32m[2026-09-16 13:20:29.482][VERB] RETURN: {"result":"$3899"}
+[0m[0;32m[2026-09-16 13:20:29.483][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"UNION","tools":[3825,3899],"target":3751,"name":"F201_chamfer_shell_skin_py_17","id":4}]])
+[0m[0;32m[2026-09-16 13:20:29.506][VERB] RETURN: {"result":"$3910"}
+[0m[0;32m[2026-09-16 13:20:29.507][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"SUBTRACTION","tools":[3910],"target":3169,"name":"F0_cut_housing_shell_py_58_tool_0","id":4}]])
+[0m[0;32m[2026-09-16 13:20:29.565][VERB] RETURN: {"result":"$3989"}
+[0m[0;32m[2026-09-16 13:20:29.565][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":38,"name":"F240_chamfer_shell_skin_py_17_middle_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:20:29.568][VERB] RETURN: {"result":"$4157"}
+[0m[0;32m[2026-09-16 13:20:29.568][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":4157}]])
+[0m[0;32m[2026-09-16 13:20:29.569][VERB] RETURN: {"result":"$4163"}
+[0m[0;32m[2026-09-16 13:20:29.569][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":4157,"geomIds":[4163]}]])
+[0m[0;32m[2026-09-16 13:20:29.570][VERB] RETURN: {"result":"$4165"}
+[0m[0;32m[2026-09-16 13:20:29.570][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,23,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[54.7,23,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.571][VERB] RETURN: {"result":"$4167"}
+[0m[0;32m[2026-09-16 13:20:29.571][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4167}]])
+[0m[0;32m[2026-09-16 13:20:29.571][VERB] RETURN: {"result":{"endId":"$4169","startId":"$4168"}}
+[0m[0;32m[2026-09-16 13:20:29.572][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d241_x","name":"x","id":4157,"geomIds":[4163,4168]}]])
+[0m[0;32m[2026-09-16 13:20:29.576][VERB] RETURN: {"result":"$4173"}
+[0m[0;32m[2026-09-16 13:20:29.576][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d242_y","name":"y","id":4157,"geomIds":[4163,4168]}]])
+[0m[0;32m[2026-09-16 13:20:29.581][VERB] RETURN: {"result":"$4177"}
+[0m[0;32m[2026-09-16 13:20:29.581][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d243_x","name":"x","id":4157,"geomIds":[4163,4169]}]])
+[0m[0;32m[2026-09-16 13:20:29.587][VERB] RETURN: {"result":"$4181"}
+[0m[0;32m[2026-09-16 13:20:29.587][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d244_y","name":"y","id":4157,"geomIds":[4163,4169]}]])
+[0m[0;32m[2026-09-16 13:20:29.594][VERB] RETURN: {"result":"$4185"}
+[0m[0;32m[2026-09-16 13:20:29.594][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[54.7,23,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[55.2,23.5,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.597][VERB] RETURN: {"result":"$4187"}
+[0m[0;32m[2026-09-16 13:20:29.597][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4187}]])
+[0m[0;32m[2026-09-16 13:20:29.597][VERB] RETURN: {"result":{"endId":"$4189","startId":"$4188"}}
+[0m[0;32m[2026-09-16 13:20:29.597][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d245_x","name":"x","id":4157,"geomIds":[4163,4188]}]])
+[0m[0;32m[2026-09-16 13:20:29.605][VERB] RETURN: {"result":"$4193"}
+[0m[0;32m[2026-09-16 13:20:29.605][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d246_y","name":"y","id":4157,"geomIds":[4163,4188]}]])
+[0m[0;32m[2026-09-16 13:20:29.613][VERB] RETURN: {"result":"$4197"}
+[0m[0;32m[2026-09-16 13:20:29.613][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d247_x","name":"x","id":4157,"geomIds":[4163,4189]}]])
+[0m[0;32m[2026-09-16 13:20:29.622][VERB] RETURN: {"result":"$4201"}
+[0m[0;32m[2026-09-16 13:20:29.622][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d248_y","name":"y","id":4157,"geomIds":[4163,4189]}]])
+[0m[0;32m[2026-09-16 13:20:29.631][VERB] RETURN: {"result":"$4205"}
+[0m[0;32m[2026-09-16 13:20:29.632][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[55.2,23.5,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[55.2,61.9,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.636][VERB] RETURN: {"result":"$4207"}
+[0m[0;32m[2026-09-16 13:20:29.636][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4207}]])
+[0m[0;32m[2026-09-16 13:20:29.637][VERB] RETURN: {"result":{"endId":"$4209","startId":"$4208"}}
+[0m[0;32m[2026-09-16 13:20:29.637][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d249_x","name":"x","id":4157,"geomIds":[4163,4208]}]])
+[0m[0;32m[2026-09-16 13:20:29.647][VERB] RETURN: {"result":"$4213"}
+[0m[0;32m[2026-09-16 13:20:29.647][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d250_y","name":"y","id":4157,"geomIds":[4163,4208]}]])
+[0m[0;32m[2026-09-16 13:20:29.659][VERB] RETURN: {"result":"$4217"}
+[0m[0;32m[2026-09-16 13:20:29.659][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d251_x","name":"x","id":4157,"geomIds":[4163,4209]}]])
+[0m[0;32m[2026-09-16 13:20:29.672][VERB] RETURN: {"result":"$4221"}
+[0m[0;32m[2026-09-16 13:20:29.672][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d252_y","name":"y","id":4157,"geomIds":[4163,4209]}]])
+[0m[0;32m[2026-09-16 13:20:29.685][VERB] RETURN: {"result":"$4225"}
+[0m[0;32m[2026-09-16 13:20:29.685][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[55.2,61.9,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[54.7,62.4,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.691][VERB] RETURN: {"result":"$4227"}
+[0m[0;32m[2026-09-16 13:20:29.691][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4227}]])
+[0m[0;32m[2026-09-16 13:20:29.692][VERB] RETURN: {"result":{"endId":"$4229","startId":"$4228"}}
+[0m[0;32m[2026-09-16 13:20:29.692][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d253_x","name":"x","id":4157,"geomIds":[4163,4228]}]])
+[0m[0;32m[2026-09-16 13:20:29.705][VERB] RETURN: {"result":"$4233"}
+[0m[0;32m[2026-09-16 13:20:29.705][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d254_y","name":"y","id":4157,"geomIds":[4163,4228]}]])
+[0m[0;32m[2026-09-16 13:20:29.719][VERB] RETURN: {"result":"$4237"}
+[0m[0;32m[2026-09-16 13:20:29.719][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d255_x","name":"x","id":4157,"geomIds":[4163,4229]}]])
+[0m[0;32m[2026-09-16 13:20:29.734][VERB] RETURN: {"result":"$4241"}
+[0m[0;32m[2026-09-16 13:20:29.735][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d256_y","name":"y","id":4157,"geomIds":[4163,4229]}]])
+[0m[0;32m[2026-09-16 13:20:29.750][VERB] RETURN: {"result":"$4245"}
+[0m[0;32m[2026-09-16 13:20:29.750][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[54.7,62.4,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[2.1,62.4,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.758][VERB] RETURN: {"result":"$4247"}
+[0m[0;32m[2026-09-16 13:20:29.759][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4247}]])
+[0m[0;32m[2026-09-16 13:20:29.759][VERB] RETURN: {"result":{"endId":"$4249","startId":"$4248"}}
+[0m[0;32m[2026-09-16 13:20:29.759][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d257_x","name":"x","id":4157,"geomIds":[4163,4248]}]])
+[0m[0;32m[2026-09-16 13:20:29.775][VERB] RETURN: {"result":"$4253"}
+[0m[0;32m[2026-09-16 13:20:29.776][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d258_y","name":"y","id":4157,"geomIds":[4163,4248]}]])
+[0m[0;32m[2026-09-16 13:20:29.792][VERB] RETURN: {"result":"$4257"}
+[0m[0;32m[2026-09-16 13:20:29.793][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d259_x","name":"x","id":4157,"geomIds":[4163,4249]}]])
+[0m[0;32m[2026-09-16 13:20:29.810][VERB] RETURN: {"result":"$4261"}
+[0m[0;32m[2026-09-16 13:20:29.811][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d260_y","name":"y","id":4157,"geomIds":[4163,4249]}]])
+[0m[0;32m[2026-09-16 13:20:29.829][VERB] RETURN: {"result":"$4265"}
+[0m[0;32m[2026-09-16 13:20:29.829][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,62.4,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[1.6,61.9,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.839][VERB] RETURN: {"result":"$4267"}
+[0m[0;32m[2026-09-16 13:20:29.839][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4267}]])
+[0m[0;32m[2026-09-16 13:20:29.839][VERB] RETURN: {"result":{"endId":"$4269","startId":"$4268"}}
+[0m[0;32m[2026-09-16 13:20:29.840][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d261_x","name":"x","id":4157,"geomIds":[4163,4268]}]])
+[0m[0;32m[2026-09-16 13:20:29.860][VERB] RETURN: {"result":"$4273"}
+[0m[0;32m[2026-09-16 13:20:29.860][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d262_y","name":"y","id":4157,"geomIds":[4163,4268]}]])
+[0m[0;32m[2026-09-16 13:20:29.882][VERB] RETURN: {"result":"$4277"}
+[0m[0;32m[2026-09-16 13:20:29.882][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d263_x","name":"x","id":4157,"geomIds":[4163,4269]}]])
+[0m[0;32m[2026-09-16 13:20:29.904][VERB] RETURN: {"result":"$4281"}
+[0m[0;32m[2026-09-16 13:20:29.904][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d264_y","name":"y","id":4157,"geomIds":[4163,4269]}]])
+[0m[0;32m[2026-09-16 13:20:29.926][VERB] RETURN: {"result":"$4285"}
+[0m[0;32m[2026-09-16 13:20:29.927][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,61.9,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[1.6,23.5,0]}]])
+[0m[0;32m[2026-09-16 13:20:29.939][VERB] RETURN: {"result":"$4287"}
+[0m[0;32m[2026-09-16 13:20:29.939][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4287}]])
+[0m[0;32m[2026-09-16 13:20:29.939][VERB] RETURN: {"result":{"endId":"$4289","startId":"$4288"}}
+[0m[0;32m[2026-09-16 13:20:29.940][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d265_x","name":"x","id":4157,"geomIds":[4163,4288]}]])
+[0m[0;32m[2026-09-16 13:20:29.963][VERB] RETURN: {"result":"$4293"}
+[0m[0;32m[2026-09-16 13:20:29.963][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d266_y","name":"y","id":4157,"geomIds":[4163,4288]}]])
+[0m[0;32m[2026-09-16 13:20:29.986][VERB] RETURN: {"result":"$4297"}
+[0m[0;32m[2026-09-16 13:20:29.987][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d267_x","name":"x","id":4157,"geomIds":[4163,4289]}]])
+[0m[0;32m[2026-09-16 13:20:30.012][VERB] RETURN: {"result":"$4301"}
+[0m[0;32m[2026-09-16 13:20:30.013][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d268_y","name":"y","id":4157,"geomIds":[4163,4289]}]])
+[0m[0;32m[2026-09-16 13:20:30.039][VERB] RETURN: {"result":"$4305"}
+[0m[0;32m[2026-09-16 13:20:30.040][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,23.5,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":4157,"endPos":[2.1,23,0]}]])
+[0m[0;32m[2026-09-16 13:20:30.053][VERB] RETURN: {"result":"$4307"}
+[0m[0;32m[2026-09-16 13:20:30.053][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":4307}]])
+[0m[0;32m[2026-09-16 13:20:30.054][VERB] RETURN: {"result":{"endId":"$4309","startId":"$4308"}}
+[0m[0;32m[2026-09-16 13:20:30.054][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d269_x","name":"x","id":4157,"geomIds":[4163,4308]}]])
+[0m[0;32m[2026-09-16 13:20:30.080][VERB] RETURN: {"result":"$4313"}
+[0m[0;32m[2026-09-16 13:20:30.081][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d270_y","name":"y","id":4157,"geomIds":[4163,4308]}]])
+[0m[0;32m[2026-09-16 13:20:30.108][VERB] RETURN: {"result":"$4317"}
+[0m[0;32m[2026-09-16 13:20:30.108][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d271_x","name":"x","id":4157,"geomIds":[4163,4309]}]])
+[0m[0;32m[2026-09-16 13:20:30.137][VERB] RETURN: {"result":"$4321"}
+[0m[0;32m[2026-09-16 13:20:30.138][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d272_y","name":"y","id":4157,"geomIds":[4163,4309]}]])
+[0m[0;32m[2026-09-16 13:20:30.167][VERB] RETURN: {"result":"$4325"}
+[0m[0;32m[2026-09-16 13:20:30.168][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[4167,4187,4207,4227,4247,4267,4287,4307],"name":"F240_chamfer_shell_skin_py_17_middle","taperAngle":0,"limit2":"@expr.d273_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:30.174][VERB] RETURN: {"result":"$4329"}
+[0m[0;32m[2026-09-16 13:20:30.174][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F240_chamfer_shell_skin_py_17_middle_2","id":4,"targets":[4329],"distance":"@expr.d274_position"}]])
+[0m[0;32m[2026-09-16 13:20:30.178][VERB] RETURN: {"result":"$4400"}
+[0m[0;32m[2026-09-16 13:20:30.179][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[4167,4187,4207,4227,4247,4267,4287,4307],"name":"F240_chamfer_shell_skin_py_17_bottom","taperAngle":0.78539816339745,"limit2":"@expr.d275_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:30.188][VERB] RETURN: {"result":"$4411"}
+[0m[0;32m[2026-09-16 13:20:30.189][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F240_chamfer_shell_skin_py_17_bottom_2","id":4,"targets":[4411],"distance":"@expr.d276_position"}]])
+[0m[0;32m[2026-09-16 13:20:30.193][VERB] RETURN: {"result":"$4474"}
+[0m[0;32m[2026-09-16 13:20:30.194][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[4167,4187,4207,4227,4247,4267,4287,4307],"name":"F240_chamfer_shell_skin_py_17_top","taperAngle":0.78539816339745,"limit2":"@expr.d277_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:20:30.203][VERB] RETURN: {"result":"$4485"}
+[0m[0;32m[2026-09-16 13:20:30.203][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F240_chamfer_shell_skin_py_17_top_2","id":4,"targets":[4485],"distance":"@expr.d278_position"}]])
+[0m[0;32mPVS_DELETE_PE 0x74b2c7f700
+PVS_DELETE_PE 0x74b2c7f980
+PVS_DELETE_PE 0x74b2c7fc00
+PVS_DELETE_PE 0x74b2c7fe80
+PVS_DELETE_PE 0x74b2d08140
+PVS_DELETE_PE 0x74b2d083c0
+PVS_DELETE_PE 0x74b2d08640
+PVS_DELETE_PE 0x74b2d08780
+PVS_DELETE_PE 0x74b2dd26c0
+PVS_DELETE_PE 0x74b2dd2940
+PVS_DELETE_PE 0x74b2dd2bc0
+PVS_DELETE_PE 0x74b2dd2e40
+PVS_DELETE_PE 0x74b2dd30c0
+PVS_DELETE_PE 0x74b2dd3340
+PVS_DELETE_PE 0x74b2dd35c0
+PVS_DELETE_PE 0x74b2dd3700
+PVS_EMPTY_PE 0x74b2e8fac0
+PVS_DELETE_PE 0x74b2e8fac0
+PVS_EMPTY_PE 0x74b28bcf00
+PVS_DELETE_PE 0x74b28bcf00
+PVS_EMPTY_PE 0x74b28bcdc0
+PVS_STALE_PE 0x74b2e8fac0 pf=0x74b29380e0 index=3
+PVS_STALE_PE 0x74b2e8fac0 pf=0x74b29380e0 index=3
+PVS_DELETE_PE 0x74b2e8e940
+PVS_DELETE_PE 0x74b2e8ee40
+PVS_DELETE_PE 0x74b2e8ef80
+PVS_DELETE_PE 0x74b2e8f200
+PVS_DELETE_PE 0x74b2e8f480
+PVS_DELETE_PE 0x74b2e8f5c0
+PVS_DELETE_PE 0x74b2e8f840
+PVS_DELETE_PE 0x74b2e8fc00
+PVS_DELETE_PE 0x74b2e8fe80
+PVS_DELETE_PE 0x74b28bc140
+PVS_DELETE_PE 0x74b28bc3c0
+PVS_DELETE_PE 0x74b28bc780
+PVS_DELETE_PE 0x74b28bc8c0
+PVS_DELETE_PE 0x74b28bcb40
+PVS_DELETE_PE 0x74b28bcc80
+PVS_DELETE_PE 0x74b28bd040
+PVS_DELETE_PE 0x74b28bd180
+PVS_DELETE_PE 0x74b28bcdc0
+[2026-09-16 13:20:30.207][VERB] RETURN: {"result":"$4548"}
+[0m[0;32m[2026-09-16 13:20:30.208][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"UNION","tools":[4474,4548],"target":4400,"name":"F240_chamfer_shell_skin_py_17","id":4}]])
+[0m[0;32m[2026-09-16 13:20:30.231][VERB] RETURN: {"result":"$4559"}
+[0m[0;32m[2026-09-16 13:20:30.232][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"SUBTRACTION","tools":[4559],"target":3989,"name":"F0_cut_housing_shell_py_58_tool_1","id":4}]])
+[0m[0;32m[2026-09-16 13:20:30.318][VERB] RETURN: {"result":"$4638"}
+[0m[0;32m[2026-09-16 13:20:30.319][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setAppearance",[{"target":4638,"color":[51,58.65,68.85]}]])
+[0m[0;32m[2026-09-16 13:20:30.319][VERB] RETURN: {"result":null}
+[0m[0;32m[2026-09-16 13:20:30.320][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.calculateMassProperties",[{"id":4}]])
+[0m[0;32m[2026-09-16 13:20:30.346][VERB] RETURN: {"result":{"volume":105847.3687935,"cog":{"z":17.608893587217,"y":25.936439549704,"x":54.663530179315}}}
+[0m[0;32m[2026-09-16 13:20:30.347][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.save",[{"format":"OFB","file":"/Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/files/15-debug-result.ofb"}]])
+[0m[0;32m[2026-09-16 13:20:30.350][VERB] GetStateId with StateId=2844c160-8a07-4f20-b5f4-d26a3bf8d7be
+[0m[0;32m[2026-09-16 13:20:30.370][VERB] RETURN: {"maxLevel":31,"messages":[{"message":"GetStateId with StateId=2844c160-8a07-4f20-b5f4-d26a3bf8d7be\n","code":0,"level":31,"api":"v1.common.save","levelStr":"INFO"}],"result":{"success":1}}
+[0m[0;32m[2026-09-16 13:20:30.371][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setDatabaseSettings",[{"isSketchGraphicEnabled":1,"isGraphicEnabled":1,"isCCGraphicEnabled":1,"doCurveTessellation":1}]])
+[0m[0;32m[2026-09-16 13:20:30.372][VERB] RETURN: {"result":null}
+[0m[2026-09-16 13:20:30.468][DEBUG] Build graphic in: 75ms
+[0;32m[2026-09-16 13:20:30.501][VERB] 0x74b81b2b80 SetZeichnung
+[0m[0;32m[2026-09-16 13:20:30.502][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.clear",[{}]])
+[0m[0;32m[2026-09-16 13:20:30.502][VERB] RETURN: {"result":null}
+[0m[0;32m[2026-09-16 13:20:30.512][VERB] 0x74b81b2d00 Delete Zeichnung
+[0m[0;32m[2026-09-16 13:20:30.512][VERB] 0x0 SetZeichnung
+[0m[0;32m[2026-09-16 13:20:30.512][VERB] 0x74b81b2b80 Delete Zeichnung
+[0m

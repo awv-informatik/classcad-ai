@@ -1,0 +1,36 @@
+--- a/NMTLib/src/IwProtoTopology.cpp
++++ b/NMTLib/src/IwProtoTopology.cpp
+@@ -5799,7 +5799,7 @@
+         // PFs keep a list of coincident PEs. Refresh if necessary so no stale pointers.
+         IwTArray< IwProtoFace* > sPFs;
+         IwProtoFace *pPF = NULL;
+-        IwBoolean bReplaceCoinPE = FALSE;
++        IwTArray<IwProtoFace*> replacementOwners;
+         sPFs = GetProtoFaces();
+         for ( jj = 0; jj < sPFs.GetSize(); jj++ )
+         {
+@@ -5811,8 +5811,7 @@
+             pCoinPEs->RemoveElements( sOverlappingPEs, *pCoinPEs );
+             if ( pCoinPEs->GetSize() != sSize )
+             {
+-                bReplaceCoinPE = TRUE;
+-                break;
++                replacementOwners.Add(pPF);
+             }
+         } // end check for these PEs on existing PFs
+ 
+@@ -6033,11 +6032,10 @@
+                 IwProtoEdge *pNewPE = NULL;
+                 FindOrCreateProtoEdge( ( *pCrvClass1 )[kk], ( *pCrvClass2 )[kk], pNewPE );
+ 
+-                if ( pNewPE && bReplaceCoinPE )
++                if ( pNewPE )
+                 {
+-                    IwTArray< IwProtoEdge* > *pCoinPEs;
+-                    pCoinPEs = pPF->GetCoincProtoEdges();
+-                    pCoinPEs->AddUnique( pNewPE );
++                    for (ULONG ownerIdx=0; ownerIdx<replacementOwners.GetSize(); ++ownerIdx)
++                        replacementOwners[ownerIdx]->GetCoincProtoEdges()->AddUnique(pNewPE);
+                 }
+             } // end for each curve interval
+         } // end for each curve classification

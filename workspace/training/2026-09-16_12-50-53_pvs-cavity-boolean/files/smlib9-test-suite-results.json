@@ -1,0 +1,10 @@
+[
+  {
+    "test": "PartAPITest_v1",
+    "exit": 0
+  },
+  {
+    "test": "BMTestSuite",
+    "exit": "timeout"
+  }
+]

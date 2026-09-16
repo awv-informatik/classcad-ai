@@ -1,0 +1,21 @@
+{
+  "partName": "Base",
+  "part": 4,
+  "finalFeature": 29583,
+  "sketchCount": 218,
+  "featureCount": 335,
+  "mass": {
+    "result": {
+      "cog": {
+        "x": 44.144232232701306,
+        "y": 30.406860158298112,
+        "z": 7.278767107156943
+      },
+      "volume": 41550.503662258176
+    },
+    "messages": [],
+    "maxLevel": 31,
+    "graphic": null
+  },
+  "expectedVolume": 41550.950128014454
+}

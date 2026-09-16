@@ -1,0 +1,8 @@
+{
+  "script": "production-Base.mjs",
+  "workerPid": 17111,
+  "limitSeconds": 120.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 22.934
+}

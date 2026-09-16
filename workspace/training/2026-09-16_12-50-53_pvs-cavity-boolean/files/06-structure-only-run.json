@@ -1,0 +1,8 @@
+{
+  "script": "06-structure-only.mjs",
+  "workerPid": 7557,
+  "limitSeconds": 40.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 9.111
+}

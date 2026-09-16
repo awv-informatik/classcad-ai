@@ -1,0 +1,8 @@
+{
+  "script": "12-debug-suppressed.mjs",
+  "workerPid": 11473,
+  "limitSeconds": 15.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.917
+}

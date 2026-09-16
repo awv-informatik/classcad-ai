@@ -1,0 +1,21 @@
+{
+  "partName": "Upper_shell",
+  "part": 4,
+  "finalFeature": 20588,
+  "sketchCount": 158,
+  "featureCount": 250,
+  "mass": {
+    "result": {
+      "cog": {
+        "x": 43.20696244686442,
+        "y": 30.4557273853604,
+        "z": 31.62548565977728
+      },
+      "volume": 26505.930070320457
+    },
+    "messages": [],
+    "maxLevel": 31,
+    "graphic": null
+  },
+  "expectedVolume": 26503.22546524446
+}

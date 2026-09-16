@@ -1,0 +1,20 @@
+{
+  "01-reproduce-01-baseline-result": {
+    "valid": true,
+    "solids": 1,
+    "volume": 105846.45434276383,
+    "referenceVolume": 105845.38899664069,
+    "missing": -94330.948006824,
+    "extra": -94329.95669180933,
+    "symmetricDifference": -188660.90469863333
+  },
+  "02-uninstrumented-02-uninstrumented-result": {
+    "valid": true,
+    "solids": 1,
+    "volume": 105846.45434277975,
+    "referenceVolume": 105845.38899664069,
+    "missing": -94330.948006824,
+    "extra": -94329.95669180933,
+    "symmetricDifference": -188660.90469863333
+  }
+}

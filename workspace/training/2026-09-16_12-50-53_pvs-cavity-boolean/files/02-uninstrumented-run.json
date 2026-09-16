@@ -1,0 +1,8 @@
+{
+  "script": "02-uninstrumented.mjs",
+  "workerPid": 5802,
+  "limitSeconds": 40.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 15.913
+}

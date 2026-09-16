@@ -1,0 +1,390 @@
+[0;32m[2026-09-16 13:02:38.990][INFO] STARTING CLASSCAD...
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Current working directory  : /Users/dev/dev/awv/classcad
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.ini
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.ini
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.user.ini
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config file: /Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/worker.ini
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Ensure CompressionService is loaded
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Ensure JWTService is loaded
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Run the command 'worker'
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Current working directory  : /Users/dev/dev/awv/classcad
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Executable | file name     : classcad-cli
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Executable | file path     : /Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/classcad-cli
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Executable | directory     : /Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | verbose file name : /Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/files/worker.log
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | verbose level     : 16583
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | log level         : debug
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | data path         : ./data
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | class path        : 
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | classes system    : ./cclasses/Source;System;Common.*;BaseModeling.*;CAD;Sheet;
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | classes user      : ./cclasses/Source/Tests;*;
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | classes user      : ./standalone/t3d/Source;T3D.*;T3DSolidEditor.*;T3DSolidEditor;T3DTesting;GTC.*;ISO_Tool.*;ISOChecker.*;
+[0m[0;32m[2026-09-16 13:02:38.990][INFO] Config | classes user      : ./cclasses/Source/FeatureModeler;*;
+[0m[0;32m[2026-09-16 13:02:39.028][VERB] libSMLibService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.030][VERB] libSMLibExpressService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.031][VERB] libBrepSimplificationService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.032][VERB] libECXMLService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.032][VERB] libJWTService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.032][VERB] libGenericService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.033][VERB] libLGSService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.035][VERB] libLGS3DService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.037][VERB] libIDEConnectionService.dylib is loaded
+[0m[[0;32m[2026-09-16 13:02:39.037][VERB] libRapidXmlService.dylib is loaded
+[0m2026-09-16 13:02:39] [info] asio listen error: system:48 (Address already in use)
+[0;32m[2026-09-16 13:02:39.037][VERB] libNetworkService.dylib is loaded
+[0m[0;32m[2026-09-16 13:02:39.038][VERB] libTestService.dylib is loaded
+[0m[0;31m[2026-09-16 13:02:39.039][ERROR] The Service-DLL DxfService could not be loaded.
+ErrorCode: dlopen(DxfServiced.dylib, 0x0001): tried: 'DxfServiced.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSDxfServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/DxfServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/DxfServiced.dylib' (no such file), '/usr/lib/DxfServiced.dylib' (no such file, not in dyld cache), 'DxfServiced.dylib' (no such file)
+The service functions of this DLL are therefore not available.
+[0m[0;32m[2026-09-16 13:02:39.039][VERB] libCryptoRtService.dylib is loaded
+[0m[0;31m[2026-09-16 13:02:39.039][ERROR] The Service-DLL CryptoDevService could not be loaded.
+ErrorCode: dlopen(CryptoDevServiced.dylib, 0x0001): tried: 'CryptoDevServiced.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSCryptoDevServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/CryptoDevServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/CryptoDevServiced.dylib' (no such file), '/usr/lib/CryptoDevServiced.dylib' (no such file, not in dyld cache), 'CryptoDevServiced.dylib' (no such file)
+The service functions of this DLL are therefore not available.
+[0m[0;33m[2026-09-16 13:02:39.050][WARN] Path does not exist '/Users/dev/dev/awv/classcad/standalone/t3d/Source'. It is defined for class path 't3d'.
+[0m[0;32m[2026-09-16 13:02:39.051][INFO] Load classes for 'system' from '/Users/dev/dev/awv/classcad/cclasses/Source'
+[0m[0;32m[2026-09-16 13:02:39.134][INFO] Load classes for 'tests' from '/Users/dev/dev/awv/classcad/cclasses/Source/Tests'
+[0m[0;32m[2026-09-16 13:02:39.194][INFO] Load classes for 't3d' from '/Users/dev/dev/awv/classcad/standalone/t3d/Source'
+[0m[0;33m[2026-09-16 13:02:39.194][WARN] Tried to load from invalid class path 't3d'
+[0m[0;32m[2026-09-16 13:02:39.194][INFO] Load classes for 'fm' from '/Users/dev/dev/awv/classcad/cclasses/Source/FeatureModeler'
+[0m[0;32m[2026-09-16 13:02:39.205][VERB] 0x7cbec78180 Create Zeichnung
+[0m[0;32m[2026-09-16 13:02:39.205][VERB] 0x7cbec78180 SetZeichnung
+[0m[0;32m[2026-09-16 13:02:39.206][VERB] Grundklasse::InitApplication was successful.
+[0m[0;32m[2026-09-16 13:02:39.206][VERB] [info] Initializing BaseModelerApp
+[0m[0;32m[2026-09-16 13:02:39.206][VERB] Change application string/text encoding to UTF-8
+[0m[0;32m[2026-09-16 13:02:39.206][VERB] [info] Developer mode is active
+[0m[0;32m[2026-09-16 13:02:39.206][VERB] [info] Initializing BuerliDemoApp
+[0m[0;32m[2026-09-16 13:02:39.206][VERB] API v0/common already registered!
+[0m[0;32m[2026-09-16 13:02:39.207][VERB] API v0/basemodeler already registered!
+[0m[0;32m[2026-09-16 13:02:39.207][VERB] Registered API's:
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]   v0
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     assemblybuilder
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     basemodeler
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     common
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     developer
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     drawing2d
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     feature
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     geometry
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     geometryformatconverter
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     network
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     sketcher
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     solid
+[0m[0;32m[2026-09-16 13:02:39.207][VERB]     tooling
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]   v1
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     assembly
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     brep
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     common
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     curve
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     drawing2d
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     part
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     script
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     sketch
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     solid
+[0m[0;32m[2026-09-16 13:02:39.208][VERB]     utils
+[0m[0;32m[2026-09-16 13:02:39.208][VERB] 0x7cbec78a80 Create Zeichnung
+[0m[0;32m[2026-09-16 13:02:39.208][VERB] 0x7cbec78a80 SetZeichnung
+[0m[0;32m[2026-09-16 13:02:39.208][INFO] WorkerCommandCompletion: 824 completion candidates built
+[0m[0;32m[2026-09-16 13:02:39.208][INFO] Server start listen on 0.0.0.0:19094 for http and ws connections
+[0m[0;32m[2026-09-16 13:02:39.208][INFO] Server start listen on 0.0.0.0:19095 for https and wss connections
+[0m[0;32m[2026-09-16 13:02:40.209][INFO] Worker is ready
+[0m
+
+[0;32m[2026-09-16 13:02:42.070][INFO] GET /
+[0m[0;32m[2026-09-16 13:02:42.071][VERB] 0x7cbec78d80 Create Zeichnung
+[0m[0;32m[2026-09-16 13:02:42.071][INFO] WS handleNewConnection: created main session="0128d5b0-3e27-4b31-882f-ebcb55f60fd3"
+[0m[0;32m[2026-09-16 13:02:42.072][INFO] GET /
+[0m[0;32m[2026-09-16 13:02:42.072][VERB] 0x7cbec78f00 Create Zeichnung
+[0m[0;32m[2026-09-16 13:02:42.072][INFO] WS handleNewConnection: created main session="194a9c6f-3acb-4801-9102-63565b36b769"
+[0m[0;32m[2026-09-16 13:02:42.076][VERB] 0x7cbec78f00 SetZeichnung
+[0m[0;32m[2026-09-16 13:02:42.076][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.create",[{"name":"Base"}]])
+[0m[0;32m[2026-09-16 13:02:42.090][VERB] RETURN: {"result":"$4"}
+[0m[0;32m[2026-09-16 13:02:42.094][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.expression",[{"toCreate":[{"value":3,"name":"rear_roof_raise"},{"value":0.5,"name":"inner_chamfer"},{"value":"(-1.3)","name":"d2_plane_offset"},{"value":"((-1.3)+1000)","name":"d3_position_x"},{"value":"((-7)+1000)","name":"d4_position_y"},{"value":"93. ...
+[0m[0;32m[2026-09-16 13:02:42.106][VERB] RETURN: {"result":1}
+[0m[0;32m[2026-09-16 13:02:42.106][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"XAxis","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.107][VERB] RETURN: {"result":"$26"}
+[0m[0;32m[2026-09-16 13:02:42.107][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"YAxis","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.107][VERB] RETURN: {"result":"$30"}
+[0m[0;32m[2026-09-16 13:02:42.107][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"ZAxis","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.107][VERB] RETURN: {"result":"$34"}
+[0m[0;32m[2026-09-16 13:02:42.108][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"Top","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.108][VERB] RETURN: {"result":"$38"}
+[0m[0;32m[2026-09-16 13:02:42.108][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"Front","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.108][VERB] RETURN: {"result":"$42"}
+[0m[0;32m[2026-09-16 13:02:42.108][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.getWorkGeometry",[{"name":"Right","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.108][VERB] RETURN: {"result":"$46"}
+[0m[0;32m[2026-09-16 13:02:42.109][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.workPlane",[{"type":"PLANE","references":[38],"name":"F1_makeBox_simple_control_plane","offset":"@expr.d2_plane_offset","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.113][VERB] RETURN: {"result":"$56"}
+[0m[0;32m[2026-09-16 13:02:42.114][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":56,"name":"F1_makeBox_simple_control_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.116][VERB] RETURN: {"result":"$62"}
+[0m[0;32m[2026-09-16 13:02:42.116][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.rectangle",[{"startPos":[-1.3,-7,0],"id":62,"genFixation":0,"endPos":[92.5,65.9,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.124][VERB] RETURN: {"result":["$68","$72","$78","$84"]}
+[0m[0;32m[2026-09-16 13:02:42.125][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":68}]])
+[0m[0;32m[2026-09-16 13:02:42.125][VERB] RETURN: {"result":{"endId":"$70","startId":"$69"}}
+[0m[0;32m[2026-09-16 13:02:42.125][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":62}]])
+[0m[0;32m[2026-09-16 13:02:42.127][VERB] RETURN: {"result":"$100"}
+[0m[0;32m[2026-09-16 13:02:42.127][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":62,"geomIds":[100]}]])
+[0m[0;32m[2026-09-16 13:02:42.129][VERB] RETURN: {"result":"$102"}
+[0m[0;32m[2026-09-16 13:02:42.129][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d3_position_x","name":"position_x","id":62,"geomIds":[100,69]}]])
+[0m[0;32m[2026-09-16 13:02:42.138][VERB] RETURN: {"result":"$106"}
+[0m[0;32m[2026-09-16 13:02:42.138][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d4_position_y","name":"position_y","id":62,"geomIds":[100,69]}]])
+[0m[0;32m[2026-09-16 13:02:42.144][VERB] RETURN: {"result":"$110"}
+[0m[0;32m[2026-09-16 13:02:42.144][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d5_width","name":"width","id":62,"geomIds":[68]}]])
+[0m[0;32m[2026-09-16 13:02:42.150][VERB] RETURN: {"result":"$114"}
+[0m[0;32m[2026-09-16 13:02:42.151][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"OFFSET","value":"@expr.d6_depth","name":"depth","id":62,"geomIds":[72]}]])
+[0m[0;32m[2026-09-16 13:02:42.158][VERB] RETURN: {"result":"$118"}
+[0m[0;32m[2026-09-16 13:02:42.160][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[68,72,78,84],"name":"F1_makeBox_simple_control","taperAngle":0,"limit2":"@expr.d7_height","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.166][VERB] RETURN: {"result":"$122"}
+[0m[0;32m[2026-09-16 13:02:42.167][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":38,"name":"F8_chamfer_shell_skin_py_17_middle_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.169][VERB] RETURN: {"result":"$163"}
+[0m[0;32m[2026-09-16 13:02:42.169][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":163}]])
+[0m[0;32m[2026-09-16 13:02:42.170][VERB] RETURN: {"result":"$169"}
+[0m[0;32m[2026-09-16 13:02:42.170][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":163,"geomIds":[169]}]])
+[0m[0;32m[2026-09-16 13:02:42.171][VERB] RETURN: {"result":"$171"}
+[0m[0;32m[2026-09-16 13:02:42.171][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,1.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[53,1.6,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.173][VERB] RETURN: {"result":"$173"}
+[0m[0;32m[2026-09-16 13:02:42.173][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":173}]])
+[0m[0;32m[2026-09-16 13:02:42.173][VERB] RETURN: {"result":{"endId":"$175","startId":"$174"}}
+[0m[0;32m[2026-09-16 13:02:42.173][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d9_x","name":"x","id":163,"geomIds":[169,174]}]])
+[0m[0;32m[2026-09-16 13:02:42.177][VERB] RETURN: {"result":"$179"}
+[0m[0;32m[2026-09-16 13:02:42.177][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d10_y","name":"y","id":163,"geomIds":[169,174]}]])
+[0m[0;32m[2026-09-16 13:02:42.182][VERB] RETURN: {"result":"$183"}
+[0m[0;32m[2026-09-16 13:02:42.182][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d11_x","name":"x","id":163,"geomIds":[169,175]}]])
+[0m[0;32m[2026-09-16 13:02:42.188][VERB] RETURN: {"result":"$187"}
+[0m[0;32m[2026-09-16 13:02:42.188][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d12_y","name":"y","id":163,"geomIds":[169,175]}]])
+[0m[0;32m[2026-09-16 13:02:42.194][VERB] RETURN: {"result":"$191"}
+[0m[0;32m[2026-09-16 13:02:42.194][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53,1.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[53.5,2.1,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.197][VERB] RETURN: {"result":"$193"}
+[0m[0;32m[2026-09-16 13:02:42.197][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":193}]])
+[0m[0;32m[2026-09-16 13:02:42.197][VERB] RETURN: {"result":{"endId":"$195","startId":"$194"}}
+[0m[0;32m[2026-09-16 13:02:42.198][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d13_x","name":"x","id":163,"geomIds":[169,194]}]])
+[0m[0;32m[2026-09-16 13:02:42.204][VERB] RETURN: {"result":"$199"}
+[0m[0;32m[2026-09-16 13:02:42.205][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d14_y","name":"y","id":163,"geomIds":[169,194]}]])
+[0m[0;32m[2026-09-16 13:02:42.212][VERB] RETURN: {"result":"$203"}
+[0m[0;32m[2026-09-16 13:02:42.212][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d15_x","name":"x","id":163,"geomIds":[169,195]}]])
+[0m[0;32m[2026-09-16 13:02:42.221][VERB] RETURN: {"result":"$207"}
+[0m[0;32m[2026-09-16 13:02:42.221][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d16_y","name":"y","id":163,"geomIds":[169,195]}]])
+[0m[0;32m[2026-09-16 13:02:42.230][VERB] RETURN: {"result":"$211"}
+[0m[0;32m[2026-09-16 13:02:42.230][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53.5,2.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[53.5,25.1,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.234][VERB] RETURN: {"result":"$213"}
+[0m[0;32m[2026-09-16 13:02:42.234][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":213}]])
+[0m[0;32m[2026-09-16 13:02:42.234][VERB] RETURN: {"result":{"endId":"$215","startId":"$214"}}
+[0m[0;32m[2026-09-16 13:02:42.235][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d17_x","name":"x","id":163,"geomIds":[169,214]}]])
+[0m[0;32m[2026-09-16 13:02:42.244][VERB] RETURN: {"result":"$219"}
+[0m[0;32m[2026-09-16 13:02:42.245][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d18_y","name":"y","id":163,"geomIds":[169,214]}]])
+[0m[0;32m[2026-09-16 13:02:42.255][VERB] RETURN: {"result":"$223"}
+[0m[0;32m[2026-09-16 13:02:42.256][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d19_x","name":"x","id":163,"geomIds":[169,215]}]])
+[0m[0;32m[2026-09-16 13:02:42.267][VERB] RETURN: {"result":"$227"}
+[0m[0;32m[2026-09-16 13:02:42.267][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d20_y","name":"y","id":163,"geomIds":[169,215]}]])
+[0m[0;32m[2026-09-16 13:02:42.279][VERB] RETURN: {"result":"$231"}
+[0m[0;32m[2026-09-16 13:02:42.279][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53.5,25.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[53,25.6,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.285][VERB] RETURN: {"result":"$233"}
+[0m[0;32m[2026-09-16 13:02:42.285][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":233}]])
+[0m[0;32m[2026-09-16 13:02:42.285][VERB] RETURN: {"result":{"endId":"$235","startId":"$234"}}
+[0m[0;32m[2026-09-16 13:02:42.285][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d21_x","name":"x","id":163,"geomIds":[169,234]}]])
+[0m[0;32m[2026-09-16 13:02:42.298][VERB] RETURN: {"result":"$239"}
+[0m[0;32m[2026-09-16 13:02:42.298][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d22_y","name":"y","id":163,"geomIds":[169,234]}]])
+[0m[0;32m[2026-09-16 13:02:42.312][VERB] RETURN: {"result":"$243"}
+[0m[0;32m[2026-09-16 13:02:42.312][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d23_x","name":"x","id":163,"geomIds":[169,235]}]])
+[0m[0;32m[2026-09-16 13:02:42.326][VERB] RETURN: {"result":"$247"}
+[0m[0;32m[2026-09-16 13:02:42.326][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d24_y","name":"y","id":163,"geomIds":[169,235]}]])
+[0m[0;32m[2026-09-16 13:02:42.341][VERB] RETURN: {"result":"$251"}
+[0m[0;32m[2026-09-16 13:02:42.341][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[53,25.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[2.1,25.6,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.348][VERB] RETURN: {"result":"$253"}
+[0m[0;32m[2026-09-16 13:02:42.348][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":253}]])
+[0m[0;32m[2026-09-16 13:02:42.349][VERB] RETURN: {"result":{"endId":"$255","startId":"$254"}}
+[0m[0;32m[2026-09-16 13:02:42.349][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d25_x","name":"x","id":163,"geomIds":[169,254]}]])
+[0m[0;32m[2026-09-16 13:02:42.365][VERB] RETURN: {"result":"$259"}
+[0m[0;32m[2026-09-16 13:02:42.365][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d26_y","name":"y","id":163,"geomIds":[169,254]}]])
+[0m[0;32m[2026-09-16 13:02:42.381][VERB] RETURN: {"result":"$263"}
+[0m[0;32m[2026-09-16 13:02:42.381][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d27_x","name":"x","id":163,"geomIds":[169,255]}]])
+[0m[0;32m[2026-09-16 13:02:42.398][VERB] RETURN: {"result":"$267"}
+[0m[0;32m[2026-09-16 13:02:42.398][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d28_y","name":"y","id":163,"geomIds":[169,255]}]])
+[0m[0;32m[2026-09-16 13:02:42.416][VERB] RETURN: {"result":"$271"}
+[0m[0;32m[2026-09-16 13:02:42.416][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,25.6,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[1.6,25.1,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.425][VERB] RETURN: {"result":"$273"}
+[0m[0;32m[2026-09-16 13:02:42.425][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":273}]])
+[0m[0;32m[2026-09-16 13:02:42.425][VERB] RETURN: {"result":{"endId":"$275","startId":"$274"}}
+[0m[0;32m[2026-09-16 13:02:42.425][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d29_x","name":"x","id":163,"geomIds":[169,274]}]])
+[0m[0;32m[2026-09-16 13:02:42.444][VERB] RETURN: {"result":"$279"}
+[0m[0;32m[2026-09-16 13:02:42.444][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d30_y","name":"y","id":163,"geomIds":[169,274]}]])
+[0m[0;32m[2026-09-16 13:02:42.463][VERB] RETURN: {"result":"$283"}
+[0m[0;32m[2026-09-16 13:02:42.463][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d31_x","name":"x","id":163,"geomIds":[169,275]}]])
+[0m[0;32m[2026-09-16 13:02:42.483][VERB] RETURN: {"result":"$287"}
+[0m[0;32m[2026-09-16 13:02:42.483][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d32_y","name":"y","id":163,"geomIds":[169,275]}]])
+[0m[0;32m[2026-09-16 13:02:42.504][VERB] RETURN: {"result":"$291"}
+[0m[0;32m[2026-09-16 13:02:42.504][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,25.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[1.6,2.1,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.515][VERB] RETURN: {"result":"$293"}
+[0m[0;32m[2026-09-16 13:02:42.515][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":293}]])
+[0m[0;32m[2026-09-16 13:02:42.515][VERB] RETURN: {"result":{"endId":"$295","startId":"$294"}}
+[0m[0;32m[2026-09-16 13:02:42.515][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d33_x","name":"x","id":163,"geomIds":[169,294]}]])
+[0m[0;32m[2026-09-16 13:02:42.537][VERB] RETURN: {"result":"$299"}
+[0m[0;32m[2026-09-16 13:02:42.537][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d34_y","name":"y","id":163,"geomIds":[169,294]}]])
+[0m[0;32m[2026-09-16 13:02:42.559][VERB] RETURN: {"result":"$303"}
+[0m[0;32m[2026-09-16 13:02:42.560][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d35_x","name":"x","id":163,"geomIds":[169,295]}]])
+[0m[0;32m[2026-09-16 13:02:42.583][VERB] RETURN: {"result":"$307"}
+[0m[0;32m[2026-09-16 13:02:42.583][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d36_y","name":"y","id":163,"geomIds":[169,295]}]])
+[0m[0;32m[2026-09-16 13:02:42.607][VERB] RETURN: {"result":"$311"}
+[0m[0;32m[2026-09-16 13:02:42.607][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,2.1,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":163,"endPos":[2.1,1.6,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.619][VERB] RETURN: {"result":"$313"}
+[0m[0;32m[2026-09-16 13:02:42.619][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":313}]])
+[0m[0;32m[2026-09-16 13:02:42.619][VERB] RETURN: {"result":{"endId":"$315","startId":"$314"}}
+[0m[0;32m[2026-09-16 13:02:42.620][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d37_x","name":"x","id":163,"geomIds":[169,314]}]])
+[0m[0;32m[2026-09-16 13:02:42.644][VERB] RETURN: {"result":"$319"}
+[0m[0;32m[2026-09-16 13:02:42.645][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d38_y","name":"y","id":163,"geomIds":[169,314]}]])
+[0m[0;32m[2026-09-16 13:02:42.670][VERB] RETURN: {"result":"$323"}
+[0m[0;32m[2026-09-16 13:02:42.670][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d39_x","name":"x","id":163,"geomIds":[169,315]}]])
+[0m[0;32m[2026-09-16 13:02:42.696][VERB] RETURN: {"result":"$327"}
+[0m[0;32m[2026-09-16 13:02:42.696][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d40_y","name":"y","id":163,"geomIds":[169,315]}]])
+[0m[0;32m[2026-09-16 13:02:42.723][VERB] RETURN: {"result":"$331"}
+[0m[0;32m[2026-09-16 13:02:42.723][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[173,193,213,233,253,273,293,313],"name":"F8_chamfer_shell_skin_py_17_middle","taperAngle":0,"limit2":"@expr.d41_height","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.728][VERB] RETURN: {"result":"$335"}
+[0m[0;32m[2026-09-16 13:02:42.729][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F8_chamfer_shell_skin_py_17_middle_2","id":4,"targets":[335],"distance":"@expr.d42_position"}]])
+[0m[0;32m[2026-09-16 13:02:42.733][VERB] RETURN: {"result":"$406"}
+[0m[0;32m[2026-09-16 13:02:42.734][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[173,193,213,233,253,273,293,313],"name":"F8_chamfer_shell_skin_py_17_bottom","taperAngle":0.78539816339745,"limit2":"@expr.d43_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.741][VERB] RETURN: {"result":"$417"}
+[0m[0;32m[2026-09-16 13:02:42.742][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F8_chamfer_shell_skin_py_17_bottom_2","id":4,"targets":[417],"distance":"@expr.d44_position"}]])
+[0m[0;32m[2026-09-16 13:02:42.745][VERB] RETURN: {"result":"$480"}
+[0m[0;32m[2026-09-16 13:02:42.745][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[173,193,213,233,253,273,293,313],"name":"F8_chamfer_shell_skin_py_17_top","taperAngle":0.78539816339745,"limit2":"@expr.d45_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.753][VERB] RETURN: {"result":"$491"}
+[0m[0;32m[2026-09-16 13:02:42.753][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F8_chamfer_shell_skin_py_17_top_2","id":4,"targets":[491],"distance":"@expr.d46_position"}]])
+[0m[0;32m[2026-09-16 13:02:42.756][VERB] RETURN: {"result":"$554"}
+[0m[0;32m[2026-09-16 13:02:42.757][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"UNION","tools":[480,554],"target":406,"name":"F8_chamfer_shell_skin_py_17","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.779][VERB] RETURN: {"result":"$565"}
+[0m[0;32m[2026-09-16 13:02:42.780][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"SUBTRACTION","tools":[565],"target":122,"name":"F0_cut_housing_shell_py_58_tool_0","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.791][VERB] RETURN: {"result":"$644"}
+[0m[0;32m[2026-09-16 13:02:42.791][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.create",[{"planeId":38,"name":"F47_chamfer_shell_skin_py_17_middle_profile","id":4}]])
+[0m[0;32m[2026-09-16 13:02:42.793][VERB] RETURN: {"result":"$768"}
+[0m[0;32m[2026-09-16 13:02:42.793][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.point",[{"pos":[-1000,-1000,0],"id":768}]])
+[0m[0;32m[2026-09-16 13:02:42.794][VERB] RETURN: {"result":"$774"}
+[0m[0;32m[2026-09-16 13:02:42.794][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.constraint",[{"type":"FIXATION","id":768,"geomIds":[774]}]])
+[0m[0;32m[2026-09-16 13:02:42.795][VERB] RETURN: {"result":"$776"}
+[0m[0;32m[2026-09-16 13:02:42.795][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,23,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[54.7,23,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.797][VERB] RETURN: {"result":"$778"}
+[0m[0;32m[2026-09-16 13:02:42.797][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":778}]])
+[0m[0;32m[2026-09-16 13:02:42.797][VERB] RETURN: {"result":{"endId":"$780","startId":"$779"}}
+[0m[0;32m[2026-09-16 13:02:42.797][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d48_x","name":"x","id":768,"geomIds":[774,779]}]])
+[0m[0;32m[2026-09-16 13:02:42.801][VERB] RETURN: {"result":"$784"}
+[0m[0;32m[2026-09-16 13:02:42.801][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d49_y","name":"y","id":768,"geomIds":[774,779]}]])
+[0m[0;32m[2026-09-16 13:02:42.806][VERB] RETURN: {"result":"$788"}
+[0m[0;32m[2026-09-16 13:02:42.806][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d50_x","name":"x","id":768,"geomIds":[774,780]}]])
+[0m[0;32m[2026-09-16 13:02:42.812][VERB] RETURN: {"result":"$792"}
+[0m[0;32m[2026-09-16 13:02:42.812][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d51_y","name":"y","id":768,"geomIds":[774,780]}]])
+[0m[0;32m[2026-09-16 13:02:42.818][VERB] RETURN: {"result":"$796"}
+[0m[0;32m[2026-09-16 13:02:42.818][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[54.7,23,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[55.2,23.5,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.821][VERB] RETURN: {"result":"$798"}
+[0m[0;32m[2026-09-16 13:02:42.821][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":798}]])
+[0m[0;32m[2026-09-16 13:02:42.821][VERB] RETURN: {"result":{"endId":"$800","startId":"$799"}}
+[0m[0;32m[2026-09-16 13:02:42.821][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d52_x","name":"x","id":768,"geomIds":[774,799]}]])
+[0m[0;32m[2026-09-16 13:02:42.828][VERB] RETURN: {"result":"$804"}
+[0m[0;32m[2026-09-16 13:02:42.828][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d53_y","name":"y","id":768,"geomIds":[774,799]}]])
+[0m[0;32m[2026-09-16 13:02:42.836][VERB] RETURN: {"result":"$808"}
+[0m[0;32m[2026-09-16 13:02:42.836][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d54_x","name":"x","id":768,"geomIds":[774,800]}]])
+[0m[0;32m[2026-09-16 13:02:42.845][VERB] RETURN: {"result":"$812"}
+[0m[0;32m[2026-09-16 13:02:42.845][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d55_y","name":"y","id":768,"geomIds":[774,800]}]])
+[0m[0;32m[2026-09-16 13:02:42.854][VERB] RETURN: {"result":"$816"}
+[0m[0;32m[2026-09-16 13:02:42.854][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[55.2,23.5,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[55.2,61.9,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.858][VERB] RETURN: {"result":"$818"}
+[0m[0;32m[2026-09-16 13:02:42.858][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":818}]])
+[0m[0;32m[2026-09-16 13:02:42.859][VERB] RETURN: {"result":{"endId":"$820","startId":"$819"}}
+[0m[0;32m[2026-09-16 13:02:42.859][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d56_x","name":"x","id":768,"geomIds":[774,819]}]])
+[0m[0;32m[2026-09-16 13:02:42.869][VERB] RETURN: {"result":"$824"}
+[0m[0;32m[2026-09-16 13:02:42.869][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d57_y","name":"y","id":768,"geomIds":[774,819]}]])
+[0m[0;32m[2026-09-16 13:02:42.879][VERB] RETURN: {"result":"$828"}
+[0m[0;32m[2026-09-16 13:02:42.880][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d58_x","name":"x","id":768,"geomIds":[774,820]}]])
+[0m[0;32m[2026-09-16 13:02:42.891][VERB] RETURN: {"result":"$832"}
+[0m[0;32m[2026-09-16 13:02:42.891][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d59_y","name":"y","id":768,"geomIds":[774,820]}]])
+[0m[0;32m[2026-09-16 13:02:42.903][VERB] RETURN: {"result":"$836"}
+[0m[0;32m[2026-09-16 13:02:42.903][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[55.2,61.9,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[54.7,62.4,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.909][VERB] RETURN: {"result":"$838"}
+[0m[0;32m[2026-09-16 13:02:42.909][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":838}]])
+[0m[0;32m[2026-09-16 13:02:42.909][VERB] RETURN: {"result":{"endId":"$840","startId":"$839"}}
+[0m[0;32m[2026-09-16 13:02:42.909][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d60_x","name":"x","id":768,"geomIds":[774,839]}]])
+[0m[0;32m[2026-09-16 13:02:42.922][VERB] RETURN: {"result":"$844"}
+[0m[0;32m[2026-09-16 13:02:42.922][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d61_y","name":"y","id":768,"geomIds":[774,839]}]])
+[0m[0;32m[2026-09-16 13:02:42.935][VERB] RETURN: {"result":"$848"}
+[0m[0;32m[2026-09-16 13:02:42.936][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d62_x","name":"x","id":768,"geomIds":[774,840]}]])
+[0m[0;32m[2026-09-16 13:02:42.950][VERB] RETURN: {"result":"$852"}
+[0m[0;32m[2026-09-16 13:02:42.950][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d63_y","name":"y","id":768,"geomIds":[774,840]}]])
+[0m[0;32m[2026-09-16 13:02:42.965][VERB] RETURN: {"result":"$856"}
+[0m[0;32m[2026-09-16 13:02:42.966][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[54.7,62.4,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[2.1,62.4,0]}]])
+[0m[0;32m[2026-09-16 13:02:42.973][VERB] RETURN: {"result":"$858"}
+[0m[0;32m[2026-09-16 13:02:42.974][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":858}]])
+[0m[0;32m[2026-09-16 13:02:42.974][VERB] RETURN: {"result":{"endId":"$860","startId":"$859"}}
+[0m[0;32m[2026-09-16 13:02:42.974][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d64_x","name":"x","id":768,"geomIds":[774,859]}]])
+[0m[0;32m[2026-09-16 13:02:42.991][VERB] RETURN: {"result":"$864"}
+[0m[0;32m[2026-09-16 13:02:42.991][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d65_y","name":"y","id":768,"geomIds":[774,859]}]])
+[0m[0;32m[2026-09-16 13:02:43.009][VERB] RETURN: {"result":"$868"}
+[0m[0;32m[2026-09-16 13:02:43.009][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d66_x","name":"x","id":768,"geomIds":[774,860]}]])
+[0m[0;32m[2026-09-16 13:02:43.026][VERB] RETURN: {"result":"$872"}
+[0m[0;32m[2026-09-16 13:02:43.027][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d67_y","name":"y","id":768,"geomIds":[774,860]}]])
+[0m[0;32m[2026-09-16 13:02:43.045][VERB] RETURN: {"result":"$876"}
+[0m[0;32m[2026-09-16 13:02:43.045][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[2.1,62.4,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[1.6,61.9,0]}]])
+[0m[0;32m[2026-09-16 13:02:43.054][VERB] RETURN: {"result":"$878"}
+[0m[0;32m[2026-09-16 13:02:43.054][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":878}]])
+[0m[0;32m[2026-09-16 13:02:43.055][VERB] RETURN: {"result":{"endId":"$880","startId":"$879"}}
+[0m[0;32m[2026-09-16 13:02:43.055][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d68_x","name":"x","id":768,"geomIds":[774,879]}]])
+[0m[0;32m[2026-09-16 13:02:43.074][VERB] RETURN: {"result":"$884"}
+[0m[0;32m[2026-09-16 13:02:43.075][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d69_y","name":"y","id":768,"geomIds":[774,879]}]])
+[0m[0;32m[2026-09-16 13:02:43.095][VERB] RETURN: {"result":"$888"}
+[0m[0;32m[2026-09-16 13:02:43.096][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d70_x","name":"x","id":768,"geomIds":[774,880]}]])
+[0m[0;32m[2026-09-16 13:02:43.116][VERB] RETURN: {"result":"$892"}
+[0m[0;32m[2026-09-16 13:02:43.117][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d71_y","name":"y","id":768,"geomIds":[774,880]}]])
+[0m[0;32m[2026-09-16 13:02:43.138][VERB] RETURN: {"result":"$896"}
+[0m[0;32m[2026-09-16 13:02:43.138][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,61.9,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[1.6,23.5,0]}]])
+[0m[0;32m[2026-09-16 13:02:43.149][VERB] RETURN: {"result":"$898"}
+[0m[0;32m[2026-09-16 13:02:43.149][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":898}]])
+[0m[0;32m[2026-09-16 13:02:43.149][VERB] RETURN: {"result":{"endId":"$900","startId":"$899"}}
+[0m[0;32m[2026-09-16 13:02:43.149][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d72_x","name":"x","id":768,"geomIds":[774,899]}]])
+[0m[0;32m[2026-09-16 13:02:43.172][VERB] RETURN: {"result":"$904"}
+[0m[0;32m[2026-09-16 13:02:43.172][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d73_y","name":"y","id":768,"geomIds":[774,899]}]])
+[0m[0;32m[2026-09-16 13:02:43.195][VERB] RETURN: {"result":"$908"}
+[0m[0;32m[2026-09-16 13:02:43.196][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d74_x","name":"x","id":768,"geomIds":[774,900]}]])
+[0m[0;32m[2026-09-16 13:02:43.219][VERB] RETURN: {"result":"$912"}
+[0m[0;32m[2026-09-16 13:02:43.220][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d75_y","name":"y","id":768,"geomIds":[774,900]}]])
+[0m[0;32m[2026-09-16 13:02:43.244][VERB] RETURN: {"result":"$916"}
+[0m[0;32m[2026-09-16 13:02:43.245][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.line",[{"startPos":[1.6,23.5,0],"genIncidence":0,"genTangency":0,"genFixation":0,"genVertAndHoriz":0,"id":768,"endPos":[2.1,23,0]}]])
+[0m[0;32m[2026-09-16 13:02:43.257][VERB] RETURN: {"result":"$918"}
+[0m[0;32m[2026-09-16 13:02:43.257][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.getPoints",[{"id":918}]])
+[0m[0;32m[2026-09-16 13:02:43.258][VERB] RETURN: {"result":{"endId":"$920","startId":"$919"}}
+[0m[0;32m[2026-09-16 13:02:43.258][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d76_x","name":"x","id":768,"geomIds":[774,919]}]])
+[0m[0;32m[2026-09-16 13:02:43.282][VERB] RETURN: {"result":"$924"}
+[0m[0;32m[2026-09-16 13:02:43.283][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d77_y","name":"y","id":768,"geomIds":[774,919]}]])
+[0m[0;32m[2026-09-16 13:02:43.308][VERB] RETURN: {"result":"$928"}
+[0m[0;32m[2026-09-16 13:02:43.308][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"HORIZONTAL_DISTANCE","value":"@expr.d78_x","name":"x","id":768,"geomIds":[774,920]}]])
+[0m[0;32m[2026-09-16 13:02:43.334][VERB] RETURN: {"result":"$932"}
+[0m[0;32m[2026-09-16 13:02:43.334][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.sketch.dimension",[{"type":"VERTICAL_DISTANCE","value":"@expr.d79_y","name":"y","id":768,"geomIds":[774,920]}]])
+[0m[0;32m[2026-09-16 13:02:43.361][VERB] RETURN: {"result":"$936"}
+[0m[0;32m[2026-09-16 13:02:43.362][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[778,798,818,838,858,878,898,918],"name":"F47_chamfer_shell_skin_py_17_middle","taperAngle":0,"limit2":"@expr.d80_height","id":4}]])
+[0m[0;32m[2026-09-16 13:02:43.367][VERB] RETURN: {"result":"$940"}
+[0m[0;32m[2026-09-16 13:02:43.368][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F47_chamfer_shell_skin_py_17_middle_2","id":4,"targets":[940],"distance":"@expr.d81_position"}]])
+[0m[0;32m[2026-09-16 13:02:43.372][VERB] RETURN: {"result":"$1011"}
+[0m[0;32m[2026-09-16 13:02:43.372][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[778,798,818,838,858,878,898,918],"name":"F47_chamfer_shell_skin_py_17_bottom","taperAngle":0.78539816339745,"limit2":"@expr.d82_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:02:43.380][VERB] RETURN: {"result":"$1022"}
+[0m[0;32m[2026-09-16 13:02:43.380][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F47_chamfer_shell_skin_py_17_bottom_2","id":4,"targets":[1022],"distance":"@expr.d83_position"}]])
+[0m[0;32m[2026-09-16 13:02:43.384][VERB] RETURN: {"result":"$1085"}
+[0m[0;32m[2026-09-16 13:02:43.384][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.extrusion",[{"references":[778,798,818,838,858,878,898,918],"name":"F47_chamfer_shell_skin_py_17_top","taperAngle":0.78539816339745,"limit2":"@expr.d84_bevel_height","id":4}]])
+[0m[0;32m[2026-09-16 13:02:43.391][VERB] RETURN: {"result":"$1096"}
+[0m[0;32m[2026-09-16 13:02:43.392][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.translation",[{"references":[34],"name":"F47_chamfer_shell_skin_py_17_top_2","id":4,"targets":[1096],"distance":"@expr.d85_position"}]])
+[0m[0;32m[2026-09-16 13:02:43.395][VERB] RETURN: {"result":"$1159"}
+[0m[0;32m[2026-09-16 13:02:43.396][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"UNION","tools":[1085,1159],"target":1011,"name":"F47_chamfer_shell_skin_py_17","id":4}]])
+[0m[0;32m[2026-09-16 13:02:43.417][VERB] RETURN: {"result":"$1170"}
+[0m[0;32m[2026-09-16 13:02:43.418][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.part.boolean",[{"type":"SUBTRACTION","tools":[1170],"target":644,"name":"F0_cut_housing_shell_py_58_tool_1","id":4}]])
+[0m[0;32m[2026-09-16 13:02:43.458][VERB] RETURN: {"result":"$1249"}
+[0m[0;32m[2026-09-16 13:02:43.459][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setAppearance",[{"target":1249,"color":[51,58.65,68.85]}]])
+[0m[0;32m[2026-09-16 13:02:43.459][VERB] RETURN: {"result":null}
+[0m[0;32m[2026-09-16 13:02:43.459][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.calculateMassProperties",[{"id":4}]])
+[0m[0;32m[2026-09-16 13:02:43.462][VERB] RETURN: {"result":{"volume":166881.41740876,"cog":{"z":18.500716574145,"y":26.689301406799,"x":55.455141002876}}}
+[0m[0;32m[2026-09-16 13:02:43.463][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.save",[{"format":"OFB","file":"/Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/files/07-simple-outer-result.ofb"}]])
+[0m[0;32m[2026-09-16 13:02:43.465][VERB] GetStateId with StateId=5ccbe34a-cde4-4b43-8f63-75fe6912945d
+[0m[0;32m[2026-09-16 13:02:43.471][VERB] RETURN: {"maxLevel":31,"messages":[{"message":"GetStateId with StateId=5ccbe34a-cde4-4b43-8f63-75fe6912945d\n","code":0,"level":31,"api":"v1.common.save","levelStr":"INFO"}],"result":{"success":1}}
+[0m[0;32m[2026-09-16 13:02:43.471][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setDatabaseSettings",[{"isSketchGraphicEnabled":1,"isGraphicEnabled":1,"isCCGraphicEnabled":1,"doCurveTessellation":1}]])
+[0m[0;32m[2026-09-16 13:02:43.472][VERB] RETURN: {"result":null}
+[0m[2026-09-16 13:02:43.489][DEBUG] Build graphic in: 11ms
+[0;32m[2026-09-16 13:02:43.493][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setDatabaseSettings",[{"isSketchGraphicEnabled":1,"isGraphicEnabled":1,"isCCGraphicEnabled":1,"doCurveTessellation":1}]])
+[0m[0;32m[2026-09-16 13:02:43.493][VERB] RETURN: {"result":null}
+[0m[0;32m[2026-09-16 13:02:43.508][VERB] 0x7cbec78d80 SetZeichnung
+[0m[0;32m[2026-09-16 13:02:43.509][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.clear",[{}]])
+[0m[0;32m[2026-09-16 13:02:43.509][VERB] RETURN: {"result":null}
+[0m[0;32m[2026-09-16 13:02:43.511][VERB] 0x7cbec78f00 Delete Zeichnung
+[0m[0;32m[2026-09-16 13:02:43.512][VERB] 0x0 SetZeichnung
+[0m[0;32m[2026-09-16 13:02:43.512][VERB] 0x7cbec78d80 Delete Zeichnung
+[0m

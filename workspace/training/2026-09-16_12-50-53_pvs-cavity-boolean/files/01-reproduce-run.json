@@ -1,0 +1,8 @@
+{
+  "script": "01-reproduce.mjs",
+  "workerPid": 5293,
+  "limitSeconds": 45.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 22.784
+}

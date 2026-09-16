@@ -1,0 +1,10 @@
+[filewrite] files/07-simple-outer-07-simple-outer-emission.json (1543 bytes)
+Constructing Base
+Sketch F1_makeBox_simple_control_profile
+Sketch F8_chamfer_shell_skin_py_17_middle_profile
+Sketch F47_chamfer_shell_skin_py_17_middle_profile
+Built Base feature 1249
+Measuring Base
+Saving Base
+[filewrite] files/07-simple-outer-07-simple-outer-result.json (421 bytes)
+[run] Log saved: /Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/files/07-simple-outer.log (9 lines)

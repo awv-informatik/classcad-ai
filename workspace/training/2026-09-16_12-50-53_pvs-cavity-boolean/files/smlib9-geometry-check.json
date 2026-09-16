@@ -1,0 +1,52 @@
+{
+  "Base": {
+    "valid": true,
+    "solids": 1,
+    "volume": 41591.844591859764,
+    "referenceVolume": 41550.950128014454,
+    "relativeVolumeError": 0.0009842004507554822,
+    "bounds": [
+      -1.3000000000000003,
+      -7.0,
+      -1.3,
+      92.50000000000001,
+      65.90000000000002,
+      23.800000000000004
+    ],
+    "referenceBounds": [
+      -1.3000000000000016,
+      -7.0,
+      -1.3000000000000025,
+      92.5,
+      65.9,
+      23.800000000000004
+    ],
+    "boundsMethod": "trimmed tessellation, 0.05 mm deflection (conservative spline BoundBox is unsuitable)",
+    "maxBoundsError": 1.4210854715202004e-14
+  },
+  "Upper_shell": {
+    "valid": true,
+    "solids": 1,
+    "volume": 26529.454842655563,
+    "referenceVolume": 26503.22546524446,
+    "relativeVolumeError": 0.0009896673688075666,
+    "bounds": [
+      -1.3000000000000003,
+      -1.3,
+      13.2499999999999,
+      92.50000000000001,
+      65.9,
+      36.900000000000105
+    ],
+    "referenceBounds": [
+      -1.3000000000000016,
+      -1.3000000000000016,
+      13.249999999999998,
+      92.5,
+      65.9,
+      36.900000000000034
+    ],
+    "boundsMethod": "trimmed tessellation, 0.05 mm deflection (conservative spline BoundBox is unsuitable)",
+    "maxBoundsError": 9.769962616701378e-14
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "script": "03-full-base.mjs",
+  "workerPid": 6187,
+  "limitSeconds": 90.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 32.578
+}

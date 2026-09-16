@@ -1,0 +1,437 @@
+In file included from /Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:28:
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/IwProtoTopology.h:666:54: warning: unused parameter 'bUpdateOnlyIfLarger' [-Wunused-parameter]
+  666 |                                            IwBoolean bUpdateOnlyIfLarger=TRUE,
+      |                                                      ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/IwProtoTopology.h:667:54: warning: unused parameter 'bCascadeToVertices' [-Wunused-parameter]
+  667 |                                            IwBoolean bCascadeToVertices=TRUE) { m_dTol = (double)sNewZoneTol3d; }
+      |                                                      ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:121:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+  121 |       IW_SPRINTF(sBuff, _T(" PointClassifications in disagreement about where to place a VertexDefinition \n\t Deviation [%16.16lf] Tolerance [%16.16lf] "), (double) rdDeviation, (double) dXSectTol3d ); 
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:1980:98: warning: unused parameter 'bAtStart' [-Wunused-parameter]
+ 1980 | IwEdge * IwProtoVertex::GetBrepEdge( int iWhichBrep, const IwEdgeDefinition *pEdgeDef, IwBoolean bAtStart ) const
+      |                                                                                                  ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:3323:63: warning: unused parameter 'dTol' [-Wunused-parameter]
+ 3323 |                                                        double dTol )
+      |                                                               ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6066:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6066 |     { IW_SPRINTF(sBuff, _T("\n    Dump of IwVertexDefinition %lu: 0x%p:  Tolerance %5.8lf\n      Position:  "), *lIdx, this, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6068:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6068 |     { IW_SPRINTF(sBuff, _T("\n    Dump of IwVertexDefinition 0x%p:  Owning ProtoVertex 0x%p        Tolerance %5.8lf\n      Position:  "), this, m_pMyProtoVertex, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6074:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6074 |   IW_SPRINTF( sTypeString1, ( eType1==IW_PC_VERTEX ) ? _T("IwVertex ")
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6080:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6080 |   IW_SPRINTF( sTypeString2, ( eType2==IW_PC_VERTEX ) ? _T("IwVertex ")
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6085:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6085 |   IW_SPRINTF(sBuff, _T("\n      Topology object in Brep 1: %s 0x%p  Brep 2: %s 0x%p\n"), sTypeString1, m_sPC1.GetObject(), sTypeString2, m_sPC2.GetObject()  );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6092:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6092 |   IW_SPRINTF(sBuff, _T("      Created Vertices in Breps: 0x%p  0x%p\n"), m_pFinalVtx1, m_pFinalVtx2 );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6109:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6109 |     { IW_SPRINTF(sBuff, _T("\nDump of IwProtoVertex %ld: 0x%p:  %lu VertexDefs, %lu ProtoEdges, Tolerance %5.8lf\n  Position:  "), *lIdx, this, lNumVDs, lNumPEs, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6111:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6111 |     { IW_SPRINTF(sBuff, _T("\nDump of IwProtoVertex 0x%p:  %lu VertexDefs, %lu ProtoEdges, Tolerance %5.8lf\n  Position:  "), this, lNumVDs, lNumPEs, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6119:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6119 |   IW_SPRINTF(sBuff, _T("\n  ProtoEdges:  %ld\n"), lNumPEs );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6131:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6131 |       IW_SPRINTF(sBuff, _T("    0x%p  [%4lu ]\n"), pPE, lPEIdx );
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6135:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6135 |   IW_SPRINTF(sBuff, _T("\n  %ld VertexDefinitions:\n"), lNumVDs );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6155:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6155 |     { IW_SPRINTF(sBuff, _T("\n    Dump of IwEdgeDefinition %lu: 0x%p: Tolerance %5.8lf\n"), *lIdx, this, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6157:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6157 |     { IW_SPRINTF(sBuff, _T("\n    Dump of IwEdgeDefinition 0x%p: Tolerance %5.8lf\n"), this, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6178:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6178 |   IW_SPRINTF(sBuff, _T("  Domain [ %18.16f, %18.16f ]  Int curves 0x%p 0x%p 0x%p    control point count %ld\n"),
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6183:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6183 |   IW_SPRINTF( sTypeString1, ( eType1==IW_PC_VERTEX ) ? _T("IwVertex ")
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6189:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6189 |   IW_SPRINTF( sTypeString2, ( eType2==IW_PC_VERTEX ) ? _T("IwVertex ")
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6194:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6194 |   IW_SPRINTF(sBuff, _T("\n      Topology object in Brep 1: %s 0x%p  Brep 2: %s 0x%p\n"),
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6203:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6203 |   IW_SPRINTF(sBuff, _T("\n     3D Intersection curve: 0x%p ; UV curve 1: 0x%p ; UV curve 2: 0x%p\n"),
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6207:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6207 |   IW_SPRINTF(sBuff, _T("     Created Edges in Breps: 0x%p  0x%p\n"), m_pFinalEdge1, m_pFinalEdge2 );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6231:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6231 |     { IW_SPRINTF(sBuff, _T("\nDump of IwProtoEdge %ld: 0x%p: %lu EdgeDefs, Tolerance %5.8lf\n"), *lIdx, this, lCount, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6233:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6233 |     { IW_SPRINTF(sBuff, _T("\nDump of IwProtoEdge 0x%p: %lu EdgeDefs, Tolerance %5.8lf\n"), this, lCount, m_dTol ); }
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6239:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6239 |   IW_SPRINTF(sBuff, _T(" Domain [ %18.16f, %18.16f ]\n"), m_sCurveDomain.GetMin(), m_sCurveDomain.GetMax() );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6247:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6247 |   IW_SPRINTF(sBuff, _T(" Start ProtoVertex 0x%p  [%4lu ] : %18.16f, %18.16f, %18.16f\n"),
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6254:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6254 |   IW_SPRINTF(sBuff, _T(" End   ProtoVertex 0x%p  [%4lu ] : %18.16f, %18.16f, %18.16f\n"),
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6259:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6259 |   IW_SPRINTF(sBuff, _T("\nEdgeDefinitions:  %3ld\n"), lCount );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6276:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6276 |     { IW_SPRINTF(sBuff, _T("\nDump of IwProtoFace %lu: 0x%p:  Brep1 Face  0x%p ; Brep2 Face: 0x%p"),
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6279:7: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6279 |     { IW_SPRINTF(sBuff, _T("\nDump of IwProtoFace 0x%p:  Brep1 Face  0x%p ; Brep2 Face: 0x%p"),
+      |       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6421:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6421 |   IW_SPRINTF(sBuff, _T("\n\nDump of IwProtoTopologyManager 0x%p:  Tolerance %5.8lf\n"), this, m_dTol );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6424:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6424 |   IW_SPRINTF(sBuff, _T("  Counts: ProtoVertices, ProtoEdges, ProtoFaces: %lu %lu %lu\n"),
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6439:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6439 |   IW_SPRINTF(sBuff, _T("\nIwProtoTopo: List of ProtoVertexes: count %lu:\n"), lNumPVs );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6446:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6446 |   IW_SPRINTF(sBuff, _T("\nIwProtoTopo: List of ProtoEdges: count %lu:\n"), lNumPEs );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6453:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6453 |   IW_SPRINTF(sBuff, _T("\n\nIwProtoTopo: List of ProtoFaces: count %lu:\n"), lNumPFs );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6460:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6460 |   IW_SPRINTF(sBuff, _T("\n   Counts again: ProtoVertices, ProtoEdges, ProtoFaces: %lu %lu %lu\n"),
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:6464:3: warning: 'sprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead. [-Wdeprecated-declarations]
+ 6464 |   IW_SPRINTF(sBuff, _T("\nEnd of IwProtoTopologyManager 0x%p  Dump.\n"), this );
+      |   ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/inc/iwos_types.h:113:22: note: expanded from macro 'IW_SPRINTF'
+  113 | #define IW_SPRINTF   sprintf
+      |                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:278:1: note: 'sprintf' has been explicitly marked deprecated here
+  278 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use snprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+/Users/dev/dev/awv/classcad/runtime/deps/smlib/NMTLib/src/IwProtoTopology.cpp:45:12: warning: unused variable 'cbiDumpLevel' [-Wunused-variable]
+   45 | static int cbiDumpLevel = 3; // minimal.
+      |            ^~~~~~~~~~~~
+40 warnings generated.

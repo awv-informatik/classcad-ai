@@ -1,0 +1,8 @@
+{
+  "script": "19-candidate.mjs",
+  "workerPid": 23197,
+  "limitSeconds": 12.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.253
+}

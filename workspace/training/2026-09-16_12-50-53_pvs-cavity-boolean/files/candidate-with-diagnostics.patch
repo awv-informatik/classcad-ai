@@ -1,0 +1,94 @@
+diff --git a/NMTLib/src/IwProtoTopology.cpp b/NMTLib/src/IwProtoTopology.cpp
+index 4170c32..745c9e0 100644
+--- a/NMTLib/src/IwProtoTopology.cpp
++++ b/NMTLib/src/IwProtoTopology.cpp
+@@ -2361,6 +2361,7 @@ USAGE NOTES----
+ ***********************************************************************/
+ IwProtoEdge::~IwProtoEdge()
+ {
++  if (getenv("PVS_TOPO_TRACE")) fprintf(stderr, "PVS_DELETE_PE %p\n", (void*)this);
+   // Delete our EdgeDefs.
+   // Note, don't delete start and end PVs.
+ 
+@@ -3615,6 +3616,7 @@ IwStatus IwProtoTopologyManager::RemoveVertexDefinition( IwVertexDefinition * pV
+       if ( lNumEDs < 1 )
+         { 
+           this->RemoveProtoVertex( pOwner );
++          if (getenv("PVS_TOPO_TRACE")) fprintf(stderr, "PVS_EMPTY_PE %p\n", (void*)pOwner);
+           delete pOwner;
+         }
+   }
+@@ -3663,6 +3665,7 @@ IwStatus IwProtoTopologyManager::RemoveEdgeDefinition( IwEdgeDefinition * pED,
+       if ( lNumEDs < 1 )
+         { 
+           this->RemoveProtoEdge( pOwner );
++          if (getenv("PVS_TOPO_TRACE")) fprintf(stderr, "PVS_EMPTY_PE %p\n", (void*)pOwner);
+           delete pOwner;
+         }
+   }
+@@ -4793,6 +4796,11 @@ IwStatus IwProtoTopologyManager::UpdateFaces
+       for (ULONG jj=0; jj<lNumCoincPEs; jj++ )
+       {
+           IwProtoEdge *pPE = sCoincPEs[jj];
++          if (getenv("PVS_TOPO_TRACE")) {
++              ULONG pvsIndex;
++              if (!m_sPEs.FindElement(pPE, pvsIndex))
++                  fprintf(stderr, "PVS_STALE_PE %p pf=%p index=%lu\n", (void*)pPE, (void*)pPF, (unsigned long)jj);
++          }
+ 
+           IwBoolean bInThisFace = TRUE;
+ 
+@@ -5712,6 +5720,7 @@ if ( bDebugMe3 ) {
+           pPE1ToCombine->CombineProtoEdge( pPE2ToCombine );
+ 
+           this->RemoveProtoEdge( pPE2ToCombine );
++          if (getenv("PVS_TOPO_TRACE")) fprintf(stderr, "PVS_COMBINE_PE %p into %p\n", (void*)pPE2ToCombine, (void*)pPE1ToCombine);
+           delete pPE2ToCombine; pPE2ToCombine=NULL;
+ 
+       } // end handling a Range solution from the curve-curve intersector.
+@@ -5799,8 +5808,18 @@ IwStatus IwProtoTopologyManager::ResolveOverlappingProtoEdges()
+         // PFs keep a list of coincident PEs. Refresh if necessary so no stale pointers.
+         IwTArray< IwProtoFace* > sPFs;
+         IwProtoFace *pPF = NULL;
+-        IwBoolean bReplaceCoinPE = FALSE;
++        IwTArray<IwProtoFace*> pvsReplacementOwners;
+         sPFs = GetProtoFaces();
++        if (getenv("PVS_TOPO_TRACE")) {
++            for (ULONG pfIdx=0; pfIdx<sPFs.GetSize(); ++pfIdx) {
++                IwTArray<IwProtoEdge*> *edges = sPFs[pfIdx]->GetCoincProtoEdges();
++                for (ULONG peIdx=0; peIdx<sOverlappingPEs.GetSize(); ++peIdx) {
++                    ULONG found;
++                    if (edges->FindElement(sOverlappingPEs[peIdx], found))
++                        fprintf(stderr, "PVS_OVERLAP_OWNER pe=%p pf=%p\n", (void*)sOverlappingPEs[peIdx], (void*)sPFs[pfIdx]);
++                }
++            }
++        }
+         for ( jj = 0; jj < sPFs.GetSize(); jj++ )
+         {
+             pPF = sPFs[jj];
+@@ -5811,8 +5830,8 @@ IwStatus IwProtoTopologyManager::ResolveOverlappingProtoEdges()
+             pCoinPEs->RemoveElements( sOverlappingPEs, *pCoinPEs );
+             if ( pCoinPEs->GetSize() != sSize )
+             {
+-                bReplaceCoinPE = TRUE;
+-                break;
++                pvsReplacementOwners.Add(pPF);
++                if (getenv("PVS_TOPO_TRACE")) fprintf(stderr, "PVS_REFRESHED_OWNER pf=%p\n", (void*)pPF);
+             }
+         } // end check for these PEs on existing PFs
+ 
+@@ -6033,11 +6052,10 @@ IwStatus IwProtoTopologyManager::ResolveOverlappingProtoEdges()
+                 IwProtoEdge *pNewPE = NULL;
+                 FindOrCreateProtoEdge( ( *pCrvClass1 )[kk], ( *pCrvClass2 )[kk], pNewPE );
+ 
+-                if ( pNewPE && bReplaceCoinPE )
++                if ( pNewPE )
+                 {
+-                    IwTArray< IwProtoEdge* > *pCoinPEs;
+-                    pCoinPEs = pPF->GetCoincProtoEdges();
+-                    pCoinPEs->AddUnique( pNewPE );
++                    for (ULONG ownerIdx=0; ownerIdx<pvsReplacementOwners.GetSize(); ++ownerIdx)
++                        pvsReplacementOwners[ownerIdx]->GetCoincProtoEdges()->AddUnique(pNewPE);
+                 }
+             } // end for each curve interval
+         } // end for each curve classification

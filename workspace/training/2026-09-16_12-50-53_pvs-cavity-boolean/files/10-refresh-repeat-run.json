@@ -1,0 +1,8 @@
+{
+  "script": "10-refresh-repeat.mjs",
+  "workerPid": 30601,
+  "limitSeconds": 15.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.592
+}

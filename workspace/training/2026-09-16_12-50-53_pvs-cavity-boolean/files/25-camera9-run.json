@@ -1,0 +1,8 @@
+{
+  "script": "25-camera9.mjs",
+  "workerPid": 30345,
+  "limitSeconds": 90.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 15.029
+}

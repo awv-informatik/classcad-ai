@@ -1,0 +1,8 @@
+{
+  "script": "07-simple-outer.mjs",
+  "workerPid": 7868,
+  "limitSeconds": 40.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 1.54
+}

@@ -1,0 +1,38 @@
+[filewrite] files/09-native-chamfer-09-native-chamfer-emission.json (1543 bytes)
+Constructing Base
+Sketch F3_makeBox_cad_primitives_py_8_profile
+Sketch F10_makeBox_cad_primitives_py_8_profile
+Sketch F17_makeCylinder_cad_primitives_py_12_profile
+Sketch F23_makeCylinder_cad_primitives_py_12_profile
+Sketch F29_makeCylinder_cad_primitives_py_12_profile
+Sketch F35_makeCylinder_cad_primitives_py_12_profile
+Sketch F41_makeBox_cad_primitives_py_8_profile
+Sketch F48_makeBox_cad_primitives_py_8_profile
+Sketch F55_makeCylinder_cad_primitives_py_12_profile
+Sketch F61_makeCylinder_cad_primitives_py_12_profile
+Sketch F67_makeCylinder_cad_primitives_py_12_profile
+Sketch F73_makeCylinder_cad_primitives_py_12_profile
+Sketch F79_makeBox_cad_primitives_py_8_profile
+Sketch F86_makeBox_cad_primitives_py_8_profile
+Sketch F93_makeCylinder_cad_primitives_py_12_profile
+Sketch F99_makeCylinder_cad_primitives_py_12_profile
+Sketch F105_makeCylinder_cad_primitives_py_12_profile
+Sketch F111_makeCylinder_cad_primitives_py_12_profile
+Sketch F117_makeBox_shell_skin_py_38_profile
+Sketch F124_makeBox_cad_primitives_py_8_profile
+Sketch F132_makeBox_cad_primitives_py_8_profile
+Sketch F139_makeCylinder_cad_primitives_py_12_profile
+Sketch F145_makeBox_cad_primitives_py_8_profile
+Sketch F152_makeBox_cad_primitives_py_8_profile
+Sketch F160_makeBox_cad_primitives_py_8_profile
+Sketch F167_makeCylinder_cad_primitives_py_12_profile
+Sketch F174_makeBox_cad_primitives_py_8_profile
+Sketch F181_makeCylinder_cad_primitives_py_12_profile
+Sketch F187_makeCylinder_cad_primitives_py_12_profile
+Sketch F193_makeBox_cad_primitives_py_8_profile
+Selecting chamfer edges F1_chamfer_shell_skin_py_17
+Sketch F202_extrude_shell_skin_py_69_profile
+Selecting chamfer edges F201_chamfer_shell_skin_py_17
+Sketch F239_extrude_shell_skin_py_69_profile
+Selecting chamfer edges F238_chamfer_shell_skin_py_17
+[stderr] [run] Script error: boolean F0_cut_housing_shell_py_58_tool_1: boolean F0_cut_housing_shell_py_58_tool_1: {"result":4554,"maxLevel":51,"messages":[{"api":"v1.part.boolean","code":0,"level":51,"levelStr":"ERROR","message":"[Evaluation error in Subtraction.CreateCCOperation::PROC:[What to do in that case?] \nFunction: CADH_SubSolidNew\nFile: /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/c/CADH_Service.cpp,     Line: 2754] "}],"structure":null,"graphic":null}

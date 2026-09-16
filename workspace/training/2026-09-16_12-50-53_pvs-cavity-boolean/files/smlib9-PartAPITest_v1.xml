@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<?xml-stylesheet type="text/xsl" href="ccreport.xsl"?>
+<TestRun date="16.9.2026" startTime="14:14:21." endTime="14:14:24.">
+  <FailedTests>
+    <FailedTest id="38">
+      <Name>[BaseModeling.api] PartAPITest_v1.testTwist2</Name>
+      <FailureType>Error</FailureType>
+      <Message>ErrorMessage
+- 1 Fehler bei der Kompilation von Klasse: PartAPITest_v1 Objekt: PartAPITest_v1.testTwist2
+
+</Message>
+    </FailedTest>
+  </FailedTests>
+  <SucessfulTests>
+    <Test id="1">
+      <Name>[BaseModeling.api] PartAPITest_v1.testBoolean</Name>
+    </Test>
+    <Test id="2">
+      <Name>[BaseModeling.api] PartAPITest_v1.testBox</Name>
+    </Test>
+    <Test id="3">
+      <Name>[BaseModeling.api] PartAPITest_v1.testChamfer</Name>
+    </Test>
+    <Test id="4">
+      <Name>[BaseModeling.api] PartAPITest_v1.testCircularPattern</Name>
+    </Test>
+    <Test id="5">
+      <Name>[BaseModeling.api] PartAPITest_v1.testCloseFeature</Name>
+    </Test>
+    <Test id="6">
+      <Name>[BaseModeling.api] PartAPITest_v1.testCloseFeature2</Name>
+    </Test>
+    <Test id="7">
+      <Name>[BaseModeling.api] PartAPITest_v1.testCompositeCurve</Name>
+    </Test>
+    <Test id="8">
+      <Name>[BaseModeling.api] PartAPITest_v1.testCone</Name>
+    </Test>
+    <Test id="9">
+      <Name>[BaseModeling.api] PartAPITest_v1.testCreate</Name>
+    </Test>
+    <Test id="10">
+      <Name>[BaseModeling.api] PartAPITest_v1.testCylinder</Name>
+    </Test>
+    <Test id="11">
+      <Name>[BaseModeling.api] PartAPITest_v1.testDeleteFeature</Name>
+    </Test>
+    <Test id="12">
+      <Name>[BaseModeling.api] PartAPITest_v1.testEntityDeletion</Name>
+    </Test>
+    <Test id="13">
+      <Name>[BaseModeling.api] PartAPITest_v1.testEntityInjection</Name>
+    </Test>
+    <Test id="14">
+      <Name>[BaseModeling.api] PartAPITest_v1.testExtrusion</Name>
+    </Test>
+    <Test id="15">
+      <Name>[BaseModeling.api] PartAPITest_v1.testFillet</Name>
+    </Test>
+    <Test id="16">
+      <Name>[BaseModeling.api] PartAPITest_v1.testGetFeature</Name>
+    </Test>
+    <Test id="17">
+      <Name>[BaseModeling.api] PartAPITest_v1.testGetGeometryIds</Name>
+    </Test>
+    <Test id="18">
+      <Name>[BaseModeling.api] PartAPITest_v1.testGetGeometryPositions</Name>
+    </Test>
+    <Test id="19">
+      <Name>[BaseModeling.api] PartAPITest_v1.testGetSketch</Name>
+    </Test>
+    <Test id="20">
+      <Name>[BaseModeling.api] PartAPITest_v1.testGetSolidProperties</Name>
+    </Test>
+    <Test id="21">
+      <Name>[BaseModeling.api] PartAPITest_v1.testGetWorkGeometry</Name>
+    </Test>
+    <Test id="22">
+      <Name>[BaseModeling.api] PartAPITest_v1.testImportFeature</Name>
+    </Test>
+    <Test id="23">
+      <Name>[BaseModeling.api] PartAPITest_v1.testLinearPattern</Name>
+    </Test>
+    <Test id="24">
+      <Name>[BaseModeling.api] PartAPITest_v1.testLinkWithExpression</Name>
+    </Test>
+    <Test id="25">
+      <Name>[BaseModeling.api] PartAPITest_v1.testMirror</Name>
+    </Test>
+    <Test id="26">
+      <Name>[BaseModeling.api] PartAPITest_v1.testOpenFeature</Name>
+    </Test>
+    <Test id="27">
+      <Name>[BaseModeling.api] PartAPITest_v1.testOperationMoveBefore</Name>
+    </Test>
+    <Test id="28">
+      <Name>[BaseModeling.api] PartAPITest_v1.testOperationMoveToEnd</Name>
+    </Test>
+    <Test id="29">
+      <Name>[BaseModeling.api] PartAPITest_v1.testRevolve</Name>
+    </Test>
+    <Test id="30">
+      <Name>[BaseModeling.api] PartAPITest_v1.testRotation</Name>
+    </Test>
+    <Test id="31">
+      <Name>[BaseModeling.api] PartAPITest_v1.testSketch</Name>
+    </Test>
+    <Test id="32">
+      <Name>[BaseModeling.api] PartAPITest_v1.testSlice</Name>
+    </Test>
+    <Test id="33">
+      <Name>[BaseModeling.api] PartAPITest_v1.testSliceBySheet</Name>
+    </Test>
+    <Test id="34">
+      <Name>[BaseModeling.api] PartAPITest_v1.testSphere</Name>
+    </Test>
+    <Test id="35">
+      <Name>[BaseModeling.api] PartAPITest_v1.testTransformByCSys</Name>
+    </Test>
+    <Test id="36">
+      <Name>[BaseModeling.api] PartAPITest_v1.testTranslation</Name>
+    </Test>
+    <Test id="37">
+      <Name>[BaseModeling.api] PartAPITest_v1.testTwist</Name>
+    </Test>
+    <Test id="39">
+      <Name>[BaseModeling.api] PartAPITest_v1.testUnlinkExpression</Name>
+    </Test>
+    <Test id="40">
+      <Name>[BaseModeling.api] PartAPITest_v1.testUpdateExpression</Name>
+    </Test>
+    <Test id="41">
+      <Name>[BaseModeling.api] PartAPITest_v1.testUpdateExpression_Ident</Name>
+    </Test>
+    <Test id="42">
+      <Name>[BaseModeling.api] PartAPITest_v1.testWorkAxis</Name>
+    </Test>
+    <Test id="43">
+      <Name>[BaseModeling.api] PartAPITest_v1.testWorkCSys</Name>
+    </Test>
+    <Test id="44">
+      <Name>[BaseModeling.api] PartAPITest_v1.testWorkPlane</Name>
+    </Test>
+    <Test id="45">
+      <Name>[BaseModeling.api] PartAPITest_v1.testWorkPoint</Name>
+    </Test>
+  </SucessfulTests>
+  <Statistics>
+    <Tests>45</Tests>
+    <FailuresTotal>1</FailuresTotal>
+    <Errors>1</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

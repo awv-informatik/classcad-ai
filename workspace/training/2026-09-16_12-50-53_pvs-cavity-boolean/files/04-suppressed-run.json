@@ -1,0 +1,8 @@
+{
+  "script": "04-suppressed.mjs",
+  "workerPid": 26864,
+  "limitSeconds": 15.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.507
+}

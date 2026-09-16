@@ -1,0 +1,8 @@
+{
+  "script": "23-smlib9.mjs",
+  "workerPid": 26480,
+  "limitSeconds": 35.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.404
+}

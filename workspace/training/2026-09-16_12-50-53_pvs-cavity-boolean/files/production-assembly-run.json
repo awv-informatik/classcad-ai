@@ -1,0 +1,8 @@
+{
+  "script": "production-assembly.mjs",
+  "workerPid": 17278,
+  "limitSeconds": 120.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 56.06
+}

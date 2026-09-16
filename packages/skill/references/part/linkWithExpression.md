@@ -1,15 +1,15 @@
 # part.linkWithExpression
 
-Connects a named expression to a feature parameter or sketch dimension **after** the feature was already created. This is the post-hoc alternative to using `@expr.NAME` at creation time.
+Connects a named expression to a feature parameter **after** creation. For sketch dimensions, use `sketch.updateDimension({ id: dimensionId, value: '@expr.NAME' })` instead; obtain the `CC_*FeatureDimension` ID as described in [dimension](../sketch/dimension.md#return-value).
 
 ## Prerequisites
 
 - A part with an expression (`part.expression`)
-- A feature or sketch dimension already created
+- A feature already created
 
 ## Key Parameters
 
-- `id` — **feature or dimension ID** (NOT the part ID). Must be type `feature` or `dimension`. Using the part ID gives error 1001 "wrong id type".
+- `id` — **feature ID**, not the part ID. The API type gate also accepts dimension IDs, but use `sketch.updateDimension` for sketch bindings. Internal constraint IDs are rejected.
 - `exprName` — name of the expression to link (must exist in the part's expression set)
 - `name` — feature parameter name to bind (e.g., `'height'`, `'length'`, `'diameter'`)
 

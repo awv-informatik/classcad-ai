@@ -1,0 +1,23 @@
+(lldb) process attach --pid 20777
+warning: libNMTLib_8.12.dylib was compiled with optimization - stepping may behave oddly; variables may not be available.
+Process 20777 stopped
+* thread #1, queue = 'com.apple.main-thread', stop reason = signal SIGSTOP
+    frame #0: 0x000000018ee4aaf4 libsystem_kernel.dylib`__ulock_wait + 8
+libsystem_kernel.dylib`__ulock_wait:
+->  0x18ee4aaf4 <+8>:  b.lo   0x18ee4ab14               ; <+40>
+    0x18ee4aaf8 <+12>: pacibsp 
+    0x18ee4aafc <+16>: stp    x29, x30, [sp, #-0x10]!
+    0x18ee4ab00 <+20>: mov    x29, sp
+  thread #3, stop reason = EXC_BAD_ACCESS (code=1, address=0xb34964b7967ea3de)
+    frame #0: 0x000000010d6b0db4 libNMTLib_8.12.dylib`IwProtoTopologyManager::UpdateFaces(this=<unavailable>, iWhichBrep=<unavailable>, pOldFace=0x00000079f6429880, pNewFace=0x00000079f652ddc0, pSplittingEdge=0x00000079f6539680, pOtherEdge=0x00000079f6452f40, pCallingED=<unavailable>) at IwProtoTopology.cpp:4804:39 [opt]
+   4801	          ULONG kk, lNumEDs = raEdgeDefs.GetSize();
+   4802	          for ( kk=0; kk<lNumEDs; kk++ )
+   4803	          {
+-> 4804	              IwEdgeDefinition *pED = raEdgeDefs[kk];
+    	                                      ^
+   4805	              if ( pED == NULL ) { continue; }
+   4806	
+   4807	              IwPointClassificationType eBrepTopoType = pED->GetBrepTopoType( iWhichBrep );
+Target 0: (classcad-cli) stopped.
+Executable binary set to "/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/classcad-cli".
+Architecture set to: arm64-apple-macosx-.

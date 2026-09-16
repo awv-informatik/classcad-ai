@@ -1,0 +1,53 @@
+{
+  "skillChanged": [],
+  "skillAdded": [],
+  "kernelBinaryRestored": true,
+  "smlibStatus": "",
+  "runtimeStatus": "?? logs/\n",
+  "runtimeCommit": "2c9092866578ea482fd0bd2a1208390454a2149f",
+  "smlibCommit": "775f3ce9e6230abe79222727c586528e5fbdf21b",
+  "candidateTrials": [
+    {
+      "trial": 18,
+      "staleReferences": 0,
+      "refreshedOwners": 2,
+      "volume": 105847.3687935001,
+      "run": {
+        "script": "18-candidate.mjs",
+        "workerPid": 23077,
+        "limitSeconds": 12.0,
+        "exitCode": 0,
+        "outcome": "exited",
+        "elapsedSeconds": 3.203
+      }
+    },
+    {
+      "trial": 19,
+      "staleReferences": 0,
+      "refreshedOwners": 2,
+      "volume": 105847.6563520856,
+      "run": {
+        "script": "19-candidate.mjs",
+        "workerPid": 23197,
+        "limitSeconds": 12.0,
+        "exitCode": 0,
+        "outcome": "exited",
+        "elapsedSeconds": 3.253
+      }
+    },
+    {
+      "trial": 20,
+      "staleReferences": 0,
+      "refreshedOwners": 2,
+      "volume": 105847.3676727978,
+      "run": {
+        "script": "20-candidate.mjs",
+        "workerPid": 23226,
+        "limitSeconds": 12.0,
+        "exitCode": 0,
+        "outcome": "exited",
+        "elapsedSeconds": 3.263
+      }
+    }
+  ]
+}

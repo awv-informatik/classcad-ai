@@ -1,0 +1,8 @@
+{
+  "script": "26-current9-Base.mjs",
+  "workerPid": 30450,
+  "limitSeconds": 90.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 28.078
+}

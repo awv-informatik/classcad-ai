@@ -1,0 +1,8 @@
+{
+  "script": "05-kernel-graphics.mjs",
+  "workerPid": 27923,
+  "limitSeconds": 15.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.604
+}

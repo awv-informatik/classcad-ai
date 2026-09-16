@@ -1,0 +1,1011 @@
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:8:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    8 | #pragma warning (disable: 4786)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:10:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/CCLogMsg.h:17:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   17 | #pragma warning(disable : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/CCLogMsg.h:101:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  101 | #pragma warning(default : 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:11:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/CCLog.h:47:54: warning: unused parameter 'msg' [-Wunused-parameter]
+   47 |       virtual void LogInTryCatchMode(const CCLogMsg& msg) { }
+      |                                                      ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/CCLog.h:95:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   95 | #pragma warning(disable : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/CCLog.h:97:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   97 | #pragma warning(default : 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:7:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:5:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    5 | #pragma warning (disable: 4786)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:7:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:8:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Utils.h:13:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/BaseSystemSTL_Export.h:11:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   11 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/BaseSystemSTL_Export.h:20:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   20 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:7:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:9:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:3:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    3 | #pragma warning (disable: 4786)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:7:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:9:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:6:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/RefCount/RefCount.h:49:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   49 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/RefCount/RefCount.h:51:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   51 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:7:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:9:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:22:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   22 | #pragma warning (disable: 4231)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:27:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   27 | #pragma warning (default: 4231)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:182:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  182 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:184:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  184 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:209:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  209 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:211:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  211 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:223:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  223 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:225:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  225 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:236:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  236 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:238:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  238 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:248:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  248 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/MemberSchnittstelle.h:250:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  250 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:7:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:10:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/GrafikSchnittstelle.h:5:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    5 | #pragma warning (disable: 4786)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/GrafikSchnittstelle.h:305:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  305 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/GrafikSchnittstelle.h:307:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  307 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:7:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:13:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   13 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:56:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   56 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:59:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   59 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:207:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  207 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:209:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  209 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:213:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  213 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:215:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  215 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:674:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  674 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:676:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  676 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:755:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  755 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:757:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  757 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:812:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  812 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:814:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  814 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:788:16: warning: 'ClassCAD::Code::Eval' hides overloaded virtual function [-Woverloaded-virtual]
+  788 |                 virtual void Eval(CCIdT curObject, CocoR::Bytecode* _bytecode = NULL, bool checkParams = true);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:87:16: note: hidden overloaded virtual function 'ClassCAD::Members::Eval' declared here: different number of parameters (0 vs 3)
+   87 |                 virtual void Eval ();
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:865:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  865 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:867:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  867 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:952:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  952 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:954:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  954 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1030:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1030 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1032:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1032 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1037:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1037 | #pragma warning (disable: 4786)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1040:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1040 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1042:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1042 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1047:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1047 | #pragma warning (disable: 4786)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1087:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1087 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1089:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1089 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1128:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1128 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1130:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1130 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Members.h:1138:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1138 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:12:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:81:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   81 | #pragma warning(disable : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/logging/VerboseInterface.h:88:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   88 | #pragma warning(default : 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:16:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/ErrorList.h:48:10: warning: unknown pragma ignored [-Wunknown-pragmas]
+   48 |         #pragma warning (disable: 4251)
+      |                 ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/ErrorList.h:50:10: warning: unknown pragma ignored [-Wunknown-pragmas]
+   50 |         #pragma warning (default: 4251)
+      |                 ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:21:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/SelectionMode.h:12:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/SelectionModeType.h:30:8: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+   30 | #endif SelectionModeType__H
+      |        ^
+      |        //
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:21:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/SelectionMode.h:20:3: warning: field 'm_Type' will be initialized after field 'm_Active' [-Wreorder-ctor]
+   20 |   m_Type( type ), m_Active( activeFlag ) { }
+      |   ^~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~
+      |   m_Active( activeFlag ) m_Type( type )
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:24:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassAdministration.h:14:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassPath.h:10:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   10 | #pragma warning(disable : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassPath.h:22:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   22 | #pragma warning(default : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassPath.h:26:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   26 | #pragma warning(disable : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassPath.h:37:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   37 | #pragma warning(default : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassPath.h:92:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   92 | #pragma warning(disable : 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassPath.h:95:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   95 | #pragma warning(default : 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:24:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassAdministration.h:180:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  180 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CClassAdministration.h:190:10: warning: unknown pragma ignored [-Wunknown-pragmas]
+  190 |         #pragma warning (default: 4251)
+      |                 ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:25:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:32:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   32 | #pragma warning (disable: 4786)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:36:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   36 | #pragma warning (default: 4786)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:78:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   78 | #pragma warning (disable: 4786)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:81:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   81 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:83:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   83 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:146:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  146 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:149:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  149 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:202:71: warning: backslash and newline separated by space [-Wbackslash-newline-escape]
+  202 | // ----------------- CCObject ---------------------------------------\\ 
+      |                                                                       ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:202:72: warning: multi-line // comment [-Wcomment]
+  202 | // ----------------- CCObject ---------------------------------------\\ 
+      |                                                                        ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:258:29: warning: unused parameter '_name' [-Wunused-parameter]
+  258 |     CCObject (const _TCHAR* _name = _T("")){;}
+      |                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:466:80: warning: backslash and newline separated by space [-Wbackslash-newline-escape]
+  466 | // ----------------- AbstractCADEntity ---------------------------------------\\ 
+      |                                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:466:81: warning: multi-line // comment [-Wcomment]
+  466 | // ----------------- AbstractCADEntity ---------------------------------------\\ 
+      |                                                                                 ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:547:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  547 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CCObject.h:549:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  549 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:30:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/StreamCache.h:45:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   45 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/StreamCache.h:51:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   51 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:67:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   67 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:69:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   69 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:218:43: warning: unused parameter 'dummy' [-Wunused-parameter]
+  218 | template<class T> T* CastF(Unknown *u, T* dummy) { 
+      |                                           ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:247:16: warning: 'VisitArrayMem' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  247 |                 virtual void VisitArrayMem (ArrayMem *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:107:16: note: overridden virtual function is here
+  107 |                 virtual void VisitArrayMem (ArrayMem *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:249:16: warning: 'VisitCCKlassenVerwaltung' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  249 |                 virtual void VisitCCKlassenVerwaltung(CCKlassenVerwaltung *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:143:16: note: overridden virtual function is here
+  143 |                 virtual void VisitCCKlassenVerwaltung(CCKlassenVerwaltung *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:252:16: warning: 'VisitCCObject' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  252 |                 virtual void VisitCCObject (CCObject *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:137:16: note: overridden virtual function is here
+  137 |                 virtual void VisitCCObject (CCObject *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:254:16: warning: 'VisitCCGraphicPrimitive' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  254 |                 virtual void VisitCCGraphicPrimitive(CCGraphicPrimitive *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:150:16: note: overridden virtual function is here
+  150 |                 virtual void VisitCCGraphicPrimitive(CCGraphicPrimitive *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:256:16: warning: 'VisitCCGrVertex' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  256 |                 virtual void VisitCCGrVertex(CCGrVertex *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:152:16: note: overridden virtual function is here
+  152 |                 virtual void VisitCCGrVertex(CCGrVertex *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:258:16: warning: 'VisitCCGrNamedPoint' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  258 |                 virtual void VisitCCGrNamedPoint(CCGrNamedPoint *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:154:16: note: overridden virtual function is here
+  154 |                 virtual void VisitCCGrNamedPoint(CCGrNamedPoint *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:260:16: warning: 'VisitCCGrLine' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  260 |                 virtual void VisitCCGrLine(CCGrLine *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:156:16: note: overridden virtual function is here
+  156 |                 virtual void VisitCCGrLine(CCGrLine *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:268:16: warning: 'VisitCCGrCircle' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  268 |                 virtual void VisitCCGrCircle(CCGrCircle *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:164:16: note: overridden virtual function is here
+  164 |                 virtual void VisitCCGrCircle(CCGrCircle *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:270:16: warning: 'VisitCCGrCircularArc' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  270 |                 virtual void VisitCCGrCircularArc(CCGrCircularArc *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:166:16: note: overridden virtual function is here
+  166 |                 virtual void VisitCCGrCircularArc(CCGrCircularArc *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:272:16: warning: 'VisitCCGrMesh' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  272 |                 virtual void VisitCCGrMesh(CCGrMesh *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:168:16: note: overridden virtual function is here
+  168 |                 virtual void VisitCCGrMesh(CCGrMesh *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:274:16: warning: 'VisitCCGrTessEdges' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  274 |                 virtual void VisitCCGrTessEdges(CCGrTessEdges *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:170:16: note: overridden virtual function is here
+  170 |                 virtual void VisitCCGrTessEdges(CCGrTessEdges *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:276:16: warning: 'VisitCCGrBox' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  276 |                 virtual void VisitCCGrBox(CCGrBox *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:172:16: note: overridden virtual function is here
+  172 |                 virtual void VisitCCGrBox(CCGrBox *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:278:16: warning: 'VisitCCGrCone' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  278 |                 virtual void VisitCCGrCone(CCGrCone *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:174:16: note: overridden virtual function is here
+  174 |                 virtual void VisitCCGrCone(CCGrCone *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:280:16: warning: 'VisitCCGrHollowCone' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  280 |                 virtual void VisitCCGrHollowCone(CCGrHollowCone *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:176:16: note: overridden virtual function is here
+  176 |                 virtual void VisitCCGrHollowCone(CCGrHollowCone *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:282:16: warning: 'VisitCCGrText' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  282 |                 virtual void VisitCCGrText(CCGrText *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:178:16: note: overridden virtual function is here
+  178 |                 virtual void VisitCCGrText(CCGrText *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:284:16: warning: 'VisitCCGrTextLabel' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  284 |                 virtual void VisitCCGrTextLabel(CCGrTextLabel *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:180:16: note: overridden virtual function is here
+  180 |                 virtual void VisitCCGrTextLabel(CCGrTextLabel *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:286:16: warning: 'VisitCCGrPlane' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  286 |                 virtual void VisitCCGrPlane(CCGrPlane *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:182:16: note: overridden virtual function is here
+  182 |                 virtual void VisitCCGrPlane(CCGrPlane *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:288:16: warning: 'VisitCCGrImage' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  288 |                 virtual void VisitCCGrImage(CCGrImage *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:184:16: note: overridden virtual function is here
+  184 |                 virtual void VisitCCGrImage(CCGrImage *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:290:16: warning: 'VisitCCGrCoordSys' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  290 |                 virtual void VisitCCGrCoordSys(CCGrCoordSys *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:186:16: note: overridden virtual function is here
+  186 |                 virtual void VisitCCGrCoordSys(CCGrCoordSys *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:292:16: warning: 'VisitCCGrNamedAxis' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  292 |                 virtual void VisitCCGrNamedAxis(CCGrNamedAxis *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:188:16: note: overridden virtual function is here
+  188 |                 virtual void VisitCCGrNamedAxis(CCGrNamedAxis *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:294:16: warning: 'VisitCCTextureMatInfo' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  294 |                 virtual void VisitCCTextureMatInfo(CCTextureMatInfo *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:193:16: note: overridden virtual function is here
+  193 |                 virtual void VisitCCTextureMatInfo(CCTextureMatInfo *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:296:16: warning: 'VisitCCColorMatInfo' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  296 |                 virtual void VisitCCColorMatInfo(CCColorMatInfo *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:195:16: note: overridden virtual function is here
+  195 |                 virtual void VisitCCColorMatInfo(CCColorMatInfo *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:298:16: warning: 'VisitCCLinetypeMatInfo' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  298 |                 virtual void VisitCCLinetypeMatInfo(CCLinetypeMatInfo *visitEl);
+      |                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Visitor.h:197:16: note: overridden virtual function is here
+  197 |                 virtual void VisitCCLinetypeMatInfo(CCLinetypeMatInfo *visitEl);
+      |                              ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:4:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:409:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  409 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:414:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  414 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:689:2: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+  689 |         const ULONG GetDrawingId() const;
+      |         ^~~~~
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:697:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  697 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:700:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  700 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:703:11: warning: unknown pragma ignored [-Wunknown-pragmas]
+  703 |   #pragma warning (disable: 4251) //disable compiler warning
+      |           ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:679:41: warning: unused parameter 'id' [-Wunused-parameter]
+  679 |         virtual void StoreSimulationData( long id, double pickPoint[3], double mousePosition[3] ){;}
+      |                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:679:52: warning: unused parameter 'pickPoint' [-Wunused-parameter]
+  679 |         virtual void StoreSimulationData( long id, double pickPoint[3], double mousePosition[3] ){;}
+      |                                                           ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:679:73: warning: unused parameter 'mousePosition' [-Wunused-parameter]
+  679 |         virtual void StoreSimulationData( long id, double pickPoint[3], double mousePosition[3] ){;}
+      |                                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:682:44: warning: unused parameter 'mousePosition' [-Wunused-parameter]
+  682 |         virtual void UpdateSimulationData( double mousePosition[3] ){;}
+      |                                                   ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:688:40: warning: unused parameter 'ccid' [-Wunused-parameter]
+  688 |         virtual bool GetSimulationData( long* ccid, double *pickPoint, double *mousePosition ){return false;}
+      |                                               ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:688:54: warning: unused parameter 'pickPoint' [-Wunused-parameter]
+  688 |         virtual bool GetSimulationData( long* ccid, double *pickPoint, double *mousePosition ){return false;}
+      |                                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:688:73: warning: unused parameter 'mousePosition' [-Wunused-parameter]
+  688 |         virtual bool GetSimulationData( long* ccid, double *pickPoint, double *mousePosition ){return false;}
+      |                                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:692:55: warning: unused parameter 'objectId' [-Wunused-parameter]
+  692 |         virtual void RegisterElementSelectionListener( CCIdT objectId ){;}
+      |                                                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:694:57: warning: unused parameter 'objectId' [-Wunused-parameter]
+  694 |         virtual void UnregisterElementSelectionListener( CCIdT objectId ){;}
+      |                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:934:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  934 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:936:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  936 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:783:44: warning: unused parameter 'klV' [-Wunused-parameter]
+  783 |     virtual bool Less(CCKlassenVerwaltungT klV) const {return false;}
+      |                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:989:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  989 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:991:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  991 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1177:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1177 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1179:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1179 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1297:11: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1297 |   #pragma warning (disable: 4251)//temp4251
+      |           ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1463:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1463 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1466:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1466 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1471:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1471 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1473:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1473 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1823:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1823 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1825:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1825 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1840:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1840 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1842:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1842 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1875:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1875 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1877:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1877 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1878:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1878 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1880:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1880 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1933:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1933 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1935:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1935 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1952:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1952 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1955:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1955 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1957:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1957 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:1959:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 1959 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2025:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2025 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2027:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2027 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2038:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2038 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2040:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2040 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2054:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2054 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2057:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2057 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2069:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2069 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2071:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2071 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2073:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2073 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2075:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2075 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2093:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2093 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2095:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2095 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2097:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2097 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2099:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2099 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2169:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2169 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2171:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2171 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2234:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2234 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2236:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2236 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2237:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2237 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2240:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2240 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2254:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2254 | #pragma warning (disable: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2256:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2256 | #pragma warning (default: 4251)//temp4251
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2458:2: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+ 2458 |         const size_t GetCCViewerInterfaceHandle() const;
+      |         ^~~~~
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2460:10: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+ 2460 |         virtual const unsigned long GetViewHandle() const;
+      |                 ^~~~~
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2468:10: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+ 2468 |         virtual const unsigned int GetViewIndex() const;
+      |                 ^~~~~
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2322:33: warning: unused parameter 'id' [-Wunused-parameter]
+ 2322 |         virtual void FocusObject(CCIdT id){}
+      |                                        ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2406:42: warning: unused parameter 'fileName' [-Wunused-parameter]
+ 2406 |         virtual void WriteImage( const _TCHAR * fileName, const _TCHAR * imageType, int magnification ){;}
+      |                                                 ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2406:67: warning: unused parameter 'imageType' [-Wunused-parameter]
+ 2406 |         virtual void WriteImage( const _TCHAR * fileName, const _TCHAR * imageType, int magnification ){;}
+      |                                                                          ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2406:82: warning: unused parameter 'magnification' [-Wunused-parameter]
+ 2406 |         virtual void WriteImage( const _TCHAR * fileName, const _TCHAR * imageType, int magnification ){;}
+      |                                                                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2410:38: warning: unused parameter 'id' [-Wunused-parameter]
+ 2410 |         virtual void StartDragAndDrop( AIdT id ){;}
+      |                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2414:37: warning: unused parameter 'cancel' [-Wunused-parameter]
+ 2414 |         virtual void StopDragAndDrop( bool cancel ){;}
+      |                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2418:50: warning: unused parameter 'viewEvent' [-Wunused-parameter]
+ 2418 |         virtual bool RegisterViewCallback( CCViewEvents viewEvent, CCIdT id, std::_tstring functionName ){ return false; }
+      |                                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2418:67: warning: unused parameter 'id' [-Wunused-parameter]
+ 2418 |         virtual bool RegisterViewCallback( CCViewEvents viewEvent, CCIdT id, std::_tstring functionName ){ return false; }
+      |                                                                          ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2418:85: warning: unused parameter 'functionName' [-Wunused-parameter]
+ 2418 |         virtual bool RegisterViewCallback( CCViewEvents viewEvent, CCIdT id, std::_tstring functionName ){ return false; }
+      |                                                                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2422:52: warning: unused parameter 'viewEvent' [-Wunused-parameter]
+ 2422 |         virtual bool UnregisterViewCallback( CCViewEvents viewEvent, CCIdT id, std::_tstring functionName ){ return false; }
+      |                                                           ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2422:69: warning: unused parameter 'id' [-Wunused-parameter]
+ 2422 |         virtual bool UnregisterViewCallback( CCViewEvents viewEvent, CCIdT id, std::_tstring functionName ){ return false; }
+      |                                                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2422:87: warning: unused parameter 'functionName' [-Wunused-parameter]
+ 2422 |         virtual bool UnregisterViewCallback( CCViewEvents viewEvent, CCIdT id, std::_tstring functionName ){ return false; }
+      |                                                                                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2426:54: warning: unused parameter 'globalToUser' [-Wunused-parameter]
+ 2426 |         virtual void SetUserDefinedCoordinateSystem( double globalToUser[4][4], double userToGlobal[4][4] ){}
+      |                                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2426:81: warning: unused parameter 'userToGlobal' [-Wunused-parameter]
+ 2426 |         virtual void SetUserDefinedCoordinateSystem( double globalToUser[4][4], double userToGlobal[4][4] ){}
+      |                                                                                        ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2429:46: warning: unused parameter 'onOff' [-Wunused-parameter]
+ 2429 |         virtual void ShowPointNormalsOnMeshes( bool onOff ){}
+      |                                                     ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2432:40: warning: unused parameter 'mask' [-Wunused-parameter]
+ 2432 |         virtual void SetSelectionMask( bool * mask, int length ){}
+      |                                               ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2432:50: warning: unused parameter 'length' [-Wunused-parameter]
+ 2432 |         virtual void SetSelectionMask( bool * mask, int length ){}
+      |                                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2438:41: warning: unused parameter 'onOff' [-Wunused-parameter]
+ 2438 |         virtual void EnableSnapSelection( bool onOff ){}
+      |                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2440:45: warning: unused parameter 'roundingValue' [-Wunused-parameter]
+ 2440 |         virtual void SetMoveVectorRounding( double roundingValue ){}
+      |                                                    ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2442:33: warning: unused parameter 'linearMeasureUnit' [-Wunused-parameter]
+ 2442 |         virtual void SetViewUnits( int linearMeasureUnit, int angularMeasureUnit ){}
+      |                                        ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2442:56: warning: unused parameter 'angularMeasureUnit' [-Wunused-parameter]
+ 2442 |         virtual void SetViewUnits( int linearMeasureUnit, int angularMeasureUnit ){}
+      |                                                               ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2455:38: warning: unused parameter 'x' [-Wunused-parameter]
+ 2455 |         virtual void DisplayToWorld(double &x, double &y, double &z, double gripZ){}
+      |                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2455:49: warning: unused parameter 'y' [-Wunused-parameter]
+ 2455 |         virtual void DisplayToWorld(double &x, double &y, double &z, double gripZ){}
+      |                                                        ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2455:60: warning: unused parameter 'z' [-Wunused-parameter]
+ 2455 |         virtual void DisplayToWorld(double &x, double &y, double &z, double gripZ){}
+      |                                                                   ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2455:70: warning: unused parameter 'gripZ' [-Wunused-parameter]
+ 2455 |         virtual void DisplayToWorld(double &x, double &y, double &z, double gripZ){}
+      |                                                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2456:37: warning: unused parameter 'x' [-Wunused-parameter]
+ 2456 |         virtual void DisplayToWorld(float &x, float &y, float &z, float gripZ){}
+      |                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2456:47: warning: unused parameter 'y' [-Wunused-parameter]
+ 2456 |         virtual void DisplayToWorld(float &x, float &y, float &z, float gripZ){}
+      |                                                      ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2456:57: warning: unused parameter 'z' [-Wunused-parameter]
+ 2456 |         virtual void DisplayToWorld(float &x, float &y, float &z, float gripZ){}
+      |                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2456:66: warning: unused parameter 'gripZ' [-Wunused-parameter]
+ 2456 |         virtual void DisplayToWorld(float &x, float &y, float &z, float gripZ){}
+      |                                                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2462:41: warning: unused parameter 'pZeichnung' [-Wunused-parameter]
+ 2462 |         virtual void SetZeichnung(CCZeichnung *pZeichnung){}
+      |                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2464:34: warning: unused parameter 'drawingId' [-Wunused-parameter]
+ 2464 |         virtual void SetZeichnung(ULONG drawingId){}
+      |                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2471:35: warning: unused parameter 'polydata' [-Wunused-parameter]
+ 2471 |         virtual bool GetPolydata( char *&polydata, int &polydataLength, bool ascii, int type ){return false;}
+      |                                          ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2471:50: warning: unused parameter 'polydataLength' [-Wunused-parameter]
+ 2471 |         virtual bool GetPolydata( char *&polydata, int &polydataLength, bool ascii, int type ){return false;}
+      |                                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2471:71: warning: unused parameter 'ascii' [-Wunused-parameter]
+ 2471 |         virtual bool GetPolydata( char *&polydata, int &polydataLength, bool ascii, int type ){return false;}
+      |                                                                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2471:82: warning: unused parameter 'type' [-Wunused-parameter]
+ 2471 |         virtual bool GetPolydata( char *&polydata, int &polydataLength, bool ascii, int type ){return false;}
+      |                                                                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2474:40: warning: unused parameter 'polydata' [-Wunused-parameter]
+ 2474 |         virtual bool SetPolydata( const char *polydata, int polydataLength, int type ){return false;}
+      |                                               ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2474:54: warning: unused parameter 'polydataLength' [-Wunused-parameter]
+ 2474 |         virtual bool SetPolydata( const char *polydata, int polydataLength, int type ){return false;}
+      |                                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2474:74: warning: unused parameter 'type' [-Wunused-parameter]
+ 2474 |         virtual bool SetPolydata( const char *polydata, int polydataLength, int type ){return false;}
+      |                                                                                 ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2476:38: warning: unused parameter 'polydata' [-Wunused-parameter]
+ 2476 |         virtual bool GetViewContent( char *&polydata, int &polydataLength, bool ascii){return false;}
+      |                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2476:53: warning: unused parameter 'polydataLength' [-Wunused-parameter]
+ 2476 |         virtual bool GetViewContent( char *&polydata, int &polydataLength, bool ascii){return false;}
+      |                                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2476:74: warning: unused parameter 'ascii' [-Wunused-parameter]
+ 2476 |         virtual bool GetViewContent( char *&polydata, int &polydataLength, bool ascii){return false;}
+      |                                                                                 ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2478:46: warning: unused parameter 'polydata' [-Wunused-parameter]
+ 2478 |         virtual bool SetPreviewContent( const char *polydata, int polydataLength){return false;}
+      |                                                     ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2478:60: warning: unused parameter 'polydataLength' [-Wunused-parameter]
+ 2478 |         virtual bool SetPreviewContent( const char *polydata, int polydataLength){return false;}
+      |                                                                   ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2483:38: warning: unused parameter 'bbox' [-Wunused-parameter]
+ 2483 |         virtual void GetBoundingBox( double bbox[6] ){}
+      |                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2489:43: warning: unused parameter 'layerName' [-Wunused-parameter]
+ 2489 |         virtual void AddViewLayer( std::_tstring layerName, bool interactive ){}
+      |                                                  ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2489:59: warning: unused parameter 'interactive' [-Wunused-parameter]
+ 2489 |         virtual void AddViewLayer( std::_tstring layerName, bool interactive ){}
+      |                                                                  ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2491:46: warning: unused parameter 'layerName' [-Wunused-parameter]
+ 2491 |         virtual bool RemoveViewLayer( std::_tstring layerName ){ return false; }
+      |                                                     ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2493:32: warning: unused parameter 'x' [-Wunused-parameter]
+ 2493 |         virtual void OnDragOver( long x, long y ){}
+      |                                       ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2493:40: warning: unused parameter 'y' [-Wunused-parameter]
+ 2493 |         virtual void OnDragOver( long x, long y ){}
+      |                                               ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2507:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2507 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2509:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+ 2509 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2523:42: warning: unused parameter 'message' [-Wunused-parameter]
+ 2523 |         virtual bool MessageBoxYN(const _TCHAR* message){
+      |                                                 ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2532:44: warning: unused parameter 'values' [-Wunused-parameter]
+ 2532 |         virtual AllMemb VarDialog (AllMembVector &values, bool doNonModal,bool isDialogBar, CCIdT curObject){
+      |                                                   ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2532:57: warning: unused parameter 'doNonModal' [-Wunused-parameter]
+ 2532 |         virtual AllMemb VarDialog (AllMembVector &values, bool doNonModal,bool isDialogBar, CCIdT curObject){
+      |                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2532:73: warning: unused parameter 'isDialogBar' [-Wunused-parameter]
+ 2532 |         virtual AllMemb VarDialog (AllMembVector &values, bool doNonModal,bool isDialogBar, CCIdT curObject){
+      |                                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2532:92: warning: unused parameter 'curObject' [-Wunused-parameter]
+ 2532 |         virtual AllMemb VarDialog (AllMembVector &values, bool doNonModal,bool isDialogBar, CCIdT curObject){
+      |                                                                                                   ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2537:39: warning: unused parameter 'withOk' [-Wunused-parameter]
+ 2537 |         virtual void TerminateTopDialog(bool withOk){
+      |                                              ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2545:50: warning: unused parameter 'tree' [-Wunused-parameter]
+ 2545 |         virtual AllMemb CallKontextMenu (const AllMemb& tree, int treeStyle, int resultStyle){
+      |                                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2545:60: warning: unused parameter 'treeStyle' [-Wunused-parameter]
+ 2545 |         virtual AllMemb CallKontextMenu (const AllMemb& tree, int treeStyle, int resultStyle){
+      |                                                                   ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2545:75: warning: unused parameter 'resultStyle' [-Wunused-parameter]
+ 2545 |         virtual AllMemb CallKontextMenu (const AllMemb& tree, int treeStyle, int resultStyle){
+      |                                                                                  ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2551:43: warning: unused parameter 'info' [-Wunused-parameter]
+ 2551 |         virtual void SetCursorInfo(std::_tstring info){
+      |                                                  ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2555:33: warning: unused parameter 'modus' [-Wunused-parameter]
+ 2555 |         virtual void SetDefaultPos(int modus,int x,int y){
+      |                                        ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2555:43: warning: unused parameter 'x' [-Wunused-parameter]
+ 2555 |         virtual void SetDefaultPos(int modus,int x,int y){
+      |                                                  ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2555:49: warning: unused parameter 'y' [-Wunused-parameter]
+ 2555 |         virtual void SetDefaultPos(int modus,int x,int y){
+      |                                                        ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2560:36: warning: unused parameter 'deviceConst' [-Wunused-parameter]
+ 2560 |         virtual AllMemb GetDeviceCaps(int deviceConst){
+      |                                           ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2567:34: warning: unused parameter 'bOpenFileDialog' [-Wunused-parameter]
+ 2567 |         virtual AllMemb FileDialog(bool bOpenFileDialog, bool multipleFiles, const _TCHAR* lpszDefExt, const _TCHAR* lpszFileName, const _TCHAR* lpszFilter,
+      |                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2567:56: warning: unused parameter 'multipleFiles' [-Wunused-parameter]
+ 2567 |         virtual AllMemb FileDialog(bool bOpenFileDialog, bool multipleFiles, const _TCHAR* lpszDefExt, const _TCHAR* lpszFileName, const _TCHAR* lpszFilter,
+      |                                                               ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2567:85: warning: unused parameter 'lpszDefExt' [-Wunused-parameter]
+ 2567 |         virtual AllMemb FileDialog(bool bOpenFileDialog, bool multipleFiles, const _TCHAR* lpszDefExt, const _TCHAR* lpszFileName, const _TCHAR* lpszFilter,
+      |                                                                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2567:111: warning: unused parameter 'lpszFileName' [-Wunused-parameter]
+ 2567 |         virtual AllMemb FileDialog(bool bOpenFileDialog, bool multipleFiles, const _TCHAR* lpszDefExt, const _TCHAR* lpszFileName, const _TCHAR* lpszFilter,
+      |                                                                                                                      ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2567:139: warning: unused parameter 'lpszFilter' [-Wunused-parameter]
+ 2567 |         virtual AllMemb FileDialog(bool bOpenFileDialog, bool multipleFiles, const _TCHAR* lpszDefExt, const _TCHAR* lpszFileName, const _TCHAR* lpszFilter,
+      |                                                                                                                                                  ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2568:30: warning: unused parameter 'title' [-Wunused-parameter]
+ 2568 |                                                                                                                  const _TCHAR* title, int* selectedFilterIndex = NULL){
+      |                                                                                                                                ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2568:42: warning: unused parameter 'selectedFilterIndex' [-Wunused-parameter]
+ 2568 |                                                                                                                  const _TCHAR* title, int* selectedFilterIndex = NULL){
+      |                                                                                                                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2573:37: warning: unused parameter 'id' [-Wunused-parameter]
+ 2573 |         virtual void CloseAllDialogs(CCIdT id){
+      |                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2577:35: warning: unused parameter 'on' [-Wunused-parameter]
+ 2577 |         virtual void ShowAllDialogs(bool on){
+      |                                          ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2581:34: warning: unused parameter 'objId' [-Wunused-parameter]
+ 2581 |         virtual bool EditFunction(CCIdT objId,const _TCHAR* funcName){
+      |                                         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Grundklassen.h:2581:54: warning: unused parameter 'funcName' [-Wunused-parameter]
+ 2581 |         virtual bool EditFunction(CCIdT objId,const _TCHAR* funcName){
+      |                                                             ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:6:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:5:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    5 | #pragma warning (disable: 4786)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:6:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:7:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Registry.h:5:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    5 | #pragma warning (disable: 4786)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:6:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:9:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:5:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    5 | #pragma warning (disable: 4786)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:6:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:9:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:8:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/ParserGenerator.h:4:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+    4 | #pragma warning (disable: 4786)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:6:
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:9:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:48:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   48 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:51:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   51 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:67:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   67 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:69:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   69 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:83:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   83 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:86:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   86 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:111:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  111 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:114:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  114 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:106:36: warning: unused parameter 'nv' [-Wunused-parameter]
+  106 |         bool operator < (const NameValue &nv) const{throw new CCNotImplementedException(_T("NameValue::operator <"),_T(__FILE__),__LINE__);return true;}
+      |                                           ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:109:37: warning: unused parameter 'nv' [-Wunused-parameter]
+  109 |         bool operator == (const NameValue &nv) const{throw new CCNotImplementedException(_T("NameValue::operator =="),_T(__FILE__),__LINE__);return true;}
+      |                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:125:37: warning: unused parameter 're' [-Wunused-parameter]
+  125 |         bool operator < (const RuntimeErr &re) const{throw new CCNotImplementedException(_T("RuntimeErr::operator <"),_T(__FILE__),__LINE__);return true;}
+      |                                            ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:128:38: warning: unused parameter 're' [-Wunused-parameter]
+  128 |         bool operator == (const RuntimeErr &re) const{throw new CCNotImplementedException(_T("RuntimeErr::operator =="),_T(__FILE__),__LINE__);return true;}
+      |                                             ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:173:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  173 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:175:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  175 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:187:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  187 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/Interpreter.h:189:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  189 | #pragma warning (default: 4251)
+      |         ^
+In file included from /Users/dev/dev/awv/classcad/runtime/Source/ClassCADInstance/c/Cmd.cpp:6:
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:23:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   23 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:25:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   25 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:88:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   88 | #pragma warning (push)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:89:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   89 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:91:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+   91 | #pragma warning (pop)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:254:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  254 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:256:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  256 | #pragma warning (default: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:633:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  633 | #pragma warning (disable: 4251)
+      |         ^
+/Users/dev/dev/awv/classcad/runtime/Source/BaseSystemSTL/h/CADH_Service.h:635:9: warning: unknown pragma ignored [-Wunknown-pragmas]
+  635 | #pragma warning (default: 4251)
+      |         ^
+283 warnings generated.
+clang++: error: no such file or directory: 'vcpkg_installed/arm64-osx-clang/lib/libreplxx.a'

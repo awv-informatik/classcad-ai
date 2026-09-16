@@ -1,0 +1,8 @@
+{
+  "script": "production-Upper_shell.mjs",
+  "workerPid": 16713,
+  "limitSeconds": 120.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 16.749
+}

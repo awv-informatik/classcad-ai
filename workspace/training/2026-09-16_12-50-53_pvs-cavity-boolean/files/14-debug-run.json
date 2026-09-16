@@ -1,0 +1,8 @@
+{
+  "script": "14-debug.mjs",
+  "workerPid": 21906,
+  "limitSeconds": 12.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.376
+}

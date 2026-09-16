@@ -1,0 +1,224 @@
+[0;32m[2026-09-16 13:49:41.496][INFO] STARTING CLASSCAD...
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Current working directory  : /Users/dev/dev/awv/classcad
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.ini
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.ini
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config file: /Users/dev/dev/awv/classcad/.classcad.user.ini
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config file: /Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/worker.ini
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Ensure CompressionService is loaded
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Ensure JWTService is loaded
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Run the command 'worker'
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Current working directory  : /Users/dev/dev/awv/classcad
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Executable | file name     : classcad-cli
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Executable | file path     : /Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/classcad-cli
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Executable | directory     : /Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | verbose file name : /Users/dev/dev/awv/classcad-ai/workspace/training/2026-09-16_12-50-53_pvs-cavity-boolean/files/worker.log
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | verbose level     : 16583
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | log level         : debug
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | data path         : ./data
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | class path        : 
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | classes system    : ./cclasses/Source;System;Common.*;BaseModeling.*;CAD;Sheet;
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | classes user      : ./cclasses/Source/Tests;*;
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | classes user      : ./standalone/t3d/Source;T3D.*;T3DSolidEditor.*;T3DSolidEditor;T3DTesting;GTC.*;ISO_Tool.*;ISOChecker.*;
+[0m[0;32m[2026-09-16 13:49:41.497][INFO] Config | classes user      : ./cclasses/Source/FeatureModeler;*;
+[0m[0;32m[2026-09-16 13:49:41.539][VERB] libSMLibService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.540][VERB] libSMLibExpressService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.541][VERB] libBrepSimplificationService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.543][VERB] libECXMLService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.543][VERB] libJWTService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.543][VERB] libGenericService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.544][VERB] libLGSService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.546][VERB] libLGS3DService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.548][VERB] libIDEConnectionService.dylib is loaded
+[0m[[0;32m[2026-09-16 13:49:41.548][VERB] libRapidXmlService.dylib is loaded
+[0m2026-09-16 13:49:41] [info] asio listen error: system:48 (Address already in use)
+[0;32m[2026-09-16 13:49:41.549][VERB] libNetworkService.dylib is loaded
+[0m[0;32m[2026-09-16 13:49:41.550][VERB] libTestService.dylib is loaded
+[0m[0;31m[2026-09-16 13:49:41.550][ERROR] The Service-DLL DxfService could not be loaded.
+ErrorCode: dlopen(DxfServiced.dylib, 0x0001): tried: 'DxfServiced.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSDxfServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/DxfServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/DxfServiced.dylib' (no such file), '/usr/lib/DxfServiced.dylib' (no such file, not in dyld cache), 'DxfServiced.dylib' (no such file)
+The service functions of this DLL are therefore not available.
+[0m[0;32m[2026-09-16 13:49:41.551][VERB] libCryptoRtService.dylib is loaded
+[0m[0;31m[2026-09-16 13:49:41.552][ERROR] The Service-DLL CryptoDevService could not be loaded.
+ErrorCode: dlopen(CryptoDevServiced.dylib, 0x0001): tried: 'CryptoDevServiced.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSCryptoDevServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/CryptoDevServiced.dylib' (no such file), '/Users/dev/dev/awv/classcad/runtime/output/arm64-osx-clang/release/CryptoDevServiced.dylib' (no such file), '/usr/lib/CryptoDevServiced.dylib' (no such file, not in dyld cache), 'CryptoDevServiced.dylib' (no such file)
+The service functions of this DLL are therefore not available.
+[0m[0;33m[2026-09-16 13:49:41.563][WARN] Path does not exist '/Users/dev/dev/awv/classcad/standalone/t3d/Source'. It is defined for class path 't3d'.
+[0m[0;32m[2026-09-16 13:49:41.564][INFO] Load classes for 'system' from '/Users/dev/dev/awv/classcad/cclasses/Source'
+[0m[0;32m[2026-09-16 13:49:41.718][INFO] Load classes for 'tests' from '/Users/dev/dev/awv/classcad/cclasses/Source/Tests'
+[0m[0;32m[2026-09-16 13:49:41.814][INFO] Load classes for 't3d' from '/Users/dev/dev/awv/classcad/standalone/t3d/Source'
+[0m[0;33m[2026-09-16 13:49:41.814][WARN] Tried to load from invalid class path 't3d'
+[0m[0;32m[2026-09-16 13:49:41.814][INFO] Load classes for 'fm' from '/Users/dev/dev/awv/classcad/cclasses/Source/FeatureModeler'
+[0m[0;32m[2026-09-16 13:49:41.830][VERB] 0x7b34823480 Create Zeichnung
+[0m[0;32m[2026-09-16 13:49:41.830][VERB] 0x7b34823480 SetZeichnung
+[0m[0;32m[2026-09-16 13:49:41.830][VERB] Grundklasse::InitApplication was successful.
+[0m[0;32m[2026-09-16 13:49:41.830][VERB] [info] Initializing BaseModelerApp
+[0m[0;32m[2026-09-16 13:49:41.830][VERB] Change application string/text encoding to UTF-8
+[0m[0;32m[2026-09-16 13:49:41.831][VERB] [info] Developer mode is active
+[0m[0;32m[2026-09-16 13:49:41.831][VERB] [info] Initializing BuerliDemoApp
+[0m[0;32m[2026-09-16 13:49:41.831][VERB] API v0/common already registered!
+[0m[0;32m[2026-09-16 13:49:41.831][VERB] API v0/basemodeler already registered!
+[0m[0;32m[2026-09-16 13:49:41.832][VERB] Registered API's:
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]   v0
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     assemblybuilder
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     basemodeler
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     common
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     developer
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     drawing2d
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     feature
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     geometry
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     geometryformatconverter
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     network
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     sketcher
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     solid
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     tooling
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]   v1
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     assembly
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     brep
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     common
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     curve
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     drawing2d
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     part
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     script
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     sketch
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     solid
+[0m[0;32m[2026-09-16 13:49:41.832][VERB]     utils
+[0m[0;32m[2026-09-16 13:49:41.832][VERB] 0x7b34823900 Create Zeichnung
+[0m[0;32m[2026-09-16 13:49:41.832][VERB] 0x7b34823900 SetZeichnung
+[0m[0;32m[2026-09-16 13:49:41.833][INFO] WorkerCommandCompletion: 824 completion candidates built
+[0m[0;32m[2026-09-16 13:49:41.833][INFO] Server start listen on 0.0.0.0:19094 for http and ws connections
+[0m[0;32m[2026-09-16 13:49:41.833][INFO] Server start listen on 0.0.0.0:19095 for https and wss connections
+[0m[0;32m[2026-09-16 13:49:42.837][INFO] Worker is ready
+[0m
+
+[0;32m[2026-09-16 13:49:44.572][INFO] GET /
+[0m[0;32m[2026-09-16 13:49:44.573][VERB] 0x7b34823000 Create Zeichnung
+[0m[0;32m[2026-09-16 13:49:44.573][INFO] WS handleNewConnection: created main session="9d60410f-d0f2-45a9-a2f6-9f24e790ca71"
+[0m[0;32m[2026-09-16 13:49:44.574][VERB] 0x7b34823000 SetZeichnung
+[0m[0;32m[2026-09-16 13:49:44.574][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.load",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Base.ofb","doClear":1}]])
+[0m[0;32m[2026-09-16 13:49:45.214][VERB] COMMANDCALL: _C.Configurator.PostLoadState([0,1,0])
+[0m[0;32m[2026-09-16 13:49:45.386][VERB] RETURN: NullMem
+[0m[0;32m[2026-09-16 13:49:45.872][VERB] _O.Base.ReferenceSet.EdgeReference17: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:49:45.881][VERB] _O.Base.ReferenceSet.EdgeReference22: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:49:48.720][VERB] _O.Base.ReferenceSet.EdgeReference48: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:49:48.734][VERB] _O.Base.ReferenceSet.EdgeReference53: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:49:50.695][VERB] Use original faceId as origin information for a splitted face.
+[0m[0;32m[2026-09-16 13:49:51.488][VERB] RETURN: {"result":{"id":"$4"}}
+[0m[2026-09-16 13:49:59.880][DEBUG] Build graphic in: 8216ms
+[0;32m[2026-09-16 13:50:00.300][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.save",[{"format":"STP","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Base.step"}]])
+[0m[0;32m[2026-09-16 13:50:00.350][VERB] RETURN: {"result":{"success":1}}
+[0m[0;32m[2026-09-16 13:50:00.594][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.load",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Upper_shell.ofb","doClear":1}]])
+[0m[0;32m[2026-09-16 13:50:01.608][VERB] COMMANDCALL: _C.Configurator.PostLoadState([0,1,0])
+[0m[0;32m[2026-09-16 13:50:01.731][VERB] RETURN: NullMem
+[0m[0;32m[2026-09-16 13:50:02.110][VERB] _O.Upper_shell.ReferenceSet.EdgeReference17: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:50:02.115][VERB] _O.Upper_shell.ReferenceSet.EdgeReference22: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:50:03.759][VERB] _O.Upper_shell.ReferenceSet.EdgeReference48: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:50:03.767][VERB] _O.Upper_shell.ReferenceSet.EdgeReference53: could only be solved by geometry
+[0m[0;32m[2026-09-16 13:50:05.972][VERB] RETURN: {"result":{"id":"$4"}}
+[0m[2026-09-16 13:50:12.394][DEBUG] Build graphic in: 6286ms
+[0;32m[2026-09-16 13:50:12.611][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.save",[{"format":"STP","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Upper_shell.step"}]])
+[0m[0;32m[2026-09-16 13:50:12.640][VERB] RETURN: {"result":{"success":1}}
+[0m[0;32m[2026-09-16 13:50:12.776][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.clear",[{}]])
+[0m[0;32m[2026-09-16 13:50:12.941][VERB] RETURN: {"result":null}
+[0m[2026-09-16 13:50:12.942][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:12.948][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.create",[{"name":"PVS printed housing"}]])
+[0m[0;32m[2026-09-16 13:50:12.954][VERB] RETURN: {"result":"$12"}
+[0m[2026-09-16 13:50:12.955][DEBUG] Build graphic in: 1ms
+[0;32m[2026-09-16 13:50:12.955][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Knurled_focus_ring.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:13.340][VERB] RETURN: {"result":{"id":"$22"}}
+[0m[2026-09-16 13:50:13.413][DEBUG] Build graphic in: 66ms
+[0;32m[2026-09-16 13:50:13.417][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Lens_cap.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:13.500][VERB] RETURN: {"result":{"id":"$3437"}}
+[0m[2026-09-16 13:50:13.538][DEBUG] Build graphic in: 23ms
+[0;32m[2026-09-16 13:50:13.544][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Diopter_shaft.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:13.571][VERB] RETURN: {"result":{"id":"$4579"}}
+[0m[2026-09-16 13:50:13.597][DEBUG] Build graphic in: 6ms
+[0;32m[2026-09-16 13:50:13.603][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Diopter_knob.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:13.661][VERB] RETURN: {"result":{"id":"$5082"}}
+[0m[2026-09-16 13:50:13.710][DEBUG] Build graphic in: 27ms
+[0;32m[2026-09-16 13:50:13.717][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Display_bridge.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:13.735][VERB] RETURN: {"result":{"id":"$6153"}}
+[0m[2026-09-16 13:50:13.762][DEBUG] Build graphic in: 1ms
+[0;32m[2026-09-16 13:50:13.769][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Board_cradle.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:13.880][VERB] RETURN: {"result":{"id":"$6455"}}
+[0m[2026-09-16 13:50:13.920][DEBUG] Build graphic in: 6ms
+[0;32m[2026-09-16 13:50:13.930][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Glass_bezel.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:14.012][VERB] RETURN: {"result":{"id":"$8047"}}
+[0m[2026-09-16 13:50:14.090][DEBUG] Build graphic in: 28ms
+[0;32m[2026-09-16 13:50:14.101][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Glass_retainer.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:14.168][VERB] RETURN: {"result":{"id":"$9270"}}
+[0m[2026-09-16 13:50:14.245][DEBUG] Build graphic in: 22ms
+[0;32m[2026-09-16 13:50:14.259][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Base.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:21.961][VERB] RETURN: {"result":{"id":"$10284"}}
+[0m[2026-09-16 13:50:22.345][DEBUG] Build graphic in: 103ms
+[0;32m[2026-09-16 13:50:22.396][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Upper_shell.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:25.358][VERB] RETURN: {"result":{"id":"$29715"}}
+[0m[2026-09-16 13:50:25.909][DEBUG] Build graphic in: 76ms
+[0;32m[2026-09-16 13:50:25.988][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.loadProduct",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/native-parts/Plunger.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:25.999][VERB] RETURN: {"result":{"id":"$42763"}}
+[0m[2026-09-16 13:50:26.477][DEBUG] Build graphic in: 6ms
+[0;32m[2026-09-16 13:50:26.551][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":22,"ownerId":12,"name":"Knurled_focus_ring"}]])
+[0m[0;32m[2026-09-16 13:50:26.553][VERB] RETURN: {"result":"$42937"}
+[0m[2026-09-16 13:50:27.005][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:27.075][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":3437,"ownerId":12,"name":"Lens_cap"}]])
+[0m[0;32m[2026-09-16 13:50:27.077][VERB] RETURN: {"result":"$42939"}
+[0m[2026-09-16 13:50:27.549][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:27.620][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":4579,"ownerId":12,"name":"Diopter_shaft"}]])
+[0m[0;32m[2026-09-16 13:50:27.621][VERB] RETURN: {"result":"$42941"}
+[0m[2026-09-16 13:50:28.072][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:28.139][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":5082,"ownerId":12,"name":"Diopter_knob"}]])
+[0m[0;32m[2026-09-16 13:50:28.140][VERB] RETURN: {"result":"$42943"}
+[0m[2026-09-16 13:50:28.592][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:28.662][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":42763,"ownerId":12,"name":"Plunger_Next"}]])
+[0m[0;32m[2026-09-16 13:50:28.664][VERB] RETURN: {"result":"$42945"}
+[0m[2026-09-16 13:50:29.137][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:29.206][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[7.62,0,0],[1,0,0],[0,1,0]],"productId":42763,"ownerId":12,"name":"Plunger_Dim"}]])
+[0m[0;32m[2026-09-16 13:50:29.207][VERB] RETURN: {"result":"$42947"}
+[0m[2026-09-16 13:50:29.683][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:29.751][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[15.24,0,0],[1,0,0],[0,1,0]],"productId":42763,"ownerId":12,"name":"Plunger_Special"}]])
+[0m[0;32m[2026-09-16 13:50:29.752][VERB] RETURN: {"result":"$42949"}
+[0m[2026-09-16 13:50:30.222][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:30.290][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[2.54,10.16,0],[1,0,0],[0,1,0]],"productId":42763,"ownerId":12,"name":"Plunger_Bright"}]])
+[0m[0;32m[2026-09-16 13:50:30.291][VERB] RETURN: {"result":"$42951"}
+[0m[2026-09-16 13:50:30.760][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:30.831][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[12.7,10.16,0],[1,0,0],[0,1,0]],"productId":42763,"ownerId":12,"name":"Plunger_Back"}]])
+[0m[0;32m[2026-09-16 13:50:30.832][VERB] RETURN: {"result":"$42953"}
+[0m[2026-09-16 13:50:31.287][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:31.356][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":6153,"ownerId":12,"name":"Display_bridge"}]])
+[0m[0;32m[2026-09-16 13:50:31.358][VERB] RETURN: {"result":"$42955"}
+[0m[2026-09-16 13:50:31.831][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:31.899][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":6455,"ownerId":12,"name":"Board_cradle"}]])
+[0m[0;32m[2026-09-16 13:50:31.900][VERB] RETURN: {"result":"$42957"}
+[0m[2026-09-16 13:50:32.348][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:32.417][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":8047,"ownerId":12,"name":"Glass_bezel"}]])
+[0m[0;32m[2026-09-16 13:50:32.418][VERB] RETURN: {"result":"$42959"}
+[0m[2026-09-16 13:50:32.898][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:32.966][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":9270,"ownerId":12,"name":"Glass_retainer"}]])
+[0m[0;32m[2026-09-16 13:50:32.968][VERB] RETURN: {"result":"$42961"}
+[0m[2026-09-16 13:50:33.428][DEBUG] Build graphic in: 1ms
+[0;32m[2026-09-16 13:50:33.497][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":10284,"ownerId":12,"name":"Base"}]])
+[0m[0;32m[2026-09-16 13:50:33.498][VERB] RETURN: {"result":"$42963"}
+[0m[2026-09-16 13:50:33.979][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:34.051][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.assembly.instance",[{"transformation":[[0,0,0],[1,0,0],[0,1,0]],"productId":29715,"ownerId":12,"name":"Upper_shell"}]])
+[0m[0;32m[2026-09-16 13:50:34.052][VERB] RETURN: {"result":"$42965"}
+[0m[2026-09-16 13:50:34.514][DEBUG] Build graphic in: 0ms
+[2026-09-16 13:50:35.101][DEBUG] Build graphic in: 52ms
+[0;32m[2026-09-16 13:50:35.181][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.save",[{"format":"OFB","file":"/Users/dev/dev/eibenstock/sources/projects/pvs_monocular/cad_housing/classcad/printed-housing.ofb"}]])
+[0m[0;32m[2026-09-16 13:50:35.197][VERB] GetStateId with StateId=7b69fa36-693f-4b3f-ba6f-6b861353b770
+[0m[0;32m[2026-09-16 13:50:35.464][VERB] RETURN: {"maxLevel":31,"messages":[{"message":"GetStateId with StateId=7b69fa36-693f-4b3f-ba6f-6b861353b770\n","code":0,"level":31,"api":"v1.common.save","levelStr":"INFO"}],"result":{"success":1}}
+[0m[0;32m[2026-09-16 13:50:35.992][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setDatabaseSettings",[{"isSketchGraphicEnabled":1,"isGraphicEnabled":1,"isCCGraphicEnabled":1,"doCurveTessellation":1}]])
+[0m[0;32m[2026-09-16 13:50:36.003][VERB] RETURN: {"result":null}
+[0m[2026-09-16 13:50:36.779][DEBUG] Build graphic in: 326ms
+[0;32m[2026-09-16 13:50:36.861][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.setDatabaseSettings",[{"isSketchGraphicEnabled":1,"isGraphicEnabled":1,"isCCGraphicEnabled":1,"doCurveTessellation":1}]])
+[0m[0;32m[2026-09-16 13:50:36.871][VERB] RETURN: {"result":null}
+[0m[2026-09-16 13:50:37.652][DEBUG] Build graphic in: 331ms
+[2026-09-16 13:50:38.246][DEBUG] Build graphic in: 52ms
+[0;32m[2026-09-16 13:50:38.419][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.save",[{"stp":{"version":2},"format":"STP","encoding":"base64"}]])
+[0m[0;31m[2026-09-16 13:50:38.420][ERROR] [Evaluation error in CommonAPI_v1.save::PROC:[CCVM::ldm: objId not found]] 
+[0m[0;32m[2026-09-16 13:50:38.585][VERB] RETURN: {"maxLevel":51,"messages":[{"message":"[Evaluation error in CommonAPI_v1.save::PROC:[CCVM::ldm: objId not found]] ","code":0,"level":51,"api":"v1.common.save","levelStr":"ERROR"}],"result":{"content":"SVNPLTEwMzAzLTIxOwpIRUFERVI7CkZJTEVfREVTQ1JJUFRJT04oKCdTVEVQJyksICcxJyk7CkZJTEVfTkFNRS ...
+[0m[0;32m[2026-09-16 13:50:39.130][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.save",[{"format":"OFB","encoding":"base64"}]])
+[0m[0;32m[2026-09-16 13:50:39.145][VERB] GetStateId with StateId=bebb7b70-aecc-4af5-bc3e-1cbad44ac47d
+[0m[0;32m[2026-09-16 13:50:39.809][VERB] RETURN: {"maxLevel":31,"messages":[{"message":"GetStateId with StateId=bebb7b70-aecc-4af5-bc3e-1cbad44ac47d\n","code":0,"level":31,"api":"v1.common.save","levelStr":"INFO"}],"result":{"content":"AQJjbGFzc2NhZAIBClZlcnNpb249MTEKQXBwbGljYXRpb25DbGFzcz1CdWVybGlEZW1vQXBwCkFwcGxpY2F0aW9uRXhlYz1jbGFz ...
+[0m[0;32m[2026-09-16 13:50:40.418][VERB] COMMANDCALL: _C.SafeAPI.Execute(["v1.common.clear",[{}]])
+[0m[0;32m[2026-09-16 13:50:40.483][VERB] RETURN: {"result":null}
+[0m[2026-09-16 13:50:40.483][DEBUG] Build graphic in: 0ms
+[0;32m[2026-09-16 13:50:40.484][VERB] 0x0 SetZeichnung
+[0m[0;32m[2026-09-16 13:50:40.484][VERB] 0x7b34823000 Delete Zeichnung
+[0m

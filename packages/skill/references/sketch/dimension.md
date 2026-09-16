@@ -43,7 +43,7 @@ Creates dimensional constraints in a sketch. Dimensions are active constraints �
 { result: id | VOID | Array<id|VOID>, messages?: [...], maxLevel?: real }
 ```
 
-- Single param → single ID. Array param → array of IDs.
+- Single param → single ID. Array param → array of IDs. These are `CC_*FeatureDimension` IDs, not the internal `CC_2D*Constraint` IDs. Both nodes can have the same name. When recovering an ID from `api.tree()`, filter by the feature-dimension class in the table above as well as name; its `members.master.value` points to the internal constraint.
 - **Non-null result does NOT guarantee success.** Always check `maxLevel ≤ 31`. A dimension can be created (get an ID) but produce solver errors (maxLevel=51).
 
 ## Batch Creation

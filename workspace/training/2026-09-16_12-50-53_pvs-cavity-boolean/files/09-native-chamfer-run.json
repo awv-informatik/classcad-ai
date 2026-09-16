@@ -1,0 +1,8 @@
+{
+  "script": "09-native-chamfer.mjs",
+  "workerPid": 8969,
+  "limitSeconds": 40.0,
+  "exitCode": 0,
+  "outcome": "exited",
+  "elapsedSeconds": 3.007
+}

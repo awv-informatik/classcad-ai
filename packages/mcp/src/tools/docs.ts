@@ -69,8 +69,8 @@ export const DAEMON_NOTE =
   'Rebuilt MCP/renderer code only runs in a new daemon — an idle one is replaced automatically. Shell commands: ' +
   `\`${CLI} status\` (pid, build, sessions); ` +
   `\`${CLI} stop\` (stops it only when no session is active); ` +
-  `\`${CLI} stop --force\` (terminates it NOW — every connected tab, this one included, loses its ClassCAD tools and the models in them ` +
-  'until its host restarts the MCP: ask the user first). Never kill daemon processes by hand.'
+  `\`${CLI} stop --force\` (terminates it NOW — every connected tab, this one included, loses its drawing: ask the user first. ` +
+  'Tabs reconnect to a fresh daemon on their next tool call; tabs started before this MCP version need a host restart). Never kill daemon processes by hand.'
 
 /**
  * Server instructions for the MCP initialize handshake — hosts put this into

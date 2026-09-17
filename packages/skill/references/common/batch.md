@@ -1,57 +1,36 @@
 # common.batch
 
-Runs multiple API calls sequentially in a single request. Jobs execute in order; drawing state from earlier jobs is visible to later ones.
-
-## Prerequisites
-
-None — works with any valid API calls.
+Runs multiple API calls sequentially in one request. Drawing state from earlier jobs is visible to later ones.
 
 ## Key Parameters
 
-- `jobs` — `Array<{ api: string, param?: object }>`. Required. Each job specifies:
-  - `api` — fully qualified API name (e.g., `'v1.common.getAppVersion'`, `'v1.part.create'`)
-  - `param` — optional parameter object for the API call
+- `jobs` — required `Array<{ api: string, param?: object }>`: `api` is the fully qualified name (`'v1.part.create'`), `param` the optional parameter object.
 
 ## Return Value
 
-- **Outer envelope:** `{ result: Array, messages, maxLevel, structure, graphic }` — standard full envelope
-- **`result`:** array of per-job results, one entry per job, in order
-
-### Per-job result shapes (critical — two different success/error shapes):
+Standard full outer envelope; `result` is one entry per job, in order:
 
 | Scenario | Per-job value |
 |---|---|
-| Success | `{ result }` — **only `result` key**, no messages/maxLevel |
+| Success | `{ result }` — **only** `result`, no messages/maxLevel |
 | Known API + error | `{ result: null, maxLevel: 51, messages: [...] }` |
-| Unknown API name | **literal `null`** — not an object |
+| Unknown API name | **literal `null`** |
 
-**Always null-check per-job results before accessing `.result`.**
-
-### Outer envelope behavior:
-
-- `maxLevel` — reflects the **worst** per-job maxLevel (bubbles up)
-- `messages` — includes errors from failed jobs, with `api: "v1.common.batch"`
-- When all jobs succeed: maxLevel 31, messages `[]`
+Outer `maxLevel` is the worst per-job level; outer `messages` include failed jobs' errors with `api: "v1.common.batch"`. All jobs OK → maxLevel 31, `messages: []`.
 
 ## Gotchas
 
-- **Unknown API name returns `null`, not an error object.** Code like `r.result[i].result` will throw if job `i` used a bad API name. Always check `r.result[i] !== null` first.
-- **Per-job success results have NO `messages` or `maxLevel` keys.** Don't check `job.maxLevel` on success — the key doesn't exist.
-- **Batch is non-aborting.** A failed job does NOT stop subsequent jobs. All jobs run regardless of earlier failures.
-- **You cannot reference earlier job results in later job params.** Jobs are independent calls — no variable interpolation. But drawing state mutations (e.g., `part.create`) ARE visible to subsequent jobs.
-- **Empty `jobs: []` is valid** — returns `result: []`, maxLevel 31.
+- **Null-check per-job results** — `r.result[i].result` throws if job `i` used an unknown API name.
+- **Don't read `job.maxLevel` on success** — the key doesn't exist.
+- **Non-aborting.** A failed job doesn't stop later jobs.
+- **No result forwarding.** Later jobs can't reference earlier results (you'd need IDs known in advance, or separate calls); drawing mutations (e.g. `part.create`) are visible though.
+- `jobs: []` is valid → `result: []`, maxLevel 31. Single-job batches work but are pointless.
+- Detect failures with outer `r.maxLevel >= 51`, then scan `r.result`.
 
 ## Common Errors
 
-- `"Unknown command v1.fake.nonexistent"` (code 1201) — bad API name. Per-job result is `null`.
-- `"Expression ... could not be evaluated."` (code 0) — known API with bad params. Per-job result is `{ result: null, maxLevel: 51, messages: [...] }`.
-
-## Usage Hints
-
-- Use batch to reduce round-trips when you have multiple independent API calls.
-- For sequential workflows (create part → add sketch → extrude), batch works but you can't pass IDs between jobs in params. You'd need to know the IDs in advance or use separate calls.
-- Single-job batches are valid but pointless — just call the API directly.
-- Check `r.maxLevel >= 51` on the outer envelope to detect any job failure, then iterate `r.result` to find which job(s) failed.
+- `"Unknown command v1.fake.nonexistent"` (code 1201) — bad API name; per-job result `null`.
+- `"Expression ... could not be evaluated."` (code 0) — known API, bad params; per-job `{ result: null, maxLevel: 51, messages }`.
 
 ## Working Example
 
@@ -62,18 +41,15 @@ const r = await api.v1.common.batch({
     { api: 'v1.common.evaluateExpression', param: { expression: '6*7' } },
   ],
 })
-// r.result → [{ result: "" }, { result: 42 }]
-// r.maxLevel → 31
+// r.result → [{ result: "" }, { result: 42 }], r.maxLevel → 31
 
-// Safe iteration:
 for (const job of r.result) {
   if (job === null) continue          // unknown API
   if (job.maxLevel >= 51) continue    // known API error
-  console.log(job.result)             // success
+  console.log(job.result)
 }
 ```
 
 ## Related
 
-- Any API can be called as a batch job via its fully qualified name
-- Outer envelope follows the same protocol as all other API calls
+Any API can be a job via its fully qualified name · envelope protocol: `generic.md`

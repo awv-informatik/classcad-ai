@@ -1,0 +1,4660 @@
+{
+  "perKey": {
+    "api/assembly": {
+      "found": [
+        "api/assembly"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 46713,
+      "sha": "e5bfcddf7c2e",
+      "sections": [
+        "# ═══ api/assembly (page 1/6) ═══"
+      ],
+      "footers": [
+        "[api/assembly: page 1/6 — continue with \"api/assembly#2\"]"
+      ],
+      "underBudget": true
+    },
+    "api/assembly#2": {
+      "found": [
+        "api/assembly#2"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 40848,
+      "sha": "7c60083ece2f",
+      "sections": [
+        "# ═══ api/assembly (page 2/6) ═══"
+      ],
+      "footers": [
+        "[api/assembly: page 2/6 — continue with \"api/assembly#3\"]"
+      ],
+      "underBudget": true
+    },
+    "api/assembly#3": {
+      "found": [
+        "api/assembly#3"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 46877,
+      "sha": "33dd286c28a8",
+      "sections": [
+        "# ═══ api/assembly (page 3/6) ═══"
+      ],
+      "footers": [
+        "[api/assembly: page 3/6 — continue with \"api/assembly#4\"]"
+      ],
+      "underBudget": true
+    },
+    "api/assembly#4": {
+      "found": [
+        "api/assembly#4"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 37954,
+      "sha": "58675cd7d2d5",
+      "sections": [
+        "# ═══ api/assembly (page 4/6) ═══"
+      ],
+      "footers": [
+        "[api/assembly: page 4/6 — continue with \"api/assembly#5\"]"
+      ],
+      "underBudget": true
+    },
+    "api/assembly#5": {
+      "found": [
+        "api/assembly#5"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 39426,
+      "sha": "2cd1b5acda7a",
+      "sections": [
+        "# ═══ api/assembly (page 5/6) ═══"
+      ],
+      "footers": [
+        "[api/assembly: page 5/6 — continue with \"api/assembly#6\"]"
+      ],
+      "underBudget": true
+    },
+    "api/assembly#6": {
+      "found": [
+        "api/assembly#6"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 30548,
+      "sha": "8ff942dfb4fc",
+      "sections": [
+        "# ═══ api/assembly (page 6/6) ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "api/common": {
+      "found": [
+        "api/common"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 45787,
+      "sha": "a2de206793bc",
+      "sections": [
+        "# ═══ api/common ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "api/curve": {
+      "found": [
+        "api/curve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 43077,
+      "sha": "c5c900addbe4",
+      "sections": [
+        "# ═══ api/curve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "api/drawing2d": {
+      "found": [
+        "api/drawing2d"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 44904,
+      "sha": "f145acb28897",
+      "sections": [
+        "# ═══ api/drawing2d (page 1/2) ═══"
+      ],
+      "footers": [
+        "[api/drawing2d: page 1/2 — continue with \"api/drawing2d#2\"]"
+      ],
+      "underBudget": true
+    },
+    "api/drawing2d#2": {
+      "found": [
+        "api/drawing2d#2"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3574,
+      "sha": "4b06deb2a440",
+      "sections": [
+        "# ═══ api/drawing2d (page 2/2) ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "api/expressions": {
+      "found": [
+        "api/expressions"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 9064,
+      "sha": "ff65aa1b65b4",
+      "sections": [
+        "# ═══ api/expressions ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "api/part": {
+      "found": [
+        "api/part"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 46282,
+      "sha": "fa1b60cbf43b",
+      "sections": [
+        "# ═══ api/part (page 1/6) ═══"
+      ],
+      "footers": [
+        "[api/part: page 1/6 — continue with \"api/part#2\"]"
+      ],
+      "underBudget": true
+    },
+    "api/part#2": {
+      "found": [
+        "api/part#2"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 46790,
+      "sha": "19dfe872ae8c",
+      "sections": [
+        "# ═══ api/part (page 2/6) ═══"
+      ],
+      "footers": [
+        "[api/part: page 2/6 — continue with \"api/part#3\"]"
+      ],
+      "underBudget": true
+    },
+    "api/part#3": {
+      "found": [
+        "api/part#3"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 45690,
+      "sha": "2f58dad419db",
+      "sections": [
+        "# ═══ api/part (page 3/6) ═══"
+      ],
+      "footers": [
+        "[api/part: page 3/6 — continue with \"api/part#4\"]"
+      ],
+      "underBudget": true
+    },
+    "api/part#4": {
+      "found": [
+        "api/part#4"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 43344,
+      "sha": "0c5712b021eb",
+      "sections": [
+        "# ═══ api/part (page 4/6) ═══"
+      ],
+      "footers": [
+        "[api/part: page 4/6 — continue with \"api/part#5\"]"
+      ],
+      "underBudget": true
+    },
+    "api/part#5": {
+      "found": [
+        "api/part#5"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 46602,
+      "sha": "754aa526abbc",
+      "sections": [
+        "# ═══ api/part (page 5/6) ═══"
+      ],
+      "footers": [
+        "[api/part: page 5/6 — continue with \"api/part#6\"]"
+      ],
+      "underBudget": true
+    },
+    "api/part#6": {
+      "found": [
+        "api/part#6"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 32983,
+      "sha": "b6bb57ce3a0c",
+      "sections": [
+        "# ═══ api/part (page 6/6) ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "api/sketch": {
+      "found": [
+        "api/sketch"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 47044,
+      "sha": "b90e80ea790f",
+      "sections": [
+        "# ═══ api/sketch (page 1/3) ═══"
+      ],
+      "footers": [
+        "[api/sketch: page 1/3 — continue with \"api/sketch#2\"]"
+      ],
+      "underBudget": true
+    },
+    "api/sketch#2": {
+      "found": [
+        "api/sketch#2"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 46279,
+      "sha": "5fc39b1428f6",
+      "sections": [
+        "# ═══ api/sketch (page 2/3) ═══"
+      ],
+      "footers": [
+        "[api/sketch: page 2/3 — continue with \"api/sketch#3\"]"
+      ],
+      "underBudget": true
+    },
+    "api/sketch#3": {
+      "found": [
+        "api/sketch#3"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 15040,
+      "sha": "988686d733ec",
+      "sections": [
+        "# ═══ api/sketch (page 3/3) ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "api/solid": {
+      "found": [
+        "api/solid"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 44564,
+      "sha": "6dc8287f39eb",
+      "sections": [
+        "# ═══ api/solid ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipes/assembly-parameters": {
+      "found": [
+        "recipes/assembly-parameters"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7293,
+      "sha": "90a97e0f4340",
+      "sections": [
+        "# ═══ recipes/assembly-parameters ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipes/constrained-sketching": {
+      "found": [
+        "recipes/constrained-sketching"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 41824,
+      "sha": "78ef39263c7c",
+      "sections": [
+        "# ═══ recipes/constrained-sketching ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipes/direct-modeling-eif": {
+      "found": [
+        "recipes/direct-modeling-eif"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4280,
+      "sha": "8d823f731f0b",
+      "sections": [
+        "# ═══ recipes/direct-modeling-eif ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipes/parametric-part": {
+      "found": [
+        "recipes/parametric-part"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5261,
+      "sha": "8fa7c7e5f11b",
+      "sections": [
+        "# ═══ recipes/parametric-part ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipes/pattern-then-subtract": {
+      "found": [
+        "recipes/pattern-then-subtract"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3031,
+      "sha": "33022b7ff55e",
+      "sections": [
+        "# ═══ recipes/pattern-then-subtract ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipes/verification": {
+      "found": [
+        "recipes/verification"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 16084,
+      "sha": "bfc0362da702",
+      "sections": [
+        "# ═══ recipes/verification ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "assembly/generic": {
+      "found": [
+        "assembly/generic"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5484,
+      "sha": "35b00035b7d9",
+      "sections": [
+        "# ═══ assembly/generic ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "assembly/movingUnderConstraints": {
+      "found": [
+        "assembly/movingUnderConstraints"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7369,
+      "sha": "edbcc6828e37",
+      "sections": [
+        "# ═══ assembly/movingUnderConstraints ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "common/encoding-pipeline": {
+      "found": [
+        "common/encoding-pipeline"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3309,
+      "sha": "5b31e8ed82d8",
+      "sections": [
+        "# ═══ common/encoding-pipeline ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "common/expression-syntax": {
+      "found": [
+        "common/expression-syntax"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4061,
+      "sha": "b7af4c50745f",
+      "sections": [
+        "# ═══ common/expression-syntax ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "common/faceting-concepts": {
+      "found": [
+        "common/faceting-concepts"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4800,
+      "sha": "8f91637f63c7",
+      "sections": [
+        "# ═══ common/faceting-concepts ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "common/format-comparison": {
+      "found": [
+        "common/format-comparison"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3975,
+      "sha": "039561a8c983",
+      "sections": [
+        "# ═══ common/format-comparison ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "common/generic": {
+      "found": [
+        "common/generic"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 11323,
+      "sha": "26de4969d28e",
+      "sections": [
+        "# ═══ common/generic ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "common/state-tree": {
+      "found": [
+        "common/state-tree"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4463,
+      "sha": "205c12b933b2",
+      "sections": [
+        "# ═══ common/state-tree ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "common/userData": {
+      "found": [
+        "common/userData"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2808,
+      "sha": "15f0c8552d68",
+      "sections": [
+        "# ═══ common/userData ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "part/brep-access-pattern": {
+      "found": [
+        "part/brep-access-pattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 6611,
+      "sha": "53b70037e9db",
+      "sections": [
+        "# ═══ part/brep-access-pattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "part/expression-workflow": {
+      "found": [
+        "part/expression-workflow"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5008,
+      "sha": "50ce313ae58f",
+      "sections": [
+        "# ═══ part/expression-workflow ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "part/feature-vs-direct": {
+      "found": [
+        "part/feature-vs-direct"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4304,
+      "sha": "0301de34499d",
+      "sections": [
+        "# ═══ part/feature-vs-direct ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "part/id-hierarchy": {
+      "found": [
+        "part/id-hierarchy"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2999,
+      "sha": "fed3d32e936f",
+      "sections": [
+        "# ═══ part/id-hierarchy ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "part/rollback-bars": {
+      "found": [
+        "part/rollback-bars"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3414,
+      "sha": "470d40767a10",
+      "sections": [
+        "# ═══ part/rollback-bars ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "solid/curves-parameter": {
+      "found": [
+        "solid/curves-parameter"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4776,
+      "sha": "f0ba8d4d6d3a",
+      "sections": [
+        "# ═══ solid/curves-parameter ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "solid/generic": {
+      "found": [
+        "solid/generic"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2748,
+      "sha": "78aef6a749cf",
+      "sections": [
+        "# ═══ solid/generic ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "solid/target-tools-pattern": {
+      "found": [
+        "solid/target-tools-pattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4256,
+      "sha": "060dd664c519",
+      "sections": [
+        "# ═══ solid/target-tools-pattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.assemblyTemplate": {
+      "found": [
+        "v1.assembly.assemblyTemplate"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3942,
+      "sha": "aa4eb9b691a2",
+      "sections": [
+        "# ═══ v1.assembly.assemblyTemplate ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.calculateMassProperties": {
+      "found": [
+        "v1.assembly.calculateMassProperties"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3130,
+      "sha": "b235d3b0869d",
+      "sections": [
+        "# ═══ v1.assembly.calculateMassProperties ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.circularPattern": {
+      "found": [
+        "v1.assembly.circularPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3857,
+      "sha": "5a5e0a1a06f3",
+      "sections": [
+        "# ═══ v1.assembly.circularPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.convertToTemplate": {
+      "found": [
+        "v1.assembly.convertToTemplate"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3235,
+      "sha": "a6ec477498a6",
+      "sections": [
+        "# ═══ v1.assembly.convertToTemplate ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.create": {
+      "found": [
+        "v1.assembly.create"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2374,
+      "sha": "0061e6071151",
+      "sections": [
+        "# ═══ v1.assembly.create ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.createUncommitedObject": {
+      "found": [
+        "v1.assembly.createUncommitedObject"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4935,
+      "sha": "dddc6d0879db",
+      "sections": [
+        "# ═══ v1.assembly.createUncommitedObject ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.cylindrical": {
+      "found": [
+        "v1.assembly.cylindrical"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 6654,
+      "sha": "af8af27a8b54",
+      "sections": [
+        "# ═══ v1.assembly.cylindrical ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.deleteConstraint": {
+      "found": [
+        "v1.assembly.deleteConstraint"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2830,
+      "sha": "1ad096833ab9",
+      "sections": [
+        "# ═══ v1.assembly.deleteConstraint ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.deleteInstance": {
+      "found": [
+        "v1.assembly.deleteInstance"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1998,
+      "sha": "f1d57a0be64e",
+      "sections": [
+        "# ═══ v1.assembly.deleteInstance ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.deleteTemplate": {
+      "found": [
+        "v1.assembly.deleteTemplate"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2242,
+      "sha": "73dc20c9f580",
+      "sections": [
+        "# ═══ v1.assembly.deleteTemplate ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.exportNode": {
+      "found": [
+        "v1.assembly.exportNode"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3625,
+      "sha": "491590bfcd78",
+      "sections": [
+        "# ═══ v1.assembly.exportNode ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.fastened": {
+      "found": [
+        "v1.assembly.fastened"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7421,
+      "sha": "a6232e603320",
+      "sections": [
+        "# ═══ v1.assembly.fastened ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.fastenedOrigin": {
+      "found": [
+        "v1.assembly.fastenedOrigin"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5634,
+      "sha": "53e6db916621",
+      "sections": [
+        "# ═══ v1.assembly.fastenedOrigin ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.finishMovingUnderConstraints": {
+      "found": [
+        "v1.assembly.finishMovingUnderConstraints"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 339,
+      "sha": "5daca5803ef7",
+      "sections": [
+        "# ═══ v1.assembly.finishMovingUnderConstraints ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.from": {
+      "found": [
+        "v1.assembly.from"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 9700,
+      "sha": "5ad2b396f7ef",
+      "sections": [
+        "# ═══ v1.assembly.from ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.gear": {
+      "found": [
+        "v1.assembly.gear"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5818,
+      "sha": "d907da8863d0",
+      "sections": [
+        "# ═══ v1.assembly.gear ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getAssemblyTemplate": {
+      "found": [
+        "v1.assembly.getAssemblyTemplate"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2615,
+      "sha": "d9c638d461a4",
+      "sections": [
+        "# ═══ v1.assembly.getAssemblyTemplate ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getCircularPattern": {
+      "found": [
+        "v1.assembly.getCircularPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 425,
+      "sha": "619e55f6db66",
+      "sections": [
+        "# ═══ v1.assembly.getCircularPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getCylindrical": {
+      "found": [
+        "v1.assembly.getCylindrical"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 412,
+      "sha": "b973013d2bf9",
+      "sections": [
+        "# ═══ v1.assembly.getCylindrical ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getFastened": {
+      "found": [
+        "v1.assembly.getFastened"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3289,
+      "sha": "93086dd44495",
+      "sections": [
+        "# ═══ v1.assembly.getFastened ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getFastenedOrigin": {
+      "found": [
+        "v1.assembly.getFastenedOrigin"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3228,
+      "sha": "14de1ea2d15d",
+      "sections": [
+        "# ═══ v1.assembly.getFastenedOrigin ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getGear": {
+      "found": [
+        "v1.assembly.getGear"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 389,
+      "sha": "4de41b059aa9",
+      "sections": [
+        "# ═══ v1.assembly.getGear ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getGroup": {
+      "found": [
+        "v1.assembly.getGroup"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 394,
+      "sha": "8accb175bc27",
+      "sections": [
+        "# ═══ v1.assembly.getGroup ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getInstance": {
+      "found": [
+        "v1.assembly.getInstance"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2538,
+      "sha": "247ae6155b04",
+      "sections": [
+        "# ═══ v1.assembly.getInstance ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getLinearPattern": {
+      "found": [
+        "v1.assembly.getLinearPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 419,
+      "sha": "e092c123c385",
+      "sections": [
+        "# ═══ v1.assembly.getLinearPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getParallel": {
+      "found": [
+        "v1.assembly.getParallel"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 403,
+      "sha": "ff0fda070628",
+      "sections": [
+        "# ═══ v1.assembly.getParallel ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getPartTemplate": {
+      "found": [
+        "v1.assembly.getPartTemplate"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2163,
+      "sha": "a3fdfa869e78",
+      "sections": [
+        "# ═══ v1.assembly.getPartTemplate ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getPlanar": {
+      "found": [
+        "v1.assembly.getPlanar"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 397,
+      "sha": "f6f12139d5c9",
+      "sections": [
+        "# ═══ v1.assembly.getPlanar ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getProduct": {
+      "found": [
+        "v1.assembly.getProduct"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 328,
+      "sha": "9be323961670",
+      "sections": [
+        "# ═══ v1.assembly.getProduct ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getRevolute": {
+      "found": [
+        "v1.assembly.getRevolute"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 403,
+      "sha": "91ae0458e0fe",
+      "sections": [
+        "# ═══ v1.assembly.getRevolute ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getSlider": {
+      "found": [
+        "v1.assembly.getSlider"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 397,
+      "sha": "ba6ef345d384",
+      "sections": [
+        "# ═══ v1.assembly.getSlider ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getSpherical": {
+      "found": [
+        "v1.assembly.getSpherical"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 406,
+      "sha": "cf687fea728a",
+      "sections": [
+        "# ═══ v1.assembly.getSpherical ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.getWorkGeometry": {
+      "found": [
+        "v1.assembly.getWorkGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3221,
+      "sha": "f8018ce6cddc",
+      "sections": [
+        "# ═══ v1.assembly.getWorkGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.group": {
+      "found": [
+        "v1.assembly.group"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4140,
+      "sha": "e494f8cd400d",
+      "sections": [
+        "# ═══ v1.assembly.group ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.instance": {
+      "found": [
+        "v1.assembly.instance"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4279,
+      "sha": "a130f0292bf0",
+      "sections": [
+        "# ═══ v1.assembly.instance ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.linearPattern": {
+      "found": [
+        "v1.assembly.linearPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4849,
+      "sha": "78f277696c81",
+      "sections": [
+        "# ═══ v1.assembly.linearPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.loadProduct": {
+      "found": [
+        "v1.assembly.loadProduct"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4141,
+      "sha": "3360cd684597",
+      "sections": [
+        "# ═══ v1.assembly.loadProduct ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.moveUnderConstraints": {
+      "found": [
+        "v1.assembly.moveUnderConstraints"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 681,
+      "sha": "11d3ace5af9d",
+      "sections": [
+        "# ═══ v1.assembly.moveUnderConstraints ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.parallel": {
+      "found": [
+        "v1.assembly.parallel"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 8107,
+      "sha": "22e1723bf432",
+      "sections": [
+        "# ═══ v1.assembly.parallel ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.partTemplate": {
+      "found": [
+        "v1.assembly.partTemplate"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3709,
+      "sha": "cbe87b986339",
+      "sections": [
+        "# ═══ v1.assembly.partTemplate ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.planar": {
+      "found": [
+        "v1.assembly.planar"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7935,
+      "sha": "b3ac20d1bb5f",
+      "sections": [
+        "# ═══ v1.assembly.planar ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.revolute": {
+      "found": [
+        "v1.assembly.revolute"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7480,
+      "sha": "ca46aa055c88",
+      "sections": [
+        "# ═══ v1.assembly.revolute ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.setCurrentInstance": {
+      "found": [
+        "v1.assembly.setCurrentInstance"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3008,
+      "sha": "3dbef4f4fe98",
+      "sections": [
+        "# ═══ v1.assembly.setCurrentInstance ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.setCurrentProduct": {
+      "found": [
+        "v1.assembly.setCurrentProduct"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2933,
+      "sha": "afff989b8c0d",
+      "sections": [
+        "# ═══ v1.assembly.setCurrentProduct ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.setIdent": {
+      "found": [
+        "v1.assembly.setIdent"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3211,
+      "sha": "0b91c4daf2ec",
+      "sections": [
+        "# ═══ v1.assembly.setIdent ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.slider": {
+      "found": [
+        "v1.assembly.slider"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 6556,
+      "sha": "426c1117ce45",
+      "sections": [
+        "# ═══ v1.assembly.slider ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.spherical": {
+      "found": [
+        "v1.assembly.spherical"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5934,
+      "sha": "abeb0e746398",
+      "sections": [
+        "# ═══ v1.assembly.spherical ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.startMovingUnderConstraints": {
+      "found": [
+        "v1.assembly.startMovingUnderConstraints"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 510,
+      "sha": "9b4d4e72ca40",
+      "sections": [
+        "# ═══ v1.assembly.startMovingUnderConstraints ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.transformInstance": {
+      "found": [
+        "v1.assembly.transformInstance"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4107,
+      "sha": "ad9c2919542a",
+      "sections": [
+        "# ═══ v1.assembly.transformInstance ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.transformInstanceTo": {
+      "found": [
+        "v1.assembly.transformInstanceTo"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3687,
+      "sha": "9f3a05c601e1",
+      "sections": [
+        "# ═══ v1.assembly.transformInstanceTo ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.update3DConstraintValue": {
+      "found": [
+        "v1.assembly.update3DConstraintValue"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4820,
+      "sha": "589ce851a873",
+      "sections": [
+        "# ═══ v1.assembly.update3DConstraintValue ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateCircularPattern": {
+      "found": [
+        "v1.assembly.updateCircularPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1179,
+      "sha": "e474e0f7f317",
+      "sections": [
+        "# ═══ v1.assembly.updateCircularPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateCylindrical": {
+      "found": [
+        "v1.assembly.updateCylindrical"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1919,
+      "sha": "b3fb654a53dd",
+      "sections": [
+        "# ═══ v1.assembly.updateCylindrical ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateFastened": {
+      "found": [
+        "v1.assembly.updateFastened"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2086,
+      "sha": "8fe5d422ee0d",
+      "sections": [
+        "# ═══ v1.assembly.updateFastened ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateFastenedOrigin": {
+      "found": [
+        "v1.assembly.updateFastenedOrigin"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1840,
+      "sha": "4d80fc86c3ac",
+      "sections": [
+        "# ═══ v1.assembly.updateFastenedOrigin ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateGear": {
+      "found": [
+        "v1.assembly.updateGear"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 819,
+      "sha": "d6aa8f42bbb6",
+      "sections": [
+        "# ═══ v1.assembly.updateGear ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateGroup": {
+      "found": [
+        "v1.assembly.updateGroup"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 479,
+      "sha": "e0eccf266f36",
+      "sections": [
+        "# ═══ v1.assembly.updateGroup ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateLinearPattern": {
+      "found": [
+        "v1.assembly.updateLinearPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1785,
+      "sha": "a1352b7d4218",
+      "sections": [
+        "# ═══ v1.assembly.updateLinearPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateParallel": {
+      "found": [
+        "v1.assembly.updateParallel"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2354,
+      "sha": "3ab8f9258cc5",
+      "sections": [
+        "# ═══ v1.assembly.updateParallel ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updatePlanar": {
+      "found": [
+        "v1.assembly.updatePlanar"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2171,
+      "sha": "358636263c62",
+      "sections": [
+        "# ═══ v1.assembly.updatePlanar ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateRevolute": {
+      "found": [
+        "v1.assembly.updateRevolute"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1728,
+      "sha": "29b8d6fa19e7",
+      "sections": [
+        "# ═══ v1.assembly.updateRevolute ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateSlider": {
+      "found": [
+        "v1.assembly.updateSlider"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1569,
+      "sha": "213fef022cbc",
+      "sections": [
+        "# ═══ v1.assembly.updateSlider ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.assembly.updateSpherical": {
+      "found": [
+        "v1.assembly.updateSpherical"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1500,
+      "sha": "e4bda9051a48",
+      "sections": [
+        "# ═══ v1.assembly.updateSpherical ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.batch": {
+      "found": [
+        "v1.common.batch"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2403,
+      "sha": "e3a98e6b5e0c",
+      "sections": [
+        "# ═══ v1.common.batch ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.clear": {
+      "found": [
+        "v1.common.clear"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3249,
+      "sha": "6aae020d8691",
+      "sections": [
+        "# ═══ v1.common.clear ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.clearUserData": {
+      "found": [
+        "v1.common.clearUserData"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2431,
+      "sha": "738b065298f1",
+      "sections": [
+        "# ═══ v1.common.clearUserData ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.evaluateExpression": {
+      "found": [
+        "v1.common.evaluateExpression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3173,
+      "sha": "1961b94ac978",
+      "sections": [
+        "# ═══ v1.common.evaluateExpression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.getAppVersion": {
+      "found": [
+        "v1.common.getAppVersion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1071,
+      "sha": "a01a546166ad",
+      "sections": [
+        "# ═══ v1.common.getAppVersion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.getClassFileVersion": {
+      "found": [
+        "v1.common.getClassFileVersion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 923,
+      "sha": "f6f98bb2e23d",
+      "sections": [
+        "# ═══ v1.common.getClassFileVersion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.getDatabaseSettings": {
+      "found": [
+        "v1.common.getDatabaseSettings"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3859,
+      "sha": "1148d1628341",
+      "sections": [
+        "# ═══ v1.common.getDatabaseSettings ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.getFacetingParameters": {
+      "found": [
+        "v1.common.getFacetingParameters"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1066,
+      "sha": "d6c85b9579d3",
+      "sections": [
+        "# ═══ v1.common.getFacetingParameters ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.getUserData": {
+      "found": [
+        "v1.common.getUserData"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2978,
+      "sha": "ebf04fa42ca1",
+      "sections": [
+        "# ═══ v1.common.getUserData ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.getUserDataKeys": {
+      "found": [
+        "v1.common.getUserDataKeys"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2440,
+      "sha": "16eebd031b52",
+      "sections": [
+        "# ═══ v1.common.getUserDataKeys ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.load": {
+      "found": [
+        "v1.common.load"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4785,
+      "sha": "5822c90256de",
+      "sections": [
+        "# ═══ v1.common.load ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.recalc": {
+      "found": [
+        "v1.common.recalc"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2924,
+      "sha": "daf223a1c323",
+      "sections": [
+        "# ═══ v1.common.recalc ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.removeUserData": {
+      "found": [
+        "v1.common.removeUserData"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2190,
+      "sha": "1ee1a89307f0",
+      "sections": [
+        "# ═══ v1.common.removeUserData ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.requestVisualisation": {
+      "found": [
+        "v1.common.requestVisualisation"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4241,
+      "sha": "7c705ee1276c",
+      "sections": [
+        "# ═══ v1.common.requestVisualisation ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.save": {
+      "found": [
+        "v1.common.save"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 6766,
+      "sha": "e4f2ab2dc811",
+      "sections": [
+        "# ═══ v1.common.save ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.setAppearance": {
+      "found": [
+        "v1.common.setAppearance"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4954,
+      "sha": "0b1c1cc7015f",
+      "sections": [
+        "# ═══ v1.common.setAppearance ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.setDatabaseSettings": {
+      "found": [
+        "v1.common.setDatabaseSettings"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5167,
+      "sha": "a0d840ba0a00",
+      "sections": [
+        "# ═══ v1.common.setDatabaseSettings ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.setFacetingParameters": {
+      "found": [
+        "v1.common.setFacetingParameters"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3124,
+      "sha": "a4cb98f6a336",
+      "sections": [
+        "# ═══ v1.common.setFacetingParameters ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.setObjectCoordSystem": {
+      "found": [
+        "v1.common.setObjectCoordSystem"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3294,
+      "sha": "77bdd6d0365a",
+      "sections": [
+        "# ═══ v1.common.setObjectCoordSystem ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.setObjectName": {
+      "found": [
+        "v1.common.setObjectName"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2499,
+      "sha": "3398911e8cf7",
+      "sections": [
+        "# ═══ v1.common.setObjectName ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.setUserData": {
+      "found": [
+        "v1.common.setUserData"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2842,
+      "sha": "e5b81100ccd3",
+      "sections": [
+        "# ═══ v1.common.setUserData ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.common.transformObjectWithMatrix": {
+      "found": [
+        "v1.common.transformObjectWithMatrix"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3899,
+      "sha": "af11747767ae",
+      "sections": [
+        "# ═══ v1.common.transformObjectWithMatrix ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.advancedPolyline": {
+      "found": [
+        "v1.curve.advancedPolyline"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 8618,
+      "sha": "a514d9b82f88",
+      "sections": [
+        "# ═══ v1.curve.advancedPolyline ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.arcBy3Points": {
+      "found": [
+        "v1.curve.arcBy3Points"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3519,
+      "sha": "005f241f3e59",
+      "sections": [
+        "# ═══ v1.curve.arcBy3Points ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.arcByCenter": {
+      "found": [
+        "v1.curve.arcByCenter"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4052,
+      "sha": "255ec86d3ce8",
+      "sections": [
+        "# ═══ v1.curve.arcByCenter ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.arcByCenterRadAngle": {
+      "found": [
+        "v1.curve.arcByCenterRadAngle"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3793,
+      "sha": "f2bfaaf994cd",
+      "sections": [
+        "# ═══ v1.curve.arcByCenterRadAngle ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.bezierCurve": {
+      "found": [
+        "v1.curve.bezierCurve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2597,
+      "sha": "89c91482948c",
+      "sections": [
+        "# ═══ v1.curve.bezierCurve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.circle": {
+      "found": [
+        "v1.curve.circle"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3209,
+      "sha": "d529ed10b155",
+      "sections": [
+        "# ═══ v1.curve.circle ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.cleanShape": {
+      "found": [
+        "v1.curve.cleanShape"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 409,
+      "sha": "abea61ebd27b",
+      "sections": [
+        "# ═══ v1.curve.cleanShape ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.deleteShape": {
+      "found": [
+        "v1.curve.deleteShape"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 254,
+      "sha": "71ed4980064c",
+      "sections": [
+        "# ═══ v1.curve.deleteShape ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.ellipse": {
+      "found": [
+        "v1.curve.ellipse"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3106,
+      "sha": "e554e36101e6",
+      "sections": [
+        "# ═══ v1.curve.ellipse ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.ellipticArc": {
+      "found": [
+        "v1.curve.ellipticArc"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3441,
+      "sha": "c518e313bde8",
+      "sections": [
+        "# ═══ v1.curve.ellipticArc ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.interpolationCurve": {
+      "found": [
+        "v1.curve.interpolationCurve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2981,
+      "sha": "c2945dcdeb73",
+      "sections": [
+        "# ═══ v1.curve.interpolationCurve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.intersection2d": {
+      "found": [
+        "v1.curve.intersection2d"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 455,
+      "sha": "53d664559784",
+      "sections": [
+        "# ═══ v1.curve.intersection2d ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.line": {
+      "found": [
+        "v1.curve.line"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2409,
+      "sha": "2342aeae5fed",
+      "sections": [
+        "# ═══ v1.curve.line ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.polyline2d": {
+      "found": [
+        "v1.curve.polyline2d"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4276,
+      "sha": "b724d821288d",
+      "sections": [
+        "# ═══ v1.curve.polyline2d ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.rotateShape": {
+      "found": [
+        "v1.curve.rotateShape"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2882,
+      "sha": "b1568df99888",
+      "sections": [
+        "# ═══ v1.curve.rotateShape ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.scaleShape": {
+      "found": [
+        "v1.curve.scaleShape"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3280,
+      "sha": "19b26b7131bd",
+      "sections": [
+        "# ═══ v1.curve.scaleShape ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.shape": {
+      "found": [
+        "v1.curve.shape"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3288,
+      "sha": "a5e2aa6cc4fe",
+      "sections": [
+        "# ═══ v1.curve.shape ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.subtraction2d": {
+      "found": [
+        "v1.curve.subtraction2d"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 448,
+      "sha": "bf8dfe5a4e48",
+      "sections": [
+        "# ═══ v1.curve.subtraction2d ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.transformShape": {
+      "found": [
+        "v1.curve.transformShape"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4316,
+      "sha": "162bdf06fa81",
+      "sections": [
+        "# ═══ v1.curve.transformShape ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.translateShape": {
+      "found": [
+        "v1.curve.translateShape"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2712,
+      "sha": "dffbbb3b15ef",
+      "sections": [
+        "# ═══ v1.curve.translateShape ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.curve.union2d": {
+      "found": [
+        "v1.curve.union2d"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3318,
+      "sha": "0832bea8611a",
+      "sections": [
+        "# ═══ v1.curve.union2d ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.centerView": {
+      "found": [
+        "v1.drawing2d.centerView"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2137,
+      "sha": "33e37de09584",
+      "sections": [
+        "# ═══ v1.drawing2d.centerView ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.deleteDimension": {
+      "found": [
+        "v1.drawing2d.deleteDimension"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 322,
+      "sha": "a901d1d1043e",
+      "sections": [
+        "# ═══ v1.drawing2d.deleteDimension ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.dimension": {
+      "found": [
+        "v1.drawing2d.dimension"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3100,
+      "sha": "38cb2f22d164",
+      "sections": [
+        "# ═══ v1.drawing2d.dimension ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.exportDXF": {
+      "found": [
+        "v1.drawing2d.exportDXF"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 720,
+      "sha": "a2c53fe3e71e",
+      "sections": [
+        "# ═══ v1.drawing2d.exportDXF ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.exportSVG": {
+      "found": [
+        "v1.drawing2d.exportSVG"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 986,
+      "sha": "b159443d9ef2",
+      "sections": [
+        "# ═══ v1.drawing2d.exportSVG ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.getBoundaryBoxFromView": {
+      "found": [
+        "v1.drawing2d.getBoundaryBoxFromView"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3012,
+      "sha": "23fc3eab8f74",
+      "sections": [
+        "# ═══ v1.drawing2d.getBoundaryBoxFromView ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.isDXFAvailable": {
+      "found": [
+        "v1.drawing2d.isDXFAvailable"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 207,
+      "sha": "8763c29d82d3",
+      "sections": [
+        "# ═══ v1.drawing2d.isDXFAvailable ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.isSVGAvailable": {
+      "found": [
+        "v1.drawing2d.isSVGAvailable"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 207,
+      "sha": "11725a32dc3f",
+      "sections": [
+        "# ═══ v1.drawing2d.isSVGAvailable ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.placeView": {
+      "found": [
+        "v1.drawing2d.placeView"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2383,
+      "sha": "8a1b7550150f",
+      "sections": [
+        "# ═══ v1.drawing2d.placeView ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.updateDimensionPosition": {
+      "found": [
+        "v1.drawing2d.updateDimensionPosition"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 470,
+      "sha": "0f0ae3a43a01",
+      "sections": [
+        "# ═══ v1.drawing2d.updateDimensionPosition ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.drawing2d.view": {
+      "found": [
+        "v1.drawing2d.view"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3554,
+      "sha": "7e2c327e45ba",
+      "sections": [
+        "# ═══ v1.drawing2d.view ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.boolean": {
+      "found": [
+        "v1.part.boolean"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 6177,
+      "sha": "d315a742f1a1",
+      "sections": [
+        "# ═══ v1.part.boolean ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.box": {
+      "found": [
+        "v1.part.box"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4513,
+      "sha": "c46b703fc8c6",
+      "sections": [
+        "# ═══ v1.part.box ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.calculateMassProperties": {
+      "found": [
+        "v1.part.calculateMassProperties"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3837,
+      "sha": "6d7843bf269d",
+      "sections": [
+        "# ═══ v1.part.calculateMassProperties ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.chamfer": {
+      "found": [
+        "v1.part.chamfer"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5020,
+      "sha": "67f7d735f3a8",
+      "sections": [
+        "# ═══ v1.part.chamfer ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.circularPattern": {
+      "found": [
+        "v1.part.circularPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5227,
+      "sha": "2a505fbfa9e0",
+      "sections": [
+        "# ═══ v1.part.circularPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.closeFeature": {
+      "found": [
+        "v1.part.closeFeature"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 317,
+      "sha": "c1a787034bd3",
+      "sections": [
+        "# ═══ v1.part.closeFeature ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.compositeCurve": {
+      "found": [
+        "v1.part.compositeCurve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2954,
+      "sha": "e54523c8a72a",
+      "sections": [
+        "# ═══ v1.part.compositeCurve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.cone": {
+      "found": [
+        "v1.part.cone"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3824,
+      "sha": "be0627b8d098",
+      "sections": [
+        "# ═══ v1.part.cone ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.create": {
+      "found": [
+        "v1.part.create"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2348,
+      "sha": "a1d4ba78e36e",
+      "sections": [
+        "# ═══ v1.part.create ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.createUncommitedObject": {
+      "found": [
+        "v1.part.createUncommitedObject"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4611,
+      "sha": "d0fce6419caf",
+      "sections": [
+        "# ═══ v1.part.createUncommitedObject ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.cylinder": {
+      "found": [
+        "v1.part.cylinder"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4971,
+      "sha": "c9f376d23140",
+      "sections": [
+        "# ═══ v1.part.cylinder ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.deleteExpression": {
+      "found": [
+        "v1.part.deleteExpression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3282,
+      "sha": "fa9e1718e6ef",
+      "sections": [
+        "# ═══ v1.part.deleteExpression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.deleteFeature": {
+      "found": [
+        "v1.part.deleteFeature"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3564,
+      "sha": "c42dd653ac15",
+      "sections": [
+        "# ═══ v1.part.deleteFeature ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.entityDeletion": {
+      "found": [
+        "v1.part.entityDeletion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4459,
+      "sha": "6984dc2c2e4d",
+      "sections": [
+        "# ═══ v1.part.entityDeletion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.entityInjection": {
+      "found": [
+        "v1.part.entityInjection"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4097,
+      "sha": "58931e3f2d6b",
+      "sections": [
+        "# ═══ v1.part.entityInjection ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.expression": {
+      "found": [
+        "v1.part.expression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7234,
+      "sha": "3ca112bf6422",
+      "sections": [
+        "# ═══ v1.part.expression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.extrusion": {
+      "found": [
+        "v1.part.extrusion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 8099,
+      "sha": "a2b789b6564d",
+      "sections": [
+        "# ═══ v1.part.extrusion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.fillet": {
+      "found": [
+        "v1.part.fillet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4152,
+      "sha": "ac29f4744a6a",
+      "sections": [
+        "# ═══ v1.part.fillet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getBrepGeometryByIndex": {
+      "found": [
+        "v1.part.getBrepGeometryByIndex"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5406,
+      "sha": "c7cfe3bb010c",
+      "sections": [
+        "# ═══ v1.part.getBrepGeometryByIndex ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getBrepGeometryIndex": {
+      "found": [
+        "v1.part.getBrepGeometryIndex"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3538,
+      "sha": "96cfd9d6e64b",
+      "sections": [
+        "# ═══ v1.part.getBrepGeometryIndex ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getExpression": {
+      "found": [
+        "v1.part.getExpression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2542,
+      "sha": "e4c2a80eb01a",
+      "sections": [
+        "# ═══ v1.part.getExpression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getFeature": {
+      "found": [
+        "v1.part.getFeature"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3095,
+      "sha": "e1db4834c73f",
+      "sections": [
+        "# ═══ v1.part.getFeature ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getGeometryIds": {
+      "found": [
+        "v1.part.getGeometryIds"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7166,
+      "sha": "8305e2090739",
+      "sections": [
+        "# ═══ v1.part.getGeometryIds ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getGeometryPositions": {
+      "found": [
+        "v1.part.getGeometryPositions"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3885,
+      "sha": "70c6ee784e29",
+      "sections": [
+        "# ═══ v1.part.getGeometryPositions ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getSketch": {
+      "found": [
+        "v1.part.getSketch"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2248,
+      "sha": "386177352104",
+      "sections": [
+        "# ═══ v1.part.getSketch ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getSketchRegion": {
+      "found": [
+        "v1.part.getSketchRegion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2243,
+      "sha": "8b09f6f8e6b8",
+      "sections": [
+        "# ═══ v1.part.getSketchRegion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.getWorkGeometry": {
+      "found": [
+        "v1.part.getWorkGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2370,
+      "sha": "eef09fcb57b3",
+      "sections": [
+        "# ═══ v1.part.getWorkGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.importFeature": {
+      "found": [
+        "v1.part.importFeature"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3231,
+      "sha": "7984eb0e293f",
+      "sections": [
+        "# ═══ v1.part.importFeature ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.linearPattern": {
+      "found": [
+        "v1.part.linearPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3732,
+      "sha": "f79b02fc91ad",
+      "sections": [
+        "# ═══ v1.part.linearPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.linkWithExpression": {
+      "found": [
+        "v1.part.linkWithExpression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3062,
+      "sha": "fb34f3a86338",
+      "sections": [
+        "# ═══ v1.part.linkWithExpression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.mirror": {
+      "found": [
+        "v1.part.mirror"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3136,
+      "sha": "74fe283b06db",
+      "sections": [
+        "# ═══ v1.part.mirror ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.openFeature": {
+      "found": [
+        "v1.part.openFeature"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3857,
+      "sha": "b48e5127d63e",
+      "sections": [
+        "# ═══ v1.part.openFeature ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.operationMoveBefore": {
+      "found": [
+        "v1.part.operationMoveBefore"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4257,
+      "sha": "8b1420acdf80",
+      "sections": [
+        "# ═══ v1.part.operationMoveBefore ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.operationMoveToEnd": {
+      "found": [
+        "v1.part.operationMoveToEnd"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 458,
+      "sha": "6522d051bbb5",
+      "sections": [
+        "# ═══ v1.part.operationMoveToEnd ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.renameExpression": {
+      "found": [
+        "v1.part.renameExpression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3874,
+      "sha": "51015a935685",
+      "sections": [
+        "# ═══ v1.part.renameExpression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.revolve": {
+      "found": [
+        "v1.part.revolve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5043,
+      "sha": "8d681a1f4d62",
+      "sections": [
+        "# ═══ v1.part.revolve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.rotation": {
+      "found": [
+        "v1.part.rotation"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2492,
+      "sha": "98b0b5717c63",
+      "sections": [
+        "# ═══ v1.part.rotation ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.setAppearance": {
+      "found": [
+        "v1.part.setAppearance"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3835,
+      "sha": "ae2074f10371",
+      "sections": [
+        "# ═══ v1.part.setAppearance ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.sketch": {
+      "found": [
+        "v1.part.sketch"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2758,
+      "sha": "6adc31fb60ba",
+      "sections": [
+        "# ═══ v1.part.sketch ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.slice": {
+      "found": [
+        "v1.part.slice"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3159,
+      "sha": "a98dc270f907",
+      "sections": [
+        "# ═══ v1.part.slice ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.sliceBySheet": {
+      "found": [
+        "v1.part.sliceBySheet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4684,
+      "sha": "f630a1769389",
+      "sections": [
+        "# ═══ v1.part.sliceBySheet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.sphere": {
+      "found": [
+        "v1.part.sphere"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3247,
+      "sha": "edc5522fe871",
+      "sections": [
+        "# ═══ v1.part.sphere ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.transformationByCSys": {
+      "found": [
+        "v1.part.transformationByCSys"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3163,
+      "sha": "fbea9873a646",
+      "sections": [
+        "# ═══ v1.part.transformationByCSys ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.translation": {
+      "found": [
+        "v1.part.translation"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2416,
+      "sha": "670fcc24cc66",
+      "sections": [
+        "# ═══ v1.part.translation ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.twist": {
+      "found": [
+        "v1.part.twist"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4771,
+      "sha": "7e31184cdab9",
+      "sections": [
+        "# ═══ v1.part.twist ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.unlinkExpression": {
+      "found": [
+        "v1.part.unlinkExpression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2272,
+      "sha": "d546ff2bec5c",
+      "sections": [
+        "# ═══ v1.part.unlinkExpression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateBoolean": {
+      "found": [
+        "v1.part.updateBoolean"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4397,
+      "sha": "609dfe5f5a85",
+      "sections": [
+        "# ═══ v1.part.updateBoolean ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateBox": {
+      "found": [
+        "v1.part.updateBox"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3327,
+      "sha": "65d93f84b8aa",
+      "sections": [
+        "# ═══ v1.part.updateBox ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateChamfer": {
+      "found": [
+        "v1.part.updateChamfer"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 692,
+      "sha": "77e14b16eb64",
+      "sections": [
+        "# ═══ v1.part.updateChamfer ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateCircularPattern": {
+      "found": [
+        "v1.part.updateCircularPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3083,
+      "sha": "1d0a19ba8fe5",
+      "sections": [
+        "# ═══ v1.part.updateCircularPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateCompositeCurve": {
+      "found": [
+        "v1.part.updateCompositeCurve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 504,
+      "sha": "b6d328bb2141",
+      "sections": [
+        "# ═══ v1.part.updateCompositeCurve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateCone": {
+      "found": [
+        "v1.part.updateCone"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 660,
+      "sha": "4e4d9e1f141b",
+      "sections": [
+        "# ═══ v1.part.updateCone ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateCylinder": {
+      "found": [
+        "v1.part.updateCylinder"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3306,
+      "sha": "5b4b225d253a",
+      "sections": [
+        "# ═══ v1.part.updateCylinder ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateEntityDeletion": {
+      "found": [
+        "v1.part.updateEntityDeletion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 765,
+      "sha": "4f682f899aed",
+      "sections": [
+        "# ═══ v1.part.updateEntityDeletion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateExpression": {
+      "found": [
+        "v1.part.updateExpression"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5265,
+      "sha": "63007f1f8312",
+      "sections": [
+        "# ═══ v1.part.updateExpression ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateExtrusion": {
+      "found": [
+        "v1.part.updateExtrusion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4429,
+      "sha": "b4d7b72ab02f",
+      "sections": [
+        "# ═══ v1.part.updateExtrusion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateFillet": {
+      "found": [
+        "v1.part.updateFillet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 490,
+      "sha": "4bae9a627aea",
+      "sections": [
+        "# ═══ v1.part.updateFillet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateImportFeature": {
+      "found": [
+        "v1.part.updateImportFeature"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3378,
+      "sha": "6b29a938e7de",
+      "sections": [
+        "# ═══ v1.part.updateImportFeature ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateLinearPattern": {
+      "found": [
+        "v1.part.updateLinearPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2689,
+      "sha": "46e80c66f149",
+      "sections": [
+        "# ═══ v1.part.updateLinearPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateMirror": {
+      "found": [
+        "v1.part.updateMirror"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3601,
+      "sha": "f595be2017c7",
+      "sections": [
+        "# ═══ v1.part.updateMirror ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateRevolve": {
+      "found": [
+        "v1.part.updateRevolve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3841,
+      "sha": "44df989fde1b",
+      "sections": [
+        "# ═══ v1.part.updateRevolve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateRotation": {
+      "found": [
+        "v1.part.updateRotation"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2484,
+      "sha": "2cae2a05564f",
+      "sections": [
+        "# ═══ v1.part.updateRotation ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateSlice": {
+      "found": [
+        "v1.part.updateSlice"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2083,
+      "sha": "cc89acfb28e4",
+      "sections": [
+        "# ═══ v1.part.updateSlice ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateSliceBySheet": {
+      "found": [
+        "v1.part.updateSliceBySheet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2777,
+      "sha": "cfa00456862b",
+      "sections": [
+        "# ═══ v1.part.updateSliceBySheet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateSphere": {
+      "found": [
+        "v1.part.updateSphere"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 551,
+      "sha": "6e8b71ecfd26",
+      "sections": [
+        "# ═══ v1.part.updateSphere ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateTransformationByCSys": {
+      "found": [
+        "v1.part.updateTransformationByCSys"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2395,
+      "sha": "7041102df82b",
+      "sections": [
+        "# ═══ v1.part.updateTransformationByCSys ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateTranslation": {
+      "found": [
+        "v1.part.updateTranslation"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2397,
+      "sha": "75bc6d1b6458",
+      "sections": [
+        "# ═══ v1.part.updateTranslation ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateTwist": {
+      "found": [
+        "v1.part.updateTwist"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1866,
+      "sha": "5c786e25395a",
+      "sections": [
+        "# ═══ v1.part.updateTwist ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateWorkAxis": {
+      "found": [
+        "v1.part.updateWorkAxis"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4345,
+      "sha": "db3cd983fe15",
+      "sections": [
+        "# ═══ v1.part.updateWorkAxis ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateWorkCSys": {
+      "found": [
+        "v1.part.updateWorkCSys"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3287,
+      "sha": "a09b44497c34",
+      "sections": [
+        "# ═══ v1.part.updateWorkCSys ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateWorkPlane": {
+      "found": [
+        "v1.part.updateWorkPlane"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3230,
+      "sha": "f215249400b6",
+      "sections": [
+        "# ═══ v1.part.updateWorkPlane ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.updateWorkPoint": {
+      "found": [
+        "v1.part.updateWorkPoint"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3043,
+      "sha": "83da658e83ac",
+      "sections": [
+        "# ═══ v1.part.updateWorkPoint ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.workAxis": {
+      "found": [
+        "v1.part.workAxis"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4691,
+      "sha": "d3fe4798191c",
+      "sections": [
+        "# ═══ v1.part.workAxis ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.workCSys": {
+      "found": [
+        "v1.part.workCSys"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4161,
+      "sha": "30f8884da8b2",
+      "sections": [
+        "# ═══ v1.part.workCSys ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.workPlane": {
+      "found": [
+        "v1.part.workPlane"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4676,
+      "sha": "ad6d83a8b290",
+      "sections": [
+        "# ═══ v1.part.workPlane ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.part.workPoint": {
+      "found": [
+        "v1.part.workPoint"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4151,
+      "sha": "ad9c15aeb265",
+      "sections": [
+        "# ═══ v1.part.workPoint ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.arcBy3Points": {
+      "found": [
+        "v1.sketch.arcBy3Points"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4571,
+      "sha": "18c4aa6aed70",
+      "sections": [
+        "# ═══ v1.sketch.arcBy3Points ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.arcByCenter": {
+      "found": [
+        "v1.sketch.arcByCenter"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5940,
+      "sha": "94d7f2779b5f",
+      "sections": [
+        "# ═══ v1.sketch.arcByCenter ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.changeReferenceGeometry": {
+      "found": [
+        "v1.sketch.changeReferenceGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1897,
+      "sha": "00a6013025bd",
+      "sections": [
+        "# ═══ v1.sketch.changeReferenceGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.circle": {
+      "found": [
+        "v1.sketch.circle"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3340,
+      "sha": "fcf30ca3e5aa",
+      "sections": [
+        "# ═══ v1.sketch.circle ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.circularPattern": {
+      "found": [
+        "v1.sketch.circularPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3261,
+      "sha": "8bbf7bfacc07",
+      "sections": [
+        "# ═══ v1.sketch.circularPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.constraint": {
+      "found": [
+        "v1.sketch.constraint"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7921,
+      "sha": "d01a3805fd26",
+      "sections": [
+        "# ═══ v1.sketch.constraint ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.copyFrom": {
+      "found": [
+        "v1.sketch.copyFrom"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2506,
+      "sha": "657ebf087023",
+      "sections": [
+        "# ═══ v1.sketch.copyFrom ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.copyGeometry": {
+      "found": [
+        "v1.sketch.copyGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3021,
+      "sha": "ff9ff092057b",
+      "sections": [
+        "# ═══ v1.sketch.copyGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.create": {
+      "found": [
+        "v1.sketch.create"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3515,
+      "sha": "f7f2a409f2aa",
+      "sections": [
+        "# ═══ v1.sketch.create ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.deleteObject": {
+      "found": [
+        "v1.sketch.deleteObject"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2710,
+      "sha": "c9161b8d2800",
+      "sections": [
+        "# ═══ v1.sketch.deleteObject ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.deleteSketch": {
+      "found": [
+        "v1.sketch.deleteSketch"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2291,
+      "sha": "c3e7a09c812a",
+      "sections": [
+        "# ═══ v1.sketch.deleteSketch ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.dimension": {
+      "found": [
+        "v1.sketch.dimension"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 7335,
+      "sha": "062acb73fe80",
+      "sections": [
+        "# ═══ v1.sketch.dimension ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.fillet": {
+      "found": [
+        "v1.sketch.fillet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2935,
+      "sha": "6636858afc23",
+      "sections": [
+        "# ═══ v1.sketch.fillet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.generateAutoConstraints": {
+      "found": [
+        "v1.sketch.generateAutoConstraints"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3059,
+      "sha": "450ac338f301",
+      "sections": [
+        "# ═══ v1.sketch.generateAutoConstraints ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.geometry": {
+      "found": [
+        "v1.sketch.geometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4892,
+      "sha": "a0cde70cff8d",
+      "sections": [
+        "# ═══ v1.sketch.geometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getDiagnosticsInfo": {
+      "found": [
+        "v1.sketch.getDiagnosticsInfo"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 300,
+      "sha": "20624b8e2d2c",
+      "sections": [
+        "# ═══ v1.sketch.getDiagnosticsInfo ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getGeometry": {
+      "found": [
+        "v1.sketch.getGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2566,
+      "sha": "007469723513",
+      "sections": [
+        "# ═══ v1.sketch.getGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getGlobalState": {
+      "found": [
+        "v1.sketch.getGlobalState"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 270,
+      "sha": "cfeb72df8bda",
+      "sections": [
+        "# ═══ v1.sketch.getGlobalState ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getObjectInfo": {
+      "found": [
+        "v1.sketch.getObjectInfo"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 279,
+      "sha": "09db8951ddb3",
+      "sections": [
+        "# ═══ v1.sketch.getObjectInfo ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getObjectsLists": {
+      "found": [
+        "v1.sketch.getObjectsLists"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2233,
+      "sha": "00d5b875fe4d",
+      "sections": [
+        "# ═══ v1.sketch.getObjectsLists ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getPoints": {
+      "found": [
+        "v1.sketch.getPoints"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1999,
+      "sha": "a2262cab6754",
+      "sections": [
+        "# ═══ v1.sketch.getPoints ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getPositions": {
+      "found": [
+        "v1.sketch.getPositions"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2787,
+      "sha": "0511ca1f4ab9",
+      "sections": [
+        "# ═══ v1.sketch.getPositions ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getSketchRegion": {
+      "found": [
+        "v1.sketch.getSketchRegion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2356,
+      "sha": "2f2c586e8562",
+      "sections": [
+        "# ═══ v1.sketch.getSketchRegion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.getTopologyInfo": {
+      "found": [
+        "v1.sketch.getTopologyInfo"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 273,
+      "sha": "9ddbff8cd364",
+      "sections": [
+        "# ═══ v1.sketch.getTopologyInfo ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.line": {
+      "found": [
+        "v1.sketch.line"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3861,
+      "sha": "f12f1e7d31df",
+      "sections": [
+        "# ═══ v1.sketch.line ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.linearPattern": {
+      "found": [
+        "v1.sketch.linearPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2683,
+      "sha": "6430ec40231e",
+      "sections": [
+        "# ═══ v1.sketch.linearPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.loadFrom": {
+      "found": [
+        "v1.sketch.loadFrom"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3452,
+      "sha": "8074d7a1e696",
+      "sections": [
+        "# ═══ v1.sketch.loadFrom ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.mirrorPattern": {
+      "found": [
+        "v1.sketch.mirrorPattern"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2824,
+      "sha": "d2ca8ad4002f",
+      "sections": [
+        "# ═══ v1.sketch.mirrorPattern ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.moveGeometry": {
+      "found": [
+        "v1.sketch.moveGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2643,
+      "sha": "15eb9ef59d49",
+      "sections": [
+        "# ═══ v1.sketch.moveGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.point": {
+      "found": [
+        "v1.sketch.point"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2514,
+      "sha": "4e7ffceb4591",
+      "sections": [
+        "# ═══ v1.sketch.point ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.postTrim": {
+      "found": [
+        "v1.sketch.postTrim"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4157,
+      "sha": "5130ee6d9b30",
+      "sections": [
+        "# ═══ v1.sketch.postTrim ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.preTrim": {
+      "found": [
+        "v1.sketch.preTrim"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 6704,
+      "sha": "e609319da0e4",
+      "sections": [
+        "# ═══ v1.sketch.preTrim ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.rectangle": {
+      "found": [
+        "v1.sketch.rectangle"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3014,
+      "sha": "44f9e45574c3",
+      "sections": [
+        "# ═══ v1.sketch.rectangle ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.referenceGeometry": {
+      "found": [
+        "v1.sketch.referenceGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2804,
+      "sha": "6878c03a414a",
+      "sections": [
+        "# ═══ v1.sketch.referenceGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.rigidSet": {
+      "found": [
+        "v1.sketch.rigidSet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2198,
+      "sha": "0d15a0d5d8ae",
+      "sections": [
+        "# ═══ v1.sketch.rigidSet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.setReferences": {
+      "found": [
+        "v1.sketch.setReferences"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2431,
+      "sha": "027b05338a1d",
+      "sections": [
+        "# ═══ v1.sketch.setReferences ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.setWorkPlane": {
+      "found": [
+        "v1.sketch.setWorkPlane"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2690,
+      "sha": "d0b316167e79",
+      "sections": [
+        "# ═══ v1.sketch.setWorkPlane ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.sketchRegion": {
+      "found": [
+        "v1.sketch.sketchRegion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2988,
+      "sha": "a29b2bcdfe05",
+      "sections": [
+        "# ═══ v1.sketch.sketchRegion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.splitAllCurves": {
+      "found": [
+        "v1.sketch.splitAllCurves"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 386,
+      "sha": "817e956a9a49",
+      "sections": [
+        "# ═══ v1.sketch.splitAllCurves ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.splitCurve": {
+      "found": [
+        "v1.sketch.splitCurve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5930,
+      "sha": "46bac32553f2",
+      "sections": [
+        "# ═══ v1.sketch.splitCurve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.splitCurves": {
+      "found": [
+        "v1.sketch.splitCurves"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 596,
+      "sha": "7ebcfe20cd9e",
+      "sections": [
+        "# ═══ v1.sketch.splitCurves ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.splitCurvesMergeBack": {
+      "found": [
+        "v1.sketch.splitCurvesMergeBack"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 309,
+      "sha": "f69d17cddc38",
+      "sections": [
+        "# ═══ v1.sketch.splitCurvesMergeBack ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.trim": {
+      "found": [
+        "v1.sketch.trim"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4502,
+      "sha": "70190a6a222c",
+      "sections": [
+        "# ═══ v1.sketch.trim ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.trimCurves": {
+      "found": [
+        "v1.sketch.trimCurves"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 371,
+      "sha": "f05006d24164",
+      "sections": [
+        "# ═══ v1.sketch.trimCurves ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.undoFillet": {
+      "found": [
+        "v1.sketch.undoFillet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2189,
+      "sha": "834995afd2f2",
+      "sections": [
+        "# ═══ v1.sketch.undoFillet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.unlinkReferenceGeometry": {
+      "found": [
+        "v1.sketch.unlinkReferenceGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 1830,
+      "sha": "5bf3980df7a3",
+      "sections": [
+        "# ═══ v1.sketch.unlinkReferenceGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.updateDimension": {
+      "found": [
+        "v1.sketch.updateDimension"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 5414,
+      "sha": "ccbf43e9ead5",
+      "sections": [
+        "# ═══ v1.sketch.updateDimension ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.updateDimensionPosition": {
+      "found": [
+        "v1.sketch.updateDimensionPosition"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2645,
+      "sha": "53979d809274",
+      "sections": [
+        "# ═══ v1.sketch.updateDimensionPosition ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.updateGeometry": {
+      "found": [
+        "v1.sketch.updateGeometry"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4380,
+      "sha": "1b26855bdfb8",
+      "sections": [
+        "# ═══ v1.sketch.updateGeometry ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.sketch.updateSketchRegion": {
+      "found": [
+        "v1.sketch.updateSketchRegion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2922,
+      "sha": "fb8db88eb584",
+      "sections": [
+        "# ═══ v1.sketch.updateSketchRegion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.box": {
+      "found": [
+        "v1.solid.box"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2965,
+      "sha": "532fe7644ea0",
+      "sections": [
+        "# ═══ v1.solid.box ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.cone": {
+      "found": [
+        "v1.solid.cone"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3269,
+      "sha": "afc394a0da85",
+      "sections": [
+        "# ═══ v1.solid.cone ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.copy": {
+      "found": [
+        "v1.solid.copy"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3214,
+      "sha": "40540a9c9b29",
+      "sections": [
+        "# ═══ v1.solid.copy ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.cylinder": {
+      "found": [
+        "v1.solid.cylinder"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2766,
+      "sha": "6df1bc0a1524",
+      "sections": [
+        "# ═══ v1.solid.cylinder ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.deleteSolid": {
+      "found": [
+        "v1.solid.deleteSolid"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2949,
+      "sha": "ece9ca4860c4",
+      "sections": [
+        "# ═══ v1.solid.deleteSolid ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.extrusion": {
+      "found": [
+        "v1.solid.extrusion"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3841,
+      "sha": "8db95869de21",
+      "sections": [
+        "# ═══ v1.solid.extrusion ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.fillet": {
+      "found": [
+        "v1.solid.fillet"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3969,
+      "sha": "8d6db5f4ba78",
+      "sections": [
+        "# ═══ v1.solid.fillet ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.intersection": {
+      "found": [
+        "v1.solid.intersection"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3285,
+      "sha": "1457cea65d72",
+      "sections": [
+        "# ═══ v1.solid.intersection ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.merge": {
+      "found": [
+        "v1.solid.merge"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3407,
+      "sha": "6f289692fe68",
+      "sections": [
+        "# ═══ v1.solid.merge ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.mirror": {
+      "found": [
+        "v1.solid.mirror"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3142,
+      "sha": "b425bc91ae6f",
+      "sections": [
+        "# ═══ v1.solid.mirror ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.offset": {
+      "found": [
+        "v1.solid.offset"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4612,
+      "sha": "3444093c6848",
+      "sections": [
+        "# ═══ v1.solid.offset ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.revolve": {
+      "found": [
+        "v1.solid.revolve"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4488,
+      "sha": "86697940213b",
+      "sections": [
+        "# ═══ v1.solid.revolve ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.rotation": {
+      "found": [
+        "v1.solid.rotation"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3473,
+      "sha": "caba62fff16b",
+      "sections": [
+        "# ═══ v1.solid.rotation ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.scale": {
+      "found": [
+        "v1.solid.scale"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3634,
+      "sha": "cca0f79fcb3c",
+      "sections": [
+        "# ═══ v1.solid.scale ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.section": {
+      "found": [
+        "v1.solid.section"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3383,
+      "sha": "4f9ec58e4ab6",
+      "sections": [
+        "# ═══ v1.solid.section ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.slice": {
+      "found": [
+        "v1.solid.slice"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2987,
+      "sha": "10c06e3813aa",
+      "sections": [
+        "# ═══ v1.solid.slice ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.sphere": {
+      "found": [
+        "v1.solid.sphere"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2584,
+      "sha": "55f52d508d2f",
+      "sections": [
+        "# ═══ v1.solid.sphere ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.subtraction": {
+      "found": [
+        "v1.solid.subtraction"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3842,
+      "sha": "4122bbeb64c0",
+      "sections": [
+        "# ═══ v1.solid.subtraction ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.translation": {
+      "found": [
+        "v1.solid.translation"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2582,
+      "sha": "6a9334e0ea3b",
+      "sections": [
+        "# ═══ v1.solid.translation ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.union": {
+      "found": [
+        "v1.solid.union"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2940,
+      "sha": "1606fa0aa7f3",
+      "sections": [
+        "# ═══ v1.solid.union ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "v1.solid.useSolid": {
+      "found": [
+        "v1.solid.useSolid"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4980,
+      "sha": "6bbef3618407",
+      "sections": [
+        "# ═══ v1.solid.useSolid ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    }
+  },
+  "combos": {
+    "empty": {
+      "found": [],
+      "missing": [],
+      "deferred": [],
+      "empty": true,
+      "chars": 113,
+      "sha": "7449efe8b03c",
+      "sections": [],
+      "footers": [],
+      "underBudget": true
+    },
+    "notArray": {
+      "found": [],
+      "missing": [],
+      "deferred": [],
+      "empty": true,
+      "chars": 113,
+      "sha": "7449efe8b03c",
+      "sections": [],
+      "footers": [],
+      "underBudget": true
+    },
+    "blanks": {
+      "found": [],
+      "missing": [],
+      "deferred": [],
+      "empty": true,
+      "chars": 113,
+      "sha": "7449efe8b03c",
+      "sections": [],
+      "footers": [],
+      "underBudget": true
+    },
+    "duplicates": {
+      "found": [
+        "v1.part.box"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 4513,
+      "sha": "c46b703fc8c6",
+      "sections": [
+        "# ═══ v1.part.box ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "missingMixed": {
+      "found": [
+        "v1.part.box"
+      ],
+      "missing": [
+        "nope-xyz",
+        "v1.part.boxx",
+        "recipes/verification#99"
+      ],
+      "deferred": [],
+      "chars": 4796,
+      "sha": "8678ad9b9f28",
+      "sections": [
+        "# ═══ v1.part.box ═══",
+        "# ═══ not found ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "ambiguousBare": {
+      "found": [],
+      "missing": [
+        "circularPattern"
+      ],
+      "deferred": [],
+      "chars": 168,
+      "sha": "603653498ef3",
+      "sections": [
+        "# ═══ not found ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "aliases": {
+      "found": [
+        "SKETCHING"
+      ],
+      "missing": [],
+      "deferred": [
+        "recipes/verify-numerically",
+        "recipes/drawing-reproduction"
+      ],
+      "chars": 41981,
+      "sha": "117d5b31a94b",
+      "sections": [
+        "# ═══ response budget reached ═══",
+        "# ═══ SKETCHING ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "allRecipes": {
+      "found": [
+        "recipes/assembly-parameters",
+        "recipes/direct-modeling-eif",
+        "recipes/parametric-part",
+        "recipes/pattern-then-subtract",
+        "recipes/verification"
+      ],
+      "missing": [],
+      "deferred": [
+        "recipes/constrained-sketching"
+      ],
+      "chars": 36106,
+      "sha": "660bae991721",
+      "sections": [
+        "# ═══ response budget reached ═══",
+        "# ═══ recipes/assembly-parameters ═══",
+        "# ═══ recipes/direct-modeling-eif ═══",
+        "# ═══ recipes/parametric-part ═══",
+        "# ═══ recipes/pattern-then-subtract ═══",
+        "# ═══ recipes/verification ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipesAndOverviews": {
+      "found": [
+        "recipes/assembly-parameters",
+        "recipes/direct-modeling-eif",
+        "recipes/parametric-part",
+        "recipes/pattern-then-subtract",
+        "recipes/verification",
+        "api/expressions"
+      ],
+      "missing": [],
+      "deferred": [
+        "recipes/constrained-sketching",
+        "api/assembly",
+        "api/common",
+        "api/curve",
+        "api/drawing2d",
+        "api/part",
+        "api/sketch",
+        "api/solid"
+      ],
+      "chars": 45265,
+      "sha": "08b671c42768",
+      "sections": [
+        "# ═══ response budget reached ═══",
+        "# ═══ recipes/assembly-parameters ═══",
+        "# ═══ recipes/direct-modeling-eif ═══",
+        "# ═══ recipes/parametric-part ═══",
+        "# ═══ recipes/pattern-then-subtract ═══",
+        "# ═══ recipes/verification ═══",
+        "# ═══ api/expressions ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "overMaxKeys": {
+      "found": [
+        "v1.assembly.assemblyTemplate",
+        "v1.assembly.calculateMassProperties",
+        "v1.assembly.circularPattern",
+        "v1.assembly.convertToTemplate",
+        "v1.assembly.create",
+        "v1.assembly.createUncommitedObject",
+        "v1.assembly.cylindrical",
+        "v1.assembly.deleteConstraint",
+        "v1.assembly.deleteInstance",
+        "v1.assembly.deleteTemplate",
+        "v1.assembly.exportNode",
+        "v1.assembly.fastened",
+        "v1.assembly.finishMovingUnderConstraints",
+        "v1.assembly.getCircularPattern",
+        "v1.assembly.getCylindrical",
+        "v1.assembly.getGear"
+      ],
+      "missing": [],
+      "deferred": [
+        "v1.assembly.fastenedOrigin",
+        "v1.assembly.from",
+        "v1.assembly.gear",
+        "v1.assembly.getAssemblyTemplate",
+        "v1.assembly.getFastened",
+        "v1.assembly.getFastenedOrigin",
+        "v1.assembly.getGroup",
+        "v1.assembly.getInstance",
+        "v1.assembly.getLinearPattern",
+        "v1.assembly.getParallel",
+        "v1.assembly.getPartTemplate",
+        "v1.assembly.getPlanar",
+        "v1.assembly.getProduct",
+        "v1.assembly.getRevolute"
+      ],
+      "chars": 48327,
+      "sha": "ee8263f29e0b",
+      "sections": [
+        "# ═══ response budget reached ═══",
+        "# ═══ v1.assembly.assemblyTemplate ═══",
+        "# ═══ v1.assembly.calculateMassProperties ═══",
+        "# ═══ v1.assembly.circularPattern ═══",
+        "# ═══ v1.assembly.convertToTemplate ═══",
+        "# ═══ v1.assembly.create ═══",
+        "# ═══ v1.assembly.createUncommitedObject ═══",
+        "# ═══ v1.assembly.cylindrical ═══",
+        "# ═══ v1.assembly.deleteConstraint ═══",
+        "# ═══ v1.assembly.deleteInstance ═══",
+        "# ═══ v1.assembly.deleteTemplate ═══",
+        "# ═══ v1.assembly.exportNode ═══",
+        "# ═══ v1.assembly.fastened ═══",
+        "# ═══ v1.assembly.finishMovingUnderConstraints ═══",
+        "# ═══ v1.assembly.getCircularPattern ═══",
+        "# ═══ v1.assembly.getCylindrical ═══",
+        "# ═══ v1.assembly.getGear ═══"
+      ],
+      "footers": [],
+      "underBudget": false
+    },
+    "pageZeroAndNegative": {
+      "found": [
+        "api/part#0"
+      ],
+      "missing": [
+        "api/part#-1"
+      ],
+      "deferred": [],
+      "chars": 46405,
+      "sha": "a95c65a355eb",
+      "sections": [
+        "# ═══ api/part (page 1/6) ═══",
+        "# ═══ not found ═══"
+      ],
+      "footers": [
+        "[api/part: page 1/6 — continue with \"api/part#2\"]"
+      ],
+      "underBudget": true
+    }
+  },
+  "budgets": {
+    "1500": {
+      "found": [
+        "recipes/verification"
+      ],
+      "missing": [],
+      "deferred": [
+        "v1.part.box",
+        "api/part"
+      ],
+      "chars": 1052,
+      "sha": "5a6976596cc1",
+      "sections": [
+        "# ═══ response budget reached ═══",
+        "# ═══ recipes/verification (page 1/14) ═══"
+      ],
+      "footers": [
+        "[recipes/verification: page 1/14 — continue with \"recipes/verification#2\"]"
+      ],
+      "underBudget": true
+    },
+    "8000": {
+      "found": [
+        "recipes/verification",
+        "v1.part.box"
+      ],
+      "missing": [],
+      "deferred": [
+        "api/part"
+      ],
+      "chars": 7673,
+      "sha": "5e3b0fe7d143",
+      "sections": [
+        "# ═══ response budget reached ═══",
+        "# ═══ recipes/verification (page 1/4) ═══",
+        "# ═══ v1.part.box ═══"
+      ],
+      "footers": [
+        "[recipes/verification: page 1/4 — continue with \"recipes/verification#2\"]"
+      ],
+      "underBudget": true
+    },
+    "20000": {
+      "found": [
+        "recipes/verification"
+      ],
+      "missing": [],
+      "deferred": [
+        "v1.part.box",
+        "api/part"
+      ],
+      "chars": 16226,
+      "sha": "592642b0b51a",
+      "sections": [
+        "# ═══ response budget reached ═══",
+        "# ═══ recipes/verification ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    }
+  },
+  "resolver": {
+    "found": [
+      "DATA",
+      "v1.part.box"
+    ],
+    "missing": [
+      "LIVE"
+    ],
+    "deferred": [],
+    "chars": 4586,
+    "sha": "c4baf028e0a6",
+    "sections": [
+      "# ═══ DATA ═══",
+      "# ═══ v1.part.box ═══",
+      "# ═══ not found ═══"
+    ],
+    "footers": [],
+    "underBudget": true
+  }
+}

@@ -2,50 +2,25 @@
 
 Connects a named expression to a feature parameter **after** creation. For sketch dimensions, use `sketch.updateDimension({ id: dimensionId, value: '@expr.NAME' })` instead; obtain the `CC_*FeatureDimension` ID as described in [dimension](../sketch/dimension.md#return-value).
 
-## Prerequisites
-
-- A part with an expression (`part.expression`)
-- A feature already created
-
 ## Key Parameters
 
-- `id` — **feature ID**, not the part ID. The API type gate also accepts dimension IDs, but use `sketch.updateDimension` for sketch bindings. Internal constraint IDs are rejected.
-- `exprName` — name of the expression to link (must exist in the part's expression set)
-- `name` — feature parameter name to bind (e.g., `'height'`, `'length'`, `'diameter'`)
+- `id` — **feature ID**, not the part ID. The type gate also accepts dimension IDs, but use `sketch.updateDimension` for sketch bindings. Internal constraint IDs are rejected.
+- `exprName` — expression name (must exist in the part's expression set)
+- `name` — feature parameter to bind (e.g. `'height'`, `'length'`, `'diameter'`)
 
 ## Return Value
 
-Always returns `result: null` (VOID). Check `maxLevel` for success/failure:
-- `maxLevel: 31` — success (or silent no-op for bad param name)
-- `maxLevel: 51` — error (missing params, wrong ID type, non-existent expression)
+Always `result: null` (VOID). Check `maxLevel`:
+- `31` — success (or silent no-op for a bad param name)
+- `51` — error (missing params, wrong ID type, non-existent expression)
 
 ## Gotchas
 
-- **No validation on param name.** Linking to a non-existent parameter name (`'fakeParam'`) returns maxLevel=31 (success) with NO error. The link silently does nothing. Always double-check parameter names.
-- **Non-existent expression name** gives maxLevel=51 with "Datamember X not found" but still returns VOID (not a distinct error shape).
+- **No validation on param name.** Linking to a non-existent parameter (`'fakeParam'`) returns maxLevel=31 with NO error and does nothing. Double-check parameter names.
+- **Non-existent expression name** → maxLevel=51 with "Datamember X not found", still VOID (no distinct error shape).
 - **Geometry updates immediately** after linking — no `common.recalc()` needed.
-
-## Re-linking
-
-Can re-link a parameter that is already expression-bound — either via `@expr.NAME` at creation or via a prior `linkWithExpression` call. No need to unlink first.
-
-```js
-// Link to A, then switch to B — both succeed
-await api.v1.part.linkWithExpression({ id: boxId, exprName: 'A', name: 'height' })
-await api.v1.part.linkWithExpression({ id: boxId, exprName: 'B', name: 'height' })
-```
-
-## Multiple Params
-
-Can link multiple params of the same feature to different (or the same) expressions:
-
-```js
-await api.v1.part.linkWithExpression({ id: boxId, exprName: 'L', name: 'length' })
-await api.v1.part.linkWithExpression({ id: boxId, exprName: 'W', name: 'width' })
-await api.v1.part.linkWithExpression({ id: boxId, exprName: 'S', name: 'height' })
-```
-
-Same expression can drive multiple params: `{ exprName: 'S', name: 'length' }` and `{ exprName: 'S', name: 'height' }` both work.
+- **Re-linking** an already-bound parameter (via `@expr.NAME` at creation or a prior link) works directly — no unlink needed (link height to A, then to B: both succeed).
+- **Multiple params** of one feature can link to different or the same expressions (`L`→length, `W`→width, `S`→height; or `S` driving both length and height).
 
 ## Common Errors
 
@@ -70,18 +45,15 @@ await api.v1.part.expression({
   ],
 })
 
-// Create features with plain values
-const boxId = (await api.v1.part.box({
-  id: partId, length: 80, width: 60, height: 40,
-})).result
+const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
 
-// Later, bind height to expression H
+// Bind height to H → box height 120
 await api.v1.part.linkWithExpression({ id: boxId, exprName: 'H', name: 'height' })
-// Box height is now 120, driven by expression H
+// Re-link to D without unlinking → box height 80
+await api.v1.part.linkWithExpression({ id: boxId, exprName: 'D', name: 'height' })
 
-// Update H → box updates too
-await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'H', value: 200 }] })
-// Box height is now 200
+// Update D → box height 200
+await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'D', value: 200 }] })
 ```
 
 ## Related

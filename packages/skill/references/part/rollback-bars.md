@@ -1,108 +1,70 @@
 # RollbackBar vs GhostRollbackBar
 
-ClassCAD's design tree has **two** rollback mechanisms that control which features are active and editable. They serve different purposes and operate independently.
+The design tree has **two** independent rollback mechanisms controlling which features are active and editable.
 
 ## The Two Bars
 
-### RollbackBar (persistent design history position)
-
-- **Node:** `CC_RollbackBar` (id=20 in a fresh part) — a physical node in the OperationSequence
-- **Controlled by:** `operationMoveBefore` / `operationMoveToEnd`
-- **Purpose:** Controls which features are "active" in the design tree. Features after the bar are deactivated (not evaluated). Features before the bar are live.
-- **Observable:** Position visible in the OperationSequence `children` array — the bar node physically moves position among its siblings
-- **Allows:** Feature creation at the bar position. Does NOT allow feature editing.
-
-### GhostRollbackBar (temporary editing context)
-
-- **Node:** None — it is NOT a physical node in the structure tree
-- **Controlled by:** `openFeature` / `closeFeature`
-- **Purpose:** Creates an exclusive editing context for one specific feature. Blocks all other feature operations (creation AND editing other features).
-- **Observable:** Tracked by the `editFeatureIndex` member on the OperationSequence node. Value = index into `children` array of the feature being edited. `-1` = no feature open.
-- **Allows:** `update*` calls on the opened feature only. Nothing else.
+| | RollbackBar (persistent history position) | GhostRollbackBar (temporary edit context) |
+|---|---|---|
+| Node | `CC_RollbackBar` (id=20 in a fresh part), physical node in the OperationSequence | None — NOT in the structure tree |
+| Controlled by | `operationMoveBefore` / `operationMoveToEnd` | `openFeature` / `closeFeature` |
+| Purpose | Features after the bar are deactivated (not evaluated); before it are live | Exclusive editing context for one feature |
+| Observable | Bar's position in OperationSequence `children` | `editFeatureIndex` on OperationSequence (index into `children`; `-1` = none open) |
+| Create features | ✅ At bar position | ❌ Blocked |
+| Update the specific feature | ❌ Needs openFeature | ✅ Opened feature only |
+| Update other features | ❌ | ❌ |
+| Move RollbackBar | ✅ | ✅ (works while a feature is open) |
+| Structure change | Children array reordered | None (only editFeatureIndex) |
+| Recalc trigger | `moveToEnd` replays features | `closeFeature` recalculates downstream |
 
 ## How to Observe Both
 
-The OperationSequence node (id=18) exposes three members:
+OperationSequence node (id=18) members:
 
 ```
-OperationSequence.members:
-  editFeatureIndex: -1      ← GhostRollbackBar position (-1 = inactive)
-  isDirty: 0                ← whether updates were made during current edit session
-  _VERSION: "2/2020_..."    ← internal version
+editFeatureIndex: -1      ← GhostRollbackBar (-1 = inactive)
+isDirty: 0                ← updates made during current edit session
+_VERSION: "2/2020_..."    ← internal version
 ```
 
-**RollbackBar position:** Find id=20 in the `children` array. Everything after it is deactivated.
-
 ```
-Default (bar at end):     [..., BoxRef, CylRef, SphRef, RollbackBar]
-After moveBefore(cyl):    [..., BoxRef, RollbackBar, CylRef, SphRef]
+RollbackBar (id=20 in children; everything after it is deactivated):
+  Default:              [..., BoxRef, CylRef, SphRef, RollbackBar]
+  After moveBefore(cyl): [..., BoxRef, RollbackBar, CylRef, SphRef]
+
+GhostRollbackBar:
+  Nothing open:     editFeatureIndex = -1
+  openFeature(box): editFeatureIndex = 7  (children[7] = BoxRef)
+  openFeature(cyl): editFeatureIndex = 8  (children[8] = CylRef)
 ```
-
-**GhostRollbackBar position:** Read `editFeatureIndex`. It points to the children array index of the feature being edited.
-
-```
-Nothing open:           editFeatureIndex = -1
-openFeature(box):       editFeatureIndex = 7  (children[7] = BoxRef)
-openFeature(cyl):       editFeatureIndex = 8  (children[8] = CylRef)
-```
-
-## Key Behavioral Differences
-
-| Capability | RollbackBar (operationMoveBefore) | GhostRollbackBar (openFeature) |
-|---|---|---|
-| Create features | ✅ At bar position | ❌ Blocked |
-| Update specific feature | ❌ Needs openFeature first | ✅ Only the opened feature |
-| Update other features | ❌ | ❌ |
-| Move RollbackBar | ✅ (that's what it does) | ✅ (independent — works during open) |
-| Structure tree changes | Children array reordered | No structural change (only editFeatureIndex) |
-| Recalculation trigger | `moveToEnd` replays features | `closeFeature` recalculates downstream |
 
 ## Independence
 
-The two bars operate independently:
-
 - `operationMoveBefore`/`operationMoveToEnd` work while a feature is open
-- `openFeature` works on features behind the RollbackBar (rolled-back features)
-- Both can be active simultaneously at different positions
+- `openFeature` works on features behind the RollbackBar
+- Both can be active simultaneously at different positions — valid and well-defined, no interference
 
-## Mid-Tree Editing (the primary use case for openFeature)
-
-The GhostRollbackBar is what enables safe mid-tree parametric editing:
+## Mid-Tree Editing (primary use of openFeature)
 
 ```js
-// Tree: Box → Cylinder → Boolean(subtraction)
-// Want to resize the Box without breaking the Boolean
-
-await api.v1.part.openFeature({ id: boxId })    // GhostRollbackBar → before Box
-await api.v1.part.updateBox({ id: boxId, height: 120 })  // modify Box
-await api.v1.part.closeFeature({ id: boxId })    // GhostRollbackBar → back
-// Boolean automatically recalculates with the new Box dimensions
+// Tree: Box → Cylinder → Boolean(subtraction); resize Box without breaking the Boolean
+await api.v1.part.openFeature({ id: boxId })             // Ghost → before Box
+await api.v1.part.updateBox({ id: boxId, height: 120 })
+await api.v1.part.closeFeature({ id: boxId })            // Ghost back; Boolean recalculates
 ```
 
-Without this mechanism, you would need to:
-1. `operationMoveBefore` to before the Box
-2. Delete the Box
-3. Recreate the Box with new dimensions
-4. `operationMoveToEnd` and hope the Boolean re-resolves
-
-That approach risks breaking downstream feature references. `openFeature` avoids this entirely.
+The alternative (moveBefore Box → delete Box → recreate → moveToEnd and hope the Boolean re-resolves) risks breaking downstream references; `openFeature` avoids this.
 
 ## isDirty Semantics
 
-The `isDirty` member tracks whether recalculation is pending:
-
-- Becomes `1` when `update*` is called during an open session
-- Resets to `0` when:
-  - `closeFeature` is called AND RollbackBar is at the end (full recalc occurs)
-  - `operationMoveToEnd` replays features past the modified point
-- Stays `1` after `closeFeature` if RollbackBar is mid-tree (full recalc deferred until moveToEnd)
+- Becomes `1` when `update*` is called in an open session
+- Resets to `0` when `closeFeature` is called with the RollbackBar at the end (full recalc), or when `operationMoveToEnd` replays features past the modified point
+- Stays `1` after `closeFeature` if the RollbackBar is mid-tree — full recalc deferred; you must `moveToEnd` to replay
 
 ## Gotchas
 
-- **GhostRollbackBar is invisible.** No node in the tree — only `editFeatureIndex` reveals it.
-- **RollbackBar position matters for isDirty.** Closing a feature with the bar mid-tree does NOT do a full recalc. You must `moveToEnd` to replay deferred features.
-- **openFeature blocks everything except updates to the target.** No creation, no editing other features — even if the RollbackBar has been moved to allow it.
-- **Both can be active simultaneously.** This is valid and well-defined — they don't interfere.
+- **GhostRollbackBar is invisible** — only `editFeatureIndex` reveals it.
+- **openFeature blocks everything except updates to the target** — no creation, no editing other features, even if the RollbackBar was moved to allow creation.
 
 ## Related
 

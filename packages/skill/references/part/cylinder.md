@@ -1,99 +1,63 @@
 # part.cylinder
 
-Creates a parametric cylinder feature inside a part. Unlike `solid.cylinder` (which creates direct geometry in an entity injection), `part.cylinder` lives in the feature tree, supports `updateCylinder`, expression-driven dimensions, and work coordinate system placement via `references`.
-
-## Prerequisites
-
-- A part (`part.create`)
+Parametric cylinder feature in a part's feature tree (unlike `solid.cylinder`, direct geometry in an entity injection). Supports `updateCylinder`, expression-driven dimensions, and workCSys placement via `references`.
 
 ## Key Parameters
 
 - `id` — **part ID** (not entity injection ID — that's `solid.cylinder`)
-- `name` — feature name in the design tree (default: "Cylinder")
-- `diameter` — cylinder diameter (default: 100). Must be > 0. Accept numbers or expression strings (`'@expr.D'`, `'4*20'`, `'sqrt(100)'`)
-- `height` — height in Z direction (default: 100). Must be > 0. Same expression support as diameter.
-- `references` — array of **workCSys IDs only**. Places the cylinder at the coordinate system's origin. Empty array or omitted = drawing origin.
+- `name` — feature name (default: "Cylinder")
+- `diameter` — default 100, > 0
+- `height` — along Z, default 100, > 0
+- `references` — array of **workCSys IDs only**; cylinder placed at the csys origin. Empty/omitted = drawing origin
+
+Dimensions accept numbers or expression strings (`'@expr.D'`, `'4*20'`, `'sqrt(100)'`). With `@expr.` references, changing the expression + recalc updates the cylinder.
 
 ## Return Value
 
-Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what you pass to `updateCylinder`, `openFeature`, `closeFeature`, and other feature-targeting APIs.
+Feature ID (numeric), maxLevel 31. Pass it to `updateCylinder`, `openFeature`, `closeFeature`, etc.
 
 ## Alignment
 
-The cylinder is **base-anchored at the origin** — XY centered (axis on Z), but Z extends from `0` to `+height`. COG sits at `(0, 0, H/2)`. Verified empirically with `diameter=30, height=100`: vertex 0 at `(15, 0, 0)`, COG at `(0, 0, 49.99)`.
+**Base-anchored**: axis on Z, XY-centered, Z from `0` to `+height`. COG `(0,0,H/2)`. Measured with `diameter=30, height=100`: vertex 0 at `(15,0,0)`, COG `(0,0,49.99)`.
 
-**This is different from `solid.cylinder`**, which is fully centered at the origin (z extends `-H/2..+H/2`). For a through-hole on a plate centered at z=0, a `part.cylinder` needs a workCSys placed at z=`-H/2` (or use `solid.cylinder` instead, which centers naturally). See `feature-vs-direct.md` for the full conventions table.
+**Differs from `solid.cylinder`**, which is centered (z from `-H/2` to `+H/2`). For a through-hole in a plate centered at z=0, place a workCSys at z=`-H/2` (or use `solid.cylinder`). See `feature-vs-direct.md`.
 
 ## Gotchas
 
-- **Unknown parameters are SILENTLY IGNORED** (verified 2026-08-17): `xPosition`/`zPosition`/`translation` do not exist — the cylinder lands at the origin with no warning (COG-verified). Position exclusively via `references: [workCSysId]`.
-- **`references` only accepts `workcsys` IDs.** Passing a work plane, work axis, or work point ID fails with error code 1001: "wrong id type! Provide only following id types: ['workcsys']". The docs say "reference of the work coordinate system" — it means literally a workCSys.
-- **The cylinder follows the workCSys ORIENTATION, not just its origin.** The cylinder axis aligns with the csys z-axis. A csys with `rotation: [0, Math.PI/2, 0]` (z → world +X) produces a cylinder along +X. Verified 2026-06-10: csys `offset [30,40,20]` + `rotation [0, π/2, 0]`, cylinder d=12 h=50 → COG (54.96, 40.01, 20.01), i.e., base at the offset point, axis +X. `offset` is applied in WORLD coordinates (the rotation pivots about the csys origin, it does not rotate the offset).
-- **`workCSys` takes `offset` + `rotation` (Euler radians) — NOT `origin`/`xDirection`/`yDirection`.** Those param names are silently ignored (no error, maxLevel 31), leaving an identity csys at the world origin — the cylinder then lands at the drawing origin and the mistake is invisible until you measure. See `workCSys.md`.
-- **Zero/negative dimensions create degenerate features.** The call returns a feature ID but with maxLevel 51 (ERROR) and code 1122: "Value for [param] must be greater than 0." The feature exists in the tree but has no valid geometry. Always validate dimensions > 0.
-- **Multiple cylinders in one part are fine.** Each creates a separate feature with its own body. The renderer assigns distinct colors per body.
+- **Unknown parameters are SILENTLY IGNORED**: `xPosition`/`zPosition`/`translation` do not exist — cylinder lands at the origin with no warning (COG-verified). Position only via `references: [workCSysId]`.
+- **`references` only accepts `workcsys` IDs** ("reference of the work coordinate system" means literally a workCSys). Work plane/axis/point → error 1001.
+- **The cylinder follows the workCSys ORIENTATION**: axis = csys z. `rotation: [0, Math.PI/2, 0]` (z → world +X) gives a cylinder along +X. Measured: csys `offset [30,40,20]` + `rotation [0,π/2,0]`, d=12 h=50 → COG (54.96, 40.01, 20.01), i.e. base at the offset point, axis +X. `offset` is in WORLD coordinates (rotation pivots about the csys origin, it does not rotate the offset).
+- **`workCSys` takes `offset` + `rotation` (Euler radians) — NOT `origin`/`xDirection`/`yDirection`.** Those are silently ignored (no error, maxLevel 31), leaving an identity csys at the world origin — the mistake is invisible until you measure. See `workCSys.md`.
+- **Zero/negative dimensions create degenerate features**: feature ID returned with maxLevel 51 and error 1122; no valid geometry. Validate dims > 0.
+- Multiple cylinders in one part are fine — each is a separate feature with its own body (distinct render colors).
 
 ## Common Errors
 
 | Code | Message | Cause |
 |------|---------|-------|
 | 1122 | "Value for [param] must be greater than 0" | Zero or negative dimension |
-| 1001 | "wrong id type! Provide only following id types: ['workcsys']" | Passed a non-workCSys ID in `references` |
+| 1001 | "wrong id type! Provide only following id types: ['workcsys']" | Non-workCSys ID in `references` |
 
 ## updateCylinder
 
-Updates an existing cylinder feature's dimensions, name, or references. See `references/part/updateCylinder.md` for full details.
-
-**Requires the open/close pattern:**
-```js
-await api.v1.part.openFeature({ id: cylId })
-await api.v1.part.updateCylinder({ id: cylId, diameter: 80 })
-await api.v1.part.closeFeature({ id: cylId })
-```
-
-- `id` — the **feature ID** returned by `part.cylinder` (not the part ID)
-- Returns feature ID on success, null on failure (not VOID)
-- Omitted params keep their existing values (partial update)
-- Multiple updateCylinder calls within a single open/close all apply
-- Supports `@expr.NAME` references and inline math in dimension params
-- Can add (`references: [wcsId]`) or remove (`references: []`) coordinate system placement
-- Geometry regenerates on `closeFeature` — no separate `recalc` needed
-- Without `openFeature`: returns null with errors 1200 + 1004
-
-## Expression-Driven Dimensions
-
-Both `@expr.NAME` references and inline math work:
-
-```js
-// Named expression references
-await api.v1.part.cylinder({ id: partId, diameter: '@expr.D', height: '@expr.H' })
-
-// Inline math
-await api.v1.part.cylinder({ id: partId, diameter: '4*20', height: 'sqrt(10000)' })
-```
-
-When using `@expr.` references, updating the expression + recalc automatically changes the cylinder dimensions.
+Full details: `updateCylinder.md`. Wrap in `openFeature`/`closeFeature` (without `openFeature`: null + errors 1200 + 1004). `id` = feature ID; returns feature ID on success, null on failure (not VOID). Omitted params keep values; multiple calls within one open/close all apply; `@expr.`/inline math supported; `references: [wcsId]` adds, `[]` removes placement; geometry regenerates on `closeFeature` (no `recalc` needed).
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
-
-// Optional: create a WCS for positioning (params: offset + rotation — NOT origin/xDirection!)
 const wcsId = (await api.v1.part.workCSys({
   id: partId, name: 'WCS1',
   offset: [50, 0, 0],            // world coords
   rotation: [0, Math.PI / 2, 0], // Euler radians; csys z → world +X
 })).result
 
-// Cylinder base at (50,0,0), axis along world +X (follows csys orientation)
+// Base at (50,0,0), axis along world +X
 const cylId = (await api.v1.part.cylinder({
-  id: partId, name: 'Cyl1',
-  references: [wcsId],
-  diameter: 60, height: 120,
+  id: partId, name: 'Cyl1', references: [wcsId], diameter: 60, height: 120,
 })).result
+await api.v1.part.cylinder({ id: partId, diameter: '4*20', height: 'sqrt(10000)' }) // inline math
 
-// Update dimensions later
 await api.v1.part.openFeature({ id: cylId })
 await api.v1.part.updateCylinder({ id: cylId, diameter: 100, height: 200 })
 await api.v1.part.closeFeature({ id: cylId })

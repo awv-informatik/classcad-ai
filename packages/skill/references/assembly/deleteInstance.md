@@ -1,46 +1,41 @@
 # assembly.deleteInstance
 
-Removes instances from the assembly tree. Template and other instances are unaffected.
-
-## Prerequisites
-
-- Existing instance IDs to delete
+Removes instances from the assembly tree. The template and other instances are unaffected — deleting all instances of a template does not delete the template.
 
 ## Key Parameters
 
-- `ids` — **required**. Array of instance IDs to delete. Empty array `[]` is accepted as a no-op.
+- `ids` — **required** array of instance IDs. `[]` is accepted as a no-op (maxLevel 31).
 
 ## Return Value
 
-Always `null` (VOID), regardless of success or failure. Check `maxLevel` to detect errors.
+Always `null` (VOID), success or failure — check `maxLevel`.
 
 ## Gotchas
 
-- **Re-deleting an already-deleted ID** returns maxLevel=51, error 1006 "invalid id."
-- **Empty `ids: []`** is accepted silently (maxLevel=31, no-op).
-- **Invalid IDs (e.g., 999999)** return error 1006.
-- **Template is unaffected** — deleting all instances of a template does not delete the template itself.
-- **Stale `currentProduct`** — if the deleted instance was `currentProduct` in the structure, the pointer may become stale (see `assembly/deleteTemplate.md` for similar behavior).
+- **Stale `currentProduct`** — if the deleted instance was `currentProduct`, the pointer may become stale (similar to `assembly/deleteTemplate`).
 
 ## Common Errors
 
 | Error | Code | Cause |
 |---|---|---|
 | `ToId() didn't get an existing or valid id` | 0 (warn) | ID doesn't exist (deleted or never created) |
-| `"ids" has an invalid id` | 1006 | Invalid or already-deleted instance ID |
+| `"ids" has an invalid id` | 1006 | Invalid (e.g. 999999) or already-deleted ID; maxLevel 51 |
 
 ## Working Example
 
 ```js
-// Delete single
-await api.v1.assembly.deleteInstance({ ids: [inst1] })
+const asmId = (await api.v1.assembly.create({})).result
+const tpl = (await api.v1.assembly.partTemplate({ name: 'Block' })).result
+await api.v1.part.box({ id: tpl, name: 'Box', length: 20, width: 20, height: 20 })
+await api.v1.assembly.setCurrentProduct({ id: asmId })
+const inst1 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'I1' })).result
+const inst2 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'I2' })).result
+const inst3 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'I3' })).result
 
-// Delete multiple
+await api.v1.assembly.deleteInstance({ ids: [inst1] })
 await api.v1.assembly.deleteInstance({ ids: [inst2, inst3] })
 
-// Verify deletion
-const remaining = (await api.v1.assembly.getInstance({ ownerId: asmId })).result
-// → only undeleted instances remain
+const remaining = (await api.v1.assembly.getInstance({ ownerId: asmId })).result  // only undeleted instances
 ```
 
 ## Related

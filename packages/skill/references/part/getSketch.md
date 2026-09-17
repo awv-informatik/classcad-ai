@@ -1,60 +1,43 @@
 # part.getSketch
 
-Looks up a sketch by name inside a part and returns its ID. This is the primary way to retrieve a sketch when you know its name but not its ID.
-
-## Prerequisites
-
-- A part (`part.create`)
-- A sketch inside that part (created via `part.sketch` or `sketch.create`)
+Looks up a sketch by name inside a part and returns its ID.
 
 ## Key Parameters
 
-- **`id`** (required) — part ID. Must be a part — any other ID type gives error 1001.
-- **`name`** (required) — exact sketch name to search for. **Case-sensitive** and **literal** — no trimming, no fuzzy matching. `"MySketch"` and `"mysketch"` are different names.
+- **`id`** (required) — part ID; any other ID type → error 1001
+- **`name`** (required) — exact name. **Case-sensitive and literal**: no trimming or fuzzy matching; spaces, slashes, parentheses, dots compared exactly (`"  Sketch  "` is a distinct valid name; `"Sketch"` ≠ `"sketch"`)
 
 ## Return Value
 
-**On success:**
 ```js
+// found
 { result: sketchId, messages: [], maxLevel: 31 }
-```
-
-**On not found:**
-```js
+// not found — null, not VOID
 { result: null, messages: [{ code: 1015, level: 51, message: 'Sketch with name "X" does not exist' }], maxLevel: 51 }
 ```
 
-Returns `null` (not VOID) when no match is found.
-
 ## Gotchas
 
-- **Case-sensitive.** `"Sketch"` does not match `"sketch"` or `"SKETCH"`.
-- **First-match only.** If multiple sketches share the same name (duplicate names are allowed), `getSketch` always returns the **first-created** one. Later duplicates are unreachable by name.
-- **Literal matching.** Spaces, slashes, parentheses, dots — all compared exactly. `"  Sketch  "` (with spaces) is a valid and distinct name.
-- **`getSketchRegion` uses region names, not sketch names.** Don't call `getSketchRegion({ name: 'MySketch' })` expecting it to find the region inside sketch "MySketch" — the region has its own name.
-- **Default auto-naming:** Unnamed sketches get auto-generated names: `"Sketch"`, `"Sketch0"`, `"Sketch1"`, etc. Note the first has no number suffix; numbering starts at 0 from the second.
+- **First match only.** Duplicate names are allowed; `getSketch` returns the **first-created** one — later duplicates are unreachable by name.
+- **`getSketchRegion` uses region names, not sketch names.** `getSketchRegion({ name: 'MySketch' })` won't find the region inside sketch "MySketch" — the region has its own name.
+- **Auto-naming:** unnamed sketches get `"Sketch"`, `"Sketch0"`, `"Sketch1"`, … (first has no suffix; numbering starts at 0 from the second).
 
 ## Common Errors
 
 | Error | Code | Cause |
 |-------|------|-------|
 | "Sketch with name X does not exist" | 1015 | No sketch with that exact name |
-| "parameter 'id' must be provided" | 1004 | `id` omitted |
+| "parameter 'id' must be provided" | 1004 | `id` omitted (checked before `name` — if both missing, you get this) |
 | "parameter 'name' must be provided" | 1004 | `name` omitted |
 | "wrong id type — provide only: ['part']" | 1001 | `id` is not a part (sketch, EIF, workplane, etc.) |
 | "invalid id" | 1006 | Non-existent or zero ID |
-
-Validation order: `id` is checked before `name` — if both are missing, you get the `id` error.
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const skId = (await api.v1.part.sketch({ id: partId, name: 'FrontProfile' })).result
-
-// Later, look it up by name
-const found = (await api.v1.part.getSketch({ id: partId, name: 'FrontProfile' })).result
-// found === skId
+const found = (await api.v1.part.getSketch({ id: partId, name: 'FrontProfile' })).result // === skId
 ```
 
 ## Related

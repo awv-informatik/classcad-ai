@@ -1,87 +1,48 @@
 # curve.arcByCenter
 
-Creates one or more arcs defined by center point, start point, end point, and a clockwise flag. The radius is determined by the distance from center to start. The `isClockwise` flag selects which of the two possible arcs (major or minor) is drawn.
-
-## Prerequisites
-
-- A shape (`curve.shape`) inside an entity injection (`part.entityInjection`)
+Creates one or more arcs from center, start and end points plus a clockwise flag (in a `curve.shape`). Radius = |startPos − centerPos|; `isClockwise` selects which of the two arcs (major/minor) is drawn.
 
 ## Key Parameters
 
-- `id` (required) — shape ID. Must be a shape, not part or EI.
-- `centerPos` (required) — `[x, y, z]` center of the arc's circle.
-- `startPos` (required) — `[x, y, z]` start point. Must be at the desired radius from `centerPos`.
-- `endPos` (required) — `[x, y, z]` end point. **Must be at the same radius from `centerPos` as `startPos`.** If not equidistant, the server returns an error (code=0, level=51).
-- `isClockwise` (optional, default `true`) — direction of arc sweep from start to end.
+- `id` (required) — shape ID (not part or EI)
+- `centerPos` (required) — `[x, y, z]` circle center
+- `startPos` (required) — `[x, y, z]`, at the desired radius
+- `endPos` (required) — `[x, y, z]`, **at the same radius as `startPos`**, else error (code=0, level=51, "Created end point differs from the input values" plus the offset distance)
+- `isClockwise` (optional, default `true`) — sweep direction start → end; accepts `true`/`false` or `1`/`0`
 
-All points must be `[x, y, z]` — no 2D shorthand.
+All points `[x, y, z]` — `[x, y]` fails with `"If point is defined as array, it must have exactly 3 real values"`. Fully 3D: the points define the arc plane, no normal needed.
 
 ## ⚠️ Unreliable inside multi-curve profile chains
 
-When a shape's curves are consumed as a closed region by `solid.extrusion`/`solid.revolve`, the
-kernel re-picks arc branches while assembling the loop — `isClockwise` is NOT reliably honored
-(probed 2026-08-10: a line+arc half-disc came out identical for cw=true and cw=false; an
-8-entity tooth profile was degenerate or wrong-sized in every flag/winding combination). For
-profiles mixing lines and arcs, use **`curve.polyline2d` with signed bulges** instead — one
-closed polyline encodes each arc unambiguously. `arcByCenter` remains fine for standalone arcs
-and full circles.
+When a shape's curves are consumed as a closed region by `solid.extrusion`/`solid.revolve`, the kernel re-picks arc branches while assembling the loop — `isClockwise` is NOT reliably honored (a line+arc half-disc came out identical for cw=true and cw=false; an 8-entity tooth profile was degenerate or wrong-sized in every flag/winding combination). For profiles mixing lines and arcs use **`curve.polyline2d` with signed bulges** — one closed polyline encodes each arc unambiguously. `arcByCenter` remains fine for standalone arcs and full circles.
 
 ## How isClockwise Works
 
-The flag selects **which arc** between start and end is created:
+- `true` (default) — clockwise; for a 90° angle between start/end vectors → the **270° major arc**.
+- `false` — counterclockwise; for 90° → the **90° minor arc**.
 
-- `isClockwise: true` (default) — sweeps clockwise from start to end. For a 90° angle between start/end vectors, this produces the **270° major arc**.
-- `isClockwise: false` — sweeps counterclockwise from start to end. For a 90° angle, this produces the **90° minor arc**.
+The two are complementary (together a full circle). For diametrically opposite points both give semicircles on opposite sides.
 
-The two arcs are complementary — together they form a full circle. For a 180° angle (diametrically opposite points), both produce semicircles on opposite sides.
-
-Accepts JS booleans (`true`/`false`) and numeric values (`1`/`0`) interchangeably.
-
-## Full Circle
-
-**`startPos == endPos` creates a full circle.** This is valid, not an error. The radius is the distance from `centerPos` to `startPos`. This provides an alternative to `curve.circle` for creating circles inside shapes.
-
-## Batch Creation
-
-Pass an array of objects to create multiple arcs in one call:
-
-```js
-await api.v1.curve.arcByCenter([
-  { id: shapeId, centerPos: [0, 0, 0], startPos: [15, 0, 0], endPos: [0, 15, 0], isClockwise: false },
-  { id: shapeId, centerPos: [40, 0, 0], startPos: [55, 0, 0], endPos: [40, 15, 0], isClockwise: true },
-])
-```
-
-- Returns a single VOID response (maxLevel 31 on success)
-- Can mix different centers, radii, and `isClockwise` values in one batch
+**`startPos == endPos` creates a full circle** (valid; alternative to `curve.circle`).
 
 ## Return Value
 
-Returns VOID (null). maxLevel 31 on success. No ID is returned — arcs cannot be individually addressed after creation.
+VOID (null), maxLevel 31. No ID — arcs merge into the shape's geometry; no per-arc addressing, updating or deletion.
 
-## 3D Support
-
-Fully 3D — all three points can have arbitrary X, Y, Z coordinates. The arc plane is determined by the three points. No normal vector is needed.
+Batch: pass an array of parameter objects (may mix centers, radii, `isClockwise`); single VOID response.
 
 ## Gotchas
 
-- **center == start or center == end is rejected** with "Created end point differs from the input values" (zero radius vs. the other endpoint). Validate that centerPos differs from startPos and endPos.
-- **startPos and endPos must be equidistant from centerPos.** The server uses `|startPos - centerPos|` as the radius. If `|endPos - centerPos|` differs, you get error code=0, level=51 with message about "Created end point differs from the input values" and the offset distance.
-- **No individual arc IDs.** Like lines and circles, arcs merge into the shape's geometry. No per-arc addressing, updating, or deletion.
-- **Points must be `[x, y, z]`** — `[x, y]` fails with: `"If point is defined as array, it must have exactly 3 real values"`.
+- **center == start or center == end is rejected** ("Created end point differs from the input values" — zero radius vs. the other endpoint). Validate centerPos differs from both.
 
 ## Common Errors
 
-| Code | Level | Message | Cause |
-|------|-------|---------|-------|
-| 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
-| 1004 | ERROR | `"The parameter \"centerPos\" must be provided..."` | Missing centerPos |
-| 1004 | ERROR | `"The parameter \"startPos\" must be provided..."` | Missing startPos |
-| 1004 | ERROR | `"The parameter \"endPos\" must be provided..."` | Missing endPos |
-| 1004 | ERROR | `"The parameter \"id\" must be provided..."` | Missing id |
-| 0 | ERROR | `"Created end point differs from the input values..."` | startPos and endPos at different radii from center |
-| 0 | ERROR | `"...must have exactly 3 real values"` | Point array not exactly 3 elements |
-| 0 | ERROR | Created end point differs from the input values | centerPos == startPos or centerPos == endPos (zero radius) |
+| Code | Message | Cause |
+|------|---------|-------|
+| 1001 | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Part/EI ID instead of shape ID |
+| 1004 | `"The parameter \"<centerPos\|startPos\|endPos\|id>\" must be provided..."` | Missing parameter |
+| 0 | `"Created end point differs from the input values..."` | start/end at different radii, or centerPos == startPos/endPos |
+| 0 | `"...must have exactly 3 real values"` | Point not exactly 3 elements |
 
 ## Working Example
 
@@ -91,35 +52,15 @@ const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Arcs' })).result
 
 // 90° minor arc (counterclockwise)
-await api.v1.curve.arcByCenter({
-  id: shapeId,
-  centerPos: [0, 0, 0],
-  startPos: [10, 0, 0],
-  endPos: [0, 10, 0],
-  isClockwise: false,
-})
+await api.v1.curve.arcByCenter({ id: shapeId, centerPos: [0, 0, 0], startPos: [10, 0, 0], endPos: [0, 10, 0], isClockwise: false })
 
-// Rounded rectangle corner (practical usage)
-const w = 80, h = 40, r = 10
-await api.v1.curve.line({ id: shapeId, startPos: [r, 0, 0], endPos: [w - r, 0, 0] })
-await api.v1.curve.arcByCenter({
-  id: shapeId,
-  centerPos: [w - r, r, 0],
-  startPos: [w - r, 0, 0],
-  endPos: [w, r, 0],
-  isClockwise: false,
-})
-// ... continue for remaining edges and corners
+// 270° major arc (default clockwise), same angle
+await api.v1.curve.arcByCenter({ id: shapeId, centerPos: [40, 0, 0], startPos: [55, 0, 0], endPos: [40, 15, 0] })
 
 // Full circle (startPos == endPos)
-await api.v1.curve.arcByCenter({
-  id: shapeId,
-  centerPos: [50, 50, 0],
-  startPos: [70, 50, 0],
-  endPos: [70, 50, 0],
-})
+await api.v1.curve.arcByCenter({ id: shapeId, centerPos: [50, 50, 0], startPos: [70, 50, 0], endPos: [70, 50, 0] })
 ```
 
 ## Related
 
-`curve.shape` · `curve.arcBy3Points` · `curve.arcByCenterRadAngle` · `curve.circle` · `curve.line` · `curve.deleteShape` / `curve.cleanShape`
+`curve.polyline2d` · `curve.shape` · `curve.arcBy3Points` · `curve.arcByCenterRadAngle` · `curve.circle` · `curve.line` · `curve.deleteShape` / `curve.cleanShape`

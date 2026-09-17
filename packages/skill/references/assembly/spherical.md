@@ -1,88 +1,42 @@
 # assembly.spherical
 
-Creates a spherical (ball-joint) constraint between two instances. Locks 3 translational DOF (origins coincide), leaves all 3 rotational DOF free.
+Spherical (ball-joint) constraint between two instances. Locks the 3 translations (csys origins coincide); all 3 rotations stay free.
 
-## Prerequisites
-
-- An assembly root (`assembly.create`)
-- At least two instances (`assembly.instance`) with work coordinate systems (`part.workCSys`) in their templates
-- **Ground at least one instance** with `fastenedOrigin` before applying spherical — otherwise the solver repositions BOTH instances
+Prerequisites: assembly root, two instances whose templates contain a `part.workCSys`. **Ground at least one instance** with `fastenedOrigin` first — otherwise the solver repositions BOTH instances.
 
 ## Key Parameters
 
 - `id` — assembly root ID (required)
-- `mate1` / `mate2` — each needs `path: [instanceId]` and `csys: workCSysId`
-- `yRotationLimits` — `{ max }` defining max rotation around Y-axis. Accepts radians (number) or degree strings (`'45deg'`). Stored internally as radians. Omit or pass `null` for no limit.
-- `name` — constraint name (default `"Spherical"`)
+- `mate1` / `mate2` — `{ path: [instanceId], csys: workCSysId }`
+- `yRotationLimits` — `{ max }` only (no `min`): max rotation around Y. Radians or degree string; `'45deg'` is stored as 0.7853981633974483. Omit or `null` for no limit
+- `name` — default `"Spherical"`
 
 ## Alignment Semantics (CRITICAL)
 
-**The csys origins are the ball center.** inst2 moves so that mate2's csys origin coincides with mate1's csys origin; orientation stays free. Example: mate1 csys at `offset [40,0,20]`, mate2 csys at its part origin → inst2 at `[40,0,20]`, orientation unchanged. Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
+**The csys origins are the ball center.** inst2 moves so mate2's csys origin coincides with mate1's; orientation stays free — inst2 keeps its current orientation (created at 45° about Z → stays at 45°). Example: mate1 csys at `offset [40,0,20]`, mate2 csys at its part origin → inst2 at `[40,0,20]`, orientation unchanged. Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
 
-**No offset params.** Unlike revolute (zOffset), cylindrical (zOffset), slider (xOffset/yOffset), or parallel (xOffset/yOffset/zOffset), spherical has NO offset parameters. The only way to separate the two instances is through `moveUnderConstraints` or by removing the constraint.
+**No offset params** (unlike revolute, cylindrical, slider, parallel). The only ways to separate the instances are `moveUnderConstraints` or removing the constraint. Free rotations become active only via `moveUnderConstraints` or interacting constraints.
 
-## DOF and Behavior
-
-Spherical constrains 3 DOF, leaving 3 free:
-- **Locked:** X-translation, Y-translation, Z-translation (origins coincide)
-- **Free:** X-rotation, Y-rotation, Z-rotation (all rotations unconstrained)
-
-With no motion commands, inst2 keeps its current orientation (an instance created at 45° about Z stays at 45°); only its position moves onto the ball center. The free rotation DOFs only become active via `moveUnderConstraints` or when external constraints interact.
-
-## flip and reorient — NO EFFECT
-
-Because all 3 rotation DOFs are free, `mate.flip` and `mate.reorient` have no observable effect on a spherical constraint. The solver absorbs any applied orientation since rotation is unconstrained. This differs from:
-- **slider** (all rotation locked → flip/reorient always visible)
-- **revolute** (1 rotation free, 2 locked → some flips visible)
-- **parallel** (some rotations free → some flips absorbed)
-
-The params are accepted without error but produce no change in positioning.
-
-## yRotationLimits
-
-Optional constraint on Y-axis rotation. Only has a `max` field (no `min`).
-
-- `yRotationLimits: { max: 0.785 }` — radians (~45°)
-- `yRotationLimits: { max: '45deg' }` — degree string, stored as 0.7853981633974483
-- Omit entirely or `yRotationLimits: null` — no limit (free rotation)
-
-`getSpherical` always returns `yRotationLimits: { max: ... }` where max is a number or `null`.
+**`mate.flip` / `mate.reorient` have NO effect.** They are accepted without error, but free rotation absorbs them (contrast: slider locks all rotation → always visible; revolute → some flips visible; parallel → some absorbed).
 
 ## Return Value
 
-- Single call: `id` — the constraint ID
-- Array call: `Array<id>` — one ID per constraint
-
-## getSpherical
-
-`getSpherical({ id: assemblyId, name: 'BallJoint' })` — query by name.
-
-- Takes **assembly/product ID** (NOT instance ID). Instance ID returns null.
-- Returns: `{ id, name, mate1, mate2, yRotationLimits }` with full mate details (path, csys, flip, reorient)
-- Not found: `result: null`, maxLevel=51, error code 0
-
-## updateSpherical
-
-`updateSpherical({ id: constraintId, ... })` — takes **constraint ID** (NOT assembly ID).
-
-True partial update — only specified params change, unspecified are preserved.
-
-- **Add/change yRotationLimits:** `{ id, yRotationLimits: { max: '60deg' } }`
-- **Remove yRotationLimits:** `{ id, yRotationLimits: null }`
-- **Rename:** `{ id, name: 'NewName' }` — old name immediately unfindable
-- **Remate:** `{ id, mate2: { path: [newInst], csys: wcs } }` — repositions new instance
-
-## Batch Creation
-
-Pass an array of param objects to create multiple constraints in one call:
+Constraint ID; array call → `Array<id>`, one per constraint:
 
 ```js
 await api.v1.assembly.spherical([
   { id: asmId, name: 'Ball_A', mate1: {...}, mate2: {...} },
   { id: asmId, name: 'Ball_B', mate1: {...}, mate2: {...}, yRotationLimits: { max: '90deg' } },
-])
-// Returns: [constraintIdA, constraintIdB]
+]) // → [constraintIdA, constraintIdB]
 ```
+
+## getSpherical / updateSpherical
+
+- `getSpherical({ id: assemblyId, name })` — `id` is the assembly holding it: the root, an assembly template, or a sub-assembly instance (part instance → null, "not a Assembly"). Returns `{ id, name, mate1, mate2, yRotationLimits }` with full mate details (path, csys, flip, reorient); `yRotationLimits` is always `{ max }` with a number or `null`. Not found → `result: null`, maxLevel 51, error code 0.
+- `updateSpherical({ id: constraintId, ... })` — takes the **constraint ID**. True partial update:
+  - `yRotationLimits: { max: '60deg' }` adds/changes; `yRotationLimits: null` removes
+  - `name: 'NewName'` — old name immediately unfindable
+  - `mate2: { path: [newInst], csys: wcs }` — remate; repositions the new instance
 
 ## Common Errors
 
@@ -105,15 +59,13 @@ const wcs = (await api.v1.part.workCSys({ id: tpl, name: 'Mate' })).result  // c
 
 const tpl2 = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
 await api.v1.part.box({ id: tpl2, name: 'B', length: 60, width: 60, height: 10 })
-const wcs2 = (await api.v1.part.workCSys({ id: tpl2, name: 'Mate' })).result  // csys at part origin
+const wcs2 = (await api.v1.part.workCSys({ id: tpl2, name: 'Mate' })).result
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 const inst1 = (await api.v1.assembly.instance({ productId: tpl2, ownerId: asmId })).result
 const inst2 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId })).result
 
-await api.v1.assembly.fastenedOrigin({
-  id: asmId, mate1: { path: [inst1], csys: wcs2 },
-})
+await api.v1.assembly.fastenedOrigin({ id: asmId, mate1: { path: [inst1], csys: wcs2 } })
 
 const sId = (await api.v1.assembly.spherical({
   id: asmId, name: 'BallJoint',
@@ -122,14 +74,8 @@ const sId = (await api.v1.assembly.spherical({
   yRotationLimits: { max: '45deg' },
 })).result
 
-// Query
 const state = (await api.v1.assembly.getSpherical({ id: asmId, name: 'BallJoint' })).result
-
-// Update
-await api.v1.assembly.updateSpherical({ id: sId, yRotationLimits: { max: '90deg' } })
-
-// Remove limits
-await api.v1.assembly.updateSpherical({ id: sId, yRotationLimits: null })
+await api.v1.assembly.updateSpherical({ id: sId, yRotationLimits: null })  // remove limit
 ```
 
 ## Related

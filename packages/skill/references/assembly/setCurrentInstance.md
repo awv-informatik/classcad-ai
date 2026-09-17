@@ -1,33 +1,23 @@
 # assembly.setCurrentInstance
 
-Sets the given instance or root assembly as the "current instance." Also sets `currentProduct` to the instance's linked template.
+Sets the "current instance" and sets `currentProduct` to that instance's linked template — the main practical effect: `part.*` APIs (openFeature, updateBox, …) then operate on the template. Also affects `common.save` metadata (which product is marked active); the full assembly is always saved.
 
-## Prerequisites
-
-- An assembly created with `assembly.create`
-- At least one instance created with `assembly.instance`
+Prerequisites: an assembly with at least one instance.
 
 ## Key Parameters
 
-- `id` — instance ID, root assembly ID, or template ID (part/assembly). Numeric only — string identifiers are **not supported**.
+- `id` — instance ID, root assembly ID, or template ID (part/assembly). **Numeric only** — string identifiers, including idents from `setIdent`, are not supported.
 
 ## Return Value
 
-VOID (null). maxLevel=31 on success. No previous-value return (unlike `setCurrentProduct` which returns the previous product ID).
-
-## What It Does
-
-1. Sets the internal "current instance" pointer.
-2. Sets `currentProduct` to the instance's linked template — this is the main practical effect.
-3. After the call, `part.*` APIs operate on the instance's template (openFeature, updateBox, etc.).
-4. Affects `common.save` metadata (which product is marked active), but the full assembly is always preserved.
+VOID (null), maxLevel 31. No previous-value return (unlike `setCurrentProduct`).
 
 ## Accepted ID Types
 
 | ID type | Works? | Sets product to |
 |---|---|---|
 | Instance (CC_ProductReference) | ✓ | Instance's template |
-| Expanded-tree instance (CC_ProductReferenceET) | ✓ | Leaf template |
+| Expanded-tree instance (CC_ProductReferenceET, nested sub-assemblies) | ✓ | Leaf template, not the intermediate sub-assembly |
 | Root assembly | ✓ | Root assembly |
 | Part/assembly template | ✓ | That template |
 | Feature ID | ✗ | Error: wrong id type |
@@ -41,17 +31,14 @@ VOID (null). maxLevel=31 on success. No previous-value return (unlike `setCurren
 | Return value | VOID | Previous product ID |
 | Sets current instance? | Yes | No |
 | Sets current product? | Yes (to template) | Yes (directly) |
-| Accepts instance IDs? | Yes | Yes |
-| Accepts template IDs? | Yes | Yes |
+| Accepts instance / template IDs? | Yes / Yes | Yes / Yes |
 
-`setCurrentInstance` is a convenience — it navigates to an instance's template in one call. `setCurrentProduct` gives rollback info (previous ID) and direct product control.
+Use `setCurrentInstance` to navigate to an instance's template in one call; `setCurrentProduct` for rollback info and direct product control.
 
 ## Gotchas
 
-- **No getter.** There is no `getCurrentInstance` API — you cannot query the current instance.
-- **String idents not supported.** Even if you set an ident with `setIdent`, you cannot use it with `setCurrentInstance`. The `id` param only accepts numeric IDs.
-- **Idempotent.** Calling twice with the same instance is safe — no error, no side effects.
-- **Sub-assemblies.** Works with expanded-tree instance IDs from nested sub-assemblies. The product is set to the leaf template, not the intermediate sub-assembly.
+- **No getter** — there is no `getCurrentInstance`.
+- **Idempotent** — calling twice with the same instance is safe.
 
 ## Working Example
 
@@ -60,21 +47,16 @@ const asmId = (await api.v1.assembly.create({})).result
 const tplId = (await api.v1.assembly.partTemplate({ name: 'Box' })).result
 const boxFeat = (await api.v1.part.box({ id: tplId, length: 40, width: 30, height: 20 })).result
 await api.v1.assembly.setCurrentProduct({ id: asmId })
+const instId = (await api.v1.assembly.instance({ productId: tplId, ownerId: asmId, name: 'BoxInst' })).result
 
-const instId = (await api.v1.assembly.instance({
-  productId: tplId, ownerId: asmId, name: 'BoxInst',
-  transformation: [[0, 0, 0], [1, 0, 0], [0, 1, 0]]
-})).result
-
-// Navigate to instance's template to modify it
+// Navigate to the instance's template and modify it
 await api.v1.assembly.setCurrentInstance({ id: instId })
 await api.v1.part.openFeature({ id: boxFeat })
 await api.v1.part.updateBox({ id: boxFeat, height: 50 })
 await api.v1.part.closeFeature({ id: boxFeat })
 await api.v1.common.recalc({})
 
-// Return to assembly context
-await api.v1.assembly.setCurrentInstance({ id: asmId })
+await api.v1.assembly.setCurrentInstance({ id: asmId })  // back to assembly
 ```
 
 ## Related

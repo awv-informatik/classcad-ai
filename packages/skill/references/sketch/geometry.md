@@ -1,76 +1,35 @@
 # sketch.geometry
 
-Batch-creates one or more sketch geometry items (points, lines, arcs, circles) in a single call. Functionally equivalent to calling `sketch.point`, `sketch.line`, `sketch.circle`, `sketch.arcBy3Points`, `sketch.arcByCenter` individually — this is a convenience wrapper that reduces round-trips.
-
-## Prerequisites
-
-- A part (`part.create`)
-- A sketch (`sketch.create`)
+Batch-creates points, lines, arcs, and circles in one call — equivalent to `sketch.point`/`line`/`circle`/`arcBy3Points`/`arcByCenter`, fewer round-trips.
 
 ## Key Parameters
 
 - `id` — sketch ID (required)
-- `points` — array of `{ pos: [x,y,z] }`
-- `lines` — array of `{ startPos, endPos, isConstruction? }` — `isConstruction` defaults to FALSE
-- `arcsBy3Points` — array of `{ startPos, endPos, midPos, isConstruction? }` — `midPos` is a point ON the arc, not the center; `isConstruction` defaults to FALSE
-- `arcsByCenter` — array of `{ startPos, endPos, centerPos, isClockwise?, isConstruction? }` — `isClockwise` defaults to TRUE; `isConstruction` defaults to FALSE
-- `circles` — array of `{ centerPos, radius, isConstruction? }` — `isConstruction` defaults to FALSE
-- `genFixation` — auto-generate fixation constraint at origin (default TRUE)
-- `genIncidence` — auto-generate coincidence constraints when endpoints overlap (default TRUE)
-- `genTangency` — auto-generate tangency constraints between touching curves (default TRUE)
-- `genVertAndHoriz` — auto-generate horizontal/vertical constraints for axis-aligned lines (default TRUE)
+- `points` — `[{ pos }]`
+- `lines` — `[{ startPos, endPos, isConstruction? }]`
+- `arcsBy3Points` — `[{ startPos, endPos, midPos, isConstruction? }]` — `midPos` is ON the arc, not the center
+- `arcsByCenter` — `[{ startPos, endPos, centerPos, isClockwise?, isConstruction? }]` — `isClockwise` default TRUE
+- `circles` — `[{ centerPos, radius, isConstruction? }]`
+- `genFixation` (fixation at origin), `genIncidence` (coincidence at overlapping endpoints), `genTangency` (tangency between touching curves), `genVertAndHoriz` (H/V for axis-aligned lines) — all default TRUE, and apply to EVERY item in the call
 
-All geometry arrays are optional. You can pass any combination, including none at all.
+All arrays optional, any combination; `{ id }` alone or empty arrays return all-empty results without error.
 
-Per-curve `isConstruction` (lines, circles, arcs; not points) marks a curve as construction/reference geometry — a skeleton (axes, bolt circles, centerlines) that drives the real profile through constraints and dimensions but is excluded from the profile itself: it participates fully in the constraint solver (e.g. a real circle can be made tangent to a construction axis) yet is not actionable — it renders dashed, and passing construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error (`maxLevel 51`), not a solid. See `recipes/constrained-sketching` (§ Construction geometry).
+**`isConstruction`** (default FALSE; curves only, not points) marks a skeleton curve (axes, bolt circles, centerlines) that drives the profile through constraints/dimensions but isn't part of it: fully in the solver (a real circle can be tangent to a construction axis), rendered dashed, and construction-only curves in `part.extrusion`/`part.revolve`/`part.twist` → error (maxLevel 51), no solid. See `recipes/constrained-sketching` (§ Construction geometry).
 
 ## Return Value
 
-```js
-{
-  result: {
-    points: id[],        // IDs of created points
-    lines: id[],         // IDs of created lines
-    arcsBy3Points: id[], // IDs of created 3-point arcs
-    arcsByCenter: id[],  // IDs of created center arcs
-    circles: id[]        // IDs of created circles
-  }
-}
-```
+`result: { points, lines, arcsBy3Points, arcsByCenter, circles }` — always all 5 arrays (unrequested ones `[]`); IDs ascending, matching input order.
 
-Always returns all 5 arrays, even for types not requested (those will be empty `[]`). IDs within each array are in ascending order matching input array order.
+## Auto-constraints
+
+- Defaults on two connected lines (H + V): `Auto_Fix` (`CC_2DFixationConstraint`, at origin), `Auto_H`, `Auto_V`, `Auto_Coinc` (shared endpoints). All 4 flags `false` → 0 autos.
+- **Individual creators auto-generate too:** `sketch.line`/`circle`/`arcByCenter` produced `Auto_Fix`, `Auto_Coinc` (exactly-shared endpoints), `Auto_H`, `Auto_V` — but NO tangency for exactly-tangent circle/line pairs. Only this call's `genTangency` generates tangency, and only this call exposes flags to suppress generation.
+- **⚠️ Autos + contradictory explicit wiring = global solver divergence.** Autos encode junction topology FROM SEED POSITIONS. If an explicit COINCIDENT disagrees (e.g. mirrored arcs with swapped start/end wired by a side-uniform loop), `DoSolve` flags no loser — it diverges from an already-satisfied state: batches 51, `CalcBulges radius too small`, `SetSE NullMem`, small arcs collapse to r=0, every later dimension value refused (mounting-plate, 19 curves). Consistent duplication is harmless (autos ON and OFF both solved rough→exact at 2.8e-14). For fully explicit builds pass `genIncidence: false, genTangency: false, genVertAndHoriz: false` — the same wiring bug then solves to a visibly displaced layout a numeric readback catches.
 
 ## Gotchas
 
-- **No input validation for degenerate geometry.** Zero-radius circles, zero-length lines (start==end), and negative-radius circles are accepted silently (maxLevel=31, no error). They create objects in the sketch but may cause issues downstream (extrusion, constraint solving).
-- **Empty/missing arrays are fine.** Passing `{ id: skId }` with no geometry arrays returns all 5 empty arrays without error. Passing empty arrays `points: []` also works.
-- **gen flags affect ALL geometry in the call.** Setting `genFixation: false` suppresses fixation constraints for every item created in that call, not selectively.
-- **⚠️ Autos + contradictory explicit wiring = global solver divergence.** Auto-generated
-  constraints encode junction topology FROM THE SEED POSITIONS. If an explicit COINCIDENT
-  disagrees (e.g. mirrored arcs with swapped start/end roles wired by a side-uniform loop),
-  `DoSolve` doesn't flag a loser — it diverges from an already-satisfied state: batches 51,
-  `CalcBulges radius too small`, `SetSE NullMem`, small arcs collapse to r=0, every later
-  dimension value refused, geometry wrecked (verified 2026-07-02, mounting-plate, 19 curves).
-  Pure duplication (explicit set consistent with seeds) is harmless — autos ON and OFF both
-  solved rough→exact at 2.8e-14. For fully explicit builds, pass `genIncidence: false,
-  genTangency: false, genVertAndHoriz: false`: the same wiring bug then just solves to a
-  visibly displaced layout that a numeric readback catches.
-- **Individual creators auto-generate too** (verified 2026-07-02): `sketch.line`/`circle`/
-  `arcByCenter` produced `Auto_Fix`, `Auto_Coinc` (at exactly-shared endpoints), `Auto_H`,
-  `Auto_V` — but NO tangency autos for exactly-tangent circle/line pairs. Only this batch
-  call's `genTangency` generates tangency constraints, and only this call exposes flags to
-  suppress generation.
-- **Structure tree accumulation.** When reading `r.structure` after calling `geometry()`, the tree contains ALL objects in the drawing (all parts, all sketches), not just what was just created. To compare constraint effects, use isolated parts/scripts.
-
-## Auto-Constraint Flags
-
-With default flags (all TRUE), for two connected lines (horizontal + vertical):
-- `CC_2DFixationConstraint` (Auto_Fix) — fixes geometry to the origin
-- `CC_2DHorizontalConstraint` (Auto_H) — on horizontal lines
-- `CC_2DCoincidentConstraint` (Auto_Coinc) — at shared endpoints
-- `CC_2DVerticalConstraint` (Auto_V) — on vertical lines
-
-Setting all 4 gen flags to `false` produces 0 auto-constraints.
+- **No degenerate-geometry validation.** Zero/negative-radius circles and zero-length lines are accepted silently (maxLevel 31) and may break extrusion or solving downstream.
+- **`r.structure` contains the whole drawing** (all parts/sketches), not just new items — compare constraint effects in isolated parts/scripts.
 
 ## Working Example
 
@@ -78,7 +37,6 @@ Setting all 4 gen flags to `false` produces 0 auto-constraints.
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const skId = (await api.v1.sketch.create({ id: partId })).result
 
-// Create mixed geometry in one call
 const r = await api.v1.sketch.geometry({
   id: skId,
   points: [{ pos: [0, 0, 0] }],
@@ -87,12 +45,9 @@ const r = await api.v1.sketch.geometry({
     { startPos: [50, 0, 0], endPos: [50, 30, 0] },
   ],
   circles: [{ centerPos: [25, 15, 0], radius: 10 }],
-  genFixation: false,  // suppress auto-constraints if you'll add your own
+  genFixation: false,
 })
-
-// r.result.points = [id1]
-// r.result.lines = [id2, id3]
-// r.result.circles = [id4]
+// r.result.points = [id1], lines = [id2, id3], circles = [id4]
 ```
 
 ## Related

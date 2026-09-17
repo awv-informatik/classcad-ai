@@ -1,57 +1,38 @@
 # solid.cylinder
 
-Creates a cylinder primitive solid within an entity injection feature.
-
-## Prerequisites
-
-- A part (`part.create`)
-- An entity injection feature (`part.entityInjection`) — pass the EIF ID as `id`, **not** the part ID
+Creates a cylinder primitive in an entity injection feature (EIF).
 
 ## Key Parameters
 
-- `id` — entity injection feature ID (not part ID). Error message is clear if wrong type: `"Provide only following id types: [\"entityinjection\"]"`
-- `height` — total Z-dimension (required). The cylinder is **z-centered**: extends from `z=-height/2` to `z=+height/2`.
-- `diameter` — full diameter of the circular cross-section (required). This is diameter, **not radius**.
-- `translation` — `[x, y, z]` offset from origin (optional)
-- `rotation` — `[rx, ry, rz]` rotation in **radians** around each axis (optional)
-- `rotateFirst` — boolean, default `true`. Controls transform order when both rotation and translation are provided:
-  - `true` (default): rotate around origin first, then translate
-  - `false`: translate first, then rotate around origin — the cylinder ends up orbiting the origin
+- `id` — EIF ID, **not** the part ID (wrong type → `"Provide only following id types: [\"entityinjection\"]"`)
+- `height` — total Z-dimension (required); **z-centered**, spans `z=-height/2..+height/2`
+- `diameter` — full diameter (required). Diameter, **not radius**: `diameter: 50` → radius 25.
+- `rotation`, `translation`, `rotateFirst` (default `true`) — optional; see `solid/generic`
+
+Required params validated in order id → height → diameter; only the first missing one is reported.
 
 ## Return Value
 
-Returns an **integer solid ID** on success (e.g., `61`). maxLevel=31 on success, messages=[].
-
-On error, returns `null` with maxLevel=51 and descriptive error messages.
+Integer solid ID (e.g. `61`), maxLevel=31, messages=[]. On error `null`, maxLevel=51 with descriptive messages.
 
 ## Alignment
 
-The cylinder is **fully centered at the origin** — the circular cross-section is centered at (x=0, y=0) AND the cylinder is z-centered, extending from `z=-height/2` to `z=+height/2`. Verified empirically: a cylinder with `height=100` (no translation) has COG at (0, 0, 0), not (0, 0, 50).
+**Fully centered at the origin**: cross-section centered at (0, 0), z-centered. `height=100` → COG (0, 0, 0), not (0, 0, 50). (Older docs claiming z=`0..h` were wrong.) All `solid.*` primitives share this; **`part.cylinder` differs** — base-anchored, z=`0..H` (see `references/part/feature-vs-direct.md`).
 
-All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) share this origin-centered convention. **`part.cylinder` is DIFFERENT** — base-anchored at the origin, extends z=`0..H`. See `references/part/feature-vs-direct.md` for the conventions table. Older versions of this doc claimed `solid.cylinder` extended z=`0..h`; that was wrong — verified empirically.
-
-Practical: to position a through-hole that pierces a plate at z∈[-t/2,+t/2], use `height >= t` and `translation: [..., 0]` — no z-offset needed.
+Practical: a through-hole piercing a plate at z∈[-t/2,+t/2] needs `height >= t` and `translation: [..., 0]` — no z-offset.
 
 ## Gotchas
 
-- **Zero dimensions are accepted silently.** `height: 0` creates a degenerate flat disk, `diameter: 0` creates a degenerate line/point. No error, no warning, maxLevel=31. **Always validate dimensions > 0 before calling.**
-- **Negative dimensions are accepted silently.** They create internal geometry that the renderer cannot display. No error, no warning, maxLevel=31.
-- **Parameter is `diameter`, not `radius`.** Easy to confuse — a cylinder with `diameter: 50` has radius 25.
-- **Required params are validated in order:** id → height → diameter. If multiple are missing, only the first missing one is reported.
+- **Zero dimensions accepted silently** (maxLevel=31): `height: 0` → degenerate flat disk, `diameter: 0` → degenerate line/point.
+- **Negative dimensions accepted silently** (maxLevel=31): internal geometry the renderer cannot display. **Always validate dimensions > 0.**
 
 ## Common Errors
 
-| Error | Cause | Fix |
-|---|---|---|
-| `"The parameter \"height\" must be provided"` (level 51) | Missing required dimension | Add the missing parameter |
-| `"The parameter \"diameter\" must be provided"` (level 51) | Missing required dimension | Add the missing parameter |
-| `"The parameter \"id\" has a wrong id type!"` (level 51) | Passed part ID instead of EIF ID | Use the ID from `part.entityInjection`, not `part.create` |
-
-## Usage Hints
-
-- Multiple cylinders can coexist in one entity injection feature — each gets its own solid ID
-- Use `solid.deleteSolid({ id: eifId, ids: [cylId] })` to remove specific cylinders. Omit `ids` to clear all solids.
-- For boolean operations (union, subtraction, intersection), create multiple solids in the same EIF first, then combine them
+| Error (level 51) | Cause |
+|---|---|
+| `"The parameter \"height\" must be provided"` | Missing height |
+| `"The parameter \"diameter\" must be provided"` | Missing diameter |
+| `"The parameter \"id\" has a wrong id type!"` | Part ID instead of EIF ID — use `part.entityInjection` ID |
 
 ## Working Example
 
@@ -59,23 +40,16 @@ Practical: to position a through-hole that pierces a plate at z∈[-t/2,+t/2], u
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 
-// Basic cylinder at origin — centered in XY, extends along Z
-const cylId = (await api.v1.solid.cylinder({
-  id: eifId,
-  height: 100,
-  diameter: 50
-})).result
+// Centered at origin, axis along Z
+const cylId = (await api.v1.solid.cylinder({ id: eifId, height: 100, diameter: 50 })).result
 
-// Translated + rotated cylinder
+// 90° about X — lies along Y; then translated
 const cyl2Id = (await api.v1.solid.cylinder({
-  id: eifId,
-  height: 80,
-  diameter: 30,
-  translation: [80, 0, 0],
-  rotation: [Math.PI / 2, 0, 0]  // 90° around X — lies along Y
+  id: eifId, height: 80, diameter: 30,
+  translation: [80, 0, 0], rotation: [Math.PI / 2, 0, 0],
 })).result
 ```
 
 ## Related
 
-`solid.deleteSolid` · `solid.copy` · `solid.translation` / `solid.rotation` / `solid.scale` · `solid.union` / `solid.subtraction` / `solid.intersection` · `part.entityInjection` · `solid.box` · `solid.sphere` · `solid.cone`
+`solid/generic` · `solid.box` · `solid.sphere` · `solid.cone` · `solid.deleteSolid` · `solid.copy` · `solid.translation` / `solid.rotation` / `solid.scale` · `solid.union` / `solid.subtraction` / `solid.intersection`

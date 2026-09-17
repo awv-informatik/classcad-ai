@@ -1,70 +1,48 @@
 # part.updateSliceBySheet
 
-Updates an existing sliceBySheet feature — changes the tool, inverted flag, target, or name.
-
-## Prerequisites
-
-- An existing sliceBySheet feature (from `part.sliceBySheet`)
-- The feature must be opened with `part.openFeature` before updating
+Updates a sliceBySheet feature's tool, inverted flag, target, or name. Requires `part.openFeature` before and `closeFeature` after.
 
 ## Key Parameters
 
-- `id` — the **slice feature ID** (not the part ID). This is the ID returned by `part.sliceBySheet`.
-- `tool` — new sheet feature as object `{ id: sheetId }` (optional — omit to keep existing)
-- `inverted` — integer `0` or `1` to change which side is kept (optional)
-- `name` — new name for the slice feature (optional)
-- `target` — new target feature as object `{ id, indices? }` (optional)
+- `id` — **slice feature ID** (returned by `part.sliceBySheet`, not the part ID)
+- `tool` — new sheet feature: plain id or `{ id: sheetId }`
+- `inverted` — integer `0` or `1`
+- `name` — new name
+- `target` — new target `{ id, indices? }`
+
+All but `id` optional — omitted params keep current values.
 
 ## Return Value
 
-Returns the same slice feature ID on success. MaxLevel 31 = success.
-
-## Usage Pattern
-
-```js
-await api.v1.part.openFeature({ id: sliceId })
-await api.v1.part.updateSliceBySheet({ id: sliceId, inverted: 1 })
-await api.v1.part.closeFeature({ id: sliceId })
-```
+Same slice feature ID; maxLevel 31 = success.
 
 ## Gotchas
 
-- **`openFeature` is mandatory.** Without it, you get:
+- **`openFeature` is mandatory.** Without it:
   - `"The provided feature is not allowed to update. It's not active and open."` (code 1200)
   - `"\"id\" must be provided for update."` (code 1004)
-- Only pass the parameters you want to change — omitted parameters keep their current values.
-- The `tool` parameter accepts a plain id or the object form `{ id: sheetId }`.
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'UpdateDemo' })).result
 const boxId = (await api.v1.part.box({ id: partId, name: 'Box', length: 80, width: 60, height: 50 })).result
-
-// Create two sheets at different z positions (from Front plane)
 const frontId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Front' })).result
 
-const sk1 = (await api.v1.sketch.create({ id: partId, planeId: frontId })).result
-const rect1 = (await api.v1.sketch.rectangle({ id: sk1, startPos: [-20, -15, 0], endPos: [100, -200, 0] })).result // Front: local y → world −z
-const reg1 = (await api.v1.sketch.sketchRegion({ id: sk1, geomIds: rect1 })).result
-const sheet1 = (await api.v1.part.extrusion({ id: partId, name: 'Sheet1', references: [reg1], type: 'UP', limit2: 80, capEnds: 0 })).result
+// Two sheets from the Front plane (local y → world −z): walls at z=15 and z=35
+const sheets = []
+for (const z of [15, 35]) {
+  const sk = (await api.v1.sketch.create({ id: partId, planeId: frontId })).result
+  const rect = (await api.v1.sketch.rectangle({ id: sk, startPos: [-20, -z, 0], endPos: [100, -200, 0] })).result
+  const reg = (await api.v1.sketch.sketchRegion({ id: sk, geomIds: rect })).result
+  sheets.push((await api.v1.part.extrusion({ id: partId, name: `Sheet${z}`, references: [reg], type: 'UP', limit2: 80, capEnds: 0 })).result)
+}
 
-const sk2 = (await api.v1.sketch.create({ id: partId, planeId: frontId })).result
-const rect2 = (await api.v1.sketch.rectangle({ id: sk2, startPos: [-20, -35, 0], endPos: [100, -200, 0] })).result
-const reg2 = (await api.v1.sketch.sketchRegion({ id: sk2, geomIds: rect2 })).result
-const sheet2 = (await api.v1.part.extrusion({ id: partId, name: 'Sheet2', references: [reg2], type: 'UP', limit2: 80, capEnds: 0 })).result
+const sliceId = (await api.v1.part.sliceBySheet({ id: partId, target: boxId, tool: sheets[0] })).result
 
-// Initial slice at z=15
-const sliceId = (await api.v1.part.sliceBySheet({ id: partId, target: boxId, tool: sheet1 })).result
-
-// Update: flip side, change tool to sheet2 (z=35), rename
+// Flip side, switch tool to the z=35 sheet, rename
 await api.v1.part.openFeature({ id: sliceId })
-await api.v1.part.updateSliceBySheet({
-  id: sliceId,
-  inverted: 1,
-  tool: { id: sheet2 },
-  name: 'NewSlice',
-})
+await api.v1.part.updateSliceBySheet({ id: sliceId, inverted: 1, tool: { id: sheets[1] }, name: 'NewSlice' })
 await api.v1.part.closeFeature({ id: sliceId })
 ```
 

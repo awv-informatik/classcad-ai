@@ -21,8 +21,10 @@ Every per-API doc is **battle-tested**: the documented behavior was observed by 
 `@classcad/skill/discovery` is the single implementation of everything an
 agent host needs to serve this knowledge:
 
-- **`searchMethods`** — ranked search over name + summary with CAD-synonym
-  expansion (split→slice, hole→bore, round→fillet, …)
+- **`searchMethods`** — BM25 search over name + summary (whole words, camelCase
+  split, plurals folded) with CAD-synonym expansion (split→slice, hole→bore,
+  round→fillet, …); an array of queries
+  returns one ranked group per entry, so broad concepts can't crowd out the rest
 - **`describeMethod`** — one key, fuzzy: bare names resolve, ambiguity lists
   candidates, typos get suggestions; also serves whole documents (topic docs,
   domain overviews, recipes)
@@ -64,6 +66,27 @@ ln -s ../../node_modules/@classcad/skill .claude/skills/classcad
 **With the [ClassCAD MCP server](https://github.com/awv-informatik/classcad-ai/tree/master/packages/mcp)** (`packages/mcp` in this monorepo) — it consumes this package directly (workspace dependency; `CLASSCAD_SKILL_PATH` overrides for live-doc development) and serves these docs through its `docs`/`describe_method` tools.
 
 **As plain context** — load `SKILL.md` as the index and pull `references/` files on demand. The per-API docs are self-contained.
+
+## Testing
+
+`npm run build` ends with a snapshot check, and `npm test` runs it together with the discovery unit tests.
+`test/snapshot.mjs` records everything an agent host gets from this package against the baselines in
+`test/snapshots/`:
+
+| Snapshot | Covers |
+|---|---|
+| `registry.json` | every method: summary and parameter names |
+| `indexes.json` | `listDocs`, `docIndex`, `methodIndex`, bundle keys, limits, doc aliases, synonym table |
+| `prompts.json` | `RECIPES_POINTER`, `REFERENCE_IMAGE_POINTER`, the `docs` tool contract |
+| `docs.json` | every bundle document via `readDoc` and `describeMethod`: size, hash, headings |
+| `describe.json` | every method by full key, without `v1.`, lower case, bare name and one-letter typo; edge keys |
+| `search-methods.json` | `searchMethods` for every method name, synonym, vocabulary word, domain × verb, task phrase, multi-concept array, and every option |
+| `search-docs.json` | `searchDocs` for task phrases, every recipe/guide title and key, synonyms, arrays, options |
+| `bulk-docs.json` | `bulkDocs` for every document and every page of paged docs, plus deferral, missing keys, duplicates, key limit, small budgets and a host resolver |
+
+A difference fails the build with a per-path diff (`~ changed`, `- removed`, `+ added`). When the change
+is intended — an edited doc, a new synonym, a ranking tweak — review the diff, run `npm run test:update`,
+and commit the updated snapshots with the change.
 
 ## Related
 

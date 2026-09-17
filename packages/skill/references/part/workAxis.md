@@ -2,28 +2,24 @@
 
 Creates a work axis feature — an invisible construction line used as a revolve axis, pattern direction, or positioning reference.
 
-## Prerequisites
-
-- A part (`part.create`)
-- For referenced types (POINTDIRECTION, CURVE, 2POINTS, 2PLANES): brep geometry IDs from `part.getGeometryIds` or work geometry IDs
-
 ## Key Parameters
 
 - **`id`** (required) — part ID
-- **`name`** — feature name, default `"WorkAxis"`. Duplicate names are allowed but `getWorkGeometry` only returns the first match. Use unique names.
-- **`type`** — one of 5 types (default `"USERDEFINED"`):
+- **`name`** — default `"WorkAxis"`. Duplicates are silently allowed (no error/warning), but `getWorkGeometry` returns only the first match — use unique names.
+- **`type`** — default `"USERDEFINED"`:
 
 | Type | References needed | Description |
 |------|------------------|-------------|
-| `USERDEFINED` | none | Free-standing axis defined by `position` and `direction` |
-| `POINTDIRECTION` | 1 point + 1 direction | Point (brep-vertex, sketch-point, work-point) + direction (brep-edge, sketch-line, work-axis). Flexible — also accepts two edges. |
-| `CURVE` | 1 edge | Axis follows the edge. Only accepts: sketch-arc, sketch-circle, edge-arc, edge-circle, edge-line. **Does NOT accept work axis IDs** despite what the docs imply. |
-| `2POINTS` | 2 points | Two points (brep-vertex, sketch-point, work-point) define the axis. Same point twice → error. |
-| `2PLANES` | 2 planes | Two planes (brep-face, work-plane) — axis is at their intersection. Parallel planes → error. |
+| `USERDEFINED` | none | Free-standing axis from `position` and `direction` |
+| `POINTDIRECTION` | 1 point + 1 direction | Point (brep-vertex, sketch-point, work-point) + direction (brep-edge, sketch-line, work-axis). Flexible — also accepted two edges without error. |
+| `CURVE` | 1 edge | Axis follows the edge. Only accepts sketch-arc, sketch-circle, edge-arc, edge-circle, edge-line. **Rejects work axis IDs** despite the docs saying "brep-edge, sketch-line or work-axis". |
+| `2POINTS` | 2 points | brep-vertex, sketch-point, work-point. Same point twice → error. |
+| `2PLANES` | 2 planes | brep-face, work-plane — axis at their intersection. Parallel planes → error. |
 
-- **`references`** — array of brep or work geometry IDs. Not needed for USERDEFINED. Mixed brep + work geometry refs are valid.
-- **`position`** — `[x,y,z]`, USERDEFINED only. Default `[0,0,0]`. For expressions pass the whole vector as one string: `position: '[@expr.X, 0, 0]'` — live, the axis follows `updateExpression`. The key is `position` — `origin` is ignored without a message, leaving the axis at `[0,0,0]`.
-- **`direction`** — `[x,y,z]` numeric array, USERDEFINED only. Default `[1,0,0]` (X-axis). Does not need to be normalized. **Zero vector `[0,0,0]` is accepted silently** — creates a degenerate axis with no error.
+- **`references`** — brep or work geometry IDs (from `part.getGeometryIds` or work geometry); mixed brep + work refs are valid. Not needed for USERDEFINED.
+- **`position`** — `[x,y,z]`, USERDEFINED only. Default `[0,0,0]`. The key is `position` — `origin` is ignored without a message, leaving the axis at `[0,0,0]`.
+- **`direction`** — `[x,y,z]`, USERDEFINED only. Default `[1,0,0]`. Need not be normalized. **Zero vector `[0,0,0]` is silently accepted** — degenerate axis, no error or warning.
+- **Expressions:** pass the whole vector as one string — `position: '[@expr.X, 0, 0]'`, `direction: '[0, @expr.Y, 0]'` (live: the axis follows `updateExpression`). `position: ['@expr.X', 0, 0]` fails with a type error.
 
 ## Return Value
 
@@ -31,32 +27,15 @@ Creates a work axis feature — an invisible construction line used as a revolve
 { result: id|VOID, messages?: [...], maxLevel?: real }
 ```
 
-Returns the feature ID of the created work axis. Use this ID as:
-- `axisIds` element in `part.revolve` — revolve axis
-- `dir1.references` or `dir2.references` in `part.linearPattern` — pattern direction
-- `references` element in `part.translation` — translation direction
-- Reference for other work geometry
+Feature ID. Use as: `axisIds` element in `part.revolve`; `dir1/dir2.references` in `part.linearPattern`; `references` in `part.translation`; reference for other work geometry.
 
 ## Built-in Work Axes
 
-Every part has 3 built-in work axes (created automatically by `part.create`):
-
-| Name | Direction | Description |
-|------|-----------|-------------|
-| `XAxis` | `[1,0,0]` | X-axis |
-| `YAxis` | `[0,1,0]` | Y-axis |
-| `ZAxis` | `[0,0,1]` | Z-axis |
-
-Access via `getWorkGeometry({ id: partId, name: 'XAxis' })`. Use these for revolve/pattern operations instead of creating custom axes when the standard directions suffice.
+Every part has `XAxis` `[1,0,0]`, `YAxis` `[0,1,0]`, `ZAxis` `[0,0,1]` — get via `getWorkGeometry({ id: partId, name: 'XAxis' })`. Use them instead of custom axes when standard directions suffice.
 
 ## Gotchas
 
-- **Zero direction is silently accepted** — `direction: [0,0,0]` creates a degenerate axis with no error or warning. Always pass a non-zero direction.
-- **Expressions go in a string-encoded vector, not in array elements.** `position: '[@expr.X, 0, 0]'` and `direction: '[0, @expr.Y, 0]'` work; `position: ['@expr.X', 0, 0]` fails with a type error.
-- **CURVE type rejects work axis IDs** — the docs say "brep-edge, sketch-line or work-axis" but only sketch-arc, sketch-circle, edge-arc, edge-circle, edge-line are actually accepted. Work axis IDs are rejected.
-- **POINTDIRECTION is flexible** — it accepted two edges (not strictly point + edge) without error.
-- **Duplicate names are silently allowed** — no error, no warning. `getWorkGeometry` returns only the first match. Always use unique names.
-- **updateWorkAxis requires openFeature/closeFeature** — without it, every update call fails with "not active and open".
+- **`updateWorkAxis` requires openFeature/closeFeature** — otherwise every update fails with "not active and open".
 
 ## Common Errors
 
@@ -76,44 +55,22 @@ Access via `getWorkGeometry({ id: partId, name: 'XAxis' })`. Use these for revol
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 
-// Simple USERDEFINED: Y-axis at offset position
-const waId = (await api.v1.part.workAxis({
-  id: partId,
-  name: 'PatternDir',
-  position: [0, 0, 0],
-  direction: [1, 0, 0]
-})).result
+// USERDEFINED
+const waId = (await api.v1.part.workAxis({ id: partId, name: 'PatternDir', position: [0, 0, 0], direction: [1, 0, 0] })).result
 
-// Use built-in axis (no creation needed)
+// Built-in axis (no creation needed)
 const yAxis = (await api.v1.part.getWorkGeometry({ id: partId, name: 'YAxis' })).result
 
-// Referenced: axis from two brep faces (intersection line) of an 80×60×40 box
-const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
+// 2PLANES: intersection of top and front faces of an 80×60×40 box
+await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })
 const gids = await api.v1.part.getGeometryIds({
   id: partId,
-  planes: [
-    { positions: [[40, 30, 40]] },  // top face
-    { positions: [[40, 0, 20]] },   // front face
-  ]
+  planes: [{ positions: [[40, 30, 40]] }, { positions: [[40, 0, 20]] }], // top, front
 })
 const wa2 = (await api.v1.part.workAxis({
-  id: partId,
-  name: 'WA_intersection',
-  type: '2PLANES',
-  references: [gids.result.planes[0], gids.result.planes[1]]
+  id: partId, name: 'WA_intersection', type: '2PLANES',
+  references: [gids.result.planes[0], gids.result.planes[1]],
 })).result
-
-// Use as linearPattern direction
-await api.v1.part.linearPattern({
-  id: partId,
-  targets: [boxId],
-  dir1: { references: [waId], distance: 100, count: 3 }
-})
-
-// Update: requires openFeature/closeFeature
-await api.v1.part.openFeature({ id: waId })
-await api.v1.part.updateWorkAxis({ id: waId, direction: [0, 1, 0] })
-await api.v1.part.closeFeature({ id: waId })
 ```
 
 ## Related

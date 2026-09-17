@@ -1,27 +1,25 @@
 # assembly.create
 
-Creates the root assembly node. This is the top-level container for all assembly building — templates, instances, and constraints live under it.
+Creates the root assembly node — the top-level container for templates, instances, and constraints.
 
 ## Prerequisites
 
-- **Empty drawing.** The drawing must not already contain a root entity (part or assembly). Call `common.clear({})` first if needed.
+**Empty drawing.** A drawing holds one root entity: one assembly OR one part, never both, never two. `assembly.create` does NOT clear the drawing (unlike `part.create`); with existing content it fails with 1200. Call `common.clear({})` first.
 
 ## Key Parameters
 
-- `name` — (optional) Name for the root assembly. Default: `"AssemblyRoot"`.
-- `ident` — (optional) Custom string identifier, stored in the assembly's `IdentToIdMap` child node. Can be used for lookup by external systems.
+- `name` — optional, default `"AssemblyRoot"`
+- `ident` — optional string identifier, stored in the root's `IdentToIdMap`; usable for lookup by external systems
 
 ## Return Value
 
-- **Success:** `result` = numeric ID of the `CC_AssemblyRoot` node (typically 12 in a fresh drawing). `maxLevel` = 31 (info).
-- **Failure:** `result` = null, `maxLevel` = 51, error code 1200: "There is already a root assembly or part which must be removed first."
+- Success: ID of the `CC_AssemblyRoot` (typically 12 in a fresh drawing), maxLevel 31
+- Failure: null, maxLevel 51, code 1200: "There is already a root assembly or part which must be removed first."
 
 ## Gotchas
 
-- **One root entity only.** A drawing can hold either one root assembly OR one root part — never both, never two. Calling `assembly.create` when a part exists (from `part.create`) fails with code 1200. You must `common.clear({})` first.
-- **Does NOT clear the drawing.** Unlike `part.create` (which clears first), `assembly.create` does not wipe existing content. It only fails if content already exists.
-- **Auto-sets currentProduct.** After `create`, `currentProduct` is the assembly. You can immediately call `partTemplate` without `setCurrentProduct`. Note: `partTemplate` itself does NOT switch context — but subsequent `part.*` calls using the template ID will switch `currentProduct` to the template. Call `setCurrentProduct({ id: asmId })` after building geometry to return to assembly context (good practice, not strictly required for `assembly.*` calls which accept explicit IDs).
-- **calculateMassProperties errors on empty assembly.** An assembly with no instances/geometry throws a NullMem error. Only call it after instantiating geometry.
+- **Auto-sets currentProduct** to the assembly; `partTemplate` can follow immediately. Context switching afterwards: see `assembly/partTemplate`.
+- **calculateMassProperties errors on an empty assembly** (NullMem). Call it only after instantiating geometry.
 
 ## Structure Tree After Create
 
@@ -38,23 +36,15 @@ AllObjects (id=1)
     └── IdentToIdMap (id=22)
 ```
 
-The `structure` envelope also reports: `root: 12, currentProduct: 12, currentInstance: 12`.
+The `structure` envelope reports `root: 12, currentProduct: 12, currentInstance: 12`.
 
 ## Working Example
 
 ```js
-const asmId = (await api.v1.assembly.create({ name: 'MyAssembly' })).result
-// asmId = 12
-
-// Immediately create a part template (no setCurrentProduct needed)
+const asmId = (await api.v1.assembly.create({ name: 'MyAssembly' })).result  // 12
 const tplId = (await api.v1.assembly.partTemplate({ name: 'Plate' })).result
-// Build geometry inside template...
 await api.v1.part.box({ id: tplId, name: 'Body', length: 60, width: 40, height: 10 })
-
-// Return to assembly context (required after partTemplate switches context)
-await api.v1.assembly.setCurrentProduct({ id: asmId })
-
-// Instantiate
+await api.v1.assembly.setCurrentProduct({ id: asmId })  // good practice after part.* calls
 const inst = (await api.v1.assembly.instance({ productId: tplId, ownerId: asmId })).result
 ```
 

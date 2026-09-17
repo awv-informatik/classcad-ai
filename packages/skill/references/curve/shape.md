@@ -1,106 +1,64 @@
 # curve.shape / deleteShape / cleanShape
 
-Shape containers hold 2D/3D curves inside an entity injection. All curve creation APIs (`curve.line`, `curve.circle`, etc.) require a shape ID as their `id` parameter.
+Shape containers hold 2D/3D curves inside an entity injection (EI). Every curve creation API (`line`, `circle`, `arc*`, `ellipse`, `bezierCurve`, `polyline2d`, `advancedPolyline`, …) takes a shape ID as `id`.
 
 ## curve.shape — Create a shape container
 
-### Prerequisites
-
-- An entity injection feature (`part.entityInjection`)
-
 ### Key Parameters
 
-- `id` (required) — ID of the entity injection feature. Must be an EI ID, not a part ID.
-- `name` (optional) — display name. Default: `"Shape"`. Duplicate names auto-suffix: `"Shape"`, `"Shape0"`, `"Shape1"`, etc. First shape keeps the exact name.
+- `id` (required) — EI ID. Part ID → error 1001 `"Provide only following id types: [\"entityinjection\"]"`.
+- `name` (optional) — default `"Shape"`. Duplicates auto-suffix (`"Shape"`, `"Shape0"`, `"Shape1"`, …); the first keeps the exact name. Rename later with `common.setObjectName({ id: shapeId, name: '...' })`.
 
 ### Return Value
 
-Returns a numeric shape ID. This is the ID you pass to all `curve.*` creation APIs (`line`, `circle`, `arc*`, `ellipse`, `bezierCurve`, `polyline2d`, `advancedPolyline`, etc.) as `id`.
+Numeric shape ID. **No retrieval API** (`getShape`/`listShapes` don't exist) — store it at creation.
 
 ### Structure Tree
 
-Shape nodes have class `CC_CurveEntity` (not `CC_Shape`). They are children of the EI node.
-
-Key properties:
-- `geometryIdList` — array of geometry entity IDs. Multiple curves share geometry IDs (a line + circle in the same shape may share one geometry ID). Empty/cleaned shapes have `undefined` geometryIdList.
+Shape nodes have class `CC_CurveEntity` (not `CC_Shape`), children of the EI (multiple shapes per EI work). Properties:
+- `geometryIdList` — geometry entity IDs; curves may share one (a line + circle in one shape may share one ID). `undefined` for empty/cleaned shapes.
 - `consumed` — always `{value: 1}`, does not track curve count.
 - `parent` — the EI feature ID.
 
-Curves are **not** represented as child nodes of the shape. They exist only in the geometry data referenced by `geometryIdList`.
-
-### Gotchas
-
-- **Only accepts EI IDs.** Passing a part ID gives error 1001: `"Provide only following id types: [\"entityinjection\"]"`.
-- **No retrieval API.** There is no `getShape` or `listShapes` API. Store the shape ID at creation time.
-- **Rename with `setObjectName`.** `common.setObjectName({ id: shapeId, name: '...' })` works.
-- **Multiple shapes per EI** work fine — each shape is a separate child of the EI.
+Curves are **not** child nodes; they exist only in the geometry referenced by `geometryIdList`.
 
 ### Common Errors
 
-| Code | Level | Message | Cause |
-|------|-------|---------|-------|
-| 1001 | ERROR | `"Provide only following id types: [\"entityinjection\"]"` | Passed part ID or wrong ID type |
-| 1004 | ERROR | `"The parameter \"id\" must be provided"` | Missing `id` param |
-| 1006 | ERROR | `"An element of parameter \"id\" has an invalid id!"` | Non-existent or deleted ID |
+| Code | Message | Cause |
+|------|---------|-------|
+| 1001 | `"Provide only following id types: [\"entityinjection\"]"` | Part ID or wrong ID type |
+| 1004 | `"The parameter \"id\" must be provided"` | Missing `id` |
+| 1006 | `"An element of parameter \"id\" has an invalid id!"` | Non-existent or deleted ID |
 
-### Working Example
+## curve.deleteShape — Delete shapes entirely
+
+`{ ids: [shapeId, ...] }` — deletes shapes with all their curves (non-empty shapes delete without error). Returns VOID.
+- Only shape IDs; part/EI IDs → error 1001 `"Provide only following id types: [\"shape\"]"`.
+- `ids: []` is a silent no-op (maxLevel 31). Double-delete → error 1006.
+
+## curve.cleanShape — Remove curves, keep container
+
+`{ ids: [shapeId, ...] }` — removes all curves (maxLevel 31) but keeps the containers; `geometryIdList` becomes `undefined`. The shape ID stays valid and accepts new curves. Check the shape still exists in the structure tree before reusing it.
+
+## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Outline' })).result
 
-// Now use shapeId for curve creation
 await api.v1.curve.line({ id: shapeId, startPos: [0, 0, 0], endPos: [50, 0, 0] })
 await api.v1.curve.circle({ id: shapeId, centerPos: [25, 25, 0], radius: 15 })
-```
 
----
-
-## curve.deleteShape — Delete shapes entirely
-
-Takes `ids` (array of shape IDs). Deletes shapes and all curves within them. Returns VOID.
-
-### Key Behavior
-
-- Accepts only shape IDs. Part/EI IDs give error 1001: `"Provide only following id types: [\"shape\"]"`.
-- Non-empty shapes (containing curves) are deleted without error.
-- Empty `ids` array is a silent noop (maxLevel 31).
-- Double-delete (already deleted shape) gives error 1006 (invalid ID).
-
-### Working Example
-
-```js
-await api.v1.curve.deleteShape({ ids: [shapeId1, shapeId2] })
-```
-
----
-
-## curve.cleanShape — Remove curves, keep container
-
-Takes `ids` (array of shape IDs). Removes all curves from the shapes but preserves the shape containers for reuse.
-
-### Key Behavior
-
-- Returns maxLevel 31 on a shape with curves.
-- After cleaning, `geometryIdList` becomes `undefined` (empty).
-- Cleaned shapes accept new curves normally — the shape ID remains valid.
-
-### Gotchas
-
-- Check that the shape still exists in the structure tree if you plan to reuse it.
-
-### Working Example
-
-```js
-// Remove all curves from a shape, then reuse it
+// Empty the shape and reuse it
 await api.v1.curve.cleanShape({ ids: [shapeId] })
-// Shape is now empty but still exists
 await api.v1.curve.circle({ id: shapeId, centerPos: [0, 0, 0], radius: 20 })
-// New curves work in the cleaned shape
-```
 
----
+// Delete shapes entirely
+const tmp = (await api.v1.curve.shape({ id: eifId })).result
+await api.v1.curve.line({ id: tmp, startPos: [0, 0, 0], endPos: [10, 0, 0] })
+await api.v1.curve.deleteShape({ ids: [tmp] })
+```
 
 ## Related
 

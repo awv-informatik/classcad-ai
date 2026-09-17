@@ -1,42 +1,34 @@
 # sketch.changeReferenceGeometry
 
-Re-links existing "Use" geometry in a sketch to a different brep element. The sketch geometry **moves** to match the new reference's projected position.
-
-## Prerequisites
-
-- A sketch with projected reference geometry (from `sketch.referenceGeometry`)
-- A new brep element ID to relink to (from `part.getGeometryIds`)
+Re-links existing "Use" geometry (from `sketch.referenceGeometry`) to a different brep element. The sketch geometry **moves** to the new reference's projected position.
 
 ## Key Parameters
 
 - **`id`** (required) — sketch ID
-- **`geomId`** (required) — ID of the sketch geometry to relink (returned by `referenceGeometry`)
-- **`refId`** (required) — ID of the new brep element (edge or vertex)
+- **`geomId`** (required) — sketch geometry to relink (returned by `referenceGeometry`)
+- **`refId`** (required) — new brep element (edge or vertex, from `part.getGeometryIds`)
 
 ## Return Value
 
-```js
-{ result: VOID, messages?: [...], maxLevel?: real }
-```
-
-Returns VOID (null). maxLevel=31 on success.
+VOID (null), maxLevel=31 on success.
 
 ## Behavior
 
-- **Geometry moves** to match the new reference. Example: a line projected from the front edge (y=0) relinks to the back edge → line moves to y=60.
-- **Works on unreferenced geometry** too — if the geometry was created with `keepReference: FALSE`, `changeReferenceGeometry` can add a reference to it.
-- **Works after `unlinkReferenceGeometry`** — can re-establish a link that was previously disconnected.
+- **Geometry moves** to the new reference: a line projected from the front edge (y=0) relinked to the back edge moves to y=60.
+- **Works on unreferenced geometry** — adds a reference to geometry created with `keepReference: FALSE`.
+- **Works after `unlinkReferenceGeometry`** — re-establishes a disconnected link.
 
 ## Working Example
 
 ```js
-// Project front edge, then relink to back edge
-const r = await api.v1.sketch.referenceGeometry({ id: skId, brepIds: [frontEdge] })
-const lineId = r.result[0]
-// lineId is at y=0 (front edge)
+const partId = (await api.v1.part.create({ name: 'Demo' })).result
+await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })
+const planeId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Top' })).result
+const skId = (await api.v1.sketch.create({ id: partId, planeId })).result
+const { lines } = (await api.v1.part.getGeometryIds({ id: partId, lines: [{ pos: [40, 0, 0] }, { pos: [40, 60, 0] }] })).result
 
-await api.v1.sketch.changeReferenceGeometry({ id: skId, geomId: lineId, refId: backEdge })
-// lineId now at y=60 (back edge position)
+const lineId = (await api.v1.sketch.referenceGeometry({ id: skId, brepIds: [lines[0]] })).result[0] // y=0
+await api.v1.sketch.changeReferenceGeometry({ id: skId, geomId: lineId, refId: lines[1] }) // now y=60
 ```
 
 ## Related

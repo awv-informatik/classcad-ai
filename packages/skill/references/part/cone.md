@@ -1,105 +1,61 @@
 # part.cone
 
-Creates a parametric cone (frustum) feature inside a part. Unlike `solid.cone` (direct geometry in an entity injection), `part.cone` lives in the feature tree, supports `updateCone`, expression-driven dimensions, and work coordinate system placement via `references`.
-
-## Prerequisites
-
-- A part (`part.create`)
+Parametric cone (frustum) feature in a part's feature tree (unlike `solid.cone`, direct geometry in an entity injection). Supports `updateCone`, expression-driven dimensions, and workCSys placement via `references`.
 
 ## Key Parameters
 
 - `id` — **part ID** (not entity injection ID — that's `solid.cone`)
-- `name` — feature name in the design tree (default: "Cone")
-- `bDiameter` — bottom diameter (default: 50). Must be > 0.
-- `tDiameter` — top diameter (default: 0.1). Must be > 0. **Cannot be 0** — true cone apex is not supported.
-- `height` — height in Z direction (default: 100). Must be > 0.
-- `references` — array of **workCSys IDs only**. Places the cone at the coordinate system's origin. Empty array or omitted = drawing origin.
+- `name` — feature name (default: "Cone")
+- `bDiameter` — bottom diameter (default 50), > 0
+- `tDiameter` — top diameter (default 0.1), > 0. **Cannot be 0** — a true apex is not supported (hence the 0.1 default)
+- `height` — Z height (default 100), > 0
+- `references` — array of **workCSys IDs only**; cone placed at the csys origin and follows its orientation (axis = csys z). Empty/omitted = drawing origin
 
-All dimension params accept numbers or expression strings (`'@expr.BD'`, `'4*20'`, `'sqrt(100)'`).
+Dimensions accept numbers or expression strings (`'@expr.BD'`, `'4*20'`, `'sqrt(100)'`) at creation and update. With `@expr.` references, changing the expression + recalc updates the cone.
 
 ## Return Value
 
-Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what you pass to `updateCone`, `openFeature`, `closeFeature`, and other feature-targeting APIs.
+Feature ID (numeric), maxLevel 31. Pass it to `updateCone`, `openFeature`, `closeFeature`, etc.
 
 ## Alignment
 
-The cone is **base-anchored at the origin** — base disk centered on the XY plane at z=0, top disk at z=`+height`. COG of a frustum sits along the Z-axis biased toward the larger end. Verified empirically with `bDiameter=tDiameter=40, height=80`: vertex 0 at `(20, 0, 0)`, COG at `(0, 0, 39.99)`.
+**Base-anchored**: base disk centered on XY at z=0, top disk at z=`+height`. COG lies on the Z-axis, biased toward the larger end. Measured with `bDiameter=tDiameter=40, height=80`: vertex 0 at `(20,0,0)`, COG `(0,0,39.99)`.
 
-**This is different from `solid.cone`**, which is fully centered (z extends `-H/2..+H/2`). See `feature-vs-direct.md` for the full conventions table.
+**Differs from `solid.cone`**, which is centered (z from `-H/2` to `+H/2`). See `feature-vs-direct.md`.
 
 ## Gotchas
 
-- **`tDiameter` cannot be 0.** The default 0.1 exists because a true cone point is invalid. Error 1122: "Value for top diameter must be greater than 0."
-- **All dimensions must be > 0.** Zero or negative values for any of bDiameter, tDiameter, height produce error 1122 but still create a degenerate feature (feature ID returned, no valid geometry).
-- **`references` only accepts workCSys IDs.** Passing a work plane, work axis, or work point ID fails with error 1001: "wrong id type! Provide only following id types: ['workcsys']".
-- **`tDiameter > bDiameter` is valid** — produces an inverted cone (wider at top).
-- **`tDiameter = bDiameter` is valid** — produces a cylinder. Use `part.cylinder` instead if this is the intent.
-- **`getExpression` does not read cone feature members.** The params (bDiameter, tDiameter, height) are visible in the structure tree but not accessible via `getExpression`. Use the structure tree to verify values.
+- **Any dimension ≤ 0** (incl. `tDiameter: 0`) → error 1122 (e.g. "Value for top diameter must be greater than 0.") but still creates a degenerate feature (feature ID returned, no valid geometry).
+- **`references` only accepts workCSys IDs** — work plane/axis/point → error 1001.
+- `tDiameter > bDiameter` is valid (inverted cone). `tDiameter = bDiameter` is valid (a cylinder — use `part.cylinder` for that intent).
+- **`getExpression` does not read cone feature members** (bDiameter, tDiameter, height). They are visible in the structure tree — verify values there.
+- `workCSys` takes `offset` + `rotation`, NOT `origin`/`xDirection` (silently ignored; see `workCSys.md`).
 
 ## Common Errors
 
 | Code | Message | Cause |
 |------|---------|-------|
 | 1122 | "Value for [param] must be greater than 0" | Zero or negative dimension |
-| 1001 | "wrong id type! Provide only following id types: ['workcsys']" | Passed a non-workCSys ID in `references` |
+| 1001 | "wrong id type! Provide only following id types: ['workcsys']" | Non-workCSys ID in `references` |
 
 ## updateCone
 
-Updates an existing cone feature's dimensions, name, or references. Requires the open/close pattern.
-
-```js
-await api.v1.part.openFeature({ id: coneId })
-await api.v1.part.updateCone({ id: coneId, height: 200 })
-await api.v1.part.closeFeature({ id: coneId })
-```
-
-- `id` — the **feature ID** returned by `part.cone` (not the part ID)
-- Returns feature ID on success, null on failure
-- Omitted params keep their existing values (partial update confirmed)
-- Supports `@expr.NAME` references and inline math in dimension params
-- Can add (`references: [wcsId]`) or remove (`references: []`) coordinate system placement
-- Can rename the feature via `name` param
-- Geometry regenerates on `closeFeature` — no separate `recalc` needed
-- Without `openFeature`: returns null with errors 1200 + 1004
-
-## Expression-Driven Dimensions
-
-Both `@expr.NAME` references and inline math work at creation and update:
-
-```js
-// At creation
-await api.v1.part.cone({ id: partId, bDiameter: '@expr.BD', tDiameter: '@expr.TD', height: '@expr.H' })
-
-// At update
-await api.v1.part.openFeature({ id: coneId })
-await api.v1.part.updateCone({ id: coneId, bDiameter: '@expr.BD' })
-await api.v1.part.closeFeature({ id: coneId })
-```
-
-When using `@expr.` references, updating the expression + recalc automatically changes the cone dimensions.
+Wrap in `openFeature`/`closeFeature` (without `openFeature`: null + errors 1200 + 1004). `id` = feature ID from `part.cone`. Returns feature ID on success, null on failure. Omitted params keep values (partial update confirmed); `name` renames; `@expr.`/inline math supported; `references: [wcsId]` adds, `[]` removes placement; geometry regenerates on `closeFeature` (no `recalc` needed).
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
+const wcsId = (await api.v1.part.workCSys({ id: partId, name: 'WCS1', offset: [50, 0, 0] })).result
+await api.v1.part.expression({ id: partId, toCreate: [{ name: 'BD', value: 100 }] })
 
-// Optional: create a WCS for positioning (params: offset + rotation — NOT origin/xDirection,
-// those are silently ignored; see workCSys.md). Cone follows the csys orientation (axis = csys z).
-const wcsId = (await api.v1.part.workCSys({
-  id: partId, name: 'WCS1',
-  offset: [50, 0, 0],
-})).result
-
-// Create cone at WCS position
 const coneId = (await api.v1.part.cone({
-  id: partId, name: 'Cone1',
-  references: [wcsId],
+  id: partId, name: 'Cone1', references: [wcsId],
   bDiameter: 60, tDiameter: 10, height: 80,
 })).result
 
-// Update dimensions later
 await api.v1.part.openFeature({ id: coneId })
-await api.v1.part.updateCone({ id: coneId, bDiameter: 100, tDiameter: 30, height: 150 })
+await api.v1.part.updateCone({ id: coneId, bDiameter: '@expr.BD', tDiameter: 30, height: 150 })
 await api.v1.part.closeFeature({ id: coneId })
 ```
 

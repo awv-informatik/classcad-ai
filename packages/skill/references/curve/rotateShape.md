@@ -1,48 +1,33 @@
 # curve.rotateShape
 
-Rotates all curves in a shape by a given rotation vector. Rotation is applied around the **part origin (0, 0, 0)**, not around the shape's center.
-
-## Prerequisites
-
-- A shape (`curve.shape`) containing at least one curve
-- **Do NOT call `common.recalc` between shape creation/modification and rotateShape** — recalc invalidates shape IDs for this API (same bug as `translateShape`)
+Rotates all curves of a shape (as a unit) around the **part origin (0, 0, 0)**, not the shape's center.
 
 ## Key Parameters
 
-- `id` (required) — shape ID (from `curve.shape`). Only shape IDs accepted; part/EI IDs give error 1001.
-- `rotation` (required) — `[rx, ry, rz]` rotation angles in **radians** around X, Y, and Z axes respectively. Positive = counterclockwise (right-hand rule). Negative = clockwise.
+- `id` (required) — shape ID (`curve.shape`); part/EI IDs → error 1001
+- `rotation` (required) — `[rx, ry, rz]` in **radians** about X, Y, Z. Positive = counterclockwise (right-hand rule), negative = clockwise. Multiple non-zero axes in one call work (e.g. `[π/6, 0, π/4]` = 30° X + 45° Z).
 
 ## Return Value
 
-Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on success.
+VOID (`null`), maxLevel 31, no messages. In-place — the shape ID stays valid.
 
 ## Behavior
 
-- **In-place mutation.** The shape ID remains valid after rotation. No new shape is created.
-- **Cumulative.** Two 45° rotations = one 90° rotation. Each call adds to the current orientation.
-- **Rotation center is the origin.** Shapes offset from the origin will orbit around (0, 0, 0), not rotate in place. To rotate around a custom point P: translate by -P, rotate, translate by +P.
-- **All curves rotate together.** Lines, circles, arcs, polylines — everything in the shape rotates as a unit.
-- **Zero vector** `[0, 0, 0]` is a silent noop (maxLevel 31, no error).
-- **Negative angles** rotate in the opposite direction (clockwise).
-- **Large angles** (10π+) and full rotations (2π) work without issue.
-- **Multi-axis rotation** — passing non-zero values for multiple axes in one call works (e.g., `[π/6, 0, π/4]` for 30° X + 45° Z).
+- **Orbits the origin:** a shape at (50, 0, 0) rotated 90° about Z moves to (0, 50, 0) — the most common surprise. To rotate around point P: translate by −P, rotate, translate by +P.
+- **Cumulative:** two 45° calls = one 90°. `[0, 0, 0]` is a silent no-op; large (10π+) and full (2π) rotations work.
 
 ## Gotchas
 
-- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `rotateShape` fails with error 1006. Same bug as `translateShape`. **Workaround:** do all shape transforms BEFORE any recalc call.
-- **Empty shapes cannot be rotated.** A shape with no curves gives error 1006.
-- **Render/export pipelines often trigger recalc internally.** Always do shape transforms BEFORE any visualization or export step, not after.
-- **Error message says `ids` (plural)** even though the parameter is `id` (singular). The server internally maps `id` → `ids`.
-- **Rotation is around origin, not shape center.** If your shape is at (50, 0, 0) and you rotate 90° around Z, it moves to (0, 50, 0). This is the most common source of unexpected results.
+- **`common.recalc` invalidates shape IDs** → error 1006; render/export often recalc internally. Do all shape transforms BEFORE any recalc, visualization or export (details: `curve/translateShape`).
+- **Empty shapes** cannot be rotated → error 1006. Error messages say `ids` (plural) though the parameter is `id`.
 
 ## Common Errors
 
-| Code | Level | Message | Cause |
-|------|-------|---------|-------|
-| 1006 | ERROR | "An element of parameter `ids` has an invalid id!" | Shape ID invalid (after recalc, empty shape, or deleted shape) |
-| 1001 | ERROR | "The parameter `id` has a wrong id type! Provide only following id types: [\"shape\"]" | Passed EI ID or part ID instead of shape ID |
-| 1004 | ERROR | "The parameter `rotation` must be provided" | Missing `rotation` parameter |
-| 1004 | ERROR | "The parameter `id` must be provided" | Missing `id` parameter |
+| Code | Message | Cause |
+|------|---------|-------|
+| 1006 | "An element of parameter `ids` has an invalid id!" | Shape ID invalid (after recalc, empty, or deleted) |
+| 1001 | "The parameter `id` has a wrong id type! Provide only following id types: [\"shape\"]" | EI or part ID instead of shape ID |
+| 1004 | "The parameter `<rotation\|id>` must be provided" | Missing parameter |
 
 ## Working Example
 
@@ -50,29 +35,18 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Outline' })).result
-
-// Create some geometry
 await api.v1.curve.advancedPolyline({
   id: shapeId,
-  pld: [
-    { xa: 0, ya: 0 },
-    { xa: 30, ya: 0, r: 3 },
-    { xa: 30, ya: 20, r: 3 },
-    { xa: 0, ya: 20 },
-  ],
+  pld: [{ xa: 0, ya: 0 }, { xa: 30, ya: 0, r: 3 }, { xa: 30, ya: 20, r: 3 }, { xa: 0, ya: 20 }],
   close: true,
 })
 
-// Rotate 90° counterclockwise around Z axis
+// 90° CCW about Z (around the origin) — result null, maxLevel 31
 await api.v1.curve.rotateShape({ id: shapeId, rotation: [0, 0, Math.PI / 2] })
-// result: null, maxLevel: 31
 
-// Rotate around a custom center point (e.g., rotate around (15, 10, 0)):
-// 1. Translate to origin
+// Around a custom point (15, 10, 0): to origin → rotate → back
 await api.v1.curve.translateShape({ id: shapeId, translation: [-15, -10, 0] })
-// 2. Rotate
 await api.v1.curve.rotateShape({ id: shapeId, rotation: [0, 0, Math.PI / 4] })
-// 3. Translate back
 await api.v1.curve.translateShape({ id: shapeId, translation: [15, 10, 0] })
 ```
 

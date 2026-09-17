@@ -5,6 +5,11 @@ looks like and how to select geometry from it. Identical in buerli apps
 (browser), the ClassCAD MCP and headless harnesses. Depth: [STRUCTURE.md](STRUCTURE.md)
 (model tree), [GRAPHICS.md](GRAPHICS.md) (graphic protocol).
 
+**Scripts run strict.** An `api.v1.*` call that ends at maxLevel ≥ 51 throws; the error message carries the
+engine messages. Method docs that describe a failed lookup as "`null` / `[]` with maxLevel 51" describe the
+raw result — in a script, wrap intentional probes (a `getGeometryIds` miss you expect, a `get*` for a name
+that may not exist) in `try/catch`.
+
 ## `api.tree({ refresh? })` → the model
 
 Returns the structure tree: `Record<id, node>`.
@@ -134,4 +139,4 @@ const shell = g.containers.flatMap(c => c.meshes ?? []).find(m => {
 | where geometry actually is, face/edge selection | `api.graphic()` — ids payload-local |
 | exact brep coordinates for verification | `v1.part.getGeometryIds` (position-based) + `getGeometryPositions`, or filter the graphic |
 | volume/COG proof | `v1.part.calculateMassProperties` |
-| bounds | buerli clients: `api.structure.calculateProductBounds(id)` (positional args; guard `if (api.structure)` — browser-only namespace; no v1 equivalent) |
+| bounds / bounding box | any script: `const cap = await api.inspect.capture(); api.inspect.graphicBounds(cap, api.inspect.currentSolids(cap))` → `{ min, max }` of the CURRENT solids (tessellated, instance transforms not applied). Without the owner filter the box includes consumed bodies (the pre-boolean box, hole tools) and is wrong. buerli clients also have `api.structure.calculateProductBounds(id)` (positional args, browser-only). No v1 method |

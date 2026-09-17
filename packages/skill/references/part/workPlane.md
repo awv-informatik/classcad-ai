@@ -2,32 +2,27 @@
 
 Creates a work plane feature — an invisible construction reference used as a sketch parent, mirror plane, or positioning aid.
 
-## Prerequisites
-
-- A part (`part.create`)
-- For referenced types (PLANE, EDGEPOINT, etc.): brep geometry IDs from `part.getGeometryIds` or work geometry IDs
-
 ## Key Parameters
 
 - **`id`** (required) — part ID
-- **`name`** — feature name, default `"WorkPlane"`. Duplicate names are allowed but `getWorkGeometry` only returns the first match. Use unique names.
-- **`type`** — one of 7 types (default `"USERDEFINED"`):
+- **`name`** — default `"WorkPlane"`. Duplicates silently allowed (no error/warning), but `getWorkGeometry` returns only the first match — use unique names.
+- **`type`** — default `"USERDEFINED"`:
 
 | Type | References needed | Description |
 |------|------------------|-------------|
-| `USERDEFINED` | none | Free-standing plane defined by `normal`, `position`, `offset` |
+| `USERDEFINED` | none | Free-standing plane from `normal`, `position`, `offset` |
 | `PLANE` | 1 face or work plane | Copies a reference plane. `offset` shifts along normal |
 | `EDGEPOINT` | 1 edge/axis + 1 point | Edge + point define the plane |
 | `3POINTS` | 3 points | Three points define the plane |
-| `POINTNORMAL` | 1 point + 1 edge/axis | Point sets position, edge/axis direction becomes the normal |
-| `POINTFACE` | 1 point + 1 face/plane | Point sets position, face normal becomes the plane normal |
+| `POINTNORMAL` | 1 point + 1 edge/axis | Point = position, edge/axis direction = normal |
+| `POINTFACE` | 1 point + 1 face/plane | Point = position, face normal = plane normal |
 | `LINEPLANEANGLE` | 1 edge/axis + 1 face/plane | Line midpoint = position, plane = initial orientation, `angle` rotates around the line |
 
-- **`references`** — array of brep or work geometry IDs. Not needed for USERDEFINED. Order matters: point-type refs first, direction/face refs second (for POINTNORMAL, POINTFACE).
-- **`normal`** — `[x,y,z]` vector, USERDEFINED only. Default `[1,0,0]` (YZ plane, **not** XY despite some doc headers).
-- **`position`** — `[x,y,z]` center point, USERDEFINED only. Default `[0,0,0]`. The key is `position` — `origin` (and `xDirection`) are ignored without a message, leaving the plane at `[0,0,0]`.
-- **`offset`** — distance along normal. Works on all types. Default `0`.
-- **`angle`** — radians or expression string, LINEPLANEANGLE only. Accepts `Math.PI/4` or `'45deg'`.
+- **`references`** — brep or work geometry IDs (from `part.getGeometryIds` or work geometry). Not needed for USERDEFINED. Order matters: point refs first, direction/face refs second (POINTNORMAL, POINTFACE).
+- **`normal`** — `[x,y,z]`, USERDEFINED only. Default `[1,0,0]` (**YZ plane, not XY** despite some doc headers — for XY pass `[0,0,1]`).
+- **`position`** — `[x,y,z]` center, USERDEFINED only. Default `[0,0,0]`. The key is `position` — `origin` (and `xDirection`) are ignored without a message, leaving the plane at `[0,0,0]`.
+- **`offset`** — distance along normal, all types. Default `0`.
+- **`angle`** — LINEPLANEANGLE only; radians (`Math.PI/4`) or expression string (`'45deg'`).
 
 ## Return Value
 
@@ -35,18 +30,16 @@ Creates a work plane feature — an invisible construction reference used as a s
 { result: id|VOID, messages?: [...], maxLevel?: real }
 ```
 
-Returns the feature ID of the created work plane. Use this ID as:
-- `planeId` param in `sketch.create` — sketch on this plane
-- `references` element in `part.mirror` — mirror across this plane
-- Reference for other work geometry or features
+Feature ID. Use as `planeId` in `sketch.create`, `references` in `part.mirror`, or a reference for other work geometry/features.
+
+## Built-in Work Planes
+
+Every part has `Top` `[0,0,1]` (XY), `Front` `[0,1,0]` (XZ), `Right` `[1,0,0]` (YZ) — get via `getWorkGeometry({ id: partId, name: 'Top' })`.
 
 ## Gotchas
 
-- **Default normal is [1,0,0] (YZ plane)**, not XY. To get an XY plane, pass `normal: [0,0,1]`.
-- **Duplicate names are silently allowed** — no error, no warning. `getWorkGeometry` returns only the first match. Always use unique names.
-- **Collinear points create a broken feature** — `3POINTS` with collinear points returns an ID but sets maxLevel=51. Always check `maxLevel` after creation.
-- **Wrong reference types create broken features** — e.g., LINEPLANEANGLE with two faces instead of line+face creates a feature but it's invalid (maxLevel=51 with internal error).
-- **`getGeometryIds` is position-based** — it doesn't dump all IDs. You must query by approximate position. For a box at origin (L×W×H): top face at `[[L/2, W/2, H]]`, vertices at exact corner coordinates.
+- **Broken features still return an ID — check `maxLevel`.** `3POINTS` with collinear points, or wrong ref types (e.g. LINEPLANEANGLE with two faces instead of line+face), create the feature with maxLevel=51 (internal error).
+- **`getGeometryIds` is position-based** — it doesn't dump all IDs; query by approximate position. Box at origin (L×W×H): top face `[[L/2, W/2, H]]`, vertices at exact corner coordinates.
 
 ## Common Errors
 
@@ -58,61 +51,24 @@ Returns the feature ID of the created work plane. Use this ID as:
 | `"references" has invalid number of elements` | Wrong count (e.g., 2 for 3POINTS) | Match the required count for the type |
 | `maxLevel: 51` after success | Collinear points or wrong ref types | Check geometry validity before creation |
 
-## Built-in Work Planes
-
-Every part has 3 built-in work planes (created automatically by `part.create`):
-
-| Name | Normal | Description |
-|------|--------|-------------|
-| `Top` | `[0,0,1]` | XY plane |
-| `Front` | `[0,1,0]` | XZ plane |
-| `Right` | `[1,0,0]` | YZ plane |
-
-Access them via `getWorkGeometry({ id: partId, name: 'Top' })`.
-
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 
-// Simple USERDEFINED: XY plane at z=50
-const wpId = (await api.v1.part.workPlane({
-  id: partId,
-  name: 'WP_top50',
-  normal: [0, 0, 1],
-  offset: 50
-})).result
-
-// Sketch on the work plane
+// USERDEFINED: XY plane at z=50, sketch on it
+const wpId = (await api.v1.part.workPlane({ id: partId, name: 'WP_top50', normal: [0, 0, 1], offset: 50 })).result
 const skId = (await api.v1.sketch.create({ id: partId, planeId: wpId })).result
 
-// Referenced: offset from the top face of an 80×60×40 box
+// PLANE: 20 above the top face of an 80×60×40 box
 await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })
-const topFace = (await api.v1.part.getGeometryIds({
-  id: partId,
-  planes: [{ positions: [[40, 30, 40]] }]
-})).result.planes[0]
+const topFace = (await api.v1.part.getGeometryIds({ id: partId, planes: [{ positions: [[40, 30, 40]] }] })).result.planes[0]
+const wp2 = (await api.v1.part.workPlane({ id: partId, name: 'WP_above_top', type: 'PLANE', references: [topFace], offset: 20 })).result
 
-const wp2 = (await api.v1.part.workPlane({
-  id: partId,
-  name: 'WP_above_top',
-  type: 'PLANE',
-  references: [topFace],
-  offset: 20
-})).result
-
-// Angled plane: LINEPLANEANGLE with expression angle
-const edgeId = (await api.v1.part.getGeometryIds({
-  id: partId,
-  lines: [{ pos: [40, 0, 0] }]
-})).result.lines[0]
-
+// LINEPLANEANGLE with expression angle
+const edgeId = (await api.v1.part.getGeometryIds({ id: partId, lines: [{ pos: [40, 0, 0] }] })).result.lines[0]
 const wp3 = (await api.v1.part.workPlane({
-  id: partId,
-  name: 'WP_angled',
-  type: 'LINEPLANEANGLE',
-  references: [edgeId, topFace],
-  angle: '45deg'
+  id: partId, name: 'WP_angled', type: 'LINEPLANEANGLE', references: [edgeId, topFace], angle: '45deg',
 })).result
 ```
 

@@ -1,51 +1,31 @@
 # assembly.deleteConstraint
 
-Deletes constraints and relations from assemblies. Accepts any mix of constraint types (fastened, fastenedOrigin, revolute, cylindrical, planar, parallel, slider, spherical) and relation types (gear, group) in a single call.
-
-## Prerequisites
-
-- An assembly with existing constraints or relations to delete
+Deletes constraints and relations. Any mix of constraint types (fastened, fastenedOrigin, revolute, cylindrical, planar, parallel, slider, spherical) and relation types (gear, group) in one call.
 
 ## Key Parameters
 
-- `ids` — array of constraint/relation IDs to delete (required). Accepts IDs returned from any constraint creation call (`fastened`, `revolute`, `gear`, `group`, etc.).
+- `ids` — required array of constraint/relation IDs (as returned by `fastened`, `revolute`, `gear`, `group`, …). `[]` is a silent no-op (maxLevel 31)
 
 ## Return Value
 
-- `result: null` (VOID) on success
-- `maxLevel: 31` on success (no messages)
+VOID (`null`), maxLevel 31, no messages.
 
 ## Atomic Semantics (CRITICAL)
 
-The call is **all-or-nothing**. If ANY id in the array is invalid, NOTHING is deleted — even valid IDs earlier in the array are preserved. Always validate IDs before calling, or be prepared to handle the case where a partially-bad array deletes nothing.
+**All-or-nothing.** If ANY id is invalid, NOTHING is deleted — valid IDs in the same array are preserved too. Validate IDs first.
 
-## Instance Position After Deletion
+## Effects
 
-Deleting a constraint does NOT move the constrained instance. The instance stays at its last solver-computed position. The instance becomes unconstrained (free-floating), but its world transform is preserved.
-
-This applies to all constraint types:
-- Deleting a `fastened` → inst2 stays at its offset position
-- Deleting a `fastenedOrigin` → the grounded instance stays at origin
-- Deleting a `revolute` → inst2 stays at its current rotation angle
-
-## What Gets Preserved
-
-- **Deleting a gear/group relation** does NOT delete the underlying constraints or instances. Only the relation linkage is removed.
-- **Deleting a group** does NOT delete the grouped instances. Only the rigid coupling between them is removed.
-- **Undeleted constraints** in the same assembly are completely unaffected.
-
-## Empty Array
-
-`deleteConstraint({ ids: [] })` is a silent no-op. Returns `maxLevel: 31`, no error.
+- **Instances do NOT move.** They keep their last solved position and become unconstrained: after deleting a `fastened`, inst2 stays at its offset position; after `fastenedOrigin`, the instance stays at the origin; after `revolute`, inst2 keeps its current angle.
+- **Deleting a gear/group relation** removes only the linkage/rigid coupling — underlying constraints and grouped instances remain.
+- Other constraints in the assembly are unaffected.
 
 ## Common Errors
 
 | Error | Code | Cause |
 |---|---|---|
-| `"An element of parameter 'ids' has an invalid id!"` | 1006 | Non-existent ID, already-deleted ID |
-| `"The parameter 'ids' has a wrong id type! Provide only following id types: ['constraint','relation']"` | 1001 | Instance ID, assembly ID, template ID, or any non-constraint/relation type |
-
-Double-deleting an already-deleted constraint produces the same 1006 error as a non-existent ID.
+| `"An element of parameter 'ids' has an invalid id!"` | 1006 | Non-existent or already-deleted ID |
+| `"The parameter 'ids' has a wrong id type! Provide only following id types: ['constraint','relation']"` | 1001 | Instance, assembly, template, or other non-constraint/relation ID |
 
 ## Working Example
 
@@ -57,11 +37,9 @@ const wcs = (await api.v1.part.workCSys({ id: tpl, name: 'Csys' })).result  // c
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
 const inst1 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'A' })).result
-const inst2 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'B',
-  transformation: [[80, 0, 0], [1, 0, 0], [0, 1, 0]] })).result
+const inst2 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'B' })).result
 
-await api.v1.assembly.fastenedOrigin({ id: asmId, name: 'Ground', mate1: { path: [inst1], csys: wcs } })
-
+const groundId = (await api.v1.assembly.fastenedOrigin({ id: asmId, name: 'Ground', mate1: { path: [inst1], csys: wcs } })).result
 const fId = (await api.v1.assembly.fastened({
   id: asmId, name: 'Joint',
   mate1: { path: [inst1], csys: wcs },
@@ -69,11 +47,8 @@ const fId = (await api.v1.assembly.fastened({
   xOffset: 80,
 })).result
 
-// Delete the constraint — inst2 stays at x=80
-await api.v1.assembly.deleteConstraint({ ids: [fId] })
-
-// Batch delete: mix of constraint types
-// await api.v1.assembly.deleteConstraint({ ids: [fastenedId, revoluteId, gearId] })
+// Delete (mixed types allowed) — inst2 stays at x=80
+await api.v1.assembly.deleteConstraint({ ids: [fId, groundId] })
 ```
 
 ## Related

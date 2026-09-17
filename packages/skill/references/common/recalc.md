@@ -1,43 +1,20 @@
 # common.recalc
 
-Forces a full recalculation of the entire drawing and all its objects. Takes no parameters, returns VOID.
-
-## Prerequisites
-
-- None — safe to call on empty drawings, with geometry, or after any operation.
-
-## Key Parameters
-
-None. Call with `recalc()` or `recalc({})` — both are identical.
+Forces a full recalculation of the entire drawing. No parameters (`recalc()` ≡ `recalc({})`), returns VOID. Safe on empty drawings, with geometry, or after any operation.
 
 ## Return Value
 
-- `result: null` (VOID) — always
-- `maxLevel: 31` (info) — always, even on empty drawings
-- `messages: []` — no messages observed in any scenario
-- `structure` — full object tree is returned in the envelope
-- `graphic` — always null/absent in CLI context
+`result: null`, maxLevel 31, `messages: []` — always. The envelope carries the structure tree; `graphic` is null/absent in CLI context (recalc generates no mesh data).
 
 ## When recalc is NOT needed
 
-Most ClassCAD operations auto-recalculate. You almost never need to call `recalc()` explicitly:
-
-| Operation | Auto-recalculates? | recalc needed? |
-|---|---|---|
-| `part.closeFeature` | Yes | No |
-| `part.updateExpression` | Yes — that part, then solves assemblies containing it | No |
-| `part.linkWithExpression` | Yes | No |
-| `part.unlinkExpression` | Yes | No |
-| `sketch.updateDimension` | Yes | No |
-| `sketch.updateGeometry` | Yes | No |
-| `common.load` (OFB) | Yes — drawing is consistent | No |
-| Feature creation (box, extrusion, etc.) | Yes | No |
+These auto-recalculate: `part.closeFeature`, `part.updateExpression` (that part, then solves assemblies containing it), `part.linkWithExpression`, `part.unlinkExpression`, `sketch.updateDimension`, `sketch.updateGeometry`, `common.load` (OFB — drawing is consistent), feature creation (box, extrusion, …).
 
 ## When recalc IS useful
 
-- **After manual state manipulation** where internal consistency may be lost (e.g., custom batch operations modifying multiple features without close cycles)
-- **As a "just in case" safety call** when you're unsure if a prior operation triggered recalculation — it's safe and idempotent
-- **In batch calls** to force a recalc between other operations
+- After manual state manipulation where consistency may be lost (e.g. batch operations modifying multiple features without close cycles).
+- As a "just in case" call when unsure whether an operation recalculated — it is idempotent.
+- In batch calls, to force a recalc between operations.
 - **After changing a value other parts read by path** (e.g. `Params.ExpressionSet.W`). `part.updateExpression` only regenerates the part it targets; `recalc()` re-evaluates every part. Each call is one pass, so a part reading a value through another consuming part needs a second call. See `recipes/assembly-parameters`.
 
 ## What recalc does not do
@@ -46,34 +23,22 @@ Most ClassCAD operations auto-recalculate. You almost never need to call `recalc
 
 ## Gotchas
 
-- **Invalidates curve shape IDs.** This is the main hazard. After calling `recalc()`, all shape IDs from `curve.shape()` become invalid. Any `curve.translateShape`, `curve.rotateShape`, `curve.scaleShape`, or `curve.transformShape` call using those IDs will fail with error 1006. **Always do all shape transforms BEFORE calling recalc.**
-- **Render/export pipelines often trigger recalc internally.** Shape transforms must also happen before any visualization or export step, not just before explicit `recalc` calls.
-- **Solid IDs, sketch IDs, feature IDs, and part IDs all survive recalc.** The invalidation bug is specific to curve domain shape IDs only.
-- **Idempotent.** Calling recalc multiple times in a row is safe and produces identical results every time.
-- **No graphic data.** Recalc does not generate graphic/mesh data in CLI context. It returns the structure tree but not rendering data.
+- **Invalidates curve shape IDs.** After `recalc()`, all shape IDs from `curve.shape()` are invalid; `curve.translateShape` / `rotateShape` / `scaleShape` / `transformShape` with them fail with 1006. **Do all shape transforms BEFORE recalc** — and before any visualization/export step, since render/export pipelines often recalc internally.
+- Solid, sketch, feature and part IDs survive recalc; the invalidation is specific to curve shape IDs.
 
 ## Common Errors
 
-None observed. Recalc always succeeds with maxLevel=31 in every scenario tested (empty drawing, with geometry, after load, after clear, after partial clear with keepIds, while a feature is open, etc.).
+None observed — maxLevel 31 in every scenario tested (empty drawing, with geometry, after load, after clear, after partial clear with keepIds, while a feature is open).
 
 ## Working Example
 
 ```js
-// Typical usage — rarely needed standalone
 const partId = (await api.v1.part.create({ name: 'Test' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId, name: 'EIF' })).result
 await api.v1.solid.box({ id: eifId, length: 50, width: 40, height: 30 })
 
-// Safe to call, but redundant here — geometry is already consistent
+// Safe, but redundant here — geometry is already consistent
 await api.v1.common.recalc()
-
-// In batch context:
-await api.v1.common.batch({
-  jobs: [
-    { api: 'v1.common.recalc' },
-    { api: 'v1.common.getAppVersion' },
-  ]
-})
 ```
 
 ## Related

@@ -8,9 +8,15 @@ export interface RegistryEntry {
 }
 export type MethodRegistry = Record<string, RegistryEntry>
 
+export type MethodListing = string[] | Array<{ method: string; summary?: string; seeAbove?: string }>
+
 export interface SearchResult {
+  /** Matching methods (unique across groups). */
   count: number
-  methods: string[] | Array<{ method: string; summary: string }>
+  /** Full listing or a single-query search. */
+  methods?: MethodListing
+  /** Array search with 2+ entries: one group per entry. `seeAbove` = already listed under that entry. */
+  groups?: Array<{ search: string; count: number; methods: MethodListing; note?: string }>
   note?: string
 }
 
@@ -71,6 +77,12 @@ export const DOCS_PER_DOC_CAP: number
 
 /** Shared `docs` tool contract (name + LLM-facing description). */
 export const DOCS_TOOL: { name: string; description: string }
+
+/** Renamed/moved document keys → current key. */
+export const DOC_ALIASES: Record<string, string>
+
+/** The CAD synonym table behind both searches (read-only). */
+export const SEARCH_SYNONYMS: Readonly<Record<string, readonly string[]>>
 
 export function createDiscovery(opts?: {
   registry?: MethodRegistry

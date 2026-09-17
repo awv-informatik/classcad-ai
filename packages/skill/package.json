@@ -41,8 +41,10 @@
     "build:registry": "node scripts/build-registry.mjs",
     "build:bundle": "node scripts/build-bundle.mjs",
     "build": "node scripts/copy-api-docs.mjs && node scripts/build-registry.mjs && node scripts/build-bundle.mjs",
+    "postbuild": "node test/snapshot.mjs",
     "prepublishOnly": "npm run build",
-    "test": "node scripts/test-discovery.mjs"
+    "test": "node scripts/test-discovery.mjs && node test/snapshot.mjs",
+    "test:update": "node test/snapshot.mjs --update"
   },
   "devDependencies": {
     "@classcad/api-js": "https://awvstatic.com/classcad/download/release/21.2.0/classcad-api-js-21.2.0.tgz",

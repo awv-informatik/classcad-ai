@@ -1,116 +1,58 @@
 # common.setUserData / getUserData / removeUserData / clearUserData / getUserDataKeys
 
-String key-value metadata store on any object. Useful for tagging objects with application-specific metadata during a session. **Session-scoped only** — not persisted on save/load.
-
-## Prerequisites
-
-- Any valid object ID (part, entity injection, solid, sketch, individual sketch geometry element)
+String key-value metadata on any object (part, entity injection, solid, sketch, individual sketch geometry element). **Session-scoped only** — not persisted on save/load.
 
 ## Key Parameters
 
-### setUserData
-- `id` — any object ID
-- `key` — **must be string**. Case-sensitive. Supports unicode, spaces, special characters, empty string.
-- `value` — **must be string**. No length limit observed (100K+ chars works). Empty string is valid.
-
-### getUserData
-- `id`, `key` — same as above
-- `defaultValue` — optional string, defaults to `""`. Returned when key doesn't exist.
-
-### removeUserData / clearUserData / getUserDataKeys
-- `id` — the target object
-- `key` (removeUserData only) — the key to remove
+| Method | Params |
+|---|---|
+| `setUserData` | `id`; `key` — **string**, case-sensitive, unicode/spaces/special chars/empty OK; `value` — **string**, empty OK, 100K+ chars work |
+| `getUserData` | `id`, `key`; `defaultValue` — optional string (default `""`), returned for missing keys |
+| `removeUserData` | `id`, `key` |
+| `clearUserData` / `getUserDataKeys` | `id` |
 
 ## Gotchas
 
-### setUserData does NOT overwrite existing keys
-This is the #1 gotcha. Calling `setUserData` on a key that already exists is a **silent no-op** — maxLevel 31, no error messages, but the value does not change. To update a value:
+- **`setUserData` does NOT overwrite existing keys** — silent no-op (maxLevel 31, no messages, value unchanged). Update with remove-then-set:
+  ```js
+  await api.v1.common.removeUserData({ id, key: 'myKey' })
+  await api.v1.common.setUserData({ id, key: 'myKey', value: 'newValue' })
+  ```
+- **Non-string types rejected:**
+  - value number/boolean/object/array → code 1001: `"The parameter \"value\" has the wrong type! It should be of type (string)"`
+  - value null → `"Set the parameter \"value\" = VOID is not allowed in this situation!"`
+  - numeric keys → same 1001 error.
+- **Structured data:** `JSON.stringify` on set, `JSON.parse` on get.
 
-```js
-await api.v1.common.removeUserData({ id, key: 'myKey' })
-await api.v1.common.setUserData({ id, key: 'myKey', value: 'newValue' })
-```
+## Safe No-ops (maxLevel 31, no error)
 
-### Not persisted on save/load
-User data does NOT survive OFB save/load cycles. After `common.save` → `common.clear` → `common.load`, all user data is gone. User data is session-scoped metadata only.
+- `getUserData` on a missing key → `defaultValue` (or `""`)
+- `removeUserData` on a missing key
+- `clearUserData` on an object with no data
+- `getUserDataKeys` on an object with no data → `[]`
 
-### Not copied on duplication
-`solid.copy` does not copy user data from the source to the copy. The copy starts with an empty user data map.
+## Lifetime
 
-### Non-string types are rejected
-- Number, boolean, object, array → error code 1001: `"The parameter \"value\" has the wrong type! It should be of type (string)"`
-- Null → `"Set the parameter \"value\" = VOID is not allowed in this situation!"`
-- Keys must also be strings — numeric keys get the same error 1001.
-
-## Common Patterns
-
-### Storing structured data (JSON workaround)
-```js
-const data = { material: 'steel', weight: 42.5, tags: ['structural'] }
-await api.v1.common.setUserData({ id, key: 'metadata', value: JSON.stringify(data) })
-const retrieved = JSON.parse(
-  (await api.v1.common.getUserData({ id, key: 'metadata' })).result
-)
-```
-
-### Updating a value (remove-then-set)
-```js
-await api.v1.common.removeUserData({ id, key: 'status' })
-await api.v1.common.setUserData({ id, key: 'status', value: 'updated' })
-```
-
-## Safe Operations
-
-All "missing data" operations are safe no-ops (maxLevel 31, no error):
-- `getUserData` on non-existent key → returns `defaultValue` (or `""`)
-- `removeUserData` on non-existent key → no-op
-- `clearUserData` on object with no data → no-op
-- `getUserDataKeys` on object with no data → `[]`
-
-## Behavior During Operations
-
-User data **survives** all in-session operations:
-- `common.recalc` — intact
-- `common.setObjectName` (rename) — intact
-- `part.updateExpression` — intact
-- Adding/modifying other objects in the same part — intact
-
-User data is **lost** when:
-- The object is deleted
-- The drawing is saved and reloaded
-- The object is copied (`solid.copy`)
+| Survives | Lost |
+|---|---|
+| `common.recalc`, `common.setObjectName`, `part.updateExpression`, adding/modifying other objects in the same part | Object deleted; `common.save` → `common.clear` → `common.load`; copy via `solid.copy` (copy starts empty) |
 
 ## Limits
 
-No practical limits found:
-- **Value length**: 100K+ characters works
-- **Key length**: 1000+ characters works
-- **Key count per object**: 500+ keys works
-- **Key format**: Unicode, whitespace, special characters all accepted. Empty string is a valid key.
-- **Case sensitivity**: Keys are case-sensitive. `"Key"`, `"key"`, `"KEY"` are separate entries.
+None practical: values 100K+ chars, keys 1000+ chars, 500+ keys per object. Keys are case-sensitive (`"Key"`, `"key"`, `"KEY"` are separate); empty string is a valid key.
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'Test' })).result
-
-// Set
 await api.v1.common.setUserData({ id: partId, key: 'material', value: 'steel' })
-await api.v1.common.setUserData({ id: partId, key: 'version', value: '2' })
+await api.v1.common.setUserData({ id: partId, key: 'meta', value: JSON.stringify({ weight: 42.5 }) })
 
-// Get
-const mat = (await api.v1.common.getUserData({ id: partId, key: 'material' })).result
-// → "steel"
+const meta = JSON.parse((await api.v1.common.getUserData({ id: partId, key: 'meta' })).result)
+const keys = (await api.v1.common.getUserDataKeys({ id: partId })).result // order not guaranteed
 
-// List keys
-const keys = (await api.v1.common.getUserDataKeys({ id: partId })).result
-// → ["material", "version"]
-
-// Update (remove-then-set!)
-await api.v1.common.removeUserData({ id: partId, key: 'version' })
-await api.v1.common.setUserData({ id: partId, key: 'version', value: '3' })
-
-// Clear all
+await api.v1.common.removeUserData({ id: partId, key: 'material' })
+await api.v1.common.setUserData({ id: partId, key: 'material', value: 'aluminum' })
 await api.v1.common.clearUserData({ id: partId })
 ```
 

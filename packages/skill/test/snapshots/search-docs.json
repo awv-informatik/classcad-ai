@@ -1,0 +1,1251 @@
+{
+  "tasks": {
+    "shared parameters assembly": {
+      "count": 17,
+      "docs": [
+        "recipes/assembly-parameters [2. Change the shared value | 3. Constraints that follow parameters]",
+        "assembly/generic [Parameters and Expressions]",
+        "recipes/parametric-part []",
+        "assembly/movingUnderConstraints []",
+        "recipes/verification []",
+        "solid/generic [Parameters]"
+      ]
+    },
+    "global dimension drives several parts": {
+      "count": 12,
+      "docs": [
+        "recipes/constrained-sketching [Cross-reference dimensions]",
+        "recipes/assembly-parameters []",
+        "recipes/verification []",
+        "recipes/parametric-part [2. Constrained sketch with @expr dimensions]",
+        "common/generic []",
+        "assembly/generic []"
+      ]
+    },
+    "constrained sketch from a drawing": {
+      "count": 13,
+      "docs": [
+        "recipes/constrained-sketching [Diagnosing an under-constrained scheme | Sketch-plane local→world mappings | Step 0 — Classify the Drawing and the Deliverable]",
+        "recipes/parametric-part [2. Constrained sketch with @expr dimensions]",
+        "recipes/direct-modeling-eif []",
+        "recipes/verification []",
+        "recipes/assembly-parameters []",
+        "common/generic [Drawing Constraints]"
+      ]
+    },
+    "dimensioned technical drawing": {
+      "count": 7,
+      "docs": [
+        "recipes/constrained-sketching [Step 1 — Analyze the Technical Drawing | Step 0 — Classify the Drawing and the Deliverable]",
+        "recipes/direct-modeling-eif []",
+        "recipes/verification []",
+        "recipes/assembly-parameters []",
+        "common/generic [Drawing Constraints]",
+        "common/format-comparison []"
+      ]
+    },
+    "reproduce a reference image": {
+      "count": 17,
+      "docs": [
+        "recipes/constrained-sketching [Cross-reference dimensions]",
+        "recipes/verification [Phase 0 — the REFERENCE RECORD (before any modeling)]",
+        "common/expression-syntax [Inter-Expression References]",
+        "recipes/assembly-parameters []",
+        "recipes/direct-modeling-eif []",
+        "recipes/parametric-part []"
+      ]
+    },
+    "pattern holes around an axis": {
+      "count": 16,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "part/brep-access-pattern [The Core Pattern]",
+        "recipes/verification []",
+        "recipes/constrained-sketching [Dimension patterns]",
+        "solid/target-tools-pattern [Tool Reuse Pattern]",
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]"
+      ]
+    },
+    "bolt circle": {
+      "count": 9,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/constrained-sketching [Reference: Tangent Lines Between Circles]",
+        "recipes/assembly-parameters []",
+        "recipes/parametric-part []",
+        "recipes/verification []",
+        "part/brep-access-pattern [Edge Type Rules: circles vs arcs]"
+      ]
+    },
+    "verify volume and bounding box": {
+      "count": 21,
+      "docs": [
+        "recipes/verification [When to verify | Tier 2 — bounds / bounding box (position/extent claims)]",
+        "recipes/constrained-sketching []",
+        "recipes/assembly-parameters [4. Verify]",
+        "recipes/direct-modeling-eif [Verify]",
+        "recipes/parametric-part [5. Verify numerically after every regeneration]",
+        "recipes/pattern-then-subtract [Verify]"
+      ]
+    },
+    "parametric part with expressions": {
+      "count": 17,
+      "docs": [
+        "recipes/parametric-part []",
+        "recipes/assembly-parameters []",
+        "part/expression-workflow []",
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "one-shot solid without history": {
+      "count": 22,
+      "docs": [
+        "recipes/direct-modeling-eif [Profiles: one polyline with bulges, not line/arc chains | Instancing without a pattern feature]",
+        "recipes/constrained-sketching [One annotation = one dimension entity]",
+        "recipes/verification []",
+        "solid/curves-parameter []",
+        "solid/generic []",
+        "common/format-comparison []"
+      ]
+    },
+    "entity injection direct modeling": {
+      "count": 17,
+      "docs": [
+        "recipes/direct-modeling-eif []",
+        "part/feature-vs-direct []",
+        "part/id-hierarchy []",
+        "solid/curves-parameter []",
+        "recipes/constrained-sketching [One annotation = one dimension entity]",
+        "recipes/verification [Phase 0 — the REFERENCE RECORD (before any modeling)]"
+      ]
+    },
+    "trim sketch curves": {
+      "count": 13,
+      "docs": [
+        "recipes/constrained-sketching [How to see through the trim | Sketch-plane local→world mappings | Carving INNER loops (discard the outer curves)]",
+        "solid/curves-parameter []",
+        "recipes/parametric-part [2. Constrained sketch with @expr dimensions]",
+        "recipes/direct-modeling-eif []",
+        "common/format-comparison []",
+        "common/generic []"
+      ]
+    },
+    "fillet edges": {
+      "count": 6,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/verification []",
+        "part/brep-access-pattern [After Fillet/Chamfer]",
+        "recipes/parametric-part []",
+        "common/faceting-concepts []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "assembly constraints": {
+      "count": 14,
+      "docs": [
+        "assembly/movingUnderConstraints [startMovingUnderConstraints]",
+        "assembly/generic []",
+        "recipes/assembly-parameters [3. Constraints that follow parameters]",
+        "common/state-tree []",
+        "recipes/constrained-sketching []",
+        "recipes/verification []"
+      ]
+    },
+    "kinematic joint": {
+      "count": 7,
+      "docs": [
+        "assembly/movingUnderConstraints []",
+        "recipes/pattern-then-subtract []",
+        "recipes/assembly-parameters []",
+        "recipes/constrained-sketching []",
+        "recipes/verification []",
+        "recipes/direct-modeling-eif []"
+      ]
+    },
+    "template vs instance": {
+      "count": 16,
+      "docs": [
+        "assembly/generic [Templates | Instances]",
+        "common/format-comparison [Multi-body scaling (5 bodies vs 1)]",
+        "recipes/constrained-sketching [Chain vs trim — pick by topology knowledge]",
+        "part/feature-vs-direct []",
+        "recipes/assembly-parameters []",
+        "recipes/verification []"
+      ]
+    },
+    "save and load files": {
+      "count": 13,
+      "docs": [
+        "recipes/assembly-parameters []",
+        "recipes/direct-modeling-eif [Profiles: one polyline with bulges, not line/arc chains]",
+        "assembly/movingUnderConstraints []",
+        "common/encoding-pipeline []",
+        "common/format-comparison []",
+        "common/userData []"
+      ]
+    },
+    "faceting quality": {
+      "count": 3,
+      "docs": [
+        "common/faceting-concepts [Where Faceting Is Configured]",
+        "recipes/verification []",
+        "common/format-comparison []"
+      ]
+    },
+    "user data on objects": {
+      "count": 13,
+      "docs": [
+        "common/userData []",
+        "common/generic []",
+        "recipes/constrained-sketching []",
+        "recipes/assembly-parameters []",
+        "recipes/direct-modeling-eif []",
+        "recipes/verification []"
+      ]
+    },
+    "expression syntax": {
+      "count": 17,
+      "docs": [
+        "common/expression-syntax [Inter-Expression References]",
+        "part/expression-workflow []",
+        "recipes/parametric-part [1. Create the expression graph first]",
+        "recipes/assembly-parameters []",
+        "common/generic [Expression Engine]",
+        "assembly/generic [Parameters and Expressions]"
+      ]
+    },
+    "sprocket": {
+      "count": 5,
+      "docs": [
+        "recipes/direct-modeling-eif []",
+        "recipes/parametric-part []",
+        "recipes/pattern-then-subtract []",
+        "part/expression-workflow []",
+        "solid/curves-parameter []"
+      ]
+    },
+    "gear teeth": {
+      "count": 4,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "common/expression-syntax []",
+        "recipes/direct-modeling-eif []",
+        "recipes/parametric-part []"
+      ]
+    },
+    "handedness mirror": {
+      "count": 8,
+      "docs": [
+        "recipes/verification []",
+        "recipes/constrained-sketching []",
+        "recipes/pattern-then-subtract []",
+        "recipes/parametric-part []",
+        "recipes/assembly-parameters []",
+        "part/brep-access-pattern []"
+      ]
+    },
+    "rollback feature order": {
+      "count": 23,
+      "docs": [
+        "part/rollback-bars [Mid-Tree Editing (primary use of openFeature)]",
+        "recipes/direct-modeling-eif [Instancing without a pattern feature | Operation order — the rule that shapes everything]",
+        "recipes/verification [Tier 3 — brep probes (exact feature positions) | Final gate — four steps, in order]",
+        "recipes/constrained-sketching [Order of operations]",
+        "part/feature-vs-direct []",
+        "common/generic []"
+      ]
+    },
+    "split a solid": {
+      "count": 14,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "solid/curves-parameter []",
+        "recipes/verification []",
+        "solid/generic []",
+        "recipes/direct-modeling-eif []",
+        "solid/target-tools-pattern []"
+      ]
+    }
+  },
+  "byDocTitle": {
+    "recipes/assembly-parameters": {
+      "count": 21,
+      "docs": [
+        "recipes/assembly-parameters [2. Change the shared value | 3. Constraints that follow parameters]",
+        "assembly/generic [Parameters and Expressions]",
+        "recipes/verification []"
+      ]
+    },
+    "recipes/constrained-sketching": {
+      "count": 10,
+      "docs": [
+        "recipes/constrained-sketching [Step 1 — Analyze the Technical Drawing | Reading technical drawings — common conventions | ClassCAD Sketch API — Quick Reference]",
+        "recipes/direct-modeling-eif []",
+        "recipes/verification []"
+      ]
+    },
+    "recipes/direct-modeling-eif": {
+      "count": 23,
+      "docs": [
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]",
+        "part/feature-vs-direct []",
+        "solid/curves-parameter []"
+      ]
+    },
+    "recipes/parametric-part": {
+      "count": 19,
+      "docs": [
+        "recipes/parametric-part [2. Constrained sketch with @expr dimensions]",
+        "recipes/constrained-sketching [Diagnosing an under-constrained scheme]",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "recipes/pattern-then-subtract": {
+      "count": 22,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/verification []",
+        "recipes/constrained-sketching [Dimension patterns | Reference: Tangent Lines Between Circles]"
+      ]
+    },
+    "recipes/verification": {
+      "count": 15,
+      "docs": [
+        "recipes/verification [Build]",
+        "recipes/constrained-sketching [Verification readouts | Step 2 — Build the Dimension Checklist]",
+        "recipes/assembly-parameters [1. Build]"
+      ]
+    },
+    "assembly/generic": {
+      "count": 18,
+      "docs": [
+        "assembly/generic [Templates | Instances]",
+        "recipes/assembly-parameters []",
+        "assembly/movingUnderConstraints []"
+      ]
+    },
+    "assembly/movingUnderConstraints": {
+      "count": 10,
+      "docs": [
+        "assembly/movingUnderConstraints [startMovingUnderConstraints | moveUnderConstraints | finishMovingUnderConstraints]",
+        "assembly/generic []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "common/encoding-pipeline": {
+      "count": 3,
+      "docs": [
+        "common/encoding-pipeline [Pipeline Order]",
+        "common/format-comparison [Encoding Rules]",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "common/expression-syntax": {
+      "count": 21,
+      "docs": [
+        "common/expression-syntax [Inter-Expression References]",
+        "part/expression-workflow []",
+        "recipes/parametric-part [1. Create the expression graph first]"
+      ]
+    },
+    "common/faceting-concepts": {
+      "count": 13,
+      "docs": [
+        "common/faceting-concepts [Where Faceting Is Configured | chordHeightTol | angleTol]",
+        "recipes/verification []",
+        "common/format-comparison [Multi-body scaling (5 bodies vs 1)]"
+      ]
+    },
+    "common/format-comparison": {
+      "count": 18,
+      "docs": [
+        "common/format-comparison [Format Capabilities | Size Comparison | Multi-body scaling (5 bodies vs 1)]",
+        "common/encoding-pipeline [OFB Binary Header | STL Binary Corruption]",
+        "common/faceting-concepts [Per-Entity vs Global | STL Export Has Its Own Tessellation]"
+      ]
+    },
+    "common/generic": {
+      "count": 2,
+      "docs": [
+        "common/generic [Batch Envelope]",
+        "common/state-tree []"
+      ]
+    },
+    "common/state-tree": {
+      "count": 20,
+      "docs": [
+        "common/state-tree [Querying the cached tree]",
+        "recipes/direct-modeling-eif [When to prefer this over the feature tree]",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "common/userData": {
+      "count": 18,
+      "docs": [
+        "common/userData []",
+        "common/generic []",
+        "common/expression-syntax [`common.evaluateExpression`]"
+      ]
+    },
+    "part/brep-access-pattern": {
+      "count": 20,
+      "docs": [
+        "part/brep-access-pattern [The Core Pattern]",
+        "recipes/constrained-sketching [Construction geometry (`isConstruction`) | Dimension patterns]",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "part/expression-workflow": {
+      "count": 22,
+      "docs": [
+        "part/expression-workflow []",
+        "recipes/parametric-part [1. Create the expression graph first]",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "part/feature-vs-direct": {
+      "count": 22,
+      "docs": [
+        "part/feature-vs-direct []",
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]",
+        "recipes/constrained-sketching [Chain vs trim — pick by topology knowledge]"
+      ]
+    },
+    "part/id-hierarchy": {
+      "count": 23,
+      "docs": [
+        "part/id-hierarchy [Wrong ID Type → Error 1001]",
+        "recipes/direct-modeling-eif []",
+        "solid/curves-parameter [Accepted ID Types]"
+      ]
+    },
+    "part/rollback-bars": {
+      "count": 13,
+      "docs": [
+        "part/rollback-bars []",
+        "part/feature-vs-direct []",
+        "common/faceting-concepts [Per-Entity vs Global]"
+      ]
+    },
+    "solid/curves-parameter": {
+      "count": 21,
+      "docs": [
+        "solid/curves-parameter []",
+        "solid/generic [Parameters]",
+        "recipes/direct-modeling-eif []"
+      ]
+    },
+    "solid/generic": {
+      "count": 21,
+      "docs": [
+        "solid/generic [Parameters | Rotation Pivot]",
+        "common/generic [Rotation Vectors]",
+        "recipes/assembly-parameters [Alternative: `common.recalc()` | 3. Constraints that follow parameters]"
+      ]
+    },
+    "solid/target-tools-pattern": {
+      "count": 19,
+      "docs": [
+        "solid/target-tools-pattern [Destroyed Target Behavior | Tool Reuse Pattern]",
+        "recipes/pattern-then-subtract []",
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]"
+      ]
+    }
+  },
+  "byDocKeyName": {
+    "recipes/assembly-parameters": {
+      "count": 14,
+      "docs": [
+        "recipes/assembly-parameters [3. Constraints that follow parameters]",
+        "assembly/generic [Parameters and Expressions]",
+        "assembly/movingUnderConstraints []"
+      ]
+    },
+    "recipes/constrained-sketching": {
+      "count": 6,
+      "docs": [
+        "recipes/constrained-sketching [Diagnosing an under-constrained scheme]",
+        "recipes/parametric-part [2. Constrained sketch with @expr dimensions]",
+        "recipes/direct-modeling-eif []"
+      ]
+    },
+    "recipes/direct-modeling-eif": {
+      "count": 15,
+      "docs": [
+        "recipes/direct-modeling-eif []",
+        "part/feature-vs-direct []",
+        "recipes/verification [Phase 0 — the REFERENCE RECORD (before any modeling)]"
+      ]
+    },
+    "recipes/parametric-part": {
+      "count": 16,
+      "docs": [
+        "recipes/parametric-part []",
+        "recipes/assembly-parameters []",
+        "part/expression-workflow []"
+      ]
+    },
+    "recipes/pattern-then-subtract": {
+      "count": 20,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "part/brep-access-pattern [The Core Pattern]",
+        "recipes/constrained-sketching [Dimension patterns]"
+      ]
+    },
+    "recipes/verification": {
+      "count": 6,
+      "docs": [
+        "recipes/verification []",
+        "recipes/constrained-sketching [Verification readouts]",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "assembly/generic": {
+      "count": 6,
+      "docs": [
+        "assembly/generic []",
+        "common/generic []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "assembly/movingUnderConstraints": {
+      "count": 1,
+      "docs": [
+        "assembly/movingUnderConstraints [startMovingUnderConstraints]"
+      ]
+    },
+    "common/encoding-pipeline": {
+      "count": 3,
+      "docs": [
+        "common/encoding-pipeline [Pipeline Order]",
+        "recipes/constrained-sketching []",
+        "common/format-comparison [Encoding Rules]"
+      ]
+    },
+    "common/expression-syntax": {
+      "count": 17,
+      "docs": [
+        "common/expression-syntax [Inter-Expression References]",
+        "part/expression-workflow []",
+        "recipes/parametric-part [1. Create the expression graph first]"
+      ]
+    },
+    "common/faceting-concepts": {
+      "count": 4,
+      "docs": [
+        "common/faceting-concepts [Where Faceting Is Configured]",
+        "recipes/verification []",
+        "assembly/generic [Key Concepts]"
+      ]
+    },
+    "common/format-comparison": {
+      "count": 9,
+      "docs": [
+        "common/format-comparison [Format Capabilities | Size Comparison]",
+        "recipes/constrained-sketching [Pass 2: Topology comparison]",
+        "recipes/verification []"
+      ]
+    },
+    "common/generic": {
+      "count": 6,
+      "docs": [
+        "assembly/generic []",
+        "common/generic []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "common/state-tree": {
+      "count": 17,
+      "docs": [
+        "common/state-tree [Querying the cached tree]",
+        "recipes/direct-modeling-eif [When to prefer this over the feature tree]",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "common/userData": {
+      "count": 2,
+      "docs": [
+        "common/userData []",
+        "common/generic []"
+      ]
+    },
+    "part/brep-access-pattern": {
+      "count": 15,
+      "docs": [
+        "part/brep-access-pattern [The Core Pattern]",
+        "recipes/pattern-then-subtract []",
+        "solid/target-tools-pattern [Tool Reuse Pattern]"
+      ]
+    },
+    "part/expression-workflow": {
+      "count": 17,
+      "docs": [
+        "part/expression-workflow []",
+        "recipes/parametric-part [1. Create the expression graph first]",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "part/feature-vs-direct": {
+      "count": 22,
+      "docs": [
+        "part/feature-vs-direct []",
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]",
+        "recipes/constrained-sketching [Chain vs trim — pick by topology knowledge]"
+      ]
+    },
+    "part/id-hierarchy": {
+      "count": 23,
+      "docs": [
+        "part/id-hierarchy [Wrong ID Type → Error 1001]",
+        "solid/curves-parameter [Accepted ID Types]",
+        "common/generic [ID System | Object Hierarchy]"
+      ]
+    },
+    "part/rollback-bars": {
+      "count": 2,
+      "docs": [
+        "part/rollback-bars [The Two Bars]",
+        "common/generic []"
+      ]
+    },
+    "solid/curves-parameter": {
+      "count": 19,
+      "docs": [
+        "solid/curves-parameter []",
+        "recipes/assembly-parameters [3. Constraints that follow parameters]",
+        "recipes/parametric-part [4. Regeneration: step large parameter jumps]"
+      ]
+    },
+    "solid/generic": {
+      "count": 6,
+      "docs": [
+        "assembly/generic []",
+        "common/generic []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "solid/target-tools-pattern": {
+      "count": 19,
+      "docs": [
+        "solid/target-tools-pattern [Destroyed Target Behavior | Tool Reuse Pattern]",
+        "recipes/pattern-then-subtract []",
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]"
+      ]
+    }
+  },
+  "bySynonymKey": {
+    "array": {
+      "count": 16,
+      "docs": [
+        "part/brep-access-pattern []",
+        "recipes/constrained-sketching []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "assembly": {
+      "count": 10,
+      "docs": [
+        "assembly/generic []",
+        "recipes/assembly-parameters []",
+        "assembly/movingUnderConstraints []"
+      ]
+    },
+    "attribute": {
+      "count": 6,
+      "docs": [
+        "common/userData []",
+        "common/generic []",
+        "recipes/verification []"
+      ]
+    },
+    "bore": {
+      "count": 5,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "recipes/parametric-part []"
+      ]
+    },
+    "bounds": {
+      "count": 4,
+      "docs": [
+        "recipes/verification [Tier 2 — bounds / bounding box (position/extent claims)]",
+        "recipes/constrained-sketching []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "chamfer": {
+      "count": 3,
+      "docs": [
+        "recipes/parametric-part []",
+        "part/brep-access-pattern [After Fillet/Chamfer]",
+        "common/generic []"
+      ]
+    },
+    "combine": {
+      "count": 9,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/pattern-then-subtract []",
+        "assembly/movingUnderConstraints []"
+      ]
+    },
+    "constraint": {
+      "count": 12,
+      "docs": [
+        "assembly/movingUnderConstraints [startMovingUnderConstraints]",
+        "recipes/assembly-parameters [3. Constraints that follow parameters]",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "copy": {
+      "count": 10,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/constrained-sketching []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "cut": {
+      "count": 8,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/constrained-sketching []",
+        "recipes/verification []"
+      ]
+    },
+    "difference": {
+      "count": 7,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/verification []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "drill": {
+      "count": 6,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/parametric-part []",
+        "recipes/direct-modeling-eif []"
+      ]
+    },
+    "export": {
+      "count": 5,
+      "docs": [
+        "common/format-comparison []",
+        "recipes/assembly-parameters []",
+        "common/faceting-concepts [STL Export Has Its Own Tessellation]"
+      ]
+    },
+    "expression": {
+      "count": 17,
+      "docs": [
+        "recipes/parametric-part [1. Create the expression graph first]",
+        "common/expression-syntax [Inter-Expression References]",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "extrude": {
+      "count": 5,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "solid/curves-parameter []"
+      ]
+    },
+    "fillet": {
+      "count": 5,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/verification []",
+        "recipes/parametric-part []"
+      ]
+    },
+    "global": {
+      "count": 10,
+      "docs": [
+        "recipes/assembly-parameters []",
+        "recipes/constrained-sketching []",
+        "recipes/verification []"
+      ]
+    },
+    "hole": {
+      "count": 10,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/parametric-part []",
+        "recipes/verification []"
+      ]
+    },
+    "hollow": {
+      "count": 5,
+      "docs": [
+        "recipes/direct-modeling-eif []",
+        "recipes/assembly-parameters []",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "import": {
+      "count": 7,
+      "docs": [
+        "recipes/direct-modeling-eif []",
+        "recipes/constrained-sketching []",
+        "common/encoding-pipeline []"
+      ]
+    },
+    "intersect": {
+      "count": 12,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "join": {
+      "count": 6,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/pattern-then-subtract []",
+        "assembly/movingUnderConstraints []"
+      ]
+    },
+    "joint": {
+      "count": 7,
+      "docs": [
+        "assembly/movingUnderConstraints []",
+        "recipes/pattern-then-subtract []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "label": {
+      "count": 5,
+      "docs": [
+        "common/userData []",
+        "recipes/verification []",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "loft": {
+      "count": 3,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "recipes/verification []"
+      ]
+    },
+    "mate": {
+      "count": 9,
+      "docs": [
+        "assembly/movingUnderConstraints []",
+        "recipes/assembly-parameters []",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "measure": {
+      "count": 9,
+      "docs": [
+        "recipes/verification []",
+        "recipes/constrained-sketching []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "metadata": {
+      "count": 5,
+      "docs": [
+        "common/userData []",
+        "recipes/constrained-sketching []",
+        "recipes/verification []"
+      ]
+    },
+    "mirror": {
+      "count": 8,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/pattern-then-subtract []",
+        "recipes/verification []"
+      ]
+    },
+    "move": {
+      "count": 16,
+      "docs": [
+        "assembly/movingUnderConstraints [moveUnderConstraints]",
+        "recipes/verification []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "parameter": {
+      "count": 19,
+      "docs": [
+        "recipes/assembly-parameters [3. Constraints that follow parameters]",
+        "recipes/parametric-part [4. Regeneration: step large parameter jumps]",
+        "solid/curves-parameter []"
+      ]
+    },
+    "parametric": {
+      "count": 16,
+      "docs": [
+        "recipes/parametric-part []",
+        "recipes/assembly-parameters []",
+        "part/expression-workflow []"
+      ]
+    },
+    "pattern": {
+      "count": 14,
+      "docs": [
+        "part/brep-access-pattern [The Core Pattern]",
+        "recipes/pattern-then-subtract []",
+        "solid/target-tools-pattern [Tool Reuse Pattern]"
+      ]
+    },
+    "revolve": {
+      "count": 5,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "solid/curves-parameter []"
+      ]
+    },
+    "rotate": {
+      "count": 9,
+      "docs": [
+        "recipes/direct-modeling-eif []",
+        "recipes/constrained-sketching []",
+        "solid/generic []"
+      ]
+    },
+    "round": {
+      "count": 13,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/verification []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "scale": {
+      "count": 5,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/verification []",
+        "part/feature-vs-direct []"
+      ]
+    },
+    "section": {
+      "count": 8,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/assembly-parameters []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "shared": {
+      "count": 10,
+      "docs": [
+        "recipes/assembly-parameters [2. Change the shared value]",
+        "recipes/parametric-part []",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "shell": {
+      "count": 6,
+      "docs": [
+        "recipes/direct-modeling-eif []",
+        "recipes/assembly-parameters []",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "slice": {
+      "count": 5,
+      "docs": [
+        "recipes/verification []",
+        "recipes/constrained-sketching []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "split": {
+      "count": 5,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/verification []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    "step": {
+      "count": 10,
+      "docs": [
+        "recipes/verification [Final gate — four steps, in order]",
+        "recipes/constrained-sketching [Step 0 — Classify the Drawing and the Deliverable]",
+        "recipes/parametric-part [4. Regeneration: step large parameter jumps]"
+      ]
+    },
+    "stl": {
+      "count": 6,
+      "docs": [
+        "common/format-comparison [STL size sensitivity]",
+        "common/faceting-concepts [STL Export Has Its Own Tessellation]",
+        "common/encoding-pipeline [STL Binary Corruption]"
+      ]
+    },
+    "stp": {
+      "count": 7,
+      "docs": [
+        "common/format-comparison [STP Versions]",
+        "recipes/verification []",
+        "recipes/assembly-parameters []"
+      ]
+    },
+    "subtract": {
+      "count": 12,
+      "docs": [
+        "recipes/pattern-then-subtract []",
+        "recipes/parametric-part []",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "sweep": {
+      "count": 4,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "recipes/verification []"
+      ]
+    },
+    "tag": {
+      "count": 5,
+      "docs": [
+        "common/userData []",
+        "recipes/verification []",
+        "recipes/constrained-sketching []"
+      ]
+    },
+    "union": {
+      "count": 8,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "part/feature-vs-direct []",
+        "recipes/parametric-part []"
+      ]
+    },
+    "variable": {
+      "count": 12,
+      "docs": [
+        "recipes/assembly-parameters []",
+        "recipes/parametric-part []",
+        "common/generic []"
+      ]
+    }
+  },
+  "arrays": [
+    {
+      "search": [
+        "shared parameters assembly",
+        "expression",
+        "box",
+        "cylinder",
+        "fastened constraint",
+        "mass properties",
+        "product instance",
+        "workplane"
+      ],
+      "count": 23,
+      "docs": [
+        "recipes/assembly-parameters [2. Change the shared value | 3. Constraints that follow parameters]",
+        "assembly/generic [Parameters and Expressions | Constraint Solving | Instances]",
+        "recipes/verification [Tier 2 — bounds / bounding box (position/extent claims) | Tier 1 — mass properties (cheap, catches most wrongness)]",
+        "assembly/movingUnderConstraints [startMovingUnderConstraints]",
+        "common/generic [Expression Engine | Drawing Constraints]",
+        "recipes/parametric-part [1. Create the expression graph first]"
+      ]
+    },
+    {
+      "search": [
+        "sketch",
+        "line",
+        "circle",
+        "constraint",
+        "dimension",
+        "extrusion"
+      ],
+      "count": 21,
+      "docs": [
+        "recipes/constrained-sketching [Sketch-plane local→world mappings | Reference: Tangent Lines Between Circles | Cross-reference dimensions]",
+        "recipes/parametric-part [2. Constrained sketch with @expr dimensions]",
+        "recipes/direct-modeling-eif [Profiles: one polyline with bulges, not line/arc chains]",
+        "recipes/verification []",
+        "solid/curves-parameter []",
+        "recipes/pattern-then-subtract []"
+      ]
+    },
+    {
+      "search": [
+        "hole",
+        "pattern",
+        "fillet",
+        "chamfer"
+      ],
+      "count": 16,
+      "docs": [
+        "part/brep-access-pattern [The Core Pattern | After Fillet/Chamfer]",
+        "recipes/pattern-then-subtract []",
+        "recipes/parametric-part []",
+        "recipes/constrained-sketching [Dimension patterns]",
+        "recipes/verification []",
+        "solid/target-tools-pattern [Tool Reuse Pattern]"
+      ]
+    },
+    {
+      "search": [
+        "assembly instance",
+        "product instance"
+      ],
+      "count": 11,
+      "docs": [
+        "assembly/generic [Instances]",
+        "recipes/assembly-parameters []",
+        "assembly/movingUnderConstraints []",
+        "common/state-tree []",
+        "recipes/constrained-sketching []",
+        "recipes/verification []"
+      ]
+    },
+    {
+      "search": [
+        "revolute joint",
+        "gear",
+        "move under constraints"
+      ],
+      "count": 20,
+      "docs": [
+        "assembly/movingUnderConstraints [moveUnderConstraints | startMovingUnderConstraints]",
+        "recipes/assembly-parameters [3. Constraints that follow parameters]",
+        "recipes/constrained-sketching [Diagnosing an under-constrained scheme]",
+        "assembly/generic []",
+        "recipes/verification []",
+        "common/generic [Drawing Constraints]"
+      ]
+    },
+    {
+      "search": [
+        "split solid",
+        "boolean subtraction",
+        "union",
+        "intersection"
+      ],
+      "count": 18,
+      "docs": [
+        "recipes/constrained-sketching []",
+        "part/feature-vs-direct [Booleans Across Paradigms]",
+        "solid/target-tools-pattern []",
+        "recipes/direct-modeling-eif []",
+        "recipes/parametric-part [3. What stays live through booleans — and what doesn't]",
+        "recipes/verification []"
+      ]
+    },
+    {
+      "search": [
+        "save",
+        "load",
+        "export step"
+      ],
+      "count": 14,
+      "docs": [
+        "common/format-comparison []",
+        "recipes/assembly-parameters []",
+        "recipes/verification [Final gate — four steps, in order]",
+        "common/encoding-pipeline []",
+        "assembly/movingUnderConstraints []",
+        "common/faceting-concepts [STL Export Has Its Own Tessellation]"
+      ]
+    },
+    {
+      "search": [
+        "work csys",
+        "work axis",
+        "work point",
+        "work plane"
+      ],
+      "count": 21,
+      "docs": [
+        "recipes/constrained-sketching [Worked example — the solver does the tangent math | Sketch-plane local→world mappings]",
+        "common/generic []",
+        "part/expression-workflow [Working Example]",
+        "recipes/verification []",
+        "assembly/movingUnderConstraints [Working Example]",
+        "part/brep-access-pattern [Box Edge Midpoints (box at origin, L×W×H)]"
+      ]
+    },
+    {
+      "search": [
+        "part box",
+        "solid box"
+      ],
+      "count": 21,
+      "docs": [
+        "solid/generic []",
+        "recipes/direct-modeling-eif []",
+        "recipes/verification [Tier 2 — bounds / bounding box (position/extent claims)]",
+        "part/id-hierarchy [part.box vs solid.box | Two IDs Per Solid]",
+        "solid/curves-parameter []",
+        "solid/target-tools-pattern []"
+      ]
+    },
+    {
+      "search": [
+        "zzzznope",
+        "box"
+      ],
+      "count": 18,
+      "docs": [
+        "recipes/verification [Tier 2 — bounds / bounding box (position/extent claims)]",
+        "recipes/assembly-parameters []",
+        "recipes/constrained-sketching []",
+        "recipes/direct-modeling-eif []",
+        "part/brep-access-pattern [Box Edge Midpoints (box at origin, L×W×H)]",
+        "part/id-hierarchy [part.box vs solid.box]"
+      ]
+    },
+    {
+      "search": [
+        "in a the",
+        "of"
+      ],
+      "count": 0,
+      "docs": []
+    }
+  ],
+  "options": {
+    "empty": {
+      "count": 0,
+      "docs": []
+    },
+    "stopwordsOnly": {
+      "count": 0,
+      "docs": []
+    },
+    "limit1": {
+      "count": 10,
+      "docs": [
+        "assembly/generic []"
+      ]
+    },
+    "limit20": {
+      "count": 10,
+      "docs": [
+        "assembly/generic []",
+        "recipes/assembly-parameters []",
+        "assembly/movingUnderConstraints []",
+        "recipes/parametric-part []",
+        "common/state-tree []",
+        "recipes/constrained-sketching []",
+        "recipes/verification []",
+        "common/format-comparison []",
+        "recipes/pattern-then-subtract []",
+        "part/expression-workflow []"
+      ]
+    }
+  }
+}

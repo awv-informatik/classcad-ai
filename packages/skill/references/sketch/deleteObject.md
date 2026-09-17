@@ -1,64 +1,36 @@
 # sketch.deleteObject
 
-Deletes one or more sketch objects — geometry (lines, circles, arcs, points), constraints, dimensions, sketch regions, or rigid sets.
-
-## Prerequisites
-
-- A part (`part.create`)
-- A sketch (`sketch.create`)
-- Valid IDs of objects to delete
+Deletes sketch objects — geometry (lines, circles, arcs, points), constraints, dimensions, sketch regions, rigid sets. Not whole sketches (use `deleteSketch`). Permanent — no undo.
 
 ## Key Parameters
 
-- **`ids`** (required) — array of IDs to delete. Accepts mixed types in a single call (geometry + constraints + dimensions + regions + rigid sets all at once).
+- **`ids`** (required) — always an array; mixed types allowed in one call.
 
 ## Return Value
 
-- `result: null` (VOID) on success.
-- `maxLevel: 31` on success (even with empty `ids` array).
-- `maxLevel: 51` on error (invalid/nonexistent IDs).
+VOID. maxLevel 31 on success (also for `ids: []`, a silent no-op); 51 on error.
 
-## Cascading Behavior (verified 2026-07-01)
+## Cascading
 
-**Geometry deletion cascades to dependent objects:**
-- Deleting a line/circle/arc **auto-deletes its child points AND every constraint/dimension that references it** — no orphans. Verified: deleting one of two perpendicular joined lines removed the line, both its points, and its coincident/horizontal/perpendicular constraints plus the distance constraint *and* its `CC_LinearFeatureDimension`; only the surviving line's own vertical constraint remained. Attempting to delete the now-gone constraint/dimension returns maxLevel=51 "invalid id".
-- (Contrast: orphan points come from the **trim** workflow — trimming a circle down to arcs can leave its center point behind — NOT from `deleteObject`, which removes a geometry element's points with it.)
+**Geometry cascades:** deleting a line/circle/arc also deletes its child points AND every constraint/dimension referencing it — no orphans. Deleting one of two perpendicular joined lines removed the line, its points, its coincident/horizontal/perpendicular constraints, the distance constraint *and* its `CC_LinearFeatureDimension`; only the surviving line's own vertical constraint remained (deleting the gone items then → 51 "invalid id"). Orphan points come from the **trim** workflow (a circle trimmed to arcs can leave its center point), not from `deleteObject`.
 
-**Non-geometry deletion does NOT cascade:**
-- Deleting a **constraint** or **dimension** — underlying geometry is preserved.
-- Deleting a **sketch region** — underlying geometry (lines, arcs, etc.) is preserved. Only the region object is removed.
-- Deleting a **rigid set** — underlying geometry is preserved. Only the grouping is removed.
-- Deleting a **pattern constraint** — ALL geometry persists (original + copies). The pattern relationship is broken but circles/lines remain as independent elements.
+**Non-geometry does NOT cascade** — geometry is preserved when deleting a constraint, dimension, sketch region, rigid set (only the grouping goes), or pattern constraint (original + copies remain as independent elements). Deleting a pattern's source geometry removes only that element; copies survive.
 
-**Pattern source geometry:**
-- Deleting the source geometry of a pattern removes only that element. Pattern copies survive as independent geometry.
+## Errors & Gotchas
 
-## Edge Cases
-
-- **Empty `ids: []`** — silent no-op. Returns maxLevel=31, no error.
-- **Invalid/nonexistent ID** — maxLevel=51 with WARNING "ToId()/TOID() didn't get an existing or valid id" (level 41) + ERROR "An element of parameter ids has an invalid id!" (code 1006, level 51).
-- **Double-delete** (deleting an already-deleted ID) — same error as invalid ID (code 1006, maxLevel=51).
-- **Passing `null` as an ID** — maxLevel=51 with "An element of parameter ids has the wrong type!" (code 1001). This happens when you pass the result of a failed creation call.
-
-## Gotchas
-
-- The `ids` parameter is an array, not a single ID. Always wrap in `[...]`.
-- There is no undo — deletion is permanent within the session.
-- **Multi-delete is ALL-OR-NOTHING (verified 2026-07-01).** If ANY id in the array is invalid, the entire call is rejected and **nothing is deleted** — not even the valid ids. Verified: `deleteObject([validE, 999999, validF])` left both E and F intact and returned code 1006. So **filter out invalid/`null` ids before calling** (e.g. `.filter(Boolean)`); a single stale id from a failed create silently blocks the whole batch.
+- **ALL-OR-NOTHING.** Any invalid id rejects the whole call — `deleteObject([validE, 999999, validF])` left E and F intact (1006). Filter invalid/`null` ids first (e.g. `.filter(Boolean)`); one stale id from a failed create silently blocks the batch.
+- **Invalid/nonexistent or already-deleted id:** level-41 warning "ToId()/TOID() didn't get an existing or valid id" + error "An element of parameter ids has an invalid id!" (1006, maxLevel 51).
+- **`null` id** (e.g. result of a failed creation): "An element of parameter ids has the wrong type!" (1001, maxLevel 51).
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({})).result
 const skId = (await api.v1.sketch.create({ id: partId })).result
-
-// Create geometry
 const line = (await api.v1.sketch.line({ id: skId, startPos: [0, 0, 0], endPos: [50, 0, 0] })).result
 const circ = (await api.v1.sketch.circle({ id: skId, centerPos: [80, 30, 0], radius: 15 })).result
 
-// Delete both at once
-const r = await api.v1.sketch.deleteObject({ ids: [line, circ] })
-// r.result = null, r.maxLevel = 31
+const r = await api.v1.sketch.deleteObject({ ids: [line, circ] }) // result null, maxLevel 31
 ```
 
 ## Related

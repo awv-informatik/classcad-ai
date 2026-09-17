@@ -50,7 +50,9 @@ export function registerScriptTool(server: McpServer, client: Client): void {
         'Execute JavaScript against the CAD session — THE tool for any build involving computation, ' +
         'repetition, or more than a handful of operations. The script runs as an async function body with:\n' +
         '• api.v1.<domain>.<method>(params) — ClassCAD calls, await-able, → { result, maxLevel, messages }. ' +
-        'Typos throw immediately with suggestions.\n' +
+        'Typos throw immediately with suggestions. Strict: a call that ends at maxLevel ≥ 51 THROWS (the message carries ' +
+        'the engine error) — method docs describing "null/[] with maxLevel 51" are the non-script result; wrap intentional ' +
+        'probes (e.g. getGeometryIds where a miss is expected) in try/catch.\n' +
         '• await api.tree({ refresh? }) — the structure tree (id → node): find parts, features, sketches by class/name. ' +
         'Returns a Promise: without await, Object.values(api.tree()) is silently [] (looks like an empty drawing).\n' +
         '• await api.graphic({ recalc? }) — the graphic payload (containers with face meshes, edges, vertices): ' +

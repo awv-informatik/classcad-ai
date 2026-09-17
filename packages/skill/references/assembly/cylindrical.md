@@ -1,143 +1,59 @@
 # assembly.cylindrical
 
-Creates a cylindrical constraint between two instances. Allows 2 degrees of freedom: rotation around the shared Z-axis AND translation along the Z-axis.
+Cylindrical constraint between two instances. Constrains 4 DOF, leaving 2 free: rotation around AND translation along mate1's csys Z-axis.
 
-## Prerequisites
-
-- An assembly root (`assembly.create`)
-- At least two instances (`assembly.instance`) with work coordinate systems (`part.workCSys`) in their templates
-- **Ground at least one instance** with `fastenedOrigin` before applying cylindrical — otherwise the solver repositions BOTH instances
+Prerequisites: assembly root, two instances whose templates contain a `part.workCSys`. **Ground at least one instance** with `fastenedOrigin` first — otherwise the solver repositions BOTH instances.
 
 ## Key Parameters
 
 - `id` — assembly root ID (required)
-- `mate1` / `mate2` — each needs `path: [instanceId]` and `csys: workCSysId`
-- `zOffsetLimits` — `{ min, max }` constraining Z-translation range. Partial limits work: `{ min: 10 }` sets min only. Set `{ min: null, max: null }` to remove. Negative values supported.
-- `zRotationLimits` — `{ min, max }` constraining rotation range in radians. Degree strings accepted: `'-45deg'`, `'90deg'` (converted to radians on storage). Set `{ min: null, max: null }` to remove.
-- `mate.flip` — `'Z'` (default), `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`. Identical to revolute/fastened.
-- `mate.reorient` — `'0'` (default), `'90'`, `'180'`, `'270'`. Only visible when zRotationLimits lock the joint.
+- `mate1` / `mate2` — `{ path: [instanceId], csys: workCSysId, flip?, reorient? }`
+- `zOffsetLimits` — `{ min, max }` on Z translation. Partial (`{ min: 10 }`) and negative (`{ min: -20, max: -10 }`) limits work. `{ min: null, max: null }` removes
+- `zRotationLimits` — `{ min, max }` in radians or degree strings (stored as radians), e.g. `{ min: -1.5708, max: 1.5708 }` = ±90°. `{ min: null, max: null }` removes
+- `mate.flip` — `'Z'` (default), `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`; same table as `assembly/fastened`
+- `mate.reorient` — `'0'` (default), `'90'`, `'180'`, `'270'`; as revolute, only visible when `zRotationLimits` lock the joint (e.g. `{ min: 0, max: 0 }`) — free rotation absorbs it
+
+**No `zOffset` parameter.** Passing it is silently ignored (no error, no effect). To fix Z, use `zOffsetLimits: { min: N, max: N }`.
 
 ## Alignment Semantics (CRITICAL — differs from revolute)
 
 **The axis is mate1's csys Z-axis.** inst2 is moved onto that axis (mate2's csys origin on the line, axes aligned). Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]` (csys Z = world −Y), inst2 starting at `[200,7,3]` → inst2 at `[40,7,20]`: on the axis, keeping its position along it. Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
 
-**Z (along the axis) is a FREE DOF.** Unlike revolute (which has a fixed `zOffset` param), cylindrical preserves the initial Z-offset from the instance's transformation. The solver does not move inst2 along Z unless `zOffsetLimits` force clamping.
+**Z along the axis is free and comes from the instance's transformation.** With no limits the solver keeps inst2's current angle (created at 45° → stays at 45°) and preserves the initial Z-offset; it does not move inst2 along Z unless `zOffsetLimits` force clamping:
 
-**No `zOffset` parameter.** Passing `zOffset` is silently ignored — no error, no effect. Use `zOffsetLimits: { min: N, max: N }` to lock inst2 at a specific Z-offset.
+| Current Z vs limits | Result |
+|---|---|
+| below min | clamped to min |
+| within range | preserved |
+| above max | clamped to max |
 
-## DOF and Behavior
-
-Cylindrical constrains 4 DOF, leaving 2 free: rotation around Z + translation along Z.
-
-With no limits, the solver places inst2 at angle=0 and preserves the initial Z-offset from the instance transformation. The free DOFs only become visible/constrained when:
-1. `zOffsetLimits` constrain the translation range
-2. `zRotationLimits` constrain the rotation range
-3. `moveUnderConstraints` applies motion
-4. External constraints interact
-
-## zOffsetLimits
-
-Constrains the Z-translation DOF to a range. The solver clamps the instance's current Z-offset to [min, max]:
-- Below min → clamped to min
-- Within range → preserved
-- Above max → clamped to max
-
-Partial limits: `{ min: 20 }` sets min only (max unconstrained). Negative limits work: `{ min: -20, max: -10 }`.
-
-## zRotationLimits
-
-Same behavior as revolute. Constrains rotation around Z to a range.
-
-- Radians: `{ min: -1.5708, max: 1.5708 }` → ±90°
-- Degree strings: `{ min: '-45deg', max: '180deg' }` → converted to radians on storage
-- Remove: `{ min: null, max: null }`
-
-## Flip
-
-Identical to revolute/fastened. Rotates inst2 before constraint solving:
-
-| flip | Effect |
-|------|--------|
-| `'Z'` (default) | Identity |
-| `'-Z'` | 180° around X |
-| `'X'` | 90° around Y |
-| `'-X'` | -90° around Y |
-| `'Y'` | -90° around X |
-| `'-Y'` | 90° around X |
-
-## Reorient
-
-Identical to revolute. Only observable when zRotationLimits lock the joint (e.g., `{ min: 0, max: 0 }`). With free rotation, the DOF absorbs the offset.
+The free DOFs show only via limits, `moveUnderConstraints`, or interacting constraints.
 
 ## Return Value
 
-- Single call: `id` — the constraint ID
-- Batch (array of params): `Array<id>`
+Constraint ID; array call → `Array<id>`.
 
 ## getCylindrical
 
-`getCylindrical({ id: asmId, name: 'Cyl1' })` — queries by name.
+`getCylindrical({ id: asmId, name: 'Cyl1' })` — `id` is the assembly holding it: the root, an assembly template, or a sub-assembly instance (part instance → "not a Assembly", part template → 1001); `name` is case-sensitive.
 
-### Parameters
+Success (maxLevel 31): `{ id, name, mate1: { path, csys, flip, reorient }, mate2: {...}, zOffsetLimits: { min, max }, zRotationLimits: { min, max } }`. Both limit objects are always present (`null` values when unset; rotation in radians). No `zOffset` field (unlike getRevolute).
 
-- `id` — **assembly root ID only**. Instance and template IDs return null/error despite docs saying "product or instance."
-- `name` — constraint name string (case-sensitive)
-
-### Return Value
-
-Success (`maxLevel: 31`):
-```js
-{
-  id, name,
-  mate1: { path, csys, flip, reorient },
-  mate2: { path, csys, flip, reorient },
-  zOffsetLimits: { min, max },
-  zRotationLimits: { min, max }
-}
-```
-
-- `zOffsetLimits` — always an object, never null. No limits → `{ min: null, max: null }`.
-- `zRotationLimits` — always an object, never null. Radians if set, null if not.
-- No `zOffset` field exists (unlike getRevolute).
-
-### Failure Cases
-
-All return `result: null, maxLevel: 51`:
-- Non-existent name
-- Empty name `''`
-- Wrong constraint type (e.g., querying a fastenedOrigin)
-- Instance or template ID passed as `id`
-
-### Batch
-
-Pass array of `{ id, name }`. Returns `Array<result|null>`. One null contaminates maxLevel to 51.
+`result: null`, maxLevel 51 for: non-existent name, empty name `''`, wrong constraint type (e.g. a fastenedOrigin), instance/template ID as `id`. Array form → `Array<result|null>`; one null raises maxLevel to 51.
 
 ## updateCylindrical
 
-`updateCylindrical({ id: constraintId, ... })` — true partial update. Unspecified params preserved.
+`updateCylindrical({ id: constraintId, ... })` — **constraint ID**, not the assembly ID (→ 1007). True partial update.
 
-**`id` must be the constraint ID** (from `cylindrical()`), NOT the assembly ID. Passing assembly ID gives error 1007.
-
-### What you can update
-
-- `zOffsetLimits: { min: 10, max: 30 }` — add/change translation limits (instance clamps immediately)
-- `zOffsetLimits: { min: null, max: null }` — remove limits
-- `zRotationLimits: { min: 0, max: '90deg' }` — add/change rotation limits
-- `zRotationLimits: { min: null, max: null }` — remove limits
-- `mate2: { flip: '-Z' }` — change flip
-- `mate2: { reorient: '90' }` — change reorient
-- `name: 'NewName'` — rename; old name immediately unfindable via getCylindrical
+- `zOffsetLimits: { min: 10, max: 30 }` — add/change (instance clamps immediately); `{ min: null, max: null }` removes
+- `zRotationLimits: { min: 0, max: '90deg' }` — add/change; `{ min: null, max: null }` removes
+- `mate2: { flip: '-Z' }` / `mate2: { reorient: '90' }`
+- `name: 'NewName'` — old name immediately unfindable
 
 ## Gotchas
 
-- **No `zOffset` parameter.** Unlike revolute, cylindrical does NOT accept `zOffset`. Passing it is silently ignored. To set a fixed Z position, use `zOffsetLimits: { min: N, max: N }`.
-- **Z-offset comes from instance transformation.** The initial Z position is whatever the instance was placed at. The solver preserves it unless limits force clamping.
-- **Ungrounded instances both move.** Same as revolute — always ground at least one instance with fastenedOrigin.
-- **The csys defines the axis.** The joint slides and rotates along/around mate1's csys Z-axis.
-- **Duplicate names allowed.** Creating two with the same name succeeds silently.
-- **Same-instance error.** Using the same instance for both mates gives error 1014: "probably belong to the same rigid set."
-- **Reorient invisible without limits.** Free rotation DOF absorbs the reorient offset.
-- **getCylindrical: assembly root ID only.** Instance/template IDs fail despite what the docs say.
+- **Duplicate names allowed** silently.
+- **Same instance in both mates** → error 1014: "probably belong to the same rigid set."
 
 ## Working Example
 
@@ -150,21 +66,19 @@ const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  //
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Piston' })).result
 await api.v1.part.cylinder({ id: tplB, name: 'Rod', diameter: 10, height: 50 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
-
 const inst1 = (await api.v1.assembly.instance({ productId: tplA, ownerId: asmId, name: 'Base' })).result
 const inst2 = (await api.v1.assembly.instance({
   productId: tplB, ownerId: asmId, name: 'Piston',
-  transformation: [[0, 0, 10], [1, 0, 0], [0, 1, 0]]
+  transformation: [[0, 0, 10], [1, 0, 0], [0, 1, 0]],
 })).result
 
 await api.v1.assembly.fastenedOrigin({ id: asmId, name: 'Ground', mate1: { path: [inst1], csys: wcsA } })
 
 const cylId = (await api.v1.assembly.cylindrical({
-  id: asmId,
-  name: 'PistonSlide',
+  id: asmId, name: 'PistonSlide',
   mate1: { path: [inst1], csys: wcsA },
   mate2: { path: [inst2], csys: wcsB },
   zOffsetLimits: { min: 5, max: 40 },

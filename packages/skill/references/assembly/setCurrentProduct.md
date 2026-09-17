@@ -1,46 +1,32 @@
 # assembly.setCurrentProduct
 
-Sets the "current product" — the active template context for `part.*` operations. Returns the **previous** product ID, enabling rollback.
+Sets the "current product" — the active template context for `part.*` operations — and returns the **previous** product ID for rollback. Per the docs, the current product "is exported in the save commando" (controls which product is active in saved files).
 
-## Prerequisites
-
-- An assembly created with `assembly.create`, OR a standalone part from `part.create`
+Prerequisites: an assembly (`assembly.create`) OR a standalone part (`part.create`; then it returns the part's own ID).
 
 ## Key Parameters
 
-- `id` — product or instance ID. Accepted types: `["part/assembly","instance"]`. Numeric only — string identifiers are **not supported**.
+- `id` — product or instance ID; accepted types `["part/assembly","instance"]`. **Numeric only** — string identifiers, including idents from `setIdent`, never work.
 
 ## Return Value
 
-The **ID of the product that was current before** the switch. This is the key difference from `setCurrentInstance` (which returns VOID). Use it for save/restore patterns.
-
-On error: `null` with maxLevel=51.
-
-## Instance ID Resolution
-
-Passing an instance ID resolves to the instance's **linked template** — not the instance itself. When you later switch away, the "previous product" returned is the template ID, not the instance ID. This means `setCurrentProduct(instId)` is equivalent to `setCurrentProduct(templateId)` for product-switching purposes, but it does **not** set the current instance (only `setCurrentInstance` does that).
+ID of the product current **before** the switch (with the already-current product: its own ID, no error). Error → `null`, maxLevel 51.
 
 ## Accepted ID Types
 
 | ID type | Works? | Notes |
 |---|---|---|
-| Root assembly | Yes | |
-| Part template | Yes | |
-| Assembly template | Yes | |
-| Instance (CC_ProductReference) | Yes | Resolves to instance's template |
+| Root assembly / part template / assembly template | Yes | |
+| Instance (CC_ProductReference) | Yes | Resolves to the instance's **template** |
 | Feature ID | No | Error 1001: wrong id type |
 | Invalid numeric ID | No | Error 1006: invalid id |
 | String identifier | No | Can't convert string to id |
 
-## Shared State with setCurrentInstance
-
-`setCurrentProduct` and `setCurrentInstance` share the `currentProduct` pointer:
-
-- `setCurrentInstance(instId)` sets currentProduct to the instance's template
-- `setCurrentProduct(asmId)` after that returns the template ID as "previous"
-- `setCurrentProduct` does NOT set the current instance — only `setCurrentProduct` changes the product pointer
+An instance ID is equivalent to its template ID for product switching: a later switch returns the template ID as "previous". It does **not** set the current instance.
 
 ## vs setCurrentInstance
+
+Both share the `currentProduct` pointer: `setCurrentInstance(instId)` sets it to the instance's template, so a following `setCurrentProduct(asmId)` returns that template ID.
 
 | | setCurrentProduct | setCurrentInstance |
 |---|---|---|
@@ -48,38 +34,25 @@ Passing an instance ID resolves to the instance's **linked template** — not th
 | Sets current product? | Yes | Yes (to template) |
 | Sets current instance? | No | Yes |
 | Instance ID behavior | Resolves to template | Navigates to instance |
-| Rollback info? | Yes (return value) | No |
 
-Use `setCurrentProduct` when you need rollback info or direct product control. Use `setCurrentInstance` when navigating instance-by-instance.
-
-## Gotchas
-
-- **Idempotent.** Calling with the already-current product returns that product's own ID. No error.
-- **No-assembly context.** Works on standalone parts from `part.create` (no assembly needed). Returns the part's own ID.
-- **String idents never work.** Even after `setIdent`, the `id` param only accepts numeric IDs.
-- **Affects save.** The docs say "the current product is exported in the save commando" — this controls which product is active in saved files.
+Use `setCurrentProduct` for rollback info or direct product control; `setCurrentInstance` for navigating instance-by-instance.
 
 ## Working Example
 
 ```js
 const asmId = (await api.v1.assembly.create({})).result
 const tplId = (await api.v1.assembly.partTemplate({ name: 'Box' })).result
-await api.v1.part.box({ id: tplId, length: 40, width: 30, height: 20 })
+const boxFeat = (await api.v1.part.box({ id: tplId, length: 40, width: 30, height: 20 })).result
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
-// Save previous product for rollback
-const prev = (await api.v1.assembly.setCurrentProduct({ id: tplId })).result
-// prev === asmId — can restore later
+const prev = (await api.v1.assembly.setCurrentProduct({ id: tplId })).result  // prev === asmId
 
-// Edit the template
-const boxFeat = 70
 await api.v1.part.openFeature({ id: boxFeat })
 await api.v1.part.updateBox({ id: boxFeat, height: 50 })
 await api.v1.part.closeFeature({ id: boxFeat })
 await api.v1.common.recalc({})
 
-// Restore previous context
-await api.v1.assembly.setCurrentProduct({ id: prev })
+await api.v1.assembly.setCurrentProduct({ id: prev })  // restore
 ```
 
 ## Related

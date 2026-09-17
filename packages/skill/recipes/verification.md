@@ -26,7 +26,7 @@ two halves, and both need proof:
 
 # Part I — perception first (any input reference)
 
-The measured differentiator (2026-08-18/19 series): the same model that
+The measured differentiator: the same model that
 misreads a part's handedness while planning a build reads it correctly when
 asked in isolation — wrong 6/6 with a build task in context, right 9/9
 without one. Perception is not the bottleneck; build-task context is, and
@@ -99,7 +99,7 @@ Bounds on the whole phase:
 - **Never invent geometry to explain a reading.** A reader answer that
   implies an otherwise unevidenced feature (a gap, a slot, a cut) is a USER
   question, not a record fact — one misread "ring gap" became an invented
-  cut that every probe then validated (measured 2026-08-19).
+  cut that every probe then validated.
 - Every dimension, axis and relation must be traceable to something you
   can point at in THIS image. "I recognize this part" is recall, not
   reading — the remembered variant differs.
@@ -149,7 +149,7 @@ reference, don't patch silently.
    IMAGE, never against your own record: a mirrored record validates
    itself. A reader that reports missing or incomplete images is a FAILED
    gate — fix the handover and re-run it; judging the comparison yourself
-   is not a fallback (measured 2026-08-19). Best: hand reference + pair
+   is not a fallback. Best: hand reference + pair
    sheet to a fresh reader with the
    single question "which panel matches the reference?" (buerli-ai:
    `delegate` with `agent: "perception", withImages: true, withSnapshots:
@@ -192,13 +192,21 @@ script from the design math — blank minus holes, etc.). Rules of thumb:
 - Photo-input case: no absolute volume to check — verify RATIOS (feature
   size vs overall extent) and counts against the image instead.
 
-## Tier 2 — bounds (position/extent claims)
+## Tier 2 — bounds / bounding box (position/extent claims)
+
+There is no v1 bounds method. In any script, bound the CURRENT solids only:
 
 ```js
-// buerli namespace — POSITIONAL args
-const b = await structure.calculateProductBounds(rootOrPartId)
-// → { center, min, max, radius }   (radius -1 = empty/no geometry)
+const cap = await api.inspect.capture()
+const b = api.inspect.graphicBounds(cap, api.inspect.currentSolids(cap))
+// → { min: [x,y,z], max: [x,y,z], approximate: true }  (tessellation; instance transforms not applied)
 ```
+
+The graphic still carries consumed bodies (the box before a boolean, the hole cylinders): bounding every
+container gives a box that is too big — a half plate 60×80×20 read as (0,0,−1)–(120,80,21) unfiltered.
+
+In buerli clients `structure.calculateProductBounds(rootOrPartId)` (POSITIONAL args) returns
+`{ center, min, max, radius }` (radius −1 = empty).
 
 Extent = `max − min`. Use for "the part is 80 long", "centered on origin",
 "the cut went through".
@@ -242,8 +250,7 @@ not always the model.
 ## Tessellation trap (graphic-based probes)
 
 The mesh you probe is faceted at the drawing's chord tolerance — **default
-`chordHeightTol 0.1` in MODEL UNITS** (worker-global). Consequences (verified
-2026-08-17, both bit an agent):
+`chordHeightTol 0.1` in MODEL UNITS** (worker-global). Consequences (both bit an agent):
 
 - On features smaller than ~50× the tolerance (an inch-model seat arc r=0.101
   vs tol 0.1!), faces emit endpoint-only vertices — a probe can conclude a

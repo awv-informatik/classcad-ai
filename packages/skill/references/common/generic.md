@@ -1,228 +1,157 @@
 # Protocol Envelope
 
-Every ClassCAD API call returns a response envelope. The docs describe it as `{ result, messages?, maxLevel? }` but the actual wire format has **5 keys**:
+Every call returns an envelope. The docs describe `{ result, messages?, maxLevel? }`; the wire format has **5 keys**:
 
 ```js
 {
-  result:     any,          // the payload — see Result Types below
-  messages:   Array,        // always present, always an array (empty [] on success)
-  maxLevel:   number,       // highest severity — 31 (info) is the baseline for clean calls
-  structure:  object|null,  // full scene graph — ignore for API scripting
-  graphic:    object|null,  // rendering data for clients — ignore for API scripting
+  result:    any,          // payload — see Result Types
+  messages:  Array,        // always an array ([] on success)
+  maxLevel:  number,       // highest severity — 31 (info) is the clean baseline
+  structure: object|null,  // full scene graph — ignore for API scripting
+  graphic:   object|null,  // rendering data for clients — ignore for API scripting
 }
 ```
 
 ## Result Types
 
-| Doc type       | JS type    | Example                        | Notes                                        |
-|----------------|------------|--------------------------------|----------------------------------------------|
-| `id`           | `number`   | `4`, `52`                      | Positive integers, sequential with gaps      |
-| `Array<id>`    | `number[]` | `[58, 64, 70, 76]`            | Array of integer IDs                         |
-| `real`         | `number`   | `5`, `0.333`, `3.14159`        | Full JS double precision                     |
-| `boolean`      | `number`   | `1`, `0`                       | NOT JS `true`/`false` — always `1` or `0`    |
-| `string`       | `string`   | `""`, `"hello"`                | Full Unicode support including emoji          |
-| `VOID`         | `null`     | `null`                         | NOT undefined — always `null`                |
-| `object`       | `object`   | `{ angleTol: 15, ... }`       | Plain JS object; boolean fields are `1`/`0`  |
-| `point`        | `object`   | `{ x: 0, y: 0, z: 0 }`       | Object with x/y/z keys                       |
-| `Array<string>`| `string[]` | `["a", "b"]`                   | Plain JS string array, unordered             |
+| Doc type       | JS type    | Example                  | Notes                                   |
+|----------------|------------|--------------------------|-----------------------------------------|
+| `id`           | `number`   | `4`, `52`                | Positive integers, sequential with gaps |
+| `Array<id>`    | `number[]` | `[58, 64, 70, 76]`       |                                         |
+| `real`         | `number`   | `5`, `0.333`             | Full JS double precision                |
+| `boolean`      | `number`   | `1`, `0`                 | NOT JS `true`/`false`                   |
+| `string`       | `string`   | `""`, `"hello"`          | Full Unicode incl. emoji                |
+| `VOID`         | `null`     | `null`                   | NOT undefined                           |
+| `object`       | `object`   | `{ angleTol: 15, ... }`  | Boolean fields are `1`/`0`              |
+| `point`        | `object`   | `{ x: 0, y: 0, z: 0 }`   |                                         |
+| `Array<string>`| `string[]` | `["a", "b"]`             | Unordered                               |
 
-### Type details
-
-**`boolean`:** Universally `1`/`0` numbers — in API results, object fields, and expressions. Never JS `true`/`false`. Expression constants are `TRUE`/`FALSE` (uppercase only; lowercase `true`/`false` are not recognized).
-
-**`id`:** Positive integers (`typeof === 'number'`, `Number.isInteger() === true`). IDs are monotonically increasing with variable gaps — each creation allocates internal child objects, so gaps depend on the object type (part.create consumes ~50 IDs, box ~37). As parameters, IDs accept numbers and string-encoded numbers (`4`, `"4"`, `" 4 "`, even `"4.0"` all work — the parser trims whitespace and coerces float strings). Float numbers (4.5), zero, negative, null, booleans, empty strings, and JS objects all fail. See [ID System](#id-system) for full details.
-
-**`point`:** Two representations exist:
-- **API parameters** accept BOTH `[x, y, z]` arrays AND `{x, y, z}` objects (e.g. `startPos: [0, 0, 0]` or `startPos: {x: 0, y: 0, z: 0}`)
-- **API results, structure tree, and expressions** always return `{x, y, z}` objects
-- **Must be exactly 3 components.** `[x, y]`, `[x]`, `[x,y,z,w]`, and `[]` all fail with: "If point is defined as array, it must have exactly 3 real values". For sketch geometry on the XY plane, pass `z: 0` explicitly.
-- **Full double precision** — values like `0.000001` and `999999.999999` are preserved exactly.
-- **Direction vectors** (e.g. `xVec`, `yVec` in `setObjectCoordSystem`) must be non-zero. Zero vectors `[0,0,0]` fail: "Vectors for SetCoordSystem may not have length 0".
-
-**`string`:** Full Unicode including emoji. `getUserData` returns `""` for missing keys (no error) — you cannot distinguish "key exists with empty value" from "key does not exist".
-
-**`VOID`:** All VOID-returning APIs (`clear`, `setObjectName`, `setUserData`, etc.) return `null`.
-
-**Empty arrays:** APIs returning `Array<*>` give `[]` for empty results, not `null`. But on error, result is `null` (not empty array).
-
-**On error:** Result is **always `null`** regardless of declared return type — whether the API normally returns `id`, `boolean`, `Array`, `real`, or `VOID`.
+- **`boolean`:** `1`/`0` everywhere — results, object fields, expressions. Expression constants are `TRUE`/`FALSE` (uppercase only).
+- **`id`:** `Number.isInteger()` true. Monotonically increasing with variable gaps (part.create consumes ~50 IDs, box ~37). Accepted formats: [ID System](#id-system).
+- **`point`:** parameters accept `[x, y, z]` or `{x, y, z}`; results, structure tree and expressions always return `{x, y, z}`. **Exactly 3 components** — `[x, y]`, `[x]`, `[x,y,z,w]`, `[]` fail: "If point is defined as array, it must have exactly 3 real values" (pass `z: 0` for sketch geometry). Full double precision (`0.000001`, `999999.999999` preserved). Direction vectors (e.g. `xVec`/`yVec` in `setObjectCoordSystem`) must be non-zero: "Vectors for SetCoordSystem may not have length 0".
+- **`string`:** `getUserData` returns `""` for missing keys (no error) — indistinguishable from an empty value.
+- **`VOID`:** all VOID APIs (`clear`, `setObjectName`, `setUserData`, …) return `null`.
+- **Arrays:** empty results are `[]`, not `null`.
+- **On error, `result` is always `null`**, whatever the declared return type.
 
 ## Error Detection
 
-Check `maxLevel` to detect errors:
-
 ```js
 const res = await api.v1.some.api({ ... })
-if (res.maxLevel >= 51) {
-  // ERROR — result is likely null, check messages for details
-}
+if (res.maxLevel >= 51) { /* ERROR — result likely null, check messages */ }
 ```
 
-| maxLevel | Meaning     | Typical scenario                          |
-|----------|-------------|-------------------------------------------|
-| 31       | info        | Clean success (baseline for all calls)    |
-| 41       | warning     | Precursor to error (always paired with 51)|
-| 51       | error       | Call failed — result is `null`            |
+| maxLevel | Meaning | Typical scenario |
+|---|---|---|
+| 31 | info | Clean success (baseline) |
+| 41 | warning | Usually precedes an error (ToId warning before invalid ID) |
+| 51 | error | Call failed — result is `null` |
 
-In practice, `maxLevel == 31` means success, `maxLevel >= 51` means failure. Warning-only results exist: `evaluateExpression` with named expressions returns the correct value at maxLevel 41. Warnings also precede errors (e.g., the ToId warning before an invalid ID error).
+Warning-only results exist: `evaluateExpression` with named expressions returns the correct value at maxLevel 41.
 
-**Caveat:** `result === null` is **NOT** a reliable failure indicator. VOID-returning APIs (`setObjectName`, `setAppearance`, `recalc`, etc.) return `null` on success. And `evaluateExpression` with `silent: true` returns `null` with `maxLevel: 31` on failure. Use `maxLevel` for failure detection, not result nullity.
+**`result === null` is NOT a failure indicator.** VOID APIs (`setObjectName`, `setAppearance`, `recalc`, …) return `null` on success, and `evaluateExpression` with `silent: true` returns `null` with maxLevel 31 on failure. Use `maxLevel`.
 
 ## Messages
 
 ```js
-{
-  message:  string,   // human-readable error/warning text
-  level:    number,   // severity: 41=WARNING, 51=ERROR
-  levelStr: string,   // UNDOCUMENTED — "WARNING", "ERROR", etc.
-  code:     number,   // error code (see table below)
-  api:      string,   // INCONSISTENT — sometimes present, sometimes missing
-}
+{ message: string, level: number /* 41=WARNING, 51=ERROR */, levelStr: string, code: number, api: string }
 ```
 
-**Undocumented field:** `levelStr` is always present but not in the API docs. **It is also inconsistent:** most APIs use `"WARNING"` for level 41, but `evaluateExpression` uses `"WARN"`. Always compare the numeric `level` field, never `levelStr`.
-
-**Inconsistency:** The `api` field is sometimes omitted (e.g. on `evaluateExpression` errors and unknown command errors).
+- `levelStr` is undocumented and inconsistent: `"WARNING"` for 41 in most APIs, `"WARN"` in `evaluateExpression`. Compare numeric `level`.
+- `api` is sometimes missing (e.g. `evaluateExpression` errors, unknown command errors).
+- One call can return several messages — typically a WARNING (41) then the ERROR (51), e.g. "couldn't convert to id" then "invalid id".
 
 ### Error Codes
 
-| Code | Meaning                          | Example trigger                              |
-|------|----------------------------------|----------------------------------------------|
-| 0    | General/unclassified             | Internal errors, warnings about ID conversion|
-| 1001 | Wrong parameter type             | String where boolean expected                |
-| 1003 | Empty parameter object           | Passing `param: {}` where non-empty expected |
-| 1004 | Missing required parameter       | Omitting `expression` from evaluateExpression|
-| 1006 | Invalid ID                       | Nonexistent ID, float ID, already-deleted ID |
-| 1007 | Wrong ID type                    | Part ID where feature ID expected, vice versa|
-| 1013 | Invalid parameter value          | Invalid enum value — message lists valid options |
+| Code | Meaning | Example trigger |
+|---|---|---|
+| 0 | General/unclassified | Internal errors, ID-conversion warnings |
+| 1001 | Wrong parameter type | String where boolean expected |
+| 1003 | Empty parameter object | `param: {}` where non-empty expected |
+| 1004 | Missing required parameter | Omitting `expression` from evaluateExpression |
+| 1006 | Invalid ID | Nonexistent, float, or deleted ID |
+| 1007 | Wrong ID type | Part ID where feature ID expected, vice versa |
+| 1013 | Invalid parameter value | Invalid enum — message lists valid options |
 | 1200 | Root already exists / not editable | Second `part.create`, or `update*` on locked feature |
-| 1201 | Unknown command                  | `v1.common.doesNotExist` (any non-existent API) |
-
-**Multiple messages per call:** A single call can return multiple messages. Typically a WARNING (41) precedes the ERROR (51) — e.g. "couldn't convert to id" (warning) then "invalid id" (error).
+| 1201 | Unknown command | Any non-existent API, e.g. `v1.common.doesNotExist` |
 
 ## Batch Envelope
 
-`v1.common.batch` wraps multiple calls. Its envelope structure differs:
-
-**Outer envelope:**
-- `result`: `Array` of inner envelopes (one per job)
-- `messages`: bubbles up errors from any job, re-attributed to `api: "v1.common.batch"`
-- `maxLevel`: highest severity across all jobs
-
-**Inner envelopes (per job):**
-- **Success:** `{ result }` only — NO `messages` or `maxLevel` keys
-- **Failure:** `{ result, messages, maxLevel }` — full envelope
-
-Batch does NOT stop on error. All jobs execute regardless of earlier failures.
+See `common.batch`. Outer `messages` re-attribute job errors to `api: "v1.common.batch"`; successful jobs are `{ result }` only, failed ones carry the full envelope. Batch does not stop on error.
 
 ## Parameter Passing
 
-Pass params as `{ ... }` or `{}` for parameterless calls:
-
-```js
-// Good
-await api.v1.common.getAppVersion({})
-await api.v1.common.getAppVersion()
-```
-
-Extra/unknown parameters are silently ignored — no warning.
+`getAppVersion({})` and `getAppVersion()` both work. Extra/unknown parameters are silently ignored.
 
 ## Structure and Graphic Fields
 
-**`structure`:** Full scene graph of the drawing — every object with ID, name, class, parent, children, and members. Updated after every call that modifies the drawing. Massive. Agents should ignore it and use `result` instead.
-
-**`graphic`:** Rendering/tessellation data for client applications. Usually `null` in API scripting contexts.
+- **`structure`:** full scene graph (every object's ID, name, class, parent, children, members), updated after every mutating call. Massive — use `result` instead. Shape and caching: `state-tree.md`. `structure.root` gives the part ID, `structure.tree[String(id)]` any object.
+- **`graphic`:** tessellation data for clients. Usually `null` in API scripting.
 
 ## Expression Engine
 
-`evaluateExpression` supports a rich expression language:
+Functions, constants and numeric behaviour: `expression-syntax.md`. Additionally:
 
-**Arithmetic:** `+`, `-`, `*`, `/` work on reals. Use `pow(x, y)` for exponentiation — `^` is **NOT** a power operator (silently returns null).
-
-**Available functions:**
-
-| Category | Functions | Notes |
-|----------|-----------|-------|
-| Trig | `sin`, `cos`, `tan`, `asin`, `acos`, `atan` | All radians. Two-argument `atan(y, x)` is atan2 (`atan(1,-1)` = 2.356); there is no function named `atan2`. |
-| Math | `sqrt`, `pow(x,y)`, `abs`, `exp` | `pow` is the only way to exponentiate |
-| Logarithmic | `log` (base 10), `ln` (natural) | `log(100)` → `2`, `ln(exp(1))` → `1` |
-| Min/Max | `min(a,b)`, `max(a,b)` | Work on reals |
-| **Missing** | `floor`, `ceil`, `mod`, `atan2` (use `atan(y, x)`), `if` | None of these exist; `round(x, d)` does (`round(2.567,2)` = 2.57) |
-
-**Constants:** Only `C:PI` (3.14159...). `C:E`, `C:2PI`, `C:HALF_PI`, `C:INF` do **NOT** exist. Use `exp(1)` for Euler's number.
-
-**Degree suffix:** `Ndeg` converts degrees to radians in expressions: `180deg` → PI, `sin(90deg)` → 1. No `rad` suffix (angles are already radians).
-
-**Points:** Literal syntax `{x, y, z}` (curly braces, exactly 3 components). Returns `{x, y, z}` object.
-- Point arithmetic: `{1,2,3}+{4,5,6}` → `{x:5,y:7,z:9}`
-- Scalar multiplication: `{1,2,3}*2` → `{x:2,y:4,z:6}` (commutative)
-- `{1,2}` or `{1,2,3,4}` → null (must be exactly 3 components)
-
-**Arrays:** `[1,2,3]` syntax, supports nesting `[[1,2],[3,4]]` and mixed types `[{1,2,3},{4,5,6}]`.
-
-**Booleans:** `TRUE` → `1`, `FALSE` → `0` (uppercase only). Booleans are numeric — `TRUE + TRUE` → `2`, `TRUE * 5` → `5`. Comparison operators (`==`, `>`, `<`) do NOT work. String literals (`"hello"`) are supported.
-
-**`silent` mode:** `evaluateExpression({ expression, silent: true })` suppresses ALL messages on failure — `messages: []`, `maxLevel: 31`, `result: null`. The expression still fails but the failure is invisible. There is no way to distinguish a silent failure from a VOID success. Avoid `silent: true` unless you intentionally want to suppress errors.
+- `^` is not a power operator — it **silently returns null**. Use `pow(x, y)`.
+- No `if`; comparison operators (`==`, `>`, `<`) do not work. String literals (`"hello"`) work.
+- Only `C:PI`; `C:E`, `C:2PI`, `C:HALF_PI`, `C:INF` don't exist.
+- **Degree suffix:** `180deg` → PI, `sin(90deg)` → 1. No `rad` suffix.
+- **Points:** `{x, y, z}` literal (exactly 3 components; `{1,2}` / `{1,2,3,4}` → null). `{1,2,3}+{4,5,6}` → `{x:5,y:7,z:9}`; `{1,2,3}*2` → `{x:2,y:4,z:6}` (commutative).
+- **Arrays:** `[1,2,3]`, nested `[[1,2],[3,4]]`, mixed `[{1,2,3},{4,5,6}]`.
+- **Booleans:** `TRUE` → `1`, `FALSE` → `0` (lowercase not recognized); numeric: `TRUE + TRUE` → `2`, `TRUE * 5` → `5`.
+- **`silent: true`** suppresses ALL messages on failure (`messages: []`, maxLevel 31, `result: null`) — indistinguishable from a VOID success. Avoid unless intended.
 
 ## Drawing Constraints
 
-- **One root per drawing:** Only one `part.create` per drawing. Second call fails with code 1200. Must `clear` first to start over.
+- **One root per drawing:** a second `part.create` fails with code 1200. `clear` first to start over.
 
 <a name="id-system"></a>
 
 ## ID System
 
-Every object in ClassCAD has a unique integer ID. IDs are the primary mechanism for referencing objects across API calls.
-
 ### ID Lifecycle
 
-- **Creation:** APIs like `part.create`, `part.box`, `sketch.create`, `sketch.line` return IDs. Single-object APIs return a number; multi-object APIs (e.g. `sketch.rectangle`) return `Array<number>`.
-- **Consumption:** Most APIs take an `id` parameter to identify which object to operate on. The `common.*` APIs (`setObjectName`, `setUserData`, `transformObjectWithMatrix`) accept ANY valid object ID regardless of class.
-- **Deletion:** `part.deleteFeature({ ids: [...] })` removes features. Deleted IDs become invalid immediately and are never recycled.
-- **Clear:** `common.clear()` invalidates ALL IDs. IDs restart from the same sequence (part.create → 4 again). `clear({ keepIds: [id] })` keeps the named objects with their IDs, but not the solid geometry inside them (part + EIF kept, mass properties afterwards fail).
+- **Creation:** single-object APIs return a number; multi-object APIs (e.g. `sketch.rectangle`) return `Array<number>`.
+- **Consumption:** `common.*` APIs (`setObjectName`, `setUserData`, `transformObjectWithMatrix`) accept ANY valid object ID — parts, features, sketches, work planes, sketch elements, even internal objects like ExpressionSet.
+- **Deletion:** `part.deleteFeature({ ids: [...] })` — deleted IDs are invalid immediately and never recycled.
+- **Clear:** `common.clear()` invalidates all IDs; they restart from the same sequence (part.create → 4 again). `clear({ keepIds: [id] })` keeps the named objects with their IDs, but not the solid geometry inside them (part + EIF kept, mass properties afterwards fail).
 
 ### ID Validation
 
-APIs validate both existence and class of IDs:
-
 | Error | Meaning | Example |
-|-------|---------|---------|
+|---|---|---|
 | code 1006 | ID doesn't exist | Nonexistent, deleted, or float ID |
 | code 1007 | ID exists but wrong class | Feature ID where part ID expected |
-| code 1001 | Wrong param type (helpful) | Lists valid types: `"Provide only following id types: [\"part\"]"` |
-| ToId() warning (code 0) | Couldn't parse to ID | Precedes 1006 errors; indicates the value failed internal conversion |
+| code 1001 | Wrong param type | Lists valid types: `"Provide only following id types: [\"part\"]"` |
+| ToId() warning (code 0) | Couldn't parse to ID | Precedes 1006 errors |
 
-**Error 1001 is more helpful than 1007** — it lists the valid ID types for that parameter. Not all APIs use 1001; some give 1007 without listing alternatives.
+1001 is more helpful than 1007 (lists valid types); some APIs give 1007 without alternatives.
 
 ### ID Type Expectations
 
-**Create APIs** (e.g. `part.box`, `sketch.create`) expect the **parent container ID** — typically a part ID. The `id` parameter is "where to create this thing."
-
-**Update APIs** (e.g. `updateBox`, `updateCylinder`) expect the **feature ID** — the ID returned from the corresponding create call. **Warning:** update APIs also require the feature to be "active and open" (code 1200 if not). Features become locked after creation; they must be explicitly reopened for editing (parametric modeling concept — covered in Step 7).
-
-**Common APIs** (`setObjectName`, `setUserData`, `transformObjectWithMatrix`) are polymorphic — they accept any valid object ID: parts, features, sketches, work planes, sketch elements, even internal objects like ExpressionSet.
+- **Create APIs** (`part.box`, `sketch.create`) take the **parent container ID** (typically the part).
+- **Update APIs** (`updateBox`, `updateCylinder`) take the **feature ID** from the create call, and the feature must be "active and open" (code 1200 otherwise) — features are locked after creation and must be reopened (`part.openFeature`).
 
 ### Accepted ID Formats
 
 | Format | Works? | Notes |
-|--------|--------|-------|
-| `4` (integer) | ✓ | Standard usage |
-| `"4"` (string) | ✓ | String-encoded integer |
-| `" 4 "` (padded string) | ✓ | Whitespace trimmed |
-| `"4.0"` (float string) | ✓ | Coerced to integer |
-| `4.5` (float number) | ❌ | ToId() warning + code 1006 |
-| `0` | ❌ | Not a valid object |
-| `-1` | ❌ | Not a valid object |
-| `null` | ❌ | code 1004 "must be provided" |
+|---|---|---|
+| `4` | ✓ | |
+| `"4"` | ✓ | |
+| `" 4 "` | ✓ | Whitespace trimmed |
+| `"4.0"` | ✓ | Coerced to integer |
+| `4.5` | ❌ | ToId() warning + code 1006 |
+| `0`, `-1` | ❌ | Not a valid object |
+| `null` | ❌ | code 1004 "must be provided" (feature creators) or 1001 "= VOID is not allowed" (e.g. `setUserData`, `setObjectName`) |
 | `true` | ❌ | code 1007 |
-| `{id: 4}` (object) | ❌ | Internal VM error |
-| `""` (empty string) | ❌ | code 1004 |
+| `{id: 4}` | ❌ | Internal VM error |
+| `""` | ❌ | code 1004 |
 
-String IDs work in `Array<id>` parameters too (e.g. `keepIds`, `requestVisualisation.ids`).
+String IDs work in `Array<id>` parameters too (`keepIds`, `requestVisualisation.ids`).
 
 ### Object Hierarchy
 
-After `part.create`, ~24 objects exist in a tree:
+After `part.create`, ~24 objects exist:
 
 ```
 AllObjects (1)
@@ -241,77 +170,39 @@ AllObjects (1)
         └── CC_RollbackBar (20)
 ```
 
-Features (box, cylinder, etc.) are added under EntitySet. Each feature also creates a CC_OperationReference under OperationSequence and a CC_Solid child.
-
-### Structure Tree
-
-The `structure` field in every response contains the full scene graph:
-
-```js
-{
-  root: 4,              // ID of the root product (part or assembly)
-  currentProduct: 4,    // currently active product
-  currentInstance: 0,   // 0 = no instance (single-part mode)
-  testRoot: 0,          // internal
-  tree: {               // flat map keyed by string ID
-    "4": { id: 4, class: "CC_Part", name: "...", parent: 1, children: [...], members: {...} },
-    "54": { id: 54, class: "CC_Box", ... },
-    ...
-  }
-}
-```
-
-Use `structure.root` to find the part ID. Use `structure.tree[String(id)]` to inspect any object.
+Features are added under EntitySet; each also creates a CC_OperationReference under OperationSequence and a CC_Solid child.
 
 ### Batch and IDs
 
-`common.batch` has no dynamic ID forwarding — you cannot reference the result of job 0 in job 1's parameters. Since `part.create` always returns ID 4 on a clean drawing, you can hardcode it. For anything else, use sequential `api.v1.*` calls.
+`common.batch` cannot forward IDs between jobs. `part.create` always returns 4 on a clean drawing, so that one can be hardcoded; otherwise use sequential calls.
 
 ## Coordinate System
 
-ClassCAD uses a **right-handed coordinate system**:
-- **X** → right (Right plane normal)
-- **Y** → forward (Front plane normal)
-- **Z** → up (Top plane normal)
-
-Default work planes: Top (XY, Z-normal), Front (XZ, Y-normal), Right (YZ, X-normal).
+Right-handed: **X** right (Right plane normal), **Y** forward (Front plane normal), **Z** up (Top plane normal). Default planes: Top (XY, Z-normal), Front (XZ, Y-normal), Right (YZ, X-normal).
 
 ## Angles
 
-**All angles are in radians** throughout the API — revolve, twist, chamfer, circular patterns, rotation vectors, `workCSys` rotation, expression trig functions. There is no degree mode.
-
-**`deg` suffix in expressions:** The expression engine supports `Ndeg` to convert degrees to radians: `180deg` → `3.14159...` (PI), `sin(90deg)` → `1`. There is no `rad` suffix (angles are already radians).
-
-**Trig functions:** `sin`, `cos`, `tan`, `asin`, `acos`, `atan` — all in radians. There is no `atan2` function — use two-argument `atan(y, x)`.
+**All angles are radians** — revolve, twist, chamfer, circular patterns, rotation vectors, `workCSys` rotation, expression trig. No degree mode (expressions: `Ndeg` suffix). No `atan2` function — two-argument `atan(y, x)` is atan2 (`atan(1,-1)` = 2.356).
 
 ## Rotation Vectors
 
-Many APIs (`solid.box`, `solid.copy`, `part.workCSys`, etc.) accept a `rotation: [rx, ry, rz]` parameter:
-- Each component is a rotation around that axis, in radians
-- `[0, 0, PI/4]` → 45° rotation around Z axis
-- `[PI/2, 0, 0]` → 90° rotation around X axis
-
-**`rotateFirst` parameter** (default: `TRUE`): When both `rotation` and `translation` are provided, rotation is applied first by default. Set to `FALSE` to translate first.
+`rotation: [rx, ry, rz]` (`solid.box`, `solid.copy`, `part.workCSys`, …): rotation around each axis in radians — `[0, 0, PI/4]` = 45° about Z, `[PI/2, 0, 0]` = 90° about X. **`rotateFirst`** (default `TRUE`): with both `rotation` and `translation`, rotation is applied first; `FALSE` translates first.
 
 ## Transformation Matrix
 
-`common.transformObjectWithMatrix` accepts a 4x4 matrix. **Must be exactly 4x4** — 3x3 fails: "The provided matrix is not a 4x4 matrix".
-
-**Layout:** Standard math convention — translation in the last column:
+`common.transformObjectWithMatrix` needs exactly 4×4 — 3×3 fails: "The provided matrix is not a 4x4 matrix". Translation in the last column:
 
 ```js
 matrix: [
-  [R00, R01, R02, Tx],  // row 0
-  [R10, R11, R12, Ty],  // row 1
-  [R20, R21, R22, Tz],  // row 2
-  [0,   0,   0,   1 ],  // row 3
+  [R00, R01, R02, Tx],
+  [R10, R11, R12, Ty],
+  [R20, R21, R22, Tz],
+  [0,   0,   0,   1 ],
 ]
 ```
 
-**`isGlobal` parameter** (default: `TRUE`): When `TRUE`, the matrix is in global coordinates. When `FALSE`, it's in the object's local coordinate system.
-
-**Behavior:** Transforms the part's global coordinate system — internal geometry positions remain in local coordinates. The structure tree always shows local coordinates, so work axis directions do not visibly change. Matrices compose — applying the same transform twice doubles the effect.
+`isGlobal` (default `TRUE`): `TRUE` = matrix in global coordinates, `FALSE` = object's local system. It transforms the part's global coordinate system — internal geometry stays in local coordinates, and the structure tree shows local coordinates, so work axis directions do not visibly change. Matrices compose (same transform twice = double effect). More: `transformObjectWithMatrix.md`.
 
 ## Related
 
-`common.batch` · `common.evaluateExpression` · `common.getAppVersion` / `common.getClassFileVersion`
+`common.batch` · `common.evaluateExpression` · `common.getAppVersion` / `common.getClassFileVersion` · `expression-syntax.md` · `state-tree.md`

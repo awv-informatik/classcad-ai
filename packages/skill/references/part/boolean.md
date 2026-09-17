@@ -1,36 +1,22 @@
 # part.boolean
 
-Creates a boolean feature that combines, subtracts, or intersects solid features. This is the **feature-level** boolean — it lives in the design tree, supports `updateBoolean`, and consumes its input features.
-
-## Prerequisites
-
-- A part (`part.create`)
-- At least two solid features (e.g., `part.box`, `part.cylinder`, etc.)
+**Feature-level** boolean: unites, subtracts, or intersects solid features. Lives in the design tree, supports `updateBoolean`, and consumes its inputs.
 
 ## Key Parameters
 
-- `id` — part ID (not feature ID, not EIF ID)
-- `target` — feature ID of the base solid. Can be a plain ID or `{id, indices}` object. **Consumed** after the operation.
-- `tools` — array of feature IDs to apply. Can be plain IDs `[id1, id2]` or objects `[{id: id1}, {id: id2, indices: [0]}]`. All **consumed** after the operation.
-- `type` — `"UNION"` (default), `"SUBTRACTION"`, or `"INTERSECTION"`
-- `name` — optional custom name. Defaults to `"Union"`, `"Subtraction"`, or `"Intersection"` based on type.
+- `id` — part ID (not feature or EIF ID)
+- `target` — base feature ID, plain or `{id, indices}`. **Consumed**
+- `tools` — feature IDs, plain `[id1, id2]` or `[{id: id1}, {id: id2, indices: [0]}]`. All **consumed**. No `keepTools` — to use a feature in several operations, create separate features
+- `type` — `"UNION"` (default), `"SUBTRACTION"`, `"INTERSECTION"`
+- `name` — defaults to `"Union"` / `"Subtraction"` / `"Intersection"` by type
 
 ## Return Value
 
-Returns a **new feature ID** — not the target ID. This is fundamentally different from `solid.union/subtraction/intersection` which modify the target in place and return its ID.
+A **new feature ID** — not the target ID (unlike `solid.*` booleans, which modify the target in place and return its ID).
 
-## Consumption Behavior
+## Consumption
 
-**Both target and tool features are consumed.** After `part.boolean`, the original feature IDs are invalid. Any attempt to reuse them returns error code 1014: `"Entity \"...\" is not available. It has already been consumed/used in another operation."`
-
-To chain booleans, use the **returned boolean feature ID** as the target for the next boolean:
-
-```js
-const unionId = (await api.v1.part.boolean({ id: partId, target: box1, tools: [box2] })).result
-// box1 and box2 are now consumed — do NOT reference them
-const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', target: unionId, tools: [cyl1] })).result
-// unionId is now consumed — subId is the current feature
-```
+After the boolean, target and tool IDs are invalid; reuse → error 1014 `"Entity \"...\" is not available. It has already been consumed/used in another operation."` Chain by using the returned ID as the next target (see Working Example: `bodyId` → `subId`).
 
 ## Differences from `solid.*` Booleans
 
@@ -47,76 +33,38 @@ const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', targ
 
 ## Gotchas
 
-- **Features are consumed.** You cannot reuse target or tool IDs after the boolean. Track the returned feature ID.
-- **`circularPattern`/`linearPattern` targets are already consumed by the pattern.** Tools like
-  `[originalTool, patternOfIt]` fail with 1014 — pass `[patternId]` only (the pattern includes the
-  original instance). The 1014 message **names the wrong entity** (some other tool in the array or
-  the pattern itself, e.g. "SetScrew2"/"Pat"), not the consumed one — verified 2026-08-10. With many
-  tools, check for pattern-target overlaps before trusting the named entity.
-- **⚠️ What stays parametric through consumption** (verified 2026-08-10, sprocket-parametric-B):
-  - sketch-dimension edits (numeric `updateDimension` or live `@expr` bindings) on the tools'
-    sketches **regenerate the boolean result exactly** — always-safe parametric path;
-  - **`circularPattern` with `merged: 1`**: count/angle (`@expr`-bound) stay fully live through
-    the subtraction — the merged single-brep tool makes the boolean independent of the instance
-    count (verified: tooth count 21→24 regenerated the subtracted body exactly). With
-    `merged: 0` a consumed pattern does not regenerate correctly (count 4→6 reported success
-    and left the target uncut) — **always merge patterns that feed booleans**;
-  - `@expr`-bound params of consumed primitives regenerate correctly in a single subtraction
-    (part.cylinder `diameter: '@expr.D'`, D 10→20: volume and hole position exact). One complex
-    sprocket model with patterns and several booleans regenerated a consumed cylinder wrongly
-    (hole moved, ¼ of the expected material change, maxLevel 31) — in long boolean chains,
-    verify volume after parameter updates;
-  - **downstream edge-referenced features TRACK the regen**: a `part.chamfer` (tree tip) whose
-    edge refs were collected on the 1.0"-bore rims followed a sketch-dim regen to a 1.25" bore
-    exactly (chamfer ring at the new radius, error 0 mm) — brep-id-based references survive
-    sketch-driven topology regeneration.
-- **Many tools in one call is fine.** A single SUBTRACTION with 7 tools (pattern + revolves +
-  cylinder + extrusions) works — one consumption chain beats sequential booleans for tool-heavy
-  builds (verified 2026-08-10, sprocket generator).
-- **Empty tools is an error**, not a no-op. Error: `"The type \"0\" is not supported in PrepareAPIParams!"` (code 1004).
+- **Pattern targets are already consumed by the pattern.** `tools: [originalTool, patternOfIt]` fails with 1014 — pass `[patternId]` only (the pattern includes the original instance). The 1014 message **names the wrong entity** (another tool in the array or the pattern itself, e.g. "SetScrew2"/"Pat"), not the consumed one; with many tools, check for pattern-target overlaps before trusting the name.
+- **⚠️ What stays parametric through consumption:**
+  - Sketch-dimension edits (numeric `updateDimension` or live `@expr` bindings) on the tools' sketches **regenerate the boolean result exactly** — the always-safe parametric path.
+  - **`circularPattern` with `merged: 1`**: `@expr`-bound count/angle stay fully live through the subtraction (tooth count 21→24 regenerated the subtracted body exactly). With `merged: 0` a consumed pattern does not regenerate correctly (count 4→6 reported success and left the target uncut) — **always merge patterns that feed booleans**.
+  - `@expr`-bound params of consumed primitives regenerate correctly in a single subtraction (part.cylinder `diameter: '@expr.D'`, D 10→20: volume and hole position exact). One complex sprocket model with patterns and several booleans regenerated a consumed cylinder wrongly (hole moved, ¼ of the expected material change, maxLevel 31) — in long boolean chains, verify volume after parameter updates.
+  - **Downstream edge-referenced features TRACK the regen**: a `part.chamfer` (tree tip) on the 1.0"-bore rims followed a sketch-dim regen to a 1.25" bore exactly (chamfer ring at the new radius, error 0 mm) — brep-id-based references survive sketch-driven topology regeneration.
+- **Many tools in one call is fine** — one SUBTRACTION with 7 tools (pattern + revolves + cylinder + extrusions) works; one consumption chain beats sequential booleans for tool-heavy builds.
 - **One root part per drawing.** A second `part.create` is refused ("There is already a root assembly or part"); `common.clear()` first, or use part templates in an assembly.
-- **No `keepTools` param.** Tools are always consumed. If you need a feature for multiple operations, create separate features for each.
 
 ## Common Errors
 
 | Error | Code | Cause | Fix |
 |---|---|---|---|
-| `"Entity \"...\" is not available. It has already been consumed/used in another operation."` | 1014 | Reusing a consumed feature ID | Use the returned boolean feature ID instead |
-| `"An element of parameter \"tools\" has an invalid id!"` | 1006 | Non-existent tool feature ID | Verify tool IDs exist |
-| `"The provided part id does not exist."` | 1006 | Invalid `id` (part ID) | Pass the correct part ID |
-| `"The type \"0\" is not supported in PrepareAPIParams!"` | 1004 | Empty tools array `[]` | Provide at least one tool |
+| `"Entity \"...\" is not available. It has already been consumed/used in another operation."` | 1014 | Reusing a consumed feature ID | Use the returned boolean feature ID |
+| `"An element of parameter \"tools\" has an invalid id!"` | 1006 | Non-existent tool ID | Verify tool IDs |
+| `"The provided part id does not exist."` | 1006 | Invalid `id` | Pass the correct part ID |
+| `"The type \"0\" is not supported in PrepareAPIParams!"` | 1004 | Empty tools `[]` (an error, not a no-op) | Provide at least one tool |
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'BoolDemo' })).result
-
-// Create features
 const plate = (await api.v1.part.box({ id: partId, name: 'Plate', length: 120, width: 80, height: 10 })).result
-// Primitives take NO position params (unknown params are silently ignored —
-// the body lands at the origin). Position via a workCSys reference:
+// Primitives take NO position params (unknown params silently ignored) — position via workCSys:
 const riserCS = (await api.v1.part.workCSys({ id: partId, name: 'RiserCS', offset: [0, 10, 10] })).result
 const riser = (await api.v1.part.box({ id: partId, name: 'Riser', length: 15, width: 60, height: 60, references: [riserCS] })).result
 
-// Union — returns new feature ID, plate and riser are consumed
-const bodyId = (await api.v1.part.boolean({
-  id: partId,
-  type: 'UNION',
-  name: 'Body',
-  target: plate,
-  tools: [riser],
-})).result
+const bodyId = (await api.v1.part.boolean({ id: partId, type: 'UNION', name: 'Body', target: plate, tools: [riser] })).result
 
-// Subtract hole — bodyId is consumed, subId is the new feature
 const holeCS = (await api.v1.part.workCSys({ id: partId, name: 'HoleCS', offset: [60, 40, -5] })).result
 const hole = (await api.v1.part.cylinder({ id: partId, name: 'Hole', diameter: 10, height: 20, references: [holeCS] })).result
-const subId = (await api.v1.part.boolean({
-  id: partId,
-  type: 'SUBTRACTION',
-  name: 'WithHole',
-  target: bodyId,
-  tools: [hole],
-})).result
+const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', name: 'WithHole', target: bodyId, tools: [hole] })).result
 ```
 
 ## Related

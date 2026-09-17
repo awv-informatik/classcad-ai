@@ -1,98 +1,64 @@
 # part.updateBoolean
 
-Updates an existing boolean feature. Can change the operation type, name, target, and tools. Requires the `openFeature`/`closeFeature` gate.
-
-## Prerequisites
-
-- An existing boolean feature (from `part.boolean`)
-- Feature must be opened with `part.openFeature` before calling
-- New target/tools must exist **before** the boolean in the design tree (see Gotchas)
+Updates a boolean feature's type, name, target, or tools. Must be wrapped in `openFeature` / `closeFeature`; several updates can run inside one open/close session.
 
 ## Key Parameters
 
-- `id` — the boolean feature ID (returned from `part.boolean`)
-- `type` — `"UNION"`, `"SUBTRACTION"`, or `"INTERSECTION"` (optional — only set to change)
-- `name` — new name for the feature (optional)
-- `target` — object `{id, indices?}` to change the base feature (optional)
-- `tools` — array of feature IDs or `[{id, indices?}]` objects to change tool features (optional)
+- `id` — boolean feature ID from `part.boolean`
+- `type` — `"UNION"`, `"SUBTRACTION"`, `"INTERSECTION"` (optional; recomputes geometry on `closeFeature`)
+- `name` — optional; name-only changes don't affect geometry
+- `target` — `{id, indices?}` (optional)
+- `tools` — feature IDs or `[{id, indices?}]` (optional; tool count can change, e.g. 1 → 2)
 
-All optional params can be combined in a single call (e.g., change type + name simultaneously).
+All optional params can be combined in one call.
 
 ## Return Value
 
-Returns the boolean feature ID (same ID as input, never changes). maxLevel=31 on success.
+The boolean feature ID (same as input, never changes). maxLevel 31 on success.
 
 ## Target & Tool Swapping
 
-When you change `target` or `tools`, the old features are **released** (become unconsumed and available again) and the new features are **consumed**. This is bidirectional — you can swap features in and out of a boolean freely, as long as the replacement features exist before the boolean in the design tree.
-
-- Changing from 1 tool to 2 tools works — tool count is flexible
-- Old tools become visible unconsumed features after the swap
-- Target swap releases the old target and consumes the new one
-
-## Usage Pattern
-
-```js
-// Change type
-await api.v1.part.openFeature({ id: boolId })
-await api.v1.part.updateBoolean({ id: boolId, type: 'SUBTRACTION' })
-await api.v1.part.closeFeature({ id: boolId })
-
-// Change target and tools
-await api.v1.part.openFeature({ id: boolId })
-await api.v1.part.updateBoolean({ id: boolId, target: { id: newBaseId }, tools: [newToolId] })
-await api.v1.part.closeFeature({ id: boolId })
-
-// Sequential updates — each needs its own open/close cycle
-await api.v1.part.openFeature({ id: boolId })
-await api.v1.part.updateBoolean({ id: boolId, type: 'INTERSECTION' })
-await api.v1.part.closeFeature({ id: boolId })
-
-await api.v1.part.openFeature({ id: boolId })
-await api.v1.part.updateBoolean({ id: boolId, type: 'UNION', name: 'NewName' })
-await api.v1.part.closeFeature({ id: boolId })
-```
+Changing `target`/`tools` **releases** the old features (unconsumed, visible, available again) and **consumes** the new ones — freely in both directions, as long as the replacements exist **before** the boolean in the design tree.
 
 ## Gotchas
 
-- **`openFeature` is mandatory.** Without it: error code 1200 `"The provided feature is not allowed to update. It's not active and open."` followed by code 1004 `"\"id\" must be provided for update."`. Result is null, maxLevel=51.
-- **Feature ordering constraint.** `openFeature` rolls back the design tree to just before the boolean. Features created AFTER the boolean do not exist in the rolled-back state and cannot be used as new targets/tools. Error: code 1014 `"Entity \"...\" is not available. It has already been consumed/used in another operation."` — the message is misleading (says "consumed" when the feature actually doesn't exist yet at that tree position). To swap in a new tool, create it BEFORE the boolean in the design tree.
-- Changing `type` recomputes geometry on `closeFeature`.
-- Name-only changes do not affect geometry.
+- **Without `openFeature`:** result null, maxLevel 51, error 1200 `"The provided feature is not allowed to update. It's not active and open."` followed by 1004 `"\"id\" must be provided for update."`
+- **Feature ordering constraint.** `openFeature` rolls the tree back to just before the boolean; features created AFTER it don't exist there and can't be targets/tools. Error 1014 `"Entity \"...\" is not available. It has already been consumed/used in another operation."` — misleading (the feature doesn't exist yet at that tree position). Create replacements BEFORE the boolean.
 
 ## Common Errors
 
 | Error | Code | Cause | Fix |
 |---|---|---|---|
-| `"The provided feature is not allowed to update..."` | 1200 | Missing `openFeature` call | Call `part.openFeature({ id })` first |
-| `"\"id\" must be provided for update."` | 1004 | Follows code 1200 — same cause | Same fix |
-| `"Entity \"...\" is not available..."` | 1014 | New target/tool created after the boolean in design tree | Create the replacement feature before the boolean |
+| `"The provided feature is not allowed to update..."` | 1200 | Missing `openFeature` | Call `part.openFeature({ id })` first |
+| `"\"id\" must be provided for update."` | 1004 | Follows 1200 — same cause | Same fix |
+| `"Entity \"...\" is not available..."` | 1014 | New target/tool created after the boolean | Create it before the boolean |
 | `"ToId()/TOID() didn't get an existing or valid id."` + code 1006 | 0, 1006 | Invalid/non-existent target ID | Verify feature ID exists |
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'UpdateDemo' })).result
-
-// Create features — all BEFORE the boolean
+// All candidate features BEFORE the booleans
 const plate = (await api.v1.part.box({ id: partId, name: 'Plate', length: 120, width: 80, height: 10 })).result
 const riserCS = (await api.v1.part.workCSys({ id: partId, name: 'RiserCS', offset: [0, 10, 10] })).result
 const riser = (await api.v1.part.box({ id: partId, name: 'Riser', length: 15, width: 60, height: 60, references: [riserCS] })).result
 const bodyId = (await api.v1.part.boolean({ id: partId, type: 'UNION', target: plate, tools: [riser] })).result
-
 const holeCS = (await api.v1.part.workCSys({ id: partId, name: 'HoleCS', offset: [80, 40, -5] })).result
 const hole = (await api.v1.part.cylinder({ id: partId, name: 'Hole', diameter: 12, height: 20, references: [holeCS] })).result
 const slotCS = (await api.v1.part.workCSys({ id: partId, name: 'SlotCS', offset: [65, 36, -5] })).result
 const slot = (await api.v1.part.box({ id: partId, name: 'Slot', length: 30, width: 8, height: 20, references: [slotCS] })).result
 
-// Subtract hole
 const subId = (await api.v1.part.boolean({ id: partId, type: 'SUBTRACTION', target: bodyId, tools: [hole] })).result
 
-// Later, swap hole for slot
+// Swap hole for slot — hole becomes unconsumed
 await api.v1.part.openFeature({ id: subId })
 await api.v1.part.updateBoolean({ id: subId, tools: [slot] })
 await api.v1.part.closeFeature({ id: subId })
-// Hole is now unconsumed; slot is the new tool
+
+// Change type + name
+await api.v1.part.openFeature({ id: subId })
+await api.v1.part.updateBoolean({ id: subId, type: 'UNION', name: 'NewName' })
+await api.v1.part.closeFeature({ id: subId })
 ```
 
 ## Related

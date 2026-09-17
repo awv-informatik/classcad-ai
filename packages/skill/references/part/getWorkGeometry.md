@@ -1,15 +1,11 @@
 # part.getWorkGeometry
 
-Looks up a work geometry feature by name and returns its ID. Works for all 4 types: work planes, axes, coordinate systems, and points.
-
-## Prerequisites
-
-- A part (`part.create`) or instance ID
+Looks up a work geometry feature (plane, axis, csys, point) by name and returns its ID.
 
 ## Key Parameters
 
 - **`id`** (required) — part or instance ID
-- **`name`** (required) — exact name string of the work geometry
+- **`name`** (required) — exact, full, case-sensitive name (`"Top"` works; `"top"`/`"TOP"` don't; no wildcard/partial match)
 
 ## Return Value
 
@@ -17,11 +13,9 @@ Looks up a work geometry feature by name and returns its ID. Works for all 4 typ
 { result: id|VOID, messages?: [...], maxLevel?: real }
 ```
 
-Returns the feature ID on success (maxLevel=31), null on failure (maxLevel=51).
+Feature ID (maxLevel=31), null on failure (maxLevel=51).
 
 ## Built-in Names
-
-Every new part has these built-in work geometries:
 
 | Type | Names |
 |------|-------|
@@ -30,14 +24,12 @@ Every new part has these built-in work geometries:
 | Work points | `Origin` (a work point at [0,0,0] — not a work csys) |
 | Work CSys | *(none — create one with `part.workCSys`)* |
 
-**These are the exact names.** Not `WorkPlane_Top`, not `XY`, not `X`. Case matters.
+**Exact names** — not `WorkPlane_Top`, not `XY`, not `X`.
 
 ## Gotchas
 
-- **Case-sensitive** — `"Top"` works, `"top"` and `"TOP"` do not. Must match exactly.
-- **Duplicate names return the first-created** — if two work geometries share a name (even across types), the one created first is returned.
-- **No wildcard or partial match** — must be the full, exact name string.
-- **Empty string is a valid query** — it just fails with "Couldn't find work geometry with name: `""`".
+- **Duplicate names return the first-created** — even across types.
+- **Empty string** fails with "Couldn't find work geometry with name: `""`".
 
 ## Common Errors
 
@@ -52,21 +44,14 @@ Every new part has these built-in work geometries:
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 
-// Look up built-in work planes
+// Built-ins
 const topId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Top' })).result
-const frontId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Front' })).result
-
-// Look up built-in axes and the Origin work point
 const xAxisId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'XAxis' })).result
 const originId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Origin' })).result
 
-// Look up user-created work geometry
-const wpId = (await api.v1.part.workPlane({
-  id: partId, name: 'MyPlane',
-  position: [0, 0, 50], normal: [0, 0, 1]
-})).result
-const found = (await api.v1.part.getWorkGeometry({ id: partId, name: 'MyPlane' })).result
-// found === wpId
+// User-created
+const wpId = (await api.v1.part.workPlane({ id: partId, name: 'MyPlane', position: [0, 0, 50], normal: [0, 0, 1] })).result
+const found = (await api.v1.part.getWorkGeometry({ id: partId, name: 'MyPlane' })).result // === wpId
 ```
 
 ## Related

@@ -1,32 +1,19 @@
 # part.updateLinearPattern
 
-Modifies an existing linear pattern feature. Only pass the fields you want to change — unspecified fields keep their existing values.
-
-## Prerequisites
-
-- An existing linear pattern feature (from `part.linearPattern`)
-- The feature must be opened with `part.openFeature` before updating
+Modifies an existing linear pattern. Partial updates: omitted fields keep their values. Must be wrapped in `part.openFeature` / `part.closeFeature`.
 
 ## Key Parameters
 
-- `id` — **linear pattern feature ID** (not the part ID — unlike `linearPattern` which takes the part ID)
-- `name` — rename the feature
-- `targets` — change which features are patterned
-- `dir1` — update first direction (any sub-field: `references`, `distance`, `count`, `inverted`, `merged`)
-- `dir2` — update or add second direction (can add dir2 to a 1D pattern to make it 2D)
-
-All fields are optional — partial updates work. Only pass what changed.
+- `id` — **linear pattern feature ID** (not the part ID, unlike `linearPattern`)
+- `name` — rename
+- `targets` — change patterned features
+- `dir1` — any sub-field (`references`, `distance`, `count`, `inverted`, `merged`); `dir1: { count: 6 }` changes only the count, keeping references and distance
+- `dir2` — update, or add to a 1D pattern to make it a 2D grid
+- `merged` (in dir1/dir2) can be toggled 0→1 or 1→0
 
 ## Return Value
 
-Feature ID on success, maxLevel=31. Returns null on failure (maxLevel=51).
-
-## Gotchas
-
-- **Requires openFeature/closeFeature gate.** Without it: code 1200 "The provided feature is not allowed to update. It's not active and open."
-- **Partial dir1/dir2 updates work.** `dir1: { count: 6 }` changes only the count, keeping existing references and distance.
-- **You can add dir2 via update** to convert a 1D pattern into a 2D grid after creation.
-- **merged can be toggled** from 0→1 or 1→0 via update.
+Feature ID, maxLevel=31. null on failure (maxLevel=51).
 
 ## Common Errors
 
@@ -37,28 +24,23 @@ Feature ID on success, maxLevel=31. Returns null on failure (maxLevel=51).
 ## Working Example
 
 ```js
-// Update count from 3 to 6
+const partId = (await api.v1.part.create({ name: 'LPUpd' })).result
+const boxId = (await api.v1.part.box({ id: partId, length: 20, width: 15, height: 25 })).result
+// Axes must exist before the pattern (openFeature rolls the tree back to it)
+const waX = (await api.v1.part.workAxis({ id: partId, name: 'AxisX', direction: [1, 0, 0] })).result
+const waY = (await api.v1.part.workAxis({ id: partId, name: 'AxisY', direction: [0, 1, 0] })).result
+const lpId = (await api.v1.part.linearPattern({
+  id: partId, targets: [boxId], dir1: { references: [waX], distance: 40, count: 3 },
+})).result
+
+// Count 3 → 6 and merge on
 await api.v1.part.openFeature({ id: lpId })
-await api.v1.part.updateLinearPattern({
-  id: lpId,
-  dir1: { count: 6 },
-})
+await api.v1.part.updateLinearPattern({ id: lpId, dir1: { count: 6, merged: 1 } })
 await api.v1.part.closeFeature({ id: lpId })
 
-// Add second direction to make 2D grid
+// Add second direction → 2D grid
 await api.v1.part.openFeature({ id: lpId })
-await api.v1.part.updateLinearPattern({
-  id: lpId,
-  dir2: { references: [waY], distance: 30, count: 3 },
-})
-await api.v1.part.closeFeature({ id: lpId })
-
-// Toggle merged on
-await api.v1.part.openFeature({ id: lpId })
-await api.v1.part.updateLinearPattern({
-  id: lpId,
-  dir1: { merged: 1 },
-})
+await api.v1.part.updateLinearPattern({ id: lpId, dir2: { references: [waY], distance: 30, count: 3 } })
 await api.v1.part.closeFeature({ id: lpId })
 ```
 

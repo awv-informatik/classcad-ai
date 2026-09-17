@@ -1,78 +1,36 @@
 # sketch.point
 
-Creates one or multiple construction points in a sketch. Returns the point ID(s).
-
-## Prerequisites
-
-- A part (`part.create`)
-- A sketch (`sketch.create` or `part.sketch`)
+Creates one or more construction points in a sketch.
 
 ## Key Parameters
 
-- **`id`** (required) — sketch ID (not part ID). Error code 1001 if you pass the wrong type.
-- **`pos`** (required) — `[x, y, z]` in **sketch-local coordinates**. Z must be exactly 0 — non-zero Z is a hard error (code 1014), not a silent projection. On non-XY sketches, the local coordinate system maps to world coords via the sketch's work plane.
-- **`genFixation`** (optional, default TRUE) — auto-generates a `CC_2DFixationConstraint` ("Auto_Fix") **only when the point is placed at the origin** (0,0,0). Has no effect for off-origin points.
-- **`genIncidence`** (optional, default TRUE) — auto-generates a `CC_2DCoincidentConstraint` ("Auto_Coinc") when the new point's position **exactly matches** an existing point's position. No tolerance — even 0.001 apart does not trigger it. Works cross-geometry: coincidence between a standalone point and a line's endpoint is detected.
-
-## Batch Creation
-
-Pass an array of param objects to create multiple points in one call:
-
-```js
-const r = await api.v1.sketch.point([
-  { id: skId, pos: [0, 0, 0] },
-  { id: skId, pos: [50, 0, 0] },
-  { id: skId, pos: [50, 50, 0] },
-])
-// r.result → [58, 62, 64] — array of IDs in matching order
-```
+- **`id`** (required) — sketch ID (part ID → 1001)
+- **`pos`** (required) — `[x, y, 0]` in **sketch-local** coordinates. Non-zero Z is a hard error (1014), not a projection.
+- **`genFixation`** (default TRUE) — "Auto_Fix" (`CC_2DFixationConstraint`) **only at the origin**; no effect elsewhere
+- **`genIncidence`** (default TRUE) — "Auto_Coinc" (`CC_2DCoincidentConstraint`) when the position **exactly matches** an existing point (0.001 apart does not trigger), incl. line endpoints
 
 ## Return Value
 
-```js
-{ result: id | VOID | Array<id|VOID>, messages?: [...], maxLevel?: real }
-```
-
-- Success: numeric ID (e.g., 58), maxLevel=31 (info), no messages
-- Batch: array of IDs matching input order
-- Failure: result=null, maxLevel=51, messages with error details
+`result: id | VOID | Array<id|VOID>`. Success: ID, maxLevel 31, no messages. Batch (array of param objects): IDs in input order. Failure: null, maxLevel 51.
 
 ## Structure
 
-Each point creates a `CC_Point` node in the structure tree:
-- `name`: auto-generated — first is "Point", then "Point0", "Point1", "Point2", ...
-- `class`: "CC_Point"
-- `parent`: the sketch ID
-- `members`: `pos` (point), `_VERSION` (string), `rigidSetId` (id, default 0)
-
-ID increment: each point consumes 2 IDs. Auto-constraints (fixation, coincidence) consume additional IDs. First point in a sketch typically starts at sketch ID + 6.
+`CC_Point`, parent = sketch; names "Point", then "Point0", "Point1", …; members `pos`, `_VERSION`, `rigidSetId` (default 0). 2 IDs per point plus auto-constraints; first point typically at sketch ID + 6.
 
 ## Coordinate Space
 
-- **Input (`pos`)**: sketch-local coordinates. On an XY sketch, local = world. On other planes, the sketch's coordinate system transforms local → world.
-- **Output (`getPositions`)**: returns `{ pos: { x, y, z } }` in **world coordinates**. Example: point at local (30,20,0) on a YZ-plane sketch → world `{x:0, y:-20, z:30}`.
+`getPositions` returns **world** coordinates `{ pos: { x, y, z } }`. On XY sketches local = world; otherwise the work plane maps them — local (30,20,0) on a YZ-plane sketch → world `{x:0, y:-20, z:30}`.
 
-## Gotchas
-
-- **Z must be 0** — even though pos is `[x, y, z]`, the Z component must be exactly 0 in sketch-local space. Non-zero Z → error 1014.
-- **genFixation only matters at origin** — the doc says "fixation in the Origin." Off-origin points get no fixation regardless of this flag.
-- **genIncidence is exact-match only** — no tolerance. Points 0.001 apart are treated as separate.
-- **getPositions returns world coords** — not sketch-local. If your sketch is on a non-XY plane, the returned coordinates differ from the input.
-- **Auto-naming is inconsistent** — first point is "Point" (no number), subsequent are "Point0", "Point1", etc.
+After `deleteObject({ ids: [pointId] })` (VOID), `getPositions` → null, maxLevel 51.
 
 ## Common Errors
 
 | Error | Code | Cause |
 |-------|------|-------|
-| "parameter 'id' must be provided" | 1004 | Missing `id` |
-| "parameter 'pos' must be provided" | 1004 | Missing `pos` |
-| "wrong id type! Provide only following id types: ['sketch']" | 1001 | Passed part ID instead of sketch ID |
-| "invalid id" | 1006 | Non-existent ID |
-| "pos which is a 2D point, must have a z-value of 0!" | 1014 | Non-zero Z coordinate |
-
-## Deletion
-
-Use `sketch.deleteObject({ ids: [pointId] })` to remove points. Returns VOID on success. Accessing a deleted point via `getPositions` returns null with maxLevel=51.
+| "parameter 'id' / 'pos' must be provided" | 1004 | Missing param |
+| "wrong id type! Provide only following id types: ['sketch']" | 1001 | Part ID instead of sketch ID |
+| "invalid id" | 1006 | Nonexistent ID |
+| "pos which is a 2D point, must have a z-value of 0!" | 1014 | Non-zero Z |
 
 ## Working Example
 
@@ -80,24 +38,13 @@ Use `sketch.deleteObject({ ids: [pointId] })` to remove points. Returns VOID on 
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const skId = (await api.v1.sketch.create({ id: partId })).result
 
-// Single point
 const ptId = (await api.v1.sketch.point({ id: skId, pos: [30, 20, 0] })).result
+const pos = (await api.v1.sketch.getPositions({ id: ptId })).result // { pos: { x: 30, y: 20, z: 0 } }
 
-// Verify position
-const pos = await api.v1.sketch.getPositions({ id: ptId })
-// pos.result → { pos: { x: 30, y: 20, z: 0 } }
-
-// Point at origin with no auto-fixation
-const pt2 = (await api.v1.sketch.point({
-  id: skId, pos: [0, 0, 0], genFixation: false
-})).result
-
-// Batch
 const pts = (await api.v1.sketch.point([
-  { id: skId, pos: [10, 0, 0] },
+  { id: skId, pos: [0, 0, 0], genFixation: false },
   { id: skId, pos: [20, 0, 0] },
-])).result
-// pts → [id1, id2]
+])).result // [id1, id2]
 ```
 
 ## Related

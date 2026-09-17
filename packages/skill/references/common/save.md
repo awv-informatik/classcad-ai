@@ -1,131 +1,84 @@
 # common.save
 
-Serializes the current drawing to a data string or file in the specified format. By default returns the model as an OFB data string.
+Serializes the drawing to a data string (default) or file. Default format OFB.
 
 ## Prerequisites
 
-- At least `part.create` must have been called. Saving an empty drawing fails with `"No root product could be found."` and `"There is nothing to be stored."` (maxLevel=51, success=0).
+At least `part.create`. An empty drawing fails with `"No root product could be found."` and `"There is nothing to be stored."` (maxLevel 51, success 0).
 
 ## Key Parameters
 
-- `format` — `'OFB'` (default), `'STP'`, `'STL'`, `'SCG'`, `'IWP'`. DXF is documented but **broken in classcad-cli** (missing template file).
-- `encoding` — `'base64'`. Always use this for data-string saves. Without it, binary formats (STL, compressed OFB) produce corrupted content in JSON strings.
-- `compression` — `'deflate'`. **Never use without `encoding: 'base64'`** — raw deflated binary data is garbled in JSON string transport.
-- `file` — write to a local file path instead of returning content. When set, `content` is absent from the result.
-- `url` — POST the data to a URL instead of returning content.
+- `format` — `'OFB'` (default), `'STP'`, `'STL'`, `'SCG'`, `'IWP'`. DXF is documented but **broken in classcad-cli**: `CADH_GetDxfTemplateFile not found` (missing template file). Don't attempt.
+- `encoding` — `'base64'`. Always use for data-string saves; without it binary formats (STL, compressed OFB) are corrupted in JSON strings.
+- `compression` — `'deflate'`. **Never without `encoding: 'base64'`** (garbled in transport; the JS string `.length` is meaningless).
+- `file` — write to a local path; `content` is then absent from the result.
+- `url` — POST the data to a URL instead of returning it.
+
+Pipeline details: `encoding-pipeline.md`.
 
 ## Result Structure
 
 ```js
-{
-  result: {
-    success: 1,     // numeric 1/0, NOT boolean true/false
-    content: '...'  // string — only present when no file/url is set
-  },
-  messages: [...],
-  maxLevel: 31      // 31=info (normal), 51=error
-}
+{ result: { success: 1 /* numeric 1/0 */, content: '...' /* only without file/url */ }, messages: [...], maxLevel: 31 }
 ```
 
-**Check `success`, not `maxLevel`.** Some operations (e.g., `stp.analytic: 1`) set maxLevel=51 but still produce valid content with success=1.
+**Check `success`, not `maxLevel`.** Some options (e.g. `stp.analytic: 1`) set maxLevel 51 but still produce valid content with success 1.
 
-## The Practical Pipeline
+## Format Sizes
 
-For data transport (save → transmit → load), always use:
+Same 80×60×40 box, base64:
 
-```js
-const saved = await api.v1.common.save({
-  format: 'OFB',
-  encoding: 'base64',
-  compression: 'deflate'
-})
-// saved.result.content is a compact base64 string (~87% smaller than raw OFB)
-```
-
-Order of operations on save: data → deflate → base64. On load: base64-decode → inflate → data.
-
-## Format Comparison
-
-Measured on the same box geometry (80x60x40), all base64 encoded:
-
-| Format | Size (b64 chars) | Preserves Parametrics | Notes |
+| Format | b64 chars | Parametrics | Notes |
 |---|---|---|---|
-| OFB (deflate+b64) | ~5,700 | Yes | Best for roundtrip — smallest full-fidelity option |
-| OFB (raw b64) | ~44,000 | Yes | No compression |
-| STP (b64) | ~13,000 | No | Standard CAD interchange format |
-| SCG (b64) | ~19,000 | Yes | ClassCAD scene graph |
-| IWP Binary (b64) | ~22,000 | No | SMLib internal format |
-| IWP ASCII (b64) | ~49,000 | No | SMLib internal, verbose |
-| STL (b64) | ~900 | No | Mesh only — tiny for flat surfaces, huge for curved |
+| OFB (deflate+b64) | ~5,700 | Yes | Best round trip — smallest full-fidelity (~87% smaller than base64-only OFB) |
+| OFB (raw b64) | ~44,000 | Yes | |
+| STP | ~13,000 | No | Standard CAD interchange |
+| SCG | ~19,500 | Yes | ClassCAD scene graph |
+| IWP binary | ~22,000 | No | SMLib internal |
+| IWP ASCII | ~49,000 | No | SMLib internal, verbose |
+| STL | ~900 | No | Mesh only — tiny for flat, huge for curved |
 
-## Format Details
+OFB is ~4-5× larger than STP (parametric history).
 
-### OFB (ClassCAD native)
+## Format Options
 
-- Preserves full parametric model: expressions, features, assembly structure
-- Raw text format with `classcad\nVersion=11\n...` header
-- `ofb.version` — no observable effect in current CLI (all produce Version=11)
-- `ofb.geometry` (0-4) — no observable effect in CLI mode (no graphics context). All levels produce identical output.
+**OFB** — full parametric model (expressions, features, assembly structure); raw text starts `classcad\nVersion=11\n...`. `ofb.version` and `ofb.geometry` (0-4) have no observable effect in CLI (all Version=11, identical output).
 
-### STP (STEP)
-
+**STP**
 - `stp.version`: 1=AP203, 2=AP214 (default), 3=AP242. Minor size differences.
-- `stp.asPart`: set to `1` (TRUE) to flatten assembly structure into a single part. Slightly smaller output.
-- `stp.analytic`: set to `1` to convert B-spline geometry to analytic forms. Produces smaller files but triggers error-level messages (maxLevel=51) even on success.
-- `stp.header.filename.name` / `stp.header.filename.organization` — **no effect on data-string output**. Header always uses the part name. May only work with file-based saves.
-- IDs change on STP roundtrip — don't hardcode IDs from before the save.
+- `stp.asPart: 1` flattens assembly into one part; slightly smaller.
+- `stp.analytic: 1` converts B-splines to analytic forms; smaller, but error-level messages (maxLevel 51) even on success.
+- `stp.header.filename.name` / `.organization` — no effect on data-string output (header always uses the part name); may only work with file saves.
 
-### STL
+**STL**
+- **Must use `encoding: 'base64'`** — otherwise truncated to the 32-char header.
+- `stl.binary` — default TRUE; `false`/`0` writes ASCII (content starts with `solid`).
+- `stl.facetingTol` / `stl.angleTol` — affect curved surfaces only (boxes unaffected); tighter → more triangles. Box ~900 b64 chars, sphere ~240,000.
 
-- **Must use `encoding: 'base64'`** for data-string saves. Without it, binary content is truncated to the 32-char header in JSON transport.
-- `stl.binary` — default TRUE. `false`/`0` writes ASCII STL (content starts with `solid`).
-- `stl.facetingTol` / `stl.angleTol` — only affect curved surfaces. Flat-faced geometry (boxes) is unaffected. Tighter tolerances → more triangles → larger files (significant for spheres/cylinders).
-- Size varies dramatically with geometry: a box is ~900 b64 chars, a sphere is ~240,000.
-
-### DXF
-
-- **Broken in classcad-cli.** Error: `CADH_GetDxfTemplateFile not found`. Do not attempt.
-
-### SCG / IWP
-
-- SCG: ClassCAD scene graph format. Preserves assembly structure. Mid-size.
-- IWP: SMLib internal format. `iwp.binary: 1` halves the content size vs ASCII default.
+**SCG** — ClassCAD scene graph; preserves assembly structure; mid-size.
+**IWP** — SMLib internal; `iwp.binary: 1` halves content vs ASCII default.
 
 ## Gotchas
 
-- `success` is numeric `1`/`0`, not JS boolean. Use `saved.result.success === 1` or just truthiness check.
-- A bare part (no geometry) saves successfully in OFB/STP. STL succeeds but returns empty content (length 0).
-- Deflate-only (no base64) produces binary data that corrupts in JSON. The JS string `.length` is meaningless on such content.
-- OFB is ~4-5x larger than STP for the same geometry because it includes parametric history.
-- OFB roundtrip preserves the root part ID. STP roundtrip changes all IDs. Always use the `id` from the load result.
+- `success` is numeric: `saved.result.success === 1` or truthiness.
+- A bare part (no geometry) saves in OFB/STP; STL succeeds with empty content (length 0).
+- OFB round trip preserves the root part ID; STP changes all IDs — use `id` from the load result.
 
 ## Working Example
 
 ```js
-// Save and reload a model
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 await api.v1.solid.box({ id: eifId, length: 80, width: 60, height: 40 })
 
-// Save with practical pipeline
-const saved = await api.v1.common.save({
-  format: 'OFB',
-  encoding: 'base64',
-  compression: 'deflate'
-})
-const data = saved.result.content // compact base64 string
+const saved = await api.v1.common.save({ format: 'OFB', encoding: 'base64', compression: 'deflate' })
+const data = saved.result.content
 
-// Later: reload
-await api.v1.common.clear({})
-const loaded = await api.v1.common.load({
-  data,
-  format: 'OFB',
-  encoding: 'base64',
-  compression: 'deflate'
-})
-const newPartId = loaded.result.id // use this ID going forward
+// Reload — params must match the save
+const loaded = await api.v1.common.load({ data, format: 'OFB', encoding: 'base64', compression: 'deflate', doClear: 1 })
+const newPartId = loaded.result.id
 ```
 
 ## Related
 
-`common.load` · `common.clear` · `common.recalc` · `format-comparison.md`
+`common.load` · `common.clear` · `common.recalc` · `format-comparison.md` · `encoding-pipeline.md`

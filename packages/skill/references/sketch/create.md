@@ -1,112 +1,58 @@
 # sketch.create
 
-Creates a new sketch inside a part. Returns the sketch ID. Alias: `part.sketch` (identical behavior and signature).
-
-## Prerequisites
-
-- A part (`part.create`)
-- Optional: a work plane ID (`part.workPlane`) or face ID from solid geometry
+Creates a sketch inside a part; returns the `CC_Sketch` ID (maxLevel 31). Alias: `part.sketch` (identical params and behavior).
 
 ## Key Parameters
 
 - **`id`** (required) — part ID
-- **`name`** — sketch name, default `"Sketch"`. Duplicate names are silently allowed — no warning, no error. But `part.getSketch` only returns the first match, so use unique names if you need name-based lookup.
-- **`planeId`** (optional) — where to place the sketch:
-  - **Work plane ID** → sketch placed directly on that plane
-  - **Face ID** (from solid geometry) → system auto-creates a work plane on that face, then places the sketch
-  - **Omitted** → sketch placed on the default XY plane at origin (coordinateSystem `[[0,0,0],[1,0,0],[0,1,0],[0,0,1]]`, `planeReference=0`)
-
-## Return Value
-
-```js
-{ result: id, messages?: [...], maxLevel?: real }
-```
-
-Returns the sketch ID (a `CC_Sketch` node). maxLevel=31 on success.
-
-## What Gets Created
-
-Creating one sketch adds **3 objects** to the structure tree:
-
-| Object | Class | Purpose |
-|--------|-------|---------|
-| Sketch | `CC_Sketch` | The sketch itself — this is the returned ID |
-| Sketch Reference | `CC_SketchReference` | Reference geometry container (child of geometry set) |
-| Sketch Dimension Set | `CC_SketchDimensionSet` | Dimension container (child of dimension set) |
-
-IDs increment by ~6 per sketch (e.g., first sketch at 52, second at 58, third at 64).
+- **`name`** — default `"Sketch"`. Duplicates are silently allowed, but `part.getSketch` returns only the **first** match — later duplicates are unreachable by name.
+- **`planeId`** — placement:
+  - **Work plane ID** → sketch on that plane
+  - **Face ID** → an implicit work plane is auto-created on the face (how you sketch on solids)
+  - **Omitted** → default XY plane at origin (coordinateSystem `[[0,0,0],[1,0,0],[0,1,0],[0,0,1]]`, `planeReference=0`)
 
 ## Critical: Always Pass `planeId`
 
-**Sketches without an explicit `planeId` have a disabled constraint solver.** When `planeId` is omitted (`planeReference=0`), constraints and dimensions are stored in the structure tree but the 2D solver never runs — `updateDimension` returns `result: 0` (unsolved) and geometry does not move. No error is raised.
+**Without `planeId` the 2D solver is disabled.** Constraints and dimensions are stored but never enforced: `updateDimension` returns `result: 0` and geometry doesn't move, no error. With `planeId` (work plane or face), `updateDimension` returns `result: 1` and repositions geometry, geometric constraints enforce, `moveGeometry` respects constraints.
 
-When `planeId` is set (work plane or face ID), the solver works correctly:
-- `updateDimension` returns `result: 1` (solved) and repositions geometry
-- Geometric constraints (COINCIDENT, HORIZONTAL, etc.) actively enforce relationships
-- `moveGeometry` respects constraints during solving
+Use a standard plane (Top=38, Front=42, Right=46 on a fresh part; look up via `part.getWorkGeometry({ id, name: 'Top' })`), a `part.workPlane`, or a face ID.
 
-**Always create sketches with a plane.** Use a standard work plane (Top=38, Front=42, Right=46 on a fresh part), a custom work plane from `part.workPlane`, or a face ID:
+**Error signature:** on a planeless sketch, `sketch.dimension`/`updateDimension` with a `value` fail with maxLevel 51 `"Couldn't set the value for dimension $N"` — for @expr AND numeric values. If the sketch "should" have a plane, check that `planeId` actually resolved: a `planes['Front']` lookup on a map lacking the key passes `undefined` SILENTLY, and `sketch.create` still returns maxLevel 31 with a valid-looking id.
 
-```js
-// ✅ Correct — solver works
-const partR = await api.v1.part.create({ name: 'MyPart' })
-const topPlane = Object.values(partR.structure.tree)
-  .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
-const skId = (await api.v1.sketch.create({ id: partR.result, planeId: topPlane.id })).result
+## What Gets Created
 
-// ❌ Solver disabled — constraints/dimensions stored but never enforced
-const skId = (await api.v1.sketch.create({ id: partId })).result
-```
+| Class | Purpose |
+|--------|---------|
+| `CC_Sketch` | The sketch (returned ID) |
+| `CC_SketchReference` | Reference geometry container (child of geometry set) |
+| `CC_SketchDimensionSet` | Dimension container (child of dimension set) |
 
-## Gotchas
-
-- **Without `planeId`, the constraint solver is off.** See section above. **Error signature:**
-  on a planeless sketch, `sketch.dimension`/`updateDimension` with a `value` fail with
-  maxLevel 51 `"Couldn't set the value for dimension $N"` — for @expr AND plain numeric values
-  alike. If you see this on a sketch that "should" have a plane, verify the planeId you passed
-  actually resolved: a `planes['Front']` lookup on a map that lacks the key passes `undefined`
-  SILENTLY, and `sketch.create` still returns maxLevel 31 with a valid-looking id.
-- **Duplicate names are silent.** No error, no warning. The second sketch with the same name just gets a different ID. `part.getSketch` returns the **first** match only — so duplicates make later sketches unreachable by name.
-- **`sketch.create` vs `part.sketch`** — these are the same API with identical params and behavior. Both live in different namespaces but do the same thing.
-- **Default plane is XY.** When `planeId` is omitted, the sketch lives on the XY plane at origin. The `planeReference` member is 0 (no explicit reference).
-- **Faces auto-create work planes.** When `planeId` is a face, the system creates an implicit work plane on that face. This is how you sketch on existing solid geometry.
+IDs increment by ~6 per sketch (52, 58, 64, …).
 
 ## Common Errors
 
 | Error | Code | Cause |
 |-------|------|-------|
-| "parameter 'id' must be provided" | 1004 | Missing `id` param |
-| "invalid id" | 1006 | Non-existent or invalid part ID |
+| "parameter 'id' must be provided" | 1004 | Missing `id` |
+| "invalid id" | 1006 | Nonexistent/invalid part ID |
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 
-// Basic — default XY plane
-const sk1 = (await api.v1.sketch.create({ id: partId })).result
+// Standard plane (solver active)
+const topId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Top' })).result
+const sk1 = (await api.v1.sketch.create({ id: partId, planeId: topId })).result
 
-// On a custom work plane
-const wpId = (await api.v1.part.workPlane({
-  id: partId,
-  normal: [0, 0, 1],
-  position: [0, 0, 50],
-})).result
-const sk2 = (await api.v1.sketch.create({
-  id: partId,
-  planeId: wpId,
-  name: 'SketchOnPlane',
-})).result
+// Custom work plane
+const wpId = (await api.v1.part.workPlane({ id: partId, normal: [0, 0, 1], position: [0, 0, 50] })).result
+const sk2 = (await api.v1.sketch.create({ id: partId, planeId: wpId, name: 'SketchOnPlane' })).result
 
-// On a face (from a box)
-const boxId = (await api.v1.part.box({ id: partId, length: 100, width: 80, height: 60 })).result
-// Face id by position: the top face of the 100×80×60 box
+// Face: top face of a 100×80×60 box
+await api.v1.part.box({ id: partId, length: 100, width: 80, height: 60 })
 const faceId = (await api.v1.part.getGeometryIds({ id: partId, planes: [{ positions: [[50, 40, 60]] }] })).result.planes[0]
-const sk3 = (await api.v1.sketch.create({
-  id: partId,
-  planeId: faceId,
-  name: 'SketchOnFace',
-})).result
+const sk3 = (await api.v1.sketch.create({ id: partId, planeId: faceId, name: 'SketchOnFace' })).result
 ```
 
 ## Related

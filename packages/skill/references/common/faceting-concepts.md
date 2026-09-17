@@ -1,125 +1,100 @@
 # Faceting Concepts — chordHeightTol, angleTol, Quality vs Performance
 
-Tessellation (faceting) converts curved CAD surfaces into triangle meshes for rendering, export, and analysis. Two parameters control mesh quality: `chordHeightTol` and `angleTol`. Understanding how they work, interact, and when to adjust them is critical for agents working with mesh data.
+Tessellation (faceting) turns curved CAD surfaces into triangle meshes for rendering, export, and analysis. Two parameters control it.
 
-## What chordHeightTol Means
+## chordHeightTol
 
-**Chord height tolerance** is the maximum perpendicular distance (in model units) between the true curved surface and the flat tessellation triangle that approximates it. Think of an arc: the "chord height" is the gap between the arc and the straight chord connecting two points on it.
+Max perpendicular distance (model units) between the true surface and the flat triangle approximating it — for an arc, the gap between arc and chord. Lower = closer to the surface = more triangles.
 
-- Lower value = triangles must stay closer to the true surface = more triangles = smoother mesh
-- Higher value = triangles can deviate further = fewer triangles = faster but more faceted
-
-**Scaling behavior** (sphere r=20, angleTol=0):
+Sphere r=20, angleTol=0:
 
 | chordHeightTol | Vertices | Visual quality |
 |---|---|---|
 | 0.001 | 115,461 | Ultra-fine, indistinguishable from smooth |
 | 0.01 | 8,385 | Very smooth |
-| 0.05 | 2,017 | Smooth, faint facets visible |
+| 0.05 | 2,017 | Smooth, faint facets |
 | **0.1 (default)** | **1,697** | **Good balance** |
 | 0.5 | 277 | Facets visible on curves |
 | 1 | 153 | Clearly faceted |
-| 5 | 85 | Low-poly look |
+| 5 | 85 | Low-poly |
 | 10 | 45 | Very coarse polyhedron |
 
-The relationship is super-linear: 100x tighter tolerance produces ~1000x more vertices. Halving the tolerance roughly doubles the vertex count on curved surfaces.
+100× tighter tolerance → ~50–70× more vertices on curved surfaces (sphere r=20: 1 → 0.01 gives 123 → 8,131; 0.1 → 0.001 gives 1,635 → 114,951).
 
-## What angleTol Means
+## angleTol
 
-**Angle tolerance** is the maximum angle (in degrees) between the surface normals of adjacent tessellation triangles. On a sphere, adjacent triangles' normals diverge proportionally to their size — small triangles have nearly parallel normals, large ones have a big angle between them.
+Max angle (degrees) between normals of adjacent triangles. Lower = more gradual normal changes = more triangles = smoother shading. **0 = disabled** (only chord matters). A fully independent constraint, not a chord modifier.
 
-- Lower angle = normals must change gradually = more triangles = smoother shading transitions
-- Higher angle = normals can jump sharply = fewer triangles = faceted appearance
-- **0 = disabled** (only chord tolerance matters)
+Sphere r=20, chord effectively disabled:
 
-**Scaling behavior** (sphere r=20, chordHeightTol effectively disabled):
-
-| angleTol (°) | Vertices |
-|---|---|
-| 1 | 131,845 |
-| 3 | 8,385 |
-| 5 | 8,385 |
-| 10 | 2,145 |
-| 15 | 561 |
-| 30 | 154 |
-| 60 | 45 |
-| 90 | 20 |
-| 180 | 0 (degenerate — no mesh) |
-
-angleTol is a fully independent constraint, not just a modifier for chordHeightTol.
+| angleTol (°) | 1 | 3 | 5 | 10 | 15 | 30 | 60 | 90 | 180 |
+|---|---|---|---|---|---|---|---|---|---|
+| Vertices | 131,845 | 8,385 | 8,385 | 2,145 | 561 | 154 | 45 | 20 | 0 (degenerate, no mesh) |
 
 ## How They Interact
 
-When both are set, the tessellation engine satisfies **both constraints simultaneously**. The more restrictive constraint (whichever demands more triangles) determines the mesh density. This is effectively a MAX operation:
+Both constraints are satisfied; the one demanding more triangles decides: `final_vertices ≈ max(vertices_from_chord, vertices_from_angle)`.
 
-```
-final_vertices ≈ max(vertices_from_chord, vertices_from_angle)
-```
-
-Examples (sphere r=20):
-
-| Scenario | cht | at | Verts | Which dominates? |
+| Scenario (sphere r=20) | cht | at | Verts | Dominates |
 |---|---|---|---|---|
-| Chord tight, angle loose | 0.1 | 30° | 1,697 | Chord (demands 1697 vs 154) |
-| Chord loose, angle tight | 1 | 5° | 8,385 | Angle (demands 8385 vs 153) |
-| Both tight | 0.01 | 5° | 8,385 | Tie (both demand ~8385) |
-| Both loose | 5 | 30° | 153 | Angle (demands 154 vs 85) |
+| Chord tight, angle loose | 0.1 | 30° | 1,697 | Chord (1697 vs 154) |
+| Chord loose, angle tight | 1 | 5° | 8,385 | Angle (8385 vs 153) |
+| Both tight | 0.01 | 5° | 8,385 | Tie (~8385 each) |
+| Both loose | 5 | 30° | 153 | Angle (154 vs 85) |
 
-**When to use both:** Set chordHeightTol for geometric accuracy (how close the mesh is to the true surface) and angleTol for visual smoothness (how smooth shading transitions look). For most applications, chordHeightTol alone (with angleTol=0) is sufficient.
+chordHeightTol = geometric accuracy, angleTol = shading smoothness. For most applications chordHeightTol alone (angleTol=0) suffices.
 
 ## Only Curved Surfaces Are Affected
 
-Flat faces (planes) are always tessellated with the minimum number of triangles regardless of tolerance. A box has exactly 24 vertices (8 corners × 3 normals) at any tolerance:
+Planar faces always use the minimum triangles — a box has 24 vertices (8 corners × 3 normals) at any tolerance:
 
 | Geometry | Curvature | cht=0.01 | cht=0.1 | cht=1 | cht=5 |
 |---|---|---|---|---|---|
-| Box | None (planar) | 24 | 24 | 24 | 24 |
+| Box | None | 24 | 24 | 24 | 24 |
 | Cylinder/Cone | Single | 514 | 258 | 66 | 34 |
 | Sphere | Double | 8,385 | 1,697 | 153 | 85 |
 
-Doubly-curved surfaces (sphere) generate 6-16x more vertices than singly-curved surfaces (cylinder) at the same tolerance, because curvature exists in both U and V directions.
+Doubly-curved surfaces give 6-16× more vertices than singly-curved at the same tolerance (curvature in U and V).
 
 ## Edge Tessellation
 
-`chordHeightTol` also controls edge polyline density (when `doCurveTessellation=true`). A cylinder's 3 edges go from 516 edge points at cht=0.01 down to 20 at cht=5. With `doCurveTessellation=false`, edges become analytic curves (lines and arcs arrays instead of polylines).
+`chordHeightTol` also sets edge polyline density (with `doCurveTessellation=true`): a cylinder's 3 edges go from 516 points at cht=0.01 to 20 at cht=5. With `doCurveTessellation=false` edges are analytic (`lines`/`arcs` instead of polylines).
 
-## Per-Entity vs Global Faceting
+## Per-Entity vs Global
 
-Two modes controlled by `facetingParamsMode` in `setDatabaseSettings`:
+`facetingParamsMode` (`setDatabaseSettings`):
 
-- **mode=0 (global):** All entities use the global `chordHeightTol`/`angleTol` from `setDatabaseSettings`/`setFacetingParameters`. Per-entity overrides are ignored.
-- **mode=1 (per-entity, default):** Each entity uses its own tessellation parameters, set via `setAppearance({ target: featureId, chordHeightTol: ..., angleTol: ... })`. Entities without explicit per-entity params use the global defaults.
+- **0 (global):** all entities use the global values from `setDatabaseSettings`/`setFacetingParameters`; per-entity overrides ignored.
+- **1 (per-entity, default):** each entity uses its own params from `setAppearance({ target: featureId, chordHeightTol, angleTol })`; entities without them use the globals.
 
-Per-entity faceting is visible in `requestVisualisation` results: `container.properties.chordHeightTol` reports the effective tolerance for that entity.
-
-**Use case:** Set high-quality tessellation on focal geometry (parts the user is looking at) and coarse tessellation on background/distant parts.
+`requestVisualisation` reports the effective tolerance per entity in `container.properties.chordHeightTol`. Use case: fine tessellation on focal geometry, coarse on background parts.
 
 ## STL Export Has Its Own Tessellation
 
-`common.save({ format: 'STL', stl: { facetingTol, angleTol } })` uses its **own tessellation** independent of database settings. Defaults: `facetingTol=0.1`, `angleTol=6`. The `facetingTol` param is the same concept as `chordHeightTol` — max distance from true surface to triangulated approximation. STL angleTol default (6°) is much tighter than the database default (0°/disabled).
+`common.save({ format: 'STL', stl: { facetingTol, angleTol } })` is independent of database settings. Defaults `facetingTol=0.1` (same concept as chordHeightTol), `angleTol=6` — much tighter than the database default (0°/disabled).
 
 ## Practical Recommendations
 
-| Use case | chordHeightTol | angleTol | Notes |
-|---|---|---|---|
-| **Default / general use** | 0.1 | 0 | Good balance for most CAD work |
-| **Fine visualization** | 0.05 | 0 | Smooth curves, moderate vertex count |
-| **3D printing / CNC** | 0.01-0.05 | 0 | Tight tolerance for manufacturing |
-| **Quick preview** | 0.5-1 | 0 | Fast, clearly faceted |
-| **Performance-critical** | 1-5 | 0 | Minimal mesh, very coarse |
-| **Shading quality** | 0.1 | 5-10 | Adds angle constraint for smooth shading |
-| **Measurement/analysis** | 0.001-0.01 | 0 | Very high accuracy, large mesh |
+| Use case | chordHeightTol | angleTol |
+|---|---|---|
+| Default / general | 0.1 | 0 |
+| Fine visualization | 0.05 | 0 |
+| 3D printing / CNC | 0.01-0.05 | 0 |
+| Quick preview | 0.5-1 | 0 |
+| Performance-critical | 1-5 | 0 |
+| Shading quality | 0.1 | 5-10 |
+| Measurement/analysis | 0.001-0.01 | 0 |
 
-**Key rule:** Set `chordHeightTol` first (it's the primary lever). Only add `angleTol` if you need smooth shading independent of geometric accuracy. Most applications work fine with `angleTol=0` (disabled).
+Set `chordHeightTol` first (primary lever); add `angleTol` only for smooth shading independent of accuracy.
 
 ## Where Faceting Is Configured
 
-| API | What it sets | Partial updates? | Notes |
+| API | Sets | Partial updates? | Notes |
 |---|---|---|---|
-| `setDatabaseSettings` | All 8 fields (incl. mode, chord, angle) | Yes | Primary configuration API |
-| `setFacetingParameters` | chord + angle only | No (both required) | Convenience API, stricter validation |
+| `setDatabaseSettings` | All 8 fields (mode, chord, angle, …) | Yes | Primary configuration API |
+| `setFacetingParameters` | chord + angle | No (both required) | Stricter validation |
 | `setAppearance` | Per-entity chord + angle | Yes | Only applies in mode=1 |
-| `save({ stl: {...} })` | STL export chord + angle | n/a | Independent of database settings |
+| `save({ stl: {...} })` | STL chord + angle | n/a | Independent of database settings |
 
 ## Related
 

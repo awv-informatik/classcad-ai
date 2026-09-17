@@ -1,41 +1,32 @@
 # Common Solid Parameters: rotation, translation, rotateFirst
 
-Every solid creation API (`box`, `sphere`, `cylinder`, `cone`, `extrusion`, `revolve`, `copy`) accepts three optional positioning parameters. They work identically across all solid types.
+Every solid creation API (`box`, `sphere`, `cylinder`, `cone`, `extrusion`, `revolve`, `copy`) accepts these optional positioning parameters, identically.
 
 ## Parameters
 
-- **`translation`** — `[x, y, z]` world-space offset from the origin. Moves the solid along each axis.
-- **`rotation`** — `[rx, ry, rz]` Euler angles in **radians**. Applied in **ZYX order**: Z-axis first, then Y-axis, then X-axis (intrinsic ZYX / extrinsic XYZ convention).
-- **`rotateFirst`** — boolean, default `true`. Controls the order when both rotation and translation are provided.
+- **`translation`** — `[x, y, z]` world-space offset.
+- **`rotation`** — `[rx, ry, rz]` Euler angles in **radians**, applied in **ZYX order**: Z first, then Y, then X (intrinsic ZYX / extrinsic XYZ).
+- **`rotateFirst`** — boolean, default `true`. Order when both rotation and translation are given:
+  - `true` — rotate, then translate ("orient, then place").
+  - `false` — translate, then rotate: the solid **orbits** the origin.
 
-## Transform Order (rotateFirst)
-
-- **`rotateFirst: true`** (default) — **Rotate then translate.** The solid is rotated around the world origin first, then moved to the translated position. Think: "orient the object, then place it."
-- **`rotateFirst: false`** — **Translate then rotate.** The solid is moved to the translated position first, then rotated around the world origin. The solid **orbits** the origin. Think: "place it, then spin the whole scene around origin."
-
-When only one of rotation/translation is provided, `rotateFirst` has no effect (the missing transform is identity).
+With only one of rotation/translation, `rotateFirst` has no effect (the missing transform is identity).
 
 ## Rotation Pivot
 
-Rotation always happens around the **world origin** `(0, 0, 0)` — not the solid's local center.
-
-All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) are origin-centered, so an un-translated solid's center coincides with the rotation pivot — it spins in place. Once a solid is translated away from origin, rotation orbits it around the origin instead of spinning it locally.
-
-**To rotate around a solid's own center:** use `rotateFirst: true` (the default) — rotation happens at the origin, where the primitive is centered, then the solid is translated. `rotateFirst: false` orbits the translated solid around the origin (box translated to [100,0,0], rotated 90° about Z → COG [0,100,0]).
+Rotation is always around the **world origin** `(0, 0, 0)`, not the solid's center. All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) are origin-centered, so an un-translated primitive spins in place; a translated one orbits the origin. To rotate around a primitive's own center, use `rotateFirst: true` (default). `rotateFirst: false` orbits: box translated to [100,0,0], rotated 90° about Z → COG [0,100,0]. (`part.*` features use different conventions — see `references/part/feature-vs-direct.md`.)
 
 ## Gotchas
 
-- **No validation on values.** Any real number is accepted — zero, negative, greater than 2π. No warnings, no errors. Angles wrap naturally via trigonometry.
-- **Zero vectors are accepted silently.** `rotation: [0, 0, 0]` and `translation: [0, 0, 0]` are no-ops, equivalent to omitting the parameter.
-- **Rotation order matters for compound rotations.** `[π/2, π/4, 0]` applies Z=0 first (no-op), then Y=π/4, then X=π/2. This is NOT the same as `[0, π/4, π/2]`.
-- **All `solid.*` primitives are origin-centered** — `solid.box`, `solid.cylinder`, `solid.cone`, `solid.sphere` all have their centers at the world origin in default position. A 90° Z rotation on an un-translated solid box spins it in place around its own center. (`part.*` features use different conventions — see `references/part/feature-vs-direct.md`.)
+- **No validation on values.** Any real number is accepted (zero, negative, > 2π) — no warnings, no errors; angles wrap.
+- **Zero vectors are silent no-ops** (`rotation: [0,0,0]`, `translation: [0,0,0]`).
+- **Rotation order matters.** `[π/2, π/4, 0]` applies Z=0 (no-op), then Y=π/4, then X=π/2 — NOT the same as `[0, π/4, π/2]`.
 
 ## Usage Hints
 
-- For simple positioning (no rotation), just use `translation`.
-- For angled placement, use `rotation` + `translation` with default `rotateFirst: true` — this orients the solid first, then moves it to position.
-- For circular/radial patterns around the origin, use `rotateFirst: false` — translate to radius distance, then rotate to distribute copies around a circle.
-- Rotation values are in **radians**: 90° = `Math.PI / 2`, 45° = `Math.PI / 4`, 180° = `Math.PI`.
+- Positioning only: `translation`. Angled placement: `rotation` + `translation` with default `rotateFirst: true`.
+- Circular/radial patterns around the origin: `rotateFirst: false` — translate to the radius, rotate to distribute copies.
+- Radians: 90° = `Math.PI / 2`, 45° = `Math.PI / 4`, 180° = `Math.PI`.
 
 ## Working Example
 
@@ -43,27 +34,16 @@ All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) are origin-center
 const partId = (await api.v1.part.create({ name: 'Positioning' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 
-// Simple translation — box offset from origin
+// Rotated 45° about Z in place, then moved
 const box1 = (await api.v1.solid.box({
   id: eifId, length: 50, width: 30, height: 20,
-  translation: [100, 0, 0]
+  rotation: [0, 0, Math.PI / 4], translation: [100, 0, 40],
 })).result
 
-// Rotation + translation (default rotateFirst=true)
-// Box rotated 45° around Z, then moved to position
+// rotateFirst=false — placed at [100,0,0], then orbits 90° about Z → ends at [0,100,0]
 const box2 = (await api.v1.solid.box({
   id: eifId, length: 50, width: 30, height: 20,
-  rotation: [0, 0, Math.PI / 4],
-  translation: [100, 0, 40]
-})).result
-
-// rotateFirst=false — box orbits around origin
-// Placed at [100, 0, 0] then rotated 90° Z → ends up at [0, 100, 0]
-const box3 = (await api.v1.solid.box({
-  id: eifId, length: 50, width: 30, height: 20,
-  rotation: [0, 0, Math.PI / 2],
-  translation: [100, 0, 0],
-  rotateFirst: false
+  rotation: [0, 0, Math.PI / 2], translation: [100, 0, 0], rotateFirst: false,
 })).result
 ```
 

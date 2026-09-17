@@ -1,51 +1,39 @@
 # part.expression
 
-Creates named expressions (parametric variables) inside a part. Expressions are numeric values or formulas that can reference each other and drive feature parameters via the `@expr.NAME` syntax.
-
-## Prerequisites
-
-- A part (`part.create`)
+Creates named expressions (parametric variables) in a part: numeric values or formulas that can reference each other and drive feature parameters via `@expr.NAME`.
 
 ## Key Parameters
 
 - `id` — part ID or part-template ID (required). Assemblies have no expression set: assembly IDs are rejected with `wrong id type ... ["part"]`. For values shared by several parts, see `recipes/assembly-parameters`.
-- `toCreate` — array of `{ name, value }` objects (required for each item, but array itself can be empty/omitted for a no-op)
-  - `name` — string, word chars only (`[a-zA-Z_][a-zA-Z0-9_]*`). Must start with a non-digit. Spaces and special chars are rejected (error 1014).
-  - `value` — `real | string`. Numbers are stored directly. Strings are parsed as math expressions (e.g., `'width * 2'`, `'C:PI * pow(radius, 2)'`).
-
-## Param Form
-
-The `param` argument accepts both a single object and an array of objects (each with its own `id` and `toCreate`). Array form allows creating expressions in multiple parts in one call.
+- `toCreate` — array of `{ name, value }` (both required per item; empty/omitted array is a no-op, result=1)
+  - `name` — word chars only (`[a-zA-Z_][a-zA-Z0-9_]*`), must start with a non-digit. Spaces/special chars → error 1014.
+  - `value` — `real | string`. Numbers stored directly (preferred over `'50'`, though both work). Strings are parsed as math expressions (`'width * 2'`, `'C:PI * pow(radius, 2)'`).
+- The param may also be an array of `{ id, toCreate }` objects to create expressions in multiple parts in one call.
+- 50+ expressions in a single batch works — no practical limit observed.
 
 ## Return Value
 
-- **result:** `1` (success) or `0` (failure) — numeric, not JS boolean
-- **result:** `null` when a required param is entirely missing (e.g., no `value` field)
-- **maxLevel:** 31 on success, 51 on error
+- `result: 1` (success) or `0` (failure) — numeric, not JS boolean; `null` when a required param is missing entirely (e.g. no `value` field)
+- `maxLevel`: 31 on success, 51 on error
 
 ## Cross-References & Order
 
-- Expressions can reference other expressions by name: `{ name: 'area', value: 'width * height' }`
-- **Order in `toCreate` doesn't matter** — forward and backward references both resolve
-- Cross-call references work — expressions created in a prior `expression()` call can be referenced
-- Math functions (`sin`, `sqrt`, `pow`, etc.) and `C:PI` all work in formula values
+- Expressions reference others by name: `{ name: 'area', value: 'width * height' }`
+- **Order in `toCreate` doesn't matter** — forward and backward references resolve; references to expressions from a prior call work too
+- Math functions (`sin`, `sqrt`, `pow`, etc.) and `C:PI` work
 - Another part's expression is readable by object path: `{ name: 'H', value: 'Params.ExpressionSet.W' }`. The value is read when this part is evaluated — changes in `Params` reach this part on its next `updateExpression` or on `common.recalc()`
 
 ## Gotchas
 
-- **⚠️ The direct `{id, name, value}` form is a SILENT NO-OP that LOOKS successful.**
-  `part.expression({id, name: 'W', value: 40})` (without `toCreate`) returns result=1,
-  maxLevel=31 — and creates NOTHING (`getExpression('W')` → value null). Every downstream
-  `@expr` reference then points at a nonexistent expression and fails (dimensions: error 51
-  "Couldn't set the value"; features: silent). Always use `toCreate: [...]` and, when a
-  downstream `@expr` mysteriously fails, check `getExpression` FIRST (verified 2026-08-10).
-- **Duplicate name → error 1014, result=0.** The original value is preserved. Use `updateExpression` to change an existing expression's value.
-- **Invalid formulas with bad runtime refs (undefined variables) ARE registered** despite result=0. The expression exists in the ExpressionSet with a default value of 1 and a broken formula. You must `deleteExpression` or `updateExpression` to fix it — re-creating with the same name gives "already exists".
-- **Syntax errors in a batch are atomic** — if any item in `toCreate` has a syntax error (e.g., `'2++3'`), the ENTIRE batch fails and no expressions are created. This differs from runtime ref errors where the expression gets registered.
-- **Error accumulation** — when creating a new expression, the server re-evaluates ALL expressions in the set. If prior expressions have broken formulas, their errors appear in the messages of the new call.
-- **Values must be numeric.** String-valued expressions (e.g., `'"hello"'`) fail with "evaluates to the type String". Expressions are floating-point only.
-- **Circular references silently succeed.** No infinite loop or error. Values are evaluated single-pass with seed value 1. Results are NOT mathematically consistent — `a = b + 1` and `b = a + 1` gives a=3, b=2.
-- **Names can shadow math functions** — creating an expression named `sin` sets `sin` to that value, but `sin(x)` still works as a function call. The parser distinguishes variable access from function calls.
+- **⚠️ The direct `{id, name, value}` form is a SILENT NO-OP that LOOKS successful.** `part.expression({id, name: 'W', value: 40})` (without `toCreate`) returns result=1, maxLevel=31 — and creates NOTHING (`getExpression('W')` → value null). Every downstream `@expr` reference then points at a nonexistent expression and fails (dimensions: error 51 "Couldn't set the value"; features: silent). Always use `toCreate: [...]` and, when a downstream `@expr` mysteriously fails, check `getExpression` FIRST.
+- **Duplicate name → error 1014, result=0.** Original value preserved. Use `updateExpression` to change it.
+- **Formulas with undefined variables ARE registered** despite result=0, with value 1 and the broken formula. Fix with `deleteExpression` or `updateExpression` — re-creating gives "already exists".
+- **Syntax errors are batch-atomic** — one item with e.g. `'2++3'` fails the ENTIRE `toCreate` batch; nothing is created (unlike undefined-variable errors).
+- **Error accumulation** — creating an expression re-evaluates ALL expressions in the set; errors of previously broken formulas appear in the new call's messages.
+- **Values must be numeric** (floating-point only). String-valued expressions (e.g. `'"hello"'`) fail with "evaluates to the type String".
+- **Circular references silently succeed** — no loop, no error. Single-pass evaluation with seed value 1; results are NOT consistent: `a = b + 1`, `b = a + 1` gives a=3, b=2.
+- **Names can shadow math functions** — an expression named `sin` sets `sin`, but `sin(x)` still works as a function call.
+- **Negative results are validated by the feature** — e.g. box requires length > 0.
 
 ## Common Errors
 
@@ -62,104 +50,29 @@ The `param` argument accepts both a single object and an array of objects (each 
 
 ## Using Expressions in Feature Parameters
 
-### `@expr.NAME` syntax
-
-Reference named expressions in any feature param that accepts `expression` type:
+Any feature param of `expression` type accepts `@expr.NAME`:
 
 ```js
 await api.v1.part.box({ id: partId, length: '@expr.L', width: '@expr.W', height: '@expr.H' })
-await api.v1.part.cylinder({ id: partId, diameter: '@expr.cylDiam', height: '@expr.cylHt' })
 ```
 
-**The `@expr.` prefix is mandatory.** Bare names (`'L'`, `'L + 10'`) fail with error 1000 "Could not convert api params."
+- **The `@expr.` prefix is mandatory.** Bare names (`'L'`, `'L + 10'`) fail with error 1000 "Could not convert api params."
+- **Inline formulas** without named expressions also work: `length: '3 * 40'`, `width: 'sqrt(2500)'`, `height: 'C:PI * 20'`.
+- **Full syntax mixes @expr, arithmetic and functions:** `'@expr.base + 20'`, `'@expr.base - 2 * @expr.margin'`, `'sqrt(@expr.base)'`, `'max(@expr.base, @expr.margin) / 2'`, `'min(max(@expr.val, 50), 200)'` (clamp).
+- **String-encoded point arrays** for offset/position: `offset: '[@expr.offsetX, @expr.offsetY, @expr.offsetZ]'`.
 
-### Inline formulas (no named expressions)
+## Updating Expressions
 
-Feature params also accept raw formula strings — no `@expr.` or named expressions needed:
+- **CRITICAL:** `updateExpression` takes a `toUpdate` array: `{ id, toUpdate: [{ name: 'size', value: 120 }] }`. The direct `{ id, name, value }` form is silently ignored (result=1, no error, value unchanged).
+- Values can be numbers or formula strings (`value: 'x * 3 + 5'`).
+- One call updates everything — expression values, derived expressions (cascade: `base` → `doubled = base * 2`), all features sharing the expression, WCS offsets with `@expr.` in string arrays, and geometry. No `common.recalc()` needed.
+- `getExpression` returns `{ expression: "<formula>", value: <number|null> }`; `expression` is `""` for plain numbers, `value` is `null` for non-existent names (not an error). See `references/part/getExpression.md`.
 
-```js
-await api.v1.part.box({ id: partId, length: '3 * 40', width: 'sqrt(2500)', height: 'C:PI * 20' })
-```
-
-### Mixing `@expr.` with arithmetic and functions
-
-Full expression syntax works:
-
-```js
-length: '@expr.base + 20'                    // @expr + constant
-diameter: '@expr.base - 2 * @expr.margin'    // two @expr refs + arithmetic
-length: 'sqrt(@expr.base)'                   // function wrapping @expr
-height: 'max(@expr.base, @expr.margin) / 2'  // multi-arg function
-length: 'min(max(@expr.val, 50), 200)'       // clamp pattern
-```
-
-### String-encoded point arrays
-
-`@expr.` works inside string-encoded arrays for offset/position params:
-
-```js
-await api.v1.part.workCSys({
-  id: partId,
-  offset: '[@expr.offsetX, @expr.offsetY, @expr.offsetZ]',
-})
-```
-
-## Updating Expressions & Recalculation
-
-### updateExpression syntax
-
-**CRITICAL:** `updateExpression` uses a `toUpdate` array, NOT direct `name`/`value` params:
-
-```js
-// ✅ CORRECT
-await api.v1.part.updateExpression({
-  id: partId,
-  toUpdate: [{ name: 'size', value: 120 }],
-})
-
-// ❌ WRONG — silently ignored (result=1, no error, value unchanged)
-await api.v1.part.updateExpression({ id: partId, name: 'size', value: 120 })
-```
-
-`updateExpression` can change both numeric values and formula strings:
-
-```js
-await api.v1.part.updateExpression({
-  id: partId,
-  toUpdate: [{ name: 'y', value: 'x * 3 + 5' }],  // change formula
-})
-```
-
-### Immediate geometry update
-
-`updateExpression` updates everything in one call — expression values, derived expressions, and feature geometry. No `common.recalc()` needed:
-
-```js
-await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'S', value: 100 }] })
-// Expression value, derived expressions, and all bound feature geometry are already updated
-```
-
-### Cascade behavior
-
-- Derived expressions auto-cascade: updating `base` propagates to `doubled = base * 2`
-- Multiple features sharing one expression all update
-- WCS offsets with `@expr.` in string-encoded arrays also update
-- The full chain works: base expr → derived expr → feature param → geometry
-
-## Usage Hints
-
-- Pass numeric values as numbers (`value: 50`), not strings (`value: '50'`) — both work, but numbers are cleaner.
-- `getExpression` returns `{ expression: "<formula>", value: <number|null> }`. For plain numeric values, `expression` is empty string. For non-existent names, `value` is `null` (not an error). See `references/part/getExpression.md` for full details.
-- Empty `toCreate: []` or omitted `toCreate` is a no-op (result=1, no error).
-- 50+ expressions in a single batch works fine — no practical limit observed.
-- Negative expression results are validated by the feature — e.g., box requires length > 0.
-
-## Working Example: Parametric Model
+## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'FlangedBlock' })).result
 
-// Define master dimensions and derived values
 await api.v1.part.expression({
   id: partId,
   toCreate: [
@@ -172,13 +85,12 @@ await api.v1.part.expression({
   ],
 })
 
-// Base plate
 await api.v1.part.box({
   id: partId, name: 'BasePlate',
   length: '@expr.baseL', width: '@expr.baseW', height: '@expr.baseH',
 })
 
-// Tower placed on top via expression-driven WCS
+// Tower on top via expression-driven WCS
 const wcsId = (await api.v1.part.workCSys({
   id: partId, name: 'TowerOrigin',
   offset: '[@expr.baseL/4, @expr.baseW/4, @expr.baseH]',
@@ -190,10 +102,8 @@ await api.v1.part.box({
 })
 
 // Change master dimension — everything scales
-await api.v1.part.updateExpression({
-  id: partId, toUpdate: [{ name: 'baseL', value: 200 }],
-})
-// towerL=100, towerH=160, WCS offset updated — full cascade (geometry updates immediately)
+await api.v1.part.updateExpression({ id: partId, toUpdate: [{ name: 'baseL', value: 200 }] })
+// towerL=100, towerH=160, WCS offset updated — geometry updates immediately
 ```
 
 ## Related

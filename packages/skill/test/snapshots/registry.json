@@ -1,0 +1,3004 @@
+{
+  "count": 264,
+  "domains": {
+    "assembly": 63,
+    "common": 22,
+    "curve": 21,
+    "drawing2d": 11,
+    "part": 76,
+    "sketch": 50,
+    "solid": 21
+  },
+  "methods": {
+    "v1.assembly.assemblyTemplate": {
+      "summary": "Creates a new assembly and adds it as template to the product container. This assembly can be used for assembly building.",
+      "params": [
+        "param",
+        "param.name"
+      ]
+    },
+    "v1.assembly.calculateMassProperties": {
+      "summary": "Calculates the center of gravity (cog) and the volume of the given object. Depending on the input parameter the calculations were made on a single solid, a part, a subassembly, the whole model, ... E.g. the center of gravity of a root assembly, will be the sum of all solid's center of gravity over the whole assembly structure. If a solid is given, the center of gravity will be local to its part.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.assembly.circularPattern": {
+      "summary": "Creates a new circular pattern constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.instanceId",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.instanceCount",
+        "param.angle",
+        "param.offset"
+      ]
+    },
+    "v1.assembly.convertToTemplate": {
+      "summary": "Converts the current root assembly into an assembly template and creates a new root assembly, where the new template can be used to create instances from.",
+      "params": [
+        "param",
+        "param.name"
+      ]
+    },
+    "v1.assembly.create": {
+      "summary": "Creates a new root assembly. This is the top level assembly.",
+      "params": [
+        "param",
+        "param.name",
+        "param.ident"
+      ]
+    },
+    "v1.assembly.createUncommitedObject": {
+      "summary": "Attention: This method should only be used, if the intention is very clear. Creates a new uncommited (empty) object in the given assembly.",
+      "params": [
+        "param",
+        "param.id",
+        "param.type",
+        "param.name"
+      ]
+    },
+    "v1.assembly.cylindrical": {
+      "summary": "Creates a new cylindrical constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.zOffsetLimits",
+        "param.zOffsetLimits.min",
+        "param.zOffsetLimits.max",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.deleteConstraint": {
+      "summary": "Deletes constraints/ relations from assemblies.",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.assembly.deleteInstance": {
+      "summary": "Deletes instances from root assembly, other instances or assembly templates.",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.assembly.deleteTemplate": {
+      "summary": "Deletes a part or assembly template.",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.assembly.exportNode": {
+      "summary": "Exports a node from the assembly tree or a template from containers. A node can be any instance (part or assembly) in the tree. A template can be a part or assembly, doesn't matter if it has already been instantiated or not. In any case, if the node or template is a part, the root of the created file is a part. In case of the node or template is an assembly, the root of the created file is a root assembly. By default the model is written to a data string.",
+      "params": [
+        "param",
+        "param.id",
+        "param.format",
+        "param.file",
+        "param.url",
+        "param.encoding",
+        "param.compression"
+      ]
+    },
+    "v1.assembly.fastened": {
+      "summary": "Creates a new fastened constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.xOffset",
+        "param.yOffset",
+        "param.zOffset",
+        "param.xRotation",
+        "param.yRotation",
+        "param.zRotation",
+        "param.useCurrentTransform"
+      ]
+    },
+    "v1.assembly.fastenedOrigin": {
+      "summary": "Creates a new fastened origin constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.xOffset",
+        "param.yOffset",
+        "param.zOffset",
+        "param.xRotation",
+        "param.yRotation",
+        "param.zRotation",
+        "param.useCurrentTransform"
+      ]
+    },
+    "v1.assembly.finishMovingUnderConstraints": {
+      "summary": "Finishes moving the constrained objects.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.assembly.from": {
+      "summary": "Creates an assembly from a json defined assembly or an ecxml definition.",
+      "params": [
+        "param",
+        "param.url",
+        "param.file",
+        "param.data",
+        "param.format"
+      ]
+    },
+    "v1.assembly.gear": {
+      "summary": "Creates a new gear relation. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.constr1Id",
+        "param.constr2Id",
+        "param.ratio",
+        "param.offset"
+      ]
+    },
+    "v1.assembly.getAssemblyTemplate": {
+      "summary": "Returns the assembly template with given name from assembly container. If name is empty, all assembly from assembly container will be returned.",
+      "params": [
+        "param",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getCircularPattern": {
+      "summary": "Returns the circular pattern constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getCylindrical": {
+      "summary": "Returns the cylindrical constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getFastened": {
+      "summary": "Returns the fastened constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getFastenedOrigin": {
+      "summary": "Returns the fastened origin constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getGear": {
+      "summary": "Returns the gear relation of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getGroup": {
+      "summary": "Returns the group constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getInstance": {
+      "summary": "Returns a single, mutliple or all instances of an owner, depending on whether a name is given or not. The owner is the parent of the instance/instances we're looking for and can be a root assembly, another instance or an assembly template.",
+      "params": [
+        "param",
+        "param.ownerId",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getLinearPattern": {
+      "summary": "Returns the linear pattern constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getParallel": {
+      "summary": "Returns the parallel constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getPartTemplate": {
+      "summary": "Returns the part template with given name from part container. If name is empty, all parts from part container will be returned.",
+      "params": [
+        "param",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getPlanar": {
+      "summary": "Returns the planar constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getProduct": {
+      "summary": "Returns the product id from a given instance.",
+      "params": [
+        "param",
+        "param.instanceId"
+      ]
+    },
+    "v1.assembly.getRevolute": {
+      "summary": "Returns the revolute constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getSlider": {
+      "summary": "Returns the slider constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getSpherical": {
+      "summary": "Returns the spherical constraint of given reference with specified name.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.getWorkGeometry": {
+      "summary": "Returns the id of the work geometry object with the given name from the given assembly or instance. Work geometry can be a workpoint, -axis, -plane or -coordinate system.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.assembly.group": {
+      "summary": "Creates a new group constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.instanceIds"
+      ]
+    },
+    "v1.assembly.instance": {
+      "summary": "Creates instances of products and adds them to root assembly, assembly instance or assembly template. - If the owner is an instance in the expanded tree, its template in the assembly container will also be updated. - If the owner is an assembly template, all instances of the template will also be updated",
+      "params": [
+        "param",
+        "param.productId",
+        "param.ownerId",
+        "param.transformation",
+        "param.name",
+        "param.ident",
+        "param.isLocal"
+      ]
+    },
+    "v1.assembly.linearPattern": {
+      "summary": "Creates a new linear pattern constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.instanceId",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.dir1",
+        "param.dir1.count",
+        "param.dir1.distance",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.dir2",
+        "param.dir2.count",
+        "param.dir2.distance"
+      ]
+    },
+    "v1.assembly.loadProduct": {
+      "summary": "Loads a product from file, data or url.",
+      "params": [
+        "param",
+        "param.url",
+        "param.file",
+        "param.data",
+        "param.encoding",
+        "param.compression",
+        "param.format",
+        "param.ident"
+      ]
+    },
+    "v1.assembly.moveUnderConstraints": {
+      "summary": "Attempts to move constrained objects.",
+      "params": [
+        "param",
+        "param.id",
+        "param.rotation",
+        "param.rotation.xDir",
+        "param.rotation.yDir",
+        "param.rotation.zDir",
+        "param.offset"
+      ]
+    },
+    "v1.assembly.parallel": {
+      "summary": "Creates a new parallel constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.xOffsetLimits",
+        "param.xOffsetLimits.min",
+        "param.xOffsetLimits.max",
+        "param.yOffsetLimits",
+        "param.yOffsetLimits.min",
+        "param.yOffsetLimits.max",
+        "param.zOffsetLimits",
+        "param.zOffsetLimits.min",
+        "param.zOffsetLimits.max",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.partTemplate": {
+      "summary": "Creates a new part and adds it as template to the product container. This part can be used for assembly building.",
+      "params": [
+        "param",
+        "param.name"
+      ]
+    },
+    "v1.assembly.planar": {
+      "summary": "Creates a new planar constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.zOffset",
+        "param.xOffsetLimits",
+        "param.xOffsetLimits.min",
+        "param.xOffsetLimits.max",
+        "param.yOffsetLimits",
+        "param.yOffsetLimits.min",
+        "param.yOffsetLimits.max",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.revolute": {
+      "summary": "Creates a new revolute constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.zOffset",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.setCurrentInstance": {
+      "summary": "Sets the given instance or root assembly as the current. The current product will also be set to the current instance's product template.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.assembly.setCurrentProduct": {
+      "summary": "Sets the current product. The current product is exported in the save commando.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.assembly.setIdent": {
+      "summary": "Sets a string identifier for an existing object",
+      "params": [
+        "param",
+        "param.id",
+        "param.ident"
+      ]
+    },
+    "v1.assembly.slider": {
+      "summary": "Creates a new slider constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.xOffset",
+        "param.yOffset",
+        "param.zOffsetLimits",
+        "param.zOffsetLimits.min",
+        "param.zOffsetLimits.max"
+      ]
+    },
+    "v1.assembly.spherical": {
+      "summary": "Creates a new spherical constraint. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.yRotationLimits",
+        "param.yRotationLimits.max"
+      ]
+    },
+    "v1.assembly.startMovingUnderConstraints": {
+      "summary": "Prepares to move constrained objects.",
+      "params": [
+        "param",
+        "param.id",
+        "param.instanceIds",
+        "param.pivotInfo",
+        "param.mucType"
+      ]
+    },
+    "v1.assembly.transformInstance": {
+      "summary": "Transforms instances by the given transformation. Transforming an instance means, that the same other instances and the template of them will also be transformed. Important: - Left-handed transformation matrices are not yet supported - Scaling part of the 4x4 matrix will be ignored. - Matrices must be orthogonal",
+      "params": [
+        "param",
+        "param.id",
+        "param.transformation",
+        "param.isLocal"
+      ]
+    },
+    "v1.assembly.transformInstanceTo": {
+      "summary": "Transforms instances by the given transformation.",
+      "params": [
+        "param",
+        "param.id",
+        "param.transformation",
+        "param.isLocal"
+      ]
+    },
+    "v1.assembly.update3DConstraintValue": {
+      "summary": "Updates multiple limited values of constraints",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.value"
+      ]
+    },
+    "v1.assembly.updateCircularPattern": {
+      "summary": "Updates an existing circular pattern constraint. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.instanceId",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.instanceCount",
+        "param.angle",
+        "param.offset"
+      ]
+    },
+    "v1.assembly.updateCylindrical": {
+      "summary": "Updates an existing cylindrical constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.zOffsetLimits",
+        "param.zOffsetLimits.min",
+        "param.zOffsetLimits.max",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.updateFastened": {
+      "summary": "Updates an existing fastened constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.xOffset",
+        "param.yOffset",
+        "param.zOffset",
+        "param.xRotation",
+        "param.yRotation",
+        "param.zRotation",
+        "param.useCurrentTransform"
+      ]
+    },
+    "v1.assembly.updateFastenedOrigin": {
+      "summary": "Updates an existing fastened origin constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.xOffset",
+        "param.yOffset",
+        "param.zOffset",
+        "param.xRotation",
+        "param.yRotation",
+        "param.zRotation",
+        "param.useCurrentTransform"
+      ]
+    },
+    "v1.assembly.updateGear": {
+      "summary": "Updates an existing gear relation. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.constr1Id",
+        "param.constr2Id",
+        "param.ratio",
+        "param.offset"
+      ]
+    },
+    "v1.assembly.updateGroup": {
+      "summary": "Updates an existing group constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.instanceIds"
+      ]
+    },
+    "v1.assembly.updateLinearPattern": {
+      "summary": "Updates an existing linear pattern constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.instanceId",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.dir1",
+        "param.dir1.count",
+        "param.dir1.distance",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.dir2",
+        "param.dir2.count",
+        "param.dir2.distance"
+      ]
+    },
+    "v1.assembly.updateParallel": {
+      "summary": "Updates an existing parallel constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.xOffsetLimits",
+        "param.xOffsetLimits.min",
+        "param.xOffsetLimits.max",
+        "param.yOffsetLimits",
+        "param.yOffsetLimits.min",
+        "param.yOffsetLimits.max",
+        "param.zOffsetLimits",
+        "param.zOffsetLimits.min",
+        "param.zOffsetLimits.max",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.updatePlanar": {
+      "summary": "Updates an existing planar constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.zOffset",
+        "param.xOffsetLimits",
+        "param.xOffsetLimits.min",
+        "param.xOffsetLimits.max",
+        "param.yOffsetLimits",
+        "param.yOffsetLimits.min",
+        "param.yOffsetLimits.max",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.updateRevolute": {
+      "summary": "Updates a revolute constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.zOffset",
+        "param.zRotationLimits",
+        "param.zRotationLimits.min",
+        "param.zRotationLimits.max"
+      ]
+    },
+    "v1.assembly.updateSlider": {
+      "summary": "Updates an existing slider constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.xOffset",
+        "param.yOffset",
+        "param.zOffsetLimits",
+        "param.zOffsetLimits.min",
+        "param.zOffsetLimits.max"
+      ]
+    },
+    "v1.assembly.updateSpherical": {
+      "summary": "Updates an existing spherical constraint. If optional parameters are not set, the constraint will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.mate1",
+        "param.mate1.path",
+        "param.mate1.csys",
+        "param.mate1.flip",
+        "param.mate1.reorient",
+        "param.mate2",
+        "param.mate2.path",
+        "param.mate2.csys",
+        "param.mate2.flip",
+        "param.mate2.reorient",
+        "param.yRotationLimits",
+        "param.yRotationLimits.max"
+      ]
+    },
+    "v1.common.batch": {
+      "summary": "Runs the given api calls in a sequence.",
+      "params": [
+        "param",
+        "param.jobs",
+        "param.jobs[].api",
+        "param.jobs[].param"
+      ]
+    },
+    "v1.common.clear": {
+      "summary": "Deletes all objects in the current drawing",
+      "params": [
+        "param",
+        "param.keepIds"
+      ]
+    },
+    "v1.common.clearUserData": {
+      "summary": "Clears all entries from user data of given object",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.common.evaluateExpression": {
+      "summary": "Evaluates an expression.",
+      "params": [
+        "param",
+        "param.id",
+        "param.expression",
+        "param.silent"
+      ]
+    },
+    "v1.common.getAppVersion": {
+      "summary": "Returns the app version",
+      "params": []
+    },
+    "v1.common.getClassFileVersion": {
+      "summary": "Returns the class file version",
+      "params": []
+    },
+    "v1.common.getDatabaseSettings": {
+      "summary": "Returns the current general settings from the database",
+      "params": []
+    },
+    "v1.common.getFacetingParameters": {
+      "summary": "Returns the faceting parameters used to tessellate surfaces and curves.",
+      "params": []
+    },
+    "v1.common.getUserData": {
+      "summary": "Returns the value from the user data map at given key. If the key or map does not exist the defaultValue will be returned.",
+      "params": [
+        "param",
+        "param.id",
+        "param.key",
+        "param.defaultValue"
+      ]
+    },
+    "v1.common.getUserDataKeys": {
+      "summary": "Returns all the keys of user data map of given object",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.common.load": {
+      "summary": "Reads drawing from ClassCAD- or SolidFile, drawing must be cleared or doClear set to TRUE. Other formats than STEP or ClassCAD are imported to a CC_Part and assembly information is not considered By default an STL file is loaded as PolyBrep and can mainly be used for visualisation.",
+      "params": [
+        "param",
+        "param.url",
+        "param.file",
+        "param.data",
+        "param.format",
+        "param.doClear",
+        "param.ident",
+        "param.encoding",
+        "param.compression",
+        "param.ofb",
+        "param.ofb.geometry",
+        "param.stp",
+        "param.stp.asPart"
+      ]
+    },
+    "v1.common.recalc": {
+      "summary": "Recalculates and updates the whole drawing with all its objects",
+      "params": []
+    },
+    "v1.common.removeUserData": {
+      "summary": "Removes the user data entry identified by given key",
+      "params": [
+        "param",
+        "param.id",
+        "param.key"
+      ]
+    },
+    "v1.common.requestVisualisation": {
+      "summary": "Requests the visualisation of the entities/cad entities from the classcad server",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.common.save": {
+      "summary": "Stores the current model. ofb, scg and step can keep assembly structure, for other formats only the geometry is exported and assembly information is lost. By default the model is written to a data string.",
+      "params": [
+        "param",
+        "param.file",
+        "param.url",
+        "param.format",
+        "param.encoding",
+        "param.compression",
+        "param.ofb",
+        "param.ofb.version",
+        "param.ofb.geometry",
+        "param.stp",
+        "param.stp.asPart",
+        "param.stp.analytic",
+        "param.stp.version",
+        "param.stp.header",
+        "param.stp.header.filename",
+        "param.stp.header.filename.name",
+        "param.stp.header.filename.organization",
+        "param.stl",
+        "param.stl.facetingTol",
+        "param.stl.angleTol",
+        "param.stl.binary",
+        "param.iwp",
+        "param.iwp.binary",
+        "param.dxf",
+        "param.dxf.digits",
+        "param.dxf.version"
+      ]
+    },
+    "v1.common.setAppearance": {
+      "summary": "Sets the appearance on the target, which is here defined by an id which is the feature and optional inidices to select specific solids from the feature, if more than one solid is appended.",
+      "params": [
+        "param",
+        "param.target",
+        "param.target.id",
+        "param.target.indices",
+        "param.color",
+        "param.transparency",
+        "param.chordHeightTol",
+        "param.angleTol"
+      ]
+    },
+    "v1.common.setDatabaseSettings": {
+      "summary": "Sets the current and initial general settings on the database.",
+      "params": [
+        "param",
+        "param.isGraphicEnabled",
+        "param.isCCGraphicEnabled",
+        "param.isInvisibleGraphicEnabled",
+        "param.isSketchGraphicEnabled",
+        "param.facetingParamsMode",
+        "param.chordHeightTol",
+        "param.angleTol",
+        "param.doCurveTessellation"
+      ]
+    },
+    "v1.common.setFacetingParameters": {
+      "summary": "Sets the faceting parameters of current drawing.",
+      "params": [
+        "param",
+        "param.angleTol",
+        "param.chordHeightTol"
+      ]
+    },
+    "v1.common.setObjectCoordSystem": {
+      "summary": "Calls \"SetObjectCoordSystem\" on object or sets object coord system if function does not exist",
+      "params": [
+        "param",
+        "param.id",
+        "param.origin",
+        "param.xVec",
+        "param.yVec"
+      ]
+    },
+    "v1.common.setObjectName": {
+      "summary": "Calls \"SetObjectName\" on object or sets object name if function does not exist",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.common.setUserData": {
+      "summary": "Sets custom user data by key and value on given object. If the given object will be copied later, the user data is not copied as well.",
+      "params": [
+        "param",
+        "param.id",
+        "param.key",
+        "param.value"
+      ]
+    },
+    "v1.common.transformObjectWithMatrix": {
+      "summary": "Transforms an object with the given matrix.",
+      "params": [
+        "param",
+        "param.id",
+        "param.matrix",
+        "param.isGlobal"
+      ]
+    },
+    "v1.curve.advancedPolyline": {
+      "summary": "Creates an advanced polyline definition using an array of point-line definitions. A polyline must start with an initial point-line definition (pld) using absolute coordinates: `{ xa: value, ya: value }` Subsequent points can be defined in multiple ways: - **Absolute coordinates**: `{ xa: value, ya: value }` - **Relative coordinates**: `{ xr: value, yr: value }` - **Mixed mode**: `{ xa: value, yr: value }` or `{ xr: value, ya: value }` A segment can also be defined using angle and length: - **Absolute angle and length**: `{ l: value, a: angle }` - The angle is measured counterclockwise (CCW) from the x-axis. - **Relative angle and length**: `{ l: value, ar: angle }` - The angle is measured CCW from the previous segments direction. A segment can also be defined using angle and an absolute or relative coordinates. Angle is defined as above and length is calculated internally: - Examples of this: `{ xa: value, a: value }`, `{ xr: value, a: value }`, `{ yr: value, a: value }`, `{ ya: value, ar: value }` Each point-line definition can optionally have a radius `{ r: value }`, which creates an arc that is tangent to both the previous and next segments. When a radius is specified: - The defined point remains collinear with both adjacent segments but does not belong to the actual polyline. - Cannot be applied with chamfer on the same point. Each point-line definition can optionally have a chamfer `{ c: value }`, which creates a symmetric Chamfer of length `{ c: value }` also called edge distance, measured along the edge of the original part before the chamfer was applied. - Cannot be applied with fillet on the same point. The polyline can be closed (`close: true`), which connects the last point back to the first point. - If closed, the first point can also have a radius, forming a smooth transition.",
+      "params": [
+        "param",
+        "param.id",
+        "param.pld",
+        "param.pld.xa",
+        "param.pld.xr",
+        "param.pld.ya",
+        "param.pld.yr",
+        "param.pld.a",
+        "param.pld.ar",
+        "param.pld.l",
+        "param.pld.b",
+        "param.pld.r",
+        "param.pld.c",
+        "param.close"
+      ]
+    },
+    "v1.curve.arcBy3Points": {
+      "summary": "Creates one or multiple arcs defined by start-, end- and mid point.",
+      "params": [
+        "param",
+        "param.id",
+        "param.startPos",
+        "param.endPos",
+        "param.midPos"
+      ]
+    },
+    "v1.curve.arcByCenter": {
+      "summary": "Creates one or multiple arcs defined by start-, end- and center point.",
+      "params": [
+        "param",
+        "param.id",
+        "param.startPos",
+        "param.endPos",
+        "param.centerPos",
+        "param.isClockwise"
+      ]
+    },
+    "v1.curve.arcByCenterRadAngle": {
+      "summary": "Creates one or multiple arcs defined by center, radius and angle",
+      "params": [
+        "param",
+        "param.id",
+        "param.centerPos",
+        "param.xAxis",
+        "param.normal",
+        "param.startAngle",
+        "param.endAngle",
+        "param.radius"
+      ]
+    },
+    "v1.curve.bezierCurve": {
+      "summary": "Creates one or multiple BezierCurves of degree n (number of points -1)",
+      "params": [
+        "param",
+        "param.id",
+        "param.points"
+      ]
+    },
+    "v1.curve.circle": {
+      "summary": "Creates one or multiple circles in a shape container",
+      "params": [
+        "param",
+        "param.id",
+        "param.centerPos",
+        "param.xAxis",
+        "param.normal",
+        "param.radius"
+      ]
+    },
+    "v1.curve.cleanShape": {
+      "summary": "Cleans the provided shapes, which means that the curves of the shapes will be deleted, but not the shape itself. It can be used again for appending curves.",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.curve.deleteShape": {
+      "summary": "Deletes shapes",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.curve.ellipse": {
+      "summary": "Creates one or multiple ellipse curves",
+      "params": [
+        "param",
+        "param.id",
+        "param.centerPos",
+        "param.xAxis",
+        "param.normal",
+        "param.radius1",
+        "param.radius2"
+      ]
+    },
+    "v1.curve.ellipticArc": {
+      "summary": "Creates one or multiple elliptic arc curves",
+      "params": [
+        "param",
+        "param.id",
+        "param.centerPos",
+        "param.xAxis",
+        "param.normal",
+        "param.startAngle",
+        "param.endAngle",
+        "param.radius1",
+        "param.radius2"
+      ]
+    },
+    "v1.curve.interpolationCurve": {
+      "summary": "Creates an interpolation curve through given array of points",
+      "params": [
+        "param",
+        "param.id",
+        "param.points"
+      ]
+    },
+    "v1.curve.intersection2d": {
+      "summary": "Creates an intersection between two shapes",
+      "params": [
+        "param",
+        "param.target",
+        "param.tool",
+        "param.keepShape"
+      ]
+    },
+    "v1.curve.line": {
+      "summary": "Creates one or multiple lines in a shape container",
+      "params": [
+        "param",
+        "param.id",
+        "param.startPos",
+        "param.endPos"
+      ]
+    },
+    "v1.curve.polyline2d": {
+      "summary": "Creates a single or multiple entity array of lines and arcs, given a polyline definition with array of points and bulges The points of the poyline must lying in the same plane. The bulge is tan(a/4), a is the included angle for the arc between the two points. A bulge is positive for arcs directed counterclockwise when looking in opposite direction of the normal. A semicircle has the bulge 1, a straight line the bulge 0.",
+      "params": [
+        "param",
+        "param.id",
+        "param.points",
+        "param.bulges",
+        "param.close"
+      ]
+    },
+    "v1.curve.rotateShape": {
+      "summary": "Rotates the given shape by the given rotation vector. The vector is in coordinates of the part where the provided shape belongs to.",
+      "params": [
+        "param",
+        "param.id",
+        "param.rotation"
+      ]
+    },
+    "v1.curve.scaleShape": {
+      "summary": "Scales the given shape with a factor",
+      "params": [
+        "param",
+        "param.id",
+        "param.factor"
+      ]
+    },
+    "v1.curve.shape": {
+      "summary": "Creates a shape in a container",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.curve.subtraction2d": {
+      "summary": "Creates an subtraction between two shapes",
+      "params": [
+        "param",
+        "param.target",
+        "param.tool",
+        "param.keepShape"
+      ]
+    },
+    "v1.curve.transformShape": {
+      "summary": "Transforms the given shape with a 4x4 tranformation matrix. The matrix is in coordinates of the part where the provided shape belongs to. Important: - Left-handed transformation matrices are not yet supported - Scaling part of the 4x4 matrix will be ignored. - Matrices must be orthogonal",
+      "params": [
+        "param",
+        "param.id",
+        "param.matrix"
+      ]
+    },
+    "v1.curve.translateShape": {
+      "summary": "Translates the given shape by the given vector. The vector is in coordinates of the part where the provided shape belongs to.",
+      "params": [
+        "param",
+        "param.id",
+        "param.translation"
+      ]
+    },
+    "v1.curve.union2d": {
+      "summary": "Creates an union between two shapes",
+      "params": [
+        "param",
+        "param.target",
+        "param.tool",
+        "param.keepShape"
+      ]
+    },
+    "v1.drawing2d.centerView": {
+      "summary": "This method centers all given views to origin, depending on each view's boundary box. This can be useful after creating the views and before placing them",
+      "params": [
+        "param",
+        "param.id",
+        "param.types"
+      ]
+    },
+    "v1.drawing2d.deleteDimension": {
+      "summary": "Deletes one or multiple dimensions of the 2d view",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.drawing2d.dimension": {
+      "summary": "Creates one or multiple dimensions in the product. The dimensions will be visible after creating and exporting the views to svg or dxf.",
+      "params": [
+        "param",
+        "param.id",
+        "param.viewType",
+        "param.common",
+        "param.common.type",
+        "param.common.name",
+        "param.common.label",
+        "param.common.value",
+        "param.common.color",
+        "param.common.layer",
+        "param.common.textPos",
+        "param.linear",
+        "param.linear.startPos",
+        "param.linear.endPos",
+        "param.linear.textAngle",
+        "param.linear.orientation",
+        "param.angular",
+        "param.angular.startPos",
+        "param.angular.endPos",
+        "param.angular.cornerPos",
+        "param.angular.isCCW",
+        "param.radial",
+        "param.radial.centerPos",
+        "param.radial.radius",
+        "param.diameter",
+        "param.diameter.centerPos",
+        "param.diameter.radius"
+      ]
+    },
+    "v1.drawing2d.exportDXF": {
+      "summary": "Exports all the views from given product into dxf. By default the model is written to a data string.",
+      "params": [
+        "param",
+        "param.id",
+        "param.file",
+        "param.url",
+        "param.encoding",
+        "param.compression"
+      ]
+    },
+    "v1.drawing2d.exportSVG": {
+      "summary": "Exports all the views from given product into svg. By default the model is written to a data string.",
+      "params": [
+        "param",
+        "param.id",
+        "param.file",
+        "param.url",
+        "param.encoding",
+        "param.compression",
+        "param.modus",
+        "param.renderSize",
+        "param.renderSize.x",
+        "param.renderSize.y"
+      ]
+    },
+    "v1.drawing2d.getBoundaryBoxFromView": {
+      "summary": "This method returns min and max point for each given view.",
+      "params": [
+        "param",
+        "param.id",
+        "param.types"
+      ]
+    },
+    "v1.drawing2d.isDXFAvailable": {
+      "summary": "Returns true if DXF functionality is available, false if not.",
+      "params": []
+    },
+    "v1.drawing2d.isSVGAvailable": {
+      "summary": "Returns true if SVG functionality is available, false if not.",
+      "params": []
+    },
+    "v1.drawing2d.placeView": {
+      "summary": "Places each view relatively to its current position in xy-plane",
+      "params": [
+        "param",
+        "param.id",
+        "param.placements",
+        "param.placements[].type",
+        "param.placements[].offset"
+      ]
+    },
+    "v1.drawing2d.updateDimensionPosition": {
+      "summary": "Updates the position of the dimension text. Attention: The view needs to be recreated to have updated positions in the view",
+      "params": [
+        "param",
+        "param.id",
+        "param.pos"
+      ]
+    },
+    "v1.drawing2d.view": {
+      "summary": "Creates the defined 2d views of the given product (solids) in xy-plane and returns the ids of the created views. Previously created dimensions will appear in the defined views (depends on type), e.g. a dimension with viewType = \"TOP\", will appear in the \"TOP\" view",
+      "params": [
+        "param",
+        "param.id",
+        "param.types",
+        "param.color",
+        "param.layer"
+      ]
+    },
+    "v1.part.boolean": {
+      "summary": "Creates a boolean feature.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.target",
+        "param.target.id",
+        "param.target.indices",
+        "param.tools",
+        "param.tools[].id",
+        "param.tools[].indices"
+      ]
+    },
+    "v1.part.box": {
+      "summary": "Creates or updates a box feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.length",
+        "param.width",
+        "param.height"
+      ]
+    },
+    "v1.part.calculateMassProperties": {
+      "summary": "Calculates the center of gravity (cog) and the volume of the given object. Depending on the input parameter the calculations were made on a single solid, a part, a subassembly, the whole model, ... E.g. the center of gravity of a root assembly, will be the sum of all solid's center of gravity over the whole assembly structure. If a solid is given, the center of gravity will be local to its part.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.part.chamfer": {
+      "summary": "Creates a chamfer feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.type",
+        "param.distance1",
+        "param.distance2",
+        "param.angle"
+      ]
+    },
+    "v1.part.circularPattern": {
+      "summary": "Creates a circular pattern feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references",
+        "param.inverted",
+        "param.angle",
+        "param.count",
+        "param.merged"
+      ]
+    },
+    "v1.part.closeFeature": {
+      "summary": "Moves GhostRollbackBar back to RollbackBar, sets relevant entities' visibility.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.part.compositeCurve": {
+      "summary": "Creates a composite curve feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references"
+      ]
+    },
+    "v1.part.cone": {
+      "summary": "Creates a cone feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.bDiameter",
+        "param.tDiameter",
+        "param.height"
+      ]
+    },
+    "v1.part.create": {
+      "summary": "Clears the drawing and creates a new part",
+      "params": [
+        "param",
+        "param.name"
+      ]
+    },
+    "v1.part.createUncommitedObject": {
+      "summary": "Attention: This method should only be used, if the intention is very clear. Creates a new uncommited (empty) feature in the given part.",
+      "params": [
+        "param",
+        "param.id",
+        "param.type",
+        "param.name"
+      ]
+    },
+    "v1.part.cylinder": {
+      "summary": "Creates a cylinder feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.diameter",
+        "param.height"
+      ]
+    },
+    "v1.part.deleteExpression": {
+      "summary": "Deletes expressions in different products",
+      "params": [
+        "param",
+        "param.id",
+        "param.toDelete"
+      ]
+    },
+    "v1.part.deleteFeature": {
+      "summary": "Deletes existing features, work geometries and sketches",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.part.entityDeletion": {
+      "summary": "Creates a entity deletion feature.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices"
+      ]
+    },
+    "v1.part.entityInjection": {
+      "summary": "Creates a new entity injection. This feature can be used to inject entities like solids or curves into a part, created with the Solid- and CurveAPI.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.part.expression": {
+      "summary": "Creates expressions in different products",
+      "params": [
+        "param",
+        "param.id",
+        "param.toCreate",
+        "param.toCreate.name",
+        "param.toCreate.value"
+      ]
+    },
+    "v1.part.extrusion": {
+      "summary": "Creates an extrusion feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.type",
+        "param.limit1",
+        "param.limit2",
+        "param.taperAngle",
+        "param.direction",
+        "param.capEnds"
+      ]
+    },
+    "v1.part.fillet": {
+      "summary": "Creates a fillet feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.radius"
+      ]
+    },
+    "v1.part.getBrepGeometryByIndex": {
+      "summary": "Returns a brep element within the given brep container by its index. Points, lines, arcs, NURBS curves and faces are indexed separately, and there should be exactly one brep geometry indexing parameter specified (i.e., pointIndex / lineIndex / ...).",
+      "params": [
+        "param",
+        "param.id",
+        "param.solidIndex",
+        "param.pointIndex",
+        "param.lineIndex",
+        "param.arcIndex",
+        "param.nurbsCurveIndex",
+        "param.faceIndex"
+      ]
+    },
+    "v1.part.getBrepGeometryIndex": {
+      "summary": "Returns an index of a brep element within its brep container. Points, lines, arcs, NURBS curves and faces are indexed separately.",
+      "params": [
+        "param",
+        "param.id",
+        "param.solidIndex",
+        "param.geomId"
+      ]
+    },
+    "v1.part.getExpression": {
+      "summary": "Returns the value and the expression",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.part.getFeature": {
+      "summary": "Returns the id of the feature with the given name from the given part.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.part.getGeometryIds": {
+      "summary": "Returns the geometry (brep element like line, arc, plane,...) which best fits the given points",
+      "params": [
+        "param",
+        "param.id",
+        "param.points",
+        "param.points[].pos",
+        "param.lines",
+        "param.lines[].pos",
+        "param.arcs",
+        "param.arcs[].pos",
+        "param.circles",
+        "param.circles[].pos",
+        "param.nurbsCurves",
+        "param.nurbsCurves[].pos",
+        "param.planes",
+        "param.planes[].positions",
+        "param.cylinders",
+        "param.cylinders[].positions",
+        "param.cones",
+        "param.cones[].positions",
+        "param.spheres",
+        "param.spheres[].positions",
+        "param.nurbsSurfaces",
+        "param.nurbsSurfaces[].positions"
+      ]
+    },
+    "v1.part.getGeometryPositions": {
+      "summary": "Returns the positions which uniquely identifying the geometries (brep element like line, arc, plane,...) - for faces (plane, cylindrical, spherical): it returns the midpoints of the adjacent edges of the face - for edges, arcs, circles: it returns the midpoint - for vertices: it returns the point of vertex",
+      "params": [
+        "param",
+        "param.elems"
+      ]
+    },
+    "v1.part.getSketch": {
+      "summary": "Returns the id of the sketch with the given name from the given part.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.part.getSketchRegion": {
+      "summary": "Returns the id of the sketch region with the given name from the given part or instance.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.part.getWorkGeometry": {
+      "summary": "Returns the id of the work geometry object with the given name from the given part or instance. Work geometry can be a workpoint, -axis, -plane or -coordinate system.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.part.importFeature": {
+      "summary": "Creates an import feature. This allows to import other data like STP into the part. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.url",
+        "param.file",
+        "param.data",
+        "param.encoding",
+        "param.compression",
+        "param.format"
+      ]
+    },
+    "v1.part.linearPattern": {
+      "summary": "Creates a linear pattern feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.dir1",
+        "param.dir1.references",
+        "param.dir1.inverted",
+        "param.dir1.distance",
+        "param.dir1.count",
+        "param.dir1.merged",
+        "param.dir2",
+        "param.dir2.references",
+        "param.dir2.inverted",
+        "param.dir2.distance",
+        "param.dir2.count"
+      ]
+    },
+    "v1.part.linkWithExpression": {
+      "summary": "Connects an expression with a dimensional constraint in a sketch or a parameter in a feature",
+      "params": [
+        "param",
+        "param.id",
+        "param.exprName",
+        "param.name"
+      ]
+    },
+    "v1.part.mirror": {
+      "summary": "Creates a mirror feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references"
+      ]
+    },
+    "v1.part.openFeature": {
+      "summary": "Moves GhostRollbackBar to the position before passed feature, sets relevant entities' visibility.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.part.operationMoveBefore": {
+      "summary": "Moves the rollback bar to the position right before the provided feature (backwards or forwards) and sets the entities of the current feature visible. If changes on a feature have been made and the rollback bar will be forwarded (to end direction), a recalculation of the features will be made.",
+      "params": [
+        "param",
+        "param.id",
+        "param.featureId"
+      ]
+    },
+    "v1.part.operationMoveToEnd": {
+      "summary": "Moves the rollback bar to the latest feature and sets the entities of the current feature visible. If changes on a feature have been made, a recalculation of the features will be made.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.part.renameExpression": {
+      "summary": "Renames expressions in different products",
+      "params": [
+        "param",
+        "param.id",
+        "param.toRename",
+        "param.toRename.name",
+        "param.toRename.newName"
+      ]
+    },
+    "v1.part.revolve": {
+      "summary": "Creates or updates a revolve feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.axisIds",
+        "param.startAngle",
+        "param.endAngle",
+        "param.inverted"
+      ]
+    },
+    "v1.part.rotation": {
+      "summary": "Creates a rotation feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references",
+        "param.angle",
+        "param.inverted"
+      ]
+    },
+    "v1.part.setAppearance": {
+      "summary": "Sets the appearance on the target, which is here defined by an id which is the feature and optional inidices to select specific solids from the feature, if more than one solid is appended.",
+      "params": [
+        "param",
+        "param.target",
+        "param.target.id",
+        "param.target.indices",
+        "param.color",
+        "param.transparency",
+        "param.chordHeightTol",
+        "param.angleTol"
+      ]
+    },
+    "v1.part.sketch": {
+      "summary": "Creates a new sketch and places it optionally on a face or work plane - if planeId is a face, a new work plane on that face will be created - if planeId is a workplane, the sketch will directly placed on it",
+      "params": [
+        "param",
+        "param.id",
+        "param.planeId",
+        "param.name"
+      ]
+    },
+    "v1.part.slice": {
+      "summary": "Creates a slice feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.reference",
+        "param.inverted"
+      ]
+    },
+    "v1.part.sliceBySheet": {
+      "summary": "Creates a slice by sheet feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.target",
+        "param.target.id",
+        "param.target.indices",
+        "param.tool",
+        "param.tool.id",
+        "param.tool.indices",
+        "param.inverted"
+      ]
+    },
+    "v1.part.sphere": {
+      "summary": "Creates a sphere feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.radius"
+      ]
+    },
+    "v1.part.transformationByCSys": {
+      "summary": "Creates a transformation by csys feature. The transformation is the matrix between first and second work coordinate system. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references"
+      ]
+    },
+    "v1.part.translation": {
+      "summary": "Creates a translation feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references",
+        "param.distance",
+        "param.inverted"
+      ]
+    },
+    "v1.part.twist": {
+      "summary": "Creates a twist feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.type",
+        "param.limit1",
+        "param.limit2",
+        "param.twistAngle",
+        "param.twistCenter",
+        "param.direction",
+        "param.capEnds"
+      ]
+    },
+    "v1.part.unlinkExpression": {
+      "summary": "Unlinks expression from dimensional constraints in sketcher or parameter in feature",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.part.updateBoolean": {
+      "summary": "Updates a boolean feature.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.target",
+        "param.target.id",
+        "param.target.indices",
+        "param.tools",
+        "param.tools[].id",
+        "param.tools[].indices"
+      ]
+    },
+    "v1.part.updateBox": {
+      "summary": "Updates a box feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.length",
+        "param.width",
+        "param.height"
+      ]
+    },
+    "v1.part.updateChamfer": {
+      "summary": "Updates a chamfer feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.type",
+        "param.distance1",
+        "param.distance2",
+        "param.angle"
+      ]
+    },
+    "v1.part.updateCircularPattern": {
+      "summary": "Updates a circular pattern feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references",
+        "param.inverted",
+        "param.angle",
+        "param.count",
+        "param.merged"
+      ]
+    },
+    "v1.part.updateCompositeCurve": {
+      "summary": "Updates a composite curve feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references"
+      ]
+    },
+    "v1.part.updateCone": {
+      "summary": "Updates a cone feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.bDiameter",
+        "param.tDiameter",
+        "param.height"
+      ]
+    },
+    "v1.part.updateCylinder": {
+      "summary": "Updates a cylinder feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.diameter",
+        "param.height"
+      ]
+    },
+    "v1.part.updateEntityDeletion": {
+      "summary": "Updates an existing entity deletion feature.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices"
+      ]
+    },
+    "v1.part.updateExpression": {
+      "summary": "Updates an existing expressions in different products",
+      "params": [
+        "param",
+        "param.id",
+        "param.toUpdate",
+        "param.toUpdate.name",
+        "param.toUpdate.value"
+      ]
+    },
+    "v1.part.updateExtrusion": {
+      "summary": "Updates an extrusion feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.type",
+        "param.limit1",
+        "param.limit2",
+        "param.taperAngle",
+        "param.direction",
+        "param.capEnds"
+      ]
+    },
+    "v1.part.updateFillet": {
+      "summary": "Updates a fillet feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.radius"
+      ]
+    },
+    "v1.part.updateImportFeature": {
+      "summary": "Updates an import feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.url",
+        "param.file",
+        "param.data",
+        "param.encoding",
+        "param.compression",
+        "param.format"
+      ]
+    },
+    "v1.part.updateLinearPattern": {
+      "summary": "Updates a linear pattern feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.dir1",
+        "param.dir1.references",
+        "param.dir1.inverted",
+        "param.dir1.distance",
+        "param.dir1.count",
+        "param.dir1.merged",
+        "param.dir2",
+        "param.dir2.references",
+        "param.dir2.inverted",
+        "param.dir2.distance",
+        "param.dir2.count"
+      ]
+    },
+    "v1.part.updateMirror": {
+      "summary": "Updates a mirror feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references"
+      ]
+    },
+    "v1.part.updateRevolve": {
+      "summary": "Updates a revolve feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.axisIds",
+        "param.startAngle",
+        "param.endAngle",
+        "param.inverted"
+      ]
+    },
+    "v1.part.updateRotation": {
+      "summary": "Updates a rotation feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references",
+        "param.angle",
+        "param.inverted"
+      ]
+    },
+    "v1.part.updateSlice": {
+      "summary": "Updates a slice feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.reference",
+        "param.inverted"
+      ]
+    },
+    "v1.part.updateSliceBySheet": {
+      "summary": "Updates a slice by sheet feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.target",
+        "param.target.id",
+        "param.target.indices",
+        "param.tool",
+        "param.tool.id",
+        "param.tool.indices",
+        "param.inverted"
+      ]
+    },
+    "v1.part.updateSphere": {
+      "summary": "Updates a sphere feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.radius"
+      ]
+    },
+    "v1.part.updateTransformationByCSys": {
+      "summary": "Updates a transformation by csys feature. The transformation is the matrix between first and second work coordinate system. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references"
+      ]
+    },
+    "v1.part.updateTranslation": {
+      "summary": "Updates a translation feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.targets",
+        "param.targets[].id",
+        "param.targets[].indices",
+        "param.references",
+        "param.distance",
+        "param.inverted"
+      ]
+    },
+    "v1.part.updateTwist": {
+      "summary": "Updates a twist feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.references",
+        "param.type",
+        "param.limit1",
+        "param.limit2",
+        "param.twistAngle",
+        "param.twistCenter",
+        "param.direction",
+        "param.capEnds"
+      ]
+    },
+    "v1.part.updateWorkAxis": {
+      "summary": "Updates a work axis feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.position",
+        "param.direction"
+      ]
+    },
+    "v1.part.updateWorkCSys": {
+      "summary": "Updates a work coordinate system feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.offset",
+        "param.rotation",
+        "param.inverted"
+      ]
+    },
+    "v1.part.updateWorkPlane": {
+      "summary": "Updates a work plane feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.offset",
+        "param.angle",
+        "param.position",
+        "param.normal"
+      ]
+    },
+    "v1.part.updateWorkPoint": {
+      "summary": "Updates a work point feature. If optional parameters are not set, the feature will keep the existing values.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.position"
+      ]
+    },
+    "v1.part.workAxis": {
+      "summary": "Creates a work axis feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.position",
+        "param.direction"
+      ]
+    },
+    "v1.part.workCSys": {
+      "summary": "Creates a work coordinate system feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.offset",
+        "param.rotation",
+        "param.inverted"
+      ]
+    },
+    "v1.part.workPlane": {
+      "summary": "Creates a work plane feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.offset",
+        "param.angle",
+        "param.position",
+        "param.normal"
+      ]
+    },
+    "v1.part.workPoint": {
+      "summary": "Creates a work point feature. If optional parameters are not set, the default values will be used, see (default=xy).",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.references",
+        "param.position"
+      ]
+    },
+    "v1.sketch.arcBy3Points": {
+      "summary": "Creates one or multiple arcs by 3 points in the sketch. Arc is defined by start-, end- and mid-position.",
+      "params": [
+        "param",
+        "param.id",
+        "param.startPos",
+        "param.endPos",
+        "param.midPos",
+        "param.isConstruction",
+        "param.genFixation",
+        "param.genIncidence",
+        "param.genTangency"
+      ]
+    },
+    "v1.sketch.arcByCenter": {
+      "summary": "Creates one or multiple arcs by center in the sketch. Arc is defined by start-, end- and center-position.",
+      "params": [
+        "param",
+        "param.id",
+        "param.startPos",
+        "param.endPos",
+        "param.centerPos",
+        "param.isClockwise",
+        "param.isConstruction",
+        "param.genFixation",
+        "param.genIncidence"
+      ]
+    },
+    "v1.sketch.changeReferenceGeometry": {
+      "summary": "Re-links \"Use\"-Geometry in sketch - the same geometry will be connected to another reference",
+      "params": [
+        "param",
+        "param.id",
+        "param.geomId",
+        "param.refId"
+      ]
+    },
+    "v1.sketch.circle": {
+      "summary": "Creates one or multiple circles in the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.centerPos",
+        "param.radius",
+        "param.isConstruction",
+        "param.genFixation",
+        "param.genIncidence"
+      ]
+    },
+    "v1.sketch.circularPattern": {
+      "summary": "Patterns a rigidset (or single object) in circular arrange/order",
+      "params": [
+        "param",
+        "param.id",
+        "param.rigidSetId",
+        "param.centerId",
+        "param.angle",
+        "param.count"
+      ]
+    },
+    "v1.sketch.constraint": {
+      "summary": "Creates one or multiple constraints in the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.geomIds"
+      ]
+    },
+    "v1.sketch.copyFrom": {
+      "summary": "Copies the sketch geometry from one sketch to another",
+      "params": [
+        "param",
+        "param.id",
+        "param.toCopyId"
+      ]
+    },
+    "v1.sketch.copyGeometry": {
+      "summary": "Copies sketch geometry",
+      "params": [
+        "param",
+        "param.id",
+        "param.geomIds",
+        "param.translation",
+        "param.doCopyConstraints"
+      ]
+    },
+    "v1.sketch.create": {
+      "summary": "Creates a new sketch and places it optionally on a face or work plane - if planeId is a face, a new work plane on that face will be created - if planeId is a workplane, the sketch will directly placed on it",
+      "params": [
+        "param",
+        "param.id",
+        "param.planeId",
+        "param.name"
+      ]
+    },
+    "v1.sketch.deleteObject": {
+      "summary": "Deletes dimensions, constraints, sketch geometry, sketch region or rigid sets from sketch",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.sketch.deleteSketch": {
+      "summary": "Deletes existing sketches",
+      "params": [
+        "param",
+        "param.ids"
+      ]
+    },
+    "v1.sketch.dimension": {
+      "summary": "Creates one or multiple dimensional constraints in the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.type",
+        "param.value",
+        "param.geomIds",
+        "param.dimPos",
+        "param.reflex"
+      ]
+    },
+    "v1.sketch.fillet": {
+      "summary": "Creates a fillet in place of a point and its connecting two lines",
+      "params": [
+        "param",
+        "param.id",
+        "param.lineIds",
+        "param.offset",
+        "param.radius"
+      ]
+    },
+    "v1.sketch.generateAutoConstraints": {
+      "summary": "Automatically generates constraints whenever it makes sense and doesn't add up redundancy",
+      "params": [
+        "param",
+        "param.id",
+        "param.geomId",
+        "param.genFixation",
+        "param.genIncidence",
+        "param.genTangency",
+        "param.genVertAndHoriz"
+      ]
+    },
+    "v1.sketch.geometry": {
+      "summary": "Creates one or multiple sketch geometry in the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.points",
+        "param.points[].pos",
+        "param.lines",
+        "param.lines[].startPos",
+        "param.lines[].endPos",
+        "param.lines[].isConstruction",
+        "param.arcsBy3Points",
+        "param.arcsBy3Points[].startPos",
+        "param.arcsBy3Points[].endPos",
+        "param.arcsBy3Points[].midPos",
+        "param.arcsBy3Points[].isConstruction",
+        "param.arcsByCenter",
+        "param.arcsByCenter[].startPos",
+        "param.arcsByCenter[].endPos",
+        "param.arcsByCenter[].centerPos",
+        "param.arcsByCenter[].isClockwise",
+        "param.arcsByCenter[].isConstruction",
+        "param.circles",
+        "param.circles[].centerPos",
+        "param.circles[].radius",
+        "param.circles[].isConstruction",
+        "param.genFixation",
+        "param.genIncidence",
+        "param.genTangency",
+        "param.genVertAndHoriz"
+      ]
+    },
+    "v1.sketch.getDiagnosticsInfo": {
+      "summary": "Get the info about unsatisfied constraints of the sketch",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.getGeometry": {
+      "summary": "Get all the sketch geometry from a sketch, sketch region or rigid set",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.getGlobalState": {
+      "summary": "Get the global state of the sketch",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.getObjectInfo": {
+      "summary": "Get the detailed info about the object",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.getObjectsLists": {
+      "summary": "Get the lists of ids of the sketch objects",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.getPoints": {
+      "summary": "Get the specific point ids of lines, arcs or circles",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.getPositions": {
+      "summary": "Get the specific positions of points, lines, arcs or circles",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.getSketchRegion": {
+      "summary": "Returns the id of the sketch region with the given name which belongs to the given sketch id.",
+      "params": [
+        "param",
+        "param.id",
+        "param.name"
+      ]
+    },
+    "v1.sketch.getTopologyInfo": {
+      "summary": "Get the topology info of the sketch",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.line": {
+      "summary": "Creates one or multiple lines in the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.startPos",
+        "param.endPos",
+        "param.isConstruction",
+        "param.genFixation",
+        "param.genIncidence",
+        "param.genTangency",
+        "param.genVertAndHoriz"
+      ]
+    },
+    "v1.sketch.linearPattern": {
+      "summary": "Patterns a rigidset (or single object) in linear/rectangular arrange/order. Copy count number over at least one dimension should be specified.",
+      "params": [
+        "param",
+        "param.id",
+        "param.rigidSetId",
+        "param.xDistance",
+        "param.yDistance",
+        "param.xCount",
+        "param.yCount"
+      ]
+    },
+    "v1.sketch.loadFrom": {
+      "summary": "Loads an ofb file by filename, data or url and copies the sketch geometry from loaded sketch to the existing sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.partId",
+        "param.url",
+        "param.file",
+        "param.data",
+        "param.encoding",
+        "param.compression",
+        "param.format",
+        "param.name"
+      ]
+    },
+    "v1.sketch.mirrorPattern": {
+      "summary": "Patterns a rigidset (or single object) in mirror arrange/order",
+      "params": [
+        "param",
+        "param.id",
+        "param.rigidSetId",
+        "param.symmetryLineId"
+      ]
+    },
+    "v1.sketch.moveGeometry": {
+      "summary": "Moves the given sketch geometry by translation vector",
+      "params": [
+        "param",
+        "param.id",
+        "param.geomIds",
+        "param.translation"
+      ]
+    },
+    "v1.sketch.point": {
+      "summary": "Creates one or multiple points in the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.pos",
+        "param.genFixation",
+        "param.genIncidence"
+      ]
+    },
+    "v1.sketch.postTrim": {
+      "summary": "Merges the split curves back after trimming, finalizing the trim operation. This is the third step of the trim workflow: preTrim ? trim ? postTrim. After postTrim, the sketch returns to a normal editable state with proper constraints.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.preTrim": {
+      "summary": "Splits curves at their mutual intersection points, preparing them for trimming. This is the first step of the trim workflow: preTrim ? trim ? postTrim. If curveIds is provided, only those curves are split against each other. If curveIds is omitted, all curves in the sketch are split.",
+      "params": [
+        "param",
+        "param.id",
+        "param.curveIds"
+      ]
+    },
+    "v1.sketch.rectangle": {
+      "summary": "Creates a rectangle formed by two positions",
+      "params": [
+        "param",
+        "param.id",
+        "param.startPos",
+        "param.endPos",
+        "param.isCentered",
+        "param.isConstruction",
+        "param.genFixation",
+        "param.genIncidence",
+        "param.genTangency"
+      ]
+    },
+    "v1.sketch.referenceGeometry": {
+      "summary": "Creates new \"Use\"-Geometry in sketch. The sketch geometry will be created at the given brep elements and projected into sketch plane. It also creates a reference to the given brep element.",
+      "params": [
+        "param",
+        "param.id",
+        "param.brepIds",
+        "param.keepReference"
+      ]
+    },
+    "v1.sketch.rigidSet": {
+      "summary": "Creates a rigid set from given sketch geometry in the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.geomIds"
+      ]
+    },
+    "v1.sketch.setReferences": {
+      "summary": "Creates and sets the plane, axis and origin reference of the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.planeId",
+        "param.invertPlane",
+        "param.axisId",
+        "param.isXAxis",
+        "param.invertAxis",
+        "param.originId"
+      ]
+    },
+    "v1.sketch.setWorkPlane": {
+      "summary": "Sets workplane for the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.planeId"
+      ]
+    },
+    "v1.sketch.sketchRegion": {
+      "summary": "Creates a sketch region for a given sketch from sketch geometry",
+      "params": [
+        "param",
+        "param.id",
+        "param.name",
+        "param.geomIds"
+      ]
+    },
+    "v1.sketch.splitAllCurves": {
+      "summary": "Splits all curves in the given sketch at their mutual intersection points. Used together with trimCurves and splitCurvesMergeBack.",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.splitCurve": {
+      "summary": "Splits curves at specified parameterized positions. Note: This requires exact normalized parameter values [0,1] for where to cut. These values correspond to the internal curve parameterization and are typically computed by the sketcher plugin (e.g., from intersection calculations). For most use cases where you want to split at intersections, prefer the preTrim/trim/postTrim workflow which computes split positions automatically.",
+      "params": [
+        "param",
+        "param.id",
+        "param.splits",
+        "param.splits.geomId",
+        "param.splits.values"
+      ]
+    },
+    "v1.sketch.splitCurves": {
+      "summary": "Splits curves in specified parameterized positions",
+      "params": [
+        "param",
+        "param.id",
+        "param.splits",
+        "param.splits.geomId",
+        "param.splits.values"
+      ]
+    },
+    "v1.sketch.splitCurvesMergeBack": {
+      "summary": "Merges the splitted curves back",
+      "params": [
+        "param",
+        "param.id"
+      ]
+    },
+    "v1.sketch.trim": {
+      "summary": "Removes curve segments produced by preTrim. This is the second step of the trim workflow: preTrim ? trim ? postTrim. Pass the curve segment ids from the preTrim result to select which segments to remove.",
+      "params": [
+        "param",
+        "param.id",
+        "param.curveIds"
+      ]
+    },
+    "v1.sketch.trimCurves": {
+      "summary": "Trims away curves, if they are suitable for trimming",
+      "params": [
+        "param",
+        "param.id",
+        "param.curveIds"
+      ]
+    },
+    "v1.sketch.undoFillet": {
+      "summary": "Deletes an existing fillet by removing the arc and its constraints and connect lines again",
+      "params": [
+        "param",
+        "param.id",
+        "param.arcId"
+      ]
+    },
+    "v1.sketch.unlinkReferenceGeometry": {
+      "summary": "Unlinks \"Use\"-Geometry in sketch - sketch geometry still exists, but it is not connected to reference anymore",
+      "params": [
+        "param",
+        "param.id",
+        "param.geomId"
+      ]
+    },
+    "v1.sketch.updateDimension": {
+      "summary": "Updates the dimension of sketch geometry and recalculates the sketch",
+      "params": [
+        "param",
+        "param.id",
+        "param.value"
+      ]
+    },
+    "v1.sketch.updateDimensionPosition": {
+      "summary": "Updates the position of the dimension text",
+      "params": [
+        "param",
+        "param.id",
+        "param.pos"
+      ]
+    },
+    "v1.sketch.updateGeometry": {
+      "summary": "Updates the sketch geometry",
+      "params": [
+        "param",
+        "param.id",
+        "param.points",
+        "param.points[].id",
+        "param.points[].pos",
+        "param.lines",
+        "param.lines[].id",
+        "param.lines[].startPos",
+        "param.lines[].endPos",
+        "param.lines[].isConstruction",
+        "param.arcsBy3Points",
+        "param.arcsBy3Points[].id",
+        "param.arcsBy3Points[].startPos",
+        "param.arcsBy3Points[].endPos",
+        "param.arcsBy3Points[].midPos",
+        "param.arcsBy3Points[].isConstruction",
+        "param.arcsByCenter",
+        "param.arcsByCenter[].id",
+        "param.arcsByCenter[].startPos",
+        "param.arcsByCenter[].endPos",
+        "param.arcsByCenter[].centerPos",
+        "param.arcsByCenter[].isClockwise",
+        "param.arcsByCenter[].isConstruction",
+        "param.circles",
+        "param.circles[].id",
+        "param.circles[].centerPos",
+        "param.circles[].radius",
+        "param.circles[].isConstruction"
+      ]
+    },
+    "v1.sketch.updateSketchRegion": {
+      "summary": "Updates sketch regions with new sketch geometry",
+      "params": [
+        "param",
+        "param.regions",
+        "param.regions.id",
+        "param.regions.geomIds"
+      ]
+    },
+    "v1.solid.box": {
+      "summary": "Creates a box",
+      "params": [
+        "param",
+        "param.id",
+        "param.length",
+        "param.width",
+        "param.height",
+        "param.rotation",
+        "param.translation",
+        "param.rotateFirst"
+      ]
+    },
+    "v1.solid.cone": {
+      "summary": "Creates a cone",
+      "params": [
+        "param",
+        "param.id",
+        "param.height",
+        "param.bDiameter",
+        "param.tDiameter",
+        "param.rotation",
+        "param.translation",
+        "param.rotateFirst"
+      ]
+    },
+    "v1.solid.copy": {
+      "summary": "Creates a copy of the given solid",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.rotation",
+        "param.translation",
+        "param.rotateFirst"
+      ]
+    },
+    "v1.solid.cylinder": {
+      "summary": "Creates a cylinder",
+      "params": [
+        "param",
+        "param.id",
+        "param.height",
+        "param.diameter",
+        "param.rotation",
+        "param.translation",
+        "param.rotateFirst"
+      ]
+    },
+    "v1.solid.deleteSolid": {
+      "summary": "Deletes the given solids or all solids if no solids are provided.",
+      "params": [
+        "param",
+        "param.id",
+        "param.ids"
+      ]
+    },
+    "v1.solid.extrusion": {
+      "summary": "Creates an extrusion by extruding a shape or sketch geometry",
+      "params": [
+        "param",
+        "param.id",
+        "param.direction",
+        "param.curves",
+        "param.rotation",
+        "param.translation",
+        "param.rotateFirst"
+      ]
+    },
+    "v1.solid.fillet": {
+      "summary": "Creates a fillet at the given edges. Edges can be of different solids.",
+      "params": [
+        "param",
+        "param.id",
+        "param.radius",
+        "param.geomIds"
+      ]
+    },
+    "v1.solid.intersection": {
+      "summary": "Creates an intersection between solids",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.tools",
+        "param.keepTools"
+      ]
+    },
+    "v1.solid.merge": {
+      "summary": "Creates an merge between solids. This is NOT a union!",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.tools",
+        "param.keepTools"
+      ]
+    },
+    "v1.solid.mirror": {
+      "summary": "Mirrors the given solid at defined plane",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.originPos",
+        "param.normal"
+      ]
+    },
+    "v1.solid.offset": {
+      "summary": "Creates an offset solid of the given solid Note: This functionality is a quite difficult and fragile one. Make sure you call it only on solids, where you can offset all faces, calculate the new trims AND dont change the topology of the solid i.e. the number of faces and edges remain the same.",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.distance",
+        "param.extend"
+      ]
+    },
+    "v1.solid.revolve": {
+      "summary": "Creates a revolve by revolving a polyline",
+      "params": [
+        "param",
+        "param.id",
+        "param.originPos",
+        "param.direction",
+        "param.angle",
+        "param.curves",
+        "param.rotation",
+        "param.translation",
+        "param.rotateFirst"
+      ]
+    },
+    "v1.solid.rotation": {
+      "summary": "Rotates the given solid by the given rotation vector. The vector is in coordinates of the part where the provided solid belongs to. First the z-part of the rotation vector is performed, then the y-part and finally the x-part.",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.rotation"
+      ]
+    },
+    "v1.solid.scale": {
+      "summary": "Scales the given solid with a factor. The scale is in coordinates of the part where the provided solid belongs to.",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.factor"
+      ]
+    },
+    "v1.solid.section": {
+      "summary": "The given solid is sectioned at the given plane.",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.originPos",
+        "param.normal"
+      ]
+    },
+    "v1.solid.slice": {
+      "summary": "Cuts the given solid at defined plane. The part on the negative side of normal vector is removed",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.originPos",
+        "param.normal",
+        "param.keepBoth"
+      ]
+    },
+    "v1.solid.sphere": {
+      "summary": "Creates a sphere",
+      "params": [
+        "param",
+        "param.id",
+        "param.radius",
+        "param.rotation",
+        "param.translation",
+        "param.rotateFirst"
+      ]
+    },
+    "v1.solid.subtraction": {
+      "summary": "Creates a subtraction between solids",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.tools",
+        "param.keepTools"
+      ]
+    },
+    "v1.solid.translation": {
+      "summary": "Translates the given solid by the given vector. The vector is in coordinates of the part where the provided solid belongs to.",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.translation"
+      ]
+    },
+    "v1.solid.union": {
+      "summary": "Creates a union between solids",
+      "params": [
+        "param",
+        "param.id",
+        "param.target",
+        "param.tools",
+        "param.keepTools"
+      ]
+    },
+    "v1.solid.useSolid": {
+      "summary": "This method allows you to work with solids from other features. The solids from the provided feature will be returned and available to use within the given entity injection feature.",
+      "params": [
+        "param",
+        "param.from",
+        "param.from[].id",
+        "param.from[].indices",
+        "param.in"
+      ]
+    }
+  }
+}

@@ -1,79 +1,60 @@
 # Feature Primitives vs Direct Solids
 
-ClassCAD offers two paradigms for creating 3D geometry. They produce identical visual results but differ in capabilities, API surface, and ID types. **Booleans connect them at feature level:** `part.boolean` takes feature ids, and an entity injection is a feature, so an EIF can be a boolean target or tool. Individual solid ids are not accepted by `part.boolean`.
+Two paradigms for 3D geometry: visually identical results, different capabilities, API surface, and ID types. Both can coexist in one part.
 
-## The Two Paradigms
-
-**Feature primitives** (`part.box`, `part.cylinder`, `part.cone`, `part.sphere`):
-- Created inside a part (`id` = part ID)
-- Return a **feature ID** (type "feature")
-- Live in the feature tree — parametric history, design intent
-- Support `update*` APIs via open/close pattern
-- Accept expression-driven dimensions (`@expr.NAME`, inline math)
-- Positioned via `references: [wcsId]` (workCSys only)
-
-**Direct solids** (`solid.box`, `solid.cylinder`, `solid.cone`, `solid.sphere`):
-- Created inside an entity injection feature (`id` = EIF ID)
-- Return a **solid ID** (type "solid")
-- Flat geometry inside the EIF container — no parametric history
-- No update API — use post-creation transforms (`solid.translation`, `solid.rotation`, `solid.scale`)
-- Dimensions are strictly `real` — strings of any kind are rejected (code 1001: "wrong type! It should be of type (real)")
-- Positioned via `translation`, `rotation`, `rotateFirst` params
+| | Feature primitives (`part.box/cylinder/cone/sphere`) | Direct solids (`solid.box/cylinder/cone/sphere`) |
+|---|---|---|
+| Created in | part (`id` = part ID) | entity injection feature (`id` = EIF ID) |
+| Returns | **feature ID** (type "feature") | **solid ID** (type "solid") |
+| History | Feature tree — parametric history, design intent | Flat geometry in the EIF — no history |
+| Modification | `update*` via open/close | No update API — `solid.translation` / `rotation` / `scale` |
+| Dimensions | Expressions (`@expr.NAME`, inline math) | Strictly `real` — any string rejected (code 1001: "wrong type! It should be of type (real)") |
+| Positioning | `references: [wcsId]` (workCSys only) | `translation`, `rotation`, `rotateFirst` |
 
 ## Booleans Across Paradigms
 
-`part.boolean` requires all IDs (target and tools) to be type "feature". Passing a solid ID as a tool → error code 1001: "wrong id type! Provide only following id types: ['feature']". Pass the **EIF id** instead: `part.boolean({ type: 'SUBTRACTION', target: boxFeature, tools: [eifId] })` subtracts all solids in the EIF (volume exact).
-
-`solid.subtraction`/`union`/`intersection` require all IDs to be type "solid". Passing a feature ID → error.
-
-**Both paradigms can coexist in the same part** — a part can contain feature boxes AND entity injection features simultaneously, and `part.boolean` combines them through the EIF feature id.
+- `part.boolean` takes only type "feature" ids (target and tools). A solid ID as tool → code 1001: "wrong id type! Provide only following id types: ['feature']". An EIF is a feature, so pass the **EIF id**: `part.boolean({ type: 'SUBTRACTION', target: boxFeature, tools: [eifId] })` subtracts all solids in the EIF (volume exact). An EIF can also be the target.
+- `solid.subtraction`/`union`/`intersection` take only type "solid" ids — a feature ID errors.
 
 ## ID Type Implications
 
-Different APIs accept different ID types. Common mistakes:
-
 | API | Feature ID | Solid ID | Part ID |
 |---|---|---|---|
-| `calculateMassProperties` | ❌ | ✅ | ✅ (all bodies combined) |
+| `calculateMassProperties` | ❌ | ✅ | ✅ (all bodies combined — use this for feature boxes) |
 | `setObjectName` | ✅ | ✅ | ✅ |
 | `updateBox` | ✅ (via open/close) | ❌ | ❌ |
 | `part.boolean` target/tools | ✅ | ❌ | ❌ |
 | `solid.subtraction` target/tools | ❌ | ✅ | ❌ |
-| `deleteFeature` | ✅ (in `ids` array) | ❌ | ❌ |
-| `deleteSolid` | ❌ | ✅ (in `ids` array) | ❌ |
-
-To get mass properties for a feature-based box, use the **part ID** (which includes all bodies), not the feature ID.
+| `deleteFeature` | ✅ (in `ids`) | ❌ | ❌ |
+| `deleteSolid` | ❌ | ✅ (in `ids`) | ❌ |
 
 ## Alignment Conventions Differ
 
-The two families use **different default placements** at the origin. This is empirically verified — old docs got it wrong because the question was never measured.
+Measured (old docs had this wrong):
 
 | Primitive | `solid.*` (direct) | `part.*` (feature) |
 |---|---|---|
-| `box` | **fully centered** — corners at `(±L/2, ±W/2, ±H/2)` | **corner-aligned** — extends from `(0,0,0)` to `(+L, +W, +H)` |
-| `cylinder` | **fully centered** — z=`-H/2..+H/2` | **base at origin** — z=`0..H` (extends in +Z) |
-| `cone` | **fully centered** — z=`-H/2..+H/2` | **base at origin** — z=`0..H` (extends in +Z) |
-| `sphere` | **centered at origin** | **centered at origin** |
+| `box` | **fully centered** — corners `(±L/2, ±W/2, ±H/2)` | **corner-aligned** — `(0,0,0)` to `(+L, +W, +H)` |
+| `cylinder` | **fully centered** — z=`-H/2..+H/2` | **base at origin** — z=`0..H` |
+| `cone` | **fully centered** — z=`-H/2..+H/2` | **base at origin** — z=`0..H` |
+| `sphere` | centered at origin | centered at origin |
 
-Verified empirically with `length=100, width=80, height=60` for boxes, `diameter=30, height=100` for cylinders, `bDiameter=tDiameter=40, height=80` for cones, `radius=25` for spheres. Vertex 0 and COG read via `getBrepGeometryByIndex` + `getGeometryPositions` and `calculateMassProperties`.
+Measured with boxes `length=100, width=80, height=60`, cylinders `diameter=30, height=100`, cones `bDiameter=tDiameter=40, height=80`, spheres `radius=25`; vertex 0 and COG via `getBrepGeometryByIndex` + `getGeometryPositions` and `calculateMassProperties`.
 
-**Practical implication:** mixing primitives across families requires accounting for this offset. A `part.box(100,80,60)` and a `solid.box(100,80,60)` in the same part are not in the same place — the part-feature box sits in the +X+Y+Z octant while the direct solid is centered on the origin. To overlay them, translate one by `(L/2, W/2, H/2)`.
-
-For through-cuts: a `solid.cylinder(D, H)` already extends z=`-H/2..+H/2` — to drill a plate that sits at z=`-t/2..+t/2`, no z-translation is needed; just `height > t`. A `part.cylinder(D, H)` extends z=`0..H` — to drill the same plate, you need a workCSys placed at z=`-H/2` (or some equivalent vertical offset).
+- `part.box(100,80,60)` sits in the +X+Y+Z octant, `solid.box(100,80,60)` is centered — to overlay, translate one by `(L/2, W/2, H/2)`.
+- Through-cut of a plate at z=`-t/2..+t/2`: `solid.cylinder(D, H)` needs no z-translation, just `height > t`; `part.cylinder(D, H)` needs a workCSys at z=`-H/2` (or equivalent offset).
 
 ## Silent Param Ignoring
 
-Unknown params are silently accepted and ignored by both paradigms:
-- `part.box` with `translation: [100, 0, 0]` → succeeds, box at origin (translation ignored)
-- `solid.box` with `references: [wcsId]` → succeeds, box at origin (references ignored)
-
-No error, no warning. The API returns success (maxLevel 31) with the param silently discarded.
+Unknown params are silently discarded (maxLevel 31, no warning) in both paradigms:
+- `part.box` with `translation: [100, 0, 0]` → box at origin
+- `solid.box` with `references: [wcsId]` → box at origin
 
 ## Modification After Creation
 
 | | Feature | Direct Solid |
 |---|---|---|
-| **Change dimensions** | `openFeature` → `updateBox` → `closeFeature` | Not possible — must delete and recreate |
+| **Change dimensions** | `openFeature` → `updateBox` → `closeFeature` | Not possible — delete and recreate |
 | **Move** | `updateBox({ references: [newWcsId] })` | `solid.translation({ target, translation })` |
 | **Rotate** | Create via rotated WCS | `solid.rotation({ target, rotation })` |
 | **Scale** | Update dims with multiplied values | `solid.scale({ target, factor })` |
@@ -81,12 +62,11 @@ No error, no warning. The API returns success (maxLevel 31) with the param silen
 
 ## When to Use Which
 
-**Feature primitives** — parametric modeling, expression-driven geometry, design intent that may change. Choose this when you need `updateBox`, expression linkage, or feature tree operations like `part.boolean`.
-
-**Direct solids** — procedural/programmatic geometry, one-off constructions, imported geometry manipulation. Choose this when you need post-creation transforms, direct boolean operations via `solid.*`, or individual solid mass measurement.
+- **Feature primitives** — parametric modeling, expression-driven geometry, design intent that may change; needed for `updateBox`, expression linkage, feature tree operations like `part.boolean`.
+- **Direct solids** — procedural/one-off geometry, imported geometry manipulation; post-creation transforms, `solid.*` booleans, per-solid mass measurement.
 
 ## Deletion
 
-- Feature: `part.deleteFeature({ ids: [featId] })` — removes from feature tree
-- Solid: `solid.deleteSolid({ id: eifId, ids: [solidId] })` — removes individual solid from EIF
+- Feature: `part.deleteFeature({ ids: [featId] })`
+- Solid: `solid.deleteSolid({ id: eifId, ids: [solidId] })` — removes one solid from the EIF
 - EIF container: `part.deleteFeature({ ids: [eifId] })` — removes EIF + all solids inside

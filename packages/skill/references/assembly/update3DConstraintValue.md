@@ -1,29 +1,24 @@
 # assembly.update3DConstraintValue
 
-Sets the current position within a kinematic constraint's degrees of freedom (DOFs). This is the generic API for driving joints — rotating a revolute, translating a slider, etc.
+Drives a kinematic constraint's degrees of freedom — the current joint angle of a revolute, the current slider position, etc.
 
-**This API does NOT update structural constraint parameters** (like `fastened.xOffset` or `revolute.zOffset`). It drives the DOF values — the current joint angle, the current slider position. Use the type-specific `update*` APIs (`updateFastened`, `updateRevolute`, etc.) to change structural params.
+**Does NOT change structural parameters** (`fastened.xOffset`, `revolute.zOffset`, …) — use the type-specific `update*` APIs for those.
 
-## Prerequisites
-
-- An assembly with at least one kinematic constraint (revolute, cylindrical, slider, planar, or parallel)
+Prerequisites: an assembly with a kinematic constraint (revolute, cylindrical, slider, planar, parallel).
 
 ## Key Parameters
 
-- `id` — constraint ID (required). Must be a constraint type, not assembly/instance/template.
-- `name` — which DOF to set. One of: `"X_OFFSET"`, `"Y_OFFSET"`, `"Z_OFFSET"`, `"Z_ROTATION"`. Case-insensitive (`"z_rotation"` works).
-- `value` — number (radians for rotation, mm for offsets) or deg string (`"45deg"`, `"-90deg"`, `"180deg"`). Negative values, zero, and large values are all accepted.
-
-**X_ROTATION and Y_ROTATION are NOT valid names.** The API rejects them with error 1013.
+- `id` — required; constraint ID (not assembly/instance/template)
+- `name` — `"X_OFFSET"`, `"Y_OFFSET"`, `"Z_OFFSET"`, or `"Z_ROTATION"`, case-insensitive (`"z_rotation"` works). **`X_ROTATION`/`Y_ROTATION` are invalid** (1013)
+- `value` — number (mm for offsets, radians for rotation, e.g. 1.5708 = 90°) or, **for Z_ROTATION only**, a deg string (`'45deg'`, `'-90deg'`, `'180deg'`). Negative, zero, and large values accepted. `'50mm'` offsets don't work; `@expr.` bindings are NOT supported (1001)
 
 ## Return Value
 
-- `result: null` (VOID) — always. No ID or value is returned.
-- `maxLevel: 31` on success (no messages, no confirmation of what changed)
+Always `null` (VOID), maxLevel 31 on success — no messages, no confirmation of what changed.
 
 ## DOF Mapping (CRITICAL)
 
-Only DOF-matching names have any effect. Non-DOF names are **silent no-ops** (maxLevel=31, no error).
+Only names matching a DOF have an effect; anything else is a **silent no-op** (maxLevel 31, no error — easy to mistake for success).
 
 | Constraint | DOFs | Working names |
 |---|---|---|
@@ -32,34 +27,14 @@ Only DOF-matching names have any effect. Non-DOF names are **silent no-ops** (ma
 | slider | Z translation | Z_OFFSET |
 | planar | X/Y translation + Z rotation | X_OFFSET, Y_OFFSET, Z_ROTATION |
 | parallel | X/Y/Z translation + Z rotation | X_OFFSET, Y_OFFSET, Z_OFFSET, Z_ROTATION |
-| fastened | None (rigid) | None — all 4 are silent no-ops |
-| fastenedOrigin | None (rigid) | None — all 4 are silent no-ops |
-| spherical | X/Y rotation | **None** — Z_ROTATION is a no-op, X/Y_ROTATION don't exist |
+| fastened / fastenedOrigin | None (rigid) | None — all 4 are no-ops |
+| spherical | X/Y rotation | **None** — Z_ROTATION is a no-op and X/Y_ROTATION don't exist, so spherical joints cannot be driven here |
 
-**Spherical joints cannot be driven via this API.** Their DOFs are X and Y rotation, but neither X_ROTATION nor Y_ROTATION is a valid name.
+## Behavior
 
-## No Readback
-
-The get* APIs (`getRevolute`, `getCylindrical`, etc.) do NOT return the current DOF value. They only return structural parameters (mates, limits, name). Read the resulting placement from the structure tree: `(await api.tree({ refresh: true }))[instanceId].coordinateSystem` → `[origin, xDir, yDir, zDir]` (after `Z_ROTATION: '90deg'`, xDir = [0,1,0]).
-
-## Value Types
-
-- **Numbers** — millimeters for offsets, radians for rotation. `{ value: 1.5708 }` = 90° in radians.
-- **Deg strings** — only for Z_ROTATION: `{ value: '45deg' }`, `{ value: '-90deg' }`, `{ value: '180deg' }`. Negative deg strings work.
-- **@expr. bindings** — NOT supported. `{ value: '@expr.DISP' }` returns error 1001 "wrong type — should be real".
-
-## Array Form
-
-Batch multiple updates in one call:
-
-```js
-await api.v1.assembly.update3DConstraintValue([
-  { id: rev1, name: 'Z_ROTATION', value: '90deg' },
-  { id: rev2, name: 'Z_ROTATION', value: '45deg' },
-])
-```
-
-Can update different constraints and different names in one array. Can also update the same constraint with different names:
+- **Replaces, not accumulates:** `'45deg'` then `'90deg'` → 90°, not 135°.
+- **No readback:** `getRevolute`, `getCylindrical`, etc. return only structural params (mates, limits, name). Read placement from the tree: `(await api.tree({ refresh: true }))[instanceId].coordinateSystem` → `[origin, xDir, yDir, zDir]` (after `Z_ROTATION: '90deg'`, xDir = [0,1,0]).
+- **Array form** — different constraints and/or names on the same constraint in one call; returns a single null, maxLevel 31:
 
 ```js
 await api.v1.assembly.update3DConstraintValue([
@@ -68,26 +43,16 @@ await api.v1.assembly.update3DConstraintValue([
 ])
 ```
 
-Returns null, maxLevel=31 on success (single result, not per-item).
-
-## Gotchas
-
-- **Silent no-ops on rigid constraints.** Calling with a fastened/fastenedOrigin ID returns success but does nothing. No error, no warning. Easy to mistake for a successful update.
-- **Silent no-ops for non-DOF names.** Calling Z_OFFSET on a revolute (which only has Z rotation DOF) returns success but does nothing.
-- **No DOF readback via get* APIs.** Verify the instance placement via `coordinateSystem` in the structure tree.
-- **Each call replaces, not accumulates.** `Z_ROTATION: '45deg'` then `Z_ROTATION: '90deg'` sets the angle to 90°, not 135°.
-- **Deg strings only for rotation.** `X_OFFSET: '50mm'` doesn't work — offset values must be numbers.
-
 ## Common Errors
 
 | Error | Code | Cause |
 |---|---|---|
-| `"name" is not valid. Possible values: ["X_OFFSET","Y_OFFSET","Z_OFFSET","Z_ROTATION"]` | 1013 | Invalid name string (including X_ROTATION, Y_ROTATION) |
-| `"id" has wrong id type — provide only "constraint"` | 1001 | Assembly root ID, instance ID, or template ID |
+| `"name" is not valid. Possible values: ["X_OFFSET","Y_OFFSET","Z_OFFSET","Z_ROTATION"]` | 1013 | Invalid name (incl. X_ROTATION, Y_ROTATION) |
+| `"id" has wrong id type — provide only "constraint"` | 1001 | Assembly root, instance, or template ID |
 | `"id" has an invalid id` | 1006 | Non-existent ID |
 | `"value" has the wrong type — should be (real)` | 1001 | @expr. binding or other non-numeric/non-deg string |
 
-All errors include a cascading internal error: `"[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]]"` — ignore this, the primary error message is the useful one.
+Every error also carries a cascading `"[Evaluation error in AssemblyAPI_v1.update3DConstraintValue::PROC:[CCVM::ldm: objId not found]]"` — ignore it; the primary message is the useful one.
 
 ## Working Example
 
@@ -99,11 +64,9 @@ const wcs = (await api.v1.part.workCSys({ id: tpl, name: 'Csys' })).result  // c
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
 const inst1 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'Base' })).result
-const inst2 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'Arm',
-  transformation: [[0, 0, 15], [1, 0, 0], [0, 1, 0]] })).result
+const inst2 = (await api.v1.assembly.instance({ productId: tpl, ownerId: asmId, name: 'Arm2' })).result
 
 await api.v1.assembly.fastenedOrigin({ id: asmId, name: 'Ground', mate1: { path: [inst1], csys: wcs } })
-
 const revId = (await api.v1.assembly.revolute({
   id: asmId, name: 'Hinge',
   mate1: { path: [inst1], csys: wcs },
@@ -111,17 +74,13 @@ const revId = (await api.v1.assembly.revolute({
   zOffset: 15,
 })).result
 
-// Drive the revolute to 90°
-await api.v1.assembly.update3DConstraintValue({ id: revId, name: 'Z_ROTATION', value: '90deg' })
-
-// Drive to 45° (replaces, not adds)
 await api.v1.assembly.update3DConstraintValue({ id: revId, name: 'Z_ROTATION', value: '45deg' })
 
-// Verify via the instance placement (measuring the instance itself would materialize it)
+// Verify via placement (measuring the instance itself would materialize it)
 const place = (await api.tree({ refresh: true }))[inst2].coordinateSystem
-// place[1] (xDir) ≈ [0.707, 0.707, 0] for 45°
+// place[1] (xDir) ≈ [0.707, 0.707, 0]
 ```
 
 ## Related
 
-`assembly.revolute` / `assembly.cylindrical` / `assembly.slider` / `assembly.planar` / `assembly.parallel` · `assembly.updateRevolute` / `assembly.updateCylindrical` · `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints` · `assembly/generic.md`
+`assembly.revolute` / `cylindrical` / `slider` / `planar` / `parallel` · `assembly.updateRevolute` / `updateCylindrical` · `assembly.startMovingUnderConstraints` / `moveUnderConstraints` / `finishMovingUnderConstraints` · `assembly/generic`

@@ -1,80 +1,51 @@
 # sketch.copyGeometry
 
-Copies sketch geometry elements within the same sketch, offset by a translation vector.
-
-## Prerequisites
-
-- A part (`part.create`)
-- A sketch (`sketch.create` or `part.sketch`)
-- At least one geometry element in the sketch to copy
+Copies sketch geometry within the same sketch, offset by a translation vector.
 
 ## Key Parameters
 
 - **`id`** (required) — sketch ID
-- **`geomIds`** (required) — array of geometry IDs to copy. Accepts lines, circles, arcs, points, and mixed types. (See Return Value for how many ids come back — it depends on `doCopyConstraints`.)
-- **`translation`** (required) — `[x, y, z]` offset vector. **This is not optional** — omitting it produces error 1004. `[0, 0, 0]` is valid (copies on top of original).
-- **`doCopyConstraints`** (optional, default TRUE) — whether to copy constraints from the original elements.
+- **`geomIds`** (required) — lines, circles, arcs, points, mixed
+- **`translation`** (required, despite no bracket marking in API docs) — `[x, y, z]`; omitted → 1004. `[0, 0, 0]` copies on top.
+- **`doCopyConstraints`** (optional, default TRUE)
 
 ## Return Value
 
-`result` is `id[]` — the ids of the copied objects. **What lands in the array depends on `doCopyConstraints`:**
+`id[]` in both modes (plus `structure` and `graphic` on every response):
 
-- `doCopyConstraints: false` → **one id per input geometry element**, in matching order (geometry only).
-- `doCopyConstraints: true` (or omitted/default) → the copied geometry **plus the copied constraint objects**, so the array is **longer than the input count** (e.g. copying one auto-horizontal line returned 3 ids: the line copy + its duplicated constraints). Geometry copies come first, then constraint copies.
+- `doCopyConstraints: false` → **one id per input element**, in order (geometry only)
+- `true`/default → geometry copies first, then **copied constraint objects** — longer than the input (one auto-horizontal line returned 3 ids)
 
-Child points (a line's endpoints, a circle's center) are copied and translated but are **not** listed in `result` — they're sub-members of the returned geometry.
+Child points (line endpoints, circle center) are copied and translated with fresh IDs but **not listed** (circle at `[5,5]` copied by `[80,0,0]` → copy's center reads `[85,5,0]`).
 
-Every response also carries `structure` (the full tree) and `graphic`.
+## What gets copied
 
-## What gets copied (verified 2026-07-01)
-
-- **Geometry + child points.** Copying a line copies its 2 endpoints; copying a circle copies its center point — all translated by the vector. Child points get fresh IDs but are **not** listed in `result` (they're sub-members of the copied geometry). (Verified: copy a circle centered `[5,5]` by `[80,0,0]` → the copy's center reads back `[85,5,0]`.)
-- **`doCopyConstraints: true` (default) → geometric constraints are duplicated** among the copied set. Copying two perpendicular joined lines added +7 constraint nodes (the coincident join, the perpendicular, and the auto H/V for each copy). The **constraint part of a dimension also duplicates** (a `RADIUS` dimension's `CC_2DRadiusConstraint` went 1→2), so copies stay size/shape-locked — but the **driving feature-dimension annotation does NOT** duplicate (`CC_RadialFeatureDimension` stayed 1). Net: copies are constrained but not re-annotated.
-- **`doCopyConstraints: false` → bare geometry only.** No constraints are attached to the copies — not even the auto H/V that fresh axis-aligned geometry normally gets. Use this when you want independent, unconstrained duplicates (and when you need the returned IDs).
-
-## Gotchas
-
-- `translation` is required despite no `[param.translation]` bracket marking in the source docs. Omitting it → error 1004.
-- Empty `geomIds: []` is a silent no-op — null result, maxLevel 31, no messages, no error.
-- Invalid IDs in geomIds → error 1006: "An element of parameter \"geomIds\" has an invalid id!"
-- Null values in geomIds → error 1001: type mismatch. Always filter nulls before passing.
-- `doCopyConstraints` copies the geometric constraints among the copied set (default `true`) — it does **not** change the return type: both `true` and `false` return `id[]`.
+- **`true`: geometric constraints among the copied set are duplicated** — two perpendicular joined lines added +7 constraint nodes (coincident join, perpendicular, auto H/V per copy). A dimension's **constraint part duplicates** (`CC_2DRadiusConstraint` 1→2) so copies stay size/shape-locked, but the **feature-dimension annotation does NOT** (`CC_RadialFeatureDimension` stayed 1): constrained, not re-annotated.
+- **`false`: bare geometry** — no constraints at all, not even the auto H/V fresh axis-aligned geometry normally gets. Use for independent duplicates and predictable returned IDs.
 
 ## Common Errors
 
 | Code | Message | Cause |
 |------|---------|-------|
-| 1004 | "The parameter \"translation\" must be provided" | Missing `translation` param |
-| 1006 | "An element of parameter \"geomIds\" has an invalid id!" | Non-existent ID in geomIds |
-| 1001 | "An element of parameter \"geomIds\" has the wrong type!" | Null or non-id value in geomIds |
+| 1004 | "The parameter \"translation\" must be provided" | Missing `translation` |
+| 1006 | "An element of parameter \"geomIds\" has an invalid id!" | Nonexistent ID |
+| 1001 | "An element of parameter \"geomIds\" has the wrong type!" | Null/non-id value — filter nulls first |
+
+Empty `geomIds: []` is a silent no-op (null, maxLevel 31).
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({})).result
 const skId = (await api.v1.sketch.create({ id: partId })).result
-
 const line = (await api.v1.sketch.line({ id: skId, startPos: [0, 0, 0], endPos: [40, 0, 0] })).result
 
-// doCopyConstraints:false → exactly one id per input element (bare geometry, no constraints)
-const r = await api.v1.sketch.copyGeometry({
-  id: skId,
-  geomIds: [line],
-  translation: [0, 30, 0],
-  doCopyConstraints: false
-})
-// r.result → [67] — one new ID per input element
-```
+const r = await api.v1.sketch.copyGeometry({ id: skId, geomIds: [line], translation: [0, 30, 0], doCopyConstraints: false })
+// r.result → [67], one id per input
 
-```js
-// Copy rectangle (4 lines) with the default (constraints copied too)
-const rectLines = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [40, 30, 0] })).result
-const r2 = await api.v1.sketch.copyGeometry({
-  id: skId,
-  geomIds: rectLines,
-  translation: [60, 0, 0]
-})
-// r2.result → id[] with the 4 line copies PLUS the duplicated constraints (longer than 4)
+const rectLines = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 60, 0], endPos: [40, 90, 0] })).result
+const r2 = await api.v1.sketch.copyGeometry({ id: skId, geomIds: rectLines, translation: [60, 0, 0] })
+// r2.result → 4 line copies PLUS duplicated constraints
 ```
 
 ## Related

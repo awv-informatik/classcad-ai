@@ -1,76 +1,32 @@
 # assembly.revolute
 
-Creates a revolute (hinge) constraint between two instances. Allows 1 degree of freedom: rotation around the shared Z-axis.
+Revolute (hinge) constraint between two instances. Constrains 5 DOF, leaving 1 free: rotation around mate1's csys Z-axis.
 
-## Prerequisites
-
-- An assembly root (`assembly.create`)
-- At least two instances (`assembly.instance`) with work coordinate systems (`part.workCSys`) in their templates
-- **Ground at least one instance** with `fastenedOrigin` before applying revolute — otherwise the solver repositions BOTH instances
+Prerequisites: assembly root, two instances whose templates contain a `part.workCSys`. **Ground at least one instance** with `fastenedOrigin` first — otherwise the solver repositions BOTH instances.
 
 ## Key Parameters
 
 - `id` — assembly root ID (required)
-- `mate1` / `mate2` — each needs `path: [instanceId]` and `csys: workCSysId`
-- `zOffset` — translation along the revolute Z-axis from mate1 to mate2 (default 0)
-- `zRotationLimits` — `{ min, max }` defining the angular range in radians. Also accepts degree strings: `'-45deg'`, `'180deg'`. Stored internally as radians. Set `{ min: null, max: null }` to remove limits.
-- `mate.flip` — `'Z'` (default), `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`. Rotates inst2's orientation before constraint solving.
-- `mate.reorient` — `'0'` (default), `'90'`, `'180'`, `'270'`. Defines the zero-angle reference for the revolute joint.
+- `mate1` / `mate2` — `{ path: [instanceId], csys: workCSysId, flip?, reorient? }`
+- `zOffset` — translation along the joint Z-axis from mate1 to mate2 (default 0)
+- `zRotationLimits` — `{ min, max }` in radians or degree strings (`'-45deg'`), stored as radians. `{ min: null, max: null }` removes them. On create, omitting min or max errors
+- `mate.flip` — `'Z'` (default), `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`; rotates inst2 before solving. Same table as `assembly/fastened`
+- `mate.reorient` — `'0'` (default), `'90'`, `'180'`, `'270'`; defines the zero-angle reference
 
 ## Alignment Semantics (CRITICAL)
 
-**Same as fastened: the csys pair is the mounting definition.** mate2's csys is placed on mate1's csys origin with its Z-axis on mate1's Z-axis. The joint rotates around **mate1's csys Z-axis**. Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]` (csys Z = world −Y) → inst2 sits at `[40,0,20]`, tilted onto that axis.
+**Same as fastened: the csys pair is the mounting definition.** mate2's csys is placed on mate1's csys origin with its Z-axis on mate1's Z-axis; the joint rotates around **mate1's csys Z**. Place the csys at the hinge (`part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`).
 
-Place the csys at the hinge (build it with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`). To shift inst2 along the rotation axis, use `zOffset`.
+Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]` (csys Z = world −Y) → inst2 at `[40,0,20]`, tilted onto that axis. Adding `zOffset: 10` → inst2 at `[40,-10,20]`.
 
-## DOF and Behavior
+## Free Rotation, Limits, Reorient
 
-Revolute constrains 5 DOF, leaving 1 free: rotation around the Z-axis of mate1's csys.
-
-With no rotation limits and no motion commands, inst2 keeps its current rotation angle about the joint axis (an instance created at 45° stays at 45°). The free DOF only becomes visible when:
-1. `zRotationLimits` constrain the range
-2. `moveUnderConstraints` applies motion
-3. External constraints interact with the revolute
-
-## zOffset
-
-Shifts inst2 along the joint axis (mate1's csys Z).
-
-Example: `zOffset: 10` with the tilted csys above → inst2 at `[40,-10,20]` (10 along csys Z = world −Y).
-
-## zRotationLimits
-
-Defines the angular range for the free rotation DOF. Does NOT affect initial placement — the arm keeps its current angle when created. Limits are enforced during motion.
-
-- Radians: `{ min: -1.5708, max: 1.5708 }` → ±90°
-- Degree strings: `{ min: '-45deg', max: '180deg' }` → converted to radians on storage
-- Remove: `{ min: null, max: null }`
-
-## Flip
-
-Rotates inst2 before constraint solving. Identical to fastened flip behavior:
-
-| flip | Effect | Rotation |
-|------|--------|----------|
-| `'Z'` (default) | Identity | None |
-| `'-Z'` | Upside down | 180° around X |
-| `'X'` | X becomes main axis | 90° around Y |
-| `'-X'` | X down | -90° around Y |
-| `'Y'` | Y becomes main axis | -90° around X |
-| `'-Y'` | Y down | 90° around X |
-
-## Reorient
-
-Defines the zero-angle reference for the revolute joint. Has NO visible effect when the rotation DOF is free (unconstrained) because the solver absorbs the angular offset.
-
-**Only observable when:**
-- `zRotationLimits` lock or constrain the rotation (e.g., `{ min: 0, max: 0 }` forces angle=0 relative to the reoriented reference)
-- Motion is applied via `moveUnderConstraints`
-
-With limits locked at angle=0:
+- Without limits or motion, inst2 **keeps its current angle** about the axis (created at 45° → stays at 45°). The free DOF shows only via `zRotationLimits`, `moveUnderConstraints`, or interacting constraints.
+- `zRotationLimits` do NOT affect initial placement; they are enforced during motion. Example values: `{ min: -1.5708, max: 1.5708 }` (±90°), `{ min: '-45deg', max: '180deg' }`.
+- `reorient` has NO visible effect while rotation is free (the solver absorbs it). Observable only when limits lock the joint (e.g. `{ min: 0, max: 0 }`) or under motion. With limits locked at 0:
 
 | reorient | Physical rotation of inst2 |
-|----------|---------------------------|
+|---|---|
 | `'0'` | Identity |
 | `'90'` | 90° CW around Z |
 | `'180'` | 180° around Z |
@@ -78,91 +34,31 @@ With limits locked at angle=0:
 
 ## Return Value
 
-- Single call: `id` — the constraint ID
-- Array call: `Array<id>`
+Constraint ID; array call → `Array<id>`.
 
 ## getRevolute
 
-`getRevolute({ id: asmId, name: 'Rev1' })` — queries a revolute constraint by name.
+`getRevolute({ id: asmId, name: 'Rev1' })` — `id` is the assembly holding it: the root, an assembly template, or a sub-assembly instance (part instance → "not a Assembly", part template → 1001); `name` is case-sensitive.
 
-### Parameters
+Success (maxLevel 31): `{ id, name, mate1: { path, csys, flip, reorient }, mate2: {...}, zOffset, zRotationLimits: { min, max } }`. `zRotationLimits` is always an object (`{ min: null, max: null }` when unset; radians otherwise); flip/reorient are strings.
 
-- `id` — **assembly root ID only**. Despite docs saying "product or instance", instance IDs and template IDs return null/error. Always pass the assembly root.
-- `name` — constraint name string (case-sensitive)
-
-### Return Value
-
-Success (`maxLevel: 31`):
-```js
-{
-  id, name,
-  mate1: { path, csys, flip, reorient },
-  mate2: { path, csys, flip, reorient },
-  zOffset,
-  zRotationLimits: { min, max }
-}
-```
-
-- `zRotationLimits` — always an object, never null. No limits → `{ min: null, max: null }`. With limits → radians (degree strings converted on storage).
-- `flip` — string: `'Z'`, `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`
-- `reorient` — string: `'0'`, `'90'`, `'180'`, `'270'`
-
-### Failure Cases
-
-All return `result: null, maxLevel: 51`:
-- Non-existent name
-- Empty name `''`
-- Wrong constraint type (e.g., querying a fastenedOrigin name) — type-specific lookup
-- Instance or template ID passed as `id`
-
-### Batch
-
-Pass an array of `{ id, name }` objects. Returns `Array<result|null>`. `maxLevel` is the worst across all items — one null contaminates the envelope to 51.
-
-### After Updates
-
-getRevolute is a live view. After `updateRevolute`:
-- Changed fields are immediately reflected
-- Renamed constraints are only findable under the new name — old name returns null
-
-### Duplicate Names
-
-If multiple revolute constraints share a name (silently allowed), getRevolute returns the first-created one. No error or warning.
+`result: null`, maxLevel 51 for: non-existent name, empty name `''`, wrong constraint type (lookup is type-specific), instance/template ID as `id`. Array form → `Array<result|null>`; one null raises the envelope maxLevel to 51. Live view: updates show immediately; after a rename only the new name resolves. Duplicate names (silently allowed) → returns the first-created one.
 
 ## updateRevolute
 
-`updateRevolute({ id: constraintId, ... })` — true partial update. Unspecified params preserved. Returns constraint ID on success, null + maxLevel=51 on failure. Supports batch: pass array, returns array.
+`updateRevolute({ id: constraintId, ... })` — **constraint ID**, not the assembly ID (→ 1007). True partial update; returns the ID, or null + maxLevel 51 on failure. Array form → array of IDs.
 
-**`id` must be the constraint ID** (returned from `revolute()`), NOT the assembly ID. Passing the assembly ID gives error code 1007.
+- `zOffset: 20` — shifts inst2 along Z by exactly the offset (COG verified)
+- `zRotationLimits: { min: 0, max: '90deg' }` — add/change; `{ min: null, max: null }` or `zRotationLimits: null` removes both
+- **Partial limits work on update (unlike create):** `{ min: '-45deg' }` changes min and keeps max; `{ max: null }` removes max and keeps min; `{}` errors
+- `mate2: { flip: '-Z' }` / `mate2: { reorient: '90' }` — path/csys not needed
+- `mate2: { path: [newInst], csys: newWcs }` — retarget; the new target moves, the old one stays at its last solved position
+- `name: 'NewName'` — old name immediately unfindable
 
-### What you can update
+Errors are non-destructive (state fully preserved):
 
-- `zOffset: 20` — shifts inst2 along Z-axis (COG verified: z changes by exactly the offset)
-- `zRotationLimits: { min: 0, max: '90deg' }` — add/change limits
-- `zRotationLimits: { min: null, max: null }` — remove both limits
-- `zRotationLimits: null` — also removes both limits
-- `mate2: { flip: '-Z' }` — change flip (no need to include path/csys for flip-only update)
-- `mate2: { reorient: '90' }` — change reorient (only visible with locked limits)
-- `mate2: { path: [newInstId], csys: newWcsId }` — retarget to different instance
-- `name: 'NewName'` — rename; old name immediately unfindable via getRevolute
-- Batch: `updateRevolute([{ id: c1, ... }, { id: c2, ... }])` — returns `[c1Id, c2Id]`
-
-### Partial limits (differs from create!)
-
-On `revolute` (create), omitting min or max errors. On `updateRevolute`, partial limits are fully supported:
-
-- `{ min: '-45deg' }` — sets/changes min, preserves max
-- `{ max: null }` — removes max, preserves min
-- `{}` — **errors**: "The object 'zRotationLimits' is empty!"
-
-### Retargeting
-
-Update mate path + csys together to point at a different instance. The new target moves to satisfy the constraint. The old target stays at its last solved position (solver doesn't reset unconstrained instances).
-
-### Errors (all non-destructive)
-
-| Error | Message | Code |
-|-------|---------|------|
+| Cause | Message | Code |
+|---|---|---|
 | Assembly ID not constraint ID | "The provided id for the constraint is not a constraint or relation." | 1007 |
 | Nonexistent ID | "ToId()/TOID() didn't get an existing or valid id." | 1006 |
 | Invalid flip | "Type 'X' is not supported to use as flip type." | 1013 |
@@ -170,16 +66,9 @@ Update mate path + csys together to point at a different instance. The new targe
 | Missing `id` | "'id' must be provided for update." | 1004 |
 | Empty limits `{}` | "The object 'zRotationLimits' is empty!" | — |
 
-All failures are non-destructive — constraint state is fully preserved after any error.
-
 ## Gotchas
 
-- **Ungrounded instances both move.** If neither instance has a fastenedOrigin, the solver repositions both to satisfy the constraint. Always ground at least one instance first.
-- **The csys defines hinge point and axis.** With zero offsets, mate2's csys sits on mate1's csys and rotates around its Z-axis.
-- **Duplicate names allowed.** Creating two revolute constraints with the same name succeeds silently. `getRevolute` may return either one.
-- **Reorient is invisible without limits.** The free rotation DOF absorbs the reorient offset. Only visible when limits lock the joint or motion is applied.
-- **Limits don't affect initial position.** inst2 keeps its current angle regardless of limits. Limits are enforced during subsequent motion.
-- **Missing required params give cryptic errors.** Omitting mate2 or csys produces "Evaluation error in AbstractAPI.PrepareAPIParams" (maxLevel=51).
+- **Missing required params give cryptic errors.** Omitting mate2 or csys → "Evaluation error in AbstractAPI.PrepareAPIParams" (maxLevel 51).
 
 ## Working Example
 
@@ -192,20 +81,16 @@ const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  //
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Arm' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 80, width: 20, height: 8 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
-
 const inst1 = (await api.v1.assembly.instance({ productId: tplA, ownerId: asmId, name: 'Base' })).result
 const inst2 = (await api.v1.assembly.instance({ productId: tplB, ownerId: asmId, name: 'Arm' })).result
 
-// Ground the base
 await api.v1.assembly.fastenedOrigin({ id: asmId, name: 'Ground', mate1: { path: [inst1], csys: wcsA } })
 
-// Create revolute hinge
 const revId = (await api.v1.assembly.revolute({
-  id: asmId,
-  name: 'Hinge',
+  id: asmId, name: 'Hinge',
   mate1: { path: [inst1], csys: wcsA },
   mate2: { path: [inst2], csys: wcsB },
   zOffset: 10,

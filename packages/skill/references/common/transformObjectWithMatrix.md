@@ -1,50 +1,40 @@
 # common.transformObjectWithMatrix
 
-Transforms an object by applying a 4×4 transformation matrix. Unlike `setObjectCoordSystem` (which sets an absolute coordinate frame), this is **cumulative** — each call composes with the current state.
-
-## Prerequisites
-
-- Any valid object ID (solid, entity injection, part, part feature, work plane, work axis, work point, sketch, curve shape)
+Transforms an object with a 4×4 matrix. **Cumulative** — each call composes with the current state (unlike the absolute `setObjectCoordSystem`).
 
 ## Key Parameters
 
-- `id` — ID of any object to transform.
-- `matrix` — 4×4 array of arrays. Standard homogeneous transform: upper-left 3×3 is rotation/scale, right column is translation, bottom row must be `[0, 0, 0, 1]`.
-- `isGlobal` — (optional, default `TRUE`) Docs say: TRUE if matrix is in global coords, FALSE for local. **In practice, has no observable effect on standalone objects** — tested with explicit OCS rotation, both TRUE and FALSE produce identical results. Likely only meaningful for assembly instances.
+- `id` — any object: solid, entity injection, part, part feature (`part.box` etc.), work plane/axis/point, sketch, curve shape. Containers (EIF, part) move all children together; a single body moves alone.
+- `matrix` — 4×4 array of arrays: upper-left 3×3 rotation/scale, right column translation, bottom row `[0, 0, 0, 1]`.
+- `isGlobal` — optional, default `TRUE` (docs: TRUE = global coords, FALSE = local). **No observable effect on standalone objects** — with explicit OCS rotation, TRUE and FALSE gave identical results for solids, EIFs and features. Likely only meaningful for assembly instances.
 
 ## Return Value
 
-`VOID` (null). Success indicated by `maxLevel <= 31`.
+`VOID` (null). Success: `maxLevel <= 31`.
 
-## Critical Behavior
+## Behavior
 
-- **Cumulative, not absolute.** Each call applies on top of the current state. Two translations of [50,0,0] move to [100,0,0]. To "undo" a transform, apply the inverse matrix. This is the key distinction from `setObjectCoordSystem` (which is absolute/idempotent).
-- **Supports scaling.** Both uniform (`[[2,0,0,0],[0,2,0,0],[0,0,2,0],[0,0,0,1]]`) and non-uniform (`[[3,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]`) diagonal scaling work without error. This is more powerful than `curve.transformShape` which requires orthogonal matrices.
-- **Identity matrix is a no-op.** Applying the identity matrix leaves geometry unchanged.
-- **Container scope.** When applied to a container (EIF, part), ALL child objects transform together. When applied to an individual body, only that body moves.
+- **Cumulative.** Two translations of [50,0,0] → [100,0,0]. Undo = apply the inverse matrix.
+- **Scaling works** — uniform (`[[2,0,0,0],[0,2,0,0],[0,0,2,0],[0,0,0,1]]`) and non-uniform diagonal (`[[3,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]`), unlike `curve.transformShape` (orthogonal matrices only).
+- Identity matrix is a no-op.
 
 ## Matrix Requirements
 
-The 3×3 upper-left portion must be:
-1. **Right-handed** (positive determinant) — mirror/reflection matrices (det < 0) are rejected with error code 1014.
-2. **Orthogonal columns** — columns must be perpendicular. Non-uniform magnitudes (diagonal scaling) are fine. Non-orthogonal (shear) matrices are auto-corrected with an error message.
+The 3×3 part must be:
+1. **Right-handed** (det > 0) — mirror/reflection (det < 0) rejected with 1014. Use `solid.mirror` for reflections.
+2. **Orthogonal columns** — diagonal scaling (non-uniform magnitudes) is fine. Shear matrices are orthogonalized by the server: geometry DOES change, but to the corrected matrix, with a level-51 message "Transformationmatrix of this object has been set to be uniformed scaled and orthogonal" — check `maxLevel`.
 
-The bottom row must be `[0, 0, 0, 1]` — other values cause an inversion error.
+Bottom row other than `[0, 0, 0, 1]` → inversion error.
 
-## Gotchas
-
-- **Shear matrices are silently corrected.** A non-orthogonal matrix gets orthogonalized by the server. Geometry DOES change — but to the corrected matrix, not the requested one. Error message: "Transformationmatrix of this object has been set to be uniformed scaled and orthogonal" (level 51). Check `maxLevel` to detect this.
-- **No mirror/reflection.** Left-handed matrices (det ≤ 0) are rejected. Use `solid.mirror` for reflection operations.
-- **isGlobal has no effect on standalone objects.** Despite the parameter existing, it produces identical results to isGlobal=TRUE for solids, EIFs, and features. Only use it in assembly contexts.
-- **Auto-scaling hides translations.** Pure translation on a single body produces identical snapshots due to the renderer's auto-zoom. Verify with STEP export or a reference body.
+**Auto-scaling hides translations** — pure translation of a single body gives identical snapshots (renderer auto-zoom). Verify with STEP export or a reference body.
 
 ## Common Errors
 
 | Error | Code | Cause | Fix |
 |---|---|---|---|
-| "left-handed. This is not yet supported" | 1014 | Matrix determinant ≤ 0 (mirror, zero, projection) | Use only right-handed matrices (det > 0). Use `solid.mirror` for reflections |
-| "uniformed scaled and orthogonal" | 0 | Non-orthogonal matrix (shear) | Use orthogonal matrices only. Non-uniform diagonal scaling is OK |
-| "Matrix kann nicht invertiert werden" | 0 | Bottom row not [0,0,0,1] | Always use [0,0,0,1] as bottom row |
+| "left-handed. This is not yet supported" | 1014 | det ≤ 0 (mirror, zero, projection) | Right-handed only; `solid.mirror` for reflections |
+| "uniformed scaled and orthogonal" | 0 | Shear (non-orthogonal) | Orthogonal matrices; diagonal scaling OK |
+| "Matrix kann nicht invertiert werden" | 0 | Bottom row not [0,0,0,1] | Use [0,0,0,1] |
 
 ## Working Example
 
@@ -56,50 +46,29 @@ const boxId = (await api.v1.solid.box({ id: eifId, length: 40, width: 30, height
 // Translate [100, 50, 0]
 await api.v1.common.transformObjectWithMatrix({
   id: boxId,
-  matrix: [
-    [1, 0, 0, 100],
-    [0, 1, 0, 50],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1],
-  ],
+  matrix: [[1, 0, 0, 100], [0, 1, 0, 50], [0, 0, 1, 0], [0, 0, 0, 1]],
 })
-
-// 90° rotation around Z axis (cumulative — adds to previous translation)
+// Then rotate 90° about Z (composes with the translation)
 await api.v1.common.transformObjectWithMatrix({
   id: boxId,
-  matrix: [
-    [0, -1, 0, 0],
-    [1,  0, 0, 0],
-    [0,  0, 1, 0],
-    [0,  0, 0, 1],
-  ],
+  matrix: [[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]],
 })
-
-// Uniform 2× scale (cumulative)
+// Then uniform 2× scale
 await api.v1.common.transformObjectWithMatrix({
   id: boxId,
-  matrix: [
-    [2, 0, 0, 0],
-    [0, 2, 0, 0],
-    [0, 0, 2, 0],
-    [0, 0, 0, 1],
-  ],
+  matrix: [[2, 0, 0, 0], [0, 2, 0, 0], [0, 0, 2, 0], [0, 0, 0, 1]],
 })
 ```
 
-## Object Type Compatibility
-
-Works on: solid bodies, entity injections, parts, part features (part.box etc.), work planes, work axes, work points. Container transforms (EIF, part) move all children together.
-
-## Comparison: transformObjectWithMatrix vs setObjectCoordSystem
+## vs setObjectCoordSystem
 
 | Aspect | transformObjectWithMatrix | setObjectCoordSystem |
 |---|---|---|
-| **Mode** | Cumulative — composes with current state | Absolute — sets coord system directly |
-| **Idempotent** | No — same call twice = double effect | Yes — same call twice = same result |
-| **Scaling** | Supports uniform + non-uniform scaling | No scaling support |
-| **Parameters** | 4×4 matrix | origin + xVec + yVec |
-| **Use case** | Incremental transforms, animation, scaling | Set a known absolute position/orientation |
+| Mode | Cumulative | Absolute |
+| Same call twice | Double effect | Same result |
+| Scaling | Uniform + non-uniform | None |
+| Parameters | 4×4 matrix | origin + xVec + yVec |
+| Use case | Incremental transforms, animation, scaling | Known absolute position/orientation |
 
 ## Related
 

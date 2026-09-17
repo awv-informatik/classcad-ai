@@ -1,23 +1,16 @@
 # part.create
 
-Creates a new part and returns its ID. This is the first API that produces a real object — every modeling workflow starts here.
-
-## Prerequisites
-
-None — this is the entry point. Expects an empty drawing; call `common.clear` first if anything already exists.
+Creates a new part and returns its ID. Every modeling workflow starts here; expects an empty drawing (`common.clear` first if anything exists).
 
 ## Key Parameters
 
-- `name` — optional string, default `"Part"`. Sets the part name visible in the structure tree.
-- No other parameters. Extra/unknown params silently ignored.
-- Works with `{}`, `{ name: '...' }`, or no argument at all.
+- `name` — optional string, default `"Part"` (name in the structure tree).
+- No other parameters; unknown params are silently ignored. `{}` or no argument works.
 
 ## Return Value
 
-- **Type:** `id` (number)
-- **Observed value:** `4` — always 4 in a clean session (AllObjects=1, then internal nodes, part=4)
-- **maxLevel:** 31 (info) on success
-- **messages:** `[]`
+- `result`: part id (number) — always `4` in a clean session (don't hardcode it, but expect it)
+- `maxLevel: 31`, `messages: []`
 
 ## Structure Tree After Creation
 
@@ -25,17 +18,15 @@ A new part creates **24 nodes**:
 
 ```
 AllObjects (1)
-└── CC_Part "YourName" (4)          ← this is the partId
+└── CC_Part "YourName" (4)          ← partId
     ├── ExpressionSet (6)
     ├── DimensionSet (8)
     ├── GeometrySet (10)
     │   ├── Origin (22)             ← CC_WorkPoint
-    │   ├── XAxis (26)              ← CC_WorkAxis
-    │   ├── YAxis (30)              ← CC_WorkAxis
-    │   ├── ZAxis (34)              ← CC_WorkAxis
-    │   ├── Top (38)                ← CC_WorkPlane (XY plane)
-    │   ├── Front (42)              ← CC_WorkPlane (XZ plane)
-    │   └── Right (46)              ← CC_WorkPlane (YZ plane)
+    │   ├── XAxis (26), YAxis (30), ZAxis (34)   ← CC_WorkAxis
+    │   ├── Top (38)                ← CC_WorkPlane (XY)
+    │   ├── Front (42)              ← CC_WorkPlane (XZ)
+    │   └── Right (46)              ← CC_WorkPlane (YZ)
     ├── ReferenceSet (12)
     ├── SketchSet (14)
     ├── EntitySet (16)
@@ -45,31 +36,20 @@ AllObjects (1)
         └── RollbackBar (20)
 ```
 
-- `structure.root` = partId (4) — the "root product", not the tree root
-- `structure.currentProduct` = partId (4)
-- Default work geometry: **Top** (XY), **Front** (XZ), **Right** (YZ) planes, plus Origin point and XYZ axes
-- All default nodes have `flags: 4096`
+- `structure.root` = `structure.currentProduct` = partId (4) — the "root product", NOT the tree root. AllObjects (id=1, `parent: null`) is the tree root.
+- All default nodes have `flags: 4096`.
+- Find default work geometry by name: `part.getWorkGeometry({ id: partId, name: 'Top' })`.
 
 ## Gotchas
 
-- **Second `part.create` is refused.** It fails with "There is already a root assembly or part which must be removed first" (result null); the first part remains intact. **One `part.create` per cleared drawing** — `common.clear` first if you need a fresh part.
-- **partId is always 4** in a clean session — don't hardcode it, but expect it.
+- **Second `part.create` is refused** with "There is already a root assembly or part which must be removed first" (result null); the first part remains intact. One `part.create` per cleared drawing.
 - **Empty part has no visible geometry** — exports (OFB/STEP) succeed but there is nothing to render yet.
-- `structure.root` is NOT the tree root (AllObjects). It's the "root product" (the part). AllObjects (id=1) is the actual tree root with `parent: null`.
-
-## Usage Hints
-
-- Always capture the returned ID: `const partId = (await api.v1.part.create({ name: '...' })).result`
-- The partId is needed by nearly every subsequent API call (`id: partId`).
-- Use `part.getWorkGeometry({ id: partId, name: 'Top' })` to find default work planes by name.
-- Start every modeling session from a cleared drawing and call `part.create` exactly once.
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
-// partId → 4
-// Default structure: 24 nodes including 3 work planes, 3 axes, 1 origin
+// partId → 4; pass as `id` to nearly every subsequent part.* call
 ```
 
 ## Related

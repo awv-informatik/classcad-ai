@@ -1,97 +1,52 @@
 # part.sphere
 
-Creates a parametric sphere feature inside a part. Unlike `solid.sphere` (direct geometry in an entity injection), `part.sphere` lives in the feature tree, supports `updateSphere`, expression-driven radius, and work coordinate system placement via `references`.
-
-## Prerequisites
-
-- A part (`part.create`)
+Parametric sphere feature in a part's feature tree (unlike `solid.sphere`, direct geometry in an entity injection). Supports `updateSphere`, expression-driven radius, and workCSys placement via `references`.
 
 ## Key Parameters
 
 - `id` — **part ID** (not entity injection ID — that's `solid.sphere`)
-- `name` — feature name in the design tree (default: "Sphere")
-- `radius` — sphere radius (default: 100). Must be > 0. Accepts numbers or expression strings (`'@expr.R'`, `'sqrt(900)'`, `'@expr.R * @expr.factor'`)
-- `references` — array of **workCSys IDs only**. Places the sphere center at the coordinate system's origin. Empty array or omitted = drawing origin
+- `name` — feature name (default: "Sphere")
+- `radius` — default 100, > 0. Numbers or expression strings (`'@expr.R'`, `'sqrt(900)'`, `'@expr.R * @expr.factor'`), at creation and update. With `@expr.` references, changing the expression + recalc updates the sphere.
+- `references` — array of **workCSys IDs only**; sphere center at the csys origin. Empty/omitted = drawing origin
 
 ## Return Value
 
-Feature ID (numeric) on success, with maxLevel 31 (info). The feature ID is what you pass to `updateSphere`, `openFeature`, `closeFeature`, and other feature-targeting APIs.
+Feature ID (numeric), maxLevel 31. Pass it to `updateSphere`, `openFeature`, `closeFeature`, etc.
 
 ## Alignment
 
-The sphere is **centered at the origin** — center sits at `(0, 0, 0)` before any references are applied. Verified empirically with `radius=25`: vertex 0 at `(0, 0, -25)`, COG at `(0, 0, 0)`.
-
-This is the **only** part-feature primitive that matches its `solid.*` sibling's convention — `part.box`, `part.cylinder`, and `part.cone` are corner/base-anchored, but `part.sphere` is centered like `solid.sphere`. See `feature-vs-direct.md` for the full conventions table.
+**Centered at the origin**. Measured with `radius=25`: vertex 0 at `(0,0,-25)`, COG `(0,0,0)`. The **only** part primitive matching its `solid.*` sibling — `part.box`, `part.cylinder`, `part.cone` are corner/base-anchored. See `feature-vs-direct.md`.
 
 ## Gotchas
 
-- **`references` only accepts `workcsys` IDs.** Passing a work plane, work axis, or work point ID fails with error code 1001: "The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]". Result is null.
-- **Zero/negative radius creates a degenerate feature.** The call returns a feature ID but with maxLevel 51 (ERROR) and code 1122: "Value for radius must be greater than 0." The feature exists in the tree but has no valid geometry. Always validate radius > 0.
-- **Multiple spheres in one part are fine.** Each creates a separate feature with its own body.
+- **`references` only accepts `workcsys` IDs.** Work plane/axis/point → error 1001: "The parameter \"references\" has a wrong id type! Provide only following id types: [\"workcsys\"]". Result is null.
+- **Zero/negative radius creates a degenerate feature**: feature ID returned with maxLevel 51 and error 1122 ("Value for radius must be greater than 0."); no valid geometry. Validate radius > 0.
+- Multiple spheres in one part are fine — each is a separate feature with its own body.
 
 ## Common Errors
 
 | Code | Message | Cause |
 |------|---------|-------|
 | 1122 | "Value for radius must be greater than 0" | Zero or negative radius |
-| 1001 | "wrong id type! Provide only following id types: ['workcsys']" | Passed a non-workCSys ID in `references` |
+| 1001 | "wrong id type! Provide only following id types: ['workcsys']" | Non-workCSys ID in `references` |
 
 ## updateSphere
 
-Updates an existing sphere feature's radius, name, or references. Requires the open/close pattern.
-
-```js
-await api.v1.part.openFeature({ id: sphereId })
-await api.v1.part.updateSphere({ id: sphereId, radius: 80 })
-await api.v1.part.closeFeature({ id: sphereId })
-```
-
-- `id` — the **feature ID** returned by `part.sphere` (not the part ID)
-- Returns feature ID on success, null on failure
-- Omitted params keep their existing values (partial update confirmed)
-- Supports `@expr.NAME` references and inline math in radius param
-- Can add (`references: [wcsId]`) or remove (`references: []`) coordinate system placement
-- Can rename the feature via `name` param
-- Geometry regenerates on `closeFeature` — no separate `recalc` needed
-- Without `openFeature`: returns null with errors 1200 + 1004
-
-## Expression-Driven Radius
-
-Both `@expr.NAME` references and inline math work at creation and update:
-
-```js
-// At creation
-await api.v1.part.sphere({ id: partId, radius: '@expr.R' })
-
-// At update
-await api.v1.part.openFeature({ id: sphereId })
-await api.v1.part.updateSphere({ id: sphereId, radius: '@expr.R' })
-await api.v1.part.closeFeature({ id: sphereId })
-```
-
-When using `@expr.` references, updating the expression + recalc automatically changes the sphere radius.
+Wrap in `openFeature`/`closeFeature` (without `openFeature`: null + errors 1200 + 1004). `id` = feature ID from `part.sphere`. Returns feature ID on success, null on failure. Omitted params keep values (partial update confirmed); `name` renames; `@expr.`/inline math supported; `references: [wcsId]` adds, `[]` removes placement; geometry regenerates on `closeFeature` (no `recalc` needed).
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
+const wcsId = (await api.v1.part.workCSys({ id: partId, name: 'WCS1', offset: [50, 0, 0] })).result
+await api.v1.part.expression({ id: partId, toCreate: [{ name: 'R', value: 80 }] })
 
-// Optional: create a WCS for positioning
-const wcsId = (await api.v1.part.workCSys({
-  id: partId, name: 'WCS1',
-  offset: [50, 0, 0],
-})).result
-
-// Create sphere at WCS position
 const sphereId = (await api.v1.part.sphere({
-  id: partId, name: 'Sphere1',
-  references: [wcsId],
-  radius: 40,
+  id: partId, name: 'Sphere1', references: [wcsId], radius: 40,
 })).result
 
-// Update radius later
 await api.v1.part.openFeature({ id: sphereId })
-await api.v1.part.updateSphere({ id: sphereId, radius: 80 })
+await api.v1.part.updateSphere({ id: sphereId, radius: '@expr.R' })
 await api.v1.part.closeFeature({ id: sphereId })
 ```
 

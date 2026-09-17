@@ -1,70 +1,46 @@
 # assembly.setIdent
 
-Sets a custom string identifier on an existing assembly object. The ident acts as a human-readable alias for the numeric ID and can be used in place of numeric IDs in some (but not all) assembly APIs.
-
-## Prerequisites
-
-- An assembly with objects (instances, templates, constraints, etc.)
+Sets a custom string identifier on an existing assembly object (instance, template, constraint, …). The ident is a human-readable alias usable in place of the numeric ID in some — not all — assembly APIs.
 
 ## Key Parameters
 
-- `id` — numeric ID of the object to tag
-- `ident` — string identifier. Must be globally unique within the assembly. Stored in a centralized `IdentToIdMap` at the assembly root.
+- `id` — numeric ID of the object
+- `ident` — string, unique across the whole assembly (all object types share one namespace). `''` clears it; calling again replaces the old ident
+
+`assembly.instance` and `assembly.create` also accept `ident` at creation time.
 
 ## Return Value
 
-VOID (null). maxLevel 31 on success.
+VOID (null), maxLevel 31.
 
 ## Ident vs Name
 
-Ident and name are independent properties on the same object:
+| Property | Set by | Queried by |
+|---|---|---|
+| **name** | `common.setObjectName` or creation `name` | `getInstance({ name })` |
+| **ident** | `assembly.setIdent` or creation `ident` | No query API (no getIdent) — track it yourself or inspect `IdentToIdMap` in the structure tree |
 
-| Property | Set by | Queried by | Resolves in `id` params |
-|---|---|---|---|
-| **name** | `common.setObjectName` or creation `name` param | `getInstance({ name })` | Yes, in APIs that support string resolution |
-| **ident** | `assembly.setIdent` or creation `ident` param | No query API (inspect `IdentToIdMap` in structure tree) | Yes, in APIs that support string resolution |
+Both resolve in `id` params of APIs that support string resolution; **ident takes priority over name**. Idents live in `IdentToIdMap`, a child of the assembly root mapping strings to numeric IDs.
 
-When both resolve, **ident takes priority over name**.
+## String ID Resolution
 
-## String ID Resolution Order
+APIs accepting `string | real | id` resolve strings in order: 1. numeric conversion (`"105"` → 105), 2. ident lookup, 3. name lookup. Many APIs only do step 1 (stol) and error on non-numeric strings with "couldn't be converted to an id."
 
-APIs that accept `string | real | id` resolve strings in this order:
-1. **Numeric conversion** — `"105"` → number 105
-2. **Ident lookup** — check `IdentToIdMap`
-3. **Name lookup** — check object names
+| Supports ident/name | Numeric only (stol) |
+|---|---|
+| `assembly.instance` — `productId`, `ownerId` | `setCurrentProduct` / `setCurrentInstance` — `id` |
+| `assembly.transformInstance` — `id` | `calculateMassProperties` — `id` |
+| `assembly.transformInstanceTo` — `id` | `fastenedOrigin` — `instance`, `mate1.path` |
+| `assembly.deleteInstance` — `ids` | `fastened` — `mate1.path`, `mate2.path` |
+| | `deleteConstraint` — `ids` |
+| | All constraint APIs — `path` arrays (never resolve idents) |
 
-Not all APIs perform steps 2–3. Many only do step 1 (stol conversion) and error on non-numeric strings with "couldn't be converted to an id."
-
-## Which APIs Accept Ident Strings
-
-**Supports ident/name resolution:**
-- `assembly.instance` — `productId`, `ownerId`
-- `assembly.transformInstance` — `id`
-- `assembly.transformInstanceTo` — `id`
-- `assembly.deleteInstance` — `ids` array
-
-**Does NOT support ident (stol only):**
-- `assembly.setCurrentProduct` — `id`
-- `assembly.setCurrentInstance` — `id`
-- `assembly.calculateMassProperties` — `id`
-- `assembly.fastenedOrigin` — `instance`, `mate1.path`
-- `assembly.fastened` — `mate1.path`, `mate2.path`
-- `assembly.deleteConstraint` — `ids` array
-- All constraint APIs — `path` arrays
+Note: an instance's ident does not work as `productId` — `productId` must be the template.
 
 ## Gotchas
 
-- **Batch form is broken.** Despite docs showing `param` accepts `Array<object>`, passing an array results in "objId not found." Use individual calls.
-- **No getIdent API.** There is no way to query an object's ident. Track idents yourself or inspect the `IdentToIdMap` in the structure tree.
-- **Duplicate idents are rejected** with error "alpha already exists" (maxLevel 51).
-- **Overwriting works.** Call setIdent again with a new string — the old ident is replaced.
-- **Clearing works.** Pass `ident: ''` to remove an ident.
-- **Creation-time ident.** Both `assembly.instance` and `assembly.create` accept an optional `ident` param to set the ident at creation time, avoiding a separate setIdent call.
-- **Path arrays never resolve idents.** Constraint mate paths (`mate1.path`, `mate2.path`) always require numeric IDs — they do stol conversion only.
-
-## Internal Storage
-
-Idents are stored in a centralized `IdentToIdMap` node (child of the assembly root in the structure tree). Each entry maps a string to a numeric ID. This map is assembly-global — all idents across all object types share the same namespace.
+- **Batch form is broken.** Passing an array (despite docs showing `Array<object>`) → "objId not found." Use individual calls.
+- **Duplicate idents rejected:** "alpha already exists" (maxLevel 51).
 
 ## Working Example
 
@@ -74,25 +50,19 @@ const tplId = (await api.v1.assembly.partTemplate({ name: 'Box' })).result
 await api.v1.part.box({ id: tplId, name: 'B1', length: 40, width: 30, height: 20 })
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
-// Set ident at creation time
+// Ident at creation time
 const inst = (await api.v1.assembly.instance({
-  productId: tplId, ownerId: asmId, name: 'Inst1', ident: 'box_a'
+  productId: tplId, ownerId: asmId, name: 'Inst1', ident: 'box_a',
 })).result
 
-// Or set/change ident after creation
+// Set/replace after creation
 await api.v1.assembly.setIdent({ id: inst, ident: 'my_box' })
 
-// Use ident in supported APIs
+// Use the ident where supported
 await api.v1.assembly.transformInstance({
   id: 'my_box',
-  transformation: [[1, 0, 0, 50], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+  transformation: [[1, 0, 0, 50], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]],
 })
-
-// Use ident as ownerId/productId
-const inst2 = (await api.v1.assembly.instance({
-  productId: 'my_box', // resolves template via ident? No — productId is template ID
-  ownerId: asmId, name: 'Inst2'
-})).result
 ```
 
 ## Related

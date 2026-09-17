@@ -1,35 +1,40 @@
 # common.setDatabaseSettings
 
-Sets global database settings controlling tessellation, graphic generation, and curve representation. All parameters are optional — omitted fields are untouched (partial update).
-
-## Prerequisites
-
-None — works on any drawing state, even empty.
+Sets global database settings for tessellation, graphic generation, and curve representation. All parameters optional — omitted fields are untouched (partial update). Works in any drawing state, even empty.
 
 ## Key Parameters
 
 | Param | Type | Default | Purpose |
 |---|---|---|---|
-| `chordHeightTol` | real | 0.1 | Max distance between geometry and tessellated arc. Lower = finer mesh. **Primary tessellation quality lever.** |
+| `chordHeightTol` | real | 0.1 | Max distance between geometry and tessellated arc. Lower = finer. **Primary quality lever.** |
 | `angleTol` | real | 0 | Max angle (degrees) between adjacent tessellation surfaces. 0 = disabled. Only very small values (<10°) increase density. |
-| `facetingParamsMode` | real | 1 | 0 = global tessellation params, 1 = per-entity params. Does NOT control graphic data presence (see Gotchas). |
-| `doCurveTessellation` | boolean | 1 | 1 = edges as polylines (`edges` array). 0 = analytic curves (`lines` + `arcs` arrays). Structural change in graphic payload. |
+| `facetingParamsMode` | real | 1 | 0 = global params, 1 = per-entity params. Does NOT control graphic data presence. |
+| `doCurveTessellation` | boolean | 1 | 1 = edges as polylines (`edges`, `{ id, points, pointIds }`). 0 = analytic curves (`lines` + `arcs`, no `edges` key). Agents must handle both schemas. |
 | `isGraphicEnabled` | boolean | 1 | Client rendering hint. No effect on API response data. |
 | `isCCGraphicEnabled` | boolean | 1 | Client rendering hint. No effect on API response data. |
 | `isInvisibleGraphicEnabled` | boolean | 0 | Whether invisible objects get tessellated. |
 | `isSketchGraphicEnabled` | boolean | 1 | Client rendering hint. No effect in CLI context. |
 
+Booleans accept JS `true`/`false` or `0`/`1`; readback is always `0`/`1`.
+
 ## Return Value
 
-Always returns `null` (VOID). maxLevel=31 on success, maxLevel=51 on error. On error, the setting is not applied.
+`null` (VOID). maxLevel 31 on success, 51 on error — on error the setting is not applied.
 
-## Boolean Type Handling
+## Validation & Edge Cases
 
-Boolean fields accept both JS `true`/`false` and integer `0`/`1`. Readback always normalizes to `0`/`1` integers. Passing a string (e.g., `'yes'`) triggers error code 1001 ("wrong type").
+| Input | Behavior |
+|---|---|
+| `{}` | Accepted (31), no-op |
+| `chordHeightTol: -0.5` | Silently ignored, value unchanged |
+| `chordHeightTol: 0` | Error (51), unchanged — not "infinitely fine" |
+| `facetingParamsMode: 3` or `-1` | Accepted and stored without error; may give unpredictable tessellation |
+| `isGraphicEnabled: 'yes'` (string) | Error 1001 ("wrong type"), unchanged |
+| Unknown param names | Silently ignored |
 
 ## chordHeightTol — Mesh Density
 
-Tested on a sphere (r=20) with facetingParamsMode=0:
+Sphere r=20, facetingParamsMode=0:
 
 | chordHeightTol | Vertices | Indices |
 |---|---|---|
@@ -40,75 +45,52 @@ Tested on a sphere (r=20) with facetingParamsMode=0:
 | 1 | 153 | 672 |
 | 5 | 85 | 288 |
 
-100x range in tolerance → ~100x range in vertex count. 0.1 is a good balance. 0.01 for high quality. 1+ for fast/coarse.
+100× tighter tolerance → ~50–70× more vertices. 0.1 is a good balance, 0.01 high quality, 1+ fast/coarse.
 
 ## angleTol — Independent Constraint
 
-angleTol is the max angle (degrees) between adjacent tessellation facet normals. It is a **fully independent constraint** — not just a chord modifier. When both are set, the tessellation engine satisfies whichever demands more triangles (MAX operation).
-
-Beware the measurement confound: with a tight chordHeightTol (e.g. 0.1) the chord constraint dominates at angleTol≥15° and angleTol appears to have no effect. With chord tolerance relaxed (cht=100), angleTol scales smoothly from 131K vertices (1°) to 0 (180°):
+Max angle between adjacent facet normals; when both are set, whichever demands more triangles wins (MAX). Measurement confound: with tight chord (0.1) the chord dominates at angleTol ≥ 15° and angleTol seems to do nothing. With cht=100, angleTol scales smoothly from 131K vertices (1°) to 0 (180°):
 
 | angleTol | Vertices (cht=100) | Vertices (cht=0.1) |
 |---|---|---|
 | 0 (disabled) | n/a | 1,697 |
-| 5 | 8,385 | 8,385 |
+| 5 | 8,385 | 8,385 (angle wins) |
 | 15 | 561 | 1,697 |
-| 30 | 154 | 1,697 |
+| 30 | 154 | 1,697 (chord wins) |
 
-At cht=0.1 + angleTol=30°, chord demands 1697 and angle demands 154 → result is 1,697 (chord wins). At cht=0.1 + angleTol=5°, chord demands 1697 and angle demands 8385 → result is 8,385 (angle wins). See `references/common/faceting-concepts.md` for the full interaction model.
-
-## doCurveTessellation — Edge Schema Change
-
-- **1 (default):** Container has `edges` array with pre-tessellated polylines (`{ id, points, pointIds }`).
-- **0:** Container has `lines` + `arcs` arrays with analytic curve definitions. No `edges` key.
-
-This changes the graphic payload structure, not just data density. Agents must handle both schemas.
+Full model: `faceting-concepts.md`.
 
 ## Persistence
 
-- **Survives `common.clear()` and `part.create()`** — all 8 fields preserved. Settings are worker-level state, not drawing-level.
-- **NOT saved to OFB files.** `common.load()` does not restore any database settings. Values remain at whatever the worker had before the load.
-
-## Crosstalk with setFacetingParameters
-
-`setDatabaseSettings` and `setFacetingParameters` share the same backing store for `chordHeightTol` and `angleTol`. Changes via either API are reflected in both `getDatabaseSettings` and `getFacetingParameters`.
-
-## Validation & Edge Cases
-
-| Input | Behavior |
-|---|---|
-| `{}` (empty) | Accepted (maxLevel=31), no-op |
-| `chordHeightTol: -0.5` | Silently ignored, value unchanged |
-| `chordHeightTol: 0` | Error (maxLevel=51), value unchanged |
-| `facetingParamsMode: 3` or `-1` | Accepted without error, value stored |
-| `isGraphicEnabled: 'yes'` | Error code 1001 ("wrong type"), value unchanged |
-| Unknown param names | Silently ignored |
+- **Worker-level.** "Sets current AND initial" — the values become the worker baseline; all 8 fields survive `common.clear()` and `part.create()`.
+- **NOT saved to OFB.** `common.load()` restores no settings; values stay at whatever the worker had. Re-apply non-default settings after load.
 
 ## Gotchas
 
-- **Zero chordHeightTol is an error**, not "infinitely fine". Negative values are silently ignored.
-- **facetingParamsMode does NOT control graphic data presence** in the current server version. Both mode=0 and mode=1 return identical mesh data in API responses. The mode may affect tessellation quality heuristics, but it does not suppress `r.graphic`.
-- **Invalid mode values (3, -1) are accepted** without error and stored. They may produce unpredictable tessellation behavior.
-- **No settings are saved to OFB.** After `common.load()`, you must re-apply any non-default settings.
-- **"Sets current AND initial"** means the values become the worker's baseline. Neither `clear()` nor `part.create()` resets them.
+- **facetingParamsMode does NOT control graphic data presence** — mode 0 and 1 return identical mesh data; the mode may only affect tessellation quality heuristics.
+- Shares the `chordHeightTol`/`angleTol` store with `setFacetingParameters`; changes via either show in both getters.
 
 ## Working Example
 
 ```js
-// Set tessellation quality for fine meshes
-await api.v1.common.setDatabaseSettings({
-  chordHeightTol: 0.05,
-  angleTol: 5,
-  facetingParamsMode: 0,
-})
-
-// Verify
+const orig = (await api.v1.common.getDatabaseSettings()).result
+const fine = { chordHeightTol: 0.05, angleTol: 5, facetingParamsMode: 0 }
+await api.v1.common.setDatabaseSettings(fine)
 const s = (await api.v1.common.getDatabaseSettings()).result
 // s.chordHeightTol === 0.05, s.angleTol === 5, s.facetingParamsMode === 0
 
-// After common.load(), settings are NOT restored — re-apply:
-await api.v1.common.load({ data: savedContent, format: 'OFB', encoding: 'base64' })
-await api.v1.common.setDatabaseSettings({ chordHeightTol: 0.05, angleTol: 5, facetingParamsMode: 0 })
+// OFB round trip — encoding/compression on load must match the save
+const partId = (await api.v1.part.create({ name: 'P' })).result
+const eifId = (await api.v1.part.entityInjection({ id: partId })).result
+await api.v1.solid.box({ id: eifId, length: 10, width: 10, height: 10 })
+const saved = (await api.v1.common.save({ format: 'OFB', encoding: 'base64', compression: 'deflate' })).result
+await api.v1.common.load({ data: saved.content, format: 'OFB', encoding: 'base64', compression: 'deflate', doClear: 1 })
+await api.v1.common.setDatabaseSettings(fine) // load doesn't restore settings — re-apply
+
+// Worker-global — restore
+await api.v1.common.setDatabaseSettings({
+  chordHeightTol: orig.chordHeightTol, angleTol: orig.angleTol, facetingParamsMode: orig.facetingParamsMode,
+})
 ```
 
 ## Related

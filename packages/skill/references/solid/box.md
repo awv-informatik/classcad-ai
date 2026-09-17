@@ -1,56 +1,39 @@
 # solid.box
 
-Creates a box primitive solid within an entity injection feature.
-
-## Prerequisites
-
-- A part (`part.create`)
-- An entity injection feature (`part.entityInjection`) — pass the EIF ID as `id`, **not** the part ID
+Creates a box primitive solid in an entity injection feature (EIF).
 
 ## Key Parameters
 
-- `id` — entity injection feature ID (not part ID). Error message is clear if wrong type: `"Provide only following id types: [\"entityinjection\"]"`
-- `length` — X-dimension (required)
-- `width` — Y-dimension (required)
-- `height` — Z-dimension (required)
-- `translation` — `[x, y, z]` offset from origin (optional)
-- `rotation` — `[rx, ry, rz]` rotation in **radians** around each axis (optional)
-- `rotateFirst` — boolean, default `true`. Controls transform order when both rotation and translation are provided:
-  - `true` (default): rotate around origin first, then translate
-  - `false`: translate first, then rotate around origin — the box ends up orbiting the origin
+- `id` — EIF ID from `part.entityInjection`, **not** the part ID (wrong type → `"Provide only following id types: [\"entityinjection\"]"`)
+- `length` / `width` / `height` — X / Y / Z dimensions (all required; validated in that order, only the first missing one is reported)
+- `rotation`, `translation`, `rotateFirst` (default `true`) — optional; see `solid/generic`
 
 ## Return Value
 
-Returns an **integer solid ID** on success (e.g., `61`). maxLevel=31 on success, messages=[].
-
-On error, returns `null` with maxLevel=51 and descriptive error messages.
+Integer solid ID (e.g. `61`), maxLevel=31, messages=[]. On error `null`, maxLevel=51 with descriptive messages.
 
 ## Alignment
 
-The box is **fully centered at the origin** — it extends from `(-length/2, -width/2, -height/2)` to `(+length/2, +width/2, +height/2)`. Verified empirically: a box with `length=100, width=80, height=60` (no translation) has its corner at `(-50, -40, -30)` and COG at `(0, 0, 0)`.
+**Fully centered at the origin**: spans `(-length/2, -width/2, -height/2)` to `(+length/2, +width/2, +height/2)`. E.g. `length=100, width=80, height=60` → corner `(-50, -40, -30)`, COG `(0, 0, 0)`. (Older docs claiming corner alignment were wrong.)
 
-All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) share this origin-centered convention. **`part.*` primitives use a DIFFERENT convention** — `part.box` is corner-aligned (`+X+Y+Z`), `part.cylinder` and `part.cone` are base-anchored (z=`0..H`), only `part.sphere` matches its solid sibling. See `references/part/feature-vs-direct.md` for the full conventions table. Older versions of this doc claimed `solid.box` was corner-aligned; that was wrong — verified empirically.
+All `solid.*` primitives share this convention. **`part.*` differs**: `part.box` is corner-aligned (`+X+Y+Z`), `part.cylinder`/`part.cone` are base-anchored (z=`0..H`), only `part.sphere` matches. See `references/part/feature-vs-direct.md`.
 
 ## Gotchas
 
-- **Zero dimensions are accepted silently.** `length: 0` creates a degenerate flat plane (the remaining width × height rectangle). No error, no warning, maxLevel=31. The geometry renders as a 2D surface.
-- **Negative dimensions are accepted silently.** They create internal geometry that the renderer cannot display. No error, no warning, maxLevel=31. The STEP/OFB files are still produced but contain degenerate data. **Always validate dimensions > 0 before calling.**
-- **Required params are validated in order:** length → width → height. If multiple are missing, only the first missing one is reported.
-- **rotateFirst with translation-only** — rotation defaults to `[0,0,0]`, so `rotateFirst` has no visible effect when only translation is provided (and vice versa).
+- **Zero dimensions accepted silently** (maxLevel=31): `length: 0` gives a degenerate flat width × height surface.
+- **Negative dimensions accepted silently** (maxLevel=31): internal geometry the renderer cannot display; STEP/OFB still produced with degenerate data. **Always validate dimensions > 0.**
 
 ## Common Errors
 
 | Error | Cause | Fix |
 |---|---|---|
-| `"The parameter \"height\" must be provided"` (code 1004, level 51) | Missing required dimension | Add the missing parameter |
-| `"The parameter \"id\" has a wrong id type!"` (code 1001, level 51) | Passed part ID instead of EIF ID | Use the ID from `part.entityInjection`, not `part.create` |
+| `"The parameter \"height\" must be provided"` (code 1004, level 51) | Missing required dimension | Add it |
+| `"The parameter \"id\" has a wrong id type!"` (code 1001, level 51) | Part ID instead of EIF ID | Use the `part.entityInjection` ID |
 
 ## Usage Hints
 
-- Multiple boxes can coexist in one entity injection feature — each gets its own solid ID
-- Use `solid.deleteSolid({ id: eifId, ids: [boxId] })` to remove specific boxes. Omit `ids` to clear all solids.
-- `deleteSolid` returns VOID (null) on success, maxLevel=31
-- For boolean operations (union, subtraction, intersection), create multiple solids in the same EIF first, then combine them
+- Many solids can coexist in one EIF, each with its own ID; create them there, then combine with booleans.
+- Remove with `solid.deleteSolid({ id: eifId, ids: [boxId] })` (returns null, maxLevel=31); omit `ids` to clear all solids.
 
 ## Working Example
 
@@ -58,25 +41,16 @@ All `solid.*` primitives (`box`, `cylinder`, `cone`, `sphere`) share this origin
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 
-// Basic box centered at origin — corners at (±50, ±30, ±20)
-const boxId = (await api.v1.solid.box({
-  id: eifId,
-  length: 100,
-  width: 60,
-  height: 40
-})).result
+// Centered at origin — corners at (±50, ±30, ±20)
+const boxId = (await api.v1.solid.box({ id: eifId, length: 100, width: 60, height: 40 })).result
 
-// Translated + rotated box
+// Rotated 45° about Z, then translated
 const box2Id = (await api.v1.solid.box({
-  id: eifId,
-  length: 50,
-  width: 50,
-  height: 50,
-  translation: [120, 0, 0],
-  rotation: [0, 0, Math.PI / 4]  // 45° around Z
+  id: eifId, length: 50, width: 50, height: 50,
+  translation: [120, 0, 0], rotation: [0, 0, Math.PI / 4],
 })).result
 ```
 
 ## Related
 
-`solid.deleteSolid` · `solid.copy` · `solid.translation` / `solid.rotation` / `solid.scale` · `solid.union` / `solid.subtraction` / `solid.intersection` · `part.entityInjection`
+`solid/generic` · `solid.deleteSolid` · `solid.copy` · `solid.translation` / `solid.rotation` / `solid.scale` · `solid.union` / `solid.subtraction` / `solid.intersection` · `part.entityInjection`

@@ -1,45 +1,33 @@
 # curve.translateShape
 
-Translates all curves in a shape by a given vector. The translation is in part coordinates.
-
-## Prerequisites
-
-- A shape (`curve.shape`) containing at least one curve
-- **Do NOT call `common.recalc` between shape creation/modification and translateShape** — recalc invalidates shape IDs for this API (see Gotchas)
+Translates all curves of a shape (lines, circles, arcs, polylines — as a unit) by a vector in part coordinates.
 
 ## Key Parameters
 
-- `id` (required) — shape ID (from `curve.shape`). Only shape IDs accepted; part/EI IDs give error 1001.
-- `translation` (required) — `[x, y, z]` vector. Translation is **relative/cumulative** — each call adds to the current position. Not absolute.
+- `id` (required) — shape ID (`curve.shape`); part/EI IDs → error 1001
+- `translation` (required) — `[x, y, z]`, **relative/cumulative**, not absolute: three `[10, 0, 0]` calls = `[30, 0, 0]`
 
 ## Return Value
 
-Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on success.
+VOID (`null`), maxLevel 31, no messages. In-place — the shape ID stays valid.
 
 ## Behavior
 
-- **In-place mutation.** The shape ID remains valid after translation. No new shape is created.
-- **Cumulative.** Three calls with `[10, 0, 0]` = total offset of `[30, 0, 0]`.
-- **All curves move together.** Lines, circles, arcs, polylines — everything in the shape translates as a unit.
-- **Zero vector** `[0, 0, 0]` is a silent noop (maxLevel 31, no error).
-- **Negative values** work as expected (translate in the opposite direction).
-- **Large values** (100000+) work without issue.
+`[0, 0, 0]` is a silent no-op (maxLevel 31). Negative values and large values (100000+) work.
 
 ## Gotchas
 
-- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `translateShape` fails with error 1006 ("An element of parameter `ids` has an invalid id!"). This is a server bug — recalc rebuilds internal structures and stales the shape reference. **Workaround:** add any curve to the shape after recalc to re-validate the ID. Or simply avoid calling recalc before shape transforms.
-- **Empty shapes cannot be translated.** A shape with no curves gives error 1006.
-- **Error message says `ids` (plural)** even though the parameter is `id` (singular). The server internally maps `id` → `ids`. Don't be confused by this mismatch.
-- Render/export pipelines often trigger a `recalc` internally, so **always do shape transforms BEFORE any visualization or export step**, not after.
+- **`common.recalc` invalidates shape IDs** — afterwards `translateShape` fails with error 1006 ("An element of parameter `ids` has an invalid id!"); same for `rotateShape` / `scaleShape` / `transformShape`, and for ALL shape IDs in the drawing. Server bug: recalc rebuilds internal structures and stales the shape reference. **Render/export pipelines often trigger recalc internally** — do all shape transforms BEFORE any recalc, visualization or export. Workaround: add any curve to the shape after recalc to re-validate the ID.
+- **Empty shapes** (no curves) cannot be transformed → error 1006.
+- **Error message says `ids` (plural)** though the parameter is `id` — the server maps `id` → `ids` internally.
 
 ## Common Errors
 
-| Code | Level | Message | Cause |
-|------|-------|---------|-------|
-| 1006 | ERROR | "An element of parameter `ids` has an invalid id!" | Shape ID invalid (after recalc, empty shape, or deleted shape) |
-| 1001 | ERROR | "Provide only following id types: [\"shape\"]" | Passed EI ID or part ID instead of shape ID |
-| 1004 | ERROR | "The parameter `translation` must be provided" | Missing `translation` parameter |
-| 1004 | ERROR | "The parameter `id` must be provided" | Missing `id` parameter |
+| Code | Message | Cause |
+|------|---------|-------|
+| 1006 | "An element of parameter `ids` has an invalid id!" | Shape ID invalid (after recalc, empty, or deleted) |
+| 1001 | "Provide only following id types: [\"shape\"]" | EI or part ID instead of shape ID |
+| 1004 | "The parameter `<translation\|id>` must be provided" | Missing parameter |
 
 ## Working Example
 
@@ -47,23 +35,15 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Outline' })).result
-
-// Create some geometry
 await api.v1.curve.advancedPolyline({
   id: shapeId,
-  pld: [
-    { xa: 0, ya: 0 },
-    { xa: 30, ya: 0, r: 3 },
-    { xa: 30, ya: 20, r: 3 },
-    { xa: 0, ya: 20 },
-  ],
+  pld: [{ xa: 0, ya: 0 }, { xa: 30, ya: 0, r: 3 }, { xa: 30, ya: 20, r: 3 }, { xa: 0, ya: 20 }],
   close: true,
 })
 await api.v1.curve.circle({ id: shapeId, centerPos: [15, 10, 0], radius: 5 })
 
-// Translate the entire shape (all curves move together)
+// All curves move together — result null, maxLevel 31
 await api.v1.curve.translateShape({ id: shapeId, translation: [50, 30, 0] })
-// result: null, maxLevel: 31
 ```
 
 ## Related

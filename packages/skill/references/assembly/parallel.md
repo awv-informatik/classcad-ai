@@ -1,176 +1,66 @@
 # assembly.parallel
 
-Creates a parallel constraint between two instances. Allows 4 degrees of freedom: translation along X, Y, and Z axes, plus rotation around the Z-axis. Only constrains orientation — the Z-axes of both mates stay parallel (X-rotation and Y-rotation locked).
+Parallel constraint between two instances. Only constrains orientation: the mates' Z-axes stay parallel (X- and Y-rotation locked, 2 DOF). 4 DOF stay free: X, Y, Z translation and Z rotation.
 
-## Prerequisites
-
-- An assembly root (`assembly.create`)
-- At least two instances (`assembly.instance`) with work coordinate systems (`part.workCSys`) in their templates
-- **Ground at least one instance** with `fastenedOrigin` before applying parallel — otherwise the solver repositions BOTH instances
+Prerequisites: assembly root, two instances whose templates contain a `part.workCSys`. **Ground at least one instance** with `fastenedOrigin` first — otherwise the solver repositions BOTH instances.
 
 ## Key Parameters
 
 - `id` — assembly root ID (required)
-- `mate1` / `mate2` — each needs `path: [instanceId]` and `csys: workCSysId`
-- `xOffsetLimits` — `{ min, max }` constraining X translation range. Negative values supported. Set `{ min: null, max: null }` to remove.
-- `yOffsetLimits` — `{ min, max }` constraining Y translation range. Same behavior as xOffsetLimits.
-- `zOffsetLimits` — `{ min, max }` constraining Z translation range. Same behavior as xOffsetLimits.
-- `zRotationLimits` — `{ min, max }` constraining rotation range in radians. Degree strings accepted: `'-45deg'`, `'90deg'`. Set `{ min: null, max: null }` to remove.
-- `mate.flip` — `'Z'` (default), `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`. Rotates inst2's orientation before constraint solving.
-- `mate.reorient` — `'0'` (default), `'90'`, `'180'`, `'270'`. Only visible when zRotationLimits lock the joint.
+- `mate1` / `mate2` — `{ path: [instanceId], csys: workCSysId, flip?, reorient? }`
+- `xOffsetLimits` / `yOffsetLimits` / `zOffsetLimits` — `{ min, max }` per translation; all three work identically and can be combined. Negative values supported; `{ min: N, max: N }` locks the axis; `{ min: null, max: null }` removes
+- `zRotationLimits` — `{ min, max }` in radians or degree strings (stored as radians), e.g. `{ min: -1.5708, max: 1.5708 }` = ±90°. `{ min: '45deg', max: '45deg' }` locks inst2 at 45° relative to mate1. `{ min: null, max: null }` removes
+- `mate.flip` — `'Z'` (default), `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`; same table as `assembly/fastened`
+- `mate.reorient` — `'0'` (default), `'90'`, `'180'`, `'270'`; as revolute, only visible when `zRotationLimits` lock the joint (free rotation absorbs it)
+
+**No `zOffset` parameter** (unlike planar/revolute). Use `zOffsetLimits: { min: N, max: N }` to fix Z.
 
 ## Alignment Semantics (CRITICAL — differs from planar)
 
-**No `zOffset` fixed parameter.** Unlike planar and revolute, parallel has NO fixed `zOffset`. All three translations are free DOFs, constrained only by their respective `*OffsetLimits`.
+**Orientation comes from mate1's csys; position is preserved only when no rotation is needed.**
 
-**Initial position is preserved (like cylindrical, unlike planar).** With default flip and no limits, the solver preserves the instance's initial X, Y, and Z position from its `transformation`. This is because the constraint only enforces orientation (axes parallel) — if the axes are already aligned, there's nothing to solve.
+- If inst2's axes already match mate1's csys (default flip, unrotated csys), there is nothing to solve: its initial X/Y/Z from `transformation` are kept (like cylindrical, unlike planar).
+- If aligning requires rotating inst2 (a rotated csys or a **non-default flip**), the solver re-solves and places inst2 **on mate1's csys origin**. Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]`, inst2 starting at `[200,7,3]` → inst2 at `[40,0,20]`, tilted onto the csys. Use offset limits to re-position afterwards.
 
-**Orientation comes from the csys.** inst2's axes are aligned with mate1's csys axes. When that requires rotating inst2 (a rotated csys or a non-default flip), the solver re-solves and places inst2 on mate1's csys origin. Example: mate1 csys `offset [40,0,20]` + `rotation [π/2,0,0]`, inst2 starting at `[200,7,3]` → inst2 at `[40,0,20]`, tilted onto the csys. With a csys whose axes already match inst2's orientation, inst2 stays where it is.
+Build the csys with `part.workCSys({ offset, rotation })`; `origin`/`xDirection`/`yDirection` are ignored by `workCSys`.
 
-**Limits clamp from current position.** When offset limits are applied, the solver clamps the current position to the valid range (with ~0.001 solver epsilon). Limits on one axis don't affect other axes.
-
-## DOF and Behavior
-
-Parallel constrains 2 DOF (X-rotation and Y-rotation locked), leaving 4 free: X-translation, Y-translation, Z-translation, Z-rotation.
-
-With no limits and default flip, the solver preserves all initial positions. The free DOFs only become visible/constrained when:
-1. `xOffsetLimits` / `yOffsetLimits` / `zOffsetLimits` constrain translation ranges
-2. `zRotationLimits` constrains the rotation range
-3. `moveUnderConstraints` applies motion
-
-## Offset Limits (x, y, z)
-
-All three work identically. The solver clamps the current position to [min, max]:
-- Position below min → clamped to min (~0.001 epsilon)
-- Position within range → preserved
-- Position above max → clamped to max
-
-All three can be set simultaneously. Negative limits work: `{ min: -30, max: -10 }`.
-
-To lock an axis at a specific position: `{ min: N, max: N }`.
-
-## zRotationLimits
-
-Same behavior as revolute/cylindrical. Constrains rotation around Z to a range.
-
-- Radians: `{ min: -1.5708, max: 1.5708 }` → ±90°
-- Degree strings: `{ min: '-45deg', max: '180deg' }` → converted to radians on storage
-- Remove: `{ min: null, max: null }`
-
-Locking at a specific angle: `{ min: '45deg', max: '45deg' }` forces inst2 to rotate 45° relative to mate1.
-
-## Flip
-
-Identical to revolute/fastened. Rotates inst2 before constraint solving:
-
-| flip | Effect |
-|------|--------|
-| `'Z'` (default) | Identity |
-| `'-Z'` | 180° around X |
-| `'X'` | 90° around Y |
-| `'-X'` | -90° around Y |
-| `'Y'` | -90° around X |
-| `'-Y'` | 90° around X |
-
-**Warning:** Non-default flip causes the solver to re-solve, resetting inst2 to mate1's origin. Use offset limits to position inst2 after flipping.
-
-## Reorient
-
-Identical to revolute. Only observable when zRotationLimits lock the joint. With free rotation, the DOF absorbs the offset.
+**Limits clamp from the current position** (below min → min, within → preserved, above max → max), with ~0.001 solver epsilon (min=10 → x≈10.001). Limits on one axis don't affect the others. The free DOFs show only via limits or `moveUnderConstraints`.
 
 ## Return Value
 
-- Single call: `id` — the constraint ID
-- Batch (array of params): `Array<id>`
+Constraint ID; array call → `Array<id>`.
 
 ## getParallel
 
-`getParallel({ id: asmId, name: 'Par1' })` — queries a parallel constraint by name.
+`getParallel({ id: asmId, name: 'Par1' })` — `id` is the assembly holding it: the root, an assembly template, or a sub-assembly instance (part instance → "not a Assembly", part template → 1001); `name` is case-sensitive.
 
-### Parameters
+Success (maxLevel 31): `{ id, name, mate1: { path, csys, flip, reorient }, mate2: {...}, xOffsetLimits, yOffsetLimits, zOffsetLimits, zRotationLimits }`. All four limit objects are always present (`{ min: null, max: null }` when unset; rotation in radians); flip/reorient are strings.
 
-- `id` — **assembly root ID only**. Instance and template IDs return null/error.
-- `name` — constraint name string (case-sensitive)
-
-### Return Value
-
-Success (`maxLevel: 31`):
-```js
-{
-  id, name,
-  mate1: { path, csys, flip, reorient },
-  mate2: { path, csys, flip, reorient },
-  xOffsetLimits: { min, max },
-  yOffsetLimits: { min, max },
-  zOffsetLimits: { min, max },
-  zRotationLimits: { min, max }
-}
-```
-
-- All four limit objects always present. No limits → `{ min: null, max: null }`.
-- `zRotationLimits` values in radians (degree strings converted on storage).
-- `flip` — string: `'Z'`, `'-Z'`, `'X'`, `'-X'`, `'Y'`, `'-Y'`
-- `reorient` — string: `'0'`, `'90'`, `'180'`, `'270'`
-
-### Failure Cases
-
-All return `result: null, maxLevel: 51`:
-- Non-existent name
-- Empty name `''`
-- Wrong constraint type
-- Instance or template ID passed as `id`
-
-### Batch
-
-Pass array of `{ id, name }`. Returns `Array<result|null>`. One null contaminates maxLevel to 51.
+`result: null`, maxLevel 51 for: non-existent name, empty name `''`, wrong constraint type, instance/template ID as `id`. Array form → `Array<result|null>`; one null raises maxLevel to 51. Duplicate names (silently allowed) → returns the first.
 
 ## updateParallel
 
-`updateParallel({ id: constraintId, ... })` — true partial update. Unspecified params preserved. Returns constraint ID on success, null + maxLevel=51 on failure. Supports batch.
+`updateParallel({ id: constraintId, ... })` — **constraint ID**, not the assembly ID (→ 1007). True partial update; returns the ID, or null + maxLevel 51 on failure. Array form → array of IDs.
 
-**`id` must be the constraint ID** (from `parallel()`), NOT the assembly ID. Passing assembly ID gives error 1007.
+- `xOffsetLimits` / `yOffsetLimits` / `zOffsetLimits` / `zRotationLimits` — add/change (solver clamps immediately); `{ min: null, max: null }` removes
+- `mate2: { flip: '-Z' }` / `mate2: { reorient: '90' }`
+- `name: 'NewName'` — old name immediately unfindable
 
-### What you can update
+**Removing limits preserves the last solved position (CRITICAL)** — same as planar. Example: xOffsetLimits [10,20] clamp x to 20; removing them leaves x=20, not the original 40.
 
-- `xOffsetLimits: { min: 10, max: 50 }` — add/change X limits (solver clamps immediately)
-- `yOffsetLimits: { min: -20, max: 30 }` — add/change Y limits
-- `zOffsetLimits: { min: 5, max: 40 }` — add/change Z limits
-- `zRotationLimits: { min: '-45deg', max: '90deg' }` — add/change rotation limits
-- `xOffsetLimits: { min: null, max: null }` — remove X limits (same for y, z, zRotation)
-- `mate2: { flip: '-Z' }` — change flip
-- `mate2: { reorient: '90' }` — change reorient
-- `name: 'NewName'` — rename; old name immediately unfindable via getParallel
-- Batch: `updateParallel([{ id: c1, ... }, { id: c2, ... }])` — returns `[c1Id, c2Id]`
+Errors are non-destructive:
 
-### Removing limits preserves position (CRITICAL)
-
-When limits are removed via `{ min: null, max: null }`, the solver does NOT reset the DOF to its original position. The **last solved position is preserved**. This matches planar behavior.
-
-Example: parallel with xOffsetLimits [10,20] → inst2 clamped to x=20. Remove limits → inst2 stays at x=20, not x=40 (original).
-
-### Errors (all non-destructive)
-
-| Error | Message | Code |
-|-------|---------|------|
+| Cause | Message | Code |
+|---|---|---|
 | Assembly ID not constraint ID | "The provided id for the constraint is not a constraint or relation." | 1007 |
-| Nonexistent ID | Error code 1006 |
+| Nonexistent ID | — | 1006 |
 | Invalid flip | "Type 'X' is not supported to use as flip type." | 1013 |
 | Invalid reorient | "Type '45' is not supported to use as reorient type." | 1013 |
 
-## Gotchas
-
-- **Position preserved only when no rotation is needed.** If inst2 already matches mate1's csys orientation, its position is kept. A rotated csys or non-default flip re-solves and places inst2 on mate1's csys origin. Use offset limits to re-position afterwards.
-- **No `zOffset` parameter.** Unlike planar/revolute, parallel has no fixed z-offset. Use `zOffsetLimits: { min: N, max: N }` to lock Z at a specific value.
-- **Ungrounded instances both move.** Always ground at least one instance with fastenedOrigin.
-- **The csys defines the reference orientation** (and the reset point when a re-solve happens).
-- **Duplicate names allowed.** Creating two with the same name succeeds silently. `getParallel` returns the first.
-- **Solver epsilon ~0.001.** Clamped positions have tiny offsets (e.g., min=10 → x≈10.001).
-- **Reorient invisible without limits.** Free rotation DOF absorbs the reorient offset.
-
 ## Common Errors
 
-| Error | Message | Code |
-|-------|---------|------|
+| Cause | Message | Code |
+|---|---|---|
 | Same instance both mates | "probably belong to the same rigid set" | 1014 |
 | Missing mate2 or csys | "Evaluation error in AbstractAPI.PrepareAPIParams" | 0 |
 | Invalid flip | "Type 'W' is not supported to use as flip type" | 1013 |
@@ -187,21 +77,19 @@ const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  //
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Block' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 30, width: 20, height: 15 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
-
 const inst1 = (await api.v1.assembly.instance({ productId: tplA, ownerId: asmId, name: 'Base' })).result
 const inst2 = (await api.v1.assembly.instance({
   productId: tplB, ownerId: asmId, name: 'Block',
-  transformation: [[40, 30, 25], [1, 0, 0], [0, 1, 0]]
+  transformation: [[40, 30, 25], [1, 0, 0], [0, 1, 0]],
 })).result
 
 await api.v1.assembly.fastenedOrigin({ id: asmId, name: 'Ground', mate1: { path: [inst1], csys: wcsA } })
 
 const parId = (await api.v1.assembly.parallel({
-  id: asmId,
-  name: 'Slide',
+  id: asmId, name: 'Slide',
   mate1: { path: [inst1], csys: wcsA },
   mate2: { path: [inst2], csys: wcsB },
   xOffsetLimits: { min: 10, max: 60 },

@@ -1,64 +1,21 @@
 # solid.fillet
 
-Creates a fillet (rounded edge) on one or more brep edges within an entity injection feature. Modifies the solid(s) in-place — no new entity is created.
-
-## Prerequisites
-
-- A part (`part.create`)
-- An entity injection feature (`part.entityInjection`)
-- A solid with edges to fillet (e.g., `solid.box`, `solid.extrusion`, etc.)
-- Brep edge IDs obtained via `part.getGeometryIds` or `part.getBrepGeometryByIndex`
+Rounds one or more brep edges in an entity injection feature (EIF). Modifies the solid(s) in place — no new entity.
 
 ## Key Parameters
 
-- `id` — entity injection feature ID (not the solid ID, not the part ID)
-- `radius` — fillet radius. Must be positive. Zero is accepted but is a no-op. Negative → error.
-- `geomIds` — array of brep edge IDs. These are negative numbers (brep sub-element convention). Can include edges from different solids in the same EIF.
+- `id` — EIF ID (not the solid ID, not the part ID)
+- `radius` — fillet radius. Positive; zero is accepted but a no-op; negative → error.
+- `geomIds` — array of brep edge IDs (negative numbers, brep sub-element convention). May include edges from different solids in the same EIF.
 
 ## Return Value
 
-`id[]` — array of solid IDs that were modified. These are the **same IDs** as the solids whose edges were filleted. For a single-solid fillet, returns `[solidId]`. For cross-solid fillet, returns all affected solid IDs.
-
-Returns `null` with `maxLevel: 51` on failure.
+`id[]` — the **same IDs** as the modified solids: `[solidId]` for one solid, all affected solid IDs for a cross-solid fillet. `null` with `maxLevel: 51` on failure.
 
 ## Getting Edge IDs
 
-Two approaches, in order of preference:
-
-### 1. `part.getGeometryIds` (position-based — preferred)
-
-Find edges by specifying a point on the edge (typically the midpoint). More reliable across solid types and survives brep rebuilds.
-
-```js
-const geo = await api.v1.part.getGeometryIds({
-  id: partId,  // part ID, not EIF
-  lines: [{ pos: [40, -30, 0] }],  // midpoint of the target edge
-})
-const edgeId = geo.result.lines[0]  // e.g., -21
-```
-
-### 2. `part.getBrepGeometryByIndex` (index-based)
-
-Enumerate edges by index within a solid. Works well for primitives (box, cylinder, cone). May return nothing for non-primitives (extrusions).
-
-```js
-// Line edges (box edges, seam lines)
-const edge = (await api.v1.part.getBrepGeometryByIndex({
-  id: eifId, lineIndex: 0
-})).result  // e.g., -20
-
-// Arc/circle edges (cylinder top/bottom, cone rims)
-const arc = (await api.v1.part.getBrepGeometryByIndex({
-  id: eifId, arcIndex: 0
-})).result  // e.g., -8
-
-// Multiple solids in one EIF — use solidIndex
-const edge2 = (await api.v1.part.getBrepGeometryByIndex({
-  id: eifId, solidIndex: 1, lineIndex: 0
-})).result  // edge from second solid
-```
-
-### Edge counts by solid type
+1. **`part.getGeometryIds` (position-based — preferred).** Pass a point on the edge (typically its midpoint) and the **part ID**, not the EIF: `getGeometryIds({ id: partId, lines: [{ pos: [40, -30, 0] }] })` → `result.lines[0]` (e.g. `-21`). More reliable across solid types and survives brep rebuilds.
+2. **`part.getBrepGeometryByIndex` (index-based).** `{ id: eifId, lineIndex: 0 }` → line edge (box edges, seam lines, e.g. `-20`); `{ id: eifId, arcIndex: 0 }` → arc/circle edge (cylinder/cone rims, e.g. `-8`); add `solidIndex: 1` for the second solid in the EIF. Without `solidIndex` it defaults to solid 0. Works well for primitives; may return nothing for extrusions.
 
 | Solid | Line edges | Arc edges | Notes |
 |---|---|---|---|
@@ -69,19 +26,16 @@ const edge2 = (await api.v1.part.getBrepGeometryByIndex({
 
 ## Gotchas
 
-- **Edge IDs invalidate after each fillet call.** A fillet rebuilds the brep topology. Any previously-obtained edge IDs become invalid. Always re-query edges (via `getGeometryIds` or `getBrepGeometryByIndex`) before applying another fillet.
-- **Radius limit is geometry-dependent** (adjacent faces of the edge). On a 40×30×20 box, radius 16 on a 40-long edge works (volume drop exact). Test incrementally if unsure and check `maxLevel` and volume.
-- **Negative radius → error.** `maxLevel: 51` with misleading "id = VOID" message.
-- **Zero radius → silent no-op.** Accepted without error but does nothing.
-- **Invalid geomIds → full failure.** Passing non-edge IDs (solid IDs, part IDs, nonexistent IDs) fails the entire call. No partial application.
-- **`getBrepGeometryByIndex` without `solidIndex` defaults to solid 0.** When multiple solids exist in one EIF, you must specify `solidIndex` to access edges from each solid.
-- **Fillet is irreversible** in entity injection context. No corresponding `deleteFillet` or `updateFillet`. To undo, recreate the solid.
+- **Edge IDs invalidate after each fillet call** (brep topology is rebuilt). Re-query edges before every further fillet — a stale ID fails.
+- **Radius limit is geometry-dependent** (faces adjacent to the edge). On a 40×30×20 box, radius 16 on a 40-long edge works (volume drop exact). Test incrementally; check `maxLevel` and volume.
+- **Invalid geomIds → full failure**, no partial application (non-edge IDs such as solid/part IDs, nonexistent IDs).
+- **Irreversible** in EIF context: no `deleteFillet` / `updateFillet`. To undo, recreate the solid.
 
 ## Common Errors
 
 | Scenario | maxLevel | Message |
 |---|---|---|
-| Negative radius | 51 | "Set the parameter \"id\" = VOID is not allowed" |
+| Negative radius | 51 | "Set the parameter \"id\" = VOID is not allowed" (misleading) |
 | Non-edge ID in geomIds | 51 | NullMem type error (internal) |
 | Nonexistent ID in geomIds | 51 | "Set the parameter \"id\" = VOID is not allowed" |
 | Radius too large | 51 | "Set the parameter \"id\" = VOID is not allowed" |
@@ -94,38 +48,19 @@ const partId = (await api.v1.part.create({ name: 'FilletDemo' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId, name: 'EIF' })).result
 const boxId = (await api.v1.solid.box({ id: eifId, length: 80, width: 60, height: 40 })).result
 
-// Find top edges by position (z=20 for an 80x60x40 centered box)
+// Top edge midpoints (z=20 for a centered 80x60x40 box)
 const geo = await api.v1.part.getGeometryIds({
   id: partId,
-  lines: [
-    { pos: [0, -30, 20] },   // top front edge midpoint
-    { pos: [40, 0, 20] },    // top right edge midpoint
-    { pos: [0, 30, 20] },    // top back edge midpoint
-    { pos: [-40, 0, 20] },   // top left edge midpoint
-  ],
+  lines: [{ pos: [0, -30, 20] }, { pos: [40, 0, 20] }, { pos: [0, 30, 20] }, { pos: [-40, 0, 20] }],
 })
-const topEdges = geo.result.lines
+const r = await api.v1.solid.fillet({ id: eifId, radius: 8, geomIds: geo.result.lines })
+// r.result = [boxId] — same solid, modified in place
 
-// Fillet all top edges
-const r = await api.v1.solid.fillet({ id: eifId, radius: 8, geomIds: topEdges })
-// r.result = [boxId]  — same solid, modified in-place
-```
-
-## Sequential Fillets Pattern
-
-```js
-// WRONG — edge IDs invalidated by first fillet
-const edge0 = /* ... getBrepGeometryByIndex ... */
-const edge1 = /* ... getBrepGeometryByIndex ... */
-await api.v1.solid.fillet({ id: eifId, radius: 5, geomIds: [edge0] })
-await api.v1.solid.fillet({ id: eifId, radius: 8, geomIds: [edge1] })  // FAILS!
-
-// RIGHT — re-query by position after each fillet
-await api.v1.solid.fillet({ id: eifId, radius: 5, geomIds: [edge0] })
-const newEdge = (await api.v1.part.getGeometryIds({
-  id: partId, lines: [{ pos: [knownMidpoint] }]
+// Sequential fillet: the IDs above are now stale — re-query by position
+const bottomEdge = (await api.v1.part.getGeometryIds({
+  id: partId, lines: [{ pos: [0, -30, -20] }],
 })).result.lines[0]
-await api.v1.solid.fillet({ id: eifId, radius: 8, geomIds: [newEdge] })  // works
+await api.v1.solid.fillet({ id: eifId, radius: 5, geomIds: [bottomEdge] })
 ```
 
 ## Related

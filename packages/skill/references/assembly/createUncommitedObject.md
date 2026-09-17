@@ -1,123 +1,75 @@
 # assembly.createUncommitedObject
 
-Creates an empty, uncommitted constraint/relation shell in an assembly. The object has default member values but no configuration until committed via `update*`. Used for two-phase constraint creation: create the placeholder, then configure and commit.
-
-## Prerequisites
-
-- An assembly root (`assembly.create`)
+Creates an empty, uncommitted constraint/relation shell in an assembly (default member values, no configuration). Two-phase creation: create the placeholder, then configure and commit via `update*`. Usually just call `assembly.fastened()` etc. directly; this pattern suits UI workflows that show a placeholder before the user confirms, or code that reserves a constraint slot before mates/offsets are known. The committed result is identical to direct creation.
 
 ## Key Parameters
 
-All three parameters are **required**:
+All **required**:
 
 - `id` — assembly root ID
-- `type` — exact CC_ class name (case-sensitive). See [Valid Types](#valid-types) below.
-- `name` — constraint name. Duplicate names with existing constraints are allowed.
+- `type` — exact CC_ class name, case-sensitive (see Valid Types)
+- `name` — constraint name; duplicates of existing constraint names are allowed
 
 ## Return Value
 
-Returns the constraint/relation ID (`result: id`). This ID can be used with `part.openFeature`, the corresponding `assembly.update*` API, and `part.closeFeature`.
+The constraint/relation ID, usable with `part.openFeature`, the matching `assembly.update*`, and `part.closeFeature`.
 
 ## Commit vs Decline
 
-Same pattern as `part.createUncommitedObject`, but uses `part.openFeature`/`part.closeFeature` (there is no assembly-specific open/close).
-
-### Commit (constraint persists)
-
-```js
-const id = (await api.v1.assembly.createUncommitedObject({
-  id: asmId,
-  type: 'CC_FastenedConstraint',
-  name: 'MyFastened',
-})).result
-
-await api.v1.part.openFeature({ id })
-await api.v1.assembly.updateFastened({
-  id,
-  mate1: { path: [inst1], csys: wcs1 },
-  mate2: { path: [inst2], csys: wcs2 },
-})
-await api.v1.part.closeFeature({ id })
-// Constraint is now committed and queryable via getFastened
-```
-
-### Decline (constraint removed)
-
-```js
-const id = (await api.v1.assembly.createUncommitedObject({
-  id: asmId,
-  type: 'CC_FastenedConstraint',
-  name: 'Temp',
-})).result
-
-await api.v1.part.openFeature({ id })
-await api.v1.part.closeFeature({ id })
-// Constraint is removed, ID becomes invalid
-```
-
-Any `update*` call between open and close = commit. No `update*` call = decline.
-
-## Gotchas
-
-- **No singleton constraint (unlike part domain).** Multiple `createUncommitedObject` calls succeed without error. Assembly allows stacking uncommitted objects.
-- **Blocks normal creation APIs.** While uncommitted objects exist, normal constraint creation APIs (`fastened`, `revolute`, `fastenedOrigin`, etc.) fail with: "There are too many uncommited objects. Check the implementation." You must commit or decline all uncommitted objects before using direct creation APIs.
-- **Duplicate names allowed.** Creating an uncommitted object with the same name as an existing constraint succeeds.
-- **Type strings are case-sensitive.** `CC_FastenedConstraint` works, `cc_fastenedconstraint` fails with "non-existent class".
-- **Only constraint/relation types work.** Non-constraint types (CC_ProductReference, CC_Assembly, CC_Part) fail with "Function Initialize not found."
+Same pattern as `part.createUncommitedObject`, using `part.openFeature`/`part.closeFeature` (no assembly-specific open/close). Any `update*` call between open and close = **commit** (constraint persists, queryable via `get*`). No `update*` call = **decline** (constraint removed, ID becomes invalid).
 
 ## Valid Types
 
 | CC_ Class | Corresponding API |
 |---|---|
-| `CC_FastenedConstraint` | `assembly.fastened` / `assembly.updateFastened` |
-| `CC_FastenedOriginConstraint` | `assembly.fastenedOrigin` / `assembly.updateFastenedOrigin` |
-| `CC_RevoluteConstraint` | `assembly.revolute` / `assembly.updateRevolute` |
-| `CC_CylindricalConstraint` | `assembly.cylindrical` / `assembly.updateCylindrical` |
-| `CC_PlanarConstraint` | `assembly.planar` / `assembly.updatePlanar` |
-| `CC_ParallelConstraint` | `assembly.parallel` / `assembly.updateParallel` |
-| `CC_SliderConstraint` | `assembly.slider` / `assembly.updateSlider` |
-| `CC_SphericalConstraint` | `assembly.spherical` / `assembly.updateSpherical` |
-| `CC_GearRelation` | `assembly.gear` / `assembly.updateGear` |
-| `CC_GroupConstraint` | `assembly.group` / `assembly.updateGroup` |
-| `CC_LinearPatternConstraint` | `assembly.linearPattern` / `assembly.updateLinearPattern` |
-| `CC_CircularPatternConstraint` | `assembly.circularPattern` / `assembly.updateCircularPattern` |
+| `CC_FastenedConstraint` | `fastened` / `updateFastened` |
+| `CC_FastenedOriginConstraint` | `fastenedOrigin` / `updateFastenedOrigin` |
+| `CC_RevoluteConstraint` | `revolute` / `updateRevolute` |
+| `CC_CylindricalConstraint` | `cylindrical` / `updateCylindrical` |
+| `CC_PlanarConstraint` | `planar` / `updatePlanar` |
+| `CC_ParallelConstraint` | `parallel` / `updateParallel` |
+| `CC_SliderConstraint` | `slider` / `updateSlider` |
+| `CC_SphericalConstraint` | `spherical` / `updateSpherical` |
+| `CC_GearRelation` | `gear` / `updateGear` |
+| `CC_GroupConstraint` | `group` / `updateGroup` |
+| `CC_LinearPatternConstraint` | `linearPattern` / `updateLinearPattern` |
+| `CC_CircularPatternConstraint` | `circularPattern` / `updateCircularPattern` |
 
-**Invalid names:** `CC_BallConstraint`, `CC_PrismaticConstraint` (non-existent classes). `CC_ProductReference`, `CC_Assembly`, `CC_Part` (not constraint types).
+Invalid: `CC_BallConstraint`, `CC_PrismaticConstraint` (non-existent classes); `CC_ProductReference`, `CC_Assembly`, `CC_Part` (not constraint types).
+
+## Gotchas
+
+- **No singleton (unlike part domain).** Multiple `createUncommitedObject` calls succeed; uncommitted objects can stack.
+- **Blocks normal creation APIs.** While uncommitted objects exist, `fastened`, `revolute`, `fastenedOrigin`, etc. fail with "There are too many uncommited objects. Check the implementation." Commit or decline all of them first.
 
 ## Common Errors
 
 | Error | Cause |
 |---|---|
-| `"The parameter \"id\" must be provided"` | Missing `id` param |
-| `"The parameter \"type\" must be provided"` | Missing `type` param |
-| `"The parameter \"name\" must be provided"` | Missing `name` param |
-| `"non-existent class: X"` | Invalid or case-wrong type string |
-| `"Function Initialize not found"` | Type is a valid CC_ class but not a constraint/relation |
+| `"The parameter \"id\" must be provided"` (same for `type`, `name`) | Missing param |
+| `"non-existent class: X"` | Invalid or case-wrong type (`cc_fastenedconstraint`) |
+| `"Function Initialize not found"` | Valid CC_ class but not a constraint/relation |
 | `"has an invalid id!"` | ID doesn't exist or isn't an assembly |
-| `"too many uncommited objects"` | Attempting normal creation while uncommitted objects exist |
-
-## When to Use
-
-In most cases, call `assembly.fastened()` (or `revolute`, etc.) directly. The two-phase pattern is useful for:
-
-- Interactive/UI workflows where a constraint placeholder is shown before user confirms parameters
-- Programmatic workflows that need to reserve a constraint slot before knowing final mates/offsets
-
-The committed result is identical to direct creation.
+| `"too many uncommited objects"` | Normal creation while uncommitted objects exist |
 
 ## Working Example
 
 ```js
 const asmId = (await api.v1.assembly.create({})).result
-// ... setup templates, instances, work coordinate systems ...
+const tplA = (await api.v1.assembly.partTemplate({ name: 'Base' })).result
+await api.v1.part.box({ id: tplA, name: 'Box', length: 60, width: 40, height: 10 })
+const wcs1 = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result
+const tplB = (await api.v1.assembly.partTemplate({ name: 'Arm' })).result
+await api.v1.part.box({ id: tplB, name: 'Box', length: 80, width: 20, height: 8 })
+const wcs2 = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result
+await api.v1.assembly.setCurrentProduct({ id: asmId })
+const inst1 = (await api.v1.assembly.instance({ productId: tplA, ownerId: asmId, name: 'I1' })).result
+const inst2 = (await api.v1.assembly.instance({ productId: tplB, ownerId: asmId, name: 'I2' })).result
 
-// Two-phase revolute creation
+// Commit: update between open and close
 const revId = (await api.v1.assembly.createUncommitedObject({
-  id: asmId,
-  type: 'CC_RevoluteConstraint',
-  name: 'Hinge',
+  id: asmId, type: 'CC_RevoluteConstraint', name: 'Hinge',
 })).result
-
 await api.v1.part.openFeature({ id: revId })
 await api.v1.assembly.updateRevolute({
   id: revId,
@@ -125,7 +77,13 @@ await api.v1.assembly.updateRevolute({
   mate2: { path: [inst2], csys: wcs2 },
 })
 await api.v1.part.closeFeature({ id: revId })
-// Revolute constraint is now committed
+
+// Decline: no update → constraint removed
+const tmp = (await api.v1.assembly.createUncommitedObject({
+  id: asmId, type: 'CC_FastenedConstraint', name: 'Temp',
+})).result
+await api.v1.part.openFeature({ id: tmp })
+await api.v1.part.closeFeature({ id: tmp })
 ```
 
 ## Related

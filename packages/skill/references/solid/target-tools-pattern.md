@@ -1,6 +1,6 @@
 # The target/tools/keepTools Pattern
 
-Cross-cutting reference for the boolean operation pattern shared by `solid.union`, `solid.subtraction`, `solid.intersection`, and `solid.merge`. All four operations use identical parameter signatures and follow the same conventions.
+Shared by `solid.union`, `solid.subtraction`, `solid.intersection`, `solid.merge` — identical signatures and conventions.
 
 ## Signature
 
@@ -10,82 +10,52 @@ api.v1.solid.<op>({ id, target, tools, keepTools? })
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `id` | EIF ID | required | Must be a valid entity injection feature. See "id parameter semantics" below. |
-| `target` | solid ID | required | The base solid. Modified in place. Its ID is returned on success. |
-| `tools` | solid ID[] | required | Solids to apply to the target. Consumed (deleted) by default. |
-| `keepTools` | boolean | `false` | When `true`, tool IDs remain valid after the operation. |
+| `id` | EIF ID | required | Any valid entity injection feature (see below). |
+| `target` | solid ID | required | Base solid, modified in place; its ID is returned. |
+| `tools` | solid ID[] | required | Applied to the target; consumed (deleted) by default. |
+| `keepTools` | boolean | `false` | `true` keeps tool IDs valid. |
 
 ## Return Value
 
-All four operations return the **target solid ID** on success (not a new ID). maxLevel=31, messages=[].
+The **target solid ID** (not a new ID), maxLevel=31, messages=[].
+Exception: `subtraction` and `intersection` return `null`, maxLevel=51, code 1014 when the target is destroyed (tool fully envelops target, or no overlap for intersection).
 
-Exception: `subtraction` and `intersection` can return `null` with maxLevel=51 if the operation destroys the target (code 1014 — tool fully envelops target, or no overlap for intersection).
+## Universal Behaviors (all 4 operations)
 
-## Universal Behaviors (verified for all 4 operations)
-
-### keepTools
-
-- `keepTools: false` (default) — tool solid IDs become **immediately invalid**. Any subsequent call referencing a consumed tool (translate, copy, another boolean) returns a clean error: `"...has an invalid id!"` (code 1006, maxLevel 51).
-- `keepTools: true` — tool solid IDs remain valid. Tools can be translated, copied, and reused in further boolean operations.
-
-### Empty tools array
-
-`tools: []` is a **silent no-op** for all 4 operations. Returns target ID unchanged, maxLevel=31.
-
-### Tool ordering
-
-Order of tools in the array does **not** affect the result. `tools: [A, B]` and `tools: [B, A]` produce identical geometry (verified by structure tree comparison and visual inspection).
-
-### Multi-tool vs sequential
-
-`tools: [A, B, C]` in one call produces **identical results** to three sequential single-tool calls. Multi-tool is preferred — fewer API round-trips, same geometry.
-
-### Target ID stability
-
-The target ID is stable across arbitrarily mixed boolean chains. You can freely alternate between union, subtraction, intersection, and merge on the same target ID — it never changes (unless the target is destroyed).
-
-### Invalid tool IDs
-
-All 4 operations handle invalid tool IDs uniformly:
-- `null` → error code 1001 (wrong type), maxLevel=51
-- Non-existent numeric ID → error code 0, maxLevel=51
-- Wrong type (string) → error code 0, maxLevel=51
-
-### Self-referencing (target === tool)
-
-**Passing the same solid ID as both target and tool is rejected** with a clean error (`maxLevel 51`, `"...requires distinct target and tool entities..."`) across all boolean operations and merge. Previously this hung the server; it now returns an error and the target is preserved. Use `solid.copy` first if you need to boolean a solid with a copy of itself.
+- **keepTools: false** (default) — tool IDs are **immediately invalid**; any later reference (translate, copy, another boolean) returns `"...has an invalid id!"` (code 1006, maxLevel 51) — a clean error, not a hang. Track which IDs are still valid. **keepTools: true** — tools stay valid and can be translated, copied, reused.
+- **`tools: []`** — silent no-op; returns target ID, maxLevel=31. Don't rely on error detection for it.
+- **Tool order** does not affect the result (`[A, B]` ≡ `[B, A]`, identical structure tree and visuals).
+- **Multi-tool** `[A, B, C]` ≡ three sequential single-tool calls. Prefer multi-tool (fewer round-trips).
+- **Target ID is stable** across arbitrarily mixed union/subtraction/intersection/merge chains (unless destroyed).
+- **Invalid tool IDs:** `null` → code 1001 (wrong type); non-existent numeric or wrong type (string) → code 0. All maxLevel=51.
+- **target === tool is rejected**: maxLevel 51, `"...requires distinct target and tool entities..."`, target preserved (previously hung the server). Use `solid.copy` first to boolean a solid with a copy of itself.
 
 ## `id` Parameter Semantics
 
-The `id` parameter must be a valid entity injection feature ID (validated — passing a part ID or bogus ID errors with code 1001 or 1006). However, it does **not** need to be the EIF that owns the target or tools. Cross-EIF boolean operations work freely for all 4 operations.
-
-In practice: always pass a valid EIF. Using the target's EIF is conventional and recommended, but the operation will succeed with any valid EIF in the same part.
-
-## Cross-EIF Operations
-
-Tools can come from a different EIF than the target. This works for all 4 operations (not just merge). The `id` parameter just needs to be any valid EIF.
+`id` must be a valid EIF (part ID or bogus ID → code 1001 or 1006) but does **not** scope the operation: target and tools may come from other EIFs in the same part, for all 4 operations. Using the target's EIF is conventional and recommended.
 
 ## Tool Reuse Pattern
 
-With `keepTools: true`, a single tool can be reused across multiple boolean operations — even different operation types:
+With `keepTools: true` one tool can be reused across operations, even of different types:
 
 ```js
-// Subtract tool from body1, keep it
-await api.v1.solid.subtraction({ id: eifId, target: body1, tools: [tool], keepTools: true })
+const partId = (await api.v1.part.create({ name: 'ToolReuse' })).result
+const eifId = (await api.v1.part.entityInjection({ id: partId })).result
+const body1 = (await api.v1.solid.box({ id: eifId, length: 60, width: 60, height: 20 })).result
+const body2 = (await api.v1.solid.box({ id: eifId, length: 60, width: 60, height: 20, translation: [0, 100, 0] })).result
+const body3 = (await api.v1.solid.box({ id: eifId, length: 60, width: 60, height: 20, translation: [0, 200, 0] })).result
+const tool = (await api.v1.solid.cylinder({ id: eifId, height: 40, diameter: 20 })).result
 
-// Move tool and subtract from body2, keep it
+await api.v1.solid.subtraction({ id: eifId, target: body1, tools: [tool], keepTools: true })
 await api.v1.solid.translation({ id: eifId, target: tool, translation: [0, 100, 0] })
 await api.v1.solid.subtraction({ id: eifId, target: body2, tools: [tool], keepTools: true })
-
-// Move tool and union with body3 (last use, consume it)
 await api.v1.solid.translation({ id: eifId, target: tool, translation: [0, 100, 0] })
-await api.v1.solid.union({ id: eifId, target: body3, tools: [tool] })
-// tool is now consumed — do not reference
+await api.v1.solid.union({ id: eifId, target: body3, tools: [tool] })  // last use — tool consumed
 ```
 
 ## Destroyed Target Behavior
 
-When a target is destroyed (e.g., intersection of non-overlapping bodies, code 1014), subsequent operations on that target ID behave **inconsistently**:
+After a target is destroyed (code 1014), operations on its ID behave **inconsistently**:
 
 | Operation | Return value | maxLevel | Behavior |
 |---|---|---|---|
@@ -93,15 +63,7 @@ When a target is destroyed (e.g., intersection of non-overlapping bodies, code 1
 | `solid.union` | `null` | 51 | Error: "There must be two valid solids" |
 | `solid.merge` | **target ID** | 51 | Error (but misleadingly returns the dead ID) |
 
-**Always check `maxLevel`**, not just the return value. Merge in particular returns the dead target ID with an error — the return value alone looks like success.
-
-## Gotchas Summary
-
-1. **Consumed tool IDs are invalid.** Referencing one returns a clean `"...has an invalid id!"` error (code 1006), not a hang. Track which IDs are still valid.
-2. **Self-boolean is rejected.** Passing the same ID as target and tool returns a clean error (`"...requires distinct target and tool entities..."`), not a hang.
-3. **Empty tools is a no-op, not an error.** Don't rely on error detection for empty tools arrays.
-4. **Never reuse a destroyed target.** `solid.translation` on it crashes the worker; merge returns misleading values. After an intersection that reports "Target solid was removed", drop the id.
-5. **`id` doesn't scope the operation.** It must be a valid EIF but doesn't restrict which solids participate.
+**Always check `maxLevel`**, not just the return value — merge's return alone looks like success. **Never reuse a destroyed target**: after an intersection reports "Target solid was removed", drop the id.
 
 ## Related
 

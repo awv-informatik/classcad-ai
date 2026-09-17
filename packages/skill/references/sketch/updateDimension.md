@@ -1,120 +1,62 @@
 # sketch.updateDimension
 
-Updates a dimension's value and re-solves the sketch. The solver immediately repositions geometry to match the new value.
+Updates a dimension's value and re-solves the sketch immediately. Works on all 7 types (OFFSET, HORIZONTAL_DISTANCE, VERTICAL_DISTANCE, RADIUS, DIAMETER — value = diameter, ANGLE/ANGLEOX — use `'30deg'`), regardless of feature open/closed state. Sequential updates each re-solve.
 
-## Prerequisites
-
-- A dimension created with `sketch.dimension` — you need the **dimension ID**, not the sketch ID
-- The sketch must have been created with `planeId` (otherwise the solver is disabled and result is always 0)
+Requires a sketch created with `planeId` — otherwise the solver is disabled and result is always 0.
 
 ## Key Parameters
 
-- **`id`** (required) — the `CC_*FeatureDimension` ID returned by `sketch.dimension`. When recovering it from `api.tree()`, select the feature-dimension node, not the identically named `CC_2D*Constraint` node referenced by `members.master.value`. Constraint IDs are rejected with code 1001; see [dimension](dimension.md#return-value).
-- **`value`** (required) — the new value. Accepts:
-  - **Numbers:** `50`, `3.14`, `0`
-  - **Formula strings:** `'50+70'`, `'sqrt(2)*50'`, `'100'`
-  - **Angle strings:** `'30deg'`, `'60deg'` (for ANGLE/ANGLEOX dimensions)
-  - **Live expression bindings:** `'@expr.NAME'` or a formula with the prefix (`'@expr.W*2'`) — binds the dim to the expression and keeps tracking it: a later `updateExpression` re-solves the sketch immediately. Works on ANGLE dims with the expression in radians. The expression must EXIST — see Gotchas. Names without the `@expr.` prefix and `$NAME` fail (result=0).
+- **`id`** (required) — the `CC_*FeatureDimension` ID from `sketch.dimension` (not the sketch ID). When recovering from `api.tree()`, pick the feature-dimension node, not the identically named `CC_2D*Constraint` referenced by `members.master.value`; constraint IDs → 1001. See [dimension](dimension.md#return-value).
+- **`value`** (required):
+  - numbers `50`, `0`; formulas `'50+70'`, `'sqrt(2)*50'`; angles `'30deg'`
+  - **`'@expr.NAME'`** or prefixed formula (`'@expr.W*2'`) — LIVE binding (result 2); a later `updateExpression` moves geometry with no further calls. ANGLE dims: expression in radians (`C:PI/6` or a number), see `dimension.md`. The expression must EXIST — create via `part.expression({toCreate: [...]})`; the direct `{id,name,value}` form is a SILENT NO-OP (result=1), and `@expr` on it then fails with result=0 — check `getExpression` first. No prefix and `$NAME` fail (result=0).
 
 ## Return Value
 
-```js
-{
-  result: 0 | 1 | 2,   // solver state (NOT boolean despite docs)
-  messages?: [...],
-  maxLevel?: real,
-  structure: {...},     // full structure tree
-  graphic: null
-}
-```
-
-**Result is a solver state, not a boolean:**
+`{ result: 0 | 1 | 2, messages?, maxLevel?, structure: {...}, graphic: null }` — a solver state, **not a boolean** (despite API docs). Check `result > 0`.
 
 | Value | Meaning | When |
 |-------|---------|------|
-| `0` | Not solved / solver failed | Over-constrained, negative value, conflicting constraints, sketch without `planeId` |
-| `1` | Solved, under-constrained | Some degrees of freedom remain (e.g., circle with RADIUS dim but no center constraint) |
-| `2` | Well-constrained | Fully determined — no remaining DOF |
+| `0` | Not solved | Over-constrained, negative value, conflicts, no `planeId` |
+| `1` | Solved, under-constrained | DOF remain (e.g. RADIUS dim, unconstrained center) |
+| `2` | Well-constrained | Fully determined |
 
-**result=0 does NOT mean error.** maxLevel is still 31 (info). Check `result > 0` for success, not `result === true`.
-
-## Works on All 7 Dimension Types
-
-| Type | Tested | Notes |
-|------|--------|-------|
-| OFFSET | ✅ | Line length changes |
-| HORIZONTAL_DISTANCE | ✅ | X extent changes |
-| VERTICAL_DISTANCE | ✅ | Y extent changes |
-| RADIUS | ✅ | Circle radius changes (circle must not be FIXATION-locked) |
-| DIAMETER | ✅ | Circle diameter changes (value = diameter, radius = value/2) |
-| ANGLE | ✅ | Line angle changes (use `'30deg'` syntax) |
-| ANGLEOX | ✅ | Line-to-X-axis angle changes |
+**result=0 is not an error:** maxLevel stays 31, no messages.
 
 ## Gotchas
 
-- **Expression binding via `value: '@expr.NAME'` is LIVE** (bind via updateDimension → result 2; a later `updateExpression` moves the geometry with no further calls). Requirements: the expression must exist — create it with `part.expression({toCreate: [...]})`; the direct `{id,name,value}` form is a SILENT NO-OP returning result=1, and `@expr` on the never-created expression then fails with result=0 (check `getExpression` first when a binding misbehaves). Names without the `@expr.` prefix and `$NAME` fail (result=0). ANGLE dims: the expression must be in radians (`C:PI/6` or a number) — see `sketch/dimension.md`.
-- **Bind dimensions with `@expr` in `value`, not `linkWithExpression`.** `linkWithExpression` on a dimension throws "Datamember ... not found" and leaves an unresolvable reference on the dimension; later sketch calls in that sketch then fail with the same error.
-- **Return value is NOT boolean.** The API docs say `result: boolean` but actual values are 0, 1, or 2 (solver state enum). Use `result > 0` to check success.
-- **Negative values fail silently.** result=0, no error messages, but geometry may partially change to `|value|`. Avoid negative values.
-- **Zero is valid.** Collapses geometry to zero length/radius (result=2).
-- **Over-constraining returns result=0.** If both endpoints are fixed and you change the dimension, result=0, no error, geometry unchanged.
-- **RADIUS/DIAMETER on FIXATION-locked circles:** FIXATION protects circle radius. updateDimension returns result=0 — the solver can't change the radius. Remove FIXATION first.
-- **No open/close feature editing required.** Works regardless of feature state.
-- **Sequential updates work.** Call updateDimension multiple times — each update re-solves.
-- **result=0 doesn't always mean "no change."** For ANGLE/ANGLEOX, the solver may partially converge (geometry moves) but still report 0 if the sketch is under-determined.
-- **NO batch form.** Passing an ARRAY of `{id, value}` params (like `dimension`/`constraint`
-  accept) throws an `objId` evaluation error and updates nothing. Loop single calls.
-- **Symmetric dimension pairs traverse an unsolvable intermediate.** Updating "2×" twins one
-  at a time (e.g. two Ø5.6 bosses that a dome is tangent to, symmetric about a fixed axis)
-  makes the FIRST call return `result 0` — correctly, the asymmetric state is contradictory —
-  and the second call returns 2 with the whole system landing exact. Prefer ONE driving
-  dimension + `EQUAL_RADIUS`/`EQUAL_LENGTH` on the twin: a single update then re-solves both
-  sides in one solvable step (verified 2026-07-02, exact to 1e-14).
-- **⚠️ Stale `bulge` after a failed(0)→solved(2) sequence (server bug, TODO #174).** A failed
-  update attempt can write a garbage `bulge` into an arc; the subsequent SUCCESSFUL update
-  re-solves all positions exactly (start/end/center/radius verified to 1e-15) but may NOT
-  rewrite the bulge — the structure tree then carries a wrong sweep (observed: 1.2988643 =
-  209.6° instead of 0.7022581 = 140.3°, reproduced 3/3). Anything reading `bulge` (renderers,
-  the trim boundary-test) sees a corrupted arc while all position readbacks pass. `common.recalc`
-  does NOT refresh it; a same-value re-set is a solver no-op and doesn't either; only a later
-  value-CHANGING successful solve that moves the arc may. Avoidance: never drive the sketch
-  through a result-0 intermediate — use the EQUAL_RADIUS pattern above. If you must verify,
-  check `members.bulge.value` against `tan(sweep/4)` computed from solved endpoints/center.
+- **Bind with `@expr` in `value`, not `linkWithExpression`.** `linkWithExpression` on a dimension throws "Datamember ... not found" and leaves an unresolvable reference; later calls in that sketch fail with the same error.
+- **Negative values:** result=0, no messages, but geometry may partially change to `|value|`. Avoid.
+- **Zero is valid** — collapses to zero length/radius (result=2).
+- **Over-constrained** (e.g. both endpoints fixed): result=0, geometry unchanged.
+- **FIXATION protects circle radius** — RADIUS/DIAMETER update returns 0; remove FIXATION first.
+- **result=0 ≠ "no change"** for ANGLE/ANGLEOX: the solver may partially converge (geometry moves) on under-determined sketches.
+- **NO batch form.** An array of `{id, value}` throws an `objId` evaluation error and updates nothing. Loop single calls.
+- **Symmetric twin dims traverse an unsolvable intermediate.** Updating "2×" twins one at a time (two Ø5.6 bosses a dome is tangent to, symmetric about a fixed axis): first call returns 0 (asymmetric state is contradictory), second returns 2, exact. Prefer ONE driving dim + `EQUAL_RADIUS`/`EQUAL_LENGTH` on the twin — one solvable step (exact to 1e-14).
+- **⚠️ Stale `bulge` after a failed(0)→solved(2) sequence (server bug).** A failed update can write a garbage `bulge` into an arc; the next SUCCESSFUL update re-solves positions exactly (start/end/center/radius to 1e-15) but may NOT rewrite bulge — the tree carries a wrong sweep (1.2988643 = 209.6° instead of 0.7022581 = 140.3°, reproduced 3/3). Renderers and the trim boundary-test see a corrupted arc while position readbacks pass. `common.recalc` doesn't refresh it; a same-value re-set is a solver no-op; only a later value-CHANGING solve that moves the arc may. Avoid result-0 intermediates (EQUAL_RADIUS pattern above). To verify, compare `members.bulge.value` with `tan(sweep/4)` from solved endpoints/center.
 
 ## Common Errors
 
-| Error | Code | Cause | Fix |
-|-------|------|-------|-----|
-| `"wrong id type! Provide only following id types: [\"dimension\"]"` | 1001 | Passed sketch/line/constraint/part ID | Use the dimension ID from `sketch.dimension()` |
-| `"The parameter \"value\" must be provided"` | 1004 | Missing `value` param | Always provide `value` |
-| `"The parameter \"id\" must be provided"` | 1004 | Missing `id` param | Always provide `id` |
-| `"ToId()/TOID() didn't get an existing or valid id"` + `"invalid id"` | 0+1006 | Nonexistent dimension ID | Verify dimension exists |
+| Error | Code | Cause |
+|-------|------|-------|
+| `"wrong id type! Provide only following id types: [\"dimension\"]"` | 1001 | Sketch/line/constraint/part ID |
+| `"The parameter \"value\" must be provided"` | 1004 | Missing `value` |
+| `"The parameter \"id\" must be provided"` | 1004 | Missing `id` |
+| `"ToId()/TOID() didn't get an existing or valid id"` + `"invalid id"` | 0+1006 | Nonexistent dimension ID |
 
 ## Working Example
 
 ```js
-const partR = await api.v1.part.create({ name: 'Demo' })
-const partId = partR.result
-const topPlane = Object.values(partR.structure.tree)
-  .find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
-
-const skId = (await api.v1.sketch.create({ id: partId, planeId: topPlane.id })).result
+const partId = (await api.v1.part.create({ name: 'Demo' })).result
+const planeId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Top' })).result
+const skId = (await api.v1.sketch.create({ id: partId, planeId })).result
 const rectIds = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })).result
-
-// Fix anchor point
 const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
 await api.v1.sketch.constraint({ id: skId, type: 'FIXATION', geomIds: [pts.startId] })
+const dimId = (await api.v1.sketch.dimension({ id: skId, type: 'OFFSET', geomIds: [rectIds[0]] })).result // auto-value 80
 
-// Create dimension (auto-value = 80)
-const dimId = (await api.v1.sketch.dimension({ id: skId, type: 'OFFSET', geomIds: [rectIds[0]] })).result
-
-// Update to 120 — geometry resizes immediately
-const r = await api.v1.sketch.updateDimension({ id: dimId, value: 120 })
-// r.result = 2 (well-constrained), geometry now 120 wide
-
-// Formula strings work too
-await api.v1.sketch.updateDimension({ id: dimId, value: 'sqrt(2)*100' })
-// geometry now ~141.4 wide
+const r = await api.v1.sketch.updateDimension({ id: dimId, value: 120 }) // r.result 2, now 120 wide
+await api.v1.sketch.updateDimension({ id: dimId, value: 'sqrt(2)*100' }) // ~141.4 wide
 ```
 
 ## Related

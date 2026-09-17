@@ -1,36 +1,32 @@
 # assembly.partTemplate
 
-Creates a new part and adds it as a template to the PartContainer. The returned ID is a full `CC_Part` node — use it with all `part.*` APIs to build geometry inside the template. Templates are then instantiated with `assembly.instance`.
+Creates a new part and adds it as a template to the PartContainer. The returned ID is a full `CC_Part` node — build geometry in it with any `part.*` API, then instantiate with `assembly.instance`.
 
 ## Prerequisites
 
-- `assembly.create` must have been called first. Without it: error "Assembly building is not initialized!" (maxLevel=51).
+`assembly.create` first. Without it: "Assembly building is not initialized!" (maxLevel 51).
 
 ## Key Parameters
 
-- `name` — (optional) Name of the template. Default: `"Part"`. Subsequent unnamed templates get `"Part0"`, `"Part1"`, etc.
+- `name` — optional, default `"Part"`; subsequent unnamed templates get `"Part0"`, `"Part1"`, … No `ident` parameter (unlike `assembly.create`).
 
 ## Return Value
 
-- **Success:** `result` = numeric ID of the `CC_Part` node (stored in `CC_PartContainer`). `maxLevel` = 31.
-- **Failure:** `result` = null, `maxLevel` = 51.
+ID of the `CC_Part` node (maxLevel 31); failure → null, maxLevel 51.
 
 ## Context Behavior
 
-- **`partTemplate` does NOT switch `currentProduct`.** After calling it, context remains on the assembly root.
-- **`part.*` calls with the template ID DO switch `currentProduct`** to the template. This is automatic — the first `part.box({ id: tplId, ... })` flips context.
-- **`assembly.*` calls work regardless of `currentProduct`** because they accept explicit IDs (`ownerId`, `id`). You do NOT need `setCurrentProduct` back to the assembly before calling `assembly.instance`.
-- **Best practice:** Call `setCurrentProduct({ id: asmId })` after building template geometry, before continuing with assembly operations. This isn't strictly required but keeps the state predictable.
+- `partTemplate` does **not** switch `currentProduct` (stays on the assembly root).
+- `part.*` calls with the template ID **do** switch `currentProduct` to the template (the first `part.box({ id: tplId })` flips it).
+- `assembly.*` calls take explicit IDs and work regardless of `currentProduct`, so `setCurrentProduct({ id: asmId })` before `assembly.instance` is not strictly required — but calling it after building template geometry keeps state predictable.
 
 ## Gotchas
 
-- **Duplicate names allowed** — creating two templates with the same name succeeds (different IDs). But `getPartTemplate({ name: 'X' })` only returns the first match. Use unique names or track IDs directly.
-- **Template updates DO propagate to unmaterialized instances.** Instances start as live references — modifying a template (openFeature → updateBox → closeFeature → recalc) updates all instances that haven't been "materialized." Materialization occurs when `calculateMassProperties` is called directly on an instance ID (which locks ALL instances of that template). After materialization, instances retain their geometry independently. To apply changes to materialized instances: delete and re-create them. See `references/assembly/generic.md` for the full propagation rules.
-- **No `ident` parameter** — unlike `assembly.create`, `partTemplate` only accepts `name`.
+- **Duplicate names are renamed:** a second `partTemplate({ name: 'Bracket' })` becomes `"Bracket0"`. An unnamed instance takes the template name (`"Bracket"`), so name lookups like `productId: 'Bracket'` then fail with "name of the object is not unique". Pass template IDs, or give instances their own names.
+- **Template updates propagate to unmaterialized instances.** Instances start as live references — modifying a template (openFeature → updateBox → closeFeature → recalc) updates every instance not yet materialized. Calling `calculateMassProperties` directly on an instance ID materializes ALL instances of that template; they then keep their geometry independently. To apply changes to them, delete and re-create. Full rules: `assembly/generic`.
+- **Primitive alignment:** `part.box` is corner-aligned at origin, `part.cylinder` centered at base, `part.sphere` centered at origin. Instance COG = template local COG + instance origin (50×30×20 box, COG (25,15,10); instance at (60,0,0) → COG (85,15,10)).
 
 ## Structure Tree
-
-Templates live in `CC_PartContainer` (id=8, child of AllObjects):
 
 ```
 AllObjects (id=1)
@@ -46,32 +42,21 @@ AllObjects (id=1)
 
 ```js
 const asmId = (await api.v1.assembly.create({ name: 'MyAssembly' })).result
-
-// Create template
 const tplId = (await api.v1.assembly.partTemplate({ name: 'Bracket' })).result
 
-// Build geometry using part.* APIs (this switches currentProduct to template)
-const boxId = (await api.v1.part.box({ id: tplId, name: 'Body', length: 50, width: 30, height: 20 })).result
-const wcsId = (await api.v1.part.workCSys({
-  id: tplId, name: 'MateCSys',
-  offset: [25, 15, 20],
-})).result
+// part.* calls switch currentProduct to the template
+await api.v1.part.box({ id: tplId, name: 'Body', length: 50, width: 30, height: 20 })
+await api.v1.part.workCSys({ id: tplId, name: 'MateCSys', offset: [25, 15, 20] })
 
-// Return to assembly context (good practice, not strictly required)
 await api.v1.assembly.setCurrentProduct({ id: asmId })
 
-// Instantiate — by ID or by name string
-const inst1 = (await api.v1.assembly.instance({ productId: tplId, ownerId: asmId })).result
+// Instantiate by name string or by ID (instances get unique names)
+const inst1 = (await api.v1.assembly.instance({ productId: 'Bracket', ownerId: asmId, name: 'B1' })).result
 const inst2 = (await api.v1.assembly.instance({
-  productId: 'Bracket', ownerId: asmId,
+  productId: tplId, ownerId: asmId, name: 'B2',
   transformation: [[60, 0, 0], [1, 0, 0], [0, 1, 0]],
 })).result
 ```
-
-## Spatial Facts (verified)
-
-- Template geometry uses part primitive alignment: `part.box` is corner-aligned at origin, `part.cylinder` centered at base, `part.sphere` centered at origin.
-- Instance COG = template local COG + instance transform origin. E.g., 50×30×20 box template has COG (25,15,10); instance at transform origin (60,0,0) has COG (85,15,10).
 
 ## Related
 

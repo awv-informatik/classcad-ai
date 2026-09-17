@@ -1,94 +1,55 @@
 # curve.transformShape
 
-Applies a 4x4 transformation matrix to all curves in a shape. Combines translation and rotation in a single call. The matrix is in part coordinates.
-
-## Prerequisites
-
-- A shape (`curve.shape`) containing at least one curve
-- **Do NOT call `common.recalc` between shape creation/modification and transformShape** — recalc invalidates shape IDs (same bug as `translateShape`/`rotateShape`)
+Applies a 4x4 transformation matrix (part coordinates) to all curves of a shape — rotation and translation in one call, or a matrix you already have. For translate-only / rotate-only / scale-only use the simpler `translateShape` / `rotateShape` / `scaleShape` (same behavior).
 
 ## Key Parameters
 
-- `id` (required) — shape ID (from `curve.shape`). Only shape IDs accepted; part/EI IDs give error 1001.
-- `matrix` (required) — 4x4 transformation matrix as `Array<Array<real>>`, row-major. Format:
+- `id` (required) — shape ID (`curve.shape`); part/EI IDs → error 1001
+- `matrix` (required) — `Array<Array<real>>`, row-major; upper-left 3x3 = rotation/orientation, last column = translation, bottom row must be `[0, 0, 0, 1]`:
   ```
   [[xVec.x, yVec.x, zVec.x, pos.x],
    [xVec.y, yVec.y, zVec.y, pos.y],
    [xVec.z, yVec.z, zVec.z, pos.z],
    [0,      0,      0,      1     ]]
   ```
-  - Upper-left 3x3 = rotation/orientation
-  - Last column (first 3 rows) = translation
-  - Bottom row must be `[0, 0, 0, 1]`
 
 ## Return Value
 
-Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on success.
+VOID (`null`), maxLevel 31, no messages. In-place — the shape ID stays valid.
 
 ## Matrix Construction
 
-**Pure translation** (equivalent to `translateShape({ translation: [tx, ty, tz] })`):
-```
-[[1, 0, 0, tx],
- [0, 1, 0, ty],
- [0, 0, 1, tz],
- [0, 0, 0, 1 ]]
-```
+| Transform | Matrix |
+|---|---|
+| Translation (≡ `translateShape([tx,ty,tz])`) | `[[1,0,0,tx],[0,1,0,ty],[0,0,1,tz],[0,0,0,1]]` |
+| Rotation about Z by θ (≡ `rotateShape([0,0,θ])`) | `[[cos,-sin,0,0],[sin,cos,0,0],[0,0,1,0],[0,0,0,1]]` |
+| Rotation about X by θ | `[[1,0,0,0],[0,cos,-sin,0],[0,sin,cos,0],[0,0,0,1]]` |
+| Rotation about Y by θ | `[[cos,0,sin,0],[0,1,0,0],[-sin,0,cos,0],[0,0,0,1]]` |
 
-**Rotation around Z** (angle θ, equivalent to `rotateShape({ rotation: [0, 0, θ] })`):
-```
-[[cos(θ), -sin(θ), 0, 0],
- [sin(θ),  cos(θ), 0, 0],
- [0,       0,      1, 0],
- [0,       0,      0, 1]]
-```
-
-**Rotation around X** (angle θ):
-```
-[[1, 0,       0,      0],
- [0, cos(θ), -sin(θ), 0],
- [0, sin(θ),  cos(θ), 0],
- [0, 0,       0,      1]]
-```
-
-**Rotation around Y** (angle θ):
-```
-[[ cos(θ), 0, sin(θ), 0],
- [ 0,      1, 0,      0],
- [-sin(θ), 0, cos(θ), 0],
- [ 0,      0, 0,      1]]
-```
-
-**Combined rotation + translation** — put rotation in the 3x3 and translation in the 4th column. The matrix applies rotation first, then translation (i.e., the translation is in the rotated frame).
+**Combined:** rotation in the 3x3, translation in the 4th column; rotation is applied first, then translation.
 
 ## Behavior
 
-- **In-place mutation.** The shape ID remains valid after transformation. No new shape is created.
-- **Cumulative.** Each call adds to the current state. Two sequential translations stack.
-- **All curves move together.** Lines, circles, arcs, polylines — everything in the shape transforms as a unit.
-- **Identity matrix** `[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]` is a silent noop (maxLevel 31).
-- **Rotation center is the origin.** Same as `rotateShape` — shapes offset from origin will orbit around (0,0,0).
+- Cumulative (two translations stack); all curves move as a unit; rotation center is the origin (offset shapes orbit, as with `rotateShape`).
+- Identity matrix is a silent no-op (maxLevel 31).
+- **Non-orthogonal matrices are accepted** (maxLevel 31) — orthogonality is not enforced.
+- **Scaling in the matrix is applied, not ignored:** uniform `diag(2,2,2)` on a 30×20 rectangle extrudes to 60×40 (volume ×4, COG scaled). Shear/non-uniform not verified — `scaleShape` is the explicit way to scale.
+- **Left-handed matrices (negative determinant, mirror/reflection) are rejected** with error 1014 — use `scaleShape` with a negative factor for point reflection.
 
 ## Gotchas
 
-- **`common.recalc` invalidates shape IDs.** After calling `recalc`, `transformShape` fails with error 1006. **Render/export pipelines often trigger recalc internally.** Always do ALL shape transforms BEFORE any recalc, visualization, or export step.
-- **Recalc invalidates ALL shape IDs in the drawing**, not just the shape being operated on. If you have shapes in multiple parts, one recalc invalidates them all.
-- **Empty shapes cannot be transformed.** A shape with no curves gives error 1006.
-- **Error message says `ids` (plural)** even though the parameter is `id` (singular). Same as translateShape/rotateShape.
-- **Non-orthogonal matrices are accepted** (maxLevel 31) — orthogonality is not enforced.
-- **Scaling in the matrix is applied, not ignored.** A uniform `diag(2,2,2)` on a 30×20 rectangle extrudes to 60×40 (volume ×4, COG scaled). Shear/non-uniform matrices were not verified — `scaleShape` is the explicit way to scale.
-- **Left-handed matrices ARE properly rejected.** A matrix with negative determinant (e.g., mirror/reflection) returns error 1014 with a clear message.
-- **The graphic data in the response is incremental**, not the full transformed state. Do not use `r.graphic` to verify transform results.
+- **`common.recalc` invalidates ALL shape IDs in the drawing** (shapes in multiple parts too) → error 1006; render/export pipelines often recalc internally. Do ALL shape transforms BEFORE any recalc, visualization or export (details: `curve/translateShape`).
+- **Empty shapes** cannot be transformed → error 1006. Error messages say `ids` (plural) though the parameter is `id`.
+- **`r.graphic` in the response is incremental**, not the full transformed state — don't use it to verify.
 
 ## Common Errors
 
-| Code | Level | Message | Cause |
-|------|-------|---------|-------|
-| 1014 | ERROR | "The provided matrix is left-handed. This is not yet supported" | Matrix has negative determinant (reflection/mirror) |
-| 1006 | ERROR | "An element of parameter `ids` has an invalid id!" | Shape ID invalid (after recalc, empty shape, or deleted shape) |
-| 1001 | ERROR | "The parameter `id` has a wrong id type! Provide only following id types: [`shape`]" | Passed EI ID or part ID instead of shape ID |
-| 1004 | ERROR | "The parameter `matrix` must be provided in the api call!" | Missing `matrix` parameter |
-| 1004 | ERROR | "The parameter `id` must be provided in the api call!" | Missing `id` parameter |
+| Code | Message | Cause |
+|------|---------|-------|
+| 1014 | "The provided matrix is left-handed. This is not yet supported" | Negative determinant (reflection/mirror) |
+| 1006 | "An element of parameter `ids` has an invalid id!" | Shape ID invalid (after recalc, empty, or deleted) |
+| 1001 | "The parameter `id` has a wrong id type! Provide only following id types: [`shape`]" | EI or part ID instead of shape ID |
+| 1004 | "The parameter `<matrix\|id>` must be provided in the api call!" | Missing parameter |
 
 ## Working Example
 
@@ -96,39 +57,19 @@ Returns VOID (`null`). On success, `maxLevel` is 31 (info). No messages on succe
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Outline' })).result
-
-// Create some geometry
 await api.v1.curve.advancedPolyline({
   id: shapeId,
-  pld: [
-    { xa: 0, ya: 0 },
-    { xa: 30, ya: 0, r: 3 },
-    { xa: 30, ya: 20, r: 3 },
-    { xa: 0, ya: 20 },
-  ],
+  pld: [{ xa: 0, ya: 0 }, { xa: 30, ya: 0, r: 3 }, { xa: 30, ya: 20, r: 3 }, { xa: 0, ya: 20 }],
   close: true,
 })
 
-// 45° rotation around Z + translate to (60, 20)
-const c = Math.cos(Math.PI / 4) // ~0.7071
-const s = Math.sin(Math.PI / 4)
+// 45° about Z + translate to (60, 20) — result null, maxLevel 31
+const c = Math.cos(Math.PI / 4), s = Math.sin(Math.PI / 4)
 await api.v1.curve.transformShape({
   id: shapeId,
-  matrix: [
-    [c, -s, 0, 60],
-    [s,  c, 0, 20],
-    [0,  0, 1,  0],
-    [0,  0, 0,  1],
-  ],
+  matrix: [[c, -s, 0, 60], [s, c, 0, 20], [0, 0, 1, 0], [0, 0, 0, 1]],
 })
-// result: null, maxLevel: 31
 ```
-
-## When to Use vs. translateShape/rotateShape
-
-- **Use `transformShape`** when you need to apply rotation + translation in a single call, or when you already have a transformation matrix from another source.
-- **Use `translateShape`/`rotateShape`** for simple translate-only or rotate-only operations — simpler API, same behavior.
-- **Use `scaleShape`** for scaling when you only need a scale factor.
 
 ## Related
 

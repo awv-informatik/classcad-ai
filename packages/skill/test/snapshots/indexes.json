@@ -1,0 +1,590 @@
+{
+  "listDocs": {
+    "topics": [],
+    "overviews": [
+      "api/assembly",
+      "api/common",
+      "api/curve",
+      "api/drawing2d",
+      "api/expressions",
+      "api/part",
+      "api/sketch",
+      "api/solid"
+    ],
+    "recipes": [
+      "recipes/assembly-parameters",
+      "recipes/constrained-sketching",
+      "recipes/direct-modeling-eif",
+      "recipes/parametric-part",
+      "recipes/pattern-then-subtract",
+      "recipes/verification"
+    ],
+    "guides": [
+      "assembly/generic",
+      "assembly/movingUnderConstraints",
+      "common/encoding-pipeline",
+      "common/expression-syntax",
+      "common/faceting-concepts",
+      "common/format-comparison",
+      "common/generic",
+      "common/state-tree",
+      "common/userData",
+      "part/brep-access-pattern",
+      "part/expression-workflow",
+      "part/feature-vs-direct",
+      "part/id-hierarchy",
+      "part/rollback-bars",
+      "solid/curves-parameter",
+      "solid/generic",
+      "solid/target-tools-pattern"
+    ]
+  },
+  "docIndex": [
+    "recipes/assembly-parameters — Shared parameters across the parts of an assembly",
+    "recipes/constrained-sketching — Sketching Guide — Reproducing Technical Drawings in ClassCAD",
+    "recipes/direct-modeling-eif — Direct modeling with solid.\\* inside an Entity Injection Feature (EIF)",
+    "recipes/parametric-part — A truly parametric part (expressions + constrained sketches)",
+    "recipes/pattern-then-subtract — Pattern a cutting tool, then subtract (holes, teeth, slots on a circle)",
+    "recipes/verification — Recipe — verification (mandatory for every build)",
+    "assembly/generic — Assembly: Template vs Instance Paradigm",
+    "assembly/movingUnderConstraints — assembly.startMovingUnderConstraints / moveUnderConstraints / finishMovingUnderConstraints",
+    "common/encoding-pipeline — Encoding/Compression Pipeline",
+    "common/expression-syntax — Expression Syntax Reference",
+    "common/faceting-concepts — Faceting Concepts — chordHeightTol, angleTol, Quality vs Performance",
+    "common/format-comparison — Format Comparison — OFB vs STP vs STL vs SCG vs IWP vs DXF",
+    "common/generic — Protocol Envelope",
+    "common/state-tree — Structure tree (server state model)",
+    "common/userData — common.setUserData / getUserData / removeUserData / clearUserData / getUserDataKeys",
+    "part/brep-access-pattern — Brep Geometry Access Pattern",
+    "part/expression-workflow — Expression Workflow (End-to-End)",
+    "part/feature-vs-direct — Feature Primitives vs Direct Solids",
+    "part/id-hierarchy — Entity Injection ID Hierarchy",
+    "part/rollback-bars — RollbackBar vs GhostRollbackBar",
+    "solid/curves-parameter — The `curves` Parameter (solid.extrusion & solid.revolve)",
+    "solid/generic — Common Solid Parameters: rotation, translation, rotateFirst",
+    "solid/target-tools-pattern — The target/tools/keepTools Pattern"
+  ],
+  "methodIndex": {
+    "chars": 19998,
+    "sha": "940677d1fbc4",
+    "headings": [],
+    "lines": 264
+  },
+  "bundleKeys": [
+    "api/assembly",
+    "api/common",
+    "api/curve",
+    "api/drawing2d",
+    "api/expressions",
+    "api/part",
+    "api/sketch",
+    "api/solid",
+    "assembly/assemblyTemplate",
+    "assembly/calculateMassProperties",
+    "assembly/circularPattern",
+    "assembly/convertToTemplate",
+    "assembly/create",
+    "assembly/createUncommitedObject",
+    "assembly/cylindrical",
+    "assembly/deleteConstraint",
+    "assembly/deleteInstance",
+    "assembly/deleteTemplate",
+    "assembly/exportNode",
+    "assembly/fastened",
+    "assembly/fastenedOrigin",
+    "assembly/from",
+    "assembly/gear",
+    "assembly/generic",
+    "assembly/getAssemblyTemplate",
+    "assembly/getFastened",
+    "assembly/getFastenedOrigin",
+    "assembly/getInstance",
+    "assembly/getPartTemplate",
+    "assembly/getWorkGeometry",
+    "assembly/group",
+    "assembly/instance",
+    "assembly/linearPattern",
+    "assembly/loadProduct",
+    "assembly/movingUnderConstraints",
+    "assembly/parallel",
+    "assembly/partTemplate",
+    "assembly/planar",
+    "assembly/revolute",
+    "assembly/setCurrentInstance",
+    "assembly/setCurrentProduct",
+    "assembly/setIdent",
+    "assembly/slider",
+    "assembly/spherical",
+    "assembly/transformInstance",
+    "assembly/transformInstanceTo",
+    "assembly/update3DConstraintValue",
+    "common/batch",
+    "common/clear",
+    "common/clearUserData",
+    "common/encoding-pipeline",
+    "common/evaluateExpression",
+    "common/expression-syntax",
+    "common/faceting-concepts",
+    "common/format-comparison",
+    "common/generic",
+    "common/getAppVersion",
+    "common/getClassFileVersion",
+    "common/getDatabaseSettings",
+    "common/getFacetingParameters",
+    "common/getUserData",
+    "common/getUserDataKeys",
+    "common/load",
+    "common/recalc",
+    "common/removeUserData",
+    "common/requestVisualisation",
+    "common/save",
+    "common/setAppearance",
+    "common/setDatabaseSettings",
+    "common/setFacetingParameters",
+    "common/setObjectCoordSystem",
+    "common/setObjectName",
+    "common/setUserData",
+    "common/state-tree",
+    "common/transformObjectWithMatrix",
+    "common/userData",
+    "curve/advancedPolyline",
+    "curve/arcBy3Points",
+    "curve/arcByCenter",
+    "curve/arcByCenterRadAngle",
+    "curve/bezierCurve",
+    "curve/circle",
+    "curve/ellipse",
+    "curve/ellipticArc",
+    "curve/interpolationCurve",
+    "curve/line",
+    "curve/polyline2d",
+    "curve/rotateShape",
+    "curve/scaleShape",
+    "curve/shape",
+    "curve/transformShape",
+    "curve/translateShape",
+    "curve/union2d",
+    "drawing2d/centerView",
+    "drawing2d/getBoundaryBoxFromView",
+    "drawing2d/placeView",
+    "drawing2d/view",
+    "part/boolean",
+    "part/box",
+    "part/brep-access-pattern",
+    "part/calculateMassProperties",
+    "part/chamfer",
+    "part/circularPattern",
+    "part/compositeCurve",
+    "part/cone",
+    "part/create",
+    "part/createUncommitedObject",
+    "part/cylinder",
+    "part/deleteExpression",
+    "part/deleteFeature",
+    "part/entityDeletion",
+    "part/entityInjection",
+    "part/expression",
+    "part/expression-workflow",
+    "part/extrusion",
+    "part/feature-vs-direct",
+    "part/fillet",
+    "part/getBrepGeometryByIndex",
+    "part/getBrepGeometryIndex",
+    "part/getExpression",
+    "part/getFeature",
+    "part/getGeometryIds",
+    "part/getGeometryPositions",
+    "part/getSketch",
+    "part/getSketchRegion",
+    "part/getWorkGeometry",
+    "part/id-hierarchy",
+    "part/importFeature",
+    "part/linearPattern",
+    "part/linkWithExpression",
+    "part/mirror",
+    "part/openFeature",
+    "part/operationMoveBefore",
+    "part/renameExpression",
+    "part/revolve",
+    "part/rollback-bars",
+    "part/rotation",
+    "part/setAppearance",
+    "part/sketch",
+    "part/slice",
+    "part/sliceBySheet",
+    "part/sphere",
+    "part/transformationByCSys",
+    "part/translation",
+    "part/twist",
+    "part/unlinkExpression",
+    "part/updateBoolean",
+    "part/updateBox",
+    "part/updateCircularPattern",
+    "part/updateCylinder",
+    "part/updateExpression",
+    "part/updateExtrusion",
+    "part/updateImportFeature",
+    "part/updateLinearPattern",
+    "part/updateMirror",
+    "part/updateRevolve",
+    "part/updateRotation",
+    "part/updateSlice",
+    "part/updateSliceBySheet",
+    "part/updateTransformationByCSys",
+    "part/updateTranslation",
+    "part/updateTwist",
+    "part/updateWorkAxis",
+    "part/updateWorkCSys",
+    "part/updateWorkPlane",
+    "part/updateWorkPoint",
+    "part/workAxis",
+    "part/workCSys",
+    "part/workPlane",
+    "part/workPoint",
+    "recipes/assembly-parameters",
+    "recipes/constrained-sketching",
+    "recipes/direct-modeling-eif",
+    "recipes/parametric-part",
+    "recipes/pattern-then-subtract",
+    "recipes/verification",
+    "sketch/arcBy3Points",
+    "sketch/arcByCenter",
+    "sketch/changeReferenceGeometry",
+    "sketch/circle",
+    "sketch/circularPattern",
+    "sketch/constraint",
+    "sketch/copyFrom",
+    "sketch/copyGeometry",
+    "sketch/create",
+    "sketch/deleteObject",
+    "sketch/deleteSketch",
+    "sketch/dimension",
+    "sketch/fillet",
+    "sketch/generateAutoConstraints",
+    "sketch/geometry",
+    "sketch/getGeometry",
+    "sketch/getObjectsLists",
+    "sketch/getPoints",
+    "sketch/getPositions",
+    "sketch/getSketchRegion",
+    "sketch/line",
+    "sketch/linearPattern",
+    "sketch/loadFrom",
+    "sketch/mirrorPattern",
+    "sketch/moveGeometry",
+    "sketch/point",
+    "sketch/postTrim",
+    "sketch/preTrim",
+    "sketch/rectangle",
+    "sketch/referenceGeometry",
+    "sketch/rigidSet",
+    "sketch/setReferences",
+    "sketch/setWorkPlane",
+    "sketch/sketchRegion",
+    "sketch/splitCurve",
+    "sketch/trim",
+    "sketch/undoFillet",
+    "sketch/unlinkReferenceGeometry",
+    "sketch/updateDimension",
+    "sketch/updateDimensionPosition",
+    "sketch/updateGeometry",
+    "sketch/updateSketchRegion",
+    "solid/box",
+    "solid/cone",
+    "solid/copy",
+    "solid/curves-parameter",
+    "solid/cylinder",
+    "solid/deleteSolid",
+    "solid/extrusion",
+    "solid/fillet",
+    "solid/generic",
+    "solid/intersection",
+    "solid/merge",
+    "solid/mirror",
+    "solid/offset",
+    "solid/revolve",
+    "solid/rotation",
+    "solid/scale",
+    "solid/section",
+    "solid/slice",
+    "solid/sphere",
+    "solid/subtraction",
+    "solid/target-tools-pattern",
+    "solid/translation",
+    "solid/union",
+    "solid/useSolid"
+  ],
+  "constants": {
+    "DOCS_MAX_KEYS": 24,
+    "DOCS_RESPONSE_BUDGET": 48000,
+    "DOC_ALIASES": {
+      "SKETCHING": "recipes/constrained-sketching",
+      "recipes/verify-numerically": "recipes/verification",
+      "recipes/drawing-reproduction": "recipes/verification"
+    },
+    "SEARCH_SYNONYMS": {
+      "split": [
+        "slice",
+        "cut",
+        "divide",
+        "section",
+        "bisect",
+        "separate"
+      ],
+      "slice": [
+        "split",
+        "cut",
+        "section",
+        "divide"
+      ],
+      "cut": [
+        "slice",
+        "subtract",
+        "split",
+        "remove",
+        "pocket",
+        "section"
+      ],
+      "section": [
+        "slice",
+        "cut",
+        "split"
+      ],
+      "hole": [
+        "bore",
+        "drill",
+        "cut",
+        "pocket",
+        "subtract",
+        "boolean",
+        "cylinder"
+      ],
+      "drill": [
+        "hole",
+        "bore",
+        "subtract",
+        "boolean",
+        "cylinder"
+      ],
+      "bore": [
+        "hole",
+        "drill"
+      ],
+      "subtract": [
+        "cut",
+        "difference",
+        "boolean",
+        "remove"
+      ],
+      "difference": [
+        "subtract",
+        "cut",
+        "boolean"
+      ],
+      "union": [
+        "add",
+        "join",
+        "combine",
+        "fuse",
+        "merge",
+        "boolean"
+      ],
+      "join": [
+        "union",
+        "combine",
+        "merge",
+        "fuse"
+      ],
+      "combine": [
+        "union",
+        "join",
+        "merge"
+      ],
+      "intersect": [
+        "intersection",
+        "common",
+        "boolean"
+      ],
+      "round": [
+        "fillet",
+        "blend"
+      ],
+      "fillet": [
+        "round",
+        "blend"
+      ],
+      "chamfer": [
+        "bevel"
+      ],
+      "extrude": [
+        "pad",
+        "protrusion",
+        "boss",
+        "extrusion"
+      ],
+      "revolve": [
+        "revolution",
+        "lathe",
+        "revolved"
+      ],
+      "sweep": [
+        "loft"
+      ],
+      "loft": [
+        "sweep"
+      ],
+      "pattern": [
+        "array",
+        "repeat"
+      ],
+      "array": [
+        "pattern",
+        "repeat"
+      ],
+      "mirror": [
+        "reflect",
+        "symmetry",
+        "pattern"
+      ],
+      "hollow": [
+        "shell",
+        "thin",
+        "thinwall"
+      ],
+      "shell": [
+        "hollow",
+        "thin"
+      ],
+      "move": [
+        "translate",
+        "transform",
+        "position",
+        "offset"
+      ],
+      "rotate": [
+        "turn",
+        "transform"
+      ],
+      "scale": [
+        "resize",
+        "transform"
+      ],
+      "copy": [
+        "duplicate",
+        "clone",
+        "instance"
+      ],
+      "measure": [
+        "bounds",
+        "distance",
+        "length",
+        "volume",
+        "mass",
+        "inspect"
+      ],
+      "expression": [
+        "parameter",
+        "variable",
+        "formula"
+      ],
+      "parameter": [
+        "expression",
+        "variable",
+        "parametric"
+      ],
+      "parametric": [
+        "expression",
+        "parameter",
+        "regeneration"
+      ],
+      "variable": [
+        "expression",
+        "parameter"
+      ],
+      "global": [
+        "shared",
+        "parameter"
+      ],
+      "shared": [
+        "global",
+        "parameter"
+      ],
+      "constraint": [
+        "joint",
+        "mate",
+        "fastened"
+      ],
+      "joint": [
+        "constraint",
+        "mate"
+      ],
+      "mate": [
+        "constraint",
+        "joint"
+      ],
+      "assembly": [
+        "instance",
+        "template",
+        "product"
+      ],
+      "bounds": [
+        "boundingbox",
+        "extent",
+        "size",
+        "measure"
+      ],
+      "tag": [
+        "userdata",
+        "user",
+        "data",
+        "label",
+        "attribute"
+      ],
+      "label": [
+        "userdata",
+        "user",
+        "data",
+        "tag",
+        "attribute"
+      ],
+      "attribute": [
+        "userdata",
+        "user",
+        "data",
+        "tag",
+        "label"
+      ],
+      "metadata": [
+        "userdata",
+        "user",
+        "data",
+        "tag",
+        "attribute"
+      ],
+      "export": [
+        "save",
+        "write",
+        "format"
+      ],
+      "import": [
+        "load",
+        "read"
+      ],
+      "step": [
+        "stp",
+        "save",
+        "export"
+      ],
+      "stp": [
+        "step",
+        "save",
+        "export"
+      ],
+      "stl": [
+        "save",
+        "export",
+        "mesh"
+      ]
+    }
+  }
+}

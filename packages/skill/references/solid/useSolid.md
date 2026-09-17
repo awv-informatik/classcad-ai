@@ -1,90 +1,63 @@
 # solid.useSolid
 
-Creates parametric references to solids from other features, making them available for direct manipulation inside an entity injection. This is NOT a copy — it's a live link. When the source feature updates, the referenced solids update too.
-
-## Prerequisites
-
-- A part (`part.create`)
-- One or more source features containing solids (entity injections, `part.box`, `part.extrusion`, etc.)
-- A destination entity injection (`part.entityInjection`) — must be created AFTER the source features in the feature tree
+Creates parametric references to solids of other features inside an entity injection (EI), for direct manipulation (booleans, transforms, …). NOT a copy — a live link: when the source feature updates (e.g. `openFeature → updateBox → closeFeature → recalc`), the referenced solids update too.
 
 ## Key Parameters
 
-- **`from`** — array of feature IDs to get solids from. Two forms, **cannot be mixed in the same call**:
-  - **Plain IDs:** `[featureId1, featureId2]` — pulls ALL solids from each feature. Consumes all solids.
-  - **Object form:** `[{ id: featureId, indices: [0, 2] }]` — pulls specific solids by 0-based index. Only consumes the specified indices.
-- **`in`** — destination entity injection feature ID. Must be an EI — part IDs are rejected with error 1001.
+- **`from`** — feature IDs to take solids from. Two forms, **not mixable in one call** (mixing → error 1001):
+  - **Plain IDs** `[featureId1, featureId2]` — takes and consumes ALL solids of each feature.
+  - **Object form** `[{ id: featureId, indices: [0, 2] }]` — takes specific solids by 0-based index; consumes only those.
+  - Only feature IDs (entity injections or part-level features like box, extrusion, revolve). Part or solid IDs → internal evaluation error (code 0, `OBJ_ErrorMessage`; the worker keeps running). `[]` → error 1001.
+- **`in`** — destination EI ID; part IDs → error 1001. Must be created AFTER all source features.
 
 ## Return Value
 
-Returns `id[]` — array of new solid IDs created in the destination EI. One ID per solid pulled. These are NEW IDs (different from the source solid IDs). Returns `[]` for empty sources. Returns `null` on error.
+`id[]` — one NEW solid ID per solid taken (different from source IDs). `[]` for an empty source feature (maxLevel=31, no error). `null` on error.
 
 ## Behavior
 
-- **Parametric link, not a copy.** When the source feature is updated (e.g., `openFeature → updateBox → closeFeature → recalc`), the useSolid'd reference updates to reflect the new geometry. Fundamentally different from `solid.copy`.
-- **Consumption is per-solid.** Each solid in a source feature can only be consumed by `useSolid` once. After consumption:
-  - Plain ID form: all solids consumed. A second `useSolid` on the same feature fails with code 1014.
-  - Object form with `indices`: only specified indices are consumed. Other indices remain available for future `useSolid` calls.
-- **Feature tree ordering.** Source features must be created BEFORE the destination EI in the feature tree. Self-reference and backward references fail with code 1014.
-- **Returned IDs are first-class.** They work in any `solid.*` operation: translation, rotation, boolean, copy, delete, etc.
-- **Original solid IDs remain valid.** The source solids are not moved or invalidated — they still exist in their original feature and can be independently operated on.
-- **`consumeNeedsCopy` flag.** Internally, useSolid'd solids are marked so that consuming operations (booleans) implicitly copy the geometry first, preserving the parametric reference.
-
-## Gotchas
-
-- **Cannot mix plain IDs and objects in `from`.** `from: [featureId, { id: otherId, indices: [0] }]` fails with error 1001. Use one form exclusively.
-- **Passing part IDs or solid IDs in `from` fails with an internal evaluation error** (code 0, `OBJ_ErrorMessage` message; the worker keeps running). Only pass feature IDs: entity injection IDs or part-level feature IDs (box, extrusion, etc.).
-- **Empty `from` array `[]` is rejected** with error 1001.
-- **Empty source feature** (EI with no solids) returns `[]` with maxLevel=31 — no error, just empty result.
-- **Consumption error message is misleading.** Says "Entity 'X' is not available" but the check is per-solid, not per-entity. With indices, only consumed indices are blocked.
-- **No `updateUseSolid` or `deleteUseSolid` API.** To remove the reference, delete the destination EI or the individual solids with `solid.deleteSolid`.
+- **Consumption is per-solid, once.** Plain form: a second `useSolid` on the same feature fails with 1014. Object form: only the listed indices are blocked; others stay available for other EIs (e.g. take solid 0 via `{ id: srcId, indices: [0] }`, keep 1 and 2). The error message ("Entity 'X' is not available") misleadingly sounds per-entity.
+- **Feature tree ordering is enforced.** Sources after the destination EI, or self-reference, fail with 1014.
+- **Returned IDs are first-class** and usable immediately (no recalc) in any `solid.*` op: translation, rotation, boolean, copy, delete.
+- **Source solids stay valid** — not moved or invalidated, still independently operable in their feature.
+- **`consumeNeedsCopy` flag:** useSolid'd solids are marked so consuming operations (booleans) implicitly copy the geometry first, preserving the reference.
+- **For an independent snapshot that doesn't update, use `solid.copy`** (e.g. copy the useSolid'd solid).
+- No `updateUseSolid` / `deleteUseSolid`: delete the destination EI, or the solids via `solid.deleteSolid`.
 
 ## Common Errors
 
-| Code | Level | Message | Cause |
-|---|---|---|---|
-| 1014 | ERROR | `Entity "X" is not available. It has already been consumed/used in another operation.` | Source solid(s) already consumed by a prior `useSolid` |
-| 1014 | ERROR | `Entity of operation "X" is not available. Only entities of operations which have been created before the container can be used.` | Source feature created after destination EI (or self-reference) |
-| 1001 | ERROR | `The parameter "in" has a wrong id type! Provide only following id types: ["entityinjection"]` | `in` is not an EI ID |
-| 1001 | ERROR | `An element of parameter "from" has the wrong type!` | Mixed plain IDs and objects in `from` array |
-| 1001 | ERROR | `The parameter "from" has the wrong type! It should be of type (Array<object>\|Array<id>)` | Empty `from` array |
-| 1006 | ERROR | `An element of parameter "from" has an invalid id!` | Nonexistent feature ID |
-| 0 | ERROR | `[Evaluation error ... objId not found]` | Invalid index (out of range for the feature's solid count) |
-| 0 | ERROR | `[Evaluation error ... OBJ_ErrorMessage ...]` | Part ID or solid ID passed in `from` (internal error) |
-
-## Usage Hints
-
-- **Use `useSolid` when you need to reference solids from part-level features (box, extrusion, revolve) inside an entity injection for direct manipulation** (booleans, transforms, etc.).
-- **Use `indices` for selective consumption** — if a source has 3 solids and you only need solid 0, use `{ id: srcId, indices: [0] }` to keep solids 1 and 2 available for other EIs.
-- **For independent copies, use `solid.copy` instead.** `useSolid` is parametric — source changes propagate. If you need a snapshot that doesn't update, copy the useSolid'd solid.
-- **Returned IDs work immediately** for any `solid.*` operation — no recalc needed before using them.
-- **Create the destination EI after all source features.** Feature tree ordering is enforced.
+| Code | Message | Cause |
+|---|---|---|
+| 1014 | `Entity "X" is not available. It has already been consumed/used in another operation.` | Source solid(s) already consumed by a prior `useSolid` |
+| 1014 | `Entity of operation "X" is not available. Only entities of operations which have been created before the container can be used.` | Source feature created after destination EI (or self-reference) |
+| 1001 | `The parameter "in" has a wrong id type! Provide only following id types: ["entityinjection"]` | `in` is not an EI ID |
+| 1001 | `An element of parameter "from" has the wrong type!` | Mixed plain IDs and objects in `from` |
+| 1001 | `The parameter "from" has the wrong type! It should be of type (Array<object>\|Array<id>)` | Empty `from` array |
+| 1006 | `An element of parameter "from" has an invalid id!` | Nonexistent feature ID |
+| 0 | `[Evaluation error ... objId not found]` | Index out of range for the feature's solid count |
+| 0 | `[Evaluation error ... OBJ_ErrorMessage ...]` | Part ID or solid ID in `from` |
 
 ## Working Example
 
 ```js
 const partId = (await api.v1.part.create({ name: 'Demo' })).result
 
-// Create source features
+// Sources first: a part-level box feature and an EI with three solids
 const boxFeat = (await api.v1.part.box({ id: partId, name: 'Box1', length: 80, width: 60, height: 40 })).result
+const srcEif = (await api.v1.part.entityInjection({ id: partId, name: 'SrcEI' })).result
+for (let i = 0; i < 3; i++) {
+  await api.v1.solid.box({ id: srcEif, length: 20, width: 20, height: 20, translation: [0, 150 + i * 40, 0] })
+}
 
-// Create destination EI (must come AFTER source in feature tree)
+// Destination EI AFTER the sources
 const eifId = (await api.v1.part.entityInjection({ id: partId, name: 'WorkEI' })).result
 
-// Pull the box solid into the EI
+// Plain form: all solids of the feature → new IDs
 const solidIds = (await api.v1.solid.useSolid({ from: [boxFeat], in: eifId })).result
-// solidIds → [98] (new ID, different from boxFeat)
-
-// Use the solid for operations
 await api.v1.solid.translation({ id: eifId, target: solidIds[0], translation: [100, 0, 0] })
 
-// With indices (selective consumption):
-const srcEif = /* entity injection with multiple solids */
-const dstEif = /* destination EI */
-const selected = (await api.v1.solid.useSolid({
-  from: [{ id: srcEif, indices: [0, 2] }],  // only solids 0 and 2
-  in: dstEif
-})).result
+// Object form: only solids 0 and 2 (solid 1 stays available)
+const selected = (await api.v1.solid.useSolid({ from: [{ id: srcEif, indices: [0, 2] }], in: eifId })).result
 ```
 
 ## Related

@@ -8,7 +8,7 @@ and dimensions (the checklist below); hand-compute only what the solver cannot e
 hardcoded coordinate layout passes every shape check and is still dead geometry — it cannot
 regenerate when a value changes.
 
-## Sketch-plane local→world mappings (probed 2026-08-10)
+## Sketch-plane local→world mappings
 
 `getPositions` returns WORLD coordinates. The standard planes map sketch-local (x, y) as:
 
@@ -29,7 +29,7 @@ toward −X ⇒ the arc must pass 180° ⇒ counter-clockwise ⇒ `isClockwise:
 false`. A flipped flag silently mirrors the profile.
 
 **An existing arc's direction is immutable** — `updateGeometry` silently ignores
-`isClockwise` (success 31, no change; measured 2026-08-19). Flip = delete + recreate,
+`isClockwise` (success 31, no change). Flip = delete + recreate,
 or build with `arcBy3Points` (an on-arc `midPos` pins the sweep, no flag involved).
 
 ## The Method
@@ -63,7 +63,7 @@ Two questions before any analysis:
 **When the method's expectation and the drawing image disagree, the drawing wins — it is the
 spec.** Stop and re-classify instead of making the drawing fit the method. This is the
 drawing-side mirror of the snapshot-vs-data rule: circles the image shows closed stay closed
-— never force a trim-everything method onto them (verified 2026-07-02).
+— never force a trim-everything method onto them.
 
 ---
 
@@ -184,7 +184,7 @@ await api.v1.sketch.circle({ id: skId, centerPos: [cx, cy, 0], radius: r })
 the profile. Auto-incidence wires endpoint-matching geometry together (`Auto_Coinc`),
 auto-H/V locks axis-aligned lines. That wiring is what lets a later dimension edit move the
 whole connected profile instead of tearing it: a gen-ON rectangle survives a width change
-closed; a gen-OFF one stretches one line and leaves the rest behind (verified 2026-06-10).
+closed; a gen-OFF one stretches one line and leaves the rest behind.
 Disable a flag selectively only when it would fight the design intent — e.g.
 `genVertAndHoriz: false` for a line drawn axis-aligned that will be dimensioned to an angle,
 or `genTangency: false` when overlapping skeleton circles must stay independently placeable
@@ -192,8 +192,8 @@ until trimming.
 
 **Fully explicit scheme (the conditioned-reproduction workflow): prefer autos OFF.** With
 exact seeds + every tangency/coincidence created explicitly, autos are pure duplicates —
-harmless while consistent (autos ON and OFF both solve rough→exact at 2.8e-14; verified
-2026-07-02 on a 19-curve build). But autos wire junctions FROM THE SEED GEOMETRY, your
+harmless while consistent (autos ON and OFF both solve rough→exact at 2.8e-14 on a
+19-curve build). But autos wire junctions FROM THE SEED GEOMETRY, your
 explicit constraints from your bookkeeping; if those disagree (classic bug: endpoint roles
 swapped on mirrored arcs), `DoSolve` does not flag a loser — it DIVERGES GLOBALLY: batches
 return 51 with `CalcBulges radius too small` / `SetSE NullMem`, small arcs collapse to
@@ -209,7 +209,7 @@ This gives you a "skeleton" of overlapping shapes. Snapshot and compare against 
 
 ## Step 4 — Constrain & Dimension — let the solver lay out the sketch
 
-Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces them immediately, physically moving and resizing geometry (all verified 2026-06-10: COINCIDENT snaps points, TANGENT moves to exact tangency, HORIZONTAL rotates preserving length, `DIAMETER value: 45` resizes an r=20 circle to r=22.5 at creation, HD/VD dimensions land a circle center on exact offsets). Declare the drawing's relationships and values; don't hand-compute what the solver can derive.
+Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces them immediately, physically moving and resizing geometry (COINCIDENT snaps points, TANGENT moves to exact tangency, HORIZONTAL rotates preserving length, `DIAMETER value: 45` resizes an r=20 circle to r=22.5 at creation, HD/VD dimensions land a circle center on exact offsets). Declare the drawing's relationships and values; don't hand-compute what the solver can derive.
 
 ### Order of operations
 
@@ -226,7 +226,7 @@ point). Redundant annotations are still annotations: create them as driven dims 
 geometry (a center mark, a virtual point), materialize the reference first (sketch point +
 constraints — see the center-mark pattern below). Encoding an annotation only implicitly (a
 coincidence that happens to produce the value) is NOT a reproduction of the drawing's
-dimension scheme (verified 2026-07-02: implicit or re-anchored annotations bounce review).
+dimension scheme (implicit or re-anchored annotations bounce review).
 
 ### Worked example — the solver does the tangent math
 
@@ -313,11 +313,11 @@ await api.v1.sketch.dimension({
 - `HORIZONTAL_DISTANCE` / `VERTICAL_DISTANCE` with 2 geomIds: **both must be points**. Use `getPoints(circleId).centerId` to get point IDs from circles.
 - `ANGLE` works with non-intersecting lines — the solver extends them to their virtual intersection.
 - `OFFSET` between two parallel lines measures perpendicular distance, even if the lines don't overlap in projection.
-- `value` at creation drives the solver (verified 2026-06-10). On a PLANELESS sketch the same call errors without resizing — a dead solver masquerading as a broken param. Anchor a datum first or the solver picks what to move.
+- `value` at creation drives the solver. On a PLANELESS sketch the same call errors without resizing — a dead solver masquerading as a broken param. Anchor a datum first or the solver picks what to move.
 - `updateDimension` re-solves the system: `result: 1|2` = solved (2 = well-constrained), `0` = unsolved. A 0 usually means a planeless sketch or a conflicting constraint.
 - `dimPos` for ANGLE selects which of the 4 angle sectors to constrain.
 
-### Solver facts (verified 2026-06-10, extended 2026-07-02)
+### Solver facts
 
 - **TANGENT (line ↔ circle/arc) uses the INFINITE line.** The tangency point may lie beyond
   the segment's endpoints — e.g. an arm edge tangent to a width-gauge circle whose contact
@@ -330,14 +330,14 @@ small`, `SetSE NullMem`) mean your explicit wiring contradicts the autos' seed-d
   wiring — diff the junction bookkeeping against the seed adjacency, and re-run with autos
   off to expose the mis-wiring as a plain displacement (see the fully-explicit note, Step 3).
 
-- **TANGENT keeps the seeded branch.** Circle–circle/arc–circle tangency seeded EXTERNAL solves external (d = r1+r2); seeded INTERNAL stays internal (d = R−r) through creation and every re-solve — an R12 dome inside-tangent to Ø5.6 eye circles followed the internal branch exactly when the eyes were re-dimensioned to Ø7 (robot-head session).
+- **TANGENT keeps the seeded branch.** Circle–circle/arc–circle tangency seeded EXTERNAL solves external (d = r1+r2); seeded INTERNAL stays internal (d = R−r) through creation and every re-solve — an R12 dome inside-tangent to Ø5.6 eye circles followed the internal branch exactly when the eyes were re-dimensioned to Ø7.
 - **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param throws an error and updates nothing), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL\_\*, one update re-solves both sides in a single solvable step and the trap never triggers.
 - **Don't pass `dimPos` at dimension creation** (except for ANGLE sector selection) — on HD/VD point pairs it throws `InitDimensionByPosition not found`. Create dims bare, then place text via `updateDimensionPosition` (see `sketch/dimension.md`).
 - Rotational constraints preserve line length (HORIZONTAL on a 50-long tilted line keeps it 50).
 - Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
 - Deleting a constraint does NOT revert geometry.
-- **Trim is safe on constrained sketches** (verified 2026-06-10): constraints and dimensions survive `preTrim → trim → postTrim`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every `postTrim`** — re-fetch them by name from the structure tree before updating.
-  - ⚠️ One unresolved incident (2026-08-17, TODO #174): a whole-sketch `preTrim` on a constrained tangent-junction profile hung a LONG-LIVED worker terminally (100% CPU until process death). The exact sequence replays clean on a fresh worker, so the trigger is worker state, not the sketch — but when the profile topology is known, prefer the chain path above (no trim phase) and you are immune either way.
+- **Trim is safe on constrained sketches:** constraints and dimensions survive `preTrim → trim → postTrim`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every `postTrim`** — re-fetch them by name from the structure tree before updating.
+  - ⚠️ One unresolved incident: a whole-sketch `preTrim` on a constrained tangent-junction profile hung a LONG-LIVED worker terminally (100% CPU until process death). The exact sequence replays clean on a fresh worker, so the trigger is worker state, not the sketch — but when the profile topology is known, prefer the chain path above (no trim phase) and you are immune either way.
 
 ---
 
@@ -375,7 +375,7 @@ the drawing's dimension scheme hangs off — exactly the dashed centerlines/refe
 - In snapshots, construction geometry renders **dashed** (distinct from the solid profile).
 - **Construction curves participate in `preTrim` splitting.** A construction centerline
   crossing a circle adds real split points: an eye circle tangent to two curves AND crossed
-  by its centerline staged as **4** arcs, not 2 (verified 2026-07-02). Budget for the extra
+  by its centerline staged as **4** arcs, not 2. Budget for the extra
   segments when classifying, and remember the centerline's own splits merge back on `postTrim`
   as long as you don't trim them.
 
@@ -399,7 +399,7 @@ await api.v1.sketch.trim({ id: skId, curveIds: segmentsToRemove })
 await api.v1.sketch.postTrim({ id: skId })
 ```
 
-### Recognizing which segments to trim — the boundary test (validated 2026-07-01)
+### Recognizing which segments to trim — the boundary test
 
 `preTrim` returns `[{ sourceId, splittedCurves: [{ id, interval }] }]`. With many crossing elements it produces
 dozens of segments; the hard part is deciding which to remove. The robust, general method is the **boundary test**:
@@ -428,7 +428,7 @@ structure tree and branch on its class:
 - **`CC_Arc`** — derive it from the segment's signed **`bulge`** (`members.bulge.value`, = tan(includedAngle/4))
   and its endpoints `s,e`: `θ = 4·atan(bulge)`, `R = |s−e|/(2·sin(θ/2))`, center = chord-midpoint offset by
   `R·cos(θ/2)` along the chord's left-normal, arc-midpoint at start-angle `+ θ/2`, normal radial. This is the same
-  math the arc renderer uses, and it is **robust for a circle cut any number of times** — verified 2026-08-19 on
+  math the arc renderer uses, and it is **robust for a circle cut any number of times** — verified on
   8 staged segments incl. a 286° major sub-arc (center/radius recovered to 1e-15; cos(θ/2)'s sign handles >180°).
   Staged sub-arcs are **CCW-normalized**: positive bulge, endpoints reordered, regardless of the parent
   circle/arc's direction — read each segment's own bulge + endpoints, never assume the parent's sign survived.
@@ -452,7 +452,7 @@ must be point-clean.
 ### Carving INNER loops (discard the outer curves)
 
 The boundary test is not just for outer outlines — an inner loop is the **same test over a deeper target region**.
-Two knobs (validated 2026-07-01 across lens/Reuleaux/crossing-rects/rounded-cell/4-circle cases):
+Two knobs (validated across lens/Reuleaux/crossing-rects/rounded-cell/4-circle cases):
 
 - **Containment depth.** Keep a segment iff it bounds the region "inside **≥ k** shapes":
   `keep = (countIn(p1) ≥ k) XOR (countIn(p2) ≥ k)`.
@@ -484,8 +484,8 @@ trim, `postTrim`, and check the realized geometry matches — a falsifiable test
   first: `preTrim` splits each doubly-tangent circle at its tangent points (plus any
   construction-centerline crossings — expect 4 segments, all minor arcs), trim the inner arcs
   (apex = center + R·unit(chordMid − center); nearest-to-body apexes are the inner ones), keep
-  the rim — contiguous rim pieces coalesce on `postTrim` — then extrude (verified 2026-07-02,
-  volume matched analytic area to 1e-4).
+  the rim — contiguous rim pieces coalesce on `postTrim` — then extrude
+  (volume matched analytic area to 1e-4).
 
 ---
 
@@ -503,7 +503,7 @@ annotation.
 Count and classify curves against the drawing BEFORE judging looks: full circles vs arcs vs
 lines, per feature. A sketch can match the silhouette perfectly while being topologically
 wrong — closed eye circles reproduced as boundary arcs passed the silhouette pass and failed
-review (2026-07-02).
+review.
 
 ### Pass 3: Visual comparison
 

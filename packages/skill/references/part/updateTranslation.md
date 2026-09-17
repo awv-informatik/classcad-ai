@@ -1,32 +1,19 @@
 # part.updateTranslation
 
-Modifies an existing translation feature. Only pass the fields you want to change — unspecified fields keep their existing values.
-
-## Prerequisites
-
-- An existing translation feature (from `part.translation`)
-- The feature must be opened with `part.openFeature` before updating
+Modifies an existing translation feature. Partial updates: omitted fields keep their values (`{ id: tId, distance: 80 }` changes only the distance). Must be wrapped in `part.openFeature` / `part.closeFeature`.
 
 ## Key Parameters
 
 - `id` — **translation feature ID** (not the part ID)
-- `name` — rename the feature
-- `targets` — change which features are translated
-- `references` — change the direction (work axis, brep edge, two work points)
-- `distance` — change translation distance
-- `inverted` — toggle direction (0/1)
-
-All fields are optional — partial updates work.
+- `name` — rename
+- `targets` — change translated features
+- `references` — change direction (work axis, brep edge, two work points)
+- `distance` — new distance
+- `inverted` — 0/1
 
 ## Return Value
 
-Feature ID on success, maxLevel=31. Returns null on failure (maxLevel=51).
-
-## Gotchas
-
-- **Requires openFeature/closeFeature gate.** Without it: code 1200.
-- **Partial updates work.** `{ id: tId, distance: 80 }` changes only the distance.
-- **Direction can be changed** by updating `references` to a different axis/edge/points.
+Feature ID, maxLevel=31. null on failure (maxLevel=51).
 
 ## Common Errors
 
@@ -37,19 +24,21 @@ Feature ID on success, maxLevel=31. Returns null on failure (maxLevel=51).
 ## Working Example
 
 ```js
-// Update distance
+const partId = (await api.v1.part.create({ name: 'TransUpd' })).result
+const boxId = (await api.v1.part.box({ id: partId, length: 30, width: 20, height: 25 })).result
+// Axes must exist before the translation (openFeature rolls the tree back to it)
+const waX = (await api.v1.part.workAxis({ id: partId, name: 'AxisX', direction: [1, 0, 0] })).result
+const waY = (await api.v1.part.workAxis({ id: partId, name: 'AxisY', direction: [0, 1, 0] })).result
+const tId = (await api.v1.part.translation({ id: partId, targets: [boxId], references: [waX], distance: 50 })).result
+
+// Distance + invert
 await api.v1.part.openFeature({ id: tId })
-await api.v1.part.updateTranslation({ id: tId, distance: 80 })
+await api.v1.part.updateTranslation({ id: tId, distance: 80, inverted: 1 })
 await api.v1.part.closeFeature({ id: tId })
 
 // Change direction
 await api.v1.part.openFeature({ id: tId })
-await api.v1.part.updateTranslation({ id: tId, references: [newAxisId] })
-await api.v1.part.closeFeature({ id: tId })
-
-// Toggle inverted
-await api.v1.part.openFeature({ id: tId })
-await api.v1.part.updateTranslation({ id: tId, inverted: 1 })
+await api.v1.part.updateTranslation({ id: tId, references: [waY] })
 await api.v1.part.closeFeature({ id: tId })
 ```
 

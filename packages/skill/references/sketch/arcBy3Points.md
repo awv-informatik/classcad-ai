@@ -1,137 +1,46 @@
 # sketch.arcBy3Points
 
-Creates one or multiple arcs defined by start, mid, and end positions in a sketch. The three points define a unique circle — the arc is the portion of that circle passing through midPos between startPos and endPos.
-
-## Prerequisites
-
-- A part (`part.create`)
-- A sketch (`sketch.create` or `part.sketch`)
+Creates one or more arcs from start, mid, and end positions. The three points define a unique circle; the arc is the part of it passing through `midPos`.
 
 ## Key Parameters
 
-- **`id`** (required) — sketch ID
-- **`startPos`** (required) — `[x, y, z]`, Z must be 0
-- **`endPos`** (required) — `[x, y, z]`, Z must be 0
-- **`midPos`** (required) — `[x, y, z]`, Z must be 0. Must lie exactly on the desired arc. Defines which circle and which arc (major/minor) is created.
-- **`genFixation`** (optional, default TRUE) — auto-generates `CC_2DFixationConstraint` ("Auto_Fix") **only when a point is at origin** (0,0,0). No effect for off-origin geometry.
-- **`genIncidence`** (optional, default TRUE) — auto-generates `CC_2DCoincidentConstraint` ("Auto_Coinc") when any arc endpoint **exactly matches** an existing point.
-- **`genTangency`** (optional, default FALSE) — auto-generates `CC_2DTangentSketchConstraint` when adjacent to **another arc or circle**. Does NOT generate tangency for line-to-arc adjacency.
-- **`isConstruction`** (optional, default FALSE) — marks the arc as construction/reference geometry (drawn dashed). It participates fully in the constraint solver as reference geometry but is excluded from operations: passing construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error (`maxLevel 51`), not a solid. See `recipes/constrained-sketching` (§ Construction geometry).
-
-## midPos Behavior
-
-midPos does double duty:
-
-1. **Selects the circle** — three non-collinear points define exactly one circle. Different midPos values with the same start/end produce different circles with different radii and centers.
-2. **Selects the arc** — midPos determines which of the two arcs between start and end is used (minor vs major arc).
-
-midPos must lie on the desired arc. It does not merely indicate "curvature direction."
-
-## Internal Representation
-
-arcBy3Points creates the same `CC_CircularArc` node as `arcByCenter`. The server computes the center from the 3 input points. After creation, the arc is indistinguishable from one created via `arcByCenter`:
-
-- Same structure: arc + 3 child points (end, start, center)
-- Same query methods (`getPositions`, `getPoints`, `getGeometry`)
-- Same update method (`updateGeometry` with `arcsByCenter` key)
-- Same deletion method (`deleteObject`)
-
-## Direction & bulge
-
-The stored tree bulge (`members.bulge.value` = tan(signedSweep/4), positive = CCW in sketch-local coords) follows from which side `midPos` sits on — measured 2026-08-19: apex-above semicircle → −1.0 (≡ `arcByCenter` cw=true), minor-arc-via-45°-midpoint → +0.4142 (≡ cw=false). Because `midPos` pins the sweep geometrically, arcBy3Points is the **flag-free way to build arcs**: you can't get the complement through direction confusion, only by placing `midPos` on the wrong side. Direction is still fixed at creation (`updateGeometry` ignores `isClockwise`).
+- **`id`** (required) — sketch ID (part ID → 1001)
+- **`startPos`**, **`endPos`**, **`midPos`** (required) — `[x, y, 0]`; non-zero Z → 1014
+- **`midPos`** must lie ON the desired arc — not a curvature hint. It selects both the circle (different midPos → different radius/center) and which arc (minor vs major).
+- **`genFixation`** (optional, default TRUE) — "Auto_Fix" **only when a point is at origin**
+- **`genIncidence`** (optional, default TRUE) — "Auto_Coinc" when an endpoint **exactly matches** an existing point
+- **`genTangency`** (optional, default FALSE) — `CC_2DTangentSketchConstraint` for adjacency to **another arc or circle** only — NOT line-to-arc, even when geometrically tangent
+- **`isConstruction`** (optional, default FALSE) — construction geometry (dashed): in the solver as reference, excluded from operations; construction-only curves in `part.extrusion`/`part.revolve`/`part.twist` → error (maxLevel 51), no solid. See `recipes/constrained-sketching` (§ Construction geometry).
 
 ## Param-name trap
 
-The third point is **`midPos`** — in BOTH the sketch and curve domains. An invented name (`passagePos`, `pointPos`, …) is **silently ignored**: the call fails with a null result for missing `midPos`, and the script layer offers no typo suggestion (it validates method names, not param names; observed in production 2026-08-19). Fetch this doc before first use.
+The third point is **`midPos`** in BOTH sketch and curve domains. Invented names (`passagePos`, `pointPos`, …) are **silently ignored** — the call fails with null for missing `midPos`, and the script layer offers no typo suggestion (it validates method names, not param names).
+
+## Internal Representation
+
+Same `CC_CircularArc` node as `arcByCenter` (server computes the center): arc + 3 child points (end, start, center), same queries (`getPositions` → `{ startPos, endPos, centerPos }` incl. computed center; `getPoints` → `{ startId, endId, centerId }`; `getGeometry` → `arcs`), same `deleteObject` (null, maxLevel 31; queries on the deleted arc → null, maxLevel 51).
+
+## Direction & bulge
+
+Tree bulge (`members.bulge.value` = tan(signedSweep/4), positive = CCW, sketch-local) follows from `midPos`'s side: apex-above semicircle → −1.0 (≡ `arcByCenter` cw=true); minor arc via 45° midpoint → +0.4142 (≡ cw=false). This makes arcBy3Points the **flag-free way to build arcs** — the complement only results from placing `midPos` on the wrong side. Direction is fixed at creation (`updateGeometry` ignores `isClockwise`).
 
 ## Return Value
 
-```js
-{ result: id | VOID | Array<id|VOID>, messages?: [...], maxLevel?: real }
-```
-
-- Success: numeric ID (e.g., 58), maxLevel=31 (info), no messages
-- Batch: array of IDs matching input order; invalid entries return null
-- Failure: result=null, maxLevel=51
-
-## Batch Creation
-
-Pass an array of param objects:
-
-```js
-const r = await api.v1.sketch.arcBy3Points([
-  { id: skId, startPos: [0, 0, 0], midPos: [20, 20, 0], endPos: [40, 0, 0] },
-  { id: skId, startPos: [0, -40, 0], midPos: [20, -20, 0], endPos: [40, -40, 0] },
-])
-// r.result → [58, 65] — array of IDs
-```
-
-**Error isolation:** In batch mode, invalid entries return null but valid entries still succeed. Example: `[58, null, 70]` — the collinear middle entry failed, the other two were created.
-
-## Querying Arc Data
-
-**`getPositions(arcId)`** — works directly on arc IDs. Returns computed center:
-
-```js
-{ startPos: { x, y, z }, endPos: { x, y, z }, centerPos: { x, y, z } }
-```
-
-**`getPoints(arcId)`** — returns child point IDs:
-
-```js
-{ startId: id, endId: id, centerId: id }
-```
-
-**`getGeometry(sketchId)`** — arcs appear in the `arcs` array:
-
-```js
-{ arcs: [id, ...], circles: [...], lines: [...], points: [...] }
-```
+`result: id | VOID | Array<id|VOID>`. Success: ID, maxLevel 31, no messages. Failure: null, maxLevel 51. **Batch error isolation:** invalid entries return null while valid ones succeed, e.g. `[58, null, 70]` with a collinear middle entry.
 
 ## Updating
 
-Use `updateGeometry` with the **`arcsByCenter`** array (same key as arcByCenter arcs):
-
-```js
-await api.v1.sketch.updateGeometry({
-  id: skId,
-  arcsByCenter: [
-    {
-      id: arcId,
-      startPos: [-20, 0, 0],
-      centerPos: [0, 0, 0],
-      endPos: [20, 0, 0],
-    },
-  ],
-})
-```
-
-Update with the `arcsBy3Points` key (`startPos`, `endPos`, `midPos`): moving `midPos` from [20,20] to [20,10] on a 0→40 arc moves the center to [20,−15].
-
-## Deletion
-
-```js
-await api.v1.sketch.deleteObject({ ids: [arcId] })
-```
-
-Returns null on success (maxLevel=31). `getPositions`/`getPoints` on deleted arc returns null with maxLevel=51.
-
-## Gotchas
-
-- **genTangency only works with curves** — generates `CC_2DTangentSketchConstraint` for arc-to-arc adjacency but NOT for line-to-arc, even when geometrically tangent.
-- **Collinear/coincident points → ERROR** — "Invalid arc parameters" (code=0, level=51). All degenerate point configurations (collinear, start==mid, start==end, all identical) produce the same error.
-- **Non-zero Z → error 1014** — `"startPos which is a 2D point, must have a z-value of 0!"`. Same as all sketch geometry.
-- **Update uses the `arcsBy3Points` key** with `startPos` / `endPos` / `midPos`.
-- **midPos must be on the arc** — it's not just a curvature hint. Wrong midPos = wrong circle = wrong arc.
+- `arcsBy3Points: [{ id, startPos, endPos, midPos }]` — moving `midPos` [20,20]→[20,10] on a 0→40 arc moves the center to [20,−15].
+- `arcsByCenter: [{ id, startPos, centerPos, endPos }]` also works.
 
 ## Common Errors
 
-| Error                                                                                     | Code | Level      | Cause                                       |
-| ----------------------------------------------------------------------------------------- | ---- | ---------- | ------------------------------------------- |
-| "startPos which is a 2D point, must have a z-value of 0!"                                 | 1014 | 51 (ERROR) | Non-zero Z coordinate                       |
-| "Invalid arc parameters"                                                                  | 0    | 51 (ERROR) | Collinear, coincident, or degenerate points |
-| "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]" | 1001 | 51 (ERROR) | Passed part ID instead of sketch ID         |
-| "The parameter \"midPos\" must be provided in the api call!"                              | 1004 | 51 (ERROR) | Missing required parameter                  |
+| Error | Code | Level | Cause |
+|---|---|---|---|
+| "startPos which is a 2D point, must have a z-value of 0!" | 1014 | 51 | Non-zero Z |
+| "Invalid arc parameters" | 0 | 51 | Any degenerate config: collinear, start==mid, start==end, all identical |
+| "The parameter \"id\" has a wrong id type! Provide only following id types: [\"sketch\"]" | 1001 | 51 | Part ID instead of sketch ID |
+| "The parameter \"midPos\" must be provided in the api call!" | 1004 | 51 | Missing (or misnamed) midPos |
 
 ## Working Example
 
@@ -139,47 +48,17 @@ Returns null on success (maxLevel=31). `getPositions`/`getPoints` on deleted arc
 const partId = (await api.v1.part.create({ name: 'MyPart' })).result
 const skId = (await api.v1.sketch.create({ id: partId })).result
 
-// Create an arc from (0,0,0) through (20,20,0) to (40,0,0)
-const arcId = (
-  await api.v1.sketch.arcBy3Points({
-    id: skId,
-    startPos: [0, 0, 0],
-    midPos: [20, 20, 0],
-    endPos: [40, 0, 0],
-  })
-).result
+const [arcId] = (await api.v1.sketch.arcBy3Points([
+  { id: skId, startPos: [0, 0, 0], midPos: [20, 20, 0], endPos: [40, 0, 0] },
+  { id: skId, startPos: [0, -40, 0], midPos: [20, -20, 0], endPos: [40, -40, 0] },
+])).result
 
-// Query — returns computed center
-const pos = (await api.v1.sketch.getPositions({ id: arcId })).result
-// pos → { startPos: {x:0,y:0,z:0}, endPos: {x:40,y:0,z:0}, centerPos: {x:20,y:0,z:0} }
+const pos = (await api.v1.sketch.getPositions({ id: arcId })).result // centerPos {x:20,y:0,z:0}
 
-// Update (arcsBy3Points key)
 await api.v1.sketch.updateGeometry({
   id: skId,
-  arcsBy3Points: [
-    {
-      id: arcId,
-      startPos: [0, 0, 0],
-      midPos: [20, 10, 0],
-      endPos: [40, 0, 0],
-    },
-  ],
+  arcsBy3Points: [{ id: arcId, startPos: [0, 0, 0], midPos: [20, 10, 0], endPos: [40, 0, 0] }],
 })
-
-// Use in closed profile
-const lineId = (
-  await api.v1.sketch.line({
-    id: skId,
-    startPos: [40, 0, 0],
-    endPos: [0, 0, 0],
-  })
-).result
-const regionId = (
-  await api.v1.sketch.sketchRegion({
-    id: skId,
-    geomIds: [arcId, lineId],
-  })
-).result
 ```
 
 ## Related

@@ -3,7 +3,7 @@
 // Single source for the instruction text every agent host repeats: the buerli-ai
 // system prompt and the ClassCAD MCP server instructions import these instead of
 // maintaining copies (copies drifted — one drifted copy caused a production
-// failure, 2026-08-19). Doctrine itself lives in recipes/verification.md and the
+// failure). Doctrine itself lives in recipes/verification.md and the
 // other recipes; these strings are POINTERS plus the minimum framing. Hosts
 // append their own tool mechanics (tool names, delegate/notes/ask syntax) — never
 // doctrine.

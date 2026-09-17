@@ -117,8 +117,10 @@ export function registerDocsTools(server: McpServer): void {
     {
       title: 'List API methods',
       description:
-        'Search/list the v1.<domain>.<method> surface. With `search` (string or array, OR semantics): ' +
-        'ranked matches over method name + summary, CAD synonyms expanded (split→slice, hole→bore, round→fillet, …), ' +
+        'Search/list the v1.<domain>.<method> surface. `search` as a string: one BM25-ranked list over method name + summary (whole words), ' +
+        'CAD synonyms expanded (split→slice, hole→bore, round→fillet, …). `search` as an ARRAY with ONE CONCEPT PER ENTRY ' +
+        '(e.g. ["expression", "box", "fastened constraint", "mass properties"]): one group per entry, each ranked on its own, ' +
+        'so every concept gets its own top matches (a group note flags entries that are likely workflows, not methods). ' +
         'PLUS `docs`: the recipes/guides whose title, headings or text match (e.g. "shared parameters assembly" → ' +
         'recipes/assembly-parameters) — search by what you want to build, then fetch those docs. ' +
         'Without `search`: the full method listing plus `documents` (every recipe and guide, key — title). ' +
@@ -132,9 +134,9 @@ export function registerDocsTools(server: McpServer): void {
         search: z
           .union([z.string(), z.array(z.string())])
           .optional()
-          .describe('Keyword(s) to rank against name + summary (case-insensitive, synonyms expanded). Array = OR.'),
+          .describe('Keyword(s) to rank against name + summary (case-insensitive, synonyms expanded). Array = one group per entry — put one concept in each.'),
         withSummaries: z.boolean().optional().describe('Include one-line summaries (default true).'),
-        limit: z.number().int().min(1).max(300).optional().describe('Max ranked results (default 25).'),
+        limit: z.number().int().min(1).max(300).optional().describe('Max ranked results: total for a string search (default 25), per group for an array (default 8).'),
       },
     },
     async ({ domain, search, withSummaries, limit }) => {

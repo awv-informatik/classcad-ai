@@ -1,37 +1,25 @@
 # part.updateMirror
 
-Updates an existing mirror feature's name, targets, or reference plane.
-
-## Prerequisites
-
-- An existing mirror feature (`part.mirror`)
-- The feature must be opened with `part.openFeature` before updating
+Updates an existing mirror feature's name, targets, or plane. Must be wrapped in `part.openFeature` / `part.closeFeature`; geometry regenerates on `closeFeature`, not during `updateMirror`.
 
 ## Key Parameters
 
-- `id` — **mirror feature ID** (returned by `part.mirror`, not the part ID)
-- `name` — new feature name (optional)
-- `targets` — new target list (optional). **Replaces the entire target list** — pass the complete set, not just additions.
-- `references` — new mirror plane (optional). Same restriction as `mirror`: work plane IDs only.
+- `id` — **mirror feature ID** (from `part.mirror`, not the part ID)
+- `name` — optional
+- `targets` — optional. **Full replacement** — `targets: [newId]` drops all previous targets; to add one, pass all existing plus the new. Flat `[id1, id2]` and object `[{ id: id1 }, { id: id2 }]` both work.
+- `references` — optional new mirror plane (same accepted kinds as `mirror`); built-in (`Top`/`Front`/`Right`) and custom (`USERDEFINED`) work planes both work
 
-All optional params are truly optional — omitted params keep their existing values. Calling with only `id` is a valid no-op (returns feature ID, maxLevel=31, geometry unchanged).
+Omitted params keep their values. Only `id` is a valid no-op (returns feature ID, maxLevel=31, geometry unchanged).
 
 ## Return Value
 
-Returns the mirror feature ID on success (maxLevel=31, messages=[]). Returns null on failure (maxLevel=51).
-
-## Gotchas
-
-- **Requires openFeature/closeFeature.** Without `openFeature`, returns null with errors 1200 + 1004. Same pattern as `updateBox`, `updateCylinder`, etc.
-- **`targets` is a full replacement.** Passing `targets: [newId]` removes all previous targets and sets only `newId`. To add a target, include all existing targets plus the new one. Both flat ID format `[id1, id2]` and object format `[{ id: id1 }, { id: id2 }]` work.
-- **Custom work planes work.** References accepts both built-in (`Top`, `Front`, `Right`) and custom (`USERDEFINED`) work plane IDs.
-- **Geometry regenerates on closeFeature.** The actual geometry update happens when you call `closeFeature`, not during `updateMirror`.
+Mirror feature ID (maxLevel=31, messages=[]). null on failure (maxLevel=51).
 
 ## Common Errors
 
 | Code | Message | Cause | Fix |
 |------|---------|-------|-----|
-| 1200 | "The provided feature is not allowed to update. It's not active and open." | Missing `openFeature` call | Call `openFeature({ id: mirrorId })` first |
+| 1200 | "The provided feature is not allowed to update. It's not active and open." | Missing `openFeature` (returns null) | Call `openFeature({ id: mirrorId })` first |
 | 1004 | '"id" must be provided for update.' | Follows error 1200 | Fix the openFeature issue |
 | 1006 | "An element of parameter 'references' has an invalid id!" | Invalid reference ID | Use a valid work plane ID |
 | 1006 | "An element of parameter 'targets' has an invalid id!" | Invalid target ID | Verify feature IDs |
@@ -41,21 +29,23 @@ Returns the mirror feature ID on success (maxLevel=31, messages=[]). Returns nul
 ## Working Example
 
 ```js
-// Change mirror plane from Right to Front
+const partId = (await api.v1.part.create({ name: 'MirrorUpd' })).result
+const wcs1 = (await api.v1.part.workCSys({ id: partId, name: 'WCS1', offset: [20, 10, 0] })).result
+const wcs2 = (await api.v1.part.workCSys({ id: partId, name: 'WCS2', offset: [20, 60, 0] })).result
+const box1 = (await api.v1.part.box({ id: partId, name: 'Box1', length: 30, width: 25, height: 40, references: [wcs1] })).result
+const box2 = (await api.v1.part.box({ id: partId, name: 'Box2', length: 20, width: 20, height: 20, references: [wcs2] })).result
+const rightWpId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Right' })).result
+const frontWpId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Front' })).result
+const mirrorId = (await api.v1.part.mirror({ id: partId, targets: [box1], references: [rightWpId] })).result
+
+// Rename + change plane Right → Front
 await api.v1.part.openFeature({ id: mirrorId })
-await api.v1.part.updateMirror({
-  id: mirrorId,
-  name: 'MirrorFront',
-  references: [frontWpId],
-})
+await api.v1.part.updateMirror({ id: mirrorId, name: 'MirrorFront', references: [frontWpId] })
 await api.v1.part.closeFeature({ id: mirrorId })
 
-// Add a target to an existing mirror
+// Add a target — pass the full list
 await api.v1.part.openFeature({ id: mirrorId })
-await api.v1.part.updateMirror({
-  id: mirrorId,
-  targets: [box1, box2, newCylinder],  // full list, not just the new one
-})
+await api.v1.part.updateMirror({ id: mirrorId, targets: [box1, box2] })
 await api.v1.part.closeFeature({ id: mirrorId })
 ```
 

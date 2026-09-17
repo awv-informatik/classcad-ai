@@ -1,69 +1,36 @@
 # curve.interpolationCurve
 
-Creates an interpolation curve (spline) that passes **through** all given points. Unlike `bezierCurve` which only approximates toward control points, interpolation curves hit every point exactly.
+Creates a spline passing **through** every given point in a `curve.shape` (unlike `bezierCurve`, which only approximates its control points).
 
-## Prerequisites
+## Key Parameters (only these two)
 
-- A part (`part.create`)
-- An entity injection (`part.entityInjection`)
-- A shape (`curve.shape`)
+- `id` — shape ID (not part or EIF ID)
+- `points` — `Array<[x, y, z]>`, each exactly 3 elements, **at least 2**, no consecutive duplicates. Need not be coplanar (3D supported).
 
-## Key Parameters
-
-- `id` — shape ID (not part or EIF ID). Must be a shape container.
-- `points` — `Array<[x, y, z]>` of interpolation points. Minimum 2 points required (`< 2` is rejected with code 1014). Each point must be a 3-element array. Consecutive duplicates are rejected with code 1014.
-
-That's it — only two parameters. No degree parameter — degree is determined automatically as (number of points - 1).
-
-## Point Count and Degree
-
-- **2 points** → degree 1 (straight line segment)
-- **3 points** → degree 2 (quadratic interpolation)
-- **4 points** → degree 3 (cubic — most common)
-- **n points** → degree n-1
-
-The docs say "needs always degree + 1 points" — this is backwards: you supply the points, and the degree follows.
+No degree parameter: degree = points − 1 (2 → line segment, 3 → quadratic, 4 → cubic, most common). The docs' "needs always degree + 1 points" is backwards — you supply points, the degree follows.
 
 ## Return Value
 
-Returns `null` (VOID). maxLevel 31 on success. No ID is returned — the curve merges into the shape's geometry like all curve APIs.
+`null` (VOID), maxLevel 31. No ID — merges into the shape; no per-curve addressing, update or deletion. Batch: pass an array of parameter objects; single VOID response.
 
 ## Gotchas
 
-- **`points` with fewer than 2 entries is rejected** with code 1014, message `"The parameter \"points\" must contain at least 2 points."` Applies to empty `[]` and single-point `[[x,y,z]]`. Previously hung the server in an infinite loop — fixed on branch `fix/curve-interpolationCurve-duplicate-points-hang`.
-- **Consecutive duplicate points are rejected** with code 1014, message `"The parameter \"points\" must not contain consecutive duplicate points."` Applies to any adjacent pair where x, y, and z are all exactly equal. Stricter than `bezierCurve`, which still tolerates duplicates because it doesn't use chord-length parameterization.
-- **Points must be 3-element arrays.** `[x, y]` (2D) returns error: `"If point is defined as array, it must have exactly 3 real values"`.
-- **No per-curve IDs.** Like all curve APIs, curves merge into the shape. No per-curve addressing, update, or deletion.
-- **3D curves are supported.** Points don't need to be coplanar.
+- **Fewer than 2 points (`[]` or one point) is rejected**: code 1014, `"The parameter \"points\" must contain at least 2 points."`
+- **Consecutive duplicate points are rejected** (adjacent pair with exactly equal x, y, z): code 1014, `"The parameter \"points\" must not contain consecutive duplicate points."` Stricter than `bezierCurve`, which tolerates duplicates (no chord-length parameterization).
 
 ## Interpolation vs Bezier
 
-With the same control points, `interpolationCurve` produces a **larger/more extreme** curve than `bezierCurve` because it must pass through every point. Bezier curves only approximate toward interior control points, pulling less aggressively.
-
-Use `interpolationCurve` when you need the curve to hit exact positions. Use `bezierCurve` when you want smooth control with the points acting as "magnets."
-
-## Batch Creation
-
-Pass an array of objects to create multiple interpolation curves in one call:
-
-```js
-await api.v1.curve.interpolationCurve([
-  { id: shapeId, points: [[0, 0, 0], [5, 15, 0], [10, 0, 0]] },
-  { id: shapeId, points: [[20, 0, 0], [25, 15, 0], [30, 0, 0]] },
-])
-```
-
-Returns single VOID response, maxLevel 31 on success.
+With the same points, `interpolationCurve` is **larger/more extreme** — it must hit every point, whereas Bezier pulls less aggressively toward interior control points. Use interpolation to hit exact positions; Bezier for smooth control with points as "magnets".
 
 ## Common Errors
 
-| Code | Level | Message | Cause |
-|------|-------|---------|-------|
-| 1004 | ERROR | `"The parameter \"points\" must be provided..."` | Missing `points` parameter |
-| 1001 | ERROR | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Passed part/EI ID instead of shape ID |
-| 0 | ERROR | `"If point is defined as array, it must have exactly 3 real values"` | Used 2D point `[x,y]` instead of `[x,y,z]` |
-| 1014 | ERROR | `"The parameter \"points\" must contain at least 2 points."` | `points` is `[]` or has only 1 entry |
-| 1014 | ERROR | `"The parameter \"points\" must not contain consecutive duplicate points."` | Two adjacent points have identical x/y/z |
+| Code | Message | Cause |
+|------|---------|-------|
+| 1004 | `"The parameter \"points\" must be provided..."` | Missing `points` |
+| 1001 | `"...wrong id type! Provide only following id types: [\"shape\"]"` | Part/EI ID instead of shape ID |
+| 0 | `"If point is defined as array, it must have exactly 3 real values"` | 2D point `[x,y]` |
+| 1014 | `"The parameter \"points\" must contain at least 2 points."` | `[]` or 1 entry |
+| 1014 | `"The parameter \"points\" must not contain consecutive duplicate points."` | Adjacent identical points |
 
 ## Working Example
 
@@ -73,15 +40,13 @@ const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Curves' })).result
 
 // Cubic interpolation through 4 points
-await api.v1.curve.interpolationCurve({
-  id: shapeId,
-  points: [
-    [0, 0, 0],
-    [10, 30, 0],
-    [30, 30, 0],
-    [40, 0, 0],
-  ],
-})
+await api.v1.curve.interpolationCurve({ id: shapeId, points: [[0, 0, 0], [10, 30, 0], [30, 30, 0], [40, 0, 0]] })
+
+// Batch
+await api.v1.curve.interpolationCurve([
+  { id: shapeId, points: [[50, 0, 0], [55, 15, 0], [60, 0, 0]] },
+  { id: shapeId, points: [[70, 0, 0], [75, 15, 0], [80, 0, 0]] },
+])
 ```
 
 ## Related

@@ -17,7 +17,8 @@ const OP_SYNONYMS = {
   slice: ['split', 'cut', 'section', 'divide'],
   cut: ['slice', 'subtract', 'split', 'remove', 'pocket', 'section'],
   section: ['slice', 'cut', 'split'],
-  hole: ['bore', 'drill', 'cut', 'pocket', 'subtract'],
+  hole: ['bore', 'drill', 'cut', 'pocket', 'subtract', 'boolean', 'cylinder'],
+  drill: ['hole', 'bore', 'subtract', 'boolean', 'cylinder'],
   bore: ['hole', 'drill'],
   subtract: ['cut', 'difference', 'boolean', 'remove'],
   difference: ['subtract', 'cut', 'boolean'],
@@ -53,6 +54,15 @@ const OP_SYNONYMS = {
   mate: ['constraint', 'joint'],
   assembly: ['instance', 'template', 'product'],
   bounds: ['boundingbox', 'extent', 'size', 'measure'],
+  tag: ['userdata', 'user', 'data', 'label', 'attribute'],
+  label: ['userdata', 'user', 'data', 'tag', 'attribute'],
+  attribute: ['userdata', 'user', 'data', 'tag', 'label'],
+  metadata: ['userdata', 'user', 'data', 'tag', 'attribute'],
+  export: ['save', 'write', 'format'],
+  import: ['load', 'read'],
+  step: ['stp', 'save', 'export'],
+  stp: ['step', 'save', 'export'],
+  stl: ['save', 'export', 'mesh'],
 }
 
 /** Expand a query into lowercase match terms (tokens + CAD synonyms unless `synonyms: false`). */
@@ -68,11 +78,118 @@ function expandSearchTerms(search, { synonyms = true } = {}) {
   return [...out]
 }
 
+/** Filler words that match inside nearly every method name or summary — ignored by the method search. */
+const METHOD_SEARCH_STOPWORDS = new Set([
+  'a', 'an', 'the', 'and', 'or', 'of', 'to', 'in', 'on', 'for', 'with', 'by', 'is', 'are', 'be', 'how', 'do',
+  'i', 'my', 'it', 'that', 'this', 'from', 'as', 'at', 'into', 'onto', 'via', 'through',
+])
+
 /** Filler words that match nearly every document — ignored by the document search. */
 const DOC_SEARCH_STOPWORDS = new Set([
   'a', 'an', 'the', 'and', 'or', 'of', 'to', 'in', 'on', 'for', 'with', 'by', 'is', 'are', 'be', 'how', 'do',
   'i', 'my', 'it', 'that', 'this', 'from', 'as', 'at', 'part', 'parts', 'use', 'using', 'make', 'create', 'get',
 ])
+
+/** Words of a method name or summary: camelCase and non-alphanumerics split, lowercased ("linkWithExpression" → link, with, expression). */
+function splitWords(text) {
+  return String(text ?? '')
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2') // workCSys → work csys (acronym runs stay whole)
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+}
+
+/** Minimal plural folding so "parameters"/"parameter", "boxes"/"box", "properties"/"property" match. */
+function stem(word) {
+  if (word.length > 4 && word.endsWith('ies')) return word.slice(0, -3) + 'y'
+  if (word.length > 4 && /(x|ch|sh|ss)es$/.test(word)) return word.slice(0, -2)
+  if (word.length > 3 && word.endsWith('s') && !word.endsWith('ss')) return word.slice(0, -1)
+  return word
+}
+
+/**
+ * The searchable part of a method's skill notes: the intro paragraph, the headings and the short
+ * code terms in backticks (parameter names and values such as `format`, `'STP'`). Code terms that
+ * name other methods or files (`part.boolean`, `userData.md`) are skipped — they point elsewhere.
+ */
+function notesKeywords(text) {
+  if (!text) return ''
+  const lines = String(text).split('\n')
+  const intro = []
+  for (const line of lines.slice(1)) {
+    if (/^#/.test(line)) break
+    intro.push(line)
+  }
+  const headings = lines.filter(l => /^#{2,3}\s/.test(l)).map(l => l.replace(/^#+\s+/, ''))
+  const code = (String(text).match(/`[^`\n]{1,30}`/g) ?? [])
+    .map(c => c.slice(1, -1))
+    .filter(c => !/[./]/.test(c.replace(/^['"]|['"]$/g, '')))
+  return [intro.join(' ').replace(/`[^`]*`/g, ' '), ...headings, ...new Set(code)].join(' ')
+}
+
+/**
+ * BM25F over three fields of each method: name (weight 2), summary (weight 1) and the method's skill
+ * notes keywords (weight 0.3 — catches what the generated summary never says, e.g. common.save writes
+ * STEP). Field counts are length-normalized per field, combined, then saturated once (k1), and scaled by
+ * how rare the word is (idf). Summaries get weak length normalization so a terse text
+ * ("Creates a box") does not outrank a longer one; notes are fully length-normalized. Words match whole, after camelCase split and plural folding.
+ */
+function buildMethodBM25(registry, notesFor = () => null) {
+  const K1 = 1.2
+  const B_NAME = 0.75
+  const B_SUMMARY = 0.3
+  const B_NOTES = 0.75
+  const docs = new Map()
+  const df = new Map()
+  let nameLenSum = 0
+  let sumLenSum = 0
+  let notesLenSum = 0
+  for (const [key, v] of Object.entries(registry)) {
+    const bare = String(v.method ?? key.split('.').pop())
+    const nameWords = splitWords(bare).map(stem)
+    const sumWords = splitWords(v.summary).map(stem)
+    const notesWords = splitWords(notesKeywords(notesFor(key, v))).map(stem)
+    const tf = words => words.reduce((m, w) => m.set(w, (m.get(w) ?? 0) + 1), new Map())
+    const doc = {
+      name: tf(nameWords), nameLen: nameWords.length,
+      sum: tf(sumWords), sumLen: sumWords.length,
+      notes: tf(notesWords), notesLen: notesWords.length,
+      joined: bare.toLowerCase(),
+    }
+    for (const w of new Set([...nameWords, ...sumWords, ...notesWords])) df.set(w, (df.get(w) ?? 0) + 1)
+    nameLenSum += doc.nameLen
+    sumLenSum += doc.sumLen
+    notesLenSum += doc.notesLen
+    docs.set(key, doc)
+  }
+  const n = docs.size || 1
+  const avgName = nameLenSum / n || 1
+  const avgSum = sumLenSum / n || 1
+  const avgNotes = notesLenSum / n || 1
+  const idf = word => Math.log(1 + (n - (df.get(word) ?? 0) + 0.5) / ((df.get(word) ?? 0) + 0.5))
+  const norm = (tf, len, avg, b) => (tf ? tf / (1 - b + (b * len) / avg) : 0)
+  return {
+    /** → { score, inName, inSummary } for one (already stemmed) word against one method. */
+    score(key, word) {
+      const d = docs.get(key)
+      if (!d) return { score: 0, inName: false, inSummary: false }
+      const inName = d.name.has(word)
+      const inSummary = d.sum.has(word)
+      const tf =
+        2 * norm(d.name.get(word), d.nameLen, avgName, B_NAME) +
+        norm(d.sum.get(word), d.sumLen, avgSum, B_SUMMARY) +
+        0.3 * norm(d.notes.get(word), d.notesLen, avgNotes, B_NOTES)
+      let score = tf ? (idf(word) * tf * (K1 + 1)) / (tf + K1) : 0
+      // Compound words written as one ("workplane" → workPlane): whole-name substring, weighted like one name hit.
+      let joinedHit = false
+      if (!inName && word.length >= 4 && d.joined.includes(word)) {
+        score += Math.log(1 + n / 2) * 0.8
+        joinedHit = true
+      }
+      return { score, inName: inName || joinedHit, inSummary, notesOnly: score > 0 && !inName && !joinedHit && !inSummary }
+    },
+  }
+}
 
 /** First sentence of a summary, collapsed and capped, for compact listings. */
 function brief(summary) {
@@ -115,6 +232,7 @@ function editDistanceAtMost(a, b, max) {
  */
 export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, resolveDoc } = {}) {
   const docs = { ...extraDocs, ...bundle }
+  const bm25 = buildMethodBM25(registry, (key, v) => docs[`${v.domain}/${v.method ?? key.split('.').pop()}`])
   let indexCache = null
 
   function lookupDoc(name) {
@@ -190,51 +308,124 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
 
   return {
     /**
-     * Search/list v1 methods. No `search` → the full listing. With `search`
-     * (string or string[], OR semantics): CAD-synonym-expanded, ranked over
-     * name (×2) + summary (×1), capped at `limit` (default 25) with the total
-     * reported. `withSummaries: false` returns names only (token-cheap).
+     * Search/list v1 methods. No `search` → the full listing.
+     * `search` as a string → one ranked list, capped at `limit` (default 25).
+     * `search` as an array of 2+ entries → one group per entry (one concept each),
+     * every group ranked on its own and capped at `limit` per group (default 8),
+     * so a broad concept cannot crowd the others out. A method already listed in
+     * an earlier group is marked `seeAbove` instead of repeating its summary.
+     * Ranking: BM25F over method name (×2) and summary (×1) — whole words after
+     * camelCase split and plural folding, rare words weigh more. CAD synonyms count
+     * half; an entry matching only part of the query keeps that share of its score;
+     * an exact method name ranks first. `withSummaries: false` returns names only.
      */
-    searchMethods({ domain, search, withSummaries = true, limit = 25 } = {}) {
+    searchMethods({ domain, search, withSummaries = true, limit } = {}) {
       let entries = Object.entries(registry)
       if (domain) entries = entries.filter(([, v]) => v.domain === domain)
       const shape = ([name, v]) => (withSummaries ? { method: name, summary: brief(v.summary) } : name)
 
-      if (search == null || (Array.isArray(search) ? search.length === 0 : String(search).trim() === '')) {
+      const queries = (Array.isArray(search) ? search : [search]).map(q => String(q ?? '').trim()).filter(Boolean)
+      if (queries.length === 0) {
         return { count: entries.length, methods: entries.sort(([a], [b]) => a.localeCompare(b)).map(shape) }
       }
 
-      const terms = expandSearchTerms(search)
-      const scored = entries
-        .map(([name, v]) => {
-          const n = name.toLowerCase()
-          const s = String(v.summary ?? '').toLowerCase()
-          let score = 0
-          for (const t of terms) {
-            if (n.includes(t)) score += 2
-            if (s.includes(t)) score += 1
-          }
-          return { name, v, score }
-        })
-        .filter(e => e.score > 0)
-        .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
+      const noHitNote =
+        `No method matched (synonyms tried). Do NOT assume the operation doesn't exist — ` +
+        `browse a domain instead (domains: ${[...new Set(Object.values(registry).map(v => v.domain))].sort().join(', ')}).`
 
-      if (scored.length === 0) {
+      // Rank all entries against one query. `strong` = a top hit has a query word in its name AND matches every
+      // query word (name or summary) — otherwise the entry is probably a workflow, not a method.
+      const rank = query => {
+        const stems = words => [...new Set(words.map(stem))]
+        const words = expandSearchTerms(query, { synonyms: false }).filter(t => !METHOD_SEARCH_STOPWORDS.has(t))
+        const direct = stems(words)
+        // [word, weight, index of the query word it stands for]; synonyms count half
+        const weighted = direct.map((t, i) => [t, 1, i])
+        words.forEach((word, i) => {
+          for (const syn of stems(expandSearchTerms(word)))
+            if (!direct.includes(syn) && !weighted.some(([t, , o]) => t === syn && o === i)) weighted.push([syn, 0.5, direct.indexOf(stem(word))])
+        })
+        const hits = entries
+          .map(([name, v]) => {
+            const bare = String(v.method ?? name.split('.').pop()).toLowerCase()
+            const domainWord = String(v.domain).toLowerCase()
+            let score = 0
+            const hitDirect = new Set()
+            const hitSynonym = new Set()
+            let nameHit = false
+            let nameOrSummaryHit = false
+            for (const [t, w, origin] of weighted) {
+              if (w === 1 && t === domainWord) { hitDirect.add(origin); nameHit = true; continue } // "part box": the domain word is matched by the domain
+              const s = bm25.score(name, t)
+              if (s.score <= 0) continue
+              if (!s.notesOnly) nameOrSummaryHit = true
+              score += w * s.score
+              if (w === 1) {
+                hitDirect.add(origin)
+                if (s.inName) nameHit = true
+              } else hitSynonym.add(origin)
+            }
+            // a query word counts as covered when it matched itself (1) or only a synonym (0.5)
+            const covered = hitDirect.size + [...hitSynonym].filter(o => !hitDirect.has(o)).length * 0.5
+            // Notes only refine: they mention many words in passing, so a method also needs a name or summary match.
+            if (!nameOrSummaryHit) score = 0
+            if (score > 0) {
+              score *= covered / direct.length // soft AND: matching half of the query words keeps half the score
+              if (direct.includes(domainWord)) score += 1 // "part box" → part.box before solid.box
+              if (direct.includes(stem(bare))) score += 3 // exact method name ("box" → part.box before updateBox)
+              score = Math.round(score * 4) / 4 // near-ties (summary length only) fall through to the name order below
+            }
+            return { name, v, score, full: nameHit && hitDirect.size === direct.length }
+          })
+          .filter(e => e.score > 0)
+          .sort((a, b) => b.score - a.score || a.name.length - b.name.length || a.name.localeCompare(b.name))
+        return { hits, strong: hits.slice(0, 8).some(h => h.full) }
+      }
+
+      // One query → one flat list (unchanged contract).
+      if (queries.length === 1) {
+        const cap = limit ?? 25
+        const { hits } = rank(queries[0])
+        if (hits.length === 0) return { count: 0, methods: [], note: noHitNote }
         return {
-          count: 0,
-          methods: [],
+          count: hits.length,
+          methods: hits.slice(0, cap).map(({ name, v }) => shape([name, v])),
           note:
-            `No method matched (synonyms tried). Do NOT assume the operation doesn't exist — ` +
-            `browse a domain instead (domains: ${[...new Set(Object.values(registry).map(v => v.domain))].sort().join(', ')}).`,
+            `Ranked by relevance (BM25 over name + summary, CAD synonyms expanded)` +
+            (hits.length > cap ? `; showing ${cap} of ${hits.length}` : '') +
+            `. Use describeMethod for exact params.`,
         }
       }
+
+      // Several queries → one group per query.
+      const cap = limit ?? 8
+      const listed = new Map() // method → first query it was listed under
+      const unique = new Set()
+      const groups = queries.map(query => {
+        const { hits, strong } = rank(query)
+        for (const h of hits) unique.add(h.name)
+        const methods = hits.slice(0, cap).map(({ name, v }) => {
+          if (listed.has(name)) return withSummaries ? { method: name, seeAbove: listed.get(name) } : name
+          listed.set(name, query)
+          return shape([name, v])
+        })
+        const group = { search: query, count: hits.length, methods }
+        // For workflow-like entries, name the best-matching document instead of a generic pointer.
+        const bestDoc = hits.length === 0 || !strong ? this?.searchDocs?.({ search: query, limit: 1 })?.docs?.[0]?.key : undefined
+        const seeDoc = bestDoc ? `see \`${bestDoc}\`` : 'check `docs`'
+        const inDomain = domain ? ` in the ${domain} domain (try without \`domain\`)` : ''
+        if (hits.length === 0) group.note = `No method matched${inDomain} — likely a workflow or a different word: ${seeDoc}.`
+        else if (!strong) group.note = `No method covers all of these words${inDomain} — likely a workflow, not a single method: ${seeDoc}.`
+        else if (hits.length > cap) group.note = `showing ${cap} of ${hits.length}`
+        return group
+      })
       return {
-        count: scored.length,
-        methods: scored.slice(0, limit).map(({ name, v }) => shape([name, v])),
+        count: unique.size,
+        groups,
         note:
-          `Ranked by relevance (name + summary matches, CAD synonyms expanded)` +
-          (scored.length > limit ? `; showing ${limit} of ${scored.length}` : '') +
-          `. Use describeMethod for exact params.`,
+          `One group per search entry, each ranked on its own (BM25 over name + summary, CAD synonyms expanded), ` +
+          `top ${cap} per group. \`seeAbove\` = already listed under that entry. Use describeMethod for exact params.` +
+          (unique.size === 0 ? ' ' + noHitNote : ''),
       }
     },
 
@@ -458,12 +649,12 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
 /** Shared limits for the bulk docs tool (single source across hosts). */
 export const DOCS_MAX_KEYS = 24
 /**
- * Max chars in ONE docs response. Tool outputs above ~25k tokens are rejected
- * or spilled to a file by hosts (Claude Code's default MCP output limit). An
- * 82k-char doc response exceeded that limit; doc markdown runs ~0.3–0.36
- * tokens/char, so 64k chars (plus the ≤1k deferral header) stays below it.
+ * Max chars in ONE docs response. Hosts reject tool outputs above their limit or spill them to a
+ * file the agent then has to read back in chunks. Claude Code keeps a 49,950-char result inline and
+ * spills a 54,972-char one (its cap is 50,000 chars), so 48k plus the ≤1k deferral header stays
+ * inline; whatever does not fit is deferred to the next call.
  */
-export const DOCS_RESPONSE_BUDGET = 64000
+export const DOCS_RESPONSE_BUDGET = 48000
 /** @deprecated Docs are no longer truncated; oversized docs are paged. Kept for importers. */
 export const DOCS_PER_DOC_CAP = DOCS_RESPONSE_BUDGET
 
@@ -498,5 +689,8 @@ export const DOC_ALIASES = {
   'recipes/verify-numerically': 'recipes/verification',
   'recipes/drawing-reproduction': 'recipes/verification',
 }
+
+/** The CAD synonym table behind both searches (read-only; exported for tests and tooling). */
+export const SEARCH_SYNONYMS = OP_SYNONYMS
 
 export default createDiscovery

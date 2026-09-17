@@ -1,36 +1,34 @@
 # assembly.gear
 
-Creates a gear relation linking two **revolute** constraints. When one revolute rotates, the other rotates proportionally by the gear ratio with optional angular offset.
+Gear relation linking two **revolute** constraints: when one rotates, the other rotates by the ratio, with optional angular offset.
 
 ## Prerequisites
 
-- An assembly root (`assembly.create`)
-- **Two revolute constraints** (`assembly.revolute`). No other constraint type is accepted — cylindrical, planar, slider, spherical, fastened, fastenedOrigin all fail with: `"wrong id type! Provide only following id types: [\"revoluteconstraint\"]"`
+- An assembly root with **two revolute constraints**. No other type is accepted — cylindrical, planar, slider, spherical, fastened, fastenedOrigin all fail with `"wrong id type! Provide only following id types: [\"revoluteconstraint\"]"` (despite docs saying "constraint")
 - At least one instance grounded with `fastenedOrigin` (otherwise solver behavior is unpredictable)
 
 ## Key Parameters
 
 - `id` — assembly root ID (required)
-- `constr1Id` — ID of the first revolute constraint (required)
-- `constr2Id` — ID of the second revolute constraint (required)
-- `ratio` — rotational velocity ratio (default 1). See coupling formula below.
-- `offset` — angular offset for constr2 in radians (default 0). Accepts degree strings: `'45deg'`, `'90deg'`, `'-30deg'`.
-- `name` — relation name (default "GearRelation")
+- `constr1Id` / `constr2Id` — revolute constraint IDs (required). Passing the same revolute for both is silently allowed
+- `ratio` — rotational ratio (default 1)
+- `offset` — angular offset for constr2 in radians (default 0); degree strings accepted (`'-30deg'`)
+- `name` — default `"GearRelation"`
 
 ## Coupling Formula (CRITICAL)
 
-The physical rotation of constr2's mate2 instance follows:
+Physical rotation of constr2's mate2 instance:
 
 ```
 arm2_rotation = -(ratio × constr1_angle) + offset
 ```
 
-- **Positive ratio** → counter-rotating (meshing gears). arm2 rotates opposite to arm1.
-- **Negative ratio** → co-rotating (belt/chain drive). arm2 rotates same direction as arm1.
-- **ratio=0** → decoupled. arm2 doesn't rotate regardless of constr1.
-- **offset** → constant angular displacement added to arm2's position.
+- **Positive ratio** → counter-rotating (meshing gears)
+- **Negative ratio** → co-rotating (belt/chain drive)
+- **ratio=0** → decoupled; arm2 doesn't rotate
+- **offset** → constant angle added to arm2
 
-### Examples (verified via COG measurement)
+Measured via COG:
 
 | ratio | offset | constr1 angle | arm2 physical rotation |
 |---|---|---|---|
@@ -43,83 +41,35 @@ arm2_rotation = -(ratio × constr1_angle) + offset
 
 ## Driving Gear Motion
 
-Use `update3DConstraintValue` on the driving constraint (constr1):
+Drive constr1 with `update3DConstraintValue({ id: rev1Id, name: 'Z_ROTATION', value: '45deg' })`; the gear propagates to constr2. **Do not drive constr2 directly.**
 
-```js
-await api.v1.assembly.update3DConstraintValue({
-  id: rev1Id, name: 'Z_ROTATION', value: '45deg',
-})
-```
-
-The gear automatically propagates to constr2. **Do not drive constr2 directly** — the gear controls it.
-
-### Solver behavior without drive
-
-With offset=0 and no drive, both revolutes start at angle=0 (gear satisfied trivially). With offset≠0 and no drive, the solver distributes the offset across both free revolute DOFs (ratio 1, offset 90°: both arms at 45°, repeatable). To place a specific arm at a specific angle, **explicitly drive constr1** via `update3DConstraintValue`.
+Without a drive: offset=0 → both revolutes at angle 0. Offset≠0 → the solver splits the offset across both free revolutes (ratio 1, offset 90°: both arms at 45°, repeatable; neither at 0). To place a specific arm at a specific angle, drive constr1 explicitly.
 
 ## Return Value
 
-- Single call: `id` — the gear relation ID
-- Array call: `Array<id>`
+Gear relation ID; array call → `Array<id>`.
 
 ## updateGear
 
-`updateGear({ id: gearId, ... })` — true partial update. Unspecified params preserved.
-
-**`id` must be the gear relation ID** (returned from `gear()`), NOT the assembly ID. Passing assembly ID → error code 1007.
-
-### What you can update
-
-- `ratio: 0.5` — change gear ratio
-- `offset: '90deg'` — change angular offset (radians or degree string)
-- `name: 'NewName'` — rename; old name immediately unfindable via getGear
-- `constr1Id` / `constr2Id` — retarget to different revolute constraints
+`updateGear({ id: gearId, ... })` — **gear relation ID**, not the assembly ID (→ 1007). True partial update: `ratio`, `offset` (radians or degree string), `name` (old name immediately unfindable via getGear), `constr1Id` / `constr2Id` (retarget).
 
 ## getGear
 
-`getGear({ id: asmId, name: 'MyGear' })` — queries a gear relation by name.
-
-### Parameters
-
-- `id` — **assembly root ID only**. Instance IDs and template IDs fail with "not a Assembly".
-- `name` — relation name string (case-sensitive)
-
-### Return Value
-
-Success (`maxLevel: 31`):
-```js
-{
-  id,           // gear relation ID
-  name,         // string
-  constr1Id,    // revolute constraint ID
-  constr2Id,    // revolute constraint ID
-  ratio,        // number
-  offset,       // number (radians — degree strings converted on storage)
-}
-```
-
-Failure (all return `result: null, maxLevel: 51`):
-- Non-existent name
-- Empty name
-- Instance or template ID passed as `id`
+`getGear({ id: asmId, name: 'MyGear' })` — `id` is the assembly holding it: the root, an assembly template, or a sub-assembly instance (part instance → "not a Assembly", part template → 1001); `name` case-sensitive. Success (maxLevel 31): `{ id, name, constr1Id, constr2Id, ratio, offset }` with offset in radians. `result: null`, maxLevel 51 for: non-existent name, empty name, part instance/template ID as `id`.
 
 ## Gotchas
 
-- **Revolute-only.** Despite docs saying "constraint", gear only accepts revolute constraint IDs. Cylindrical, fastened, etc. all fail.
-- **Counter-rotation is built in.** Positive ratio means opposite rotation direction (like meshing gears). Use negative ratio for same-direction coupling (belt/pulleys).
-- **Self-linking is silently allowed.** Passing the same revolute for both constr1 and constr2 succeeds without error.
-- **Offset without drive is split across both arms.** The result is repeatable but neither arm sits at 0; drive constr1 explicitly to choose the angles.
-- **calculateMassProperties materializes instances.** After calling `calculateMassProperties(instanceId)`, constraint updates (including gear-driven motion) may not propagate to the materialized instance. Measure only after final positioning.
+- **calculateMassProperties materializes instances.** After `calculateMassProperties(instanceId)`, constraint updates (including gear-driven motion) may not propagate to the materialized instance. Measure only after final positioning.
 
 ## Common Errors
 
-| Error | Message | Code |
+| Cause | Message | Code |
 |---|---|---|
 | Non-revolute constraint | "wrong id type! Provide only: [\"revoluteconstraint\"]" | 1001 |
 | Non-existent constraint ID | "invalid id!" | 1006 |
 | Missing required param | "must be provided" | 1004 |
 | Assembly ID for updateGear | "not a constraint or relation" | 1007 |
-| Assembly root for getGear failures | "couldn't be found a constraint with name..." | 0 |
+| getGear failures | "couldn't be found a constraint with name..." | 0 |
 
 ## Working Example
 
@@ -132,14 +82,13 @@ const wcsA = (await api.v1.part.workCSys({ id: tplA, name: 'Csys' })).result  //
 
 const tplB = (await api.v1.assembly.partTemplate({ name: 'Gear1' })).result
 await api.v1.part.box({ id: tplB, name: 'Box', length: 60, width: 15, height: 8 })
-const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result  // csys at part origin
+const wcsB = (await api.v1.part.workCSys({ id: tplB, name: 'Csys' })).result
 
 const tplC = (await api.v1.assembly.partTemplate({ name: 'Gear2' })).result
 await api.v1.part.box({ id: tplC, name: 'Box', length: 40, width: 12, height: 6 })
-const wcsC = (await api.v1.part.workCSys({ id: tplC, name: 'Csys' })).result  // csys at part origin
+const wcsC = (await api.v1.part.workCSys({ id: tplC, name: 'Csys' })).result
 
 await api.v1.assembly.setCurrentProduct({ id: asmId })
-
 const inst1 = (await api.v1.assembly.instance({ productId: tplA, ownerId: asmId, name: 'Base' })).result
 const inst2 = (await api.v1.assembly.instance({ productId: tplB, ownerId: asmId, name: 'Gear1' })).result
 const inst3 = (await api.v1.assembly.instance({ productId: tplC, ownerId: asmId, name: 'Gear2' })).result
@@ -148,29 +97,18 @@ await api.v1.assembly.fastenedOrigin({ id: asmId, name: 'Ground', mate1: { path:
 
 const rev1 = (await api.v1.assembly.revolute({
   id: asmId, name: 'Rev1',
-  mate1: { path: [inst1], csys: wcsA },
-  mate2: { path: [inst2], csys: wcsB },
-  zOffset: 10,
+  mate1: { path: [inst1], csys: wcsA }, mate2: { path: [inst2], csys: wcsB }, zOffset: 10,
 })).result
-
 const rev2 = (await api.v1.assembly.revolute({
   id: asmId, name: 'Rev2',
-  mate1: { path: [inst1], csys: wcsA },
-  mate2: { path: [inst3], csys: wcsC },
-  zOffset: 20,
+  mate1: { path: [inst1], csys: wcsA }, mate2: { path: [inst3], csys: wcsC }, zOffset: 20,
 })).result
 
-// Gear: 2:1 counter-rotating ratio
-const gearId = (await api.v1.assembly.gear({
-  id: asmId, name: 'MeshGear',
-  constr1Id: rev1, constr2Id: rev2,
-  ratio: 2.0,
-})).result
+// 2:1 counter-rotating
+await api.v1.assembly.gear({ id: asmId, name: 'MeshGear', constr1Id: rev1, constr2Id: rev2, ratio: 2.0 })
 
-// Drive: rotate gear1 by 45° → gear2 rotates -90°
-await api.v1.assembly.update3DConstraintValue({
-  id: rev1, name: 'Z_ROTATION', value: '45deg',
-})
+// Drive gear1 by 45° → gear2 rotates -90°
+await api.v1.assembly.update3DConstraintValue({ id: rev1, name: 'Z_ROTATION', value: '45deg' })
 ```
 
 ## Related

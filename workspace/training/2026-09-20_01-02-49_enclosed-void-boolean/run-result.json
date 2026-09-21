@@ -1,0 +1,263 @@
+{
+  "ok": true,
+  "error": null,
+  "durationMs": 179,
+  "operations": [
+    {
+      "phase": "start",
+      "method": "v1.part.create",
+      "name": "VoidThenFeatures",
+      "startedAt": 1789859386487
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.create",
+      "name": "VoidThenFeatures",
+      "startedAt": 1789859386487,
+      "durationMs": 25,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.workCSys",
+      "name": "Outer_cs",
+      "startedAt": 1789859386512
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.workCSys",
+      "name": "Outer_cs",
+      "startedAt": 1789859386512,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.box",
+      "name": "Outer",
+      "startedAt": 1789859386516
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.box",
+      "name": "Outer",
+      "startedAt": 1789859386516,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.workCSys",
+      "name": "Inner_cs",
+      "startedAt": 1789859386522
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.workCSys",
+      "name": "Inner_cs",
+      "startedAt": 1789859386522,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.box",
+      "name": "Inner",
+      "startedAt": 1789859386527
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.box",
+      "name": "Inner",
+      "startedAt": 1789859386527,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.boolean",
+      "name": "Hollow",
+      "startedAt": 1789859386532
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.boolean",
+      "name": "Hollow",
+      "startedAt": 1789859386532,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386538
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386538,
+      "durationMs": 2,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.getGeometryIds",
+      "startedAt": 1789859386540
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.getGeometryIds",
+      "startedAt": 1789859386540,
+      "durationMs": 1,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.chamfer",
+      "name": "TopEdge",
+      "startedAt": 1789859386541
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.chamfer",
+      "name": "TopEdge",
+      "startedAt": 1789859386541,
+      "durationMs": 9,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386550
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386550,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.workCSys",
+      "name": "Boss_cs",
+      "startedAt": 1789859386553
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.workCSys",
+      "name": "Boss_cs",
+      "startedAt": 1789859386553,
+      "durationMs": 4,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.box",
+      "name": "Boss",
+      "startedAt": 1789859386557
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.box",
+      "name": "Boss",
+      "startedAt": 1789859386557,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.boolean",
+      "name": "AddBoss",
+      "startedAt": 1789859386562
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.boolean",
+      "name": "AddBoss",
+      "startedAt": 1789859386562,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386568
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386568,
+      "durationMs": 2,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.workPlane",
+      "name": "Mid",
+      "startedAt": 1789859386570
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.workPlane",
+      "name": "Mid",
+      "startedAt": 1789859386570,
+      "durationMs": 5,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.slice",
+      "name": "HalfThroughVoid",
+      "startedAt": 1789859386575
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.slice",
+      "name": "HalfThroughVoid",
+      "startedAt": 1789859386575,
+      "durationMs": 6,
+      "maxLevel": 31,
+      "messages": []
+    },
+    {
+      "phase": "start",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386581
+    },
+    {
+      "phase": "end",
+      "method": "v1.part.calculateMassProperties",
+      "startedAt": 1789859386581,
+      "durationMs": 3,
+      "maxLevel": 31,
+      "messages": []
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "snapshot",
+      "label": "sliced-through-void",
+      "ok": true,
+      "files": [
+        "files/12-features-after-void-sliced-through-void-solid.png",
+        "files/12-features-after-void-sliced-through-void-workgeo.png"
+      ]
+    }
+  ]
+}

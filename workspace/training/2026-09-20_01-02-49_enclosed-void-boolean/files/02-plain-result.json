@@ -1,0 +1,20 @@
+{
+  "tag": "02",
+  "opts": {},
+  "solidVolume": 181141.80000000002,
+  "cavityVolume": 140829.00000000003,
+  "hollow": {
+    "id": 144,
+    "maxLevel": 31,
+    "msg": ""
+  },
+  "afterHollow": 40312.80000000002,
+  "expectAfterHollow": 40312.79999999999,
+  "hollowOk": true,
+  "bore": {
+    "id": 209,
+    "maxLevel": 31,
+    "msg": ""
+  },
+  "afterBore": 39496.165074972836
+}

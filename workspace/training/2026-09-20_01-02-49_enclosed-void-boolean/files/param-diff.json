@@ -1,0 +1,46 @@
+{
+ "chamfer_top_right": [
+  2.2,
+  2.0
+ ],
+ "chamfer_bottom_right": [
+  6.0,
+  5.5
+ ],
+ "chamfer_front_bottom": [
+  3.0,
+  2.2
+ ],
+ "chamfer_front_corner": [
+  3.0,
+  2.0
+ ],
+ "lens_y": [
+  11.0,
+  11.6
+ ],
+ "lens_z": [
+  11.0,
+  11.6
+ ],
+ "eye_y": [
+  11.9,
+  12.4
+ ],
+ "diopter_y": [
+  30.15,
+  30.65
+ ],
+ "power_x": [
+  8.0,
+  8.8
+ ],
+ "power_y": [
+  31.0,
+  30.2
+ ],
+ "collar_flat": [
+  15.0,
+  16.8
+ ]
+}

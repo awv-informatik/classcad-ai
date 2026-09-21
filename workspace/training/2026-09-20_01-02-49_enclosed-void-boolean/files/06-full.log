@@ -1,0 +1,2 @@
+[06] {"tag":"06","opts":{"sliceTarget":true,"sliceTool":true,"dish":true,"toolMinus":true},"solidVolume":"176027.456","cavityVolume":"136595.878","hollow":{"id":"624.000","maxLevel":"31.000","msg":""},"afterHollow":"39431.577","expectAfterHollow":"39431.577","hollowOk":true,"bore":{"id":"737.000","maxLevel":"31.000","msg":""},"afterBore":"38614.942"}
+[filewrite] files/06-full-result.json (462 bytes)

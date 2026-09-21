@@ -1,0 +1,2 @@
+[03] {"tag":"03","opts":{"sliceTarget":true},"solidVolume":"177402.456","cavityVolume":"140829.000","hollow":{"id":"292.000","maxLevel":"31.000","msg":""},"afterHollow":"37200.967","expectAfterHollow":"36573.456","hollowOk":false,"bore":{"id":"389.000","maxLevel":"31.000","msg":""},"afterBore":"36384.332"}
+[filewrite] files/03-sliced-target-result.json (391 bytes)

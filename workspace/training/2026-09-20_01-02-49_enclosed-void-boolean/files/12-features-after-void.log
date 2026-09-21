@@ -1,0 +1,2 @@
+[12] {"hollow":"176000.000","expectHollow":"176000.000","chamfer":{"id":"182.000","maxLevel":"31.000","msg":""},"afterChamfer":"175200.000","expectAfterChamfer":"175200.000","union":{"id":"249.000","maxLevel":"31.000","msg":""},"afterUnion":"178400.000","expectAfterUnion":"178400.000","slice":{"id":"310.000","maxLevel":"31.000","msg":""},"afterSlice":"89200.000","expectAfterSlice":"89200.000"}
+[filewrite] files/12-features-after-void-result.json (415 bytes)

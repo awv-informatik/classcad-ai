@@ -1,0 +1,25 @@
+{
+  "hollow": 176000,
+  "expectHollow": 176000,
+  "chamfer": {
+    "id": 182,
+    "maxLevel": 31,
+    "msg": ""
+  },
+  "afterChamfer": 175200,
+  "expectAfterChamfer": 175200,
+  "union": {
+    "id": 249,
+    "maxLevel": 31,
+    "msg": ""
+  },
+  "afterUnion": 178400,
+  "expectAfterUnion": 178400,
+  "slice": {
+    "id": 310,
+    "maxLevel": 31,
+    "msg": ""
+  },
+  "afterSlice": 89200,
+  "expectAfterSlice": 89200
+}

@@ -1,0 +1,25 @@
+{
+  "tag": "06",
+  "opts": {
+    "sliceTarget": true,
+    "sliceTool": true,
+    "dish": true,
+    "toolMinus": true
+  },
+  "solidVolume": 176027.45571111148,
+  "cavityVolume": 136595.87830574618,
+  "hollow": {
+    "id": 624,
+    "maxLevel": 31,
+    "msg": ""
+  },
+  "afterHollow": 39431.57740536529,
+  "expectAfterHollow": 39431.5774053653,
+  "hollowOk": true,
+  "bore": {
+    "id": 737,
+    "maxLevel": 31,
+    "msg": ""
+  },
+  "afterBore": 38614.94248033811
+}

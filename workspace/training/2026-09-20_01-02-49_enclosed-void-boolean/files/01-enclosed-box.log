@@ -1,0 +1,2 @@
+[01] {"expectHollow":"176000.000","before":"304000.000","sub":{"id":"144.000","maxLevel":"31.000","msg":""},"afterHollow":"176000.000","cut":{"id":"209.000","maxLevel":"31.000","msg":""},"afterBore":"175213.073","expectAfterBore":"175214.602"}
+[filewrite] files/01-enclosed-box-result.json (279 bytes)

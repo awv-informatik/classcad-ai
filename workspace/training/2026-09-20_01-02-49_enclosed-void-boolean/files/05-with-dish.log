@@ -1,0 +1,2 @@
+[05] {"tag":"05","opts":{"sliceTarget":true,"sliceTool":true,"dish":true},"solidVolume":"176027.456","cavityVolume":"138190.878","hollow":{"id":"532.000","maxLevel":"31.000","msg":""},"afterHollow":"38086.577","expectAfterHollow":"37836.577","hollowOk":false,"bore":{"id":"646.000","maxLevel":"31.000","msg":""},"afterBore":"37269.942"}
+[filewrite] files/05-with-dish-result.json (439 bytes)

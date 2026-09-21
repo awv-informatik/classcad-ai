@@ -1,0 +1,2 @@
+[02] {"tag":"02","opts":{},"solidVolume":"181141.800","cavityVolume":"140829.000","hollow":{"id":"144.000","maxLevel":"31.000","msg":""},"afterHollow":"40312.800","expectAfterHollow":"40312.800","hollowOk":true,"bore":{"id":"209.000","maxLevel":"31.000","msg":""},"afterBore":"39496.165"}
+[filewrite] files/02-plain-result.json (373 bytes)

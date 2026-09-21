@@ -1,0 +1,2 @@
+[04] {"tag":"04","opts":{"sliceTarget":true,"sliceTool":true},"solidVolume":"177402.456","cavityVolume":"138190.878","hollow":{"id":"440.000","maxLevel":"31.000","msg":""},"afterHollow":"39211.577","expectAfterHollow":"39211.577","hollowOk":true,"bore":{"id":"529.000","maxLevel":"31.000","msg":""},"afterBore":"38394.942"}
+[filewrite] files/04-sliced-both-result.json (421 bytes)

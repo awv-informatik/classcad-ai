@@ -1,0 +1,5 @@
+Building template Tub
+Tub Objective_and_eye_rim volume 179540.4
+Tub Dished_control_deck volume 178378.5
+Tub Hollow_interior volume 178378.5
+[09] FLIP=power_x,power_y,collar_flat before 178378.5 after 178378.5 hollowed false

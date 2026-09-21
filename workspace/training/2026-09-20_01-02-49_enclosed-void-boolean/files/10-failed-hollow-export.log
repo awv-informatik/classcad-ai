@@ -1,0 +1,39 @@
+Building template Tub
+Tub Objective_and_eye_rim volume 179540.4
+Tub Dished_control_deck volume 178378.5
+Tub Hollow_interior volume 178378.5
+[10] failing: solids in tree 34; Hollow_interior node 2669 class CC_Subtraction children [2805]
+[10] failing: solid 1161 parent 1094 (Outer_section) volume 176435.945
+[10] failing: solid 1195 parent 1173 (Body_Front_top) volume 176348.1796666667
+[10] failing: solid 1235 parent 1207 (Body_Front_bottom) volume 176179.9921666667
+[10] failing: solid 1275 parent 1247 (Body_Rear_bottom) volume 176011.8046666667
+[10] failing: solid 1315 parent 1287 (Body_Front_left_corner) volume 175884.28591666667
+[10] failing: solid 1353 parent 1327 (Body_Front_right_corner) volume 175755.13591666674
+[10] failing: solid 1387 parent 1365 (Body_Rear_left_corner) volume 175724.31091666664
+[10] failing: solid 1431 parent 1399 (Body_Rear_right_corner) volume 175174.10624999992
+[10] failing: solid 1475 parent 1443 (Body_Rear_deck) volume 173343.23996428587
+[10] failing: solid 1519 parent 1487 (Body_Nose_facet) volume 172852.50141349225
+[10] failing: solid 1590 parent 1523 (Objective_shroud) volume 5089.856245899651
+[10] failing: solid 1661 parent 1594 (Eye_rim) volume 2806.8714435231714
+[10] failing: solid 1832 parent 1665 (Objective_and_eye_rim) volume 179540.35334820906
+[10] failing: solid 1875 parent 1836 (Dish_blank) volume 29872.499999999985
+[10] failing: solid 1911 parent 1887 (Dish_Dish_front) volume 27816.987499999967
+[10] failing: solid 1947 parent 1923 (Dish_Dish_rear) volume 25761.475000000006
+[10] failing: solid 1979 parent 1959 (Dish_Dish_side) volume 24653.64166666666
+[10] failing: solid 2026 parent 1983 (Dished_control_deck) volume 178378.4783482089
+[10] failing: solid 2069 parent 2030 (Dish_grown_blank) volume 49250.70000000001
+[10] failing: solid 2105 parent 2081 (Dish_grown_Dish_front) volume 43372.32059549942
+[10] failing: solid 2141 parent 2117 (Dish_grown_Dish_rear) volume 37493.94119099867
+[10] failing: solid 2185 parent 2153 (Dish_grown_Dish_side) volume 33495.039421462396
+[10] failing: solid 2256 parent 2189 (Inner_section) volume 138080.90574181516
+[10] failing: solid 2290 parent 2268 (Cavity_Front_top) volume 138063.01603685092
+[10] failing: solid 2330 parent 2302 (Cavity_Front_bottom) volume 138004.9696859623
+[10] failing: solid 2370 parent 2342 (Cavity_Rear_bottom) volume 137946.92333507366
+[10] failing: solid 2410 parent 2382 (Cavity_Front_left_corner) volume 137903.52874956615
+[10] failing: solid 2450 parent 2422 (Cavity_Front_right_corner) volume 137859.30334499644
+[10] failing: solid 2486 parent 2462 (Cavity_Rear_left_corner) volume 137857.95708443667
+[10] failing: solid 2530 parent 2498 (Cavity_Rear_right_corner) volume 137532.33623398913
+[10] failing: solid 2574 parent 2542 (Cavity_Rear_deck) volume 136056.85191623803
+[10] failing: solid 2618 parent 2586 (Cavity_Nose_facet) volume 135685.51882911343
+[10] failing: solid 2665 parent 2622 (Cavity_less_Dish_grown) volume 134536.1097735762
+[10] failing: solid 2805 parent 2669 (Hollow_interior) volume 178378.4783482089

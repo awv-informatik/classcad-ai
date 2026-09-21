@@ -183,6 +183,8 @@ script from the design math — blank minus holes, etc.). Rules of thumb:
 - Regenerated a parameter → volume must move in the right DIRECTION and
   roughly the right magnitude. Unchanged volume after a "successful" update
   = frozen feature.
+- Unchanged volume after a "successful" SUBTRACTION (maxLevel 31) = the boolean left a sheet
+  body; a section snapshot still looks cut. Assert the expected drop after every subtraction.
 - N patterned cuts → missing instances show up as `+1/N` volume steps.
 - Tolerance: planar solids match exactly; curved solids deviate slightly from the analytic
   value (cylinder ≈ −0.002 %, sphere ≈ +0.014 %) — that is the kernel's volume integration,

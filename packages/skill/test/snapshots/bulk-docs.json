@@ -396,8 +396,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 16084,
-      "sha": "bfc0362da702",
+      "chars": 16271,
+      "sha": "d1560392c0ea",
       "sections": [
         "# ═══ recipes/verification ═══"
       ],
@@ -2286,8 +2286,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 6177,
-      "sha": "d315a742f1a1",
+      "chars": 7915,
+      "sha": "1549239a3c55",
       "sections": [
         "# ═══ v1.part.boolean ═══"
       ],
@@ -2314,8 +2314,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3837,
-      "sha": "6d7843bf269d",
+      "chars": 4410,
+      "sha": "656e62a63d07",
       "sections": [
         "# ═══ v1.part.calculateMassProperties ═══"
       ],
@@ -4450,8 +4450,8 @@
       "deferred": [
         "recipes/constrained-sketching"
       ],
-      "chars": 36106,
-      "sha": "660bae991721",
+      "chars": 36293,
+      "sha": "2361f1cecfe7",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
@@ -4483,8 +4483,8 @@
         "api/sketch",
         "api/solid"
       ],
-      "chars": 45265,
-      "sha": "08b671c42768",
+      "chars": 45452,
+      "sha": "3e30265d7d33",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
@@ -4628,8 +4628,8 @@
         "v1.part.box",
         "api/part"
       ],
-      "chars": 16226,
-      "sha": "592642b0b51a",
+      "chars": 16413,
+      "sha": "418ee290c3a0",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/verification ═══"

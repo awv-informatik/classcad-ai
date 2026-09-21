@@ -3512,8 +3512,8 @@
   },
   "part/boolean": {
     "read": {
-      "chars": 5562,
-      "sha": "c1ff8a65116f",
+      "chars": 7300,
+      "sha": "601e5fa9c225",
       "headings": [
         "# part.boolean",
         "## Key Parameters",
@@ -3528,8 +3528,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5562,
-      "sha": "c1ff8a65116f",
+      "chars": 7300,
+      "sha": "601e5fa9c225",
       "headings": [
         "# part.boolean",
         "## Key Parameters",
@@ -3617,8 +3617,8 @@
   },
   "part/calculateMassProperties": {
     "read": {
-      "chars": 3225,
-      "sha": "9681ad36f75f",
+      "chars": 3798,
+      "sha": "4b39aede055f",
       "headings": [
         "# part.calculateMassProperties",
         "## Key Parameters",
@@ -3633,8 +3633,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3225,
-      "sha": "9681ad36f75f",
+      "chars": 3798,
+      "sha": "4b39aede055f",
       "headings": [
         "# part.calculateMassProperties",
         "## Key Parameters",
@@ -5980,8 +5980,8 @@
   },
   "recipes/verification": {
     "read": {
-      "chars": 16052,
-      "sha": "1a351e8d520d",
+      "chars": 16239,
+      "sha": "a575578af9c7",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",
@@ -6000,8 +6000,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 16052,
-      "sha": "1a351e8d520d",
+      "chars": 16239,
+      "sha": "a575578af9c7",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",

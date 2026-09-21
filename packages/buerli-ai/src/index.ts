@@ -28,6 +28,10 @@ export type { AgentStore, AgentStoreState, UIMessage, CodeEvent } from './store'
 export { runAgentLoop } from './agentLoop'
 export type { AgentTurnEvent } from './agentLoop'
 
+// Context management — task-aware compaction (pure functions; usable headless)
+export { compact, renderContext, digestTree, buildJournal, buildStateBlock, estimateTokens, isContextOverflow } from './context'
+export type { CompactionReport, CompactionCounts } from './context'
+
 // Types
 export type {
   AgentConfig,
@@ -42,6 +46,10 @@ export type {
   ProviderCapabilities,
   ImageInput,
   FileAttachment,
+  MessageMeta,
+  ContextMeta,
+  DrawingStructure,
+  ToolResult,
 } from './types'
 
 // System prompt

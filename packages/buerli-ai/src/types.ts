@@ -6,9 +6,61 @@ import type { DrawingID } from '@buerli.io/core'
 
 /** A single message in the conversation. */
 export type Message =
-  | { role: 'user'; content: string | UserContentBlock[] }
-  | { role: 'assistant'; content: Array<ContentBlock> }
-  | { role: 'tool'; tool_use_id: string; content: string | ToolResultContent[]; meta?: { referenceImage?: boolean; docKeys?: string[] } }
+  | { role: 'user'; content: string | UserContentBlock[]; meta?: MessageMeta }
+  | { role: 'assistant'; content: Array<ContentBlock>; meta?: MessageMeta }
+  | { role: 'tool'; tool_use_id: string; content: string | ToolResultContent[]; meta?: MessageMeta }
+
+/**
+ * Host-side annotations on a message. Never sent to a provider (each provider
+ * rebuilds its wire objects); it rides along in the stored history so context
+ * compaction state survives across turns.
+ */
+export type MessageMeta = {
+  /** A fetched reference drawing (tool result) — harvested across turns, never condensed. */
+  referenceImage?: boolean
+  /** Documentation keys this `docs` result actually SERVED (requested minus deferred). */
+  docKeys?: string[]
+  /** Written by the loop, not the user: nudges, retries, the session ledger. Belongs to the preceding group. */
+  synthetic?: boolean
+  /** Left out of the context sent to the model; represented by the session ledger instead. */
+  collapsed?: boolean
+  /** This synthetic message is a part of the session ledger. */
+  ledger?: 'journal' | 'state'
+  /** What this tool result is, for task-aware compaction (see src/context). */
+  ctx?: ContextMeta
+}
+
+/** What a tool result is worth to the ongoing CAD task — set when the result is appended. */
+export type ContextMeta = {
+  tool: string
+  /**
+   * reference  — re-fetchable by key (docs, list_methods, fetched pages)
+   * state-read — a reading of the drawing: stale once the geometry changes (tree, find, inspect, snapshot, read-only scripts)
+   * build      — a step that changed the drawing: a small fact worth keeping, bulk that is not
+   * record     — not re-derivable: reports, user answers, reference images, notes
+   */
+  kind: 'reference' | 'state-read' | 'build' | 'record'
+  /** Drawing revision this result belongs to; a state-read from an older epoch is stale. */
+  epoch: number
+  /** Ordinal of the tool call in the session (for the journal). */
+  step: number
+  /** Results with the same signature supersede each other ("tree", "inspect:42", "notes"). */
+  sig?: string
+  /** Small deterministic summary that outlives the full result. */
+  digest: string
+  /** Engine operations a script ran, summarized ("part.box×1, part.boolean×1"). */
+  ops?: string
+  /** Checkpoint label (checkpoint / restore results). */
+  label?: string
+  /** True when the step failed. */
+  failed?: boolean
+  /** Belongs to a timeline that a later restore/load_file discarded — its ids no longer exist. */
+  dead?: boolean
+  /** Condensed view: the model sees this text instead of the full result. */
+  stub?: string
+  /** Condensed view: the call's bulky input (script source, notes text) is elided too. */
+  elideInput?: boolean
+}
 
 /** Content a user message can carry — text and/or attached images. */
 export type UserContentBlock =
@@ -153,6 +205,16 @@ export type JsonSchemaProperty = {
 export type ToolResult = {
   result?: unknown
   error?: string
+  /** Host-side diagnostics about the call — never serialized to the model or the UI. */
+  diag?: ToolDiag
+}
+
+export type ToolDiag = {
+  /** Engine operations a script performed (from @classcad/script's onOperation hook). */
+  ops?: Array<{ method: string; failed?: boolean }>
+  /** The script timed out but is still running in the engine — its outcome is unknown. */
+  pending?: boolean
+  durationMs?: number
 }
 
 export type ToolExecutorContext = {
@@ -222,4 +284,32 @@ export type AgentConfig = {
   signal?: AbortSignal
   /** @internal Nesting depth — 0 for the top-level agent, incremented per subagent. */
   depth?: number
+  /**
+   * Tool executor override. Default: the built-in CAD tools. Hosts and tests can
+   * supply their own (the loop itself stays free of browser-only imports).
+   */
+  executeTool?: (name: string, input: Record<string, unknown>, ctx: ToolExecutorContext) => Promise<ToolResult>
+  /**
+   * Reads the live structure of the drawing for the session ledger's model digest.
+   * Default: the buerli drawing store. Return null when no drawing is available.
+   */
+  readStructure?: () => DrawingStructure | null
+}
+
+/** The part of a buerli drawing's structure the model digest reads. */
+export type DrawingStructure = {
+  tree?: Record<string, StructureNode> | null
+  root?: number | string | null
+  currentProduct?: number | string | null
+}
+
+export type StructureNode = {
+  id: number
+  class?: string
+  name?: string
+  parent?: number | null
+  children?: number[]
+  link?: number | null
+  members?: Record<string, { value?: unknown; expression?: string } | undefined>
+  [key: string]: unknown
 }

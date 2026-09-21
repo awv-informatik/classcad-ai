@@ -3,7 +3,7 @@ import { isSessionBusy } from '@classcad/script'
 
 import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
 import { getDrawing } from '@buerli.io/core'
-import type { ToolExecutorContext, ToolHandler, ToolResult } from '../types'
+import type { DrawingStructure, ToolExecutorContext, ToolHandler, ToolResult } from '../types'
 import { getMethodRegistry, type MethodRegistry } from './registry'
 import { getDiscovery } from './discovery'
 import { describeMethod } from './skill'
@@ -522,4 +522,20 @@ export async function executeTool(
   } catch (e) {
     return { error: `Tool execution error: ${toErrorMessage(e)}` }
   }
+}
+
+/**
+ * The live structure of a drawing, for the context ledger's model digest. A plain
+ * store read — no engine call — so it is safe while a script is still running
+ * (`busy` then tells the reader the structure may be mid-change).
+ */
+export function readDrawingStructure(drawingId: ToolExecutorContext['drawingId']): { structure: DrawingStructure | null; busy: boolean } {
+  const drawing = getDrawing(drawingId) as { structure?: DrawingStructure } | undefined
+  let busy = false
+  try {
+    busy = isSessionBusy(browserSession(drawingId))
+  } catch {
+    /* no session yet */
+  }
+  return { structure: drawing?.structure ?? null, busy }
 }

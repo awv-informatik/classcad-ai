@@ -11,6 +11,15 @@ const MAX_NOTES_CHARS = 8000
 
 const notesByDrawing = new Map<string, string>()
 
+/** The current notes of a drawing — read live by the context ledger (sub-agents write the same map). */
+export function getNotes(drawingId: unknown): string {
+  return notesByDrawing.get(String(drawingId)) ?? ''
+}
+
+// set/append acknowledge with the size only: the text already sits in the call's
+// input, and echoing up to 8k chars back doubled every notes update in the context.
+const ack = (text: string) => ({ result: { ok: true, chars: text.length, limit: MAX_NOTES_CHARS } })
+
 export const notes: ToolHandler = async (input, ctx) => {
   const { action, text } = input as { action?: string; text?: string }
   const key = String(ctx.drawingId)
@@ -20,7 +29,7 @@ export const notes: ToolHandler = async (input, ctx) => {
     case 'set': {
       const next = (text ?? '').slice(0, MAX_NOTES_CHARS)
       notesByDrawing.set(key, next)
-      return { result: { notes: next } }
+      return ack(next)
     }
     case 'append': {
       const next = (current ? current + '\n' : '') + (text ?? '')
@@ -30,7 +39,7 @@ export const notes: ToolHandler = async (input, ctx) => {
         }
       }
       notesByDrawing.set(key, next)
-      return { result: { notes: next } }
+      return ack(next)
     }
     case 'get':
     case undefined:

@@ -1,0 +1,696 @@
+{
+ "root": 12,
+ "currentProduct": 12,
+ "tree": {
+  "1": {
+   "id": 1,
+   "class": "AllObjects",
+   "name": "AllObjects",
+   "parent": null,
+   "children": [
+    4,
+    6,
+    8,
+    10,
+    12
+   ]
+  },
+  "8": {
+   "id": 8,
+   "class": "CC_PartContainer",
+   "name": "PartContainer",
+   "parent": 1,
+   "children": [
+    22,
+    113
+   ]
+  },
+  "10": {
+   "id": 10,
+   "class": "CC_AssemblyContainer",
+   "name": "AssemblyContainer",
+   "parent": 1
+  },
+  "12": {
+   "id": 12,
+   "class": "CC_AssemblyRoot",
+   "name": "Rig",
+   "parent": 1,
+   "children": [
+    14,
+    16,
+    18,
+    206,
+    208,
+    212
+   ]
+  },
+  "14": {
+   "id": 14,
+   "class": "CC_ExpressionSet",
+   "name": "ExpressionSet",
+   "parent": 12,
+   "members": {
+    "_VERSION": {
+     "value": "0/2003_11_25_10:10",
+     "expression": ""
+    }
+   }
+  },
+  "16": {
+   "id": 16,
+   "class": "CC_ConstraintSet",
+   "name": "ConstraintSet",
+   "parent": 12,
+   "children": [
+    214,
+    218
+   ]
+  },
+  "18": {
+   "id": 18,
+   "class": "CC_GeometrySet",
+   "name": "GeometrySet",
+   "parent": 12,
+   "children": [
+    20
+   ]
+  },
+  "20": {
+   "id": 20,
+   "class": "CC_WorkCSys",
+   "name": "BaseWCSys",
+   "parent": 18
+  },
+  "22": {
+   "id": 22,
+   "class": "CC_Part",
+   "name": "Base",
+   "parent": 8,
+   "children": [
+    24,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36
+   ]
+  },
+  "24": {
+   "id": 24,
+   "class": "CC_ExpressionSet",
+   "name": "ExpressionSet",
+   "parent": 22,
+   "members": {
+    "_VERSION": {
+     "value": "0/2003_11_25_10:10",
+     "expression": ""
+    }
+   }
+  },
+  "26": {
+   "id": 26,
+   "class": "CC_DimensionSet",
+   "name": "DimensionSet",
+   "parent": 22
+  },
+  "28": {
+   "id": 28,
+   "class": "CC_GeometrySet",
+   "name": "GeometrySet",
+   "parent": 22,
+   "children": [
+    40,
+    44,
+    48,
+    52,
+    56,
+    60,
+    64,
+    107
+   ]
+  },
+  "30": {
+   "id": 30,
+   "class": "CC_ReferenceSet",
+   "name": "ReferenceSet",
+   "parent": 22
+  },
+  "32": {
+   "id": 32,
+   "class": "CC_SketchSet",
+   "name": "SketchSet",
+   "parent": 22
+  },
+  "34": {
+   "id": 34,
+   "class": "CC_EntitySet",
+   "name": "EntitySet",
+   "parent": 22,
+   "children": [
+    70
+   ]
+  },
+  "36": {
+   "id": 36,
+   "class": "CC_OperationSequence",
+   "name": "OperationSequence",
+   "parent": 22,
+   "children": [
+    42,
+    46,
+    50,
+    54,
+    58,
+    62,
+    66,
+    72,
+    109,
+    38
+   ]
+  },
+  "38": {
+   "id": 38,
+   "class": "CC_RollbackBar",
+   "name": "RollbackBar",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 38,
+     "expression": ""
+    }
+   }
+  },
+  "40": {
+   "id": 40,
+   "class": "CC_WorkPoint",
+   "name": "Origin",
+   "parent": 28
+  },
+  "42": {
+   "id": 42,
+   "class": "CC_WorkPointReference",
+   "name": "OriginRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 40,
+     "expression": ""
+    }
+   }
+  },
+  "44": {
+   "id": 44,
+   "class": "CC_WorkAxis",
+   "name": "XAxis",
+   "parent": 28
+  },
+  "46": {
+   "id": 46,
+   "class": "CC_WorkAxisReference",
+   "name": "XAxisRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 44,
+     "expression": ""
+    }
+   }
+  },
+  "48": {
+   "id": 48,
+   "class": "CC_WorkAxis",
+   "name": "YAxis",
+   "parent": 28
+  },
+  "50": {
+   "id": 50,
+   "class": "CC_WorkAxisReference",
+   "name": "YAxisRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 48,
+     "expression": ""
+    }
+   }
+  },
+  "52": {
+   "id": 52,
+   "class": "CC_WorkAxis",
+   "name": "ZAxis",
+   "parent": 28
+  },
+  "54": {
+   "id": 54,
+   "class": "CC_WorkAxisReference",
+   "name": "ZAxisRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 52,
+     "expression": ""
+    }
+   }
+  },
+  "56": {
+   "id": 56,
+   "class": "CC_WorkPlane",
+   "name": "Top",
+   "parent": 28
+  },
+  "58": {
+   "id": 58,
+   "class": "CC_WorkPlaneReference",
+   "name": "TopRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 56,
+     "expression": ""
+    }
+   }
+  },
+  "60": {
+   "id": 60,
+   "class": "CC_WorkPlane",
+   "name": "Front",
+   "parent": 28
+  },
+  "62": {
+   "id": 62,
+   "class": "CC_WorkPlaneReference",
+   "name": "FrontRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 60,
+     "expression": ""
+    }
+   }
+  },
+  "64": {
+   "id": 64,
+   "class": "CC_WorkPlane",
+   "name": "Right",
+   "parent": 28
+  },
+  "66": {
+   "id": 66,
+   "class": "CC_WorkPlaneReference",
+   "name": "RightRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 64,
+     "expression": ""
+    }
+   }
+  },
+  "70": {
+   "id": 70,
+   "class": "CC_Box",
+   "name": "Box",
+   "parent": 34,
+   "children": [
+    103
+   ]
+  },
+  "72": {
+   "id": 72,
+   "class": "CC_OperationReference",
+   "name": "BoxRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 70,
+     "expression": ""
+    }
+   }
+  },
+  "103": {
+   "id": 103,
+   "class": "CC_Solid",
+   "name": "Box_0",
+   "parent": 70,
+   "members": {
+    "consumed": {
+     "value": 0,
+     "expression": ""
+    }
+   }
+  },
+  "107": {
+   "id": 107,
+   "class": "CC_WorkCSys",
+   "name": "Mate",
+   "parent": 28
+  },
+  "109": {
+   "id": 109,
+   "class": "CC_WorkCSysReference",
+   "name": "WorkCSysRef",
+   "parent": 36,
+   "members": {
+    "refObj": {
+     "value": 107,
+     "expression": ""
+    }
+   }
+  },
+  "113": {
+   "id": 113,
+   "class": "CC_Part",
+   "name": "Arm",
+   "parent": 8,
+   "children": [
+    115,
+    117,
+    119,
+    121,
+    123,
+    125,
+    127
+   ]
+  },
+  "115": {
+   "id": 115,
+   "class": "CC_ExpressionSet",
+   "name": "ExpressionSet",
+   "parent": 113,
+   "members": {
+    "_VERSION": {
+     "value": "0/2003_11_25_10:10",
+     "expression": ""
+    },
+    "L": {
+     "value": 80,
+     "expression": ""
+    }
+   }
+  },
+  "117": {
+   "id": 117,
+   "class": "CC_DimensionSet",
+   "name": "DimensionSet",
+   "parent": 113
+  },
+  "119": {
+   "id": 119,
+   "class": "CC_GeometrySet",
+   "name": "GeometrySet",
+   "parent": 113,
+   "children": [
+    131,
+    135,
+    139,
+    143,
+    147,
+    151,
+    155,
+    200
+   ]
+  },
+  "121": {
+   "id": 121,
+   "class": "CC_ReferenceSet",
+   "name": "ReferenceSet",
+   "parent": 113
+  },
+  "123": {
+   "id": 123,
+   "class": "CC_SketchSet",
+   "name": "SketchSet",
+   "parent": 113
+  },
+  "125": {
+   "id": 125,
+   "class": "CC_EntitySet",
+   "name": "EntitySet",
+   "parent": 113,
+   "children": [
+    163
+   ]
+  },
+  "127": {
+   "id": 127,
+   "class": "CC_OperationSequence",
+   "name": "OperationSequence",
+   "parent": 113,
+   "children": [
+    133,
+    137,
+    141,
+    145,
+    149,
+    153,
+    157,
+    165,
+    202,
+    129
+   ]
+  },
+  "129": {
+   "id": 129,
+   "class": "CC_RollbackBar",
+   "name": "RollbackBar",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 129,
+     "expression": ""
+    }
+   }
+  },
+  "131": {
+   "id": 131,
+   "class": "CC_WorkPoint",
+   "name": "Origin",
+   "parent": 119
+  },
+  "133": {
+   "id": 133,
+   "class": "CC_WorkPointReference",
+   "name": "OriginRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 131,
+     "expression": ""
+    }
+   }
+  },
+  "135": {
+   "id": 135,
+   "class": "CC_WorkAxis",
+   "name": "XAxis",
+   "parent": 119
+  },
+  "137": {
+   "id": 137,
+   "class": "CC_WorkAxisReference",
+   "name": "XAxisRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 135,
+     "expression": ""
+    }
+   }
+  },
+  "139": {
+   "id": 139,
+   "class": "CC_WorkAxis",
+   "name": "YAxis",
+   "parent": 119
+  },
+  "141": {
+   "id": 141,
+   "class": "CC_WorkAxisReference",
+   "name": "YAxisRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 139,
+     "expression": ""
+    }
+   }
+  },
+  "143": {
+   "id": 143,
+   "class": "CC_WorkAxis",
+   "name": "ZAxis",
+   "parent": 119
+  },
+  "145": {
+   "id": 145,
+   "class": "CC_WorkAxisReference",
+   "name": "ZAxisRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 143,
+     "expression": ""
+    }
+   }
+  },
+  "147": {
+   "id": 147,
+   "class": "CC_WorkPlane",
+   "name": "Top",
+   "parent": 119
+  },
+  "149": {
+   "id": 149,
+   "class": "CC_WorkPlaneReference",
+   "name": "TopRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 147,
+     "expression": ""
+    }
+   }
+  },
+  "151": {
+   "id": 151,
+   "class": "CC_WorkPlane",
+   "name": "Front",
+   "parent": 119
+  },
+  "153": {
+   "id": 153,
+   "class": "CC_WorkPlaneReference",
+   "name": "FrontRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 151,
+     "expression": ""
+    }
+   }
+  },
+  "155": {
+   "id": 155,
+   "class": "CC_WorkPlane",
+   "name": "Right",
+   "parent": 119
+  },
+  "157": {
+   "id": 157,
+   "class": "CC_WorkPlaneReference",
+   "name": "RightRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 155,
+     "expression": ""
+    }
+   }
+  },
+  "163": {
+   "id": 163,
+   "class": "CC_Box",
+   "name": "Box",
+   "parent": 125,
+   "children": [
+    196
+   ]
+  },
+  "165": {
+   "id": 165,
+   "class": "CC_OperationReference",
+   "name": "BoxRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 163,
+     "expression": ""
+    }
+   }
+  },
+  "196": {
+   "id": 196,
+   "class": "CC_Solid",
+   "name": "Box_0",
+   "parent": 163,
+   "members": {
+    "consumed": {
+     "value": 0,
+     "expression": ""
+    }
+   }
+  },
+  "200": {
+   "id": 200,
+   "class": "CC_WorkCSys",
+   "name": "Mate",
+   "parent": 119
+  },
+  "202": {
+   "id": 202,
+   "class": "CC_WorkCSysReference",
+   "name": "WorkCSysRef",
+   "parent": 127,
+   "members": {
+    "refObj": {
+     "value": 200,
+     "expression": ""
+    }
+   }
+  },
+  "206": {
+   "id": 206,
+   "class": "CC_ProductReference",
+   "name": "Base1",
+   "parent": 12,
+   "link": 22,
+   "members": {
+    "partName": {
+     "value": "",
+     "expression": ""
+    },
+    "productId": {
+     "value": 22,
+     "expression": ""
+    }
+   }
+  },
+  "208": {
+   "id": 208,
+   "class": "CC_ProductReference",
+   "name": "Arm1",
+   "parent": 12,
+   "link": 113,
+   "members": {
+    "partName": {
+     "value": "",
+     "expression": ""
+    },
+    "productId": {
+     "value": 113,
+     "expression": ""
+    }
+   }
+  },
+  "212": {
+   "id": 212,
+   "class": "CC_3DConstraintSolver",
+   "name": "CC_3DConstraintSolver",
+   "parent": 12
+  },
+  "214": {
+   "id": 214,
+   "class": "CC_FastenedOriginConstraint",
+   "name": "Ground",
+   "parent": 16
+  },
+  "218": {
+   "id": 218,
+   "class": "CC_RevoluteConstraint",
+   "name": "Hinge",
+   "parent": 16
+  }
+ }
+}

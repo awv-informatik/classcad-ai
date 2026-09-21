@@ -1,6 +1,7 @@
 // Golden-hash guard: the DEFAULT render output must not change across the
 // feature refactors. Run `node test/golden.mjs record` once, then plain runs compare.
 import { createHash } from 'crypto'
+import { fileURLToPath } from 'node:url'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { renderSessionData } from '../dist/core.js'
 
@@ -24,7 +25,7 @@ const tree = {
   '20': { id: 20, class: 'CC_Part', name: 'Part', parent: null, children: [30] },
   '30': { id: 30, class: 'CC_Solid', name: 'Solid', parent: 20 },
 }
-const goldenPath = new URL('./golden.json', import.meta.url).pathname
+const goldenPath = fileURLToPath(new URL('./golden.json', import.meta.url))
 const hashes = {}
 for (const view of ['iso', 'front', 'top']) {
   for (const colors of ['native', 'distinct']) {

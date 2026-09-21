@@ -286,8 +286,9 @@ function csToMatrix(cs: any) {
 }
 
 /**
- * Walk the assembly tree and produce one entry per leaf part instance with the
- * cumulative world transform. Returns null when the drawing has no
+ * Walk the assembly tree and produce one entry per solid of every leaf part
+ * instance with the cumulative world transform (a part may own several live
+ * solids). Returns null when the drawing has no
  * CC_AssemblyRoot (single-part drawing — caller renders templates flat).
  */
 export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null {
@@ -297,7 +298,7 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
   }
   if (rootId == null) return null
 
-  const solidByPart = new Map()
+  const solidsByPart = new Map<number, number[]>()
   for (const [id, obj] of Object.entries<any>(tree)) {
     if (obj.class !== 'CC_Solid') continue
     if (isConsumedSolid(tree, Number(id))) continue // superseded body — its container is stale
@@ -305,7 +306,12 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
     while (cur != null) {
       const p = tree[String(cur)]
       if (!p) break
-      if (p.class === 'CC_Part') { solidByPart.set(Number(cur), Number(id)); break }
+      if (p.class === 'CC_Part') {
+        const solids = solidsByPart.get(Number(cur))
+        if (solids) solids.push(Number(id))
+        else solidsByPart.set(Number(cur), [Number(id)])
+        break
+      }
       cur = p.parent
     }
   }
@@ -317,8 +323,7 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
     if (pid != null) {
       const target = tree[String(pid)]
       if (target?.class === 'CC_Part') {
-        const solidId = solidByPart.get(Number(pid))
-        if (solidId != null) {
+        for (const solidId of solidsByPart.get(Number(pid)) ?? []) {
           instances.push({ ownerSolidId: solidId, partId: Number(pid), transform: matrix })
         }
         return
@@ -2608,8 +2613,51 @@ export async function renderSessionData(source: SessionSource, options: RenderOp
   }
 }
 
+/** Angular step for sampling the analytic arcs of a saved SCG. */
+const SCG_ARC_STEP = Math.PI / 32
+
+/**
+ * The graphic of a saved SCG file (`v1.common.save({ format: 'SCG' })`) stores the
+ * analytic brep edges of a container as `lines` (polylines) and `arcs`; only the
+ * free-form edges are tessellated in `edges`, which is all the renderer draws.
+ * Returns a graphic whose containers carry their lines and arcs as `edges` too
+ * (ids already among the edges are not added twice); a graphic without lines and
+ * arcs is returned unchanged.
+ */
+export function graphicWithEdges(graphic: any): any {
+  const containers = graphic?.containers
+  if (!Array.isArray(containers)) return graphic
+  if (!containers.some((c: any) => c.lines?.length || c.arcs?.length)) return graphic
+  return {
+    ...graphic,
+    containers: containers.map((c: any) => {
+      if (!(c.lines?.length || c.arcs?.length)) return c
+      const edges: any[] = [...(c.edges || [])]
+      const known = new Set(edges.map((e: any) => e.id))
+      for (const line of (c.lines || [])) {
+        if (line.points?.length >= 6 && !known.has(line.id)) edges.push({ id: line.id, points: line.points })
+      }
+      for (const arc of (c.arcs || [])) {
+        const { center, zAxis: z, xAxis: x, angle, radius } = arc
+        if (!center || !z || !x || !angle || !(radius > 0) || known.has(arc.id)) continue
+        const y = [z[1] * x[2] - z[2] * x[1], z[2] * x[0] - z[0] * x[2], z[0] * x[1] - z[1] * x[0]]
+        const steps = Math.max(2, Math.ceil(Math.abs(angle) / SCG_ARC_STEP))
+        const points: number[] = []
+        for (let i = 0; i <= steps; i++) {
+          const a = (angle * i) / steps
+          const co = Math.cos(a) * radius, si = Math.sin(a) * radius
+          points.push(center[0] + x[0] * co + y[0] * si, center[1] + x[1] * co + y[1] * si, center[2] + x[2] * co + y[2] * si)
+        }
+        edges.push({ id: arc.id, points })
+      }
+      return { ...c, edges }
+    }),
+  }
+}
+
 async function renderSessionEntries(source: SessionSource, options: RenderOptions, width: number, height: number, out: any[]): Promise<SessionEntry[]> {
-  const { tree = {}, graphic = null, execute = null } = source
+  const { tree = {}, execute = null } = source
+  const graphic = graphicWithEdges(source.graphic ?? null)
   const content = analyzeSession(tree)
   const layerOn = (name: any) => !Array.isArray(options.layers) || options.layers.includes(name)
 

@@ -7668,8 +7668,8 @@
           "search": "boolean subtraction",
           "count": 4,
           "methods": [
-            "v1.part.boolean",
             "v1.solid.subtraction",
+            "v1.part.boolean",
             "v1.part.updateBoolean",
             "v1.curve.subtraction2d"
           ]

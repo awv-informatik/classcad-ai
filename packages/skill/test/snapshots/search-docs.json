@@ -262,8 +262,8 @@
       "count": 14,
       "docs": [
         "recipes/constrained-sketching []",
-        "solid/curves-parameter []",
         "recipes/verification []",
+        "solid/curves-parameter []",
         "solid/generic []",
         "recipes/direct-modeling-eif []",
         "solid/target-tools-pattern []"
@@ -937,9 +937,9 @@
     "section": {
       "count": 8,
       "docs": [
+        "recipes/verification []",
         "recipes/constrained-sketching []",
-        "recipes/assembly-parameters []",
-        "recipes/pattern-then-subtract []"
+        "recipes/assembly-parameters []"
       ]
     },
     "shared": {
@@ -1140,9 +1140,9 @@
         "recipes/constrained-sketching []",
         "part/feature-vs-direct [Booleans Across Paradigms]",
         "solid/target-tools-pattern []",
+        "recipes/verification []",
         "recipes/direct-modeling-eif []",
-        "recipes/parametric-part [3. What stays live through booleans — and what doesn't]",
-        "recipes/verification []"
+        "recipes/parametric-part [3. What stays live through booleans — and what doesn't]"
       ]
     },
     {

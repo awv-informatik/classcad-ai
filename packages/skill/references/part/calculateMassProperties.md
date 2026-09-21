@@ -39,6 +39,8 @@ Calculates center of gravity (COG) and volume of a part, assembly, instance, or 
 
 - **Feature IDs don't work** — most common mistake. Pass the part ID, not the ID returned by `part.box()` etc. Error: `"The parameter 'id' has a wrong id type! Provide only following id types: ['part/assembly','instance','solid']"`
 - **Empty parts crash** — a part with no solid returns an internal NullMem server error, not a graceful zero volume. Ensure geometry exists first.
+- **Enclosed voids are measured correctly** — a solid with an inner void shell reports outer − void (box 100×60×40 with an enclosed 80×40×20 void: exactly 176000).
+- **Unchanged volume after a subtraction = the boolean left a sheet body**, not a measurement glitch: the call still answers with the pre-cut volume once, and the next call fails with `GetVolumeAndCOG: Division by zero!` plus a NullMem type error. See `boolean.md` → Gotchas.
 - **Cone top diameter must be > 0** — `tDiameter: 0` is rejected at creation ("Value for top diameter must be greater than 0"). `0.001` works (volume within 0.0004% of the pointed cone).
 
 ## Common Errors
@@ -48,6 +50,7 @@ Calculates center of gravity (COG) and volume of a part, assembly, instance, or 
 | "wrong id type" | 1001 | Feature, sketch, work geometry, or entity injection ID |
 | "invalid id" | 1006 | ID doesn't exist |
 | NullMem evaluation error | 0 | Empty part (no solid) |
+| `GetVolumeAndCOG: Division by zero!` + NullMem type error | 0 | The part holds a sheet body from a boolean that reported success |
 
 ## Working Example
 

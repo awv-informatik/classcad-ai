@@ -2256,8 +2256,8 @@
     },
     "v1.part.boolean": {
       "full": {
-        "chars": 6150,
-        "sha": "b1795db700c4",
+        "chars": 7888,
+        "sha": "f6b475384523",
         "headings": [
           "# v1.part.boolean",
           "# Detailed notes",
@@ -2303,8 +2303,8 @@
     },
     "v1.part.calculateMassProperties": {
       "full": {
-        "chars": 3794,
-        "sha": "39f3e69e8a3b",
+        "chars": 4367,
+        "sha": "2c66c95e3073",
         "headings": [
           "# v1.part.calculateMassProperties",
           "# Detailed notes",

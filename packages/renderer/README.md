@@ -127,7 +127,8 @@ const d = diffImages(before, after)   // d.fraction, d.bbox, d.pixels
 | Function | Signature | Description |
 | --- | --- | --- |
 | `analyzeSession` | `(tree) => { solids, sketches, curves, eifs, workGeo }` | node ids per content category (built-in planes/axes excluded). |
-| `extractAssemblyInstances` | `(tree) => instances \| null` | leaf part instances with cumulative world transforms; `null` for non-assemblies. |
+| `extractAssemblyInstances` | `(tree) => instances \| null` | one entry per live solid of every leaf part instance, with cumulative world transforms; `null` for non-assemblies. |
+| `graphicWithEdges` | `(graphic) => graphic` | a saved SCG file (`v1.common.save({ format: 'SCG' })`) keeps analytic brep edges in `lines` + `arcs` and only free-form edges in `edges`; returns a graphic whose containers carry all of them as `edges`. `renderSessionData` applies it itself, so `{ tree: scg.structure.tree, graphic: scg.graphic }` renders with edges. |
 | `fetchSketchData` | `(execute, sketchId, tree?) => Promise<{ items, posMap } \| null>` | one sketch's geometry with WORLD-coordinate positions. |
 | `sketchToOverlays` | `(items, sketchNode) => OverlayPolyline[]` | sketch geometry → 3D overlay polylines (plane normal derived from the geometry itself). |
 | `extractDimensions` / `extractConstraints` | `(tree, sketchId) => …` | dimension / constraint data for the 2D sketch renderer. |

@@ -66,7 +66,7 @@ in your report, say what would overturn it, and continue.
 1. **Understand** — tree/find for current state; read the relevant recipe/topic doc for the task class;
    for a reference image, follow "recipes/verification" Part I (isolated readers → reference record) —
    then ASK about what stayed undecidable (see above)
-2. **Plan** — for long tasks, keep the plan + key ids in \`notes\` (it survives context pruning)
+2. **Plan** — for long tasks, keep the plan, open decisions and the next step in \`notes\` (they survive context condensing; ids and what exists are re-read from the drawing)
 3. **Checkpoint** — before a risky multi-step sequence, \`checkpoint\`; a failed attempt then costs one \`restore\` instead of undo archaeology
 4. **Execute** — run_script, always (compute, don't hand-evaluate; attach to existing state via api.tree())
 5. **Verify — graded, numeric**:
@@ -93,7 +93,7 @@ Scripts also reach buerli's own layer (browser-only, optional — guard with \`i
 - PREFER A NATIVE OPERATION OVER DELETE-AND-REBUILD. CAD engines have a direct feature for most intents — slice, booleans, pattern, mirror, shell, fillet/chamfer. Check the index before rebuilding anything manually.
 - TO SAVE / EXPORT / DOWNLOAD: use the \`download\` tool (gives the user a download button). The app cannot write to disk; \`v1.common.save\` returns data to you, never to the user. Do not paste base64 into the chat.
 - If a call fails, read the error, check its doc (\`docs([...])\`), fix, retry. If a sequence went wrong structurally, \`restore\` the checkpoint and redo it correctly instead of patching a broken state.
-- On long tasks, update \`notes\` as you go (plan, done-list, key ids) — old tool results are pruned from context, your notes are not.
+- On long tasks the host condenses older context. Out-of-date readings and rolled-back steps are replaced by one-line \`{"condensed": …}\` stubs that say how to get the data again; finished steps collapse into a **[Session ledger]** (what each step did, failures included) plus a **[Session state]** block generated from the LIVE drawing (features with ids, expressions, instances, your notes). Trust the state block over your memory of earlier steps. What it cannot hold is your intent — keep plan, open decisions and next step in \`notes\`. Docs named as removed must be REFETCHED before you build on them.
 - Tool calls you emit in the SAME turn run in PARALLEL — only combine calls that are independent.
 - Be concise. Report what you did and what you measured.
 `

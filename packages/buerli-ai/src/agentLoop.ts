@@ -12,10 +12,27 @@ import type {
   UserContentBlock,
 } from './types'
 import { TOOL_SCHEMAS } from './tools/schema'
-import { executeTool } from './tools/executor'
 import { getDocIndex, getMethodIndex } from './tools/registry'
+import { getNotes } from './tools/notes'
 import { capJson } from './tools/utils'
 import { DEFAULT_SYSTEM_PROMPT } from './systemPrompt'
+import {
+  advance,
+  annotate,
+  buildStateBlock,
+  calibrate,
+  compact,
+  createTracker,
+  estimateTokens,
+  isContextOverflow,
+  markDeadTimeline,
+  parseLimitFromError,
+  renderContext,
+  thresholds,
+  DEFAULT_TOKENS_PER_CHAR,
+  type Calibration,
+  type CompactionReport,
+} from './context'
 
 export type AgentTurnEvent =
   | { type: 'text'; text: string }
@@ -25,6 +42,11 @@ export type AgentTurnEvent =
   | { type: 'subagent_start'; id: string; name: string; goal: string; images?: number; snapshots?: number }
   | { type: 'subagent_end'; id: string; name: string; summary: string }
   | { type: 'usage'; inputTokens?: number; outputTokens?: number }
+  /**
+   * Context compaction. `start` is emitted before work begins, `done` after — with
+   * a report when something was condensed (absent when nothing could be reclaimed).
+   */
+  | { type: 'compaction'; phase: 'start' | 'done'; reason: string; report?: CompactionReport }
   | { type: 'error'; error: string }
   | { type: 'done'; messages: Message[] }
 
@@ -102,6 +124,54 @@ export async function* runAgentLoop(
       : userMessage
   const messages: Message[] = [...history, { role: 'user', content: userContent }]
 
+  // The built-in CAD tools pull in browser-only modules; load them only when the
+  // host did not inject its own executor (keeps this loop runnable headless).
+  const builtin = config.executeTool ? null : await import('./tools/executor')
+  const execTool = config.executeTool ?? builtin!.executeTool
+  const readStructure = config.readStructure
+    ? () => ({ structure: config.readStructure!(), busy: false })
+    : builtin
+      ? () => builtin.readDrawingStructure(config.drawingId)
+      : undefined
+
+  // ── Context management (see src/context) ──
+  // What each tool result is worth is recorded when it is appended; the drawing
+  // revision advances with every step that may have changed geometry.
+  const tracker = createTracker(history)
+  const modelKey = config.model ?? 'default'
+  let cal: Calibration = {
+    tokensPerChar: learnedTokensPerChar.get(modelKey) ?? DEFAULT_TOKENS_PER_CHAR,
+    fixedChars: systemPrompt.length + (JSON.stringify(tools)?.length ?? 0),
+  }
+  const contextLimit = () => learnedLimits.get(modelKey) ?? config.contextLimit ?? DEFAULT_CONTEXT_TOKENS
+  const buildState = () => {
+    const src = readStructure?.()
+    return buildStateBlock(messages, {
+      structure: src ? src.structure : undefined,
+      notes: getNotes(config.drawingId),
+      epoch: tracker.epoch,
+      step: tracker.step,
+      busy: src?.busy,
+    })
+  }
+  let lastBatchOnlyRead = false // the previous round only measured/inspected: a safe moment to condense
+  let exhaustedAt = 0 // estimate at which the last attempt found nothing to reclaim
+  let noticeGiven = false
+
+  // A one-line heads-up inside the latest tool result — view only, once per cycle —
+  // so the plan reaches `notes` before older steps are condensed. Deliberately NOT a
+  // user message: a model may answer one in prose and end its turn mid-build.
+  const withContextNotice = (view: Message[]): Message[] => {
+    const th = thresholds(contextLimit(), maxTokens)
+    const est = estimateTokens(view, cal)
+    const last = view[view.length - 1]
+    if (noticeGiven || est < th.notice || !last || last.role !== 'tool' || typeof last.content !== 'string') return view
+    noticeGiven = true
+    const pct = Math.round((est / contextLimit()) * 100)
+    const note = `\n\n[host] Context is about ${pct}% full. Older steps will soon be condensed into a session ledger generated from the live drawing. Make sure your \`notes\` hold the plan, open decisions and the next step. No reply needed — continue.`
+    return [...view.slice(0, -1), { ...last, content: last.content + note }]
+  }
+
   let nudges = 0
   const MAX_NUDGES = 3
   let truncationRetries = 0
@@ -109,199 +179,219 @@ export async function* runAgentLoop(
   let lostCallRetries = 0
   const MAX_LOST_CALL_RETRIES = 8
 
-  for (let iteration = 0; iteration < maxIterations; iteration++) {
-    if (config.signal?.aborted) {
-      yield { type: 'done', messages }
-      return
-    }
+  try {
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+      if (config.signal?.aborted) {
+        yield { type: 'done', messages }
+        return
+      }
 
-    // Keep the sent history inside the model's context budget: once it grows past
-    // the budget, old tool results are replaced with stubs (recent turns and all
-    // user/assistant text survive). Without this, long builds die at the window.
-    pruneHistory(messages, config.contextLimit)
-
-    let response: ChatResponse
-
-    // Transient-fault tolerance: Copilot/gateway hiccups (502/503, token
-    // exchange, empty bodies) killed whole runs. Retry briefly before failing.
-    let lastErr: unknown
-    let got = false
-    response = undefined as unknown as ChatResponse
-    for (let attempt = 0; attempt < 3 && !got; attempt++) {
-      try {
-        if (attempt > 0) await new Promise((r) => setTimeout(r, 1500 * attempt))
-        response = await config.provider.chat({
-          system: systemPrompt,
-          messages,
-          tools,
-          max_tokens: maxTokens,
-          model: config.model,
-          reasoningEffort: config.reasoningEffort,
-          signal: config.signal,
-          onDelta: config.onStreamDelta,
-        })
-        got = true
-      } catch (e: any) {
-        lastErr = e
-        if (config.signal?.aborted) {
-          yield { type: 'done', messages }
-          return
+      // Keep the sent context inside the model's budget. Compaction is ONE discrete
+      // event down to a target (never a little every round, so the sent prefix stays
+      // stable), and it prefers safe moments: a new user turn, or a round that only
+      // measured. What it condenses, and in which order, is task knowledge — see
+      // src/context/policy.ts.
+      {
+        const th = thresholds(contextLimit(), maxTokens)
+        const est = estimateTokens(renderContext(messages), cal)
+        const boundary = iteration === 0 || lastBatchOnlyRead
+        if (est > (boundary ? th.boundaryTrigger : th.trigger) && est > exhaustedAt * 1.1) {
+          const reason = boundary ? 'context filling up — condensed at a safe point' : 'context nearly full'
+          yield { type: 'compaction', phase: 'start', reason }
+          const report = compact(messages, { reason, targetTokens: th.target, cal, epoch: tracker.epoch, buildState }) ?? undefined
+          exhaustedAt = report ? 0 : est
+          if (report) noticeGiven = false
+          yield { type: 'compaction', phase: 'done', reason, report }
         }
       }
-    }
-    if (!got) {
-      const e: any = lastErr
-      yield { type: 'error', error: e?.message || String(e) }
-      return
-    }
 
-    // Diagnosis aid: surface why each round ended (visible in the devtools console).
-    // eslint-disable-next-line no-console
-    console.debug('[buerli-ai] round', iteration, 'stop_reason:', response.stop_reason, 'usage:', response.usage)
+      let response: ChatResponse
 
-    // Surface token usage (inputTokens ≈ context occupied by the sent history).
-    if (response.usage) {
-      yield { type: 'usage', inputTokens: response.usage.inputTokens, outputTokens: response.usage.outputTokens }
-    }
+      // Transient-fault tolerance: Copilot/gateway hiccups (502/503, token
+      // exchange, empty bodies) killed whole runs. Retry briefly before failing.
+      // A context OVERFLOW is not transient: re-sending the same payload fails again
+      // (and gateways multiply the upload) — condense hard and retry exactly once.
+      let lastErr: unknown
+      let got = false
+      let overflowRetried = false
+      let sent: Message[] = []
+      response = undefined as unknown as ChatResponse
+      for (let attempt = 0; attempt < 3 && !got; ) {
+        try {
+          if (attempt > 0) await new Promise((r) => setTimeout(r, 1500 * attempt))
+          sent = withContextNotice(renderContext(messages))
+          response = await config.provider.chat({
+            system: systemPrompt,
+            messages: sent,
+            tools,
+            max_tokens: maxTokens,
+            model: config.model,
+            reasoningEffort: config.reasoningEffort,
+            signal: config.signal,
+            onDelta: config.onStreamDelta,
+          })
+          got = true
+        } catch (e: any) {
+          lastErr = e
+          if (config.signal?.aborted) {
+            yield { type: 'done', messages }
+            return
+          }
+          const fullness = estimateTokens(sent, cal) / contextLimit()
+          if (isContextOverflow(e, fullness)) {
+            if (overflowRetried) break
+            overflowRetried = true
+            const named = parseLimitFromError(e)
+            if (named) learnedLimits.set(modelKey, named) // the provider told us the real window
+            const reason = 'the model rejected the context as too large'
+            yield { type: 'compaction', phase: 'start', reason }
+            const report =
+              compact(messages, { reason, targetTokens: thresholds(contextLimit(), maxTokens).emergencyTarget, cal, epoch: tracker.epoch, keepGroups: 2, buildState }) ??
+              undefined
+            yield { type: 'compaction', phase: 'done', reason, report }
+            if (!report) break // nothing left to reclaim: fail now instead of re-uploading
+            continue // retry with the condensed context; does not count as a transient attempt
+          }
+          attempt++
+        }
+      }
+      if (!got) {
+        const e: any = lastErr
+        // History first: a failed round must not cost the user the whole turn.
+        yield { type: 'done', messages }
+        yield { type: 'error', error: e?.message || String(e) }
+        return
+      }
 
-    // Emit thinking blocks
-    const thinkingBlocks = response.content.filter((b): b is ThinkingBlock => b.type === 'thinking')
-    for (const block of thinkingBlocks) {
-      if (block.thinking) yield { type: 'thinking', text: block.thinking }
-    }
+      // Calibrate the size estimate against what the provider actually counted.
+      cal = calibrate(cal, response.usage?.inputTokens, sent)
+      learnedTokensPerChar.set(modelKey, cal.tokensPerChar)
 
-    // Emit text blocks. Skip whitespace-only text (some local models emit a stray
-    // "\n" with their tool calls) so it never becomes an empty assistant bubble —
-    // provider-agnostic safety net on top of the per-provider guards.
-    const textBlocks = response.content.filter((b): b is { type: 'text'; text: string } => b.type === 'text')
-    for (const block of textBlocks) {
-      if (block.text?.trim()) yield { type: 'text', text: block.text }
-    }
+      // Diagnosis aid: surface why each round ended (visible in the devtools console).
+      // eslint-disable-next-line no-console
+      console.debug('[buerli-ai] round', iteration, 'stop_reason:', response.stop_reason, 'usage:', response.usage)
 
-    // Check if we're done. Drive continuation solely by the presence of tool_use
-    // blocks — some OpenAI-compatible servers report finish_reason 'stop' (→ 'end_turn')
-    // even when they emit tool calls, so we must not gate on stop_reason here.
-    const toolUseBlocks = response.content.filter((b): b is ToolUseBlock => b.type === 'tool_use')
+      // Surface token usage (inputTokens ≈ context occupied by the sent history).
+      if (response.usage) {
+        yield { type: 'usage', inputTokens: response.usage.inputTokens, outputTokens: response.usage.outputTokens }
+      }
 
-    if (toolUseBlocks.length === 0) {
-      // Append assistant response to history
+      // Emit thinking blocks
+      const thinkingBlocks = response.content.filter((b): b is ThinkingBlock => b.type === 'thinking')
+      for (const block of thinkingBlocks) {
+        if (block.thinking) yield { type: 'thinking', text: block.thinking }
+      }
+
+      // Emit text blocks. Skip whitespace-only text (some local models emit a stray
+      // "\n" with their tool calls) so it never becomes an empty assistant bubble —
+      // provider-agnostic safety net on top of the per-provider guards.
+      const textBlocks = response.content.filter((b): b is { type: 'text'; text: string } => b.type === 'text')
+      for (const block of textBlocks) {
+        if (block.text?.trim()) yield { type: 'text', text: block.text }
+      }
+
+      // Check if we're done. Drive continuation solely by the presence of tool_use
+      // blocks — some OpenAI-compatible servers report finish_reason 'stop' (→ 'end_turn')
+      // even when they emit tool calls, so we must not gate on stop_reason here.
+      const toolUseBlocks = response.content.filter((b): b is ToolUseBlock => b.type === 'tool_use')
+
+      if (toolUseBlocks.length === 0) {
+        // Append assistant response to history
+        messages.push({ role: 'assistant', content: response.content })
+        // Output-limit truncation: the model was cut off BEFORE it could emit its
+        // tool call (typical symptom: narrated intent, then silence). This is not
+        // the model choosing to stop — auto-continue on a separate, generous
+        // budget so long builds don't die at the per-round output cap.
+        // Copilot sometimes reports finish_reason 'tool_calls' but DROPS the actual
+        // tool-call payload from the response (observed live: finish=tool_calls,
+        // tool_calls=0). The model wanted to continue — its call was lost in
+        // transit. Retry deterministically instead of ending the turn.
+        if (response.stop_reason === 'tool_use' && lostCallRetries < MAX_LOST_CALL_RETRIES) {
+          lostCallRetries++
+          messages.push({
+            role: 'user',
+            meta: { synthetic: true },
+            content:
+              'Your tool call was LOST IN TRANSIT (the provider reported a tool call but delivered none). ' +
+              'Re-issue the exact tool call now. If it was a large run_script, split it into two smaller scripts.',
+          })
+          continue
+        }
+        if (response.stop_reason === 'max_tokens' && truncationRetries < MAX_TRUNCATION_RETRIES) {
+          truncationRetries++
+          messages.push({
+            role: 'user',
+            meta: { synthetic: true },
+            content:
+              'Your previous response was truncated at the output-token limit before any tool call was emitted. ' +
+              'Continue exactly where you left off — go straight to the tool call, keep prose minimal.',
+          })
+          continue
+        }
+        // Some models narrate their intent ("let me grab the tree…" / "let me call
+        // it correctly:") and end the turn without emitting the tool call. Nudge
+        // (bounded) only when the text clearly trails off mid-action — it ends with
+        // a colon or its FINAL, unterminated sentence states intent. End-anchored on
+        // purpose: an unanchored intent match fired on legitimate questions to the
+        // user ("…let me confirm before building… I'll build it parametrically.")
+        // and the nudge then impersonated the user's consent — the fabricated-consent
+        // failure, manufactured by the loop itself. Questions belong to ask_user;
+        // text-only endings that merely MENTION future work are complete answers.
+        const trailingText = textBlocks
+          .map((b) => b.text)
+          .join('')
+          .trimEnd()
+        const looksIncomplete =
+          trailingText.endsWith(':') ||
+          /\b(let me|let's|i'?ll|i will|now i|first,? i)\b[^.!?]*$/i.test(trailingText) ||
+          // announced-action endings: "Now building.", "Proceeding.", "Starting with the blank."
+          /\b(now|next)\b[^.!?]*\b(build|creat|proceed|start|continu|mov|writ|run)\w*[.!]?$/i.test(trailingText)
+        if (looksIncomplete && nudges < MAX_NUDGES) {
+          nudges++
+          messages.push({
+            role: 'user',
+            meta: { synthetic: true },
+            content:
+              'Proceed now — emit the tool call(s) needed to complete the request in this same turn. Do not reply with only a description of what you intend to do.',
+          })
+          continue
+        }
+        // MIRROR GATE. A turn that reproduced a reference image may not end until
+        // the render has been judged against that IMAGE by a fresh reader. This is
+        // enforced here, not in the prompt, because a self-assessed precondition is
+        // always escapable: told the check was mandatory "when the record holds a
+        // handedness fact", an agent exempted itself with "the part is symmetric,
+        // no handedness risk" — misclassifying the trigger, then shipping the
+        // feature mirrored. So there is NO condition to judge: reference images in,
+        // pair-render + independent verdict out. Bounded to one nudge; if the model
+        // ignores it, the turn ends anyway rather than looping.
+        if (conversationHasReferenceImages && geometryWasBuilt && !mirrorJudged && mirrorNudges < 1) {
+          mirrorNudges++
+          messages.push({
+            role: 'user',
+            meta: { synthetic: true },
+            content:
+              'Before you finish: this build derives from a reference image, so the mirror check is required — ' +
+              'no symmetry argument exempts it, and "I am confident" is not a reason to skip (for handedness, ' +
+              'confidence and accuracy are uncorrelated). Your numeric checks cannot catch a mirrored reading ' +
+              'because their targets came from that same reading. Do exactly this now: (1) snapshot with ' +
+              '`sheet: [<view matching the reference>, <same view, azimuth negated>]`; (2) `delegate` with ' +
+              '`agent: "perception", withImages: true, withSnapshots: true` asking ONLY "which panel matches ' +
+              'the reference, and which feature decides it?". Report its verdict. If it picks the mirror, the ' +
+              'model is flipped — say so plainly instead of explaining the difference away.',
+          })
+          continue
+        }
+        yield { type: 'done', messages }
+        return
+      }
+
+      // Process tool calls. Run them CONCURRENTLY (parallel tool calls / fan-out —
+      // e.g. one delegate per part), preserving order when feeding results back.
       messages.push({ role: 'assistant', content: response.content })
-      // Output-limit truncation: the model was cut off BEFORE it could emit its
-      // tool call (typical symptom: narrated intent, then silence). This is not
-      // the model choosing to stop — auto-continue on a separate, generous
-      // budget so long builds don't die at the per-round output cap.
-      // Copilot sometimes reports finish_reason 'tool_calls' but DROPS the actual
-      // tool-call payload from the response (observed live: finish=tool_calls,
-      // tool_calls=0). The model wanted to continue — its call was lost in
-      // transit. Retry deterministically instead of ending the turn.
-      if (response.stop_reason === 'tool_use' && lostCallRetries < MAX_LOST_CALL_RETRIES) {
-        lostCallRetries++
-        messages.push({
-          role: 'user',
-          content:
-            'Your tool call was LOST IN TRANSIT (the provider reported a tool call but delivered none). ' +
-            'Re-issue the exact tool call now. If it was a large run_script, split it into two smaller scripts.',
-        })
-        continue
-      }
-      if (response.stop_reason === 'max_tokens' && truncationRetries < MAX_TRUNCATION_RETRIES) {
-        truncationRetries++
-        messages.push({
-          role: 'user',
-          content:
-            'Your previous response was truncated at the output-token limit before any tool call was emitted. ' +
-            'Continue exactly where you left off — go straight to the tool call, keep prose minimal.',
-        })
-        continue
-      }
-      // Some models narrate their intent ("let me grab the tree…" / "let me call
-      // it correctly:") and end the turn without emitting the tool call. Nudge
-      // (bounded) only when the text clearly trails off mid-action — it ends with
-      // a colon or its FINAL, unterminated sentence states intent. End-anchored on
-      // purpose: an unanchored intent match fired on legitimate questions to the
-      // user ("…let me confirm before building… I'll build it parametrically.")
-      // and the nudge then impersonated the user's consent — the fabricated-consent
-      // failure, manufactured by the loop itself. Questions belong to ask_user;
-      // text-only endings that merely MENTION future work are complete answers.
-      const trailingText = textBlocks
-        .map((b) => b.text)
-        .join('')
-        .trimEnd()
-      const looksIncomplete =
-        trailingText.endsWith(':') ||
-        /\b(let me|let's|i'?ll|i will|now i|first,? i)\b[^.!?]*$/i.test(trailingText) ||
-        // announced-action endings: "Now building.", "Proceeding.", "Starting with the blank."
-        /\b(now|next)\b[^.!?]*\b(build|creat|proceed|start|continu|mov|writ|run)\w*[.!]?$/i.test(trailingText)
-      if (looksIncomplete && nudges < MAX_NUDGES) {
-        nudges++
-        messages.push({
-          role: 'user',
-          content:
-            'Proceed now — emit the tool call(s) needed to complete the request in this same turn. Do not reply with only a description of what you intend to do.',
-        })
-        continue
-      }
-      // MIRROR GATE. A turn that reproduced a reference image may not end until
-      // the render has been judged against that IMAGE by a fresh reader. This is
-      // enforced here, not in the prompt, because a self-assessed precondition is
-      // always escapable: told the check was mandatory "when the record holds a
-      // handedness fact", an agent exempted itself with "the part is symmetric,
-      // no handedness risk" — misclassifying the trigger, then shipping the
-      // feature mirrored. So there is NO condition to judge: reference images in,
-      // pair-render + independent verdict out. Bounded to one nudge; if the model
-      // ignores it, the turn ends anyway rather than looping.
-      if (conversationHasReferenceImages && geometryWasBuilt && !mirrorJudged && mirrorNudges < 1) {
-        mirrorNudges++
-        messages.push({
-          role: 'user',
-          content:
-            'Before you finish: this build derives from a reference image, so the mirror check is required — ' +
-            'no symmetry argument exempts it, and "I am confident" is not a reason to skip (for handedness, ' +
-            'confidence and accuracy are uncorrelated). Your numeric checks cannot catch a mirrored reading ' +
-            'because their targets came from that same reading. Do exactly this now: (1) snapshot with ' +
-            '`sheet: [<view matching the reference>, <same view, azimuth negated>]`; (2) `delegate` with ' +
-            '`agent: "perception", withImages: true, withSnapshots: true` asking ONLY "which panel matches ' +
-            'the reference, and which feature decides it?". Report its verdict. If it picks the mirror, the ' +
-            'model is flipped — say so plainly instead of explaining the difference away.',
-        })
-        continue
-      }
-      yield { type: 'done', messages }
-      return
-    }
 
-    // Process tool calls. Run them CONCURRENTLY (parallel tool calls / fan-out —
-    // e.g. one delegate per part), preserving order when feeding results back.
-    messages.push({ role: 'assistant', content: response.content })
-
-    // 1. Announce every call up front (in order) so the UI shows them start together.
-    for (const tu of toolUseBlocks) {
-      if (tu.name === 'delegate') {
-        const { agent, goal, withImages, withSnapshots } = tu.input as {
-          agent: string
-          goal: string
-          withImages?: boolean
-          withSnapshots?: boolean
-        }
-        yield {
-          type: 'subagent_start',
-          id: tu.id,
-          name: agent,
-          goal,
-          images: withImages ? referenceImages.length : 0,
-          snapshots: withSnapshots ? recentSnapshots.length : 0,
-        }
-      } else if (tu.name === 'ask_user') {
-        // no chip — the question text is emitted as an assistant message below
-      } else {
-        yield { type: 'tool_start', id: tu.id, name: tu.name, input: tu.input }
-        config.onToolExecution?.(tu.name, tu.input)
-      }
-    }
-
-    // 2. Execute all concurrently (handlers never reject — they return error objects).
-    const settled = await Promise.all(
-      toolUseBlocks.map(async (tu) => {
+      // 1. Announce every call up front (in order) so the UI shows them start together.
+      for (const tu of toolUseBlocks) {
         if (tu.name === 'delegate') {
           const { agent, goal, withImages, withSnapshots } = tu.input as {
             agent: string
@@ -309,223 +399,247 @@ export async function* runAgentLoop(
             withImages?: boolean
             withSnapshots?: boolean
           }
-          // A judging delegate needs BOTH sides of the comparison: the user's
-          // reference AND the renders. Without the renders it can only re-check
-          // the reference against a DESCRIPTION — which is how a mirrored record
-          // validates itself (measured: the mirror check judged panel A against
-          // the record, not the image, and shipped a mirrored part).
-          // referenceImages spans the whole conversation — withImages must deliver
-          // the drawing even when the build turn carries no fresh attachments.
-          const handOver = [...(withImages ? referenceImages : []), ...(withSnapshots ? recentSnapshots : [])]
-          // ONE question per perception reader — answering a list forces the reader
-          // to build a whole-part interpretation, which is the exact condition that
-          // breaks perception (measured: 1 question → 6/6 correct; 7 in one reader →
-          // wrong). Enforced here because the prose keeps being skimmed.
-          if (agent === 'perception') {
-            const qMarks = (goal.match(/\?/g) || []).length
-            const listItems = (goal.match(/(?:^|\n)\s*(?:\d+[.)]|[-*])\s+/g) || []).length
-            if (qMarks > 1 || listItems > 1) {
-              return {
-                kind: 'subagent' as const,
-                tu,
-                summary:
-                  'REJECTED — one question per perception reader. This goal contains several questions; a reader ' +
-                  'handed a list reconstructs the whole part and fails exactly like an in-task reading (measured: ' +
-                  'one question → 6/6 correct; seven in one reader → wrong). Re-emit as SEVERAL delegate calls — ' +
-                  'one question each, all in the SAME response so they run in parallel.',
+          yield {
+            type: 'subagent_start',
+            id: tu.id,
+            name: agent,
+            goal,
+            images: withImages ? referenceImages.length : 0,
+            snapshots: withSnapshots ? recentSnapshots.length : 0,
+          }
+        } else if (tu.name === 'ask_user') {
+          // no chip — the question text is emitted as an assistant message below
+        } else {
+          yield { type: 'tool_start', id: tu.id, name: tu.name, input: tu.input }
+          config.onToolExecution?.(tu.name, tu.input)
+        }
+      }
+
+      // 2. Execute all concurrently (handlers never reject — they return error objects).
+      const settled = await Promise.all(
+        toolUseBlocks.map(async (tu) => {
+          if (tu.name === 'delegate') {
+            const { agent, goal, withImages, withSnapshots } = tu.input as {
+              agent: string
+              goal: string
+              withImages?: boolean
+              withSnapshots?: boolean
+            }
+            // A judging delegate needs BOTH sides of the comparison: the user's
+            // reference AND the renders. Without the renders it can only re-check
+            // the reference against a DESCRIPTION — which is how a mirrored record
+            // validates itself (measured: the mirror check judged panel A against
+            // the record, not the image, and shipped a mirrored part).
+            // referenceImages spans the whole conversation — withImages must deliver
+            // the drawing even when the build turn carries no fresh attachments.
+            const handOver = [...(withImages ? referenceImages : []), ...(withSnapshots ? recentSnapshots : [])]
+            // ONE question per perception reader — answering a list forces the reader
+            // to build a whole-part interpretation, which is the exact condition that
+            // breaks perception (measured: 1 question → 6/6 correct; 7 in one reader →
+            // wrong). Enforced here because the prose keeps being skimmed.
+            if (agent === 'perception') {
+              const qMarks = (goal.match(/\?/g) || []).length
+              const listItems = (goal.match(/(?:^|\n)\s*(?:\d+[.)]|[-*])\s+/g) || []).length
+              if (qMarks > 1 || listItems > 1) {
+                return {
+                  kind: 'subagent' as const,
+                  tu,
+                  summary:
+                    'REJECTED — one question per perception reader. This goal contains several questions; a reader ' +
+                    'handed a list reconstructs the whole part and fails exactly like an in-task reading (measured: ' +
+                    'one question → 6/6 correct; seven in one reader → wrong). Re-emit as SEVERAL delegate calls — ' +
+                    'one question each, all in the SAME response so they run in parallel.',
+                }
               }
             }
+            // Counts as the mirror check only when the reader actually HELD both
+            // sides — a handover with no reference images is a failed gate, not a pass.
+            if (withImages && referenceImages.length > 0 && withSnapshots && recentSnapshots.length > 0) mirrorJudged = true
+            if (withImages && referenceImages.length > 0 && agent === 'perception') perceptionDelegated = true
+            let summary = await runSubagent(agent, goal, config, handOver.length ? handOver : undefined)
+            if (agent === 'perception' && withSnapshots && !withImages && conversationHasReferenceImages) {
+              summary +=
+                '\n\n[loop] Reference images exist in this conversation but withImages was not set, so the reader ' +
+                'could not see the drawing. This did NOT count as the mirror gate — re-delegate with ' +
+                'withImages: true AND withSnapshots: true.'
+            }
+            return { kind: 'subagent' as const, tu, summary }
           }
-          // Counts as the mirror check only when the reader actually HELD both
-          // sides — a handover with no reference images is a failed gate, not a pass.
-          if (withImages && referenceImages.length > 0 && withSnapshots && recentSnapshots.length > 0) mirrorJudged = true
-          if (withImages && referenceImages.length > 0 && agent === 'perception') perceptionDelegated = true
-          let summary = await runSubagent(agent, goal, config, handOver.length ? handOver : undefined)
-          if (agent === 'perception' && withSnapshots && !withImages && conversationHasReferenceImages) {
-            summary +=
-              '\n\n[loop] Reference images exist in this conversation but withImages was not set, so the reader ' +
-              'could not see the drawing. This did NOT count as the mirror gate — re-delegate with ' +
-              'withImages: true AND withSnapshots: true.'
+          // ASK_USER — suspends the turn. The result closes the tool-use protocol so
+          // the history stays valid; the user's reply arrives as the next user message.
+          if (tu.name === 'ask_user') {
+            if (depth > 0) {
+              return {
+                kind: 'tool' as const,
+                tu,
+                result: {
+                  error: 'No user is reachable at sub-agent depth — report the open question in your final summary instead.',
+                } as ToolResult,
+              }
+            }
+            return {
+              kind: 'ask' as const,
+              tu,
+              result: {
+                result: {
+                  status: 'delivered',
+                  note: 'Questions shown to the user; this turn ends now. The reply arrives as the next user message — do not proceed on assumptions in the meantime.',
+                },
+              } as ToolResult,
+            }
           }
-          return { kind: 'subagent' as const, tu, summary }
-        }
-        // ASK_USER — suspends the turn. The result closes the tool-use protocol so
-        // the history stays valid; the user's reply arrives as the next user message.
-        if (tu.name === 'ask_user') {
-          if (depth > 0) {
+          // PERCEPTION GATE. Measured repeatedly: a reader given ONLY the image and
+          // a question answers correctly (6/6 across three question forms), while
+          // the same model reading the same drawing WHILE planning a build gets it
+          // wrong — the build task, not the eyes, is the failure. So the first
+          // build call is blocked until an isolated reader has supplied the read.
+          if (tu.name === 'run_script' && hadReferenceImages && !perceptionDelegated && perceptionBlocks < 1) {
+            perceptionBlocks++
             return {
               kind: 'tool' as const,
               tu,
               result: {
-                error: 'No user is reachable at sub-agent depth — report the open question in your final summary instead.',
+                error:
+                  'BLOCKED — read the reference before building. You are working from a reference image, and ' +
+                  'reading a drawing while planning a build is the measured failure mode (an isolated reader ' +
+                  'answers correctly 6/6; the same model reading in-task gets it wrong). Do this first: ' +
+                  'fan out `delegate` calls with `agent: "perception", withImages: true` — EXACTLY ONE question ' +
+                  'per reader, all emitted in the same response so they run in parallel; a reader handed a list ' +
+                  'reconstructs the whole part and fails exactly like an in-task reading does. Cover every ' +
+                  'question your geometry depends on — axis directions, which side each opening faces, which ' +
+                  'faces are flush/collinear, feature counts. Take the verdicts as your reference record, write ' +
+                  'them into `notes`, then run this script. Ask the USER (`ask_user`) about anything a reader ' +
+                  'cannot answer from the image.',
               } as ToolResult,
             }
           }
-          return {
-            kind: 'ask' as const,
-            tu,
-            result: {
-              result: {
-                status: 'delivered',
-                note: 'Questions shown to the user; this turn ends now. The reply arrives as the next user message — do not proceed on assumptions in the meantime.',
-              },
-            } as ToolResult,
+          const result = await execTool(tu.name, tu.input, {
+            drawingId: config.drawingId,
+            attachments: config.attachments,
+          })
+          if (tu.name === 'run_script' && !result.error) geometryWasBuilt = true
+          // A drawing fetched from the web is a REFERENCE, exactly like an attached
+          // one — register it so the perception and mirror gates arm and `withImages`
+          // handovers carry it. Without this, an image arriving as a tool result
+          // would walk straight past every gate we built.
+          if (tu.name === 'fetch_url' && depth === 0 && result.result && typeof result.result === 'object') {
+            const fetched = result.result as { kind?: string; image?: string; mediaType?: string }
+            if (fetched.kind === 'image' && fetched.image) {
+              referenceImages.push({ data: fetched.image, mediaType: fetched.mediaType ?? 'image/png' })
+              while (referenceImages.length > 4) referenceImages.shift()
+              hadReferenceImages = true
+              conversationHasReferenceImages = true
+            }
           }
-        }
-        // PERCEPTION GATE. Measured repeatedly: a reader given ONLY the image and
-        // a question answers correctly (6/6 across three question forms), while
-        // the same model reading the same drawing WHILE planning a build gets it
-        // wrong — the build task, not the eyes, is the failure. So the first
-        // build call is blocked until an isolated reader has supplied the read.
-        if (tu.name === 'run_script' && hadReferenceImages && !perceptionDelegated && perceptionBlocks < 1) {
-          perceptionBlocks++
-          return {
-            kind: 'tool' as const,
-            tu,
-            result: {
-              error:
-                'BLOCKED — read the reference before building. You are working from a reference image, and ' +
-                'reading a drawing while planning a build is the measured failure mode (an isolated reader ' +
-                'answers correctly 6/6; the same model reading in-task gets it wrong). Do this first: ' +
-                'fan out `delegate` calls with `agent: "perception", withImages: true` — EXACTLY ONE question ' +
-                'per reader, all emitted in the same response so they run in parallel; a reader handed a list ' +
-                'reconstructs the whole part and fails exactly like an in-task reading does. Cover every ' +
-                'question your geometry depends on — axis directions, which side each opening faces, which ' +
-                'faces are flush/collinear, feature counts. Take the verdicts as your reference record, write ' +
-                'them into `notes`, then run this script. Ask the USER (`ask_user`) about anything a reader ' +
-                'cannot answer from the image.',
-            } as ToolResult,
+          if (tu.name === 'snapshot' && result.result && typeof result.result === 'object') {
+            const snap = result.result as { image?: string; mimeType?: string }
+            if (snap.image) {
+              recentSnapshots.push({ data: snap.image, mediaType: snap.mimeType ?? 'image/png' })
+              if (recentSnapshots.length > MAX_HANDOVER_SNAPSHOTS) recentSnapshots.shift()
+            }
           }
-        }
-        const result = await executeTool(tu.name, tu.input, {
-          drawingId: config.drawingId,
-          attachments: config.attachments,
-        })
-        if (tu.name === 'run_script' && !result.error) geometryWasBuilt = true
-        // A drawing fetched from the web is a REFERENCE, exactly like an attached
-        // one — register it so the perception and mirror gates arm and `withImages`
-        // handovers carry it. Without this, an image arriving as a tool result
-        // would walk straight past every gate we built.
-        if (tu.name === 'fetch_url' && depth === 0 && result.result && typeof result.result === 'object') {
-          const fetched = result.result as { kind?: string; image?: string; mediaType?: string }
-          if (fetched.kind === 'image' && fetched.image) {
-            referenceImages.push({ data: fetched.image, mediaType: fetched.mediaType ?? 'image/png' })
-            while (referenceImages.length > 4) referenceImages.shift()
-            hadReferenceImages = true
-            conversationHasReferenceImages = true
-          }
-        }
-        if (tu.name === 'snapshot' && result.result && typeof result.result === 'object') {
-          const snap = result.result as { image?: string; mimeType?: string }
-          if (snap.image) {
-            recentSnapshots.push({ data: snap.image, mediaType: snap.mimeType ?? 'image/png' })
-            if (recentSnapshots.length > MAX_HANDOVER_SNAPSHOTS) recentSnapshots.shift()
-          }
-        }
-        return { kind: 'tool' as const, tu, result }
-      }),
-    )
+          return { kind: 'tool' as const, tu, result }
+        }),
+      )
 
-    // 3. Emit completions and append tool results in the ORIGINAL order.
-    for (const s of settled) {
-      if (s.kind === 'subagent') {
-        const { agent } = s.tu.input as { agent: string }
-        yield { type: 'subagent_end', id: s.tu.id, name: agent, summary: s.summary }
-        messages.push({ role: 'tool', tool_use_id: s.tu.id, content: s.summary })
-      } else if (s.kind === 'ask') {
-        const q = (s.tu.input as { questions?: string })?.questions
-        if (typeof q === 'string' && q.trim()) yield { type: 'text', text: q }
-        messages.push({ role: 'tool', tool_use_id: s.tu.id, content: JSON.stringify(s.result.result) })
-      } else {
-        yield { type: 'tool_end', id: s.tu.id, name: s.tu.name, result: s.result }
-        const isRefImage =
-          s.tu.name === 'fetch_url' && !s.result.error && (s.result.result as { kind?: string } | undefined)?.kind === 'image'
-        const docKeys =
-          s.tu.name === 'docs' && !s.result.error && Array.isArray((s.tu.input as { keys?: unknown }).keys)
-            ? ((s.tu.input as { keys: unknown[] }).keys.filter((k) => typeof k === 'string') as string[])
-            : undefined
-        messages.push({
-          role: 'tool',
-          tool_use_id: s.tu.id,
-          content: buildToolResultContent(s.tu.name, s.result, config.sendSnapshotsToModel ?? false),
-          ...(isRefImage ? { meta: { referenceImage: true } } : docKeys?.length ? { meta: { docKeys } } : {}),
-        })
+      // 3. Emit completions and append tool results in the ORIGINAL order. Every result
+      // is annotated with what it is worth to the task (src/context/annotate.ts). All
+      // results of one batch belong to the drawing revision the batch started from.
+      const batch: Array<{ call: { name: string; input: Record<string, unknown> }; result: ToolResult }> = []
+      for (const s of settled) {
+        const call = { name: s.tu.name, input: s.tu.input }
+        if (s.kind === 'subagent') {
+          const { agent } = s.tu.input as { agent: string }
+          yield { type: 'subagent_end', id: s.tu.id, name: agent, summary: s.summary }
+          // A report is a record, but not an unbounded one.
+          const summary =
+            s.summary.length > MAX_DELEGATE_REPORT_CHARS
+              ? `${s.summary.slice(0, MAX_DELEGATE_REPORT_CHARS)}\n… [report truncated at ${MAX_DELEGATE_REPORT_CHARS} chars]`
+              : s.summary
+          const result: ToolResult = { result: summary }
+          const { ctx } = annotate(tracker, call, result)
+          batch.push({ call, result })
+          messages.push({ role: 'tool', tool_use_id: s.tu.id, content: summary, meta: { ctx } })
+        } else if (s.kind === 'ask') {
+          const q = (s.tu.input as { questions?: string })?.questions
+          if (typeof q === 'string' && q.trim()) yield { type: 'text', text: q }
+          const { ctx } = annotate(tracker, call, s.result)
+          batch.push({ call, result: s.result })
+          messages.push({ role: 'tool', tool_use_id: s.tu.id, content: JSON.stringify(s.result.result), meta: { ctx } })
+        } else {
+          yield { type: 'tool_end', id: s.tu.id, name: s.tu.name, result: s.result }
+          const isRefImage =
+            s.tu.name === 'fetch_url' && !s.result.error && (s.result.result as { kind?: string } | undefined)?.kind === 'image'
+          const { ctx, docKeys } = annotate(tracker, call, s.result)
+          batch.push({ call, result: s.result })
+          let content = buildToolResultContent(s.tu.name, s.result, config.sendSnapshotsToModel ?? false)
+          // restore / load_file discard a timeline: what was built on it no longer exists.
+          const rolledBack = markDeadTimeline(messages, tracker, call, ctx)
+          if (rolledBack > 0 && typeof content === 'string') {
+            content += `\n[host] ${rolledBack} earlier tool result(s) in this conversation describe the discarded state. Their ids and measurements no longer exist — do not reuse them.`
+          }
+          messages.push({
+            role: 'tool',
+            tool_use_id: s.tu.id,
+            content,
+            meta: { ctx, ...(isRefImage ? { referenceImage: true } : {}), ...(docKeys?.length ? { docKeys } : {}) },
+          })
+        }
       }
+      advance(tracker, batch)
+      lastBatchOnlyRead = batch.length > 0 && batch.every((b) => !b.result.error && !['delegate', 'ask_user', 'notes', 'docs', 'list_methods'].includes(b.call.name)) &&
+        messages.slice(-batch.length).every((m) => m.meta?.ctx?.kind === 'state-read')
+
+      // ask_user suspends the turn — the user's reply is the only thing that may
+      // continue this conversation (asking must block, not decorate).
+      if (settled.some((s) => s.kind === 'ask')) {
+        yield { type: 'done', messages }
+        return
+      }
+
+      // Loop continues — model will see tool results and respond
     }
 
-    // ask_user suspends the turn — the user's reply is the only thing that may
-    // continue this conversation (asking must block, not decorate).
-    if (settled.some((s) => s.kind === 'ask')) {
-      yield { type: 'done', messages }
-      return
-    }
-
-    // Loop continues — model will see tool results and respond
+    // History first: running out of iterations must not cost the user the whole turn.
+    yield { type: 'done', messages }
+    yield { type: 'error', error: `Agent loop exceeded max iterations (${maxIterations}).` }
+  } catch (e: any) {
+    // An unexpected failure mid-round: keep the history valid and hand it back.
+    closeOpenToolCalls(messages)
+    yield { type: 'done', messages }
+    yield { type: 'error', error: e?.message || String(e) }
   }
-
-  yield { type: 'error', error: `Agent loop exceeded max iterations (${maxIterations}).` }
 }
 
 // ─── Context management ───────────────────────────────────────────────────────
 
-const CHARS_PER_TOKEN = 4 // rough, deliberately conservative
 const DEFAULT_CONTEXT_TOKENS = 120000
-const KEEP_RECENT_MESSAGES = 12
-const PRUNED_STUB = JSON.stringify({
-  pruned: 'Old tool result removed to save context. Re-run the tool if you need this data — key ids/state should live in your notes.',
-})
+const MAX_DELEGATE_REPORT_CHARS = 12000
 
-function messageChars(m: Message): number {
-  const c: unknown = (m as any).content
-  if (typeof c === 'string') return c.length
-  try {
-    return JSON.stringify(c)?.length ?? 0
-  } catch {
-    return 0
-  }
-}
+// Learned per model, for the lifetime of the page: the real window when a provider
+// named it in an overflow error, and the chars→tokens ratio from its usage numbers.
+const learnedLimits = new Map<string, number>()
+const learnedTokensPerChar = new Map<string, number>()
 
 /**
- * Shrink the history toward the model's context budget by replacing OLD tool
- * results with stubs, oldest first. Recent messages, and all user/assistant
- * content, are never touched — the model keeps its plan and conversation; only
- * stale tool payloads (tree dumps, long results, snapshot images) are dropped.
- * Mutates in place so the pruning persists across turns instead of re-growing.
+ * Every tool_use needs a tool result or the next request is rejected. After an
+ * unexpected failure mid-batch, close the calls that never got one.
  */
-function pruneHistory(messages: Message[], contextLimit?: number): void {
-  // 70% of the window for history — headroom for system prompt, tools, and output.
-  const budgetChars = (contextLimit ?? DEFAULT_CONTEXT_TOKENS) * CHARS_PER_TOKEN * 0.7
-  let total = messages.reduce((n, m) => n + messageChars(m), 0)
-  if (total <= budgetChars) return
-  // The LAST 4 reference-image tool results (fetched drawings) are load-bearing —
-  // pruning one forces a refetch round (observed). Protect them; older ones prune.
-  const refIdx = messages.flatMap((m, i) => (m.role === 'tool' && m.meta?.referenceImage ? [i] : []))
-  const protectedRefs = new Set(refIdx.slice(-4))
-  const stub = (m: Message): number => {
-    const size = messageChars(m)
-    if (size <= PRUNED_STUB.length + 64) return 0 // already small (or already stubbed)
-    // Docs get a stub that names what vanished: a model that lost its recipe built
-    // "from memory" instead of refetching — the defection that ships dead geometry.
-    const keys = m.role === 'tool' ? m.meta?.docKeys : undefined
-    m.content = keys?.length
-      ? JSON.stringify({
-          pruned: `Documentation removed to save context: ${keys.join(', ')}. REFETCH docs([...]) before building on any of it — do NOT reconstruct API usage or recipe steps from memory of a pruned doc.`,
-        })
-      : PRUNED_STUB
-    return size - messageChars(m)
+function closeOpenToolCalls(messages: Message[]): void {
+  let lastAssistant = -1
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role === 'assistant') {
+      lastAssistant = i
+      break
+    }
   }
-  // Pass 1: ordinary tool results, oldest first. Docs results are load-bearing
-  // doctrine — they survive as long as anything else can be pruned instead.
-  for (let i = 0; i < messages.length - KEEP_RECENT_MESSAGES && total > budgetChars; i++) {
-    const m = messages[i]
-    if (m.role !== 'tool' || protectedRefs.has(i) || m.meta?.docKeys?.length) continue
-    total -= stub(m)
-  }
-  // Pass 2 (still over budget): docs results too, oldest first, with the naming stub.
-  for (let i = 0; i < messages.length - KEEP_RECENT_MESSAGES && total > budgetChars; i++) {
-    const m = messages[i]
-    if (m.role !== 'tool' || protectedRefs.has(i) || !m.meta?.docKeys?.length) continue
-    total -= stub(m)
+  if (lastAssistant < 0) return
+  const assistant = messages[lastAssistant] as Extract<Message, { role: 'assistant' }>
+  const answered = new Set(messages.slice(lastAssistant + 1).flatMap((m) => (m.role === 'tool' ? [m.tool_use_id] : [])))
+  for (const b of assistant.content) {
+    if (b.type === 'tool_use' && !answered.has(b.id)) {
+      messages.push({ role: 'tool', tool_use_id: b.id, content: JSON.stringify({ error: 'Interrupted before this call finished — its outcome is unknown.' }) })
+    }
   }
 }
 

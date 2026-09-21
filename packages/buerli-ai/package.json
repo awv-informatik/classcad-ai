@@ -44,6 +44,7 @@
     "build": "npm run clean && tsc -p tsconfig.build.json",
     "dev": "tsc -p tsconfig.build.json --watch",
     "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --import ./test/register.mjs --test test/*.test.mjs",
     "prepublishOnly": "npm run build",
     "proxy": "node bin/copilot-proxy.mjs",
     "proxy:auth": "node bin/copilot-proxy.mjs auth",

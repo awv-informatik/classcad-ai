@@ -5,6 +5,7 @@
 
 import type { ChatParams, ChatResponse, ContentBlock, LLMProvider, McpToolSchema, Message, ToolResultContent, UserContentBlock } from './types'
 import { mapModelsResponse, modelsUrlFrom } from './capabilities'
+import { ProviderRequestError } from './providerError'
 
 export type OpenAIProviderConfig = {
   /** Full URL to the chat completions endpoint. Default: https://api.openai.com/v1/chat/completions */
@@ -54,7 +55,7 @@ export function createOpenAIProvider(config: OpenAIProviderConfig): LLMProvider 
 
       if (!res.ok) {
         const text = await res.text()
-        throw new Error(`OpenAI request failed (${res.status}): ${text}`)
+        throw new ProviderRequestError('OpenAI', res.status, text)
       }
 
       // Read the body INCREMENTALLY: the full text still feeds foldSse below

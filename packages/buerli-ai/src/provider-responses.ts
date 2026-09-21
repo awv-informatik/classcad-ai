@@ -20,6 +20,7 @@ import type {
   UserContentBlock,
 } from './types'
 import { mapModelsResponse, modelsUrlFrom } from './capabilities'
+import { ProviderRequestError } from './providerError'
 
 export type ResponsesProviderConfig = {
   /** Full URL to the responses endpoint. Default: https://api.openai.com/v1/responses */
@@ -77,7 +78,7 @@ export function createResponsesProvider(config: ResponsesProviderConfig): LLMPro
 
       if (!res.ok) {
         const text = await res.text()
-        throw new Error(`Responses request failed (${res.status}): ${text}`)
+        throw new ProviderRequestError('Responses', res.status, text)
       }
 
       if (!onDelta) {
@@ -211,6 +212,18 @@ function convertTools(tools: McpToolSchema[]): unknown[] {
 }
 
 function adaptResponse(json: Record<string, unknown>): ChatResponse {
+  // A failed response (or one cut short for a reason other than the output limit,
+  // e.g. the prompt did not fit) carries no usable output — surface it as an error
+  // instead of an empty end_turn that silently ends the agent's turn.
+  const incompleteReason = (json.incomplete_details as { reason?: string } | undefined)?.reason
+  if (json.status === 'failed' || (json.status === 'incomplete' && incompleteReason && incompleteReason !== 'max_output_tokens')) {
+    const err = json.error as { code?: string; message?: string } | undefined
+    throw new ProviderRequestError(
+      'Responses',
+      undefined,
+      JSON.stringify({ status: json.status, code: err?.code, message: err?.message, reason: incompleteReason }),
+    )
+  }
   const content: ContentBlock[] = []
   const output = Array.isArray(json.output) ? (json.output as any[]) : []
 

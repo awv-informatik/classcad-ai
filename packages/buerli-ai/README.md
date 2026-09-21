@@ -120,7 +120,7 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 | `docs`                            | Bulk documentation — many keys in one call: per-method docs, topic guides (`DATA`, …), API overviews, worked recipes (`recipes/verification` is mandatory reading for every build). Same single-source discovery as the ClassCAD MCP server                                                              |
 | `snapshot`                        | Deterministic render of the drawing (@classcad/renderer): standard views, section, sheet, highlightAt, markers, annotate, x-ray, frame pinning — sent to the model as vision when the selected model supports it; tessellation is auto-tightened for the image and restored (`quality: 'fast'` opts out) |
 | `checkpoint` / `restore`          | In-memory save/rollback of the whole drawing — failed attempts become cheap                                                                                                                                                                                                                              |
-| `notes`                           | Persistent per-drawing scratchpad (plan, key ids) that survives context pruning                                                                                                                                                                                                                          |
+| `notes`                           | Persistent per-drawing scratchpad (plan, decisions, next step) that survives compaction                                                                                                                                                                                                                         |
 | `ask_user`                        | Blocking question(s) to the user — ends the turn; the reply arrives as the next message                                                                                                                                                                                                                  |
 | `fetch_url`                       | One GET through the local proxy (see below): a page as readable text plus the image URLs it shows, or an image itself. A fetched image becomes a conversation reference image, so the verification gates apply to it as to an attachment. Not a browser — no link following, no logins, and no JavaScript execution |
 | `load_file`                       | Import a user-attached CAD file                                                                                                                                                                                                                                                                          |
@@ -133,8 +133,39 @@ The ClassCAD knowledge (method registry + curated docs + recipes) ships via the
 `executeTool` are exported for tests or custom executors.)
 
 Long sessions stay healthy on their own: oversized tool results are size-capped, and
-when the history approaches the model's context window, old tool results are pruned —
-recent turns, all conversation text, and the agent's `notes` survive.
+the context is condensed before it reaches the model's window — see
+[Context compaction](#context-compaction).
+
+## Context compaction
+
+A generic chat agent has to summarize its conversation, because the conversation is its
+memory. Here the **drawing** is the memory — tree ids are stable and the engine can be
+re-read at any time — and every tool is known. `src/context` uses both:
+
+- **Annotate.** Each tool result is classified when it is appended: *reference* (docs,
+  re-fetchable by key), *state-read* (tree, find, inspect, snapshot, read-only scripts —
+  out of date once geometry changes), *build* (a small fact worth keeping, bulk that is
+  not) or *record* (reports, user answers, reference images, notes — never re-derivable).
+  A drawing revision advances with every step that may have changed geometry;
+  `restore`/`load_file` mark what was built on the discarded timeline as dead.
+- **Decide.** Triggered by the provider's real `usage.inputTokens` (plus a calibrated
+  estimate of what was added since), as one discrete event, preferably at a safe moment
+  (a new user turn, a round that only measured). Cheapest loss first: dead timelines,
+  superseded and out-of-date readings → steps reduced to their outcome, old script
+  sources, docs (the stub names the keys to refetch) → whole finished groups collapse.
+- **Ledger.** Collapsed work is replaced by a *journal* (what each step did, failures and
+  rollbacks included) and a *state block* generated from the **live drawing** — features
+  with ids, expressions, instances, constraints — plus the notes verbatim. No model call,
+  so nothing drifts, and it corrects what the model believes it built.
+- **Render.** The stored history is never rewritten; providers receive a view. Pairing of
+  tool calls and results, signed thinking blocks and the first-message rule are preserved.
+- **Report.** The loop yields `{ type: 'compaction', phase, reason, report }`; the panel
+  shows a divider ("Context condensed · freed ~18k tokens") that expands to what was
+  reclaimed and the exact ledger the model now sees. A context-overflow error from the
+  provider triggers a hard compaction and exactly one retry.
+
+Never condensed: user messages, reference images, the answer that closed each earlier
+turn, questions put to the user, the latest sub-agent reports, the last few groups.
 
 ## Inside the agent loop
 

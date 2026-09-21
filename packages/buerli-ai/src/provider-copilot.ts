@@ -9,6 +9,7 @@
 
 import type { ChatParams, ChatResponse, ContentBlock, LLMProvider, McpToolSchema, Message, ToolResultContent } from './types'
 import { mapModelsResponse, modelsUrlFrom } from './capabilities'
+import { ProviderRequestError } from './providerError'
 
 export type CopilotProviderConfig = {
   /**
@@ -64,7 +65,7 @@ export function createCopilotProvider(config: CopilotProviderConfig): LLMProvide
 
       if (!res.ok) {
         const text = await res.text()
-        throw new Error(`Copilot request failed (${res.status}): ${text}`)
+        throw new ProviderRequestError('Copilot', res.status, text)
       }
 
       // Read the body INCREMENTALLY: the full text still feeds foldSse below

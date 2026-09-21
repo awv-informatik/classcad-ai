@@ -170,6 +170,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
   const liveThinking = store((s) => s.liveThinking)
   const error = store((s) => s.error)
   const usage = store((s) => s.usage)
+  const compactions = store((s) => s.compactions)
   const codeLog = store((s) => s.codeLog)
   const callCount = codeLog.reduce((n, e) => n + (e.kind === 'call' || e.kind === 'script' ? 1 : 0), 0)
   // Code-mirror side panel: a generic buerli script generated from the session.
@@ -519,7 +520,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({
               {showReasoning && (
                 <ReasoningPicker value={effort} levels={reasoningLevels} onChange={setEffort} disabled={isRunning} theme={t} />
               )}
-              <ContextRing used={usage?.inputTokens} limit={ringLimit} theme={t} />
+              <ContextRing used={usage?.inputTokens} limit={ringLimit} compactions={compactions} theme={t} />
             </div>
           )}
 
@@ -579,7 +580,85 @@ const MessageBubble: React.FC<{ message: UIMessage; theme: Required<AgentPanelTh
 
     case 'subagent':
       return <SubagentBlock message={message} theme={t} />
+
+    case 'compaction':
+      return <CompactionDivider message={message} theme={t} />
   }
+}
+
+// Context compaction, made visible: a divider where older work was condensed,
+// expandable to what was reclaimed and the exact ledger the model now sees.
+const CompactionDivider: React.FC<{ message: Extract<UIMessage, { type: 'compaction' }>; theme: Required<AgentPanelTheme> }> = ({
+  message: m,
+  theme: t,
+}) => {
+  const [expanded, setExpanded] = useState(false)
+  const r = m.report
+  const c = r?.counts
+  const parts = c
+    ? [
+        c.collapsedGroups ? `${c.collapsedGroups} finished step group${c.collapsedGroups > 1 ? 's' : ''} → ledger` : '',
+        c.dead ? `${c.dead} rolled-back result${c.dead > 1 ? 's' : ''}` : '',
+        c.superseded ? `${c.superseded} superseded reading${c.superseded > 1 ? 's' : ''}` : '',
+        c.stale ? `${c.stale} out-of-date reading${c.stale > 1 ? 's' : ''}` : '',
+        c.bulk ? `${c.bulk} step${c.bulk > 1 ? 's' : ''} reduced to their outcome` : '',
+        c.docs ? `${c.docs} docs result${c.docs > 1 ? 's' : ''}` : '',
+      ].filter(Boolean)
+    : []
+  const rule = <span style={{ flex: 1, height: 1, background: t.border }} />
+  return (
+    <div style={{ alignSelf: 'stretch', fontSize: 11, color: t.textMuted, padding: '2px 0' }}>
+      <button
+        onClick={() => r && setExpanded(!expanded)}
+        style={{ ...thinkingToggleStyle, width: '100%', display: 'flex', alignItems: 'center', gap: 8, cursor: r ? 'pointer' : 'default' }}
+        title={m.reason}
+      >
+        {rule}
+        {m.status === 'running' ? (
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <Spinner color={t.accent} /> Condensing context…
+          </span>
+        ) : (
+          <span>
+            {expanded ? '▼' : '▶'} Context condensed · freed ~{fmtTokens(r?.freedTokens)} tokens
+          </span>
+        )}
+        {rule}
+      </button>
+      {expanded && r && (
+        <div style={{ marginTop: 6 }}>
+          <div style={detailSectionTitle}>why</div>
+          <pre style={toolDetailInnerStyle}>
+            {m.reason} ({fmtTokens(r.beforeTokens)} → {fmtTokens(r.afterTokens)} tokens)
+          </pre>
+          {parts.length > 0 && (
+            <>
+              <div style={detailSectionTitle}>condensed</div>
+              <pre style={toolDetailInnerStyle}>{parts.join('\n')}</pre>
+            </>
+          )}
+          {r.docKeys.length > 0 && (
+            <>
+              <div style={detailSectionTitle}>docs to refetch before use</div>
+              <pre style={toolDetailInnerStyle}>{r.docKeys.join('\n')}</pre>
+            </>
+          )}
+          {r.journal && (
+            <>
+              <div style={detailSectionTitle}>what the model sees instead — journal</div>
+              <pre style={toolDetailInnerStyle}>{r.journal}</pre>
+            </>
+          )}
+          {r.state && (
+            <>
+              <div style={detailSectionTitle}>what the model sees instead — state, read from the drawing</div>
+              <pre style={toolDetailInnerStyle}>{r.state}</pre>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  )
 }
 
 // Lean, collapsible sub-agent row: a slightly-indented gray card with a moving
@@ -1211,7 +1290,20 @@ function fmtTokens(n?: number): string {
 
 // Claude-Code-style context ring: gray track + blue arc = used / context limit.
 // `used` is the last call's input (prompt) tokens; `limit` is the prompt budget.
-const ContextRing: React.FC<{ used?: number; limit?: number; theme: Required<AgentPanelTheme> }> = ({ used, limit, theme: t }) => {
+const ContextRing: React.FC<{
+  used?: number
+  limit?: number
+  compactions?: { count: number; lastFreedTokens: number; lastAt: number }
+  theme: Required<AgentPanelTheme>
+}> = ({ used, limit, compactions, theme: t }) => {
+  // Pulse briefly when the level just dropped because the context was condensed.
+  const [justCondensed, setJustCondensed] = useState(false)
+  useEffect(() => {
+    if (!compactions?.lastAt) return
+    setJustCondensed(true)
+    const timer = setTimeout(() => setJustCondensed(false), 2500)
+    return () => clearTimeout(timer)
+  }, [compactions?.lastAt])
   const frac = used && limit ? Math.min(1, used / limit) : 0
   const size = 14
   const sw = 2.5
@@ -1220,10 +1312,12 @@ const ContextRing: React.FC<{ used?: number; limit?: number; theme: Required<Age
   const pct = Math.round(frac * 100)
   const title =
     used != null
-      ? `Context: ${fmtTokens(used)}${limit ? ` / ${fmtTokens(limit)}` : ''} tokens${limit ? ` (${pct}%)` : ''}`
+      ? `Context: ${fmtTokens(used)}${limit ? ` / ${fmtTokens(limit)}` : ''} tokens${limit ? ` (${pct}%)` : ''}` +
+        (compactions?.count ? ` · condensed ×${compactions.count}, last freed ~${fmtTokens(compactions.lastFreedTokens)}` : '')
       : 'Context usage (no data yet)'
   return (
-    <span title={title} style={{ display: 'inline-flex', alignItems: 'center' }}>
+    <span title={title} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, ...(justCondensed ? pulseStyle : null) }}>
+      {justCondensed && <span style={{ fontSize: 10, opacity: 0.8 }}>condensed</span>}
       <svg width={size} height={size} style={{ transform: 'rotate(-90deg)', display: 'block' }}>
         <circle cx={size / 2} cy={size / 2} r={r} fill='none' stroke='rgba(255,255,255,0.18)' strokeWidth={sw} />
         {used != null && limit ? (

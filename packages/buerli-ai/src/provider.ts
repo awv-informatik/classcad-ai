@@ -5,6 +5,7 @@
 
 import type { ChatParams, ChatResponse, ContentBlock, LLMProvider, McpToolSchema, Message } from './types'
 import { mapModelsResponse, modelsUrlFrom } from './capabilities'
+import { ProviderRequestError } from './providerError'
 
 export type AnthropicProviderConfig = {
   /** Full URL to the messages endpoint. Default: https://api.anthropic.com/v1/messages */
@@ -68,7 +69,7 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): LLMPro
 
       if (!res.ok) {
         const text = await res.text()
-        throw new Error(`LLM request failed (${res.status}): ${text}`)
+        throw new ProviderRequestError('LLM', res.status, text)
       }
 
       const json = await res.json()

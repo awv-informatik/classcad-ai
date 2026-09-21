@@ -3,6 +3,7 @@
 import { create } from 'zustand'
 import type { AgentConfig, FileAttachment, ImageInput, Message } from './types'
 import { runAgentLoop } from './agentLoop'
+import type { CompactionReport } from './context'
 
 // ─── UI Message types (simplified for display) ────────────────────────────────
 
@@ -32,6 +33,8 @@ export type UIMessage =
       images?: number
       snapshots?: number
     }
+  /** The context was condensed: a divider in the transcript, expandable to what the model now sees. */
+  | { type: 'compaction'; status: 'running' | 'done'; reason: string; report?: CompactionReport }
 
 /**
  * Ordered session events captured for the code-mirror panel. Enough to generate a
@@ -80,6 +83,8 @@ export type AgentStoreState = {
   error: string | null
   /** Token usage from the most recent LLM call (inputTokens ≈ context occupied). */
   usage: { inputTokens?: number; outputTokens?: number } | null
+  /** Context compactions in this conversation (drives the ring's tooltip and marker). */
+  compactions: { count: number; lastFreedTokens: number; lastAt: number }
   /** Ordered session log (user turns, loads, API calls) — source for the code panel. */
   codeLog: CodeEvent[]
   /**
@@ -110,6 +115,7 @@ export const createAgentStore = () =>
     isRunning: false,
     error: null,
     usage: null,
+    compactions: { count: 0, lastFreedTokens: 0, lastAt: 0 },
     codeLog: [],
     liveThinking: null,
     _controller: null,
@@ -306,6 +312,27 @@ export const createAgentStore = () =>
               set({ usage: { inputTokens: event.inputTokens, outputTokens: event.outputTokens } })
               break
 
+            case 'compaction':
+              if (event.phase === 'start') {
+                set((s) => ({ messages: [...s.messages, { type: 'compaction', status: 'running', reason: event.reason }] }))
+              } else {
+                set((s) => {
+                  const msgs = [...s.messages]
+                  const idx = msgs.map((m) => m.type === 'compaction' && m.status === 'running').lastIndexOf(true)
+                  // Nothing could be reclaimed: no divider — it would only be noise.
+                  if (!event.report) return { messages: idx >= 0 ? msgs.filter((_, i) => i !== idx) : msgs }
+                  const row: UIMessage = { type: 'compaction', status: 'done', reason: event.reason, report: event.report }
+                  if (idx >= 0) msgs[idx] = row
+                  else msgs.push(row)
+                  return {
+                    messages: msgs,
+                    compactions: { count: s.compactions.count + 1, lastFreedTokens: event.report.freedTokens, lastAt: Date.now() },
+                  }
+                })
+                assistantText = ''
+              }
+              break
+
             case 'error':
               set({ error: event.error })
               break
@@ -331,7 +358,7 @@ export const createAgentStore = () =>
 
     reset() {
       get()._controller?.abort()
-      set({ messages: [], rawHistory: [], isRunning: false, error: null, usage: null, codeLog: [], liveThinking: null, _controller: null })
+      set({ messages: [], rawHistory: [], isRunning: false, error: null, usage: null, compactions: { count: 0, lastFreedTokens: 0, lastAt: 0 }, codeLog: [], liveThinking: null, _controller: null })
     },
   }))
 

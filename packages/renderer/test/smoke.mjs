@@ -8,6 +8,7 @@
  */
 
 import { strict as assert } from 'assert'
+import { fileURLToPath } from 'node:url'
 import { mkdirSync } from 'fs'
 import { renderSessionData, renderSolidZBuffer, VIEW_NAMES } from '../dist/core.js'
 import { renderIsometric } from '../dist/stl.js'
@@ -476,10 +477,10 @@ try {
   assert.ok(png.length > 1000 && png[0] === 0x89 && png[1] === 0x50, 'valid PNG bytes')
   const sk = await svgToPngBuffer(sketch.svg)
   assert.ok(sk.length > 1000 && sk[0] === 0x89, 'sketch SVG → PNG')
-  mkdirSync(new URL('./out', import.meta.url).pathname, { recursive: true })
+  mkdirSync(fileURLToPath(new URL('./out', import.meta.url)), { recursive: true })
   const { savePNG, svgToPng } = await import('../dist/node.js')
-  await savePNG(solid.pixels, solid.width, solid.height, new URL('./out/cube.png', import.meta.url).pathname)
-  await svgToPng(sketch.svg, new URL('./out/sketch.png', import.meta.url).pathname)
+  await savePNG(solid.pixels, solid.width, solid.height, fileURLToPath(new URL('./out/cube.png', import.meta.url)))
+  await svgToPng(sketch.svg, fileURLToPath(new URL('./out/sketch.png', import.meta.url)))
   console.log('node adapter: PNGs written to test/out/')
 } catch (e) {
   if (e.code === 'ERR_MODULE_NOT_FOUND') console.log('node adapter: sharp not installed — skipped')

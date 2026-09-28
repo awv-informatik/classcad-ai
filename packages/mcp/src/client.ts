@@ -276,11 +276,24 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
 
   /** Turns an engine reply (bridge or local WASM) into worker-shaped Result frames and delivers them. */
   function deliverEngineResult(req: Record<string, unknown>, res: EngineExecuteResult): void {
+    const txId = String(req.transactionID)
+    const fail = (why: string) => {
+      const entry = pending.get(txId)
+      if (entry) {
+        pending.delete(txId)
+        entry.reject(new Error(why))
+      }
+    }
+    if (res.decodeErrors?.length) log(`${String(req.command)}: dropped undecodable engine output (${res.decodeErrors.join('; ')})`)
     for (const pkg of res.binaryMessages ?? []) {
       for (const c of (pkg as any)?.containers ?? []) {
         if (c && c.id != null) bridgeContainers.set(String(c.id), c)
       }
     }
+    // Errors the engine reported on the side (ErrorMessage frames, errorState 2).
+    const sideErrors = (res.messages ?? [])
+      .filter(m => m?.command === 'ErrorMessage' && Number(m.attributes?.errorState) >= 2)
+      .map(m => ({ level: 51, levelStr: 'ERROR', code: m.attributes?.errorCode ?? 0, message: String(m.attributes?.errorMessage ?? 'engine error') }))
     let delivered = false
     for (const m of res.messages ?? []) {
       if (m.command !== 'Result') continue
@@ -288,6 +301,20 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         ...m,
         _from_: m._from_ ?? m.from ?? req.command,
         _transactionID_: m._transactionID_ ?? m.transactionID ?? req.transactionID,
+      }
+      if (frame._from_ === 'Execute') {
+        // Every Execute Result carries a value (null included) or a level. One
+        // with neither is not an answer — never let it pass as a success.
+        if (!('result' in frame) && frame.maxLevel == null) {
+          fail(`engine returned an empty Result for ${describeRequest(req)}`)
+          return
+        }
+        // An error reported only as ErrorMessage must not turn into an empty success.
+        const n = normalizeResult(frame)
+        if (sideErrors.length && (n.maxLevel ?? 0) < 51 && n.result == null) {
+          frame.maxLevel = 51
+          frame.messages = [...(Array.isArray(frame.messages) ? frame.messages : []), ...sideErrors]
+        }
       }
       if (frame._from_ === 'GetTree' || frame._from_ === 'Sync') {
         // Legacy engines put the structure into `result`; the WS worker puts it into `structure`.
@@ -302,13 +329,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       handleFrame(Buffer.from(JSON.stringify(frame)), false)
     }
     if (!delivered) {
-      const txId = String(req.transactionID)
-      const entry = pending.get(txId)
-      if (entry) {
-        pending.delete(txId)
-        entry.reject(new Error(`engine returned no Result for ${String(req.command)}`))
-      }
+      const detail = [...sideErrors.map(e => e.message), ...(res.decodeErrors ?? [])]
+      fail(`engine returned no Result for ${describeRequest(req)}${detail.length ? ` (${detail.join('; ')})` : ''}`)
     }
+  }
+
+  function describeRequest(req: Record<string, unknown>): string {
+    const task = Array.isArray(req.task) ? (req.task[0] as Record<string, unknown> | undefined) : undefined
+    const method = task ? Object.keys(task)[0] : undefined
+    return method ? `${String(req.command)} ${method}` : String(req.command)
   }
 
   function detachBridge(): void {
@@ -362,7 +391,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     if (o.track !== false) version++
     const transactionID = randomUUID()
     return new Promise((resolve, reject) => {
-      pending.register(transactionID, { resolve: resolve as (r: ApiResult) => void, reject, at: version }, { command, timeoutMs: debug ? undefined : opts.requestTimeoutMs ?? REQUEST_TIMEOUT, onTimeout: () => { outcomeUnknown = true } })
+      pending.register(transactionID, { resolve: resolve as (r: ApiResult) => void, reject, at: version }, { command, timeoutMs: debug ? undefined : opts.requestTimeoutMs ?? REQUEST_TIMEOUT, onTimeout: () => {
+        // The local engine runs one command at a time on its own thread: one
+        // that does not answer is stuck, and everything queued behind it with
+        // it. Retire it — the next command starts a new one (empty drawing).
+        if (transport === 'wasm' && localEngine && !localEngine.closed) {
+          log(`local WASM engine did not answer ${command} within the request timeout — retired; the next command starts a new engine with an empty drawing`)
+          localEngine.close(`did not answer ${command} within the request timeout`)
+        } else outcomeUnknown = true
+      } })
       // No emission flags travel with a request — the engine keeps them per
       // connection (see SUPPRESS_EMISSION / setEmissionConfig in openWs).
       try { send({ command, commandVersion: 'v1', transactionID, ...extra }) }
@@ -381,6 +418,13 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         'The app behind the share link is gone (bridge closed). Either reopen the share in the app and call use_session with the new link, ' +
           'or leave the app: use_session with engine "wasm" runs on the MCP\'s own local engine, engine "drogon" on the ClassCAD worker, "auto" picks.',
       )
+    }
+    if (transport === 'wasm' && localEngine?.closed) {
+      if (connectPromise) return connectPromise
+      connectPromise = restartLocalEngine(localEngine.deathReason ?? 'closed').finally(() => {
+        connectPromise = null
+      })
+      return connectPromise
     }
     if (transport === 'wasm' && localEngine) {
       // Not single-flight on purpose: the probe itself reads the tree through
@@ -485,10 +529,29 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     transport = 'wasm'
     currentSessionId = null
     inviteToken = null
+    // A reused engine (use_session, the 'auto' fallback) must still answer;
+    // a dead or wedged one is replaced by a new engine (empty drawing).
+    if (localEngine && (localEngine.closed || !(await localEngine.ping()))) {
+      const why = localEngine.deathReason ?? 'did not answer a health check'
+      log(`local WASM engine ${why} — starting a new one (the drawing is lost)`)
+      localEngine.close(why)
+      localEngine = null
+    }
     if (!localEngine) {
       localEngine = await startLocalEngine({ ...opts.wasm!, log })
+      // A new engine has default database settings. Checkpoints (save
+      // payloads held here) stay valid: restore loads them into this one.
+      ensuredGeneration = -1
       await bootstrapSession()
     }
+  }
+
+  /** Replaces a retired local engine (crash, trap, timeout) with a new one. */
+  async function restartLocalEngine(why: string): Promise<void> {
+    log(`local WASM engine is gone (${why}) — starting a new one with an empty drawing`)
+    localEngine?.close(why)
+    localEngine = null
+    await openWasm()
   }
 
   function execute<T = unknown>(task: object): Promise<ApiResult<T>> {

@@ -52,7 +52,18 @@ export type LocalWasmOptions = {
 
 export type LocalEngine = {
   execute: (command: Record<string, unknown>) => Promise<EngineExecuteResult>
-  close: () => void
+  /**
+   * Health check: one GetTree must come back as a Result with a tree within
+   * `timeoutMs`. False = the engine is gone or wedged — retire it (close) and
+   * start a new one.
+   */
+  ping: (timeoutMs?: number) => Promise<boolean>
+  /** `reason` is kept as deathReason. */
+  close: (reason?: string) => void
+  /** Closed, crashed, trapped or retired: execute() only rejects from here on. */
+  readonly closed: boolean
+  /** Why the engine is closed (null while it runs). */
+  readonly deathReason: string | null
   readonly version: string
   readonly origin: string
   readonly dir: string
@@ -121,17 +132,21 @@ export async function startLocalEngine(opts: LocalWasmOptions): Promise<LocalEng
   const worker = new Worker(workerPath)
   let memoryMB = 0
   let closed = false
+  let deathReason: string | null = null
   let nextId = 1
   const pending = new Map<number, { resolve: (r: EngineExecuteResult) => void; reject: (e: Error) => void }>()
   const failAll = (why: string) => {
     for (const [, p] of pending) p.reject(new Error(why))
     pending.clear()
   }
-  worker.on('error', err => failAll(`WASM engine crashed: ${err.message}`))
-  worker.on('exit', code => {
+  const retire = (why: string) => {
+    if (!closed) deathReason = why
     closed = true
-    failAll(`WASM engine exited (code ${code})`)
-  })
+    failAll(why)
+    worker.terminate().catch(() => {})
+  }
+  worker.on('error', err => retire(`WASM engine crashed: ${err.message}`))
+  worker.on('exit', code => retire(`WASM engine exited (code ${code})`))
 
   const t0 = Date.now()
   await new Promise<void>((resolve, reject) => {
@@ -160,24 +175,51 @@ export async function startLocalEngine(opts: LocalWasmOptions): Promise<LocalEng
       const p = pending.get(m.id)
       if (!p) return
       pending.delete(m.id)
-      if (m.type === 'result') p.resolve({ messages: m.messages ?? [], binaryMessages: m.binaryMessages ?? [] })
-      else p.reject(new Error(m.message))
+      if (m.type === 'result') {
+        p.resolve({ messages: m.messages ?? [], binaryMessages: m.binaryMessages ?? [], decodeErrors: m.decodeErrors ?? [] })
+      } else if (m.fatal) {
+        // The engine trapped mid-command: nothing it answers from now on can be trusted.
+        const why = `WASM engine aborted (${m.message})`
+        log(`${why} — retired; the next command starts a new engine with an empty drawing`)
+        p.reject(new Error(`${why}. The local engine was retired and the drawing is lost; the next command starts a new engine with an empty drawing.`))
+        retire(why)
+      } else p.reject(new Error(m.message))
     }
   })
 
+  const execute = (command: Record<string, unknown>) =>
+    new Promise<EngineExecuteResult>((resolve, reject) => {
+      if (closed) return reject(new Error(`WASM engine is closed${deathReason ? ` (${deathReason})` : ''}`))
+      const id = nextId++
+      pending.set(id, { resolve, reject })
+      worker.postMessage({ type: 'execute', id, command })
+    })
+
   return {
-    execute: command =>
-      new Promise((resolve, reject) => {
-        if (closed) return reject(new Error('WASM engine is closed'))
-        const id = nextId++
-        pending.set(id, { resolve, reject })
-        worker.postMessage({ type: 'execute', id, command })
-      }),
-    close: () => {
+    execute,
+    ping: async (timeoutMs = 10_000) => {
+      if (closed) return false
+      let timer: ReturnType<typeof setTimeout> | undefined
+      const timeout = new Promise<null>(r => (timer = setTimeout(() => r(null), timeoutMs)))
+      try {
+        const res = await Promise.race([execute({ command: 'GetTree', commandVersion: 'v1', transactionID: `ping-${nextId}` }), timeout])
+        const tree = res?.messages.find(m => m?.command === 'Result')
+        return !!tree && ((tree.result && typeof tree.result === 'object' && 'tree' in tree.result) || !!tree.structure)
+      } catch {
+        return false
+      } finally {
+        clearTimeout(timer)
+      }
+    },
+    close: (reason = 'WASM engine closed') => {
       if (closed) return
-      closed = true
-      failAll('WASM engine closed')
-      worker.terminate().catch(() => {})
+      retire(reason)
+    },
+    get closed() {
+      return closed
+    },
+    get deathReason() {
+      return deathReason
     },
     version,
     origin,

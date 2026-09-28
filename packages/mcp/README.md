@@ -213,6 +213,8 @@ The choice sticks for the session until `use_session` changes it; a `?bridge=` o
 
 **What is different on the local engine.** It is the same engine as in the browser apps: one drawing, no multi-client sessions, no `?invite=` sharing, and no per-connection emission config (`run_script` runs without payload suppression — fine for the sizes an MCP session handles). `snapshot`, `tree`, `find`, `inspect`, `save`/`load`, `checkpoint`/`restore` all work. Nothing the MCP does on its own engine is visible to any app.
 
+**When the local engine fails.** Engine errors come back like on the worker (`maxLevel` 51 plus messages, so `run_script` throws), including the ones the WASM engine reports only in its nested `result` or as a separate ErrorMessage frame; a Result with neither a value nor a level is an error, never an empty success. An engine that crashes, traps mid-command or does not answer within the request timeout is retired: that command fails with the reason, and the next one starts a new engine with an **empty drawing** (checkpoints stay valid — `restore` loads them into the new engine). `use_session(engine="wasm"|"auto")` health-checks a running engine and replaces it if it does not answer; a healthy one is kept together with its drawing (`clear` empties it).
+
 ---
 
 ## Sessions: your own, or one an app already has open
@@ -292,7 +294,7 @@ node dist/server.js              # the stdio shim by hand (starts/uses the daemo
 CLASSCAD_MCP_DAEMON=1 node dist/daemon.js   # the daemon in the foreground, logging to stderr
 ```
 
-Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fallback), `src/daemon.ts` (HTTP endpoint, sessions, bridge listener, idle exit), `src/mcp-server.ts` (the MCP server: tools wired to one engine client — what a session is), `src/client.ts` (engine client: WebSocket to a worker or bridge to an app), `src/bridge/` (listener + protocol), `src/engine/wasm.ts` + `wasm-worker.ts` (the local WASM engine: asset download, worker thread, origin/XHR shims), `src/tools/`, `src/queue.ts` (per-session tool queue). `test/daemon.mjs` is the daemon contract: two shims → one daemon with two independent sessions, idle exit, foreign-port fallback. `test/wasm-live.mjs` (part of `npm test`; downloads the assets on first run) covers the local engine: policy `wasm`, `auto` fallback with a dead worker, `drogon` without fallback, switching with `use_session`.
+Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fallback), `src/daemon.ts` (HTTP endpoint, sessions, bridge listener, idle exit), `src/mcp-server.ts` (the MCP server: tools wired to one engine client — what a session is), `src/client.ts` (engine client: WebSocket to a worker or bridge to an app), `src/bridge/` (listener + protocol), `src/engine/wasm.ts` + `wasm-worker.ts` (the local WASM engine: asset download, worker thread, origin/XHR shims), `src/tools/`, `src/queue.ts` (per-session tool queue). `test/daemon.mjs` is the daemon contract: two shims → one daemon with two independent sessions, idle exit, foreign-port fallback. `test/wasm-live.mjs` (part of `npm test`; downloads the assets on first run) covers the local engine: policy `wasm`, `auto` fallback with a dead worker, `drogon` without fallback, switching with `use_session`, engine errors surfacing through `run_script`, and replacing a crashed, hung or wedged engine.
 
 ### Publishing
 

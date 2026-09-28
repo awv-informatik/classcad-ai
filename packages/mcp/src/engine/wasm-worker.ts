@@ -18,7 +18,8 @@
 //
 // Protocol with the parent (see wasm.ts):
 //   → { type:'init', dir, key, origin }         ← { type:'ready', ms, memoryMB } | { type:'error', message }
-//   → { type:'execute', id, command }           ← { type:'result', id, messages, binaryMessages } | { type:'error', id, message }
+//   → { type:'execute', id, command }           ← { type:'result', id, messages, binaryMessages, decodeErrors }
+//                                                 | { type:'error', id, message, fatal? } (fatal: the engine trapped — retire it)
 import { parentPort } from 'node:worker_threads'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -113,32 +114,55 @@ async function init(msg: InitMsg): Promise<void> {
   port.postMessage({ type: 'ready', ms: Date.now() - t0, memoryMB: Math.round(engine.HEAPU8.length / 1048576), logs: logs.slice(0, 10) })
 }
 
+const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err))
+
 function execute(msg: ExecMsg): void {
   const messages: unknown[] = []
   const binaryMessages: unknown[] = []
-  engine.execute(
-    JSON.stringify(msg.command),
-    engine,
-    (_m: unknown, text: string) => {
-      messages.push(JSON.parse(text))
-    },
-    (mod: any, ptr: number, len: number) => {
-      const bytes = mod.HEAPU8.slice(ptr, ptr + len)
-      binaryMessages.push(JSON.parse(inflateRawSync(Buffer.from(bytes)).toString()))
-    },
-  )
-  port.postMessage({ type: 'result', id: msg.id, messages, binaryMessages })
+  const decodeErrors: string[] = []
+  const command = JSON.stringify(msg.command)
+  // The callbacks run INSIDE engine.execute, between WASM frames. An exception
+  // thrown here would unwind through the engine and leave it in an undefined
+  // state — so they never throw; what cannot be decoded is reported instead.
+  try {
+    engine.execute(
+      command,
+      engine,
+      (_m: unknown, text: string) => {
+        try {
+          messages.push(JSON.parse(text))
+        } catch (err) {
+          decodeErrors.push(`message: ${errorText(err)}`)
+        }
+      },
+      (mod: any, ptr: number, len: number) => {
+        try {
+          const bytes = mod.HEAPU8.slice(ptr, ptr + len)
+          binaryMessages.push(JSON.parse(inflateRawSync(Buffer.from(bytes)).toString()))
+        } catch (err) {
+          decodeErrors.push(`binary package: ${errorText(err)}`)
+        }
+      },
+    )
+  } catch (err) {
+    // A throw out of engine.execute is a trap or an abort (the engine handles
+    // its own errors and reports them in the Result). Its state is undefined
+    // from here on: the parent retires this engine.
+    port.postMessage({ type: 'error', id: msg.id, fatal: true, message: `${String(msg.command.command)}: ${errorText(err)}` })
+    return
+  }
+  port.postMessage({ type: 'result', id: msg.id, messages, binaryMessages, decodeErrors })
 }
 
 port.on('message', (msg: InitMsg | ExecMsg) => {
   try {
     if (msg.type === 'init') {
-      init(msg).catch(err => port.postMessage({ type: 'error', message: err instanceof Error ? err.message : String(err) }))
+      init(msg).catch(err => port.postMessage({ type: 'error', message: errorText(err) }))
     } else if (msg.type === 'execute') {
       if (!engine) throw new Error('engine not initialized')
       execute(msg)
     }
   } catch (err) {
-    port.postMessage({ type: 'error', id: (msg as ExecMsg).id, message: err instanceof Error ? err.message : String(err) })
+    port.postMessage({ type: 'error', id: (msg as ExecMsg).id, message: errorText(err) })
   }
 })

@@ -116,3 +116,86 @@ test('auto: a worker that comes up later takes over an EMPTY local session, neve
     await worker?.close()
   }
 })
+
+test('engine errors surface through run_script (the WASM engine nests maxLevel/messages in result)', async () => {
+  const a = shim({
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+  })
+  try {
+    await a.init()
+    // Points in the XZ plane: the engine rejects them with 1014 at level 51.
+    const bad = await a.tool('run_script', { script: `
+      const part = (await api.v1.part.create({ name: 'P' })).result
+      const ei = (await api.v1.part.entityInjection({ id: part })).result
+      const shape = (await api.v1.curve.shape({ id: ei })).result
+      await api.v1.curve.polyline2d({ id: shape, points: [[0,0,0],[10,0,0],[10,0,10],[0,0,10]], bulges: [0.5,0,0,0], close: true })
+      return 'not reached'` })
+    assert.ok(bad.isError, 'strict run_script throws: ' + bad.text)
+    assert.match(bad.text, /polyline2d is not planar/)
+    // The engine keeps working: the next script sees the part and models on.
+    const next = await a.tool('run_script', { script: `
+      const again = await api.v1.part.create({ name: 'Q' }).catch(e => String(e))
+      return { again }` })
+    assert.match(next.text, /already a root assembly or part/, 'a second root is refused loudly, not an empty success: ' + next.text)
+  } finally {
+    await a.exit()
+  }
+})
+
+test('local engine: frame guards, and a crashed / hung / wedged engine is replaced', async () => {
+  const { connect } = await import('../dist/client.js')
+  const { wasmOptionsFromEnv } = await import('../dist/engine/wasm.js')
+  const logs = []
+  const client = await connect(`ws://127.0.0.1:${await freePort()}/`, { engine: 'wasm', wasm: wasmOptionsFromEnv(), requestTimeoutMs: 20_000, log: m => logs.push(m) })
+  const partCount = async () => Object.values(await client.getTree({ refresh: true })).filter(n => n?.class === 'CC_Part').length
+  try {
+    assert.equal((await client.execute({ 'v1.part.create': [{ name: 'A' }] })).maxLevel, 0)
+    assert.equal(await partCount(), 1)
+
+    // 1. an error reported only as ErrorMessage is not an empty success;
+    //    a Result with neither value nor level is not an answer at all.
+    const engine = client.localEngine
+    const real = engine.execute
+    engine.execute = async () => ({ messages: [{ command: 'ErrorMessage', attributes: { errorState: 2, errorCode: 7, errorMessage: 'side error' } }, { command: 'Result', from: 'Execute', result: { result: null } }], binaryMessages: [] })
+    const side = await client.execute({ 'v1.part.box': [{}] })
+    assert.equal(side.maxLevel, 51)
+    assert.deepEqual(side.messages.map(m => m.message), ['side error'])
+    engine.execute = async () => ({ messages: [{ command: 'Result', from: 'Execute' }], binaryMessages: [] })
+    await assert.rejects(client.execute({ 'v1.part.box': [{}] }), /empty Result for Execute v1\.part\.box/)
+    engine.execute = real
+
+    // 2. crashed (worker gone): the next command runs on a new engine.
+    engine.close('simulated crash')
+    assert.equal(await partCount(), 0, 'new engine, empty drawing')
+    assert.notEqual(client.localEngine, engine)
+    assert.ok(logs.some(l => /simulated crash/.test(l)))
+
+    // 3. hung: the request timeout retires it instead of fencing the session.
+    const hung = client.localEngine
+    hung.execute = () => new Promise(() => {})
+    await assert.rejects(client.execute({ 'v1.part.create': [{ name: 'B' }] }), /timeout/i)
+    assert.equal(hung.closed, true)
+    assert.equal((await client.execute({ 'v1.part.create': [{ name: 'C' }] })).maxLevel, 0, 'the next command runs on a new engine')
+    assert.notEqual(client.localEngine, hung)
+
+    // 4. wedged (alive but not answering the health check): use_session replaces it.
+    const wedged = client.localEngine
+    wedged.ping = async () => false
+    await client.reconnect(null, 'wasm')
+    assert.notEqual(client.localEngine, wedged)
+    assert.equal(wedged.closed, true)
+    assert.equal(await partCount(), 0)
+    // …a healthy one is kept, drawing included.
+    await client.execute({ 'v1.part.create': [{ name: 'D' }] })
+    const healthy = client.localEngine
+    await client.reconnect(null, 'wasm')
+    assert.equal(client.localEngine, healthy)
+    assert.equal(await partCount(), 1)
+  } finally {
+    client.close()
+  }
+})

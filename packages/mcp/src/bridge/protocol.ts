@@ -55,7 +55,12 @@ export type BridgeEnvelope = AnnounceMessage | RequestMessage | ResponseMessage 
 export type BridgeMethod = 'engine.execute' | 'session.attached' | 'session.detached' | 'selection.get' | 'selection.set'
 
 /** engine.execute reply: the engine's text messages and inflated binary graphic packages, in emission order. */
-export type EngineExecuteResult = { messages: Record<string, any>[]; binaryMessages: Record<string, any>[] }
+export type EngineExecuteResult = {
+  messages: Record<string, any>[]
+  binaryMessages: Record<string, any>[]
+  /** Local WASM engine only: emitted messages that could not be decoded (dropped, never thrown into the engine). */
+  decodeErrors?: string[]
+}
 export type SessionAttachedParams = { peerId: string; role?: 'edit' | 'view'; client?: string }
 
 export type SelectionGetResult = SelectionEntity[]

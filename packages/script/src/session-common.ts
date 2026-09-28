@@ -38,9 +38,19 @@ export function completeGraphic(frame: any): { present: boolean; graphic: any } 
 
 export function normalizeResult(frame: any): any {
   let result = frame.result
-  if (result && typeof result === 'object' && 'result' in result && Object.keys(result).length <= 3) result = result.result
-  return { result, maxLevel: frame.maxLevel ?? 0,
-    messages: (frame.messages ?? []).filter((m: any) => m.level > 31),
+  let maxLevel = frame.maxLevel ?? 0
+  let messages = frame.messages ?? []
+  if (result && typeof result === 'object' && 'result' in result && Object.keys(result).length <= 3) {
+    // The WS worker puts maxLevel/messages on the frame; the WASM engine (the
+    // MCP's own or an app's) nests them next to the value:
+    // result: { result, maxLevel, messages }. Unwrapping without lifting them
+    // turned every WASM engine error into a maxLevel-0 success.
+    if (typeof result.maxLevel === 'number') maxLevel = Math.max(maxLevel, result.maxLevel)
+    if (Array.isArray(result.messages)) messages = [...messages, ...result.messages]
+    result = result.result
+  }
+  return { result, maxLevel,
+    messages: messages.filter((m: any) => m.level > 31),
     structure: frame.structure ?? null, graphic: frame.graphic ?? null }
 }
 

@@ -53,6 +53,8 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         'So when you intend to send the render, pass outDir = your scratchpad directory (or a folder in the project). ' +
         'Call after a meaningful geometry change, NOT after every parameter tweak. ' +
         'Verification options: section (cut through internals), sheet (four labeled views, shared ortho scale), ' +
+        'drawing (technical drawing: front/top/side with hidden lines dashed, placed first- or third-angle — compare against a reference drawing), ' +
+        'lines (line style: visible edges solid, hidden dashed), ' +
         'highlight (face/edge/body ids in signal color), markers (probe crosshairs at world points), ' +
         'sketchOverlay (sketch curves on their real plane), annotate (extents + axes triad + scale bar), ' +
         'xray (hidden geometry shines through), colors "distinct" (one color per body — booleans/splits/patterns), ' +
@@ -79,9 +81,22 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         section: z.object({
           origin: z.array(z.number()).length(3),
           normal: z.array(z.number()).length(3),
-        }).optional().describe('Cut the solids at a plane; the positive side of the normal is removed (uncapped, interior shaded).'),
+          cap: z.boolean().optional(),
+        }).optional().describe('Cut the solids at a plane; the positive side of the normal is removed. The cut faces are filled and hatched like a drawing\'s section (wall thicknesses, bores and pockets read directly); cap: false leaves the cut open with interior walls shaded. Combine with drawing for a section view.'),
         sheet: z.union([z.boolean(), z.array(viewSchema).length(4), z.array(viewSchema).length(2)]).optional()
           .describe('Multi-view sheet in ONE image. true or 4 views = quadrants (default top/iso/front/right; ortho views share one scale). 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.'),
+        lines: z.boolean().optional()
+          .describe('Line style instead of shading: visible edges and silhouettes solid, hidden edges dashed. Hidden lines show bores, pockets, hollow vs solid. Works for the single view and every sheet panel.'),
+        drawing: z.union([
+          z.boolean(),
+          z.enum(['first-angle', 'third-angle']),
+          z.object({
+            projection: z.enum(['first-angle', 'third-angle']).optional(),
+            side: z.enum(['left', 'right']).optional(),
+            iso: z.boolean().optional(),
+          }),
+        ]).optional()
+          .describe('Technical drawing in ONE image: front, top and side view in line style (hidden edges dashed), aligned at one scale, plus a shaded iso. "first-angle" (ISO E, Europe; true): top view BELOW front, view from the left RIGHT of it. "third-angle" (ISO A, US): top view ABOVE front, view from the right RIGHT of it. Use the method of the reference drawing, then compare view by view. Takes precedence over sheet.'),
         highlight: z.array(z.number()).optional()
           .describe('Ids rendered in signal color: graphic container ids, owning solid ids, face mesh ids, edge ids. CAUTION: face/edge ids are only stable within one graphic payload (recalc reassigns them) — across tool calls use highlightAt.'),
         highlightAt: z.array(z.array(z.number()).length(3)).optional()

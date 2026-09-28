@@ -5,7 +5,7 @@ your app that creates and modifies 3D geometry through natural language — conn
 tool-calling LLM; all CAD operations execute locally in the browser. See it in action in
 [buerligons](https://buerligons.io), our open CAD modeler.
 
-![intro](/intro.jpg)
+![intro](./intro.jpg)
 
 ## Install
 

@@ -105,10 +105,10 @@ def measure(text, size, fk='rm', feats='', ls=0.0):
 THEMES = {
     # An engraving on warm laid paper, rubricated in vermilion.
     'light': dict(paper='#F2ECDF', ink='#1E1B16', ink2='#6E6555', rule='#1E1B16', accent='#A5311B',
-                  edge='#D6CBB5', grain='#6B5635', grain_a=0.10, shade='#8C7B5C', pencil='#9C927F'),
+                  edge='#D6CBB5', grain='#6B5635', grain_a=0.065, shade='#8C7B5C', pencil='#9C927F'),
     # A cyanotype: white lines on Prussian blue, corrected in red pencil.
     'dark': dict(paper='#0E2B4A', ink='#E4EDF6', ink2='#93B1CF', rule='#E4EDF6', accent='#FF8C6E',
-                 edge='#214C77', grain='#FFFFFF', grain_a=0.07, shade='#051A30', pencil='#5F84AB'),
+                 edge='#214C77', grain='#FFFFFF', grain_a=0.04, shade='#051A30', pencil='#5F84AB'),
 }
 
 # Line weights (ISO 128: wide 2 : narrow 1) and patterns, in plate units.

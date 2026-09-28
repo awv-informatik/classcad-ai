@@ -31,17 +31,16 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 
 # ─── Fonts ──────────────────────────────────────────────────────────────────
 
-FONT_FILES = {
-    'rm': 'EBGaramond12-Regular.otf',     # text & display
-    'it': 'EBGaramond12-Italic.otf',
-    'rm8': 'EBGaramond08-Regular.otf',    # the sturdier cut for small sizes
-    'it8': 'EBGaramond08-Italic.otf',
-    'ini': 'EBGaramond-Initials.otf',     # two-colour initials: ornament …
-    'ini1': 'EBGaramond-InitialsF1.otf',  # … and its fill layers
-    'ini2': 'EBGaramond-InitialsF2.otf',
+FONT_FILES = {  # key: (file, face in a collection, size factor)
+    'rm': ('EBGaramond12-Regular.otf', 0, 1.0),     # text & display
+    'it': ('EBGaramond12-Italic.otf', 0, 1.0),
+    'rm8': ('EBGaramond08-Regular.otf', 0, 1.0),    # the sturdier cut for small sizes
+    'it8': ('EBGaramond08-Italic.otf', 0, 1.0),
+    'mono': ('PTMono.ttc', 1, 1.0),                 # code (ParaType Free Font License)
+    'code': ('PTMono.ttc', 1, 0.82),                # code inside Garamond text, matched to its x-height
 }
-FONT_DIRS = [os.environ.get('FONT_DIR'), '~/Library/Fonts', '/Library/Fonts', '~/.fonts',
-             '~/.local/share/fonts', '/usr/share/fonts', '/usr/local/share/fonts']
+FONT_DIRS = [os.environ.get('FONT_DIR'), '~/Library/Fonts', '/Library/Fonts', '/System/Library/Fonts/Supplemental',
+             '~/.fonts', '~/.local/share/fonts', '/usr/share/fonts', '/usr/local/share/fonts']
 
 
 def find_font(name):
@@ -58,8 +57,9 @@ def find_font(name):
 class Font:
     def __init__(self, key):
         self.key = key
-        self.path = find_font(FONT_FILES[key])
-        self.tt = TTFont(self.path)
+        name, self.face, self.scale = FONT_FILES[key]
+        self.path = find_font(name)
+        self.tt = TTFont(self.path, fontNumber=self.face) if name.endswith('.ttc') else TTFont(self.path)
         self.glyphs = self.tt.getGlyphSet()
         self.upm = self.tt['head'].unitsPerEm
         self._d = {}
@@ -87,7 +87,7 @@ def shape(fk, text, feats=''):
     if not text:
         return ()
     f = font(fk)
-    args = ['hb-shape', '--output-format=json', f.path, '--text=' + text]
+    args = ['hb-shape', '--output-format=json', f'--face-index={f.face}', f.path, '--text=' + text]
     if feats:
         args.insert(2, '--features=' + feats)
     out = json.loads(subprocess.run(args, capture_output=True, text=True, check=True).stdout)
@@ -97,7 +97,7 @@ def shape(fk, text, feats=''):
 def measure(text, size, fk='rm', feats='', ls=0.0):
     gl = shape(fk, text, feats)
     f = font(fk)
-    return (sum(g[1] for g in gl) + ls * f.upm * max(0, len(gl) - 1)) * size / f.upm
+    return (sum(g[1] for g in gl) + ls * f.upm * max(0, len(gl) - 1)) * size * f.scale / f.upm
 
 
 # ─── Printings ──────────────────────────────────────────────────────────────
@@ -114,11 +114,12 @@ THICK, THIN, FINE = 2.4, 1.15, 0.8
 DASHED = '7 3.5'            # hidden lines
 CHAIN = '20 4 2.5 4'        # centre lines, cutting planes
 
-# The frontispiece is inked on load over a pencil underdrawing: every drawn line
-# exists twice, a static pencil line and an animated ink line on top of it. The
-# first frame is therefore a finished drawing in pencil with all its type, so
-# anything that freezes the image (a paused tab, autoplay switched off, a
-# rasteriser) still shows a complete plate. The other plates do not move.
+# Every plate is inked over a pencil underdrawing: each drawn line exists twice,
+# a static pencil line and an animated ink line on top of it. Browsers start an
+# image's animation when it is first painted, so a plate is inked as it scrolls
+# into view. The first frame is a finished drawing in pencil with all its type,
+# so anything that freezes the image (a paused tab, autoplay switched off, a
+# rasteriser) still shows a complete plate. Running heads do not move.
 CSS = """
 .d{animation:draw 1.1s cubic-bezier(.65,.04,.35,1) both}
 @keyframes draw{from{stroke-dasharray:0 1}to{stroke-dasharray:1 0}}
@@ -135,7 +136,7 @@ def n(v):
 class Plate:
     """One SVG plate: glyph outlines are defined once and placed with <use>."""
 
-    def __init__(self, w, h, theme, title, desc, animate=False):
+    def __init__(self, w, h, theme, title, desc, animate=True):
         self.w, self.h, self.t = w, h, THEMES[theme]
         self.crop = None                 # (x0, y0, x1, y1): the part of the plate an SVG shows
         self.box = [math.inf, math.inf, -math.inf, -math.inf]
@@ -188,7 +189,7 @@ class Plate:
             return 0.0
         f = font(fk)
         gl = shape(fk, s, feats)
-        sc = size / f.upm
+        sc = size * f.scale / f.upm
         width = (sum(g[1] for g in gl) + ls * f.upm * max(0, len(gl) - 1)) * sc
         x0 = x - width if anchor == 'end' else x - width / 2 if anchor == 'middle' else x
         uses, pen = [], 0.0
@@ -297,7 +298,7 @@ def tie(text):
 
 
 def parse(text, base='rm', feats='onum,pnum'):
-    """Tiny markup: _italic_, ^small caps^, `code` (italic, lining figures), ~roman~."""
+    """Tiny markup: _italic_, ^small caps^, `code` (PT Mono), ~roman~."""
     text = tie(text)
     ital = 'it8' if base.endswith('8') else 'it'
     roman = 'rm8' if base.endswith('8') else 'rm'
@@ -310,7 +311,7 @@ def parse(text, base='rm', feats='onum,pnum'):
         elif part[0] == '^':
             out.append((part[1:-1], base, 'smcp,c2sc,' + feats))
         elif part[0] == '`':
-            out.append((part[1:-1], ital, 'lnum'))
+            out.append((part[1:-1], 'code', ''))
         elif part[0] == '~':
             out.append((part[1:-1], roman, feats))
         else:
@@ -452,28 +453,93 @@ class View:
         return self.ox + self.k * u, self.oy - self.k * v
 
 
-def hatch(p, rings, spacing=6.5, angle=45, w=FINE, color=None, cls='d', delay=0.0, step=0.018):
-    """Section hatching: parallel lines inside the rings (even-odd), phase-locked
-    to the plate so every region of one part shares one pattern."""
+def _spans(rot_rings, v):
+    """Even-odd spans of the rotated rings along the scan line v."""
+    xs = []
+    for ring in rot_rings:
+        for (pu, pv), (qu, qv) in zip(ring, ring[1:] + ring[:1]):
+            if (pv <= v < qv) or (qv <= v < pv):
+                xs.append(pu + (v - pv) / (qv - pv) * (qu - pu))
+    xs.sort()
+    return list(zip(xs[::2], xs[1::2]))
+
+
+def _minus(spans, cuts):
+    for c0, c1 in cuts:
+        out = []
+        for a, b in spans:
+            if c1 <= a or c0 >= b:
+                out.append((a, b))
+                continue
+            if c0 > a:
+                out.append((a, c0))
+            if c1 < b:
+                out.append((c1, b))
+        spans = out
+    return spans
+
+
+def hatch(p, rings, spacing=6.5, angle=45, w=FINE, color=None, cls='d', delay=0.0, step=0.018, exclude=()):
+    """Hatching: parallel lines inside the rings (even-odd), minus every
+    region in `exclude`, phase-locked to the plate so every region of one part
+    shares one pattern."""
     a = math.radians(angle)
     ca, sa = math.cos(a), math.sin(a)
-    rot = [[(x * ca - y * sa, x * sa + y * ca) for x, y in ring] for ring in rings]
+    rotate = lambda ring: [(x * ca - y * sa, x * sa + y * ca) for x, y in ring]
+    rot, rot_ex = [rotate(r) for r in rings], [rotate(r) for r in exclude]
     vs = [v for ring in rot for _, v in ring]
     v = math.ceil(min(vs) / spacing) * spacing
     k = 0
     while v < max(vs):
-        xs = []
-        for ring in rot:
-            for (pu, pv), (qu, qv) in zip(ring, ring[1:] + ring[:1]):
-                if (pv <= v < qv) or (qv <= v < pv):
-                    xs.append(pu + (v - pv) / (qv - pv) * (qu - pu))
-        xs.sort()
-        for u1, u2 in zip(xs[::2], xs[1::2]):
-            x1, y1 = u1 * ca + v * sa, -u1 * sa + v * ca
-            x2, y2 = u2 * ca + v * sa, -u2 * sa + v * ca
-            p.line(x1, y1, x2, y2, w, color=color, cls=cls, delay=delay + k * step)
+        spans = _spans(rot, v)
+        for ring in rot_ex:
+            spans = _minus(spans, _spans([ring], v))
+        for u1, u2 in spans:
+            if u2 - u1 < 0.6:
+                continue
+            p.line(u1 * ca + v * sa, -u1 * sa + v * ca, u2 * ca + v * sa, -u2 * sa + v * ca, w, color=color,
+                   cls=cls, delay=delay + k * step)
         k += 1
         v += spacing
+
+
+def inside(pt, poly):
+    x, y = pt
+    c = False
+    for (x1, y1), (x2, y2) in zip(poly, poly[1:] + poly[:1]):
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) / (y2 - y1) * (x2 - x1):
+            c = not c
+    return c
+
+
+def convex_hull(points):
+    pts = sorted(set((round(x, 3), round(y, 3)) for x, y in points))
+    cross = lambda o, a, b: (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+    lower, upper = [], []
+    for q in pts:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], q) <= 0:
+            lower.pop()
+        lower.append(q)
+    for q in reversed(pts):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], q) <= 0:
+            upper.pop()
+        upper.append(q)
+    return lower[:-1] + upper[:-1]
+
+
+def visible_runs(pts, hiders):
+    """A densely sampled polyline, cut where it passes behind any of the hiders."""
+    runs, cur = [], []
+    for q in pts:
+        if any(inside(q, h) for h in hiders):
+            if len(cur) > 1:
+                runs.append(cur)
+            cur = []
+        else:
+            cur.append(q)
+    if len(cur) > 1:
+        runs.append(cur)
+    return runs
 
 
 def dim_linear(p, a, b, offset, text, horizontal=True, size=22, delay=0.0, ext_gap=4, ext_over=6):
@@ -657,7 +723,7 @@ def plate_frontispiece(theme):
               'and the plan in first-angle projection, dimensioned, with a title block. Title page: classcad-ai, '
               'or, the Art of Modelling with Agents: wherein a machine is taught to write parametric CAD models '
               'as programs, to draw what it has made, and to prove the work in numbers and in pixels. In five '
-              'parts, with plates. Printed for AWV Informatik AG, MMXXVI.')
+              'parts. MMXXVI.')
     t = p.t
 
     # ── verso: the drawing sheet ──
@@ -705,7 +771,7 @@ def plate_frontispiece(theme):
         p.text(bx0 + 10, by0 + 18, 'awv informatik ag', 12, 'rm8', 'smcp,c2sc', ls=0.12, fill=t['ink2'])
         p.text(bx0 + 10, by0 + 48, 'Flanged bushing', 27, 'rm')
         heads = ['created by', 'date', 'doc. no.', 'sheet']
-        vals = [('Claude', 'it8', ''), ('28·9·2026', 'rm8', 'lnum'), ('CCAI–001', 'rm8', 'lnum'), ('I of I', 'rm8', 'smcp,c2sc')]
+        vals = [('AWV', 'rm8', 'c2sc'), ('28·9·2026', 'rm8', 'lnum'), ('CCAI–001', 'rm8', 'lnum'), ('I of I', 'rm8', 'smcp,c2sc')]
         for c0, c1, hd, (v, fk, ft) in zip(cells, cells[1:], heads, vals):
             p.text(c0 + 7, mid + 15, hd, 11, 'rm8', 'smcp,c2sc', ls=0.1, fill=t['ink2'])
             p.text(c0 + 7, by1 - 11, v, 17, fk, ft)
@@ -713,40 +779,33 @@ def plate_frontispiece(theme):
     p.text(bx1 - 48, by0 + 55, 'iso e', 11, 'rm8', 'smcp,c2sc', ls=0.15, anchor='middle', fill=t['ink2'],
            cls='f', delay=3.8)
 
-    p.rich(400, 1050, [('Fig. 1.', 'rm8', 'onum'), (' — The flanged bushing in section A–A, from the left and in plan;', 'it8', 'onum')],
-           19, fill=t['ink'], anchor='middle', cls='f', delay=3.9)
-    p.rich(400, 1075, [('first-angle projection, after ', 'it8', 'onum'), ('iso', 'rm8', 'smcp,c2sc'),
-                       (' 5456-2. The same part the renderer draws in Plate V.', 'it8', 'onum')],
-           19, fill=t['ink'], anchor='middle', cls='f', delay=4.0)
 
     # ── recto: the title page ──
     cx = 1200
     d0 = 0.35
-    p.text(cx, 176, 'classcad·ai', 44, 'rm', 'smcp,c2sc', ls=0.24, anchor='middle', cls='u', delay=d0)
-    oxford_rule(p, cx - 250, cx + 250, 206, cls='d', delay=d0 + 0.2)
-    p.text(cx, 270, 'or,', 30, 'it', anchor='middle', cls='u', delay=d0 + 0.5, fill=t['ink2'])
-    p.text(cx, 330, 'the art of', 30, 'rm', 'smcp,c2sc', ls=0.3, anchor='middle', cls='u', delay=d0 + 0.6)
-    p.text(cx, 440, 'Modelling', 118, 'rm', 'onum', anchor='middle', cls='u', delay=d0 + 0.75)
-    p.text(cx, 548, 'with Agents', 104, 'it', 'onum', anchor='middle', cls='u', delay=d0 + 0.95)
-    p.line(cx - 40, 600, cx + 40, 600, 1.2, color=t['accent'], cls='d', delay=d0 + 1.2)
+    p.text(cx, 146, 'classcad·ai', 44, 'rm', 'smcp,c2sc', ls=0.24, anchor='middle', cls='u', delay=d0)
+    oxford_rule(p, cx - 250, cx + 250, 176, cls='d', delay=d0 + 0.2)
+    p.text(cx, 240, 'or,', 30, 'it', anchor='middle', cls='u', delay=d0 + 0.5, fill=t['ink2'])
+    p.text(cx, 300, 'the art of', 30, 'rm', 'smcp,c2sc', ls=0.3, anchor='middle', cls='u', delay=d0 + 0.6)
+    p.text(cx, 410, 'Modelling', 118, 'rm', 'onum', anchor='middle', cls='u', delay=d0 + 0.75)
+    p.text(cx, 518, 'with Agents', 104, 'it', 'onum', anchor='middle', cls='u', delay=d0 + 0.95)
+    p.line(cx - 40, 570, cx + 40, 570, 1.2, color=t['accent'], cls='d', delay=d0 + 1.2)
     sub = [[('Wherein a machine is taught', 'it', '')],
            [('to write parametric ', 'it', ''), ('cad', 'it', 'smcp'), (' models as programs,', 'it', '')],
            [('to draw what it has made, and to prove', 'it', '')],
            [('the work in numbers and in pixels.', 'it', '')]]
     for i, line in enumerate(sub):
-        p.rich(cx, 654 + i * 40, line, 29, anchor='middle', cls='u', delay=d0 + 1.3 + i * 0.1)
-    fleuron(p, cx, 834, 40, delay=d0 + 1.8)
-    p.text(cx, 892, 'in five parts', 19, 'rm8', 'smcp,c2sc', ls=0.3, anchor='middle', cls='u', delay=d0 + 1.9,
+        p.rich(cx, 624 + i * 40, line, 29, anchor='middle', cls='u', delay=d0 + 1.3 + i * 0.1)
+    fleuron(p, cx, 804, 40, delay=d0 + 1.8)
+    p.text(cx, 862, 'in five parts', 19, 'rm8', 'smcp,c2sc', ls=0.3, anchor='middle', cls='u', delay=d0 + 1.9,
            fill=t['ink2'])
     dot = ('  ·  ', 'rm', '')
-    p.rich(cx, 928, [('The Skill', 'rm', ''), dot, ('The Script', 'rm', ''), dot, ('The Renderer', 'rm', '')], 26,
+    p.rich(cx, 898, [('The Skill', 'rm', ''), dot, ('The Script', 'rm', ''), dot, ('The Renderer', 'rm', '')], 26,
            anchor='middle', cls='u', delay=d0 + 2.0)
-    p.rich(cx, 962, [('The ', 'rm', ''), ('mcp', 'rm', 'smcp'), (' Server', 'rm', ''), dot, ('The In-App Agent', 'rm', '')], 26, anchor='middle',
+    p.rich(cx, 932, [('The ', 'rm', ''), ('mcp', 'rm', 'smcp'), (' Server', 'rm', ''), dot, ('The In-App Agent', 'rm', '')], 26, anchor='middle',
            cls='u', delay=d0 + 2.1)
-    p.text(cx, 1010, 'with plates.', 21, 'rm', 'smcp,c2sc', ls=0.3, anchor='middle', cls='u', delay=d0 + 2.2)
-    p.line(cx - 250, 1036, cx + 250, 1036, FINE, cls='d', delay=d0 + 2.3)
-    p.rich(cx, 1068, [('Printed for ', 'it8', ''), ('awv informatik ag', 'rm8', 'smcp,c2sc'), ('  ·  ', 'rm8', ''),
-                      ('mmxxvi', 'rm8', 'smcp,c2sc')], 20, anchor='middle', cls='u', delay=d0 + 2.4)
+    p.line(cx - 250, 972, cx + 250, 972, FINE, cls='d', delay=d0 + 2.3)
+    p.text(cx, 1001, 'mmxxvi', 20, 'rm8', 'smcp,c2sc', ls=0.3, anchor='middle')
     return p
 
 
@@ -763,7 +822,8 @@ def plate_frame(p, numeral, title, right):
 
 
 def plate_head(numeral, title, right, theme):
-    h = Plate(1600, 48, theme, f'Plate {numeral.upper()} — {title}', f'Plate {numeral.upper()}: {title}, {right}')
+    h = Plate(1600, 48, theme, f'Plate {numeral.upper()} — {title}', f'Plate {numeral.upper()}: {title}, {right}',
+              animate=False)
     running_head(h, 24, f'plate {numeral}.', title, right, *MEASURE)
     h.crop = (MEASURE[0], 0, MEASURE[1], 46)
     return h
@@ -773,10 +833,6 @@ def lead(p, x, y, epithet, text, width=500, delay=0.2, size=26, leading=37):
     p.text(x, y, epithet, 62, 'it', 'onum', cls='u', delay=delay)
     p.line(x + 3, y + 30, x + 66, y + 30, 1.3, color=p.t['accent'], cls='d', delay=delay + 0.25)
     return paragraph(p, x, y + 82, width, text, size, leading, delay=delay + 0.35)
-
-
-def caption(p, x, y, width, text, align='left', delay=1.6):
-    return paragraph(p, x, y, width, text, 19, 26, base='it8', align=align, delay=delay)
 
 
 def leaders(p, x1, x2, y, step=12, color=None, delay=0.0):
@@ -793,59 +849,62 @@ def heading(p, x, y, text, width, delay=0.0):
     p.line(x, y + 11, x + width, y + 11, FINE, cls='d', delay=delay)
 
 
-def brace(p, x, y1, y2, depth=24, wmax=3.4, color=None, delay=0.0):
-    """An engraved '{': its point at (x, middle), its arms reaching right.
-    Drawn as a filled stroke that swells on the straights and dies away at
-    the ends and at the point, as a burin cuts it."""
-    ym, d = (y1 + y2) / 2, depth
-    r = min(d * 0.9, (y2 - y1) / 5)
-    xs = x + d * 0.5
+def brace_shape(u1, u2, depth, wmax):
+    """An engraved brace across u1…u2, its point at v = 0 and its arms at
+    v = depth, as a polygon of (v, u) points: a filled stroke that swells on
+    the straights and dies away at the ends and at the point, as a burin cuts it."""
+    um, d = (u1 + u2) / 2, depth
+    r = min(d * 0.9, (u2 - u1) / 5)
+    vs = d * 0.5
 
     def quad(a, b, c, k=14):
-        return [((1 - u) ** 2 * a[0] + 2 * (1 - u) * u * b[0] + u * u * c[0],
-                 (1 - u) ** 2 * a[1] + 2 * (1 - u) * u * b[1] + u * u * c[1]) for u in (i / k for i in range(k + 1))]
+        return [((1 - w) ** 2 * a[0] + 2 * (1 - w) * w * b[0] + w * w * c[0],
+                 (1 - w) ** 2 * a[1] + 2 * (1 - w) * w * b[1] + w * w * c[1]) for w in (i / k for i in range(k + 1))]
 
     def seg(a, b, k=10):
         return [(a[0] + (b[0] - a[0]) * i / k, a[1] + (b[1] - a[1]) * i / k) for i in range(1, k)]
 
-    pts = quad((x + d, y1), (xs, y1), (xs, y1 + r))
-    pts += seg((xs, y1 + r), (xs, ym - r))
-    pts += quad((xs, ym - r), (xs, ym), (x, ym))
-    pts += quad((x, ym), (xs, ym), (xs, ym + r))[1:]
-    pts += seg((xs, ym + r), (xs, y2 - r))
-    pts += quad((xs, y2 - r), (xs, y2), (x + d, y2))
+    pts = quad((d, u1), (vs, u1), (vs, u1 + r))
+    pts += seg((vs, u1 + r), (vs, um - r))
+    pts += quad((vs, um - r), (vs, um), (0, um))
+    pts += quad((0, um), (vs, um), (vs, um + r))[1:]
+    pts += seg((vs, um + r), (vs, u2 - r))
+    pts += quad((vs, u2 - r), (vs, u2), (d, u2))
     acc = [0.0]
     for a, b in zip(pts, pts[1:]):
         acc.append(acc[-1] + math.hypot(b[0] - a[0], b[1] - a[1]))
     left, right = [], []
-    for i, (px, py) in enumerate(pts):
-        u = acc[i] / acc[-1]
-        w = wmax * abs(math.sin(math.pi * ((2 * u) % 1.0))) ** 0.8 + 0.5
+    for i, (pv, pu) in enumerate(pts):
+        w = wmax * abs(math.sin(math.pi * ((2 * acc[i] / acc[-1]) % 1.0))) ** 0.8 + 0.5
         a, b = pts[max(i - 1, 0)], pts[min(i + 1, len(pts) - 1)]
-        tx, ty = b[0] - a[0], b[1] - a[1]
-        tl = math.hypot(tx, ty) or 1
-        nx, ny = -ty / tl, tx / tl
-        left.append((px + nx * w / 2, py + ny * w / 2))
-        right.append((px - nx * w / 2, py - ny * w / 2))
-    p.poly(left + right[::-1], 0, close=True, fill=color or p.t['ink'], cls='f', delay=delay)
+        tv, tu = b[0] - a[0], b[1] - a[1]
+        tl = math.hypot(tv, tu) or 1
+        nv, nu = -tu / tl, tv / tl
+        left.append((pv + nv * w / 2, pu + nu * w / 2))
+        right.append((pv - nv * w / 2, pu - nu * w / 2))
+    return left + right[::-1]
 
+
+def overbrace(p, x1, x2, y, depth=24, wmax=3.4, color=None):
+    """A brace spanning x1…x2, its point up at (middle, y), its arms reaching down."""
+    p.poly([(u, y + v) for v, u in brace_shape(x1, x2, depth, wmax)], 0, close=True, fill=color or p.t['ink'])
 
 # ─── Plate II: the figurative system ────────────────────────────────────────
 
 TREE = [
-    ('knowledge', [('The Skill', '@classcad/skill', 'every method of the API, its notes, its recipes'),
+    ('knowledge', [('The Skill', '@classcad/skill', 'every method of the ^api^, verified, and its recipes'),
                    ('Discovery', '@classcad/skill/discovery', 'search, describe, and the docs tool')]),
-    ('execution', [('The Script', '@classcad/script', 'one way to execute: a program, run_script'),
+    ('execution', [('The Script', '@classcad/script', 'one way to execute: a program, `run_script`'),
                    ('The Engine', 'classcad-cli · wasm', 'ClassCAD itself, on a worker or in the page')]),
     ('proof', [('The Renderer', '@classcad/renderer', 'views, drawings, sections and diffs'),
                ('The Numbers', 'the engine', 'mass properties and geometry probes')]),
-    ('hosts', [('The MCP Server', 'classcad-mcp', 'Claude Code, Desktop, VS Code, Cursor'),
+    ('hosts', [('The MCP Server', 'classcad-mcp', 'Claude Code, Codex, OpenCode, Cursor, VS Code'),
                ('The In-App Agent', '@buerli.io/ai', 'a chat panel in buerli apps'),
                ('The Harness', 'scripts/run.mjs', 'cc, the agent that trains the skill')]),
 ]
 
 
-def item_name(p, x, y, name, size, delay):
+def item_name(p, x, y, name, size, anchor='start'):
     """'The MCP Server' with the acronym in small caps."""
     pieces = []
     for part in re.split(r'(MCP)', name):
@@ -853,85 +912,36 @@ def item_name(p, x, y, name, size, delay):
             pieces.append(('mcp', 'rm', 'smcp'))
         elif part:
             pieces.append((part, 'rm', 'onum'))
-    return p.rich(x, y, pieces, size, cls='f', delay=delay)
+    return p.rich(x, y, pieces, size, anchor=anchor)
 
 
 def plate_systema(theme):
-    W, H_ = 1600, 960
-    p = Plate(W, H_, theme, 'Plate II — Figurative system of the repository',
-              'A brace tree of the repository: knowledge (the skill, discovery), execution (the script, the '
-              'engine), proof (the renderer, the numbers) and hosts (the MCP server, the in-app agent, the '
-              'harness). Beside it a truss: each of the three hosts bears on all three foundation packages — '
-              'skill, script and renderer — which bear on nothing.')
+    """The repository as a figurative system, read from the top: the root, a
+    brace over its four branches, a brace over each branch's entries."""
+    p = Plate(1600, 900, theme, 'classcad-ai — a figurative system of the repository',
+              'The repository as a figurative system: classcad·ai branches into knowledge (the skill, discovery), '
+              'execution (the script, the engine), proof (the renderer, the numbers) and hosts (the MCP server, '
+              'the in-app agent, the harness).')
     t = p.t
-    running_head(p, 90, 'plate ii.', 'the figurative system of the repository', 'after Diderot & d’Alembert, 1751',
-                 *MEASURE)
-
-    # Fig. 2 — the brace tree
-    top, item_h, gap = 176, 66, 30
-    y = top
-    spans = []
-    for cat, items in TREE:
-        y0 = y
-        y += item_h * len(items)
-        spans.append((cat, items, y0, y))
-        y += gap
-    bottom = y - gap
-    rx, cy = 132, (top + bottom) / 2
-    p.add(f'<g transform="rotate(-90 {rx} {cy})">')
-    p.tracking = False
-    w = p.text(rx, cy + 10, 'classcad·ai', 30, 'rm', 'smcp,c2sc', ls=0.3, anchor='middle', cls='f', delay=0.2)
-    p.tracking = True
-    p.add('</g>')
-    p.grow(rx + 10 - 30 * 0.72, cy - w / 2, rx + 10 + 30 * 0.28, cy + w / 2)
-    brace(p, 160, top - 6, bottom - 18, depth=30, wmax=4.2, delay=0.35)
-    d = 0.5
-    for cat, items, y0, y1 in spans:
-        cy = (y0 + y1 - 18) / 2
-        p.text(210, cy + 7, cat, 20, 'rm', 'smcp,c2sc', ls=0.2, cls='f', delay=d)
-        brace(p, 388, y0 - 4, y1 - 22, depth=20, wmax=2.8, delay=d + 0.1)
-        for i, (name, pkg, desc) in enumerate(items):
-            iy = y0 + i * item_h + 20
-            w = item_name(p, 426, iy, name, 26, d + 0.2 + i * 0.05)
-            pw = measure(pkg, 19, 'it8', 'lnum')
-            leaders(p, 426 + w, 1000 - pw, iy, delay=d + 0.3)
-            p.text(1000, iy, pkg, 19, 'it8', 'lnum', anchor='end', fill=t['ink2'], cls='f', delay=d + 0.3)
-            p.text(426, iy + 26, desc, 19, 'it8', 'onum', fill=t['ink2'], cls='f', delay=d + 0.35)
-        d += 0.3
-    caption(p, 132, H_ - 70, 850, '~Fig. 2.~ — The repository as a figurative system, after the tree of '
-            'knowledge that opens the Encyclopédie: what it knows, how it acts, how it proves, and where it lives.',
-            delay=2.0)
-
-    # Fig. 3 — the load path
-    xs, ytop, ybot = (1170, 1310, 1450), 330, 600
-    hosts = ('mcp', 'agent', 'harness')
-    bases = ('skill', 'script', 'renderer')
-    d = 1.0
-    r = 6
-    for i, xa in enumerate(xs):
-        for j, xb in enumerate(xs):
-            L = math.hypot(xb - xa, ybot - ytop)
-            ux, uy = (xb - xa) / L, (ybot - ytop) / L
-            p.line(xa + ux * r, ytop + uy * r, xb - ux * r, ybot - uy * r, THIN if i == j else FINE, cls='d',
-                   delay=d + 0.08 * (i * 3 + j))
-    for i, xh in enumerate(xs):
-        p.text(xh, ytop - 64, hosts[i], 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d)
-        p.line(xh, ytop - 50, xh, ytop - 12, THIN, cls='d', delay=d + 0.4)
-        p.arrow(xh, ytop - 9, 0, 1, cls='f', delay=d + 0.6)
-        p.circle(xh, ytop, r, THIN, cls='f', delay=d + 0.5)
-    for j, xb in enumerate(xs):
-        p.circle(xb, ybot, r, THIN, cls='f', delay=d + 0.5)
-        p.poly([(xb, ybot + 6), (xb - 15, ybot + 32), (xb + 15, ybot + 32)], THIN, close=True, cls='d', delay=d + 0.7)
-        p.text(xb, ybot + 104, bases[j], 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d + 0.9)
-    gy = ybot + 32
-    p.line(1100, gy, MEASURE[1], gy, THICK, cls='d', delay=d + 0.8)
-    for k in range(29):
-        gx = 1106 + k * 14.5
-        p.line(gx, gy + 3, gx - 11, gy + 16, FINE, cls='f', delay=d + 0.9)
-    caption(p, 1100, H_ - 214, 412, '~Fig. 3.~ — The load path. Each host bears on all three foundations; '
-            'the foundations bear on nothing, and on one another not at all.', delay=2.1)
+    cols, cw = len(TREE), 340
+    gutter = (MEASURE[1] - MEASURE[0] - cols * cw) / (cols - 1)
+    xs = [MEASURE[0] + i * (cw + gutter) for i in range(cols)]
+    mids = [x + cw / 2 for x in xs]
+    cx = (MEASURE[0] + MEASURE[1]) / 2
+    y = 120
+    p.text(cx, y, 'classcad·ai', 34, 'rm', 'smcp,c2sc', ls=0.3, anchor='middle')
+    overbrace(p, mids[0], mids[-1], y + 24, depth=38, wmax=4.4)
+    y_cat = y + 24 + 38 + 44
+    for (cat, items), x, mid in zip(TREE, xs, mids):
+        p.text(mid, y_cat, cat, 21, 'rm', 'smcp,c2sc', ls=0.24, anchor='middle')
+        overbrace(p, x + 34, x + cw - 34, y_cat + 16, depth=22, wmax=2.8)
+        iy = y_cat + 16 + 22 + 42
+        for name, pkg, desc in items:
+            item_name(p, mid, iy, name, 26, anchor='middle')
+            p.text(mid, iy + 26, pkg, 18, 'it8', 'lnum', anchor='middle', fill=t['ink2'])
+            last = paragraph(p, x + 8, iy + 54, cw - 16, desc, 19, 25, base='it8', align='center', fill=t['ink2'])
+            iy = last + 62
     return p
-
 
 # ─── Plate III: the skill ───────────────────────────────────────────────────
 
@@ -951,14 +961,15 @@ def plate_skill(theme):
     counts = domain_counts()
     total = sum(c for _, c in counts)
     p = Plate(W, H_, theme, 'Plate III — The Skill: @classcad/skill',
-              f'The API by domain, as a table of contents: {", ".join(f"{d} {c}" for d, c in counts)}; '
-              f'{total} methods in all. And the six recipes: {", ".join(RECIPES).lower()}.')
+              f'The ClassCAD API, {total} methods, each documented and verified against a live engine, by domain '
+              f'as a table of contents: {", ".join(f"{d} {c}" for d, c in counts)}. The six recipes: '
+              f'{", ".join(RECIPES).lower()}. One BM25 search serves it all, with CAD synonyms.')
     t = p.t
     plate_frame(p, 'iii', 'the skill', '@classcad/skill')
     lead(p, 84, 214, 'The Knowledge',
-         f'Every `v1` method the engine exposes — all {total}, generated from its JSDoc — with notes verified '
-         'against a live engine: the gotchas, the silent no-ops, the working examples. Recipes combine them; '
-         'one search serves them to every host.', width=500)
+         f'The ClassCAD ^api^, whole: {total} methods, each documented and verified against a live engine, and '
+         'the recipes that combine them into parts and assemblies. One search serves it all — ^bm^25-ranked, '
+         '`camelCase` split, plurals folded, and fluent in ^cad^: a hole is a bore, a round a fillet.', width=500)
     x1, x2 = 700, 1086
     heading(p, x1, 180, 'methods, by domain', x2 - x1, delay=0.6)
     y = 228
@@ -980,8 +991,6 @@ def plate_skill(theme):
         ry = 228 + i * 48
         p.text(r1, ry, f'§ {i + 1}', 22, 'rm', 'onum', fill=t['accent'], cls='f', delay=1.0 + i * 0.08)
         p.text(r1 + 52, ry, name, 25, 'it', 'onum', cls='f', delay=1.0 + i * 0.08)
-    caption(p, x1, H_ - 76, 800, '~Fig. 4.~ — The ^api^ by domain, set as a table of contents; and the recipes '
-            'that combine it into parts, assemblies and proofs.', delay=1.6)
     return p
 
 
@@ -991,69 +1000,59 @@ TOKEN = re.compile(r"(\s+|'[^']*'|\d+|[A-Za-z_$][\w$]*|.)")
 KEYWORDS = {'const', 'await', 'return', 'let', 'async', 'function'}
 
 
-def code_pieces(src):
-    """JavaScript set as a literate program: keywords in small caps,
-    identifiers in italic, strings in curly quotes, old-style figures."""
+def code_pieces(src, t):
+    """JavaScript in PT Mono: keywords in the accent, punctuation muted."""
     out = []
     for m in TOKEN.finditer(src):
         tk = m.group(0)
-        if tk.isspace():
-            piece = (tk, 'rm', '')
-        elif tk in KEYWORDS:
-            piece = (tk, 'rm', 'smcp')
-        elif tk[0] == "'":
-            piece = ('‘' + tk[1:-1] + '’', 'rm', 'onum')
-        elif tk.isdigit():
-            piece = (tk, 'rm', 'onum')
-        elif re.match(r'[A-Za-z_$]', tk):
-            piece = (tk, 'it', 'lnum' if re.search(r'\d', tk) else 'onum')
+        if tk in KEYWORDS:
+            color = t['accent']
+        elif tk.isspace() or tk[0] == "'" or tk.isdigit() or re.match(r'[A-Za-z_$]', tk):
+            color = t['ink']
         else:
-            piece = (tk, 'rm', '')
-        if out and out[-1][1:] == piece[1:]:
-            out[-1] = (out[-1][0] + piece[0],) + piece[1:]
+            color = t['ink2']
+        if out and out[-1][3] == color:
+            out[-1] = (out[-1][0] + tk, 'mono', '', color)
         else:
-            out.append(piece)
+            out.append((tk, 'mono', '', color))
     return out
 
 
-SCRIPT = [
-    ('1', "const part = (await api.v1.part.create({ name: 'Plate' })).result"),
-    ('2', "await api.v1.part.box({ id: part, length: 80, width: 50, height: 10 })"),
-    ('3', "const { volume } ="),
-    ('', "    (await api.v1.part.calculateMassProperties({ id: part })).result"),
-    ('4', "return { part, volume }"),
+SCRIPT = [   # runs as shown: returns { part: 4, volume: 40000 }
+    "const { result: part } =",
+    "  await api.v1.part.create({ name: 'Plate' })",
+    "await api.v1.part.box({",
+    "  id: part, length: 80, width: 50, height: 10 })",
+    "const { result: { volume } } = await api.v1",
+    "  .part.calculateMassProperties({ id: part })",
+    "return { part, volume }",
 ]
 
 
 def plate_script(theme):
-    W, H_ = 1600, 640
+    W, H_ = 1600, 700
     p = Plate(W, H_, theme, 'Plate IV — The Script: @classcad/script',
-              'A script set as a literate program: const part = (await api.v1.part.create({ name: \'Plate\' })).result; '
-              'await api.v1.part.box({ id: part, length: 80, width: 50, height: 10 }); const { volume } = '
-              '(await api.v1.part.calculateMassProperties({ id: part })).result; return { part, volume }. '
-              'It returns { part: 4, volume: 40000 }.')
+              'A script: const { result: part } = await api.v1.part.create({ name: \'Plate\' }); '
+              'await api.v1.part.box({ id: part, length: 80, width: 50, height: 10 }); '
+              'const { result: { volume } } = await api.v1.part.calculateMassProperties({ id: part }); '
+              'return { part, volume }. It returns { part: 4, volume: 40000 }.')
     t = p.t
     plate_frame(p, 'iv', 'the script', '@classcad/script')
     lead(p, 84, 214, 'The Medium',
          'An agent never dictates one call per turn. It writes a program — variables, loops, geometry filtered '
          'with plain arithmetic — against `api.v1`, `api.tree()` and `api.graphic()`, and runs it through '
          '`run_script`: the same in the browser, in the ^mcp^ and in Node.', width=500)
-    x0, y = 736, 212
-    heading(p, x0 - 36, 176, 'a script', 816, delay=0.6)
-    for i, (num, src) in enumerate(SCRIPT):
-        dl = 0.7 + i * 0.18
-        if num:
-            p.text(x0 - 22, y, num, 17, 'rm8', 'lnum', anchor='end', fill=t['accent'], cls='f', delay=dl)
-        p.rich(x0, y, code_pieces(src), 24, cls='u', delay=dl)
-        y += 42
-    p.line(x0 - 36, y - 8, x0 + 780, y - 8, FINE, cls='d', delay=1.7)
-    y += 34
-    hand = p.text(x0 - 36, y, '☞', 30, 'rm', fill=t['accent'], cls='f', delay=1.9)
-    rw = p.text(x0 - 36 + hand + 14, y, 'returns', 19, 'rm8', 'smcp,c2sc', ls=0.18, fill=t['ink2'], cls='f', delay=1.9)
-    p.rich(x0 - 36 + hand + rw + 30, y, code_pieces('{ part: 4, volume: 40') + [(' 000 }', 'rm', 'onum')], 24,
-           cls='f', delay=2.0)
-    caption(p, x0 - 36, H_ - 76, 800, '~Fig. 5.~ — A script, set as a literate program: keywords in small '
-            'capitals, names in italic. It creates a plate, weighs it, and hands back the numbers.', delay=2.1)
+    x0, y = 744, 214
+    heading(p, 700, 176, 'a script', 816, delay=0.6)
+    for i, src in enumerate(SCRIPT):
+        p.text(x0 - 16, y, str(i + 1), 17, 'mono', '', anchor='end', fill=t['ink2'])
+        p.rich(x0, y, code_pieces(src, t), 23)
+        y += 37
+    p.line(700, y - 10, 1516, y - 10, FINE, cls='d', delay=0.9)
+    y += 36
+    hand = p.text(700, y, '☞', 30, 'rm', fill=t['accent'])
+    rw = p.text(700 + hand + 14, y, 'returns', 19, 'rm8', 'smcp,c2sc', ls=0.18, fill=t['ink2'])
+    p.rich(700 + hand + rw + 30, y, code_pieces('{ part: 4, volume: 40000 }', t), 23)
     return p
 
 
@@ -1132,9 +1131,6 @@ def plate_renderer(theme):
     p.text(sx + 60, 528, 'Third-angle', 25, 'it', 'onum', anchor='middle', cls='f', delay=1.9)
     p.rich(sx + 60, 556, [('iso a', 'rm8', 'smcp,c2sc'), ('  ·  the Americas', 'it8', '')], 18, anchor='middle',
            fill=t['ink2'], cls='f', delay=1.9)
-    caption(p, ox, H_ - 76, 820, '~Fig. 6.~ — The six views of the bushing, unfolded in first-angle projection: '
-            'each lies opposite the side it is seen from. ~Fig. 7.~ — The symbols that tell the methods apart.',
-            delay=2.1)
     return p
 
 
@@ -1143,23 +1139,25 @@ def plate_renderer(theme):
 def plate_mcp(theme):
     W, H_ = 1600, 640
     p = Plate(W, H_, theme, 'Plate VI — The MCP Server: @awv-informatik/classcad-mcp',
-              'Four hosts — Claude Code, Claude Desktop, VS Code, Cursor — each start a thin stdio shim; one daemon '
+              'Hosts — Claude Code, Codex, OpenCode, Claude Desktop, VS Code, Cursor — each start a thin stdio shim; one daemon '
               'per machine (127.0.0.1:9097) holds every session and reaches three kinds of engine: a classcad-cli '
               'worker over WebSocket, the WASM engine inside a buerligons tab over the in-app bridge, or its own '
               'local WASM engine in a worker thread.')
     t = p.t
     plate_frame(p, 'vi', 'the mcp server', '@awv-informatik/classcad-mcp')
     lead(p, 84, 214, 'The Envoy',
-         'Lets Claude Code, the Claude desktop app, VS Code, Cursor or any other host drive a live ClassCAD '
-         'session. Each tab starts a thin shim; one daemon per machine holds every session, and reaches the '
-         'engine wherever it runs.', width=500)
-    hosts = ['Claude Code', 'Claude Desktop', 'VS Code', 'Cursor']
+         'Lets Claude Code, Codex, OpenCode, the Claude desktop app, VS Code, Cursor — any ^mcp^ host — drive '
+         'a live ClassCAD session. Each tab starts a thin shim; one daemon per machine holds every session, and '
+         'reaches the engine wherever it runs.', width=500)
+    hosts = ['Claude Code', 'Codex', 'OpenCode', 'Claude Desktop', 'VS Code', 'Cursor']
     engines = [('worker', 'classcad-cli, over WebSocket'), ('in-app bridge', 'the WASM inside a buerligons tab'),
                ('local wasm', 'in a thread of the daemon')]
-    hx, dx, dy, ex = 900, 1120, 330, 1276
+    step = 50
+    hx, dx, ex = 900, 1120, 1276
+    dy = 196 + step * (len(hosts) - 1) / 2
     d = 0.6
     for i, h in enumerate(hosts):
-        y = 206 + i * 62
+        y = 196 + i * step
         p.text(hx - 18, y + 8, h, 24, 'rm', 'onum', anchor='end', cls='f', delay=d + i * 0.08)
         p.circle(hx, y, 4, THIN, fill=t['ink'], cls='f', delay=d + i * 0.08)
         p.path(f'M{hx + 4} {y}C{hx + 110} {y} {dx - 120} {dy} {dx - 36} {dy}', THIN, cls='d', delay=d + 0.2 + i * 0.08)
@@ -1171,7 +1169,7 @@ def plate_mcp(theme):
     p.text(dx, dy + 62, 'daemon', 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d + 0.9)
     p.text(dx, dy + 86, '127.0.0.1 : 9097', 17, 'rm8', 'lnum', anchor='middle', fill=t['ink2'], cls='f', delay=d + 0.9)
     for i, (name, note) in enumerate(engines):
-        y = 250 + i * 80
+        y = dy + (i - 1) * 80
         p.path(f'M{dx + 28} {dy}C{dx + 90} {dy} {ex - 90} {y} {ex - 16} {y}', THIN, cls='d', delay=d + 1.0 + i * 0.1)
         p.arrow(ex - 8, y, 1, 0, cls='f', delay=d + 1.3 + i * 0.1)
         if name == 'local wasm':
@@ -1179,75 +1177,128 @@ def plate_mcp(theme):
         else:
             p.text(ex + 4, y + 8, name, 24, 'rm', 'onum', cls='f', delay=d + 1.3 + i * 0.1)
         p.text(ex + 4, y + 32, note, 17, 'it8', 'onum', fill=t['ink2'], cls='f', delay=d + 1.35 + i * 0.1)
-    caption(p, 700, H_ - 76, 800, '~Fig. 8.~ — Four hosts, one daemon, three kinds of engine. The daemon comes '
-            'with the first tab and goes a minute after the last.', delay=2.2)
     return p
 
 
 # ─── Plate VII: the in-app agent ────────────────────────────────────────────
 
-def iso_pt(cx, cy, x, y, z, s=1.0):
-    return cx + (x - y) * 0.866 * s, cy + (x + y) * 0.5 * s - z * s
+def iso_view(cx, cy, s):
+    """The renderer's iso: camera at the front-right-top corner (+X, −Y, +Z)."""
+    r2, r6 = math.sqrt(2), math.sqrt(6)
+    return lambda x, y, z: (cx + s * (x + y) / r2, cy + s * (x - y - 2 * z) / r6)
+
+
+def arc_pts(P, r, z, a0, a1, k=90, ox=0.0, oy=0.0):
+    return [P(ox + r * math.cos(a), oy + r * math.sin(a), z) for a in (a0 + (a1 - a0) * i / k for i in range(k + 1))]
+
+
+def engrave_bushing(p, cx, cy, s, t0=0.6):
+    """The flanged bushing in iso, engraved: hidden-line drawing, hatching that
+    shades each face by its angle to a light from the front left."""
+    P = iso_view(cx, cy, s)
+    tau = 2 * math.pi
+    xf = math.sqrt(R_FL ** 2 - FLAT ** 2)
+    a_r, a_l = math.atan2(-FLAT, xf), math.atan2(-FLAT, -xf) + tau       # the flat's ends on the rim
+    light = (-0.55, -0.75, 0.37)
+    dark = lambda a: 1 - max(0.0, math.cos(a) * light[0] + math.sin(a) * light[1])
+
+    hub = convex_hull(arc_pts(P, R_HUB, H, 0, tau) + arc_pts(P, R_HUB, T_FL, 0, tau))
+    top_rim = arc_pts(P, R_FL, T_FL, a_r, a_l, 140)                       # rim of the flange's top, flat excluded
+    holes = [arc_pts(P, R_BOLT, T_FL, 0, tau, 40, bx, by) for bx, by in BOLT]
+    seen_holes = [h for h in holes if not any(inside(q, hub) for q in h)]
+    port = [P(math.sqrt(R_HUB ** 2 - (R_PORT * math.sin(f)) ** 2), R_PORT * math.sin(f), Z_PORT + R_PORT * math.cos(f))
+            for f in (i * tau / 48 for i in range(48))]
+    hub_top, bore = arc_pts(P, R_HUB, H, 0, tau), arc_pts(P, R_BORE, H, 0, tau)
+    flat = [P(xf, -FLAT, 0), P(xf, -FLAT, T_FL), P(-xf, -FLAT, T_FL), P(-xf, -FLAT, 0)]
+
+    # shading
+    hatch(p, [top_rim] + seen_holes, spacing=8.5, angle=-30, exclude=[hub], delay=t0, step=0.006)
+    hatch(p, [hub_top, bore], spacing=9, angle=-30, delay=t0, step=0.006)
+    hatch(p, [flat], spacing=6, angle=-30, delay=t0, step=0.006)
+    for ring in [bore, port] + seen_holes:
+        hatch(p, [ring], spacing=2.4, angle=60, delay=t0 + 0.3, step=0.004)
+    k = 0
+    for deg in range(-133, 45, 5):                                          # the hub's side, generator lines
+        a = math.radians(deg)
+        k += 1
+        if dark(a) < (k % 3) / 3 * 0.9:
+            continue
+        x, y = R_HUB * math.cos(a), R_HUB * math.sin(a)
+        (x0, y0), (x1, y1) = P(x, y, T_FL), P(x, y, H)
+        runs = visible_runs([(x0, y0 + (y1 - y0) * i / 40) for i in range(41)], [port])
+        for run in runs:
+            p.line(*run[0], *run[-1], FINE, cls='d', delay=t0 + 0.2 + k * 0.01)
+    k = 0
+    for deg in range(-51, 45, 5):                                           # the flange's side
+        a = math.radians(deg)
+        k += 1
+        if dark(a) < (k % 3) / 3 * 0.9:
+            continue
+        x, y = R_FL * math.cos(a), R_FL * math.sin(a)
+        p.line(*P(x, y, 0), *P(x, y, T_FL), FINE, cls='d', delay=t0 + 0.2 + k * 0.01)
+
+    # outlines: flange
+    t = t0 + 0.6
+    for run in visible_runs(top_rim + [P(-xf, -FLAT, T_FL), P(xf, -FLAT, T_FL)], [hub]):
+        p.poly(run, THICK, cls='d', delay=t)
+    p.poly(arc_pts(P, R_FL, 0, a_r, math.radians(45), 40), THICK, cls='d', delay=t)
+    p.poly(arc_pts(P, R_FL, 0, math.radians(225), a_l, 12), THICK, cls='d', delay=t)
+    p.line(*P(xf, -FLAT, 0), *P(-xf, -FLAT, 0), THICK, cls='d', delay=t)
+    for a in (math.radians(45), math.radians(225)):
+        p.line(*P(R_FL * math.cos(a), R_FL * math.sin(a), 0), *P(R_FL * math.cos(a), R_FL * math.sin(a), T_FL),
+               THICK, cls='d', delay=t)
+    for x in (xf, -xf):
+        p.line(*P(x, -FLAT, 0), *P(x, -FLAT, T_FL), THIN, cls='d', delay=t)
+    for h in seen_holes:
+        p.poly(h, THIN, close=True, cls='d', delay=t + 0.2)
+    # outlines: hub
+    t += 0.3
+    p.poly(hub_top, THICK, close=True, cls='d', delay=t)
+    p.poly(bore, THICK, close=True, cls='d', delay=t + 0.1)
+    p.poly(arc_pts(P, R_HUB, T_FL, math.radians(-135), math.radians(45), 60), THIN, cls='d', delay=t)
+    for a in (math.radians(45), math.radians(-135)):
+        p.line(*P(R_HUB * math.cos(a), R_HUB * math.sin(a), T_FL), *P(R_HUB * math.cos(a), R_HUB * math.sin(a), H),
+               THICK, cls='d', delay=t)
+    p.poly(port, THIN, close=True, cls='d', delay=t + 0.2)
+
+
+PROMPT = ['“Make a flanged bushing: a 60 mm flange', 'with a flat, a 30 mm hub bored through,',
+          'four bolt holes and a port in its side.”']
 
 
 def plate_agent(theme):
     W, H_ = 1600, 680
     p = Plate(W, H_, theme, 'Plate VII — The In-App Agent: @buerli.io/ai',
-              'A scroll carries the request "Make a box; in the centre of the top face a hole; then fillet all the '
-              'edge loops." A pointing hand leads to an engraving of the result: a box with a hole in the centre of '
-              'its top face, its edges rounded.')
+              'A scroll carries the request "' + ' '.join(PROMPT).strip('“”') + '" A pointing hand leads to an '
+              'engraving of the result: the flanged bushing of the frontispiece, in iso.')
     t = p.t
     plate_frame(p, 'vii', 'the in-app agent', '@buerli.io/ai')
     lead(p, 84, 214, 'The Assistant',
          'A chat panel for buerli and react-three-fiber apps. Ask in plain language; the model writes the program, '
          'and it runs in the browser, beside the geometry it changes. Any tool-calling model will do — Anthropic, '
          'any endpoint that speaks OpenAI, or one of your own.', width=500)
-    # the scroll
-    x0, x1, y0, h = 740, 1150, 250, 118
+    # the scroll: tails and folds beside the band, nothing hidden behind it
+    x0, x1, y0, h = 700, 1112, 246, 150
     drop = 22
-    tail_l = [(x0, y0 + drop), (x0 - 58, y0 + drop), (x0 - 38, y0 + drop + h / 2), (x0 - 58, y0 + drop + h),
+    tail_l = [(x0, y0 + drop), (x0 - 50, y0 + drop), (x0 - 32, y0 + drop + h / 2), (x0 - 50, y0 + drop + h),
               (x0, y0 + drop + h)]
-    tail_r = [(x1, y0 + drop), (x1 + 58, y0 + drop), (x1 + 38, y0 + drop + h / 2), (x1 + 58, y0 + drop + h),
+    tail_r = [(x1, y0 + drop), (x1 + 50, y0 + drop), (x1 + 32, y0 + drop + h / 2), (x1 + 50, y0 + drop + h),
               (x1, y0 + drop + h)]
     fold_l = [(x0, y0 + h), (x0 + 16, y0 + h), (x0, y0 + drop + h)]
     fold_r = [(x1, y0 + h), (x1 - 16, y0 + h), (x1, y0 + drop + h)]
     for tl, fd in ((tail_l, fold_l), (tail_r, fold_r)):
-        p.poly(tl, THIN, close=True, cls='d', delay=0.6)
-        hatch(p, [tl], spacing=4.2, angle=-35, cls='d', delay=0.7, step=0.01)
-        p.poly(fd, THIN, close=True, cls='d', delay=0.8)
-        hatch(p, [fd], spacing=2.4, angle=-35, cls='d', delay=0.8, step=0.01)
+        p.poly(tl, THIN, close=True, cls='d', delay=0.3)
+        hatch(p, [tl], spacing=4.2, angle=-35, cls='d', delay=0.4, step=0.01)
+        p.poly(fd, THIN, close=True, cls='d', delay=0.5)
+        hatch(p, [fd], spacing=2.4, angle=-35, cls='d', delay=0.5, step=0.01)
     band = (f'M{x0} {y0}C{x0 + 140} {y0 - 14} {x1 - 140} {y0 + 14} {x1} {y0}'
             f'L{x1} {y0 + h}C{x1 - 140} {y0 + h + 14} {x0 + 140} {y0 + h - 14} {x0} {y0 + h}Z')
-    p.path(band, THIN, cls='d', delay=0.8)
-    p.line(x1, y0 + h, x1 - 4, y0 + h + 22, THIN, cls='d', delay=0.9)
-    lines = ['“Make a box; in the centre of the top face', 'a hole; then fillet all the edge loops.”']
-    for i, ln in enumerate(lines):
-        p.text((x0 + x1) / 2, y0 + 50 + i * 38, ln, 25, 'it', 'onum', anchor='middle', cls='u', delay=1.0 + i * 0.15)
-    p.text(1236, y0 + h / 2 + 22, '☞', 44, 'rm', anchor='middle', fill=t['accent'], cls='f', delay=1.4)
-
-    # the box, engraved: light top, half-tone left, deep right
-    cx, cy, S = 1384, 340, 136
-    P = lambda x, y, z: iso_pt(cx, cy, x, y, z)
-    top = [P(0, 0, S), P(S, 0, S), P(S, S, S), P(0, S, S)]
-    fx_ = [P(S, 0, 0), P(S, S, 0), P(S, S, S), P(S, 0, S)]
-    fy_ = [P(0, S, 0), P(S, S, 0), P(S, S, S), P(0, S, S)]
-    hatch(p, [fy_], spacing=3.4, angle=90, cls='d', delay=1.6, step=0.006)
-    hatch(p, [fx_], spacing=6.5, angle=90, cls='d', delay=1.7, step=0.006)
-    hole = [P(S / 2 + 26 * math.cos(a), S / 2 + 26 * math.sin(a), S) for a in (i * math.pi / 32 for i in range(64))]
-    hatch(p, [top, hole], spacing=11, angle=-30, cls='d', delay=1.8, step=0.01)
-    hatch(p, [hole], spacing=2.6, angle=-30, cls='d', delay=1.95, step=0.006)
-    for face in (top, fx_, fy_):
-        p.poly(face, THICK, close=True, cls='d', delay=1.5)
-    p.poly(hole, THICK, close=True, cls='d', delay=2.0)
-    # tangent lines of the fillets, just inside the visible edges
-    f = 9
-    for a, b in ((P(S, f, S - f), P(S, S - f, S - f)), (P(f, S, S - f), P(S - f, S, S - f)),
-                 (P(S - f, S - f, 0), P(S - f, S - f, S - f))):
-        p.line(*a, *b, FINE, cls='d', delay=2.1)
-    caption(p, 700, H_ - 76, 800, '~Fig. 9.~ — A request, and what came of it: a box with a hole in the centre '
-            'of its top face, its edges rounded.', delay=2.2)
+    p.path(band, THIN, cls='d', delay=0.5)
+    for i, ln in enumerate(PROMPT):
+        p.text((x0 + x1) / 2, y0 + 50 + i * 36, ln, 23, 'it', 'onum', anchor='middle')
+    p.text(1212, y0 + h / 2 + 20, '☞', 42, 'rm', anchor='middle', fill=t['accent'])
+    engrave_bushing(p, 1394, 356, 4.05, t0=0.8)
     return p
-
 
 PLATES = {
     'frontispiece': plate_frontispiece,
@@ -1278,6 +1329,8 @@ def main():
             bx0, by0, bx1, by1 = p.box
             if name == 'frontispiece':
                 p.crop = (bx0 - 2, by0 - 2, bx1 + 2, by1 + 4)
+            elif name == 'systema':
+                p.crop = (MEASURE[0], by0 - 110, MEASURE[1], by1 + 56)
             else:
                 if bx0 < MEASURE[0] - 1 or bx1 > MEASURE[1] + 1:
                     raise SystemExit(f'{name}: content {bx0:.0f}–{bx1:.0f} leaves the measure {MEASURE}')

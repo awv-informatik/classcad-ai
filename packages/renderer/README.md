@@ -6,7 +6,7 @@ same image: fixed CAD views, auto-fit framing, no camera state, no GPU. Built
 for agents and pipelines that need to *verify* geometry visually — not for
 interactive display.
 
-![Verification toolkit — section, diff, sheet, highlight/markers, sketch overlay, annotate, x-ray](docs/gallery.png)
+![Views and verification toolkit — iso, first- and third-angle drawings, line style, section, diff, sheet, highlight/markers, sketch overlay, annotate, x-ray](docs/gallery.png)
 
 ## Install
 
@@ -42,6 +42,37 @@ const png = await entryToPngBase64(entries[0])
 
 ---
 
+## Views and projections
+
+The world is **Z-up**, like ClassCAD. Every camera is orthographic; a render
+never depends on camera state.
+
+| Camera | Looks from | Shows |
+| --- | --- | --- |
+| `'iso'` (default) | the front-right-top corner (+X, −Y, +Z) | front, right and top faces |
+| `'front'` / `'back'` | −Y / +Y | the XZ plane |
+| `'right'` / `'left'` | +X / −X | the YZ plane |
+| `'top'` / `'bottom'` | +Z / −Z | the XY plane |
+| `{ azimuth, elevation }` | a turntable position in degrees: azimuth 0 = front, 90 = +X; elevation 90 = top | anything in between |
+| `{ direction, up? }` | an explicit look direction | anything |
+
+A named view and a vector camera aimed the same way give the same image
+(`'iso'` = `{ azimuth: 45, elevation: 35.264 }`, `'right'` = `{ azimuth: 90 }`).
+Views are never mirrored.
+
+**Technical drawings** (`drawing`) place front, top and side view by an ISO
+5456-2 projection method. The views are identical in both methods; only their
+placement differs:
+
+| `drawing` | Top view | Side view right of the front view | Used in |
+| --- | --- | --- | --- |
+| `'first-angle'` (`true`) | below the front view | seen from the LEFT | Europe (ISO E) |
+| `'third-angle'` | above the front view | seen from the RIGHT | US, ASME Y14.3 (ISO A) |
+
+The drawing views use the line style (`lines`): visible edges and silhouettes
+solid, hidden ones dashed — the hidden lines show bores, pockets and hollow vs
+solid, which a shaded view cannot.
+
 ## API — core (`@classcad/renderer`)
 
 ### `renderSessionData(source, options?)`
@@ -67,6 +98,7 @@ constraint badges and label de-overlap), curves, and work geometry.
 | --- | --- | --- |
 | `'solid'` | `pixels` | `pixels` (RGBA), `width`, `height`, `frame` |
 | `'sheet'` | `pixels` | same, when `options.sheet` is set |
+| `'drawing'` | `pixels` | same, when `options.drawing` is set |
 | `'sketch'` | `svg` | `svg`, `sketchId`, `name` |
 | `'curves'` / `'workgeo'` | `svg` | `svg` |
 
@@ -76,12 +108,12 @@ constraint badges and label de-overlap), curves, and work geometry.
 | --- | --- | --- | --- |
 | `width` | number | `1600` | image width in pixels |
 | `height` | number | `1200` | image height in pixels |
-| `view` | CameraView | `'iso'` | named view (`iso, top, bottom, front, back, left, right`) **or** an arbitrary orthographic camera: `{ azimuth, elevation }` (degrees, Z-up turntable; 0/0 = front) or `{ direction: [x,y,z], up? }`. Named views follow CAD drawing conventions, vector cameras the photographic convention. |
+| `view` | CameraView | `'iso'` | named view (`iso, top, bottom, front, back, left, right`; Z-up, `iso` looks from the front-right-top corner = `{ azimuth: 45, elevation: 35.264 }`) **or** an arbitrary orthographic camera: `{ azimuth, elevation }` (degrees, Z-up turntable; 0/0 = front) or `{ direction: [x,y,z], up? }`. A named view and a vector camera aimed the same way give the same image (`'right'` = `{ azimuth: 90 }`) — views are never mirrored. |
 | `zoom` | number | `1` | multiplier on the auto-fit scale (>1 zooms in). Ignored when `frame` is set. |
 | `lookAt` | `[x,y,z]` | — | world point that lands at the image center. Ignored when `frame` is set. |
 | `frame` | Frame | — | pin the frame (`{ scale, midX, midY }`) returned by an earlier render of the same view/size: fixes scale AND center so before/after renders are pixel-comparable — the precondition for [`diffImages`](#diffimagesa-b-opts). Overrides auto-fit, `zoom`, `lookAt`. |
 | `colors` | `'native'` \| `'distinct'` | `'native'` | `'native'` = the model's own ClassCAD colors (face-mesh material, then container material; no material → palette fallback). `'distinct'` = one palette color per body — use to tell bodies apart in booleans, splits, patterns, assemblies of identical parts. |
-| `section` | `{ origin: [x,y,z], normal: [x,y,z] }` | — | cut the solids at a plane: everything on the **positive** side of `normal` is removed. Uncapped — interior walls become visible, shaded darker. Framing stays that of the uncut model. |
+| `section` | `{ origin: [x,y,z], normal: [x,y,z], cap? }` | — | cut the solids at a plane: everything on the **positive** side of `normal` is removed. The cut faces are capped: filled and hatched at 45° like a drawing's section (adjacent bodies alternate the direction), outlined as edges; bores and pockets stay open. `cap: false` leaves the cut open — interior walls visible, shaded darker. Framing stays that of the uncut model. |
 | `highlight` | number[] | — | ids rendered in signal orange (faces/bodies) or signal red (edges). Matches graphic container ids, owning solid ids (`container.owner`), face mesh ids, edge ids. Unmatched ids are no-ops. |
 | `markers` | `{ position: [x,y,z], label?, color? }[]` | — | probe markers: crosshair + label at world coordinates, drawn on top of everything (no depth test). |
 | `sketchOverlay` | boolean | `false` | draw every sketch's curves in 3D — world coordinates, on the sketch's actual plane — over the solid render. Construction geometry dashes violet. Needs `execute`; renders standalone (on white) without solid geometry. |
@@ -89,6 +121,8 @@ constraint badges and label de-overlap), curves, and work geometry.
 | `xray` | boolean | `false` | translucent bodies (painter's blend, far-to-near): hidden bodies and internal far walls shine through; edges stay opaque. |
 | `xrayAlpha` | number | `0.42` | blend alpha for `xray` (0–1 exclusive). |
 | `sheet` | boolean \| CameraView[4] | `false` | render the solids as ONE four-view image (quadrants TL/TR/BL/BR; `true` = top/iso/front/right). Ortho views share one scale like a technical drawing; labels use the built-in font. Entry `type` becomes `'sheet'`. |
+| `lines` | boolean | `false` | line style (hidden-line drawing) instead of shading: visible edges and silhouettes solid, hidden ones dashed, no fill. Silhouettes of curved faces are computed from the mesh; seam edges are left out. Hidden lines show internal structure — bores, pockets, hollow vs solid. Applies to the single-view render and every `sheet` panel. |
+| `drawing` | boolean \| `'first-angle'` \| `'third-angle'` \| `{ projection?, side?, iso? }` | `false` | render the solids as a TECHNICAL DRAWING: front, top and side view in line style, placed by projection method, aligned, one shared scale; a shaded iso fills the free quadrant, which also names the method. **First-angle** (ISO E, Europe; `true`): top view below the front view, view from the left right of it. **Third-angle** (ISO A, US): top view above, view from the right right of it. `side` picks the other side view (its placement follows the method); `iso: false` leaves the quadrant empty. Takes precedence over `sheet`. Entry `type` becomes `'drawing'`. |
 
 All features compose — a sectioned x-ray sheet with markers is valid.
 
@@ -117,6 +151,7 @@ const d = diffImages(before, after)   // d.fraction, d.bbox, d.pixels
 | --- | --- | --- |
 | `renderSolidZBuffer` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the z-buffer solid rasterizer behind `renderSessionData`. Camera from `setViewport`; `opts` is a `RenderOptions` subset plus `overlays: OverlayPolyline[]`. |
 | `renderSolidSheet` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the four-view sheet compositor (`opts.views` picks the quadrants). |
+| `renderSolidDrawing` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the technical-drawing layout behind `options.drawing`. |
 | `setViewport` | `({ view?, zoom?, lookAt?, frame? }) => void` | configures the camera for subsequent low-level render calls. `renderSessionData` calls it internally. |
 | `renderSketchSVG` | `(items, width?, height?, dimensions?, constraints?, posMap?) => string \| null` | 2D sketch renderer (dimensions, constraint badges, label de-overlap). |
 | `renderCurveSVG` | `(graphic, width?, height?) => string \| null` | tessellated 2D curve shapes. |
@@ -213,6 +248,9 @@ node adapter's `source: 'stl'` builds on this).
   true })`. The node adapter's `renderSession` sets this automatically
   (`ensureGraphics: false` to skip); when feeding `renderSessionData` yourself,
   make sure the session had these settings before the graphic was produced.
+- **Gallery.** `docs/gallery.png` is rendered live from real session data:
+  `node scripts/run.mjs packages/renderer/docs/gallery.mjs` from the
+  classcad-ai root, with a ClassCAD worker on `:9094`.
 - **Curve rendering** covers the first curve per shape container (the server
   pushes graphic data only for that one); use one shape per curve when visual
   verification matters.

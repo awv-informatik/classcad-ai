@@ -55,9 +55,10 @@ export interface TextLabel {
  * - `{ direction, up? }` — explicit look direction (from camera toward the
  *   scene); `up` defaults to `[0, 0, 1]`.
  *
- * Named views follow CAD drawing conventions; vector cameras use the
- * photographic convention (e.g. `'right'` and `{ azimuth: 90 }` are mirror
- * images of each other).
+ * Named views and vector cameras aimed the same way produce the same image
+ * (`'right'` = `{ azimuth: 90 }`, `'left'` = `{ azimuth: -90 }`). Views are
+ * never mirrored: first- vs third-angle projection only changes where a view
+ * is placed on a drawing (see {@link RenderOptions.drawing}).
  */
 export type CameraView =
   | 'iso' | 'top' | 'bottom' | 'front' | 'back' | 'left' | 'right'
@@ -66,8 +67,8 @@ export type CameraView =
 
 /**
  * A cutting plane for section views. Everything on the POSITIVE side of the
- * normal is removed. The cut is uncapped: interior walls become visible and
- * are shaded darker. Framing stays that of the UNCUT model, so sectioned and
+ * normal is removed. The cut faces are capped — filled and hatched at 45° like
+ * a drawing's section — unless `cap: false`. Framing stays that of the UNCUT model, so sectioned and
  * unsectioned renders of the same state are directly comparable.
  */
 export interface SectionPlane {
@@ -75,6 +76,13 @@ export interface SectionPlane {
   origin: Vec3
   /** Plane normal; the positive half-space is cut away. Need not be unit length. */
   normal: Vec3
+  /**
+   * Cap the cut: the cut faces are filled and hatched at 45° like a drawing's
+   * section (adjacent bodies alternate the direction), outlined as edges.
+   * `false` leaves the cut open — interior walls visible, shaded darker.
+   * @defaultValue `true`
+   */
+  cap?: boolean
 }
 
 /**
@@ -225,8 +233,46 @@ export interface RenderOptions {
    * `'sheet'`. @defaultValue `false`
    */
   sheet?: boolean | CameraView[]
+  /**
+   * Line style (hidden-line drawing) instead of shading: visible edges and
+   * silhouettes solid, hidden edges and silhouettes dashed, no fill. Applies to
+   * the single-view solid render and to every panel of a `sheet`. Hidden lines
+   * carry the internal structure (bores, pockets, hollow vs solid) that a
+   * shaded view cannot show. @defaultValue `false`
+   */
+  lines?: boolean
+  /**
+   * Render the solids as a TECHNICAL DRAWING: front, top and side view in
+   * line style, laid out by projection method, aligned and at one shared
+   * scale, plus a shaded iso in the free quadrant. Entry type becomes
+   * `'drawing'`. Takes precedence over `sheet`.
+   * - `'first-angle'` (ISO method E, Europe): top view BELOW the front view,
+   *   the view from the left RIGHT of it.
+   * - `'third-angle'` (ISO method A, ASME/US): top view ABOVE the front view,
+   *   the view from the right RIGHT of it.
+   * `true` = `'first-angle'`. The object form picks the side view explicitly;
+   * its placement follows the projection method. @defaultValue `false`
+   */
+  drawing?: boolean | ProjectionMethod | DrawingOptions
   /** Content types to render (default: all detected). Skipped layers cost nothing. */
   layers?: Array<'solid' | 'sketch' | 'curves' | 'workgeo'>
+}
+
+/** Orthographic projection method of a technical drawing (ISO 5456-2). */
+export type ProjectionMethod = 'first-angle' | 'third-angle'
+
+/** Options of {@link RenderOptions.drawing}. */
+export interface DrawingOptions {
+  /** @defaultValue `'first-angle'` */
+  projection?: ProjectionMethod
+  /**
+   * Which side view to show: seen from the left (camera at −X) or from the
+   * right (camera at +X). @defaultValue `'left'` for first-angle, `'right'`
+   * for third-angle — both end up to the right of the front view.
+   */
+  side?: 'left' | 'right'
+  /** Shaded iso view in the free quadrant. @defaultValue `true` */
+  iso?: boolean
 }
 
 /** Internal per-render options of the z-buffer rasterizer (superset of RenderOptions extras). */
@@ -246,7 +292,7 @@ export interface SessionSource {
 
 /** One rendered artifact from renderSessionData. */
 export type SessionEntry =
-  | ({ type: 'solid' | 'sheet'; kind: 'pixels' } & RasterResult)
+  | ({ type: 'solid' | 'sheet' | 'drawing'; kind: 'pixels' } & RasterResult)
   | { type: 'sketch'; kind: 'svg'; svg: string; sketchId: number; name: string }
   | { type: 'curves' | 'workgeo'; kind: 'svg'; svg: string }
 

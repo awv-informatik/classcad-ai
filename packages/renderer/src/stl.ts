@@ -11,19 +11,13 @@
  */
 
 /**
- * Project a 3D point to isometric 2D + depth.
- * Standard isometric: rotate 45deg around Y, then ~35.264deg around X.
+ * Project a 3D point to isometric 2D + depth. Z-up, camera at the
+ * front-right-top corner (+X, −Y, +Z) — the same iso as the core renderer.
  */
 function projectIso(x: any, y: any, z: any) {
-  const a = Math.PI / 4
-  const b = Math.asin(1 / Math.sqrt(3))
-  const ca = Math.cos(a), sa = Math.sin(a)
-  const cb = Math.cos(b), sb = Math.sin(b)
-  const x1 = ca * x + sa * z
-  const y1 = y
-  const z1 = -sa * x + ca * z
-  return [x1, cb * y1 - sb * z1, sb * y1 + cb * z1]
+  return [(x + y) * SQRT1_2, (-x + y + 2 * z) * INV_SQRT6, (x - y + z) * INV_SQRT3]
 }
+const SQRT1_2 = Math.SQRT1_2, INV_SQRT6 = 1 / Math.sqrt(6), INV_SQRT3 = 1 / Math.sqrt(3)
 
 /**
  * Render an array of STL triangles into an RGBA pixel buffer.

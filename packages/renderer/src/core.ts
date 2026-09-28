@@ -1,5 +1,5 @@
 import type {
-  AssemblyInstance, CameraView, DiffResult, Frame, Graphic, GraphicContainer, TextLabel,
+  AssemblyInstance, CameraView, DiffResult, DrawingOptions, Frame, Graphic, GraphicContainer, ProjectionMethod, TextLabel,
   Marker, OverlayPolyline, RasterResult, RenderOptions, SectionPlane,
   SessionEntry, SessionSource, SolidRenderOptions, Tree, Vec3, RGB,
 } from './types.js'
@@ -51,19 +51,14 @@ const IMG_H = 1200
 // Projection & Transform
 // ═══════════════════════════════════════════════════════════════════════════
 
-// Default isometric projection (CAD-cube corner view).
-// Rotates 45° around Y, then ~35.264° around X. Output: [screenX, screenY, depth]
-// where larger depth = closer to camera.
+// Default isometric projection (CAD-cube corner view), Z-up like ClassCAD and
+// every other named view: camera at the front-right-top corner (+X, −Y, +Z),
+// i.e. { azimuth: 45, elevation: 35.264 }. Front, right and top faces are
+// visible. Output: [screenX, screenY, depth] where larger depth = closer to camera.
 function projectIso(x: any, y: any, z: any) {
-  const a = Math.PI / 4
-  const b = Math.asin(1 / Math.sqrt(3))
-  const ca = Math.cos(a), sa = Math.sin(a)
-  const cb = Math.cos(b), sb = Math.sin(b)
-  const x1 = ca * x + sa * z
-  const y1 = y
-  const z1 = -sa * x + ca * z
-  return [x1, cb * y1 - sb * z1, sb * y1 + cb * z1]
+  return [(x + y) * SQRT1_2, (-x + y + 2 * z) * INV_SQRT6, (x - y + z) * INV_SQRT3]
 }
+const SQRT1_2 = Math.SQRT1_2, INV_SQRT6 = 1 / Math.sqrt(6), INV_SQRT3 = 1 / Math.sqrt(3)
 
 // CAD view-cube projections. Each returns [screenX, screenY, depth].
 // World is right-handed, +X right, +Y forward, +Z up.
@@ -80,8 +75,8 @@ const VIEWS: Record<string, (x: number, y: number, z: number) => number[]> = {
   bottom: (x: any, y: any, z: any) => [x, -y, -z],
   front:  (x: any, y: any, z: any) => [x, z, -y],
   back:   (x: any, y: any, z: any) => [-x, z, y],
-  right:  (x: any, y: any, z: any) => [-y, z, x],
-  left:   (x: any, y: any, z: any) => [y, z, -x],
+  right:  (x: any, y: any, z: any) => [y, z, x],
+  left:   (x: any, y: any, z: any) => [-y, z, -x],
 }
 
 export const VIEW_NAMES = Object.keys(VIEWS)
@@ -114,10 +109,10 @@ function project(x: any, y: any, z: any) {
 //     horizon, 90 = straight down (top). World is Z-up.
 //   { direction: [x,y,z], up? }   — explicit look direction (from camera toward
 //     the scene), optional up hint (default [0,0,1]).
-// Both build a standard right-handed photographic camera basis. Note: the
-// NAMED views follow CAD drawing conventions and are kept byte-stable; a
-// vector camera aimed like a named view may differ in handedness (e.g.
-// 'right' vs { azimuth: 90 } are mirror images — drawing vs photo convention).
+// Both build a standard right-handed camera basis. A vector camera aimed like
+// a named view shows the same, unmirrored image ('right' = { azimuth: 90 },
+// 'left' = { azimuth: -90 }); no drawing convention mirrors a view — first- vs
+// third-angle projection only changes where a view is PLACED on the sheet.
 function projectionFromCamera(v: any) {
   let dir = null
   if (Array.isArray(v.direction) && v.direction.length === 3) {
@@ -500,8 +495,10 @@ function resolveHighlightAt(graphic: any, instances: any, points: any) {
 // ── Section plane ──
 // section: { origin: [x,y,z], normal: [x,y,z] } cuts the model: everything on
 // the POSITIVE side of the plane (dot(p - origin, normal) > 0) is removed.
-// Cut bodies are rendered UNCAPPED — interior walls become visible and are
-// shaded darker (back faces are not culled while a section is active).
+// The cut faces are CAPPED by default — filled and hatched like a drawing's
+// section (see _fillSectionCap); interior walls behind open regions (bores,
+// pockets) stay visible, shaded darker (back faces are not culled while a
+// section is active). `cap: false` leaves the cut open.
 // The view keeps the UNSECTIONED model's framing, so a sectioned and an
 // unsectioned render of the same state are directly comparable.
 function normalizeSection(section: any) {
@@ -509,7 +506,7 @@ function normalizeSection(section: any) {
   const [nx, ny, nz] = section.normal
   const len = Math.hypot(nx, ny, nz)
   if (!(len > 1e-12)) return null
-  return { o: section.origin, n: [nx / len, ny / len, nz / len] }
+  return { o: section.origin, n: [nx / len, ny / len, nz / len], cap: section.cap !== false }
 }
 
 const _planeDist = (p: any, s: any) => (p[0] - s.o[0]) * s.n[0] + (p[1] - s.o[1]) * s.n[1] + (p[2] - s.o[2]) * s.n[2]
@@ -592,7 +589,10 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
   const HIGHLIGHT_RGB = [1.0, 0.45, 0.05] // signal orange
   const overlays = Array.isArray(opts.overlays) ? opts.overlays.filter((o: any) => Array.isArray(o?.pts) && o.pts.length >= 2) : []
   const annotate = !!opts.annotate
-  const xray = !!opts.xray
+  // Line style: triangles only fill the depth buffer, every edge is drawn
+  // visible (solid) or hidden (dashed) by a depth test against it.
+  const lines = !!opts.lines
+  const xray = !!opts.xray && !lines
   const xrayAlpha = typeof opts.xrayAlpha === 'number' && opts.xrayAlpha > 0 && opts.xrayAlpha < 1 ? opts.xrayAlpha : 0.42
   const wmin = [Infinity, Infinity, Infinity], wmax = [-Infinity, -Infinity, -Infinity]
   const growBBox = (x: any, y: any, z: any) => {
@@ -604,12 +604,22 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
   const allPts2d: any[] = []
   const tris: any[] = []  // { v0, v1, v2 (screen+depth), r, g, b }
   const edgeLines: any[] = []
+  // Section caps: per body, the world segments where its triangles cross the plane.
+  const caps: Array<{ segs: number[][][]; rgb: number[] }> = []
 
   const drawList = buildDrawList(graphic, instances)
   for (const draw of drawList) {
     const { container, transform, paletteIdx } = draw
     const fallback = BODY_PALETTES[paletteIdx % BODY_PALETTES.length]
+    // Line style: mesh edges keyed by position, to find silhouettes — edges
+    // between a front- and a back-facing triangle. Curved faces have no brep
+    // edge where their outline is (a cylinder seen from the side), so a line
+    // drawing without them would miss the outline.
+    const meshEdges: Map<string, { a: number[]; b: number[]; front: number; n: number; m0: number; m1: number }> | null = lines ? new Map() : null
+    const capSegs: number[][][] | null = section?.cap && !xray ? [] : null
+    let meshIdx = -1
     for (const mesh of (container.meshes || [])) {
+      meshIdx++
       const meshHighlighted = highlightIds &&
         (highlightIds.has(Number(mesh.id)) || highlightIds.has(Number(container.id)) || highlightIds.has(Number(container.owner)))
       // native: model's own colors (mesh material > container material > palette)
@@ -637,8 +647,46 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
         if (transform) [nx, ny, nz] = applyMatVec(transform, nx, ny, nz)
         const [, , lz] = project(nx, ny, nz)
 
-        // Back faces: culled normally — but with a section active they ARE the
-        // interior walls the cut exposes, so shade them (darker) instead.
+        if (capSegs) {
+          // Where this triangle crosses the plane. A vertex ON the plane counts
+          // as the kept side, so every crossing is found exactly once and the
+          // segments close into loops.
+          const d = [_planeDist(wv[0], section), _planeDist(wv[1], section), _planeDist(wv[2], section)]
+          const cut: number[][] = []
+          for (let j = 0; j < 3; j++) {
+            const k = (j + 1) % 3
+            if ((d[j] > 0) !== (d[k] > 0)) {
+              const t = d[j] / (d[j] - d[k])
+              cut.push([wv[j][0] + t * (wv[k][0] - wv[j][0]), wv[j][1] + t * (wv[k][1] - wv[j][1]), wv[j][2] + t * (wv[k][2] - wv[j][2])])
+            }
+          }
+          if (cut.length === 2) capSegs.push(cut)
+        }
+
+        if (meshEdges) {
+          // Facing from the averaged vertex normals: on a tessellated curved
+          // face it flips exactly at the strip edge that is the silhouette.
+          let ax = 0, ay = 0, az = 0
+          for (let j = 0; j < 3; j++) {
+            const k = indices[i + j] * 3
+            ax += norms[k]; ay += norms[k + 1]; az += norms[k + 2]
+          }
+          if (transform) [ax, ay, az] = applyMatVec(transform, ax, ay, az)
+          const front = project(ax, ay, az)[2] > 1e-9 ? 1 : 0
+          for (let j = 0; j < 3; j++) {
+            const p = wv[j], q = wv[(j + 1) % 3]
+            const kp = edgePointKey(p), kq = edgePointKey(q)
+            if (kp === kq) continue
+            const key = kp < kq ? kp + '|' + kq : kq + '|' + kp
+            const e = meshEdges.get(key)
+            if (e) { e.n++; e.front += front; e.m1 = meshIdx }
+            else meshEdges.set(key, { a: p, b: q, front, n: 1, m0: meshIdx, m1: -1 })
+          }
+        }
+
+        // Back faces: culled normally — but with a section active they are the
+        // interior walls the cut exposes (behind open regions, or everywhere
+        // with cap: false), so shade them (darker) instead.
         let facing = 1
         if (lz < 0) {
           if (!section) continue
@@ -667,6 +715,20 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
           })
           tris.push({ v: tv, r, g, b })
         }
+      }
+    }
+    if (capSegs?.length) {
+      const base = colorMode === 'distinct' ? fallback : materialRgb(container.properties?.material) ?? fallback
+      caps.push({ segs: capSegs, rgb: base })
+    }
+    if (meshEdges) {
+      for (const e of meshEdges.values()) {
+        if (e.n !== 2 || e.front !== 1) continue
+        if (section && (_planeDist(e.a, section) > 0 || _planeDist(e.b, section) > 0)) continue
+        edgeLines.push([e.a, e.b].map(([x, y, z]) => {
+          const [px, py, pz] = project(x, y, z)
+          return { px, py, pz }
+        }))
       }
     }
     for (const edge of (container.edges || [])) {
@@ -706,6 +768,19 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
         }
         if (cur.length) pieces.push(cur)
       }
+      // Line style: a brep edge running INSIDE one face mesh is that face's
+      // seam (cylinders, cones) — no edge in a drawing, so it is skipped.
+      if (meshEdges && world.length >= 2) {
+        let found = 0, seam = 0
+        for (let i = 0; i + 1 < world.length; i++) {
+          const kp = edgePointKey(world[i]), kq = edgePointKey(world[i + 1])
+          const e = meshEdges.get(kp < kq ? kp + '|' + kq : kq + '|' + kp)
+          if (!e) continue
+          found++
+          if (e.n === 2 && e.m0 === e.m1) seam++
+        }
+        if (found > 0 && seam === found) continue
+      }
       const edgeHighlighted = highlightIds && highlightIds.has(Number(edge.id))
       for (const piece of pieces) {
         if (piece.length < 2) continue
@@ -739,7 +814,13 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
 
   // Rasterize triangles. X-ray: painter's algorithm back-to-front with fixed
   // alpha blending (no depth rejection) — hidden geometry shines through.
-  if (xray) {
+  if (lines) {
+    // Depth only: white fill on the white background, the lines carry the drawing.
+    for (const tri of tris) {
+      const sv = tri.v.map((v: any) => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+      _rasterTri(pixels, zBuf, width, height, sv[0], sv[1], sv[2], 255, 255, 255)
+    }
+  } else if (xray) {
     const withDepth = tris.map((tri: any) => ({
       tri,
       d: (tri.v[0].pz + tri.v[1].pz + tri.v[2].pz) / 3,
@@ -756,11 +837,41 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
     }
   }
 
+  if (caps.length) {
+    // Shaded: the cut face lighter than any lit surface, hatch in the body's dark tone.
+    const fillOf = (rgb: number[]) => rgb.map(c => Math.round(0.55 * 230 * c + 0.45 * 255))
+    const hatchOf = (rgb: number[]) => rgb.map(c => Math.round(70 * c))
+    caps.forEach((cap, i) => {
+      _fillSectionCap(pixels, zBuf, width, height, cap.segs, section, xf, i % 2 === 1,
+        lines ? [255, 255, 255] : fillOf(cap.rgb), lines ? [70, 70, 70] : hatchOf(cap.rgb))
+      // The cut outline is an edge like any other.
+      for (const seg of cap.segs) edgeLines.push(seg.map(([x, y, z]) => { const [px, py, pz] = project(x, y, z); return { px, py, pz } }))
+    })
+  }
+
   // Draw edges on top (2px, dark color, with depth test). Highlighted edges:
   // signal red, generous z-bias so they stay visible on their surface.
   const edgeColor = { r: 26, g: 26, b: 58 }
   const hlColor = { r: 230, g: 40, b: 30 }
-  for (const epts of edgeLines) {
+  if (lines) {
+    // Hidden pass first (thin, dashed), then visible (full weight) on top —
+    // in orthographic views back edges often project onto front edges.
+    let zMin = Infinity, zMax = -Infinity
+    for (const tri of tris) for (const v of tri.v) { if (v.pz < zMin) zMin = v.pz; if (v.pz > zMax) zMax = v.pz }
+    const eps = Number.isFinite(zMin) ? Math.max(1e-6, (zMax - zMin) * 2e-3) : 1e-6
+    const ink = { r: 20, g: 20, b: 20 }
+    const hiddenInk = { r: 95, g: 95, b: 95 }
+    for (const pass of ['hidden', 'visible'] as const) {
+      for (const epts of edgeLines) {
+        const sv = epts.map((v: any) => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
+        const hl = (epts as any).highlighted
+        const col = hl ? hlColor : pass === 'visible' ? ink : hiddenInk
+        for (let i = 0; i < sv.length - 1; i++) {
+          _rasterLineHL(pixels, zBuf, width, height, sv[i], sv[i+1], col, pass, eps)
+        }
+      }
+    }
+  } else for (const epts of edgeLines) {
     const sv = epts.map((v: any) => { const [sx, sy] = xf(v.px, v.py); return { sx, sy, sz: v.pz } })
     for (let i = 0; i < sv.length - 1; i++) {
       if ((epts as any).highlighted) {
@@ -973,6 +1084,115 @@ function _rasterLine(pixels: any, zBuf: any, w: any, h: any, p0: any, p1: any, c
               pixels[npi] = color.r; pixels[npi+1] = color.g; pixels[npi+2] = color.b; pixels[npi+3] = 255
             }
           }
+        }
+      }
+    }
+    if (x0 === x1 && y0 === y1) break
+    const e2 = 2 * err
+    if (e2 > -dy) { err -= dy; x0 += sx }
+    if (e2 < dx) { err += dx; y0 += sy }
+  }
+}
+
+/**
+ * Fill one body's section cap: even-odd scanline fill of its cut segments (so
+ * bores and pockets stay open), depth-tested at the plane's own depth, with
+ * 45° screen-space hatching — `flip` mirrors the direction for adjacent bodies.
+ */
+function _fillSectionCap(pixels: any, zBuf: any, w: number, h: number, segs: number[][][], section: any, xf: any, flip: boolean, fill: number[], hatch: number[]): void {
+  const scr = (p: number[]) => { const [px, py, pz] = project(p[0], p[1], p[2]); const [sx, sy] = xf(px, py); return [sx, sy, pz] }
+  // Plane depth as a linear function of screen position, from three plane
+  // points ~100 px apart (the model's own scale).
+  const n = section.n
+  const a = Math.abs(n[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0]
+  let u = [n[1] * a[2] - n[2] * a[1], n[2] * a[0] - n[0] * a[2], n[0] * a[1] - n[1] * a[0]]
+  const ul = Math.hypot(u[0], u[1], u[2]); u = u.map(c => c / ul)
+  const v = [n[1] * u[2] - n[2] * u[1], n[2] * u[0] - n[0] * u[2], n[0] * u[1] - n[1] * u[0]]
+  const L = 100 * _px / (_lastFrame?.scale || 1)
+  const o = section.o
+  const [p0, p1, p2] = [o, [o[0] + L * u[0], o[1] + L * u[1], o[2] + L * u[2]], [o[0] + L * v[0], o[1] + L * v[1], o[2] + L * v[2]]].map(scr)
+  const dx1 = p1[0] - p0[0], dy1 = p1[1] - p0[1], dz1 = p1[2] - p0[2]
+  const dx2 = p2[0] - p0[0], dy2 = p2[1] - p0[1], dz2 = p2[2] - p0[2]
+  const det = dx1 * dy2 - dx2 * dy1
+  if (Math.abs(det) < 1e-6) return // plane seen edge-on: the cap is only its outline
+  const A = (dz1 * dy2 - dz2 * dy1) / det, B = (dx1 * dz2 - dx2 * dz1) / det, C = p0[2] - A * p0[0] - B * p0[1]
+
+  const s2 = segs.map(([p, q]) => { const a0 = scr(p), b0 = scr(q); return [a0[0], a0[1], b0[0], b0[1]] })
+  let yMin = Infinity, yMax = -Infinity
+  for (const [, ya, , yb] of s2) { yMin = Math.min(yMin, ya, yb); yMax = Math.max(yMax, ya, yb) }
+  const y0 = Math.max(0, Math.ceil(yMin)), y1 = Math.min(h - 1, Math.ceil(yMax) - 1)
+  if (y1 < y0) return
+  const rows: number[][][] = Array.from({ length: y1 - y0 + 1 }, () => [])
+  for (const sg of s2) {
+    const lo = Math.min(sg[1], sg[3]), hi = Math.max(sg[1], sg[3])
+    for (let y = Math.max(y0, Math.ceil(lo)); y <= Math.min(y1, Math.ceil(hi) - 1); y++) rows[y - y0].push(sg)
+  }
+  const sp = 7 * _px
+  for (let y = y0; y <= y1; y++) {
+    const xs = rows[y - y0].map(([xa, ya, xb, yb]) => xa + ((y - ya) / (yb - ya)) * (xb - xa)).sort((p, q) => p - q)
+    for (let k = 0; k + 1 < xs.length; k += 2) {
+      for (let x = Math.max(0, Math.ceil(xs[k])); x <= Math.min(w - 1, Math.ceil(xs[k + 1]) - 1); x++) {
+        const idx = y * w + x
+        const z = A * x + B * y + C
+        if (z < zBuf[idx]) continue
+        zBuf[idx] = z
+        const t = flip ? x - y : x + y
+        const c = ((t % sp) + sp) % sp < _px ? hatch : fill
+        const pi = idx * 4
+        pixels[pi] = c[0]; pixels[pi+1] = c[1]; pixels[pi+2] = c[2]; pixels[pi+3] = 255
+      }
+    }
+  }
+}
+
+/** Position key of a mesh vertex (1e-5 model units), for edge adjacency across face meshes. */
+function edgePointKey(p: number[]): string {
+  return Math.round(p[0] * 1e5) + ',' + Math.round(p[1] * 1e5) + ',' + Math.round(p[2] * 1e5)
+}
+
+/**
+ * Line-style edge pass: draws only the pixels of the segment that are
+ * `pass` ('visible' | 'hidden') — hidden ones dashed and thin. A pixel is
+ * visible when no surface in its neighbourhood lies in front of it (by more
+ * than `eps`); the neighbourhood keeps outline edges, whose own pixel may
+ * already belong to the surface next to them, visible.
+ */
+function _rasterLineHL(pixels: any, zBuf: any, w: number, h: number, p0: any, p1: any, color: any, pass: 'visible' | 'hidden', eps: number): void {
+  let x0 = Math.round(p0.sx), y0 = Math.round(p0.sy)
+  const x1 = Math.round(p1.sx), y1 = Math.round(p1.sy)
+  const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0)
+  const sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1
+  let err = dx - dy
+  const totalDist = Math.hypot(p1.sx - p0.sx, p1.sy - p0.sy) || 1
+  const dashOn = 7 * _px, dashPeriod = 11 * _px
+  const stamp = pass === 'visible'
+    ? (_px === 1 ? LINE_STAMP_1X : lineStamp(_px))
+    : (_px === 1 ? [] : lineStamp(Math.max(1, Math.floor(_px / 2))))
+  const nb = _px
+  for (let i = 0; i <= dx + dy + 1; i++) {
+    if (x0 >= 0 && x0 < w && y0 >= 0 && y0 < h) {
+      const d = Math.hypot(x0 - p0.sx, y0 - p0.sy)
+      const z = p0.sz + Math.min(1, d / totalDist) * (p1.sz - p0.sz)
+      // Farthest surface in the neighbourhood (background = -Infinity).
+      let farthest = Infinity
+      for (let oy = -nb; oy <= nb; oy++) for (let ox = -nb; ox <= nb; ox++) {
+        const nx = x0 + ox, ny = y0 + oy
+        if (nx < 0 || nx >= w || ny < 0 || ny >= h) { farthest = -Infinity; continue }
+        const zb = zBuf[ny * w + nx]
+        if (zb < farthest) farthest = zb
+      }
+      const visible = z >= farthest - eps
+      // Dash phase anchored in SCREEN space (x for flat, y for steep lines):
+      // coincident hidden edges then dash identically instead of filling
+      // each other's gaps.
+      const t = dx >= dy ? x0 : y0
+      const draw = pass === 'visible' ? visible : !visible && (((t % dashPeriod) + dashPeriod) % dashPeriod) < dashOn
+      if (draw) {
+        for (const [ox, oy] of [[0, 0], ...stamp]) {
+          const nx = x0 + ox, ny = y0 + oy
+          if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue
+          const pi = (ny * w + nx) * 4
+          pixels[pi] = color.r; pixels[pi+1] = color.g; pixels[pi+2] = color.b; pixels[pi+3] = 255
         }
       }
     }
@@ -2237,28 +2457,32 @@ const ORTHO_VIEWS = new Set(['top', 'bottom', 'front', 'back', 'left', 'right'])
  * Render four views of the solids into ONE image (quadrants TL, TR, BL, BR),
  * or TWO views side by side (full-height panels A | B — e.g. a view and its
  * mirror for a forced-choice chirality check).
- * Default layout: top / iso / front / right — third-angle-ish (top above
- * front, right beside front, iso in the free corner). All ORTHO views share a
- * COMMON scale (like a technical drawing), the iso quadrant auto-fits itself.
- * Labels use the built-in font; custom {azimuth,…} views are labeled A, B, ….
+ * Default layout: top / iso / front / right — the third-angle arrangement
+ * (top above front, right beside front, iso in the free corner). All ORTHO
+ * views share a COMMON scale (like a technical drawing), the iso quadrant
+ * auto-fits itself. Labels use the built-in font; custom {azimuth,…} views are
+ * labeled A, B, …. A `null` view leaves its quadrant empty.
  *
  * @param {object} graphic — graphic payload (containers)
  * @param {number} width/height — sheet size
  * @param {Array|null} instances — assembly instances (see renderSolidZBuffer)
- * @param {object} [opts] — { views: [tl,tr,bl,br] | [left,right], colors, section }
+ * @param {object} [opts] — { views: [tl,tr,bl,br] | [left,right], colors, section, lines,
+ *   panelLines / panelLabels: per-view line style and label overrides }
  * @returns {{pixels,width,height}|null}
  */
-export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, opts: SolidRenderOptions & { views?: CameraView[] } = {}): RasterResult | null {
+export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, opts: SolidRenderOptions & { views?: Array<CameraView | null>; panelLines?: boolean[]; panelLabels?: string[] } = {}): RasterResult | null {
   const views = Array.isArray(opts.views) && (opts.views.length === 2 || opts.views.length === 4) ? opts.views : ['top', 'iso', 'front', 'right']
   const rows = views.length === 2 ? 1 : 2
   const qw = Math.floor(width / 2)
   const qh = Math.floor(height / rows)
-  const solidOpts = { colors: opts.colors, section: opts.section, highlight: opts.highlight, highlightAt: opts.highlightAt, markers: opts.markers, xray: opts.xray, annotate: opts.annotate }
+  const solidOpts = { colors: opts.colors, section: opts.section, highlight: opts.highlight, highlightAt: opts.highlightAt, markers: opts.markers, xray: opts.xray, annotate: opts.annotate, lines: opts.lines }
+  const panelOpts = (i: number) => (opts.panelLines ? { ...solidOpts, lines: !!opts.panelLines[i] } : solidOpts)
 
   // Pass 1: auto-fit render per view to learn each frame.
-  const firstPass = views.map((view: any) => {
+  const firstPass = views.map((view: any, i: number) => {
+    if (view == null) return null
     setViewport({ view: view as any })
-    return renderSolidZBuffer(graphic, qw, qh, instances, solidOpts)
+    return renderSolidZBuffer(graphic, qw, qh, instances, panelOpts(i))
   })
   if (firstPass.every((r: any) => r == null)) return null
 
@@ -2274,7 +2498,7 @@ export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height
     if (!fp) return null
     if (typeof view === 'string' && ORTHO_VIEWS.has(view) && commonScale != null && fp.frame && fp.frame.scale !== commonScale) {
       setViewport({ view: view as any, frame: { scale: commonScale, midX: fp.frame.midX, midY: fp.frame.midY } })
-      return renderSolidZBuffer(graphic, qw, qh, instances, solidOpts)
+      return renderSolidZBuffer(graphic, qw, qh, instances, panelOpts(i))
     }
     return fp
   })
@@ -2321,14 +2545,77 @@ export function renderSolidSheet(graphic: Graphic, width: number = IMG_W, height
   _textSink = labels
   try {
     for (let q = 0; q < views.length; q++) {
+      if (views[q] == null) continue
       const [ox, oy] = offsets[q]
-      const name = typeof views[q] === 'string' ? (views[q] as string) : String.fromCharCode(65 + q)
+      const name = opts.panelLabels?.[q] ?? (typeof views[q] === 'string' ? (views[q] as string) : String.fromCharCode(65 + q))
       drawText(pixels, width, height, ox + 8 * _px, oy + 8 * _px, name, [70, 70, 70], 2 * _px)
     }
   } finally {
     _textSink = outerSink
   }
   return labels ? { pixels, width, height, frame: null, labels } : { pixels, width, height, frame: null }
+}
+
+/** Normalizes {@link RenderOptions.drawing} (`true` = first-angle). */
+function drawingOptions(drawing: RenderOptions['drawing']): Required<DrawingOptions> {
+  const o: DrawingOptions = typeof drawing === 'string' ? { projection: drawing } : typeof drawing === 'object' && drawing ? drawing : {}
+  const projection: ProjectionMethod = o.projection === 'third-angle' ? 'third-angle' : 'first-angle'
+  const side = o.side === 'left' || o.side === 'right' ? o.side : projection === 'third-angle' ? 'right' : 'left'
+  return { projection, side, iso: o.iso !== false }
+}
+
+/**
+ * Render the solids as a TECHNICAL DRAWING (2×2): front, top and side view in
+ * line style (hidden edges dashed), placed by projection method, aligned and
+ * at one shared scale; a shaded iso fills the free quadrant, which also
+ * carries the projection method as text.
+ *
+ * First-angle (ISO E): top view BELOW the front view; the view from the left
+ * sits RIGHT of it, the view from the right LEFT of it. Third-angle (ISO A):
+ * top view ABOVE the front view; the view from the right sits RIGHT of it,
+ * the view from the left LEFT of it. The views themselves are identical in
+ * both methods — only their placement differs.
+ *
+ * @param {object} [opts] — render options; `opts.drawing` picks the method (see RenderOptions.drawing)
+ */
+export function renderSolidDrawing(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, opts: SolidRenderOptions = {}): RasterResult | null {
+  const { projection, side, iso } = drawingOptions(opts.drawing ?? true)
+  const third = projection === 'third-angle'
+  const sideRightOfFront = third ? side === 'right' : side === 'left'
+  const frontCol = sideRightOfFront ? 0 : 1
+  const frontRow = third ? 1 : 0 // third-angle: top view above the front view
+  const at = (col: number, row: number) => row * 2 + col
+  const views: Array<CameraView | null> = [null, null, null, null]
+  views[at(frontCol, frontRow)] = 'front'
+  views[at(frontCol, 1 - frontRow)] = 'top'
+  views[at(1 - frontCol, frontRow)] = side
+  const free = at(1 - frontCol, 1 - frontRow)
+  views[free] = iso ? 'iso' : null
+  const labelOf: Record<string, string> = { front: 'FRONT', top: 'TOP', left: 'FROM LEFT', right: 'FROM RIGHT', iso: 'ISO' }
+  const sheet = renderSolidSheet(graphic, width, height, instances, {
+    ...opts,
+    xray: false,
+    views,
+    panelLines: views.map(v => v !== 'iso'),
+    panelLabels: views.map(v => (typeof v === 'string' ? labelOf[v] ?? v : '')),
+  })
+  if (!sheet) return null
+
+  // Projection method, bottom right of the free quadrant.
+  const qw = Math.floor(width / 2), qh = Math.floor(height / 2)
+  const text = third ? 'THIRD-ANGLE PROJECTION - ISO A' : 'FIRST-ANGLE PROJECTION - ISO E'
+  // Stays inside its quadrant: half size on small sheets.
+  const scale = (measureText(text, 2 * _px) <= qw - 20 * _px ? 2 : 1) * _px
+  const x = (free % 2) * qw + qw - 10 * _px
+  const y = Math.floor(free / 2) * qh + qh - 12 * _px - 7 * scale
+  const outerSink = _textSink
+  _textSink = sheet.labels ?? null
+  try {
+    drawText(sheet.pixels as any, width, height, x - measureText(text, scale), y, text, [70, 70, 70], scale, 'end')
+  } finally {
+    _textSink = outerSink
+  }
+  return sheet
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2545,12 +2832,18 @@ export function diffImages(a: Pick<RasterResult, 'pixels' | 'width' | 'height'>,
  *   top/iso/front/right; ortho views share one scale like a technical drawing);
  *   2 views = full-height side-by-side panels labeled A | B (e.g. a view and
  *   its mirror for a forced-choice chirality check). Entry type becomes 'sheet'.
+ * @param {boolean} [options.lines] — line style: visible edges/silhouettes solid,
+ *   hidden ones dashed, no shading (single view and sheet panels).
+ * @param {boolean|string|object} [options.drawing] — technical drawing: front/top/side
+ *   in line style placed by 'first-angle' (true) or 'third-angle' projection, plus
+ *   a shaded iso. Takes precedence over sheet. Entry type becomes 'drawing'.
  * @param {{scale:number,midX:number,midY:number}} [options.frame] — pin the view
  *   frame to one returned by an earlier solid render (same view/size) so
  *   before/after images are pixel-comparable; feed both to diffImages.
  * @param {{origin:number[],normal:number[]}} [options.section] — cut the solids
- *   at a plane: everything on the positive side of `normal` is removed, interior
- *   walls are shown shaded (uncapped). Framing stays that of the uncut model.
+ *   at a plane: everything on the positive side of `normal` is removed; the cut
+ *   faces are filled and hatched (`cap: false` leaves them open, interior walls
+ *   shaded). Framing stays that of the uncut model.
  * @param {'native'|'distinct'} [options.colors='native'] — 'native' renders the
  *   model's OWN ClassCAD colors (mesh/container materials); 'distinct' gives
  *   every body its own palette color — use it to tell bodies apart (booleans,
@@ -2679,7 +2972,18 @@ async function renderSessionEntries(source: SessionSource, options: RenderOption
   if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0)) {
     const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedSolid(tree, c.owner)) }
     const instances = extractAssemblyInstances(tree)
-    if (options.sheet) {
+    if (options.drawing) {
+      // Technical drawing: front/top/side in line style, placed by projection method.
+      const drawing = supersampled(options, width, height, (w, h) => renderSolidDrawing(solidOnly, w, h, instances, {
+        drawing: options.drawing,
+        colors: options.colors ?? 'native',
+        section: options.section,
+        highlight: options.highlight,
+        highlightAt: options.highlightAt,
+        markers: options.markers,
+      }))
+      if (drawing) out.push({ type: 'drawing', kind: 'pixels', ...drawing })
+    } else if (options.sheet) {
       // Four views in one image; options.sheet may be an array of 4 views.
       const sheet = supersampled(options, width, height, (w, h) => renderSolidSheet(solidOnly, w, h, instances, {
         views: Array.isArray(options.sheet) ? options.sheet : undefined,
@@ -2687,10 +2991,11 @@ async function renderSessionEntries(source: SessionSource, options: RenderOption
         section: options.section,
         highlight: options.highlight,
         markers: options.markers,
+        lines: options.lines,
       }))
       if (sheet) out.push({ type: 'sheet', kind: 'pixels', ...sheet })
     } else {
-      const zbuf = supersampled(options, width, height, (w, h) => renderSolidZBuffer(solidOnly, w, h, instances, { colors: options.colors ?? 'native', section: options.section, highlight: options.highlight, highlightAt: options.highlightAt, markers: options.markers, overlays: sketchOverlays ?? undefined, annotate: options.annotate, xray: options.xray, xrayAlpha: options.xrayAlpha }))
+      const zbuf = supersampled(options, width, height, (w, h) => renderSolidZBuffer(solidOnly, w, h, instances, { colors: options.colors ?? 'native', section: options.section, highlight: options.highlight, highlightAt: options.highlightAt, markers: options.markers, overlays: sketchOverlays ?? undefined, annotate: options.annotate, xray: options.xray, xrayAlpha: options.xrayAlpha, lines: options.lines }))
       if (zbuf) out.push({ type: 'solid', kind: 'pixels', ...zbuf })
     }
   }

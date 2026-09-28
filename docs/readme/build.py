@@ -1281,7 +1281,9 @@ def main():
             else:
                 if bx0 < MEASURE[0] - 1 or bx1 > MEASURE[1] + 1:
                     raise SystemExit(f'{name}: content {bx0:.0f}–{bx1:.0f} leaves the measure {MEASURE}')
-                p.crop = (MEASURE[0], by0 - 18, MEASURE[1], by1 + 10)
+                # air above the plate (below its link line) and a longer tail, which
+                # sets the rhythm between plates without relying on markdown margins
+                p.crop = (MEASURE[0], by0 - 36, MEASURE[1], by1 + 56)
             write(p, f'{name}.{theme}.svg')
             if p.head:
                 write(plate_head(*p.head, theme), f'{name}.head.{theme}.svg')

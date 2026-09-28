@@ -1,7 +1,6 @@
 // gallery.mjs — regenerates docs/gallery.png, the README's capability overview.
 //
-//   node scripts/run.mjs packages/renderer/docs/gallery.mjs     (from the repo root,
-//                                                                 ClassCAD on :9094)
+//   node packages/renderer/docs/gallery.mjs     (from the repo root, a ClassCAD worker on :9094)
 //
 // Builds one flanged bushing live — asymmetric on purpose (a flat on the flange
 // at the front, a side port in the hub at +X) so the side views and the two
@@ -68,7 +67,7 @@ async function tile(entry, caption) {
 const esc = t => t.replace(/[<>&]/g, c => `&#${c.charCodeAt(0)};`)
 const FONT = `xml:space="preserve" font-family="Menlo, 'SF Mono', Monaco, Consolas, 'DejaVu Sans Mono', monospace"`
 
-export default async function (api) {
+export default async function gallery(api) {
   const { addBoltHoles } = await build(api)
   const before = await render(await source(api), { view: 'iso' })
   await addBoltHoles()
@@ -128,4 +127,16 @@ export default async function (api) {
     .png({ compressionLevel: 9 })
     .toFile(OUT)
   console.log('gallery written:', OUT)
+}
+
+// Run directly: connect to the worker and build the api the scripts expect.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const { connectSession, buildScriptApi } = await import('@classcad/script/node')
+  const { default: registry } = await import('@classcad/skill/method-registry.json', { with: { type: 'json' } })
+  const session = await connectSession()
+  try {
+    await gallery(buildScriptApi(session, { registry }))
+  } finally {
+    session.close()
+  }
 }

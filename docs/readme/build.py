@@ -899,8 +899,7 @@ TREE = [
     ('proof', [('The Renderer', '@classcad/renderer', 'views, drawings, sections and diffs'),
                ('The Numbers', 'the engine', 'mass properties and geometry probes')]),
     ('hosts', [('The MCP Server', 'classcad-mcp', 'Claude Code, Codex, OpenCode, Cursor, VS Code'),
-               ('The In-App Agent', '@buerli.io/ai', 'a chat panel in buerli apps'),
-               ('The Harness', 'scripts/run.mjs', 'cc, the agent that trains the skill')]),
+               ('The In-App Agent', '@buerli.io/ai', 'a chat panel in buerli apps')]),
 ]
 
 
@@ -921,7 +920,7 @@ def plate_systema(theme):
     p = Plate(1600, 900, theme, 'classcad-ai — a figurative system of the repository',
               'The repository as a figurative system: classcad·ai branches into knowledge (the skill, discovery), '
               'execution (the script, the engine), proof (the renderer, the numbers) and hosts (the MCP server, '
-              'the in-app agent, the harness).')
+              'the in-app agent).')
     t = p.t
     cols, cw = len(TREE), 340
     gutter = (MEASURE[1] - MEASURE[0] - cols * cw) / (cols - 1)

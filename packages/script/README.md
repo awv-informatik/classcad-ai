@@ -130,9 +130,8 @@ buildScriptApi(session: ScriptSession, opts?: { registry?: MethodRegistry }): ap
 ```
 
 Builds the [`api` object](#what-a-script-sees) for a session **without**
-executing anything — use it when you host script-like code yourself. The
-training harness does exactly this: it hands `buildScriptApi(session, { registry })`
-to training scripts as their `api` argument.
+executing anything — use it when you host script-like code yourself: hand
+`buildScriptApi(session, { registry })` to your scripts as their `api` argument.
 
 - With `opts.registry`: `api.v1` contains exactly the registry's domains and
   methods; unknown domain or method access throws immediately with
@@ -232,14 +231,13 @@ no filesystem access needed).
 | --- | --- |
 | `@buerli.io/ai` (browser panel) | `run_script` tool = `runScript` over its browser session; buerli namespaces injected as optional capabilities |
 | `classcad-mcp` (MCP server) | `run_script` tool over its WS client |
-| the training harness (`scripts/run.mjs`) | training scripts receive `buildScriptApi(session, { registry })` as their `api` |
 
 ## Execution reliability and inspection
 
 `runScript` accepts `strict`, `onOperation`, `signal`, and `timeoutMs`. Strict
 mode rejects engine error envelopes (level ≥51); raw envelopes remain the
-library default for diagnostic scripts. MCP, browser run_script, and the
-training harness enable strict mode. `onOperation` reports method, feature
+library default for diagnostic scripts. MCP and browser run_script enable
+strict mode. `onOperation` reports method, feature
 name, timing and engine messages. Logs retain the latest entries under their
 size limits.
 
@@ -275,11 +273,6 @@ are not applied. `api.inspect.solid(id)` adds native mass properties but does
 not certify B-rep validity. Revisions are local client mutation counters, not
 persistent topology identities or cross-client synchronization guarantees.
 
-The training harness writes `run-result.json` and exits nonzero on errors.
-Snapshots no longer implicitly export files: call
-`await helpers.exportArtifact('STP', 'part')` or `'OFB'`/`'STL'` explicitly.
-Requested export failures are reported and fail the run.
-
-Run the monorepo's `npm run test:reliability` for the offline adapter, lifecycle,
-harness and renderer regressions. `node packages/script/test/emission-live.mjs`
+Run the monorepo's `npm run test:reliability` for the offline adapter, lifecycle
+and renderer regressions. `node packages/script/test/emission-live.mjs`
 is the optional real-worker smoke test (`CLASSCAD_URL` selects the worker).

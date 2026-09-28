@@ -38,7 +38,7 @@ export const SUPPRESS_EMISSION: Record<string, unknown> = {
 
 /**
  * Around a graphic pull inside a suppressed script: kernel graphics only -
- * the content the harness / renderer contract has always been built on.
+ * the content the renderer has always been built on.
  * Switched back to the previous value right after the GetTree.
  */
 export const PULL_GRAPHIC_ON: Record<string, unknown> = { sendGraphic_Kernel: true }

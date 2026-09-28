@@ -1,8 +1,8 @@
 import { setDrawingBusy } from '../queue.js'
 // run_script — execute model-written JavaScript against the live session.
 //
-// Powered by @classcad/script: the same script medium as buerli-ai and the
-// training harness. Scripts using the guaranteed surface (api.v1.*,
+// Powered by @classcad/script: the same script medium as buerli-ai and
+// headless Node. Scripts using the guaranteed surface (api.v1.*,
 // api.tree(), api.graphic(), api.env) run unchanged in all of them.
 
 import { z } from 'zod'

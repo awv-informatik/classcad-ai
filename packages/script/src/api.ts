@@ -103,7 +103,7 @@ function v1Permissive(session: ScriptSession): Record<string, unknown> {
 /**
  * Build the script-facing `api` object for a session. Scripts that use only
  * the guaranteed surface (`v1`/`tree`/`graphic`/`env`) run unchanged in the
- * browser, the MCP, the harness and CI.
+ * browser, the MCP, headless Node and CI.
  */
 export function buildScriptApi(session: ScriptSession, opts: BuildApiOptions = {}): Record<string, unknown> {
   const original = session

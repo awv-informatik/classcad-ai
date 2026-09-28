@@ -249,8 +249,8 @@ node adapter's `source: 'stl'` builds on this).
   (`ensureGraphics: false` to skip); when feeding `renderSessionData` yourself,
   make sure the session had these settings before the graphic was produced.
 - **Gallery.** `docs/gallery.png` is rendered live from real session data:
-  `node scripts/run.mjs packages/renderer/docs/gallery.mjs` from the
-  classcad-ai root, with a ClassCAD worker on `:9094`.
+  `node packages/renderer/docs/gallery.mjs` from the classcad-ai root, with a
+  ClassCAD worker on `:9094`.
 - **Curve rendering** covers the first curve per shape container (the server
   pushes graphic data only for that one); use one shape per curve when visual
   verification matters.

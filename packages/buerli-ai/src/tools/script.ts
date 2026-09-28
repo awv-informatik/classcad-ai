@@ -1,7 +1,7 @@
 // run_script — execute model-written JavaScript against the CAD session.
 //
 // Powered by @classcad/script — the SAME script medium as the ClassCAD MCP and
-// the training harness. Scripts that use the guaranteed surface (api.v1.*,
+// headless Node. Scripts that use the guaranteed surface (api.v1.*,
 // api.tree(), api.graphic(), api.env) run unchanged in all of them; the
 // browser additionally injects buerli's facade/structure/selection namespaces
 // (see ./session.ts).

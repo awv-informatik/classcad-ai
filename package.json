@@ -1,14 +1,14 @@
 {
   "name": "classcad-ai",
   "private": true,
-  "description": "ClassCAD AI monorepo \u2014 the training agent lives at the root; shared packages under packages/.",
+  "description": "ClassCAD AI — the skill, the script medium, the renderer, the MCP server and the in-app assistant.",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build -w @classcad/skill -w @classcad/script -w @classcad/renderer && npm run build -w @awv-informatik/classcad-mcp -w @buerli.io/ai",
-    "test:reliability": "npm run build -w @classcad/script -w @classcad/renderer -w @awv-informatik/classcad-mcp -w @buerli.io/ai && node packages/script/test/unit.mjs && node --test packages/script/test/diagnostics.mjs packages/script/test/lifecycle.mjs packages/script/test/inspection.mjs packages/script/test/session-contract.mjs packages/renderer/test/capture.mjs packages/mcp/test/queue-reliability.mjs scripts/test/run.mjs && node packages/renderer/test/smoke.mjs && node packages/renderer/test/golden.mjs"
+    "test:reliability": "npm run build -w @classcad/script -w @classcad/renderer -w @awv-informatik/classcad-mcp -w @buerli.io/ai && node packages/script/test/unit.mjs && node --test packages/script/test/diagnostics.mjs packages/script/test/lifecycle.mjs packages/script/test/inspection.mjs packages/script/test/session-contract.mjs packages/renderer/test/capture.mjs packages/mcp/test/queue-reliability.mjs && node packages/renderer/test/smoke.mjs && node packages/renderer/test/golden.mjs"
   },
   "engines": {
     "node": ">=18"

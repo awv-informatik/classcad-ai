@@ -5,15 +5,10 @@ test/out
 *.swp
 *~
 
-# Claude Code / OpenClaw local config
+# Claude Code local config
 .claude/
-.openclaw/
 
 # Lock file noise from the previous standalone repos
 packages/*/package-lock.json
 
-# Training output artifacts
-workspace/output/
 
-# Generated from @classcad/api-js on postinstall (legacy)
-knowledge/classcad-api/

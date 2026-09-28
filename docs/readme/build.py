@@ -1289,7 +1289,8 @@ def plate_envoy(theme):
     W, H_ = 1600, 1080
     p = Plate(W, H_, theme, 'Plate VI — The Envoy: the MCP server and the in-app assistant',
               'Two ways in. Left, the MCP server: Claude Code, Codex, OpenCode, Claude Desktop, VS Code and Cursor '
-              'fan into one daemon per machine. Right, the in-app assistant: a buerli app with the part in its '
+              'fan into one daemon per machine, which can also drive the app over its bridge. Right, the in-app '
+              'assistant: a buerli app with the part in its '
               'viewport and the chat panel beside it. Both lead to one request — "' + ' '.join(PROMPT).strip('“”') +
               '" — and a pointing hand leads to the result, the flanged bushing, engraved in iso.')
     t = p.t
@@ -1320,12 +1321,15 @@ def plate_envoy(theme):
     p.circle(dx, dy, 26, THICK, cls='d', delay=0.8)
     p.circle(dx, dy, 19, FINE, cls='d', delay=0.9)
     p.text(dx, dy + 7, 'd', 22, 'it', anchor='middle', fill=t['accent'])
-    p.text(dx + 44, dy - 4, 'daemon', 18, 'rm', 'smcp,c2sc', ls=0.2)
-    p.text(dx + 44, dy + 20, '127.0.0.1 : 9097', 16, 'rm8', 'lnum', fill=t['ink2'])
+    p.text(dx, dy - 58, 'daemon', 18, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle')
+    p.text(dx, dy - 38, '127.0.0.1 : 9097', 16, 'rm8', 'lnum', anchor='middle', fill=t['ink2'])
 
-    # right: an app with the assistant in it
+    # right: an app with the assistant in it — which the daemon can drive too, over its bridge
     wx0, wy0, wx1, wy1 = 880, 490, 1460, 708
     app_window(p, wx0, wy0, wx1, wy1, delay=0.6)
+    p.line(dx + 28, dy, wx0 - 10, dy, THIN, cls='d', delay=1.0)
+    p.arrow(wx0 - 3, dy, 1, 0)
+    p.text((dx + 28 + wx0) / 2, dy - 10, 'bridge', 17, 'it8', 'onum', anchor='middle', fill=t['ink2'])
 
     # each way in leads to the request with its own arrow
     lx, rx, ty = 540, 716, 800

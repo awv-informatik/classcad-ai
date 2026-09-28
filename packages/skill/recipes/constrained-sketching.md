@@ -101,6 +101,20 @@ If a dimension doesn't fit, the interpretation is wrong. Keep trying until all d
 - **Dimension reference points**: a distance may measure to a feature center, a bounding box edge, a tangent point, or a datum surface. Cross-referencing resolves which.
 - **Feature-locating dimensions**: distances from a datum to a feature CENTER (hole center, boss center) are standard. Not all dimensions go edge-to-edge.
 - **Tolerance and resolution**: when reading from images, similar-looking numbers (28 vs 38) and nearly-equal concentric circles can be ambiguous. When uncertain, ask.
+- **Projection method** (multi-view drawings): which side a view looks from is
+  standardized, which face is "front" is not — the drafter picks the most
+  informative view. The method places the other views around it (ISO 5456-2):
+  - **First-angle** (ISO E; Europe, CH/DE): the view from above sits BELOW the
+    front view, the view from the left sits to its RIGHT.
+  - **Third-angle** (ISO A; US ASME Y14.3, often UK/JP): the view from above
+    sits ABOVE the front view, the view from the right sits to its RIGHT.
+
+  The title-block symbol (a truncated cone, side view + end view) names it;
+  views labelled with letters and viewing arrows ("A", "B") are placed freely —
+  then only the arrows count. With neither, assume first-angle for European,
+  third-angle for US sources and mark it LOW CONFIDENCE: a wrong method reads a
+  side view as seen from the opposite side, and its features land mirrored.
+  The views themselves are never mirrored — only their placement differs.
 - **Units**: check for unit indicators (mm, in). If absent, context clues help — dimensions like 5.804 suggest inches; dimensions like 49.73 suggest millimeters.
 
 ---

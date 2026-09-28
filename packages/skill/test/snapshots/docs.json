@@ -5790,8 +5790,8 @@
   },
   "recipes/constrained-sketching": {
     "read": {
-      "chars": 41783,
-      "sha": "12df48a0c93b",
+      "chars": 42766,
+      "sha": "783da065311a",
       "headings": [
         "# Sketching Guide — Reproducing Technical Drawings in ClassCAD",
         "## Sketch-plane local→world mappings",
@@ -5840,8 +5840,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 41783,
-      "sha": "12df48a0c93b",
+      "chars": 42766,
+      "sha": "783da065311a",
       "headings": [
         "# Sketching Guide — Reproducing Technical Drawings in ClassCAD",
         "## Sketch-plane local→world mappings",
@@ -5980,8 +5980,8 @@
   },
   "recipes/verification": {
     "read": {
-      "chars": 16239,
-      "sha": "a575578af9c7",
+      "chars": 16749,
+      "sha": "ee46b47f8555",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",
@@ -6000,8 +6000,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 16239,
-      "sha": "a575578af9c7",
+      "chars": 16749,
+      "sha": "ee46b47f8555",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",

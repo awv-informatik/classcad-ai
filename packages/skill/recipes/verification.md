@@ -45,7 +45,10 @@ silent revision.
 
 1. **Inventory** — which views the reference shows (iso, front, top, …),
    and the image resolution. Below ~800 px, fine features — especially
-   handedness — are LOW CONFIDENCE: say so in the record.
+   handedness — are LOW CONFIDENCE: say so in the record. For a multi-view
+   technical drawing also record the **projection method** — it decides
+   which side each view looks from, so a wrong one mirrors the part (see
+   recipes/constrained-sketching, "Projection method").
 2. **Callout anchors** — for every dimension callout, write what its
    leader/arrows physically TOUCH ("Ø30 leader enters upper-right, lands
    on the inner arc") and whether the leader CROSSES the part's material
@@ -134,7 +137,11 @@ reference, don't patch silently.
 1. **Matched-view renders**: one snapshot per reference view, oriented like
    the reference (snapshot supports named views AND `{azimuth, elevation}` —
    match the iso's octant; front/top/right for orthographic views). A
-   comparison against an arbitrary ISO is not a comparison.
+   comparison against an arbitrary ISO is not a comparison. For a multi-view
+   technical drawing, render `drawing: '<the reference's method>'`: the same
+   layout in line style with hidden edges dashed, so the comparison covers
+   the hidden lines too — they carry the internal structure (through vs
+   blind holes, bosses vs bores, hollow vs solid).
 2. **Mirror check (forced choice) — UNCONDITIONAL, judged against the
    IMAGE.** Reference image in ⇒ pair render and independent verdict out,
    every time. There is no precondition to assess — not "the part looks

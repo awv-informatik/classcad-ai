@@ -340,8 +340,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 41824,
-      "sha": "78ef39263c7c",
+      "chars": 42807,
+      "sha": "802b8f837094",
       "sections": [
         "# ═══ recipes/constrained-sketching ═══"
       ],
@@ -396,8 +396,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 16271,
-      "sha": "d1560392c0ea",
+      "chars": 16781,
+      "sha": "7e3fb4508c30",
       "sections": [
         "# ═══ recipes/verification ═══"
       ],
@@ -4429,8 +4429,8 @@
         "recipes/verify-numerically",
         "recipes/drawing-reproduction"
       ],
-      "chars": 41981,
-      "sha": "117d5b31a94b",
+      "chars": 42964,
+      "sha": "223ca0ec7cfc",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ SKETCHING ═══"
@@ -4450,8 +4450,8 @@
       "deferred": [
         "recipes/constrained-sketching"
       ],
-      "chars": 36293,
-      "sha": "2361f1cecfe7",
+      "chars": 36803,
+      "sha": "8978951f0c9d",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
@@ -4483,8 +4483,8 @@
         "api/sketch",
         "api/solid"
       ],
-      "chars": 45452,
-      "sha": "3e30265d7d33",
+      "chars": 45962,
+      "sha": "9949f7b2910c",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
@@ -4588,13 +4588,13 @@
         "api/part"
       ],
       "chars": 1052,
-      "sha": "5a6976596cc1",
+      "sha": "24e340de7cd4",
       "sections": [
         "# ═══ response budget reached ═══",
-        "# ═══ recipes/verification (page 1/14) ═══"
+        "# ═══ recipes/verification (page 1/15) ═══"
       ],
       "footers": [
-        "[recipes/verification: page 1/14 — continue with \"recipes/verification#2\"]"
+        "[recipes/verification: page 1/15 — continue with \"recipes/verification#2\"]"
       ],
       "underBudget": true
     },
@@ -4628,8 +4628,8 @@
         "v1.part.box",
         "api/part"
       ],
-      "chars": 16413,
-      "sha": "418ee290c3a0",
+      "chars": 16923,
+      "sha": "3c491b9e1af6",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/verification ═══"

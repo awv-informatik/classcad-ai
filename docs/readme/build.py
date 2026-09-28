@@ -105,10 +105,10 @@ def measure(text, size, fk='rm', feats='', ls=0.0):
 THEMES = {
     # An engraving on warm laid paper, rubricated in vermilion.
     'light': dict(paper='#F2ECDF', ink='#1E1B16', ink2='#6E6555', rule='#1E1B16', accent='#A5311B',
-                  edge='#D6CBB5', grain='#6B5635', grain_a=0.10, shade='#8C7B5C'),
+                  edge='#D6CBB5', grain='#6B5635', grain_a=0.10, shade='#8C7B5C', pencil='#9C927F'),
     # A cyanotype: white lines on Prussian blue, corrected in red pencil.
     'dark': dict(paper='#0E2B4A', ink='#E4EDF6', ink2='#93B1CF', rule='#E4EDF6', accent='#FF8C6E',
-                 edge='#214C77', grain='#FFFFFF', grain_a=0.07, shade='#051A30'),
+                 edge='#214C77', grain='#FFFFFF', grain_a=0.07, shade='#051A30', pencil='#5F84AB'),
 }
 
 # Line weights (ISO 128: wide 2 : narrow 1) and patterns, in plate units.
@@ -116,14 +116,15 @@ THICK, THIN, FINE = 2.4, 1.15, 0.8
 DASHED = '7 3.5'            # hidden lines
 CHAIN = '20 4 2.5 4'        # centre lines, cutting planes
 
+# The frontispiece is inked on load over a pencil underdrawing: every drawn line
+# exists twice, a static pencil line and an animated ink line on top of it. The
+# first frame is therefore a finished drawing in pencil with all its type, so
+# anything that freezes the image (a paused tab, autoplay switched off, a
+# rasteriser) still shows a complete plate. The other plates do not move.
 CSS = """
 .d{animation:draw 1.1s cubic-bezier(.65,.04,.35,1) both}
-.f{animation:fade .9s ease-out both}
-.u{animation:rise 1.1s cubic-bezier(.2,.7,.2,1) both}
 @keyframes draw{from{stroke-dasharray:0 1}to{stroke-dasharray:1 0}}
-@keyframes fade{from{opacity:0}}
-@keyframes rise{from{opacity:0;transform:translateY(12px)}}
-@media (prefers-reduced-motion:reduce){.d,.f,.u{animation:none}}
+@media (prefers-reduced-motion:reduce){.d{animation:none}}
 """
 
 
@@ -136,7 +137,7 @@ def n(v):
 class Plate:
     """One SVG plate: glyph outlines are defined once and placed with <use>."""
 
-    def __init__(self, w, h, theme, title, desc, animate=True):
+    def __init__(self, w, h, theme, title, desc, animate=False):
         self.w, self.h, self.t = w, h, THEMES[theme]
         self.theme = theme
         self.title, self.desc = title, desc
@@ -150,9 +151,13 @@ class Plate:
         self.body.append(s)
 
     def anim(self, cls, delay):
-        if not self.animate or cls is None:
-            return ''
+        if not self.animate or cls != 'd':
+            return ''   # only lines are inked; type and fills are there from the first frame
         return f' class="{cls}" style="animation-delay:{delay:.2f}s"'
+
+    def pencil(self, cls, fill):
+        """Whether a drawn element also gets its static pencil twin."""
+        return self.animate and cls == 'd' and fill == 'none'
 
     @contextmanager
     def group(self, cls=None, delay=0.0, attrs=''):
@@ -202,6 +207,9 @@ class Plate:
         dash_a = f' stroke-dasharray="{dash}"' if dash else ''
         pl = ' pathLength="1"' if (cls == 'd' and self.animate) else ''
         stroke = f' stroke="{color}" stroke-width="{w}"' if w else ''
+        if w and self.pencil(cls, fill):
+            self.add(f'<path d="{d}" fill="none" stroke="{self.t["pencil"]}" stroke-width="{min(w, 1.0)}"'
+                     f'{dash_a} opacity=".75"/>')
         self.add(f'<path d="{d}" fill="{fill}"{stroke}{dash_a} stroke-linecap="{cap}"'
                  f' stroke-linejoin="round"{pl}{self.anim(cls, delay)}{extra}/>')
 
@@ -216,6 +224,9 @@ class Plate:
         color = color or self.t['ink']
         dash_a = f' stroke-dasharray="{dash}"' if dash else ''
         pl = ' pathLength="1"' if (cls == 'd' and self.animate) else ''
+        if self.pencil(cls, fill):
+            self.add(f'<circle cx="{n(cx)}" cy="{n(cy)}" r="{n(r)}" fill="none" stroke="{self.t["pencil"]}" '
+                     f'stroke-width="{min(w, 1.0)}"{dash_a} opacity=".75"/>')
         self.add(f'<circle cx="{n(cx)}" cy="{n(cy)}" r="{n(r)}" fill="{fill}" stroke="{color}" '
                  f'stroke-width="{w}"{dash_a}{pl}{self.anim(cls, delay)}/>')
 
@@ -705,7 +716,7 @@ def draw_bushing(p, fx, fy, k, lx, tx, ty, t0=0.2):
 
 def plate_frontispiece(theme):
     W, H_ = 1600, 1120
-    p = Plate(W, H_, theme, 'classcad-ai — The Art of Modelling with Agents',
+    p = Plate(W, H_, theme, 'classcad-ai — The Art of Modelling with Agents', animate=True, desc=
               'Frontispiece: an engineering drawing of a flanged bushing — section A–A, the view from the left '
               'and the plan in first-angle projection, dimensioned, with a title block. Title page: classcad-ai, '
               'or, the Art of Modelling with Agents: wherein a machine is taught to write parametric CAD models '

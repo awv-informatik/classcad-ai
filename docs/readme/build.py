@@ -1260,89 +1260,93 @@ def rounded(x0, y0, x1, y1, r):
 
 
 def app_window(p, x0, y0, x1, y1, delay=0.0):
-    """A buerli app, engraved small: the part in its viewport, the chat panel beside it."""
-    t = p.t
+    """A buerli app, engraved small: its window and the part in it."""
     p.grow(x0, y0, x1, y1)
     p.path(rounded(x0, y0, x1, y1, 10), THIN, cls='d', delay=delay)
     p.line(x0, y0 + 26, x1, y0 + 26, FINE, cls='d', delay=delay + 0.1)
     for i in range(3):
         p.circle(x0 + 18 + i * 14, y0 + 13, 3.8, FINE)
-    split = x0 + (x1 - x0) * 0.54
-    p.line(split, y0 + 26, split, y1, FINE, cls='d', delay=delay + 0.1)
-    engrave_bushing(p, (x0 + split) / 2, (y0 + 26 + y1) / 2 + 15, 1.5, t0=delay + 0.2, shade=False, weight=0.5)
-    px0, px1 = split + 16, x1 - 16
+    engrave_bushing(p, (x0 + x1) / 2, (y0 + 26 + y1) / 2 + 20, 2.3, t0=delay + 0.2, shade=False, weight=0.6)
 
-    def bubble(bx0, by0, bx1, lines, color):
-        bh = 16 + 13 * len(lines)
-        p.path(rounded(bx0, by0, bx1, by0 + bh, 7), FINE, color=color, cls='d', delay=delay + 0.4)
-        for i, frac in enumerate(lines):
-            ly = by0 + 14 + i * 13
-            p.line(bx0 + 10, ly, bx0 + 10 + (bx1 - bx0 - 20) * frac, ly, 1.6, color=t['ink2'], cap='round')
-        return by0 + bh
 
-    y = bubble(px0 + (px1 - px0) * 0.28, y0 + 42, px1, [1.0, 0.55], t['accent'])
-    y = bubble(px0, y + 12, px0 + (px1 - px0) * 0.82, [1.0, 0.9, 0.45], t['ink'])
-    p.path(rounded(px0, y1 - 36, px1, y1 - 12, 6), FINE, cls='d', delay=delay + 0.5)
+def dialogue(p, x0, x1, y0, delay=0.0):
+    """The in-app assistant at work: a request, and the agent's answer."""
+    t = p.t
 
+    def bubble(lines, right, color):
+        nonlocal y
+        size, lead_ = 19, 26
+        w = max(measure(ln, size, 'it8', 'onum') for ln in lines) + 32
+        bx0, bx1 = (x1 - w, x1) if right else (x0, x0 + w)
+        bh = 18 + lead_ * len(lines)
+        p.path(rounded(bx0, y, bx1, y + bh, 9), THIN, color=color, cls='d', delay=delay)
+        for i, ln in enumerate(lines):
+            p.text(bx0 + 16, y + 30 + i * lead_, ln, size, 'it8', 'onum')
+        y += bh + 16
+        return bx0, bx1
+
+    y = y0
+    bubble(['Make a flanged bushing.'], True, t['accent'])
+    answer = bubble(['Done: a 60 mm flange with a flat,', 'a 30 mm hub, bolt holes and a port.'], False, t['ink'])
+    return answer, y
 
 def plate_envoy(theme):
-    W, H_ = 1600, 1080
+    """Who makes the part, and where: the MCP server, for any agent host, joins
+    any buerli app or works on its own; the assistant works inside the app."""
+    W, H_ = 1600, 960
     p = Plate(W, H_, theme, 'Plate VI — The Envoy: the MCP server and the in-app assistant',
-              'Two ways in. Left, the MCP server: Claude Code, Codex, OpenCode, Claude Desktop, VS Code and Cursor '
-              'fan into one daemon per machine, which can also drive the app over its bridge. Right, the in-app '
-              'assistant: a buerli app with the part in its '
-              'viewport and the chat panel beside it. Both lead to one request — "' + ' '.join(PROMPT).strip('“”') +
-              '" — and a pointing hand leads to the result, the flanged bushing, engraved in iso.')
+              'Two envoys make the part. The MCP server takes requests from any agent host — Claude Code, Codex, '
+              'OpenCode, Claude Desktop, VS Code, Cursor — through one daemon per machine; it works on its own, on a '
+              'worker or its own WASM, and a pointing hand leads to the part it makes, engraved in iso; or it joins '
+              'any buerli app, by invite or over the bridge. The assistant lives inside the app: asked to make a '
+              'flanged bushing, it answers, and the part appears in the app\'s window.')
     t = p.t
     plate_frame(p, 'vi', 'the envoy', '@awv-informatik/classcad-mcp · @buerli.io/ai')
     p.text(84, 214, 'The Envoy', 62, 'it', 'onum')
     p.line(87, 244, 150, 244, 1.3, color=t['accent'], cls='d', delay=0.2)
+    paragraph(p, 84, 300, 1040, 'Two envoys make the part: the ^mcp^ server, which serves any agent host and joins '
+              'any buerli app — or works on its own — and the assistant, which lives inside the app.', 26, 37)
 
-    L0, L1, R0, R1 = 84, 744, 840, 1516
-    heading(p, L0, 304, 'the mcp server', L1 - L0)
-    heading(p, R0, 304, 'the in-app assistant', R1 - R0)
-    paragraph(p, L0, 350, L1 - L0, 'Claude Code, Codex, OpenCode, Claude Desktop, VS Code, Cursor — any ^mcp^ host '
-              'drives a live ClassCAD session through it. One daemon per machine holds every session and reaches '
-              'the engine wherever it runs: a worker, a buerligons tab, or its own ^wasm^.', 24, 34)
-    paragraph(p, R0, 350, R1 - R0, 'A chat panel inside buerli apps: ask in plain language, and the program the '
-              'model writes runs in the browser, beside the geometry it changes — with Anthropic, any endpoint '
-              'that speaks OpenAI, or a model of your own.', 24, 34)
-
-    # left: every host into the daemon
+    # any MCP host, into the daemon
+    heading(p, 84, 408, 'any mcp host', 300)
     hosts = ['Claude Code', 'Codex', 'OpenCode', 'Claude Desktop', 'VS Code', 'Cursor']
-    hx, dx, step = 310, 560, 36
-    dy = 512 + step * (len(hosts) - 1) / 2
+    hx, dx, step, top = 330, 560, 34, 452
+    dy = top + step * (len(hosts) - 1) / 2
     for i, h in enumerate(hosts):
-        y = 512 + i * step
+        y = top + i * step
         p.text(hx - 16, y + 7, h, 22, 'rm', 'onum', anchor='end')
         p.circle(hx, y, 3.6, THIN, fill=t['ink'])
-        p.path(f'M{hx + 4} {y}C{hx + 110} {y} {dx - 110} {dy} {dx - 34} {dy}', THIN, cls='d', delay=0.4 + i * 0.06)
+        p.path(f'M{hx + 4} {y}C{hx + 100} {y} {dx - 100} {dy} {dx - 34} {dy}', THIN, cls='d', delay=0.4 + i * 0.06)
     p.arrow(dx - 28, dy, 1, 0)
     p.circle(dx, dy, 26, THICK, cls='d', delay=0.8)
     p.circle(dx, dy, 19, FINE, cls='d', delay=0.9)
     p.text(dx, dy + 7, 'd', 22, 'it', anchor='middle', fill=t['accent'])
-    p.text(dx, dy - 58, 'daemon', 18, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle')
-    p.text(dx, dy - 38, '127.0.0.1 : 9097', 16, 'rm8', 'lnum', anchor='middle', fill=t['ink2'])
+    p.text(dx, dy - 60, 'the mcp server', 18, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle')
+    p.text(dx, dy - 39, 'one daemon per machine', 16, 'it8', 'onum', anchor='middle', fill=t['ink2'])
 
-    # right: an app with the assistant in it — which the daemon can drive too, over its bridge
-    wx0, wy0, wx1, wy1 = 880, 490, 1460, 708
-    app_window(p, wx0, wy0, wx1, wy1, delay=0.6)
-    p.line(dx + 28, dy, wx0 - 10, dy, THIN, cls='d', delay=1.0)
-    p.arrow(wx0 - 3, dy, 1, 0)
-    p.text((dx + 28 + wx0) / 2, dy - 10, 'bridge', 17, 'it8', 'onum', anchor='middle', fill=t['ink2'])
+    # on its own: the daemon makes the part itself
+    mx = 1372
+    p.line(dx + 28, dy, mx - 150, dy, THIN, cls='d', delay=1.0)
+    p.text(mx - 128, dy + 13, '☞', 38, 'rm', anchor='middle', fill=t['accent'])
+    p.rich((dx + 28 + mx - 150) / 2, dy - 12, [('on its own — a worker, or its own ', 'it8', 'onum'),
+                                                ('wasm', 'rm8', 'smcp,c2sc')], 18, fill=t['ink2'], anchor='middle')
+    engrave_bushing(p, mx, dy + 30, 3.2, t0=1.2)
 
-    # each way in leads to the request with its own arrow
-    lx, rx, ty = 540, 716, 800
-    p.path(f'M{dx} {dy + 28}C{dx} {dy + 130} {lx} {ty - 120} {lx} {ty - 8}', THIN, cls='d', delay=1.2)
-    p.arrow(lx, ty, 0, 1)
-    wm = (wx0 + wx1) / 2
-    p.path(f'M{wm} {wy1 + 2}C{wm} {wy1 + 44} {rx} {ty - 96} {rx} {ty - 8}', THIN, cls='d', delay=1.2)
-    p.arrow(rx, ty, 0, 1)
+    # or it joins any buerli app
+    wx0, wy0, wx1, wy1 = 930, 660, 1290, 870
+    app_window(p, wx0, wy0, wx1, wy1, delay=0.8)
+    jy = wy0 + 44
+    p.path(f'M{dx + 18} {dy + 19}C{dx + 80} {dy + 150} {wx0 - 200} {jy} {wx0 - 12} {jy}', THIN, cls='d', delay=1.1)
+    p.arrow(wx0 - 4, jy, 1, 0)
+    p.text(wx0 - 24, jy + 30, 'joins any buerli app —', 18, 'it8', 'onum', anchor='end', fill=t['ink2'])
+    p.text(wx0 - 24, jy + 52, 'by invite, or over the bridge', 18, 'it8', 'onum', anchor='end', fill=t['ink2'])
 
-    x0, x1, y0, h = 420, 820, 812, 150
-    scroll(p, x0, x1, y0, h, PROMPT, 22, delay=1.5)
-    p.text(918, y0 + h / 2 + 18, '☞', 42, 'rm', anchor='middle', fill=t['accent'])
-    engrave_bushing(p, 1154, y0 + h / 2 + 39, 4.05, t0=1.9)
+    # the assistant, inside the app
+    heading(p, 84, 700, 'the in-app assistant', 400)
+    (_, bx1), _ = dialogue(p, 84, 484, 730, delay=0.7)
+    ay = 812
+    p.path(f'M{bx1 + 12} {ay}L{wx0 - 12} {ay}', THIN, cls='d', delay=1.3)
+    p.arrow(wx0 - 4, ay, 1, 0)
     return p
 
 PLATES = {

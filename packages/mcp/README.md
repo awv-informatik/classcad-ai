@@ -175,7 +175,7 @@ Set them in the host's MCP config `env` block; the shim passes them on to the da
 | ----------------------- | --------------------------------------------------------------------------------------------------------- |
 | `run_script`            | **The** execution medium: JavaScript against `api.v1.*`, `api.tree()`, `api.graphic()`. State persists between scripts; follow-up scripts attach to the existing model. |
 | `tree` / `find` / `inspect` | Structure tree (cached, pulled on demand), search by class/name, full node detail with parent chain |
-| `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, highlights, markers)            |
+| `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, technical drawing with hidden lines, highlights, markers) |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
 | `save` / `load` / `clear` / `checkpoint` / `restore` | OFB / STEP / STL persistence, undo points                                     |
 | `session_info` / `use_session` | Connection status (transport ws/bridge); attach to a named session, an invite link, or an in-app engine's `?bridge=` link |

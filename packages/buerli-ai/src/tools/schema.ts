@@ -195,7 +195,9 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
     description:
       'Render the drawing as a PNG — DETERMINISTIC by default: standard views, whole model in frame, ' +
       'reproducible (independent of what the user has zoomed/rotated to). Verification options: ' +
-      'section (cut through internals), sheet (four labeled views in one image), highlight/highlightAt ' +
+      'section (cut through internals), sheet (four labeled views in one image), drawing (technical drawing: ' +
+      'front/top/side with hidden lines dashed, placed first- or third-angle — compare against a reference drawing), ' +
+      'lines (line style: visible edges solid, hidden dashed), highlight/highlightAt ' +
       '(faces/edges in signal color — use highlightAt with world POINTS across tool calls, face ids are ' +
       'payload-local), markers (probe crosshairs), sketchOverlay (sketch curves on their real plane), ' +
       'annotate (extents + axes triad + scale bar), xray (hidden geometry shines through), colors ' +
@@ -239,8 +241,9 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
           properties: {
             origin: { type: 'array', items: { type: 'number' } },
             normal: { type: 'array', items: { type: 'number' } },
+            cap: { type: 'boolean' },
           },
-          description: 'Cut the solids at a plane; the positive side of the normal is removed (uncapped, interior shaded).',
+          description: 'Cut the solids at a plane; the positive side of the normal is removed. The cut faces are filled and hatched like a drawing\'s section (wall thicknesses, bores and pockets read directly); cap: false leaves the cut open with interior walls shaded. Combine with drawing for a section view.',
         },
         sheet: {
           // anyOf, not type:['boolean','array'] — Copilot's Gemini rejects mixed
@@ -249,6 +252,28 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
           anyOf: [{ type: 'boolean' }, { type: 'array', items: {} }],
           description:
             'Multi-view sheet in ONE image. true or an array of 4 views = quadrants (default top/iso/front/right, shared ortho scale). An array of 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.',
+        },
+        lines: {
+          type: 'boolean',
+          description:
+            'Line style instead of shading: visible edges and silhouettes solid, hidden edges dashed. Hidden lines show bores, pockets, hollow vs solid. Works for the single view and every sheet panel.',
+        },
+        drawing: {
+          // anyOf for the same Gemini reason as sheet.
+          anyOf: [
+            { type: 'boolean' },
+            { type: 'string', enum: ['first-angle', 'third-angle'] },
+            {
+              type: 'object',
+              properties: {
+                projection: { type: 'string', enum: ['first-angle', 'third-angle'] },
+                side: { type: 'string', enum: ['left', 'right'] },
+                iso: { type: 'boolean' },
+              },
+            },
+          ],
+          description:
+            'Technical drawing in ONE image: front, top and side view in line style (hidden edges dashed), aligned at one scale, plus a shaded iso. "first-angle" (ISO E, Europe; true): top view BELOW front, view from the left RIGHT of it. "third-angle" (ISO A, US): top view ABOVE front, view from the right RIGHT of it. Use the method of the reference drawing, then compare view by view. Takes precedence over sheet.',
         },
         highlight: {
           type: 'array',

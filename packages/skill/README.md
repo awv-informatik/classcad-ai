@@ -6,9 +6,9 @@ An [agent skill](https://agentskills.io) for the [ClassCAD](https://classcad.ch)
 
 ## What this is
 
-ClassCAD is a headless, programmable parametric CAD engine driven entirely through a JSON/WebSocket API (254 methods across 7 domains: part, assembly, sketch, curve, solid, drawing2d, common). This package documents that API for LLM consumption:
+ClassCAD is a headless, programmable parametric CAD engine driven entirely through a JSON/WebSocket API (264 methods across 7 domains: part, assembly, sketch, curve, solid, drawing2d, common). This package documents that API for LLM consumption:
 
-- [`SKILL.md`](SKILL.md) — entry point: domain index, all 254 APIs with one-line summaries, cross-cutting guides
+- [`SKILL.md`](SKILL.md) — entry point: domain index, all 264 APIs with one-line summaries, cross-cutting guides
 - `references/api/*.md` — source API documentation per domain (signatures, parameter tables, return types)
 - `references/<domain>/*.md` — per-API LLM docs: gotchas, dead ends, common errors, working examples
 - `recipes/*.md` — end-to-end verified workflow guides incl. `constrained-sketching.md`; the data contract (`DATA`/`STRUCTURE`/`GRAPHICS`) ships with [`@classcad/script`](https://www.npmjs.com/package/@classcad/script)

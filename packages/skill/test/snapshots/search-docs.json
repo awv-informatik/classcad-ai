@@ -60,8 +60,8 @@
       "docs": [
         "recipes/pattern-then-subtract []",
         "part/brep-access-pattern [The Core Pattern]",
-        "recipes/verification []",
         "recipes/constrained-sketching [Dimension patterns]",
+        "recipes/verification []",
         "solid/target-tools-pattern [Tool Reuse Pattern]",
         "recipes/direct-modeling-eif [Instancing without a pattern feature]"
       ]
@@ -659,7 +659,7 @@
       "docs": [
         "common/userData []",
         "common/generic []",
-        "recipes/verification []"
+        "recipes/constrained-sketching []"
       ]
     },
     "bore": {
@@ -751,7 +751,7 @@
       ]
     },
     "extrude": {
-      "count": 5,
+      "count": 6,
       "docs": [
         "recipes/constrained-sketching []",
         "recipes/direct-modeling-eif []",
@@ -785,9 +785,9 @@
     "hollow": {
       "count": 5,
       "docs": [
+        "recipes/verification []",
         "recipes/direct-modeling-eif []",
-        "recipes/assembly-parameters []",
-        "recipes/constrained-sketching []"
+        "recipes/assembly-parameters []"
       ]
     },
     "import": {
@@ -826,8 +826,8 @@
       "count": 5,
       "docs": [
         "common/userData []",
-        "recipes/verification []",
-        "recipes/constrained-sketching []"
+        "recipes/constrained-sketching []",
+        "recipes/verification []"
       ]
     },
     "loft": {
@@ -954,8 +954,8 @@
       "count": 6,
       "docs": [
         "recipes/direct-modeling-eif []",
-        "recipes/assembly-parameters []",
-        "recipes/constrained-sketching []"
+        "recipes/verification []",
+        "recipes/assembly-parameters []"
       ]
     },
     "slice": {
@@ -1018,8 +1018,8 @@
       "count": 5,
       "docs": [
         "common/userData []",
-        "recipes/verification []",
-        "recipes/constrained-sketching []"
+        "recipes/constrained-sketching []",
+        "recipes/verification []"
       ]
     },
     "union": {

@@ -137,6 +137,10 @@ class Plate:
 
     def __init__(self, w, h, theme, title, desc, animate=False):
         self.w, self.h, self.t = w, h, THEMES[theme]
+        self.crop = None                 # (x0, y0, x1, y1): the part of the plate an SVG shows
+        self.box = [math.inf, math.inf, -math.inf, -math.inf]
+        self.head = None                 # (numeral, title, right): a running head set as its own image
+        self.tracking = True
         self.theme = theme
         self.title, self.desc = title, desc
         self.animate = animate
@@ -147,6 +151,14 @@ class Plate:
     # ── low level ──
     def add(self, s):
         self.body.append(s)
+
+    def grow(self, x0, y0, x1, y1):
+        """Content bounds, for cropping. Rotated work is drawn untracked and
+        grows the bounds by its rotated extent instead."""
+        if not self.tracking:
+            return
+        b = self.box
+        b[0], b[1], b[2], b[3] = min(b[0], x0, x1), min(b[1], y0, y1), max(b[2], x0, x1), max(b[3], y0, y1)
 
     def anim(self, cls, delay):
         if not self.animate or cls != 'd':
@@ -186,6 +198,7 @@ class Plate:
                 uses.append(f'<use xlink:href="#{self.gid(fk, name)}" x="{round(pen + dx)}"{ydy}/>')
             pen += ax + ls * f.upm
         fill = fill or self.t['ink']
+        self.grow(x0, y - size * 0.72, x0 + width, y + size * 0.28)
         self.add(f'<g{self.anim(cls, delay)}><g transform="translate({n(x0)} {n(y)}) scale({sc:.5f} {-sc:.5f})" '
                  f'fill="{fill}">{"".join(uses)}</g></g>')
         return width
@@ -212,13 +225,17 @@ class Plate:
                  f' stroke-linejoin="round"{pl}{self.anim(cls, delay)}{extra}/>')
 
     def line(self, x1, y1, x2, y2, w=THIN, **kw):
+        self.grow(x1, y1, x2, y2)
         self.path(f'M{n(x1)} {n(y1)}L{n(x2)} {n(y2)}', w, **kw)
 
     def poly(self, pts, w=THIN, close=False, **kw):
+        for x, y in pts:
+            self.grow(x, y, x, y)
         d = 'M' + 'L'.join(f'{n(x)} {n(y)}' for x, y in pts) + ('Z' if close else '')
         self.path(d, w, **kw)
 
     def circle(self, cx, cy, r, w=THIN, color=None, fill='none', dash=None, cls=None, delay=0.0):
+        self.grow(cx - r, cy - r, cx + r, cy + r)
         color = color or self.t['ink']
         dash_a = f' stroke-dasharray="{dash}"' if dash else ''
         pl = ' pathLength="1"' if (cls == 'd' and self.animate) else ''
@@ -240,8 +257,10 @@ class Plate:
     def svg(self):
         glyphs = ''.join(f'<path id="{i}" d="{font(fk).outline(g)}"/>' for (fk, g), i in self.glyph_ids.items())
         style = f'<style>{CSS}</style>' if self.animate else ''
+        x0, y0, x1, y1 = self.crop or (0, 0, self.w, self.h)
+        w, h = round(x1 - x0), round(y1 - y0)
         return (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
-                f'width="{self.w}" height="{self.h}" viewBox="0 0 {self.w} {self.h}" role="img" aria-labelledby="t d">'
+                f'width="{w}" height="{h}" viewBox="{n(x0)} {n(y0)} {w} {h}" role="img" aria-labelledby="t d">'
                 f'<title id="t">{esc(self.title)}</title><desc id="d">{esc(self.desc)}</desc>'
                 f'{style}<defs>{"".join(self.defs)}{glyphs}</defs>'
                 f'{"".join(self.body)}</svg>')
@@ -733,8 +752,21 @@ def plate_frontispiece(theme):
 
 # ─── Furniture of the inner plates ──────────────────────────────────────────
 
+MEASURE = (84, 1516)   # every plate and head is cropped to this measure, so the
+                       # README column edge is the edge of every figure and head
+
+
 def plate_frame(p, numeral, title, right):
-    running_head(p, 90, f'plate {numeral}.', title, right, 84, p.w - 84)
+    """Package plates: the running head is set as a separate image above the
+    plate, with the package's link between the two in the README."""
+    p.head = (numeral, title, right)
+
+
+def plate_head(numeral, title, right, theme):
+    h = Plate(1600, 48, theme, f'Plate {numeral.upper()} — {title}', f'Plate {numeral.upper()}: {title}, {right}')
+    running_head(h, 24, f'plate {numeral}.', title, right, *MEASURE)
+    h.crop = (MEASURE[0], 0, MEASURE[1], 46)
+    return h
 
 
 def lead(p, x, y, epithet, text, width=500, delay=0.2, size=26, leading=37):
@@ -832,7 +864,8 @@ def plate_systema(theme):
               'harness). Beside it a truss: each of the three hosts bears on all three foundation packages — '
               'skill, script and renderer — which bear on nothing.')
     t = p.t
-    plate_frame(p, 'ii', 'the figurative system of the repository', 'after Diderot & d’Alembert, 1751')
+    running_head(p, 90, 'plate ii.', 'the figurative system of the repository', 'after Diderot & d’Alembert, 1751',
+                 *MEASURE)
 
     # Fig. 2 — the brace tree
     top, item_h, gap = 176, 66, 30
@@ -844,10 +877,13 @@ def plate_systema(theme):
         spans.append((cat, items, y0, y))
         y += gap
     bottom = y - gap
-    rx = 132
-    p.add(f'<g transform="rotate(-90 {rx} {(top + bottom) / 2})">')
-    p.text(rx, (top + bottom) / 2 + 10, 'classcad·ai', 30, 'rm', 'smcp,c2sc', ls=0.3, anchor='middle', cls='f', delay=0.2)
+    rx, cy = 132, (top + bottom) / 2
+    p.add(f'<g transform="rotate(-90 {rx} {cy})">')
+    p.tracking = False
+    w = p.text(rx, cy + 10, 'classcad·ai', 30, 'rm', 'smcp,c2sc', ls=0.3, anchor='middle', cls='f', delay=0.2)
+    p.tracking = True
     p.add('</g>')
+    p.grow(rx + 10 - 30 * 0.72, cy - w / 2, rx + 10 + 30 * 0.28, cy + w / 2)
     brace(p, 160, top - 6, bottom - 18, depth=30, wmax=4.2, delay=0.35)
     d = 0.5
     for cat, items, y0, y1 in spans:
@@ -888,11 +924,11 @@ def plate_systema(theme):
         p.poly([(xb, ybot + 6), (xb - 15, ybot + 32), (xb + 15, ybot + 32)], THIN, close=True, cls='d', delay=d + 0.7)
         p.text(xb, ybot + 104, bases[j], 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d + 0.9)
     gy = ybot + 32
-    p.line(1100, gy, 1520, gy, THICK, cls='d', delay=d + 0.8)
+    p.line(1100, gy, MEASURE[1], gy, THICK, cls='d', delay=d + 0.8)
     for k in range(29):
         gx = 1106 + k * 14.5
         p.line(gx, gy + 3, gx - 11, gy + 16, FINE, cls='f', delay=d + 0.9)
-    caption(p, 1100, H_ - 214, 420, '~Fig. 3.~ — The load path. Each host bears on all three foundations; '
+    caption(p, 1100, H_ - 214, 412, '~Fig. 3.~ — The load path. Each host bears on all three foundations; '
             'the foundations bear on nothing, and on one another not at all.', delay=2.1)
     return p
 
@@ -1224,6 +1260,13 @@ PLATES = {
 }
 
 
+def write(p, name):
+    path = os.path.join(HERE, name)
+    with open(path, 'w') as fh:
+        fh.write(p.svg())
+    print(f'{os.path.relpath(path, ROOT)}  {os.path.getsize(path) // 1024} KB')
+
+
 def main():
     import sys
     only = sys.argv[1:]
@@ -1232,11 +1275,16 @@ def main():
             continue
         for theme in THEMES:
             p = make(theme)
-            path = os.path.join(HERE, f'{name}.{theme}.svg')
-            with open(path, 'w') as fh:
-                fh.write(p.svg())
-            print(f'{os.path.relpath(path, ROOT)}  {os.path.getsize(path) // 1024} KB')
-
+            bx0, by0, bx1, by1 = p.box
+            if name == 'frontispiece':
+                p.crop = (bx0 - 2, by0 - 2, bx1 + 2, by1 + 4)
+            else:
+                if bx0 < MEASURE[0] - 1 or bx1 > MEASURE[1] + 1:
+                    raise SystemExit(f'{name}: content {bx0:.0f}–{bx1:.0f} leaves the measure {MEASURE}')
+                p.crop = (MEASURE[0], by0 - 18, MEASURE[1], by1 + 10)
+            write(p, f'{name}.{theme}.svg')
+            if p.head:
+                write(plate_head(*p.head, theme), f'{name}.head.{theme}.svg')
 
 if __name__ == '__main__':
     main()

@@ -1327,13 +1327,13 @@ def plate_envoy(theme):
     wx0, wy0, wx1, wy1 = 880, 490, 1460, 708
     app_window(p, wx0, wy0, wx1, wy1, delay=0.6)
 
-    # both lead to the one request
-    jx, jy = 620, 768
-    p.path(f'M{dx} {dy + 28}C{dx} {dy + 110} {jx} {jy - 70} {jx} {jy}', THIN, cls='d', delay=1.2)
+    # each way in leads to the request with its own arrow
+    lx, rx, ty = 540, 716, 800
+    p.path(f'M{dx} {dy + 28}C{dx} {dy + 130} {lx} {ty - 120} {lx} {ty - 8}', THIN, cls='d', delay=1.2)
+    p.arrow(lx, ty, 0, 1)
     wm = (wx0 + wx1) / 2
-    p.path(f'M{wm} {wy1 + 2}C{wm} {wy1 + 58} {jx + 150} {jy} {jx} {jy}', THIN, cls='d', delay=1.2)
-    p.line(jx, jy, jx, jy + 24, THIN, cls='d', delay=1.5)
-    p.arrow(jx, jy + 32, 0, 1)
+    p.path(f'M{wm} {wy1 + 2}C{wm} {wy1 + 44} {rx} {ty - 96} {rx} {ty - 8}', THIN, cls='d', delay=1.2)
+    p.arrow(rx, ty, 0, 1)
 
     x0, x1, y0, h = 420, 820, 812, 150
     scroll(p, x0, x1, y0, h, PROMPT, 22, delay=1.5)

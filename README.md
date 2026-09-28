@@ -79,8 +79,3 @@ python3 docs/readme/build.py    # typesets these plates
 
 The root is also home to **cc**, the agent that trains the skill against a
 live engine (`AGENTS.md`, `workspace/`).
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/colophon.dark.svg">
-  <img width="100%" src="docs/readme/colophon.light.svg" alt="Colophon: set in EB Garamond, Georg Duffner's revival of the types of Claude Garamont and Robert Granjon shown in the Egenolff–Berner specimen of 1592; shaped by HarfBuzz and drawn as outlines. The figures show the flanged bushing the renderer draws, in first-angle projection. Each plate is printed twice, as an engraving by day and as a cyanotype by night. Finis.">
-</picture>

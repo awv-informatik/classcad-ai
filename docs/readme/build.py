@@ -4,8 +4,8 @@
 The plates are set in EB Garamond (Georg Duffner, SIL Open Font License),
 shaped with HarfBuzz (kerning, ligatures, small caps, old-style figures) and
 converted to outlines with fontTools, so every SVG renders the same anywhere
-without a font. Each plate is printed twice: `light`, an engraving on laid
-paper, and `dark`, a cyanotype blueprint; the README picks one with <picture>.
+without a font. The plates are transparent and inked twice — for GitHub's
+light themes and for its dark ones; the README picks one with <picture>.
 
     python3 docs/readme/build.py          # writes docs/readme/*.svg
 
@@ -103,12 +103,10 @@ def measure(text, size, fk='rm', feats='', ls=0.0):
 # ─── Printings ──────────────────────────────────────────────────────────────
 
 THEMES = {
-    # An engraving on warm laid paper, rubricated in vermilion.
-    'light': dict(paper='#F2ECDF', ink='#1E1B16', ink2='#6E6555', rule='#1E1B16', accent='#A5311B',
-                  edge='#D6CBB5', grain='#6B5635', grain_a=0.065, shade='#8C7B5C', pencil='#9C927F'),
-    # A cyanotype: white lines on Prussian blue, corrected in red pencil.
-    'dark': dict(paper='#0E2B4A', ink='#E4EDF6', ink2='#93B1CF', rule='#E4EDF6', accent='#FF8C6E',
-                 edge='#214C77', grain='#FFFFFF', grain_a=0.04, shade='#051A30', pencil='#5F84AB'),
+    # GitHub's light themes: its own text colours, rubricated in vermilion.
+    'light': dict(ink='#1F2328', ink2='#59636E', accent='#BC3F26', pencil='#B9BFC6'),
+    # Every dark theme (dark, dimmed, high contrast): light ink, a coral accent.
+    'dark': dict(ink='#D6DDE4', ink2='#8B949E', accent='#F0876C', pencil='#4B535D'),
 }
 
 # Line weights (ISO 128: wide 2 : narrow 1) and patterns, in plate units.
@@ -240,20 +238,12 @@ class Plate:
 
     # ── output ──
     def svg(self):
-        t = self.t
         glyphs = ''.join(f'<path id="{i}" d="{font(fk).outline(g)}"/>' for (fk, g), i in self.glyph_ids.items())
-        grain = (f'<filter id="grain" x="0" y="0" width="100%" height="100%">'
-                 f'<feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" seed="11" stitchTiles="stitch"/>'
-                 f'<feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.6 0 0 0 -.62"/>'
-                 f'<feComponentTransfer result="noise"><feFuncA type="linear" slope="{t["grain_a"] * 3:.3f}"/></feComponentTransfer>'
-                 f'<feFlood flood-color="{t["grain"]}"/><feComposite in2="noise" operator="in"/>'
-                 f'</filter>')
-        style = CSS if self.animate else ''
+        style = f'<style>{CSS}</style>' if self.animate else ''
         return (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
                 f'width="{self.w}" height="{self.h}" viewBox="0 0 {self.w} {self.h}" role="img" aria-labelledby="t d">'
                 f'<title id="t">{esc(self.title)}</title><desc id="d">{esc(self.desc)}</desc>'
-                f'<style>{style}</style><defs>{grain}{"".join(self.defs)}{glyphs}</defs>'
-                f'<rect width="{self.w}" height="{self.h}" fill="{t["paper"]}"/>'
+                f'{style}<defs>{"".join(self.defs)}{glyphs}</defs>'
                 f'{"".join(self.body)}</svg>')
 
 
@@ -262,12 +252,6 @@ def esc(s):
 
 
 # ─── Composition helpers ────────────────────────────────────────────────────
-
-def paper(p, x=0, y=0, w=None, h=None):
-    """Grain over the whole sheet, and the sheet's trimmed edge."""
-    w, h = w or p.w, h or p.h
-    p.add(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#fff" filter="url(#grain)"/>')
-
 
 def oxford_rule(p, x1, x2, y, cls=None, delay=0.0, color=None):
     """The thick-thin rule of title pages."""
@@ -369,73 +353,6 @@ def break_lines(widths, space, measure_w, justify):
         lines.append((prev[j], j))
         j = prev[j]
     return lines[::-1]
-
-
-def break_shaped(widths, space, measures):
-    """Total-fit breaking into lines of prescribed measures (a paragraph shape,
-    as TeX's \\parshape): minimise the squared slack of every line, so the
-    lines follow the shape; overfull lines are not allowed."""
-    nw, nl = len(widths), len(measures)
-    best = {(0, 0): (0.0, None)}
-    for j in range(1, nw + 1):
-        for i in range(j - 1, -1, -1):
-            total = sum(widths[i:j]) + space * (j - 1 - i)
-            for (bi, li), (cost, _) in list(best.items()):
-                if bi != i or li >= nl:
-                    continue
-                slack = measures[li] - total
-                if slack < 0:
-                    continue
-                c = cost + slack ** 2
-                key = (j, li + 1)
-                if key not in best or c < best[key][0]:
-                    best[key] = (c, (i, li))
-            if total > max(measures):
-                break
-    ends = [(c, k) for k, (c, _) in best.items() if k[0] == nw]
-    if not ends:
-        raise ValueError('paragraph does not fit its shape')
-    exact = [e for e in ends if e[1][1] == nl]
-    _, key = min(exact or ends, key=lambda e: e[0])
-    lines = []
-    while key != (0, 0):
-        _, prev = best[key]
-        lines.append((prev[0], key[0]))
-        key = (prev[0], prev[1])
-    return lines[::-1]
-
-
-def shaped_paragraph(p, cx, y, shape_, text, size, leading, base='rm', feats='onum,pnum', delay=0.0, stagger=0.07):
-    """A centred paragraph whose lines follow a shape — relative line lengths,
-    scaled until the text fills every line of it (e.g. a cul-de-lampe)."""
-    words = words_of(parse(text, base, feats))
-    widths = [sum(measure(t, size, fk, ft) for t, fk, ft in wd) for wd in words]
-    space = measure(' ', size, base)
-    need = sum(widths) + space * (len(widths) - 1)
-    lo, hi, lines = need / sum(shape_) * 0.9, need / sum(shape_) * 1.8, None
-    for _ in range(36):   # the tightest shape the text still fits
-        mid = (lo + hi) / 2
-        try:
-            got = break_shaped(widths, space, [m * mid for m in shape_])
-        except ValueError:
-            lo = mid
-            continue
-        if len(got) == len(shape_):
-            hi, lines = mid, got
-        else:
-            lo = mid
-    if lines is None:
-        raise ValueError('paragraph does not fit its shape at any scale')
-    for li, (i, j) in enumerate(lines):
-        natural = sum(widths[i:j]) + space * (j - i - 1)
-        with p.group('f', delay + li * stagger):
-            x = cx - natural / 2
-            for k in range(i, j):
-                for t, fk, ft in words[k]:
-                    x += p.text(x, y, t, size, fk, ft)
-                x += space
-        y += leading
-    return y - leading
 
 
 def paragraph(p, x, y, measure_w, text, size, leading, base='rm', feats='onum,pnum', justify=False,
@@ -723,13 +640,6 @@ def plate_frontispiece(theme):
               'as programs, to draw what it has made, and to prove the work in numbers and in pixels. In five '
               'parts, with plates. Printed for AWV Informatik AG, MMXXVI.')
     t = p.t
-    paper(p)
-    # the fold between the two pages
-    p.defs.append(f'<linearGradient id="fold" x1="0" x2="1"><stop offset="0" stop-color="{t["shade"]}" stop-opacity="0"/>'
-                  f'<stop offset=".5" stop-color="{t["shade"]}" stop-opacity=".16"/>'
-                  f'<stop offset="1" stop-color="{t["shade"]}" stop-opacity="0"/></linearGradient>')
-    p.add(f'<rect x="{W / 2 - 34}" y="0" width="68" height="{H_}" fill="url(#fold)"/>')
-    p.line(W / 2, 0, W / 2, H_, 0.6, color=t['edge'])
 
     # ── verso: the drawing sheet ──
     X0, Y0, X1, Y1 = 58, 70, 742, 1004        # trimmed sheet
@@ -824,9 +734,6 @@ def plate_frontispiece(theme):
 # ─── Furniture of the inner plates ──────────────────────────────────────────
 
 def plate_frame(p, numeral, title, right):
-    paper(p)
-    p.add(f'<rect x="30" y="30" width="{p.w - 60}" height="{p.h - 60}" fill="none" '
-          f'stroke="{p.t["edge"]}" stroke-width="1.4"/>')
     running_head(p, 90, f'plate {numeral}.', title, right, 84, p.w - 84)
 
 
@@ -964,16 +871,20 @@ def plate_systema(theme):
     hosts = ('mcp', 'agent', 'harness')
     bases = ('skill', 'script', 'renderer')
     d = 1.0
+    r = 6
     for i, xa in enumerate(xs):
         for j, xb in enumerate(xs):
-            p.line(xa, ytop, xb, ybot, THIN if i == j else FINE, cls='d', delay=d + 0.08 * (i * 3 + j))
+            L = math.hypot(xb - xa, ybot - ytop)
+            ux, uy = (xb - xa) / L, (ybot - ytop) / L
+            p.line(xa + ux * r, ytop + uy * r, xb - ux * r, ybot - uy * r, THIN if i == j else FINE, cls='d',
+                   delay=d + 0.08 * (i * 3 + j))
     for i, xh in enumerate(xs):
         p.text(xh, ytop - 64, hosts[i], 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d)
         p.line(xh, ytop - 50, xh, ytop - 12, THIN, cls='d', delay=d + 0.4)
         p.arrow(xh, ytop - 9, 0, 1, cls='f', delay=d + 0.6)
-        p.circle(xh, ytop, 6, THIN, fill=t['paper'], cls='f', delay=d + 0.5)
+        p.circle(xh, ytop, r, THIN, cls='f', delay=d + 0.5)
     for j, xb in enumerate(xs):
-        p.circle(xb, ybot, 6, THIN, fill=t['paper'], cls='f', delay=d + 0.5)
+        p.circle(xb, ybot, r, THIN, cls='f', delay=d + 0.5)
         p.poly([(xb, ybot + 6), (xb - 15, ybot + 32), (xb + 15, ybot + 32)], THIN, close=True, cls='d', delay=d + 0.7)
         p.text(xb, ybot + 104, bases[j], 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d + 0.9)
     gy = ybot + 32
@@ -1218,7 +1129,7 @@ def plate_mcp(theme):
         p.path(f'M{hx + 4} {y}C{hx + 110} {y} {dx - 120} {dy} {dx - 36} {dy}', THIN, cls='d', delay=d + 0.2 + i * 0.08)
     p.arrow(dx - 30, dy, 1, 0, cls='f', delay=d + 0.8)
     p.text(hx + 64, 186, 'stdio', 16, 'it8', 'onum', fill=t['ink2'], cls='f', delay=d + 0.7)
-    p.circle(dx, dy, 28, THICK, fill=t['paper'], cls='d', delay=d + 0.7)
+    p.circle(dx, dy, 28, THICK, cls='d', delay=d + 0.7)
     p.circle(dx, dy, 21, FINE, cls='d', delay=d + 0.8)
     p.text(dx, dy + 6, 'd', 22, 'it', anchor='middle', fill=t['accent'], cls='f', delay=d + 0.9)
     p.text(dx, dy + 62, 'daemon', 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d + 0.9)
@@ -1257,17 +1168,21 @@ def plate_agent(theme):
          'any endpoint that speaks OpenAI, or one of your own.', width=500)
     # the scroll
     x0, x1, y0, h = 740, 1150, 250, 118
-    tail = [(x0 + 4, y0 + 22), (x0 - 58, y0 + 22), (x0 - 38, y0 + 22 + h / 2), (x0 - 58, y0 + 22 + h),
-            (x0 + 4, y0 + 22 + h)]
-    tail_r = [(x1 - 4, y0 + 22), (x1 + 58, y0 + 22), (x1 + 38, y0 + 22 + h / 2), (x1 + 58, y0 + 22 + h),
-              (x1 - 4, y0 + 22 + h)]
-    for tl in (tail, tail_r):
-        p.poly(tl, THIN, close=True, fill=t['paper'], cls='d', delay=0.6)
+    drop = 22
+    tail_l = [(x0, y0 + drop), (x0 - 58, y0 + drop), (x0 - 38, y0 + drop + h / 2), (x0 - 58, y0 + drop + h),
+              (x0, y0 + drop + h)]
+    tail_r = [(x1, y0 + drop), (x1 + 58, y0 + drop), (x1 + 38, y0 + drop + h / 2), (x1 + 58, y0 + drop + h),
+              (x1, y0 + drop + h)]
+    fold_l = [(x0, y0 + h), (x0 + 16, y0 + h), (x0, y0 + drop + h)]
+    fold_r = [(x1, y0 + h), (x1 - 16, y0 + h), (x1, y0 + drop + h)]
+    for tl, fd in ((tail_l, fold_l), (tail_r, fold_r)):
+        p.poly(tl, THIN, close=True, cls='d', delay=0.6)
         hatch(p, [tl], spacing=4.2, angle=-35, cls='d', delay=0.7, step=0.01)
+        p.poly(fd, THIN, close=True, cls='d', delay=0.8)
+        hatch(p, [fd], spacing=2.4, angle=-35, cls='d', delay=0.8, step=0.01)
     band = (f'M{x0} {y0}C{x0 + 140} {y0 - 14} {x1 - 140} {y0 + 14} {x1} {y0}'
             f'L{x1} {y0 + h}C{x1 - 140} {y0 + h + 14} {x0 + 140} {y0 + h - 14} {x0} {y0 + h}Z')
-    p.path(band, THIN, fill=t['paper'], cls='d', delay=0.8)
-    p.line(x0, y0 + h, x0 + 4, y0 + h + 22, THIN, cls='d', delay=0.9)
+    p.path(band, THIN, cls='d', delay=0.8)
     p.line(x1, y0 + h, x1 - 4, y0 + h + 22, THIN, cls='d', delay=0.9)
     lines = ['“Make a box; in the centre of the top face', 'a hole; then fillet all the edge loops.”']
     for i, ln in enumerate(lines):
@@ -1282,9 +1197,8 @@ def plate_agent(theme):
     fy_ = [P(0, S, 0), P(S, S, 0), P(S, S, S), P(0, S, S)]
     hatch(p, [fy_], spacing=3.4, angle=90, cls='d', delay=1.6, step=0.006)
     hatch(p, [fx_], spacing=6.5, angle=90, cls='d', delay=1.7, step=0.006)
-    hatch(p, [top], spacing=11, angle=-30, cls='d', delay=1.8, step=0.01)
     hole = [P(S / 2 + 26 * math.cos(a), S / 2 + 26 * math.sin(a), S) for a in (i * math.pi / 32 for i in range(64))]
-    p.poly(hole, 0, close=True, fill=t['paper'], cls='f', delay=1.9)
+    hatch(p, [top, hole], spacing=11, angle=-30, cls='d', delay=1.8, step=0.01)
     hatch(p, [hole], spacing=2.6, angle=-30, cls='d', delay=1.95, step=0.006)
     for face in (top, fx_, fy_):
         p.poly(face, THICK, close=True, cls='d', delay=1.5)
@@ -1299,37 +1213,6 @@ def plate_agent(theme):
     return p
 
 
-# ─── Colophon ───────────────────────────────────────────────────────────────
-
-def plate_colophon(theme):
-    W, H_ = 1600, 760
-    p = Plate(W, H_, theme, 'Colophon',
-              'Set in EB Garamond, Georg Duffner’s revival of the types of Claude Garamont and Robert Granjon in the '
-              'Egenolff–Berner specimen of 1592, shaped by HarfBuzz and drawn as outlines. The figures show the '
-              'flanged bushing the renderer draws, in first-angle projection. Each plate is printed twice: as an '
-              'engraving on laid paper by day and as a cyanotype by night. docs/readme/build.py sets them all. Finis.')
-    t = p.t
-    paper(p)
-    p.add(f'<rect x="30" y="30" width="{W - 60}" height="{H_ - 60}" fill="none" stroke="{t["edge"]}" stroke-width="1.4"/>')
-    cx = W / 2
-    p.text(cx, 132, '❧', 46, 'rm', anchor='middle', fill=t['accent'], cls='f', delay=0.1)
-    p.text(cx, 190, 'colophon', 24, 'rm', 'smcp,c2sc', ls=0.34, anchor='middle', cls='f', delay=0.2)
-    oxford_rule(p, cx - 60, cx + 60, 212, cls='d', delay=0.3)
-    shape_ = [1.0, 0.95, 0.88, 0.79, 0.68, 0.55, 0.41, 0.27, 0.13]
-    y = shaped_paragraph(p, cx, 272, shape_,
-                         'Set in EB Garamond, Georg Duffner’s revival of the types of Claude Garamont and Robert '
-                         'Granjon shown in the Egenolff–Berner specimen of 1592; shaped by HarfBuzz — kerning, '
-                         'ligatures, small capitals, old-style figures — and drawn as outlines, so that no page '
-                         'needs the font. The figures show the flanged bushing the renderer draws, in first-angle '
-                         'projection after ^iso^ 5456-2. Each plate is printed twice: as an engraving on laid paper '
-                         'by day, and as a cyanotype by night. Nothing here is placed by hand: '
-                         '`docs/readme/build.py` sets it all.',
-                         25, 37, delay=0.4)
-    fleuron(p, cx, y + 58, 30, ch='❦', delay=1.2)
-    p.text(cx, y + 110, 'finis.', 21, 'rm', 'smcp,c2sc', ls=0.4, anchor='middle', cls='f', delay=1.3)
-    return p
-
-
 PLATES = {
     'frontispiece': plate_frontispiece,
     'systema': plate_systema,
@@ -1338,7 +1221,6 @@ PLATES = {
     'renderer': plate_renderer,
     'mcp': plate_mcp,
     'agent': plate_agent,
-    'colophon': plate_colophon,
 }
 
 

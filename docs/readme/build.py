@@ -1134,53 +1134,9 @@ def plate_renderer(theme):
     return p
 
 
-# ─── Plate VI: the MCP server ───────────────────────────────────────────────
-
-def plate_mcp(theme):
-    W, H_ = 1600, 640
-    p = Plate(W, H_, theme, 'Plate VI — The MCP Server: @awv-informatik/classcad-mcp',
-              'Hosts — Claude Code, Codex, OpenCode, Claude Desktop, VS Code, Cursor — each start a thin stdio shim; one daemon '
-              'per machine (127.0.0.1:9097) holds every session and reaches three kinds of engine: a classcad-cli '
-              'worker over WebSocket, the WASM engine inside a buerligons tab over the in-app bridge, or its own '
-              'local WASM engine in a worker thread.')
-    t = p.t
-    plate_frame(p, 'vi', 'the mcp server', '@awv-informatik/classcad-mcp')
-    lead(p, 84, 214, 'The Envoy',
-         'Lets Claude Code, Codex, OpenCode, the Claude desktop app, VS Code, Cursor — any ^mcp^ host — drive '
-         'a live ClassCAD session. Each tab starts a thin shim; one daemon per machine holds every session, and '
-         'reaches the engine wherever it runs.', width=500)
-    hosts = ['Claude Code', 'Codex', 'OpenCode', 'Claude Desktop', 'VS Code', 'Cursor']
-    engines = [('worker', 'classcad-cli, over WebSocket'), ('in-app bridge', 'the WASM inside a buerligons tab'),
-               ('local wasm', 'in a thread of the daemon')]
-    step = 50
-    hx, dx, ex = 900, 1120, 1276
-    dy = 196 + step * (len(hosts) - 1) / 2
-    d = 0.6
-    for i, h in enumerate(hosts):
-        y = 196 + i * step
-        p.text(hx - 18, y + 8, h, 24, 'rm', 'onum', anchor='end', cls='f', delay=d + i * 0.08)
-        p.circle(hx, y, 4, THIN, fill=t['ink'], cls='f', delay=d + i * 0.08)
-        p.path(f'M{hx + 4} {y}C{hx + 110} {y} {dx - 120} {dy} {dx - 36} {dy}', THIN, cls='d', delay=d + 0.2 + i * 0.08)
-    p.arrow(dx - 30, dy, 1, 0, cls='f', delay=d + 0.8)
-    p.text(hx + 64, 186, 'stdio', 16, 'it8', 'onum', fill=t['ink2'], cls='f', delay=d + 0.7)
-    p.circle(dx, dy, 28, THICK, cls='d', delay=d + 0.7)
-    p.circle(dx, dy, 21, FINE, cls='d', delay=d + 0.8)
-    p.text(dx, dy + 6, 'd', 22, 'it', anchor='middle', fill=t['accent'], cls='f', delay=d + 0.9)
-    p.text(dx, dy + 62, 'daemon', 19, 'rm', 'smcp,c2sc', ls=0.2, anchor='middle', cls='f', delay=d + 0.9)
-    p.text(dx, dy + 86, '127.0.0.1 : 9097', 17, 'rm8', 'lnum', anchor='middle', fill=t['ink2'], cls='f', delay=d + 0.9)
-    for i, (name, note) in enumerate(engines):
-        y = dy + (i - 1) * 80
-        p.path(f'M{dx + 28} {dy}C{dx + 90} {dy} {ex - 90} {y} {ex - 16} {y}', THIN, cls='d', delay=d + 1.0 + i * 0.1)
-        p.arrow(ex - 8, y, 1, 0, cls='f', delay=d + 1.3 + i * 0.1)
-        if name == 'local wasm':
-            p.rich(ex + 4, y + 8, [('local ', 'rm', 'onum'), ('wasm', 'rm', 'smcp,c2sc')], 24, cls='f', delay=d + 1.3 + i * 0.1)
-        else:
-            p.text(ex + 4, y + 8, name, 24, 'rm', 'onum', cls='f', delay=d + 1.3 + i * 0.1)
-        p.text(ex + 4, y + 32, note, 17, 'it8', 'onum', fill=t['ink2'], cls='f', delay=d + 1.35 + i * 0.1)
-    return p
 
 
-# ─── Plate VII: the in-app agent ────────────────────────────────────────────
+# ─── Plate VI: the envoy — the MCP server and the in-app assistant ───────────
 
 def iso_view(cx, cy, s):
     """The renderer's iso: camera at the front-right-top corner (+X, −Y, +Z)."""
@@ -1192,9 +1148,11 @@ def arc_pts(P, r, z, a0, a1, k=90, ox=0.0, oy=0.0):
     return [P(ox + r * math.cos(a), oy + r * math.sin(a), z) for a in (a0 + (a1 - a0) * i / k for i in range(k + 1))]
 
 
-def engrave_bushing(p, cx, cy, s, t0=0.6):
+def engrave_bushing(p, cx, cy, s, t0=0.6, shade=True, weight=1.0):
     """The flanged bushing in iso, engraved: hidden-line drawing, hatching that
-    shades each face by its angle to a light from the front left."""
+    shades each face by its angle to a light from the front left. Small copies
+    (shade=False) keep the outlines only, drawn lighter by `weight`."""
+    THICK, THIN = globals()['THICK'] * weight, globals()['THIN'] * weight
     P = iso_view(cx, cy, s)
     tau = 2 * math.pi
     xf = math.sqrt(R_FL ** 2 - FLAT ** 2)
@@ -1211,7 +1169,12 @@ def engrave_bushing(p, cx, cy, s, t0=0.6):
     hub_top, bore = arc_pts(P, R_HUB, H, 0, tau), arc_pts(P, R_BORE, H, 0, tau)
     flat = [P(xf, -FLAT, 0), P(xf, -FLAT, T_FL), P(-xf, -FLAT, T_FL), P(-xf, -FLAT, 0)]
 
-    # shading
+    if shade:
+        shade_bushing(p, P, top_rim, seen_holes, hub, hub_top, bore, port, flat, dark, t0)
+    draw_bushing_outlines(p, P, top_rim, seen_holes, hub, hub_top, bore, port, xf, a_r, a_l, t0, THICK, THIN)
+
+
+def shade_bushing(p, P, top_rim, seen_holes, hub, hub_top, bore, port, flat, dark, t0):
     hatch(p, [top_rim] + seen_holes, spacing=8.5, angle=-30, exclude=[hub], delay=t0, step=0.006)
     hatch(p, [hub_top, bore], spacing=9, angle=-30, delay=t0, step=0.006)
     hatch(p, [flat], spacing=6, angle=-30, delay=t0, step=0.006)
@@ -1237,7 +1200,8 @@ def engrave_bushing(p, cx, cy, s, t0=0.6):
         x, y = R_FL * math.cos(a), R_FL * math.sin(a)
         p.line(*P(x, y, 0), *P(x, y, T_FL), FINE, cls='d', delay=t0 + 0.2 + k * 0.01)
 
-    # outlines: flange
+
+def draw_bushing_outlines(p, P, top_rim, seen_holes, hub, hub_top, bore, port, xf, a_r, a_l, t0, THICK, THIN):
     t = t0 + 0.6
     for run in visible_runs(top_rim + [P(-xf, -FLAT, T_FL), P(xf, -FLAT, T_FL)], [hub]):
         p.poly(run, THICK, cls='d', delay=t)
@@ -1266,19 +1230,9 @@ PROMPT = ['“Make a flanged bushing: a 60 mm flange', 'with a flat, a 30 mm hub
           'four bolt holes and a port in its side.”']
 
 
-def plate_agent(theme):
-    W, H_ = 1600, 680
-    p = Plate(W, H_, theme, 'Plate VII — The In-App Agent: @buerli.io/ai',
-              'A scroll carries the request "' + ' '.join(PROMPT).strip('“”') + '" A pointing hand leads to an '
-              'engraving of the result: the flanged bushing of the frontispiece, in iso.')
-    t = p.t
-    plate_frame(p, 'vii', 'the in-app agent', '@buerli.io/ai')
-    lead(p, 84, 214, 'The Assistant',
-         'A chat panel for buerli and react-three-fiber apps. Ask in plain language; the model writes the program, '
-         'and it runs in the browser, beside the geometry it changes. Any tool-calling model will do — Anthropic, '
-         'any endpoint that speaks OpenAI, or one of your own.', width=500)
-    # the scroll: tails and folds beside the band, nothing hidden behind it
-    x0, x1, y0, h = 700, 1112, 246, 150
+def scroll(p, x0, x1, y0, h, lines, size=22, delay=0.0):
+    """A banderole carrying `lines`: its tails and folds lie beside the band, so
+    nothing needs hiding behind it on a transparent plate."""
     drop = 22
     tail_l = [(x0, y0 + drop), (x0 - 50, y0 + drop), (x0 - 32, y0 + drop + h / 2), (x0 - 50, y0 + drop + h),
               (x0, y0 + drop + h)]
@@ -1287,17 +1241,104 @@ def plate_agent(theme):
     fold_l = [(x0, y0 + h), (x0 + 16, y0 + h), (x0, y0 + drop + h)]
     fold_r = [(x1, y0 + h), (x1 - 16, y0 + h), (x1, y0 + drop + h)]
     for tl, fd in ((tail_l, fold_l), (tail_r, fold_r)):
-        p.poly(tl, THIN, close=True, cls='d', delay=0.3)
-        hatch(p, [tl], spacing=4.2, angle=-35, cls='d', delay=0.4, step=0.01)
-        p.poly(fd, THIN, close=True, cls='d', delay=0.5)
-        hatch(p, [fd], spacing=2.4, angle=-35, cls='d', delay=0.5, step=0.01)
+        p.poly(tl, THIN, close=True, cls='d', delay=delay)
+        hatch(p, [tl], spacing=4.2, angle=-35, cls='d', delay=delay + 0.1, step=0.01)
+        p.poly(fd, THIN, close=True, cls='d', delay=delay + 0.2)
+        hatch(p, [fd], spacing=2.4, angle=-35, cls='d', delay=delay + 0.2, step=0.01)
     band = (f'M{x0} {y0}C{x0 + 140} {y0 - 14} {x1 - 140} {y0 + 14} {x1} {y0}'
             f'L{x1} {y0 + h}C{x1 - 140} {y0 + h + 14} {x0 + 140} {y0 + h - 14} {x0} {y0 + h}Z')
-    p.path(band, THIN, cls='d', delay=0.5)
-    for i, ln in enumerate(PROMPT):
-        p.text((x0 + x1) / 2, y0 + 50 + i * 36, ln, 23, 'it', 'onum', anchor='middle')
-    p.text(1212, y0 + h / 2 + 20, '☞', 42, 'rm', anchor='middle', fill=t['accent'])
-    engrave_bushing(p, 1394, 356, 4.05, t0=0.8)
+    p.path(band, THIN, cls='d', delay=delay + 0.2)
+    top = y0 + (h - 36 * (len(lines) - 1)) / 2 + 8
+    for i, ln in enumerate(lines):
+        p.text((x0 + x1) / 2, top + i * 36, ln, size, 'it', 'onum', anchor='middle')
+
+
+def rounded(x0, y0, x1, y1, r):
+    return (f'M{n(x0 + r)} {n(y0)}H{n(x1 - r)}Q{n(x1)} {n(y0)} {n(x1)} {n(y0 + r)}V{n(y1 - r)}'
+            f'Q{n(x1)} {n(y1)} {n(x1 - r)} {n(y1)}H{n(x0 + r)}Q{n(x0)} {n(y1)} {n(x0)} {n(y1 - r)}'
+            f'V{n(y0 + r)}Q{n(x0)} {n(y0)} {n(x0 + r)} {n(y0)}Z')
+
+
+def app_window(p, x0, y0, x1, y1, delay=0.0):
+    """A buerli app, engraved small: the part in its viewport, the chat panel beside it."""
+    t = p.t
+    p.grow(x0, y0, x1, y1)
+    p.path(rounded(x0, y0, x1, y1, 10), THIN, cls='d', delay=delay)
+    p.line(x0, y0 + 26, x1, y0 + 26, FINE, cls='d', delay=delay + 0.1)
+    for i in range(3):
+        p.circle(x0 + 18 + i * 14, y0 + 13, 3.8, FINE)
+    split = x0 + (x1 - x0) * 0.54
+    p.line(split, y0 + 26, split, y1, FINE, cls='d', delay=delay + 0.1)
+    engrave_bushing(p, (x0 + split) / 2, (y0 + 26 + y1) / 2 + 15, 1.5, t0=delay + 0.2, shade=False, weight=0.5)
+    px0, px1 = split + 16, x1 - 16
+
+    def bubble(bx0, by0, bx1, lines, color):
+        bh = 16 + 13 * len(lines)
+        p.path(rounded(bx0, by0, bx1, by0 + bh, 7), FINE, color=color, cls='d', delay=delay + 0.4)
+        for i, frac in enumerate(lines):
+            ly = by0 + 14 + i * 13
+            p.line(bx0 + 10, ly, bx0 + 10 + (bx1 - bx0 - 20) * frac, ly, 1.6, color=t['ink2'], cap='round')
+        return by0 + bh
+
+    y = bubble(px0 + (px1 - px0) * 0.28, y0 + 42, px1, [1.0, 0.55], t['accent'])
+    y = bubble(px0, y + 12, px0 + (px1 - px0) * 0.82, [1.0, 0.9, 0.45], t['ink'])
+    p.path(rounded(px0, y1 - 36, px1, y1 - 12, 6), FINE, cls='d', delay=delay + 0.5)
+
+
+def plate_envoy(theme):
+    W, H_ = 1600, 1080
+    p = Plate(W, H_, theme, 'Plate VI — The Envoy: the MCP server and the in-app assistant',
+              'Two ways in. Left, the MCP server: Claude Code, Codex, OpenCode, Claude Desktop, VS Code and Cursor '
+              'fan into one daemon per machine. Right, the in-app assistant: a buerli app with the part in its '
+              'viewport and the chat panel beside it. Both lead to one request — "' + ' '.join(PROMPT).strip('“”') +
+              '" — and a pointing hand leads to the result, the flanged bushing, engraved in iso.')
+    t = p.t
+    plate_frame(p, 'vi', 'the envoy', '@awv-informatik/classcad-mcp · @buerli.io/ai')
+    p.text(84, 214, 'The Envoy', 62, 'it', 'onum')
+    p.line(87, 244, 150, 244, 1.3, color=t['accent'], cls='d', delay=0.2)
+
+    L0, L1, R0, R1 = 84, 744, 840, 1516
+    heading(p, L0, 304, 'the mcp server', L1 - L0)
+    heading(p, R0, 304, 'the in-app assistant', R1 - R0)
+    paragraph(p, L0, 350, L1 - L0, 'Claude Code, Codex, OpenCode, Claude Desktop, VS Code, Cursor — any ^mcp^ host '
+              'drives a live ClassCAD session through it. One daemon per machine holds every session and reaches '
+              'the engine wherever it runs: a worker, a buerligons tab, or its own ^wasm^.', 24, 34)
+    paragraph(p, R0, 350, R1 - R0, 'A chat panel inside buerli apps: ask in plain language, and the program the '
+              'model writes runs in the browser, beside the geometry it changes — with Anthropic, any endpoint '
+              'that speaks OpenAI, or a model of your own.', 24, 34)
+
+    # left: every host into the daemon
+    hosts = ['Claude Code', 'Codex', 'OpenCode', 'Claude Desktop', 'VS Code', 'Cursor']
+    hx, dx, step = 310, 560, 36
+    dy = 512 + step * (len(hosts) - 1) / 2
+    for i, h in enumerate(hosts):
+        y = 512 + i * step
+        p.text(hx - 16, y + 7, h, 22, 'rm', 'onum', anchor='end')
+        p.circle(hx, y, 3.6, THIN, fill=t['ink'])
+        p.path(f'M{hx + 4} {y}C{hx + 110} {y} {dx - 110} {dy} {dx - 34} {dy}', THIN, cls='d', delay=0.4 + i * 0.06)
+    p.arrow(dx - 28, dy, 1, 0)
+    p.circle(dx, dy, 26, THICK, cls='d', delay=0.8)
+    p.circle(dx, dy, 19, FINE, cls='d', delay=0.9)
+    p.text(dx, dy + 7, 'd', 22, 'it', anchor='middle', fill=t['accent'])
+    p.text(dx + 44, dy - 4, 'daemon', 18, 'rm', 'smcp,c2sc', ls=0.2)
+    p.text(dx + 44, dy + 20, '127.0.0.1 : 9097', 16, 'rm8', 'lnum', fill=t['ink2'])
+
+    # right: an app with the assistant in it
+    wx0, wy0, wx1, wy1 = 880, 490, 1460, 708
+    app_window(p, wx0, wy0, wx1, wy1, delay=0.6)
+
+    # both lead to the one request
+    jx, jy = 620, 768
+    p.path(f'M{dx} {dy + 28}C{dx} {dy + 110} {jx} {jy - 70} {jx} {jy}', THIN, cls='d', delay=1.2)
+    wm = (wx0 + wx1) / 2
+    p.path(f'M{wm} {wy1 + 2}C{wm} {wy1 + 58} {jx + 150} {jy} {jx} {jy}', THIN, cls='d', delay=1.2)
+    p.line(jx, jy, jx, jy + 24, THIN, cls='d', delay=1.5)
+    p.arrow(jx, jy + 32, 0, 1)
+
+    x0, x1, y0, h = 420, 820, 812, 150
+    scroll(p, x0, x1, y0, h, PROMPT, 22, delay=1.5)
+    p.text(918, y0 + h / 2 + 18, '☞', 42, 'rm', anchor='middle', fill=t['accent'])
+    engrave_bushing(p, 1154, y0 + h / 2 + 39, 4.05, t0=1.9)
     return p
 
 PLATES = {
@@ -1306,8 +1347,7 @@ PLATES = {
     'skill': plate_skill,
     'script': plate_script,
     'renderer': plate_renderer,
-    'mcp': plate_mcp,
-    'agent': plate_agent,
+    'envoy': plate_envoy,
 }
 
 

@@ -21,13 +21,7 @@
 </p>
 
 <p>
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/mcp.head.dark.svg"><img width="100%" src="docs/readme/mcp.head.light.svg" alt="Plate VI, The MCP Server — @awv-informatik/classcad-mcp"></picture><br>
-<a href="packages/mcp"><code>packages/mcp</code></a> · <code>@awv-informatik/classcad-mcp</code><br>
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/mcp.dark.svg"><img width="100%" src="docs/readme/mcp.light.svg" alt="Plate VI, the MCP server: Claude Code, Codex, OpenCode, Claude Desktop, VS Code and Cursor each start a stdio shim; one daemon per machine holds every session and reaches three kinds of engine — a classcad-cli worker, the WASM engine in a buerligons tab, or its own local WASM engine."></picture>
-</p>
-
-<p>
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/agent.head.dark.svg"><img width="100%" src="docs/readme/agent.head.light.svg" alt="Plate VII, The In-App Agent — @buerli.io/ai"></picture><br>
-<a href="packages/buerli-ai"><code>packages/buerli-ai</code></a> · <code>@buerli.io/ai</code><br>
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/agent.dark.svg"><img width="100%" src="docs/readme/agent.light.svg" alt="Plate VII, the in-app agent: a scroll carries the request “Make a flanged bushing: a 60 mm flange with a flat, a 30 mm hub bored through, four bolt holes and a port in its side.” A pointing hand leads to an engraving of the result: the flanged bushing of the frontispiece, in isometric view."></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/envoy.head.dark.svg"><img width="100%" src="docs/readme/envoy.head.light.svg" alt="Plate VI, The Envoy — @awv-informatik/classcad-mcp and @buerli.io/ai"></picture><br>
+<a href="packages/mcp"><code>packages/mcp</code></a> · <code>@awv-informatik/classcad-mcp</code>&emsp;&emsp;<a href="packages/buerli-ai"><code>packages/buerli-ai</code></a> · <code>@buerli.io/ai</code><br>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/envoy.dark.svg"><img width="100%" src="docs/readme/envoy.light.svg" alt="Plate VI, the envoy — two ways in. Left, the MCP server: Claude Code, Codex, OpenCode, Claude Desktop, VS Code and Cursor fan into one daemon per machine, which reaches the engine wherever it runs. Right, the in-app assistant: a buerli app with the part in its viewport and the chat panel beside it. Both lead to one request, “Make a flanged bushing: a 60 mm flange with a flat, a 30 mm hub bored through, four bolt holes and a port in its side”, and a pointing hand leads to the result: the flanged bushing, engraved in iso."></picture>
 </p>

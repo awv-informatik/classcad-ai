@@ -442,6 +442,131 @@ assert.ok(leftHit && rightHit, `assembly places both instances (left ${leftHit},
     'different azimuth → different image')
 }
 
+// 5b2. Side views are NOT mirrored: 'right'/'left' show what a camera at ±X
+// sees, exactly like { azimuth: ±90 }. A cube cannot catch this — it needs an
+// asymmetric part: a red bump on the +X face at the FRONT (small y).
+{
+  const box = ([x0, y0, z0], [x1, y1, z1]) => {
+    const vertices = [], normals = [], indices = []
+    const quad = (pts, n) => { const b = vertices.length / 3; for (const p of pts) { vertices.push(...p); normals.push(...n) } indices.push(b, b+1, b+2, b, b+2, b+3) }
+    quad([[x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[x1,y0,z1]], [1,0,0]); quad([[x0,y0,z0],[x0,y0,z1],[x0,y1,z1],[x0,y1,z0]], [-1,0,0])
+    quad([[x0,y1,z0],[x0,y1,z1],[x1,y1,z1],[x1,y1,z0]], [0,1,0]); quad([[x0,y0,z0],[x1,y0,z0],[x1,y0,z1],[x0,y0,z1]], [0,-1,0])
+    quad([[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]], [0,0,1]); quad([[x0,y0,z0],[x0,y1,z0],[x1,y1,z0],[x1,y0,z0]], [0,0,-1])
+    return { vertices, normals, indices }
+  }
+  const c = (id, mesh, color) => ({ id, owner: id, type: 1, properties: { material: { color } }, meshes: [{ id, ...mesh }], edges: [] })
+  const bumpG = { containers: [c(1, box([0, 0, 0], [10, 10, 10]), [128, 128, 128]), c(2, box([10, 0, 3], [13, 3, 7]), [255, 0, 0])] }
+  const redX = async view => {
+    const [e] = await renderSessionData({ tree, graphic: bumpG }, { width: 200, height: 150, view })
+    let sum = 0, n = 0
+    for (let i = 0; i < e.pixels.length; i += 4) {
+      if (e.pixels[i] > 2 * e.pixels[i+1] && e.pixels[i] > 60) { sum += (i / 4) % 200; n++ }
+    }
+    return n ? sum / n : null
+  }
+  const right = await redX('right'), az90 = await redX({ azimuth: 90 })
+  assert.ok(right != null && right < 100, `'right': the front bump sits LEFT of center, as seen from +X (x=${right})`)
+  assert.ok(Math.abs(right - az90) < 1, `'right' === { azimuth: 90 } (${right} vs ${az90})`)
+  assert.equal(await redX('left'), null, "'left' looks at the -X face — the +X bump is hidden")
+
+  // Default iso is Z-up, seen from the front-right-top corner: a bump on the
+  // TOP face lands above the body's center, and the named view equals the
+  // vector camera { azimuth: 45, elevation: 35.264 }.
+  const topG = { containers: [c(1, box([0, 0, 0], [10, 10, 10]), [128, 128, 128]), c(2, box([4, 4, 10], [6, 6, 14]), [255, 0, 0])] }
+  const redC = async view => {
+    const [e] = await renderSessionData({ tree, graphic: topG }, { width: 200, height: 150, view })
+    let sx = 0, sy = 0, n = 0
+    for (let i = 0; i < e.pixels.length; i += 4) {
+      if (e.pixels[i] > 2 * e.pixels[i+1] && e.pixels[i] > 60) { sx += (i / 4) % 200; sy += Math.floor(i / 4 / 200); n++ }
+    }
+    return n ? [sx / n, sy / n] : null
+  }
+  const iso = await redC('iso'), isoCam = await redC({ azimuth: 45, elevation: Math.asin(1 / Math.sqrt(3)) * 180 / Math.PI })
+  assert.ok(iso && iso[1] < 60, `iso is Z-up: the top bump sits in the upper part of the image (${iso})`)
+  assert.ok(Math.abs(iso[0] - isoCam[0]) < 1 && Math.abs(iso[1] - isoCam[1]) < 1, `'iso' === { azimuth: 45, elevation: 35.264 } (${iso} vs ${isoCam})`)
+}
+
+// 5c. Line style + technical drawing
+{
+  // Big cube in front, small cube hidden BEHIND it (front view): its edges
+  // must come out as hidden (dashed, grey) lines; nothing is shaded.
+  const hiddenG = cubeGraphic()
+  const back = cubeGraphic(4)
+  for (let i = 0; i < back.containers[0].meshes[0].vertices.length; i += 3) {
+    back.containers[0].meshes[0].vertices[i] += 3; back.containers[0].meshes[0].vertices[i+1] += 20; back.containers[0].meshes[0].vertices[i+2] += 3
+  }
+  back.containers[0].edges = [{ id: 7, points: [3,20,3, 7,20,3, 7,20,7, 3,20,7, 3,20,3] }]
+  back.containers[0].id = 101
+  hiddenG.containers.push(back.containers[0])
+  const [ln] = await renderSessionData({ tree, graphic: hiddenG }, { width: 200, height: 150, view: 'front', lines: true })
+  let hiddenPx = 0, colored = 0
+  for (let i = 0; i < ln.pixels.length; i += 4) {
+    const [r, g, b] = [ln.pixels[i], ln.pixels[i+1], ln.pixels[i+2]]
+    if (r === 95 && g === 95 && b === 95) hiddenPx++
+    if (Math.abs(r - b) > 10 || Math.abs(r - g) > 10) colored++
+  }
+  assert.ok(hiddenPx > 20, `lines: hidden edges of the occluded body are drawn dashed (${hiddenPx} px)`)
+  assert.equal(colored, 0, 'lines: no shading colors')
+
+  // Silhouettes: a cylinder (axis Z) seen from the front has no brep edge at
+  // its outline — the vertical outline lines must come from the mesh.
+  const N = 48, R = 5, H = 10
+  const vertices = [], normals = [], indices = []
+  for (let k = 0; k < N; k++) {
+    const a0 = (2 * Math.PI * k) / N, a1 = (2 * Math.PI * (k + 1)) / N
+    const b = vertices.length / 3
+    for (const [a, z] of [[a0, 0], [a1, 0], [a1, H], [a0, H]]) { vertices.push(R * Math.cos(a), R * Math.sin(a), z); normals.push(Math.cos(a), Math.sin(a), 0) }
+    indices.push(b, b+1, b+2, b, b+2, b+3)
+  }
+  const ring = z => { const p = []; for (let k = 0; k <= N; k++) { const a = (2 * Math.PI * k) / N; p.push(R * Math.cos(a), R * Math.sin(a), z) } return p }
+  const cylG = { containers: [{ id: 1, owner: 1, type: 1, properties: {}, meshes: [{ id: 1, vertices, normals, indices }], edges: [{ id: 2, points: ring(0) }, { id: 3, points: ring(H) }] }] }
+  const [cyl] = await renderSessionData({ tree, graphic: cylG }, { width: 200, height: 150, view: 'front', lines: true })
+  const darkInRow = y => { let n = 0; for (let x = 0; x < 200; x++) if (cyl.pixels[(y * 200 + x) * 4] < 60) n++; return n }
+  assert.ok(darkInRow(75) >= 2, `lines: cylinder silhouettes drawn at mid height (${darkInRow(75)} dark px)`)
+
+  // Drawing: first- vs third-angle place the SAME top view in different
+  // quadrants (below vs above the front view).
+  const W = 400, Hh = 300
+  const [first] = await renderSessionData({ tree, graphic: hiddenG }, { width: W, height: Hh, drawing: 'first-angle' })
+  const [third] = await renderSessionData({ tree, graphic: hiddenG }, { width: W, height: Hh, drawing: 'third-angle' })
+  assert.equal(first.type, 'drawing')
+  const quad = (e, col, row) => {
+    const out = []
+    for (let y = row * 150 + 4; y < row * 150 + 146; y++) for (let x = col * 200 + 4; x < col * 200 + 196; x++) out.push(e.pixels[(y * W + x) * 4])
+    return Buffer.from(out)
+  }
+  assert.ok(Buffer.compare(quad(first, 0, 1), quad(third, 0, 0)) === 0, 'top view: below front (first-angle) = above front (third-angle)')
+  assert.ok(Buffer.compare(quad(first, 0, 0), quad(third, 0, 1)) === 0, 'front view identical in both methods')
+  const [first2] = await renderSessionData({ tree, graphic: hiddenG }, { width: W, height: Hh, drawing: true })
+  assert.ok(Buffer.compare(Buffer.from(first.pixels), Buffer.from(first2.pixels)) === 0, 'drawing: true = first-angle, deterministic')
+}
+
+// 5d. Section caps: the cut face is filled and hatched (default), or left open
+{
+  // Cut the cube at x = 5, keep x <= 5, look at the cut from +X: the cap
+  // covers the whole view center.
+  const cut = { origin: [5, 0, 0], normal: [1, 0, 0] }
+  const region = async section => {
+    const [e] = await renderSessionData({ tree, graphic }, { width: 200, height: 150, view: 'right', section })
+    const counts = new Map()
+    for (let y = 55; y < 95; y++) for (let x = 80; x < 120; x++) {
+      const i = (y * 200 + x) * 4
+      const k = `${e.pixels[i]},${e.pixels[i+1]},${e.pixels[i+2]}`
+      counts.set(k, (counts.get(k) ?? 0) + 1)
+    }
+    return [...counts.values()].sort((a, b) => b - a)
+  }
+  const capped = await region(cut)
+  assert.ok(capped.length === 2 && capped[1] / 1600 > 0.08 && capped[1] / 1600 < 0.3,
+    `cap: fill + 45° hatch (${capped.map(n => n / 16 + '%')})`)
+  const open = await region({ ...cut, cap: false })
+  assert.equal(open.length, 1, 'cap: false — the open cut shows one shaded interior wall, no hatch')
+  const [lc] = await renderSessionData({ tree, graphic }, { width: 200, height: 150, view: 'right', section: cut, lines: true })
+  let hatchPx = 0
+  for (let y = 55; y < 95; y++) for (let x = 80; x < 120; x++) if (lc.pixels[(y * 200 + x) * 4] === 70) hatchPx++
+  assert.ok(hatchPx > 100, `lines + section: the cap is hatched in the drawing style (${hatchPx} px)`)
+}
+
 // 6. STL export-verification path
 const tri = renderIsometric([{ normal: [0, 0, 1], vertices: [[0, 0, 0], [10, 0, 0], [0, 10, 0]] }], 200, 150)
 assert.equal(tri.length, 200 * 150 * 4)

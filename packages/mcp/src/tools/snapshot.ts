@@ -47,8 +47,8 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       description:
         'Render the current drawing as an inline PNG (also written to disk: outDir, else $CLASSCAD_SNAPSHOT_DIR, else <tmpdir>/classcad-snapshots). ' +
         'The image is returned to the MODEL as an inline image block — no follow-up Read is needed to see it. ' +
-        'The USER may not see tool results (Claude Code / desktop Code tab do not render them): ' +
-        'send the saved PNG path through the host\'s file-sending tool (e.g. SendUserFile) if the user should see the render. ' +
+        'The USER usually does not see tool results. At the end of a build (not after every tweak), SHOW them the render: ' +
+        'with a file-sending tool (Claude Code: SendUserFile), send the saved PNG; otherwise embed it in your reply as a Markdown image with its absolute path, ![render](/abs/path.png) — Codex and most chat hosts display that. ' +
         'Hosts preview only files inside the session\'s own folders (Claude Code: the scratchpad directory or the project) — anywhere else the user gets a grey placeholder card. ' +
         'So when you intend to send the render, pass outDir = your scratchpad directory (or a folder in the project). ' +
         'Call after a meaningful geometry change, NOT after every parameter tweak. ' +
@@ -174,7 +174,7 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       const framed = renders.find(r => (r as any).frame)
       if (framed && (framed as any).frame) noteLines.push(`frame: ${JSON.stringify((framed as any).frame)}`)
       noteLines.push(
-        'Note: the user may not see this image in their transcript — send the saved file via the host\'s file-sending tool (e.g. SendUserFile) if they should see it.' +
+        'Note: the user may not see this image. When the build is done, show it: send the saved PNG with your host\'s file-sending tool (e.g. SendUserFile), or embed it as a Markdown image with its absolute path.' +
           (outDir ? '' : ' Hosts preview only files in session folders: re-run with outDir = your scratchpad before sending, or the user sees a grey placeholder.'),
       )
       return {

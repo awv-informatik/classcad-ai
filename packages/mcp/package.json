@@ -1,8 +1,28 @@
 {
   "name": "@classcad/mcp",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "mcpName": "io.github.awv-informatik/classcad",
-  "description": "Model Context Protocol server for the ClassCAD CAD engine",
+  "description": "ClassCAD MCP server: build, verify and export 3D CAD parts and assemblies with the ClassCAD engine, running locally",
+  "homepage": "https://classcad.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awv-informatik/classcad-ai.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": "https://github.com/awv-informatik/classcad-ai/issues",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "cad",
+    "classcad",
+    "3d",
+    "parametric",
+    "step",
+    "stl",
+    "mechanical-engineering",
+    "claude",
+    "codex"
+  ],
   "license": "MIT",
   "type": "module",
   "bin": {

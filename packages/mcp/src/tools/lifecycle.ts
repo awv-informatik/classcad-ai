@@ -31,9 +31,9 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     'save',
     {
       title: 'Save drawing',
-      description: 'Serialize the current drawing. Returns base64-encoded content. Formats: OFB (native), STP (STEP), STL, JSON.',
+      description: 'Serialize the current drawing. Returns base64-encoded content. Formats: STP (STEP), STL, JSON. (OFB export is not available in this release.)',
       inputSchema: {
-        format: z.enum(['OFB', 'STP', 'STL', 'JSON']).describe('Output format.'),
+        format: z.enum(['STP', 'STL', 'JSON']).describe('Output format.'),
       },
     },
     async ({ format }) => {
@@ -116,9 +116,10 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     },
     async ({ label }) => {
       const name = (label || 'checkpoint').trim().slice(0, 60) || 'checkpoint'
+      // The one OFB save this release makes: held in this process, never returned.
       const r = await client.execute<{ success: boolean; content: string }>({
         'v1.common.save': [{ format: 'OFB', encoding: 'base64' }],
-      })
+      }, { internalOfb: true })
       if (!r.result?.content) {
         return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ error: 'Checkpoint failed: the engine returned no OFB data.', maxLevel: r.maxLevel }) }] }
       }

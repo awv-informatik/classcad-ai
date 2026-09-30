@@ -202,3 +202,37 @@ test('local engine: frame guards, and a crashed / hung / wedged engine is replac
     client.close()
   }
 })
+
+test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore still work', async () => {
+  const a = shim({
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+  })
+  try {
+    await a.init()
+    assert.ok(!(await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'O' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30 }); return p` })).isError)
+    // scripts: the default format, explicit OFB, and exportNode
+    for (const call of ['api.v1.common.save({})', "api.v1.common.save({ format: 'OFB', encoding: 'base64' })", 'api.v1.assembly.exportNode({ id: 4 })']) {
+      const r = await a.tool('run_script', { script: `return await ${call}` })
+      assert.ok(r.isError && /OFB export is not available/.test(r.text), `${call}: ${r.text}`)
+    }
+    // the save tool no longer offers OFB
+    const tool = await a.call('tools/call', { name: 'save', arguments: { format: 'OFB' } })
+    assert.ok(tool.error || tool.result?.isError, 'save({ format: OFB }) is rejected: ' + JSON.stringify(tool).slice(0, 200))
+    // STEP export still works
+    const stp = (await a.tool('save', { format: 'STP' })).value
+    assert.ok(stp.success && stp.bytes > 0, 'STEP export: ' + JSON.stringify(stp).slice(0, 200))
+    // checkpoint/restore still use OFB internally, without handing it out
+    const cp = await a.tool('checkpoint', { label: 'before' })
+    assert.ok(!cp.isError && !/classcad\\nVersion/.test(cp.text) && cp.text.length < 400, 'checkpoint returns no model data: ' + cp.text)
+    await a.tool('run_script', { script: `await api.v1.common.clear(); return 1` })
+    assert.ok(!(await a.tool('restore', { label: 'before' })).isError)
+    const vol = await a.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); return (await api.v1.part.calculateMassProperties({ id: p.id })).result.volume` })
+    assert.equal(vol.value?.returned, 6000, 'restored box: ' + vol.text)
+  } finally {
+    await a.exit()
+  }
+})

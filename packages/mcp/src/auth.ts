@@ -20,6 +20,7 @@
 // that as the account's last refresh). A rejected token (account disabled or
 // deleted, token revoked) signs the machine out; an unreachable Firebase is
 // tolerated for OFFLINE_GRACE_MS after the last successful check.
+import { spawn } from 'node:child_process'
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -149,8 +150,9 @@ let pending: Pending | null = null
  * Starts a sign-in (or returns the one already waiting): the link the user
  * has to open. `client` names the host on the page ("Claude Code").
  */
-export async function beginLogin(client?: string): Promise<{ url: string; expiresAt: number }> {
-  if (pending && Date.now() < pending.expiresAt) return { url: pending.url, expiresAt: pending.expiresAt }
+export async function beginLogin(client?: string): Promise<{ url: string; expiresAt: number; opened: boolean }> {
+  if (pending && Date.now() < pending.expiresAt) return { url: pending.url, expiresAt: pending.expiresAt, opened: false }
+  client = client ? hostName(client) : client
   const state = randomBytes(24).toString('base64url')
   let resolve!: (a: Account) => void
   let reject!: (e: Error) => void
@@ -166,7 +168,9 @@ export async function beginLogin(client?: string): Promise<{ url: string; expire
   const timer = setTimeout(() => finish(p, new Error('the sign-in link expired')), LOGIN_TTL_MS)
   timer.unref()
   server.unref()
-  return { url: p.url, expiresAt: p.expiresAt }
+  // Open the sign-in page right away: the user should not have to find the
+  // link in the agent's output. The link is still returned as the fallback.
+  return { url: p.url, expiresAt: p.expiresAt, opened: openBrowser(p.url) }
 
   async function handle(req: IncomingMessage, res: ServerResponse) {
     // Only this listener's own address: no DNS rebinding, no other sites.
@@ -224,6 +228,35 @@ export async function waitForLogin(ms: number): Promise<Account | null> {
 }
 
 // ─── helpers ───────────────────────────────────────────────────────────────
+
+/**
+ * Opens `url` in the user's browser. False where there is none to open: a
+ * remote shell without a display, or CLASSCAD_AUTH_NO_BROWSER=1 (tests, CI).
+ */
+function openBrowser(url: string): boolean {
+  if (process.env.CLASSCAD_AUTH_NO_BROWSER === '1' || process.env.CI) return false
+  const linux = process.platform !== 'darwin' && process.platform !== 'win32'
+  if (linux && !process.env.DISPLAY && !process.env.WAYLAND_DISPLAY) return false
+  const [cmd, args] =
+    process.platform === 'darwin' ? ['open', [url]] : process.platform === 'win32' ? ['cmd', ['/c', 'start', '""', url.replace(/&/g, '^&')]] : ['xdg-open', [url]]
+  try {
+    const child = spawn(cmd, args as string[], { stdio: 'ignore', detached: true, windowsHide: true })
+    child.on('error', () => {})
+    child.unref()
+    return true
+  } catch {
+    return false
+  }
+}
+
+/** The host as people know it, from its MCP client name ("claude-code" → "Claude Code"). */
+function hostName(client: string): string {
+  const known: Record<string, string> = {
+    'claude-code': 'Claude Code', 'claude-ai': 'Claude', 'claude desktop': 'Claude', 'codex': 'Codex', 'codex-mcp-client': 'Codex',
+    'cursor': 'Cursor', 'cursor-vscode': 'Cursor', 'visual studio code': 'VS Code', 'vscode': 'VS Code', 'windsurf': 'Windsurf', 'opencode': 'OpenCode',
+  }
+  return known[client.toLowerCase()] ?? client
+}
 
 function sameSecret(a: string, b: string): boolean {
   const x = Buffer.from(a)

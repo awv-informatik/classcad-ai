@@ -42,6 +42,7 @@ export async function fakeAuth({ signedIn = true } = {}) {
       CLASSCAD_AUTH_TOKEN_URL: `http://127.0.0.1:${server.address().port}/token`,
       CLASSCAD_AUTH_FILE: file,
       CLASSCAD_AUTH_URL: 'https://classcad.test/connect',
+      CLASSCAD_AUTH_NO_BROWSER: '1',
     },
   }
 }

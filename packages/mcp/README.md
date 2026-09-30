@@ -156,9 +156,9 @@ In a new session, ask the agent to *make a box*. The first time, it shows a sign
 
 ## Sign-in
 
-The MCP works for signed-in classcad.ch accounts, once per machine. Nothing to prepare: the first engine tool call on a machine that is not signed in answers with a link instead of running.
+The MCP works for signed-in classcad.ch accounts, once per machine. An installing agent signs in as its last step (`login`, or `classcad-mcp login` in a terminal); otherwise the first engine tool call on a machine that is not signed in starts the sign-in instead of running.
 
-1. The agent shows the link: `https://classcad.ch/connect?port=…&state=…`. Behind it, the MCP listens on `127.0.0.1:<port>` for this one sign-in (15 minutes).
+1. The sign-in page opens in the user's browser by itself (`open` / `xdg-open` / `start`; not on a remote shell without a display, nor with `CLASSCAD_AUTH_NO_BROWSER=1`), and the agent shows the same link as a fallback: `https://classcad.ch/connect?port=…&state=…`. Behind it, the MCP listens on `127.0.0.1:<port>` for this one sign-in (15 minutes).
 2. The user opens it and signs in or creates an account (Google, GitHub or email). Already signed in on classcad.ch, it is one "Continue" click.
 3. The page hands the sign-in back to `http://127.0.0.1:<port>/callback` (the token rides in the URL fragment, which no server sees). The MCP confirms it with Firebase and stores it in `~/.classcad-mcp/auth.json`.
 4. Meanwhile the agent waits in the `login` tool, which returns the moment the sign-in arrives; the browser tab says to go back to the agent.

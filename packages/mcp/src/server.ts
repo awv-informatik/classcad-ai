@@ -405,8 +405,8 @@ async function cli(command: string, args: string[]): Promise<number> {
       console.log(status.reason)
       return 1
     }
-    const { url } = await beginLogin('this terminal')
-    console.log(`Open this link to sign in:\n\n  ${url}\n\nWaiting …`)
+    const { url, opened } = await beginLogin('your agent')
+    console.log(`${opened ? 'The sign-in page is open in your browser. If not, open' : 'Open'} this link to sign in:\n\n  ${url}\n\nWaiting …`)
     const account = await waitForLogin(15 * 60 * 1000).catch(() => null)
     if (!account) {
       console.error('the sign-in link expired')

@@ -17,14 +17,15 @@ export const OPEN_TOOLS = new Set(['login', 'session_info', 'list_methods', 'des
 const WAIT_MS = 50_000
 
 export const SIGN_IN_NOTE =
-  'SIGN-IN: the ClassCAD MCP needs a free classcad.ch account, once per machine. When a tool answers "Sign-in required", show the user the link it gives (as a clickable link, on its own line), then call `login` — it waits and returns as soon as they have signed in; then repeat the call. Docs tools work without a sign-in.'
+  'SIGN-IN: the ClassCAD MCP needs a free classcad.ch account, once per machine. Right after installing or setting up this MCP, and whenever the user asks to sign in, call `login` at once — do not leave the sign-in for later. When a tool answers "Sign-in required", do the same. `login` opens the sign-in page in the user\'s browser; ALSO show the user the link it returns, as a clickable link on its own line, then call `login` again — it waits and returns as soon as they have signed in. Docs tools work without a sign-in.'
 
 const clientName = (server: McpServer) => server.server.getClientVersion()?.name
 
-function linkText(url: string): string {
+function linkText(url: string, opened: boolean): string {
   return (
     'Sign-in required: the ClassCAD MCP works with a free classcad.ch account (Google, GitHub or email; one click if they already have one).\n\n' +
-    `Show the user this link, as a clickable link on its own line, and ask them to sign in:\n\n${url}\n\n` +
+    (opened ? 'The sign-in page has just opened in the user\'s browser. ' : '') +
+    `Show the user this link, as a clickable link on its own line, in case ${opened ? 'the browser tab is not in front' : 'they need to open it'}:\n\n${url}\n\n` +
     'Then call the `login` tool: it waits and returns as soon as the sign-in has arrived. After that, repeat the call that needed it.'
   )
 }
@@ -37,8 +38,8 @@ export function requireSignIn(server: McpServer, open: Set<string> = OPEN_TOOLS)
     const gated = async (...args: any[]) => {
       const status = await authStatus()
       if (status.signedIn) return handler(...args)
-      const { url } = await beginLogin(clientName(server))
-      return { isError: true, content: [{ type: 'text', text: (status.reason === 'not signed in' ? '' : `(${status.reason}.) `) + linkText(url) }] }
+      const { url, opened } = await beginLogin(clientName(server))
+      return { isError: true, content: [{ type: 'text', text: (status.reason === 'not signed in' ? '' : `(${status.reason}.) `) + linkText(url, opened) }] }
     }
     return original(name, config, gated)
   }
@@ -50,7 +51,7 @@ export function registerAuthTool(server: McpServer): void {
     {
       title: 'Sign in to ClassCAD',
       description:
-        'Sign this machine in to ClassCAD (a free classcad.ch account; Google, GitHub or email). Not signed in: the first call returns a link — show it to the user as a clickable link — and the next call WAITS (up to ~50 s per call) until they have signed in in the browser, then returns their account. Call again while it reports "still waiting". Already signed in: returns the account at once. logout: true signs the machine out.',
+        'Sign this machine in to ClassCAD (a free classcad.ch account; Google, GitHub or email). Call it RIGHT AFTER installing the MCP. Not signed in: the first call opens the sign-in page in the user\'s browser and returns its link — show it to the user as a clickable link too — and the next call WAITS (up to ~50 s per call) until they have signed in in the browser, then returns their account. Call again while it reports "still waiting". Already signed in: returns the account at once. logout: true signs the machine out.',
       inputSchema: {
         logout: z.boolean().optional().describe('Sign this machine out instead.'),
       },
@@ -61,11 +62,17 @@ export function registerAuthTool(server: McpServer): void {
       const status = await authStatus()
       if (status.signedIn) return text(`Signed in as ${status.account.email ?? status.account.name ?? status.account.uid}.`)
       const waiting = pendingLogin()
-      if (!waiting) return text(linkText((await beginLogin(clientName(server))).url))
+      if (!waiting) {
+        const { url, opened } = await beginLogin(clientName(server))
+        return text(linkText(url, opened))
+      }
       const account = await waitForLogin(WAIT_MS)
       if (account) return text(`Signed in as ${account.email ?? account.name ?? account.uid}. Repeat the call that needed it.`)
       const still = pendingLogin()
-      if (!still) return text(linkText((await beginLogin(clientName(server))).url))
+      if (!still) {
+        const { url, opened } = await beginLogin(clientName(server))
+        return text(linkText(url, opened))
+      }
       return text(`Still waiting for the user to sign in at:\n\n${still.url}\n\nCall \`login\` again to keep waiting.`)
     },
   )

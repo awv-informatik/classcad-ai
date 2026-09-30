@@ -64,6 +64,7 @@ test('sign-in: gate, loopback hand-back, waiting login, revocation, logout', asy
     const link = linkIn(gated.text)
     assert.ok(link.port > 0 && link.state.length >= 16, 'link carries port and state')
     assert.equal(link.client, 'Auth Test', 'link names the host')
+    assert.doesNotMatch(gated.text, /has just opened/, 'no browser in tests (CLASSCAD_AUTH_NO_BROWSER)')
     const info = JSON.parse((await a.tool('session_info')).text)
     assert.equal(info.auth.signedIn, false)
     assert.ok(!(await a.tool('list_methods', { search: 'box' })).isError, 'docs work signed out')

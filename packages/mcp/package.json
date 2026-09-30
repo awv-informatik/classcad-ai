@@ -1,6 +1,7 @@
 {
   "name": "@classcad/mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
+  "mcpName": "io.github.awv-informatik/classcad",
   "description": "Model Context Protocol server for the ClassCAD CAD engine",
   "license": "MIT",
   "type": "module",

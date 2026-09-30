@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.awv-informatik/classcad",
+  "title": "ClassCAD",
+  "description": "Build and verify CAD parts and assemblies with the ClassCAD engine, locally, no server needed.",
+  "websiteUrl": "https://classcad.ai",
+  "repository": {
+    "url": "https://github.com/awv-informatik/classcad-ai",
+    "source": "github",
+    "subfolder": "packages/mcp"
+  },
+  "version": "0.1.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@classcad/mcp",
+      "version": "0.1.2",
+      "transport": { "type": "stdio" }
+    }
+  ]
+}

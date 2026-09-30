@@ -3,7 +3,7 @@
 // can model on its own wherever Node runs.
 //
 // What it needs:
-//   • the assets of one ClassCAD release (~85 MB: glue, main module, three
+//   • the assets of one ClassCAD release (~16 MB compressed, ~85 MB unpacked: glue, main module, three
 //     side modules, class file, filter config), downloaded once from
 //     awvstatic.com into CLASSCAD_WASM_DIR (default ~/.classcad-mcp/wasm/<version>),
 //   • a ClassCAD key whose allowed origins include the origin the engine is

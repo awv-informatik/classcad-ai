@@ -18,7 +18,7 @@ After installing, ask Claude for a part, for example "make a 60 mm flange with f
 Everything runs on your machine. No model data leaves it.
 
 - **The server** is started with `npx -y @classcad/mcp@<version>`, which downloads the pinned package and its dependencies from the npm registry.
-- **The engine**: on first use, the server downloads the ClassCAD WebAssembly engine (about 60 MB) from `awvstatic.com` into `~/.classcad-mcp/wasm/` and runs it locally from then on.
+- **The engine**: on first use, the server downloads the ClassCAD WebAssembly engine (about 85 MB) from `awvstatic.com` into `~/.classcad-mcp/wasm/` and runs it locally from then on.
 - **Sign-in**: the server opens `https://classcad.ch/connect` in your browser and listens on `127.0.0.1` on a random port for up to 15 minutes, until the page hands your sign-in back. It stores the account's Firebase refresh token in `~/.classcad-mcp/auth.json` (readable only by you) and confirms it with Google's Firebase token service (`securetoken.googleapis.com`) at most once an hour. `login` with `logout: true` removes it.
 - **Local ports**: a background process of the server listens on `127.0.0.1:9097` (shared by all Claude sessions on the machine) and `127.0.0.1:9096`, where a ClassCAD web app you open can offer its session to Claude; it only joins one when you hand Claude that app's share link. If a ClassCAD server runs on `localhost:9094`, the MCP uses it instead of its own engine.
 - **Files**: renders are written as PNG files to your temp folder, or to the folder Claude names.

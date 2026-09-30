@@ -10,6 +10,18 @@
   },
   "homepage": "https://classcad.ai",
   "repository": "https://github.com/awv-informatik/classcad-ai",
+  "documentationUrl": "https://github.com/awv-informatik/classcad-ai/blob/master/packages/mcp/README.md",
+  "supportUrl": "https://github.com/awv-informatik/classcad-ai/issues",
+  "privacyPolicyUrl": "https://awv-informatik.ch/privacy/",
+  "termsOfServiceUrl": "https://awv-informatik.ch/tac/",
   "license": "MIT",
-  "keywords": ["cad", "3d", "mechanical-engineering", "parametric", "step", "stl", "classcad"]
+  "keywords": [
+    "cad",
+    "3d",
+    "mechanical-engineering",
+    "parametric",
+    "step",
+    "stl",
+    "classcad"
+  ]
 }

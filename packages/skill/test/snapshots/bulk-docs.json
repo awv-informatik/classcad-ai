@@ -354,8 +354,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4280,
-      "sha": "8d823f731f0b",
+      "chars": 4812,
+      "sha": "5b5e08a9a67c",
       "sections": [
         "# ═══ recipes/direct-modeling-eif ═══"
       ],
@@ -606,8 +606,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4776,
-      "sha": "f0ba8d4d6d3a",
+      "chars": 4748,
+      "sha": "da2713b12eb9",
       "sections": [
         "# ═══ solid/curves-parameter ═══"
       ],
@@ -1838,8 +1838,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 8618,
-      "sha": "a514d9b82f88",
+      "chars": 8938,
+      "sha": "92ab956403af",
       "sections": [
         "# ═══ v1.curve.advancedPolyline ═══"
       ],
@@ -1866,8 +1866,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4052,
-      "sha": "255ec86d3ce8",
+      "chars": 4783,
+      "sha": "e67907a32bb5",
       "sections": [
         "# ═══ v1.curve.arcByCenter ═══"
       ],
@@ -2020,8 +2020,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4276,
-      "sha": "b724d821288d",
+      "chars": 4830,
+      "sha": "f04f679741f6",
       "sections": [
         "# ═══ v1.curve.polyline2d ═══"
       ],
@@ -3364,8 +3364,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5940,
-      "sha": "94d7f2779b5f",
+      "chars": 6101,
+      "sha": "edc38ea32a0d",
       "sections": [
         "# ═══ v1.sketch.arcByCenter ═══"
       ],
@@ -4450,8 +4450,8 @@
       "deferred": [
         "recipes/constrained-sketching"
       ],
-      "chars": 36803,
-      "sha": "8978951f0c9d",
+      "chars": 37335,
+      "sha": "10773daa0b0f",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
@@ -4483,8 +4483,8 @@
         "api/sketch",
         "api/solid"
       ],
-      "chars": 45962,
-      "sha": "9949f7b2910c",
+      "chars": 46494,
+      "sha": "0d4f7fb63c35",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",

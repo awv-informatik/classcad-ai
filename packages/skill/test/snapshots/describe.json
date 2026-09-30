@@ -1647,8 +1647,8 @@
     },
     "v1.curve.advancedPolyline": {
       "full": {
-        "chars": 8581,
-        "sha": "46aabf09c24f",
+        "chars": 8901,
+        "sha": "7141fc7639cf",
         "headings": [
           "# v1.curve.advancedPolyline",
           "# Detailed notes",
@@ -1663,7 +1663,7 @@
           "## Related"
         ]
       },
-      "paramsNotedByName": "`id`, `pld`, `pld.xa`, `pld.xr`, `pld.ya`, `pld.yr`, `pld.a`, `pld.ar`, `pld.l`, `pld.r`, `pld.c`, `close`",
+      "paramsNotedByName": "`id`, `pld`, `pld.xa`, `pld.xr`, `pld.ya`, `pld.yr`, `pld.a`, `pld.ar`, `pld.l`, `pld.b`, `pld.r`, `pld.c`, `close`",
       "hasNotes": true,
       "withoutV1": "method v1.curve.advancedPolyline",
       "lowerCase": "method v1.curve.advancedPolyline"
@@ -1692,14 +1692,13 @@
     },
     "v1.curve.arcByCenter": {
       "full": {
-        "chars": 4020,
-        "sha": "0c065ee31ce0",
+        "chars": 4751,
+        "sha": "bcb79f898feb",
         "headings": [
           "# v1.curve.arcByCenter",
           "# Detailed notes",
           "# curve.arcByCenter",
           "## Key Parameters",
-          "## ⚠️ Unreliable inside multi-curve profile chains",
           "## How isClockwise Works",
           "## Return Value",
           "## Gotchas",
@@ -1906,8 +1905,8 @@
     },
     "v1.curve.polyline2d": {
       "full": {
-        "chars": 4245,
-        "sha": "78d1a08f2b95",
+        "chars": 4799,
+        "sha": "08539ab38cd7",
         "headings": [
           "# v1.curve.polyline2d",
           "# Detailed notes",
@@ -3870,8 +3869,8 @@
     },
     "v1.sketch.arcByCenter": {
       "full": {
-        "chars": 5907,
-        "sha": "d39b8dddd330",
+        "chars": 6068,
+        "sha": "38f9c99832ab",
         "headings": [
           "# v1.sketch.arcByCenter",
           "# Detailed notes",

@@ -28,17 +28,24 @@ idiomatic profile source is the **curve API** (`curve.shape` +
 parametric feature modeling; curves are for direct modeling
 ([solid/curves-parameter](../references/solid/curves-parameter.md)).
 
-## Profiles: one polyline with bulges, not line/arc chains
+## Profiles: one polyline with bulges
 
-Build a closed profile as **one `curve.polyline2d` with signed bulge values** per
-segment:
+Build a closed profile as **one `curve.polyline2d` (or `advancedPolyline`) with
+signed bulge values** per segment — one call, every arc encoded by its sweep:
 
-- `bulge = tan(sweepAngle / 4)`, positive = CCW arc, 0 = straight segment.
-- Do NOT assemble profiles from individual `curve.line` + `curve.arcByCenter` calls:
-  in chains the kernel re-picks arc branches and ignores the clockwise flag —
-  profiles come out self-intersecting ([curve/arcByCenter](../references/curve/arcByCenter.md)).
-- Orient profiles with the shape rotation/transform (e.g. rotate an XY profile by
-  `[Math.PI/2, 0, 0]` to stand it in XZ for a revolve about +Z).
+- `bulge = tan(sweepAngle / 4)`, 0 = straight segment.
+- **Sign = side relative to +Z, not to the winding:** positive = counterclockwise
+  seen from +Z = the arc bulges **right of the travel direction**. Walk the outline
+  counterclockwise and positive rounds outward; walk it clockwise and the same
+  positive value cuts inward ([curve/polyline2d](../references/curve/polyline2d.md)).
+- Points must share one z. Draw in XY and orient with the shape rotation/transform
+  (e.g. rotate an XY profile by `[Math.PI/2, 0, 0]` to stand it in XZ for a revolve
+  about +Z) — the bulges follow the transform.
+- Line + arc chains work too, but choose each arc's constructor by what it pins:
+  `curve.arcBy3Points` (a point on the arc), `curve.arcByCenterRadAngle`
+  (counterclockwise about an explicit `normal`) or `curve.arcByCenter`
+  (`isClockwise` about `normal`, default +Z; arcs outside XY need their `normal`)
+  ([curve/arcByCenter](../references/curve/arcByCenter.md)).
 
 ## Instancing without a pattern feature
 

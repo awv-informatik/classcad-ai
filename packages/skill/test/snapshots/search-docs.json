@@ -102,7 +102,7 @@
     "one-shot solid without history": {
       "count": 22,
       "docs": [
-        "recipes/direct-modeling-eif [Profiles: one polyline with bulges, not line/arc chains | Instancing without a pattern feature]",
+        "recipes/direct-modeling-eif [Profiles: one polyline with bulges | Instancing without a pattern feature]",
         "recipes/constrained-sketching [One annotation = one dimension entity]",
         "recipes/verification []",
         "solid/curves-parameter []",
@@ -133,14 +133,14 @@
       ]
     },
     "fillet edges": {
-      "count": 6,
+      "count": 7,
       "docs": [
         "recipes/constrained-sketching []",
         "recipes/verification []",
         "part/brep-access-pattern [After Fillet/Chamfer]",
         "recipes/parametric-part []",
         "common/faceting-concepts []",
-        "recipes/pattern-then-subtract []"
+        "recipes/direct-modeling-eif []"
       ]
     },
     "assembly constraints": {
@@ -180,7 +180,7 @@
       "count": 13,
       "docs": [
         "recipes/assembly-parameters []",
-        "recipes/direct-modeling-eif [Profiles: one polyline with bulges, not line/arc chains]",
+        "recipes/direct-modeling-eif [Profiles: one polyline with bulges]",
         "assembly/movingUnderConstraints []",
         "common/encoding-pipeline []",
         "common/format-comparison []",
@@ -308,7 +308,7 @@
       "docs": [
         "recipes/pattern-then-subtract []",
         "recipes/verification []",
-        "recipes/constrained-sketching [Dimension patterns | Reference: Tangent Lines Between Circles]"
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]"
       ]
     },
     "recipes/verification": {
@@ -759,7 +759,7 @@
       ]
     },
     "fillet": {
-      "count": 5,
+      "count": 6,
       "docs": [
         "recipes/constrained-sketching []",
         "recipes/verification []",
@@ -779,7 +779,7 @@
       "docs": [
         "recipes/pattern-then-subtract []",
         "recipes/parametric-part []",
-        "recipes/verification []"
+        "recipes/direct-modeling-eif []"
       ]
     },
     "hollow": {
@@ -802,8 +802,8 @@
       "count": 12,
       "docs": [
         "recipes/constrained-sketching []",
-        "recipes/direct-modeling-eif []",
-        "recipes/pattern-then-subtract []"
+        "recipes/pattern-then-subtract []",
+        "part/brep-access-pattern []"
       ]
     },
     "join": {
@@ -919,11 +919,11 @@
       ]
     },
     "round": {
-      "count": 13,
+      "count": 14,
       "docs": [
         "recipes/constrained-sketching []",
         "recipes/verification []",
-        "recipes/pattern-then-subtract []"
+        "recipes/direct-modeling-eif []"
       ]
     },
     "scale": {
@@ -935,7 +935,7 @@
       ]
     },
     "section": {
-      "count": 8,
+      "count": 9,
       "docs": [
         "recipes/verification []",
         "recipes/constrained-sketching []",
@@ -959,7 +959,7 @@
       ]
     },
     "slice": {
-      "count": 5,
+      "count": 6,
       "docs": [
         "recipes/verification []",
         "recipes/constrained-sketching []",
@@ -967,7 +967,7 @@
       ]
     },
     "split": {
-      "count": 5,
+      "count": 6,
       "docs": [
         "recipes/constrained-sketching []",
         "recipes/verification []",
@@ -1074,7 +1074,7 @@
       "docs": [
         "recipes/constrained-sketching [Sketch-plane local→world mappings | Reference: Tangent Lines Between Circles | Cross-reference dimensions]",
         "recipes/parametric-part [2. Constrained sketch with @expr dimensions]",
-        "recipes/direct-modeling-eif [Profiles: one polyline with bulges, not line/arc chains]",
+        "recipes/direct-modeling-eif [Profiles: one polyline with bulges]",
         "recipes/verification []",
         "solid/curves-parameter []",
         "recipes/pattern-then-subtract []"
@@ -1094,7 +1094,7 @@
         "recipes/parametric-part []",
         "recipes/constrained-sketching [Dimension patterns]",
         "recipes/verification []",
-        "solid/target-tools-pattern [Tool Reuse Pattern]"
+        "recipes/direct-modeling-eif [Instancing without a pattern feature]"
       ]
     },
     {
@@ -1168,7 +1168,7 @@
         "work point",
         "work plane"
       ],
-      "count": 21,
+      "count": 22,
       "docs": [
         "recipes/constrained-sketching [Worked example — the solver does the tangent math | Sketch-plane local→world mappings]",
         "common/generic []",

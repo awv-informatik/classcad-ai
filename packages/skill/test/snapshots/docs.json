@@ -2853,8 +2853,8 @@
   },
   "curve/advancedPolyline": {
     "read": {
-      "chars": 6447,
-      "sha": "c374899fc9f7",
+      "chars": 6801,
+      "sha": "1f352f69c55c",
       "headings": [
         "# curve.advancedPolyline",
         "## Key Parameters",
@@ -2869,8 +2869,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 6447,
-      "sha": "c374899fc9f7",
+      "chars": 6801,
+      "sha": "1f352f69c55c",
       "headings": [
         "# curve.advancedPolyline",
         "## Key Parameters",
@@ -2917,12 +2917,11 @@
   },
   "curve/arcByCenter": {
     "read": {
-      "chars": 3725,
-      "sha": "6796d2a99e7a",
+      "chars": 4456,
+      "sha": "0332120f7f6b",
       "headings": [
         "# curve.arcByCenter",
         "## Key Parameters",
-        "## ⚠️ Unreliable inside multi-curve profile chains",
         "## How isClockwise Works",
         "## Return Value",
         "## Gotchas",
@@ -2933,12 +2932,11 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3725,
-      "sha": "6796d2a99e7a",
+      "chars": 4456,
+      "sha": "0332120f7f6b",
       "headings": [
         "# curve.arcByCenter",
         "## Key Parameters",
-        "## ⚠️ Unreliable inside multi-curve profile chains",
         "## How isClockwise Works",
         "## Return Value",
         "## Gotchas",
@@ -3163,8 +3161,8 @@
   },
   "curve/polyline2d": {
     "read": {
-      "chars": 3619,
-      "sha": "239c86d4a57a",
+      "chars": 4173,
+      "sha": "e1d18a9ca69d",
       "headings": [
         "# curve.polyline2d",
         "## Key Parameters",
@@ -3177,8 +3175,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3619,
-      "sha": "239c86d4a57a",
+      "chars": 4173,
+      "sha": "e1d18a9ca69d",
       "headings": [
         "# curve.polyline2d",
         "## Key Parameters",
@@ -5891,12 +5889,12 @@
   },
   "recipes/direct-modeling-eif": {
     "read": {
-      "chars": 4241,
-      "sha": "a68698896056",
+      "chars": 4773,
+      "sha": "dc4e831dfbc9",
       "headings": [
         "# Recipe: Direct modeling with solid.\\* inside an Entity Injection Feature (EIF)",
         "## Operation order — the rule that shapes everything",
-        "## Profiles: one polyline with bulges, not line/arc chains",
+        "## Profiles: one polyline with bulges",
         "## Instancing without a pattern feature",
         "## The recalc trap",
         "## Verify",
@@ -5906,12 +5904,12 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4241,
-      "sha": "a68698896056",
+      "chars": 4773,
+      "sha": "dc4e831dfbc9",
       "headings": [
         "# Recipe: Direct modeling with solid.\\* inside an Entity Injection Feature (EIF)",
         "## Operation order — the rule that shapes everything",
-        "## Profiles: one polyline with bulges, not line/arc chains",
+        "## Profiles: one polyline with bulges",
         "## Instancing without a pattern feature",
         "## The recalc trap",
         "## Verify",
@@ -6056,8 +6054,8 @@
   },
   "sketch/arcByCenter": {
     "read": {
-      "chars": 5527,
-      "sha": "5ed0e11a9661",
+      "chars": 5688,
+      "sha": "3db87f34f504",
       "headings": [
         "# sketch.arcByCenter",
         "## Key Parameters",
@@ -6074,8 +6072,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5527,
-      "sha": "5ed0e11a9661",
+      "chars": 5688,
+      "sha": "3db87f34f504",
       "headings": [
         "# sketch.arcByCenter",
         "## Key Parameters",
@@ -7370,8 +7368,8 @@
   },
   "solid/curves-parameter": {
     "read": {
-      "chars": 4742,
-      "sha": "fc2c78e5454d",
+      "chars": 4714,
+      "sha": "c06e2a027354",
       "headings": [
         "# The `curves` Parameter (solid.extrusion & solid.revolve)",
         "## Accepted ID Types",
@@ -7384,8 +7382,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4742,
-      "sha": "fc2c78e5454d",
+      "chars": 4714,
+      "sha": "c06e2a027354",
       "headings": [
         "# The `curves` Parameter (solid.extrusion & solid.revolve)",
         "## Accepted ID Types",

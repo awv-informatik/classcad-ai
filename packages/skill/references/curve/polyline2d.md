@@ -5,7 +5,7 @@ Creates a polyline of lines and arcs from points with optional per-segment bulge
 ## Key Parameters
 
 - `id` — shape ID (`curve.shape`)
-- `points` — `Array<point>` vertices. **Minimum 2** (1 point → internal error "Uninitialized MemberPTR"). **Must be coplanar** — strictly enforced: code 1014 "polyline2d is not planar!".
+- `points` — `Array<point>` vertices. **Minimum 2** (1 point → internal error "Uninitialized MemberPTR"). **All at the same z (a plane parallel to XY)** — a planar outline in XZ or YZ is rejected too: code 1014 "polyline2d is not planar!". For other planes draw in XY, then `curve.rotateShape`/`transformShape` the shape (the bulges follow the transform).
 - `bulges` (optional) — `Array<real>`, **exactly one per point** (mismatch → "there must be as many bulges as positions"; no partial arrays). Omit or `[]` for all straight segments.
 - `close` (optional, default `FALSE`) — connects last point to first. Prefer it over repeating the first point at the end (as the docs example does) — the last bulge then controls the closing arc.
 
@@ -26,7 +26,8 @@ bulge = `tan(a/4)`, `a` = included arc angle of the segment; inverse `a = 4 * at
 | 270° | `2.41421` | Major arc (> half circle) |
 | 360° | `∞` (`tan(90°)`) | **Cannot represent a full circle** — use `curve.circle` |
 
-- **Sign = direction:** positive → **counterclockwise** looking opposite the normal; negative → **clockwise** (same magnitude, same angle, mirrored). Positive, negative and zero bulges mix freely.
+- **Sign = side, always relative to +Z:** positive → the arc sweeps **counterclockwise seen from +Z**, i.e. it bulges to the **right of the travel direction** (point `i` → `i+1`); negative → left. The normal is fixed at +Z, never derived from the points, so the sign does NOT follow the winding: on a **counterclockwise outline positive rounds outward** (convex), on a **clockwise outline the same positive bulge cuts inward**. Know the outline's winding before choosing the sign. Positive, negative and zero bulges mix freely.
+- **Check:** from `(0,0)` to `(10,0)` with bulge `1` the semicircle passes `(5,-5)`.
 - **Bulge `i` applies to the segment from point `i` to `i+1`.** The last point's bulge is ignored for open polylines; with `close: true` it controls the closing arc.
 - **Pure angle parameter**, independent of segment length: the radius scales with the chord. Sagitta (arc height) = `bulge * chord_length / 2`.
 - **Extremes, no error or clamping:** `0.001` → barely visible curve; `100` → nearly full circle; bulge on a zero-length segment (duplicate points) → silently degenerate.
@@ -38,7 +39,7 @@ bulge = `tan(a/4)`, `a` = included arc angle of the segment; inverse `a = 4 * at
 ## Gotchas
 
 - **Duplicate consecutive points** are silently accepted (zero-length segment), no warning.
-- For profiles consumed by `solid.extrusion`/`revolve` that mix lines and arcs, a single closed `polyline2d` with bulges is the reliable choice — chained `curve.line` + `curve.arcByCenter` can come out wrong (see `curve/arcByCenter`).
+- **Verify the side, not just the size:** on an outline a flipped bulge changes the area (outward ↔ inward), but an arc closed only by its own chord has the same area for both signs — check the COG side.
 
 ## Working Example
 

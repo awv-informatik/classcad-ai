@@ -1268,8 +1268,8 @@
         "v1.solid.scale",
         "v1.curve.scaleShape",
         "v1.curve.transformShape",
-        "v1.assembly.transformInstanceTo",
-        "v1.part.transformationByCSys"
+        "v1.part.transformationByCSys",
+        "v1.assembly.transformInstance"
       ]
     },
     "scaleShape": {
@@ -1359,10 +1359,10 @@
       "count": 13,
       "top": [
         "v1.curve.shape",
-        "v1.curve.cleanShape",
         "v1.curve.scaleShape",
-        "v1.curve.rotateShape",
-        "v1.curve.transformShape"
+        "v1.curve.transformShape",
+        "v1.curve.translateShape",
+        "v1.curve.cleanShape"
       ]
     },
     "sketch": {
@@ -2198,8 +2198,8 @@
         "v1.curve.rotateShape",
         "v1.curve.transformShape",
         "v1.solid.rotation",
-        "v1.assembly.transformInstanceTo",
-        "v1.part.transformationByCSys"
+        "v1.part.transformationByCSys",
+        "v1.assembly.transformInstance"
       ]
     },
     "round": {
@@ -2218,8 +2218,8 @@
         "v1.solid.scale",
         "v1.curve.scaleShape",
         "v1.curve.transformShape",
-        "v1.assembly.transformInstanceTo",
-        "v1.part.transformationByCSys"
+        "v1.part.transformationByCSys",
+        "v1.assembly.transformInstance"
       ]
     },
     "section": {
@@ -2887,16 +2887,16 @@
       "count": 6,
       "top": [
         "v1.sketch.arcByCenter",
-        "v1.curve.arcByCenter",
-        "v1.drawing2d.centerView"
+        "v1.drawing2d.centerView",
+        "v1.curve.arcByCenter"
       ]
     },
     "centers": {
       "count": 6,
       "top": [
         "v1.sketch.arcByCenter",
-        "v1.curve.arcByCenter",
-        "v1.drawing2d.centerView"
+        "v1.drawing2d.centerView",
+        "v1.curve.arcByCenter"
       ]
     },
     "chamfer": {
@@ -3253,17 +3253,17 @@
     "curve": {
       "count": 14,
       "top": [
-        "v1.part.compositeCurve",
         "v1.sketch.preTrim",
-        "v1.sketch.splitCurve"
+        "v1.part.compositeCurve",
+        "v1.sketch.splitAllCurves"
       ]
     },
     "curves": {
       "count": 14,
       "top": [
-        "v1.part.compositeCurve",
         "v1.sketch.preTrim",
-        "v1.sketch.splitCurve"
+        "v1.part.compositeCurve",
+        "v1.sketch.splitAllCurves"
       ]
     },
     "custom": {
@@ -4357,8 +4357,8 @@
       "count": 4,
       "top": [
         "v1.part.getGeometryIds",
-        "v1.part.entityInjection",
-        "v1.part.importFeature"
+        "v1.part.importFeature",
+        "v1.part.entityInjection"
       ]
     },
     "limited": {
@@ -5700,16 +5700,16 @@
       "count": 13,
       "top": [
         "v1.curve.shape",
-        "v1.curve.cleanShape",
-        "v1.curve.scaleShape"
+        "v1.curve.scaleShape",
+        "v1.curve.transformShape"
       ]
     },
     "shapes": {
       "count": 13,
       "top": [
         "v1.curve.shape",
-        "v1.curve.cleanShape",
-        "v1.curve.scaleShape"
+        "v1.curve.scaleShape",
+        "v1.curve.transformShape"
       ]
     },
     "sheet": {

@@ -27,7 +27,8 @@ Modes can be freely mixed within one polyline; each entry is independent.
 
 ### Vertex Modifiers (optional per entry, work with all modes)
 
-- `r` — radius fillet: tangent arc at the vertex; **the defined point becomes virtual** (collinear with both segments, not on the polyline). Rounded rectangles: `r` on all 4 corners with `close: true`.
+- `b` — bulge of the segment from this entry to the next (`tan(sweep/4)`); with `close: true` the last entry's `b` bends the closing segment. Same convention as `curve.polyline2d`: positive = counterclockwise seen from +Z = arc right of the travel direction — outward on a counterclockwise outline, inward on a clockwise one.
+- `r` — radius fillet: tangent arc at the vertex; **the defined point becomes virtual** (collinear with both segments, not on the polyline). Rounded rectangles: `r` on all 4 corners with `close: true`. Works next to `b` arcs too.
 - `c` — symmetric chamfer of length `c` measured along the edge.
 - `r` and `c` can be mixed across vertices, never on the same vertex.
 

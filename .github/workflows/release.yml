@@ -1,0 +1,65 @@
+# Release: push a tag mcp-vX.Y.Z and this publishes everything that is new.
+#
+#   1. builds and tests the monorepo at the tag
+#   2. checks that the MCP's versions agree with the tag (scripts/release-check.mjs)
+#   3. publishes to npm every @classcad package whose version is not there yet,
+#      in dependency order (skill, script, renderer, mcp) — through npm's trusted
+#      publishing: no token and no 2FA prompt, with provenance
+#   4. publishes packages/mcp/server.json to the official MCP Registry,
+#      authenticated by this workflow's GitHub OIDC identity (io.github.awv-informatik/*)
+#
+# One-time setup on npmjs.com, per package: Settings → Trusted publishing →
+# GitHub Actions, organization awv-informatik, repository classcad-ai,
+# workflow release.yml.
+name: release
+on:
+  push:
+    tags: ['mcp-v*']
+permissions:
+  contents: read
+  id-token: write # npm trusted publishing and the MCP Registry login
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: npm with trusted publishing (11.5.1 or later)
+        run: npm install -g npm@^11.5.1
+      - run: npm install
+      - run: npm run build
+      - run: npm test
+
+      - name: Versions agree, and what is new on npm
+        id: check
+        run: |
+          node scripts/release-check.mjs "$GITHUB_REF_NAME" > to-publish.txt
+          echo "packages=$(tr '\n' ' ' < to-publish.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to npm
+        run: |
+          for dir in ${{ steps.check.outputs.packages }}; do
+            echo "::group::$dir"
+            (cd "packages/$dir" && npm publish --access public --provenance)
+            echo "::endgroup::"
+          done
+
+      - name: Wait until npm serves the MCP's new version
+        run: |
+          name=$(node -p "require('./packages/mcp/package.json').name")
+          version=$(node -p "require('./packages/mcp/package.json').version")
+          for i in $(seq 1 30); do
+            npm view "$name@$version" version >/dev/null 2>&1 && exit 0
+            sleep 10
+          done
+          echo "$name@$version is not on npm" && exit 1
+
+      - name: Publish to the MCP Registry
+        working-directory: packages/mcp
+        run: |
+          curl -sL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish

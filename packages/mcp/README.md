@@ -342,7 +342,15 @@ Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fa
 
 ### Publishing
 
-The MCP depends on three sibling packages that must be on npm first, in this order: `@classcad/skill` (its `prepublishOnly` regenerates the registry from `@classcad/api-js`), `@classcad/script`, `@classcad/renderer`, then `@classcad/mcp` — each with `npm publish --access public`. A dry run: `npm pack` in each package, then install the four tarballs into an empty directory and run the server.
+Releases run in GitHub Actions ([release.yml](../../.github/workflows/release.yml)), without tokens or 2FA prompts:
+
+1. Bump the MCP's version in three places: `package.json`, `VERSION` in `src/mcp-server.ts`, and `server.json` (`version` and `packages[0].version`). Bump `@classcad/skill`, `script` or `renderer` too if they changed.
+2. `node scripts/release-check.mjs mcp-vX.Y.Z` (from the repo root) checks that the versions agree and lists what is new on npm.
+3. Commit, push, then `git tag mcp-vX.Y.Z && git push origin mcp-vX.Y.Z`.
+
+The workflow builds and tests the tag, publishes every `@classcad` package whose version is not on npm yet (skill, script, renderer, mcp, in that order) through npm's trusted publishing with provenance, and publishes `server.json` to the official MCP Registry as `io.github.awv-informatik/classcad` (logged in by the workflow's GitHub OIDC identity).
+
+One-time setup, per package on npmjs.com: Settings → Trusted publishing → GitHub Actions, organization `awv-informatik`, repository `classcad-ai`, workflow `release.yml`.
 
 ## Build failure and cancellation behavior
 

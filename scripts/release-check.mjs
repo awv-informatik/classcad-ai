@@ -4,8 +4,9 @@
 //   node scripts/release-check.mjs [mcp-vX.Y.Z]
 //
 // Checks that the MCP's version is the same in packages/mcp/package.json, the
-// VERSION constant (src/mcp-server.ts) and server.json (top level and its npm
-// package), and matches the tag when one is given. Then prints, one per line,
+// VERSION constant (src/mcp-server.ts), server.json (top level and its npm
+// package) and the Claude plugin (plugins/classcad: plugin.json and the pinned
+// npx package in .mcp.json), and matches the tag when one is given. Then prints, one per line,
 // the package directories whose current version is not on npm yet — in
 // dependency order, the order they must be published in. Exit 1 on a mismatch.
 import { readFileSync } from 'node:fs'
@@ -31,6 +32,12 @@ if (tag) versions[`tag ${tag}`] = tag.replace(/^mcp-v/, '')
 if (new Set(Object.values(versions)).size !== 1) fail(`versions disagree: ${JSON.stringify(versions)}`)
 if (pkg.mcpName !== server.name) fail(`mcpName ${pkg.mcpName} is not server.json name ${server.name}`)
 if (server.packages?.[0]?.identifier !== pkg.name) fail(`server.json points at ${server.packages?.[0]?.identifier}, not ${pkg.name}`)
+
+// The Claude plugin pins the MCP to an exact version (the directory requires it): same version, same package.
+const plugin = json('plugins/classcad/.claude-plugin/plugin.json')
+const launch = json('plugins/classcad/.mcp.json').mcpServers?.classcad?.args ?? []
+if (plugin.version !== pkg.version) fail(`plugins/classcad plugin.json version ${plugin.version} is not ${pkg.version}`)
+if (!launch.includes(`${pkg.name}@${pkg.version}`)) fail(`plugins/classcad/.mcp.json does not run ${pkg.name}@${pkg.version}: ${JSON.stringify(launch)}`)
 
 const toPublish = []
 for (const dir of PACKAGES) {

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "classcad": {
+      "command": "npx",
+      "args": ["-y", "@classcad/mcp@0.1.2"]
+    }
+  }
+}

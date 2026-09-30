@@ -1,0 +1,17 @@
+{
+  "name": "classcad",
+  "owner": {
+    "name": "AWV Informatik AG",
+    "email": "info@awv-informatik.ch"
+  },
+  "metadata": {
+    "description": "ClassCAD for Claude: build, verify and export 3D CAD models with the ClassCAD engine."
+  },
+  "plugins": [
+    {
+      "name": "classcad",
+      "source": "./plugins/classcad",
+      "description": "Build, verify and export 3D CAD parts and assemblies with the ClassCAD engine, running locally."
+    }
+  ]
+}

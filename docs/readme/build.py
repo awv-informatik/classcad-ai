@@ -1300,7 +1300,7 @@ def plate_envoy(theme):
               'any buerli app, by invite or over the bridge. The assistant lives inside the app: asked to make a '
               'flanged bushing, it answers, and the part appears in the app\'s window.')
     t = p.t
-    plate_frame(p, 'vi', 'the envoy', '@awv-informatik/classcad-mcp · @buerli.io/ai')
+    plate_frame(p, 'vi', 'the envoy', '@classcad/mcp · @buerli.io/ai')
     p.text(84, 214, 'The Envoy', 62, 'it', 'onum')
     p.line(87, 244, 150, 244, 1.3, color=t['accent'], cls='d', delay=0.2)
     paragraph(p, 84, 300, 1040, 'Two envoys make the part: the ^mcp^ server, which serves any agent host and joins '

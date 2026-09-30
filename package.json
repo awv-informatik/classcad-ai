@@ -7,8 +7,8 @@
   ],
   "scripts": {
     "test": "npm run test --workspaces --if-present",
-    "build": "npm run build -w @classcad/skill -w @classcad/script -w @classcad/renderer && npm run build -w @awv-informatik/classcad-mcp -w @buerli.io/ai",
-    "test:reliability": "npm run build -w @classcad/script -w @classcad/renderer -w @awv-informatik/classcad-mcp -w @buerli.io/ai && node packages/script/test/unit.mjs && node --test packages/script/test/diagnostics.mjs packages/script/test/lifecycle.mjs packages/script/test/inspection.mjs packages/script/test/session-contract.mjs packages/renderer/test/capture.mjs packages/mcp/test/queue-reliability.mjs && node packages/renderer/test/smoke.mjs && node packages/renderer/test/golden.mjs"
+    "build": "npm run build -w @classcad/skill -w @classcad/script -w @classcad/renderer && npm run build -w @classcad/mcp -w @buerli.io/ai",
+    "test:reliability": "npm run build -w @classcad/script -w @classcad/renderer -w @classcad/mcp -w @buerli.io/ai && node packages/script/test/unit.mjs && node --test packages/script/test/diagnostics.mjs packages/script/test/lifecycle.mjs packages/script/test/inspection.mjs packages/script/test/session-contract.mjs packages/renderer/test/capture.mjs packages/mcp/test/queue-reliability.mjs && node packages/renderer/test/smoke.mjs && node packages/renderer/test/golden.mjs"
   },
   "engines": {
     "node": ">=18"

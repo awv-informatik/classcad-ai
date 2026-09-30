@@ -1,5 +1,5 @@
 {
-  "name": "@awv-informatik/classcad-mcp",
+  "name": "@classcad/mcp",
   "version": "0.1.0",
   "description": "Model Context Protocol server for the ClassCAD CAD engine",
   "license": "MIT",

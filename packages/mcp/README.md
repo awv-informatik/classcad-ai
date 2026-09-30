@@ -1,4 +1,4 @@
-# @awv-informatik/classcad-mcp
+# @classcad/mcp
 
 Model Context Protocol server for the [ClassCAD](https://classcad.ch) CAD engine. Self-contained: it runs the ClassCAD engine itself (WASM), so there is no server to set up.
 
@@ -60,7 +60,7 @@ echo "$PWD/packages/mcp/dist/server.js"
 
 To update later: `git pull && npm install && npm run build` in the checkout; the next session picks up the new build by itself (see [Upgrades](#the-daemon-in-practice)).
 
-> Once published, `npx -y @awv-informatik/classcad-mcp` will replace `node /abs/path/to/dist/server.js` in every config below. `npm install` may warn that `sharp`'s install script was not run; that is fine, `sharp` ships prebuilt binaries.
+> Once published, `npx -y @classcad/mcp` will replace `node /abs/path/to/dist/server.js` in every config below. `npm install` may warn that `sharp`'s install script was not run; that is fine, `sharp` ships prebuilt binaries.
 
 ---
 
@@ -342,7 +342,7 @@ Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fa
 
 ### Publishing
 
-The MCP depends on three sibling packages that must be on npm first, in this order: `@classcad/skill` (its `prepublishOnly` regenerates the registry from `@classcad/api-js`), `@classcad/script`, `@classcad/renderer`, then `@awv-informatik/classcad-mcp` — each with `npm publish --access public`. A dry run: `npm pack` in each package, then install the four tarballs into an empty directory and run the server.
+The MCP depends on three sibling packages that must be on npm first, in this order: `@classcad/skill` (its `prepublishOnly` regenerates the registry from `@classcad/api-js`), `@classcad/script`, `@classcad/renderer`, then `@classcad/mcp` — each with `npm publish --access public`. A dry run: `npm pack` in each package, then install the four tarballs into an empty directory and run the server.
 
 ## Build failure and cancellation behavior
 

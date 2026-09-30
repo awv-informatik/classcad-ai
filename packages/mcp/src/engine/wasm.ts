@@ -8,7 +8,7 @@
 //     awvstatic.com into CLASSCAD_WASM_DIR (default ~/.classcad-mcp/wasm/<version>),
 //   • a ClassCAD key whose allowed origins include the origin the engine is
 //     told it runs on (CLASSCAD_WASM_ORIGIN, default http://localhost:3000).
-//     The buerli dev key is built in (DEV_WASM_KEY); CLASSCAD_WASM_KEY
+//     A six-month key is built in (DEV_WASM_KEY); CLASSCAD_WASM_KEY
 //     overrides it. Keys and origins are managed on classcad.ch/user.
 //
 // One engine = one drawing = one MCP session. execute() has the same shape
@@ -26,12 +26,14 @@ import type { EngineExecuteResult } from '../bridge/protocol.js'
 /** The ClassCAD release the MCP hosts (the same the buerli apps load). */
 export const DEFAULT_WASM_VERSION = '21.2.0'
 /**
- * The buerli DEVELOPMENT key — the one published with every starter and
- * example (allowed origin http://localhost:3000). Built in so the local
- * engine works without any configuration during the experimental phase;
- * CLASSCAD_WASM_KEY overrides it.
+ * The MCP's built-in key: wasm, enterprise, allowed origin http://localhost:3000,
+ * valid for six months (issued 2026-09-30). Built in so the local engine needs
+ * no configuration; CLASSCAD_WASM_KEY overrides it. Renew it before
+ * DEV_WASM_KEY_EXPIRES with buerli-backend/functions/scripts/appkey.mjs and
+ * ship a release: the engine refuses an expired key.
  */
-export const DEV_WASM_KEY = 'MS4xLlZZUG51VkNpOGdjQm50RXB0VkE1RnQ1ekVVazNOR1dYMk9weHlxRGJjazRSdGYwTFRPTFl5NVdjYmY4VnFOOXlWTDQ0OUNzSExTbmhQRHZpNEVidXR1WWhxRVdBUGFmTzl3UmVNN3lZb2lSMXpyY1F0SHZtWGtUT1k5V2Jlcmw2OUZReHlGK25kUGp6U3pMeHJTU1JCaEVEN0JUL0FGWGIyS2tlRjM1N2tlSUpWT2hDaFFqVjB6TnphMFBMMmVXMmhteTVFTm9JNUZsSVRwT3hFQmZSQ05FY0tlMUlYNUl6d0tIU25JNHlrb214Ujg5WFovYmNPUDd1RUhyMmNDYUE2RzU3SzVkRG53VDNDcXRPcmdqY2U1c3NCd0J6YmZ0MFBidWwrazVPcXZSR0c4cTl3Y0lhR2dCcUJJN2lkVFltNFBuSmtKQVRoV2g1U1Vjc3NtRlRVVEJXZHYxSHFjQXdaY0FFMU9uSDVCOFJ2RUtrKzZCaC9OQ2QrR21SSzFlbjhqRjBSbENGL091cDlrS3J3TjFsVjJGcWFxV0VadVJqT282OGE5Y2JaRXZHcDJPRjUxUnEvMkt2M3grQUtwYUhuam05L2xBdGdpR1dGRFdJRkw4Sm1qVEhDbjhOSmdxaUpRYWhUajc0YnJPUEM3SXVrdGhBOE10b2JpbVovOXlwNS81bmdGaEVad0ZNWHJuNVN0QkpVYi81elNoMnYzN3pmSk1LVFpJMGNoWTltNDVHZDB1RHdYVUpEZ0EwZnpBNW5MQytDSTV0M2pxRlF5UDlRZktEOTZoZkl4QThEUXhEelRHdkw2UWJROWJ4NkxQTGtNaE5GdUFWbzFQdmF5eTFCNkdHQk5rQmR0OGdLeTNmSVpBL0w2TmpFYlhVcVNuam5iNng3blZISE9DdEFxU1JhZHJjdFZFTE5IZ0hMa0xpUnlMd0RyaE1WQjBCWklGemFLZmx5MEx3WWFEVVh5YnY2WVRnMFY0dkpjd1FiUnlXWDVDSW02QU5kZnlERS81MTFVbiswT1ZUaDFmQ1ZNQ1dNNmJzWTA1dTlvZGdWdWorbTBaak1EN0dlNG95MjBhVDhKR2s0aHpSUDdJWG5MYmVRZ1NxR1pDNEVPU2xhRXdmSHd5UEJmN1I5d2g3eENyeGh1Y3NGWWI5bWZzWGN1MDYrL3ppeGRaTWhPSXdDM0RoSVVVOUtHYmNwVGE4QjJ2QWJ0YVNwMngvSSsrRURsLzA5ZW1KWjRybDNtbEJ3TTJGdHJKWGdLazhBQTZkYjJtSjVaR1B0MGJ2TVdadVpCcjBmekFDU1dONThuZGpmL3BmaUc5dHdGbUVkU0xscTNESEJsczhMRFhTMzBDUlp0MFRUeUR4SWYzZWE0WHhwWFdDSUtKK1J5Qm5TK1h1SGxGbmxTbFBpRGJZeC9JNksxYzdkTXR5SVV4Wm5lSk82R0cxNlN1REpDOC90d05CK3pNUXlmaEdETjVuWnpMN0tyU1hRalFyM01NZlptOWZieHRmSEdhem04MWZkeVN2S3RoZitwSkNScWtUcnp6T2Q0RTBoazVYMmRtUEVzQXJOUktPQU9Dajd0eFB4YnEwd0tvdSs3RXdhQW56ZXovREgzb1ViNWhvOXY5ZUxWYXZXakZVWVlJdVd5eVM4dUtOd1VkVkl6OStyUUJwVkYzMGE0V0Jkam82elFwbWR1OCtYanVieG1aaXlFSCs0eCtJdnZSQ1hOY3ZEOHo4MXpsS2thZ3UzM29UbmpjWFh5bmcwQXcvV01EU1IwME1GbTlKQkQ5VjV5c3ZVeG9Nb0pQd3NHV3lKdnFpRHdPclRIZmRhajZabnNHRW5HZUQrMm5RWnU2ZFNqcE10RTdKT3F6NFJ6eXk1bW5HUmxWQklYSGkvR21Wc2ozTkIzQTVyQXlqdGNGQkFwZHlwM0MrdmVGdWN4ZS95UklQNlFUNncxK1ZXNnUv'
+export const DEV_WASM_KEY = 'MS4xLlZZUG51VkNpOGdjQm50RXB0VkE1RnQ1ekVVazNOR1dYMk9weHlxRGJjazRSdGYwTFRPTFl5NVdjYmY4VnFOOXlWTDQ0OUNzSExTbmhQRHZpNEVidXRubFJhZUpQVVA3aW1xZFBlWXlIcFRocFVlamVSZmJUaVM3aWcwWnlpdXNjSm5OaHFnTDhmN2EvSVRsZWxFQy9BRXJSQzZ5VUNLUC9UbFBiTTFINk10UlhNbkYwZm5QN2J0bE5DSWdWWW5RTldFSjFNcGYzaEJ4VjBjTHZlcW9tUXY0bklzVFFWSVl5T0hZVHM4ZU8vbENlaTZhdGxFbERycy9WVldoZHIwNm5DdWRvVEhTNGlmSGRWQ2FSak5QSmVNc1BmK1ZMYm5WVFI4aXl2MENadW1MbEsra2N3L0tqc0hLanZTUXJBTG5EQjcvOWpjcFhwbHlHNkFYRVppeVVESFZ0Ly9EL1VKdndMZ2E3S1ZFcFNRTStmS0xSZDR0RFYrVU41VHBrZ0wvYk5uK2huR3FHU2FtUExybXVGdXQ0T0EycHhiSlNZakZvYjFqbUZEbG5hVk1BTW11c1RqblVyQklGWGFxOUJDZnZRck13eHlGeE1RdEtCdGpnQUd5b1VSNmZmaFRXWVhpOGVtL2ZkU3hMNjFRamF4ejdLVExPS3pFOXJVMVgzcXBPQVo1NEFVenFVVzg0Zk9BeUZ0KzRMT2M0dzJMMWJ1U0YxUkZFby9CZXZ4UGRzQ3A4ZWUxMUxiTDRCQ0pFUEZJMGQyYU9JU0grN0NqOFZhVEpHb2JKVys3cktPemUyTTE4V3hOZnJMWVlhZXJzdDEwdDl1YTFja3lPdUZzRjMwdWFiejUvdGRVeENRRjhhcysxNFR2Slo4THowd1lxRkx2RTgrcG12N2VpT1ZUTzRtVSsvWXpLYkljVXFoNjNRdllkOU5jeWx3c0ZqRkZ4NGJlbGxrcHFuQjFNNHcvZVVmQ2VpNzRXT256ZGtNQzJiYWx2US9VWWJvS3ltbjZHVWtzbjZJczd0ZU5RMGs2TGovTm5mcFllcldNUXQxeEhjWnVySlZxd2hDRjBTTVRhSmhHWFNQODkwd3RFdkNRSS8zSHNYdUpseWFkWkpmZDZHRmJhNTRldEdoNUIveE80aWdNMEVuekVUMWVKa0tWMWhtbTduZjlZZzRwZmw4QnI5Z0ZZdFlPV080S2hWTjczYTB5Y0g5SlpMUUJydmlBVFowQm1uL3RNYnlKWitadmZjYzN1S2lvdXl4VC9ONlJwejlycFdrUmJvSHZSaHF4VkdjY3B4bG1nbnZudkNVaHZSZktFNTYvaDh0eEZXcXFncEo4VFR4cndFQVo3R0liRlVYVWN6TUhoQW9FV2lSWnVMTWxQck0zTVJWQkJ4YXA5a1BUeWVGaUFXU0tzZ2krUHRQbVp4ZTJldlRkekYzTEpvSkc4R25mQjZ5MVE4VWE5Q09wU3pMN05aamFpak9NRmU0dXBFaVI0andrOTUxMDVkcW9TTFExY0JoU2J0MytiNjkxcE1YYmNFZGNjU1ZYSnE5ejdubUJCeGs1THdUaURRdjdDTkQyZGNmejdKa0hXSENFcklvN2ZyMVFKU1V2dG5RRk5YUGxPNWhsTnZGVU9qWngwQkNDMGc2UDFrQUxVUEoweWtaZ3pQSnRYckdHL09XQjFUaERtTVNvMVpmdE1vbTlCdENjVGhMeGJuWDJmODlEcTNHZFE4RUd2UVV0cFRCNkVkeTdBOEE1aVNMemR1OEJhek5nYUwrclFlNk9CTko4VVEweEMzdmUrTFFoTmtVMTVzQWlycmtVdDJmL3JkMDM2bHd5d3ZnZTg2Umlvc1pnOVQ2RHVhNWRoQ1N3L0ZTQmpCOUo0QmI2Kys2TmNEOS9OTGFXNUIwUXJzdDRXYjR0cDEzL3Q3RXlxWEZiV3JLMVdiQlZtMnVhd3pzLzZ4RklR'
+export const DEV_WASM_KEY_EXPIRES = '2027-03-30T09:25:07Z'
 export const DEFAULT_WASM_ORIGIN = 'http://localhost:3000'
 /** Files of one release under https://awvstatic.com/classcad/download/release/<version>/wasm/. */
 export const WASM_ASSETS = ['ClassCADWasm.js', 'ClassCADWasm.wasm', 'lgs2d.wasm', 'lgs3d.wasm', 'ExpWasm.wasm', 'classcad.cfe', 'filterconfig.json']
@@ -70,7 +72,7 @@ export type LocalEngine = {
   readonly memoryMB: number
 }
 
-/** Resolves the local engine settings from the environment (built-in dev key unless CLASSCAD_WASM_KEY is set). */
+/** Resolves the local engine settings from the environment (the built-in key unless CLASSCAD_WASM_KEY is set). */
 export function wasmOptionsFromEnv(env: NodeJS.ProcessEnv = process.env): LocalWasmOptions | null {
   const key = env.CLASSCAD_WASM_KEY || DEV_WASM_KEY
   if (!key) return null
@@ -158,7 +160,14 @@ export async function startLocalEngine(opts: LocalWasmOptions): Promise<LocalEng
         resolve()
       } else if (m?.type === 'error') {
         worker.off('message', onMessage)
-        reject(new Error(`WASM engine failed to start: ${m.message}`))
+        // The engine refuses a bad key by exiting without a word: name the likely cause.
+        const expired = opts.key === DEV_WASM_KEY && Date.now() > Date.parse(DEV_WASM_KEY_EXPIRES)
+        const hint = expired
+          ? ` The MCP's built-in engine key expired on ${DEV_WASM_KEY_EXPIRES.slice(0, 10)}: update the MCP (or set CLASSCAD_WASM_KEY).`
+          : opts.key !== DEV_WASM_KEY
+            ? ' Check CLASSCAD_WASM_KEY: the engine refuses an expired key or one whose allowed origins do not include ' + origin + '.'
+            : ''
+        reject(new Error(`WASM engine failed to start: ${m.message}.${hint}`))
       }
     }
     worker.on('message', onMessage)

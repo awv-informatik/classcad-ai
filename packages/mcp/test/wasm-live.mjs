@@ -1,5 +1,5 @@
 // Local WASM engine contract — LIVE: downloads the release assets on first
-// run (~85 MB; the dev key is built in, CLASSCAD_WASM_KEY overrides).
+// run (~85 MB; a six-month key is built in, CLASSCAD_WASM_KEY overrides).
 //   1. engine policy "wasm": the shim serves a session on the MCP's own engine
 //      (no worker, no daemon bridge involved) — run_script, tree, snapshot work
 //   2. policy "auto" with no worker reachable: falls back to the local engine
@@ -11,13 +11,16 @@ import { spawn } from 'node:child_process'
 import { createServer } from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { fakeAuth } from './fake-auth.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
+// Every shim runs signed in (a fake Firebase token endpoint, own auth file).
+const AUTH = (await fakeAuth()).env
 const freePort = () => new Promise(r => { const s = createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)) }) })
 
 function shim(env) {
-  const p = spawn(process.execPath, [SERVER], { env: { ...process.env, ...env }, stdio: ['pipe', 'pipe', 'pipe'] })
+  const p = spawn(process.execPath, [SERVER], { env: { ...process.env, ...AUTH, ...env }, stdio: ['pipe', 'pipe', 'pipe'] })
   const stderr = []
   p.stderr.on('data', d => stderr.push(d.toString()))
   let buf = ''; const waiters = new Map(); let n = 0

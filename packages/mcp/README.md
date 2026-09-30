@@ -1,6 +1,6 @@
 # @awv-informatik/classcad-mcp
 
-Model Context Protocol server for the [ClassCAD](https://classcad.io) CAD engine.
+Model Context Protocol server for the [ClassCAD](https://classcad.ch) CAD engine. Self-contained: it runs the ClassCAD engine itself (WASM), so there is no server to set up.
 
 Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cursor, …) drive a live ClassCAD session: build parts and assemblies through scripts, inspect the structure tree, render snapshots, save/load OFB/STEP, and dock into a session an interactive app (buerligons) already has open.
 
@@ -14,50 +14,36 @@ Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cu
  VS Code      ── stdio ──► classcad-mcp (shim) ──┘
                                                  ▼
                                    classcad-mcp daemon (ONE per machine)
-                                     session 1 ── WebSocket ──► ClassCAD worker (classcad-cli, :9094)
-                                     session 2 ── WebSocket ──► ClassCAD worker
-                                     session 3 ── bridge ─────► buerligons.io tab (WASM engine in the page)
+                                     session 1 ── worker thread ──► ClassCAD WASM (the MCP's own engine)
+                                     session 2 ── WebSocket ─────► ClassCAD worker (classcad-cli, optional)
+                                     session 3 ── bridge ────────► buerligons.io tab (WASM engine in the page)
                                      bridge listener ws://127.0.0.1:9096/bridge  ◄── apps announce share tokens
 ```
 
-- Every host starts the MCP as a **stdio** child process (`node dist/server.js` or `npx @awv-informatik/classcad-mcp`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9097`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
-- The **daemon** is the actual MCP. It holds one MCP server instance **per session** (per tab: own engine connection, emission config, caches, tool queue) and the one **bridge listener** apps connect to. With no session left and no app attached to its bridge it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
-- Why a daemon: the in-app bridge means the MCP *listens* on a port, and a port belongs to exactly one process. With one MCP process per tab, the second tab could not bind (or bound the other address family of `localhost` and got half the apps). Users who only talk to a `classcad-cli worker` (Drogon) never notice the daemon; it starts, serves the tab, and quits a minute after the last tab closes.
-- The engine is normally a **`classcad-cli worker`** reachable over WebSocket — on your machine (`ws://localhost:9094/`), in Docker, or a hosted instance (`wss://…`). Set it with `CLASSCAD_WS_URL`; each shim passes its own value to the daemon, so different tabs may use different workers. The MCP never starts a worker itself.
-- The MCP can also **host the engine itself**: the published WASM build runs in a worker thread of the daemon, no server and no browser needed. See [Engines](#engines-worker-in-app-bridge-local-wasm).
-- The engine connection is opened lazily on the first tool call, so an idle session never creates a stray engine session.
+- **Self-contained.** The MCP brings its own engine: the published ClassCAD WASM build, run in a worker thread of the daemon. No server and no key to configure (a six-month engine key is built in); one sign-in with a free classcad.ch account. On first use it downloads the release assets (~60 MB) once and caches them.
+- Every host starts the MCP as a **stdio** child process (`node /abs/path/to/dist/server.js`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9097`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
+- The **daemon** is the actual MCP. It holds one MCP server instance **per session** (per tab: own engine, emission config, caches, tool queue) and the one **bridge listener** apps connect to. With no session left and no app attached to its bridge it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
+- Why a daemon: the in-app bridge means the MCP *listens* on a port, and a port belongs to exactly one process. With one MCP process per tab, the second tab could not bind (or bound the other address family of `localhost` and got half the apps).
+- **Optional engines.** If a `classcad-cli worker` is reachable (`CLASSCAD_WS_URL`, default `ws://localhost:9094/`), the default policy `auto` uses it instead of the local engine — for multi-client sessions and `?invite=` sharing with apps. The MCP can also attach to an engine running inside a buerli app's browser tab. See [Engines](#engines-worker-in-app-bridge-local-wasm).
+- The engine is started lazily on the first tool call, so an idle session costs nothing.
 - Fallback: if `127.0.0.1:9097` is held by something that is not a classcad daemon, the shim serves the MCP in-process (everything works except the in-app bridge) and says so on stderr.
 
 ---
 
 ## Prerequisites
 
-- **Node.js 20+** (`node`, `npx`)
-- A running **ClassCAD worker**. Locally:
+- **Node.js 20+** and **git**
+- Internet access on first use (the WASM assets come from awvstatic.com; afterwards it works offline)
 
-  ```bash
-  classcad-cli worker            # listens on ws://localhost:9094/
-  ```
+- A free **classcad.ch account**, signed in once per machine (Google, GitHub or email). The MCP asks for it by itself on first use; see [Sign-in](#sign-in).
 
-  Without a worker the MCP still starts; the first tool call then fails with a connection error and works again as soon as the worker is up.
+Nothing else: no ClassCAD server, no key.
 
 ---
 
 ## Install
 
-### From npm (recommended)
-
-Nothing to check out or build — the host runs the package through `npx`, which downloads it on first use and caches it:
-
-```
-npx -y @awv-informatik/classcad-mcp
-```
-
-That command is what you register with your host (see below). `npx -y` skips the install prompt; the package pulls `@classcad/script`, `@classcad/renderer` (rendering via `sharp`, prebuilt binaries) and `@classcad/skill` (method registry + reference docs).
-
-> npm 11+ prints a warning that `sharp`'s install script was not run. That is fine — `sharp` ships prebuilt binaries and loads without it.
-
-### From source
+The packages are not on npm yet, so the MCP is built from source (a minute or two):
 
 ```bash
 git clone https://github.com/awv-informatik/classcad-ai.git
@@ -66,20 +52,28 @@ npm install
 npm run build          # builds skill, script, renderer, then the MCP
 ```
 
-The server is then `packages/mcp/dist/server.js`; use its absolute path in the host config instead of the `npx` command.
+The server is `packages/mcp/dist/server.js`. Hosts need its **absolute** path — print it from the repo root with:
+
+```bash
+echo "$PWD/packages/mcp/dist/server.js"
+```
+
+To update later: `git pull && npm install && npm run build` in the checkout; the next session picks up the new build by itself (see [Upgrades](#the-daemon-in-practice)).
+
+> Once published, `npx -y @awv-informatik/classcad-mcp` will replace `node /abs/path/to/dist/server.js` in every config below. `npm install` may warn that `sharp`'s install script was not run; that is fine, `sharp` ships prebuilt binaries.
 
 ---
 
 ## Configure your host
 
-Every host needs the same three things: the command (`npx -y @awv-informatik/classcad-mcp` or `node /abs/path/to/dist/server.js`), the worker URL in `CLASSCAD_WS_URL`, and a restart of the host so it spawns the server.
+Every host needs the same two things: the command `node /abs/path/to/classcad-ai/packages/mcp/dist/server.js`, and a restart (or a new session) so it spawns the server. No environment variables are required.
 
 ### Claude Code (CLI, and the Code tab of the desktop app)
 
+From the repo root:
+
 ```bash
-claude mcp add classcad --scope user \
-  --env CLASSCAD_WS_URL=ws://localhost:9094/ \
-  -- npx -y @awv-informatik/classcad-mcp
+claude mcp add classcad --scope user -- node "$PWD/packages/mcp/dist/server.js"
 ```
 
 `--scope user` writes to `~/.claude.json` (all projects); `--scope project` writes `.mcp.json` in the current repo instead. Verify with `claude mcp list` — the entry should show `✔ Connected`. Tools appear in the **next** session (each session spawns its own MCP process); in a running session use `/mcp` to reconnect.
@@ -90,9 +84,8 @@ Manual equivalent in `~/.claude.json` / `.mcp.json`:
 {
   "mcpServers": {
     "classcad": {
-      "command": "npx",
-      "args": ["-y", "@awv-informatik/classcad-mcp"],
-      "env": { "CLASSCAD_WS_URL": "ws://localhost:9094/" }
+      "command": "node",
+      "args": ["/abs/path/to/classcad-ai/packages/mcp/dist/server.js"]
     }
   }
 }
@@ -105,7 +98,17 @@ The chat side of the desktop app has its **own** config and does not read `~/.cl
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the same `mcpServers` block as above. The app is not started from a shell, so it has no `PATH`: if `npx`/`node` are not found, use absolute paths (macOS Homebrew: `/opt/homebrew/bin/npx`; `which npx` tells you). Quit and reopen the app — it spawns MCP servers only at startup. The server then shows up under Settings → Developer, and the chat renders snapshot images inline.
+Add the same `mcpServers` block as above. The app is not started from a shell, so it has no `PATH`: use the absolute path of `node` as `command` (`which node` tells you; macOS Homebrew: `/opt/homebrew/bin/node`). Quit and reopen the app — it spawns MCP servers only at startup. The server then shows up under Settings → Developer, and the chat renders snapshot images inline.
+
+### Codex
+
+`~/.codex/config.toml`:
+
+```toml
+[mcp_servers.classcad]
+command = "node"
+args = ["/abs/path/to/classcad-ai/packages/mcp/dist/server.js"]
+```
 
 ### VS Code — GitHub Copilot Chat (agent mode)
 
@@ -116,9 +119,8 @@ Command Palette → **MCP: Add Server**, or edit `.vscode/mcp.json` (workspace) 
   "servers": {
     "classcad": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@awv-informatik/classcad-mcp"],
-      "env": { "CLASSCAD_WS_URL": "ws://localhost:9094/" }
+      "command": "node",
+      "args": ["/abs/path/to/classcad-ai/packages/mcp/dist/server.js"]
     }
   }
 }
@@ -126,9 +128,48 @@ Command Palette → **MCP: Add Server**, or edit `.vscode/mcp.json` (workspace) 
 
 (Top-level key `servers`, and an explicit `"type": "stdio"`.) Switch Copilot Chat to **Agent** mode; the classcad tools become selectable.
 
-### Cursor / Windsurf / other hosts
+### Cursor
 
-Most hosts accept the Claude-style `mcpServers` JSON. Use the block from the Claude Code section in the host's MCP config file.
+`~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project): the `mcpServers` block from the Claude Code section.
+
+### OpenCode
+
+`opencode.json`:
+
+```json
+{
+  "mcp": {
+    "classcad": { "type": "local", "command": ["node", "/abs/path/to/classcad-ai/packages/mcp/dist/server.js"] }
+  }
+}
+```
+
+### Other hosts
+
+Most hosts accept the Claude-style `mcpServers` JSON.
+
+### First test
+
+In a new session, ask the agent to *make a box*. The first time, it shows a sign-in link: open it, sign in, and the agent carries on by itself. It should then call `run_script` and answer with a volume; `session_info` shows `"transport": "wasm"` (or `"ws"` when a worker is running). The very first call takes a little longer while the WASM assets download.
+
+---
+
+## Sign-in
+
+The MCP works for signed-in classcad.ch accounts, once per machine. Nothing to prepare: the first engine tool call on a machine that is not signed in answers with a link instead of running.
+
+1. The agent shows the link: `https://classcad.ch/connect?port=…&state=…`. Behind it, the MCP listens on `127.0.0.1:<port>` for this one sign-in (15 minutes).
+2. The user opens it and signs in or creates an account (Google, GitHub or email). Already signed in on classcad.ch, it is one "Continue" click.
+3. The page hands the sign-in back to `http://127.0.0.1:<port>/callback` (the token rides in the URL fragment, which no server sees). The MCP confirms it with Firebase and stores it in `~/.classcad-mcp/auth.json`.
+4. Meanwhile the agent waits in the `login` tool, which returns the moment the sign-in arrives; the browser tab says to go back to the agent.
+
+Every later session on the machine is signed in. The MCP re-checks the account with Firebase at most once an hour; a revoked or disabled account signs the machine out, and without network the last check counts for 14 days. `session_info` shows the account. The docs tools (`list_methods`, `describe_method`, `docs`) work without a sign-in.
+
+From a terminal, the same flow and more (`node dist/server.js <command>` in a checkout):
+
+- `classcad-mcp login` prints the link and waits until it is used
+- `classcad-mcp whoami` shows the sign-in
+- `classcad-mcp logout` signs the machine out (or the `login` tool with `logout: true`)
 
 ---
 
@@ -136,7 +177,7 @@ Most hosts accept the Claude-style `mcpServers` JSON. Use the block from the Cla
 
 | Variable                 | Purpose                                                                                                          |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `CLASSCAD_WS_URL`        | WebSocket URL of the ClassCAD worker. Default `ws://localhost:9094/`. Any reachable worker works (`wss://…`).     |
+| `CLASSCAD_WS_URL`        | WebSocket URL of an optional ClassCAD worker. Default `ws://localhost:9094/`; unreachable → the local WASM engine. Any reachable worker works (`wss://…`). |
 | `CLASSCAD_SNAPSHOT_DIR`  | Where `snapshot` writes its PNGs when the call passes no `outDir`. Default `<tmpdir>/classcad-snapshots`.        |
 | `CLASSCAD_SKILL_PATH`    | Use a local `classcad-skill` checkout for docs instead of the installed `@classcad/skill` package.                |
 | `CLASSCAD_BRIDGE_LISTEN` | Listener for the in-app bridge (see below). Default `ws://127.0.0.1:9096/bridge`. The daemon starts even if it cannot bind and retries every 5 s. |
@@ -145,13 +186,15 @@ Most hosts accept the Claude-style `mcpServers` JSON. Use the block from the Cla
 | `CLASSCAD_DAEMON_IDLE_MS`| How long the daemon lives without any session and without any app on the bridge before it exits. Default `60000`. |
 | `CLASSCAD_MCP_LOG`       | Daemon log file. Default `<tmpdir>/classcad-mcp/daemon.log` (the shim prints the path on stderr at startup).       |
 | `CLASSCAD_ENGINE`        | Engine policy when no token/URL decides: `auto` (default: the worker, else the local WASM engine), `drogon` (worker only), `wasm` (local engine only). |
-| `CLASSCAD_WASM_KEY`      | A ClassCAD key (classcad.ch/user) for the local WASM engine. Optional: the buerli development key is built in.      |
+| `CLASSCAD_AUTH_URL`      | The sign-in page. Default `https://classcad.ch/connect` (the dev site: `http://localhost:9090/connect`).          |
+| `CLASSCAD_AUTH_FILE`     | Where the sign-in is stored. Default `~/.classcad-mcp/auth.json`.                                                 |
+| `CLASSCAD_WASM_KEY`      | A ClassCAD key (classcad.ch/user) for the local WASM engine. Optional: a key valid until 2027-03-30 is built in.   |
 | `CLASSCAD_WASM_ORIGIN`   | Origin the local engine believes it runs on; must be in the key's allowed origins. Default `http://localhost:3000`. |
 | `CLASSCAD_WASM_VERSION`  | ClassCAD release to host. Default `21.2.0` (what the buerli apps load).                                            |
 | `CLASSCAD_WASM_DIR`      | Where the release assets are cached. Default `~/.classcad-mcp/wasm/<version>`.                                     |
 | `CLASSCAD_WASM_URL`      | Download base override. Default `https://awvstatic.com/classcad/download/release/<version>/wasm`.                  |
 
-Set them in the host's MCP config `env` block; the shim passes them on to the daemon it starts. `CLASSCAD_WS_URL` is per session — the daemon receives it with every new session, so two tabs can point at different workers.
+None is required. Set them in the host's MCP config `env` block; the shim passes them on to the daemon it starts. `CLASSCAD_WS_URL` is per session — the daemon receives it with every new session, so two tabs can point at different workers.
 
 ### The daemon in practice
 
@@ -178,6 +221,7 @@ Set them in the host's MCP config `env` block; the shim passes them on to the da
 | `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, technical drawing with hidden lines, highlights, markers) |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
 | `save` / `load` / `clear` / `checkpoint` / `restore` | OFB / STEP / STL persistence, undo points                                     |
+| `login`                 | Sign the machine in (returns the link, then waits for it to be used) or out |
 | `session_info` / `use_session` | Connection status (transport ws/bridge); attach to a named session, an invite link, or an in-app engine's `?bridge=` link |
 | `bridge.list_clients` / `bridge.get_selection` / `bridge.set_selection` | Read/write the selection of a connected CC app (see bridge) |
 
@@ -195,7 +239,7 @@ The MCP can run its commands on three kinds of engine. A token or URL always dec
 | --- | --- | --- |
 | **Worker (Drogon)** | A `classcad-cli worker` — a server on your machine, in Docker or hosted. Multi-client sessions, sharing with apps via `?invite=` links. | `CLASSCAD_WS_URL`, `use_session(sessionId)`, `use_session(url)` with a `ws(s)://` or `?invite=` link. |
 | **In-app bridge** | The engine inside a buerli app's browser tab (WASM in the page, e.g. buerligons.io). | `use_session(url)` with the app's `?bridge=` share link. |
-| **Local WASM** | The published ClassCAD WASM build, hosted by the MCP itself in a worker thread of the daemon. No server, no browser, works offline once the assets are cached. | Nothing to configure (the dev key is built in); the policy (`auto`/`wasm`) or `use_session(engine="wasm")`. |
+| **Local WASM** | The published ClassCAD WASM build, hosted by the MCP itself in a worker thread of the daemon. No server, no browser, works offline once the assets are cached. | Nothing to configure (a six-month key is built in); the policy (`auto`/`wasm`) or `use_session(engine="wasm")`. |
 
 **Policy.** `CLASSCAD_ENGINE` (default `auto`) and the `engine` argument of `use_session`:
 
@@ -207,7 +251,7 @@ The choice sticks for the session until `use_session` changes it; a `?bridge=` o
 
 **What the local engine needs.**
 
-- **A key.** ClassCAD keys are bound to *allowed origins* (managed on classcad.ch/user). The engine's license check compares the origin it runs on with those. A Node process has no origin, so the MCP presents itself as `CLASSCAD_WASM_ORIGIN` (default `http://localhost:3000`). The buerli **development key** (the one shipped with the starters and examples, allowed origin localhost:3000) is built in, so nothing needs configuring during the experimental phase; `CLASSCAD_WASM_KEY` swaps in your own key (set `CLASSCAD_WASM_ORIGIN` to match if it allows another origin).
+- **A key.** ClassCAD keys are bound to *allowed origins* (managed on classcad.ch/user). The engine's license check compares the origin it runs on with those. A Node process has no origin, so the MCP presents itself as `CLASSCAD_WASM_ORIGIN` (default `http://localhost:3000`). A **six-month key** (wasm, allowed origin `http://localhost:3000`, valid until 2027-03-30) is built in, so nothing needs configuring. The engine refuses an expired key, so a release with a renewed key has to ship before that date (`buerli-backend/functions/scripts/appkey.mjs` issues one); `CLASSCAD_WASM_KEY` swaps in your own key (set `CLASSCAD_WASM_ORIGIN` to match if it allows another origin).
 - **The release assets** (~60 MB: glue, main module, three side modules, class file, filter config). Downloaded once from awvstatic.com into `CLASSCAD_WASM_DIR` on first use — the first tool call that needs the engine takes a moment longer and the daemon log shows the progress. Afterwards the engine starts in about a second per session (~130 MB heap each; one engine per session, ended with the session).
 - **Node ≥ 20** for `worker_threads` and `fetch` — the same requirement as the rest of the package.
 

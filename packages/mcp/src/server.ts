@@ -19,6 +19,7 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
 import { DAEMON_HOST, DEFAULT_DAEMON_PORT, defaultDaemonLogFile, daemonBuildStamp } from './daemon.js'
 import { wasmOptionsFromEnv } from './engine/wasm.js'
+import { authStatus, beginLogin, logout, waitForLogin } from './auth.js'
 import type { JSONRPCMessage } from '@modelcontextprotocol/sdk/types.js'
 import type { EnginePolicy } from './client.js'
 
@@ -315,6 +316,11 @@ Daemon commands:
   classcad-mcp stop            stop the daemon if no session is active
   classcad-mcp stop --force    terminate it now: EVERY connected tab loses its drawing and
                                reconnects to a fresh daemon on its next tool call
+
+Account commands (the MCP works for signed-in classcad.ch accounts):
+  classcad-mcp login           print a sign-in link and wait until it is used
+  classcad-mcp whoami          show this machine's sign-in
+  classcad-mcp logout          sign this machine out
 `
 
 const pidAlive = (pid: number): boolean => {
@@ -389,12 +395,36 @@ async function cli(command: string, args: string[]): Promise<number> {
     return 0
   }
   if (command === 'stop') return stopDaemon(args.includes('--force'))
+  if (command === 'whoami' || command === 'login') {
+    const status = await authStatus()
+    if (status.signedIn) {
+      console.log(`signed in as ${status.account.email ?? status.account.name ?? status.account.uid}${status.offline ? ' (offline, not re-checked)' : ''}`)
+      return 0
+    }
+    if (command === 'whoami') {
+      console.log(status.reason)
+      return 1
+    }
+    const { url } = await beginLogin('this terminal')
+    console.log(`Open this link to sign in:\n\n  ${url}\n\nWaiting …`)
+    const account = await waitForLogin(15 * 60 * 1000).catch(() => null)
+    if (!account) {
+      console.error('the sign-in link expired')
+      return 1
+    }
+    console.log(`signed in as ${account.email ?? account.name ?? account.uid}`)
+    return 0
+  }
+  if (command === 'logout') {
+    console.log(logout() ? 'signed out' : 'was not signed in')
+    return 0
+  }
   console.log(USAGE)
   return 0
 }
 
 const [command, ...args] = process.argv.slice(2)
-if (command === 'status' || command === 'stop' || command === 'help' || command === '--help') {
+if (['status', 'stop', 'login', 'logout', 'whoami', 'help', '--help'].includes(command)) {
   cli(command, args).then(
     code => process.exit(code),
     err => {

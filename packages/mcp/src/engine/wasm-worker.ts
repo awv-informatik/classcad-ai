@@ -79,11 +79,14 @@ function installShims(dir: string, origin: string): Record<string, unknown> {
   return loc
 }
 
+/** What the engine printed while starting: the only reason it gives when it refuses to run (a bad key exits silently). */
+const initLogs: string[] = []
+
 async function init(msg: InitMsg): Promise<void> {
   const t0 = Date.now()
   const loc = installShims(msg.dir, msg.origin)
   const factory = (await import(pathToFileURL(join(msg.dir, 'ClassCADWasm.js')).href)).default
-  const logs: string[] = []
+  const logs = initLogs
   engine = await factory({
     wasmBinary: readFileSync(join(msg.dir, 'ClassCADWasm.wasm')),
     locateFile: (f: string) => f,
@@ -114,7 +117,18 @@ async function init(msg: InitMsg): Promise<void> {
   port.postMessage({ type: 'ready', ms: Date.now() - t0, memoryMB: Math.round(engine.HEAPU8.length / 1048576), logs: logs.slice(0, 10) })
 }
 
-const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err))
+// The engine throws plain objects too (e.g. a refused license key): show their fields, not "[object Object]".
+const errorText = (err: unknown): string => {
+  if (err instanceof Error) return err.message
+  if (err && typeof err === 'object') {
+    try {
+      return JSON.stringify(err)
+    } catch {
+      /* circular: fall through */
+    }
+  }
+  return String(err)
+}
 
 function execute(msg: ExecMsg): void {
   const messages: unknown[] = []
@@ -157,7 +171,10 @@ function execute(msg: ExecMsg): void {
 port.on('message', (msg: InitMsg | ExecMsg) => {
   try {
     if (msg.type === 'init') {
-      init(msg).catch(err => port.postMessage({ type: 'error', message: errorText(err) }))
+      init(msg).catch(err => {
+        const said = initLogs.filter(l => l.trim()).slice(-8).join(' | ')
+        port.postMessage({ type: 'error', message: errorText(err) + (said ? ` — engine output: ${said}` : '') })
+      })
     } else if (msg.type === 'execute') {
       if (!engine) throw new Error('engine not initialized')
       execute(msg)

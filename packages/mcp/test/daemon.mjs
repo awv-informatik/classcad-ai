@@ -18,11 +18,14 @@ import { request } from 'node:http'
 import { createServer } from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { fakeAuth } from './fake-auth.mjs'
 import { tmpdir } from 'node:os'
 import { startFakeWorker } from '../../script/test/fake-worker.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
+// Every shim runs signed in (a fake Firebase token endpoint, own auth file).
+const AUTH = (await fakeAuth()).env
 
 const freePort = () => new Promise(r => { const s = createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)) }) })
 const sleep = ms => new Promise(r => setTimeout(r, ms))
@@ -30,7 +33,7 @@ const health = async port => { try { const r = await fetch(`http://127.0.0.1:${p
 
 /** Spawns a shim and returns a tiny JSON-RPC driver over its stdio. */
 function shim(env) {
-  const p = spawn(process.execPath, [SERVER], { env: { ...process.env, ...env }, stdio: ['pipe', 'pipe', 'pipe'] })
+  const p = spawn(process.execPath, [SERVER], { env: { ...process.env, ...AUTH, ...env }, stdio: ['pipe', 'pipe', 'pipe'] })
   const stderr = []
   p.stderr.on('data', d => stderr.push(d.toString()))
   let buf = ''; const waiters = new Map(); let n = 0

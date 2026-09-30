@@ -16,6 +16,8 @@ import { registerScriptTool } from './tools/script.js'
 import { registerBridgeTools } from './tools/bridge.js'
 import type { BridgeRegistry } from './bridge/server.js'
 import { serializeTools } from './queue.js'
+import { registerAuthTool, requireSignIn, SIGN_IN_NOTE } from './tools/auth.js'
+import { authStatus } from './auth.js'
 
 export const VERSION = '0.1.0'
 export const DEFAULT_WS_URL = 'ws://0.0.0.0:9094/'
@@ -49,24 +51,30 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     },
     // The initialize-handshake instructions carry the full v1 method index —
     // hosts surface them to the agent, so it knows every method from turn one.
-    { instructions: serverInstructions() },
+    { instructions: `${SIGN_IN_NOTE}\n\n${serverInstructions()}` },
   )
 
   // One tool call at a time: every tool below shares this client's single
   // engine connection and drawing (see queue.ts for the reasoning, incl.
   // subagents). Must run before the first registerTool.
   serializeTools(server)
+  // Every tool but the sign-in, status and docs needs a signed-in machine.
+  // Registered after the queue patch, so the check runs before queueing.
+  requireSignIn(server)
+  registerAuthTool(server)
 
   server.registerTool(
     'session_info',
     {
       title: 'Session info',
-      description: 'Return ClassCAD MCP session status: transport (ws = ClassCAD worker, bridge = an app\'s in-page engine, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, share token, connection state, package version. ' + DAEMON_NOTE,
+      description: 'Return ClassCAD MCP session status: sign-in (auth), transport (ws = ClassCAD worker, bridge = an app\'s in-page engine, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, share token, connection state, package version. ' + DAEMON_NOTE,
       inputSchema: {},
     },
     async () => {
       const local = client.localEngine
+      const auth = await authStatus()
       const info = {
+        auth: auth.signedIn ? { signedIn: true, email: auth.account.email, ...(auth.offline ? { offline: true } : {}) } : { signedIn: false, reason: auth.reason },
         transport: client.transport,
         enginePolicy: client.engine,
         wsUrl: client.transport === 'ws' ? client.url : null,

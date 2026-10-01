@@ -68,6 +68,8 @@ To update later: `git pull && npm install && npm run build` in the checkout; the
 
 Every host needs the same two things: the command `node /abs/path/to/classcad-ai/packages/mcp/dist/server.js`, and a restart (or a new session) so it spawns the server. No environment variables are required.
 
+**Windows (native, not WSL):** hosts cannot start `npx` directly. Use `cmd` as the command with the arguments `/c npx -y @classcad/mcp@latest`, e.g. `claude mcp add classcad --scope user -- cmd /c npx -y @classcad/mcp@latest`, or `"command": "cmd", "args": ["/c", "npx", "-y", "@classcad/mcp@latest"]` in JSON configs.
+
 ### Claude Code (CLI, and the Code tab of the desktop app)
 
 From the repo root:

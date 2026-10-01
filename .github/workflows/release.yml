@@ -48,14 +48,17 @@ jobs:
           done
 
       - name: Wait until npm serves the MCP's new version
+        # The MCP Registry reads the package from npm; a publish can take minutes to show.
+        # Asked of the registry itself (npm view may answer from a cache), for up to 20 minutes.
         run: |
-          name=$(node -p "require('./packages/mcp/package.json').name")
+          name=$(node -p "require('./packages/mcp/package.json').name.replace('/', '%2f')")
           version=$(node -p "require('./packages/mcp/package.json').version")
-          for i in $(seq 1 30); do
-            npm view "$name@$version" version >/dev/null 2>&1 && exit 0
+          for i in $(seq 1 120); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://registry.npmjs.org/$name/$version")
+            if [ "$code" = "200" ]; then echo "on npm after $((i * 10 - 10)) s"; exit 0; fi
             sleep 10
           done
-          echo "$name@$version is not on npm" && exit 1
+          echo "$name@$version is not on npm after 20 minutes" && exit 1
 
       - name: Publish to the MCP Registry
         working-directory: packages/mcp

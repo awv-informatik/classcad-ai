@@ -236,3 +236,46 @@ test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore sti
     await a.exit()
   }
 })
+
+test('local engine: clear, restore and deletions leave no stale geometry in the graphic', async () => {
+  const a = shim({
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+  })
+  // triangles per container, and the bounds of everything the renderer would draw
+  const graphic = `const g = await api.graphic(); const cs = (g?.containers ?? []).filter(c => (c.meshes ?? []).length);
+    const cap = await api.inspect.capture(); const b = api.inspect.graphicBounds(cap, api.inspect.currentSolids(cap));
+    return { withMeshes: cs.length, size: b ? b.max.map((v, i) => Math.round(v - b.min[i])) : null }`
+  const state = async () => (await a.tool('run_script', { script: graphic })).value?.returned
+  try {
+    await a.init()
+    await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'OldBox' })).result; await api.v1.part.box({ id: p, length: 100, width: 100, height: 100 }); return p` })
+    const box = await state()
+    assert.equal(box.withMeshes, 1, 'the live box is in the graphic (pruning keeps live geometry): ' + JSON.stringify(box))
+    assert.deepEqual(box.size, [100, 100, 100])
+
+    // clear → nothing left to draw
+    assert.ok(!(await a.tool('clear')).isError)
+    const cleared = await a.tool('run_script', { script: `const g = await api.graphic(); return (g?.containers ?? []).length` })
+    assert.equal(cleared.value?.returned, 0, 'no containers after clear: ' + cleared.text)
+
+    // a new model after clear shows only itself
+    await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'NewCyl' })).result; await api.v1.part.cylinder({ id: p, diameter: 20, height: 50 }); return p` })
+    const cyl = await state()
+    assert.equal(cyl.withMeshes, 1, 'only the cylinder: ' + JSON.stringify(cyl))
+    assert.deepEqual(cyl.size, [20, 20, 50], 'the old box is not in the picture')
+
+    // restore brings back the checkpoint's geometry, not what came after it
+    await a.tool('checkpoint', { label: 'cyl' })
+    await a.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); await api.v1.part.box({ id: p.id, name: 'Extra', length: 200, width: 200, height: 200 }); return 1` })
+    assert.deepEqual((await state()).size, [210, 210, 200], 'cylinder plus the extra box before restore')
+    assert.ok(!(await a.tool('restore', { label: 'cyl' })).isError)
+    const restored = await state()
+    assert.deepEqual(restored.size, [20, 20, 50], 'after restore only the checkpointed cylinder: ' + JSON.stringify(restored))
+  } finally {
+    await a.exit()
+  }
+})

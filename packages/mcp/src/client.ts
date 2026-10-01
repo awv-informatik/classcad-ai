@@ -305,6 +305,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       }
     }
     if (res.decodeErrors?.length) log(`${String(req.command)}: dropped undecodable engine output (${res.decodeErrors.join('; ')})`)
+    // These engines never announce that a body is gone, so the accumulated
+    // containers have to be dropped here: all of them when the drawing is
+    // emptied (clear, load with doClear — a restored checkpoint included) …
+    if (emptiesDrawing(req)) bridgeContainers.clear()
     for (const pkg of res.binaryMessages ?? []) {
       for (const c of (pkg as any)?.containers ?? []) {
         if (c && c.id != null) bridgeContainers.set(String(c.id), c)
@@ -342,6 +346,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
           frame.structure = frame.result
           delete frame.result
         }
+        // … and on every pull those whose owner left the model tree (a deleted
+        // feature, a clear that kept some ids). Without this a render shows
+        // bodies of earlier models next to the current one.
+        const tree = frame.structure?.tree
+        if (tree && typeof tree === 'object') {
+          for (const [key, c] of bridgeContainers) {
+            if (!(String(c.owner ?? c.id) in tree)) bridgeContainers.delete(key)
+          }
+        }
         // A pull delivers the COMPLETE graphic: the accumulated containers.
         frame.graphic = { containers: [...bridgeContainers.values()] }
       }
@@ -352,6 +365,16 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       const detail = [...sideErrors.map(e => e.message), ...(res.decodeErrors ?? [])]
       fail(`engine returned no Result for ${describeRequest(req)}${detail.length ? ` (${detail.join('; ')})` : ''}`)
     }
+  }
+
+  /** True for an Execute that leaves an empty drawing behind before anything new is emitted. */
+  function emptiesDrawing(req: Record<string, unknown>): boolean {
+    const task = Array.isArray(req.task) ? (req.task[0] as Record<string, unknown> | undefined) : undefined
+    if (!task) return false
+    const first = (name: string) => (Array.isArray(task[name]) ? (task[name] as any[])[0] : task[name]) as Record<string, unknown> | undefined
+    if ('v1.common.clear' in task) return !(first('v1.common.clear')?.keepIds as unknown[] | undefined)?.length
+    if ('v1.common.load' in task) return Boolean(first('v1.common.load')?.doClear)
+    return false
   }
 
   function describeRequest(req: Record<string, unknown>): string {

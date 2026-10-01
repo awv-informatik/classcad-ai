@@ -9,7 +9,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     'clear',
     {
       title: 'Clear drawing',
-      description: 'Delete all objects in the current drawing. Wraps v1.common.clear.',
+      description: 'Empty the drawing (v1.common.clear). Call it BEFORE starting a new, unrelated model in a session that already holds one: the drawing persists between requests, part.create refuses a second root, and anything built on the old part would carry its geometry along. Not needed for changes to the current model. The graphic and renders are empty afterwards too — no reconnect needed.',
       inputSchema: {
         keepIds: z.array(z.union([z.string(), z.number()])).optional()
           .describe('Object IDs to preserve. Omit to wipe everything.'),

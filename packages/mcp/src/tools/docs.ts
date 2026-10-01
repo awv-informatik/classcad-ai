@@ -82,6 +82,7 @@ export function serverInstructions(): string {
   return [
     'ClassCAD MCP. run_script is the ONLY way to execute API calls (JavaScript against the live CAD session; ' +
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
+      'A NEW, unrelated model in the same session: call `clear` first, then part.create — the drawing outlives a request, and without clear the new model lands inside the old one. ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
       'then request ALL their docs in ONE docs([...]) call, recipes first — include "DATA" whenever a script reads api.tree()/api.graphic(). ' +
       'A docs response is size-capped: keys listed under "NOT included yet" at its top must be requested in a follow-up call before building. ' +

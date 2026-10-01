@@ -15,7 +15,7 @@ The MCP works with a free classcad.ch account, once per machine. If a tool answe
 
 1. **Read the input.** A plain description, a dimensioned drawing, or a photo each need a different approach. A drawing with dimensions is rebuilt with constrained sketches, not hardcoded coordinates.
 2. **Plan the whole build**, then fetch every document you need in ONE `docs` call: the matching recipe first, always `recipes/verification`, then the methods (`list_methods` searches them). The server's own instructions name the recipes.
-3. **Build in a few substantial scripts.** State persists between scripts: a follow-up script finds the part with `await api.tree()`. Never call `part.create` twice.
+3. **Build in a few substantial scripts.** State persists between scripts: a follow-up script finds the part with `await api.tree()`. Never call `part.create` twice. For a new, unrelated model in the same session, call `clear` first.
 4. **Verify with numbers.** `part.calculateMassProperties` after the last operation: compare the volume with what the design math predicts. A render that looks right is not proof.
 5. **Show the result.** `snapshot` renders the model (iso, sections, technical drawings in first- or third-angle). Pass an `outDir` the user can open and hand them the image.
 6. **Deliver.** `save` exports STEP (`format: "STP"`) or STL. For a configurable part, give the user the final script: it runs unchanged in their own ClassCAD app, where they can change the parameters live.

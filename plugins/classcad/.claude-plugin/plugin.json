@@ -1,7 +1,7 @@
 {
   "name": "classcad",
   "displayName": "ClassCAD",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Build, verify and export 3D CAD parts and assemblies with the ClassCAD engine, running locally: parametric models, technical drawings, STEP and STL.",
   "author": {
     "name": "AWV Informatik AG",

@@ -233,7 +233,7 @@ export async function waitForLogin(ms: number): Promise<Account | null> {
  * Opens `url` in the user's browser. False where there is none to open: a
  * remote shell without a display, or CLASSCAD_AUTH_NO_BROWSER=1 (tests, CI).
  */
-function openBrowser(url: string): boolean {
+export function openBrowser(url: string): boolean {
   if (process.env.CLASSCAD_AUTH_NO_BROWSER === '1' || process.env.CI) return false
   const linux = process.platform !== 'darwin' && process.platform !== 'win32'
   if (linux && !process.env.DISPLAY && !process.env.WAYLAND_DISPLAY) return false
@@ -250,7 +250,7 @@ function openBrowser(url: string): boolean {
 }
 
 /** The host as people know it, from its MCP client name ("claude-code" → "Claude Code"). */
-function hostName(client: string): string {
+export function hostName(client: string): string {
   const known: Record<string, string> = {
     'claude-code': 'Claude Code', 'claude-ai': 'Claude', 'claude desktop': 'Claude', 'codex': 'Codex', 'codex-mcp-client': 'Codex',
     'cursor': 'Cursor', 'cursor-vscode': 'Cursor', 'visual studio code': 'VS Code', 'vscode': 'VS Code', 'windsurf': 'Windsurf', 'opencode': 'OpenCode',

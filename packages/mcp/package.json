@@ -1,6 +1,6 @@
 {
   "name": "@classcad/mcp",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "mcpName": "io.github.awv-informatik/classcad",
   "description": "ClassCAD MCP server: build, verify and export 3D CAD parts and assemblies with the ClassCAD engine, running locally",
   "homepage": "https://classcad.ai",
@@ -60,6 +60,7 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/ws": "^8.5.13",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "three": "^0.185.1"
   }
 }

@@ -27,7 +27,7 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 const busyChecks = new WeakMap<McpServer, () => boolean>()
 export function setDrawingBusy(server: McpServer, check: () => boolean): void { busyChecks.set(server, check) }
 
-export const UNQUEUED_TOOLS = new Set(['list_methods', 'describe_method', 'docs', 'session_info'])
+export const UNQUEUED_TOOLS = new Set(['list_methods', 'describe_method', 'docs', 'session_info', 'view'])
 
 /**
  * Patches `server.registerTool` so every handler registered afterwards runs
@@ -37,20 +37,36 @@ export const UNQUEUED_TOOLS = new Set(['list_methods', 'describe_method', 'docs'
 export function serializeTools(server: McpServer, exclude: Set<string> = UNQUEUED_TOOLS): void {
   // The tail of the chain: resolves when the most recently queued call settled.
   let tail: Promise<unknown> = Promise.resolve()
+  const push = <T>(work: () => T | Promise<T>): Promise<T> => {
+    const run = tail.then(work)
+    // Whatever happens to this call, the next one may start afterwards.
+    tail = run.then(
+      () => undefined,
+      () => undefined,
+    )
+    return run
+  }
+  queues.set(server, push)
   const original = (server.registerTool as (...args: any[]) => any).bind(server)
   ;(server as any).registerTool = (name: string, config: unknown, handler: (...args: any[]) => any) => {
     if (exclude.has(name)) return original(name, config, handler)
-    const queued = (...args: any[]) => {
-      const run = tail.then(() => busyChecks.get(server)?.()
+    const queued = (...args: any[]) =>
+      push(() => busyChecks.get(server)?.()
         ? { isError: true, content: [{ type: 'text', text: 'Session busy: timed-out work is unresolved. Wait before changing or inspecting the drawing.' }] }
         : handler(...args))
-      // Whatever happens to this call, the next one may start afterwards.
-      tail = run.then(
-        () => undefined,
-        () => undefined,
-      )
-      return run
-    }
     return original(name, config, queued)
   }
+}
+
+const queues = new WeakMap<McpServer, <T>(work: () => T | Promise<T>) => Promise<T>>()
+
+/**
+ * Runs `work` in the server's tool queue, after whatever is running or waiting
+ * there: for readers outside a tool call (the 3D viewer) that must not touch
+ * the engine in the middle of a script. Never call it from inside a tool
+ * handler and wait for it — that waits for itself.
+ */
+export function enqueue<T>(server: McpServer, work: () => T | Promise<T>): Promise<T> {
+  const push = queues.get(server)
+  return push ? push(work) : Promise.resolve().then(work)
 }

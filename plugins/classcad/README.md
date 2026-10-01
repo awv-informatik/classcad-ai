@@ -6,7 +6,7 @@ ClassCAD is a headless, parametric CAD engine by [AWV Informatik AG](https://awv
 
 ## What you get
 
-- **MCP server** `classcad` (the npm package [`@classcad/mcp`](https://www.npmjs.com/package/@classcad/mcp)): tools to run modeling scripts (`run_script`), render views, sections and technical drawings (`snapshot`), read the model structure (`tree`, `find`, `inspect`), look up the API (`docs`, `list_methods`, `describe_method`), export STEP and STL (`save`), undo points (`checkpoint`, `restore`), and sign in (`login`).
+- **MCP server** `classcad` (the npm package [`@classcad/mcp`](https://www.npmjs.com/package/@classcad/mcp)): tools to run modeling scripts (`run_script`), render views, sections and technical drawings (`snapshot`), read the model structure (`tree`, `find`, `inspect`), look up the API (`docs`, `list_methods`, `describe_method`), export STEP and STL (`save`), undo points (`checkpoint`, `restore`), show the model in a live 3D view in your browser (`view`), and sign in (`login`).
 - **Skill** `classcad`: when to reach for ClassCAD, and the plan, build, verify and deliver loop.
 
 ## Getting started
@@ -21,7 +21,8 @@ Everything runs on your machine. No model data leaves it.
 - **The engine**: on first use, the server downloads the ClassCAD WebAssembly engine (about 16 MB) from `awvstatic.com` into `~/.classcad-mcp/wasm/` and runs it locally from then on.
 - **Sign-in**: the server opens `https://classcad.ch/connect` in your browser and listens on `127.0.0.1` on a random port for up to 15 minutes, until the page hands your sign-in back. It stores the account's Firebase refresh token in `~/.classcad-mcp/auth.json` (readable only by you) and confirms it with Google's Firebase token service (`securetoken.googleapis.com`) at most once an hour. `login` with `logout: true` removes it.
 - **Local ports**: a background process of the server listens on `127.0.0.1:9097` (shared by all Claude sessions on the machine) and `127.0.0.1:9096`, where a ClassCAD web app you open can offer its session to Claude; it only joins one when you hand Claude that app's share link. If a ClassCAD server runs on `localhost:9094`, the MCP uses it instead of its own engine.
-- **Files**: renders are written as PNG files to your temp folder, or to the folder Claude names.
+- **The 3D view**: with the first model of a session the server opens a page in your browser, served from `127.0.0.1:9098` (another free port if that one is taken) by the same background process: the model in 3D, live. The page and everything it loads (three.js, a font) come with the package. Each session's link carries a secret token, and the listener answers only requests addressed to it.
+- **Files**: renders are written as PNG files to your temp folder, or to the folder Claude names. `save` writes a STEP, STL or GLB file to the path Claude names; the 3D view's Export menu downloads the same through your browser.
 
 Privacy: [awv-informatik.ch/privacy](https://awv-informatik.ch/privacy/). Source: [github.com/awv-informatik/classcad-ai](https://github.com/awv-informatik/classcad-ai).
 

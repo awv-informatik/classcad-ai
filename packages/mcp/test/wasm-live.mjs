@@ -279,3 +279,111 @@ test('local engine: clear, restore and deletions leave no stale geometry in the 
     await a.exit()
   }
 })
+
+test('3D view: one link per session, live updates, exports, nothing shared between sessions', async () => {
+  const { mkdtempSync, readFileSync, existsSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
+  const env = {
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+  }
+  const a = shim(env)
+  const b = shim(env) // a second session in the same daemon
+  const scene = async url => (await (await fetch(`${url}/scene`)).json())
+  try {
+    await a.init()
+    await b.init()
+    const ua = (await a.tool('session_info')).value.viewer
+    const ub = (await b.tool('session_info')).value.viewer
+    assert.match(ua, /^http:\/\/127\.0\.0\.1:\d+\/v\/[A-Za-z0-9_-]{16,}$/)
+    assert.notEqual(ua, ub, 'each session has a link of its own')
+    assert.equal(new URL(ua).origin, new URL(ub).origin, 'one listener for the daemon')
+
+    // the page and what it loads
+    const page = await fetch(ua)
+    assert.equal(page.status, 200)
+    assert.match(page.headers.get('content-security-policy') ?? '', /default-src 'self'/)
+    assert.match(await page.text(), /viewer\.js/)
+    for (const asset of ['viewer.js', 'viewer.css', 'vendor/three.module.min.js', 'vendor/addons/controls/OrbitControls.js', 'fonts/jetbrains-mono-latin.woff2']) {
+      assert.equal((await fetch(`${new URL(ua).origin}/assets/${asset}`)).status, 200, asset)
+    }
+
+    // a look at an unused session shows an empty stage and starts no engine
+    const empty = await scene(ua)
+    assert.equal(empty.scene.kind, 'EMPTY')
+    assert.equal((await a.tool('session_info')).value.wasm.running, false, 'looking does not start the engine')
+
+    // the update stream of session A
+    const stream = await fetch(`${ua}/events`)
+    const reader = stream.body.getReader()
+    let seen = ''
+    const until = async (what, ms = 15000) => {
+      const end = Date.now() + ms
+      while (!seen.includes(what) && Date.now() < end) {
+        const chunk = await Promise.race([reader.read(), new Promise(r => setTimeout(() => r(null), 500))])
+        if (chunk?.value) seen += new TextDecoder().decode(chunk.value)
+      }
+      return seen.includes(what)
+    }
+    assert.ok(await until('event: hello'), 'the stream says hello')
+
+    // a model in A: its result carries the link, its watchers are told, B sees nothing of it
+    const built = await a.call('tools/call', { name: 'run_script', arguments: { script: `const p = (await api.v1.part.create({ name: 'Seen' })).result; await api.v1.part.cylinder({ id: p, diameter: 40, height: 20 }); return p` } })
+    const texts = built.result.content.filter(c => c.type === 'text').map(c => c.text)
+    assert.ok(texts.some(t => t.includes('3D view') && t.includes(ua)), 'the result offers the view: ' + texts.join(' | '))
+    assert.ok(await until('event: scene'), 'watchers hear of the change')
+    const one = await scene(ua)
+    assert.equal(one.scene.name, 'Seen')
+    assert.equal(one.scene.stats.bodies, 1)
+    assert.deepEqual(one.scene.bounds.max.map((v, i) => Math.round(v - one.scene.bounds.min[i])), [40, 40, 20])
+    assert.equal(one.scene.bodies[0].edges.length, 2, 'two circles: the cylinder\'s seam is not a line of the part')
+    assert.equal(one.scene.features.length, 1)
+    assert.equal(one.host, 'wasm-live')
+    assert.equal((await scene(ub)).scene.kind, 'EMPTY', 'session B does not see session A\'s model')
+
+    // B builds its own
+    await b.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'Other' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30 }); return p` })
+    assert.equal((await scene(ub)).scene.name, 'Other')
+    assert.equal((await scene(ua)).scene.name, 'Seen')
+
+    // exports: from the page, and from the save tool to disk
+    const stl = await fetch(`${ua}/export/Seen.stl`)
+    assert.equal(stl.status, 200)
+    assert.match(stl.headers.get('content-disposition') ?? '', /Seen\.stl/)
+    assert.ok((await stl.arrayBuffer()).byteLength > 84, 'an STL with triangles')
+    const glb = Buffer.from(await (await fetch(`${ua}/export/Seen.glb`)).arrayBuffer())
+    assert.equal(glb.toString('latin1', 0, 4), 'glTF')
+    assert.equal(glb.readUInt32LE(8), glb.length, 'the GLB\'s length field is its length')
+    const gltf = JSON.parse(glb.toString('utf8', 20, 20 + glb.readUInt32LE(12)))
+    assert.equal(gltf.meshes.length, 1)
+    const dir = mkdtempSync(join(tmpdir(), 'classcad-save-'))
+    for (const [format, ext] of [['STP', 'stp'], ['GLB', 'glb']]) {
+      const saved = (await a.tool('save', { format, path: join(dir, 'sub', `seen.${ext}`) })).value
+      assert.ok(saved.success && saved.bytes > 0 && !('content' in saved), `${format} to disk: ${JSON.stringify(saved)}`)
+      assert.ok(existsSync(saved.path) && readFileSync(saved.path).length === saved.bytes)
+    }
+    assert.ok((await a.tool('save', { format: 'STP', path: 'relative.stp' })).isError, 'a relative path is refused')
+
+    // the view tool hands out the same link
+    assert.ok((await a.tool('view', { open: false })).text.includes(ua))
+
+    // clear empties the view
+    await a.tool('clear')
+    assert.equal((await scene(ua)).scene.bodies.length, 0)
+
+    // only the link opens the view
+    assert.equal((await fetch(`${new URL(ua).origin}/v/${'A'.repeat(24)}/scene`)).status, 404)
+    const foreign = await new Promise((resolve, reject) => {
+      const u = new URL(`${ua}/scene`)
+      import('node:http').then(({ request }) => request({ host: u.hostname, port: u.port, path: u.pathname, headers: { host: 'evil.example' } }, res => resolve(res.statusCode)).on('error', reject).end())
+    })
+    assert.equal(foreign, 403, 'another site\'s name for this address is refused')
+    reader.cancel().catch(() => {})
+  } finally {
+    await a.exit()
+    await b.exit()
+  }
+})

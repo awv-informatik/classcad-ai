@@ -3,6 +3,9 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { Client } from '../client.js'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { dirname, isAbsolute } from 'node:path'
+import { buildScene, sceneToGlb } from '../viewer/scene.js'
 
 export function registerLifecycleTools(server: McpServer, client: Client): void {
   server.registerTool(
@@ -31,28 +34,44 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     'save',
     {
       title: 'Save drawing',
-      description: 'Serialize the current drawing. Returns base64-encoded content. Formats: STP (STEP), STL, JSON. (OFB export is not available in this release.)',
+      description:
+        'Write the current drawing to a file, or return it as base64. Formats: STP (STEP, exact geometry), STL (triangles), GLB (binary glTF: triangles with colours, for 3D viewers and the web), JSON. ' +
+        'With `path` the file is written to disk and only its path and size come back — the way to hand the user a model (give them the path); without it the content is returned base64-encoded, which is large. ' +
+        '(OFB export is not available in this release.) The user can also download STEP, STL and GLB themselves from the live 3D view (`view`).',
       inputSchema: {
-        format: z.enum(['STP', 'STL', 'JSON']).describe('Output format.'),
+        format: z.enum(['STP', 'STL', 'GLB', 'JSON']).describe('Output format.'),
+        path: z.string().optional()
+          .describe('Absolute file path to write, e.g. /Users/me/Desktop/flange.stp (folders are created). Omit to get the content back as base64.'),
       },
     },
-    async ({ format }) => {
-      const args: Record<string, unknown> = { format, encoding: 'base64' }
-      if (format === 'STP') args.stp = { version: 2 }
-      if (format === 'STL') args.stl = { binary: true, facetingTol: 0.1, angleTol: 6 }
-      const r = await client.execute<{ success: boolean; content: string }>({
-        'v1.common.save': [args],
-      })
+    async ({ format, path }) => {
+      let data: Buffer | null = null
+      let maxLevel = 0
+      if (format === 'GLB') {
+        // The engine has no glTF: packed here from the same graphic the 3D view draws.
+        const scene = buildScene((await client.getTree()) as Record<string, any>, (await client.getGraphic()) as { containers?: any[] } | null)
+        if (scene.bodies.length) data = sceneToGlb(scene)
+      } else {
+        const args: Record<string, unknown> = { format, encoding: 'base64' }
+        if (format === 'STP') args.stp = { version: 2 }
+        if (format === 'STL') args.stl = { binary: true, facetingTol: 0.1, angleTol: 6 }
+        const r = await client.execute<{ success: boolean; content: string }>({ 'v1.common.save': [args] })
+        maxLevel = r.maxLevel
+        if (r.result?.content) data = Buffer.from(r.result.content, 'base64')
+      }
+      if (!data) {
+        return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ format, success: false, error: 'Nothing to save: the drawing has no geometry in this format.', maxLevel }) }] }
+      }
+      if (path) {
+        if (!isAbsolute(path)) return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ format, success: false, error: `path must be absolute: ${path}` }) }] }
+        mkdirSync(dirname(path), { recursive: true })
+        writeFileSync(path, data)
+        return { content: [{ type: 'text' as const, text: JSON.stringify({ format, success: true, path, bytes: data.length, maxLevel }) }] }
+      }
       return {
         content: [{
-          type: 'text',
-          text: JSON.stringify({
-            format,
-            success: r.result?.success ?? false,
-            bytes: r.result?.content ? Buffer.from(r.result.content, 'base64').length : 0,
-            content: r.result?.content ?? null,
-            maxLevel: r.maxLevel,
-          }),
+          type: 'text' as const,
+          text: JSON.stringify({ format, success: true, bytes: data.length, content: data.toString('base64'), maxLevel }),
         }],
       }
     },

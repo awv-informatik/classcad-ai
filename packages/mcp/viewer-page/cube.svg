@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 200 200">
+  <title>ClassCAD</title>
+  <defs>
+    <mask id="cube">
+      <rect width="200" height="200" fill="#fff"/>
+      <path d="M100 -4V204M100 100L4 44.5M100 100L196 44.5" stroke="#000" stroke-width="10"/>
+    </mask>
+  </defs>
+  <g mask="url(#cube)">
+    <path d="M100 0L13 50L100 100Z" fill="#8f0d10"/>
+    <path d="M100 0L187 50L100 100Z" fill="#e8232a"/>
+    <path d="M13 50L100 100V200L13 150Z" fill="#e8232a"/>
+    <path d="M187 50L100 100V200L187 150Z" fill="#8f0d10"/>
+  </g>
+</svg>

@@ -6,7 +6,7 @@
 // only waits for the server to end.
 import { spawn } from 'node:child_process'
 
-const PACKAGE = '@classcad/mcp@0.1.5'
+const PACKAGE = '@classcad/mcp@0.2.0'
 
 const windows = process.platform === 'win32'
 const server = spawn(windows ? 'npx.cmd' : 'npx', ['-y', PACKAGE, ...process.argv.slice(2)], {

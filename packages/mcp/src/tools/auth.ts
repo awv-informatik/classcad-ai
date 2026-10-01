@@ -11,7 +11,7 @@ import { z } from 'zod'
 import { authStatus, beginLogin, logout, pendingLogin, waitForLogin } from '../auth.js'
 
 /** Tools that work without a sign-in: the sign-in itself, status, and the public docs. */
-export const OPEN_TOOLS = new Set(['login', 'session_info', 'list_methods', 'describe_method', 'docs'])
+export const OPEN_TOOLS = new Set(['login', 'session_info', 'list_methods', 'describe_method', 'docs', 'view'])
 
 /** How long one `login` call waits (under Codex's 60 s default tool timeout). */
 const WAIT_MS = 50_000

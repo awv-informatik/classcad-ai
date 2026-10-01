@@ -1,0 +1,717 @@
+/* The ClassCAD viewer, set in the family's language for apps (BRANDING.md, "The app"):
+   an instrument around the part. One face (JetBrains Mono), chrome that is flat and ruled,
+   and red only for the thing in hand. */
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: block;
+  src: url(/assets/fonts/jetbrains-mono-latin.woff2) format('woff2');
+}
+
+:root {
+  --rcad-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --rcad-bar-h: 48px;
+  --rcad-status-h: 26px;
+  --rcad-side-w: 288px;
+  --rcad-row-h: 30px;
+  --rcad-ctl-h: 28px;
+  --rcad-tool: 32px;
+  --rcad-r-ctl: 7px;
+  --snap: cubic-bezier(0.2, 0.9, 0.2, 1);
+
+  --rcad-ink: #0f1320;
+  --rcad-ink-2: #2a2f3a;
+  --rcad-mute: #5d6474;
+  --rcad-dim: #8a90a0;
+  --rcad-line: rgba(15, 19, 32, 0.1);
+  --rcad-line-2: rgba(15, 19, 32, 0.16);
+  --rcad-chrome: #ffffff;
+  --rcad-chrome-line: #e3e5ea;
+  --rcad-panel: #ffffff;
+  --rcad-panel-2: #f5f6f8;
+  --rcad-viewport: #f3f4f7;
+  --rcad-hover: rgba(15, 19, 32, 0.045);
+  --rcad-active: rgba(15, 19, 32, 0.08);
+  --rcad-accent: #e7000b;
+  --rcad-accent-line: rgba(231, 0, 11, 0.45);
+  --rcad-accent-wash: rgba(231, 0, 11, 0.07);
+  --rcad-green: #2fbf71;
+  --rcad-orange: #e8650a;
+  --rcad-toast-bg: #121620;
+  --rcad-toast-text: #9aa6bd;
+  --rcad-toast-strong: #ffffff;
+  --cube-a: #e8232a;
+  --cube-b: #8f0d10;
+  --axis-x: #e7000b;
+  --axis-y: #2fbf71;
+  --axis-z: #0060cc;
+  --shadow: 0 1px 2px rgba(15, 19, 32, 0.05), 0 12px 32px -14px rgba(15, 19, 32, 0.18);
+  --ring: 0 0 0 1px rgba(15, 19, 32, 0.08);
+}
+
+:root[data-theme='dark'] {
+  --rcad-ink: #dcdee3;
+  --rcad-ink-2: #b9bdc5;
+  --rcad-mute: #9197a2;
+  --rcad-dim: #6c717c;
+  --rcad-line: rgba(220, 222, 227, 0.08);
+  --rcad-line-2: rgba(220, 222, 227, 0.14);
+  --rcad-chrome: #1f2227;
+  --rcad-chrome-line: #2b2f36;
+  --rcad-panel: #1c1f24;
+  --rcad-panel-2: #23262c;
+  --rcad-viewport: #1b1e23;
+  --rcad-hover: rgba(220, 222, 227, 0.055);
+  --rcad-active: rgba(220, 222, 227, 0.1);
+  --rcad-accent: #ea6a64;
+  --rcad-accent-line: rgba(234, 106, 100, 0.5);
+  --rcad-accent-wash: rgba(234, 106, 100, 0.1);
+  --rcad-green: #60bb83;
+  --rcad-orange: #d98a50;
+  --rcad-toast-bg: #25282e;
+  --rcad-toast-text: #a4aab5;
+  --rcad-toast-strong: #eef0f3;
+  --cube-a: #e8413f;
+  --cube-b: #9a1a1a;
+  --axis-x: #ea6a64;
+  --axis-y: #60bb83;
+  --axis-z: #93b8e8;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -14px rgba(0, 0, 0, 0.6);
+  --ring: 0 0 0 1px rgba(220, 222, 227, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: var(--rcad-viewport);
+  color: var(--rcad-ink-2);
+  font: 500 12px/1.45 var(--rcad-font-mono);
+  font-variant-ligatures: none;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--rcad-accent-line);
+  outline-offset: 1px;
+}
+
+/* ── the frame: bar, sidebar and stage, title block ───────────────────────── */
+.app {
+  display: grid;
+  grid-template: var(--rcad-bar-h) 1fr var(--rcad-status-h) / var(--rcad-side-w) 1fr;
+  grid-template-areas: 'bar bar' 'side stage' 'title title';
+  height: 100%;
+}
+
+.bar {
+  grid-area: bar;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px 0 14px;
+  background: var(--rcad-chrome);
+  border-bottom: 1px solid var(--rcad-chrome-line);
+}
+.bar__lead,
+.bar__trail {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.mark {
+  flex: none;
+}
+.mark__a {
+  fill: var(--cube-a);
+}
+.mark__b {
+  fill: var(--cube-b);
+}
+.bar__name {
+  margin-left: 9px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  color: var(--rcad-ink);
+}
+.bar__rule {
+  width: 1px;
+  height: 18px;
+  margin: 0 7px 0 12px;
+  background: var(--rcad-chrome-line);
+}
+
+/* a tool: 32px, its drawing 20px */
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: var(--rcad-tool);
+  height: var(--rcad-tool);
+  padding: 0;
+  border: 0;
+  border-radius: var(--rcad-r-ctl);
+  background: transparent;
+  color: var(--rcad-ink-2);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+  position: relative;
+}
+.tool:hover {
+  background: var(--rcad-hover);
+  color: var(--rcad-ink);
+}
+.tool:active,
+.tool[aria-expanded='true'] {
+  background: var(--rcad-active);
+  color: var(--rcad-ink);
+}
+.tool[aria-pressed='true'] {
+  background: var(--rcad-active);
+  color: var(--rcad-ink);
+}
+.tool[aria-pressed='true']::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--rcad-ink);
+}
+.tool:disabled {
+  color: var(--rcad-dim);
+  background: transparent;
+  cursor: default;
+}
+.tool--word {
+  width: auto;
+  padding: 0 10px 0 7px;
+  font-size: 11.5px;
+  line-height: 1;
+}
+/* the drawings' pens */
+.pen {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pen--pale {
+  opacity: 0.4;
+}
+.pen--face {
+  fill: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+/* menus */
+.menu {
+  position: relative;
+}
+.menu__list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 20;
+  min-width: 248px;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--rcad-chrome);
+  box-shadow: var(--shadow), var(--ring);
+}
+.menu__title {
+  margin: 0;
+  padding: 7px 9px 6px;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--rcad-dim);
+}
+.menu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 28px;
+  padding: 0 9px;
+  border-radius: 6px;
+  color: var(--rcad-ink-2);
+  text-decoration: none;
+}
+.menu__row:hover {
+  background: var(--rcad-hover);
+  color: var(--rcad-ink);
+}
+.call {
+  font-size: 10.5px;
+  line-height: 1;
+  color: var(--rcad-dim);
+}
+
+/* the theme switch: a 34px square, a half-filled disc */
+.theme {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--rcad-line);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.theme__disc {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rcad-mute);
+  background: linear-gradient(90deg, var(--rcad-mute) 50%, transparent 50%);
+  transition: transform 0.5s var(--snap), border-color 0.15s;
+}
+.theme:hover .theme__disc {
+  border-color: var(--rcad-ink);
+  background: linear-gradient(90deg, var(--rcad-ink) 50%, transparent 50%);
+}
+:root[data-theme='dark'] .theme__disc {
+  transform: rotate(180deg);
+}
+
+/* ── the sidebar ──────────────────────────────────────────────────────────── */
+.side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--rcad-chrome);
+  border-right: 1px solid var(--rcad-chrome-line);
+}
+.head {
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--rcad-chrome-line);
+}
+.kicker {
+  margin: 0 0 5px;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rcad-accent);
+}
+.docname {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--rcad-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 0;
+  border-bottom: 1px solid var(--rcad-chrome-line);
+}
+.pane:last-child {
+  flex: 0 1 auto;
+  max-height: 38%;
+  border-bottom: 0;
+}
+.pane__label {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 14px 8px;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--rcad-dim);
+}
+.rows {
+  margin: 0;
+  padding: 0 6px 8px;
+  list-style: none;
+  overflow-y: auto;
+  min-height: 0;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: var(--rcad-row-h);
+  padding: 0 8px;
+  border-radius: 6px;
+  color: var(--rcad-ink-2);
+  transition: background-color 0.15s, color 0.15s;
+}
+.row:hover {
+  background: var(--rcad-hover);
+  color: var(--rcad-ink);
+}
+.row__no {
+  flex: none;
+  width: 18px;
+  font-size: 9.5px;
+  color: var(--rcad-dim);
+}
+.row__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.row__swatch {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px var(--rcad-line-2);
+}
+.empty {
+  margin: 0;
+  padding: 2px 8px 6px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--rcad-dim);
+}
+
+/* ── the stage ────────────────────────────────────────────────────────────── */
+.stage {
+  grid-area: stage;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  background: var(--rcad-viewport);
+  transition: background-color 0.15s;
+  overflow: hidden;
+}
+#canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+  cursor: grab;
+  touch-action: none;
+}
+#canvas:active {
+  cursor: grabbing;
+}
+.corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 0 solid var(--rcad-line-2);
+  pointer-events: none;
+}
+.corner--tl {
+  top: 8px;
+  left: 8px;
+  border-width: 1px 0 0 1px;
+}
+.corner--tr {
+  top: 8px;
+  right: 8px;
+  border-width: 1px 1px 0 0;
+}
+.corner--bl {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 1px 1px;
+}
+.corner--br {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 1px 1px 0;
+}
+.hud {
+  position: absolute;
+  top: 16px;
+  left: 28px;
+  right: 64px;
+  margin: 0;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rcad-ink);
+  opacity: 0.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* the view's dock: upright, at the right */
+.dock {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--rcad-chrome);
+  box-shadow: var(--shadow), var(--ring);
+}
+.dock .tool {
+  width: 28px;
+  height: 28px;
+}
+.dock__rule {
+  height: 1px;
+  margin: 3px 5px;
+  background: var(--rcad-chrome-line);
+}
+
+.triad {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  overflow: visible;
+  pointer-events: none;
+}
+.triad line {
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.triad text {
+  font: 600 9.5px/1 var(--rcad-font-mono);
+  text-anchor: middle;
+  dominant-baseline: central;
+  stroke: none;
+}
+.triad__x {
+  stroke: var(--axis-x);
+  fill: var(--axis-x);
+}
+.triad__y {
+  stroke: var(--axis-y);
+  fill: var(--axis-y);
+}
+.triad__z {
+  stroke: var(--axis-z);
+  fill: var(--axis-z);
+}
+
+/* empty and waiting: the bare ground and one line */
+.waiting {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.app[data-state='loading'] .waiting,
+.app[data-state='empty'] .waiting {
+  display: flex;
+}
+.app[data-state='loading'] .waiting__note {
+  visibility: hidden;
+}
+.app[data-state='loading'] .triad,
+.app[data-state='empty'] .triad {
+  display: none;
+}
+.waiting__line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rcad-mute);
+}
+.waiting__note {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--rcad-dim);
+}
+.arc {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rcad-orange);
+  border-right-color: transparent;
+  animation: turn 0.9s linear infinite;
+}
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* the engine cannot be reached: a scrim of the ground's own colour, one dark card */
+.scrim {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--rcad-viewport) 62%, transparent);
+}
+.scrim[hidden] {
+  display: none;
+}
+.card {
+  max-width: 340px;
+  padding: 14px 16px 15px;
+  border-radius: 10px;
+  background: var(--rcad-toast-bg);
+  box-shadow: var(--shadow);
+}
+.card__label {
+  margin: 0 0 7px;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rcad-toast-strong);
+}
+.card__text {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--rcad-toast-text);
+}
+
+/* tooltips: dark chrome in either theme */
+.tip {
+  position: fixed;
+  z-index: 30;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: var(--rcad-toast-bg);
+  color: var(--rcad-toast-strong);
+  font-size: 11.5px;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.tip[hidden] {
+  display: none;
+}
+
+/* ── the title block ──────────────────────────────────────────────────────── */
+.title {
+  grid-area: title;
+  display: flex;
+  align-items: stretch;
+  background: var(--rcad-chrome);
+  border-top: 1px solid var(--rcad-chrome-line);
+  font-size: 10.5px;
+  line-height: 1;
+  color: var(--rcad-mute);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cell {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border-right: 1px solid var(--rcad-chrome-line);
+}
+.cell:last-child {
+  border-right: 0;
+}
+.cell--fill {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cell__k {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rcad-dim);
+}
+.cell b {
+  font-weight: 600;
+  color: var(--rcad-ink);
+}
+.cell b .unit {
+  font-weight: 500;
+  color: var(--rcad-dim);
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rcad-green);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rcad-green) 22%, transparent);
+  animation: live 2.4s ease-in-out infinite;
+}
+.dot[data-state='working'] {
+  background: var(--rcad-orange);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rcad-orange) 22%, transparent);
+}
+.dot[data-state='off'] {
+  background: var(--rcad-dim);
+  box-shadow: none;
+  animation: none;
+}
+@keyframes live {
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--rcad-green) 0%, transparent);
+  }
+}
+
+/* the title block gives up its least cells first */
+@media (max-width: 1120px) {
+  .cell--wider {
+    display: none;
+  }
+}
+/* narrow: the stage alone, the sidebar gone */
+@media (max-width: 760px) {
+  .app {
+    grid-template-columns: 0 1fr;
+  }
+  .side {
+    display: none;
+  }
+  .cell--wide {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot,
+  .arc {
+    animation: none;
+  }
+  .theme__disc,
+  .tool,
+  .row,
+  .stage {
+    transition: none;
+  }
+}

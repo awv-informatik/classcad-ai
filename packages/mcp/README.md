@@ -146,6 +146,20 @@ In a new session, ask the agent to *make a box*. The first time, it shows a sign
 
 ---
 
+## The 3D view
+
+Every session has a live 3D view of its model, in the user's browser:
+
+- **It opens by itself** with the first model of a session, and follows every change the agent makes: no reload. Results of `run_script`, `snapshot`, `load` and `restore` end with its link (`3D view: http://127.0.0.1:9098/v/…`), `session_info` names it, and `view` returns it and brings the view up.
+- **What it shows.** The part as the family draws it: flat, the colour of its paper (or the colour the model gave it), by its lines — the B-rep edges and the silhouettes of its curved faces — lit a little, orthographic. It turns, pans and zooms; it has the standard views, light and dark, the feature history, the bodies, and the model's size.
+- **Exports.** The page's Export menu downloads the model as STEP, STL or glTF (`.glb`).
+- **One view per session.** The link carries a secret token; a page shows exactly one session's model, so several sessions (tabs, hosts) work side by side. When a session ends, its page says so and keeps the last model on screen.
+- **Local only.** The MCP process (the daemon, or a shim serving in-process) listens on `127.0.0.1:9098` (`CLASSCAD_VIEWER_PORT`; another free port when that one is taken), answers only requests that name it as their host, and serves the page with everything it needs (three.js, the font): no model data leaves the machine, and it works offline.
+
+`CLASSCAD_VIEWER_OPEN=0` keeps the browser closed (the link is still offered); `CLASSCAD_VIEWER=off` turns the view off.
+
+---
+
 ## Sign-in
 
 The MCP works for signed-in classcad.ch accounts, once per machine. An installing agent signs in as its last step (`login`, or `classcad-mcp login` in a terminal); otherwise the first engine tool call on a machine that is not signed in starts the sign-in instead of running.
@@ -178,6 +192,9 @@ From a terminal, the same flow and more (`node dist/server.js <command>` in a ch
 | `CLASSCAD_DAEMON_IDLE_MS`| How long the daemon lives without any session and without any app on the bridge before it exits. Default `60000`. |
 | `CLASSCAD_MCP_LOG`       | Daemon log file. Default `<tmpdir>/classcad-mcp/daemon.log` (the shim prints the path on stderr at startup).       |
 | `CLASSCAD_ENGINE`        | Engine policy when no token/URL decides: `auto` (default: the worker, else the local WASM engine), `drogon` (worker only), `wasm` (local engine only). |
+| `CLASSCAD_VIEWER`        | `off` turns the live 3D view off. Default: on.                                                                    |
+| `CLASSCAD_VIEWER_PORT`   | Port of the 3D view's listener on `127.0.0.1`. Default `9098`; a free port is taken when it is in use (`0`: always a free one). |
+| `CLASSCAD_VIEWER_OPEN`   | `0`: do not open the view in the browser with the first model; the link is still offered.                          |
 | `CLASSCAD_AUTH_URL`      | The sign-in page. Default `https://classcad.ch/connect` (the dev site: `http://localhost:9090/connect`).          |
 | `CLASSCAD_AUTH_FILE`     | Where the sign-in is stored. Default `~/.classcad-mcp/auth.json`.                                                 |
 | `CLASSCAD_WASM_KEY`      | A ClassCAD key (classcad.ch/user) for the local WASM engine. Optional: a key valid until 2027-03-30 is built in.   |
@@ -195,7 +212,7 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 - **Lifetime:** the daemon exits a minute after the last session closed, unless an app still holds a bridge (a shared buerligons.io tab keeps it alive, so the next tab attaches instantly). Apps reconnect by themselves within 5 s after a daemon restart; `use_session` waits 8 s for that. A shim exits when its host closes stdin or sends SIGTERM; the daemon drops that session immediately.
 - **Upgrades:** after `npm run build` (or a package update) the next shim notices the version or build-stamp mismatch (`/health` reports both; the stamp is taken when the daemon starts and covers `dist/daemon.js` plus the `@classcad/renderer` and `@classcad/script` builds). An idle old daemon is shut down and replaced. A busy one (other tabs) is told to *drain* — it takes no new sessions and exits when its last tab closes — and the new tab runs the current build **in-process** meanwhile (worker and local WASM work, only the in-app bridge is unavailable in that tab until the old daemon is gone). Old tabs keep their old code until they are restarted.
 - **Logs:** the shim writes one line per session start/end to stderr (visible in the host's MCP log); the daemon writes to `CLASSCAD_MCP_LOG`. Run it by hand to watch: `CLASSCAD_MCP_DAEMON=1 node dist/daemon.js` (logs to stderr when `CLASSCAD_MCP_LOG` is unset).
-- **Troubleshooting:** `curl http://127.0.0.1:9097/health` — no answer means no daemon (the next tool call starts one); an answer without `"bridge"` means port 9096 is held by another program (usually an old MCP process — close that tab or kill it, the daemon retries by itself); a `name` other than `classcad-mcp` means a foreign program owns 9095 (set `CLASSCAD_MCP_PORT`). `classcad-mcp stop` stops an idle daemon (see below). Ports: 9094 worker (ws), 9095 worker (wss), 9096 bridge, 9097 daemon — all on `127.0.0.1` except the worker.
+- **Troubleshooting:** `curl http://127.0.0.1:9097/health` — no answer means no daemon (the next tool call starts one); an answer without `"bridge"` means port 9096 is held by another program (usually an old MCP process — close that tab or kill it, the daemon retries by itself); a `name` other than `classcad-mcp` means a foreign program owns 9095 (set `CLASSCAD_MCP_PORT`). `classcad-mcp stop` stops an idle daemon (see below). Ports: 9094 worker (ws), 9095 worker (wss), 9096 bridge, 9097 daemon, 9098 the 3D view — all on `127.0.0.1` except the worker.
 - **Stopping / restarting:** the package binary doubles as a small CLI (`node dist/server.js <command>` in a checkout):
   - `classcad-mcp status` — the running daemon's `/health` (pid, build, sessions, apps, log file).
   - `classcad-mcp stop` — stops the daemon when no session is active; refuses (exit 1) otherwise.
@@ -212,7 +229,8 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 | `tree` / `find` / `inspect` | Structure tree (cached, pulled on demand), search by class/name, full node detail with parent chain |
 | `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, technical drawing with hidden lines, highlights, markers) |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
-| `save` / `load` / `clear` / `checkpoint` / `restore` | STEP / STL export, loading OFB / STEP / STL, undo points. OFB export is not available in this release (`save`, and `common.save` / `assembly.exportNode` in scripts, refuse it); checkpoints still use it internally, in memory only. |
+| `view`                  | The session's live 3D view: returns its link and opens it in the user's browser |
+| `save` / `load` / `clear` / `checkpoint` / `restore` | `save` writes STEP, STL or GLB to a `path` on disk (or returns base64); loading OFB / STEP / STL; undo points. OFB export is not available in this release (`save`, and `common.save` / `assembly.exportNode` in scripts, refuse it); checkpoints still use it internally, in memory only. |
 | `login`                 | Sign the machine in (returns the link, then waits for it to be used) or out |
 | `session_info` / `use_session` | Connection status (transport ws/bridge); attach to a named session, an invite link, or an in-app engine's `?bridge=` link |
 | `bridge.list_clients` / `bridge.get_selection` / `bridge.set_selection` | Read/write the selection of a connected CC app (see bridge) |

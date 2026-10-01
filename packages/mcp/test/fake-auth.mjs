@@ -43,6 +43,9 @@ export async function fakeAuth({ signedIn = true } = {}) {
       CLASSCAD_AUTH_FILE: file,
       CLASSCAD_AUTH_URL: 'https://classcad.test/connect',
       CLASSCAD_AUTH_NO_BROWSER: '1',
+      // the 3D view never opens a browser in a test
+      CLASSCAD_VIEWER_NO_BROWSER: '1',
+      CLASSCAD_VIEWER_PORT: '0',
     },
   }
 }

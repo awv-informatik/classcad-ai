@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "classcad": {
-      "command": "npx",
-      "args": ["-y", "@classcad/mcp@0.1.3"]
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/launch.mjs"]
     }
   }
 }

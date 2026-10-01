@@ -19,7 +19,7 @@ import { serializeTools } from './queue.js'
 import { registerAuthTool, requireSignIn, SIGN_IN_NOTE } from './tools/auth.js'
 import { authStatus } from './auth.js'
 
-export const VERSION = '0.1.3'
+export const VERSION = '0.1.4'
 export const DEFAULT_WS_URL = 'ws://0.0.0.0:9094/'
 
 export type McpServerOptions = {

@@ -21,7 +21,7 @@ Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cu
 ```
 
 - **Self-contained.** The MCP brings its own engine: the published ClassCAD WASM build, run in a worker thread of the daemon. No server and no key to configure (a six-month engine key is built in); one sign-in with a free classcad.ch account. On first use it downloads the release assets (about 16 MB) once and caches them.
-- Every host starts the MCP as a **stdio** child process (`node /abs/path/to/dist/server.js`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9097`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
+- Every host starts the MCP as a **stdio** child process (`npx -y @classcad/mcp@latest`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9097`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
 - The **daemon** is the actual MCP. It holds one MCP server instance **per session** (per tab: own engine, emission config, caches, tool queue) and the one **bridge listener** apps connect to. With no session left and no app attached to its bridge it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
 - Why a daemon: the in-app bridge means the MCP *listens* on a port, and a port belongs to exactly one process. With one MCP process per tab, the second tab could not bind (or bound the other address family of `localhost` and got half the apps).
 - **Optional engines.** If a `classcad-cli worker` is reachable (`CLASSCAD_WS_URL`, default `ws://localhost:9094/`), the default policy `auto` uses it instead of the local engine — for multi-client sessions and `?invite=` sharing with apps. The MCP can also attach to an engine running inside a buerli app's browser tab. See [Engines](#engines-worker-in-app-bridge-local-wasm).
@@ -32,9 +32,8 @@ Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cu
 
 ## Prerequisites
 
-- **Node.js 20+** and **git**
-- Internet access on first use (the WASM assets come from awvstatic.com; afterwards it works offline)
-
+- **Node.js 20+** (`node`, `npx`)
+- Internet access on first use (the package comes from npm, the engine from awvstatic.com; afterwards it works offline)
 - A free **classcad.ch account**, signed in once per machine (Google, GitHub or email). The MCP asks for it by itself on first use; see [Sign-in](#sign-in).
 
 Nothing else: no ClassCAD server, no key.
@@ -43,39 +42,37 @@ Nothing else: no ClassCAD server, no key.
 
 ## Install
 
-The packages are not on npm yet, so the MCP is built from source (a minute or two):
+There is nothing to clone or build. Every host starts the server with one command:
 
 ```bash
-git clone https://github.com/awv-informatik/classcad-ai.git
-cd classcad-ai
-npm install
-npm run build          # builds skill, script, renderer, then the MCP
+npx -y @classcad/mcp@latest
 ```
 
-The server is `packages/mcp/dist/server.js`. Hosts need its **absolute** path — print it from the repo root with:
+`@latest` makes `npx` fetch the newest release instead of reusing a cached one; `-y` skips the install prompt. `npx` may warn that `sharp`'s install script was not run; that is fine, `sharp` ships prebuilt binaries.
 
-```bash
-echo "$PWD/packages/mcp/dist/server.js"
-```
+**Windows (native, not WSL):** hosts cannot start `npx` directly. Use `cmd` as the command with the arguments `/c npx -y @classcad/mcp@latest`, e.g. `claude mcp add classcad --scope user -- cmd /c npx -y @classcad/mcp@latest`, or `"command": "cmd", "args": ["/c", "npx", "-y", "@classcad/mcp@latest"]` in JSON configs. (The Claude Code plugin below needs no such change.)
 
-To update later: `git pull && npm install && npm run build` in the checkout; the next session picks up the new build by itself (see [Upgrades](#the-daemon-in-practice)).
-
-> Once published, `npx -y @classcad/mcp` will replace `node /abs/path/to/dist/server.js` in every config below. `npm install` may warn that `sharp`'s install script was not run; that is fine, `sharp` ships prebuilt binaries.
+From source, only where npm is not reachable: `git clone https://github.com/awv-informatik/classcad-ai.git && cd classcad-ai && npm install && npm run build`, then use `node /abs/path/to/classcad-ai/packages/mcp/dist/server.js` in place of the `npx` command (`echo "$PWD/packages/mcp/dist/server.js"` prints the path).
 
 ---
 
 ## Configure your host
 
-Every host needs the same two things: the command `node /abs/path/to/classcad-ai/packages/mcp/dist/server.js`, and a restart (or a new session) so it spawns the server. No environment variables are required.
-
-**Windows (native, not WSL):** hosts cannot start `npx` directly. Use `cmd` as the command with the arguments `/c npx -y @classcad/mcp@latest`, e.g. `claude mcp add classcad --scope user -- cmd /c npx -y @classcad/mcp@latest`, or `"command": "cmd", "args": ["/c", "npx", "-y", "@classcad/mcp@latest"]` in JSON configs.
+Every host needs the command above and a new session (or a restart), so it spawns the server. No environment variables are required.
 
 ### Claude Code (CLI, and the Code tab of the desktop app)
 
-From the repo root:
+The plugin brings the MCP server and a ClassCAD skill, on macOS, Linux and Windows alike:
 
 ```bash
-claude mcp add classcad --scope user -- node "$PWD/packages/mcp/dist/server.js"
+claude plugin marketplace add awv-informatik/classcad-ai
+claude plugin install classcad@classcad
+```
+
+Or the MCP server alone (one of the two, not both):
+
+```bash
+claude mcp add classcad --scope user -- npx -y @classcad/mcp@latest
 ```
 
 `--scope user` writes to `~/.claude.json` (all projects); `--scope project` writes `.mcp.json` in the current repo instead. Verify with `claude mcp list` — the entry should show `✔ Connected`. Tools appear in the **next** session (each session spawns its own MCP process); in a running session use `/mcp` to reconnect.
@@ -85,10 +82,7 @@ Manual equivalent in `~/.claude.json` / `.mcp.json`:
 ```json
 {
   "mcpServers": {
-    "classcad": {
-      "command": "node",
-      "args": ["/abs/path/to/classcad-ai/packages/mcp/dist/server.js"]
-    }
+    "classcad": { "command": "npx", "args": ["-y", "@classcad/mcp@latest"] }
   }
 }
 ```
@@ -100,7 +94,7 @@ The chat side of the desktop app has its **own** config and does not read `~/.cl
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the same `mcpServers` block as above. The app is not started from a shell, so it has no `PATH`: use the absolute path of `node` as `command` (`which node` tells you; macOS Homebrew: `/opt/homebrew/bin/node`). Quit and reopen the app — it spawns MCP servers only at startup. The server then shows up under Settings → Developer, and the chat renders snapshot images inline.
+Add the same `mcpServers` block as above. The app is not started from a shell, so it has no `PATH`: if it cannot start `npx`, use its absolute path as `command` (`which npx` tells you; macOS Homebrew: `/opt/homebrew/bin/npx`), and if it then cannot find `node`, add `"env": { "PATH": "<the folder that holds node>:/usr/bin:/bin" }`. Quit and reopen the app — it spawns MCP servers only at startup. The server then shows up under Settings → Developer, and the chat renders snapshot images inline.
 
 ### Codex
 
@@ -108,8 +102,8 @@ Add the same `mcpServers` block as above. The app is not started from a shell, s
 
 ```toml
 [mcp_servers.classcad]
-command = "node"
-args = ["/abs/path/to/classcad-ai/packages/mcp/dist/server.js"]
+command = "npx"
+args = ["-y", "@classcad/mcp@latest"]
 ```
 
 ### VS Code — GitHub Copilot Chat (agent mode)
@@ -119,11 +113,7 @@ Command Palette → **MCP: Add Server**, or edit `.vscode/mcp.json` (workspace) 
 ```jsonc
 {
   "servers": {
-    "classcad": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["/abs/path/to/classcad-ai/packages/mcp/dist/server.js"]
-    }
+    "classcad": { "type": "stdio", "command": "npx", "args": ["-y", "@classcad/mcp@latest"] }
   }
 }
 ```
@@ -141,7 +131,7 @@ Command Palette → **MCP: Add Server**, or edit `.vscode/mcp.json` (workspace) 
 ```json
 {
   "mcp": {
-    "classcad": { "type": "local", "command": ["node", "/abs/path/to/classcad-ai/packages/mcp/dist/server.js"] }
+    "classcad": { "type": "local", "command": ["npx", "-y", "@classcad/mcp@latest"] }
   }
 }
 ```
@@ -346,7 +336,7 @@ Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fa
 
 Releases run in GitHub Actions ([release.yml](../../.github/workflows/release.yml)), without tokens or 2FA prompts:
 
-1. Bump the MCP's version in three places: `package.json`, `VERSION` in `src/mcp-server.ts`, and `server.json` (`version` and `packages[0].version`). Bump `@classcad/skill`, `script` or `renderer` too if they changed.
+1. Bump the MCP's version everywhere it is named: `package.json`, `VERSION` in `src/mcp-server.ts`, `server.json` (`version` and `packages[0].version`), and the Claude plugin (`plugins/classcad/.claude-plugin/plugin.json` and `PACKAGE` in `plugins/classcad/launch.mjs`). Bump `@classcad/skill`, `script` or `renderer` too if they changed.
 2. `node scripts/release-check.mjs mcp-vX.Y.Z` (from the repo root) checks that the versions agree and lists what is new on npm.
 3. Commit, push, then `git tag mcp-vX.Y.Z && git push origin mcp-vX.Y.Z`.
 

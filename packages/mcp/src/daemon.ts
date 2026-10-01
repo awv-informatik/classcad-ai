@@ -298,7 +298,15 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       }
       const body = await readJsonBody(req)
       if (!isInitializeRequest(body)) {
-        sendJson(res, 400, { jsonrpc: '2.0', error: { code: -32000, message: 'Bad request: expected initialize' }, id: null })
+        // A session starts with `initialize`. Anything else without a session
+        // (e.g. a `server/discover` probe) is not a method this endpoint has:
+        // say so with the request's id, so the caller can fall back.
+        const first = (body ?? {}) as { id?: unknown; method?: unknown }
+        const id = typeof first.id === 'string' || typeof first.id === 'number' ? first.id : null
+        const error = typeof first.method === 'string'
+          ? { code: -32601, message: `Method not found before initialize: ${first.method}` }
+          : { code: -32000, message: 'Bad request: expected initialize' }
+        sendJson(res, 400, { jsonrpc: '2.0', error, id })
         return
       }
       if (draining) {

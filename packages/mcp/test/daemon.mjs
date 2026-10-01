@@ -226,3 +226,81 @@ test('daemon: browser requests refused, CLI stop / stop --force', async () => {
     await worker.close()
   }
 })
+
+// Claude Code 2.1.286+ speaks before the handshake: a `server/discover` probe
+// (MCP 2026-07-28) that a server of an earlier protocol answers with "method
+// not found", after which the host sends `initialize`. The shim used to forward
+// the probe to the daemon, took the refusal for a dead daemon and exited.
+const DISCOVER = { _meta: { 'io.modelcontextprotocol/protocolVersion': '2026-07-28' } }
+
+test('daemon: a host that probes before initialize (server/discover) still connects', async () => {
+  const worker = await startFakeWorker()
+  const env = {
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: worker.url,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+  }
+  const a = shim(env)
+  try {
+    const probe = await a.call('server/discover', DISCOVER)
+    assert.equal(probe.error?.code, -32601, 'the probe is answered with "method not found": ' + JSON.stringify(probe))
+    const ping = await a.call('ping', {})
+    assert.deepEqual(ping.result, {}, 'ping before initialize is answered')
+    const init = await a.init()
+    assert.equal(init.result?.serverInfo?.name, 'classcad', 'initialize after the probe: ' + JSON.stringify(init).slice(0, 200))
+    const tools = await a.call('tools/list', {})
+    assert.ok(tools.result.tools.some(t => t.name === 'run_script'), 'tools after the probe')
+    assert.doesNotMatch(a.stderr(), /daemon unreachable|session ended/)
+    // the daemon itself names the refused request, for hosts that speak HTTP to it directly
+    const direct = await fetch(`http://127.0.0.1:${env.CLASSCAD_MCP_PORT}/mcp`, { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' }, body: JSON.stringify({ jsonrpc: '2.0', id: 'server-discover-probe', method: 'server/discover', params: DISCOVER }) })
+    const body = await direct.json()
+    assert.equal(body.id, 'server-discover-probe')
+    assert.equal(body.error?.code, -32601)
+  } finally {
+    await a.exit()
+    await worker.close()
+  }
+})
+
+test('daemon: the probe before initialize is answered in-process too (foreign program on the port)', async () => {
+  const worker = await startFakeWorker()
+  const port = await freePort()
+  const foreign = createServer(sock => sock.end())
+  await new Promise(r => foreign.listen(port, '127.0.0.1', r))
+  const a = shim({ CLASSCAD_MCP_PORT: String(port), CLASSCAD_WS_URL: worker.url, CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge` })
+  try {
+    const probe = await a.call('server/discover', DISCOVER)
+    assert.ok(probe.error, 'the probe gets an error answer, not silence: ' + JSON.stringify(probe))
+    const init = await a.init()
+    assert.equal(init.result?.serverInfo?.name, 'classcad')
+  } finally {
+    await a.exit()
+    foreign.close()
+    await worker.close()
+  }
+})
+
+test('daemon: gone before the handshake (idle exit) → the shim starts a new one for initialize', async () => {
+  const worker = await startFakeWorker()
+  const port = await freePort()
+  const env = {
+    CLASSCAD_MCP_PORT: String(port),
+    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
+    CLASSCAD_WS_URL: worker.url,
+    CLASSCAD_DAEMON_IDLE_MS: '500',
+  }
+  const a = shim(env)
+  try {
+    // the shim started a daemon; with no session it idles out before the host speaks
+    for (let i = 0; i < 40 && !(await health(port)); i++) await sleep(100)
+    for (let i = 0; i < 60 && (await health(port)); i++) await sleep(100)
+    assert.equal(await health(port), null, 'daemon idled out')
+    const init = await a.init()
+    assert.equal(init.result?.serverInfo?.name, 'classcad', 'initialize on a new daemon: ' + JSON.stringify(init).slice(0, 200))
+    assert.ok(await health(port), 'a daemon runs again')
+  } finally {
+    await a.exit()
+    await worker.close()
+  }
+})

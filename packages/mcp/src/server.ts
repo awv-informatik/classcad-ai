@@ -222,6 +222,18 @@ async function proxyToDaemon(): Promise<void> {
 
   const forward = async (m: JSONRPCMessage) => {
     if ('method' in m && m.method === 'initialize') hostInitialize = m
+    // Before the handshake the daemon has no session to route to, and it only
+    // opens one for `initialize`. Hosts do speak first: Claude Code probes with
+    // `server/discover` (the stateless protocol of MCP 2026-07-28) and falls
+    // back to `initialize` when that is not a known method. Answer here —
+    // forwarded, the daemon's refusal would end this shim.
+    if (!hostInitialize && 'method' in m) {
+      if ('id' in m) {
+        const reply = m.method === 'ping' ? { result: {} } : { error: { code: -32601, message: `Method not found: ${m.method}` } }
+        await stdio.send({ jsonrpc: '2.0', id: m.id, ...reply } as JSONRPCMessage).catch(() => {})
+      }
+      return
+    }
     try {
       await upstream.send(m)
       return
@@ -229,7 +241,17 @@ async function proxyToDaemon(): Promise<void> {
       log(`daemon send failed: ${(err as Error)?.message ?? err} — reconnecting`)
     }
     try {
-      if (hostInitialize && m !== hostInitialize && (await reconnect())) {
+      if (m === hostInitialize) {
+        // The daemon went away between this shim's start and the host's handshake
+        // (idle exit, a restart): find or start one and open the session there.
+        if (await ensureDaemon()) {
+          const previous = upstream
+          upstream = await connect()
+          previous.close().catch(() => {})
+          await upstream.send(m)
+          return
+        }
+      } else if (hostInitialize && (await reconnect())) {
         await upstream.send(m)
         return
       }

@@ -25,6 +25,7 @@
 
 import { createApi, BuerliCadFacade } from '@buerli.io/classcad'
 import { getDrawing } from '@buerli.io/core'
+import { liveContainers } from '../bodies'
 import type { ScriptSession, Task, Envelope } from '@classcad/script'
 import type { DrawingID } from '@buerli.io/core'
 
@@ -242,17 +243,11 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
       const drawing = getDrawing(drawingId) as any
       const containers = drawing?.graphic?.containers
       if (!containers) return null
-      // Filter out containers owned by CONSUMED CC_Solids — the store can keep
-      // superseded tool bodies around, and rendering them stacks old tools on
-      // top of the current part. (Kept from the raw-client era; may become
-      // unnecessary now that every call goes through buerli's own cleanup.)
-      const tree = drawing?.structure?.tree ?? {}
-      const live = (Object.values(containers) as import('@classcad/script').GraphicContainer[]).filter(c => {
-        const owner = c.owner != null ? (tree[String(c.owner)] as import('@classcad/script').TreeNode | undefined) : undefined
-        if (!owner || owner.class !== 'CC_Solid') return true // curves, sketches, unknown — keep
-        return (owner.members as Record<string, { value?: unknown }> | undefined)?.consumed?.value !== 1
-      })
-      return { containers: live }
+      // Filter out containers owned by CONSUMED bodies (solids and sheets) — the
+      // store can keep superseded tool bodies around, and rendering them stacks
+      // old tools on top of the current part. (Kept from the raw-client era; may
+      // become unnecessary now that every call goes through buerli's own cleanup.)
+      return { containers: liveContainers(Object.values(containers) as import('@classcad/script').GraphicContainer[], drawing?.structure?.tree ?? {}) }
     },
     usedSolidApi: () => sawSolidCall,
     namespaces: browserNamespaces(drawingId),

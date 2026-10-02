@@ -256,6 +256,44 @@ test('digestTree reads a real part and a real assembly', () => {
   assert.ok(digestTree(fixture('assembly'), { maxChars: 300 }).length <= 300)
 })
 
+test('digestTree counts sheets apart from solids and leaves consumed bodies out', () => {
+  // A part after a slice by sheet: the box (30) and the cutting sheet (31) are consumed,
+  // the slab (32) is the current solid; 33 is a second sheet nobody has used yet.
+  const body = (id, cls, consumed) => ({ id, class: cls, name: cls, parent: 20, members: { consumed: { value: consumed } } })
+  const part = (...bodies) => ({
+    root: 10, currentProduct: 10,
+    tree: Object.fromEntries([
+      { id: 10, class: 'CC_Part', name: 'Part', parent: 1, children: [20] },
+      { id: 20, class: 'CC_EntitySet', name: 'EntitySet', parent: 10, children: bodies.map(b => b.id) },
+      ...bodies,
+    ].map(n => [n.id, n])),
+  })
+  const sliced = part(body(30, 'CC_Solid', 1), body(31, 'CC_Sheet', 1), body(32, 'CC_Solid', 0), body(33, 'CC_Sheet', 0))
+  assert.match(digestTree(sliced), /current solids: 1, sheets \(open bodies\): 1$/m)
+  assert.match(digestTree(part(body(33, 'CC_Sheet', 0))), /current solids: 0, sheets \(open bodies\): 1$/m, 'a part that holds only a sheet')
+  assert.match(digestTree(part(body(32, 'CC_Solid', 0), body(34, 'CC_DecoratedSolid', 0))), /current solids: 2$/m, 'a decorated solid is a solid')
+  assert.doesNotMatch(digestTree(part(body(30, 'CC_Solid', 1), body(31, 'CC_Sheet', 1))), /current solids/, 'consumed bodies are not current')
+})
+
+test('a consumed body is a solid or a sheet with consumed 1 — not a curve shape', async () => {
+  const { isBody, isConsumedBody } = await import('../dist/bodies.js')
+  const node = (cls, consumed) => ({ class: cls, members: { consumed: { value: consumed } } })
+  assert.ok(isConsumedBody(node('CC_Solid', 1)) && isConsumedBody(node('CC_Sheet', 1)) && isConsumedBody(node('CC_DecoratedSolid', 1)))
+  assert.ok(!isConsumedBody(node('CC_Solid', 0)) && !isConsumedBody(node('CC_Sheet', 0)))
+  assert.ok(!isConsumedBody(node('CC_CurveEntity', 1)), 'a curve shape carries consumed 1 while it is live')
+  assert.ok(!isConsumedBody(undefined) && !isConsumedBody({ class: 'CC_Solid' }), 'unknown owner, body without members: kept')
+  assert.ok(isBody(node('CC_Sheet', 0)) && !isBody(node('CC_Part', 0)))
+})
+
+test('api.graphic() keeps the containers of what is current', async () => {
+  const { liveContainers } = await import('../dist/bodies.js')
+  const node = (cls, consumed) => ({ class: cls, members: { consumed: { value: consumed } } })
+  const tree = { 30: node('CC_Solid', 1), 31: node('CC_Sheet', 1), 32: node('CC_Solid', 0), 33: node('CC_Sheet', 0), 50: node('CC_CurveEntity', 1) }
+  const containers = [30, 31, 32, 33, 50, 99, undefined].map((owner, i) => ({ id: 100 + i, owner }))
+  assert.deepEqual(liveContainers(containers, tree).map(c => c.owner), [32, 33, 50, 99, undefined], 'the consumed solid and the consumed sheet are left out; a curve shape, an unknown owner and a container without owner stay')
+  assert.equal(liveContainers(containers, {}).length, 7, 'without a tree nothing is known to be consumed')
+})
+
 test('overflow errors are recognised per provider, transient ones are not', () => {
   assert.ok(isContextOverflow({ status: 400, body: '{"error":{"type":"invalid_request_error","message":"prompt is too long: 210000 tokens > 200000 maximum"}}' }))
   assert.ok(isContextOverflow({ status: 400, body: '{"error":{"code":"context_length_exceeded","message":"This model\'s maximum context length is 128000 tokens."}}' }))

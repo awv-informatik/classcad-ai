@@ -25,7 +25,6 @@
 //     lands in the middle of an agent's script. Pulls (GetTree) do not wait.
 //   • Database settings are the engine's, shared by all: the ones the MCP's
 //     renders need stay on, whatever a guest sets.
-//   • OFB. What the MCP's tools refuse, guests are refused too.
 //
 // A session that runs on a ClassCAD worker needs none of this: the server
 // speaks the protocol itself. Guests of such a session are piped through to
@@ -37,7 +36,7 @@
 import WebSocket from 'ws'
 import { randomUUID } from 'node:crypto'
 import { deflateRawSync } from 'node:zlib'
-import { GRAPHIC_SETTINGS, ofbExportRefusal, type Client } from '../client.js'
+import { GRAPHIC_SETTINGS, type Client } from '../client.js'
 import type { EngineExecuteResult } from '../engine/wasm.js'
 import { DEFAULT_EMISSION, HOST_CHANNELS, PRESENCE_MAX_BYTES, SERVER_CHANNELS, type Role, type SessionFrame } from './protocol.js'
 
@@ -183,16 +182,6 @@ function keepGraphicSettings(req: Record<string, any>): void {
   }
 }
 
-/** Why a command is refused when it would hand out OFB (what the MCP's own tools refuse), or null. */
-function ofbRefusal(req: Record<string, any>): string | null {
-  if (req.command !== 'Execute' || !Array.isArray(req.task)) return null
-  for (const task of req.task) {
-    const refused = task && typeof task === 'object' ? ofbExportRefusal(task) : null
-    if (refused) return refused
-  }
-  return null
-}
-
 /**
  * The sharing of one MCP session. Created with the session, before any engine
  * runs: an invite is good from then on, and the first guest that joins with it
@@ -300,7 +289,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     toHost(out)
   }
 
-  /** A guest's command: answered here (emission config, what a guest may not do), or run on the engine. */
+  /** A guest's command: answered here (emission config, what only a host may do), or run on the engine. */
   async function command(guest: Guest, req: Record<string, any>): Promise<void> {
     const name = req.command
     if (name === 'GetEmissionConfig') return send(guest, { command: 'Result', _from_: name, _transactionID_: req.transactionID, result: { ...guest.config } })
@@ -312,8 +301,6 @@ export function createSessionHub(opts: HubOptions): SessionHub {
       return send(guest, { command: 'Result', _from_: name, _transactionID_: req.transactionID, result: { ...guest.config } })
     }
     if (name === 'CreateInvite' || name === 'RevokeInvite') return send(guest, errorResult(req, `${name}: only the host of a session can do that, and this connection joined it by invite.`))
-    const refused = ofbRefusal(req)
-    if (refused) return send(guest, errorResult(req, refused))
     keepGraphicSettings(req)
     askedBy.set(req, guest)
     const t0 = Date.now()
@@ -386,7 +373,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
 
   // ── A session on a ClassCAD worker ──
   // The server speaks the protocol; a guest is piped through to it with an
-  // invite of the server's own. What the MCP's tools refuse is refused here too.
+  // invite of the server's own.
 
   /** Guests that are piped through, with the invite they joined with. */
   const piped = new Map<WebSocket, Invite>()
@@ -422,16 +409,6 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     const base = client.url.split('?')[0].replace(/\/+$/, '')
     const upstream = new WebSocket(`${base}/?invite=${encodeURIComponent(token)}`)
     const forward = (data: WebSocket.RawData, isBinary: boolean) => {
-      if (!isBinary) {
-        let req: Record<string, any> | null = null
-        try {
-          req = JSON.parse(data.toString())
-        } catch {
-          /* not ours to judge */
-        }
-        const refused = req && typeof req === 'object' ? ofbRefusal(req) : null
-        if (refused) return void ws.send(JSON.stringify(errorResult(req!, refused)))
-      }
       if (upstream.readyState === WebSocket.OPEN) upstream.send(data, { binary: isBinary })
     }
     upstream.on('open', () => {

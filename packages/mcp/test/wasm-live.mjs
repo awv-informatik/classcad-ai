@@ -6,7 +6,7 @@
 //   3. policy "drogon" with no worker: a clear error, no fallback
 //   4. use_session(engine) switches at runtime
 // And, each in a test of its own: engine errors and a crashed, hung or wedged
-// engine; no OFB export; the graphic after clear, restore and deletions; the
+// engine; OFB out and in; the graphic after clear, restore and deletions; the
 // read-only 3D view; sharing (an app docked into the MCP's engine, a second
 // agent in the same session, files, a replaced engine); where the app comes up.
 import { test } from 'node:test'
@@ -205,34 +205,41 @@ test('local engine: frame guards, and a crashed / hung / wedged engine is replac
   }
 })
 
-test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore still work', async () => {
+test('OFB: the save tool and a script write it, load reads it back with its features; checkpoint and restore', async () => {
+  const { mkdtempSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_ENGINE: 'wasm',
   })
+  const volume = async () => (await a.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); return (await api.v1.part.calculateMassProperties({ id: p.id })).result.volume` })).value?.returned
   try {
     await a.init()
-    assert.ok(!(await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'O' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30 }); return p` })).isError)
-    // scripts: the default format, explicit OFB, and exportNode
-    for (const call of ['api.v1.common.save({})', "api.v1.common.save({ format: 'OFB', encoding: 'base64' })", 'api.v1.assembly.exportNode({ id: 4 })']) {
-      const r = await a.tool('run_script', { script: `return await ${call}` })
-      assert.ok(r.isError && /OFB export is not available/.test(r.text), `${call}: ${r.text}`)
-    }
-    // the save tool no longer offers OFB
-    const tool = await a.call('tools/call', { name: 'save', arguments: { format: 'OFB' } })
-    assert.ok(tool.error || tool.result?.isError, 'save({ format: OFB }) is rejected: ' + JSON.stringify(tool).slice(0, 200))
-    // STEP export still works
+    assert.ok(!(await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'O' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30, name: 'Block' }); return p` })).isError)
+    // a script saves OFB like any other format
+    const inline = await a.tool('run_script', { script: `const r = await api.v1.common.save({ format: 'OFB', encoding: 'base64' }); return typeof r.result?.content === 'string' && r.result.content.length > 100` })
+    assert.equal(inline.value?.returned, true, 'common.save writes OFB from a script: ' + inline.text)
+    // the save tool writes it to a file
+    const file = join(mkdtempSync(join(tmpdir(), 'classcad-ofb-')), 'box.ofb')
+    const saved = (await a.tool('save', { format: 'OFB', path: file })).value
+    assert.ok(saved.success && saved.bytes > 100, 'save writes OFB: ' + JSON.stringify(saved).slice(0, 200))
+    // ... and load brings the model back as it was: the part with its feature, not just a body
+    await a.tool('clear')
+    const loaded = await a.tool('load', { format: 'OFB', path: file })
+    assert.ok(!loaded.isError && loaded.value.ok, 'load reads OFB: ' + loaded.text)
+    assert.ok((await a.tool('tree')).value.nodes.some(node => node.name === 'Block'), 'the feature is back, by name')
+    assert.equal(await volume(), 6000)
+    // STEP export
     const stp = (await a.tool('save', { format: 'STP' })).value
     assert.ok(stp.success && stp.bytes > 0, 'STEP export: ' + JSON.stringify(stp).slice(0, 200))
-    // checkpoint/restore still use OFB internally, without handing it out
+    // checkpoint/restore keep their copy in the MCP's process: nothing of the model comes back in the answer
     const cp = await a.tool('checkpoint', { label: 'before' })
     assert.ok(!cp.isError && !/classcad\\nVersion/.test(cp.text) && cp.text.length < 400, 'checkpoint returns no model data: ' + cp.text)
     await a.tool('run_script', { script: `await api.v1.common.clear(); return 1` })
     assert.ok(!(await a.tool('restore', { label: 'before' })).isError)
-    const vol = await a.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); return (await api.v1.part.calculateMassProperties({ id: p.id })).result.volume` })
-    assert.equal(vol.value?.returned, 6000, 'restored box: ' + vol.text)
+    assert.equal(await volume(), 6000, 'restored box')
   } finally {
     await a.exit()
   }
@@ -484,9 +491,9 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
     assert.ok(tree.graphic.containers.some(c => (c.meshes ?? []).length === 6), 'with the box\'s six faces')
     const face = tree.graphic.containers.find(c => (c.meshes ?? []).length === 6)
 
-    // the host said what it offers, and who it is
-    for (let i = 0; i < 40 && !frames.some(f => f.command === 'Presence' && f.channel === 'config'); i++) await sleep(25)
-    assert.deepEqual(frames.find(f => f.command === 'Presence' && f.channel === 'config').data, { saveFormats: ['STP', 'STL'] })
+    // the host said who it is, and keeps no format from its guests: without a word on 'config' an app offers them all
+    for (let i = 0; i < 40 && !frames.some(f => f.command === 'Presence' && f.channel === 'client'); i++) await sleep(25)
+    assert.ok(!frames.some(f => f.command === 'Presence' && f.channel === 'config'), 'no restriction is published')
     assert.deepEqual(frames.find(f => f.command === 'Presence' && f.channel === 'client').data, { app: 'classcad-mcp', version: frames.find(f => f.command === 'Presence' && f.channel === 'client').data.version, kind: 'agent', name: 'wasm-live' })
 
     // the agent builds: the app is sent the change as it happens
@@ -505,9 +512,9 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
     const shown = await a.tool('snapshot', {})
     assert.ok(shown.content.some(block => block.type === 'image'), 'and its render works on')
 
-    // OFB is not handed out to a guest either
+    // a guest saves what the host may save: OFB too (the app's File menu)
     const ofb = await send({ command: 'Execute', task: [{ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] }] })
-    assert.ok(ofb.maxLevel >= 51 && /OFB export is not available/.test(ofb.messages[0].message))
+    assert.ok((ofb.maxLevel ?? 0) < 51 && ofb.result?.content?.length > 100, 'a guest saves OFB: ' + JSON.stringify(ofb).slice(0, 200))
 
     // pointing, both ways
     presence('selection', { items: [{ kind: 'face', objectId: face.owner, prodRefId: partId, containerId: face.id, graphicId: face.meshes[0].id, type: 'plane' }], total: 1 })

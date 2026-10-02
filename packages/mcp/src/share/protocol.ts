@@ -15,7 +15,8 @@
 //   client     who a participant is: the app, its version, a name to show
 //   selection  what a participant has selected, published whenever it changes
 //   select     a request to the others to select something (an agent pointing)
-//   config     the host's word on what its guests are offered (host only)
+//   config     a host's word on what its guests are offered (host only). The
+//              MCP's own sessions offer everything an app can do, and say nothing.
 
 /** What an invite lets its guest do. Advisory: the clients honour it, the engine does not check. */
 export type Role = 'edit' | 'view'
@@ -34,17 +35,10 @@ export const HOST_CHANNELS = new Set(['config'])
 /** The channel only the server writes: a participant is gone. */
 export const SERVER_CHANNELS = new Set(['leave'])
 
-// The channels of the list above, by name.
-export const CONFIG_CHANNEL = 'config'
+// The channels this MCP speaks on, by name.
 export const CLIENT_CHANNEL = 'client'
 export const SELECTION_CHANNEL = 'selection'
 export const SELECT_CHANNEL = 'select'
-
-/** What a host says its guests are offered, on the 'config' channel. Apps hide what is not. */
-export type SessionConfig = {
-  /** The formats a model may be saved in from this session. */
-  saveFormats?: string[]
-}
 
 /** What a participant says about itself on the 'client' channel. */
 export type ClientIdentity = {

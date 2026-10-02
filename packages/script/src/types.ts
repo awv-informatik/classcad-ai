@@ -85,7 +85,11 @@ export interface GraphicContainer {
   [key: string]: unknown
 }
 
-/** The graphic payload — the engine's tessellation of the CURRENT model, world coordinates. */
+/**
+ * The graphic payload — the engine's tessellation, world coordinates. It can
+ * still hold the containers of consumed bodies; the current geometry is in the
+ * containers whose `owner` is a current body (`api.inspect.currentBodies`).
+ */
 export interface Graphic {
   containers?: GraphicContainer[]
   [key: string]: unknown

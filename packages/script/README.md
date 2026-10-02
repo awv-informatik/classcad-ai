@@ -40,9 +40,12 @@ const res = await runScript(`
   const partId = (await api.v1.part.create({ name: 'Demo' })).result
   await api.v1.part.cylinder({ id: partId, diameter: 40, height: 20 })
 
-  // find the shell face by filtering REAL geometry: every vertex at radius 20
-  const g = await api.graphic()
-  const shell = g.containers.flatMap(c => c.meshes ?? []).find(m => {
+  // find the shell face by filtering REAL geometry: every vertex at radius 20.
+  // Look in the containers of the current solids — the payload can still hold
+  // the bodies that later features consumed.
+  const cap = await api.inspect.capture()            // { tree, graphic } of one state
+  const live = cap.graphic.containers.filter(c => api.inspect.currentSolids(cap).includes(c.owner))
+  const shell = live.flatMap(c => c.meshes ?? []).find(m => {
     for (let i = 0; i < m.vertices.length; i += 3) {
       if (Math.abs(Math.hypot(m.vertices[i], m.vertices[i + 1]) - 20) > 0.01) return false
     }
@@ -69,6 +72,7 @@ plus **optional capabilities** a client may inject:
 | `api.v1.<domain>.<method>(params)` | guaranteed | one ClassCAD command, → `{ result, maxLevel, messages, … }`. With a registry, unknown names **throw immediately with suggestions** (`"v1.part.bxo" — Did you mean: box?`) instead of failing downstream. |
 | `api.tree({ refresh? })` | guaranteed | the structure tree (id → node): find parts, features, sketches by `class`/`name` |
 | `api.graphic({ recalc? })` | guaranteed | the graphic payload (containers with face meshes, edges, vertices): scripts locate and **filter geometry themselves** |
+| `api.inspect` | guaranteed | one-state captures and the selections built on them: `capture()` → `{ tree, graphic }`, `currentSolids` / `currentBodies` (the bodies no later feature consumed), bounds, edge lookup — see [inspection](#execution-reliability-and-inspection) |
 | `api.env` | guaranteed | `'node'` \| `'browser'` |
 | `api.facade` / `api.structure` / `api.selection` / … | optional | client capabilities injected via [`session.namespaces`](#scriptsession) (buerli browser apps have them; WS sessions don't). Guard with `if (api.facade) …` |
 

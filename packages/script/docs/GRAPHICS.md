@@ -253,7 +253,11 @@ Cache it with this merge logic:
 - Containers with no `containers[]` and no `properties` are ignored.
 
 The merged cache is what a renderer should consume — it holds the complete
-current scene (meshes, edges, sketches, curves).
+current scene (meshes, edges, sketches, curves). It also still holds the
+containers of bodies that later features consumed: the current geometry is in
+the containers whose `owner` is a current body (`members.consumed.value === 0`
+in the tree — see [STRUCTURE.md](STRUCTURE.md)); `@classcad/renderer` leaves
+the containers of consumed bodies out itself.
 
 ## Tessellation knobs
 

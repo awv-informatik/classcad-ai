@@ -151,7 +151,7 @@ In a new session, ask the agent to *make a box*. The first time, it shows a sign
 
 Every session has a live CAD app in the user's browser: [Buerligons](https://buerligons.io), docked into the session's own engine.
 
-- **It opens by itself** with the first model of a session and shows every change the agent makes as it happens. Results of `run_script`, `snapshot`, `load` and `restore` end with its link (`App: http://127.0.0.1:9098/?invite=…`), `session_info` names it, and `view` returns it and brings the app up.
+- **It opens by itself** with the first model of a session and shows every change the agent makes as it happens. Results of `run_script`, `snapshot`, `load` and `restore` end with its link (`App: http://127.0.0.1:9098/?invite=…`), `session_info` names it, and `view` returns it and brings the app up (unless the user already has it open: one tab per session is enough).
 - **The user works in it too.** Turn and zoom, measure, select; edit a feature's values, draw and constrain a sketch, add or delete features, start over or open a file. It is the same model: what the user changes is in the tree the agent reads next, and what the agent builds appears in the app at once. A command from the app waits for a running script to finish, so the two never interleave inside one.
 - **Pointing.** What the user has selected in the app, the agent reads with `get_selection` ("fillet *this* edge"); with `set_selection` the agent highlights something for the user.
 - **Exports.** The app's File menu saves the model as STEP or STL. OFB is not offered in this release, in the app or anywhere else.

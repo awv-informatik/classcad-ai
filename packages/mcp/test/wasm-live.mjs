@@ -473,6 +473,7 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
     assert.deepEqual(selects[1].data, { id: selects[0].data.id, done: true })
     const info = (await a.tool('session_info')).value
     assert.deepEqual(info.peers, [{ app: 'testapp', name: 'user', kind: 'app', role: 'edit' }])
+    assert.match((await a.tool('view')).text, /already has it open: no new tab/, 'an app that is docked is not opened once more')
 
     // ── another agent joins the session with the same link ──
     await b.init()
@@ -495,5 +496,87 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
     try { ws?.close() } catch {}
     try { a.p.kill() } catch {}
     await b.exit()
+  }
+})
+
+test('sharing on the real engine: a guest saves and opens a file, sessions stay apart, a replaced engine is sent anew', async () => {
+  // The listener asks whether the machine is signed in: set that up before it is loaded.
+  Object.assign(process.env, AUTH)
+  const { connect } = await import('../dist/client.js')
+  const { wasmOptionsFromEnv } = await import('../dist/engine/wasm.js')
+  const { createSessionHub } = await import('../dist/share/hub.js')
+  const { listen, offerInvite } = await import('../dist/share/server.js')
+  const { default: WebSocket } = await import('ws')
+  const { inflateRawSync } = await import('node:zlib')
+  const sleep = ms => new Promise(r => setTimeout(r, ms))
+  const { port } = await listen()
+  // What mcp-server.ts makes of a session, without the tools: an engine client, its hub, an invite.
+  const session = async () => {
+    const client = await connect(`ws://127.0.0.1:${await freePort()}/`, { engine: 'wasm', wasm: wasmOptionsFromEnv(), requestTimeoutMs: 20_000 })
+    const hub = createSessionHub({ client, queue: work => work(), toHost: () => {} })
+    const invite = hub.createInvite('edit', 'app')
+    const unoffer = offerInvite(invite.invite, hub)
+    return { client, hub, invite: invite.invite, end: () => { unoffer(); hub.close(); client.close() } }
+  }
+  // An app: connects, asks for streaming, like buerli's WSClient.
+  const app = async invite => {
+    const ws = new WebSocket(`ws://127.0.0.1:${port}/session/?invite=${invite}`)
+    const frames = []
+    const waiters = new Map()
+    let n = 0
+    ws.on('message', (data, isBinary) => {
+      const frame = JSON.parse(isBinary ? inflateRawSync(data).toString() : data.toString())
+      frames.push(frame)
+      if (frame.command === 'Result' && waiters.has(frame._transactionID_)) { waiters.get(frame._transactionID_)(frame); waiters.delete(frame._transactionID_) }
+    })
+    await new Promise((resolve, reject) => { ws.once('open', resolve); ws.once('error', reject) })
+    const send = cmd => new Promise(resolve => { const transactionID = `app-${++n}`; waiters.set(transactionID, resolve); ws.send(JSON.stringify({ commandVersion: 'v1', transactionID, ...cmd })) })
+    await send({ command: 'SetEmissionConfig', config: { sendStructure: true, sendStructure_Patch: true, sendGraphic_Kernel: true, sendGraphic_ImmediatelyBinary: true } })
+    return { ws, frames, send }
+  }
+  const one = await session()
+  const two = await session()
+  let g
+  try {
+    const p1 = (await one.client.execute({ 'v1.part.create': [{ name: 'One' }] })).result
+    await one.client.execute({ 'v1.part.box': [{ id: p1, length: 10, width: 20, height: 30 }] })
+    const p2 = (await two.client.execute({ 'v1.part.create': [{ name: 'Two' }] })).result
+    g = await app(one.invite)
+
+    // A file out and a file in: exactly what the app's "Save as" and "Open" send.
+    const stp = await g.send({ command: 'Execute', task: [{ 'v1.common.save': [{ format: 'STP', encoding: 'base64' }] }], options: { undoable: false } })
+    assert.ok((stp.maxLevel ?? 0) < 51 && stp.result?.content?.length > 1000, 'a guest saves STEP: ' + JSON.stringify(stp).slice(0, 200))
+    assert.match(Buffer.from(stp.result.content, 'base64').toString('latin1', 0, 40), /ISO-10303-21/)
+    const opened = await g.send({ command: 'Execute', task: [{ 'v1.common.load': [{ data: stp.result.content, encoding: 'base64', format: 'STP', doClear: true }] }], options: { undoable: false } })
+    assert.ok((opened.maxLevel ?? 0) < 51, 'a guest opens a file in the session: ' + JSON.stringify(opened).slice(0, 300))
+    const tree = await one.client.getTree()
+    assert.ok(!Object.values(tree).some(node => node.class === 'CC_Box'), 'the file took the place of the model: the host\'s tree has no box feature any more')
+    const bodies = ((await one.client.getGraphic())?.containers ?? []).filter(c => (c.meshes ?? []).length)
+    assert.equal(bodies.length, 1, 'and its graphic shows the loaded body, once: ' + bodies.length)
+    assert.equal(bodies[0].meshes.length, 6)
+
+    // Two sessions on one listener: a guest of one hears nothing of the other. (A question of its
+    // own first and last: frames come in order, so whatever was under way has arrived by then.)
+    await g.send({ command: 'GetEmissionConfig' })
+    g.frames.length = 0
+    await two.client.execute({ 'v1.part.cylinder': [{ id: p2, diameter: 5, height: 5 }] })
+    await sleep(150)
+    await g.send({ command: 'GetEmissionConfig' })
+    assert.deepEqual(g.frames.map(f => f._from_), ['GetEmissionConfig'], 'nothing of another session reaches this guest: ' + JSON.stringify(g.frames).slice(0, 400))
+
+    // The engine is replaced (a crash): its drawing is empty, and the guest is sent the model anew.
+    one.client.localEngine.close('simulated crash')
+    await one.client.execute({ 'v1.part.create': [{ name: 'Again' }] })
+    for (let i = 0; i < 40 && !g.frames.some(f => f.command === 'Result' && f._from_ === 'GetTree'); i++) await sleep(25)
+    const resync = g.frames.find(f => f.command === 'Result' && f._from_ === 'GetTree')
+    assert.ok(resync?.structure?.tree && Array.isArray(resync.graphic?.containers), 'a pull nobody asked for: the new engine\'s structure and graphic')
+    const now = await g.send({ command: 'GetTree' })
+    const names = Object.values(now.structure.tree).map(node => node.name)
+    assert.ok(names.includes('Again'), 'the guest is on the new engine\'s model')
+    assert.equal(now.graphic.containers.filter(c => (c.meshes ?? []).length).length, 0, 'with nothing left of the old one')
+  } finally {
+    try { g?.ws.close() } catch {}
+    one.end()
+    two.end()
   }
 })

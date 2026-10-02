@@ -78,10 +78,10 @@ export function registerViewTool(server: McpServer, share: Share, viewer: Viewer
     {
       title: app ? 'Open the app' : 'Open the 3D view',
       description: app
-        ? 'The live CAD app of this session (Buerligons), docked into the same engine: returns its link and brings it up in the user\'s browser. The app shows every change as it happens, and the user can work in it — turn and zoom, select, measure, edit sketches and features, export STEP or STL. Call it when the user wants to see, turn or edit the model; hand them the link as a clickable link on its own line. open: false only returns the link.'
+        ? 'The live CAD app of this session (Buerligons), docked into the same engine: returns its link and brings it up in the user\'s browser. The app shows every change as it happens, and the user can work in it — turn and zoom, select, measure, edit sketches and features, export STEP or STL. Call it when the user wants to see, turn or edit the model; hand them the link as a clickable link on its own line. It is opened unless the user already has it open; open: false only returns the link, open: true opens one more tab.'
         : 'The live 3D view of this session\'s model: returns its link and brings it up in the user\'s browser. The view follows every change, turns and zooms, has light and dark, and lets the user download STEP, STL or glTF. Call it when the user wants to see or turn the model; hand them the link as a clickable link on its own line. open: false only returns the link.',
       inputSchema: {
-        open: z.boolean().optional().describe('Bring it up in the browser (default true).'),
+        open: z.boolean().optional().describe('Bring it up in the browser. Default: yes, unless the user already has it open.'),
       },
     },
     async ({ open }) => {
@@ -97,17 +97,19 @@ export function registerViewTool(server: McpServer, share: Share, viewer: Viewer
       }
       const url = share.url ?? viewer?.url
       if (!url) return { isError: true, content: [{ type: 'text' as const, text: 'There is no view in this MCP (CLASSCAD_VIEWER=off, or its local listener could not start).' }] }
-      const opened = open === false ? false : share.url ? share.open() : viewer!.open()
-      const what = share.url ? 'App of this session' : '3D view of this session'
-      const docked = share.url ? share.peers().length : 0
-      return {
-        content: [{
-          type: 'text' as const,
-          text:
-            `${what}: ${url}\n${opened ? 'It has been opened in the user\'s browser.' : 'Give the user this link to open it.'} It follows the model live.` +
-            (share.url ? ` The user can work in it; ${docked ? `${docked} already docked.` : 'nobody is docked yet.'}` : ''),
-        }],
+      if (!share.url) {
+        const opened = open === false ? false : viewer!.open()
+        return { content: [{ type: 'text' as const, text: `3D view of this session: ${url}\n${opened ? 'It has been opened in the user\'s browser.' : 'Give the user this link to open it.'} It follows the model live.` }] }
       }
+      // An app that is docked is an app somebody has open: one more tab would be one more guest, not a better look.
+      const docked = share.peers().filter(peer => peer.identity?.kind !== 'agent').length
+      const opened = open === true || (open === undefined && docked === 0) ? share.open() : false
+      const state = opened
+        ? 'It has been opened in the user\'s browser.'
+        : docked > 0
+          ? 'The user already has it open: no new tab was opened.'
+          : 'Give the user this link to open it.'
+      return { content: [{ type: 'text' as const, text: `App of this session: ${url}\n${state} It shows the model live, and the user can work in it.` }] }
     },
   )
 }

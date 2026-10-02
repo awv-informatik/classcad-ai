@@ -1,7 +1,7 @@
 import type {
   AssemblyInstance, CameraView, DiffResult, DrawingOptions, Frame, Graphic, GraphicContainer, ProjectionMethod, TextLabel,
   Marker, OverlayPolyline, RasterResult, RenderOptions, SectionPlane,
-  SessionEntry, SessionSource, SolidRenderOptions, Tree, Vec3, RGB,
+  SessionEntry, SessionSource, SolidRenderOptions, Tree, TreeNode, Vec3, RGB,
 } from './types.js'
 
 /**
@@ -281,10 +281,10 @@ function csToMatrix(cs: any) {
 }
 
 /**
- * Walk the assembly tree and produce one entry per solid of every leaf part
- * instance with the cumulative world transform (a part may own several live
- * solids). Returns null when the drawing has no
- * CC_AssemblyRoot (single-part drawing — caller renders templates flat).
+ * Walk the assembly tree and produce one entry per live body of every leaf
+ * part instance with the cumulative world transform (a part may own several
+ * live bodies, solids and sheet bodies alike). Returns null when the drawing
+ * has no CC_AssemblyRoot (single-part drawing — caller renders templates flat).
  */
 export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null {
   let rootId = null
@@ -293,18 +293,18 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
   }
   if (rootId == null) return null
 
-  const solidsByPart = new Map<number, number[]>()
+  const bodiesByPart = new Map<number, number[]>()
   for (const [id, obj] of Object.entries<any>(tree)) {
-    if (obj.class !== 'CC_Solid') continue
-    if (isConsumedSolid(tree, Number(id))) continue // superseded body — its container is stale
+    if (!isBody(obj)) continue
+    if (isConsumedBody(tree, Number(id))) continue // superseded body — its container is stale
     let cur = obj.parent
     while (cur != null) {
       const p = tree[String(cur)]
       if (!p) break
       if (p.class === 'CC_Part') {
-        const solids = solidsByPart.get(Number(cur))
-        if (solids) solids.push(Number(id))
-        else solidsByPart.set(Number(cur), [Number(id)])
+        const bodies = bodiesByPart.get(Number(cur))
+        if (bodies) bodies.push(Number(id))
+        else bodiesByPart.set(Number(cur), [Number(id)])
         break
       }
       cur = p.parent
@@ -318,8 +318,8 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
     if (pid != null) {
       const target = tree[String(pid)]
       if (target?.class === 'CC_Part') {
-        for (const solidId of solidsByPart.get(Number(pid)) ?? []) {
-          instances.push({ ownerSolidId: solidId, partId: Number(pid), transform: matrix })
+        for (const bodyId of bodiesByPart.get(Number(pid)) ?? []) {
+          instances.push({ ownerSolidId: bodyId, partId: Number(pid), transform: matrix })
         }
         return
       }
@@ -2327,24 +2327,47 @@ export async function applyAdaptiveFaceting(host: { execute: (task: any) => Prom
   }
 }
 
-/**
- * True when `solidId` names a CC_Solid that a later feature has superseded
- * (`members.consumed.value === 1`). The kernel's graphic pull still ships a
- * container for such bodies, and drawing them stacks the old body on top of
- * the current part (a chamfered box renders as a cube with a frame on it).
- */
-export function isConsumedSolid(tree: Tree, solidId: number | null | undefined): boolean {
-  if (solidId == null) return false
-  const node: any = tree[String(solidId)]
-  return node?.class === 'CC_Solid' && node.members?.consumed?.value === 1
+// The classes of a part's bodies: every class the engine derives from CC_Body.
+// A closed body is a CC_Solid (CC_DecoratedSolid is its subclass), an open one
+// a CC_Sheet (a sheet body, e.g. an extrusion with `capEnds: 0`). Both arrive
+// as type-1 containers with meshes.
+const BODY_CLASSES = new Set(['CC_Solid', 'CC_DecoratedSolid', 'CC_Sheet'])
+
+/** True when `node` is a body of a part — a solid or a sheet body (CC_Sheet), consumed or not. */
+export function isBody(node: TreeNode | null | undefined): boolean {
+  return BODY_CLASSES.has(node?.class)
 }
 
+/**
+ * True when `bodyId` names a body — solid or sheet body — that a later feature
+ * has superseded (`members.consumed.value === 1`). The kernel's graphic pull
+ * still ships a container for such bodies, and drawing them stacks the old
+ * body on top of the current part: a chamfered box renders as a cube with a
+ * frame on it, a sheet body z-fights with the face of the solid made from it.
+ *
+ * Only bodies count. A curve shape (CC_CurveEntity) carries a `consumed`
+ * member too, but there 1 does not mean superseded: a new, live shape has it.
+ */
+export function isConsumedBody(tree: Tree, bodyId: number | null | undefined): boolean {
+  if (bodyId == null) return false
+  const node: any = tree[String(bodyId)]
+  return isBody(node) && node.members?.consumed?.value === 1
+}
+
+/** @deprecated Use {@link isConsumedBody}: a sheet body is consumed like a solid. */
+export const isConsumedSolid = isConsumedBody
+
+/**
+ * Node ids per content category. `solids` holds every body, solids and sheet
+ * bodies (consumed ones included); `workGeo` leaves out the built-in origin,
+ * axes and planes.
+ */
 export function analyzeSession(tree: Tree): { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } {
   const builtinNames = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
   const result: { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } = { solids: [], sketches: [], curves: [], eifs: [], workGeo: [] }
   for (const [id, obj] of Object.entries<any>(tree)) {
     const nid = Number(id)
-    if (obj.class === 'CC_Solid') result.solids.push(nid)
+    if (isBody(obj)) result.solids.push(nid)
     if (obj.class === 'CC_Sketch') result.sketches.push(nid)
     if (obj.class === 'CC_CurveEntity') result.curves.push(nid)
     if (obj.class === 'CC_EntityInjection') result.eifs.push(nid)
@@ -2968,9 +2991,10 @@ async function renderSessionEntries(source: SessionSource, options: RenderOption
     if (!sketchOverlays.length) sketchOverlays = null
   }
 
-  // ── SOLIDS ── (type-1 containers with meshes; assemblies get per-instance transforms)
+  // ── SOLIDS ── (the live bodies, solids and sheet bodies: type-1 containers
+  // with meshes; assemblies get per-instance transforms)
   if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0)) {
-    const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedSolid(tree, c.owner)) }
+    const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedBody(tree, c.owner)) }
     const instances = extractAssemblyInstances(tree)
     if (options.drawing) {
       // Technical drawing: front/top/side in line style, placed by projection method.

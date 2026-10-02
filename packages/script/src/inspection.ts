@@ -8,8 +8,18 @@ export async function captureInspection(session: ScriptSession & { readonly vers
   if (revision !== null && session.version !== revision) throw new Error('Model changed during inspection; recapture when idle')
   return { tree, graphic, revision, capturedAt: new Date().toISOString() }
 }
+// A body is a CC_Solid (closed; CC_DecoratedSolid is its subclass) or a CC_Sheet (open, e.g. an extrusion with capEnds: 0).
+const SOLID_CLASSES = ['CC_Solid', 'CC_DecoratedSolid']
+const BODY_CLASSES = [...SOLID_CLASSES, 'CC_Sheet']
+const unconsumed = (capture: InspectionCapture, classes: string[]) =>
+  Object.values(capture.tree).filter(n => classes.includes(n.class) && n.members?.consumed?.value === 0).map(n => n.id)
+/** The model as it stands: every unconsumed body, solids and sheets. The owner filter for bounds and edge picking. */
+export function currentBodies(capture: InspectionCapture): number[] {
+  return unconsumed(capture, BODY_CLASSES)
+}
+/** The unconsumed solids only. A sheet is a body but no solid: mass properties and booleans reject it. */
 export function currentSolids(capture: InspectionCapture): number[] {
-  return Object.values(capture.tree).filter(n => n.class === 'CC_Solid' && n.members?.consumed?.value === 0).map(n => n.id)
+  return unconsumed(capture, SOLID_CLASSES)
 }
 /** Approximate bounds of tessellated points; no assembly instance transforms are applied. */
 export function graphicBounds(capture: InspectionCapture, owners?: number[]) {

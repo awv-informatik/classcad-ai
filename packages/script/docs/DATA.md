@@ -17,8 +17,8 @@ Returns the structure tree: `Record<id, node>`.
 ```ts
 {
   id: number
-  class: string              // "CC_Part" | "CC_Solid" | "CC_Sketch" | "CC_Box" |
-                             // "CC_WorkPlane" | "CC_ProductReference" | …
+  class: string              // "CC_Part" | "CC_Solid" | "CC_Sheet" | "CC_Sketch" |
+                             // "CC_Box" | "CC_WorkPlane" | "CC_ProductReference" | …
   name: string               // "Top", "Sketch", your feature names
   parent: number | null
   children?: number[]        // structural sub-objects (NOT the feature list)
@@ -33,7 +33,8 @@ Facts that matter:
 - **Tree ids are STABLE** — parts, features, sketches, work planes keep their
   id for the session. Safe to store and reuse across calls.
 - Features live under the part's `CC_EntitySet` child, not directly under the
-  part; each feature's `CC_Solid` result is a child of the feature. The ordered
+  part; each feature's result body is a child of the feature — a `CC_Solid`, or
+  a `CC_Sheet` when it is open (an extrusion with `capEnds: 0`). The ordered
   build history is `CC_OperationSequence.children` (each step's
   `members.refObj.value` → the feature/sketch node). Work planes
   (`Top`/`Front`/`Right`) and axes (`XAxis`…) exist on every fresh part.
@@ -41,11 +42,13 @@ Facts that matter:
   `members.isConstruction?.value === 1`. A bound param shows
   `expression: "ExpressionSet.NAME"` (you write `'@expr.NAME'` in calls).
   Expressions themselves live in the `CC_ExpressionSet`'s **members**.
-- The part's *current* brep is the `CC_Solid` node with
-  `members.consumed.value === 0` (superseded solids keep `consumed === 1`).
+- The part's *current* bodies are the `CC_Solid` and `CC_Sheet` nodes with
+  `members.consumed.value === 0`. A body that a later feature used up — the box
+  before a boolean, the sheet a slice was cut with — stays in the tree with
+  `consumed === 1`. `api.inspect.currentBodies(cap)` lists the current ones.
   `node.solids?.[0]` is the graphic **container id** of the engine's latest
   tessellation — it rotates on every solid-creating feature AND on recalc; the
-  stable tree↔graphic join is `container.owner === ccSolid.id`. Re-read after
+  stable tree↔graphic join is `container.owner === body.id`. Re-read after
   mutations; don't cache across features.
 - Assemblies: instances are `CC_ProductReference`/`CC_ProductReferenceET`
   nodes — `members.productId.value` → the part/assembly definition,
@@ -59,8 +62,9 @@ Selection idioms:
 // are stable, so re-discover instead of re-creating (never part.create twice):
 const t = await api.tree({ refresh: true })
 const part   = Object.values(t).find(n => n.class === 'CC_Part')
-const solids = Object.values(t).filter(n => n.class === 'CC_Solid').map(n => n.id)
 const top    = Object.values(t).find(n => n.class === 'CC_WorkPlane' && n.name === 'Top')
+// the current bodies — solids AND sheets, without the consumed ones:
+const bodies = api.inspect.currentBodies(await api.inspect.capture())
 ```
 
 ## `api.graphic({ recalc? })` → the geometry
@@ -71,8 +75,9 @@ tessellation of the CURRENT model, in WORLD coordinates.
 ```ts
 {
   id: number                 // PAYLOAD-LOCAL container id (rotates on recalc)
-  owner: number              // the owning CC_Solid TREE id — the stable join
-  type: number               // 1 = solid, 2 = curve shape
+  owner: number              // TREE id of the owner, for a body its CC_Solid /
+                             // CC_Sheet node — the stable join
+  type: number               // 1 = body (solid or sheet), 2 = curve shape
   properties: { material?: { color: [r, g, b] } }   // 0–255
   meshes: [{                 // ONE MESH PER FACE
     id: number
@@ -139,4 +144,4 @@ const shell = g.containers.flatMap(c => c.meshes ?? []).find(m => {
 | where geometry actually is, face/edge selection | `api.graphic()` — ids payload-local |
 | exact brep coordinates for verification | `v1.part.getGeometryIds` (position-based) + `getGeometryPositions`, or filter the graphic |
 | volume/COG proof | `v1.part.calculateMassProperties` |
-| bounds / bounding box | any script: `const cap = await api.inspect.capture(); api.inspect.graphicBounds(cap, api.inspect.currentSolids(cap))` → `{ min, max }` of the CURRENT solids (tessellated, instance transforms not applied). Without the owner filter the box includes consumed bodies (the pre-boolean box, hole tools) and is wrong. buerli clients also have `api.structure.calculateProductBounds(id)` (positional args, browser-only). No v1 method |
+| bounds / bounding box | any script: `const cap = await api.inspect.capture(); api.inspect.graphicBounds(cap, api.inspect.currentBodies(cap))` → `{ min, max }` of the CURRENT bodies, solids and sheets (tessellated, instance transforms not applied). Without the owner filter the box includes consumed bodies (the pre-boolean box, hole tools, a cutting sheet) and is wrong. `api.inspect.currentSolids(cap)` narrows to the solids — a sheet is a body but no solid, mass properties and booleans reject it. buerli clients also have `api.structure.calculateProductBounds(id)` (positional args, browser-only). No v1 method |

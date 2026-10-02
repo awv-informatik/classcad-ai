@@ -160,6 +160,90 @@ assert.ok(leftHit && rightHit, `assembly places both instances (left ${leftHit},
   assert.ok(Buffer.compare(Buffer.from(asmWithStale.pixels), Buffer.from(asm.pixels)) === 0, 'consumed solid is not drawn (assembly render)')
 }
 
+// 5b1. Sheet bodies are bodies too. A CC_Sheet is an open body (an extrusion
+// with capEnds: 0). A later feature consumes it like a solid, and the kernel
+// still sends its container: drawn, it z-fights with the face of the solid made
+// from it and sticks out beyond it. A live sheet body must be drawn — also when
+// the part holds no solid at all.
+{
+  const { analyzeSession, extractAssemblyInstances, isBody, isConsumedBody, isConsumedSolid } = await import('../dist/core.js')
+  // A square sheet ON the cube's top face (z = 10), `rim` wider on every side.
+  const sheetContainer = (owner, rim = 5) => {
+    const a = -rim, b = 10 + rim
+    return {
+      id: 102 + rim, owner, type: 1,
+      properties: { material: { color: [0.5, 0.5, 0.5], opacity: 1 }, layer: '0' },
+      meshes: [{ id: 5, vertices: [a, a, 10, b, a, 10, b, b, 10, a, b, 10], normals: [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1], indices: [0, 1, 2, 0, 2, 3] }],
+      edges: [{ id: 6, points: [a, a, 10, b, a, 10, b, b, 10, a, b, 10, a, a, 10] }],
+    }
+  }
+  const part = children => ({ id: 20, class: 'CC_Part', name: 'Part', parent: null, children })
+  const live = { id: 30, class: 'CC_Solid', name: 'Live', parent: 20, members: { consumed: { value: 0 } } }
+  const staleSheet = { id: 32, class: 'CC_Sheet', name: 'Stale sheet', parent: 20, members: { consumed: { value: 1 } } }
+  const liveSheet = { id: 33, class: 'CC_Sheet', name: 'Live sheet', parent: 20, members: { consumed: { value: 0 } } }
+  const inked = px => { let n = 0; for (let i = 0; i < px.length; i += 4) if (px[i] !== 255 || px[i + 1] !== 255 || px[i + 2] !== 255) n++; return n }
+  const same = (a, b) => Buffer.compare(Buffer.from(a.pixels), Buffer.from(b.pixels)) === 0
+
+  // The predicates: consumed is told by the member, whatever the body's class.
+  // A curve shape is no body — its `consumed` member does not mean superseded.
+  const mixed = { '20': part([30, 32, 33, 50]), '30': live, '32': staleSheet, '33': liveSheet, '50': { id: 50, class: 'CC_CurveEntity', name: 'Shape', parent: 20, members: { consumed: { value: 1 } } } }
+  assert.ok(isBody(staleSheet) && isBody(live) && !isBody(mixed['50']) && !isBody(mixed['20']) && !isBody(undefined), 'solids and sheets are bodies')
+  assert.ok(isBody({ class: 'CC_DecoratedSolid' }), 'a decorated solid (a solid with per-face colours) is a CC_Solid subclass')
+  assert.ok(isConsumedBody(mixed, 32), 'a consumed sheet is a consumed body')
+  assert.ok(!isConsumedBody(mixed, 33) && !isConsumedBody(mixed, 30), 'live bodies are not consumed')
+  assert.ok(!isConsumedBody(mixed, 50) && !isConsumedBody(mixed, 999) && !isConsumedBody(mixed, null), 'only bodies can be consumed bodies')
+  assert.equal(isConsumedSolid, isConsumedBody, 'the former name stays for existing importers')
+  assert.deepEqual(analyzeSession(mixed).solids, [30, 32, 33], 'sheets count as bodies of the session')
+
+  // Part render: the consumed sheet leaves the image untouched, shaded and in line style.
+  const solidTree = { '20': part([30]), '30': live }
+  const staleTree = { '20': part([30, 32]), '30': live, '32': staleSheet }
+  const withStaleSheet = { ...graphic, containers: [...graphic.containers, sheetContainer(32)] }
+  for (const opts of [{ colors: 'distinct' }, { view: 'front', lines: true }, { view: 'top' }]) {
+    const [want] = await renderSessionData({ tree: solidTree, graphic }, { width: 400, height: 300, ...opts })
+    const [got] = await renderSessionData({ tree: staleTree, graphic: withStaleSheet }, { width: 400, height: 300, ...opts })
+    assert.ok(same(got, want), `consumed sheet is not drawn (part render, ${JSON.stringify(opts)})`)
+  }
+
+  // The same sheet, live: it is drawn, and wider than the cube it lies on.
+  const liveTree = { '20': part([30, 33]), '30': live, '33': liveSheet }
+  const withLiveSheet = { ...graphic, containers: [...graphic.containers, sheetContainer(33)] }
+  const [cubeTop] = await renderSessionData({ tree: solidTree, graphic }, { width: 400, height: 300, view: 'top' })
+  const [bothTop] = await renderSessionData({ tree: liveTree, graphic: withLiveSheet }, { width: 400, height: 300, view: 'top' })
+  assert.ok(!same(bothTop, cubeTop), 'live sheet is drawn beside a solid')
+
+  // A part whose ONLY body is a sheet still renders its solid layer.
+  const sheetOnlyTree = { '20': part([33]), '33': liveSheet }
+  const sheetOnly = { ...graphic, containers: [sheetContainer(33)] }
+  const sheetEntries = await renderSessionData({ tree: sheetOnlyTree, graphic: sheetOnly }, { width: 400, height: 300, view: 'top' })
+  assert.deepEqual(sheetEntries.map(e => e.type), ['solid'], 'a sheet-only part renders')
+  assert.ok(inked(sheetEntries[0].pixels) > 5000, `the sheet covers ${inked(sheetEntries[0].pixels)} px — expected > 5000`)
+
+  // Assembly: one placement per LIVE body, sheets included; none for the consumed sheet.
+  const asmSheets = {
+    '10': { id: 10, class: 'CC_AssemblyRoot', name: 'Root', parent: null, children: [11, 12] },
+    '11': { id: 11, class: 'CC_ProductReference', name: 'Cube', parent: 10, members: { productId: { value: 20 } }, coordinateSystem: [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]] },
+    '12': { id: 12, class: 'CC_ProductReference', name: 'Sheets', parent: 10, members: { productId: { value: 21 } }, coordinateSystem: [[40, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]] },
+    '20': { ...part([30]), parent: 10 },
+    '21': { id: 21, class: 'CC_Part', name: 'SheetPart', parent: 10, children: [32, 33] },
+    '30': live,
+    '32': { ...staleSheet, parent: 21 },
+    '33': { ...liveSheet, parent: 21 },
+  }
+  assert.deepEqual(
+    extractAssemblyInstances(asmSheets).map(i => [i.ownerSolidId, i.partId, i.transform[3]]),
+    [[30, 20, 0], [33, 21, 40]],
+    'assembly instances: the live solid and the live sheet, not the consumed sheet',
+  )
+  const asmRender = async containers => (await renderSessionData({ tree: asmSheets, graphic: { ...graphic, containers } }, { width: 400, height: 300, view: 'top' }))[0]
+  const asmCube = await asmRender(graphic.containers)
+  const asmLive = await asmRender([...graphic.containers, sheetContainer(33)])
+  // The consumed sheet is BIGGER than the live one: drawing it would change frame and pixels.
+  const asmAll = await asmRender([...graphic.containers, sheetContainer(33), sheetContainer(32, 15)])
+  assert.ok(!same(asmLive, asmCube), 'live sheet is drawn (assembly render)')
+  assert.ok(same(asmAll, asmLive), 'consumed sheet is not drawn (assembly render)')
+}
+
 // 5a. Color modes: native uses the model's material, distinct uses the palette
 {
   const redGraphic = cubeGraphic()
@@ -590,6 +674,16 @@ try {
   assert.ok(threw, 'renderSession throws when solids have no graphic')
   assert.ok(/No graphic data/.test(threw.message) && /source: 'stl'/.test(threw.message),
     'error names the cause and the stl remedy')
+  // A sheet is a body like a solid: a part that holds only a sheet fails the same way.
+  const sheetTree = {
+    '20': { id: 20, class: 'CC_Part', name: 'Part', parent: null, children: [33] },
+    '33': { id: 33, class: 'CC_Sheet', name: 'Sheet', parent: 20, members: { consumed: { value: 0 } } },
+  }
+  await assert.rejects(
+    renderSession({ ...mockClient, request: async () => ({ structure: { tree: sheetTree } }) }, 'x', '/tmp', {}),
+    /No graphic data for 1 solid or sheet body/,
+    'renderSession throws when a sheet has no graphic',
+  )
 } catch (e) {
   if (e.code === 'ERR_MODULE_NOT_FOUND') console.log('explicit-failure test: sharp not installed — skipped')
   else throw e

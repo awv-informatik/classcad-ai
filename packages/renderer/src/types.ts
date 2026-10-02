@@ -145,6 +145,7 @@ export type Tree = Record<string, TreeNode>
 
 /** An assembly instance draw entry (from extractAssemblyInstances). */
 export interface AssemblyInstance {
+  /** Tree id of the body drawn, a solid or a sheet body — the `owner` of its graphic container. */
   ownerSolidId: number
   partId: number
   transform: number[]

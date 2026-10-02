@@ -1,4 +1,4 @@
-import { captureInspection, currentSolids, graphicBounds, edgeCandidates, uniqueEdge, inspectSolid } from './inspection.js'
+import { captureInspection, currentBodies, currentSolids, graphicBounds, edgeCandidates, uniqueEdge, inspectSolid } from './inspection.js'
 // buildScriptApi — the `api` object handed to scripts.
 //
 // Guaranteed surface (identical in every environment):
@@ -136,7 +136,7 @@ export function buildScriptApi(session: ScriptSession, opts: BuildApiOptions = {
     tree: (o?: { refresh?: boolean }) => session.getTree(o),
     graphic: (o?: { recalc?: boolean }) => session.getGraphic(o),
     env: session.env,
-    inspect: { capture: () => captureInspection(original), currentSolids, graphicBounds, edgeCandidates, uniqueEdge, solid: (id: number) => inspectSolid(original, id) },
+    inspect: { capture: () => captureInspection(original), currentBodies, currentSolids, graphicBounds, edgeCandidates, uniqueEdge, solid: (id: number) => inspectSolid(original, id) },
   }
   // Injected client capabilities (facade/structure/selection/…). Core keys win.
   for (const [key, value] of Object.entries(session.namespaces ?? {})) {

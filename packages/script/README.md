@@ -266,6 +266,9 @@ const edge = api.inspect.uniqueEdge(capture, [10, 0, 0], 0.05, [solids[0]]);
 return { solids, bounds, edge };
 ```
 
+`currentSolids` lists the unconsumed solids. `currentBodies` lists every
+unconsumed body, the solids and the sheets (open bodies such as an extrusion
+with `capEnds: 0`): use it as the owner filter for a model that holds sheets.
 `edgeCandidates` returns all matching edges, their distances, tolerance and
 capture revision. `uniqueEdge` rejects zero or multiple matches. Bounds are
 approximate tessellated bounds in graphic coordinates; instance transforms

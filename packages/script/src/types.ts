@@ -22,7 +22,7 @@ export type Task = Record<string, [Record<string, unknown>?]>
  */
 export interface TreeNode {
   id: number
-  /** e.g. "CC_Part" | "CC_Solid" | "CC_Sketch" | "CC_Box" | "CC_WorkPlane" | … */
+  /** e.g. "CC_Part" | "CC_Solid" | "CC_Sheet" | "CC_Sketch" | "CC_Box" | "CC_WorkPlane" | … */
   class: string
   name: string
   parent: number | null
@@ -33,7 +33,8 @@ export interface TreeNode {
   /**
    * On parts: container id of the engine's latest tessellation — rotates on every
    * solid-creating feature AND on recalc. The stable tree↔graphic join is
-   * `container.owner === ccSolid.id` (the CC_Solid with `members.consumed.value === 0`).
+   * `container.owner === body.id`; a current body is a CC_Solid or a CC_Sheet
+   * (an open body) with `members.consumed.value === 0`.
    */
   solids?: number[]
   /** [origin, xDir, yDir, zDir] where present (instances, work csys, sketches). */
@@ -44,7 +45,7 @@ export interface TreeNode {
 /** The structure tree: id → node. */
 export type Tree = Record<string, TreeNode>
 
-/** One face of a solid — ONE MESH PER FACE (a cylinder has shell + two caps). */
+/** One face of a body — ONE MESH PER FACE (a cylinder has shell + two caps). */
 export interface GraphicMesh {
   /** PAYLOAD-LOCAL id — valid only within this graphic payload (re-tessellation reassigns). */
   id: number
@@ -70,13 +71,13 @@ export interface GraphicEdge {
   [key: string]: unknown
 }
 
-/** One renderable container — a solid (type 1) or curve shape (type 2). */
+/** One renderable container — a body, solid or sheet (type 1), or a curve shape (type 2). */
 export interface GraphicContainer {
   /** PAYLOAD-LOCAL container id — rotates on re-tessellation (recalc, new feature). */
   id: number
-  /** The owning CC_Solid TREE id — the stable join between graphic and tree. */
+  /** The owning TREE id, for a body its CC_Solid or CC_Sheet node — the stable join between graphic and tree. */
   owner: number
-  /** 1 = solid, 2 = curve shape. */
+  /** 1 = body (solid or sheet), 2 = curve shape. */
   type: number
   properties?: { material?: { color?: number[] } | null; [key: string]: unknown }
   meshes?: GraphicMesh[]

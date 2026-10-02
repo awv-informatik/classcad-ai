@@ -24,7 +24,7 @@ Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cu
 - Every host starts the MCP as a **stdio** child process (`npx -y @classcad/mcp@latest`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9097`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
 - The **daemon** is the actual MCP. It holds one MCP server instance **per session** (per tab: own engine, caches, tool queue, invites) and the one **listener sessions are joined on** (`127.0.0.1:9098`): the app docks into the MCP's sessions there, and apps that run the engine in their own page offer their sessions there. With no session left and no such app waiting it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
 - Why a daemon: the MCP *listens* on a port, and a port belongs to exactly one process. With one daemon, every session's app link has the same address, and an app that looks for the MCP finds it.
-- **Shared with the user.** Every session has a live CAD app in the browser, docked into the same engine: see [The app](#the-app). The session protocol is the one a ClassCAD server speaks, so any buerli app joins the same way: see [Sharing](#sharing-one-session-several-participants).
+- **Shared with the user.** Every session has a live CAD app, docked into the same engine: see [The app](#the-app). The session protocol is the one a ClassCAD server speaks, so any buerli app joins the same way: see [Sharing](#sharing-one-session-several-participants).
 - **Optional engines.** If a `classcad-cli worker` is reachable (`CLASSCAD_WS_URL`, default `ws://localhost:9094/`), the default policy `auto` uses it instead of the local engine. See [Engines](#engines-worker-or-local-wasm).
 - The engine is started lazily on the first tool call, so an idle session costs nothing.
 - Fallback: if `127.0.0.1:9097` is held by something that is not a classcad daemon, the shim serves the MCP in-process (with a listener of its own, on a free port if `9098` is taken) and says so on stderr.
@@ -149,16 +149,16 @@ In a new session, ask the agent to *make a box*. The first time, it shows a sign
 
 ## The app
 
-Every session has a live CAD app in the user's browser: [Buerligons](https://buerligons.io), docked into the session's own engine.
+Every session has a live CAD app: [Buerligons](https://buerligons.io), docked into the session's own engine.
 
-- **It opens by itself** with the first model of a session and shows every change the agent makes as it happens. Results of `run_script`, `snapshot`, `load` and `restore` end with its link (`App: http://127.0.0.1:9098/?invite=…`), `session_info` names it, and `view` returns it and brings the app up (unless the user already has it open: one tab per session is enough).
+- **It comes up with the first model** of a session and shows every change the agent makes as it happens. Where it comes up is the host's: in the **Claude desktop app** (Code tab) it is the app's own Browser pane, beside the conversation — the agent opens it there; everywhere else the MCP opens the user's default browser. The result of the script that makes the first model ends with the link (`App: http://127.0.0.1:9098/?invite=…`), once per session: agents do not carry it into every answer. `session_info` names it, and `view` returns it and brings the app up again (unless the user already has it open: one tab per session is enough).
 - **The user works in it too.** Turn and zoom, measure, select; edit a feature's values, draw and constrain a sketch, add or delete features, start over or open a file. It is the same model: what the user changes is in the tree the agent reads next, and what the agent builds appears in the app at once. A command from the app waits for a running script to finish, so the two never interleave inside one.
 - **Pointing.** What the user has selected in the app, the agent reads with `get_selection` ("fillet *this* edge"); with `set_selection` the agent highlights something for the user.
 - **Exports.** The app's File menu saves the model as STEP or STL. OFB is not offered in this release, in the app or anywhere else.
 - **One link per session.** The link carries an invite to exactly one session, so several sessions (tabs, hosts) work side by side, each with its own app. When a session ends, or moves to another engine, the app says so and offers to join again.
 - **Local only.** The MCP process (the daemon, or a shim serving in-process) listens on `127.0.0.1:9098` (`CLASSCAD_VIEWER_PORT`; another free port when that one is taken), answers only requests that name it as their host, and serves the app with everything it needs: no model data leaves the machine, and it works offline. The invite is the key to the session, so the link is a secret; joining also needs the machine to be signed in.
 
-`CLASSCAD_VIEWER_OPEN=0` keeps the browser closed (the link is still offered). `CLASSCAD_APP_URL` names an app that is hosted elsewhere instead of the one in this package (any buerli app that joins a page's session: it finds the MCP on `127.0.0.1:9098` by itself). `CLASSCAD_VIEWER=readonly` shows the read-only 3D view instead of the app (a page that only turns and exports the model; a build of this package without the app has it too), `CLASSCAD_VIEWER=off` shows nothing.
+`CLASSCAD_VIEWER_OPEN` says where the app comes up: `browser` (the user's default browser), `host` (the agent opens it in its host's own browser pane — for any host that has one) or `0` (nowhere: the agent hands the link over). Unset, it is `host` in the Claude desktop app and `browser` everywhere else. `CLASSCAD_APP_URL` names an app that is hosted elsewhere instead of the one in this package (any buerli app that joins a page's session: it finds the MCP on `127.0.0.1:9098` by itself). `CLASSCAD_VIEWER=readonly` shows the read-only 3D view instead of the app (a page that only turns and exports the model; a build of this package without the app has it too), `CLASSCAD_VIEWER=off` shows nothing.
 
 ---
 
@@ -195,7 +195,7 @@ From a terminal, the same flow and more (`node dist/server.js <command>` in a ch
 | `CLASSCAD_ENGINE`        | Engine policy when no token/URL decides: `auto` (default: the worker, else the local WASM engine), `drogon` (worker only), `wasm` (local engine only). |
 | `CLASSCAD_VIEWER`        | What a session shows the user. Default: the app. `readonly`: the read-only 3D view. `off`: nothing.               |
 | `CLASSCAD_VIEWER_PORT`   | Port of the listener sessions are joined on, on `127.0.0.1`. Default `9098`; a free port is taken when it is in use (`0`: always a free one). Apps that host their own session look for the MCP on `9098`. |
-| `CLASSCAD_VIEWER_OPEN`   | `0`: do not open the app in the browser with the first model; the link is still offered.                           |
+| `CLASSCAD_VIEWER_OPEN`   | Where the app comes up with the first model: `browser` (the user's default browser), `host` (the agent opens it in its host's own browser pane), `0` (nowhere; the link is handed over). Default: `host` in the Claude desktop app's Code tab, `browser` elsewhere. Per session. |
 | `CLASSCAD_APP_URL`       | The app to dock into sessions, when it is hosted elsewhere (e.g. `https://buerligons.io/`); the link becomes `<url>?invite=…`. Default: the app in this package. |
 | `CLASSCAD_AUTH_URL`      | The sign-in page. Default `https://classcad.ch/connect` (the dev site: `http://localhost:9090/connect`).          |
 | `CLASSCAD_AUTH_FILE`     | Where the sign-in is stored. Default `~/.classcad-mcp/auth.json`.                                                 |
@@ -205,7 +205,7 @@ From a terminal, the same flow and more (`node dist/server.js <command>` in a ch
 | `CLASSCAD_WASM_DIR`      | Where the release assets are cached. Default `~/.classcad-mcp/wasm/<version>`.                                     |
 | `CLASSCAD_WASM_URL`      | Download base override. Default `https://awvstatic.com/classcad/download/release/<version>/wasm`.                  |
 
-None is required. Set them in the host's MCP config `env` block; the shim passes them on to the daemon it starts. `CLASSCAD_WS_URL` is per session — the daemon receives it with every new session, so two tabs can point at different workers.
+None is required. Set them in the host's MCP config `env` block; the shim passes them on to the daemon it starts. `CLASSCAD_WS_URL`, `CLASSCAD_ENGINE` and `CLASSCAD_VIEWER_OPEN` are per session — the daemon receives them with every new session, so two tabs can point at different workers, and a tab in the Claude desktop app shows its app in the pane while a terminal's opens the browser.
 
 ### The daemon in practice
 
@@ -231,7 +231,7 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 | `tree` / `find` / `inspect` | Structure tree (cached, pulled on demand), search by class/name, full node detail with parent chain |
 | `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, technical drawing with hidden lines, highlights, markers) |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
-| `view`                  | The session's app: returns its link and opens it in the user's browser |
+| `view`                  | The session's app: returns its link and brings it up (the host's browser pane, or the user's browser), unless the user already has it open |
 | `get_selection` / `set_selection` | What the user has selected in the app (faces, edges, vertices, tree objects), with the ids API calls take; and selecting something there to point it out |
 | `save` / `load` / `clear` / `checkpoint` / `restore` | `save` writes STEP, STL or GLB to a `path` on disk (or returns base64); loading OFB / STEP / STL; undo points. OFB export is not available in this release (`save`, and `common.save` / `assembly.exportNode` in scripts, refuse it); checkpoints still use it internally, in memory only. |
 | `login`                 | Sign the machine in (returns the link, then waits for it to be used) or out |

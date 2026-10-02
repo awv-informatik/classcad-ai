@@ -17,8 +17,9 @@ import { serializeTools } from './queue.js'
 import { registerAuthTool, requireSignIn, SIGN_IN_NOTE } from './tools/auth.js'
 import { authStatus } from './auth.js'
 import { attachViewer, VIEWER_NOTE } from './tools/viewer.js'
-import { APP_NOTE, attachShare, registerSelectionTools, registerViewTool } from './tools/share.js'
+import { appNote, attachShare, registerSelectionTools, registerViewTool } from './tools/share.js'
 import { appAvailable, joinedHere, listen as listenForApps, waitForPage, SESSION_PATH } from './share/server.js'
+import { showFromEnv, type Show } from './share/session.js'
 
 export const VERSION = '0.2.0'
 
@@ -39,6 +40,8 @@ export type McpServerOptions = {
   engine?: EnginePolicy
   /** Local WASM engine settings (key, origin, …); null = not available. */
   wasm?: LocalWasmOptions | null
+  /** How the session's app reaches the user (share/session.ts). Default: what this process's environment says. */
+  show?: Show
   /** Where the instance reports engine decisions. */
   log?: (msg: string) => void
 }
@@ -54,6 +57,8 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   // carries the app; the read-only 3D view otherwise.
   const viewMode = process.env.CLASSCAD_VIEWER
   const withApp = (appAvailable() || !!process.env.CLASSCAD_APP_URL) && viewMode !== 'off' && viewMode !== 'readonly'
+  // How the app reaches the user: the agent is told from the first turn on, and again with the first model.
+  const show = opts.show ?? showFromEnv()
 
   const server = new McpServer(
     {
@@ -62,7 +67,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     },
     // The initialize-handshake instructions carry the full v1 method index —
     // hosts surface them to the agent, so it knows every method from turn one.
-    { instructions: `${SIGN_IN_NOTE}\n\n${withApp ? APP_NOTE : VIEWER_NOTE}\n\n${serverInstructions()}` },
+    { instructions: `${SIGN_IN_NOTE}\n\n${withApp ? appNote(show) : VIEWER_NOTE}\n\n${serverInstructions()}` },
   )
 
   // One tool call at a time: every tool below shares this client's single
@@ -76,7 +81,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   // The session's company: the app docked into it, whoever else is in it, and
   // what they have selected. Patched in last, so it sits innermost: it hears
   // of a change inside the queue, after the tool that made it.
-  const share = await attachShare(server, client, VERSION, opts.log)
+  const share = await attachShare(server, client, VERSION, show, opts.log)
   const viewer = share.url ? null : await attachViewer(server, client, opts.log)
   registerViewTool(server, share, viewer)
   registerSelectionTools(server, client, share)

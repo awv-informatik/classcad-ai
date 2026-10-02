@@ -15,11 +15,11 @@ import { openViewerSession, type ViewerSession } from '../viewer/server.js'
 
 /** Tools after which the model may be another one. */
 const CHANGES_MODEL = new Set(['run_script', 'clear', 'load', 'restore', 'use_session'])
-/** Results that show or change a model end with the link of its view. */
+/** Results that show or change a model: the first of them ends with the link of the view. */
 const OFFERS_LINK = new Set(['run_script', 'snapshot', 'load', 'restore'])
 
 export const VIEWER_NOTE =
-  '3D VIEW: every session has a live 3D view in the user\'s browser. It opens by itself with the first model and follows every change. Results carry its link ("3D view: …"): give the user that link, as a clickable link on its own line, when you present a model — once, and again when they ask to see it. `view` returns the link and brings the view up; it also offers STEP, STL and glTF downloads to the user.'
+  '3D VIEW: every session has a live 3D view in the user\'s browser. It opens by itself with the first model and follows every change. The first result that shows a model carries its link ("3D view: …"): give the user that link once, as a clickable link on its own line, and do NOT repeat it in later answers. `view` returns the link again and brings the view up; it also offers STEP, STL and glTF downloads to the user.'
 
 const engineLabel = (client: Client): string => {
   if (client.transport === 'wasm') return 'WebAssembly · this machine'
@@ -66,14 +66,17 @@ export async function attachViewer(server: McpServer, client: Client, log?: (msg
     return null
   }
 
+  // The link is said once per session. Said with every result, an agent repeats it in every answer.
+  let offered = false
   const original = (server.registerTool as (...args: any[]) => any).bind(server)
   ;(server as any).registerTool = (name: string, config: unknown, handler: (...args: any[]) => any) => {
     if (!CHANGES_MODEL.has(name) && !OFFERS_LINK.has(name)) return original(name, config, handler)
     const watched = async (...args: any[]) => {
       const result = await handler(...args)
       if (CHANGES_MODEL.has(name)) viewer.touch()
-      if (OFFERS_LINK.has(name) && result && !result.isError && Array.isArray(result.content)) {
-        result.content.push({ type: 'text', text: `3D view (live, opens in the user's browser): ${viewer.url}` })
+      if (!offered && OFFERS_LINK.has(name) && result && !result.isError && Array.isArray(result.content)) {
+        offered = true
+        result.content.push({ type: 'text', text: `3D view (live, opens in the user's browser): ${viewer.url}\nThis is said once: later results do not repeat the link, \`view\` returns it again.` })
       }
       return result
     }

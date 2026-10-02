@@ -406,7 +406,7 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
     const built = await a.call('tools/call', { name: 'run_script', arguments: { script: `const p = (await api.v1.part.create({ name: 'Shared' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30, name: 'FromAgent' }); return p` } })
     const link = (await a.tool('session_info')).value.app
     assert.match(link, /^http:\/\/app\.test\/\?invite=[0-9a-f-]{36}$/, 'the app\'s link carries the session\'s invite')
-    assert.ok(built.result.content.some(c => c.type === 'text' && c.text.includes(link)), 'a result that shows a model offers the app')
+    assert.ok(built.result.content.some(c => c.type === 'text' && c.text.includes(`App: ${link}`) && /Tell the user once that they can open the model there/.test(c.text)), 'the first model offers the app')
     const invite = new URL(link).searchParams.get('invite')
     const partId = JSON.parse(built.result.content[0].text).returned
 
@@ -440,7 +440,9 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
 
     // the agent builds: the app is sent the change as it happens
     frames.length = 0
-    assert.ok(!(await a.tool('run_script', { script: `await api.v1.part.cylinder({ id: ${partId}, diameter: 5, height: 50, name: 'Pin' }); return 1` })).isError)
+    const again = await a.tool('run_script', { script: `await api.v1.part.cylinder({ id: ${partId}, diameter: 5, height: 50, name: 'Pin' }); return 1` })
+    assert.ok(!again.isError)
+    assert.ok(!again.content.some(c => c.type === 'text' && c.text.includes(link)), 'the app is offered once: later results do not repeat its link')
     for (let i = 0; i < 40 && !frames.some(f => f.command === 'Graphic'); i++) await sleep(25)
     assert.ok(frames.some(f => f.command === 'StructurePatch' && JSON.stringify(f.structurePatch).includes('Pin')), 'a structure patch with the new feature')
     assert.ok(frames.some(f => f.command === 'Graphic' && f.graphic.containers.length), 'and its graphic')
@@ -473,7 +475,7 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
     assert.deepEqual(selects[1].data, { id: selects[0].data.id, done: true })
     const info = (await a.tool('session_info')).value
     assert.deepEqual(info.peers, [{ app: 'testapp', name: 'user', kind: 'app', role: 'edit' }])
-    assert.match((await a.tool('view')).text, /already has it open: no new tab/, 'an app that is docked is not opened once more')
+    assert.match((await a.tool('view')).text, /already has it open: nothing was opened/, 'an app that is docked is not opened once more')
 
     // ── another agent joins the session with the same link ──
     await b.init()
@@ -578,5 +580,44 @@ test('sharing on the real engine: a guest saves and opens a file, sessions stay 
     try { g?.ws.close() } catch {}
     one.end()
     two.end()
+  }
+})
+
+test('the app is offered once, where the host shows it: its own browser pane, or the user\'s browser', async () => {
+  const env = {
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+    CLASSCAD_VIEWER_PORT: String(await freePort()),
+    CLASSCAD_APP_URL: 'http://app.test/',
+  }
+  // Two hosts on one daemon: the Claude desktop app (it has a browser pane beside the conversation) and a terminal.
+  const desktop = shim({ ...env, CLAUDE_CODE_ENTRYPOINT: 'claude-desktop' })
+  const terminal = shim({ ...env, CLAUDE_CODE_ENTRYPOINT: 'cli' })
+  const texts = r => r.content.filter(c => c.type === 'text').map(c => c.text)
+  const make = `const p = (await api.v1.part.create({ name: 'P' })).result; await api.v1.part.box({ id: p, length: 1, width: 2, height: 3 }); return p`
+  const more = `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); await api.v1.part.box({ id: p.id, length: 4, width: 5, height: 6 }); return 1`
+  try {
+    // What each agent knows from its first turn on: showing the app is the desktop agent's job, the terminal's opens by itself.
+    const told = (await desktop.init()).result.instructions
+    assert.ok(/SHOWING IT IS YOUR JOB HERE/.test(told) && /`preview_start`, the Browser pane tool/.test(told), 'the desktop agent is told that it opens the app, and with which tool')
+    const toldTerminal = (await terminal.init()).result.instructions
+    assert.ok(/it opens by itself in the user's default browser/.test(toldTerminal) && !/browser pane/.test(toldTerminal), 'the terminal agent is told nothing of panes')
+    const link = (await desktop.tool('session_info')).value.app
+    const first = texts(await desktop.tool('run_script', { script: make }))
+    assert.ok(first.some(t => t.includes(`App: ${link}`) && /the user does not see it yet/.test(t) && /in your own browser pane/.test(t) && /preview_start/.test(t)), 'the agent is told to open the app in its own pane: ' + first.join(' | ').slice(0, 400))
+    assert.ok(!texts(await desktop.tool('run_script', { script: more })).some(t => t.includes(link)), 'said once: the next result does not repeat the link')
+    assert.ok(!texts(await desktop.tool('snapshot', {})).some(t => t.includes(link)), 'nor does a render')
+    assert.match((await desktop.tool('view')).text, /open this link now in your own browser pane/, 'asked for, the link comes with the same instruction')
+
+    // The other host of the same daemon: there the MCP opens the user's browser (in a test there is none: the link is handed over).
+    const other = texts(await terminal.tool('run_script', { script: make }))
+    assert.ok(other.some(t => /Tell the user once that they can open the model there/.test(t)) && !other.some(t => /browser pane/.test(t)), 'how the app is shown is the session\'s, not the daemon\'s: ' + other.join(' | ').slice(0, 300))
+    assert.match((await terminal.tool('view', { open: false })).text, /Nothing was opened: give the user this link/)
+    assert.ok(!texts(await terminal.tool('run_script', { script: more })).some(t => t.includes('App:')), 'after view handed the link over, it is not offered again')
+  } finally {
+    await desktop.exit()
+    await terminal.exit()
   }
 })

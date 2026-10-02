@@ -37,12 +37,35 @@ import {
  */
 const OFFERED: SessionConfig = { saveFormats: ['STP', 'STL'] }
 
+/**
+ * How a session's app reaches the user:
+ *   browser  the MCP opens it in the user's default browser, with the first model
+ *   host     the host has a browser pane of its own, next to the conversation (the Claude desktop
+ *            app): the agent is told to open the link there, and nothing is opened from here
+ *   off      nothing is opened; the agent hands over the link
+ */
+export type Show = 'browser' | 'host' | 'off'
+
+/** What the environment says about it: CLASSCAD_VIEWER_OPEN (browser | host | 0), else by the host that started the MCP. */
+export function showFromEnv(env: NodeJS.ProcessEnv = process.env): Show {
+  const set = env.CLASSCAD_VIEWER_OPEN
+  if (set === '0' || set === 'off') return 'off'
+  if (set === 'browser' || set === 'host') return set
+  // The Claude desktop app shows web pages in a pane of its own, beside the conversation: the app belongs there.
+  return env.CLAUDE_CODE_ENTRYPOINT === 'claude-desktop' ? 'host' : 'browser'
+}
+
+/** The app, offered to the user — once per session: how it got to them, or how it should. */
+export type Offer = { url: string; how: 'opened' | 'host' | 'link' }
+
 export type ShareOptions = {
   client: Client
   /** Runs work in the session's tool queue. */
   queue: <T>(work: () => Promise<T>) => Promise<T>
   /** Offer the app's link (this build must carry the app). */
   app: boolean
+  /** How the app reaches the user. */
+  show: Show
   /** Who this session is, for the others: asked whenever it is published (the host's name is known late). */
   identity: () => ClientIdentity
   log?: (msg: string) => void
@@ -55,10 +78,20 @@ export type Share = {
   readonly url: string | null
   /** False while this session is a guest in somebody else's (use_session with an invite): theirs is the app the user has open. */
   readonly hosting: boolean
-  /** Opens the app in the user's browser now. False where there is no browser to open. */
+  /** How the app reaches the user. */
+  readonly show: Show
+  /** Opens the app in the user's default browser now. False where there is no browser to open. */
   open: () => boolean
-  /** A tool ran that may have changed the model or the engine: the first model brings the app up, once. */
-  touch: () => Promise<void>
+  /**
+   * A tool ran that may have changed the model or the engine. With the first
+   * model of a session the app is offered, once: the answer says how (and in
+   * `browser` mode it has been opened by then). Null every other time.
+   */
+  touch: () => Promise<Offer | null>
+  /** The agent was handed the link some other way (`view`): it is not offered again. */
+  offered: () => void
+  /** How many apps are in the session (agents not counted): somebody has it open. */
+  docked: () => number
   /** Everyone else in the session, as far as this session knows. */
   peers: () => Peer[]
   /** What the others have selected: one entry per participant that shares its selection. */
@@ -164,24 +197,34 @@ export async function openShare(opts: ShareOptions): Promise<Share> {
     log(`share: the listener for apps did not start (${(err as Error)?.message ?? err})`)
   }
 
-  let opened = false
+  // The app is offered once per session. Said again and again, an agent repeats its link in every answer.
+  let offered = false
   const open = (): boolean => {
     if (!url) return false
-    opened = true
+    offered = true
     return noBrowser() ? false : openBrowser(url)
   }
+  const docked = (): number => Math.max(hub.guests, [...peers.values()].filter(peer => peer.identity?.kind !== 'agent').length)
 
-  const touch = async (): Promise<void> => {
+  const touch = async (): Promise<Offer | null> => {
     if (client.connected) publishIdentity()
-    // The first model of a session brings the app up, once. (A guest has nothing to bring up: the host's app is open.)
-    if (!url || opened || hub.guests > 0 || client.shareToken) return
-    if (process.env.CLASSCAD_VIEWER_OPEN === '0') return
-    try {
-      if (!client.connected || isEmpty((await client.getTree()) as Record<string, any>)) return
-    } catch {
-      return
+    // A guest has nothing to offer: the host's app is open.
+    if (!url || offered || client.shareToken) return null
+    // Somebody has it open already: there is nothing to bring up, and nothing to say.
+    if (docked() > 0) {
+      offered = true
+      return null
     }
-    open()
+    try {
+      if (!client.connected || isEmpty((await client.getTree()) as Record<string, any>)) return null
+    } catch {
+      return null
+    }
+    // The first model of the session: now.
+    offered = true
+    if (opts.show === 'host') return { url, how: 'host' }
+    if (opts.show === 'browser' && open()) return { url, how: 'opened' }
+    return { url, how: 'link' }
   }
 
   const selections = (): PeerSelection[] => {
@@ -223,8 +266,11 @@ export async function openShare(opts: ShareOptions): Promise<Share> {
     get hosting() {
       return !client.shareToken
     },
+    show: opts.show,
     open,
     touch,
+    offered: () => void (offered = true),
+    docked,
     peers: () => [...peers.values()],
     selections,
     select,

@@ -19,6 +19,7 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
 import { DAEMON_HOST, DEFAULT_DAEMON_PORT, defaultDaemonLogFile, daemonBuildStamp } from './daemon.js'
 import { wasmOptionsFromEnv } from './engine/wasm.js'
+import { showFromEnv } from './share/session.js'
 import { authStatus, beginLogin, logout, waitForLogin } from './auth.js'
 import type { JSONRPCMessage } from '@modelcontextprotocol/sdk/types.js'
 import type { EnginePolicy } from './client.js'
@@ -188,6 +189,8 @@ async function proxyToDaemon(): Promise<void> {
         headers: {
           'x-classcad-ws-url': WS_URL,
           'x-classcad-engine': ENGINE,
+          // How this host shows the session's app: its own browser pane, or the user's browser.
+          'x-classcad-show': showFromEnv(),
           ...(WASM ? { 'x-classcad-wasm-key': WASM.key, ...(WASM.origin ? { 'x-classcad-wasm-origin': WASM.origin } : {}) } : {}),
         },
       },

@@ -25,7 +25,8 @@
 //                    ?drain=1 → stops taking NEW sessions (503) and exits as
 //                    soon as the current ones are gone (a newer build waits)
 //   POST/GET/DELETE /mcp → MCP Streamable HTTP (session id in mcp-session-id)
-// A shim may pass `x-classcad-ws-url` on its initialize request to choose the
+// A shim says on its initialize request how its host shows the session's app
+// (`x-classcad-show`), and may pass `x-classcad-ws-url` to choose the
 // worker URL for that session (defaults to the daemon's CLASSCAD_WS_URL).
 
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http'
@@ -39,6 +40,7 @@ import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
 import { closeListener as closeShareListener, dockedApps, listen as listenForApps, offeringPages, SESSION_PATH } from './share/server.js'
+import { showFromEnv, type Show } from './share/session.js'
 import type { Client, EnginePolicy } from './client.js'
 import { wasmOptionsFromEnv, type LocalWasmOptions } from './engine/wasm.js'
 import { DEFAULT_DAEMON_PORT } from './ports.js'
@@ -304,14 +306,18 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       const sessionWasm: LocalWasmOptions | null = key
         ? { ...(opts.wasm ?? { key }), key, origin: hdr('x-classcad-wasm-origin') ?? opts.wasm?.origin }
         : null
+      // How the session's app reaches the user depends on the host that started the shim, not on
+      // whoever started this daemon: the shim says.
+      const named = hdr('x-classcad-show')
+      const show: Show = named === 'browser' || named === 'host' || named === 'off' ? named : showFromEnv()
       const sessionLog = (msg: string) => log(`[${transport.sessionId ?? 'new'}] ${msg}`)
-      const { server, client } = await createMcpServer({ wsUrl: sessionWsUrl, engine: enginePolicy, wasm: sessionWasm, log: sessionLog })
+      const { server, client } = await createMcpServer({ wsUrl: sessionWsUrl, engine: enginePolicy, wasm: sessionWasm, show, log: sessionLog })
       const transport: StreamableHTTPServerTransport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: id => {
           disarmIdle()
           sessions.set(id, { transport, server, client, createdAt: Date.now() })
-          log(`session ${id} opened (worker ${sessionWsUrl}, engine ${enginePolicy}, local wasm ${sessionWasm ? 'available' : 'no key'}); ${sessions.size} active`)
+          log(`session ${id} opened (worker ${sessionWsUrl}, engine ${enginePolicy}, local wasm ${sessionWasm ? 'available' : 'no key'}, app shown by ${show}); ${sessions.size} active`)
         },
       })
       transport.onclose = () => {

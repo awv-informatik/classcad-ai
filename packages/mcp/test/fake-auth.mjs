@@ -46,6 +46,8 @@ export async function fakeAuth({ signedIn = true } = {}) {
       // the 3D view never opens a browser in a test
       CLASSCAD_VIEWER_NO_BROWSER: '1',
       CLASSCAD_VIEWER_PORT: '0',
+      // … and a test's session has no host with a browser pane of its own, wherever the tests are run from
+      CLAUDE_CODE_ENTRYPOINT: 'test',
     },
   }
 }

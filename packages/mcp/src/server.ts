@@ -11,6 +11,8 @@
 // a listener of its own for the app (on a free port if the usual one is taken).
 
 import { spawn } from 'node:child_process'
+import { request as httpRequest } from 'node:http'
+import { request as httpsRequest } from 'node:https'
 import { connect as tcpConnect } from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
@@ -32,12 +34,6 @@ const DAEMON_PORT = Number(process.env.CLASSCAD_MCP_PORT ?? DEFAULT_DAEMON_PORT)
 /** Full daemon base URL override (tests, unusual setups). */
 const DAEMON_URL = process.env.CLASSCAD_MCP_URL ?? `http://${DAEMON_HOST}:${DAEMON_PORT}`
 const SPAWN_TIMEOUT_MS = 10_000
-/**
- * Questions to the daemon that are asked now and then (is it there, please go)
- * take a connection of their own: a kept-alive one that sat idle answers late
- * on some Node versions (seen: up to 1.5 s on 26.7), which reads as "no daemon".
- */
-const ONE_SHOT = { headers: { connection: 'close' } }
 
 const log = (msg: string) => process.stderr.write(`[classcad-mcp] ${msg}\n`)
 
@@ -51,11 +47,44 @@ type Health = {
   logFile?: string | null
 }
 
+/**
+ * One question to the daemon (is it there, please go), on a connection of its
+ * own, answered or given up within `timeoutMs`: null when nobody answered.
+ *
+ * Plain http, not fetch. fetch keeps its connections: one that sat idle answers
+ * late on some Node versions (seen: up to 1.5 s on 26.7, which reads as "no
+ * daemon"). And told to close the connection, it may never settle when the
+ * other side hangs up at once (seen on Node 20, with a foreign program on the
+ * port): with nothing else left to wait for, the process then simply ends.
+ */
+function ask(method: 'GET' | 'POST', path: string, timeoutMs = 1500): Promise<{ status: number; body: string } | null> {
+  return new Promise(resolve => {
+    const url = new URL(`${DAEMON_URL}${path}`)
+    const send = url.protocol === 'https:' ? httpsRequest : httpRequest
+    const settle = (answer: { status: number; body: string } | null) => {
+      clearTimeout(timer)
+      resolve(answer)
+    }
+    const req = send(url, { method, agent: false }, res => {
+      const chunks: Buffer[] = []
+      res.on('data', (chunk: Buffer) => chunks.push(chunk))
+      res.on('end', () => settle({ status: res.statusCode ?? 0, body: Buffer.concat(chunks).toString('utf8') }))
+      res.on('error', () => settle(null))
+    })
+    const timer = setTimeout(() => req.destroy(new Error('no answer in time')), timeoutMs)
+    req.on('error', () => settle(null))
+    req.end()
+  })
+}
+
+/** True for an answer in the 200s. */
+const answeredOk = (res: { status: number } | null): boolean => !!res && res.status >= 200 && res.status < 300
+
 async function health(): Promise<Health | null> {
+  const res = await ask('GET', '/health')
+  if (!answeredOk(res)) return null
   try {
-    const res = await fetch(`${DAEMON_URL}/health`, { ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
-    if (!res.ok) return null
-    const j = (await res.json()) as Health
+    const j = JSON.parse(res!.body) as Health
     return j && j.name === 'classcad-mcp' ? j : null
   } catch {
     return null
@@ -124,24 +153,17 @@ async function ensureDaemon(): Promise<Health | null> {
   if (h && stale(h)) {
     // An older daemon (previous install or previous build) — ask it to leave when idle.
     log(`daemon ${h.version} (build ${h.build ?? '?'}) running, this MCP is ${VERSION} (build ${daemonBuildStamp()}): asking it to shut down`)
-    try {
-      const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
-      if (res.ok) {
-        for (let i = 0; i < 25 && (await health()); i++) await sleep(200)
-        h = await health()
-      }
-    } catch {
-      /* fall through: use it as is */
+    // No answer, or a refusal (it is busy): fall through and use it as is.
+    if (answeredOk(await ask('POST', '/shutdown'))) {
+      for (let i = 0; i < 25 && (await health()); i++) await sleep(200)
+      h = await health()
     }
     if (h && stale(h)) {
       // Busy with other tabs. Tell it to drain (newer daemons stop taking
       // sessions and exit after the last one) and run THIS tab on the new
       // code in-process. The next tab after the old one is gone starts a fresh daemon.
-      try {
-        await fetch(`${DAEMON_URL}/shutdown?drain=1`, { method: 'POST', ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
-      } catch {
-        /* an old daemon without drain support: it leaves when idle */
-      }
+      // An old daemon without drain support leaves when idle.
+      await ask('POST', '/shutdown?drain=1')
       log(`daemon ${h.version} (build ${h.build ?? '?'}) still serves ${h.sessions ?? '?'} other tab(s) — this tab runs the current build in-process (restart the other tabs to move them)`)
       return null
     }
@@ -375,7 +397,11 @@ async function stopDaemon(force: boolean): Promise<number> {
     return 0
   }
   if (!force) {
-    const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
+    const res = await ask('POST', '/shutdown')
+    if (!res) {
+      console.error(`daemon pid ${h.pid} did not answer`)
+      return 1
+    }
     if (res.status === 409) {
       console.error(
         `daemon pid ${h.pid} has ${h.sessions} active session(s) — not stopped.\n` +
@@ -383,7 +409,7 @@ async function stopDaemon(force: boolean): Promise<number> {
       )
       return 1
     }
-    if (!res.ok) {
+    if (!answeredOk(res)) {
       console.error(`daemon refused to stop: HTTP ${res.status}`)
       return 1
     }

@@ -1,10 +1,14 @@
 // Local WASM engine contract — LIVE: downloads the release assets on first
 // run (~85 MB; a six-month key is built in, CLASSCAD_WASM_KEY overrides).
 //   1. engine policy "wasm": the shim serves a session on the MCP's own engine
-//      (no worker, no daemon bridge involved) — run_script, tree, snapshot work
+//      (no worker involved) — run_script, tree, snapshot work
 //   2. policy "auto" with no worker reachable: falls back to the local engine
 //   3. policy "drogon" with no worker: a clear error, no fallback
 //   4. use_session(engine) switches at runtime
+// And, each in a test of its own: engine errors and a crashed, hung or wedged
+// engine; no OFB export; the graphic after clear, restore and deletions; the
+// read-only 3D view; sharing (an app docked into the MCP's engine, a second
+// agent in the same session, files, a replaced engine); where the app comes up.
 import { test } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { spawn } from 'node:child_process'
@@ -28,7 +32,8 @@ function shim(env) {
   const call = (method, params) => new Promise((resolve, reject) => { const id = ++n; const timer = setTimeout(() => { if (waiters.has(id)) { waiters.delete(id); reject(new Error('timeout ' + method)) } }, 180000); waiters.set(id, m => { clearTimeout(timer); resolve(m) }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n') })
   const init = async () => { const r = await call('initialize', { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'wasm-live', version: '0' } }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n'); return r }
   const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: args }); const c = m.result?.content || []; const t = (c.find(b => b.type === 'text') || {}).text; let parsed; try { parsed = JSON.parse(t) } catch { parsed = t } return { isError: !!m.result?.isError, text: t, value: parsed, content: c } }
-  const exit = () => new Promise(r => { p.once('exit', r); p.stdin.end() })
+  // A shim that is gone already has nothing left to say: waiting for its exit would wait forever.
+  const exit = () => new Promise(r => { if (p.exitCode !== null || p.signalCode !== null) return r(); p.once('exit', r); p.stdin.end() })
   return { p, call, init, tool, exit, stderr: () => stderr.join('') }
 }
 

@@ -45,7 +45,8 @@ function shim(env) {
   const call = (method, params) => new Promise((resolve, reject) => { const id = ++n; const timer = setTimeout(() => { if (waiters.has(id)) { waiters.delete(id); reject(new Error('timeout ' + method)) } }, 15000); waiters.set(id, m => { clearTimeout(timer); resolve(m) }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n') })
   const init = async () => { const r = await call('initialize', { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'daemon-test', version: '0' } }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n'); return r }
   const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: args }); const c = m.result?.content || []; return JSON.parse((c.find(b => b.type === 'text') || {}).text ?? 'null') }
-  const exit = () => new Promise(r => { p.once('exit', r); p.stdin.end() })
+  // A shim that is gone already has nothing left to say: waiting for its exit would wait forever.
+  const exit = () => new Promise(r => { if (p.exitCode !== null || p.signalCode !== null) return r(); p.once('exit', r); p.stdin.end() })
   return { p, call, init, tool, exit, stderr: () => stderr.join('') }
 }
 

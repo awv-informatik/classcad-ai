@@ -554,7 +554,7 @@ function clipPolyToSection(pts: any, s: any) {
  *   xray      — true: render bodies translucent (painter's blend, fixed alpha
  *               ~0.42; xrayAlpha overrides). Hidden bodies and internal far
  *               walls shine through; edges stay fully opaque on top. Back
- *               faces remain culled, so images stay readable.
+ *               faces of closed bodies remain culled, so images stay readable.
  *   annotate  — true: draw a measurement overlay — world-space bounding-box
  *               extents (X x Y x Z, model units, bottom right), an RGB axes
  *               triad oriented like the current view (bottom left), and a
@@ -563,6 +563,11 @@ function clipPolyToSection(pts: any, s: any) {
  *               drawn on top (no depth test), e.g. sketch curves in 3D. Overlay
  *               points participate in auto-fit, and they alone are enough to
  *               produce a render (a sketch-only session renders on white).
+ *
+ * A container with `open: true` is an open body (a sheet): both of its sides
+ * are drawn, the one facing away darker, and where a section caps a solid it
+ * draws the line along which it cuts the sheet (none with cap: false or
+ * xray, like the cap). renderSessionData sets the flag.
  * Returns { pixels, width, height, frame } or null if no geometry.
  */
 export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, optsOrColorMode: SolidRenderOptions | string = 'native'): RasterResult | null {
@@ -617,6 +622,9 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
     // drawing without them would miss the outline.
     const meshEdges: Map<string, { a: number[]; b: number[]; front: number; n: number; m0: number; m1: number }> | null = lines ? new Map() : null
     const capSegs: number[][][] | null = section?.cap && !xray ? [] : null
+    // An open body (a sheet) has two sides and no inside: none of its faces
+    // is culled, and a section cuts a line through it, not a face.
+    const open = container.open === true
     let meshIdx = -1
     for (const mesh of (container.meshes || [])) {
       meshIdx++
@@ -686,10 +694,11 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
 
         // Back faces: culled normally — but with a section active they are the
         // interior walls the cut exposes (behind open regions, or everywhere
-        // with cap: false), so shade them (darker) instead.
+        // with cap: false), and on an open body they are its other side, so
+        // shade them (darker) instead.
         let facing = 1
         if (lz < 0) {
-          if (!section) continue
+          if (!section && !open) continue
           facing = 0.72
         }
 
@@ -717,7 +726,10 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
         }
       }
     }
-    if (capSegs?.length) {
+    if (capSegs?.length && open) {
+      // Nothing to cap: the section of a sheet is the line where it crosses the plane.
+      for (const seg of capSegs) edgeLines.push(seg.map(([x, y, z]) => { const [px, py, pz] = project(x, y, z); return { px, py, pz } }))
+    } else if (capSegs?.length) {
       const base = colorMode === 'distinct' ? fallback : materialRgb(container.properties?.material) ?? fallback
       caps.push({ segs: capSegs, rgb: base })
     }
@@ -2992,9 +3004,15 @@ async function renderSessionEntries(source: SessionSource, options: RenderOption
   }
 
   // ── SOLIDS ── (the live bodies, solids and sheet bodies: type-1 containers
-  // with meshes; assemblies get per-instance transforms)
+  // with meshes; assemblies get per-instance transforms). A sheet body is
+  // open — its container is flagged, so the rasterizer draws both of its sides.
   if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0)) {
-    const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedBody(tree, c.owner)) }
+    const solidOnly = {
+      ...graphic,
+      containers: graphic.containers
+        .filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedBody(tree, c.owner))
+        .map((c: any) => (tree[String(c.owner)]?.class === 'CC_Sheet' ? { ...c, open: true } : c)),
+    }
     const instances = extractAssemblyInstances(tree)
     if (options.drawing) {
       // Technical drawing: front/top/side in line style, placed by projection method.

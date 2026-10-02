@@ -88,8 +88,11 @@ constraint badges and label de-overlap), curves, and work geometry.
 the open ones (`CC_Sheet`, sheet bodies). A body that a later feature
 consumed — the box before a boolean, the sheet body a slice was cut with — is
 not drawn, although the engine still sends its container. A sheet body is
-rasterized like a closed body: only the side its normals face is filled (seen
-from behind it shows its edges and hides nothing), and a section caps its cut.
+open — it has two sides and no inside: both sides are drawn (the one facing
+away darker), it hides what lies behind it in a line drawing, and a section
+does not cap it. Where a solid gets its hatched cut face, a sheet gets the
+line along which the plane cuts it (like the cap, not with `cap: false` or
+`xray`).
 
 **`source` — SessionSource:**
 
@@ -156,7 +159,7 @@ const d = diffImages(before, after)   // d.fraction, d.bbox, d.pixels
 
 | Function | Signature | Description |
 | --- | --- | --- |
-| `renderSolidZBuffer` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the z-buffer solid rasterizer behind `renderSessionData`. Camera from `setViewport`; `opts` is a `RenderOptions` subset plus `overlays: OverlayPolyline[]`. |
+| `renderSolidZBuffer` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the z-buffer solid rasterizer behind `renderSessionData`. Camera from `setViewport`; `opts` is a `RenderOptions` subset plus `overlays: OverlayPolyline[]`. A container with `open: true` is drawn as an open body (both sides, no section cap); `renderSessionData` sets it for sheet bodies. |
 | `renderSolidSheet` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the four-view sheet compositor (`opts.views` picks the quadrants). |
 | `renderSolidDrawing` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the technical-drawing layout behind `options.drawing`. |
 | `setViewport` | `({ view?, zoom?, lookAt?, frame? }) => void` | configures the camera for subsequent low-level render calls. `renderSessionData` calls it internally. |

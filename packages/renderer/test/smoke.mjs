@@ -244,6 +244,91 @@ assert.ok(leftHit && rightHit, `assembly places both instances (left ${leftHit},
   assert.ok(same(asmAll, asmLive), 'consumed sheet is not drawn (assembly render)')
 }
 
+// 5b2. A sheet body is OPEN: two sides, no inside. Seen from behind it is
+// still a surface (drawn darker, not culled away), it hides what lies behind
+// it in a line drawing, and a section leaves a cut line, not a capped face.
+{
+  const { renderSolidZBuffer, setViewport } = await import('../dist/core.js')
+  const part = children => ({ id: 20, class: 'CC_Part', name: 'Part', parent: null, children })
+  const body = (id, cls) => ({ id, class: cls, name: cls, parent: 20, members: { consumed: { value: 0 } } })
+  const quad = (id, owner, pts, n) => ({
+    id, owner, type: 1, properties: { material: { color: [140, 160, 250] } },
+    meshes: [{ id: id + 1, vertices: pts.flat(), normals: [...n, ...n, ...n, ...n], indices: [0, 1, 2, 0, 2, 3] }],
+    edges: [{ id: id + 2, points: [...pts, pts[0]].flat() }],
+  })
+  // Fill pixels: not paper, not edge ink.
+  const fill = px => { let n = 0, sum = 0; for (let i = 0; i < px.length; i += 4) if (px[i] > 60 && !(px[i] === 255 && px[i + 1] === 255 && px[i + 2] === 255)) { n++; sum += px[i] } return { n, mean: n ? sum / n : 0 } }
+  const render = async (tree, containers, opts) => (await renderSessionData({ tree, graphic: { containers } }, { width: 200, height: 150, ...opts }))[0]
+
+  // A flat sheet, normal +Z: from above and from below the same area is filled, the back darker.
+  const sheetTree = { '20': part([33]), '33': body(33, 'CC_Sheet') }
+  const plate = quad(1, 33, [[0, 0, 10], [20, 0, 10], [20, 20, 10], [0, 20, 10]], [0, 0, 1])
+  const above = fill((await render(sheetTree, [plate], { view: 'top' })).pixels)
+  const below = fill((await render(sheetTree, [plate], { view: 'bottom' })).pixels)
+  assert.ok(below.n > 3000 && below.n === above.n, `a sheet is filled from behind too (${below.n} px, from the front ${above.n})`)
+  assert.ok(below.mean < above.mean - 10, `the side facing away is drawn darker (${below.mean.toFixed(0)} vs ${above.mean.toFixed(0)})`)
+  // The same container owned by a SOLID stays one-sided: its back faces are inside the body.
+  const solidTree = { '20': part([33]), '33': body(33, 'CC_Solid') }
+  assert.equal(fill((await render(solidTree, [plate], { view: 'bottom' })).pixels).n, 0, 'a solid keeps its back faces culled')
+  // Low level: the `open` flag on the container is what the rasterizer reads.
+  setViewport({ view: 'bottom' })
+  assert.equal(fill(renderSolidZBuffer({ containers: [plate] }, 200, 150).pixels).n, 0, 'unflagged container: closed body')
+  assert.equal(fill(renderSolidZBuffer({ containers: [{ ...plate, open: true }] }, 200, 150).pixels).n, below.n, 'open: true draws both sides')
+
+  // The flag travels with the container — through assembly placement, into the panels of a
+  // four-view sheet and of a drawing, under x-ray. A plate facing DOWN shows its back from
+  // above: as a sheet it is filled there, as a solid (a decorated one too) it is culled.
+  const down = quad(1, 33, [[0, 0, 10], [20, 0, 10], [20, 20, 10], [0, 20, 10]], [0, 0, -1])
+  // Fill in the plate's blue, also blended (x-ray): not paper, not edge ink, not the greys of labels and frames.
+  const tinted = px => { let n = 0; for (let i = 0; i < px.length; i += 4) if (px[i] > 60 && px[i + 2] > px[i] + 20) n++; return n }
+  const partOf = cls => ({ '20': part([33]), '33': body(33, cls) })
+  const asmOf = cls => ({
+    '10': { id: 10, class: 'CC_AssemblyRoot', name: 'Root', parent: null, children: [11] },
+    '11': { id: 11, class: 'CC_ProductReference', name: 'I', parent: 10, members: { productId: { value: 20 } }, coordinateSystem: [[5, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]] },
+    '20': { ...part([33]), parent: 10 },
+    '33': body(33, cls),
+  })
+  for (const [what, treeOf, opts] of [
+    ['placed in an assembly', asmOf, { view: 'top' }],
+    ['in a four-view sheet', partOf, { sheet: true }],
+    ['in a drawing', partOf, { drawing: true, width: 800, height: 600 }], // its shaded iso panel
+    ['under x-ray', partOf, { view: 'top', xray: true }],
+  ]) {
+    const asSheet = tinted((await render(treeOf('CC_Sheet'), [down], opts)).pixels)
+    const asSolid = tinted((await render(treeOf('CC_Solid'), [down], opts)).pixels)
+    assert.ok(asSheet > 500 && asSolid === 0, `a sheet shows its back ${what} (${asSheet} px; as a solid ${asSolid})`)
+  }
+  assert.equal(tinted((await render(partOf('CC_DecoratedSolid'), [down], { view: 'top' })).pixels), 0, 'a decorated solid is a closed body')
+
+  // Line style, front view: a cube BEHIND a sheet wall is hidden, whichever way the wall's normal points.
+  const cubeBehind = cubeGraphic(6).containers[0]
+  cubeBehind.owner = 30
+  cubeBehind.meshes[0].vertices = cubeBehind.meshes[0].vertices.map((v, i) => v + [7, 10, 2][i % 3])
+  cubeBehind.edges = [{ id: 2, points: [7, 10, 2, 13, 10, 2, 13, 10, 8, 7, 10, 8, 7, 10, 2] }]
+  const wall = n => quad(1, 33, [[0, 0, 0], [20, 0, 0], [20, 0, 10], [0, 0, 10]], n)
+  const bothTree = { '20': part([30, 33]), '30': body(30, 'CC_Solid'), '33': body(33, 'CC_Sheet') }
+  const dashed = px => { let n = 0; for (let i = 0; i < px.length; i += 4) if (px[i] === 95 && px[i + 1] === 95 && px[i + 2] === 95) n++; return n }
+  const facing = dashed((await render(bothTree, [wall([0, -1, 0]), cubeBehind], { view: 'front', lines: true })).pixels)
+  const away = dashed((await render(bothTree, [wall([0, 1, 0]), cubeBehind], { view: 'front', lines: true })).pixels)
+  assert.ok(facing > 20 && away === facing, `a sheet hides what is behind it from either side (${away} hidden px, facing the camera ${facing})`)
+
+  // Section: an open tube (four walls, no caps) cut across and seen from above. A solid's cut
+  // is capped — filled and hatched; the tube stays hollow, the view centre is paper.
+  const tube = { id: 1, owner: 33, type: 1, properties: { material: { color: [140, 160, 250] } }, edges: [], meshes: [
+    [[0, 0, 0], [20, 0, 0], [20, 0, 10], [0, 0, 10], [0, -1, 0]], [[20, 0, 0], [20, 20, 0], [20, 20, 10], [20, 0, 10], [1, 0, 0]],
+    [[20, 20, 0], [0, 20, 0], [0, 20, 10], [20, 20, 10], [0, 1, 0]], [[0, 20, 0], [0, 0, 0], [0, 0, 10], [0, 20, 10], [-1, 0, 0]],
+  ].map(([a, b, c, d, n], i) => ({ id: 10 + i, vertices: [a, b, c, d].flat(), normals: [...n, ...n, ...n, ...n], indices: [0, 1, 2, 0, 2, 3] })) }
+  const cut = { origin: [10, 10, 5], normal: [0, 0, 1] }
+  const centreInk = px => { let n = 0; for (let y = 55; y < 95; y++) for (let x = 80; x < 120; x++) { const i = (y * 200 + x) * 4; if (px[i] !== 255 || px[i + 1] !== 255 || px[i + 2] !== 255) n++ } return n }
+  assert.equal(centreInk((await render(sheetTree, [tube], { view: 'top', section: cut })).pixels), 0, 'a sectioned sheet tube is not capped')
+  assert.equal(centreInk((await render(solidTree, [tube], { view: 'top', section: cut })).pixels), 1600, 'the same geometry as a solid is capped')
+  // The cut itself shows as a line: where the walls cross the plane.
+  const cutLine = px => { let n = 0; for (let i = 0; i < px.length; i += 4) if (px[i] === 26 && px[i + 1] === 26 && px[i + 2] === 58) n++; return n }
+  const withLine = cutLine((await render(sheetTree, [tube], { view: 'front', section: cut })).pixels)
+  const without = cutLine((await render(sheetTree, [tube], { view: 'front', section: { ...cut, cap: false } })).pixels)
+  assert.ok(without === 0 && withLine > 50, `the section of a sheet is a line (${withLine} px; none with cap: false: ${without})`)
+}
+
 // 5a. Color modes: native uses the model's material, distinct uses the palette
 {
   const redGraphic = cubeGraphic()

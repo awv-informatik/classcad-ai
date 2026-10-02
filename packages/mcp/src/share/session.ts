@@ -58,7 +58,9 @@ export function showFromEnv(env: NodeJS.ProcessEnv = process.env): Show {
 /** The app, offered to the user — once per session: how it got to them, or how it should. */
 export type Offer = { url: string; how: 'opened' | 'host' | 'link' }
 
+/** What a session's sharing is opened with. */
 export type ShareOptions = {
+  /** The session's engine client. */
   client: Client
   /** Runs work in the session's tool queue. */
   queue: <T>(work: () => Promise<T>) => Promise<T>
@@ -71,8 +73,10 @@ export type ShareOptions = {
   log?: (msg: string) => void
 }
 
+/** What one participant has selected. `total` counts all of it; `items` may be cut to what fits a presence frame. */
 export type PeerSelection = { peer: Peer; items: SelectionItem[]; total: number }
 
+/** A session's company, as its tools use it. */
 export type Share = {
   /** The link that docks the app into this session; null when this build carries no app or the listener did not start. */
   readonly url: string | null
@@ -102,10 +106,17 @@ export type Share = {
   close: () => void
 }
 
+/** Tests set this: nothing is opened on the machine they run on. */
 const noBrowser = () => process.env.CLASSCAD_VIEWER_NO_BROWSER === '1'
 
+/** A drawing nobody modeled in yet: nothing in its tree but the root. */
 const isEmpty = (tree: Record<string, any> | null | undefined): boolean => !tree || Object.values(tree).every(n => n?.class === 'AllObjects')
 
+/**
+ * Opens a session's sharing: its hub, the app's invite on the listener, and an
+ * ear for whoever is in the session. Nothing is started: the engine comes up
+ * with the first tool call, or with the first guest.
+ */
 export async function openShare(opts: ShareOptions): Promise<Share> {
   const { client } = opts
   const log = opts.log ?? (() => {})

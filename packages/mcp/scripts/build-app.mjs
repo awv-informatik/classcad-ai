@@ -14,6 +14,7 @@ import { existsSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:f
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+// This package, the repository around it, the Buerligons checkout the app is built from, and where the build goes.
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const repo = resolve(root, '..', '..')
 const source = resolve(process.env.BUERLIGONS_DIR ?? join(repo, '..', 'buerli-modeler', 'packages', 'buerligons'))
@@ -24,6 +25,7 @@ if (!existsSync(join(source, 'vite.config.ts'))) {
   process.exit(1)
 }
 
+/** A git answer about a checkout, or 'unknown' where there is none. */
 const git = (dir, ...args) => {
   try {
     return execFileSync('git', ['-C', dir, ...args], { encoding: 'utf8' }).trim()

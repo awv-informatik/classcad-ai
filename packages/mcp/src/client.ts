@@ -48,6 +48,7 @@ import type { ApiResult, Graphic, Message, Structure } from './types.js'
 import { startLocalEngine, type EngineExecuteResult, type LocalEngine, type LocalWasmOptions } from './engine/wasm.js'
 
 export type EnginePolicy = 'auto' | 'drogon' | 'wasm'
+/** How a client reaches its engine: 'ws' a ClassCAD worker over WebSocket, 'wasm' the MCP's own engine. */
 export type Transport = 'ws' | 'wasm'
 
 /** Frames of the session protocol that answer no request (see SessionFrame). */
@@ -134,6 +135,7 @@ export function ofbExportRefusal(task: object): string | null {
   return null
 }
 
+/** Hears one reply of the MCP's own engine: the request, what the engine emitted for it, and who asked. */
 export type EngineReplyListener = (req: Record<string, unknown>, res: EngineExecuteResult, origin: 'host' | 'guest') => void
 
 /**
@@ -360,6 +362,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     return res
   }
 
+  /** Whether a command sets the engine's database settings (the ones GRAPHIC_SETTINGS must then be put back into). */
   function touchesDatabaseSettings(req: Record<string, unknown>): boolean {
     return Array.isArray(req.task) && req.task.some(t => t && typeof t === 'object' && 'v1.common.setDatabaseSettings' in t)
   }

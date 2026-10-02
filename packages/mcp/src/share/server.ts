@@ -34,10 +34,12 @@ import type { SessionHub } from './hub.js'
 
 /** The app's build, copied into the package (scripts/copy-build-assets.mjs). */
 const APP_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'app')
+/** The port apps look for the MCP on (DEFAULT_SESSION_URL in @buerli.io/classcad); CLASSCAD_VIEWER_PORT names another. */
 const DEFAULT_PORT = 9098
 /** The WebSocket path the app's build connects to (its WSCLIENT_URL). */
 export const SESSION_PATH = '/session'
 
+/** Content types of what an app build is made of. */
 const MIME: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -53,8 +55,10 @@ const MIME: Record<string, string> = {
   '.txt': 'text/plain; charset=utf-8',
   '.map': 'application/json; charset=utf-8',
 }
+/** Text formats: served gzipped to whoever takes it. */
 const COMPRESSIBLE = new Set(['.html', '.js', '.css', '.json', '.svg', '.txt'])
 
+/** One file of the app, as it is served: its bytes, the same gzipped (text only), its content type. */
 type Asset = { body: Buffer; gzip: Buffer | null; type: string }
 
 /** The app's files, read once: path → bytes. Empty when this build has no app. */
@@ -93,7 +97,9 @@ export function offerInvite(token: string, hub: SessionHub): () => void {
 
 // ── Sessions a page hosts ──
 
+/** What a guest sent before the page met it. */
 type Early = Array<{ data: RawData; isBinary: boolean }>
+/** A page that offers a session of its own, under one invite. */
 type Page = {
   token: string
   /** The page's standing connection for this invite: it is told of guests on it. */
@@ -103,10 +109,13 @@ type Page = {
   /** Guests the page met, each with the page's connection for it. */
   joined: Set<[guest: WebSocket, page: WebSocket]>
 }
+/** Invite → the page that offers it right now. */
 const pages = new Map<string, Page>()
+/** Invite → who waits for a page to offer it (waitForPage). */
 const pageWaiters = new Map<string, Set<() => void>>()
 /** How long a page has to meet a guest that joined. */
 const MEET_TIMEOUT_MS = 10_000
+/** How often a page's standing connection is pinged; one that misses a beat is closed. */
 const HEARTBEAT_MS = 30_000
 
 /** True when the invite is joined on this listener: a page offers it here right now, or it is of an MCP session of this process. */
@@ -134,6 +143,7 @@ export function waitForPage(token: string, timeoutMs: number): Promise<boolean> 
   })
 }
 
+/** Closes a WebSocket that may be closing already. */
 const shut = (ws: WebSocket, code: number, reason: string) => {
   try {
     ws.close(code, reason)
@@ -236,6 +246,7 @@ export function offeringPages(): number {
   return pages.size
 }
 
+/** The one listener of this process, once somebody asked for it. */
 let listener: Promise<{ server: Server; port: number }> | null = null
 /** Every WebSocket that came in: guests, pages, and the connections pages meet their guests on. */
 let sockets: WebSocketServer | null = null
@@ -305,11 +316,13 @@ export function listen(): Promise<{ server: Server; port: number }> {
   return listener
 }
 
+/** True when the request names this listener as its host: not a page of another site reaching in by a name of its own (DNS rebinding). */
 const ownHost = (req: IncomingMessage): boolean => {
   const port = req.socket.localPort ?? 0
   return req.headers.host === `127.0.0.1:${port}` || req.headers.host === `localhost:${port}`
 }
 
+/** Ends a WebSocket handshake with an HTTP status: the client sees a failed connection. */
 function refuse(socket: Duplex, status: number, reason: string): void {
   socket.end(`HTTP/1.1 ${status} ${reason}\r\nConnection: close\r\nContent-Length: 0\r\n\r\n`)
 }
@@ -354,8 +367,10 @@ async function upgrade(req: IncomingMessage, socket: Duplex): Promise<Entry | nu
   return refuse(socket, 403, 'Forbidden'), null
 }
 
+/** On every answer: no type sniffing, and the link (it carries the invite) is never sent on as a referrer. */
 const SAFE_HEADERS = { 'x-content-type-options': 'nosniff', 'referrer-policy': 'no-referrer' }
 
+/** HTTP: the app's page (only with an invite) and its files. */
 function handle(req: IncomingMessage, res: ServerResponse): void {
   const port = req.socket.localPort ?? 0
   // Only this listener's own address: no DNS rebinding, no other sites' pages.
@@ -393,6 +408,7 @@ function handle(req: IncomingMessage, res: ServerResponse): void {
   res.end(req.method === 'HEAD' ? undefined : zipped ? asset.gzip : asset.body)
 }
 
+/** A plain-text answer. */
 function text(res: ServerResponse, status: number, body: string): void {
   res.writeHead(status, { ...SAFE_HEADERS, 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' })
   res.end(body)

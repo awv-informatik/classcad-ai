@@ -158,7 +158,7 @@ Every session has a live CAD app: [Buerligons](https://buerligons.io), docked in
 - **One link per session.** The link carries an invite to exactly one session, so several sessions (tabs, hosts) work side by side, each with its own app. When a session ends, or moves to another engine, the app says so and offers to join again.
 - **Local only.** The MCP process (the daemon, or a shim serving in-process) listens on `127.0.0.1:9098` (`CLASSCAD_VIEWER_PORT`; another free port when that one is taken), answers only requests that name it as their host, and serves the app with everything it needs: no model data leaves the machine, and it works offline. The invite is the key to the session, so the link is a secret; joining also needs the machine to be signed in.
 
-`CLASSCAD_VIEWER_OPEN` says where the app comes up: `browser` (the user's default browser), `host` (the agent opens it in its host's own browser pane — for any host that has one) or `0` (nowhere: the agent hands the link over). Unset, it is `host` in the Claude desktop app and `browser` everywhere else. `CLASSCAD_APP_URL` names an app that is hosted elsewhere instead of the one in this package (any buerli app that joins a page's session: it finds the MCP on `127.0.0.1:9098` by itself). `CLASSCAD_VIEWER=readonly` shows the read-only 3D view instead of the app (a page that only turns and exports the model; a build of this package without the app has it too), `CLASSCAD_VIEWER=off` shows nothing.
+`CLASSCAD_VIEWER_OPEN` says where the app comes up: `browser` (the user's default browser), `host` (the agent opens it in its host's own browser pane — for any host that has one) or `0` (nowhere: the agent hands the link over). Unset, it is `host` in the Claude desktop app and `browser` everywhere else. `CLASSCAD_APP_URL` names an app that is hosted elsewhere instead of the one in this package: the link becomes `<url>?invite=…`, and the app has to join that invite on `ws://127.0.0.1:9098/session` (a Buerligons built for the engine in its page does). A page from a public site reaches `127.0.0.1` only if the browser lets it: see [the limit](#what-the-browser-has-to-allow) below. `CLASSCAD_VIEWER=readonly` shows the read-only 3D view instead of the app (a page that only turns and exports the model; a build of this package without the app has it too), `CLASSCAD_VIEWER=off` shows nothing.
 
 ---
 
@@ -295,6 +295,10 @@ The MCP joins that session as a guest and works in the app's model; the app show
 
 **Named session** (`ClassCAD-Session-Id` model, worker only): `use_session(sessionId="test-session")`.
 
+### What the browser has to allow
+
+The app in this package is served from `127.0.0.1` and joins its session on the same address: nothing to allow. An app that is served from somewhere else and has to reach this machine's listener (`ws://127.0.0.1:9098/session`) is a different case: a page with the engine in it that offers its session, a second page that joins such a session, or an app named by `CLASSCAD_APP_URL`. Browsers treat a public page that connects to `127.0.0.1` as local network access: Chromium-based browsers ask the user for permission (or deny it where nobody can be asked, as in an embedded browser pane), and without it the page never finds the MCP. An app served from `localhost` (a dev server) is not affected, and neither is an app whose session runs on a ClassCAD server.
+
 ### What participants see of each other
 
 Besides the model, participants publish a little about themselves, as *presence* — small frames a session relays to everyone in it and keeps for those who join later. The buerli packages define the channels (`session/selection.ts`, `session/identity.ts` in `@buerli.io/classcad`; `session/sessionClient.ts` in `@buerli.io/react-cad`), the MCP speaks them (`src/share/protocol.ts`), and they work the same in all three kinds of session:
@@ -338,7 +342,7 @@ Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fa
 Releases run in GitHub Actions ([release.yml](../../.github/workflows/release.yml)), without tokens or 2FA prompts:
 
 0. The app has to be in `packages/mcp/app/` when the release is built: `npm run build:app` builds the current Buerligons into it (`app/SOURCE.txt` names what it was built from). The workflow cannot build it (it has no checkout of the buerli repositories), and `release-check` stops a release that would go out without the app.
-1. Bump the MCP's version everywhere it is named: `package.json`, `VERSION` in `src/mcp-server.ts`, `server.json` (`version` and `packages[0].version`), and the Claude plugin (`plugins/classcad/.claude-plugin/plugin.json` and `PACKAGE` in `plugins/classcad/launch.mjs`). Bump `@classcad/skill`, `script` or `renderer` too if they changed.
+1. Bump the MCP's version everywhere it is named: `package.json`, `VERSION` in `src/mcp-server.ts`, `server.json` (`version` and `packages[0].version`), and the Claude plugin (`plugins/classcad/.claude-plugin/plugin.json` and `PACKAGE` in `plugins/classcad/launch.mjs`). The plugin is installed from this repository's `master` and runs the package version it pins: its README and its skill describe that version, so what a release changes for the user goes into them with this step, not before. Bump `@classcad/skill`, `script` or `renderer` too if they changed.
 2. `node scripts/release-check.mjs mcp-vX.Y.Z` (from the repo root) checks that the versions agree and lists what is new on npm.
 3. Commit, push, then `git tag mcp-vX.Y.Z && git push origin mcp-vX.Y.Z`.
 

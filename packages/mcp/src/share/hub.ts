@@ -30,6 +30,10 @@
 // A session that runs on a ClassCAD worker needs none of this: the server
 // speaks the protocol itself. Guests of such a session are piped through to
 // it (pipe()), so the app's link is the same for both engines.
+//
+// An engine that runs in the page of an app is served the same way by that
+// page: session/host.ts in @buerli.io/classcad is this module's twin (the same
+// translation, the same forms). Keep the two in step.
 import WebSocket from 'ws'
 import { randomUUID } from 'node:crypto'
 import { deflateRawSync } from 'node:zlib'
@@ -37,11 +41,13 @@ import { GRAPHIC_SETTINGS, ofbExportRefusal, type Client } from '../client.js'
 import type { EngineExecuteResult } from '../engine/wasm.js'
 import { DEFAULT_EMISSION, HOST_CHANNELS, PRESENCE_MAX_BYTES, SERVER_CHANNELS, type Role, type SessionFrame } from './protocol.js'
 
+/** An invite to this session: the token a guest joins with, what it may do, and a name to show for it. */
 export type Invite = { invite: string; role: Role; name: string }
 
 /** What a guest sent before it could be answered. */
 type Early = Array<{ data: WebSocket.RawData; isBinary: boolean }>
 
+/** A guest that is served here (the session runs on the MCP's own engine). */
 type Guest = {
   peerId: string
   ws: WebSocket
@@ -52,7 +58,9 @@ type Guest = {
   presence: Map<string, Record<string, any>>
 }
 
+/** What a hub is given by its session. */
 export type HubOptions = {
+  /** The session's engine client: its replies are fanned out, guests' commands run on it. */
   client: Client
   /** Runs work in the session's tool queue. */
   queue: <T>(work: () => Promise<T>) => Promise<T>
@@ -61,11 +69,15 @@ export type HubOptions = {
   log?: (msg: string) => void
 }
 
+/** A session's sharing, as the host uses it. */
 export type SessionHub = {
   /** The host's peer id, as guests see it on presence frames. */
   readonly hostId: string
+  /** Mints an invite. It stays good for the life of the session, across engines. */
   createInvite: (role?: Role, name?: string) => Invite
+  /** Takes an invite back; whoever joined with it is closed (`kicked`). */
   revokeInvite: (token: string) => { invite: string; revoked: boolean; kicked: number }
+  /** The invite behind a token, if this session minted it. */
   invite: (token: string) => Invite | undefined
   /** A guest's socket; `token` is a known invite. */
   join: (ws: WebSocket, token: string) => void
@@ -75,15 +87,20 @@ export type SessionHub = {
   resync: () => Promise<void>
   /** Closes every guest (the engine behind the session is another one now); invites stay. */
   kick: (reason: string) => void
+  /** How many guests are in the session, served here or piped through to a server. */
   readonly guests: number
-  /** The session is over. */
+  /** The session is over: every guest is closed, every invite forgotten. */
   close: () => void
 }
 
+/** Pulls: they change nothing, so they concern only the one who asked and need not wait for the tool queue. */
 const READS = new Set(['GetTree', 'Sync'])
+/** The engine's message level for an error; a Result at this level rejects in the client. */
 const ERROR = 51
+/** How often a guest is pinged; one that misses a beat is closed. */
 const HEARTBEAT_MS = 30_000
 
+/** A Result frame that fails `req`, the way a server words an error. */
 const errorResult = (req: Record<string, any>, message: string, code = 0): Record<string, any> => ({
   command: 'Result',
   _from_: String(req.command),
@@ -95,7 +112,9 @@ const errorResult = (req: Record<string, any>, message: string, code = 0): Recor
 /** A streaming connection (buerli's WSClient) takes patches and graphics as frames of their own. */
 const streams = (cfg: Record<string, boolean | number>): boolean => cfg.sendStructure_Patch === true
 
+/** One engine reply, taken apart. */
 type Pieces = {
+  /** The command the reply answers, and its transaction id: every frame of the reply carries both. */
   from: string
   tx: unknown
   /** JSON-Patch blocks against the structure, in emission order. */
@@ -164,6 +183,7 @@ function keepGraphicSettings(req: Record<string, any>): void {
   }
 }
 
+/** Why a command is refused when it would hand out OFB (what the MCP's own tools refuse), or null. */
 function ofbRefusal(req: Record<string, any>): string | null {
   if (req.command !== 'Execute' || !Array.isArray(req.task)) return null
   for (const task of req.task) {
@@ -173,6 +193,11 @@ function ofbRefusal(req: Record<string, any>): string | null {
   return null
 }
 
+/**
+ * The sharing of one MCP session. Created with the session, before any engine
+ * runs: an invite is good from then on, and the first guest that joins with it
+ * starts the engine if nothing else has.
+ */
 export function createSessionHub(opts: HubOptions): SessionHub {
   const { client, queue, toHost } = opts
   const log = opts.log ?? (() => {})
@@ -249,6 +274,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     if (!closed && guests.size) void resync()
   })
 
+  /** Sends every guest the whole model, as the Result of a GetTree nobody asked: the clients replace what they hold. */
   async function resync(): Promise<void> {
     if (closed || !guests.size || client.transport !== 'wasm') return
     const req = { command: 'GetTree', commandVersion: 'v1', transactionID: `resync-${randomUUID()}` }
@@ -262,6 +288,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     }
   }
 
+  /** A guest's presence frame: kept for those who join later and relayed to everyone else, as a server does. */
   function presence(guest: Guest, frame: Record<string, any>, bytes: number): void {
     const channel = typeof frame.channel === 'string' ? frame.channel : ''
     const data = frame.data
@@ -273,6 +300,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     toHost(out)
   }
 
+  /** A guest's command: answered here (emission config, what a guest may not do), or run on the engine. */
   async function command(guest: Guest, req: Record<string, any>): Promise<void> {
     const name = req.command
     if (name === 'GetEmissionConfig') return send(guest, { command: 'Result', _from_: name, _transactionID_: req.transactionID, result: { ...guest.config } })
@@ -304,6 +332,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     }
   }
 
+  /** A guest is gone: the others and the host are told. */
   function leave(guest: Guest): void {
     if (!guests.delete(guest)) return
     const left = { command: 'Presence', channel: 'leave', peerId: guest.peerId, data: {} }
@@ -313,6 +342,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     log(`share: ${guest.invite.name || 'a guest'} left (${guests.size} docked)`)
   }
 
+  /** Takes a guest in on the MCP's own engine: the handshake a server gives, then its commands and presence. */
   function serve(ws: WebSocket, invite: Invite, early: Early): void {
     const guest: Guest = { peerId: randomUUID(), ws, invite, config: { ...DEFAULT_EMISSION }, presence: new Map() }
     send(guest, { command: 'SessionJoined', role: invite.role, inviteName: invite.name })
@@ -354,12 +384,13 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     ws.on('error', gone)
   }
 
-  /**
-   * A session on a ClassCAD worker: the server speaks the protocol, the guest
-   * is piped through to it with an invite of the server's own. What the MCP's
-   * tools refuse is refused here too.
-   */
+  // ── A session on a ClassCAD worker ──
+  // The server speaks the protocol; a guest is piped through to it with an
+  // invite of the server's own. What the MCP's tools refuse is refused here too.
+
+  /** Guests that are piped through, with the invite they joined with. */
   const piped = new Map<WebSocket, Invite>()
+  /** The server's invite for each of ours, minted on first use and again after a reconnect (a new server session). */
   const serverInvites = new Map<string, { generation: number; token: Promise<string> }>()
   function serverInvite(invite: Invite): Promise<string> {
     const known = serverInvites.get(invite.invite)
@@ -375,6 +406,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     return token
   }
 
+  /** Joins a guest to the server's session and passes the frames both ways. */
   async function pipe(ws: WebSocket, invite: Invite, early: Early): Promise<void> {
     // What the guest sends before the server is reached must not be lost.
     const buffer = (data: WebSocket.RawData, isBinary: boolean) => void early.push({ data, isBinary })
@@ -422,6 +454,8 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     ws.on('error', end)
     log(`share: ${invite.name || 'a guest'} joined through the ClassCAD server (${invite.role})`)
   }
+
+  /** Closes every guest, served here or piped. */
   const closeAll = (code: number, reason: string) => {
     for (const guest of [...guests]) {
       try {

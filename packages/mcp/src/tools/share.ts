@@ -32,6 +32,7 @@ const REACH: Record<Show, string> = {
   off: 'The result of the first script that makes a model ends with "App: <link>": give the user that link ONCE, on its own line. ',
 }
 
+/** The part of the server instructions about the app, written for the way this session's app reaches the user. */
 export const appNote = (show: Show): string =>
   'APP: every session has a live CAD app (Buerligons), docked into this session\'s engine. It shows every change as it happens, and the user can work in it too — turn the model, select, measure, edit sketches and features, export. ' +
   REACH[show] +
@@ -67,6 +68,11 @@ const offerText = (offer: Offer): string => {
   )
 }
 
+/**
+ * Opens the session's sharing and wires it into the tools registered after it:
+ * a tool that may have changed the model offers the app with the first model
+ * (once), and the sharing ends when the engine client is closed.
+ */
 export async function attachShare(server: McpServer, client: Client, version: string, show: Show, log?: (msg: string) => void): Promise<Share> {
   const mode = process.env.CLASSCAD_VIEWER
   const share = await openShare({
@@ -150,6 +156,7 @@ export function registerViewTool(server: McpServer, share: Share, viewer: Viewer
   )
 }
 
+/** `get_selection` / `set_selection`: pointing between the user at an app and the agent, both ways. */
 export function registerSelectionTools(server: McpServer, client: Client, share: Share): void {
   /** What the others have selected, with the tree's word on each object. */
   const describe = async (selections: PeerSelection[]) => {

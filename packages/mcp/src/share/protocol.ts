@@ -17,20 +17,24 @@
 //   select     a request to the others to select something (an agent pointing)
 //   config     the host's word on what its guests are offered (host only)
 
+/** What an invite lets its guest do. Advisory: the clients honour it, the engine does not check. */
 export type Role = 'edit' | 'view'
 
 /** A frame of the session protocol that answers no request. */
 export type SessionFrame = { command: string; [key: string]: any }
 
+/** A presence frame: what one participant (`peerId`) says on a channel, relayed to everyone else in the session. */
 export type PresenceFrame = { command: 'Presence'; channel: string; peerId: string; data: Record<string, any> }
 
 /** Largest presence frame a server relays; larger ones are dropped without a word. The hub does the same. */
 export const PRESENCE_MAX_BYTES = 8 * 1024
 
-/** Channels only the host may publish on, and the one only the server writes. */
+/** Channels only the host may publish on. */
 export const HOST_CHANNELS = new Set(['config'])
+/** The channel only the server writes: a participant is gone. */
 export const SERVER_CHANNELS = new Set(['leave'])
 
+// The channels of the list above, by name.
 export const CONFIG_CHANNEL = 'config'
 export const CLIENT_CHANNEL = 'client'
 export const SELECTION_CHANNEL = 'selection'

@@ -267,14 +267,23 @@ for (const cid of rootAsm.children ?? []) {
 vectors of the rotation + translation). The API also accepts a 3×3 form
 `[origin, xDir, yDir]` (zDir derived) when you WRITE placements.
 
-## Bridge `containerId` (buerli apps)
+## Selection ids (apps in the session)
 
-The bridge selection triplet (`bridge.get_selection`/`set_selection`) uses
-`part.solids[0]` as `containerId`. Re-derive it immediately before setting a
-selection — every solid-creating feature rotates it. A stale containerId
-round-trips without error (echoed back), so a successful round-trip proves
-nothing; verify visually or with a fresh pick. Imported graphics can carry
-negative `graphicId`s; they resolve under the live container.
+What a user selected in an app that shares the session (`get_selection` of
+classcad-mcp) names a face, edge or vertex by three ids:
+
+| id | is | stability |
+| --- | --- | --- |
+| `objectId` | the `CC_Solid` node that owns the element (`container.owner`) | session-stable |
+| `containerId` | the graphic container the pick was made on | rotates with every re-tessellation, see above |
+| `graphicId` | the element in that container: the id API calls take for a face, an edge or a vertex | valid for the model as it is now |
+
+`set_selection` needs the `graphicId` only: the app looks for the container
+the element is in now, so a `containerId` from before a rebuild does no harm.
+Element ids do change when a feature rebuilds the body: read the selection
+right before you use it, and re-derive ids before you select something for the
+user. Imported graphics can carry negative `graphicId`s; they resolve under the
+live container.
 
 ## Live access
 

@@ -28,7 +28,7 @@ Modes can be freely mixed within one polyline; each entry is independent.
 ### Vertex Modifiers (optional per entry, work with all modes)
 
 - `b` — bulge of the segment from this entry to the next (`tan(sweep/4)`); with `close: true` the last entry's `b` bends the closing segment. Same convention as `curve.polyline2d`: positive = counterclockwise seen from +Z = arc right of the travel direction — outward on a counterclockwise outline, inward on a clockwise one.
-- `r` — radius fillet: tangent arc at the vertex; **the defined point becomes virtual** (collinear with both segments, not on the polyline). Rounded rectangles: `r` on all 4 corners with `close: true`. Works next to `b` arcs too.
+- `r` — radius fillet: tangent arc at the vertex; **the defined point becomes virtual** (collinear with both segments, not on the polyline). Rounded rectangles: `r` on all 4 corners with `close: true`. Works next to `b` arcs too — except on the first entry next to an arc closing segment (see Gotchas).
 - `c` — symmetric chamfer of length `c` measured along the edge.
 - `r` and `c` can be mixed across vertices, never on the same vertex.
 
@@ -39,8 +39,10 @@ Modes can be freely mixed within one polyline; each entry is independent.
 ## Gotchas
 
 - **⚠️ A single PLD entry crashes the ClassCAD worker** (connection lost, process exits) — always pass at least 2. Empty array `[]` → silent no-op.
-- **`r: 0`** → sharp corner (same as omitting `r`), no error (the older "internal error in `CurveHelper.ComputeFillet`" claim was stale or silently fixed).
-- **`r` negative → rejected**, code 1014, `"The parameter \"pld[i].r\" (fillet radius) must be >= 0 when provided."` (previously silently produced corrupted corner geometry).
+- **⚠️ `b` on the last entry of a closed polyline crashes the worker when the first entry has no `b`** — give the first entry `b: 0` whenever the closing segment is an arc.
+- **⚠️ `r` on the first entry next to an arc closing segment** crashes the worker — or, with `b: 0` on that entry, silently builds a wrong fillet. Start the outline at a different vertex so the fillet is not on the first entry.
+- **`r: 0`** → sharp corner (same as omitting `r`), no error.
+- **`r` negative → rejected**, code 1014, `"The parameter \"pld[i].r\" (fillet radius) must be >= 0 when provided."`.
 - **`c: 0`** → silent no-op. **`c` negative** → silently accepted, behavior unclear — avoid.
 - **`r` on the first point** works with `close: true` (fillet at last→first→second) — **except** when the path already returns exactly to the start: the zero-length closing segment fails with `"Can't create a fillet between parallel lines!"`.
 - **Strictly 2D** — `z`/`za` fields are silently ignored.
@@ -65,6 +67,8 @@ Modes can be freely mixed within one polyline; each entry is independent.
 | `"Both 'r' and 'c' must not be specified for the same point"` | `r` and `c` on one entry | One per vertex |
 | `"Can't create a fillet between parallel lines!"` | Zero-length closing segment with `r` on first point | No `r` on first point when path returns to start |
 | Worker crash (connection lost) | Only 1 PLD entry | At least 2 entries |
+| Worker crash (connection lost) | `close: true`, `b` on the last entry, none on the first | `b: 0` on the first entry |
+| Worker crash, or a wrong fillet | `r` on the first entry, arc on the closing segment | Start the outline at another vertex |
 
 ## Working Example
 

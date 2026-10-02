@@ -1647,8 +1647,8 @@
     },
     "v1.curve.advancedPolyline": {
       "full": {
-        "chars": 8901,
-        "sha": "7141fc7639cf",
+        "chars": 9472,
+        "sha": "4deaedb12af5",
         "headings": [
           "# v1.curve.advancedPolyline",
           "# Detailed notes",
@@ -1692,8 +1692,8 @@
     },
     "v1.curve.arcByCenter": {
       "full": {
-        "chars": 4751,
-        "sha": "bcb79f898feb",
+        "chars": 4394,
+        "sha": "701de7c16956",
         "headings": [
           "# v1.curve.arcByCenter",
           "# Detailed notes",

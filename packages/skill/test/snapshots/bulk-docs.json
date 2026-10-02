@@ -354,8 +354,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4812,
-      "sha": "5b5e08a9a67c",
+      "chars": 4819,
+      "sha": "427164bc54fd",
       "sections": [
         "# ═══ recipes/direct-modeling-eif ═══"
       ],
@@ -606,8 +606,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4748,
-      "sha": "da2713b12eb9",
+      "chars": 4794,
+      "sha": "acff9fa9acd3",
       "sections": [
         "# ═══ solid/curves-parameter ═══"
       ],
@@ -1838,8 +1838,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 8938,
-      "sha": "92ab956403af",
+      "chars": 9509,
+      "sha": "eddfd65b0324",
       "sections": [
         "# ═══ v1.curve.advancedPolyline ═══"
       ],
@@ -1866,8 +1866,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4783,
-      "sha": "e67907a32bb5",
+      "chars": 4426,
+      "sha": "e8efa28a6782",
       "sections": [
         "# ═══ v1.curve.arcByCenter ═══"
       ],
@@ -4450,8 +4450,8 @@
       "deferred": [
         "recipes/constrained-sketching"
       ],
-      "chars": 37335,
-      "sha": "10773daa0b0f",
+      "chars": 37342,
+      "sha": "0ce9e735c3b8",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
@@ -4483,8 +4483,8 @@
         "api/sketch",
         "api/solid"
       ],
-      "chars": 46494,
-      "sha": "0d4f7fb63c35",
+      "chars": 46501,
+      "sha": "4acc8ad9edb2",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",

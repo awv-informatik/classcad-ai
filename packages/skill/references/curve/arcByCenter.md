@@ -1,6 +1,6 @@
 # curve.arcByCenter
 
-Creates one or more arcs from center, start and end points (in a `curve.shape`). Radius = |startPos − centerPos|. `isClockwise` is the sweep direction from start to end about `normal` (default +Z) — real clockwise/counterclockwise, like sketch arcs.
+Creates one or more arcs from center, start and end points (in a `curve.shape`). Radius = |startPos − centerPos|; `isClockwise` selects which of the two arcs between start and end is drawn — the **major** or the **minor** one.
 
 ## Key Parameters
 
@@ -8,21 +8,20 @@ Creates one or more arcs from center, start and end points (in a `curve.shape`).
 - `centerPos` (required) — `[x, y, z]` circle center
 - `startPos` (required) — `[x, y, z]`, at the desired radius
 - `endPos` (required) — `[x, y, z]`, **at the same radius as `startPos`**, else error (code=0, level=51, "Created end point differs from the input values" plus the offset distance)
-- `normal` (optional, default `[0,0,1]`) — `[x, y, z]` normal of the arc plane, any length; the reference of `isClockwise`. Start, end and center must lie in the plane perpendicular to it — **arcs outside a plane parallel to XY must pass their normal**, otherwise they are rejected. A zero normal is rejected.
-- `isClockwise` (optional, default `true`) — `true` = clockwise, `false` = counterclockwise from start to end, seen from the tip of `normal` (looking against it). Accepts `true`/`false` or `1`/`0`
+- `isClockwise` (optional, default `true`) — `true` = major arc (> 180°), `false` = minor arc (< 180°); accepts `true`/`false` or `1`/`0`
 
-All points `[x, y, z]` — `[x, y]` fails with `"If point is defined as array, it must have exactly 3 real values"`.
+All points `[x, y, z]` — `[x, y]` fails with `"If point is defined as array, it must have exactly 3 real values"`. Fully 3D: the points define the arc plane, no normal needed. There is no `normal` parameter — one passed anyway is ignored silently.
 
 ## How isClockwise Works
 
-Seen from the tip of `normal` — from +Z for the default, i.e. the usual top view — the arc sweeps clockwise (`true`) or counterclockwise (`false`) from start to end. Same points with `true` vs `false` give the two complementary arcs.
+**It does not mean clockwise in world coordinates.** The plane normal is derived from the points (`(start − center) × (end − center)`), which always makes start → end the short way counterclockwise; the flag is "clockwise" only relative to that derived normal:
 
-- Center 0, start `(10,0,0)`, end `(0,10,0)`: `true` → 270° through `(-7.07,-7.07)`, `false` → 90° through `(7.07,7.07)`.
-- Start `(10,0,0)`, end `(0,-10,0)`: `true` → 90°, `false` → 270°.
-- Semicircles are defined too: start `(10,0,0)`, end `(-10,0,0)`: `true` passes `(0,-10,0)`, `false` passes `(0,10,0)`.
-- Other planes: pass the plane's normal. Start `(10,0,0)`, end `(-10,0,0)`, `normal: [0,1,0]`, `true` → through `(0,0,10)`. Mind which side you look from: seen from −Y (the front view), clockwise about `[0,-1,0]` is what looks clockwise on screen.
+- `true` (default) — the **major arc**, whichever way start and end are ordered. Center 0, start `(10,0)`, end `(0,10)` → 270° through `(-7.07,-7.07)`; end `(0,-10)` instead → 270° through `(-7.07,7.07)` (counterclockwise seen from +Z).
+- `false` — the **minor arc** (90° in both examples).
 
-Compute the flag, don't picture it: take start and end angles about the center in the plane seen from the normal's tip, name one angle the arc must pass, and check which direction reaches it first.
+Choose the flag from the sweep you want (> or < 180°), never from a clockwise/counterclockwise picture. Chains of lines and `arcByCenter` arcs close exactly into extrusion/revolve profiles once the flag is chosen this way.
+
+**Semicircles (start, center, end collinear):** the points define no plane. The arc falls back to the XY plane and **ignores `isClockwise`**: it always sweeps clockwise seen from +Z (start `(10,0)`, end `(-10,0)` passes `(0,-10)` for both flags). A semicircle on the other side, or in XZ/YZ, needs `curve.arcBy3Points` (the `midPos` picks the side) or two quarter arcs.
 
 **`startPos == endPos` creates a full circle** (valid; alternative to `curve.circle`).
 
@@ -52,14 +51,11 @@ const partId = (await api.v1.part.create({ name: 'ArcPart' })).result
 const eifId = (await api.v1.part.entityInjection({ id: partId })).result
 const shapeId = (await api.v1.curve.shape({ id: eifId, name: 'Arcs' })).result
 
-// 90° arc, counterclockwise about +Z
+// 90° minor arc
 await api.v1.curve.arcByCenter({ id: shapeId, centerPos: [0, 0, 0], startPos: [10, 0, 0], endPos: [0, 10, 0], isClockwise: false })
 
-// 270° arc, clockwise about +Z (default), same points relative to the center
+// 270° major arc (default), same points relative to the center
 await api.v1.curve.arcByCenter({ id: shapeId, centerPos: [40, 0, 0], startPos: [55, 0, 0], endPos: [40, 15, 0] })
-
-// Semicircle in the XZ plane through (80,0,10): clockwise about +Y
-await api.v1.curve.arcByCenter({ id: shapeId, centerPos: [80, 0, 0], startPos: [90, 0, 0], endPos: [70, 0, 0], normal: [0, 1, 0], isClockwise: true })
 
 // Full circle (startPos == endPos)
 await api.v1.curve.arcByCenter({ id: shapeId, centerPos: [50, 50, 0], startPos: [70, 50, 0], endPos: [70, 50, 0] })

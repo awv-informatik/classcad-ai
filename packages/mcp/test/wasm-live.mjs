@@ -238,6 +238,52 @@ test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore sti
   }
 })
 
+test('load: a STEP file from disk by path, or base64 content, never both', async () => {
+  const { mkdtempSync, readFileSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
+  const a = shim({
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+  })
+  const volume = async () => (await a.tool('run_script', { script: `const g = await api.graphic(); const cap = await api.inspect.capture(); const b = api.inspect.graphicBounds(cap, api.inspect.currentSolids(cap)); return b ? b.max.map((v, i) => Math.round(v - b.min[i])) : null` })).value?.returned
+  try {
+    await a.init()
+    await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'L' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30 }); return p` })
+    const file = join(mkdtempSync(join(tmpdir(), 'classcad-load-')), 'box.stp')
+    assert.ok((await a.tool('save', { format: 'STP', path: file })).value.success)
+
+    // analytic STEP: the box's faces are written as planes, not as B-spline surfaces
+    assert.ok(!/\bPLANE\(/.test(readFileSync(file, 'utf8')), 'default STEP export writes B-spline surfaces')
+    const analytic = join(dirname(file), 'box-analytic.stp')
+    assert.ok((await a.tool('save', { format: 'STP', path: analytic, analytic: true })).value.success)
+    assert.ok(/\bPLANE\(/.test(readFileSync(analytic, 'utf8')) && !/B_SPLINE_SURFACE/.test(readFileSync(analytic, 'utf8')), 'analytic STEP export writes planes')
+
+    // from disk: the drawing is replaced by the file's geometry
+    await a.tool('clear')
+    const loaded = await a.tool('load', { format: 'STP', path: file })
+    assert.ok(!loaded.isError && loaded.value.ok, 'load by path: ' + loaded.text)
+    assert.equal(loaded.value.bytes, readFileSync(file).length)
+    assert.deepEqual(await volume(), [10, 20, 30], 'the loaded box')
+
+    // base64 content still works
+    await a.tool('clear')
+    const inline = await a.tool('load', { format: 'STP', content: readFileSync(file).toString('base64') })
+    assert.ok(!inline.isError && inline.value.ok, 'load by content: ' + inline.text)
+    assert.deepEqual(await volume(), [10, 20, 30])
+
+    // refusals
+    assert.ok((await a.tool('load', { format: 'STP' })).isError, 'neither path nor content')
+    assert.ok((await a.tool('load', { format: 'STP', path: file, content: 'x' })).isError, 'both path and content')
+    assert.ok((await a.tool('load', { format: 'STP', path: 'relative.stp' })).isError, 'a relative path is refused')
+    const missing = await a.tool('load', { format: 'STP', path: join(tmpdir(), 'classcad-no-such-file.stp') })
+    assert.ok(missing.isError && /Cannot read/.test(missing.text), 'a missing file: ' + missing.text)
+  } finally {
+    await a.exit()
+  }
+})
+
 test('local engine: clear, restore and deletions leave no stale geometry in the graphic', async () => {
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),

@@ -3,7 +3,7 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import type { Client } from '../client.js'
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, isAbsolute } from 'node:path'
 import { buildScene, sceneToGlb } from '../viewer/scene.js'
 
@@ -42,9 +42,11 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
         format: z.enum(['STP', 'STL', 'GLB', 'JSON']).describe('Output format.'),
         path: z.string().optional()
           .describe('Absolute file path to write, e.g. /Users/me/Desktop/flange.stp (folders are created). Omit to get the content back as base64.'),
+        analytic: z.boolean().optional()
+          .describe('STP only: write planes, cylinders, cones, spheres and tori as such instead of as B-spline surfaces. Other CAD systems read such a file faster and recognise its holes and flats.'),
       },
     },
-    async ({ format, path }) => {
+    async ({ format, path, analytic }) => {
       let data: Buffer | null = null
       let maxLevel = 0
       if (format === 'GLB') {
@@ -53,7 +55,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
         if (scene.bodies.length) data = sceneToGlb(scene)
       } else {
         const args: Record<string, unknown> = { format, encoding: 'base64' }
-        if (format === 'STP') args.stp = { version: 2 }
+        if (format === 'STP') args.stp = analytic === undefined ? { version: 2 } : { version: 2, analytic: analytic ? 1 : 0 }
         if (format === 'STL') args.stl = { binary: true, facetingTol: 0.1, angleTol: 6 }
         const r = await client.execute<{ success: boolean; content: string }>({ 'v1.common.save': [args] })
         maxLevel = r.maxLevel
@@ -81,22 +83,41 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     'load',
     {
       title: 'Load drawing',
-      description: 'Load a previously saved drawing from base64-encoded content. Format must match what save produced.',
+      description:
+        'Load a drawing, replacing the current one: from a file on disk (`path`) or from base64-encoded content. Formats: STP (STEP), STL, OFB, JSON. ' +
+        'Prefer `path`: the file is read here and never passes through the conversation, which is the only practical way for a model file of real size. ' +
+        'Give exactly one of `path` and `content`.',
       inputSchema: {
         format: z.enum(['OFB', 'STP', 'STL', 'JSON']).describe('Input format.'),
-        content: z.string().describe('Base64-encoded payload.'),
+        path: z.string().optional()
+          .describe('Absolute path of the file to load, e.g. /Users/me/parts/bracket.step.'),
+        content: z.string().optional().describe('Base64-encoded payload, when there is no file.'),
       },
     },
-    async ({ format, content }) => {
+    async ({ format, path, content }) => {
+      const fail = (error: string) => ({ isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ format, ok: false, error }) }] })
+      if ((path === undefined) === (content === undefined)) return fail('Give exactly one of path and content.')
+      let data = content as string
+      let bytes: number | undefined
+      if (path !== undefined) {
+        if (!isAbsolute(path)) return fail(`path must be absolute: ${path}`)
+        try {
+          const file = readFileSync(path)
+          bytes = file.length
+          data = file.toString('base64')
+        } catch (e) {
+          return fail(`Cannot read ${path}: ${(e as Error).message}`)
+        }
+      }
       // NOTE: the engine's load parameter is `data` (a prior save's payload) —
       // `content` is silently ignored (error 1004 "Either data, file or url…").
       const r = await client.execute({
-        'v1.common.load': [{ format, encoding: 'base64', data: content, doClear: 1 }],
+        'v1.common.load': [{ format, encoding: 'base64', data, doClear: 1 }],
       })
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({ ok: r.maxLevel <= 31, maxLevel: r.maxLevel, messages: r.messages }),
+          text: JSON.stringify({ ok: r.maxLevel <= 31, ...(path !== undefined ? { path, bytes } : {}), maxLevel: r.maxLevel, messages: r.messages }),
         }],
       }
     },

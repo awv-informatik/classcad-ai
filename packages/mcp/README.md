@@ -233,7 +233,7 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
 | `view`                  | The session's app: returns its link and brings it up (the host's browser pane, or the user's browser), unless the user already has it open |
 | `get_selection` / `set_selection` | What the user has selected in the app (faces, edges, vertices, tree objects), with the ids API calls take; and selecting something there to point it out |
-| `save` / `load` / `clear` / `checkpoint` / `restore` | `save` writes STEP, STL or GLB to a `path` on disk (or returns base64); loading OFB / STEP / STL; undo points. OFB export is not available in this release (`save`, and `common.save` / `assembly.exportNode` in scripts, refuse it); checkpoints still use it internally, in memory only. |
+| `save` / `load` / `clear` / `checkpoint` / `restore` | `save` writes STEP, STL or GLB to a `path` on disk (or returns base64); with `analytic` a STEP gets planes, cylinders and cones as such instead of B-spline surfaces. `load` reads OFB / STEP / STL from a `path` on disk (or from base64 content); undo points. OFB export is not available in this release (`save`, and `common.save` / `assembly.exportNode` in scripts, refuse it); checkpoints still use it internally, in memory only. |
 | `login`                 | Sign the machine in (returns the link, then waits for it to be used) or out |
 | `session_info` / `use_session` | Status (engine, the app's link, who else is in the session, sign-in); switch engine, or join the session of an app with its invite link |
 

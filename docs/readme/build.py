@@ -1297,7 +1297,7 @@ def plate_envoy(theme):
               'Two envoys make the part. The MCP server takes requests from any agent host — Claude Code, Codex, '
               'OpenCode, Claude Desktop, VS Code, Cursor — through one daemon per machine; it works on its own, on a '
               'worker or its own WASM, and a pointing hand leads to the part it makes, engraved in iso; or it joins '
-              'any buerli app, by invite or over the bridge. The assistant lives inside the app: asked to make a '
+              'any buerli app by invite, or the app joins it. The assistant lives inside the app: asked to make a '
               'flanged bushing, it answers, and the part appears in the app\'s window.')
     t = p.t
     plate_frame(p, 'vi', 'the envoy', '@classcad/mcp · @buerli.io/ai')
@@ -1338,7 +1338,7 @@ def plate_envoy(theme):
     p.path(f'M{dx + 18} {dy + 19}C{dx + 80} {dy + 150} {wx0 - 200} {jy} {wx0 - 12} {jy}', THIN, cls='d', delay=1.1)
     p.arrow(wx0 - 4, jy, 1, 0)
     p.text(wx0 - 24, jy + 30, 'joins any buerli app —', 18, 'it8', 'onum', anchor='end', fill=t['ink2'])
-    p.text(wx0 - 24, jy + 52, 'by invite, or over the bridge', 18, 'it8', 'onum', anchor='end', fill=t['ink2'])
+    p.text(wx0 - 24, jy + 52, 'by invite, or the app joins it', 18, 'it8', 'onum', anchor='end', fill=t['ink2'])
 
     # the assistant, inside the app
     heading(p, 84, 700, 'the in-app assistant', 400)

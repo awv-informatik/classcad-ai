@@ -6,10 +6,11 @@
 // Checks that the MCP's version is the same in packages/mcp/package.json, the
 // VERSION constant (src/mcp-server.ts), server.json (top level and its npm
 // package) and the Claude plugin (plugins/classcad: plugin.json and the package
-// pinned in launch.mjs), and matches the tag when one is given. Then prints, one per line,
+// pinned in launch.mjs), and matches the tag when one is given, and that the
+// app is there to be packed. Then prints, one per line,
 // the package directories whose current version is not on npm yet — in
 // dependency order, the order they must be published in. Exit 1 on a mismatch.
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 
 const PACKAGES = ['skill', 'script', 'renderer', 'mcp']
 const json = p => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'))
@@ -39,6 +40,11 @@ const launcher = readFileSync(new URL('../plugins/classcad/launch.mjs', import.m
 const pinned = /const PACKAGE = '([^']+)'/.exec(launcher)?.[1]
 if (plugin.version !== pkg.version) fail(`plugins/classcad plugin.json version ${plugin.version} is not ${pkg.version}`)
 if (pinned !== `${pkg.name}@${pkg.version}`) fail(`plugins/classcad/launch.mjs runs ${pinned}, not ${pkg.name}@${pkg.version}`)
+
+// The MCP carries the app that docks into its sessions (packages/mcp/app, built by `npm run build:app`).
+// A release without it would quietly show the read-only view instead.
+if (!existsSync(new URL('../packages/mcp/app/index.html', import.meta.url)))
+  fail('packages/mcp/app/ is missing: the release would go out without the app. Build it (npm run build:app -w @classcad/mcp), then build again.')
 
 const toPublish = []
 for (const dir of PACKAGES) {

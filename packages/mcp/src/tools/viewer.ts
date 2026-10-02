@@ -23,7 +23,6 @@ export const VIEWER_NOTE =
 
 const engineLabel = (client: Client): string => {
   if (client.transport === 'wasm') return 'WebAssembly · this machine'
-  if (client.transport === 'bridge') return 'in an app'
   try {
     return `worker · ${new URL(client.url).host}`
   } catch {

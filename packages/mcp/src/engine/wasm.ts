@@ -11,9 +11,9 @@
 //     A six-month key is built in (DEV_WASM_KEY); CLASSCAD_WASM_KEY
 //     overrides it. Keys and origins are managed on classcad.ch/user.
 //
-// One engine = one drawing = one MCP session. execute() has the same shape
-// as the app bridge's engine.execute (messages + inflated binary packages),
-// so the client treats both the same way.
+// One engine = one drawing = one MCP session. Apps dock into that session
+// through share/hub.ts, which speaks a ClassCAD server's session protocol
+// for this engine.
 import { Worker } from 'node:worker_threads'
 import { createWriteStream, existsSync, mkdirSync, renameSync, statSync, unlinkSync } from 'node:fs'
 import { pipeline } from 'node:stream/promises'
@@ -21,7 +21,6 @@ import { Readable } from 'node:stream'
 import { homedir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { EngineExecuteResult } from '../bridge/protocol.js'
 
 /** The ClassCAD release the MCP hosts (the same the buerli apps load). */
 export const DEFAULT_WASM_VERSION = '21.2.0'
@@ -50,6 +49,14 @@ export type LocalWasmOptions = {
   /** Download base override (default awvstatic release/<version>/wasm). */
   url?: string
   log?: (msg: string) => void
+}
+
+/** What the engine emitted for one command: its text messages and inflated binary graphic packages, in emission order. */
+export type EngineExecuteResult = {
+  messages: Record<string, any>[]
+  binaryMessages: Record<string, any>[]
+  /** Emitted messages that could not be decoded (dropped, never thrown into the engine). */
+  decodeErrors?: string[]
 }
 
 export type LocalEngine = {

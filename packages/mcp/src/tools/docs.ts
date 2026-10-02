@@ -92,8 +92,9 @@ export function serverInstructions(): string {
       'REFERENCE IMAGES: ' +
       REFERENCE_IMAGE_POINTER,
     '',
-    'ENGINES: the MCP runs on a ClassCAD worker (Drogon server), inside a buerli app (share link with ?bridge=), or on its OWN local ' +
-      'WASM engine (no server, no browser). A share link/URL decides by itself; otherwise use_session(engine="auto"|"drogon"|"wasm") — ' +
+    'ENGINES: the MCP runs on a ClassCAD worker (Drogon server) or on its OWN local WASM engine (no server, no browser); ' +
+      'either way apps can dock into its session, and with an app\'s invite link it joins the session of that app. ' +
+      'An invite link/URL decides by itself; otherwise use_session(engine="auto"|"drogon"|"wasm") — ' +
       'auto = worker if reachable else local WASM; a worker that comes up later takes over while the local drawing is still empty (a modeled session stays put). ' +
       '"use WASM / local / offline" → engine "wasm"; "my Drogon/ClassCAD server" → "drogon". ' +
       'session_info shows what is in use.',

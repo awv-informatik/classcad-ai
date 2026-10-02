@@ -2,25 +2,25 @@
 // daemon.ts — the one ClassCAD MCP process per machine.
 //
 // Why a daemon: stdio MCP servers are child processes of their host, one per
-// Claude tab. That was fine while the MCP was only a WebSocket client of a
-// ClassCAD worker. With the app bridge it also LISTENS (apps announce share
-// tokens on ws://127.0.0.1:9096/bridge), and a listening port belongs to
-// exactly one process — a second tab would either fail to bind or, worse,
-// bind the other address family of "localhost" and receive half the apps.
+// Claude tab. The MCP also LISTENS: apps dock into its sessions on one local
+// address (share/server.ts), and a listening port belongs to exactly one
+// process. With one daemon every session's app link has the same address,
+// and the engine's files are loaded once.
 //
 // So the MCP itself is a thin stdio shim (server.ts) that finds or starts
 // this daemon and forwards its host's JSON-RPC to it over HTTP (MCP
 // Streamable HTTP transport). The daemon holds:
-//   • the single bridge listener,
 //   • one MCP server instance PER SESSION — every tab gets its own engine
-//     client, emission config, caches and tool queue (mcp-server.ts),
-//   • an idle timer: with no sessions and no app attached it exits by itself
-//     (a Drogon-only user never notices it; a WASM user has it running while
-//     a tab is shared).
+//     client, caches, tool queue and invites (mcp-server.ts),
+//   • the listener sessions are joined on (share/server.ts): apps dock into
+//     the MCP's sessions there, and pages that host a session of their own
+//     offer it there for MCP sessions to join,
+//   • an idle timer: with no sessions and no page offering one it exits by
+//     itself.
 //
 // HTTP surface (127.0.0.1 only; requests with an Origin header or a
 // non-loopback Host are refused with 403 — no browser may drive it):
-//   GET  /health   → { name:'classcad-mcp', version, build, pid, sessions, apps, bridge, bridgeListen, logFile, uptimeMs }
+//   GET  /health   → { name:'classcad-mcp', version, build, pid, sessions, apps, join, logFile, uptimeMs }
 //   POST /shutdown → exits when no session is active (409 otherwise);
 //                    ?drain=1 → stops taking NEW sessions (503) and exits as
 //                    soon as the current ones are gone (a newer build waits)
@@ -38,7 +38,7 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
-import { startBridgeServer, type BridgeRegistry } from './bridge/server.js'
+import { closeListener as closeShareListener, dockedApps, listen as listenForApps, offeringPages, SESSION_PATH } from './share/server.js'
 import type { Client, EnginePolicy } from './client.js'
 import { wasmOptionsFromEnv, type LocalWasmOptions } from './engine/wasm.js'
 import { DEFAULT_DAEMON_PORT } from './ports.js'
@@ -98,16 +98,12 @@ function isLoopbackClient(req: IncomingMessage): boolean {
 }
 
 export { DEFAULT_DAEMON_PORT }
-export const DEFAULT_BRIDGE_LISTEN = 'ws://127.0.0.1:9096/bridge'
 /** Exit after this long without any session (ms). */
 export const DEFAULT_IDLE_MS = 60_000
-/** Retry interval when the bridge port is taken (ms). */
-const BRIDGE_RETRY_MS = 5_000
 
 export type DaemonOptions = {
   port?: number
   wsUrl?: string
-  bridgeListen?: string
   idleMs?: number
   /** Where to log (a file path); undefined = stderr. */
   logFile?: string
@@ -163,49 +159,31 @@ function sendJson(res: ServerResponse, status: number, body: unknown): void {
 export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandle> {
   const port = opts.port ?? DEFAULT_DAEMON_PORT
   const wsUrl = opts.wsUrl ?? DEFAULT_WS_URL
-  const bridgeListen = opts.bridgeListen ?? DEFAULT_BRIDGE_LISTEN
   const idleMs = opts.idleMs ?? DEFAULT_IDLE_MS
   const log = makeLog(opts.logFile)
   const startedAt = Date.now()
   // Taken once: the code this process runs, not whatever a later build left on disk.
   const build = daemonBuildStamp()
 
-  // The bridge listener: one per machine, hence one per daemon. Apps announce
-  // their share tokens here; sessions attach to them through the registry.
-  // If the port is taken (typically an MCP of the previous, pre-daemon build
-  // that a still-open tab keeps alive) the daemon runs without a bridge and
-  // keeps retrying: as soon as the old process is gone the listener comes up,
-  // no restart needed.
-  let bridgeRegistry: BridgeRegistry | null = null
-  let bridgeRetry: ReturnType<typeof setTimeout> | null = null
   let closing = false
   // Draining: a newer build asked us to go. Existing sessions run to their
   // end, new ones are refused, exit right after the last one closes.
   let draining = false
-  const bindBridge = async () => {
-    try {
-      bridgeRegistry = await startBridgeServer({ listen: bridgeListen, log })
-      log(`bridge listener on ${bridgeRegistry.url}`)
-    } catch (err) {
-      log(`bridge listener failed (${bridgeListen}): ${err instanceof Error ? err.message : err} — retrying every ${BRIDGE_RETRY_MS / 1000}s`)
-      if (!closing) bridgeRetry = setTimeout(() => void bindBridge(), BRIDGE_RETRY_MS)
-    }
-  }
-  await bindBridge()
 
   const sessions = new Map<string, Session>()
+  // Where sessions are joined on this machine, once the listener is up.
+  let joinAddress: string | null = null
   let idleTimer: ReturnType<typeof setTimeout> | null = null
 
-  // "Idle" = no MCP session AND no app holding a bridge connection. A shared
-  // WASM tab counts as use: its bridge must stay up so the next tab's
-  // use_session attaches at once instead of waiting for the app's reconnect
-  // backoff. The registry has no change event, so the timer re-checks itself.
-  const appCount = () => bridgeRegistry?.list().length ?? 0
+  // "Idle" = no MCP session AND no page offering a session of its own. Such a
+  // page counts as use: it waits for an MCP session to join it, and would have
+  // to find a new daemon first. There is no event for it going away, so the
+  // timer re-checks itself.
   const armIdle = () => {
     if (idleTimer) clearTimeout(idleTimer)
     idleTimer = setTimeout(() => {
       if (closing || sessions.size > 0) return
-      if (appCount() > 0) {
+      if (offeringPages() > 0) {
         armIdle()
         return
       }
@@ -252,9 +230,8 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
           pid: process.pid,
           sessions: sessions.size,
           draining,
-          apps: appCount(),
-          bridge: bridgeRegistry?.url ?? null,
-          bridgeListen,
+          apps: dockedApps(),
+          join: joinAddress,
           logFile: opts.logFile ?? null,
           uptimeMs: Date.now() - startedAt,
         })
@@ -328,7 +305,7 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
         ? { ...(opts.wasm ?? { key }), key, origin: hdr('x-classcad-wasm-origin') ?? opts.wasm?.origin }
         : null
       const sessionLog = (msg: string) => log(`[${transport.sessionId ?? 'new'}] ${msg}`)
-      const { server, client } = await createMcpServer({ wsUrl: sessionWsUrl, bridge: () => bridgeRegistry, engine: enginePolicy, wasm: sessionWasm, log: sessionLog })
+      const { server, client } = await createMcpServer({ wsUrl: sessionWsUrl, engine: enginePolicy, wasm: sessionWasm, log: sessionLog })
       const transport: StreamableHTTPServerTransport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: id => {
@@ -358,21 +335,45 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
   })
   const url = `http://${DAEMON_HOST}:${port}`
   log(`daemon ${VERSION} pid ${process.pid} listening on ${url}`)
+  // Pages that host their own session look for the MCP on this address before any MCP session exists.
+  listenForApps().then(
+    l => {
+      joinAddress = `ws://127.0.0.1:${l.port}${SESSION_PATH}`
+      log(`sessions are joined on ${joinAddress}`)
+    },
+    err => log(`no listener for apps (${err instanceof Error ? err.message : err}): they cannot dock, the tools work as usual`),
+  )
   armIdle()
 
+  const asDaemon = process.env.CLASSCAD_MCP_DAEMON === '1'
   const shutdown = async (code: number) => {
     if (closing) return
     closing = true
     disarmIdle()
-    if (bridgeRetry) clearTimeout(bridgeRetry)
+    // A server is closed when its last connection is: one that somebody keeps
+    // open (a host's event stream, an app's socket) must not keep the process.
+    // They are cut below; should one survive that, the process goes anyway.
+    const deadline = setTimeout(() => {
+      log('stopped (connections that would not close were left behind)')
+      if (asDaemon) process.exit(code)
+    }, 3_000)
+    deadline.unref()
     for (const [id] of sessions) dropSession(id, 'daemon shutdown')
-    if (bridgeRegistry) await bridgeRegistry.close().catch(() => {})
-    await new Promise<void>(r => httpServer.close(() => r()))
+    await closeShareListener()
+    const closed = new Promise<void>(r => httpServer.close(() => r()))
+    httpServer.closeAllConnections?.()
+    await closed
+    clearTimeout(deadline)
     log('stopped')
-    if (process.env.CLASSCAD_MCP_DAEMON === '1') process.exit(code)
+    if (asDaemon) process.exit(code)
   }
-  process.once('SIGINT', () => void shutdown(0))
-  process.once('SIGTERM', () => void shutdown(0))
+  // A second signal while the first shutdown is still under way ends the process at once.
+  const onSignal = () => {
+    if (closing && asDaemon) process.exit(0)
+    void shutdown(0)
+  }
+  process.on('SIGINT', onSignal)
+  process.on('SIGTERM', onSignal)
 
   return { url, port, close: () => shutdown(0) }
 }
@@ -395,7 +396,6 @@ if (isMain) {
   startDaemon({
     port,
     wsUrl: process.env.CLASSCAD_WS_URL,
-    bridgeListen: process.env.CLASSCAD_BRIDGE_LISTEN,
     idleMs: process.env.CLASSCAD_DAEMON_IDLE_MS ? Number(process.env.CLASSCAD_DAEMON_IDLE_MS) : undefined,
     logFile: process.env.CLASSCAD_MCP_LOG ?? (process.env.CLASSCAD_MCP_DAEMON === '1' ? defaultDaemonLogFile() : undefined),
     engine: process.env.CLASSCAD_ENGINE as EnginePolicy | undefined,

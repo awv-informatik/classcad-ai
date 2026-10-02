@@ -4,11 +4,11 @@
 // It is a thin shim: it finds the ClassCAD MCP daemon on this machine (or
 // starts it, detached) and forwards its host's JSON-RPC to the daemon over
 // HTTP (MCP Streamable HTTP). Every tab therefore gets its own session in the
-// ONE daemon process that owns the bridge listener — see daemon.ts for why.
+// ONE daemon process — see daemon.ts for why.
 //
 // If no daemon can be reached at all (the port is held by a foreign program
-// and cannot be freed), the shim serves the MCP in-process as before, minus
-// the bridge listener, so a Drogon-only user is never blocked.
+// and cannot be freed), the shim serves the MCP in-process: the same MCP, with
+// a listener of its own for the app (on a free port if the usual one is taken).
 
 import { spawn } from 'node:child_process'
 import { connect as tcpConnect } from 'node:net'
@@ -31,6 +31,12 @@ const DAEMON_PORT = Number(process.env.CLASSCAD_MCP_PORT ?? DEFAULT_DAEMON_PORT)
 /** Full daemon base URL override (tests, unusual setups). */
 const DAEMON_URL = process.env.CLASSCAD_MCP_URL ?? `http://${DAEMON_HOST}:${DAEMON_PORT}`
 const SPAWN_TIMEOUT_MS = 10_000
+/**
+ * Questions to the daemon that are asked now and then (is it there, please go)
+ * take a connection of their own: a kept-alive one that sat idle answers late
+ * on some Node versions (seen: up to 1.5 s on 26.7), which reads as "no daemon".
+ */
+const ONE_SHOT = { headers: { connection: 'close' } }
 
 const log = (msg: string) => process.stderr.write(`[classcad-mcp] ${msg}\n`)
 
@@ -41,14 +47,12 @@ type Health = {
   draining?: boolean
   pid?: number
   sessions?: number
-  bridge?: string | null
-  bridgeListen?: string
   logFile?: string | null
 }
 
 async function health(): Promise<Health | null> {
   try {
-    const res = await fetch(`${DAEMON_URL}/health`, { signal: AbortSignal.timeout(1500) })
+    const res = await fetch(`${DAEMON_URL}/health`, { ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
     if (!res.ok) return null
     const j = (await res.json()) as Health
     return j && j.name === 'classcad-mcp' ? j : null
@@ -120,7 +124,7 @@ async function ensureDaemon(): Promise<Health | null> {
     // An older daemon (previous install or previous build) — ask it to leave when idle.
     log(`daemon ${h.version} (build ${h.build ?? '?'}) running, this MCP is ${VERSION} (build ${daemonBuildStamp()}): asking it to shut down`)
     try {
-      const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', signal: AbortSignal.timeout(1500) })
+      const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
       if (res.ok) {
         for (let i = 0; i < 25 && (await health()); i++) await sleep(200)
         h = await health()
@@ -131,14 +135,13 @@ async function ensureDaemon(): Promise<Health | null> {
     if (h && stale(h)) {
       // Busy with other tabs. Tell it to drain (newer daemons stop taking
       // sessions and exit after the last one) and run THIS tab on the new
-      // code in-process — without the bridge listener, which the old daemon
-      // still holds. The next tab after the old one is gone starts a fresh daemon.
+      // code in-process. The next tab after the old one is gone starts a fresh daemon.
       try {
-        await fetch(`${DAEMON_URL}/shutdown?drain=1`, { method: 'POST', signal: AbortSignal.timeout(1500) })
+        await fetch(`${DAEMON_URL}/shutdown?drain=1`, { method: 'POST', ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
       } catch {
         /* an old daemon without drain support: it leaves when idle */
       }
-      log(`daemon ${h.version} (build ${h.build ?? '?'}) still serves ${h.sessions ?? '?'} other tab(s) — this tab runs the current build in-process (no bridge listener until that daemon is gone; restart the other tabs to move them)`)
+      log(`daemon ${h.version} (build ${h.build ?? '?'}) still serves ${h.sessions ?? '?'} other tab(s) — this tab runs the current build in-process (restart the other tabs to move them)`)
       return null
     }
   }
@@ -302,9 +305,9 @@ async function proxyToDaemon(): Promise<void> {
   await stdio.start()
 }
 
-/** Last resort: the MCP in this process, without a bridge listener. */
+/** Last resort: the MCP in this process. */
 async function serveInProcess(): Promise<void> {
-  const { server, client } = await createMcpServer({ wsUrl: WS_URL, bridge: () => null, engine: ENGINE, wasm: WASM, log })
+  const { server, client } = await createMcpServer({ wsUrl: WS_URL, engine: ENGINE, wasm: WASM, log })
   const shutdown = () => {
     try {
       client.close()
@@ -321,13 +324,11 @@ async function serveInProcess(): Promise<void> {
 async function main(): Promise<void> {
   const h = await ensureDaemon()
   if (h) {
-    log(`using daemon ${h.version} (pid ${h.pid}, ${h.sessions} session(s), bridge ${h.bridge ?? 'none'}) at ${DAEMON_URL}; daemon log: ${h.logFile ?? defaultDaemonLogFile()}`)
-    if (!h.bridge)
-      log(`WARNING: the daemon has no bridge listener (${h.bridgeListen ?? 'unknown'} is taken, probably by an MCP of an older build in another tab) — in-app engines cannot attach until that process is gone; the daemon retries by itself`)
+    log(`using daemon ${h.version} (pid ${h.pid}, ${h.sessions} session(s)) at ${DAEMON_URL}; daemon log: ${h.logFile ?? defaultDaemonLogFile()}`)
     await proxyToDaemon()
     return
   }
-  log('serving in-process (no bridge listener: in-app engines cannot attach; the worker and the local WASM engine work as usual)')
+  log('serving in-process')
   await serveInProcess()
 }
 
@@ -371,7 +372,7 @@ async function stopDaemon(force: boolean): Promise<number> {
     return 0
   }
   if (!force) {
-    const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', signal: AbortSignal.timeout(1500) })
+    const res = await fetch(`${DAEMON_URL}/shutdown`, { method: 'POST', ...ONE_SHOT, signal: AbortSignal.timeout(1500) })
     if (res.status === 409) {
       console.error(
         `daemon pid ${h.pid} has ${h.sessions} active session(s) — not stopped.\n` +
@@ -388,7 +389,7 @@ async function stopDaemon(force: boolean): Promise<number> {
       console.error('daemon did not report its pid — cannot force it')
       return 1
     }
-    // SIGTERM runs the daemon's own shutdown: sessions closed, bridge and port released.
+    // SIGTERM runs the daemon's own shutdown: sessions closed, ports released.
     process.kill(h.pid, 'SIGTERM')
   }
   if (await waitGone(h.pid, 5000)) {

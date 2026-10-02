@@ -1,6 +1,6 @@
 // Daemon contract — runs on every build (postbuild).
 //   1. the stdio shim starts the daemon when none runs, and proxies MCP to it
-//   2. a second shim reuses the SAME daemon (one process, one bridge port);
+//   2. a second shim reuses the SAME daemon (one process, one listener for apps);
 //      each shim is its own session (health.sessions counts them)
 //   3. sessions are independent (session_info per session)
 //   4. when the last shim goes away the daemon exits after the idle period
@@ -11,6 +11,8 @@
 //   7. browsers are refused: an Origin header or a non-loopback Host → 403
 //   8. `classcad-mcp stop` refuses while sessions are active, `stop --force`
 //      terminates the daemon; its shims reconnect to a fresh daemon on the next call
+//   9. an app that offers a session of its own keeps the daemon alive past the
+//      idle period — and does not keep it from stopping when it is asked to
 import { test } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { spawn, execFile } from 'node:child_process'
@@ -21,6 +23,7 @@ import { dirname, join } from 'node:path'
 import { fakeAuth } from './fake-auth.mjs'
 import { tmpdir } from 'node:os'
 import { startFakeWorker } from '../../script/test/fake-worker.mjs'
+import WebSocket from 'ws'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
@@ -29,7 +32,8 @@ const AUTH = (await fakeAuth()).env
 
 const freePort = () => new Promise(r => { const s = createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)) }) })
 const sleep = ms => new Promise(r => setTimeout(r, ms))
-const health = async port => { try { const r = await fetch(`http://127.0.0.1:${port}/health`, { signal: AbortSignal.timeout(800) }); return r.ok ? await r.json() : null } catch { return null } }
+// a connection of its own per question: a kept-alive one that sat idle answers late on some Node versions
+const health = async port => { try { const r = await fetch(`http://127.0.0.1:${port}/health`, { headers: { connection: 'close' }, signal: AbortSignal.timeout(800) }); return r.ok ? await r.json() : null } catch { return null } }
 
 /** Spawns a shim and returns a tiny JSON-RPC driver over its stdio. */
 function shim(env) {
@@ -48,10 +52,8 @@ function shim(env) {
 test('daemon: one process per machine, one session per shim, idle exit', async () => {
   const worker = await startFakeWorker()
   const port = await freePort()
-  const bridgePort = await freePort()
   const env = {
     CLASSCAD_MCP_PORT: String(port),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${bridgePort}/bridge`,
     CLASSCAD_WS_URL: worker.url,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_MCP_LOG: join(tmpdir(), 'classcad-mcp-test', `daemon-${port}.log`),
@@ -63,11 +65,13 @@ test('daemon: one process per machine, one session per shim, idle exit', async (
     assert.equal(init.result?.serverInfo?.name, 'classcad')
     const tools = await a.call('tools/list', {})
     assert.ok(tools.result.tools.some(t => t.name === 'run_script'), 'tools served through the daemon')
-    assert.ok(tools.result.tools.some(t => t.name === 'bridge.list_clients'), 'bridge tools present → the daemon owns a bridge listener')
+    assert.ok(tools.result.tools.some(t => t.name === 'get_selection') && tools.result.tools.some(t => t.name === 'view'), 'the tools of a shared session')
+    assert.ok(!tools.result.tools.some(t => t.name.startsWith('bridge')), 'no bridge tools any more')
     let h = await health(port)
     assert.equal(h?.name, 'classcad-mcp')
     assert.equal(h.sessions, 1, 'one session')
-    assert.equal(h.bridge, `ws://127.0.0.1:${bridgePort}/bridge`)
+    assert.equal(h.apps, 0, 'nobody docked')
+    assert.equal(h.bridge, undefined, 'no bridge listener any more')
     assert.match(a.stderr(), /using daemon/, 'shim reports the daemon it uses')
 
     // 2./3. second shim: same daemon (same pid), second independent session
@@ -104,13 +108,13 @@ test('daemon: foreign program on the port → the shim serves in-process', async
   const port = await freePort()
   const foreign = createServer(sock => sock.end())
   await new Promise(r => foreign.listen(port, '127.0.0.1', r))
-  const a = shim({ CLASSCAD_MCP_PORT: String(port), CLASSCAD_WS_URL: worker.url, CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge` })
+  const a = shim({ CLASSCAD_MCP_PORT: String(port), CLASSCAD_WS_URL: worker.url })
   try {
     const init = await a.init()
     assert.equal(init.result?.serverInfo?.name, 'classcad')
     const tools = await a.call('tools/list', {})
     assert.ok(tools.result.tools.some(t => t.name === 'run_script'))
-    assert.ok(!tools.result.tools.some(t => t.name === 'bridge.list_clients'), 'no bridge tools in-process')
+    assert.ok(tools.result.tools.some(t => t.name === 'get_selection'), 'the same tools in-process')
     assert.match(a.stderr(), /serving in-process/)
   } finally {
     await a.exit()
@@ -124,7 +128,6 @@ test('daemon: another build with live sessions → drain, new shim in-process', 
   const port = await freePort()
   const env = {
     CLASSCAD_MCP_PORT: String(port),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: worker.url,
     CLASSCAD_DAEMON_IDLE_MS: '60000',
   }
@@ -180,7 +183,6 @@ test('daemon: browser requests refused, CLI stop / stop --force', async () => {
   const port = await freePort()
   const env = {
     CLASSCAD_MCP_PORT: String(port),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: worker.url,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
   }
@@ -237,7 +239,6 @@ test('daemon: a host that probes before initialize (server/discover) still conne
   const worker = await startFakeWorker()
   const env = {
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: worker.url,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
   }
@@ -268,7 +269,7 @@ test('daemon: the probe before initialize is answered in-process too (foreign pr
   const port = await freePort()
   const foreign = createServer(sock => sock.end())
   await new Promise(r => foreign.listen(port, '127.0.0.1', r))
-  const a = shim({ CLASSCAD_MCP_PORT: String(port), CLASSCAD_WS_URL: worker.url, CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge` })
+  const a = shim({ CLASSCAD_MCP_PORT: String(port), CLASSCAD_WS_URL: worker.url })
   try {
     const probe = await a.call('server/discover', DISCOVER)
     assert.ok(probe.error, 'the probe gets an error answer, not silence: ' + JSON.stringify(probe))
@@ -286,7 +287,6 @@ test('daemon: gone before the handshake (idle exit) → the shim starts a new on
   const port = await freePort()
   const env = {
     CLASSCAD_MCP_PORT: String(port),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: worker.url,
     CLASSCAD_DAEMON_IDLE_MS: '500',
   }
@@ -301,6 +301,38 @@ test('daemon: gone before the handshake (idle exit) → the shim starts a new on
     assert.ok(await health(port), 'a daemon runs again')
   } finally {
     await a.exit()
+    await worker.close()
+  }
+})
+
+test('daemon: a page that offers a session keeps it alive, and does not keep it from stopping', async () => {
+  const worker = await startFakeWorker()
+  const port = await freePort()
+  const a = shim({ CLASSCAD_MCP_PORT: String(port), CLASSCAD_WS_URL: worker.url, CLASSCAD_DAEMON_IDLE_MS: '600', CLASSCAD_MCP_LOG: join(tmpdir(), 'classcad-mcp-test', `daemon-${port}.log`) })
+  let page
+  try {
+    await a.init()
+    let h = await health(port)
+    for (let i = 0; i < 20 && !h.join; i++) { await sleep(100); h = await health(port) }
+    assert.match(h.join, /^ws:\/\/127\.0\.0\.1:\d+\/session$/, 'health names the address sessions are joined on')
+    // an app with the engine in its page: a standing connection that offers its invite
+    page = new WebSocket(`${h.join}/?host=page-invite-abcdefgh12345678`)
+    await new Promise((resolve, reject) => { page.once('open', resolve); page.once('error', reject) })
+    const closed = new Promise(resolve => page.once('close', resolve))
+    await a.exit()
+    await sleep(2000)
+    const idle = await health(port)
+    assert.ok(idle, 'past the idle period the daemon is still there: somebody may be about to join the page')
+    assert.deepEqual({ sessions: idle.sessions, apps: idle.apps }, { sessions: 0, apps: 1 })
+    // asked to stop, it stops — the page's open connection notwithstanding
+    assert.equal((await fetch(`http://127.0.0.1:${port}/shutdown`, { method: 'POST', headers: { connection: 'close' } })).status, 200)
+    let gone = false
+    for (let i = 0; i < 24; i++) { await sleep(250); if (!(await health(port))) { gone = true; break } }
+    assert.ok(gone, 'the daemon exited')
+    await closed
+  } finally {
+    try { page?.terminate() } catch {}
+    try { a.p.kill() } catch {}
     await worker.close()
   }
 })

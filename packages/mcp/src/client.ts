@@ -24,30 +24,36 @@ import { PendingRequests, completeGraphic, normalizeResult, withEmissionOverride
 // Supports reconnecting with a different ClassCAD-Session-Id header at runtime
 // via reconnect(sessionId) — used by the use_session MCP tool.
 //
-// ── Three engines, one client ────────────────────────────────────────────────
+// ── Two engines, one client ──────────────────────────────────────────────────
 //   ws     a ClassCAD worker (Drogon) over WebSocket - own session or a shared
 //          one (?invite=). The default.
-//   bridge an app's in-page WASM engine reached through the bridge listener
-//          (?bridge= share link); commands are relayed to the page.
 //   wasm   the MCP's OWN engine: the published WASM build hosted in a worker
 //          thread of this process (engine/wasm.ts). Needs a key.
-// Which one is used: a token/URL decides by itself (invite → ws, bridge →
-// bridge). Without one the ENGINE POLICY applies (opts.engine / use_session's
-// engine argument): 'auto' tries the worker first and falls back to the local
-// WASM when the worker is not reachable; 'drogon' insists on the worker;
-// 'wasm' goes local right away. The replies of both WASM paths have the same
-// shape (messages + binary packages) and share one delivery path.
+// Which one is used: an invite URL decides by itself (→ ws). Without one the
+// ENGINE POLICY applies (opts.engine / use_session's engine argument): 'auto'
+// tries the worker first and falls back to the local WASM when the worker is
+// not reachable; 'drogon' insists on the worker; 'wasm' goes local right away.
+//
+// ── Sharing ──────────────────────────────────────────────────────────────────
+// Either engine can be shared with apps, by the session protocol of a ClassCAD
+// server (invites, peers, presence, fan-out of every command's frames). On a
+// worker the server speaks it; for the MCP's own engine share/hub.ts does,
+// through relay() and onEngineReply() below. What reaches this client of that
+// protocol besides its own results (peers, presence) goes to onSessionFrame().
 
 import WebSocket from 'ws'
 import { randomUUID } from 'crypto'
 import { connect as tcpConnect } from 'net'
 import type { ApiResult, Graphic, Message, Structure } from './types.js'
-import type { AppConnection, BridgeRegistry } from './bridge/server.js'
-import type { EngineExecuteResult } from './bridge/protocol.js'
-import { startLocalEngine, type LocalEngine, type LocalWasmOptions } from './engine/wasm.js'
+import { startLocalEngine, type EngineExecuteResult, type LocalEngine, type LocalWasmOptions } from './engine/wasm.js'
 
 export type EnginePolicy = 'auto' | 'drogon' | 'wasm'
-export type Transport = 'ws' | 'bridge' | 'wasm'
+export type Transport = 'ws' | 'wasm'
+
+/** Frames of the session protocol that answer no request (see SessionFrame). */
+const SESSION_FRAMES = new Set(['SessionJoined', 'PeerJoined', 'PeerLeft', 'Presence'])
+/** Commands that change nothing: a sibling's Result for one of them leaves the caches valid. */
+const READS = new Set(['GetTree', 'Sync', 'GetEmissionConfig', 'SetEmissionConfig', 'CreateInvite', 'RevokeInvite'])
 
 const DEFAULT_URL = 'ws://0.0.0.0:9094/'
 const REQUEST_TIMEOUT = 30_000
@@ -101,8 +107,6 @@ export type ConnectOptions = {
   connectTimeoutMs?: number
   debug?: boolean // default false — disables all timeouts
   sessionId?: string | null // optional — initial session id to send as ClassCAD-Session-Id header
-  /** Accessor for the bridge registry (apps announcing share tokens); needed for reconnectBridge. */
-  bridge?: () => BridgeRegistry | null
   /** Which engine to use when no token/URL decides it. Default 'auto'. */
   engine?: EnginePolicy
   /** Settings of the local WASM engine; null/undefined = no key = not available. */
@@ -130,6 +134,24 @@ export function ofbExportRefusal(task: object): string | null {
   return null
 }
 
+export type EngineReplyListener = (req: Record<string, unknown>, res: EngineExecuteResult, origin: 'host' | 'guest') => void
+
+/**
+ * A frame of the session protocol that is not the answer to a request of this
+ * client: SessionJoined, PeerJoined, PeerLeft, Presence. One more is made up
+ * here: `Connected` (with `transport`), whenever the engine link was opened —
+ * whoever was known of the session before is not in this one.
+ */
+export type SessionFrame = { command: string; [key: string]: any }
+
+/**
+ * The graphic database settings the MCP's renders are built on (brep edges,
+ * sketch and structure-object graphics, tessellated curves). The database is
+ * the engine's, shared by everyone on it: a docked app's own settings must not
+ * switch these off (share/hub.ts keeps them on).
+ */
+export const GRAPHIC_SETTINGS = { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }
+
 export type Client = {
   /** Raw request. Tracked as a potential mutation unless `opts.track === false`. */
   request: <T = unknown>(command: string, extra?: object, opts?: { track?: boolean }) => Promise<ApiResult<T>>
@@ -155,13 +177,28 @@ export type Client = {
   reconnect: (sessionId: string | null, engine?: EnginePolicy) => Promise<void>
   /** Reconnect to a DIFFERENT server URL — e.g. a multi-client token/invite URL (`wss://…/?invite=…`), used verbatim. */
   reconnectUrl: (url: string) => Promise<void>
+  /** Opens the engine link now (it opens by itself on the first request otherwise). */
+  open: () => Promise<void>
   /**
-   * Attach to an in-app engine (WASM) through the bridge: the app announced
-   * `token` on the MCP's bridge listener; from then on every engine command
-   * is relayed to the app (engine.execute) instead of a WebSocket worker.
+   * A docked app's command, run on the MCP's own engine (transport 'wasm'):
+   * the raw request in, everything the engine emitted out. The caches follow
+   * (the app may have changed the model). See share/hub.ts.
    */
-  reconnectBridge: (token: string) => Promise<void>
-  /** 'ws' (a ClassCAD worker over WebSocket), 'bridge' (an app's in-page engine) or 'wasm' (the MCP's own engine). */
+  relay: (req: Record<string, unknown>) => Promise<EngineExecuteResult>
+  /**
+   * Hears every reply of the MCP's own engine, whoever asked: `host` is this
+   * client, `guest` a docked app (relay). Returns the unsubscribe function.
+   */
+  onEngineReply: (listener: EngineReplyListener) => () => void
+  /** Hears when the MCP's own engine was started or replaced (crash, timeout): its drawing is empty. */
+  onEngineStart: (listener: () => void) => () => void
+  /** The complete graphic of the MCP's own engine: every container emitted so far that is still in the model. */
+  engineContainers: () => unknown[]
+  /** Hears the session frames a ClassCAD server sends this connection (peers, presence). Returns the unsubscribe function. */
+  onSessionFrame: (listener: (frame: SessionFrame) => void) => () => void
+  /** Sends a frame that expects no answer to the ClassCAD server (presence). False when there is no open worker connection. */
+  sendFrame: (frame: SessionFrame) => boolean
+  /** 'ws' (a ClassCAD worker over WebSocket) or 'wasm' (the MCP's own engine). */
   readonly transport: Transport
   /** The engine policy in force when no token/URL decides ('auto' | 'drogon' | 'wasm'). */
   readonly engine: EnginePolicy
@@ -169,7 +206,7 @@ export type Client = {
   readonly wasmAvailable: boolean
   /** The running local engine, if any. */
   readonly localEngine: LocalEngine | null
-  /** The share token this client joined with (invite or bridge token), or null. */
+  /** The invite token this client joined a server session with, or null (its own session). */
   readonly shareToken: string | null
   /** True while the engine link is usable. */
   readonly connected: boolean
@@ -219,13 +256,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // Single-flight guard so concurrent tool calls share one open attempt.
   let connectPromise: Promise<void> | null = null
 
-  // ── Bridge transport (in-app engines) ──
-  // Instead of a WebSocket to a worker, commands go to the app that announced
-  // `bridgeToken` on the bridge listener; the app runs them on its WASM engine
-  // and returns everything the engine emitted. The replies are normalized to
-  // the worker's frame shape and fed through handleFrame like WS frames.
   let transport: Transport = 'ws'
-  let bridgeConn: AppConnection | null = null
   // ── Local WASM engine (engine/wasm.ts) ──
   // Started on first use under the 'wasm' policy (or 'auto' with the worker
   // unreachable); kept for the client's lifetime — a restart costs seconds
@@ -241,18 +272,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   let probing = false
   const wasmAvailable = () => !!opts.wasm?.key
   const log = opts.log ?? (() => {})
-  let bridgeToken: string | null = null
-  let bridgeUnsubClose: (() => void) | null = null
-  let bridgePeerId: string | null = null
   // The invite token of a server session joined via reconnectUrl (?invite=…).
   let inviteToken: string | null = null
-  // In-app engines emit graphic as binary packages per command (no bundled
+  // The local engine emits graphic as binary packages per command (no bundled
   // graphic on GetTree). Accumulate containers by id so a pull can hand the
   // renderer the complete picture; the renderer drops consumed bodies itself.
-  const bridgeContainers = new Map<string, any>()
+  const containers = new Map<string, any>()
 
   function send(obj: Record<string, unknown>): void {
-    if (transport === 'bridge' || transport === 'wasm') {
+    if (transport === 'wasm') {
       sendViaEngine(obj)
       return
     }
@@ -260,29 +288,16 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     ws.send(JSON.stringify(obj))
   }
 
-  /** Bridge and local WASM: one request → everything the engine emitted for it. */
+  /** The local engine: one request → everything the engine emitted for it. */
   function sendViaEngine(req: Record<string, unknown>): void {
     const txId = String(req.transactionID)
-    let run: Promise<EngineExecuteResult>
-    if (transport === 'wasm') {
-      if (!localEngine) {
-        const entry = pending.get(txId)
-        pending.delete(txId)
-        entry?.reject(new Error('local WASM engine is not running'))
-        return
-      }
-      run = localEngine.execute(req)
-    } else {
-      const conn = bridgeConn
-      if (!conn) {
-        const entry = pending.get(txId)
-        pending.delete(txId)
-        entry?.reject(new Error('bridge not attached — call use_session with the app\'s share link'))
-        return
-      }
-      run = conn.request<EngineExecuteResult>('engine.execute', req)
+    if (!localEngine) {
+      const entry = pending.get(txId)
+      pending.delete(txId)
+      entry?.reject(new Error('local WASM engine is not running'))
+      return
     }
-    run.then(
+    localEngine.execute(req).then(
       res => deliverEngineResult(req, res),
       err => {
         const entry = pending.get(txId)
@@ -294,7 +309,79 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     )
   }
 
-  /** Turns an engine reply (bridge or local WASM) into worker-shaped Result frames and delivers them. */
+  /**
+   * Keeps the accumulated graphic in step with one reply of the local engine,
+   * whoever asked. The engine never announces that a body is gone, so
+   * containers are dropped here: all of them when the drawing is emptied
+   * (clear, load with doClear — a restored checkpoint included), and on every
+   * pull those whose owner left the model tree (a deleted feature, a clear
+   * that kept some ids). Without this a render shows bodies of earlier models
+   * next to the current one.
+   */
+  function absorb(req: Record<string, unknown>, res: EngineExecuteResult): void {
+    if (res.decodeErrors?.length) log(`${String(req.command)}: dropped undecodable engine output (${res.decodeErrors.join('; ')})`)
+    if (emptiesDrawing(req)) containers.clear()
+    for (const pkg of res.binaryMessages ?? []) {
+      for (const c of (pkg as any)?.containers ?? []) {
+        if (c && c.id != null) containers.set(String(c.id), c)
+      }
+    }
+    for (const m of res.messages ?? []) {
+      if (m?.command !== 'Result') continue
+      const from = m._from_ ?? m.from ?? req.command
+      if (from !== 'GetTree' && from !== 'Sync') continue
+      const tree = (m.structure ?? m.result)?.tree
+      if (!tree || typeof tree !== 'object') continue
+      for (const [key, c] of containers) {
+        if (!(String(c.owner ?? c.id) in tree)) containers.delete(key)
+      }
+    }
+  }
+
+  const replyListeners = new Set<EngineReplyListener>()
+  function onEngineReply(listener: EngineReplyListener): () => void {
+    replyListeners.add(listener)
+    return () => void replyListeners.delete(listener)
+  }
+
+  /** A docked app's command on the MCP's own engine (see Client.relay). */
+  async function relay(req: Record<string, unknown>): Promise<EngineExecuteResult> {
+    await ensureOpen()
+    if (transport !== 'wasm' || !localEngine) throw new Error('this session does not run on the MCP\'s own engine')
+    const res = await localEngine.execute(req)
+    // Anything but a pull may have changed the model: the caches are stale, and
+    // database settings an app set may have replaced the ones renders need.
+    if (req.command !== 'GetTree' && req.command !== 'Sync') {
+      version++
+      if (touchesDatabaseSettings(req)) ensuredGeneration = -1
+    }
+    absorb(req, res)
+    for (const hear of replyListeners) hear(req, res, 'guest')
+    return res
+  }
+
+  function touchesDatabaseSettings(req: Record<string, unknown>): boolean {
+    return Array.isArray(req.task) && req.task.some(t => t && typeof t === 'object' && 'v1.common.setDatabaseSettings' in t)
+  }
+
+  const engineStartListeners = new Set<() => void>()
+  function onEngineStart(listener: () => void): () => void {
+    engineStartListeners.add(listener)
+    return () => void engineStartListeners.delete(listener)
+  }
+
+  const sessionListeners = new Set<(frame: SessionFrame) => void>()
+  function onSessionFrame(listener: (frame: SessionFrame) => void): () => void {
+    sessionListeners.add(listener)
+    return () => void sessionListeners.delete(listener)
+  }
+  function sendFrame(frame: SessionFrame): boolean {
+    if (transport !== 'ws' || !ws || ws.readyState !== WebSocket.OPEN) return false
+    ws.send(JSON.stringify(frame))
+    return true
+  }
+
+  /** Turns a reply of the local engine into worker-shaped Result frames and delivers them. */
   function deliverEngineResult(req: Record<string, unknown>, res: EngineExecuteResult): void {
     const txId = String(req.transactionID)
     const fail = (why: string) => {
@@ -304,16 +391,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         entry.reject(new Error(why))
       }
     }
-    if (res.decodeErrors?.length) log(`${String(req.command)}: dropped undecodable engine output (${res.decodeErrors.join('; ')})`)
-    // These engines never announce that a body is gone, so the accumulated
-    // containers have to be dropped here: all of them when the drawing is
-    // emptied (clear, load with doClear — a restored checkpoint included) …
-    if (emptiesDrawing(req)) bridgeContainers.clear()
-    for (const pkg of res.binaryMessages ?? []) {
-      for (const c of (pkg as any)?.containers ?? []) {
-        if (c && c.id != null) bridgeContainers.set(String(c.id), c)
-      }
-    }
+    absorb(req, res)
+    for (const hear of replyListeners) hear(req, res, 'host')
     // Errors the engine reported on the side (ErrorMessage frames, errorState 2).
     const sideErrors = (res.messages ?? [])
       .filter(m => m?.command === 'ErrorMessage' && Number(m.attributes?.errorState) >= 2)
@@ -346,17 +425,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
           frame.structure = frame.result
           delete frame.result
         }
-        // … and on every pull those whose owner left the model tree (a deleted
-        // feature, a clear that kept some ids). Without this a render shows
-        // bodies of earlier models next to the current one.
-        const tree = frame.structure?.tree
-        if (tree && typeof tree === 'object') {
-          for (const [key, c] of bridgeContainers) {
-            if (!(String(c.owner ?? c.id) in tree)) bridgeContainers.delete(key)
-          }
-        }
-        // A pull delivers the COMPLETE graphic: the accumulated containers.
-        frame.graphic = { containers: [...bridgeContainers.values()] }
+        // A pull delivers the COMPLETE graphic: the accumulated containers (absorb pruned them).
+        frame.graphic = { containers: [...containers.values()] }
       }
       delivered = true
       handleFrame(Buffer.from(JSON.stringify(frame)), false)
@@ -383,19 +453,6 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     return method ? `${String(req.command)} ${method}` : String(req.command)
   }
 
-  function detachBridge(): void {
-    if (bridgeUnsubClose) bridgeUnsubClose()
-    bridgeUnsubClose = null
-    const conn = bridgeConn
-    bridgeConn = null
-    if (conn && bridgePeerId) {
-      conn.request('session.detached', { peerId: bridgePeerId }).catch(() => {})
-    }
-    bridgePeerId = null
-    bridgeToken = null
-    bridgeContainers.clear()
-  }
-
   function handleFrame(data: WebSocket.RawData, isBinary: boolean): void {
     if (isBinary) return
     let frame: any
@@ -405,9 +462,18 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       return
     }
     const txId = frame._transactionID_
-    if (!txId) return
+    if (!txId) {
+      // The session protocol's own frames: who joined or left, what they published.
+      if (SESSION_FRAMES.has(frame?.command)) for (const hear of sessionListeners) hear(frame as SessionFrame)
+      return
+    }
     const entry = pending.get(txId)
-    if (!entry) return
+    if (!entry) {
+      // A sibling's command (the server fans its frames out to everyone in the
+      // session): whatever it was, the model may be another one now.
+      if (frame.command === 'Result' && !READS.has(frame._from_)) version++
+      return
+    }
     if (frame.command !== 'Result') return
     pending.delete(txId)
 
@@ -455,13 +521,6 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // the in-flight open. After a successful open, ws stays defined; close()
   // and reconnect() reset it as needed.
   async function ensureOpen(): Promise<void> {
-    if (transport === 'bridge') {
-      if (bridgeConn) return
-      throw new Error(
-        'The app behind the share link is gone (bridge closed). Either reopen the share in the app and call use_session with the new link, ' +
-          'or leave the app: use_session with engine "wasm" runs on the MCP\'s own local engine, engine "drogon" on the ClassCAD worker, "auto" picks.',
-      )
-    }
     if (transport === 'wasm' && localEngine?.closed) {
       if (connectPromise) return connectPromise
       connectPromise = restartLocalEngine(localEngine.deathReason ?? 'closed').finally(() => {
@@ -567,7 +626,6 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       } catch {}
       ws = undefined
     }
-    if (transport === 'bridge') detachBridge()
     resetCaches()
     transport = 'wasm'
     currentSessionId = null
@@ -582,11 +640,15 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     }
     if (!localEngine) {
       localEngine = await startLocalEngine({ ...opts.wasm!, log })
-      // A new engine has default database settings. Checkpoints (save
-      // payloads held here) stay valid: restore loads them into this one.
+      // A new engine has an empty drawing and default database settings.
+      // Checkpoints (save payloads held here) stay valid: restore loads them
+      // into this one.
+      containers.clear()
       ensuredGeneration = -1
       await bootstrapSession()
+      for (const hear of engineStartListeners) hear()
     }
+    for (const hear of sessionListeners) hear({ command: 'Connected', transport: 'wasm' })
   }
 
   /** Replaces a retired local engine (crash, trap, timeout) with a new one. */
@@ -604,7 +666,6 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   function close(): void {
-    if (transport === 'bridge') detachBridge()
     if (ws && ws.readyState <= WebSocket.OPEN) ws.close()
     if (localEngine) {
       localEngine.close()
@@ -670,11 +731,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
         'Execute',
         {
           task: [
-            {
-              'v1.common.setDatabaseSettings': [
-                { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
-              ],
-            },
+            { 'v1.common.setDatabaseSettings': [{ ...GRAPHIC_SETTINGS }] },
           ],
           options: { undoable: false },
         },
@@ -761,60 +818,11 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     knownKernel = null
   }
 
-  async function openBridge(token: string): Promise<void> {
-    const registry = opts.bridge?.() ?? null
-    if (!registry) throw new Error('The bridge listener is not running in this MCP (CLASSCAD_BRIDGE_LISTEN failed to bind, or the MCP runs in-process without a daemon).')
-    if (ws && ws.readyState <= WebSocket.OPEN) {
-      try {
-        ws.close()
-      } catch {}
-      ws = undefined
-    }
-    detachBridge()
-    resetCaches()
-    transport = 'bridge'
-    bridgeToken = token
-    // Apps reconnect with backoff (buerli connectBridge: 500 ms … 5 s) after a
-    // daemon restart; wait longer than the largest backoff step.
-    const conn = await registry.waitFor(token, 8_000)
-    if (!conn) {
-      transport = 'ws'
-      bridgeToken = null
-      throw new Error(
-        `No app has announced share token "${token}" on ${registry.url}. ` +
-          'Create the share in the app first (it connects to this MCP when the token is minted), then call use_session again.',
-      )
-    }
-    if (conn.kind !== 'bridge') {
-      transport = 'ws'
-      bridgeToken = null
-      throw new Error(`Token "${token}" belongs to a server session (invite), not an in-app engine — pass it as ?invite= instead.`)
-    }
-    bridgeConn = conn
-    bridgePeerId = randomUUID()
-    bridgeUnsubClose = conn.onClose(() => {
-      if (bridgeConn !== conn) return
-      bridgeConn = null
-      for (const [, entry] of pending) {
-        try {
-          entry.reject(new Error('bridge closed — the app revoked the share or went away'))
-        } catch {}
-      }
-      pending.clear()
-    })
-    try {
-      await conn.request('session.attached', { peerId: bridgePeerId, role: 'edit', client: 'classcad-mcp' })
-    } catch {
-      /* older apps without the session.* handlers still relay engine commands */
-    }
-    await bootstrapSession()
-  }
-
   async function openWs(sessionId: string | null): Promise<void> {
-    if (transport === 'bridge') detachBridge()
     // Leaving the local engine for a worker: the engine stays warm in case
     // the policy brings us back; close() ends it with the client.
     transport = 'ws'
+    containers.clear()
     if (ws && ws.readyState <= WebSocket.OPEN) {
       try {
         ws.close()
@@ -864,6 +872,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       if (!debug) timer = setTimeout(() => fail(new Error('Connection timeout')), opts.connectTimeoutMs ?? CONNECT_TIMEOUT)
     })
     sock.on('message', (d, b) => handleFrame(d, b))
+    for (const hear of sessionListeners) hear({ command: 'Connected', transport: 'ws' })
   sock.on('close', () => {
     if (ws !== sock) return
     for (const entry of pending.values()) entry.reject(new Error('Worker disconnected; in-flight mutation outcome unknown'))
@@ -907,14 +916,6 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     await openWs(null)
   }
 
-  async function reconnectBridge(token: string): Promise<void> {
-    generation++
-    connectPromise = null
-    currentSessionId = null
-    inviteToken = null
-    await openBridge(token)
-  }
-
   // No eager open here. The WS is opened on first request/execute/pull call
   // (via ensureOpen) or immediately by reconnect(). This keeps the MCP
   // passive at startup so it doesn't create stray ephemeral worker sessions.
@@ -933,7 +934,13 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     refreshTree,
     reconnect,
     reconnectUrl,
-    reconnectBridge,
+    open: ensureOpen,
+    relay,
+    onEngineReply,
+    onEngineStart,
+    engineContainers: () => [...containers.values()],
+    onSessionFrame,
+    sendFrame,
     get ws() {
       return ws
     },
@@ -950,10 +957,9 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       return localEngine
     },
     get shareToken() {
-      return bridgeToken ?? inviteToken
+      return inviteToken
     },
     get connected() {
-      if (transport === 'bridge') return bridgeConn !== null
       if (transport === 'wasm') return localEngine !== null
       return !!ws && ws.readyState === WebSocket.OPEN
     },

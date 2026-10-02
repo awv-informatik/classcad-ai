@@ -49,7 +49,6 @@ test('sign-in: gate, loopback hand-back, waiting login, revocation, logout', asy
   const env = {
     ...auth.env,
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: worker.url,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
   }

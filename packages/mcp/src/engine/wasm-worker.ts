@@ -2,7 +2,7 @@
 // worker_thread. This is what ClassCADWasmWorker.js does in the browser,
 // minus the browser: the engine is synchronous and blocks its thread for the
 // duration of a command, so it lives in its own thread and the daemon's
-// event loop (other sessions, the bridge, /health) stays responsive.
+// event loop (other sessions, docked apps, /health) stays responsive.
 //
 // Two shims make the web-built engine run in Node:
 //   • location: the engine's license key is bound to "allowed origins"

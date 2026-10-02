@@ -1,10 +1,11 @@
 // Copy non-TS build assets that tsc doesn't move into dist/.
 // Cross-platform replacement for `cp -r` in package.json.
 //
-//   viewer-page/            → dist/viewer-page/            the 3D viewer's page (HTML, CSS, JS, font)
-//   three (devDependency)   → dist/viewer-page/vendor/     what the page imports, so it works offline
+//   app/                    → dist/app/                    the app that docks into sessions (scripts/build-app.mjs puts it there)
+//   viewer-page/            → dist/viewer-page/            the read-only 3D view's page (HTML, CSS, JS, font)
+//   three (devDependency)   → dist/viewer-page/vendor/     what that page imports, so it works offline
 
-import { copyFileSync, cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -34,3 +35,11 @@ for (const [from, to] of vendor) {
 const version = JSON.parse(readFileSync(join(three, 'package.json'), 'utf8')).version
 writeFileSync(join(out, 'vendor', 'VERSION.txt'), `three ${version} (MIT), copied at build time\n`)
 console.log(`viewer page → dist/viewer-page (three ${version})`)
+
+// The app is built elsewhere (scripts/build-app.mjs); a build without it shows the read-only view.
+const app = join(root, 'app')
+rmSync(join(root, 'dist', 'app'), { recursive: true, force: true })
+if (existsSync(join(app, 'index.html'))) {
+  cpSync(app, join(root, 'dist', 'app'), { recursive: true })
+  console.log(`app → dist/app (${readFileSync(join(app, 'SOURCE.txt'), 'utf8').split('\n').slice(1).filter(Boolean).join(', ')})`)
+} else console.log('no app/ in this checkout: this build has the read-only 3D view (npm run build:app builds the app)')

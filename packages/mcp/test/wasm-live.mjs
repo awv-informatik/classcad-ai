@@ -36,7 +36,6 @@ test('local WASM engine through the MCP (policy wasm / auto fallback / drogon)',
   const deadWorker = `ws://127.0.0.1:${await freePort()}/`   // nothing listens here
   const base = {
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: deadWorker,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
   }
@@ -89,7 +88,6 @@ test('auto: a worker that comes up later takes over an EMPTY local session, neve
   const workerPort = await freePort()
   const env = {
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: `ws://127.0.0.1:${workerPort}/`,   // nothing there yet
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_ENGINE: 'auto',
@@ -123,7 +121,6 @@ test('auto: a worker that comes up later takes over an EMPTY local session, neve
 test('engine errors surface through run_script (the WASM engine nests maxLevel/messages in result)', async () => {
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_ENGINE: 'wasm',
@@ -206,7 +203,6 @@ test('local engine: frame guards, and a crashed / hung / wedged engine is replac
 test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore still work', async () => {
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_ENGINE: 'wasm',
@@ -240,7 +236,6 @@ test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore sti
 test('local engine: clear, restore and deletions leave no stale geometry in the graphic', async () => {
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_ENGINE: 'wasm',
@@ -280,15 +275,16 @@ test('local engine: clear, restore and deletions leave no stale geometry in the 
   }
 })
 
-test('3D view: one link per session, live updates, exports, nothing shared between sessions', async () => {
+test('read-only 3D view: one link per session, live updates, exports, nothing shared between sessions', async () => {
   const { mkdtempSync, readFileSync, existsSync } = await import('node:fs')
   const { tmpdir } = await import('node:os')
   const env = {
     CLASSCAD_MCP_PORT: String(await freePort()),
-    CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_ENGINE: 'wasm',
+    // the view a build without the app has, asked for by name
+    CLASSCAD_VIEWER: 'readonly',
   }
   const a = shim(env)
   const b = shim(env) // a second session in the same daemon
@@ -384,6 +380,120 @@ test('3D view: one link per session, live updates, exports, nothing shared betwe
     reader.cancel().catch(() => {})
   } finally {
     await a.exit()
+    await b.exit()
+  }
+})
+
+test('sharing: an app docks into the MCP\'s own engine, and an agent joins another agent\'s session', async () => {
+  const { default: WebSocket } = await import('ws')
+  const { inflateRawSync } = await import('node:zlib')
+  const listener = await freePort()
+  const env = {
+    CLASSCAD_MCP_PORT: String(await freePort()),
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+    CLASSCAD_VIEWER_PORT: String(listener),
+    // an app that is hosted elsewhere: the link carries the invite, whatever this build carries
+    CLASSCAD_APP_URL: 'http://app.test/',
+  }
+  const a = shim(env)
+  const b = shim(env)
+  const sleep = ms => new Promise(r => setTimeout(r, ms))
+  let ws
+  try {
+    await a.init()
+    const built = await a.call('tools/call', { name: 'run_script', arguments: { script: `const p = (await api.v1.part.create({ name: 'Shared' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30, name: 'FromAgent' }); return p` } })
+    const link = (await a.tool('session_info')).value.app
+    assert.match(link, /^http:\/\/app\.test\/\?invite=[0-9a-f-]{36}$/, 'the app\'s link carries the session\'s invite')
+    assert.ok(built.result.content.some(c => c.type === 'text' && c.text.includes(link)), 'a result that shows a model offers the app')
+    const invite = new URL(link).searchParams.get('invite')
+    const partId = JSON.parse(built.result.content[0].text).returned
+
+    // ── an app: what buerli's WSClient does ──
+    ws = new WebSocket(`ws://127.0.0.1:${listener}/session/?invite=${invite}`)
+    const frames = []
+    const waiters = new Map()
+    let n = 0
+    ws.on('message', (data, isBinary) => {
+      const frame = JSON.parse(isBinary ? inflateRawSync(data).toString() : data.toString())
+      frames.push(frame)
+      if (frame.command === 'Result' && waiters.has(frame._transactionID_)) { waiters.get(frame._transactionID_)(frame); waiters.delete(frame._transactionID_) }
+    })
+    await new Promise((resolve, reject) => { ws.once('open', resolve); ws.once('error', reject) })
+    const send = cmd => new Promise(resolve => { const transactionID = `app-${++n}`; waiters.set(transactionID, resolve); ws.send(JSON.stringify({ commandVersion: 'v1', transactionID, ...cmd })) })
+    const presence = (channel, data) => ws.send(JSON.stringify({ command: 'Presence', channel, data }))
+    const config = await send({ command: 'SetEmissionConfig', config: { sendStructure: true, sendStructure_Patch: true, sendStructure_Immediately: true, sendGraphic_Kernel: true, sendGraphic_Immediately: true, sendGraphic_ImmediatelyBinary: true, sendMessages: true } })
+    assert.equal(config.result.sendStructure_Patch, true)
+    assert.equal(frames[0].command, 'SessionJoined')
+    presence('client', { app: 'testapp', version: '1.0', kind: 'app' })
+    const tree = await send({ command: 'GetTree' })
+    const names = Object.values(tree.structure.tree).map(node => node.name)
+    assert.ok(names.includes('Shared') && names.includes('FromAgent'), 'the guest sees the model that was already there')
+    assert.ok(tree.graphic.containers.some(c => (c.meshes ?? []).length === 6), 'with the box\'s six faces')
+    const face = tree.graphic.containers.find(c => (c.meshes ?? []).length === 6)
+
+    // the host said what it offers, and who it is
+    for (let i = 0; i < 40 && !frames.some(f => f.command === 'Presence' && f.channel === 'config'); i++) await sleep(25)
+    assert.deepEqual(frames.find(f => f.command === 'Presence' && f.channel === 'config').data, { saveFormats: ['STP', 'STL'] })
+    assert.deepEqual(frames.find(f => f.command === 'Presence' && f.channel === 'client').data, { app: 'classcad-mcp', version: frames.find(f => f.command === 'Presence' && f.channel === 'client').data.version, kind: 'agent', name: 'wasm-live' })
+
+    // the agent builds: the app is sent the change as it happens
+    frames.length = 0
+    assert.ok(!(await a.tool('run_script', { script: `await api.v1.part.cylinder({ id: ${partId}, diameter: 5, height: 50, name: 'Pin' }); return 1` })).isError)
+    for (let i = 0; i < 40 && !frames.some(f => f.command === 'Graphic'); i++) await sleep(25)
+    assert.ok(frames.some(f => f.command === 'StructurePatch' && JSON.stringify(f.structurePatch).includes('Pin')), 'a structure patch with the new feature')
+    assert.ok(frames.some(f => f.command === 'Graphic' && f.graphic.containers.length), 'and its graphic')
+
+    // the user builds: the agent reads it
+    const made = await send({ command: 'Execute', task: [{ 'v1.part.box': [{ id: partId, length: 1, width: 2, height: 3, name: 'FromApp' }] }], options: { undoable: true } })
+    assert.ok(typeof made.result === 'number' && (made.maxLevel ?? 0) < 51, 'a guest\'s command runs on the MCP\'s engine: ' + JSON.stringify(made).slice(0, 200))
+    assert.ok((await a.tool('tree')).value.nodes.some(node => node.name === 'FromApp'), 'the agent\'s next look at the tree has the user\'s feature')
+    const shown = await a.tool('snapshot', {})
+    assert.ok(shown.content.some(block => block.type === 'image'), 'and its render works on')
+
+    // OFB is not handed out to a guest either
+    const ofb = await send({ command: 'Execute', task: [{ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] }] })
+    assert.ok(ofb.maxLevel >= 51 && /OFB export is not available/.test(ofb.messages[0].message))
+
+    // pointing, both ways
+    presence('selection', { items: [{ kind: 'face', objectId: face.owner, prodRefId: partId, containerId: face.id, graphicId: face.meshes[0].id, type: 'plane' }], total: 1 })
+    await send({ command: 'GetEmissionConfig' })
+    const selection = (await a.tool('get_selection')).value
+    assert.equal(selection.count, 1)
+    assert.equal(selection.selections[0].who, 'testapp (user)')
+    assert.equal(selection.selections[0].items[0].graphicId, face.meshes[0].id)
+    assert.equal(selection.selections[0].items[0].object.class, 'CC_Solid', 'the tree\'s word on the picked object')
+    frames.length = 0
+    const asked = await a.tool('set_selection', { items: [{ graphicId: face.meshes[1].id }] })
+    assert.ok(!asked.isError, asked.text)
+    const selects = frames.filter(f => f.command === 'Presence' && f.channel === 'select')
+    assert.equal(selects.length, 2, 'the request, then the note that it is over')
+    assert.deepEqual(selects[0].data.items, [{ graphicId: face.meshes[1].id }])
+    assert.deepEqual(selects[1].data, { id: selects[0].data.id, done: true })
+    const info = (await a.tool('session_info')).value
+    assert.deepEqual(info.peers, [{ app: 'testapp', name: 'user', kind: 'app', role: 'edit' }])
+
+    // ── another agent joins the session with the same link ──
+    await b.init()
+    const joined = await b.tool('use_session', { url: link })
+    assert.ok(!joined.isError, 'the link of an agent\'s session is joined on this machine: ' + joined.text)
+    assert.equal(joined.value.transport, 'ws')
+    const treeB = (await b.tool('tree')).value
+    assert.ok(treeB.nodes.some(node => node.name === 'FromApp'), 'the second agent sees the model')
+    assert.ok(!(await b.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); await api.v1.part.box({ id: p.id, length: 4, width: 4, height: 4, name: 'FromB' }); return 1` })).isError)
+    assert.ok((await b.tool('snapshot', {})).content.some(block => block.type === 'image'), 'and renders it')
+    assert.ok((await a.tool('tree')).value.nodes.some(node => node.name === 'FromB'), 'the first agent sees what the second built')
+    assert.ok((await a.tool('session_info')).value.peers.some(peer => peer.kind === 'agent' && peer.app === 'classcad-mcp'), 'and that it is there')
+    assert.match((await b.tool('view', { open: false })).text, /belongs to an app the user already has open|There is nothing else to open/, 'a guest has no app of its own to offer')
+
+    // the session ends: its guests are closed
+    const closed = new Promise(resolve => ws.once('close', resolve))
+    await a.exit()
+    await closed
+  } finally {
+    try { ws?.close() } catch {}
+    try { a.p.kill() } catch {}
     await b.exit()
   }
 })

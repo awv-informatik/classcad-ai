@@ -11,4 +11,5 @@ test/out
 # Lock file noise from the previous standalone repos
 packages/*/package-lock.json
 
-
+# The app that docks into MCP sessions: built from the buerli repositories (npm run build:app -w @classcad/mcp)
+packages/mcp/app/

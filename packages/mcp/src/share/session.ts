@@ -17,7 +17,6 @@ import { createSessionHub, type Invite, type SessionHub } from './hub.js'
 import { appAvailable, listen, offerInvite } from './server.js'
 import {
   CLIENT_CHANNEL,
-  CONFIG_CHANNEL,
   SELECT_CHANNEL,
   SELECTION_CHANNEL,
   type ClientIdentity,
@@ -26,16 +25,8 @@ import {
   type SelectionFrame,
   type SelectionItem,
   type SelectTarget,
-  type SessionConfig,
   type SessionFrame,
 } from './protocol.js'
-
-/**
- * What this MCP's sessions offer their guests: the formats its own tools hand
- * out. OFB is not among them in this release (client.ts, ofbExportRefusal) —
- * apps hide what is not offered, and the hub refuses it all the same.
- */
-const OFFERED: SessionConfig = { saveFormats: ['STP', 'STL'] }
 
 /**
  * How a session's app reaches the user:
@@ -184,8 +175,6 @@ export async function openShare(opts: ShareOptions): Promise<Share> {
     if (key === published && !again) return
     published = key
     sendPresence(CLIENT_CHANNEL, identity)
-    // Only a host's word counts on this channel: a server drops it from a guest.
-    sendPresence(CONFIG_CHANNEL, OFFERED)
   }
 
   // ── The app's link ──

@@ -6,8 +6,8 @@
 //      graphic, the host's commands fanned out, invites refused to guests
 //   3. presence: fan-out with the sender's id, the snapshot for late joiners,
 //      reserved channels and oversized frames dropped, 'leave' on disconnect
-//   4. what the MCP's tools refuse (OFB) a guest is refused too, and the graphic
-//      settings the MCP's renders need survive a guest's own
+//   4. a guest's command reaches the engine like the host's (an OFB save too),
+//      and the graphic settings the MCP's renders need survive a guest's own
 //   5. the listener: an unknown invite fails the handshake; a page that hosts
 //      its own session is joined through it (offer, knock, meet, pass bytes),
 //      and its guests go with it
@@ -251,19 +251,21 @@ test('hub: presence goes to the others with the sender\'s id, and to those who j
   }
 })
 
-test('hub: what the MCP\'s tools refuse, a guest is refused too', async () => {
+test('hub: a guest saves what the host may save, and cannot switch off what the MCP\'s renders need', async () => {
   const s = session()
   const g = guest(`${SESSION}/?invite=${s.invite.invite}`)
   try {
     await g.opened
-    const ofb = await g.send({ command: 'Execute', task: [{ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] }] })
-    assert.equal(ofb.maxLevel, 51)
-    assert.match(ofb.messages[0].message, /OFB export is not available/)
-    const node = await g.send({ command: 'Execute', task: [{ 'v1.assembly.exportNode': [{ id: 4, encoding: 'base64' }] }] })
-    assert.equal(node.maxLevel, 51, 'exportNode writes OFB unless told otherwise')
-    assert.equal(s.client.relayed.length, 0, 'neither reached the engine')
-    const stp = await g.send({ command: 'Execute', task: [{ 'v1.common.save': [{ format: 'STP', encoding: 'base64' }] }] })
-    assert.equal(stp.result, 42, 'STEP passes')
+    // No format is kept from a guest: OFB, exportNode (OFB unless told otherwise) and STEP all reach the engine.
+    for (const task of [
+      { 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] },
+      { 'v1.assembly.exportNode': [{ id: 4, encoding: 'base64' }] },
+      { 'v1.common.save': [{ format: 'STP', encoding: 'base64' }] },
+    ]) {
+      const saved = await g.send({ command: 'Execute', task: [task] })
+      assert.equal(saved.result, 42, JSON.stringify(task))
+    }
+    assert.equal(s.client.relayed.length, 3, 'each reached the engine')
 
     // The app's own graphic settings must not switch off what the MCP's renders are built on.
     await g.send({ command: 'Execute', task: [{ 'v1.common.setDatabaseSettings': [{ isGraphicEnabled: true, isCCGraphicEnabled: false, isSketchGraphicEnabled: false, doCurveTessellation: false, chordHeightTol: 0.1 }] }] })

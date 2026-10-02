@@ -43,8 +43,8 @@ signed bulge values** per segment — one call, every arc encoded by its sweep:
   about +Z) — the bulges follow the transform.
 - Line + arc chains work too, but choose each arc's constructor by what it pins:
   `curve.arcBy3Points` (a point on the arc), `curve.arcByCenterRadAngle`
-  (counterclockwise about an explicit `normal`) or `curve.arcByCenter`
-  (`isClockwise` about `normal`, default +Z; arcs outside XY need their `normal`)
+  (counterclockwise about an explicit `normal`) or `curve.arcByCenter`, whose
+  `isClockwise` means major (`true`) / minor (`false`) arc, not a world direction
   ([curve/arcByCenter](../references/curve/arcByCenter.md)).
 
 ## Instancing without a pattern feature

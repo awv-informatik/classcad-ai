@@ -2709,9 +2709,9 @@
     "between": {
       "count": 10,
       "top": [
-        "v1.solid.merge",
         "v1.solid.union",
-        "v1.curve.union2d"
+        "v1.curve.union2d",
+        "v1.solid.subtraction"
       ]
     },
     "bezier": {
@@ -2887,16 +2887,16 @@
       "count": 6,
       "top": [
         "v1.sketch.arcByCenter",
-        "v1.drawing2d.centerView",
-        "v1.curve.arcByCenter"
+        "v1.curve.arcByCenter",
+        "v1.drawing2d.centerView"
       ]
     },
     "centers": {
       "count": 6,
       "top": [
         "v1.sketch.arcByCenter",
-        "v1.drawing2d.centerView",
-        "v1.curve.arcByCenter"
+        "v1.curve.arcByCenter",
+        "v1.drawing2d.centerView"
       ]
     },
     "chamfer": {
@@ -4357,8 +4357,8 @@
       "count": 4,
       "top": [
         "v1.part.getGeometryIds",
-        "v1.part.importFeature",
-        "v1.part.entityInjection"
+        "v1.part.entityInjection",
+        "v1.part.importFeature"
       ]
     },
     "limited": {

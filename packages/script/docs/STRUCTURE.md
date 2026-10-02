@@ -35,10 +35,14 @@ load-bearing relations:
 - `CC_AssemblyRoot` derives from `CC_Assembly`.
 - `CC_ProductReference` and `CC_ProductReferenceET` both derive from
   `I_ProductReference` — one predicate catches every instance node.
+- `CC_Solid` and `CC_Sheet` both derive from `CC_Body`, and `CC_DecoratedSolid`
+  from `CC_Solid` — "give me all bodies" matches solids (closed) AND sheets
+  (open). `api.inspect.currentBodies` / `currentSolids` apply it.
 
 Exact string comparison (`n.class === 'CC_Part'`) is fine for leaf classes;
-just remember an `CC_AssemblyRoot` will NOT match `=== 'CC_Assembly'` — test
-both (or use buerli's `isA` where available).
+just remember an `CC_AssemblyRoot` will NOT match `=== 'CC_Assembly'`, and
+neither a `CC_Sheet` nor a `CC_DecoratedSolid` matches `=== 'CC_Solid'` — test
+every class of the family (or use buerli's `isA` where available).
 
 ## StructureObject
 
@@ -88,7 +92,7 @@ AllObjects (id 1)
       ├─ CC_SketchSet             ← CC_Sketch nodes
       ├─ CC_EntitySet             ← FEATURES: CC_Box, CC_Extrusion, CC_Subtraction, CC_Chamfer, …
       │   └─ <feature>
-      │        └─ CC_Solid        ← each solid is a child of the feature that produced it
+      │        └─ CC_Solid | CC_Sheet  ← each body is a child of the feature that produced it
       └─ CC_OperationSequence     ← THE HISTORY (ordered references + rollback bar)
 ```
 
@@ -105,7 +109,8 @@ AllObjects (id 1)
 ## Features and history
 
 `CC_EntitySet.children` is the feature list; each feature's `children` hold the
-`CC_Solid`(s) it produced. The **ordered build history** is
+bodies it produced (`CC_Solid`, or `CC_Sheet` for an open body). The **ordered
+build history** is
 `CC_OperationSequence.children`: one `CC_*Reference` node per step, each
 pointing at its target via `members.refObj.value`, terminated by the
 `CC_RollbackBar`:
@@ -125,33 +130,37 @@ const history = ops.children
   .map(r => ({ step: r.name, target: t[String(r.members?.refObj?.value)] }))
 ```
 
-### Solids, `consumed`, and the three id spaces
+### Bodies, `consumed`, and the three id spaces
 
-Every feature that produces a new solid (boolean, chamfer, extrusion, …) adds a
-new `CC_Solid` under itself; the superseded solid stays in the tree with
-`members.consumed.value === 1`. The current solid has `consumed === 0`. There
-is **no top-level `consumed` field** — it is a member.
+Every feature that produces a new body (boolean, chamfer, extrusion, …) adds it
+under itself: a `CC_Solid`, or a `CC_Sheet` when the body is open (an extrusion
+with `capEnds: 0`). A body the feature used up stays in the tree with
+`members.consumed.value === 1`, solid or sheet — a slice by sheet consumes its
+target solid AND its tool sheet. A current body has `consumed === 0`. There is
+**no top-level `consumed` field** — it is a member. A curve shape
+(`CC_CurveEntity`) has the member too, but there `1` does not mean used up:
+test it on bodies only.
 
 Three distinct id spaces meet here (all verified in one session):
 
 | id | lives in | stability |
 | --- | --- | --- |
-| `CC_Solid` node id (e.g. 89) | tree | session-stable; `container.owner` points at it |
+| body node id, `CC_Solid` or `CC_Sheet` (e.g. 89) | tree | session-stable; `container.owner` points at it |
 | `part.solids[0]` (e.g. 87) | tree ↔ graphic bridge | the graphic **container id of the engine's latest tessellation** at snapshot time; rotates when a feature creates a solid AND when a recalc re-tessellates |
 | `container.id` in a graphic payload (e.g. 87 → 101 after recalc) | graphic | payload-local |
 
-**The stable join between tree and graphic is `container.owner` → `CC_Solid`
-node → parent-walk to the feature/part.** `part.solids[0]` equals the container
-id only for the tessellation the snapshot describes; after the next recalc the
-payload carries a new container id while `owner` stays put.
+**The stable join between tree and graphic is `container.owner` → body node
+(`CC_Solid` or `CC_Sheet`) → parent-walk to the feature/part.**
+`part.solids[0]` equals the container id only for the tessellation the snapshot
+describes; after the next recalc the payload carries a new container id while
+`owner` stays put.
 
 ```js
 // FEATURE → ITS GEOMETRY (verified live): join via owner, not container.id
-const g = await api.graphic()
-const solidNode = Object.values(t).find(n =>
-  n.class === 'CC_Solid' && n.members?.consumed?.value === 0)
-const container = g.containers.find(c => c.owner === solidNode.id)
-const producingFeature = t[String(solidNode.parent)]   // e.g. CC_Chamfer
+const cap = await api.inspect.capture()                  // { tree, graphic } of one state
+const body = cap.tree[String(api.inspect.currentBodies(cap)[0])]   // a current body: solid or sheet
+const container = cap.graphic.containers.find(c => c.owner === body.id)
+const producingFeature = cap.tree[String(body.parent)]   // e.g. CC_Chamfer
 ```
 
 ## Sketch anatomy
@@ -257,8 +266,9 @@ for (const cid of rootAsm.children ?? []) {
   const c = t[String(cid)]
   if (c?.class === 'CC_ProductReference' || c?.class === 'CC_ProductReferenceET') visit(c, identity())
 }
-// Geometry: each instance's meshes = graphic container with
-// container.owner === (CC_Solid under instances[i].part), transformed by .world.
+// Geometry: each instance's meshes = the graphic containers with
+// container.owner === (a current body — CC_Solid or CC_Sheet — under
+// instances[i].part), transformed by .world.
 // Rendering all containers untransformed = every part at the origin — the
 // canonical wrong picture.
 ```

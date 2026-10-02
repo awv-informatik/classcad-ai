@@ -84,6 +84,16 @@ the structure tree: solids (z-buffer raster, assemblies placed via their
 composed `coordinateSystem` transforms), sketches (2D SVG with dimensions,
 constraint badges and label de-overlap), curves, and work geometry.
 
+"Solids" are the live bodies of the model: the closed ones (`CC_Solid`) and
+the open ones (`CC_Sheet`, sheet bodies). A body that a later feature
+consumed — the box before a boolean, the sheet body a slice was cut with — is
+not drawn, although the engine still sends its container. A sheet body is
+open — it has two sides and no inside: both sides are drawn (the one facing
+away darker), it hides what lies behind it in a line drawing, and a section
+does not cap it. Where a solid gets its hatched cut face, a sheet gets the
+line along which the plane cuts it (like the cap, not with `cap: false` or
+`xray`).
+
 **`source` — SessionSource:**
 
 | Field | Type | Description |
@@ -149,7 +159,7 @@ const d = diffImages(before, after)   // d.fraction, d.bbox, d.pixels
 
 | Function | Signature | Description |
 | --- | --- | --- |
-| `renderSolidZBuffer` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the z-buffer solid rasterizer behind `renderSessionData`. Camera from `setViewport`; `opts` is a `RenderOptions` subset plus `overlays: OverlayPolyline[]`. |
+| `renderSolidZBuffer` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the z-buffer solid rasterizer behind `renderSessionData`. Camera from `setViewport`; `opts` is a `RenderOptions` subset plus `overlays: OverlayPolyline[]`. A container with `open: true` is drawn as an open body (both sides, no section cap); `renderSessionData` sets it for sheet bodies. |
 | `renderSolidSheet` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the four-view sheet compositor (`opts.views` picks the quadrants). |
 | `renderSolidDrawing` | `(graphic, width?, height?, instances?, opts?) => RasterResult \| null` | the technical-drawing layout behind `options.drawing`. |
 | `setViewport` | `({ view?, zoom?, lookAt?, frame? }) => void` | configures the camera for subsequent low-level render calls. `renderSessionData` calls it internally. |
@@ -161,8 +171,9 @@ const d = diffImages(before, after)   // d.fraction, d.bbox, d.pixels
 
 | Function | Signature | Description |
 | --- | --- | --- |
-| `analyzeSession` | `(tree) => { solids, sketches, curves, eifs, workGeo }` | node ids per content category (built-in planes/axes excluded). |
-| `extractAssemblyInstances` | `(tree) => instances \| null` | one entry per live solid of every leaf part instance, with cumulative world transforms; `null` for non-assemblies. |
+| `analyzeSession` | `(tree) => { solids, sketches, curves, eifs, workGeo }` | node ids per content category (built-in planes/axes excluded). `solids` holds every body: solids and sheet bodies. |
+| `isBody` / `isConsumedBody` | `(node) => boolean` / `(tree, bodyId) => boolean` | a body is a `CC_Solid` or a `CC_Sheet` (a sheet body: open, e.g. an extrusion with `capEnds: 0`); it is consumed when a later feature superseded it (`members.consumed.value === 1`). The engine still sends a container for a consumed body — keep the live ones with `!isConsumedBody(tree, container.owner)`. `isConsumedSolid` is the deprecated name of `isConsumedBody`. |
+| `extractAssemblyInstances` | `(tree) => instances \| null` | one entry per live body (solid or sheet body) of every leaf part instance, with cumulative world transforms; `null` for non-assemblies. |
 | `graphicWithEdges` | `(graphic) => graphic` | a saved SCG file (`v1.common.save({ format: 'SCG' })`) keeps analytic brep edges in `lines` + `arcs` and only free-form edges in `edges`; returns a graphic whose containers carry all of them as `edges`. `renderSessionData` applies it itself, so `{ tree: scg.structure.tree, graphic: scg.graphic }` renders with edges. |
 | `fetchSketchData` | `(execute, sketchId, tree?) => Promise<{ items, posMap } \| null>` | one sketch's geometry with WORLD-coordinate positions. |
 | `sketchToOverlays` | `(items, sketchNode) => OverlayPolyline[]` | sketch geometry → 3D overlay polylines (plane normal derived from the geometry itself). |

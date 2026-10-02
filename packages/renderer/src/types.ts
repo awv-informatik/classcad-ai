@@ -131,6 +131,13 @@ export interface GraphicContainer {
   properties?: { material?: { color?: number[] } | null; [key: string]: unknown }
   meshes?: GraphicMesh[]
   edges?: GraphicEdge[]
+  /**
+   * Not part of the engine payload — a hint for the rasterizer: an open body
+   * (a sheet). Both of its sides are drawn, and a section does not cap it: in
+   * place of the cap it draws the line of the cut.
+   * renderSessionData sets it on the containers of `CC_Sheet` bodies.
+   */
+  open?: boolean
   [key: string]: unknown
 }
 
@@ -145,6 +152,7 @@ export type Tree = Record<string, TreeNode>
 
 /** An assembly instance draw entry (from extractAssemblyInstances). */
 export interface AssemblyInstance {
+  /** Tree id of the body drawn, a solid or a sheet body — the `owner` of its graphic container. */
   ownerSolidId: number
   partId: number
   transform: number[]

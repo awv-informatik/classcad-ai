@@ -1,7 +1,7 @@
 import type {
   AssemblyInstance, CameraView, DiffResult, DrawingOptions, Frame, Graphic, GraphicContainer, ProjectionMethod, TextLabel,
   Marker, OverlayPolyline, RasterResult, RenderOptions, SectionPlane,
-  SessionEntry, SessionSource, SolidRenderOptions, Tree, Vec3, RGB,
+  SessionEntry, SessionSource, SolidRenderOptions, Tree, TreeNode, Vec3, RGB,
 } from './types.js'
 
 /**
@@ -281,10 +281,10 @@ function csToMatrix(cs: any) {
 }
 
 /**
- * Walk the assembly tree and produce one entry per solid of every leaf part
- * instance with the cumulative world transform (a part may own several live
- * solids). Returns null when the drawing has no
- * CC_AssemblyRoot (single-part drawing — caller renders templates flat).
+ * Walk the assembly tree and produce one entry per live body of every leaf
+ * part instance with the cumulative world transform (a part may own several
+ * live bodies, solids and sheet bodies alike). Returns null when the drawing
+ * has no CC_AssemblyRoot (single-part drawing — caller renders templates flat).
  */
 export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null {
   let rootId = null
@@ -293,18 +293,18 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
   }
   if (rootId == null) return null
 
-  const solidsByPart = new Map<number, number[]>()
+  const bodiesByPart = new Map<number, number[]>()
   for (const [id, obj] of Object.entries<any>(tree)) {
-    if (obj.class !== 'CC_Solid') continue
-    if (isConsumedSolid(tree, Number(id))) continue // superseded body — its container is stale
+    if (!isBody(obj)) continue
+    if (isConsumedBody(tree, Number(id))) continue // superseded body — its container is stale
     let cur = obj.parent
     while (cur != null) {
       const p = tree[String(cur)]
       if (!p) break
       if (p.class === 'CC_Part') {
-        const solids = solidsByPart.get(Number(cur))
-        if (solids) solids.push(Number(id))
-        else solidsByPart.set(Number(cur), [Number(id)])
+        const bodies = bodiesByPart.get(Number(cur))
+        if (bodies) bodies.push(Number(id))
+        else bodiesByPart.set(Number(cur), [Number(id)])
         break
       }
       cur = p.parent
@@ -318,8 +318,8 @@ export function extractAssemblyInstances(tree: Tree): AssemblyInstance[] | null 
     if (pid != null) {
       const target = tree[String(pid)]
       if (target?.class === 'CC_Part') {
-        for (const solidId of solidsByPart.get(Number(pid)) ?? []) {
-          instances.push({ ownerSolidId: solidId, partId: Number(pid), transform: matrix })
+        for (const bodyId of bodiesByPart.get(Number(pid)) ?? []) {
+          instances.push({ ownerSolidId: bodyId, partId: Number(pid), transform: matrix })
         }
         return
       }
@@ -554,7 +554,7 @@ function clipPolyToSection(pts: any, s: any) {
  *   xray      — true: render bodies translucent (painter's blend, fixed alpha
  *               ~0.42; xrayAlpha overrides). Hidden bodies and internal far
  *               walls shine through; edges stay fully opaque on top. Back
- *               faces remain culled, so images stay readable.
+ *               faces of closed bodies remain culled, so images stay readable.
  *   annotate  — true: draw a measurement overlay — world-space bounding-box
  *               extents (X x Y x Z, model units, bottom right), an RGB axes
  *               triad oriented like the current view (bottom left), and a
@@ -563,6 +563,11 @@ function clipPolyToSection(pts: any, s: any) {
  *               drawn on top (no depth test), e.g. sketch curves in 3D. Overlay
  *               points participate in auto-fit, and they alone are enough to
  *               produce a render (a sketch-only session renders on white).
+ *
+ * A container with `open: true` is an open body (a sheet): both of its sides
+ * are drawn, the one facing away darker, and where a section caps a solid it
+ * draws the line along which it cuts the sheet (none with cap: false or
+ * xray, like the cap). renderSessionData sets the flag.
  * Returns { pixels, width, height, frame } or null if no geometry.
  */
 export function renderSolidZBuffer(graphic: Graphic, width: number = IMG_W, height: number = IMG_H, instances: AssemblyInstance[] | null = null, optsOrColorMode: SolidRenderOptions | string = 'native'): RasterResult | null {
@@ -617,6 +622,9 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
     // drawing without them would miss the outline.
     const meshEdges: Map<string, { a: number[]; b: number[]; front: number; n: number; m0: number; m1: number }> | null = lines ? new Map() : null
     const capSegs: number[][][] | null = section?.cap && !xray ? [] : null
+    // An open body (a sheet) has two sides and no inside: none of its faces
+    // is culled, and a section cuts a line through it, not a face.
+    const open = container.open === true
     let meshIdx = -1
     for (const mesh of (container.meshes || [])) {
       meshIdx++
@@ -686,10 +694,11 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
 
         // Back faces: culled normally — but with a section active they are the
         // interior walls the cut exposes (behind open regions, or everywhere
-        // with cap: false), so shade them (darker) instead.
+        // with cap: false), and on an open body they are its other side, so
+        // shade them (darker) instead.
         let facing = 1
         if (lz < 0) {
-          if (!section) continue
+          if (!section && !open) continue
           facing = 0.72
         }
 
@@ -717,7 +726,10 @@ function _renderSolidZBuffer(graphic: Graphic, width: number, height: number, in
         }
       }
     }
-    if (capSegs?.length) {
+    if (capSegs?.length && open) {
+      // Nothing to cap: the section of a sheet is the line where it crosses the plane.
+      for (const seg of capSegs) edgeLines.push(seg.map(([x, y, z]) => { const [px, py, pz] = project(x, y, z); return { px, py, pz } }))
+    } else if (capSegs?.length) {
       const base = colorMode === 'distinct' ? fallback : materialRgb(container.properties?.material) ?? fallback
       caps.push({ segs: capSegs, rgb: base })
     }
@@ -2327,24 +2339,47 @@ export async function applyAdaptiveFaceting(host: { execute: (task: any) => Prom
   }
 }
 
-/**
- * True when `solidId` names a CC_Solid that a later feature has superseded
- * (`members.consumed.value === 1`). The kernel's graphic pull still ships a
- * container for such bodies, and drawing them stacks the old body on top of
- * the current part (a chamfered box renders as a cube with a frame on it).
- */
-export function isConsumedSolid(tree: Tree, solidId: number | null | undefined): boolean {
-  if (solidId == null) return false
-  const node: any = tree[String(solidId)]
-  return node?.class === 'CC_Solid' && node.members?.consumed?.value === 1
+// The classes of a part's bodies: every class the engine derives from CC_Body.
+// A closed body is a CC_Solid (CC_DecoratedSolid is its subclass), an open one
+// a CC_Sheet (a sheet body, e.g. an extrusion with `capEnds: 0`). Both arrive
+// as type-1 containers with meshes.
+const BODY_CLASSES = new Set(['CC_Solid', 'CC_DecoratedSolid', 'CC_Sheet'])
+
+/** True when `node` is a body of a part — a solid or a sheet body (CC_Sheet), consumed or not. */
+export function isBody(node: TreeNode | null | undefined): boolean {
+  return BODY_CLASSES.has(node?.class)
 }
 
+/**
+ * True when `bodyId` names a body — solid or sheet body — that a later feature
+ * has superseded (`members.consumed.value === 1`). The kernel's graphic pull
+ * still ships a container for such bodies, and drawing them stacks the old
+ * body on top of the current part: a chamfered box renders as a cube with a
+ * frame on it, a sheet body z-fights with the face of the solid made from it.
+ *
+ * Only bodies count. A curve shape (CC_CurveEntity) carries a `consumed`
+ * member too, but there 1 does not mean superseded: a new, live shape has it.
+ */
+export function isConsumedBody(tree: Tree, bodyId: number | null | undefined): boolean {
+  if (bodyId == null) return false
+  const node: any = tree[String(bodyId)]
+  return isBody(node) && node.members?.consumed?.value === 1
+}
+
+/** @deprecated Use {@link isConsumedBody}: a sheet body is consumed like a solid. */
+export const isConsumedSolid = isConsumedBody
+
+/**
+ * Node ids per content category. `solids` holds every body, solids and sheet
+ * bodies (consumed ones included); `workGeo` leaves out the built-in origin,
+ * axes and planes.
+ */
 export function analyzeSession(tree: Tree): { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } {
   const builtinNames = new Set(['Origin', 'XAxis', 'YAxis', 'ZAxis', 'Top', 'Front', 'Right'])
   const result: { solids: number[]; sketches: number[]; curves: number[]; eifs: number[]; workGeo: number[] } = { solids: [], sketches: [], curves: [], eifs: [], workGeo: [] }
   for (const [id, obj] of Object.entries<any>(tree)) {
     const nid = Number(id)
-    if (obj.class === 'CC_Solid') result.solids.push(nid)
+    if (isBody(obj)) result.solids.push(nid)
     if (obj.class === 'CC_Sketch') result.sketches.push(nid)
     if (obj.class === 'CC_CurveEntity') result.curves.push(nid)
     if (obj.class === 'CC_EntityInjection') result.eifs.push(nid)
@@ -2968,9 +3003,16 @@ async function renderSessionEntries(source: SessionSource, options: RenderOption
     if (!sketchOverlays.length) sketchOverlays = null
   }
 
-  // ── SOLIDS ── (type-1 containers with meshes; assemblies get per-instance transforms)
+  // ── SOLIDS ── (the live bodies, solids and sheet bodies: type-1 containers
+  // with meshes; assemblies get per-instance transforms). A sheet body is
+  // open — its container is flagged, so the rasterizer draws both of its sides.
   if (layerOn('solid') && content.solids.length > 0 && graphic?.containers?.some((c: any) => c.type === 1 && c.meshes?.length > 0)) {
-    const solidOnly = { ...graphic, containers: graphic.containers.filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedSolid(tree, c.owner)) }
+    const solidOnly = {
+      ...graphic,
+      containers: graphic.containers
+        .filter((c: any) => c.type === 1 && c.meshes?.length > 0 && !isConsumedBody(tree, c.owner))
+        .map((c: any) => (tree[String(c.owner)]?.class === 'CC_Sheet' ? { ...c, open: true } : c)),
+    }
     const instances = extractAssemblyInstances(tree)
     if (options.drawing) {
       // Technical drawing: front/top/side in line style, placed by projection method.

@@ -45,7 +45,7 @@
     "dev": "tsc --watch",
     "start": "node dist/server.js",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "postbuild": "node --test test/emission.mjs test/daemon.mjs test/auth.mjs test/ofb-export.mjs",
+    "postbuild": "node --test test/emission.mjs test/daemon.mjs test/auth.mjs test/ofb-export.mjs test/scene.mjs",
     "test": "npm run build && node test/emission-live.mjs && node --test test/wasm-live.mjs"
   },
   "dependencies": {
@@ -54,7 +54,7 @@
     "sharp": "^0.34.5",
     "ws": "^8.19.0",
     "zod": "^4.4.3",
-    "@classcad/renderer": "^0.1.0",
+    "@classcad/renderer": "^0.1.1",
     "@classcad/script": "^0.1.0"
   },
   "devDependencies": {

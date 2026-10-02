@@ -1,8 +1,8 @@
 // viewer/scene.ts — what the 3D viewer draws, built from a session's
 // structure tree and graphic exactly as the PNG renderer reads them: live
-// solids only (a consumed body's container is stale), and in an assembly one
-// placement per part instance.
-import { extractAssemblyInstances, graphicWithEdges, isConsumedSolid } from '@classcad/renderer'
+// bodies only, solids and sheets (a consumed body's container is stale), and
+// in an assembly one placement per body of every part instance.
+import { extractAssemblyInstances, graphicWithEdges, isConsumedBody } from '@classcad/renderer'
 
 type Tree = Record<string, any>
 
@@ -20,7 +20,7 @@ export type SceneFace = {
 }
 
 export type SceneBody = {
-  /** the solid's id in the structure tree */
+  /** the body's id in the structure tree (a solid or a sheet) */
   id: number
   name: string
   /** the colour the model gave the body, or null: it takes the paper's */
@@ -84,10 +84,84 @@ function features(tree: Tree): Scene['features'] {
   return out
 }
 
+/** Position key of a mesh vertex (1e-5 model units), to weld a face mesh. */
+const pointKey = (v: ArrayLike<number>, i: number) => `${Math.round(v[i] * 1e5)},${Math.round(v[i + 1] * 1e5)},${Math.round(v[i + 2] * 1e5)}`
+
+type MeshEdges = { rim: number[][]; inner: number[][] }
+
+/**
+ * The mesh edges of one face, its vertices welded by position, as
+ * [ax, ay, az, bx, by, bz]: `rim`, the edges of a single triangle — the
+ * boundary of the face — and `inner`, the edges that triangles share.
+ */
+function meshEdges(m: any): MeshEdges {
+  const rim: number[][] = []
+  const inner: number[][] = []
+  const v = m?.vertices
+  const ix = m?.indices
+  if (!v?.length || !ix?.length) return { rim, inner }
+  const uses = new Map<string, { n: number; a: number; b: number }>()
+  for (let t = 0; t + 2 < ix.length; t += 3) {
+    for (let j = 0; j < 3; j++) {
+      const a = ix[t + j] * 3
+      const b = ix[t + ((j + 1) % 3)] * 3
+      const ka = pointKey(v, a)
+      const kb = pointKey(v, b)
+      if (ka === kb) continue
+      const key = ka < kb ? `${ka}|${kb}` : `${kb}|${ka}`
+      const use = uses.get(key)
+      if (use) use.n++
+      else uses.set(key, { n: 1, a, b })
+    }
+  }
+  for (const { n, a, b } of uses.values()) (n === 1 ? rim : inner).push([v[a], v[a + 1], v[a + 2], v[b], v[b + 1], v[b + 2]])
+  return { rim, inner }
+}
+
+/** Distance from a point to the nearest of some segments; Infinity when there are none. */
+function distanceTo(p: number[], segments: number[][]): number {
+  let nearest = Infinity
+  for (const s of segments) {
+    const dx = s[3] - s[0]
+    const dy = s[4] - s[1]
+    const dz = s[5] - s[2]
+    const length2 = dx * dx + dy * dy + dz * dz
+    const u = length2 > 0 ? Math.max(0, Math.min(1, ((p[0] - s[0]) * dx + (p[1] - s[1]) * dy + (p[2] - s[2]) * dz) / length2)) : 0
+    const d = Math.hypot(p[0] - s[0] - u * dx, p[1] - s[1] - u * dy, p[2] - s[2] - u * dz)
+    if (d < nearest) nearest = d
+  }
+  return nearest
+}
+
+/**
+ * Does an edge run inside its face — is it a seam? The engine samples an
+ * edge and the mesh of the face beside it apart, so their points do not
+ * coincide; the edge is asked where it lies instead. At a quarter, a half
+ * and three quarters of its way a seam is nearer to a mesh edge that two
+ * triangles share than to the boundary of the mesh, and a rim is not. Where
+ * the two meet, at a mesh vertex, the boundary wins; and one point on the
+ * boundary makes the edge a rim — a line too many is the smaller fault.
+ */
+function runsInside(points: ArrayLike<number>, mesh: MeshEdges): boolean {
+  const n = Math.floor(points.length / 3)
+  if (n < 2) return false
+  let length = 0
+  for (let i = 3; i < n * 3; i += 3) length += Math.hypot(points[i] - points[i - 3], points[i + 1] - points[i - 2], points[i + 2] - points[i - 1])
+  const tolerance = length * 1e-3
+  for (const t of [0.25, 0.5, 0.75]) {
+    const f = t * (n - 1)
+    const i = Math.min(Math.floor(f), n - 2) * 3
+    const u = f - i / 3
+    const p = [points[i] + u * (points[i + 3] - points[i]), points[i + 1] + u * (points[i + 4] - points[i + 1]), points[i + 2] + u * (points[i + 5] - points[i + 2])]
+    if (!(distanceTo(p, mesh.inner) + tolerance < distanceTo(p, mesh.rim))) return false
+  }
+  return true
+}
+
 export function buildScene(tree: Tree | null | undefined, graphic: { containers?: any[] } | null | undefined): Scene {
   const t = tree ?? {}
   // Analytic edges arrive as lines and arcs; as the renderer does, draw them as edges too.
-  const containers = ((graphicWithEdges(graphic)?.containers ?? []) as any[]).filter((c: any) => (c?.meshes?.length ?? 0) > 0 && !isConsumedSolid(t as any, c.owner))
+  const containers = ((graphicWithEdges(graphic)?.containers ?? []) as any[]).filter((c: any) => (c?.meshes?.length ?? 0) > 0 && !isConsumedBody(t as any, c.owner))
   const root = Object.values<any>(t).find(n => n?.class === 'CC_AssemblyRoot') ?? Object.values<any>(t).find(n => n?.class === 'CC_Part')
   const kind: Scene['kind'] = !root ? 'EMPTY' : root.class === 'CC_AssemblyRoot' ? 'ASSEMBLY' : 'PART'
 
@@ -131,9 +205,23 @@ export function buildScene(tree: Tree | null | undefined, graphic: { containers?
         }
       }
     }
-    const isSeam = (id: number) => borders.size > 0 && (borders.get(id)?.size ?? 0) < 2
+    // On an open body (a sheet) the free rim borders one face too, and it is
+    // a line of the part. A flat face has no seam; on a curved one a seam
+    // runs inside the face's mesh, a rim along its boundary. Solids are not
+    // asked: there, an edge of one face is a seam.
+    const sheet = t[String(c.owner)]?.class === 'CC_Sheet'
+    const meshEdgesOf = new Map<any, MeshEdges>()
+    const isRim = (e: any): boolean => {
+      const faces = borders.get(e.id)
+      if (!sheet || faces?.size !== 1) return false
+      const face = c.meshes.find((m: any) => faces.has(m.id))
+      if (!face || face.properties?.surface?.type === 'plane') return true
+      if (!meshEdgesOf.has(face)) meshEdgesOf.set(face, meshEdges(face))
+      return !runsInside(e.points, meshEdgesOf.get(face)!)
+    }
+    const isSeam = (e: any) => borders.size > 0 && (borders.get(e.id)?.size ?? 0) < 2 && !isRim(e)
     for (const e of c.edges ?? []) {
-      if (e?.points?.length >= 6 && !isSeam(e.id)) {
+      if (e?.points?.length >= 6 && !isSeam(e)) {
         body.edges.push(round(e.points))
         edges++
       }

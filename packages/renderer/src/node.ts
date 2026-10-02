@@ -201,7 +201,7 @@ export async function renderSession(client: any, prefix: any, outDir: any, optio
   const hasCurveGraphic = graphic?.containers?.some((c: any) => c.type === 2 && c.edges?.length > 0)
   if (content.solids.length > 0 && !hasSolidGraphic) {
     throw new Error(
-      `No graphic data for ${content.solids.length} solid(s) in the session. ` +
+      `No graphic data for ${content.solids.length} solid or sheet ${content.solids.length === 1 ? 'body' : 'bodies'} in the session. ` +
       `Likely cause: the connection's emission config has graphics disabled (setEmissionConfig sendGraphic_Kernel=false ` +
       `and the client's pull did not switch it on), or the server did not push graphic containers. ` +
       `Fix: pull with graphics enabled (client.getGraphic()) — or render the STL export instead: ` +

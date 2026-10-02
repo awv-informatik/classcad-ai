@@ -7,6 +7,7 @@
 //
 // Pure function over the buerli structure tree (see @classcad/script docs/STRUCTURE.md).
 
+import { isSheet, isSolid } from '../bodies'
 import type { DrawingStructure, StructureNode } from '../types'
 
 type Tree = Record<string, StructureNode>
@@ -56,15 +57,17 @@ function featuresOf(tree: Tree, product: StructureNode, max: number): { lines: s
   return { lines, rolledBack }
 }
 
-function solidsOf(tree: Tree, product: StructureNode): number {
-  // Current solids of THIS product: CC_Solid with consumed === 0 whose parent chain reaches it.
-  let count = 0
+function bodiesOf(tree: Tree, product: StructureNode): { solids: number; sheets: number } {
+  // Current bodies of THIS product, solids and sheets (open bodies) apart:
+  // consumed === 0 and a parent chain that reaches the product.
+  const count = { solids: 0, sheets: 0 }
   for (const n of Object.values(tree)) {
-    if (n.class !== 'CC_Solid' || n.members?.consumed?.value !== 0) continue
+    const kind = isSolid(n) ? 'solids' : isSheet(n) ? 'sheets' : null
+    if (!kind || n.members?.consumed?.value !== 0) continue
     let p: StructureNode | undefined = n
     for (let guard = 0; p && guard < 64; guard++) {
       if (p.id === product.id) {
-        count++
+        count[kind]++
         break
       }
       p = node(tree, p.parent)
@@ -125,8 +128,8 @@ export function digestTree(structure: DrawingStructure | null | undefined, opts:
         const { lines, rolledBack } = featuresOf(tree, p, maxFeatures)
         if (rolledBack) out.push('  ! history is rolled back: features after the rollback bar are not built')
         if (lines.length) out.push('  features, in build order:', ...lines.map((l) => `    ${l}`))
-        const solids = solidsOf(tree, p)
-        if (solids) out.push(`  current solids: ${solids}`)
+        const { solids, sheets } = bodiesOf(tree, p)
+        if (solids || sheets) out.push(`  current solids: ${solids}${sheets ? `, sheets (open bodies): ${sheets}` : ''}`)
         if (maxSketches > 0) {
           const sk = sketchesOf(tree, p, maxSketches)
           if (sk.length) out.push('  sketches:', ...sk.map((l) => `    ${l}`))

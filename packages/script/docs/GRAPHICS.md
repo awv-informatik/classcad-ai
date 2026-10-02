@@ -65,7 +65,7 @@ values:
 
 | `type` | Meaning            | Typical payload                        |
 | -----: | ------------------ | -------------------------------------- |
-|    `1` | Solid container    | `meshes`, `edges`                      |
+|    `1` | Body container (solid or sheet) | `meshes`, `edges`         |
 |    `2` | Curve container    | `edges` (+ accumulated across calls)   |
 
 > **Live-protocol gotcha.** For curve containers (type 2), the server only
@@ -253,7 +253,11 @@ Cache it with this merge logic:
 - Containers with no `containers[]` and no `properties` are ignored.
 
 The merged cache is what a renderer should consume — it holds the complete
-current scene (meshes, edges, sketches, curves).
+current scene (meshes, edges, sketches, curves). It also still holds the
+containers of bodies that later features consumed: the current geometry is in
+the containers whose `owner` is a current body (`members.consumed.value === 0`
+in the tree — see [STRUCTURE.md](STRUCTURE.md)); `@classcad/renderer` leaves
+the containers of consumed bodies out itself.
 
 ## Tessellation knobs
 

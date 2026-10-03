@@ -52,4 +52,4 @@ Durable Objects with the SQLite backend run on the Workers Free plan (100 000 re
 npm test -w @classcad/relay
 ```
 
-runs the Worker under `wrangler dev` and checks its contract (`test/relay.mjs`): the app's headers, who may offer, the introduction of host and guests, what each hears when the other goes — and, with `@classcad/mcp` built, a session the MCP offers through it end to end.
+runs the Worker under `wrangler dev` (Node 22 or later, wrangler's own requirement: on an older Node the tests are skipped) and checks its contract (`test/relay.mjs`): the app's headers, who may offer, the introduction of host and guests, what each hears when the other goes — and, with `@classcad/mcp` built, a session the MCP offers through it end to end.

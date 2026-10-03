@@ -373,7 +373,7 @@ CLASSCAD_MCP_DAEMON=1 node dist/daemon.js   # the daemon in the foreground, logg
 CLASSCAD_SHARE_DEBUG=1 …                    # … with every command a docked app sends: how long it waited, how long it ran
 npm run dev -w @classcad/relay              # the share relay on http://127.0.0.1:8787, with the app build:app made (no Cloudflare account needed) …
 CLASSCAD_RELAY_URL=http://127.0.0.1:8787 …  # … and sessions shared on it
-npm test -w @classcad/relay                 # the relay's contract, in wrangler's local runtime
+npm test -w @classcad/relay                 # the relay's contract, in wrangler's local runtime (Node 22+)
 ```
 
 The tests open no browser (`CLASSCAD_VIEWER_NO_BROWSER=1`, `CLASSCAD_AUTH_NO_BROWSER=1`) and sign in against a stand-in (`test/fake-auth.mjs`: `CLASSCAD_AUTH_TOKEN_URL`, `CLASSCAD_AUTH_PROJECT`, `CLASSCAD_AUTH_API_KEY`).

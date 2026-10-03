@@ -22,6 +22,8 @@ import { fileURLToPath } from 'node:url'
 import WebSocket from 'ws'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
+// wrangler runs on Node 22 and later: on an older Node the Worker cannot be started here (CI runs this on Node 24 too)
+const OLD_NODE = Number(process.versions.node.split('.')[0]) < 22 && `wrangler needs Node 22 or later (this is ${process.version})`
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 const until = async (done, ms = 3000) => {
   for (let waited = 0; waited < ms && !done(); waited += 25) await sleep(25)
@@ -61,6 +63,7 @@ let RELAY
 let SESSION
 
 before(async () => {
+  if (OLD_NODE) return
   await new Promise(r => google.listen(0, '127.0.0.1', r))
   const googleUrl = `http://127.0.0.1:${google.address().port}`
   // A stand-in for the app: what is served matters here, not what it does.
@@ -87,6 +90,7 @@ before(async () => {
 })
 
 after(async () => {
+  if (OLD_NODE) return
   google.close()
   google.closeAllConnections?.()
   if (wrangler && wrangler.exitCode === null) {
@@ -115,7 +119,7 @@ const asHost = (token, account = {}) => socket(`${SESSION}/?host=${token}`, { au
 // and the connections they are met on always speak first, so the tests let theirs do the same and stay quick.)
 const invite = name => `${name}-0123456789abcdef`
 
-test('the app is served, with the headers the MCP\'s listener gives it', async () => {
+test('the app is served, with the headers the MCP\'s listener gives it', { skip: OLD_NODE }, async () => {
   const page = await fetch(`${RELAY}/?invite=${invite('page')}`)
   assert.equal(page.status, 200)
   assert.match(page.headers.get('content-type'), /text\/html/)
@@ -131,7 +135,7 @@ test('the app is served, with the headers the MCP\'s listener gives it', async (
   assert.equal((await fetch(`${RELAY}/session/?invite=${invite('page')}`)).status, 426, 'a session is not a page')
 })
 
-test('a session is offered by a signed-in machine, and by nobody else', async () => {
+test('a session is offered by a signed-in machine, and by nobody else', { skip: OLD_NODE }, async () => {
   const t = invite('auth')
   await assert.rejects(socket(`${SESSION}/?host=${t}`).opened, /HTTP 401/, 'no sign-in')
   await assert.rejects(socket(`${SESSION}/?host=${t}`, { authorization: 'Bearer not.a.token' }).opened, /HTTP 401/)
@@ -152,7 +156,7 @@ test('a session is offered by a signed-in machine, and by nobody else', async ()
   await host.closed
 })
 
-test('host and guest are introduced, and each hears why the other went', async () => {
+test('host and guest are introduced, and each hears why the other went', { skip: OLD_NODE }, async () => {
   const t = invite('meet')
   const host = asHost(t)
   await host.opened
@@ -199,7 +203,7 @@ test('host and guest are introduced, and each hears why the other went', async (
   await host.closed
 })
 
-test('a host that comes back takes over its own offer; the host gone, the session is over', async () => {
+test('a host that comes back takes over its own offer; the host gone, the session is over', { skip: OLD_NODE }, async () => {
   const t = invite('again')
   const host = asHost(t)
   await host.opened
@@ -234,7 +238,7 @@ test('a host that comes back takes over its own offer; the host gone, the sessio
 })
 
 const mcp = join(root, '..', 'mcp', 'dist', 'share')
-test('end to end: a session the MCP offers here serves a guest like its own listener does', { skip: !existsSync(join(mcp, 'relay.js')) && '@classcad/mcp is not built' }, async t => {
+test('end to end: a session the MCP offers here serves a guest like its own listener does', { skip: OLD_NODE || (!existsSync(join(mcp, 'relay.js')) && '@classcad/mcp is not built') }, async t => {
   const { createSessionHub } = await import(join(mcp, 'hub.js'))
   const { offerOnRelay } = await import(join(mcp, 'relay.js'))
 

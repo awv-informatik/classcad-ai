@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # a run takes minutes: one that hangs fails here instead of after GitHub's six hours
+    timeout-minutes: 30
     # The MCP's oldest Node (its README: 20+), and the Node a release is built on (release.yml), which the
     # relay's tests need (wrangler runs on 22 and later; on 20 they are skipped)
     strategy:

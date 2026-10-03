@@ -14,6 +14,7 @@ import { strict as assert } from 'node:assert'
 import { spawn, execFileSync } from 'node:child_process'
 import { createSign, generateKeyPairSync } from 'node:crypto'
 import { existsSync, mkdtempSync, writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { createServer } from 'node:http'
 import { createServer as createTcpServer } from 'node:net'
 import { tmpdir } from 'node:os'
@@ -22,6 +23,8 @@ import { fileURLToPath } from 'node:url'
 import WebSocket from 'ws'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
+// wrangler's own entry, run by this Node: a signal reaches wrangler itself (through npx it may not, on Linux)
+const WRANGLER = join(dirname(createRequire(import.meta.url).resolve('wrangler/package.json')), 'bin', 'wrangler.js')
 // wrangler runs on Node 22 and later: on an older Node the Worker cannot be started here (CI runs this on Node 24 too)
 const OLD_NODE = Number(process.versions.node.split('.')[0]) < 22 && `wrangler needs Node 22 or later (this is ${process.version})`
 const sleep = ms => new Promise(r => setTimeout(r, ms))
@@ -72,11 +75,12 @@ before(async () => {
   const port = await freePort()
   RELAY = `http://127.0.0.1:${port}`
   SESSION = `ws://127.0.0.1:${port}/session`
-  wrangler = spawn('npx', ['wrangler', 'dev', '--ip', '127.0.0.1', '--port', String(port), '--inspector-port', String(await freePort()), '--assets', assets, '--var', `FIREBASE_JWKS_URL:${googleUrl}/jwks`], {
+  wrangler = spawn(process.execPath, [WRANGLER, 'dev', '--ip', '127.0.0.1', '--port', String(port), '--inspector-port', String(await freePort()), '--assets', assets, '--var', `FIREBASE_JWKS_URL:${googleUrl}/jwks`], {
     cwd: root,
     env: { ...process.env, CI: '1', WRANGLER_SEND_METRICS: 'false', NO_COLOR: '1' },
     stdio: ['ignore', 'pipe', 'pipe'],
-    shell: process.platform === 'win32',
+    // a process group of its own: the teardown ends wrangler together with what it started (workerd, esbuild)
+    detached: process.platform !== 'win32',
   })
   let output = ''
   for (const stream of [wrangler.stdout, wrangler.stderr]) stream.on('data', d => (output += d))
@@ -95,9 +99,20 @@ after(async () => {
   google.closeAllConnections?.()
   if (wrangler && wrangler.exitCode === null) {
     const gone = new Promise(r => wrangler.once('exit', r))
-    wrangler.kill('SIGTERM')
-    await Promise.race([gone, sleep(5000).then(() => wrangler.kill('SIGKILL'))])
+    const kill = signal => {
+      try {
+        if (process.platform === 'win32') wrangler.kill(signal)
+        else process.kill(-wrangler.pid, signal)
+      } catch {
+        /* already gone */
+      }
+    }
+    kill('SIGTERM')
+    await Promise.race([gone, sleep(5000).then(() => kill('SIGKILL'))])
   }
+  // (nothing left of its output holds this process open)
+  wrangler?.stdout?.destroy()
+  wrangler?.stderr?.destroy()
 })
 
 /** A WebSocket to the relay: what it was sent, whether the handshake held, and how it ended. */

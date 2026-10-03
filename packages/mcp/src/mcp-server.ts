@@ -21,7 +21,7 @@ import { appNote, attachShare, registerSelectionTools, registerViewTool } from '
 import { appAvailable, joinedHere, listen as listenForApps, waitForPage, SESSION_PATH } from './share/server.js'
 import { showFromEnv, type Show } from './share/session.js'
 
-export const VERSION = '0.2.0'
+export const VERSION = '0.2.1'
 
 /** True for the address sessions are joined on on this machine (share/server.ts): an app's own engine, or another agent's. */
 const hostedOnThisMachine = (url: string): boolean => {

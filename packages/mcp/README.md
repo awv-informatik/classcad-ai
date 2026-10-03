@@ -203,7 +203,7 @@ From a terminal, the same flow and more (`node dist/server.js <command>` in a ch
 | `CLASSCAD_APP_URL`       | The app to dock into sessions, when it is hosted elsewhere (e.g. `https://buerligons.io/`); the link becomes `<url>?invite=…`. Default: the app in this package. |
 | `CLASSCAD_RELAY_URL`     | The share relay sessions are shared on (`https://…`; [`packages/relay`](../relay)). `off`: sessions are never shared. Default: `https://classcad-share.it-5ca.workers.dev` (`DEFAULT_RELAY_URL` in `src/share/relay.ts`). |
 | `CLASSCAD_SHARE`         | When a session gets a link that works beyond its machine: `always` (default — from its first model on, and the app comes up under that link), `ask` (when the user asks for it, the `share` tool; the app's own link stays on `127.0.0.1`), `off` (never). |
-| `CLASSCAD_BACKEND`       | `classcad` (default): the plans backend, sign-in on classcad.ch. `develop`: the same backend, signed in on a develop build of classcad.ch (`http://localhost:9090`). |
+| `CLASSCAD_BACKEND`       | `classcad` (default): the plans backend, sign-in on classcad.ch. `develop`: the same backend, signed in on a develop build of classcad.ch (`http://localhost:9090`). `staging`: signed in on `https://staging01.classcad.ch`. |
 | `CLASSCAD_TOKEN`         | A secret access token (`ccsk_…`, made on classcad.ch/account), for machines nobody signs in on (CI): the engine's key is fetched with it instead of the sign-in. |
 | `CLASSCAD_AUTH_URL`      | The sign-in page. Default `https://classcad.ch/connect` (with `CLASSCAD_BACKEND=develop`: `http://localhost:9090/connect`). |
 | `CLASSCAD_AUTH_FILE`     | Where the sign-in is stored. Default `~/.classcad-mcp/auth.json`.                                                 |

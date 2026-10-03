@@ -3,6 +3,7 @@
 //   classcad (default)  the plans backend (Firebase project classcad-app); sign-in on classcad.ch
 //   develop             the same backend, signed in on a develop build of classcad.ch
 //                       (http://localhost:9090), for trying the sites and the MCP together
+//   staging             the same backend, signed in on https://staging01.classcad.ch
 //
 // CLASSCAD_BACKEND picks one; CLASSCAD_AUTH_PROJECT, CLASSCAD_AUTH_API_KEY, CLASSCAD_AUTH_URL and
 // CLASSCAD_KEY_URL still override single values (tests point them at stand-ins).
@@ -20,6 +21,7 @@ const classcad: Backend = {
 const BACKENDS: Record<string, Backend> = {
   classcad,
   develop: { ...classcad, loginUrl: 'http://localhost:9090/connect' },
+  staging: { ...classcad, loginUrl: 'https://staging01.classcad.ch/connect' },
 }
 
 export const BACKEND_NAME = BACKENDS[process.env.CLASSCAD_BACKEND ?? ''] ? (process.env.CLASSCAD_BACKEND as string) : 'classcad'

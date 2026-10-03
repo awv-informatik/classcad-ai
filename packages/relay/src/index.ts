@@ -39,7 +39,7 @@ const MAX_GUESTS = 17
  * offers no sessions. A sign-in without a plan yet (a token from before the account's plan claim)
  * counts as the trial.
  */
-export const GUESTS_BY_PLAN: Record<string, number> = { free: 0, trial: 2, solo: 2, pro: 16, business: 16, contract: 16 }
+export const GUESTS_BY_PLAN: Record<string, number> = { free: 0, trial: 2, solo: 2, pro: 16, business: 16, contract: 16, staff: 16, admin: 16 }
 /** The host's own app comes in under the share link like a guest, so a session takes one more than its plan names. */
 export const guestsFor = (plan: string | null): number => {
   const named = plan && plan in GUESTS_BY_PLAN ? GUESTS_BY_PLAN[plan] : 2

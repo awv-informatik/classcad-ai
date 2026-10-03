@@ -19,7 +19,7 @@ the MCP (anywhere, behind any firewall)                     the relay (Cloudflar
 
 | | |
 | --- | --- |
-| **Offering a session** (`?host=`) | A machine signed in to ClassCAD: the MCP shows the Firebase ID token of its sign-in (`Authorization: Bearer …`), and the Worker checks signature, project (`FIREBASE_PROJECT`, `classcad-app`), issuer and expiry (`src/auth.ts`). Anything else: 401. The token's `plan` claim decides how many guests the session takes (`GUESTS_BY_PLAN`): none on Free (403), 2 on the trial and Solo, 16 on Pro, Business and contracts, and one more for the host's own app, which comes in under the share link like a guest. |
+| **Offering a session** (`?host=`) | A machine signed in to ClassCAD: the MCP shows the Firebase ID token of its sign-in (`Authorization: Bearer …`), and the Worker checks signature, project (`FIREBASE_PROJECT`, `classcad-app`), issuer and expiry (`src/auth.ts`). Anything else: 401. The token's `plan` claim decides how many guests the session takes (`GUESTS_BY_PLAN`): none on Free (403), 2 on the trial and Solo, 16 on Pro, Business, contracts and AWV's own plans (Staff, Admin), and one more for the host's own app, which comes in under the share link like a guest. |
 | **Joining** (`?invite=`) | Whoever has the link. The invite is a 122-bit random token the MCP mints for sharing — not the one of the user's own app — and it is good until the MCP takes it back (`share` with `stop`) or its session ends. Unknown invite: 403. |
 | **A host that comes back** | The same account may offer its invite again on a new connection (a laptop that slept): its guests stay. Another account gets 409. |
 

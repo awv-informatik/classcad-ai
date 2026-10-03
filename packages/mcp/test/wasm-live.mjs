@@ -19,7 +19,7 @@ import { spawn } from 'node:child_process'
 import { createServer } from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import { mkdtempSync } from 'node:fs'
+import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { fakeAuth } from './fake-auth.mjs'
 
@@ -34,12 +34,15 @@ const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
 // Every shim runs signed in: with the real sign-in when one is given (its keys are fetched as for a
 // user, kept in a file of the test's own), else a fake Firebase token endpoint and an own auth file.
+const KEY_DIR = REAL_SIGN_IN ? mkdtempSync(join(tmpdir(), 'classcad-live-key-')) : null
+// The keys fetched for the run go with it
+if (KEY_DIR) process.on('exit', () => rmSync(KEY_DIR, { recursive: true, force: true }))
 const AUTH = REAL_SIGN_IN
   ? {
       ...(await fakeAuth({ signedIn: false })).env,
       CLASSCAD_AUTH_TOKEN_URL: 'https://securetoken.googleapis.com/v1/token',
       CLASSCAD_AUTH_FILE: REAL_SIGN_IN,
-      CLASSCAD_KEY_FILE: join(mkdtempSync(join(tmpdir(), 'classcad-live-key-')), 'engine-key.json'),
+      CLASSCAD_KEY_FILE: join(KEY_DIR, 'engine-key.json'),
     }
   : (await fakeAuth()).env
 // Sessions run in this process (connect() of dist/client.js) sign in the same way

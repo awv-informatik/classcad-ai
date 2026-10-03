@@ -102,7 +102,7 @@ test('sign-in: gate, loopback hand-back, waiting login, revocation, logout', asy
   for (const token of ['revoked', 'other-project']) {
     const b = shim({ ...env, CLASSCAD_MCP_PORT: String(await freePort()) })
     try {
-      writeFileSync(auth.file, JSON.stringify({ uid: 'u', email: 'x@example.com', name: null, refreshToken: token, project: 'buerli', verifiedAt: Date.now() }))
+      writeFileSync(auth.file, JSON.stringify({ uid: 'u', email: 'x@example.com', name: null, refreshToken: token, project: 'classcad-app', verifiedAt: Date.now() }))
       await b.init()
       const r = await b.tool('tree')
       assert.ok(r.isError && /no longer valid/.test(r.text) && /Sign-in required/.test(r.text), `${token}: ${r.text}`)
@@ -114,7 +114,7 @@ test('sign-in: gate, loopback hand-back, waiting login, revocation, logout', asy
   // a refusal that is not about the token (key restrictions, outages) keeps the sign-in
   const c = shim({ ...env, CLASSCAD_MCP_PORT: String(await freePort()) })
   try {
-    writeFileSync(auth.file, JSON.stringify({ uid: 'u', email: 'x@example.com', name: null, refreshToken: 'blocked', project: 'buerli', verifiedAt: Date.now() }))
+    writeFileSync(auth.file, JSON.stringify({ uid: 'u', email: 'x@example.com', name: null, refreshToken: 'blocked', project: 'classcad-app', verifiedAt: Date.now() }))
     await c.init()
     assert.ok(!(await c.tool('tree')).isError, 'recent check counts while Firebase refuses')
     assert.equal(existsSync(auth.file), true, 'sign-in kept')

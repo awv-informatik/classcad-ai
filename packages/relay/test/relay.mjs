@@ -39,7 +39,7 @@ const stranger = generateKeyPairSync('rsa', { modulusLength: 2048 })
 const b64 = o => Buffer.from(JSON.stringify(o)).toString('base64url')
 const now = () => Math.floor(Date.now() / 1000)
 function idToken(claims = {}, { key = privateKey, alg = 'RS256' } = {}) {
-  const body = `${b64({ alg, kid: 'test-key', typ: 'JWT' })}.${b64({ aud: 'buerli', iss: 'https://securetoken.google.com/buerli', sub: 'uid-test', iat: now(), exp: now() + 3600, ...claims })}`
+  const body = `${b64({ alg, kid: 'test-key', typ: 'JWT' })}.${b64({ aud: 'classcad-app', iss: 'https://securetoken.google.com/classcad-app', sub: 'uid-test', plan: 'pro', iat: now(), exp: now() + 3600, ...claims })}`
   return `${body}.${alg === 'none' ? '' : createSign('RSA-SHA256').update(body).sign(key).toString('base64url')}`
 }
 
@@ -89,7 +89,7 @@ before(async () => {
 
   // The MCP, for the last test: signed in at the stand-in above.
   const file = join(mkdtempSync(join(tmpdir(), 'classcad-relay-')), 'auth.json')
-  writeFileSync(file, JSON.stringify({ uid: 'uid-test', email: 'test@example.com', name: 'Test', refreshToken: 'good', project: 'buerli', verifiedAt: Date.now() }))
+  writeFileSync(file, JSON.stringify({ uid: 'uid-test', email: 'test@example.com', name: 'Test', refreshToken: 'good', project: 'classcad-app', verifiedAt: Date.now() }))
   Object.assign(process.env, { CLASSCAD_AUTH_TOKEN_URL: `${googleUrl}/token`, CLASSCAD_AUTH_FILE: file, CLASSCAD_AUTH_URL: 'https://classcad.test/connect', CLASSCAD_AUTH_NO_BROWSER: '1', CLASSCAD_VIEWER_NO_BROWSER: '1', CLASSCAD_VIEWER_PORT: '0' })
 })
 
@@ -167,6 +167,20 @@ test('a session is offered by a signed-in machine, and by nobody else', { skip: 
 
   const host = asHost(t)
   await host.opened
+  host.ws.close()
+  await host.closed
+})
+
+test("the host's plan decides: Free offers no session, Solo takes two guests", { skip: OLD_NODE }, async () => {
+  await assert.rejects(asHost(invite('free'), { plan: 'free' }).opened, /HTTP 403/, 'Free does not share')
+  const t = invite('solo')
+  const host = asHost(t, { plan: 'solo' })
+  await host.opened
+  const guests = [socket(`${SESSION}/?invite=${t}`), socket(`${SESSION}/?invite=${t}`)]
+  await Promise.all(guests.map(g => g.opened))
+  await assert.rejects(socket(`${SESSION}/?invite=${t}`).opened, /HTTP 503/, 'a third guest finds the session full')
+  for (const g of guests) g.ws.close(1000)
+  await Promise.all(guests.map(g => g.closed))
   host.ws.close()
   await host.closed
 })

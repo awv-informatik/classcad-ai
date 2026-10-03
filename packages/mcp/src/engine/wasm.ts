@@ -6,10 +6,10 @@
 //   • the assets of one ClassCAD release (~16 MB compressed, ~85 MB unpacked: glue, main module, three
 //     side modules, class file, filter config), downloaded once from
 //     awvstatic.com into CLASSCAD_WASM_DIR (default ~/.classcad-mcp/wasm/<version>),
-//   • a ClassCAD key whose allowed origins include the origin the engine is
-//     told it runs on (CLASSCAD_WASM_ORIGIN, default http://localhost:3000).
-//     A six-month key is built in (DEV_WASM_KEY); CLASSCAD_WASM_KEY
-//     overrides it. Keys and origins are managed on classcad.ch/user.
+//   • a ClassCAD key for the origin the engine is told it runs on
+//     (http://localhost). The backend issues it for the signed-in account, or
+//     for CLASSCAD_TOKEN on CI (engine/key.ts); keys for local use name
+//     `localhost`, which the engine matches on any port.
 //
 // One engine = one drawing = one MCP session. Apps dock into that session
 // through share/hub.ts, which speaks a ClassCAD server's session protocol
@@ -21,25 +21,19 @@ import { Readable } from 'node:stream'
 import { homedir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { engineKey } from './key.js'
 
 /** The ClassCAD release the MCP hosts (the same the buerli apps load). */
 export const DEFAULT_WASM_VERSION = '21.2.0'
-/**
- * The MCP's built-in key: wasm, enterprise, allowed origin http://localhost:3000,
- * valid for six months (issued 2026-09-30). Built in so the local engine needs
- * no configuration; CLASSCAD_WASM_KEY overrides it. Renew it before
- * DEV_WASM_KEY_EXPIRES with buerli-backend/functions/scripts/appkey.mjs and
- * ship a release: the engine refuses an expired key.
- */
-export const DEV_WASM_KEY = 'MS4xLlZZUG51VkNpOGdjQm50RXB0VkE1RnQ1ekVVazNOR1dYMk9weHlxRGJjazRSdGYwTFRPTFl5NVdjYmY4VnFOOXlWTDQ0OUNzSExTbmhQRHZpNEVidXRubFJhZUpQVVA3aW1xZFBlWXlIcFRocFVlamVSZmJUaVM3aWcwWnlpdXNjSm5OaHFnTDhmN2EvSVRsZWxFQy9BRXJSQzZ5VUNLUC9UbFBiTTFINk10UlhNbkYwZm5QN2J0bE5DSWdWWW5RTldFSjFNcGYzaEJ4VjBjTHZlcW9tUXY0bklzVFFWSVl5T0hZVHM4ZU8vbENlaTZhdGxFbERycy9WVldoZHIwNm5DdWRvVEhTNGlmSGRWQ2FSak5QSmVNc1BmK1ZMYm5WVFI4aXl2MENadW1MbEsra2N3L0tqc0hLanZTUXJBTG5EQjcvOWpjcFhwbHlHNkFYRVppeVVESFZ0Ly9EL1VKdndMZ2E3S1ZFcFNRTStmS0xSZDR0RFYrVU41VHBrZ0wvYk5uK2huR3FHU2FtUExybXVGdXQ0T0EycHhiSlNZakZvYjFqbUZEbG5hVk1BTW11c1RqblVyQklGWGFxOUJDZnZRck13eHlGeE1RdEtCdGpnQUd5b1VSNmZmaFRXWVhpOGVtL2ZkU3hMNjFRamF4ejdLVExPS3pFOXJVMVgzcXBPQVo1NEFVenFVVzg0Zk9BeUZ0KzRMT2M0dzJMMWJ1U0YxUkZFby9CZXZ4UGRzQ3A4ZWUxMUxiTDRCQ0pFUEZJMGQyYU9JU0grN0NqOFZhVEpHb2JKVys3cktPemUyTTE4V3hOZnJMWVlhZXJzdDEwdDl1YTFja3lPdUZzRjMwdWFiejUvdGRVeENRRjhhcysxNFR2Slo4THowd1lxRkx2RTgrcG12N2VpT1ZUTzRtVSsvWXpLYkljVXFoNjNRdllkOU5jeWx3c0ZqRkZ4NGJlbGxrcHFuQjFNNHcvZVVmQ2VpNzRXT256ZGtNQzJiYWx2US9VWWJvS3ltbjZHVWtzbjZJczd0ZU5RMGs2TGovTm5mcFllcldNUXQxeEhjWnVySlZxd2hDRjBTTVRhSmhHWFNQODkwd3RFdkNRSS8zSHNYdUpseWFkWkpmZDZHRmJhNTRldEdoNUIveE80aWdNMEVuekVUMWVKa0tWMWhtbTduZjlZZzRwZmw4QnI5Z0ZZdFlPV080S2hWTjczYTB5Y0g5SlpMUUJydmlBVFowQm1uL3RNYnlKWitadmZjYzN1S2lvdXl4VC9ONlJwejlycFdrUmJvSHZSaHF4VkdjY3B4bG1nbnZudkNVaHZSZktFNTYvaDh0eEZXcXFncEo4VFR4cndFQVo3R0liRlVYVWN6TUhoQW9FV2lSWnVMTWxQck0zTVJWQkJ4YXA5a1BUeWVGaUFXU0tzZ2krUHRQbVp4ZTJldlRkekYzTEpvSkc4R25mQjZ5MVE4VWE5Q09wU3pMN05aamFpak9NRmU0dXBFaVI0andrOTUxMDVkcW9TTFExY0JoU2J0MytiNjkxcE1YYmNFZGNjU1ZYSnE5ejdubUJCeGs1THdUaURRdjdDTkQyZGNmejdKa0hXSENFcklvN2ZyMVFKU1V2dG5RRk5YUGxPNWhsTnZGVU9qWngwQkNDMGc2UDFrQUxVUEoweWtaZ3pQSnRYckdHL09XQjFUaERtTVNvMVpmdE1vbTlCdENjVGhMeGJuWDJmODlEcTNHZFE4RUd2UVV0cFRCNkVkeTdBOEE1aVNMemR1OEJhek5nYUwrclFlNk9CTko4VVEweEMzdmUrTFFoTmtVMTVzQWlycmtVdDJmL3JkMDM2bHd5d3ZnZTg2Umlvc1pnOVQ2RHVhNWRoQ1N3L0ZTQmpCOUo0QmI2Kys2TmNEOS9OTGFXNUIwUXJzdDRXYjR0cDEzL3Q3RXlxWEZiV3JLMVdiQlZtMnVhd3pzLzZ4RklR'
-export const DEV_WASM_KEY_EXPIRES = '2027-03-30T09:25:07Z'
-export const DEFAULT_WASM_ORIGIN = 'http://localhost:3000'
+export const DEFAULT_WASM_ORIGIN = 'http://localhost'
 /** Files of one release under https://awvstatic.com/classcad/download/release/<version>/wasm/. */
 export const WASM_ASSETS = ['ClassCADWasm.js', 'ClassCADWasm.wasm', 'lgs2d.wasm', 'lgs3d.wasm', 'ExpWasm.wasm', 'classcad.cfe', 'filterconfig.json']
 
 export type LocalWasmOptions = {
-  /** ClassCAD key (classcad.ch/user). Required — without it there is no local engine. */
-  key: string
+  /** A ClassCAD key; without one, getKey supplies it when the engine starts. */
+  key?: string
+  /** The key for an engine start: from the backend (engine/key.ts). */
+  getKey?: () => Promise<{ key: string; plan?: string }>
   /** Origin the engine believes it runs on; must be in the key's allowed origins. */
   origin?: string
   /** Release to host. */
@@ -79,12 +73,11 @@ export type LocalEngine = {
   readonly memoryMB: number
 }
 
-/** Resolves the local engine settings from the environment (the built-in key unless CLASSCAD_WASM_KEY is set). */
+/** Resolves the local engine settings from the environment; the key is fetched at each engine start. */
 export function wasmOptionsFromEnv(env: NodeJS.ProcessEnv = process.env): LocalWasmOptions | null {
-  const key = env.CLASSCAD_WASM_KEY || DEV_WASM_KEY
-  if (!key) return null
+  if (env.CLASSCAD_WASM === 'off') return null
   return {
-    key,
+    getKey: () => engineKey(),
     origin: env.CLASSCAD_WASM_ORIGIN,
     version: env.CLASSCAD_WASM_VERSION,
     dir: env.CLASSCAD_WASM_DIR,
@@ -131,7 +124,9 @@ export async function ensureWasmAssets(opts: { version?: string; dir?: string; u
 
 /** Downloads (if needed) and boots one engine in its own worker thread. */
 export async function startLocalEngine(opts: LocalWasmOptions): Promise<LocalEngine> {
-  if (!opts.key) throw new Error('no ClassCAD key for the local WASM engine (CLASSCAD_WASM_KEY)')
+  const fetched = opts.key ? null : opts.getKey ? await opts.getKey() : null
+  const key = opts.key ?? fetched?.key
+  if (!key) throw new Error('no ClassCAD key for the local WASM engine')
   const version = opts.version ?? DEFAULT_WASM_VERSION
   const origin = opts.origin ?? DEFAULT_WASM_ORIGIN
   const log = opts.log ?? (() => {})
@@ -168,18 +163,15 @@ export async function startLocalEngine(opts: LocalWasmOptions): Promise<LocalEng
       } else if (m?.type === 'error') {
         worker.off('message', onMessage)
         // The engine refuses a bad key by exiting without a word: name the likely cause.
-        const expired = opts.key === DEV_WASM_KEY && Date.now() > Date.parse(DEV_WASM_KEY_EXPIRES)
-        const hint = expired
-          ? ` The MCP's built-in engine key expired on ${DEV_WASM_KEY_EXPIRES.slice(0, 10)}: update the MCP (or set CLASSCAD_WASM_KEY).`
-          : opts.key !== DEV_WASM_KEY
-            ? ' Check CLASSCAD_WASM_KEY: the engine refuses an expired key or one whose allowed origins do not include ' + origin + '.'
-            : ''
+        const hint = process.env.CLASSCAD_WASM_KEY
+          ? ' Check CLASSCAD_WASM_KEY: the engine refuses an expired key or one whose allowed origins do not include ' + origin + '.'
+          : ' The engine refused its key; signing out and in again (`login` with logout, then `login`) fetches a new one.'
         reject(new Error(`WASM engine failed to start: ${m.message}.${hint}`))
       }
     }
     worker.on('message', onMessage)
     worker.once('error', err => reject(new Error(`WASM engine failed to start: ${err.message}`)))
-    worker.postMessage({ type: 'init', dir, key: opts.key, origin })
+    worker.postMessage({ type: 'init', dir, key, origin })
   }).catch(err => {
     worker.terminate().catch(() => {})
     throw err

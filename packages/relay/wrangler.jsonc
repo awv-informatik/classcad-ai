@@ -16,8 +16,8 @@
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Session"] }],
   "vars": {
-    // The Firebase project whose accounts may share a session (classcad.ch / buerli.io accounts).
-    "FIREBASE_PROJECT": "buerli"
+    // The Firebase project whose accounts may share a session (classcad.ch accounts, with their plan claim).
+    "FIREBASE_PROJECT": "classcad-app"
   },
   "observability": { "enabled": true }
 }

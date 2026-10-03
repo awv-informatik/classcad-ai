@@ -7,6 +7,7 @@
 //   alg RS256, signed by one of the keys at JWKS_URL
 //   aud  = the Firebase project      iss = https://securetoken.google.com/<project>
 //   exp  in the future               sub = the account
+//   plan = the account's plan, a claim the ClassCAD backend keeps on every account
 
 /** Google's keys for Firebase ID tokens, as a JWK set. They rotate: the answer says for how long it holds. */
 const JWKS_URL = 'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com'
@@ -54,14 +55,14 @@ const decode = (part: string): Uint8Array => {
 const json = (part: string): Record<string, unknown> => JSON.parse(new TextDecoder().decode(decode(part)))
 
 /** The account behind an `Authorization: Bearer <Firebase ID token>` header, or null when it does not hold. */
-export async function verify(authorization: string | null, env: AuthEnv): Promise<{ uid: string } | null> {
+export async function verify(authorization: string | null, env: AuthEnv): Promise<{ uid: string; plan: string | null } | null> {
   const token = /^Bearer\s+(\S+)$/i.exec(authorization ?? '')?.[1]
   const parts = token?.split('.') ?? []
   if (parts.length !== 3) return null
   try {
     const header = json(parts[0])
     const claims = json(parts[1])
-    const project = env.FIREBASE_PROJECT || 'buerli'
+    const project = env.FIREBASE_PROJECT || 'classcad-app'
     const now = Date.now() / 1000
     if (header.alg !== 'RS256' || typeof header.kid !== 'string') return null
     if (claims.aud !== project || claims.iss !== `https://securetoken.google.com/${project}`) return null
@@ -71,7 +72,8 @@ export async function verify(authorization: string | null, env: AuthEnv): Promis
     const key = await keyFor(header.kid, env.FIREBASE_JWKS_URL || JWKS_URL)
     if (!key) return null
     const signed = new TextEncoder().encode(`${parts[0]}.${parts[1]}`)
-    return (await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, decode(parts[2]), signed)) ? { uid: claims.sub } : null
+    const plan = typeof claims.plan === 'string' ? claims.plan : null
+    return (await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, decode(parts[2]), signed)) ? { uid: claims.sub, plan } : null
   } catch {
     return null
   }

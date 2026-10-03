@@ -5,12 +5,12 @@
 // event loop (other sessions, docked apps, /health) stays responsive.
 //
 // Two shims make the web-built engine run in Node:
-//   • location: the engine's license key is bound to "allowed origins"
-//     (configured on classcad.ch/user). The engine compares
-//     globalThis.location.origin with the siteLocation handed to init() and
-//     with the key's origins. The MCP presents itself as one of those
-//     origins (CLASSCAD_WASM_ORIGIN, default http://localhost:3000 - the
-//     origin most dev keys already allow).
+//   • location: the engine's license key is bound to "allowed origins". The
+//     engine compares globalThis.location.origin with the siteLocation handed
+//     to init() and with the key's origins. The MCP runs on this machine and
+//     says so: http://localhost, which keys for local use allow on any port
+//     (CLASSCAD_WASM_ORIGIN overrides it for a key of one's own). An engine
+//     build for Node would make this shim unnecessary.
 //   • XMLHttpRequest: the glue was built with -sENVIRONMENT=web and loads its
 //     side modules (lgs2d, lgs3d, ExpWasm) through XHR. We answer those from
 //     the local asset directory. A real XHR completes on a later task; the

@@ -6,6 +6,7 @@ import type { Client } from '../client.js'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, isAbsolute } from 'node:path'
 import { buildScene, sceneToGlb } from '../viewer/scene.js'
+import { exportAllowed } from '../engine/key.js'
 
 export function registerLifecycleTools(server: McpServer, client: Client): void {
   server.registerTool(
@@ -47,6 +48,8 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
       },
     },
     async ({ format, path, analytic }) => {
+      const allowed = exportAllowed(format)
+      if (!allowed.ok) return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ format, success: false, error: allowed.message }) }] }
       let data: Buffer | null = null
       let maxLevel = 0
       if (format === 'GLB') {

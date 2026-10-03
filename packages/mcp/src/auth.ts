@@ -26,14 +26,17 @@ import { randomBytes, timingSafeEqual } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
+import { AUTH_API_KEY, AUTH_PROJECT, AUTH_URL } from './backend.js'
 
-/** Firebase project whose accounts may use the MCP (classcad.ch / buerli.io accounts). */
-const PROJECT = process.env.CLASSCAD_AUTH_PROJECT || 'buerli'
+/** Firebase project whose accounts may use the MCP (classcad.ch accounts; see backend.ts). */
+const PROJECT = AUTH_PROJECT
 /** The project's public web API key (the same one classcad.ch ships). */
-const API_KEY = process.env.CLASSCAD_AUTH_API_KEY || 'AIzaSyCzKhVOXJOwLtmK9SjCoEEIkZ6N7ilSp9E'
+const API_KEY = AUTH_API_KEY
 const TOKEN_URL = process.env.CLASSCAD_AUTH_TOKEN_URL || 'https://securetoken.googleapis.com/v1/token'
 /** The page that signs the user in and hands the token back. */
-const LOGIN_URL = process.env.CLASSCAD_AUTH_URL || 'https://classcad.ch/connect'
+const LOGIN_URL = AUTH_URL
+/** The local engine's kept key belongs to the sign-in (engine/key.ts). */
+const ENGINE_KEY_FILE = process.env.CLASSCAD_KEY_FILE || join(homedir(), '.classcad-mcp', 'engine-key.json')
 const AUTH_FILE = process.env.CLASSCAD_AUTH_FILE || join(homedir(), '.classcad-mcp', 'auth.json')
 
 const OFFLINE_GRACE_MS = 14 * 24 * 3600 * 1000
@@ -158,6 +161,7 @@ export function logout(): boolean {
   shown = null
   const had = existsSync(AUTH_FILE)
   rmSync(AUTH_FILE, { force: true })
+  rmSync(ENGINE_KEY_FILE, { force: true })
   return had
 }
 

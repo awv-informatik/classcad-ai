@@ -79,9 +79,11 @@ export type RelayOptions = {
 const refusal = (status: number | undefined): string =>
   status === 401
     ? 'the relay did not accept this machine\'s sign-in'
-    : status === 409
-      ? 'the relay holds this invite for somebody else'
-      : `the relay answered HTTP ${status ?? '?'}`
+    : status === 403
+      ? 'sharing a session comes with Solo and up (https://classcad.ch/subscriptions); on Free the session stays on this machine'
+      : status === 409
+        ? 'the relay holds this invite for somebody else'
+        : `the relay answered HTTP ${status ?? '?'}`
 
 /**
  * Offers an invite of a session on the relay, and keeps it offered: an offer

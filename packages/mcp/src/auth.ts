@@ -195,9 +195,11 @@ export async function beginLogin(client?: string): Promise<{ url: string; expire
   const server = createServer((req, res) => handle(req, res).catch(err => send(res, 500, { ok: false, error: String(err?.message ?? err) })))
   await new Promise<void>((res, rej) => server.once('error', rej).listen(0, '127.0.0.1', () => res()))
   const port = (server.address() as { port: number }).port
-  const q = new URLSearchParams({ port: String(port), state })
+  const expiresAt = Date.now() + LOGIN_TTL_MS
+  // exp: the sign-in page does not hand a sign-in to a port nobody waits on any more
+  const q = new URLSearchParams({ port: String(port), state, exp: String(expiresAt) })
   if (client) q.set('client', client)
-  const p: Pending = { url: `${LOGIN_URL}?${q}`, state, port, server, expiresAt: Date.now() + LOGIN_TTL_MS, done, resolve, reject }
+  const p: Pending = { url: `${LOGIN_URL}?${q}`, state, port, server, expiresAt, done, resolve, reject }
   pending = p
   const timer = setTimeout(() => finish(p, new Error('the sign-in link expired')), LOGIN_TTL_MS)
   timer.unref()

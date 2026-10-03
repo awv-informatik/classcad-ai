@@ -15,6 +15,7 @@ let mode = 'ok'
 let plan = { plan: 'free', exportFormats: ['stl'] }
 let exp = () => Date.now() + 90 * 24 * 3600 * 1000
 const seen = []
+let unconfirmed = null
 const service = createServer((req, res) => {
   let body = ''
   req.on('data', c => (body += c))
@@ -24,6 +25,12 @@ const service = createServer((req, res) => {
     if (mode === 'down') {
       res.statusCode = 503
       return res.end(JSON.stringify({ code: 'unavailable', message: 'down' }))
+    }
+    // Refuses the sign-in it saw first as unconfirmed; a fresh one passes
+    if (mode === 'unverified' && (!unconfirmed || unconfirmed === req.headers.authorization)) {
+      unconfirmed = req.headers.authorization
+      res.statusCode = 403
+      return res.end(JSON.stringify({ code: 'email_not_verified', message: 'Confirm your email address first.' }))
     }
     if (mode === 'refuse') {
       res.statusCode = 403
@@ -79,6 +86,17 @@ test('while the key service is down, a kept key that has not expired starts the 
   writeFileSync(keyFile, JSON.stringify({ ...kept, exp: Date.now() + 30 * 1000 }))
   mode = 'down'
   assert.equal((await engineKey()).key, 'KEY2')
+})
+
+test('a sign-in kept from before the address was confirmed is renewed for the key', async () => {
+  writeFileSync(keyFile, '{}')
+  mode = 'unverified'
+  const before = seen.length
+  assert.ok((await engineKey()).key)
+  const asked = seen.slice(before)
+  assert.equal(asked.length, 2, 'refused once, then asked again')
+  assert.notEqual(asked[0].authorization, asked[1].authorization, 'with a fresh sign-in')
+  mode = 'ok'
 })
 
 test('a refusal is final', async () => {

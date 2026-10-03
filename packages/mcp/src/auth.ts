@@ -142,10 +142,11 @@ export function authStatus(): Promise<AuthStatus> {
  * session only from a machine that shows one (share/relay.ts). Null when the
  * machine is not signed in, or Firebase cannot be reached for a new token.
  */
-export async function idToken(): Promise<string | null> {
+/** `fresh`: not the one kept for the hour, for claims that changed since (a confirmed address, a new plan). */
+export async function idToken(fresh = false): Promise<string | null> {
   const stored = readStored()
   if (!stored) return null
-  if (shown && shown.uid === stored.uid && Date.now() < shown.expiresAt - 60_000) return shown.token
+  if (!fresh && shown && shown.uid === stored.uid && Date.now() < shown.expiresAt - 60_000) return shown.token
   try {
     await refresh(stored)
     return shown?.token ?? null

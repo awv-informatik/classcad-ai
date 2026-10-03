@@ -80,8 +80,7 @@ export async function engineKey(client = '@classcad/mcp'): Promise<EngineKey> {
     who = 'account:' + status.account.uid
   }
 
-  const fetchKey = async (): Promise<Kept> => {
-    const bearer = token ?? (await idToken())
+  const ask = async (bearer: string | null): Promise<{ res: Response; body: Record<string, any> | null }> => {
     if (!bearer) throw new Error('could not get a fresh sign-in token to ask for a key')
     let res: Response
     try {
@@ -94,7 +93,13 @@ export async function engineKey(client = '@classcad/mcp'): Promise<EngineKey> {
     } catch (err) {
       throw new Error(`the ClassCAD key service cannot be reached (${(err as Error).message})`)
     }
-    const body = (await res.json().catch(() => null)) as Record<string, any> | null
+    return { res, body: (await res.json().catch(() => null)) as Record<string, any> | null }
+  }
+
+  const fetchKey = async (): Promise<Kept> => {
+    let { res, body } = await ask(token ?? (await idToken()))
+    // The sign-in kept for the hour may be from before the address was confirmed: once more with a fresh one
+    if (!token && res.status === 403 && body?.code === 'email_not_verified') ({ res, body } = await ask(await idToken(true)))
     if (!res.ok || !body || typeof body.key !== 'string') {
       const message = body?.message ?? `the ClassCAD key service answered ${res.status}`
       if (res.status >= 400 && res.status < 500 && res.status !== 429) throw new KeyRefused(message)

@@ -13,6 +13,8 @@ import { join } from 'node:path'
 const b64 = o => Buffer.from(JSON.stringify(o)).toString('base64url')
 
 export async function fakeAuth({ signedIn = true } = {}) {
+  // Every token is a new one, as Firebase's are
+  let issued = 0
   const server = createServer((req, res) => {
     let body = ''
     req.on('data', c => (body += c))
@@ -28,7 +30,7 @@ export async function fakeAuth({ signedIn = true } = {}) {
         return res.end(JSON.stringify({ error: { message: 'TOKEN_EXPIRED' } }))
       }
       const aud = token === 'other-project' ? 'someone-else' : 'classcad-app'
-      const idToken = `${b64({ alg: 'RS256' })}.${b64({ aud, user_id: 'uid-test', email: 'test@example.com', name: 'Test' })}.sig`
+      const idToken = `${b64({ alg: 'RS256' })}.${b64({ aud, user_id: 'uid-test', email: 'test@example.com', name: 'Test', n: ++issued })}.sig`
       res.end(JSON.stringify({ id_token: idToken, refresh_token: token, expires_in: '3600', user_id: 'uid-test' }))
     })
   })

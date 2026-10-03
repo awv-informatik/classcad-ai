@@ -2,7 +2,7 @@
 
 Model Context Protocol server for the [ClassCAD](https://classcad.ch) CAD engine. Self-contained: it runs the ClassCAD engine itself (WASM), so there is no server to set up.
 
-Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cursor, …) drive a live ClassCAD session: build parts and assemblies through scripts, inspect the structure tree, render snapshots, export STEP/STL, load OFB/STEP, and dock into a session an interactive app (buerligons) already has open.
+Lets MCP-capable hosts (Claude Code, the Claude desktop app, VS Code Copilot, Cursor, …) drive a live ClassCAD session: build parts and assemblies through scripts, inspect the structure tree, render snapshots, save and load STEP, STL and OFB, and dock into a session an interactive app (buerligons) already has open.
 
 ---
 
@@ -230,7 +230,7 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 | `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, technical drawing with hidden lines, highlights, markers) |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
 | `view`                  | The session's live 3D view: returns its link and opens it in the user's browser |
-| `save` / `load` / `clear` / `checkpoint` / `restore` | `save` writes STEP, STL or GLB to a `path` on disk (or returns base64); loading OFB / STEP / STL; undo points. OFB export is not available in this release (`save`, and `common.save` / `assembly.exportNode` in scripts, refuse it); checkpoints still use it internally, in memory only. |
+| `save` / `load` / `clear` / `checkpoint` / `restore` | `save` writes STEP, STL, GLB or OFB to a `path` on disk (or returns base64); `load` reads OFB / STEP / STL from base64 content. `checkpoint` / `restore` are undo points, kept in the MCP's memory. |
 | `login`                 | Sign the machine in (returns the link, then waits for it to be used) or out |
 | `session_info` / `use_session` | Connection status (transport ws/bridge); attach to a named session, an invite link, or an in-app engine's `?bridge=` link |
 | `bridge.list_clients` / `bridge.get_selection` / `bridge.set_selection` | Read/write the selection of a connected CC app (see bridge) |

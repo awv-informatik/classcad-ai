@@ -111,30 +111,11 @@ export type ConnectOptions = {
   log?: (msg: string) => void
 }
 
-/**
- * This release does not hand out OFB (the native, parametric format): the
- * commands that serialize to OFB — common.save and assembly.exportNode, whose
- * default format IS OFB — are refused whether the data would be returned,
- * written to a file or sent to a url. STEP/STL exports and loading OFB stay.
- * Returns the refusal message, or null when the task may run.
- */
-export function ofbExportRefusal(task: object): string | null {
-  for (const [command, args] of Object.entries(task)) {
-    if (command !== 'v1.common.save' && command !== 'v1.assembly.exportNode') continue
-    const params = (Array.isArray(args) ? args[0] : args) as { format?: unknown; file?: unknown } | undefined
-    const fromFile = typeof params?.file === 'string' && /\.[a-z0-9]+$/i.test(params.file) ? params.file.split('.').pop() : undefined
-    const format = String(params?.format ?? fromFile ?? 'OFB').toUpperCase()
-    if (format === 'OFB')
-      return `${command.slice(3)}: OFB export is not available in this release of the ClassCAD MCP. Export STEP (format: "STP") or STL instead; checkpoint/restore still work for rollback.`
-  }
-  return null
-}
-
 export type Client = {
   /** Raw request. Tracked as a potential mutation unless `opts.track === false`. */
   request: <T = unknown>(command: string, extra?: object, opts?: { track?: boolean }) => Promise<ApiResult<T>>
-  /** One API task. OFB exports are refused (see ofbExportRefusal) unless `internalOfb` — the checkpoint's in-process save. */
-  execute: <T = unknown>(task: object, opts?: { internalOfb?: boolean }) => Promise<ApiResult<T>>
+  /** One API task. */
+  execute: <T = unknown>(task: object) => Promise<ApiResult<T>>
   close: () => void
   /** Cached structure (as of the last pull). */
   getStructure: () => Structure | null
@@ -597,9 +578,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     await openWasm()
   }
 
-  function execute<T = unknown>(task: object, opts: { internalOfb?: boolean } = {}): Promise<ApiResult<T>> {
-    const refused = opts.internalOfb ? null : ofbExportRefusal(task)
-    if (refused) return Promise.reject(new Error(refused))
+  function execute<T = unknown>(task: object): Promise<ApiResult<T>> {
     return request<T>('Execute', { task: [task], options: { undoable: false } })
   }
 

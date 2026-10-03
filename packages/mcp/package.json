@@ -1,6 +1,6 @@
 {
   "name": "@classcad/mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "mcpName": "io.github.awv-informatik/classcad",
   "description": "ClassCAD MCP server: build, verify and export 3D CAD parts and assemblies with the ClassCAD engine, running locally",
   "homepage": "https://classcad.ai",
@@ -45,7 +45,7 @@
     "dev": "tsc --watch",
     "start": "node dist/server.js",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "postbuild": "node --test test/emission.mjs test/daemon.mjs test/auth.mjs test/ofb-export.mjs",
+    "postbuild": "node --test test/emission.mjs test/daemon.mjs test/auth.mjs",
     "test": "npm run build && node test/emission-live.mjs && node --test test/wasm-live.mjs"
   },
   "dependencies": {

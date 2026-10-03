@@ -203,7 +203,9 @@ test('local engine: frame guards, and a crashed / hung / wedged engine is replac
   }
 })
 
-test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore still work', async () => {
+test('OFB: the save tool and a script write it, load reads it back with its features; checkpoint and restore', async () => {
+  const { mkdtempSync, readFileSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),
     CLASSCAD_BRIDGE_LISTEN: `ws://127.0.0.1:${await freePort()}/bridge`,
@@ -211,27 +213,36 @@ test('no OFB export: save and scripts refuse it, STEP and checkpoint/restore sti
     CLASSCAD_DAEMON_IDLE_MS: '1500',
     CLASSCAD_ENGINE: 'wasm',
   })
+  const volume = async () => (await a.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); return (await api.v1.part.calculateMassProperties({ id: p.id })).result.volume` })).value?.returned
   try {
     await a.init()
-    assert.ok(!(await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'O' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30 }); return p` })).isError)
-    // scripts: the default format, explicit OFB, and exportNode
-    for (const call of ['api.v1.common.save({})', "api.v1.common.save({ format: 'OFB', encoding: 'base64' })", 'api.v1.assembly.exportNode({ id: 4 })']) {
-      const r = await a.tool('run_script', { script: `return await ${call}` })
-      assert.ok(r.isError && /OFB export is not available/.test(r.text), `${call}: ${r.text}`)
+    assert.ok(!(await a.tool('run_script', { script: `const p = (await api.v1.part.create({ name: 'O' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30, name: 'Block' }); return p` })).isError)
+    // a script saves OFB like any other format, explicitly and as the default format
+    for (const call of ["api.v1.common.save({ format: 'OFB', encoding: 'base64' })", 'api.v1.common.save({})']) {
+      const r = await a.tool('run_script', { script: `const r = await ${call}; return typeof r.result?.content === 'string' && r.result.content.length > 100` })
+      assert.equal(r.value?.returned, true, `${call} writes OFB from a script: ${r.text}`)
     }
-    // the save tool no longer offers OFB
-    const tool = await a.call('tools/call', { name: 'save', arguments: { format: 'OFB' } })
-    assert.ok(tool.error || tool.result?.isError, 'save({ format: OFB }) is rejected: ' + JSON.stringify(tool).slice(0, 200))
-    // STEP export still works
+    // the save tool writes it to a file, or returns it
+    const file = join(mkdtempSync(join(tmpdir(), 'classcad-ofb-')), 'box.ofb')
+    const saved = (await a.tool('save', { format: 'OFB', path: file })).value
+    assert.ok(saved.success && saved.bytes > 100 && readFileSync(file).length === saved.bytes, 'save writes OFB: ' + JSON.stringify(saved).slice(0, 200))
+    const returned = (await a.tool('save', { format: 'OFB' })).value
+    assert.ok(returned.success && returned.content.length > 100, 'save returns OFB: ' + JSON.stringify(returned).slice(0, 200))
+    // ... and load brings the model back as it was: the part with its feature, not just a body
+    await a.tool('clear')
+    const loaded = await a.tool('load', { format: 'OFB', content: returned.content })
+    assert.ok(!loaded.isError && loaded.value.ok, 'load reads OFB: ' + loaded.text)
+    assert.ok((await a.tool('tree')).value.nodes.some(node => node.name === 'Block'), 'the feature is back, by name')
+    assert.equal(await volume(), 6000)
+    // STEP export
     const stp = (await a.tool('save', { format: 'STP' })).value
     assert.ok(stp.success && stp.bytes > 0, 'STEP export: ' + JSON.stringify(stp).slice(0, 200))
-    // checkpoint/restore still use OFB internally, without handing it out
+    // checkpoint/restore keep their copy in the MCP's process: nothing of the model comes back in the answer
     const cp = await a.tool('checkpoint', { label: 'before' })
     assert.ok(!cp.isError && !/classcad\\nVersion/.test(cp.text) && cp.text.length < 400, 'checkpoint returns no model data: ' + cp.text)
     await a.tool('run_script', { script: `await api.v1.common.clear(); return 1` })
     assert.ok(!(await a.tool('restore', { label: 'before' })).isError)
-    const vol = await a.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); return (await api.v1.part.calculateMassProperties({ id: p.id })).result.volume` })
-    assert.equal(vol.value?.returned, 6000, 'restored box: ' + vol.text)
+    assert.equal(await volume(), 6000, 'restored box')
   } finally {
     await a.exit()
   }

@@ -18,7 +18,7 @@ The MCP works with a free classcad.ch account, once per machine. If a tool answe
 3. **Build in a few substantial scripts.** State persists between scripts: a follow-up script finds the part with `await api.tree()`. Never call `part.create` twice. For a new, unrelated model in the same session, call `clear` first.
 4. **Verify with numbers.** `part.calculateMassProperties` after the last operation: compare the volume with what the design math predicts. A render that looks right is not proof.
 5. **Show the result.** The session has a live 3D view that opens in the user's browser with the first model and follows every change: give the user its link (results end with it; `view` returns it) on its own line. `snapshot` renders stills (iso, sections, technical drawings in first- or third-angle): pass an `outDir` the user can open and hand them the image.
-6. **Deliver.** `save` writes STEP (`format: "STP"`), STL or GLB to a `path` on disk: give the user that path. They can also download the same from the 3D view's Export menu. For a configurable part, give the user the final script: it runs unchanged in their own ClassCAD app, where they can change the parameters live.
+6. **Deliver.** `save` writes STEP (`format: "STP"`), STL, GLB or OFB (ClassCAD's own format, with the model's features) to a `path` on disk: give the user that path. They can also download STEP, STL and glTF from the 3D view's Export menu. For a configurable part, give the user the final script: it runs unchanged in their own ClassCAD app, where they can change the parameters live.
 
 ## Good to know
 

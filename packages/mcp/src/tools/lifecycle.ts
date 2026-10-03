@@ -35,11 +35,11 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     {
       title: 'Save drawing',
       description:
-        'Write the current drawing to a file, or return it as base64. Formats: STP (STEP, exact geometry), STL (triangles), GLB (binary glTF: triangles with colours, for 3D viewers and the web), JSON. ' +
+        'Write the current drawing to a file, or return it as base64. Formats: STP (STEP, exact geometry), STL (triangles), GLB (binary glTF: triangles with colours, for 3D viewers and the web), OFB (ClassCAD\'s own format: the model with its features, to open again in ClassCAD or Buerligons), JSON. ' +
         'With `path` the file is written to disk and only its path and size come back — the way to hand the user a model (give them the path); without it the content is returned base64-encoded, which is large. ' +
-        '(OFB export is not available in this release.) The user can also download STEP, STL and GLB themselves from the live 3D view (`view`).',
+        'The user can also download STEP, STL and GLB themselves from the live 3D view (`view`).',
       inputSchema: {
-        format: z.enum(['STP', 'STL', 'GLB', 'JSON']).describe('Output format.'),
+        format: z.enum(['STP', 'STL', 'GLB', 'OFB', 'JSON']).describe('Output format.'),
         path: z.string().optional()
           .describe('Absolute file path to write, e.g. /Users/me/Desktop/flange.stp (folders are created). Omit to get the content back as base64.'),
       },
@@ -135,10 +135,10 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     },
     async ({ label }) => {
       const name = (label || 'checkpoint').trim().slice(0, 60) || 'checkpoint'
-      // The one OFB save this release makes: held in this process, never returned.
+      // An OFB save, held in this process.
       const r = await client.execute<{ success: boolean; content: string }>({
         'v1.common.save': [{ format: 'OFB', encoding: 'base64' }],
-      }, { internalOfb: true })
+      })
       if (!r.result?.content) {
         return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ error: 'Checkpoint failed: the engine returned no OFB data.', maxLevel: r.maxLevel }) }] }
       }

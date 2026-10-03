@@ -26,14 +26,17 @@ import { randomBytes, timingSafeEqual } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
+import { AUTH_API_KEY, AUTH_PROJECT, AUTH_URL } from './backend.js'
 
-/** Firebase project whose accounts may use the MCP (classcad.ch / buerli.io accounts). */
-const PROJECT = process.env.CLASSCAD_AUTH_PROJECT || 'buerli'
+/** Firebase project whose accounts may use the MCP (classcad.ch accounts; see backend.ts). */
+const PROJECT = AUTH_PROJECT
 /** The project's public web API key (the same one classcad.ch ships). */
-const API_KEY = process.env.CLASSCAD_AUTH_API_KEY || 'AIzaSyCzKhVOXJOwLtmK9SjCoEEIkZ6N7ilSp9E'
+const API_KEY = AUTH_API_KEY
 const TOKEN_URL = process.env.CLASSCAD_AUTH_TOKEN_URL || 'https://securetoken.googleapis.com/v1/token'
 /** The page that signs the user in and hands the token back. */
-const LOGIN_URL = process.env.CLASSCAD_AUTH_URL || 'https://classcad.ch/connect'
+const LOGIN_URL = AUTH_URL
+/** The local engine's kept key belongs to the sign-in (engine/key.ts). */
+const ENGINE_KEY_FILE = process.env.CLASSCAD_KEY_FILE || join(homedir(), '.classcad-mcp', 'engine-key.json')
 const AUTH_FILE = process.env.CLASSCAD_AUTH_FILE || join(homedir(), '.classcad-mcp', 'auth.json')
 
 const OFFLINE_GRACE_MS = 14 * 24 * 3600 * 1000
@@ -139,10 +142,11 @@ export function authStatus(): Promise<AuthStatus> {
  * session only from a machine that shows one (share/relay.ts). Null when the
  * machine is not signed in, or Firebase cannot be reached for a new token.
  */
-export async function idToken(): Promise<string | null> {
+/** `fresh`: not the one kept for the hour, for claims that changed since (a confirmed address, a new plan). */
+export async function idToken(fresh = false): Promise<string | null> {
   const stored = readStored()
   if (!stored) return null
-  if (shown && shown.uid === stored.uid && Date.now() < shown.expiresAt - 60_000) return shown.token
+  if (!fresh && shown && shown.uid === stored.uid && Date.now() < shown.expiresAt - 60_000) return shown.token
   try {
     await refresh(stored)
     return shown?.token ?? null
@@ -158,6 +162,7 @@ export function logout(): boolean {
   shown = null
   const had = existsSync(AUTH_FILE)
   rmSync(AUTH_FILE, { force: true })
+  rmSync(ENGINE_KEY_FILE, { force: true })
   return had
 }
 
@@ -190,9 +195,11 @@ export async function beginLogin(client?: string): Promise<{ url: string; expire
   const server = createServer((req, res) => handle(req, res).catch(err => send(res, 500, { ok: false, error: String(err?.message ?? err) })))
   await new Promise<void>((res, rej) => server.once('error', rej).listen(0, '127.0.0.1', () => res()))
   const port = (server.address() as { port: number }).port
-  const q = new URLSearchParams({ port: String(port), state })
+  const expiresAt = Date.now() + LOGIN_TTL_MS
+  // exp: the sign-in page does not hand a sign-in to a port nobody waits on any more
+  const q = new URLSearchParams({ port: String(port), state, exp: String(expiresAt) })
   if (client) q.set('client', client)
-  const p: Pending = { url: `${LOGIN_URL}?${q}`, state, port, server, expiresAt: Date.now() + LOGIN_TTL_MS, done, resolve, reject }
+  const p: Pending = { url: `${LOGIN_URL}?${q}`, state, port, server, expiresAt, done, resolve, reject }
   pending = p
   const timer = setTimeout(() => finish(p, new Error('the sign-in link expired')), LOGIN_TTL_MS)
   timer.unref()

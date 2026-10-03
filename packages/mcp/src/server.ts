@@ -213,7 +213,9 @@ async function proxyToDaemon(): Promise<void> {
           'x-classcad-engine': ENGINE,
           // How this host shows the session's app: its own browser pane, or the user's browser.
           'x-classcad-show': showFromEnv(),
-          ...(WASM ? { 'x-classcad-wasm-key': WASM.key, ...(WASM.origin ? { 'x-classcad-wasm-origin': WASM.origin } : {}) } : {}),
+          // A key of this host's own (CLASSCAD_WASM_KEY); without one the daemon fetches the session's key from the sign-in
+          ...(WASM?.key ? { 'x-classcad-wasm-key': WASM.key } : {}),
+          ...(WASM?.origin ? { 'x-classcad-wasm-origin': WASM.origin } : {}),
         },
       },
     })

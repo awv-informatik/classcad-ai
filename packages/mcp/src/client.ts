@@ -253,7 +253,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   let lastWorkerProbe = 0
   let workerWaitingLogged = false
   let probing = false
-  const wasmAvailable = () => !!opts.wasm?.key
+  const wasmAvailable = () => !!opts.wasm
   const log = opts.log ?? (() => {})
   // The invite token of a server session joined via reconnectUrl (?invite=…).
   let inviteToken: string | null = null
@@ -542,7 +542,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   async function openByPolicy(how: EnginePolicy, sessionId: string | null): Promise<void> {
     autoFallback = false
     if (how === 'wasm') {
-      if (!wasmAvailable()) throw new Error('No local WASM engine: set CLASSCAD_WASM_KEY (a ClassCAD key from classcad.ch/user) to let the MCP host the engine itself, or use engine "drogon" with a running ClassCAD worker.')
+      if (!wasmAvailable()) throw new Error('No local WASM engine (CLASSCAD_WASM=off): use engine "drogon" with a running ClassCAD worker.')
       await openWasm()
       return
     }
@@ -560,7 +560,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       if (unreachable && how === 'auto' && !wasmAvailable()) {
         throw new Error(
           `No ClassCAD worker reachable at ${currentUrl} (${(err as Error).message}). Start one (classcad-cli worker) or set CLASSCAD_WS_URL — ` +
-            'or set CLASSCAD_WASM_KEY so the MCP can host the engine itself (local WASM).',
+            'or unset CLASSCAD_WASM=off so the MCP can host the engine itself (local WASM).',
         )
       }
       throw err

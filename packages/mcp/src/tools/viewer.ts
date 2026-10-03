@@ -7,6 +7,7 @@
 // the link. The first model of a session opens the view in the browser.
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { exportAllowed } from '../engine/key.js'
 import { z } from 'zod'
 import type { Client } from '../client.js'
 import { hostName } from '../auth.js'
@@ -46,6 +47,8 @@ export async function attachViewer(server: McpServer, client: Client, log?: (msg
         }),
       exportModel: format =>
         enqueue(server, async () => {
+          const allowed = exportAllowed(format)
+          if (!allowed.ok) throw new Error(allowed.message)
           const args: Record<string, unknown> = { format, encoding: 'base64' }
           if (format === 'STP') args.stp = { version: 2 }
           if (format === 'STL') args.stl = { binary: true, facetingTol: 0.05, angleTol: 6 }

@@ -32,16 +32,29 @@ export type Env = AuthEnv & { SESSIONS: DurableObjectNamespace<Session> }
 const TOKEN = /^[A-Za-z0-9_-]{16,128}$/
 /** How long a host has to meet a guest that joined. */
 const MEET_TIMEOUT_MS = 10_000
-/** How many guests one session takes. */
-const MAX_GUESTS = 16
+/** How many guests one session takes at most: the most a plan names, and the host's own app. */
+const MAX_GUESTS = 17
+/**
+ * Guests by the host's plan, as the plans name them (shareGuests in buerli-backend's plans.ts). Free
+ * offers no sessions. A sign-in without a plan yet (a token from before the account's plan claim)
+ * counts as the trial.
+ */
+export const GUESTS_BY_PLAN: Record<string, number> = { free: 0, trial: 2, solo: 2, pro: 16, business: 16, contract: 16, staff: 16, admin: 16 }
+/** The host's own app comes in under the share link like a guest, so a session takes one more than its plan names. */
+export const guestsFor = (plan: string | null): number => {
+  const named = plan && plan in GUESTS_BY_PLAN ? GUESTS_BY_PLAN[plan] : 2
+  return named === 0 ? 0 : Math.min(MAX_GUESTS, named + 1)
+}
 /** How much a guest may say before the host met it. */
 const MAX_EARLY_BYTES = 1024 * 1024
 
 /** What a socket is: kept on the socket, so it is still known after the object slept. */
-type Role = { as: 'host'; uid: string } | { as: 'guest'; id: string } | { as: 'link'; id: string } | { as: 'replaced' }
+type Role = { as: 'host'; uid: string; guests: number } | { as: 'guest'; id: string } | { as: 'link'; id: string } | { as: 'replaced' }
 
 /** The account behind an offer, as the Worker tells the object (a caller's own header of that name never gets there). */
 const UID_HEADER = 'x-classcad-uid'
+/** How many guests the offer's plan allows, told the same way. */
+const GUESTS_HEADER = 'x-classcad-guests'
 
 const refuse = (status: number, reason: string): Response => new Response(reason, { status })
 
@@ -56,11 +69,17 @@ export default {
     if (!TOKEN.test(token)) return refuse(403, 'Forbidden')
     const headers = new Headers(request.headers)
     headers.delete(UID_HEADER)
-    // Offering a session is for signed-in machines. (Meeting a guest needs its id, which only the host was told.)
+    headers.delete(GUESTS_HEADER)
+    // Offering a session is for signed-in machines, on a plan that shares. (Meeting a guest needs its id, which only the host was told.)
     if (hosted && !url.searchParams.get('guest')) {
       const account = await verify(request.headers.get('authorization'), env)
       if (!account) return refuse(401, 'Unauthorized')
+      const guests = guestsFor(account.plan)
+      if (guests === 0) return refuse(403, 'Sharing a session comes with Solo and up: https://classcad.ch/subscriptions')
+      // One line per offer: the logs count the shares per account
+      console.log(JSON.stringify({ event: 'offer', uid: account.uid, plan: account.plan, guests }))
       headers.set(UID_HEADER, account.uid)
+      headers.set(GUESTS_HEADER, String(guests))
     }
     return env.SESSIONS.get(env.SESSIONS.idFromName(token)).fetch(new Request(request, { headers }))
   },
@@ -101,10 +120,13 @@ export class Session extends DurableObject<Env> {
         before.serializeAttachment({ as: 'replaced' } satisfies Role)
         shut(before, 1012, 'offered again on another connection')
       }
-      role = { as: 'host', uid }
+      role = { as: 'host', uid, guests: Number(request.headers.get(GUESTS_HEADER)) || 0 }
     } else {
-      if (!this.host()) return refuse(403, 'Forbidden')
-      if (this.ctx.getWebSockets('guest').length >= MAX_GUESTS) return refuse(503, 'this session is full')
+      const host = this.host()
+      if (!host) return refuse(403, 'Forbidden')
+      const offered = host.deserializeAttachment() as Role | null
+      const limit = offered?.as === 'host' ? Math.min(MAX_GUESTS, offered.guests) : MAX_GUESTS
+      if (this.ctx.getWebSockets('guest').length >= limit) return refuse(503, 'this session is full')
       role = { as: 'guest', id: crypto.randomUUID() }
     }
 

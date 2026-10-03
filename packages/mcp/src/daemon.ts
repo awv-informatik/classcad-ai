@@ -302,10 +302,16 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       }
       const sessionWsUrl = hdr('x-classcad-ws-url') ?? wsUrl
       const enginePolicy = (hdr('x-classcad-engine') as EnginePolicy | undefined) ?? opts.engine ?? 'auto'
-      const key = hdr('x-classcad-wasm-key') ?? opts.wasm?.key
-      const sessionWasm: LocalWasmOptions | null = key
-        ? { ...(opts.wasm ?? { key }), key, origin: hdr('x-classcad-wasm-origin') ?? opts.wasm?.origin }
-        : null
+      // The local engine's key: the host's own (CLASSCAD_WASM_KEY of the shim), else fetched from the
+      // sign-in at each engine start (opts.wasm.getKey). An older shim sends "undefined" for no key.
+      const sent = hdr('x-classcad-wasm-key')
+      const own = sent && sent !== 'undefined' && sent !== 'null' ? sent : opts.wasm?.key
+      const origin = hdr('x-classcad-wasm-origin') ?? opts.wasm?.origin
+      const sessionWasm: LocalWasmOptions | null = opts.wasm
+        ? { ...opts.wasm, ...(own ? { key: own } : {}), origin }
+        : own
+          ? { key: own, origin }
+          : null
       // How the session's app reaches the user depends on the host that started the shim, not on
       // whoever started this daemon: the shim says.
       const named = hdr('x-classcad-show')

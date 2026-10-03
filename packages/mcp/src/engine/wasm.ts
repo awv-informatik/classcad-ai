@@ -77,6 +77,8 @@ export type LocalEngine = {
 export function wasmOptionsFromEnv(env: NodeJS.ProcessEnv = process.env): LocalWasmOptions | null {
   if (env.CLASSCAD_WASM === 'off') return null
   return {
+    // A key of one's own wins; otherwise each engine start asks the backend
+    key: env.CLASSCAD_WASM_KEY || undefined,
     getKey: () => engineKey(),
     origin: env.CLASSCAD_WASM_ORIGIN,
     version: env.CLASSCAD_WASM_VERSION,

@@ -1,6 +1,9 @@
 // Local WASM engine contract — LIVE: downloads the release assets on first
-// run (~85 MB) and needs an engine key for http://localhost in
-// CLASSCAD_WASM_KEY (a CI secret); without one these tests are skipped.
+// run (~85 MB) and needs a way to an engine key: a secret access token in
+// CLASSCAD_TOKEN (the CI secret; the MCP fetches the keys with it), a sign-in
+// from `login` in CLASSCAD_LIVE_AUTH_FILE (with CLASSCAD_BACKEND for its
+// backend), or a key of one's own for http://localhost in CLASSCAD_WASM_KEY.
+// Without any, these tests are skipped.
 //   1. engine policy "wasm": the shim serves a session on the MCP's own engine
 //      (no worker involved) — run_script, tree, snapshot work
 //   2. policy "auto" with no worker reachable: falls back to the local engine
@@ -16,16 +19,31 @@ import { spawn } from 'node:child_process'
 import { createServer } from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { mkdtempSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { fakeAuth } from './fake-auth.mjs'
 
-// The engine starts only with a valid key; the MCP carries none any more. Without CLASSCAD_WASM_KEY
-// (a key for http://localhost, a CI secret) these tests are skipped.
-const live = process.env.CLASSCAD_WASM_KEY ? test : (name, fn) => test(name, { skip: 'set CLASSCAD_WASM_KEY to run the engine' }, fn)
+// The engine starts only with a valid key; the MCP carries none any more.
+const REAL_SIGN_IN = process.env.CLASSCAD_LIVE_AUTH_FILE
+const live =
+  process.env.CLASSCAD_TOKEN || REAL_SIGN_IN || process.env.CLASSCAD_WASM_KEY
+    ? test
+    : (name, fn) => test(name, { skip: 'set CLASSCAD_TOKEN, CLASSCAD_LIVE_AUTH_FILE or CLASSCAD_WASM_KEY to run the engine' }, fn)
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
-// Every shim runs signed in (a fake Firebase token endpoint, own auth file).
-const AUTH = (await fakeAuth()).env
+// Every shim runs signed in: with the real sign-in when one is given (its keys are fetched as for a
+// user, kept in a file of the test's own), else a fake Firebase token endpoint and an own auth file.
+const AUTH = REAL_SIGN_IN
+  ? {
+      ...(await fakeAuth({ signedIn: false })).env,
+      CLASSCAD_AUTH_TOKEN_URL: 'https://securetoken.googleapis.com/v1/token',
+      CLASSCAD_AUTH_FILE: REAL_SIGN_IN,
+      CLASSCAD_KEY_FILE: join(mkdtempSync(join(tmpdir(), 'classcad-live-key-')), 'engine-key.json'),
+    }
+  : (await fakeAuth()).env
+// Sessions run in this process (connect() of dist/client.js) sign in the same way
+Object.assign(process.env, AUTH)
 const freePort = () => new Promise(r => { const s = createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)) }) })
 
 function shim(env) {

@@ -32,14 +32,19 @@ export type Env = AuthEnv & { SESSIONS: DurableObjectNamespace<Session> }
 const TOKEN = /^[A-Za-z0-9_-]{16,128}$/
 /** How long a host has to meet a guest that joined. */
 const MEET_TIMEOUT_MS = 10_000
-/** How many guests one session takes at most. */
-const MAX_GUESTS = 16
+/** How many guests one session takes at most: the most a plan names, and the host's own app. */
+const MAX_GUESTS = 17
 /**
- * Guests by the host's plan (shareGuests in buerli-backend's plans.ts). Free offers no sessions.
- * A sign-in without a plan yet (a token from before the account's plan claim) counts as the trial.
+ * Guests by the host's plan, as the plans name them (shareGuests in buerli-backend's plans.ts). Free
+ * offers no sessions. A sign-in without a plan yet (a token from before the account's plan claim)
+ * counts as the trial.
  */
 export const GUESTS_BY_PLAN: Record<string, number> = { free: 0, trial: 2, solo: 2, pro: 16, business: 16, contract: 16 }
-export const guestsFor = (plan: string | null): number => Math.min(MAX_GUESTS, plan && plan in GUESTS_BY_PLAN ? GUESTS_BY_PLAN[plan] : 2)
+/** The host's own app comes in under the share link like a guest, so a session takes one more than its plan names. */
+export const guestsFor = (plan: string | null): number => {
+  const named = plan && plan in GUESTS_BY_PLAN ? GUESTS_BY_PLAN[plan] : 2
+  return named === 0 ? 0 : Math.min(MAX_GUESTS, named + 1)
+}
 /** How much a guest may say before the host met it. */
 const MAX_EARLY_BYTES = 1024 * 1024
 

@@ -171,12 +171,13 @@ test('a session is offered by a signed-in machine, and by nobody else', { skip: 
   await host.closed
 })
 
-test("the host's plan decides: Free offers no session, Solo takes two guests", { skip: OLD_NODE }, async () => {
+test("the host's plan decides: Free offers no session, Solo takes two guests and the host's own app", { skip: OLD_NODE }, async () => {
   await assert.rejects(asHost(invite('free'), { plan: 'free' }).opened, /HTTP 403/, 'Free does not share')
   const t = invite('solo')
   const host = asHost(t, { plan: 'solo' })
   await host.opened
-  const guests = [socket(`${SESSION}/?invite=${t}`), socket(`${SESSION}/?invite=${t}`)]
+  // The host's own app, under the share link, and two guests
+  const guests = [socket(`${SESSION}/?invite=${t}`), socket(`${SESSION}/?invite=${t}`), socket(`${SESSION}/?invite=${t}`)]
   await Promise.all(guests.map(g => g.opened))
   await assert.rejects(socket(`${SESSION}/?invite=${t}`).opened, /HTTP 503/, 'a third guest finds the session full')
   for (const g of guests) g.ws.close(1000)

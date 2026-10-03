@@ -27,7 +27,7 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 const busyChecks = new WeakMap<McpServer, () => boolean>()
 export function setDrawingBusy(server: McpServer, check: () => boolean): void { busyChecks.set(server, check) }
 
-export const UNQUEUED_TOOLS = new Set(['list_methods', 'describe_method', 'docs', 'session_info', 'view'])
+export const UNQUEUED_TOOLS = new Set(['list_methods', 'describe_method', 'docs', 'session_info', 'view', 'share'])
 
 /**
  * Patches `server.registerTool` so every handler registered afterwards runs

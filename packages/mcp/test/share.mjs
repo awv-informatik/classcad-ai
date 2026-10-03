@@ -11,17 +11,24 @@
 //   5. the listener: an unknown invite fails the handshake; a page that hosts
 //      its own session is joined through it (offer, knock, meet, pass bytes),
 //      and its guests go with it
+//   6. the relay: a session offered beyond this machine (share/relay.ts) is
+//      joined like one on the listener, and a session shares itself with an
+//      invite of its own that it can take back. The listener stands in for
+//      the relay here: to a host, the two speak the same (packages/relay has
+//      the relay's own contract)
 import { test } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { inflateRawSync } from 'node:zlib'
-import { request } from 'node:http'
-import WebSocket from 'ws'
+import { createServer, request } from 'node:http'
+import WebSocket, { WebSocketServer } from 'ws'
 import { fakeAuth } from './fake-auth.mjs'
 
 // The listener asks whether the machine is signed in: set that up before it is loaded.
 Object.assign(process.env, (await fakeAuth()).env)
 const { createSessionHub, pieces } = await import('../dist/share/hub.js')
 const { listen, offerInvite, joinedHere, waitForPage, dockedApps, offeringPages } = await import('../dist/share/server.js')
+const { offerOnRelay, relayUrl } = await import('../dist/share/relay.js')
+const { openShare, sharingFromEnv } = await import('../dist/share/session.js')
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 const { port } = await listen()
@@ -347,4 +354,170 @@ test('listener: a page that hosts its own session is joined through it', async (
   assert.equal(joinedHere(token), false)
   assert.equal(offeringPages(), 0)
   link.close()
+})
+
+test('relay: a session offered beyond this machine is joined like one on the listener', async t => {
+  const s = session()
+  const invite = s.hub.createInvite('edit', 'guest')
+  const offer = offerOnRelay({ relay: `http://127.0.0.1:${port}/`, hub: s.hub, invite: invite.invite })
+  // Whatever fails below, nothing stays open: a test file ends when its connections do.
+  t.after(() => (offer.close(), s.end()))
+  assert.equal(offer.url, `http://127.0.0.1:${port}/?invite=${invite.invite}`, 'the link is the relay\'s address with the invite')
+  assert.equal(offer.live, false, 'offering does not wait for the relay')
+  assert.equal(await offer.whenLive(3000), true)
+  assert.equal(offer.live, true)
+  assert.equal(offer.problem, null)
+  assert.equal(joinedHere(invite.invite), true, 'the relay holds the offer')
+
+  // A guest joins where the link sent it — the relay — and is served by the hub, on the connection the MCP met it on.
+  const g = guest(`${SESSION}/?invite=${invite.invite}`)
+  await g.opened
+  assert.equal((await g.send({ command: 'SetEmissionConfig', config: STREAMING })).result.sendStructure_Patch, true, 'what a guest says before it is met is not lost')
+  const joined = g.of('SessionJoined')[0]
+  assert.equal(joined.role, 'edit')
+  assert.equal(joined.inviteName, 'guest')
+  assert.equal(s.toHost.find(f => f.command === 'PeerJoined')?.invite, invite.invite, 'the host hears of it')
+  assert.equal((await g.send({ command: 'Execute', task: [{ 'v1.part.box': [{}] }] })).result, 42, 'a guest\'s command reaches the engine')
+  assert.equal(g.of('StructurePatch').length, 1)
+  assert.equal(s.hub.guests, 1)
+
+  // The offer is taken back: the relay ends what was joined with it, and takes nobody else.
+  offer.close()
+  await g.closed
+  assert.equal(offer.live, false)
+  for (let i = 0; i < 40 && joinedHere(invite.invite); i++) await sleep(25)
+  await assert.rejects(guest(`${SESSION}/?invite=${invite.invite}`).opened, /HTTP 403/)
+  for (let i = 0; i < 40 && s.hub.guests; i++) await sleep(25)
+  assert.equal(s.hub.guests, 0)
+})
+
+test('relay: a session shares itself with an invite of its own, and takes it back', async t => {
+  assert.equal(relayUrl({ CLASSCAD_RELAY_URL: 'off' }), null)
+  assert.equal(relayUrl({ CLASSCAD_RELAY_URL: 'https://relay.example/' }), 'https://relay.example')
+  assert.equal(sharingFromEnv({ CLASSCAD_RELAY_URL: 'off', CLASSCAD_SHARE: 'always' }), 'off', 'no relay, nothing to share on')
+  assert.equal(sharingFromEnv({ CLASSCAD_RELAY_URL: 'https://relay.example' }), 'always', 'with a relay, every session is shared')
+  assert.equal(sharingFromEnv({ CLASSCAD_RELAY_URL: 'https://relay.example', CLASSCAD_SHARE: 'ask' }), 'ask')
+  assert.equal(sharingFromEnv({ CLASSCAD_RELAY_URL: 'https://relay.example', CLASSCAD_SHARE: 'off' }), 'off')
+
+  const client = { ...fakeClient(), connected: false, onSessionFrame: () => () => {}, sendFrame: () => {} }
+  const open = sharing => openShare({ client, queue: work => work(), app: true, show: 'off', sharing, identity: () => ({ app: 'classcad-mcp', kind: 'agent' }) })
+
+  const kept = await open('off')
+  await assert.rejects(kept.publish(), /not shared from this MCP/)
+  kept.close()
+
+  process.env.CLASSCAD_RELAY_URL = `http://127.0.0.1:${port}`
+  const share = await open('ask')
+  t.after(() => (share.close(), (process.env.CLASSCAD_RELAY_URL = 'off')))
+  assert.equal(share.sharedUrl, null, 'a session is not shared before somebody asks')
+  const { url, live } = await share.publish()
+  assert.equal(live, true)
+  const token = new URL(url).searchParams.get('invite')
+  assert.equal(url, `http://127.0.0.1:${port}/?invite=${token}`)
+  assert.equal(share.sharedUrl, url)
+  assert.equal((await share.publish()).url, url, 'shared already: the same link')
+  if (share.url) assert.notEqual(new URL(share.url).searchParams.get('invite'), token, 'not the invite of the user\'s own app')
+
+  const g = guest(`${SESSION}/?invite=${token}`)
+  await g.opened
+  await g.send({ command: 'GetEmissionConfig' })
+  assert.deepEqual(share.peers().map(p => [p.inviteName, p.role]), [['guest', 'edit']])
+
+  assert.deepEqual(share.unpublish(), { kicked: 1 }, 'taken back: whoever joined with it is disconnected')
+  await g.closed
+  assert.equal(share.sharedUrl, null)
+  assert.equal(share.unpublish(), null)
+  for (let i = 0; i < 40 && joinedHere(token); i++) await sleep(25)
+  await assert.rejects(guest(`${SESSION}/?invite=${token}`).opened, /HTTP 403/, 'the link stopped working')
+  assert.notEqual((await share.publish()).url, url, 'shared again: another link')
+})
+
+test('relay: one that cannot be reached costs a session nothing but its link for others', async t => {
+  // A port nobody listens on: a relay that is down. (And then one that comes up.)
+  const down = createServer()
+  await new Promise(r => down.listen(0, '127.0.0.1', r))
+  const deadPort = down.address().port
+  await new Promise(r => down.close(r))
+  process.env.CLASSCAD_RELAY_URL = `http://127.0.0.1:${deadPort}`
+  const client = { ...fakeClient(), connected: true, getTree: async () => ({ 1: { class: 'AllObjects' }, 5: { class: 'CC_Part' } }), onSessionFrame: () => () => {}, sendFrame: () => {} }
+  const logged = []
+  const share = await openShare({ client, queue: work => work(), app: true, show: 'off', sharing: 'always', identity: () => ({ app: 'classcad-mcp', kind: 'agent' }), log: m => logged.push(m) })
+  t.after(() => (share.close(), (process.env.CLASSCAD_RELAY_URL = 'off')))
+
+  // The first model: the app is offered as ever, at once, and without a link for others.
+  share.warm()
+  await sleep(200) // the tool that makes the model runs meanwhile
+  const t0 = Date.now()
+  const offer = await share.touch()
+  if (share.url) {
+    assert.equal(offer.url, share.url, 'the app on this machine is offered')
+    assert.equal(offer.shared, undefined, 'no relay, no link for others — and no error')
+  }
+  assert.ok(Date.now() - t0 < 1000, 'the answer does not wait for a relay that is not there')
+  assert.equal(share.sharedUrl, null)
+
+  // Asked for the link: told that there is none right now, and why — not an error either.
+  const asked = await share.publish(300)
+  assert.equal(asked.live, false)
+  assert.match(asked.problem, /ECONNREFUSED|not answered/)
+  assert.ok(logged.some(m => /did not take the offer/.test(m)))
+
+  // The relay comes up (the listener stands in for it, on the port the session was told): the session is shared by itself.
+  const up = createServer((_req, res) => res.end())
+  const relayed = new WebSocketServer({ noServer: true })
+  up.on('upgrade', (req, socket, head) => relayed.handleUpgrade(req, socket, head, () => {}))
+  await new Promise(r => up.listen(deadPort, '127.0.0.1', r))
+  t.after(() => (relayed.close(), up.closeAllConnections(), up.close()))
+  const later = await share.publish(8000)
+  assert.equal(later.live, true, 'offered again until the relay takes it')
+  assert.equal(later.url, asked.url, 'the same link all along')
+  assert.equal(share.sharedUrl, later.url)
+})
+
+test('relay: where every session is shared, the app has one link — the share link, or this machine\'s when the relay is gone', async t => {
+  // A relay that takes every offer, and can be taken away.
+  const up = createServer((_req, res) => res.end())
+  const relayed = new WebSocketServer({ noServer: true })
+  up.on('upgrade', (req, socket, head) => relayed.handleUpgrade(req, socket, head, () => {}))
+  await new Promise(r => up.listen(0, '127.0.0.1', r))
+  const relay = `http://127.0.0.1:${up.address().port}`
+  const down = () => new Promise(r => {
+    for (const ws of relayed.clients) ws.terminate()
+    up.closeAllConnections()
+    up.close(r)
+  })
+  process.env.CLASSCAD_RELAY_URL = relay
+  const client = { ...fakeClient(), connected: true, getTree: async () => ({ 1: { class: 'AllObjects' }, 5: { class: 'CC_Part' } }), onSessionFrame: () => () => {}, sendFrame: () => {} }
+  const share = await openShare({ client, queue: work => work(), app: true, show: 'off', sharing: 'always', identity: () => ({ app: 'classcad-mcp', kind: 'agent' }) })
+  t.after(async () => (share.close(), (process.env.CLASSCAD_RELAY_URL = 'off'), await down()))
+  if (!share.url) return t.skip('this build carries no app')
+  assert.equal(share.appUrl, share.url, 'before the relay holds the session, the app is this machine\'s')
+
+  // The first model: one link, and it is the one that works from anywhere.
+  share.warm()
+  const first = await share.touch()
+  assert.equal(first.shared, true)
+  assert.match(first.url, new RegExp(`^${relay}/\\?invite=`))
+  assert.equal(first.url, share.sharedUrl)
+  assert.equal(share.appUrl, first.url, 'the app\'s link is the share link')
+  assert.equal(await share.touch(), null, 'offered once')
+
+  // Taken back by the user, the session is not shared again by itself — only when asked.
+  assert.deepEqual(share.unpublish(), { kicked: 0 })
+  share.warm()
+  await sleep(100)
+  assert.equal(share.sharedUrl, null, 'stopped stays stopped')
+  assert.equal(await share.touch(), null, 'whoever stopped it was told where the app is: it is not offered again')
+  const anew = await share.publish()
+  assert.equal(anew.live, true)
+  assert.notEqual(anew.url, first.url)
+  share.offered(anew.url) // … and the app is opened under the new link (`view`)
+
+  // The relay goes away, and with it whoever had the app open under that link: the app is offered again, here.
+  await down()
+  for (let i = 0; i < 80 && share.sharedUrl; i++) await sleep(25)
+  assert.equal(share.sharedUrl, null)
+  assert.equal(share.appUrl, share.url)
+  assert.deepEqual(await share.touch(), { url: share.url, how: 'link', fallback: true })
+  assert.equal(await share.touch(), null, 'and that once, too')
 })

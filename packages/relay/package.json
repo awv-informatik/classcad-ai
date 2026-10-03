@@ -1,0 +1,26 @@
+{
+  "name": "@classcad/relay",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The ClassCAD share relay: a Cloudflare Worker where a session that runs on somebody's machine is joined from anywhere.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awv-informatik/classcad-ai.git",
+    "directory": "packages/relay"
+  },
+  "type": "module",
+  "scripts": {
+    "assets": "node scripts/assets.mjs",
+    "dev": "npm run assets && wrangler dev",
+    "deploy": "npm run assets && wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run typecheck && node --test --test-timeout=120000 test/relay.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261002.1",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.147.0",
+    "ws": "^8.19.0"
+  }
+}

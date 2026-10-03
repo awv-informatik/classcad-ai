@@ -157,6 +157,7 @@ Every session has a live CAD app: [Buerligons](https://buerligons.io), docked in
 - **Files.** The app's File menu saves the model as OFB (ClassCAD's own format, with the features), STEP or STL, and opens such files into the session.
 - **One link per session.** The link carries an invite to exactly one session, so several sessions (tabs, hosts) work side by side, each with its own app. When a session ends, or moves to another engine, the app says so and offers to join again.
 - **Local only.** The MCP process (the daemon, or a shim serving in-process) listens on `127.0.0.1:9098` (`CLASSCAD_VIEWER_PORT`; another free port when that one is taken), answers only requests that name it as their host, and serves the app with everything it needs: no model data leaves the machine, and it works offline. The invite is the key to the session, so the link is a secret; joining also needs the machine to be signed in.
+- **One link, and it travels.** Where the share relay is reachable, the link the app comes up under is a share link (`https://<relay>/?invite=…`): the same link works for somebody on another machine. See [Somebody elsewhere joins](#somebody-elsewhere-joins). The session never depends on the relay: without it the link is the one above, on `127.0.0.1`, and the app works as ever.
 
 `CLASSCAD_VIEWER_OPEN` says where the app comes up: `browser` (the user's default browser), `host` (the agent opens it in its host's own browser pane — for any host that has one) or `0` (nowhere: the agent hands the link over). Unset, it is `host` in the Claude desktop app and `browser` everywhere else. `CLASSCAD_APP_URL` names an app that is hosted elsewhere instead of the one in this package: the link becomes `<url>?invite=…`, and the app has to join that invite on `ws://127.0.0.1:9098/session` (a Buerligons built for the engine in its page does). A page from a public site reaches `127.0.0.1` only if the browser lets it: see [the limit](#what-the-browser-has-to-allow) below. `CLASSCAD_VIEWER=readonly` shows the read-only 3D view instead of the app (a page that only turns and exports the model; a build of this package without the app has it too), `CLASSCAD_VIEWER=off` shows nothing.
 
@@ -197,6 +198,8 @@ From a terminal, the same flow and more (`node dist/server.js <command>` in a ch
 | `CLASSCAD_VIEWER_PORT`   | Port of the listener sessions are joined on, on `127.0.0.1`. Default `9098`; a free port is taken when it is in use (`0`: always a free one). Apps that host their own session look for the MCP on `9098`. |
 | `CLASSCAD_VIEWER_OPEN`   | Where the app comes up with the first model: `browser` (the user's default browser), `host` (the agent opens it in its host's own browser pane), `0` (nowhere; the link is handed over). Default: `host` in the Claude desktop app's Code tab, `browser` elsewhere. Per session. |
 | `CLASSCAD_APP_URL`       | The app to dock into sessions, when it is hosted elsewhere (e.g. `https://buerligons.io/`); the link becomes `<url>?invite=…`. Default: the app in this package. |
+| `CLASSCAD_RELAY_URL`     | The share relay sessions are shared on (`https://…`; [`packages/relay`](../relay)). `off`: sessions are never shared. Default: `https://classcad-share.it-5ca.workers.dev` (`DEFAULT_RELAY_URL` in `src/share/relay.ts`). |
+| `CLASSCAD_SHARE`         | When a session gets a link that works beyond its machine: `always` (default — from its first model on, and the app comes up under that link), `ask` (when the user asks for it, the `share` tool; the app's own link stays on `127.0.0.1`), `off` (never). |
 | `CLASSCAD_AUTH_URL`      | The sign-in page. Default `https://classcad.ch/connect` (the dev site: `http://localhost:9090/connect`).          |
 | `CLASSCAD_AUTH_FILE`     | Where the sign-in is stored. Default `~/.classcad-mcp/auth.json`.                                                 |
 | `CLASSCAD_WASM_KEY`      | A ClassCAD key (classcad.ch/user) for the local WASM engine. Optional: a key valid until 2027-03-30 is built in.   |
@@ -219,7 +222,7 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
   - `classcad-mcp status` — the running daemon's `/health` (pid, build, sessions, apps, log file).
   - `classcad-mcp stop` — stops the daemon when no session is active; refuses (exit 1) otherwise.
   - `classcad-mcp stop --force` — SIGTERM (SIGKILL after 5 s) regardless of sessions, e.g. to load a rebuilt renderer right away. Every connected tab loses its drawing; its shim reconnects on the next tool call — it starts a fresh daemon and replays the host's `initialize`, so the host does not need a restart.
-- **Security:** the daemon binds `127.0.0.1` and refuses (403) every request that carries an `Origin` header or a `Host` other than `127.0.0.1` / `localhost` / `[::1]` — web pages cannot drive it, not even via DNS rebinding. The listener on 9098 is meant for browser apps: it answers only requests that name it as their host, and a session is joined only with its invite (a 122-bit random token) on a signed-in machine.
+- **Security:** the daemon binds `127.0.0.1` and refuses (403) every request that carries an `Origin` header or a `Host` other than `127.0.0.1` / `localhost` / `[::1]` — web pages cannot drive it, not even via DNS rebinding. The listener on 9098 is meant for browser apps: it answers only requests that name it as their host, and a session is joined only with its invite (a 122-bit random token) on a signed-in machine. Sharing a session beyond the machine opens no port: the MCP dials out to the relay, which takes the offer only with the machine's sign-in and lets in whoever has that session's share invite — an invite of its own, which the listener does not take and `share` takes back.
 
 ---
 
@@ -231,7 +234,8 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 | `tree` / `find` / `inspect` | Structure tree (cached, pulled on demand), search by class/name, full node detail with parent chain |
 | `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, technical drawing with hidden lines, highlights, markers) |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
-| `view`                  | The session's app: returns its link and brings it up (the host's browser pane, or the user's browser), unless the user already has it open |
+| `view`                  | The session's app: returns its link and brings it up (the host's browser pane, or the user's browser), unless the user already has it open. `local: true`: the link on this machine, for when the share link does not load |
+| `share`                 | The link to the session's app that works from anywhere, for somebody on another machine; `stop: true` takes it back |
 | `get_selection` / `set_selection` | What the user has selected in the app (faces, edges, vertices, tree objects), with the ids API calls take; and selecting something there to point it out |
 | `save` / `load` / `clear` / `checkpoint` / `restore` | `save` writes STEP, STL, GLB or OFB to a `path` on disk (or returns base64); with `analytic` a STEP gets planes, cylinders and cones as such instead of B-spline surfaces. `load` reads OFB / STEP / STL from a `path` on disk (or from base64 content). `checkpoint` / `restore` are undo points, kept in the MCP's memory. |
 | `login`                 | Sign the machine in (returns the link, then waits for it to be used) or out |
@@ -284,6 +288,30 @@ A session can have more than one participant: the agent, the user at an app, ano
 
 **The agent hosts, the user joins.** The default: `view` returns the link, the app docks in. See [The app](#the-app).
 
+### Somebody elsewhere joins
+
+A link on `127.0.0.1` is good on the user's machine and nowhere else. So a session is offered on the **share relay** as well, and where the relay holds it, the app comes up under that link instead — one link (`App: https://<relay>/?invite=…`), which the user opens and can send to a colleague or open on a tablet:
+
+```
+view()               → the app's link: the share link, or the one on 127.0.0.1 while the relay does not hold the session
+view(local=true)     → the link on 127.0.0.1, whatever the relay does
+share()              → the share link again
+share(stop=true)     → the share link stops working, whoever has the app open under it is disconnected
+```
+
+**It cannot break the session.** The relay is asked while the first script runs. One that has turned the offer down by the time the model is there is not waited for; one that has not answered gets 6 s more. Either way the first model then comes with the link on `127.0.0.1` — no error. Should the relay go away later and take the user's app with it, the next result offers the app again, on this machine; and an agent that sees the share link not loading calls `view` with `local: true`. The offer itself is made again in the background until the relay takes it. `CLASSCAD_SHARE=ask` keeps the app on `127.0.0.1` and shares a session only when the user asks (`share` then returns a second link), `off` never.
+
+Whoever opens the share link gets the same app, docked into the same session: they see the model as the agent builds it, and can turn, select and edit it. The session stays where it is. The MCP offers it on the **share relay** ([`packages/relay`](../relay), a Cloudflare Worker) the way a page offers a session of its own on the listener — a standing connection that says "this invite is mine", and one more connection per guest — only that it dials out to do so (`src/share/relay.ts`). Nothing listens for the outside, and nothing but Node is needed on the machine; it works behind NAT and firewalls.
+
+- **An invite of its own.** The share link carries another invite than the link on `127.0.0.1`, and the listener there does not take it. Taking it back (`share` with `stop`) disconnects everyone who came in with it — the user too, if their app is open under it; the link on `127.0.0.1` is untouched. Sharing again gives a new one.
+- **The user's app goes through the relay too** when it is open under the share link: every frame makes the round trip to Cloudflare. `CLASSCAD_SHARE=ask` keeps it on the machine.
+- **Whoever has the link is in**, like the user at the app (the `view` role is advisory, see `src/share/protocol.ts`). The agent hands it to the user only.
+- **What the relay sees.** It takes an offer only from a signed-in machine (the Firebase ID token of the sign-in, checked against Google's keys), passes the frames between host and guest, and keeps none. It also serves the app to the guest — the build this package carries, deployed with the relay.
+- **When the connection drops** (a sleeping laptop, another network) the MCP offers the invite again by itself, and the link keeps working. `session_info` shows the link under `shared` (null while the relay does not hold it), and the guests among `peers`.
+- **Limits.** 16 guests per session; one frame is at most 32 MiB (Cloudflare's limit — a very large model's complete graphic may not fit).
+
+`CLASSCAD_RELAY_URL` names another relay than the built-in one; `off` leaves sessions on their machine: no `share` tool, and the agent is not told of any.
+
 **The user hosts, the agent joins.** In the app open *Sessions → Create* and hand the link to the agent:
 
 ```
@@ -335,7 +363,7 @@ CLASSCAD_MCP_DAEMON=1 node dist/daemon.js   # the daemon in the foreground, logg
 CLASSCAD_SHARE_DEBUG=1 …                    # … with every command a docked app sends: how long it waited, how long it ran
 ```
 
-Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fallback), `src/daemon.ts` (HTTP endpoint, sessions, idle exit), `src/mcp-server.ts` (the MCP server: tools wired to one engine client — what a session is), `src/client.ts` (engine client: WebSocket to a worker, or the local engine), `src/share/` (sharing: `hub.ts` the session layer for the local engine, `server.ts` the listener for the app and for sessions, `session.ts` who is there and what they point at, `protocol.ts`), `src/engine/wasm.ts` + `wasm-worker.ts` (the local WASM engine: asset download, worker thread, origin/XHR shims), `src/tools/`, `src/queue.ts` (per-session tool queue). `test/daemon.mjs` is the daemon contract: two shims → one daemon with two independent sessions, idle exit, foreign-port fallback. `test/share.mjs` is the sharing contract, without an engine: a guest is served like a server serves it (streamed and bundled), presence, what only a host may do, and a page-hosted session joined through the listener. `test/wasm-live.mjs` (part of `npm test`; downloads the assets on first run) covers the local engine: policy `wasm`, `auto` fallback with a dead worker, `drogon` without fallback, switching with `use_session`, engine errors surfacing through `run_script`, replacing a crashed, hung or wedged engine, and sharing: an app docked into the MCP's engine (changes and selection both ways) and a second agent joining the first one's session.
+Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fallback), `src/daemon.ts` (HTTP endpoint, sessions, idle exit), `src/mcp-server.ts` (the MCP server: tools wired to one engine client — what a session is), `src/client.ts` (engine client: WebSocket to a worker, or the local engine), `src/share/` (sharing: `hub.ts` the session layer for the local engine, `server.ts` the listener for the app and for sessions, `relay.ts` the session offered on the share relay, `session.ts` who is there, what they point at and the links, `protocol.ts`), `src/engine/wasm.ts` + `wasm-worker.ts` (the local WASM engine: asset download, worker thread, origin/XHR shims), `src/tools/`, `src/queue.ts` (per-session tool queue). `test/daemon.mjs` is the daemon contract: two shims → one daemon with two independent sessions, idle exit, foreign-port fallback. `test/share.mjs` is the sharing contract, without an engine: a guest is served like a server serves it (streamed and bundled), presence, what only a host may do, a page-hosted session joined through the listener, and a session offered on the relay (the listener stands in for it; `packages/relay` tests the relay itself). `test/wasm-live.mjs` (part of `npm test`; downloads the assets on first run) covers the local engine: policy `wasm`, `auto` fallback with a dead worker, `drogon` without fallback, switching with `use_session`, engine errors surfacing through `run_script`, replacing a crashed, hung or wedged engine, and sharing: an app docked into the MCP's engine (changes and selection both ways) and a second agent joining the first one's session.
 
 ### Publishing
 

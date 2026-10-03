@@ -17,9 +17,9 @@ import { serializeTools } from './queue.js'
 import { registerAuthTool, requireSignIn, SIGN_IN_NOTE } from './tools/auth.js'
 import { authStatus } from './auth.js'
 import { attachViewer, VIEWER_NOTE } from './tools/viewer.js'
-import { appNote, attachShare, registerSelectionTools, registerViewTool } from './tools/share.js'
+import { appNote, attachShare, registerSelectionTools, registerShareTool, registerViewTool } from './tools/share.js'
 import { appAvailable, joinedHere, listen as listenForApps, waitForPage, SESSION_PATH } from './share/server.js'
-import { showFromEnv, type Show } from './share/session.js'
+import { sharingFromEnv, showFromEnv, type Show } from './share/session.js'
 
 export const VERSION = '0.2.0'
 
@@ -59,6 +59,8 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   const withApp = (appAvailable() || !!process.env.CLASSCAD_APP_URL) && viewMode !== 'off' && viewMode !== 'readonly'
   // How the app reaches the user: the agent is told from the first turn on, and again with the first model.
   const show = opts.show ?? showFromEnv()
+  // Whether, and when, the session gets a link that works beyond this machine: only the app can be shared.
+  const sharing = withApp ? sharingFromEnv() : 'off'
 
   const server = new McpServer(
     {
@@ -67,7 +69,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     },
     // The initialize-handshake instructions carry the full v1 method index —
     // hosts surface them to the agent, so it knows every method from turn one.
-    { instructions: `${SIGN_IN_NOTE}\n\n${withApp ? appNote(show) : VIEWER_NOTE}\n\n${serverInstructions()}` },
+    { instructions: `${SIGN_IN_NOTE}\n\n${withApp ? appNote(show, sharing) : VIEWER_NOTE}\n\n${serverInstructions()}` },
   )
 
   // One tool call at a time: every tool below shares this client's single
@@ -81,16 +83,17 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   // The session's company: the app docked into it, whoever else is in it, and
   // what they have selected. Patched in last, so it sits innermost: it hears
   // of a change inside the queue, after the tool that made it.
-  const share = await attachShare(server, client, VERSION, show, opts.log)
+  const share = await attachShare(server, client, VERSION, show, sharing, opts.log)
   const viewer = share.url ? null : await attachViewer(server, client, opts.log)
   registerViewTool(server, share, viewer)
+  registerShareTool(server, share)
   registerSelectionTools(server, client, share)
 
   server.registerTool(
     'session_info',
     {
       title: 'Session info',
-      description: 'Return ClassCAD MCP session status: the link of the app docked into this session (app) or of the read-only 3D view (viewer), who else is in the session (peers), sign-in (auth), transport (ws = ClassCAD worker, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, the invite this session joined with (shareToken), connection state, package version. ' + DAEMON_NOTE,
+      description: 'Return ClassCAD MCP session status: the link of the app docked into this session (app) or of the read-only 3D view (viewer), the link the session is shared with others under (shared; null while it is not), who else is in the session (peers), sign-in (auth), transport (ws = ClassCAD worker, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, the invite this session joined with (shareToken), connection state, package version. ' + DAEMON_NOTE,
       inputSchema: {},
     },
     async () => {
@@ -99,6 +102,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
       const info = {
         app: share.url,
         viewer: viewer?.url ?? null,
+        shared: share.sharedUrl,
         peers: share.peers().map(p => ({ app: p.identity?.app ?? null, name: p.identity?.name ?? p.inviteName ?? null, kind: p.identity?.kind ?? null, role: p.role ?? null })),
         auth: auth.signedIn ? { signedIn: true, email: auth.account.email, ...(auth.offline ? { offline: true } : {}) } : { signedIn: false, reason: auth.reason },
         transport: client.transport,

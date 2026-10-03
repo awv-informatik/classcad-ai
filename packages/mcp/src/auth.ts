@@ -68,7 +68,7 @@ function writeStored(s: Stored): void {
 const DEAD_TOKEN = /^(TOKEN_EXPIRED|USER_DISABLED|USER_NOT_FOUND|INVALID_REFRESH_TOKEN|MISSING_REFRESH_TOKEN|PROJECT_NUMBER_MISMATCH)\b/
 
 /** Exchanges a refresh token at Firebase. Throws Rejected for a dead token, anything else for "unreachable/misconfigured". */
-async function exchange(refreshToken: string): Promise<{ account: Account; refreshToken: string; expiresAt: number }> {
+async function exchange(refreshToken: string): Promise<{ account: Account; refreshToken: string; idToken: string; expiresAt: number }> {
   const res = await fetch(`${TOKEN_URL}?key=${encodeURIComponent(API_KEY)}`, {
     method: 'POST',
     // The web API key only serves the sites it is restricted to; the MCP
@@ -86,11 +86,23 @@ async function exchange(refreshToken: string): Promise<{ account: Account; refre
   return {
     account: { uid: claims.user_id ?? claims.sub ?? body.user_id, email: claims.email ?? null, name: claims.name ?? null },
     refreshToken: body.refresh_token ?? refreshToken,
+    idToken: String(body.id_token),
     expiresAt: Date.now() + Number(body.expires_in ?? 3600) * 1000,
   }
 }
 
 let verifiedUntil = 0
+/** The ID token of the last exchange: what this machine shows a service that asks for its sign-in (idToken()). */
+let shown: { uid: string; token: string; expiresAt: number } | null = null
+
+/** Exchanges the stored token and keeps what came back: the sign-in is confirmed for another token lifetime. */
+async function refresh(stored: Stored): Promise<Account> {
+  const r = await exchange(stored.refreshToken)
+  writeStored({ ...stored, ...r.account, refreshToken: r.refreshToken, verifiedAt: Date.now() })
+  verifiedUntil = r.expiresAt - 60_000
+  shown = { uid: r.account.uid, token: r.idToken, expiresAt: r.expiresAt }
+  return r.account
+}
 let checking: Promise<AuthStatus> | null = null
 
 export type AuthStatus = { signedIn: true; account: Account; offline?: true } | { signedIn: false; reason: string }
@@ -106,10 +118,7 @@ export function authStatus(): Promise<AuthStatus> {
   if (Date.now() < verifiedUntil) return Promise.resolve({ signedIn: true, account })
   checking ??= (async (): Promise<AuthStatus> => {
     try {
-      const r = await exchange(stored.refreshToken)
-      writeStored({ ...stored, ...r.account, refreshToken: r.refreshToken, verifiedAt: Date.now() })
-      verifiedUntil = r.expiresAt - 60_000
-      return { signedIn: true, account: r.account }
+      return { signedIn: true, account: await refresh(stored) }
     } catch (err) {
       if (err instanceof Rejected) {
         rmSync(AUTH_FILE, { force: true })
@@ -124,9 +133,29 @@ export function authStatus(): Promise<AuthStatus> {
   return checking
 }
 
+/**
+ * This machine's sign-in, as a service outside can check it: a Firebase ID
+ * token (a JWT signed by Google, good for an hour). The share relay takes a
+ * session only from a machine that shows one (share/relay.ts). Null when the
+ * machine is not signed in, or Firebase cannot be reached for a new token.
+ */
+export async function idToken(): Promise<string | null> {
+  const stored = readStored()
+  if (!stored) return null
+  if (shown && shown.uid === stored.uid && Date.now() < shown.expiresAt - 60_000) return shown.token
+  try {
+    await refresh(stored)
+    return shown?.token ?? null
+  } catch (err) {
+    if (err instanceof Rejected) rmSync(AUTH_FILE, { force: true })
+    return null
+  }
+}
+
 /** Forgets the sign-in on this machine. */
 export function logout(): boolean {
   verifiedUntil = 0
+  shown = null
   const had = existsSync(AUTH_FILE)
   rmSync(AUTH_FILE, { force: true })
   return had
@@ -189,6 +218,7 @@ export async function beginLogin(client?: string): Promise<{ url: string; expire
         const r = await exchange(String(body.token ?? ''))
         writeStored({ ...r.account, refreshToken: r.refreshToken, project: PROJECT, verifiedAt: Date.now() })
         verifiedUntil = r.expiresAt - 60_000
+        shown = { uid: r.account.uid, token: r.idToken, expiresAt: r.expiresAt }
         send(res, 200, { ok: true, email: r.account.email, name: r.account.name })
         finish(p, r.account)
       } catch (err) {

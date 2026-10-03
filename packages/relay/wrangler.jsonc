@@ -1,0 +1,23 @@
+// The ClassCAD share relay (src/index.ts). `npm run deploy` puts it on the Cloudflare account wrangler is logged in to.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "classcad-share",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  // The app guests open (scripts/assets.mjs copies the build @classcad/mcp carries). Served by Cloudflare without
+  // running the Worker; only the address sessions are joined on is the Worker's.
+  "assets": {
+    "directory": "./public",
+    "run_worker_first": ["/session", "/session/*"]
+  },
+  // One object per invite: the host's connection and those of its guests meet in it.
+  "durable_objects": {
+    "bindings": [{ "name": "SESSIONS", "class_name": "Session" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Session"] }],
+  "vars": {
+    // The Firebase project whose accounts may share a session (classcad.ch / buerli.io accounts).
+    "FIREBASE_PROJECT": "buerli"
+  },
+  "observability": { "enabled": true }
+}

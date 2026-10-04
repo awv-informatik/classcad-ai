@@ -40,7 +40,13 @@ npx wrangler login                     # once: the Cloudflare account it goes to
 npm run deploy -w @classcad/relay      # copies the app into public/ and publishes Worker, assets and Durable Object
 ```
 
-It is deployed at `https://classcad-share.it-5ca.workers.dev`, which is what the MCP uses (`DEFAULT_RELAY_URL` in `packages/mcp/src/share/relay.ts`; `CLASSCAD_RELAY_URL` names another one for a single installation). To give it a domain of your own, add one in the Cloudflare dashboard (Workers → classcad-share → Domains) and change that constant.
+It is deployed at `https://classcad-share.it-5ca.workers.dev`, which is what the MCP uses (`relayUrl` of the backend in `packages/mcp/src/backend.ts`; `CLASSCAD_RELAY_URL` names another one for a single installation). Deploy it from master, when the MCP is released.
+
+The develop relay, `https://classcad-share-develop.it-5ca.workers.dev`, is the same Worker under another name, for the MCP's develop and staging backends (`CLASSCAD_BACKEND=develop` or `staging`). Deploy it from the develop branch:
+
+```bash
+npm run deploy:develop -w @classcad/relay
+``` To give it a domain of your own, add one in the Cloudflare dashboard (Workers → classcad-share → Domains) and change that constant.
 
 Deploy again whenever the app changes: guests get the app from here, and it has to fit the MCP that hosts their session.
 

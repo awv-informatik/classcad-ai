@@ -19,5 +19,19 @@
     // The Firebase project whose accounts may share a session (classcad.ch accounts, with their plan claim).
     "FIREBASE_PROJECT": "classcad-app"
   },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // The develop relay (`npm run deploy:develop`, from the develop branch), for the MCP's develop and
+  // staging backends (packages/mcp/src/backend.ts): develop work never runs on the relay users share on.
+  "env": {
+    "develop": {
+      "name": "classcad-share-develop",
+      "durable_objects": {
+        "bindings": [{ "name": "SESSIONS", "class_name": "Session" }]
+      },
+      "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Session"] }],
+      "vars": {
+        "FIREBASE_PROJECT": "classcad-app"
+      }
+    }
+  }
 }

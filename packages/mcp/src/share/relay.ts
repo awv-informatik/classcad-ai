@@ -20,15 +20,17 @@
 // is in, until the offer is closed.
 import WebSocket from 'ws'
 import { authStatus, idToken } from '../auth.js'
+import { RELAY_URL } from '../backend.js'
 import type { SessionHub } from './hub.js'
 import { SESSION_PATH } from './server.js'
 
 /**
- * The relay sessions are shared on when nothing names another one: the one
- * packages/relay deploys (`npm run deploy` there). Without a relay (`off`) a
- * session stays on its machine, and the `share` tool is not there.
+ * The relay sessions are shared on when nothing names another one: the backend's
+ * (backend.ts), the one packages/relay deploys, or the develop relay for the
+ * develop and staging backends. Without a relay (`off`) a session stays on its
+ * machine, and the `share` tool is not there.
  */
-export const DEFAULT_RELAY_URL = 'https://classcad-share.it-5ca.workers.dev'
+export const DEFAULT_RELAY_URL = RELAY_URL
 
 /** The relay's address (https://…), or null where sessions are not shared: CLASSCAD_RELAY_URL (`off`: none), else the default. */
 export function relayUrl(env: NodeJS.ProcessEnv = process.env): string | null {

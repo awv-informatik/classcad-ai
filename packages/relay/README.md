@@ -28,7 +28,7 @@ Limits, all in `src/index.ts`: guests per session by the host's plan, 17 at most
 ## Run it
 
 ```bash
-npm run build:app -w @classcad/mcp     # the app guests open (once; needs the Buerligons checkout)
+npm run build:app -w @classcad/mcp     # the app guests open (once; needs the vendor/ submodules, see the MCP's README)
 npm run dev -w @classcad/relay         # http://127.0.0.1:8787, no Cloudflare account needed
 CLASSCAD_RELAY_URL=http://127.0.0.1:8787 …   # in the MCP's env: `share` now hands out links to it
 ```

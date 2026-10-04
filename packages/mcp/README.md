@@ -369,7 +369,9 @@ The local engine always generates everything a command changed. A session the MC
 npm install                      # monorepo root
 npm run build                    # skill → script → renderer → mcp (+ buerli-ai)
 cd packages/mcp
-npm run build:app                # the app: Buerligons, built from ../buerli-modeler/packages/buerligons (BUERLIGONS_DIR) → app/
+git submodule update --init      # the app's sources: vendor/buerligons, vendor/react-cad, vendor/buerli
+(cd ../../vendor/buerligons && yarn install --pure-lockfile)   # the app's dependencies
+npm run build:app                # the app: Buerligons with react-cad and buerli from their sources (BUERLIGONS_DIR, BUERLI_REACT_CAD, BUERLI) → app/
 npm run build                    # tsc, app/ → dist/app/; postbuild runs the contract tests (emission, daemon, sign-in, sharing, the relay)
 npm test                         # + the live tests: the local WASM engine, and a worker on CLASSCAD_WS_URL if one runs
 node dist/server.js              # the stdio shim by hand (starts/uses the daemon)
@@ -388,7 +390,7 @@ Source map: `src/server.ts` (stdio shim: find/start daemon, proxy, in-process fa
 
 Releases run in GitHub Actions ([release.yml](../../.github/workflows/release.yml)), without tokens or 2FA prompts:
 
-0. The app has to be in `packages/mcp/app/` when the release is built: `npm run build:app` builds the current Buerligons into it (`app/SOURCE.txt` names what it was built from). The workflow cannot build it (it has no checkout of the buerli repositories), and `release-check` stops a release that would go out without the app.
+0. The app has to be in `packages/mcp/app/` when the release is built: `npm run build:app` builds Buerligons into it from the submodules pinned under `vendor/` (`app/SOURCE.txt` names the commits). The workflow does not build it (it checks out no submodules), and `release-check` stops a release that would go out without the app.
 1. Bump the MCP's version everywhere it is named: `package.json`, `VERSION` in `src/mcp-server.ts`, `server.json` (`version` and `packages[0].version`), and the Claude plugin (`plugins/classcad/.claude-plugin/plugin.json` and `PACKAGE` in `plugins/classcad/launch.mjs`). The plugin is installed from this repository's `master` and runs the package version it pins: its README and its skill describe that version, so what a release changes for the user goes into them with this step, not before. Bump `@classcad/skill`, `script` or `renderer` too if they changed.
 2. `node scripts/release-check.mjs mcp-vX.Y.Z` (from the repo root) checks that the versions agree and lists what is new on npm.
 3. Commit, push, then `git tag mcp-vX.Y.Z && git push origin mcp-vX.Y.Z`.

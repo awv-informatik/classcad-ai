@@ -1,0 +1,12 @@
+[submodule "vendor/buerligons"]
+	path = vendor/buerligons
+	url = https://github.com/awv-informatik/buerligons.git
+	branch = develop
+[submodule "vendor/react-cad"]
+	path = vendor/react-cad
+	url = https://github.com/awv-informatik/buerli-react-cad.git
+	branch = develop
+[submodule "vendor/buerli"]
+	path = vendor/buerli
+	url = https://github.com/awv-informatik/buerli.git
+	branch = master

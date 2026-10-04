@@ -74,7 +74,7 @@ controls.zoomToCursor = true
 controls.screenSpacePanning = true
 controls.rotateSpeed = 0.9
 
-let model = null // { bodies: [{ mesh, edges, sil, cands, inverse }], bounds }
+let model = null // { parts: [{ group, edges, sil, cands, normalToLocal }], box, sphere }
 let showEdges = true
 let userMoved = false
 let needsRender = true
@@ -191,7 +191,7 @@ function setModel(data) {
   }
   holder.updateMatrixWorld(true)
   const box = data.bounds ? new THREE.Box3(new THREE.Vector3(...data.bounds.min), new THREE.Vector3(...data.bounds.max)) : new THREE.Box3().setFromObject(holder)
-  model = { parts, box }
+  model = { parts, box, sphere: box.getBoundingSphere(new THREE.Sphere()) }
   silDirty = true
   needsRender = true
 }
@@ -266,6 +266,22 @@ function lens() {
   camera.updateProjectionMatrix()
 }
 
+// The clip planes hold the part wherever the eye has gone, after a turn, a pan or a
+// zoom: its sphere along the line of sight, twice over, so lines a little off the
+// faces stay too. Fixed planes cut a big part away: a ship lies further from the eye
+// than any fixed depth would reach.
+const sight = new THREE.Vector3()
+const toCenter = new THREE.Vector3()
+function clip() {
+  if (!model) return
+  const { center, radius } = model.sphere
+  const depth = camera.getWorldDirection(sight).dot(toCenter.subVectors(center, camera.position))
+  const r = radius * 2 + 1
+  camera.near = depth - r
+  camera.far = depth + r
+  camera.updateProjectionMatrix()
+}
+
 function resize() {
   const w = stage.clientWidth || 1, h = stage.clientHeight || 1
   renderer.setSize(w, h, false)
@@ -304,6 +320,7 @@ function loop() {
     updateSilhouettes(false)
   }
   drawTriad()
+  clip()
   renderer.render(scene, camera)
 }
 

@@ -20,7 +20,7 @@ import { registerAuthTool, requireSignIn, SIGN_IN_NOTE } from './tools/auth.js'
 import { authStatus } from './auth.js'
 import { attachViewer, registerViewerTool, VIEWER_NOTE } from './tools/viewer.js'
 
-export const VERSION = '0.2.1'
+export const VERSION = '0.2.2'
 export const DEFAULT_WS_URL = 'ws://0.0.0.0:9094/'
 
 export type McpServerOptions = {

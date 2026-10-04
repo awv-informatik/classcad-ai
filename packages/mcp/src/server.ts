@@ -14,6 +14,7 @@ import { spawn } from 'node:child_process'
 import { request as httpRequest } from 'node:http'
 import { request as httpsRequest } from 'node:https'
 import { connect as tcpConnect } from 'node:net'
+import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
@@ -114,6 +115,8 @@ async function spawnDaemon(): Promise<Health | null> {
   const daemonPath = join(dirname(fileURLToPath(import.meta.url)), 'daemon.js')
   const child = spawn(process.execPath, [daemonPath], {
     detached: true,
+    // Not this shim's folder, which can go away while the daemon still runs (see daemon.ts).
+    cwd: homedir(),
     stdio: 'ignore',
     windowsHide: true,
     env: {

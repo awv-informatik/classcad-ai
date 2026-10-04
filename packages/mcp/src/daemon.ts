@@ -33,7 +33,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from 'node:ht
 import { randomUUID } from 'node:crypto'
 import { appendFileSync, mkdirSync, statSync } from 'node:fs'
 import { join, dirname } from 'node:path'
-import { tmpdir } from 'node:os'
+import { homedir, tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
@@ -404,6 +404,12 @@ const isMain = (() => {
   }
 })()
 if (isMain) {
+  // The daemon outlives the shim that spawned it, and that shim's folder can go away under it (a scratch
+  // workspace removed with its session): Node then cannot name its working directory, and the WASM engine
+  // fails to start for every session. Shims spawn it in the home folder; one from an older shim moves there.
+  try {
+    process.chdir(homedir())
+  } catch {}
   const port = Number(process.env.CLASSCAD_MCP_PORT ?? DEFAULT_DAEMON_PORT)
   startDaemon({
     port,

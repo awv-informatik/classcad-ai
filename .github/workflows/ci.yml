@@ -25,3 +25,8 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm test
+        env:
+          # The MCP's live engine tests (skipped without either): a secret access token (classcad.ch/account)
+          # to fetch keys with, or an engine key for http://localhost
+          CLASSCAD_TOKEN: ${{ secrets.CLASSCAD_TOKEN }}
+          CLASSCAD_WASM_KEY: ${{ secrets.CLASSCAD_WASM_KEY }}

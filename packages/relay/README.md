@@ -19,11 +19,11 @@ the MCP (anywhere, behind any firewall)                     the relay (Cloudflar
 
 | | |
 | --- | --- |
-| **Offering a session** (`?host=`) | A machine signed in to ClassCAD: the MCP shows the Firebase ID token of its sign-in (`Authorization: Bearer …`), and the Worker checks signature, project (`FIREBASE_PROJECT`), issuer and expiry (`src/auth.ts`). Anything else: 401. |
+| **Offering a session** (`?host=`) | A machine signed in to ClassCAD: the MCP shows the Firebase ID token of its sign-in (`Authorization: Bearer …`), and the Worker checks signature, project (`FIREBASE_PROJECT`, `classcad-app`), issuer and expiry (`src/auth.ts`). Anything else: 401. The token's `plan` claim decides how many guests the session takes (`GUESTS_BY_PLAN`): none on Free (403), 2 on the trial and Solo, 16 on Pro, Business, contracts and AWV's own plans (Staff, Admin), and one more for the host's own app, which comes in under the share link like a guest. |
 | **Joining** (`?invite=`) | Whoever has the link. The invite is a 122-bit random token the MCP mints for sharing — not the one of the user's own app — and it is good until the MCP takes it back (`share` with `stop`) or its session ends. Unknown invite: 403. |
 | **A host that comes back** | The same account may offer its invite again on a new connection (a laptop that slept): its guests stay. Another account gets 409. |
 
-Limits, all in `src/index.ts`: 16 guests per session, 10 s for the host to meet a guest, 1 MiB of what a guest says before that. Cloudflare's own: one WebSocket frame is at most 32 MiB.
+Limits, all in `src/index.ts`: guests per session by the host's plan, 17 at most (16 and the host's app), 10 s for the host to meet a guest, 1 MiB of what a guest says before that. Cloudflare's own: one WebSocket frame is at most 32 MiB.
 
 ## Run it
 
@@ -40,7 +40,13 @@ npx wrangler login                     # once: the Cloudflare account it goes to
 npm run deploy -w @classcad/relay      # copies the app into public/ and publishes Worker, assets and Durable Object
 ```
 
-It is deployed at `https://classcad-share.it-5ca.workers.dev`, which is what the MCP uses (`DEFAULT_RELAY_URL` in `packages/mcp/src/share/relay.ts`; `CLASSCAD_RELAY_URL` names another one for a single installation). To give it a domain of your own, add one in the Cloudflare dashboard (Workers → classcad-share → Domains) and change that constant.
+It is deployed at `https://classcad-share.it-5ca.workers.dev`, which is what the MCP uses (`relayUrl` of the backend in `packages/mcp/src/backend.ts`; `CLASSCAD_RELAY_URL` names another one for a single installation). Deploy it from master, when the MCP is released.
+
+The develop relay, `https://classcad-share-develop.it-5ca.workers.dev`, is the same Worker under another name, for the MCP's develop and staging backends (`CLASSCAD_BACKEND=develop` or `staging`). Deploy it from the develop branch:
+
+```bash
+npm run deploy:develop -w @classcad/relay
+``` To give it a domain of your own, add one in the Cloudflare dashboard (Workers → classcad-share → Domains) and change that constant.
 
 Deploy again whenever the app changes: guests get the app from here, and it has to fit the MCP that hosts their session.
 

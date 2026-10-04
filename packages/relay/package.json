@@ -14,6 +14,7 @@
     "assets": "node scripts/assets.mjs",
     "dev": "npm run assets && wrangler dev",
     "deploy": "npm run assets && wrangler deploy",
+    "deploy:develop": "npm run assets && wrangler deploy --env develop",
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && node --test --test-timeout=120000 test/relay.mjs"
   },

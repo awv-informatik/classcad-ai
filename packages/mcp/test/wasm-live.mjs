@@ -1,5 +1,9 @@
 // Local WASM engine contract — LIVE: downloads the release assets on first
-// run (~85 MB; a six-month key is built in, CLASSCAD_WASM_KEY overrides).
+// run (~85 MB) and needs a way to an engine key: a secret access token in
+// CLASSCAD_TOKEN (the CI secret; the MCP fetches the keys with it), a sign-in
+// from `login` in CLASSCAD_LIVE_AUTH_FILE (with CLASSCAD_BACKEND for its
+// backend), or a key of one's own for http://localhost in CLASSCAD_WASM_KEY.
+// Without any, these tests are skipped.
 //   1. engine policy "wasm": the shim serves a session on the MCP's own engine
 //      (no worker involved) — run_script, tree, snapshot work
 //   2. policy "auto" with no worker reachable: falls back to the local engine
@@ -15,12 +19,34 @@ import { spawn } from 'node:child_process'
 import { createServer } from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { fakeAuth } from './fake-auth.mjs'
+
+// The engine starts only with a valid key; the MCP carries none any more.
+const REAL_SIGN_IN = process.env.CLASSCAD_LIVE_AUTH_FILE
+const live =
+  process.env.CLASSCAD_TOKEN || REAL_SIGN_IN || process.env.CLASSCAD_WASM_KEY
+    ? test
+    : (name, fn) => test(name, { skip: 'set CLASSCAD_TOKEN, CLASSCAD_LIVE_AUTH_FILE or CLASSCAD_WASM_KEY to run the engine' }, fn)
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
-// Every shim runs signed in (a fake Firebase token endpoint, own auth file).
-const AUTH = (await fakeAuth()).env
+// Every shim runs signed in: with the real sign-in when one is given (its keys are fetched as for a
+// user, kept in a file of the test's own), else a fake Firebase token endpoint and an own auth file.
+const KEY_DIR = REAL_SIGN_IN ? mkdtempSync(join(tmpdir(), 'classcad-live-key-')) : null
+// The keys fetched for the run go with it
+if (KEY_DIR) process.on('exit', () => rmSync(KEY_DIR, { recursive: true, force: true }))
+const AUTH = REAL_SIGN_IN
+  ? {
+      ...(await fakeAuth({ signedIn: false })).env,
+      CLASSCAD_AUTH_TOKEN_URL: 'https://securetoken.googleapis.com/v1/token',
+      CLASSCAD_AUTH_FILE: REAL_SIGN_IN,
+      CLASSCAD_KEY_FILE: join(KEY_DIR, 'engine-key.json'),
+    }
+  : (await fakeAuth()).env
+// Sessions run in this process (connect() of dist/client.js) sign in the same way
+Object.assign(process.env, AUTH)
 const freePort = () => new Promise(r => { const s = createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => r(p)) }) })
 
 function shim(env) {
@@ -37,7 +63,7 @@ function shim(env) {
   return { p, call, init, tool, exit, stderr: () => stderr.join('') }
 }
 
-test('local WASM engine through the MCP (policy wasm / auto fallback / drogon)', async () => {
+live('local WASM engine through the MCP (policy wasm / auto fallback / drogon)', async () => {
   const deadWorker = `ws://127.0.0.1:${await freePort()}/`   // nothing listens here
   const base = {
     CLASSCAD_MCP_PORT: String(await freePort()),
@@ -88,7 +114,7 @@ test('local WASM engine through the MCP (policy wasm / auto fallback / drogon)',
   }
 })
 
-test('auto: a worker that comes up later takes over an EMPTY local session, never a modeled one', async () => {
+live('auto: a worker that comes up later takes over an EMPTY local session, never a modeled one', async () => {
   const { startFakeWorker } = await import('../../script/test/fake-worker.mjs')
   const workerPort = await freePort()
   const env = {
@@ -123,7 +149,7 @@ test('auto: a worker that comes up later takes over an EMPTY local session, neve
   }
 })
 
-test('engine errors surface through run_script (the WASM engine nests maxLevel/messages in result)', async () => {
+live('engine errors surface through run_script (the WASM engine nests maxLevel/messages in result)', async () => {
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
@@ -151,7 +177,7 @@ test('engine errors surface through run_script (the WASM engine nests maxLevel/m
   }
 })
 
-test('local engine: frame guards, and a crashed / hung / wedged engine is replaced', async () => {
+live('local engine: frame guards, and a crashed / hung / wedged engine is replaced', async () => {
   const { connect } = await import('../dist/client.js')
   const { wasmOptionsFromEnv } = await import('../dist/engine/wasm.js')
   const logs = []
@@ -205,7 +231,7 @@ test('local engine: frame guards, and a crashed / hung / wedged engine is replac
   }
 })
 
-test('OFB: the save tool and a script write it, load reads it back with its features; checkpoint and restore', async () => {
+live('OFB: the save tool and a script write it, load reads it back with its features; checkpoint and restore', async () => {
   const { mkdtempSync } = await import('node:fs')
   const { tmpdir } = await import('node:os')
   const a = shim({
@@ -245,7 +271,7 @@ test('OFB: the save tool and a script write it, load reads it back with its feat
   }
 })
 
-test('load: a STEP file from disk by path, or base64 content, never both', async () => {
+live('load: a STEP file from disk by path, or base64 content, never both', async () => {
   const { mkdtempSync, readFileSync } = await import('node:fs')
   const { tmpdir } = await import('node:os')
   const a = shim({
@@ -291,7 +317,7 @@ test('load: a STEP file from disk by path, or base64 content, never both', async
   }
 })
 
-test('local engine: clear, restore and deletions leave no stale geometry in the graphic', async () => {
+live('local engine: clear, restore and deletions leave no stale geometry in the graphic', async () => {
   const a = shim({
     CLASSCAD_MCP_PORT: String(await freePort()),
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
@@ -333,7 +359,7 @@ test('local engine: clear, restore and deletions leave no stale geometry in the 
   }
 })
 
-test('read-only 3D view: one link per session, live updates, exports, nothing shared between sessions', async () => {
+live('read-only 3D view: one link per session, live updates, exports, nothing shared between sessions', async () => {
   const { mkdtempSync, readFileSync, existsSync } = await import('node:fs')
   const { tmpdir } = await import('node:os')
   const env = {
@@ -442,7 +468,7 @@ test('read-only 3D view: one link per session, live updates, exports, nothing sh
   }
 })
 
-test('sharing: an app docks into the MCP\'s own engine, and an agent joins another agent\'s session', async () => {
+live('sharing: an app docks into the MCP\'s own engine, and an agent joins another agent\'s session', async () => {
   const { default: WebSocket } = await import('ws')
   const { inflateRawSync } = await import('node:zlib')
   const listener = await freePort()
@@ -559,7 +585,7 @@ test('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
   }
 })
 
-test('sharing on the real engine: a guest saves and opens a file, sessions stay apart, a replaced engine is sent anew', async () => {
+live('sharing on the real engine: a guest saves and opens a file, sessions stay apart, a replaced engine is sent anew', async () => {
   // The listener asks whether the machine is signed in: set that up before it is loaded.
   Object.assign(process.env, AUTH)
   const { connect } = await import('../dist/client.js')
@@ -641,7 +667,7 @@ test('sharing on the real engine: a guest saves and opens a file, sessions stay 
   }
 })
 
-test('the app is offered once, where the host shows it: its own browser pane, or the user\'s browser', async () => {
+live('the app is offered once, where the host shows it: its own browser pane, or the user\'s browser', async () => {
   const env = {
     CLASSCAD_MCP_PORT: String(await freePort()),
     CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,

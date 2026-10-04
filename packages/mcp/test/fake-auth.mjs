@@ -2,7 +2,7 @@
 //   no Referer header, or refresh token "blocked" → 403 like the real, referrer-restricted key
 //   refresh token "revoked" → 400 TOKEN_EXPIRED (a dead sign-in)
 //   refresh token "other-project" → an id token for another Firebase project
-//   anything else → a valid id token for project "buerli", test@example.com
+//   anything else → a valid id token for project "classcad-app", test@example.com
 // fakeAuth({ signedIn }) returns the env that points the MCP at it, with its
 // own auth file (pre-filled when signedIn, the default).
 import { createServer } from 'node:http'
@@ -13,6 +13,8 @@ import { join } from 'node:path'
 const b64 = o => Buffer.from(JSON.stringify(o)).toString('base64url')
 
 export async function fakeAuth({ signedIn = true } = {}) {
+  // Every token is a new one, as Firebase's are
+  let issued = 0
   const server = createServer((req, res) => {
     let body = ''
     req.on('data', c => (body += c))
@@ -27,15 +29,15 @@ export async function fakeAuth({ signedIn = true } = {}) {
         res.statusCode = 400
         return res.end(JSON.stringify({ error: { message: 'TOKEN_EXPIRED' } }))
       }
-      const aud = token === 'other-project' ? 'someone-else' : 'buerli'
-      const idToken = `${b64({ alg: 'RS256' })}.${b64({ aud, user_id: 'uid-test', email: 'test@example.com', name: 'Test' })}.sig`
+      const aud = token === 'other-project' ? 'someone-else' : 'classcad-app'
+      const idToken = `${b64({ alg: 'RS256' })}.${b64({ aud, user_id: 'uid-test', email: 'test@example.com', name: 'Test', n: ++issued })}.sig`
       res.end(JSON.stringify({ id_token: idToken, refresh_token: token, expires_in: '3600', user_id: 'uid-test' }))
     })
   })
   await new Promise(r => server.listen(0, '127.0.0.1', r))
   server.unref()
   const file = join(mkdtempSync(join(tmpdir(), 'classcad-auth-')), 'auth.json')
-  if (signedIn) writeFileSync(file, JSON.stringify({ uid: 'uid-test', email: 'test@example.com', name: 'Test', refreshToken: 'good', project: 'buerli', verifiedAt: Date.now() }))
+  if (signedIn) writeFileSync(file, JSON.stringify({ uid: 'uid-test', email: 'test@example.com', name: 'Test', refreshToken: 'good', project: 'classcad-app', verifiedAt: Date.now() }))
   return {
     file,
     env: {

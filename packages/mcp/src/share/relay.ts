@@ -20,15 +20,17 @@
 // is in, until the offer is closed.
 import WebSocket from 'ws'
 import { authStatus, idToken } from '../auth.js'
+import { RELAY_URL } from '../backend.js'
 import type { SessionHub } from './hub.js'
 import { SESSION_PATH } from './server.js'
 
 /**
- * The relay sessions are shared on when nothing names another one: the one
- * packages/relay deploys (`npm run deploy` there). Without a relay (`off`) a
- * session stays on its machine, and the `share` tool is not there.
+ * The relay sessions are shared on when nothing names another one: the backend's
+ * (backend.ts), the one packages/relay deploys, or the develop relay for the
+ * develop and staging backends. Without a relay (`off`) a session stays on its
+ * machine, and the `share` tool is not there.
  */
-export const DEFAULT_RELAY_URL = 'https://classcad-share.it-5ca.workers.dev'
+export const DEFAULT_RELAY_URL = RELAY_URL
 
 /** The relay's address (https://…), or null where sessions are not shared: CLASSCAD_RELAY_URL (`off`: none), else the default. */
 export function relayUrl(env: NodeJS.ProcessEnv = process.env): string | null {
@@ -43,6 +45,8 @@ const HEARTBEAT_MS = 30_000
 const HANDSHAKE_MS = 15_000
 /** The pauses before an offer that was lost is made again: the last one is repeated. */
 const RETRY_MS = [1_000, 2_000, 5_000, 10_000, 30_000]
+/** After the relay said the plan does not share (Free): asked again this much later, with a fresh sign-in, so an upgrade counts. */
+const PLAN_RETRY_MS = 10 * 60_000
 /** The largest frame taken from a guest: what the listener takes (share/server.ts). */
 const MAX_PAYLOAD = 256 * 1024 * 1024
 
@@ -79,9 +83,11 @@ export type RelayOptions = {
 const refusal = (status: number | undefined): string =>
   status === 401
     ? 'the relay did not accept this machine\'s sign-in'
-    : status === 409
-      ? 'the relay holds this invite for somebody else'
-      : `the relay answered HTTP ${status ?? '?'}`
+    : status === 403
+      ? 'sharing a session comes with Solo and up (https://classcad.ch/subscriptions); on Free the session stays on this machine'
+      : status === 409
+        ? 'the relay holds this invite for somebody else'
+        : `the relay answered HTTP ${status ?? '?'}`
 
 /**
  * Offers an invite of a session on the relay, and keeps it offered: an offer
@@ -104,6 +110,8 @@ export function offerOnRelay(opts: RelayOptions): RelayOffer {
   let control: WebSocket | null = null
   let retry: ReturnType<typeof setTimeout> | null = null
   let failures = 0
+  /** The relay turned the last offer down for the plan. */
+  let planRefused = false
   let offeredBefore = false
   /** The connections guests were met on. */
   const links = new Set<WebSocket>()
@@ -124,7 +132,7 @@ export function offerOnRelay(opts: RelayOptions): RelayOffer {
 
   /** Opens the standing connection. Resolves when the relay took the offer. */
   const offer = async (): Promise<void> => {
-    const token = await idToken()
+    const token = await idToken(planRefused)
     if (!token) throw new Error('this machine is not signed in (or the sign-in could not be confirmed)')
     if (closed) return
     await new Promise<void>((resolve, reject) => {
@@ -137,6 +145,7 @@ export function offerOnRelay(opts: RelayOptions): RelayOffer {
         live = true
         problem = null
         failures = 0
+        planRefused = false
         for (const tell of [...waiters]) tell(true)
         ws.on('pong', () => (alive = true))
         beat = setInterval(() => {
@@ -149,6 +158,7 @@ export function offerOnRelay(opts: RelayOptions): RelayOffer {
       })
       ws.once('unexpected-response', (_req, res) => {
         res.resume()
+        planRefused = res.statusCode === 403
         reject(new Error(refusal(res.statusCode)))
         ws.terminate()
       })
@@ -195,7 +205,7 @@ export function offerOnRelay(opts: RelayOptions): RelayOffer {
     )
   }
   const again = (): void => {
-    const pause = RETRY_MS[Math.min(failures, RETRY_MS.length - 1)]
+    const pause = planRefused ? PLAN_RETRY_MS : RETRY_MS[Math.min(failures, RETRY_MS.length - 1)]
     failures++
     retry = setTimeout(() => {
       retry = null

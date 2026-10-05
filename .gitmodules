@@ -5,7 +5,7 @@
 [submodule "vendor/react-cad"]
 	path = vendor/react-cad
 	url = https://github.com/awv-informatik/buerli-react-cad.git
-	branch = feat/plans
+	branch = master
 [submodule "vendor/buerli"]
 	path = vendor/buerli
 	url = https://github.com/awv-informatik/buerli.git

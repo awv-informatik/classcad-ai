@@ -13,12 +13,13 @@
 //     broken one is replaced by the next start.
 // stdin/stdout are passed straight through to the server: this process only waits for it to end.
 import { spawn } from 'node:child_process'
-import { closeSync, existsSync, mkdirSync, openSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { randomUUID } from 'node:crypto'
+import { existsSync, linkSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const PACKAGE = '@classcad/mcp@0.3.1'
+const PACKAGE = '@classcad/mcp@0.3.2'
 const NAME = PACKAGE.slice(0, PACKAGE.lastIndexOf('@'))
 const VERSION = PACKAGE.slice(PACKAGE.lastIndexOf('@') + 1)
 
@@ -30,6 +31,8 @@ const marker = join(dir, 'installed.json')
 const packageDir = join(dir, 'node_modules', ...NAME.split('/'))
 // an install that takes longer than this is taken for dead
 const STALE_MS = 10 * 60 * 1000
+// this process, as the lock names the installer holding it
+const ID = randomUUID()
 
 const say = message => console.error(`[classcad] ${message}`)
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -48,38 +51,77 @@ function server() {
   return null
 }
 
+/** The installer holding the lock ({ pid, id, at }), or null. */
+function holder() {
+  try {
+    return JSON.parse(readFileSync(lock, 'utf8'))
+  } catch {
+    return null
+  }
+}
+
 /** True while another process holds the lock, and it is alive and not stuck. */
 function locked() {
+  const { pid, at } = holder() ?? {}
+  if (!pid || Date.now() - at > STALE_MS) return false
   try {
-    const { pid, at } = JSON.parse(readFileSync(lock, 'utf8'))
-    if (Date.now() - at > STALE_MS) return false
     process.kill(pid, 0)
     return true
   } catch (error) {
-    // EPERM: the process exists but belongs to someone else; anything else: no lock, or a dead one
-    return error?.code === 'EPERM'
+    // EPERM: the process exists but belongs to someone else
+    return error.code === 'EPERM'
+  }
+}
+
+/**
+ * Takes the lock; false while another installer holds it. The lock's file comes into place whole:
+ * written aside, then linked to the lock's name, which fails while the name is taken. Made empty and
+ * filled a moment later, it could be read in between, taken for a dead installer's and removed.
+ */
+function takeLock() {
+  const content = JSON.stringify({ pid: process.pid, id: ID, at: Date.now() })
+  const aside = `${lock}.${ID}`
+  try {
+    writeFileSync(aside, content)
+    linkSync(aside, lock)
+    return true
+  } catch (error) {
+    if (error.code === 'EEXIST') return false
+    // a drive without hard links (FAT): made, then filled; the check in install() covers the moment between
+    try {
+      writeFileSync(lock, content, { flag: 'wx' })
+      return true
+    } catch {
+      return false
+    }
+  } finally {
+    try {
+      rmSync(aside, { force: true })
+    } catch {
+      // held open for a moment (a virus scanner); only a copy
+    }
   }
 }
 
 // ── The installer: `node launch.mjs --install`, detached, so it outlives a host that gave up ──
 async function install() {
   mkdirSync(runtime, { recursive: true })
-  let fd
-  try {
-    fd = openSync(lock, 'wx')
-  } catch {
+  if (!takeLock()) {
     if (locked()) return // another installer is at it
-    rmSync(lock, { force: true })
+    // a dead installer's lock: out of the way, then once more
     try {
-      fd = openSync(lock, 'wx')
+      rmSync(lock, { force: true })
     } catch {
       return
     }
+    if (!takeLock()) return
   }
+  const mine = () => holder()?.id === ID
   try {
-    writeFileSync(fd, JSON.stringify({ pid: process.pid, at: Date.now() }))
-    closeSync(fd)
-    if (server()) return
+    // Installers that clear a dead one's lock at the same moment can each take it in turn, a later one
+    // removing an earlier one's. The file names the last of them: after a moment, only that one goes on.
+    await pause(500)
+    if (!mine() || server()) return
     // a fresh folder: whatever a broken install left goes first
     rmSync(dir, { recursive: true, force: true })
     mkdirSync(dir, { recursive: true })
@@ -95,7 +137,8 @@ async function install() {
       npm.on('error', () => resolve(1))
       npm.on('exit', resolve)
     })
-    if (code !== 0) return
+    // complete, and still its own (an install that ran past STALE_MS may have been taken over)
+    if (code !== 0 || !mine()) return
     writeFileSync(marker, JSON.stringify({ version: VERSION, at: new Date().toISOString() }))
     if (!server()) rmSync(marker, { force: true })
     // other versions go once unused for a week (sessions started before an update may still run them)
@@ -110,7 +153,8 @@ async function install() {
       }
     }
   } finally {
-    rmSync(lock, { force: true })
+    // only its own: a lock taken over belongs to another installer now
+    if (mine()) rmSync(lock, { force: true })
   }
 }
 

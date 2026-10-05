@@ -69,7 +69,9 @@ const fromSources = {
   enforce: 'pre',
   async resolveId(id, importer, options) {
     const bare = !id.startsWith('.') && !id.startsWith('/') && !id.startsWith('\0') && !/^[a-z]+:/i.test(id)
-    if (!bare || !importer || !sourceDirs.some(dir => importer.startsWith(dir + sep))) return null
+    // vite hands importers over with forward slashes, also on Windows
+    const from = importer?.replaceAll('/', sep)
+    if (!bare || !from || !sourceDirs.some(dir => from.startsWith(dir + sep))) return null
     for (const from of resolveFrom) {
       const found = await this.resolve(id, from, { ...options, skipSelf: true })
       if (found) return found

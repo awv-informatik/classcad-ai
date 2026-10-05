@@ -8,6 +8,9 @@
 // repository builds the editor — the library and SDK come from their sources,
 // not from npm, so the three move together at the commits pinned here. Each
 // can be pointed at another checkout: BUERLIGONS_DIR, BUERLI_REACT_CAD, BUERLI.
+// With APP_LIBRARIES=npm, react-cad and buerli come as buerligons installed them
+// from npm instead: the release workflow, which cannot check out those two private
+// repositories (buerligons pins the published versions).
 //
 // Buerligons is built in its `mcp` mode — the build that reaches ClassCAD on the
 // address it was loaded from (see .env.mcp there) — with its own installed
@@ -30,11 +33,16 @@ const buerli = resolve(process.env.BUERLI ?? join(repo, 'vendor', 'buerli'))
 const out = join(root, 'app')
 
 const BUERLI_PACKAGES = ['core', 'classcad', 'react', 'headless']
+const fromNpm = process.env.APP_LIBRARIES === 'npm'
 const missing = [
   [join(source, 'vite.config.ts'), 'buerligons (BUERLIGONS_DIR)'],
   [join(source, 'node_modules', 'vite'), 'the dependencies of buerligons (yarn install in it)'],
-  [join(reactCad, 'src', 'index.ts'), 'react-cad (BUERLI_REACT_CAD)'],
-  ...BUERLI_PACKAGES.map(name => [join(buerli, 'packages', name, 'src', 'index.ts'), `buerli (BUERLI)`]),
+  ...(fromNpm
+    ? []
+    : [
+        [join(reactCad, 'src', 'index.ts'), 'react-cad (BUERLI_REACT_CAD)'],
+        ...BUERLI_PACKAGES.map(name => [join(buerli, 'packages', name, 'src', 'index.ts'), `buerli (BUERLI)`]),
+      ]),
 ].filter(([path]) => !existsSync(path))
 if (missing.length) {
   const what = [...new Set(missing.map(([, name]) => name))].join(', ')
@@ -99,8 +107,8 @@ await vite.build(
       configFile: false,
       root: source,
       mode: 'mcp',
-      resolve: { alias },
-      plugins: [fromSources],
+      resolve: { alias: fromNpm ? [] : alias },
+      plugins: fromNpm ? [] : [fromSources],
       build: { outDir: out, emptyOutDir: true },
     },
   ),
@@ -110,11 +118,16 @@ await vite.build(
 for (const name of ['robots.txt']) rmSync(join(out, name), { force: true })
 
 // What was built, for whoever asks later.
+const installed = name => JSON.parse(readFileSync(join(source, 'node_modules', '@buerli.io', name, 'package.json'), 'utf8')).version
 const sources = [
   ['buerligons', source],
   ['react-cad', reactCad],
   ['buerli', buerli],
-].map(([name, dir]) => `${name} ${git(dir, 'rev-parse', '--short', 'HEAD')}${git(dir, 'status', '--porcelain', '--untracked-files=no') ? ' (with local changes)' : ''}`)
+].map(([name, dir]) =>
+  fromNpm && name !== 'buerligons'
+    ? `${name} ${installed(name === 'buerli' ? 'classcad' : 'react-cad')} (npm)`
+    : `${name} ${git(dir, 'rev-parse', '--short', 'HEAD')}${git(dir, 'status', '--porcelain', '--untracked-files=no') ? ' (with local changes)' : ''}`,
+)
 writeFileSync(join(out, 'SOURCE.txt'), `Buerligons, built in mcp mode on ${new Date().toISOString().slice(0, 10)}\n${sources.join('\n')}\n`)
 
 const size = dir => readdirSync(dir).reduce((n, f) => n + (statSync(join(dir, f)).isDirectory() ? size(join(dir, f)) : statSync(join(dir, f)).size), 0)

@@ -23,6 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # The app the MCP carries is buerligons (public). react-cad and buerli are private
+      # repositories this workflow cannot check out: the app takes them from npm, at the
+      # versions buerligons pins (APP_LIBRARIES=npm in build-app).
+      - name: The app's checkout (buerligons)
+        run: git submodule update --init vendor/buerligons
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -30,6 +35,13 @@ jobs:
       - name: npm with trusted publishing (11.5.1 or later)
         run: npm install -g npm@^11.5.1
       - run: npm install
+      - name: Buerligons' dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: vendor/buerligons
+      - name: The app
+        run: npm run build:app -w @classcad/mcp
+        env:
+          APP_LIBRARIES: npm
       - run: npm run build
       - run: npm test
 

@@ -482,13 +482,21 @@ async function cli(command: string, args: string[]): Promise<number> {
 
 const [command, ...args] = process.argv.slice(2)
 if (['status', 'stop', 'login', 'logout', 'whoami', 'help', '--help'].includes(command)) {
-  cli(command, args).then(
-    code => process.exit(code),
-    err => {
-      process.stderr.write(`[classcad-mcp] ${err?.message ?? err}\n`)
-      process.exit(1)
-    },
-  )
+  // A command ends by itself, once what it opened is closed. process.exit() at once, right after a
+  // request (the sign-in's check with Firebase, the daemon's status), makes Node abort on Windows
+  // (Node 24 and later: "Assertion failed: !(handle->flags & UV_HANDLE_CLOSING)") while that
+  // request's connection is still closing: the work done, but an alarming message and a failed exit.
+  // Whatever would keep it running is cut short after a few seconds.
+  const end = async (code: number) => {
+    process.exitCode = code
+    setTimeout(() => process.exit(code), 5000).unref()
+    // fetch keeps its connections for the next request: closed now, while Node still runs
+    await Promise.resolve((globalThis as any)[Symbol.for('undici.globalDispatcher.1')]?.close?.()).catch(() => {})
+  }
+  cli(command, args).then(end, err => {
+    process.stderr.write(`[classcad-mcp] ${err?.message ?? err}\n`)
+    return end(1)
+  })
 } else {
   main().catch(err => {
     process.stderr.write(`[classcad-mcp] FATAL: ${err?.message ?? err}\n`)

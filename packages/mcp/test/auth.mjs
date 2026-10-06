@@ -123,3 +123,39 @@ test('sign-in: gate, loopback hand-back, waiting login, revocation, logout', asy
   }
   await worker.close?.()
 })
+
+// `login` in a terminal, as an agent or a person runs it to install: the link, the hand-back, and an
+// end of its own (no process.exit() right after the request, which makes Node abort on Windows)
+test('login command: prints the link, signs in, ends by itself with 0', async () => {
+  const auth = await fakeAuth({ signedIn: false })
+  const env = { ...process.env, ...auth.env }
+  const p = spawn(process.execPath, [SERVER, 'login'], { env, stdio: ['ignore', 'pipe', 'pipe'] })
+  let out = ''
+  p.stdout.on('data', d => (out += d))
+  p.stderr.on('data', d => (out += d))
+  const ended = new Promise(r => p.once('exit', (code, signal) => r({ code, signal })))
+  try {
+    for (const t0 = Date.now(); !/Waiting/.test(out) && Date.now() - t0 < 30000; ) await new Promise(r => setTimeout(r, 50))
+    const link = linkIn(out)
+    assert.match(out, /Open this link to sign in/, 'no browser in tests: the link is the way in')
+    const done = await complete(link.port, { state: link.state, token: 'good' })
+    assert.equal(done.status, 200)
+    await done.text()
+    const end = await Promise.race([ended, new Promise(r => setTimeout(() => r({ code: 'still running after 4 s' }), 4000))])
+    assert.deepEqual(end, { code: 0, signal: null }, out)
+    assert.match(out, /signed in as test@example\.com/)
+    assert.doesNotMatch(out, /Assertion failed/)
+    assert.equal(JSON.parse(readFileSync(auth.file, 'utf8')).email, 'test@example.com')
+  } finally {
+    p.kill()
+  }
+  // the sign-in is there for the next command, which ends at once (it checks the token with Firebase first)
+  const t0 = Date.now()
+  const whoami = spawn(process.execPath, [SERVER, 'whoami'], { env, stdio: ['ignore', 'pipe', 'pipe'] })
+  let said = ''
+  whoami.stdout.on('data', d => (said += d))
+  const code = await new Promise(r => whoami.once('exit', r))
+  assert.equal(code, 0)
+  assert.match(said, /signed in as test@example\.com/)
+  assert.ok(Date.now() - t0 < 3000, `whoami took ${Date.now() - t0} ms`)
+})

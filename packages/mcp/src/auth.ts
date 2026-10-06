@@ -72,15 +72,25 @@ const DEAD_TOKEN = /^(TOKEN_EXPIRED|USER_DISABLED|USER_NOT_FOUND|INVALID_REFRESH
 
 /** Exchanges a refresh token at Firebase. Throws Rejected for a dead token, anything else for "unreachable/misconfigured". */
 async function exchange(refreshToken: string): Promise<{ account: Account; refreshToken: string; idToken: string; expiresAt: number }> {
-  const res = await fetch(`${TOKEN_URL}?key=${encodeURIComponent(API_KEY)}`, {
-    method: 'POST',
-    // The web API key only serves the sites it is restricted to; the MCP
-    // speaks for the sign-in page's site.
-    headers: { 'content-type': 'application/x-www-form-urlencoded', referer: `${new URL(LOGIN_URL).origin}/` },
-    body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }),
-    signal: AbortSignal.timeout(15000),
-  })
-  const body = (await res.json().catch(() => ({}))) as Record<string, any>
+  // A timeout of its own, cleared once the answer is in. AbortSignal.timeout's stays pending for its
+  // 15 s, and a command (login, whoami) ending with it pending is part of what makes Node abort on Windows.
+  const abort = new AbortController()
+  const timer = setTimeout(() => abort.abort(new Error('Firebase did not answer within 15 s')), 15000)
+  let res: Response
+  let body: Record<string, any>
+  try {
+    res = await fetch(`${TOKEN_URL}?key=${encodeURIComponent(API_KEY)}`, {
+      method: 'POST',
+      // The web API key only serves the sites it is restricted to; the MCP
+      // speaks for the sign-in page's site.
+      headers: { 'content-type': 'application/x-www-form-urlencoded', referer: `${new URL(LOGIN_URL).origin}/` },
+      body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }),
+      signal: abort.signal,
+    })
+    body = (await res.json().catch(() => ({}))) as Record<string, any>
+  } finally {
+    clearTimeout(timer)
+  }
   const message = String(body?.error?.message ?? `HTTP ${res.status}`)
   if (DEAD_TOKEN.test(message)) throw new Rejected(message)
   if (!res.ok) throw new Error(`Firebase answered ${res.status}: ${message}`)

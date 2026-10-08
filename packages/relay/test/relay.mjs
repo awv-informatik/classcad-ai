@@ -186,6 +186,21 @@ test("the host's plan decides: Free offers no session, Solo takes two guests and
   await host.closed
 })
 
+test("the guests claim wins over the plan: the number admins set for the plan or the contract", { skip: OLD_NODE }, async () => {
+  await assert.rejects(asHost(invite('pro0'), { plan: 'pro', guests: 0 }).opened, /HTTP 403/, 'a plan set to no guests does not share')
+  const t = invite('free1')
+  const host = asHost(t, { plan: 'free', guests: 1 })
+  await host.opened
+  // The host's own app and one guest
+  const guests = [socket(`${SESSION}/?invite=${t}`), socket(`${SESSION}/?invite=${t}`)]
+  await Promise.all(guests.map(g => g.opened))
+  await assert.rejects(socket(`${SESSION}/?invite=${t}`).opened, /HTTP 503/, 'a second guest finds the session full')
+  for (const g of guests) g.ws.close(1000)
+  await Promise.all(guests.map(g => g.closed))
+  host.ws.close()
+  await host.closed
+})
+
 test('host and guest are introduced, and each hears why the other went', { skip: OLD_NODE }, async () => {
   const t = invite('meet')
   const host = asHost(t)

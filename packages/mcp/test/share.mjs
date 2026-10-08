@@ -3,7 +3,8 @@
 //   1. pieces(): the engine's reply becomes what a server's frames are made of
 //   2. the hub serves a guest like a ClassCAD server does: SessionJoined, its
 //      own emission config, streamed or bundled frames, pulls with the complete
-//      graphic, the host's commands fanned out, invites refused to guests
+//      graphic, the host's commands fanned out, invites refused to guests, the
+//      engine's undo history after a command's Result and to a guest that joins
 //   3. presence: fan-out with the sender's id, the snapshot for late joiners,
 //      reserved channels and oversized frames dropped, 'leave' on disconnect
 //   4. a guest's command reaches the engine like the host's (an OFB save too),
@@ -49,14 +50,46 @@ const engineReply = req => {
   }
 }
 
-/** The part of the engine client a hub uses, with canned replies. */
-function fakeClient() {
+/**
+ * Replies of an engine with undo (classcad-runtime feat/undo-redo): it records
+ * a state after every command sent with options.undoable, and reports its
+ * history in an UndoStack message after such a command and after every
+ * Undo / Redo (whose Result is the history: { stack, current }).
+ */
+function undoEngine() {
+  const stack = []
+  const captions = {}
+  let current = ''
+  let n = 0
+  const history = (id, undoable) => ({ command: 'UndoStack', stack: [...stack], current, id, undoable, captions: { ...captions } })
+  return req => {
+    if (req.command === 'Undo' || req.command === 'Redo') {
+      const to = req.state ?? stack[stack.indexOf(current) + (req.command === 'Undo' ? -1 : 1)]
+      if (stack.includes(to)) current = to
+      return { messages: [{ command: 'Result', from: req.command, result: { stack: [...stack], current }, transactionID: req.transactionID }, history(null, false)], binaryMessages: [] }
+    }
+    const res = engineReply(req)
+    if (req.options?.undoable) {
+      stack.splice(stack.indexOf(current) + 1)
+      current = `s${++n}`
+      stack.push(current)
+      captions[current] = Object.keys(req.task?.[0] ?? {})[0]
+      res.messages.push(history(req.transactionID ?? null, true))
+    }
+    return res
+  }
+}
+
+/** The part of the engine client a hub uses, with canned replies (of `engine`). */
+function fakeClient(engine = engineReply) {
   const replies = new Set()
   const starts = new Set()
   const containers = new Map()
+  let undoStack
   const run = (req, origin) => {
-    const res = engineReply(req)
+    const res = engine(req)
     for (const pkg of res.binaryMessages) for (const c of pkg.containers) containers.set(c.id, c)
+    for (const m of res.messages) if (m.command === 'UndoStack') undoStack = m
     for (const hear of replies) hear(req, res, origin)
     return res
   }
@@ -77,12 +110,13 @@ function fakeClient() {
     onEngineReply: l => (replies.add(l), () => replies.delete(l)),
     onEngineStart: l => (starts.add(l), () => starts.delete(l)),
     engineContainers: () => [...containers.values()],
+    engineUndoStack: () => undoStack,
     request: async () => { throw new Error('not a server') },
   }
 }
 
-function session() {
-  const client = fakeClient()
+function session(engine) {
+  const client = fakeClient(engine)
   const toHost = []
   const hub = createSessionHub({ client, queue: work => work(), toHost: f => toHost.push(f) })
   const invite = hub.createInvite('edit', 'tester')
@@ -132,6 +166,16 @@ test('pieces: an engine reply in what a server\'s frames are made of', () => {
   const silent = pieces({ command: 'Execute', transactionID: 'q' }, { messages: [{ command: 'ErrorMessage', attributes: { errorState: 3, errorCode: 9, errorMessage: 'boom' } }], binaryMessages: [] })
   assert.equal(silent.result.maxLevel, 51, 'no Result at all is an error, never an empty success')
   assert.match(silent.result.messages[0].message, /boom/)
+
+  assert.equal(ok.undoStack, undefined, 'an engine without undo: no history to pass on')
+  const engine = undoEngine()
+  const undoable = { command: 'Execute', transactionID: 'u', task: [{ 'v1.part.box': [{}] }], options: { undoable: true } }
+  const recorded = pieces(undoable, engine(undoable))
+  assert.deepEqual(recorded.undoStack, { command: 'UndoStack', stack: ['s1'], current: 's1', id: 'u', undoable: true, captions: { s1: 'v1.part.box' } }, 'the engine\'s UndoStack, as it sent it')
+  assert.equal(recorded.result.result, 42)
+  const undo = pieces({ command: 'Undo', transactionID: 'v' }, engine({ command: 'Undo', transactionID: 'v' }))
+  assert.deepEqual(undo.result, { command: 'Result', _from_: 'Undo', _transactionID_: 'v', result: { stack: ['s1'], current: 's1' } }, 'an Undo\'s Result is the history, not nested')
+  assert.equal(undo.undoStack.undoable, false)
 })
 
 test('hub: a guest is served like a ClassCAD server serves it', async () => {
@@ -254,6 +298,49 @@ test('hub: presence goes to the others with the sender\'s id, and to those who j
   } finally {
     a.ws.close()
     b.ws.close()
+    s.end()
+  }
+})
+
+test('hub: the undo history follows the Result to every guest, and one that joins gets it after the presence snapshot', async () => {
+  const s = session(undoEngine())
+  const a = guest(`${SESSION}/?invite=${s.invite.invite}`)
+  await a.opened
+  await a.send({ command: 'SetEmissionConfig', config: STREAMING })
+  assert.equal(a.of('UndoStack').length, 0, 'no history yet: none on join')
+  let b
+  try {
+    a.frames.length = 0
+    const box = await a.send({ command: 'Execute', task: [{ 'v1.part.box': [{}] }], options: { undoable: true } })
+    await a.send({ command: 'GetEmissionConfig' }) // what follows the box's Result is in
+    assert.deepEqual(a.frames.map(f => f.command), ['StructurePatch', 'Graphic', 'Result', 'UndoStack', 'Result'], 'streamed: the history after the Result')
+    assert.deepEqual(a.of('UndoStack')[0], { command: 'UndoStack', stack: ['s1'], current: 's1', id: box._transactionID_, undoable: true, captions: { s1: 'v1.part.box' }, binary: false }, 'as the engine sent it')
+
+    // The host's own commands: an undoable one changes the history, another one does not.
+    a.frames.length = 0
+    s.client.host({ command: 'Execute', transactionID: 'host-1', task: [{ 'v1.part.cylinder': [{}] }], options: { undoable: true } })
+    s.client.host({ command: 'Execute', transactionID: 'host-2', task: [{ 'v1.part.getName': [{}] }] })
+    await a.send({ command: 'GetEmissionConfig' })
+    assert.deepEqual(a.frames.filter(f => f.command === 'UndoStack' || f._from_ === 'Execute').map(f => (f.command === 'UndoStack' ? `UndoStack:${f.current}` : `${f.command}:${f._transactionID_}`)), ['StructurePatch:host-1', 'Graphic:host-1', 'Result:host-1', 'UndoStack:s2', 'StructurePatch:host-2', 'Graphic:host-2', 'Result:host-2'])
+
+    // A guest that joins (bundled) gets the history as it is, after the presence snapshot.
+    s.hub.sendPresence('client', { app: 'classcad-mcp', kind: 'agent' })
+    b = guest(`${SESSION}/?invite=${s.invite.invite}`)
+    await b.opened
+    const undo = await b.send({ command: 'Undo' })
+    assert.deepEqual(b.frames.slice(0, 3).map(f => (f.command === 'Presence' ? `Presence:${f.channel}` : f.command)), ['SessionJoined', 'Presence:client', 'UndoStack'])
+    assert.deepEqual(b.frames[2], { command: 'UndoStack', stack: ['s1', 's2'], current: 's2', id: 'host-1', undoable: true, captions: { s1: 'v1.part.box', s2: 'v1.part.cylinder' }, binary: false })
+
+    // Its Undo runs on the engine; the history afterwards follows the Result, to everyone.
+    assert.equal(s.client.relayed.at(-1).command, 'Undo')
+    assert.deepEqual(undo.result, { stack: ['s1', 's2'], current: 's1' }, 'an Undo\'s Result is the history')
+    await b.send({ command: 'GetEmissionConfig' })
+    assert.deepEqual(b.frames.slice(3).map(f => `${f.command}:${f._from_ ?? f.current}`), ['Result:Undo', 'UndoStack:s1', 'Result:GetEmissionConfig'])
+    await a.send({ command: 'GetEmissionConfig' })
+    assert.deepEqual(a.frames.filter(f => f._from_ === 'Undo' || f.command === 'UndoStack').map(f => `${f.command}:${f._from_ ?? f.current}`).slice(-2), ['Result:Undo', 'UndoStack:s1'], 'the other guest hears of it')
+  } finally {
+    a.ws.close()
+    b?.ws.close()
     s.end()
   }
 })

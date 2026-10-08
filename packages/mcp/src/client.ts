@@ -177,6 +177,8 @@ export type Client = {
   onEngineStart: (listener: () => void) => () => void
   /** The complete graphic of the MCP's own engine: every container emitted so far that is still in the model. */
   engineContainers: () => unknown[]
+  /** The undo history of the MCP's own engine as it is now (its last UndoStack message); undefined while it reported none, as an engine without undo never does. */
+  engineUndoStack?: () => Record<string, any> | undefined
   /** Hears the session frames a ClassCAD server sends this connection (peers, presence). Returns the unsubscribe function. */
   onSessionFrame: (listener: (frame: SessionFrame) => void) => () => void
   /** Sends a frame that expects no answer to the ClassCAD server (presence). False when there is no open worker connection. */
@@ -261,6 +263,9 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // graphic on GetTree). Accumulate containers by id so a pull can hand the
   // renderer the complete picture; the renderer drops consumed bodies itself.
   const containers = new Map<string, any>()
+  // The local engine's undo history as it is now: its last UndoStack message,
+  // for an app that docks later (share/hub.ts).
+  let undoStack: Record<string, any> | undefined
 
   function send(obj: Record<string, unknown>): void {
     if (transport === 'wasm') {
@@ -299,7 +304,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
    * (clear, load with doClear — a restored checkpoint included), and on every
    * pull those whose owner left the model tree (a deleted feature, a clear
    * that kept some ids). Without this a render shows bodies of earlier models
-   * next to the current one.
+   * next to the current one. The undo history is kept as the engine last
+   * reported it (after an undoable command, an Undo or a Redo).
    */
   function absorb(req: Record<string, unknown>, res: EngineExecuteResult): void {
     if (res.decodeErrors?.length) log(`${String(req.command)}: dropped undecodable engine output (${res.decodeErrors.join('; ')})`)
@@ -310,6 +316,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       }
     }
     for (const m of res.messages ?? []) {
+      if (m?.command === 'UndoStack') undoStack = m
       if (m?.command !== 'Result') continue
       const from = m._from_ ?? m.from ?? req.command
       if (from !== 'GetTree' && from !== 'Sync') continue
@@ -624,10 +631,11 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     }
     if (!localEngine) {
       localEngine = await startLocalEngine({ ...opts.wasm!, log })
-      // A new engine has an empty drawing and default database settings.
-      // Checkpoints (save payloads held here) stay valid: restore loads them
-      // into this one.
+      // A new engine has an empty drawing, no undo history and default
+      // database settings. Checkpoints (save payloads held here) stay valid:
+      // restore loads them into this one.
       containers.clear()
+      undoStack = undefined
       ensuredGeneration = -1
       await bootstrapSession()
       for (const hear of engineStartListeners) hear()
@@ -921,6 +929,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     onEngineReply,
     onEngineStart,
     engineContainers: () => [...containers.values()],
+    engineUndoStack: () => undoStack,
     onSessionFrame,
     sendFrame,
     get ws() {

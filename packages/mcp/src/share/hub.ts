@@ -7,9 +7,10 @@
 // (buerli's WSClient, unchanged) and other agents are guests.
 //
 // A guest sends what it would send a server and gets a server's frames back:
-//   SessionJoined, then the presence snapshot
+//   SessionJoined, then the presence snapshot, then the undo history (UndoStack)
 //   per command  StructurePatch · Graphic · Result   (streaming connections)
 //                Result with the graphic on it        (bundled connections)
+//                then UndoStack, if the command changed the undo history
 //   Presence     from the other guests and from the host
 // The engine itself speaks an older dialect (Patch/ops, binary packages, the
 // value nested in `result`); pieces() translates it.
@@ -122,6 +123,8 @@ type Pieces = {
   packages: Record<string, any>[]
   /** GetTree/Sync: the structure. */
   structure?: unknown
+  /** The engine's undo history, when the command changed it (an undoable command, an undo / redo). */
+  undoStack?: Record<string, any>
   /** The Result frame without structure and graphic. */
   result: Record<string, any>
 }
@@ -139,6 +142,7 @@ export function pieces(req: Record<string, any>, res: EngineExecuteResult): Piec
     else if (m?.command === 'ErrorMessage' && Number(m.attributes?.errorState) >= 2)
       side.push({ level: ERROR, levelStr: 'ERROR', code: m.attributes?.errorCode ?? 0, message: String(m.attributes?.errorMessage ?? 'engine error') })
     else if (m?.command === 'Result') answer ??= m
+    else if (m?.command === 'UndoStack') out.undoStack = m
   }
   if (!answer) {
     out.result = errorResult(req, side.length ? side.map(e => e.message).join('; ') : `the engine returned no result for ${from}`)
@@ -245,6 +249,8 @@ export function createSessionHub(opts: HubOptions): SessionHub {
       }
       if (cfg.sendMessages === false) delete result.messages
       send(guest, result)
+      // The undo history follows the Result, as on a server.
+      if (p.undoStack) send(guest, p.undoStack)
     }
   }
 
@@ -336,6 +342,9 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     // The snapshot: what everyone already here last said, per channel.
     for (const [channel, data] of hostPresence) send(guest, { command: 'Presence', channel, peerId: hostId, data })
     for (const other of guests) for (const [channel, data] of other.presence) send(guest, { command: 'Presence', channel, peerId: other.peerId, data })
+    // The undo history as it is, as a server sends it to a guest that joins.
+    const undoStack = client.engineUndoStack?.()
+    if (undoStack) send(guest, undoStack)
     guests.add(guest)
     toHost({ command: 'PeerJoined', peerId: guest.peerId, invite: invite.invite, inviteName: invite.name, role: invite.role })
     log(`share: ${invite.name || 'a guest'} joined (${invite.role}; ${guests.size} docked)`)

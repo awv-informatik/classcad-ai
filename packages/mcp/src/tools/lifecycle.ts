@@ -160,6 +160,11 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     async ({ label }) => {
       const name = (label || 'checkpoint').trim().slice(0, 60) || 'checkpoint'
       // An OFB save, held in this process.
+      // TODO(before the MCP takes an engine with classcad-cclasses PR 211): that engine refuses every
+      //   export its key's plan does not include, and Free keys export STL only. This OFB save would fail
+      //   for Free accounts, and checkpoint/restore with it. Move checkpoint and restore to a state save
+      //   the plan's export formats do not limit (the engine's StoreState/LoadState, which no v1 API
+      //   call reaches yet), and release the MCP with that before it updates the engine.
       const r = await client.execute<{ success: boolean; content: string }>({
         'v1.common.save': [{ format: 'OFB', encoding: 'base64' }],
       })
@@ -211,6 +216,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
       if (!snap) {
         return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ error: `No checkpoint named "${name}".`, available: [...m.keys()] }) }] }
       }
+      // TODO(before the MCP takes an engine with classcad-cclasses PR 211): moves with checkpoint (see there).
       const r = await client.execute({ 'v1.common.load': [{ format: 'OFB', encoding: 'base64', data: snap.data, doClear: 1 }] })
       return {
         content: [{

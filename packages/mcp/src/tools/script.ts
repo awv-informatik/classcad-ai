@@ -57,14 +57,14 @@ export function registerScriptTool(server: McpServer, client: Client): void {
         'Returns a Promise: without await, Object.values(api.tree()) is silently [] (looks like an empty drawing).\n' +
         '• await api.graphic({ recalc? }) — the graphic payload (containers with face meshes, edges, vertices): ' +
         'find and FILTER GEOMETRY yourself — e.g. locate a bore wall by vertex radius, collect edge ids for a chamfer. ' +
-        'Exact shapes + selection idioms: describe_method("DATA").\n' +
+        'Exact shapes + selection idioms: docs(["DATA"]).\n' +
         '• Math, full JS (variables, loops, functions); console.log/log(...) captured and returned.\n' +
         '• return <small summary> — results are size-capped; keep big data in the drawing, not the return value.\n' +
         'Compute coordinates IN the script (trigonometry, loops) instead of inlining hand-evaluated numbers. ' +
         'Pass recalc:false to api.graphic() in solid.*/entity-injection sessions (a recalc invalidates curve shape ids and can destroy injected bodies in complex cases). ' +
         'No DOM/network/filesystem access; awaited work times out (default 60s). ' +
         'Prefer several small verified scripts over one huge one — STATE PERSISTS in the drawing between ' +
-        'scripts: a follow-up script ATTACHES to the existing model (re-discover via await api.tree(); tree ids' +
+        'scripts: a follow-up script ATTACHES to the existing model (re-discover via await api.tree(); tree ids ' +
         'are stable; NEVER part.create when a part already exists). Even a single operation is a run_script.',
       inputSchema: {
         script: z

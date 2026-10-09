@@ -37,7 +37,7 @@ AllObjects (1)
 ```
 
 - `structure.root` = `structure.currentProduct` = partId (4) — the "root product", NOT the tree root. AllObjects (id=1, `parent: null`) is the tree root.
-- All default nodes have `flags: 4096`.
+- The default sets and work geometry have `flags: 4096`; AllObjects and the `CC_Part` node have `flags: 0`.
 - Find default work geometry by name: `part.getWorkGeometry({ id: partId, name: 'Top' })`.
 
 ## Gotchas

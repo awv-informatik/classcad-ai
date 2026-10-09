@@ -347,6 +347,13 @@ live('local engine: clear, restore and deletions leave no stale geometry in the 
     assert.equal(cyl.withMeshes, 1, 'only the cylinder: ' + JSON.stringify(cyl))
     assert.deepEqual(cyl.size, [20, 20, 50], 'the old box is not in the picture')
 
+    // a recalc re-tessellates the live body: its earlier containers go, the one left is the part's solids
+    const recalc = await a.tool('run_script', { script: `await api.v1.common.recalc({}); await api.v1.common.recalc({});
+      const t = await api.tree({ refresh: true }); const part = Object.values(t).find(n => n.class === 'CC_Part')
+      const live = Object.values(t).filter(n => n.class === 'CC_Solid' && n.members?.consumed?.value === 0).map(n => n.id)
+      const g = await api.graphic(); return { bodies: g.containers.filter(c => c.type === 1 && live.includes(c.owner)).map(c => c.id), solids: part.solids }` })
+    assert.deepEqual(recalc.value?.returned?.bodies, recalc.value?.returned?.solids, 'one body container per live solid after a recalc: ' + recalc.text)
+
     // restore brings back the checkpoint's geometry, not what came after it
     await a.tool('checkpoint', { label: 'cyl' })
     await a.tool('run_script', { script: `const t = await api.tree(); const p = Object.values(t).find(n => n.class === 'CC_Part'); await api.v1.part.box({ id: p.id, name: 'Extra', length: 200, width: 200, height: 200 }); return 1` })

@@ -21,7 +21,7 @@ Returns geometry IDs grouped by type: `{ points, lines, arcs, circles }`.
 
 ## Gotchas
 
-- **Construction curves are mixed in** with profile curves in `lines`/`arcs`/`circles`, indistinguishable here. Construction-only curves in `part.extrusion`/`part.revolve`/`part.twist` → error (maxLevel 51), no solid. Identify them with `sketch.getObjectInfo` (`isConstruction: 0|1`), `sketch.getObjectsLists` (`constructionGeometry`), or `sketch.getGlobalState` (`constructionCount`). See `recipes/constrained-sketching` § Construction geometry.
+- **Construction curves are mixed in** with profile curves in `lines`/`arcs`/`circles`, indistinguishable here. Construction-only curves in `part.extrusion`/`part.revolve`/`part.twist` → error (maxLevel 51), no solid. Identify them with [`sketch.getObjectInfo`](getObjectInfo.md) (`isConstruction: 0|1`), [`sketch.getObjectsLists`](getObjectsLists.md) (`constructionGeometry`), or [`sketch.getGlobalState`](getGlobalState.md) (`constructionCount`). See `recipes/constrained-sketching` § Construction geometry.
 
 ## Common Errors
 

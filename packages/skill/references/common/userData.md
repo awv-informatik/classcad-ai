@@ -58,4 +58,4 @@ await api.v1.common.clearUserData({ id: partId })
 
 ## Related
 
-`common.setObjectName` / `common.getObjectName` · `common.save` / `common.load` · `solid.copy`
+`common.setObjectName` (read a name back from the tree's `node.name`) · `common.save` / `common.load` · `solid.copy`

@@ -61,10 +61,11 @@ blank revolve → subtract teeth → subtract bore → subtract keyway → subtr
 ## The recalc trap
 
 **Don't call `common.recalc` in a direct/EIF flow — it isn't needed.** The solid ops
-maintain their own state; read results directly. A recalc invalidates `curve.shape` ids,
-and in one complex session (sprocket blank minus many tools) it destroyed the body;
-a simple box − cylinder subtraction survived a recalc unchanged
-([solid/subtraction](../references/solid/subtraction.md)).
+maintain their own state; read results directly. A recalc invalidates `curve.*` shape ids
+and has destroyed bodies in complex EIF sessions (a sprocket blank minus many tools); a
+simple box − cylinder subtraction survived one unchanged
+([solid/subtraction](../references/solid/subtraction.md)). Keep `recalc: false` (the
+default) on `api.graphic()` and snapshots.
 
 ## Verify
 

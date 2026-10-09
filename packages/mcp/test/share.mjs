@@ -7,7 +7,8 @@
 //   3. presence: fan-out with the sender's id, the snapshot for late joiners,
 //      reserved channels and oversized frames dropped, 'leave' on disconnect
 //   4. a guest's command reaches the engine like the host's (an OFB save too),
-//      and the graphic settings the MCP's renders need survive a guest's own
+//      and the graphic settings the MCP's renders need survive a guest's own,
+//      also on a ClassCAD worker, where the guest is piped through to the server
 //   5. the listener: an unknown invite fails the handshake; a page that hosts
 //      its own session is joined through it (offer, knock, meet, pass bytes),
 //      and its guests go with it
@@ -281,6 +282,47 @@ test('hub: a guest saves what the host may save, and cannot switch off what the 
   } finally {
     g.ws.close()
     s.end()
+  }
+})
+
+test('hub: a guest piped through to a ClassCAD server cannot switch them off either', async () => {
+  // The server: what reaches it, and the invite it was joined with
+  const server = new WebSocketServer({ port: 0 })
+  await new Promise(resolve => server.once('listening', resolve))
+  const got = []
+  let joinedWith
+  server.on('connection', (ws, req) => {
+    joinedWith = new URL(req.url, 'ws://server').searchParams.get('invite')
+    ws.on('message', (data, isBinary) => got.push({ data: Buffer.from(data), isBinary }))
+  })
+  // A session on that server: its guests are piped through with an invite of the server's
+  const client = { ...fakeClient(), transport: 'ws', url: `ws://127.0.0.1:${server.address().port}/`, request: async command => ({ result: command === 'CreateInvite' ? { invite: 'server-invite' } : null }) }
+  const hub = createSessionHub({ client, queue: work => work(), toHost: () => {} })
+  const invite = hub.createInvite('edit', 'app')
+  const unoffer = offerInvite(invite.invite, hub)
+  const g = new WebSocket(`${SESSION}/?invite=${invite.invite}`)
+  try {
+    await new Promise((resolve, reject) => { g.once('open', resolve); g.once('error', reject) })
+    // What Buerligons sends on connect (before the server is reached, here), then anything else
+    const app = { isGraphicEnabled: true, isCCGraphicEnabled: false, isInvisibleGraphicEnabled: true, isSketchGraphicEnabled: false, facetingParamsMode: 1, chordHeightTol: 0.1, angleTol: 0, doCurveTessellation: false }
+    g.send(JSON.stringify({ command: 'Execute', commandVersion: 'v1', transactionID: 't1', task: [{ 'v1.common.setDatabaseSettings': [app] }] }))
+    const other = '{"command":"Execute","commandVersion":"v1","transactionID":"t2","task":[{"v1.part.box":[{"id":4}]}]}'
+    g.send(other)
+    g.send(Buffer.from([1, 2, 3]), { binary: true })
+    for (let i = 0; i < 40 && got.length < 3; i++) await sleep(25)
+    assert.equal(joinedWith, 'server-invite')
+    assert.equal(got.length, 3)
+    assert.equal(got[0].isBinary, false)
+    assert.deepEqual(JSON.parse(got[0].data.toString()).task[0]['v1.common.setDatabaseSettings'][0], { ...app, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true })
+    assert.equal(got[1].data.toString(), other, 'anything else as it came')
+    assert.equal(got[1].isBinary, false)
+    assert.deepEqual([...got[2].data], [1, 2, 3], 'binary frames too')
+    assert.equal(got[2].isBinary, true)
+  } finally {
+    g.close()
+    unoffer()
+    hub.close()
+    server.close()
   }
 })
 

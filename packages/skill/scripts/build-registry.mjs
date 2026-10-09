@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // build-registry.mjs — walk @classcad/api-js .d.ts files and emit a method registry.
 //
-// Output: ./method-registry.json — { "v1.<domain>.<method>": { domain, method, summary, params } }
+// Output: ./method-registry.json — { "v1.<domain>.<method>": { domain, method, summary, params, deprecated? } }
 // A purely mechanical extraction of the JSDoc the API authors wrote (no AI involved):
-// `summary` is the comment's main text, `params` the @param tags. Consumers (classcad-mcp,
-// @buerli.io/ai) use it to validate call_api method names, list/search methods, and append
-// parameter signatures to error messages.
+// `summary` is the comment's main text, `params` the @param tags, `deprecated` the @deprecated tag's text. Consumers (classcad-mcp,
+// @buerli.io/ai, @classcad/script) use it to build api.v1 (typos throw with suggestions),
+// list/search methods, and append parameter signatures to error messages.
 
 import ts from 'typescript'
 import { readFileSync, writeFileSync } from 'fs'
@@ -47,6 +47,14 @@ function paramTags(node) {
   return out
 }
 
+function deprecatedTag(node) {
+  // "@deprecated Use preTrim instead. …" → "Use preTrim instead. …" (undefined when not deprecated).
+  const tag = ts.getJSDocDeprecatedTag(node)
+  if (!tag) return undefined
+  const text = Array.isArray(tag.comment) ? tag.comment.map(c => c.text ?? '').join(' ') : (tag.comment ?? '')
+  return String(text).replace(/\s+/g, ' ').trim() || 'Deprecated.'
+}
+
 function processDomain(domain) {
   const file = join(apisDir, `${domain}.d.ts`)
   const source = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true)
@@ -67,6 +75,7 @@ function processDomain(domain) {
                     method: member.name.text,
                     summary: jsdocSummary(member),
                     params: paramTags(member),
+                    deprecated: deprecatedTag(member),
                   })
                 }
               }
@@ -89,6 +98,7 @@ function main() {
     for (const m of methods) {
       const key = `v1.${m.domain}.${m.method}`
       registry[key] = { domain: m.domain, method: m.method, summary: m.summary, params: m.params }
+      if (m.deprecated) registry[key].deprecated = m.deprecated
       total++
     }
     process.stderr.write(`  ${d}: ${methods.length}\n`)

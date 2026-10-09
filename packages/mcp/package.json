@@ -1,6 +1,6 @@
 {
   "name": "@classcad/mcp",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "mcpName": "io.github.awv-informatik/classcad",
   "description": "ClassCAD MCP server: build, verify and export 3D CAD parts and assemblies with the ClassCAD engine, running locally",
   "homepage": "https://classcad.ai",
@@ -46,17 +46,17 @@
     "dev": "tsc --watch",
     "start": "node dist/server.js",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "postbuild": "node --test --test-timeout=180000 test/emission.mjs test/daemon.mjs test/auth.mjs test/share.mjs",
-    "test": "npm run build && node --test test/key.mjs test/auth.mjs && node test/emission-live.mjs && node --test --test-timeout=300000 test/wasm-live.mjs"
+    "postbuild": "node --test --test-timeout=180000 test/emission.mjs test/daemon.mjs test/auth.mjs test/share.mjs test/account.mjs",
+    "test": "npm run build && node --test test/key.mjs test/auth.mjs && node test/emission-live.mjs && node --test test/share-live.mjs && node --test --test-timeout=300000 test/wasm-live.mjs"
   },
   "dependencies": {
-    "@classcad/skill": "^0.0.6",
+    "@classcad/skill": "^0.0.7",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "sharp": "^0.34.5",
     "ws": "^8.19.0",
     "zod": "^4.4.3",
     "@classcad/renderer": "^0.1.0",
-    "@classcad/script": "^0.1.0"
+    "@classcad/script": "^0.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

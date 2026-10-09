@@ -1,6 +1,6 @@
 ---
 name: classcad
-description: Structured API reference for the ClassCAD headless parametric CAD engine (v1 JSON/WebSocket API). Use when writing or debugging ClassCAD API calls — modeling parts, sketches, solids, curves, assemblies, expressions, or 2D drawings — to look up exact method signatures, verified gotchas, and working examples across all 254 APIs in 7 domains.
+description: Structured API reference for the ClassCAD headless parametric CAD engine (v1 JSON/WebSocket API). Use when writing or debugging ClassCAD API calls — modeling parts, sketches, solids, curves, assemblies, expressions, or 2D drawings — to look up exact method signatures, verified gotchas, and working examples across all 264 APIs in 7 domains.
 license: MIT
 ---
 
@@ -32,10 +32,14 @@ Cross-cutting references that apply across every domain. Read these first when s
 | [assembly/generic.md](references/assembly/generic.md) | Templates vs. instances, instance placement in the tree, when the constraint solver runs; constraints mount instances by their work csys (`assembly/fastened.md`) |
 
 The **data contract** — what `api.tree()` and `api.graphic()` return and how to
-select geometry from it — ships with `@classcad/script`
-([DATA](../script/docs/DATA.md) distilled, [STRUCTURE](../script/docs/STRUCTURE.md)
-model tree, [GRAPHICS](../script/docs/GRAPHICS.md) graphic payload). Tools serve
-them under the same names (`read_doc("DATA")` / `describe_method("DATA")`).
+select geometry from it: [DATA](references/DATA.md) (distilled, read it before any
+tree/graphic scripting), [STRUCTURE](references/STRUCTURE.md) (the model tree in
+depth) and [GRAPHICS](references/GRAPHICS.md) (the graphic payload). Tools serve
+them under the same names (`docs(["DATA"])`).
+
+**Plans** — what the signed-in account's plan enables (commercial use, exports,
+where a web app may run, access tokens): [PLANS](references/PLANS.md); the MCP's
+`account` tool reports the live answer.
 
 ---
 
@@ -177,7 +181,7 @@ Part modeling: feature creation/update (box, cone, cylinder, sphere, extrusion, 
 
 <a name="assembly"></a>
 
-## 3. Assembly — 62 APIs
+## 3. Assembly — 63 APIs
 
 Assembly management: root assembly creation, templates, instances, constraints (fastened, revolute, cylindrical, planar, parallel, slider, spherical, gear, group), patterns, transformations, and constraint-driven motion.
 
@@ -192,65 +196,66 @@ Assembly management: root assembly creation, templates, instances, constraints (
 | 7   | `convertToTemplate`            | Converts the current root assembly into an assembly template             | [api](references/api/assembly.md) |
 | 8   | `instance`                     | Creates instances of products and adds them to root assembly or template | [api](references/api/assembly.md) |
 | 9   | `getInstance`                  | Returns a single, multiple or all instances of an owner                  | [api](references/api/assembly.md) |
-| 10  | `deleteInstance`               | Deletes instances from root assembly, other instances or templates       | [api](references/api/assembly.md) |
-| 11  | `from`                         | Creates an assembly from a JSON-defined assembly or ECXML definition     | [api](references/api/assembly.md) |
-| 12  | `loadProduct`                  | Loads a product from file, data or url                                   | [api](references/api/assembly.md) |
-| 13  | `exportNode`                   | Exports a node from the assembly tree or a template from containers      | [api](references/api/assembly.md) |
-| 14  | `fastened`                     | Creates a new fastened constraint                                        | [api](references/api/assembly.md) |
-| 15  | `updateFastened`               | Updates an existing fastened constraint                                  | [api](references/api/assembly.md) |
-| 16  | `getFastened`                  | Returns the fastened constraint of given reference                       | [api](references/api/assembly.md) |
-| 17  | `fastenedOrigin`               | Creates a new fastened origin constraint                                 | [api](references/api/assembly.md) |
-| 18  | `updateFastenedOrigin`         | Updates an existing fastened origin constraint                           | [api](references/api/assembly.md) |
-| 19  | `getFastenedOrigin`            | Returns the fastened origin constraint of given reference                | [api](references/api/assembly.md) |
-| 20  | `revolute`                     | Creates a new revolute constraint                                        | [api](references/api/assembly.md) |
-| 21  | `updateRevolute`               | Updates a revolute constraint                                            | [api](references/api/assembly.md) |
-| 22  | `getRevolute`                  | Returns the revolute constraint of given reference                       | [api](references/api/assembly.md) |
-| 23  | `cylindrical`                  | Creates a new cylindrical constraint                                     | [api](references/api/assembly.md) |
-| 24  | `updateCylindrical`            | Updates an existing cylindrical constraint                               | [api](references/api/assembly.md) |
-| 25  | `getCylindrical`               | Returns the cylindrical constraint of given reference                    | [api](references/api/assembly.md) |
-| 26  | `parallel`                     | Creates a new parallel constraint                                        | [api](references/api/assembly.md) |
-| 27  | `updateParallel`               | Updates an existing parallel constraint                                  | [api](references/api/assembly.md) |
-| 28  | `getParallel`                  | Returns the parallel constraint of given reference                       | [api](references/api/assembly.md) |
-| 29  | `planar`                       | Creates a new planar constraint                                          | [api](references/api/assembly.md) |
-| 30  | `updatePlanar`                 | Updates an existing planar constraint                                    | [api](references/api/assembly.md) |
-| 31  | `getPlanar`                    | Returns the planar constraint of given reference                         | [api](references/api/assembly.md) |
-| 32  | `slider`                       | Creates a new slider constraint                                          | [api](references/api/assembly.md) |
-| 33  | `updateSlider`                 | Updates an existing slider constraint                                    | [api](references/api/assembly.md) |
-| 34  | `getSlider`                    | Returns the slider constraint of given reference                         | [api](references/api/assembly.md) |
-| 35  | `spherical`                    | Creates a new spherical constraint                                       | [api](references/api/assembly.md) |
-| 36  | `updateSpherical`              | Updates an existing spherical constraint                                 | [api](references/api/assembly.md) |
-| 37  | `getSpherical`                 | Returns the spherical constraint of given reference                      | [api](references/api/assembly.md) |
-| 38  | `gear`                         | Creates a new gear relation                                              | [api](references/api/assembly.md) |
-| 39  | `updateGear`                   | Updates an existing gear relation                                        | [api](references/api/assembly.md) |
-| 40  | `getGear`                      | Returns the gear relation of given reference                             | [api](references/api/assembly.md) |
-| 41  | `group`                        | Creates a new group constraint                                           | [api](references/api/assembly.md) |
-| 42  | `updateGroup`                  | Updates an existing group constraint                                     | [api](references/api/assembly.md) |
-| 43  | `getGroup`                     | Returns the group constraint of given reference                          | [api](references/api/assembly.md) |
-| 44  | `deleteConstraint`             | Deletes constraints/relations from assemblies                            | [api](references/api/assembly.md) |
-| 45  | `update3DConstraintValue`      | Updates multiple limited values of constraints                           | [api](references/api/assembly.md) |
-| 46  | `linearPattern`                | Creates a new linear pattern constraint                                  | [api](references/api/assembly.md) |
-| 47  | `updateLinearPattern`          | Updates an existing linear pattern constraint                            | [api](references/api/assembly.md) |
-| 48  | `getLinearPattern`             | Returns the linear pattern constraint of given reference                 | [api](references/api/assembly.md) |
-| 49  | `circularPattern`              | Creates a new circular pattern constraint                                | [api](references/api/assembly.md) |
-| 50  | `updateCircularPattern`        | Updates an existing circular pattern constraint                          | [api](references/api/assembly.md) |
-| 51  | `getCircularPattern`           | Returns the circular pattern constraint of given reference               | [api](references/api/assembly.md) |
-| 52  | `transformInstance`            | Transforms instances by the given transformation                         | [api](references/api/assembly.md) |
-| 53  | `transformInstanceTo`          | Transforms instances to a given absolute transformation                  | [api](references/api/assembly.md) |
-| 54  | `startMovingUnderConstraints`  | Prepares to move constrained objects                                     | [api](references/api/assembly.md) |
-| 55  | `moveUnderConstraints`         | Attempts to move constrained objects                                     | [api](references/api/assembly.md) |
-| 56  | `finishMovingUnderConstraints` | Finishes moving the constrained objects                                  | [api](references/api/assembly.md) |
-| 57  | `setCurrentInstance`           | Sets the given instance or root assembly as the current                  | [api](references/api/assembly.md) |
-| 58  | `setCurrentProduct`            | Sets the current product                                                 | [api](references/api/assembly.md) |
-| 59  | `setIdent`                     | Sets a string identifier for an existing object                          | [api](references/api/assembly.md) |
-| 60  | `getWorkGeometry`              | Returns the id of a work geometry object from an assembly or instance    | [api](references/api/assembly.md) |
-| 61  | `calculateMassProperties`      | Calculates center of gravity and volume of the given object              | [api](references/api/assembly.md) |
-| 62  | `createUncommitedObject`       | Creates a new uncommited object (use with clear intention only)          | [api](references/api/assembly.md) |
+| 10  | `getProduct`                   | Returns the part or assembly template an instance references (one level) | [api](references/api/assembly.md) |
+| 11  | `deleteInstance`               | Deletes instances from root assembly, other instances or templates       | [api](references/api/assembly.md) |
+| 12  | `from`                         | Creates an assembly from a JSON-defined assembly or ECXML definition     | [api](references/api/assembly.md) |
+| 13  | `loadProduct`                  | Loads a product from file, data or url                                   | [api](references/api/assembly.md) |
+| 14  | `exportNode`                   | Exports a node from the assembly tree or a template from containers      | [api](references/api/assembly.md) |
+| 15  | `fastened`                     | Creates a new fastened constraint                                        | [api](references/api/assembly.md) |
+| 16  | `updateFastened`               | Updates an existing fastened constraint                                  | [api](references/api/assembly.md) |
+| 17  | `getFastened`                  | Returns the fastened constraint of given reference                       | [api](references/api/assembly.md) |
+| 18  | `fastenedOrigin`               | Creates a new fastened origin constraint                                 | [api](references/api/assembly.md) |
+| 19  | `updateFastenedOrigin`         | Updates an existing fastened origin constraint                           | [api](references/api/assembly.md) |
+| 20  | `getFastenedOrigin`            | Returns the fastened origin constraint of given reference                | [api](references/api/assembly.md) |
+| 21  | `revolute`                     | Creates a new revolute constraint                                        | [api](references/api/assembly.md) |
+| 22  | `updateRevolute`               | Updates a revolute constraint                                            | [api](references/api/assembly.md) |
+| 23  | `getRevolute`                  | Returns the revolute constraint of given reference                       | [api](references/api/assembly.md) |
+| 24  | `cylindrical`                  | Creates a new cylindrical constraint                                     | [api](references/api/assembly.md) |
+| 25  | `updateCylindrical`            | Updates an existing cylindrical constraint                               | [api](references/api/assembly.md) |
+| 26  | `getCylindrical`               | Returns the cylindrical constraint of given reference                    | [api](references/api/assembly.md) |
+| 27  | `parallel`                     | Creates a new parallel constraint                                        | [api](references/api/assembly.md) |
+| 28  | `updateParallel`               | Updates an existing parallel constraint                                  | [api](references/api/assembly.md) |
+| 29  | `getParallel`                  | Returns the parallel constraint of given reference                       | [api](references/api/assembly.md) |
+| 30  | `planar`                       | Creates a new planar constraint                                          | [api](references/api/assembly.md) |
+| 31  | `updatePlanar`                 | Updates an existing planar constraint                                    | [api](references/api/assembly.md) |
+| 32  | `getPlanar`                    | Returns the planar constraint of given reference                         | [api](references/api/assembly.md) |
+| 33  | `slider`                       | Creates a new slider constraint                                          | [api](references/api/assembly.md) |
+| 34  | `updateSlider`                 | Updates an existing slider constraint                                    | [api](references/api/assembly.md) |
+| 35  | `getSlider`                    | Returns the slider constraint of given reference                         | [api](references/api/assembly.md) |
+| 36  | `spherical`                    | Creates a new spherical constraint                                       | [api](references/api/assembly.md) |
+| 37  | `updateSpherical`              | Updates an existing spherical constraint                                 | [api](references/api/assembly.md) |
+| 38  | `getSpherical`                 | Returns the spherical constraint of given reference                      | [api](references/api/assembly.md) |
+| 39  | `gear`                         | Creates a new gear relation                                              | [api](references/api/assembly.md) |
+| 40  | `updateGear`                   | Updates an existing gear relation                                        | [api](references/api/assembly.md) |
+| 41  | `getGear`                      | Returns the gear relation of given reference                             | [api](references/api/assembly.md) |
+| 42  | `group`                        | Creates a new group constraint                                           | [api](references/api/assembly.md) |
+| 43  | `updateGroup`                  | Updates an existing group constraint                                     | [api](references/api/assembly.md) |
+| 44  | `getGroup`                     | Returns the group constraint of given reference                          | [api](references/api/assembly.md) |
+| 45  | `deleteConstraint`             | Deletes constraints/relations from assemblies                            | [api](references/api/assembly.md) |
+| 46  | `update3DConstraintValue`      | Updates multiple limited values of constraints                           | [api](references/api/assembly.md) |
+| 47  | `linearPattern`                | Creates a new linear pattern constraint                                  | [api](references/api/assembly.md) |
+| 48  | `updateLinearPattern`          | Updates an existing linear pattern constraint                            | [api](references/api/assembly.md) |
+| 49  | `getLinearPattern`             | Returns the linear pattern constraint of given reference                 | [api](references/api/assembly.md) |
+| 50  | `circularPattern`              | Creates a new circular pattern constraint                                | [api](references/api/assembly.md) |
+| 51  | `updateCircularPattern`        | Updates an existing circular pattern constraint                          | [api](references/api/assembly.md) |
+| 52  | `getCircularPattern`           | Returns the circular pattern constraint of given reference               | [api](references/api/assembly.md) |
+| 53  | `transformInstance`            | Transforms instances by the given transformation                         | [api](references/api/assembly.md) |
+| 54  | `transformInstanceTo`          | Transforms instances to a given absolute transformation                  | [api](references/api/assembly.md) |
+| 55  | `startMovingUnderConstraints`  | Prepares to move constrained objects                                     | [api](references/api/assembly.md) |
+| 56  | `moveUnderConstraints`         | Attempts to move constrained objects                                     | [api](references/api/assembly.md) |
+| 57  | `finishMovingUnderConstraints` | Finishes moving the constrained objects                                  | [api](references/api/assembly.md) |
+| 58  | `setCurrentInstance`           | Sets the given instance or root assembly as the current                  | [api](references/api/assembly.md) |
+| 59  | `setCurrentProduct`            | Sets the current product                                                 | [api](references/api/assembly.md) |
+| 60  | `setIdent`                     | Sets a string identifier for an existing object                          | [api](references/api/assembly.md) |
+| 61  | `getWorkGeometry`              | Returns the id of a work geometry object from an assembly or instance    | [api](references/api/assembly.md) |
+| 62  | `calculateMassProperties`      | Calculates center of gravity and volume of the given object              | [api](references/api/assembly.md) |
+| 63  | `createUncommitedObject`       | Creates a new uncommited object (use with clear intention only)          | [api](references/api/assembly.md) |
 
 ---
 
 <a name="sketch"></a>
 
-## 4. Sketch — 41 APIs
+## 4. Sketch — 50 APIs
 
 2D sketch creation and editing: geometry (points, lines, arcs, circles, rectangles), constraints, dimensions, sketch regions, patterns (linear, circular, mirror), reference geometry, rigid sets, fillets, trimming, splitting, and geometry queries.
 
@@ -295,8 +300,17 @@ Assembly management: root assembly creation, templates, instances, constraints (
 | 37  | `getGeometry`             | Gets all sketch geometry from a sketch, region or rigid set           | [api](references/api/sketch.md) |
 | 38  | `getPoints`               | Gets the specific point ids of lines, arcs or circles                 | [api](references/api/sketch.md) |
 | 39  | `getPositions`            | Gets the specific positions of points, lines, arcs or circles         | [api](references/api/sketch.md) |
-| 40  | `deleteObject`            | Deletes dimensions, constraints, geometry, regions or rigid sets      | [api](references/api/sketch.md) |
-| 41  | `deleteSketch`            | Deletes existing sketches                                             | [api](references/api/sketch.md) |
+| 40  | `getObjectsLists`         | Id lists: points, curves, construction/solid split, constraints, dimension masters | [api](references/api/sketch.md) |
+| 41  | `getObjectInfo`           | One sketch object: kind, radius, flags, attached constraints, solver status | [api](references/api/sketch.md) |
+| 42  | `getGlobalState`          | Solver status (UNDEFINED/OK/FULLY_CONSTRAINED/OVERDEFINED/NOT_SOLVED) and entity counts | [api](references/api/sketch.md) |
+| 43  | `getDiagnosticsInfo`      | Unsatisfied and redundant constraints (solver ids) — the per-constraint failure check | [api](references/api/sketch.md) |
+| 44  | `getTopologyInfo`         | Crossing curves, near-miss point pairs, tiny curves — pre-extrusion defect check, not closure | [api](references/api/sketch.md) |
+| 45  | `deleteObject`            | Deletes dimensions, constraints, geometry, regions or rigid sets      | [api](references/api/sketch.md) |
+| 46  | `deleteSketch`            | Deletes existing sketches                                             | [api](references/api/sketch.md) |
+| 47  | `splitAllCurves`          | Deprecated — use `preTrim` (no curveIds subset; returns only new segment ids) | [api](references/api/sketch.md) |
+| 48  | `splitCurves`             | Deprecated — use `splitCurve` (per-curve id arrays, no sourceId/interval) | [api](references/api/sketch.md) |
+| 49  | `trimCurves`              | Deprecated — use `trim` (the same engine routine)                     | [api](references/api/sketch.md) |
+| 50  | `splitCurvesMergeBack`    | Deprecated — use `postTrim` (identical result)                        | [api](references/api/sketch.md) |
 
 ---
 
@@ -398,3 +412,4 @@ Practical workflow guides for complex multi-API tasks.
 | **Pattern → subtract** | N cutouts around an axis: one tool, merged pattern, single subtraction | [recipes/pattern-then-subtract.md](recipes/pattern-then-subtract.md) |
 | **Direct modeling (EIF)** | solid.* inside an entity injection: operation order, curve profiles with bulges, no recalc | [recipes/direct-modeling-eif.md](recipes/direct-modeling-eif.md) |
 | **Verification** (mandatory) | Input-type-keyed: perception-first reference records for drawings/images + numeric tiers (mass props, bounds, brep probes) for every build | [recipes/verification.md](recipes/verification.md) |
+| **Your own app** | A buerli/React app around the model: the account's plan and token first, a saved OFB with expressions or the re-run script, run on localhost, deploy where the plan allows | [recipes/buerli-app.md](recipes/buerli-app.md) |

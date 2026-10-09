@@ -278,7 +278,7 @@ export function registerSelectionTools(server: McpServer, client: Client, share:
       description:
         'What the user has selected in the app docked into this session: faces, edges and vertices of a body, or objects of the model tree (sketch entities, dimensions, features). Call it when the user points at something instead of naming it ("this face", "the selected edges", "here"). ' +
         'Each item has `kind` (face | edge | vertex | object) and `objectId` — the tree object: the picked object itself, or the solid a picked face, edge or vertex belongs to (`object` names its class). Geometry also has `graphicId`, the id API calls take for that face, edge or vertex (e.g. v1.sketch.create({ planeId })), its `type` (plane, cylinder, line, arc, …), `containerId` and `prodRefId`. ' +
-        'Geometry ids describe the model as it is now: a feature that rebuilds the body gives its faces and edges new ids. Read the selection right before you use it.',
+        'A selection keeps the ids it was made with: after a feature rebuilds the body, its `containerId` and `objectId` name the old, consumed body (faces and edges the feature did not touch keep their `graphicId`; a recalc renumbers them all). Read the selection right before you use it.',
       inputSchema: {},
     },
     async () => {
@@ -302,7 +302,7 @@ export function registerSelectionTools(server: McpServer, client: Client, share:
             z.object({
               graphicId: z.number().optional().describe('A face, edge or vertex: its element id.'),
               objectId: z.number().optional().describe('A tree object (sketch entity, dimension, feature) — or, with graphicId, the solid that owns the element.'),
-              containerId: z.number().optional().describe('The body\'s graphic container, when known (the app finds it otherwise).'),
+              containerId: z.number().optional().describe('The body\'s current graphic container (the part\'s `solids`). Pass it after a rebuild: without it the app takes the first container holding the graphicId, which can be the old, consumed body\'s.'),
               prodRefId: z.number().optional().describe('The assembly instance, when the part is one (from get_selection).'),
             }),
           )

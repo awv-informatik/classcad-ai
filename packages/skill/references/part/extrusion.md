@@ -10,7 +10,7 @@ Parametric extrusion feature: sweeps a closed 2D sketch profile along a directio
 ## Key Parameters
 
 - `id` — **part ID** (not sketch, region, or EIF ID)
-- `references` — **required**. Sketch region IDs or contour element (curve) IDs — both work. Must be closed (open → "not manifold"). Multiple loops in one array form holes (see below). Multiple region IDs → multiple independent bodies from one feature.
+- `references` — **required**. Sketch region IDs or contour element (curve) IDs — both work. Must be closed (open → "not manifold"; one stray open curve among the ids is enough). Multiple loops in one array form holes (see below). Multiple region IDs → multiple independent bodies from one feature. **No construction curves:** mixed into curve ids → maxLevel 51 "Selection of construction geometry is not allowed." although the body IS built (do not retry — that stacks a second body); inside a region → 51 "There is at least one construction curve in the region …", no body. `sketch.getObjectsLists().solidGeometry` is the non-construction set.
 - `type` — `'UP'` (default, +sketch normal), `'DOWN'`, `'SYMMETRIC'`, `'CUSTOM'` (uses `direction`)
 - `limit2` — distance (default 100). Numbers or expressions (`'@expr.H'`). Negative reverses direction
 - `limit1` — start offset, CUSTOM only (default 0)
@@ -40,7 +40,7 @@ Feature ID (numeric), maxLevel 31; works with `openFeature`, `closeFeature`, `up
 - **Containment is even-odd**: an island inside a hole materializes again — `[r40, r20, r8]` → annulus + island post (volume matches analytic sum).
 - **Loop order is irrelevant** — `[inner, outer]` ≡ `[outer, inner]`.
 - **Disjoint outers combine in one call**, each hole assigned to its containing outer (two plates + their two holes → both plates-with-holes from one feature).
-- **Loops must not touch or cross.** A hole straddling the outline fails with error 1121 "Curves … self intersect at least at position {x,y,z}" — and STILL returns a feature id at maxLevel 51 that you must `deleteFeature`.
+- **Loops must not touch or cross.** A hole straddling the outline fails with error 1121 "Curves … self intersect at least at position {x,y,z}" — and STILL returns a feature id at maxLevel 51 that you must `deleteFeature`. Pre-check with [`sketch.getTopologyInfo`](../sketch/getTopologyInfo.md): its `intersectingCurves` names the crossing pair and point. Two loops sharing a collinear edge are NOT reported there and fail with position "unknown".
 - **`CC_SketchRegion` exists only AFTER a curve-based extrusion** (child of the sketch, named "SketchRegion"); a fresh sketch has none, so a first extrusion goes by curve ids. `getSketchRegion({ id: partId, name: 'SketchRegion' })` resolves it; passing that region id re-extrudes the SAME multi-loop profile, holes included (volume exactly doubled extruding the region the other way).
 - `updateExtrusion` can change `references` too (e.g. rectangle → circle) inside `openFeature`/`closeFeature`; error 1200 "not active and open" means the feature was not opened.
 

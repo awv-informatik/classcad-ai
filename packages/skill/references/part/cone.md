@@ -11,7 +11,7 @@ Parametric cone (frustum) feature in a part's feature tree (unlike `solid.cone`,
 - `height` — Z height (default 100), > 0
 - `references` — array of **workCSys IDs only**; cone placed at the csys origin and follows its orientation (axis = csys z). Empty/omitted = drawing origin
 
-Dimensions accept numbers or expression strings (`'@expr.BD'`, `'4*20'`, `'sqrt(100)'`) at creation and update. With `@expr.` references, changing the expression + recalc updates the cone.
+Dimensions accept numbers or expression strings (`'@expr.BD'`, `'4*20'`, `'sqrt(100)'`) at creation and update. With `@expr.` references, `part.updateExpression` updates the cone at once (no recalc).
 
 ## Return Value
 

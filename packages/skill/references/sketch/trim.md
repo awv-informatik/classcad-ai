@@ -28,12 +28,13 @@ api.v1.sketch.trim({ id: skId, curveIds: [seg1, seg2] }) // VOID, maxLevel 31
 | missing `curveIds` / missing `id` | mL51 **1004** "must be provided" |
 | wrong-type `id` (part/point) | mL51 **1001** `["sketch"]` |
 | wrong-type `curveIds` element (sketch/point/constraint) | mL51 **1001** `["sketch-curve"]` |
-| **duplicate `[s,s]`** | **mL51, NOT idempotent** — atomic, other segments untouched (preTrim accepts duplicates) |
+| **duplicate `[s,s]`** | **mL51, NOT atomic** — ids before the 2nd occurrence are already trimmed (`[a,a,b]` removes a, keeps b); de-duplicate first (preTrim accepts duplicates) |
 | bogus / nonexistent id | **atomic mL51 1006**, valid segments untouched (preceding level-41 `ToId` warning observed for preTrim) |
 | **dead** segment id (already trimmed, or killed by re-`preTrim`) | **mL51 1006** |
-| real **but unstaged** curve id (original `sourceId`) | **silent per-element skip, mL31** — valid segments in the same call still trimmed |
+| real **but unstaged** curve id (original `sourceId` of a split curve) | **silent per-element skip, mL31** — valid segments in the same call still trimmed |
+| an **unsplit** curve's id (`id === sourceId`, staged as itself) | **mL31, the whole curve is deleted** (dead at once, gone after postTrim) |
 
-**Rule:** dead/nonexistent id → whole call fails (1006). Real-but-unstaged id → silently ignored. Easy to think a trim worked when it removed nothing.
+**Rule:** dead/nonexistent id → whole call fails (1006). The original id of a split curve → silently ignored; an unsplit curve's own id → the whole curve goes. Easy to think a trim worked when it removed nothing.
 
 ## Gotchas
 
@@ -61,4 +62,4 @@ await api.v1.sketch.postTrim({ id: skId })
 
 ## Related
 
-`sketch.preTrim` · `sketch.postTrim` · `sketch.getPositions` · `~~sketch.trimCurves~~` (deprecated; many-segment worker hang — use `trim`)
+`sketch.preTrim` · `sketch.postTrim` · `sketch.getPositions` · [trimCurves.md](trimCurves.md) (deprecated; the same engine routine as `trim`)

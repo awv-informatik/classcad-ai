@@ -10,7 +10,7 @@ Prerequisites: an assembly exists (`assembly.create`) and the drawing is in asse
 
 ## Return Value
 
-VOID (`null`), maxLevel 31. The old root ID becomes the template's ID; the new root gets a higher ID. `structure.root` and `structure.currentProduct` switch to the new root.
+VOID (`null`), maxLevel 31. The old root ID becomes the template's ID (class `CC_Assembly`); the new root (`CC_AssemblyRoot`) gets a higher ID and becomes the current product.
 
 ## Spatial Behavior
 
@@ -46,8 +46,8 @@ await api.v1.assembly.instance({
   transformation: [[25, 15, 10], [1, 0, 0], [0, 1, 0]],
 })
 
-const r = await api.v1.assembly.convertToTemplate({ name: 'SubAsm' })  // result null, maxLevel 31
-const newRoot = r.structure.root  // e.g. 137
+await api.v1.assembly.convertToTemplate({ name: 'SubAsm' })  // result null, maxLevel 31
+const newRoot = Object.values(await api.tree({ refresh: true })).find((n) => n.class === 'CC_AssemblyRoot').id // e.g. 107
 
 const convertedId = (await api.v1.assembly.getAssemblyTemplate({ name: 'SubAsm' })).result  // === asmId
 await api.v1.assembly.instance({ productId: convertedId, ownerId: newRoot })

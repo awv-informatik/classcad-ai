@@ -2,8 +2,7 @@
 
 AI assistant for [buerli](https://buerli.io)/ClassCAD applications. Adds a chat panel to
 your app that creates and modifies 3D geometry through natural language — connect any
-tool-calling LLM; all CAD operations execute locally in the browser. See it in action in
-[buerligons](https://buerligons.io), our open CAD modeler.
+tool-calling LLM; all CAD operations execute locally in the browser.
 
 ![intro](./intro.jpg)
 

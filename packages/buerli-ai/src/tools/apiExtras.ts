@@ -4,8 +4,8 @@
 // callable namespaces (v0, and buerli's drawing APIs: structure/interaction/
 // selection/geometry) have no registry, so list_methods reflects their method
 // NAMES at runtime — but names alone make the model guess args. This map adds
-// hand-written docs for the high-value methods so describe_method / call_api
-// errors can show a real signature. Keep it small and accurate (only entries
+// hand-written docs for the high-value methods so docs([...]) and list_methods
+// can show a real signature. Keep it small and accurate (only entries
 // that have been verified); everything else is still discoverable by reflection.
 
 export type ExtraEntry = {

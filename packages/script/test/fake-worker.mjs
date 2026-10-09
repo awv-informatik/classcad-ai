@@ -8,7 +8,9 @@
 //   • GetTree always carries the structure (explicit request)
 //   • an Execute with a v1.common.requestVisualisation task always carries
 //     the graphic (explicit request)
-// Records every incoming frame so tests can assert what the client sent.
+// Records every incoming frame so tests can assert what the client sent;
+// sibling() sends every connection a frame as the server fans out another
+// participant's (no request of its own answered by it).
 import { WebSocketServer } from 'ws'
 
 /** Server-side defaults of a fresh WS connection (CommandConfig.h). */
@@ -78,7 +80,8 @@ export async function startFakeWorker(opts = {}) {
     })
   })
   const url = `ws://127.0.0.1:${wss.address().port}/`
-  return { url, frames, close: () => new Promise(r => wss.close(() => r())) }
+  const sibling = frame => { for (const ws of wss.clients) ws.send(JSON.stringify(frame)) }
+  return { url, frames, sibling, close: () => new Promise(r => wss.close(() => r())) }
 }
 
 export const isMutation = f => f.command === 'Execute' && !/setDatabaseSettings|getAppVersion/.test(JSON.stringify(f.task ?? ''))

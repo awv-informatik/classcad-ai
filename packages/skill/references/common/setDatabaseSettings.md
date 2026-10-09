@@ -38,12 +38,12 @@ Sphere r=20, facetingParamsMode=0:
 
 | chordHeightTol | Vertices | Indices |
 |---|---|---|
-| 0.01 | 8385 | 48384 |
-| 0.05 | 2017 | 11328 |
-| 0.1 (default) | 1697 | 9600 |
-| 0.5 | 277 | 1392 |
-| 1 | 153 | 672 |
-| 5 | 85 | 288 |
+| 0.01 | 8131 | 48384 |
+| 0.05 | 1923 | 11328 |
+| 0.1 (default) | 1635 | 9600 |
+| 0.5 | 247 | 1392 |
+| 1 | 123 | 672 |
+| 5 | 55 | 288 |
 
 100× tighter tolerance → ~50–70× more vertices. 0.1 is a good balance, 0.01 high quality, 1+ fast/coarse.
 
@@ -53,10 +53,10 @@ Max angle between adjacent facet normals; when both are set, whichever demands m
 
 | angleTol | Vertices (cht=100) | Vertices (cht=0.1) |
 |---|---|---|
-| 0 (disabled) | n/a | 1,697 |
-| 5 | 8,385 | 8,385 (angle wins) |
-| 15 | 561 | 1,697 |
-| 30 | 154 | 1,697 (chord wins) |
+| 0 (disabled) | n/a | 1,635 |
+| 5 | 8,131 | 8,131 (angle wins) |
+| 15 | 499 | 1,635 |
+| 30 | 120 | 1,635 (chord wins) |
 
 Full model: `faceting-concepts.md`.
 

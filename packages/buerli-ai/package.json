@@ -1,6 +1,6 @@
 {
   "name": "@buerli.io/ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Portable AI agent panel for buerli-based CAD applications",
   "license": "MIT",
   "keywords": [

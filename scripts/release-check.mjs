@@ -12,7 +12,7 @@
 // dependency order, the order they must be published in. Exit 1 on a mismatch.
 import { existsSync, readFileSync } from 'node:fs'
 
-const PACKAGES = ['skill', 'script', 'renderer', 'mcp']
+const PACKAGES = ['skill', 'script', 'renderer', 'buerli-ai', 'mcp']
 const json = p => JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8'))
 const fail = msg => {
   console.error(`release-check: ${msg}`)

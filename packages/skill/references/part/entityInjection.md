@@ -18,8 +18,8 @@ The EI feature ID (numeric) — pass as `id` to `solid.box`/`cylinder`/`sphere`/
 - **Retrieval by name via `part.getFeature`** works once the EIF contains a solid (`getFeature({ id, name: 'Geometry' })`); on an empty EIF it fails with "does not contain any entities".
 - **No `updateEntityInjection` API.** Rename with `common.setObjectName`; delete with `part.deleteFeature({ ids: [eifId] })` (cascades — all contained solids/curves are deleted). `deleteFeature({ id: eifId })` fails with error 1004 — it takes `ids` (array).
 - **`openFeature` / `closeFeature`** accept EI IDs without error (VOID, maxLevel=31).
-- **`bodies` member is misleading** — always an empty array. Contained solids appear in the node's `children`; don't enumerate via `bodies`.
-- **Two IDs per solid:** feature-level ID (in `EI.children`, returned by `solid.*` creation) and geometry-level ID (in `part.solids`). Use the feature-level one.
+- **`bodies` member is misleading** — an array member that stays empty (`members.bodies.members: []`, no `value`). Contained solids are the node's `children` (the `CC_Solid` ids `solid.*` returns); don't enumerate via `bodies`.
+- **Two IDs per solid:** the `CC_Solid` id (in `EI.children`, returned by `solid.*` creation) and the graphic container id (in the part node's `solids`, renumbered on re-tessellation, accepted only by `requestVisualisation`). Use the `CC_Solid` id.
 
 ## Structure Tree
 

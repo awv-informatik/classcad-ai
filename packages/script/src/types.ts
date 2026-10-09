@@ -12,7 +12,7 @@ export interface Envelope {
 /** A harness-style task: `{ 'v1.part.box': [{ id: 4, length: 100 }] }`. */
 export type Task = Record<string, [Record<string, unknown>?]>
 
-// ── The data contract (distilled in the skill's DATA.md; depth in STRUCTURE.md/GRAPHICS.md) ──
+// ── The data contract (documented in @classcad/skill: DATA, depth in STRUCTURE and GRAPHICS) ──
 
 /**
  * A structure-tree node. Tree ids are STABLE for the session — safe to store
@@ -112,7 +112,7 @@ export interface ScriptSession {
   /**
    * Current graphic payload (containers with meshes/edges/…), or null when none
    * exists. `recalc: false` skips the recalc-first strategy (EIF/direct-modeling
-   * sessions — recalc destroys injected bodies).
+   * sessions — a recalc can destroy injected bodies).
    */
   getGraphic(opts?: { recalc?: boolean }): Promise<Graphic | null>
   /** Optional client capabilities injected into the script api (e.g. buerli's facade/structure/selection). */

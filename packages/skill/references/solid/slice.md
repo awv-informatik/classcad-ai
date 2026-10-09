@@ -32,7 +32,7 @@ Box, sphere, cylinder, cone, extrusion (complex profile), boolean union result, 
 
 ## Gotchas
 
-- **Auto-scaling hides size changes** — a solo solid sliced in half snapshots identically. Verify numerically via `r.graphic.containers[].properties.min/max`, or include a reference body.
+- **Auto-scaling hides size changes** — a solo solid sliced in half snapshots identically. Verify numerically via `(await api.graphic()).containers[].properties.min/max` (80×60×40 box cut at z=0: max z 20 → 0), or include a reference body.
 - No `updateSlice` / `deleteSlice` — one-shot destructive operation.
 
 ## Working Example

@@ -1,6 +1,6 @@
 # sketch.splitCurve
 
-Splits sketch curves at explicit normalized parameters in one standalone call. Replaces deprecated `splitCurves` (flat `Array<Array<id>>`, no `sourceId`/`interval`). To cut at **intersections**, use `preTrim → trim → postTrim` instead. Solver-independent: no `planeId` needed, identical on planeless sketches.
+Splits sketch curves at explicit normalized parameters in one standalone call. Replaces deprecated [splitCurves](splitCurves.md) (per-curve id arrays `Array<Array<id>>`, no `sourceId`/`interval`). To cut at **intersections**, use `preTrim → trim → postTrim` instead. Solver-independent: no `planeId` needed, identical on planeless sketches.
 
 ## Key Parameters
 

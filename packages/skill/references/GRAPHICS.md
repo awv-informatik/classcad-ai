@@ -1,72 +1,79 @@
-# Graphics — the graphic payload (protocol version 9)
+# Graphics — the graphic payload (protocol version 11)
 
-The graphic payload carries the **tessellated geometry** the engine has
-rendered for the current model — meshes, edges, sketches, work geometry. Its
-model-side counterpart is the structure tree ([STRUCTURE.md](STRUCTURE.md));
-the distilled day-to-day subset is [DATA.md](DATA.md). The engine streams it
-in `frame.graphic`; the shape follows the engine's
-`graphicProtocolSchema.json` (version 9).
+The graphic payload carries the **tessellated geometry** of the model — one
+container per body the part holds (consumed bodies included), plus the curves
+of sketches a feature has used. Its model-side counterpart is the structure
+tree ([STRUCTURE.md](STRUCTURE.md)); the distilled day-to-day subset is
+[DATA.md](DATA.md). The engine sends it in `frame.graphic`; its shape follows
+the engine's `graphicProtocolSchema.json`, and live payloads carry fewer
+properties than the schema allows — this file describes what arrives.
 
 ## Top-level shape
 
 ```jsonc
 {
-  "containers":  [ /* GraphicContainer[] — required, ≥1 */ ],
+  "containers":  [ /* GraphicContainer[] */ ],
   "properties": {
-    "version": 9                   // required, integer ≥ 9
+    "version": 11
   }
 }
 ```
 
-All graphic data lives at the **global origin**. To render an assembly
-correctly, walk the structure tree and apply the accumulated
-`coordinateSystem` transforms (see [STRUCTURE.md](STRUCTURE.md)).
+A part's graphic data lives in world coordinates. In an assembly the payload
+holds one container per template body in template-local coordinates — walk the
+structure tree and apply the accumulated `coordinateSystem` transforms (see
+[STRUCTURE.md](STRUCTURE.md)).
 
 ## GraphicContainer
 
-A container is the renderable bundle for one source object — a solid, a
-curve shape, a sketch, etc. The `id` matches an `ObjectID` in the structure
-tree. Required keys: `id`, `owner`, `properties`. All other keys are
-**optional payload arrays** — a container only carries the buckets that
-apply to it (a solid has `meshes` + `edges`, a sketch has `lines` +
-`coordinateSystems`, etc.).
+A container is the renderable bundle for one body or curve. Its `id` is a
+graphic id, never a tree node: the same id the part lists in `solids` and the
+owner lists in `geometryIdList`, new on every re-tessellation. `owner` is the
+tree node it belongs to — the `CC_Solid` for a body, the curve for a sketch
+curve.
 
 ```jsonc
 {
-  "id":    <integer>,              // matches a node in structure.tree
-  "owner": <integer>,              // owning node ID (often the structural parent)
+  "id":    <integer>,              // container id (= part.solids / owner.geometryIdList entry)
+  "owner": <integer>,              // the CC_Solid (type 1) or the sketch curve (type 2)
+  "type":  <integer>,              // 1 body, 2 curve
   "properties": {
-    "material": { "color": [r,g,b], "opacity": <number>,
-                  "type": <string>, "linetype": <string> },   // required
-    "layer":   <string>,           // required
-    "context": <string>,           // optional
-    "min":     [x,y,z],            // required — bounding-box min
-    "max":     [x,y,z]             // required — bounding-box max
+    "material": { "color": [r,g,b], "opacity": <number> },   // color 0–255
+    "layer":    <string>,
+    "min":      [x,y,z],           // bounding-box min
+    "max":      [x,y,z],           // bounding-box max
+    "chordHeightTol": <number>,    // the tessellation it was built with
+    "angleTol":       <number>
   },
 
-  // Payload buckets (all optional, all min 1 item if present):
-  "meshes":            <Mesh[]>,
-  "edges":             <Edge[]>,
-  "lines":             <Line[]>,
-  "vertices":          <Vertex[]>,
-  "namedPoints":       <NamedPoint[]>,
-  "arcs":              <Arc[]>,
-  "cones":             <Cone[]>,
-  "labels":            <Label[]>,
-  "coordinateSystems": <CoordSys[]>
+  // Payload buckets — a container carries only the ones that apply:
+  "meshes":   <Mesh[]>,
+  "edges":    <Edge[]>,            // doCurveTessellation on (what scripts run with)
+  "lines":    <Line[]>,            // doCurveTessellation off: straight edges ...
+  "arcs":     <Arc[]>,             // ... and circular ones
+  "vertices": <Vertex[]>
 }
 ```
 
-### Container `type` (runtime field, **not in schema**)
+A body (type 1) carries `meshes`, `edges` and `vertices`; with
+`doCurveTessellation` off it carries `meshes`, `lines`, `arcs` and `vertices`
+and no `edges` key. The edge ids are the same either way. The schema also
+defines `namedPoints`, `cones`, `labels` and `coordinateSystems` buckets.
 
-The schema does not formalise it, but the live WS protocol tags each
-container with an integer `type` field that consumers dispatch on. Observed
-values:
+### Container `type` (runtime field, **not in schema**)
 
 | `type` | Meaning            | Typical payload                        |
 | -----: | ------------------ | -------------------------------------- |
-|    `1` | Solid container    | `meshes`, `edges`                      |
-|    `2` | Curve container    | `edges` (+ accumulated across calls)   |
+|    `0` | The object itself (`id === owner`) | none for a solid or a sketch curve; `coordinateSystems` for a work csys |
+|    `1` | Body               | `meshes`, `edges`, `vertices`          |
+|    `2` | Curve              | `edges` (+ accumulated across calls)   |
+
+Type 2 covers `curve.*` shapes and the curves of a sketch once a feature has
+used it (an unused sketch has no container; a drawing without a body has no
+containers). Type 0 containers come from the WASM engine, which also sends the
+model objects themselves: an empty one per solid and per used sketch curve, and
+one with `coordinateSystems` per work coordinate system — pick bodies by
+`type === 1` (or by `meshes`), not by owner alone.
 
 > **Live-protocol gotcha.** For curve containers (type 2), the server only
 > pushes graphic data on the **first** curve added to a shape. Subsequent
@@ -74,29 +81,17 @@ values:
 > cache therefore merges incoming curve containers into the cached set by ID,
 > while replacing non-curve containers wholesale on each frame.
 
-Other observed types correspond to sketches and work geometry — confirm
-empirically when needed (the renderer auto-detects via the payload bucket
-shape, not the type tag alone).
+## Material & properties
 
-## Material & properties shorthand
-
-Every payload item carries the same `properties.material` shape:
-
-```ts
-type Material = {
-  color: [r: integer, g: integer, b: integer]   // 0–255
-  opacity: number                               // 0..1 typically
-  type?: string                                 // material variant
-  linetype?: string                             // line style for edges/lines
-}
-```
-
-`layer` and `context` are string tags; `layer` is required on all items,
-`context` is optional. The container-level `properties.min`/`max` is the
-axis-aligned bounding box for the whole container — useful for camera
-fitting and culling.
+Material lives on the container: `properties.material = { color: [r, g, b]
+(0–255), opacity }`, plus `layer` and the bounding box `min`/`max` — useful
+for camera fitting and culling. Meshes carry `properties = { operationId,
+surface }`; edges, lines, arcs and vertices carry no `properties`.
 
 ## Payload buckets
+
+`meshes`, `edges`, `lines`, `arcs` and `vertices` are what parts and
+assemblies deliver; the other buckets below follow the schema.
 
 ### `meshes` — tessellated faces (solids)
 
@@ -110,9 +105,6 @@ type Mesh = {
   properties: {
     operationId: integer  // op that created this face — links back to features
     surface: Surface      // see below
-    material: Material
-    layer: string
-    context?: string
   }
 }
 ```
@@ -142,21 +134,20 @@ type Surface = {
 These let consumers identify analytic surfaces (cylinder vs free-form spline
 patch) without re-deriving from the mesh.
 
-### `edges` — 3D polylines
+### `edges` — brep edges as polylines
 
 ```ts
 type Edge = {
-  id: integer
+  id: integer                   // the edge's brep id (getGeometryIds returns the same)
   points: number[]              // flat [x0,y0,z0, ..., xn,yn,zn]
-  pointIds: integer[]           // ID per polyline vertex
-  properties: { material, layer, context? }
+  pointIds: integer[]           // vertex id per polyline point
 }
 ```
 
-### `lines` — 2D / planar polylines (sketches)
+### `lines` — straight edges (curve tessellation off)
 
-Same shape as `edges` (id + points + pointIds + properties). Conceptually
-the same, separated for sketches vs 3D edges.
+Same shape as `edges`, two points each. With `doCurveTessellation` off the
+straight edges arrive here and the circular ones in `arcs`.
 
 ### `arcs` — circular / arc geometry
 
@@ -170,7 +161,6 @@ type Arc = {
   radius: number
   isCircle: boolean             // explicit flag — angle≈2π can be misleading via rounding
   pointIds: integer[]
-  properties: { material, layer, context? }
 }
 ```
 
@@ -192,8 +182,7 @@ type Cone = {
 ```ts
 type Vertex = {
   id: integer
-  p: number[]                   // typically [x,y,z]
-  properties: { material, layer, context? }
+  p: number[]                   // [x,y,z]
 }
 ```
 
@@ -261,18 +250,21 @@ Tessellation density (chord-height tolerance, angle tolerance) is controlled
 by `v1.common.setDatabaseSettings`:
 
 - `chordHeightTol` — max distance between mesh and exact surface
-- `angleTol`       — max angle between adjacent normals
-- `doCurveTessellation` — enable curve discretisation
+- `angleTol`       — max angle between adjacent normals, in DEGREES (≥ 1, 0 = off)
+- `doCurveTessellation` — on: brep edges as `edges` polylines; off: `lines` + `arcs`
 - `isGraphicEnabled` / `isCCGraphicEnabled` / `isSketchGraphicEnabled` — gates
   for which graphic types get pushed
 
-Rendering clients (e.g. the classcad-mcp `snapshot` tool) typically set the
-relevant flags before requesting visualization.
+The next pull re-tessellates with new settings — no recalc needed. The
+settings are the engine's, not a connection's: every client on it gets the
+same ones. The script node session and the classcad-mcp switch on what their
+renders need.
 
 ## Identifying object provenance
 
 Each mesh's `properties.operationId` points back to the feature/operation
-that produced it. Combined with the container's `id`/`owner` (matching IDs
-in the structure tree), this lets you walk *back* from a rendered face to
-the part/feature that owns it — useful for picking, hover-info, and BREP
-introspection.
+that produced the face. Combined with the container's `owner` (the `CC_Solid`
+tree node; walk its parents to the feature and part), this lets you walk
+*back* from a rendered face to the part/feature that owns it — useful for
+picking, hover-info, and BREP introspection. Skip containers whose owner is
+consumed (`members.consumed.value === 1`).

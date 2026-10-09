@@ -1,6 +1,11 @@
 {
   "listDocs": {
-    "topics": [],
+    "topics": [
+      "DATA",
+      "GRAPHICS",
+      "PLANS",
+      "STRUCTURE"
+    ],
     "overviews": [
       "api/assembly",
       "api/common",
@@ -13,6 +18,7 @@
     ],
     "recipes": [
       "recipes/assembly-parameters",
+      "recipes/buerli-app",
       "recipes/constrained-sketching",
       "recipes/direct-modeling-eif",
       "recipes/parametric-part",
@@ -27,7 +33,6 @@
       "common/faceting-concepts",
       "common/format-comparison",
       "common/generic",
-      "common/state-tree",
       "common/userData",
       "part/brep-access-pattern",
       "part/expression-workflow",
@@ -40,7 +45,12 @@
     ]
   },
   "docIndex": [
+    "DATA — the tree & graphic contract for scripts",
+    "GRAPHICS — the graphic payload (protocol version 11)",
+    "PLANS — what a ClassCAD plan enables",
+    "STRUCTURE — the model tree",
     "recipes/assembly-parameters — Shared parameters across the parts of an assembly",
+    "recipes/buerli-app — Recipe — your own app around the model (buerli + React)",
     "recipes/constrained-sketching — Sketching Guide — Reproducing Technical Drawings in ClassCAD",
     "recipes/direct-modeling-eif — Direct modeling with solid.\\* inside an Entity Injection Feature (EIF)",
     "recipes/parametric-part — A truly parametric part (expressions + constrained sketches)",
@@ -53,7 +63,6 @@
     "common/faceting-concepts — Faceting Concepts — chordHeightTol, angleTol, Quality vs Performance",
     "common/format-comparison — Format Comparison — OFB vs STP vs STL vs SCG vs IWP vs DXF",
     "common/generic — Protocol Envelope",
-    "common/state-tree — Structure tree (server state model)",
     "common/userData — common.setUserData / getUserData / removeUserData / clearUserData / getUserDataKeys",
     "part/brep-access-pattern — Brep Geometry Access Pattern",
     "part/expression-workflow — Expression Workflow (End-to-End)",
@@ -65,12 +74,16 @@
     "solid/target-tools-pattern — The target/tools/keepTools Pattern"
   ],
   "methodIndex": {
-    "chars": 19998,
-    "sha": "940677d1fbc4",
+    "chars": 19981,
+    "sha": "6e2f94472781",
     "headings": [],
     "lines": 264
   },
   "bundleKeys": [
+    "DATA",
+    "GRAPHICS",
+    "PLANS",
+    "STRUCTURE",
     "api/assembly",
     "api/common",
     "api/curve",
@@ -100,6 +113,7 @@
     "assembly/getFastenedOrigin",
     "assembly/getInstance",
     "assembly/getPartTemplate",
+    "assembly/getProduct",
     "assembly/getWorkGeometry",
     "assembly/group",
     "assembly/instance",
@@ -144,7 +158,6 @@
     "common/setObjectCoordSystem",
     "common/setObjectName",
     "common/setUserData",
-    "common/state-tree",
     "common/transformObjectWithMatrix",
     "common/userData",
     "curve/advancedPolyline",
@@ -242,6 +255,7 @@
     "part/workPlane",
     "part/workPoint",
     "recipes/assembly-parameters",
+    "recipes/buerli-app",
     "recipes/constrained-sketching",
     "recipes/direct-modeling-eif",
     "recipes/parametric-part",
@@ -262,11 +276,15 @@
     "sketch/fillet",
     "sketch/generateAutoConstraints",
     "sketch/geometry",
+    "sketch/getDiagnosticsInfo",
     "sketch/getGeometry",
+    "sketch/getGlobalState",
+    "sketch/getObjectInfo",
     "sketch/getObjectsLists",
     "sketch/getPoints",
     "sketch/getPositions",
     "sketch/getSketchRegion",
+    "sketch/getTopologyInfo",
     "sketch/line",
     "sketch/linearPattern",
     "sketch/loadFrom",
@@ -281,8 +299,12 @@
     "sketch/setReferences",
     "sketch/setWorkPlane",
     "sketch/sketchRegion",
+    "sketch/splitAllCurves",
     "sketch/splitCurve",
+    "sketch/splitCurves",
+    "sketch/splitCurvesMergeBack",
     "sketch/trim",
+    "sketch/trimCurves",
     "sketch/undoFillet",
     "sketch/unlinkReferenceGeometry",
     "sketch/updateDimension",
@@ -320,7 +342,8 @@
     "DOC_ALIASES": {
       "SKETCHING": "recipes/constrained-sketching",
       "recipes/verify-numerically": "recipes/verification",
-      "recipes/drawing-reproduction": "recipes/verification"
+      "recipes/drawing-reproduction": "recipes/verification",
+      "common/state-tree": "STRUCTURE"
     },
     "SEARCH_SYNONYMS": {
       "split": [

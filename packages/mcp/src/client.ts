@@ -296,17 +296,25 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
    * Keeps the accumulated graphic in step with one reply of the local engine,
    * whoever asked. The engine never announces that a body is gone, so
    * containers are dropped here: all of them when the drawing is emptied
-   * (clear, load with doClear — a restored checkpoint included), and on every
-   * pull those whose owner left the model tree (a deleted feature, a clear
-   * that kept some ids). Without this a render shows bodies of earlier models
-   * next to the current one.
+   * (clear, load with doClear — a restored checkpoint included), a body's
+   * earlier tessellation when a new one arrives (a recalc, an expression
+   * change: same owner, new container id), and on every pull those
+   * whose owner left the model tree (a deleted feature, a clear that kept some
+   * ids). Without this a render shows bodies of earlier models next to the
+   * current one, and scripts read stale face and edge ids.
    */
   function absorb(req: Record<string, unknown>, res: EngineExecuteResult): void {
     if (res.decodeErrors?.length) log(`${String(req.command)}: dropped undecodable engine output (${res.decodeErrors.join('; ')})`)
     if (emptiesDrawing(req)) containers.clear()
     for (const pkg of res.binaryMessages ?? []) {
       for (const c of (pkg as any)?.containers ?? []) {
-        if (c && c.id != null) containers.set(String(c.id), c)
+        if (!c || c.id == null) continue
+        if (c.type === 1 && c.owner != null) {
+          for (const [key, old] of containers) {
+            if (key !== String(c.id) && old.type === 1 && old.owner === c.owner) containers.delete(key)
+          }
+        }
+        containers.set(String(c.id), c)
       }
     }
     for (const m of res.messages ?? []) {
@@ -336,7 +344,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     // database settings an app set may have replaced the ones renders need.
     if (req.command !== 'GetTree' && req.command !== 'Sync') {
       version++
-      if (touchesDatabaseSettings(req)) ensuredGeneration = -1
+      if (touchesDatabaseSettings(req)) ensured = null
     }
     absorb(req, res)
     for (const hear of replyListeners) hear(req, res, 'guest')
@@ -454,8 +462,12 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     const entry = pending.get(txId)
     if (!entry) {
       // A sibling's command (the server fans its frames out to everyone in the
-      // session): whatever it was, the model may be another one now.
-      if (frame.command === 'Result' && !READS.has(frame._from_)) version++
+      // session, the request not among them): whatever it was, the model may be
+      // another one now, and so may the database settings.
+      if (frame.command === 'Result' && !READS.has(frame._from_)) {
+        version++
+        ensured = null
+      }
       return
     }
     if (frame.command !== 'Result') return
@@ -624,11 +636,10 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     }
     if (!localEngine) {
       localEngine = await startLocalEngine({ ...opts.wasm!, log })
-      // A new engine has an empty drawing and default database settings.
-      // Checkpoints (save payloads held here) stay valid: restore loads them
-      // into this one.
+      // A new engine has an empty drawing (and default database settings:
+      // resetCaches). Checkpoints (save payloads held here) stay valid:
+      // restore loads them into this one.
       containers.clear()
-      ensuredGeneration = -1
       await bootstrapSession()
       for (const hear of engineStartListeners) hear()
     }
@@ -680,10 +691,14 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   /**
    * Fill BOTH caches with one GetTree. Not tracked — it is not a mutation.
    * GetTree always returns the structure; inside a suppressed script the
-   * kernel graphic is switched on around it and back to what it was.
+   * kernel graphic is switched on around it and back to what it was. The
+   * graphic comes under the database settings renders need (ensureGraphics).
    */
   async function pull(): Promise<void> {
+    // Taken before the settings are ensured: a sibling's command that lands
+    // in between (its own settings, maybe) leaves this pull stale.
     const at = version
+    await ensureGraphics()
     const toggle = graphics && knownKernel === false
     const read = async () => {
       await request('GetTree', {}, { track: false })
@@ -702,14 +717,20 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   // The engine omits brep EDGE data from graphic payloads until the graphic
-  // database settings are enabled — ensure once per (re)connect generation.
-  // Untracked: it changes engine settings, not the model.
-  let ensuredGeneration = -1
+  // database settings are enabled — ensured before a pull, once per engine
+  // link and (re)connect generation, and again after anyone else in the
+  // session ran a command: an app sets its own settings on every connect
+  // (doCurveTessellation off puts the edges into `lines`/`arcs`), and the
+  // fan-out of its command does not say which one it was. Untracked: it
+  // changes engine settings, not the model. Every reset comes with a stale
+  // graphic (version, resetCaches), so no graphic of other settings is kept.
+  let ensured: { generation: number; done: Promise<void> } | null = null
   async function ensureGraphics(): Promise<void> {
-    if (ensuredGeneration === generation) return
-    ensuredGeneration = generation
-    try {
-      await request(
+    // Opened first: opening resets this and pulls, and that pull must not
+    // wait for settings that are waiting for the open.
+    await ensureOpen()
+    if (ensured?.generation !== generation) {
+      const done = request(
         'Execute',
         {
           task: [
@@ -718,13 +739,19 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
           options: { undoable: false },
         },
         { track: false },
+      ).then(
+        () => {},
+        () => {
+          /* older servers — proceed without edges */
+        },
       )
-    } catch {
-      /* older servers — proceed without edges */
+      ensured = { generation, done }
     }
+    return ensured.done
   }
 
   async function getGraphic(o?: { recalc?: boolean }): Promise<Graphic | null> {
+    // Before the check: a connection opened here has pulled already.
     await ensureGraphics()
     // recalc is OPT-IN: it regenerates the whole model and DESTROYS
     // entity-injection bodies. The pull alone reflects the current model.
@@ -798,6 +825,8 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     treeVersion = -1
     graphicVersion = -1
     knownKernel = null
+    // Another engine link: its database settings are not known to be ours.
+    ensured = null
   }
 
   async function openWs(sessionId: string | null): Promise<void> {
@@ -821,6 +850,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     treeVersion = -1
     graphicVersion = -1
     knownKernel = null
+    ensured = null
 
     const wsOpts: WebSocket.ClientOptions = sessionId ? { headers: { 'ClassCAD-Session-Id': sessionId } } : {}
     const sock = new WebSocket(currentUrl, wsOpts)

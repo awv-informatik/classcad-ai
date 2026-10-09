@@ -54,7 +54,7 @@ Two `CC_Container` nodes (find by **name**; class is generic, ids vary):
 
 ## Gotchas
 
-- **`trim` with an ORIGINAL `sourceId` silently no-ops** (maxLevel 31). A bogus id atomic-fails (mL51, 1006; valid segs left intact). Multiple `trim()` calls before one `postTrim` are fine.
+- **`trim` with the ORIGINAL `sourceId` of a split curve silently no-ops** (maxLevel 31); an unsplit curve's id (`id === sourceId`) IS its staged part — trim deletes the whole curve. A bogus id atomic-fails (mL51, 1006; valid segs left intact). Multiple `trim()` calls before one `postTrim` are fine.
 - **Construction lines and rigidSet members are silent `[0,1]` passthrough** (id reused, maxLevel 31) — but STILL cut normal curves they cross. (`splitCurve` *errors* mL51 on rigidSet members.) Only signal: `id === sourceId`.
 - **Overlaps (silent):** identical fully-overlapping lines → both `[0,1]`, undetected; partial collinear overlap → overlap **duplicated** as a segment in both.
 - **`preTrim` twice without `postTrim`** overwrites staging: **first batch's segment ids go dead** (`getPositions` mL51) — never cache them across a re-preTrim. After `postTrim`, an empty **`NoneSplitted0` container leaks** (cosmetic).

@@ -656,8 +656,8 @@ function buildSystemPrompt(config: AgentConfig): string {
     prompt +=
       '\n\n## Method Index (v1)\n' +
       'Every ClassCAD v1 method with a one-line summary. Scan this to pick the right method DIRECTLY — ' +
-      'do not guess and do not default to list_methods for v1. Then call describe_method on it for exact ' +
-      'parameters before your first call_api. (list_methods is still for filtering, or for the reflected ' +
+      'do not guess and do not default to list_methods for v1. Then fetch the docs of every method the task needs ' +
+      'in ONE docs([...]) call before your first run_script. (list_methods is still for filtering, or for the reflected ' +
       'non-v1 namespaces — facade/structure/interaction/selection/geometry — which are NOT in this index.)\n\n' +
       index
   }
@@ -665,7 +665,8 @@ function buildSystemPrompt(config: AgentConfig): string {
   if (docIndex) {
     prompt +=
       '\n\n## Document Index\n' +
-      'Recipes (composed workflows) and guides (cross-cutting behavior), key — title. Fetch with docs([...]); ' +
+      'The data contract (DATA, STRUCTURE, GRAPHICS: what api.tree()/api.graphic() return), recipes (composed ' +
+      'workflows) and guides (cross-cutting behavior), key — title. Fetch with docs([...]); ' +
       'list_methods({ namespace: "v1", filter }) also ranks these by topic.\n\n' +
       docIndex
   }

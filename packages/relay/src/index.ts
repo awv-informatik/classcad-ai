@@ -35,14 +35,14 @@ const MEET_TIMEOUT_MS = 10_000
 /** How many guests one session takes at most: the most a plan names, and the host's own app. */
 const MAX_GUESTS = 17
 /**
- * Guests by the host's plan, as the plans name them (shareGuests in buerli-backend's plans.ts). Free
- * offers no sessions. A sign-in without a plan yet (a token from before the account's plan claim)
- * counts as the trial.
+ * Guests by the host's plan, as the plans name them by default (shareGuests in buerli-backend's
+ * plans.ts). The sign-in's `guests` claim wins: the number admins set for the plan or the contract.
+ * Free offers no sessions. A sign-in without either claim yet counts as the trial.
  */
 export const GUESTS_BY_PLAN: Record<string, number> = { free: 0, trial: 2, solo: 2, pro: 16, business: 16, contract: 16, staff: 16, admin: 16 }
 /** The host's own app comes in under the share link like a guest, so a session takes one more than its plan names. */
-export const guestsFor = (plan: string | null): number => {
-  const named = plan && plan in GUESTS_BY_PLAN ? GUESTS_BY_PLAN[plan] : 2
+export const guestsFor = (plan: string | null, claimed: number | null = null): number => {
+  const named = claimed != null ? claimed : plan && plan in GUESTS_BY_PLAN ? GUESTS_BY_PLAN[plan] : 2
   return named === 0 ? 0 : Math.min(MAX_GUESTS, named + 1)
 }
 /** How much a guest may say before the host met it. */
@@ -74,8 +74,8 @@ export default {
     if (hosted && !url.searchParams.get('guest')) {
       const account = await verify(request.headers.get('authorization'), env)
       if (!account) return refuse(401, 'Unauthorized')
-      const guests = guestsFor(account.plan)
-      if (guests === 0) return refuse(403, 'Sharing a session comes with Solo and up: https://classcad.ch/subscriptions')
+      const guests = guestsFor(account.plan, account.guests)
+      if (guests === 0) return refuse(403, 'Sharing a session is not part of your plan: https://classcad.ch/subscriptions')
       // One line per offer: the logs count the shares per account
       console.log(JSON.stringify({ event: 'offer', uid: account.uid, plan: account.plan, guests }))
       headers.set(UID_HEADER, account.uid)

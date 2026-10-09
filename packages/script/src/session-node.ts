@@ -1,7 +1,7 @@
 import { PendingRequests, completeGraphic, normalizeResult, withEmissionOverride } from './session-common.js'
 // Node/WS session — connects to a ClassCAD worker (classcad-cli) and
 // implements ScriptSession. Port of the battle-tested classcad-agent harness
-// client (curve-container accumulation, structure snapshots, INFO filtering).
+// client (structure snapshots, INFO filtering).
 //
 // The returned session ALSO satisfies the @classcad/renderer node-client
 // contract ({ execute, request, getLastGraphic, getGraphic }), so one
@@ -35,6 +35,9 @@ const REQUEST_TIMEOUT = 30_000
 import { PULL_GRAPHIC_ON, SUPPRESS_EMISSION } from './emission.js'
 // Re-exported for existing importers; the profiles live in ./emission.ts.
 export { SUPPRESS_EMISSION, PULL_GRAPHIC_ON }
+
+/** Requests whose Result changes neither the model nor the database settings. */
+const READS = new Set(['GetTree', 'Sync', 'GetEmissionConfig', 'SetEmissionConfig'])
 
 export interface NodeSessionOptions {
   requestTimeoutMs?: number
@@ -94,6 +97,9 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
   // default: on). Lets pull() decide without an extra round trip whether it
   // has to switch the kernel graphic on for the GetTree.
   let knownKernel: boolean | null = null
+  // The graphic database settings this session needs, once set (ensureGraphics);
+  // dropped when another participant's command may have replaced them.
+  let ensured: Promise<void> | null = null
 
   let outcomeUnknown = false
   const ws = new WebSocket(url)
@@ -123,7 +129,16 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
     const txId = frame._transactionID_
     if (!txId) return
     const entry = pending.get(txId)
-    if (!entry) return
+    if (!entry) {
+      // A sibling's command (the server fans its frames out to everyone in the
+      // session, the request not among them): whatever it was, the model may be
+      // another one now, and so may the database settings.
+      if (frame.command === 'Result' && !READS.has(frame._from_)) {
+        version++
+        ensured = null
+      }
+      return
+    }
     if (frame.command !== 'Result') return
     pending.delete(txId)
 
@@ -184,10 +199,14 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
   /**
    * Fill BOTH caches with one GetTree. Not tracked — it is not a mutation.
    * GetTree always returns the structure; inside a suppressed script the
-   * kernel graphic is switched on around it and back to what it was.
+   * kernel graphic is switched on around it and back to what it was. The
+   * graphic comes under the database settings scripts read (ensureGraphics).
    */
   async function pull(): Promise<void> {
+    // Taken before the settings are ensured: a sibling's command that lands
+    // in between (its own settings, maybe) leaves this pull stale.
     const at = version
+    if (graphics) await ensureGraphics()
     const toggle = graphics && knownKernel === false
     const read = async () => {
       await request('GetTree', {}, { track: false })
@@ -206,31 +225,34 @@ export async function connectSession(url: string = DEFAULT_URL, opts: NodeSessio
   }
 
   // The engine omits brep EDGE data from graphic payloads until the graphic
-  // database settings are enabled — ensure them ONCE, lazily, so scripts get
-  // full geometry from api.graphic() without knowing about the setting.
+  // database settings are enabled — ensured lazily before a pull, so scripts
+  // get full geometry from api.graphic() without knowing about the setting,
+  // and again after anyone else in the session ran a command: an app sets its
+  // own settings on every connect (doCurveTessellation off puts the edges into
+  // `lines`/`arcs`), and the fan-out of its command does not say which one it
+  // was. One promise, so pulls asked for at once wait for the same request.
   // Untracked: it changes engine settings, not the model.
-  let graphicsEnsured = false
-  async function ensureGraphics(): Promise<void> {
-    if (graphicsEnsured) return
-    graphicsEnsured = true
-    try {
-      await request(
-        'Execute',
-        {
-          task: [
-            {
-              'v1.common.setDatabaseSettings': [
-                { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
-              ],
-            },
-          ],
-          options: { undoable: false },
-        },
-        { track: false },
-      )
-    } catch {
-      /* older servers — proceed without edges */
-    }
+  function ensureGraphics(): Promise<void> {
+    ensured ??= request(
+      'Execute',
+      {
+        task: [
+          {
+            'v1.common.setDatabaseSettings': [
+              { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true },
+            ],
+          },
+        ],
+        options: { undoable: false },
+      },
+      { track: false },
+    ).then(
+      () => {},
+      () => {
+        /* older servers — proceed without edges */
+      },
+    )
+    return ensured
   }
 
   async function getGraphic(o?: { recalc?: boolean }): Promise<{ containers?: any[] } | null> {

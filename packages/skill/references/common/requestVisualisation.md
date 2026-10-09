@@ -40,12 +40,12 @@ r.graphic = { containers: [...] /* one per object */, properties: { version: 11 
     chordHeightTol: 0.1, angleTol: 0,
   },
   meshes: [...],   // triangulated faces: vertices, normals, indices, loops, surface metadata
-  lines: [...],    // edge polylines: { id, points, pointIds }
+  edges: [...],    // edge polylines: { id, points, pointIds } (doCurveTessellation 0: `lines` + `arcs` instead)
   vertices: [...], // { id, p: [x, y, z] }
 }
 ```
 
-Each mesh has `properties.surface.type` ("plane", "sphere", "cylinder", …) — identifies face types.
+Each mesh has `properties.surface.type` ("plane", "sphere", "cylinder", …) — identifies face types. Edges come as `edges` under the session's graphic settings (`doCurveTessellation` 1 — the default, and what `api.graphic()` ensures); with `doCurveTessellation` 0 they come as analytic `lines` + `arcs` and there is no `edges` key ([setDatabaseSettings](setDatabaseSettings.md)).
 
 ### Curve containers (type=2)
 
@@ -61,9 +61,9 @@ Returned mesh resolution follows the faceting parameters; per-feature faceting (
 
 | chordHeightTol | angleTol | Sphere (r=30) vertices |
 |---|---|---|
-| 0.1 (default) | 0 | 1,889 |
-| 5.0 | 45 | 147 |
-| 0.01 | 1 | 131,845 |
+| 0.1 (default) | 0 | 1,827 |
+| 5.0 | 45 | 120 |
+| 0.01 | 1 | 130,823 |
 
 ## Gotchas
 
@@ -90,8 +90,8 @@ if (c) {
   console.log('color:', c.properties.material.color)      // [128, 128, 128]
   console.log('opacity:', c.properties.material.opacity)  // 1
   console.log('bbox:', c.properties.min, c.properties.max) // [-30,-20,-15] [30,20,15]
-  console.log('keys:', Object.keys(c)) // id, owner, type, properties, meshes, lines, vertices
-  console.log('faces:', c.meshes?.length, 'edges:', c.lines?.length, 'vertices:', c.vertices?.length) // 6 12 8
+  console.log('keys:', Object.keys(c)) // id, owner, type, properties, meshes, edges, vertices
+  console.log('faces:', c.meshes?.length, 'edges:', c.edges?.length, 'vertices:', c.vertices?.length) // 6 12 8
 }
 ```
 

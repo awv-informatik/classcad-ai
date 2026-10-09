@@ -20,7 +20,8 @@ export const RECIPES_POINTER =
   '"recipes/assembly-parameters" covers values shared by several parts of an assembly (assemblies host no ' +
   'expressions — parameter part, refresh, constraints that follow parameters); ' +
   '"recipes/pattern-then-subtract" covers N cutouts around an axis; "recipes/direct-modeling-eif" is for ' +
-  'one-shot solids WITHOUT a dimensioned reference — never for drawing reproduction. ALWAYS include ' +
+  'one-shot solids WITHOUT a dimensioned reference — never for drawing reproduction; "recipes/buerli-app" ' +
+  'turns a model into the user\'s own web app. ALWAYS include ' +
   '"recipes/verification": every build ends in verification, so it belongs in the SAME bulk fetch as the ' +
   'build docs. Recipes encode the composed workflow WITH its pitfalls — imitating them is faster and safer ' +
   'than composing from method docs.'

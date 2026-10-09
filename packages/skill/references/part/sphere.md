@@ -6,7 +6,7 @@ Parametric sphere feature in a part's feature tree (unlike `solid.sphere`, direc
 
 - `id` — **part ID** (not entity injection ID — that's `solid.sphere`)
 - `name` — feature name (default: "Sphere")
-- `radius` — default 100, > 0. Numbers or expression strings (`'@expr.R'`, `'sqrt(900)'`, `'@expr.R * @expr.factor'`), at creation and update. With `@expr.` references, changing the expression + recalc updates the sphere.
+- `radius` — default 100, > 0. Numbers or expression strings (`'@expr.R'`, `'sqrt(900)'`, `'@expr.R * @expr.factor'`), at creation and update. With `@expr.` references, `part.updateExpression` updates the sphere at once (no recalc).
 - `references` — array of **workCSys IDs only**; sphere center at the csys origin. Empty/omitted = drawing origin
 
 ## Return Value

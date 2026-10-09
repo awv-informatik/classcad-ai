@@ -36,8 +36,8 @@ function isCallableNamespace(drawingId: ToolExecutorContext['drawingId'], ns: st
 }
 
 // All namespaces currently reachable on this drawing (for list_methods discovery).
-// Only object-valued keys are real namespaces — they're what `call_api` reaches via
-// "<namespace>.<method>" and what isCallableNamespace accepts. Function-valued keys
+// Only object-valued keys are real namespaces — they're what scripts reach as
+// `api.<namespace>.<method>(…)` and what isCallableNamespace accepts. Function-valued keys
 // (e.g. api.reset()) aren't callable that way, so listing them as namespaces would
 // contradict isCallableNamespace and make `list_methods({ namespace })` reject them.
 function listNamespaces(drawingId: ToolExecutorContext['drawingId']): string[] {
@@ -213,7 +213,7 @@ const listMethods: ToolHandler = async (input, ctx) => {
       note:
         `Reflected from the live API. Call as "${ns}.<method>" with POSITIONAL args (an array)` +
         (ns === 'facade' ? ' — the current drawing is auto-targeted, so pass only extra args.' : '.') +
-        ' Most have no docs — try describe_method, or call and learn from the result/error.',
+        ' Most have no docs — try docs(["<namespace>.<method>"]), or call and learn from the result/error.',
       methods: methods.map(m => ({ name: `${ns}.${m}`, summary: API_EXTRAS[`${ns}.${m}`]?.summary ?? '' })),
       subNamespaces: subNamespaces.map(s => `${ns}.${s}`),
     },
@@ -236,7 +236,7 @@ async function describeOne(method: string, ctx: ToolExecutorContext): Promise<To
       return {
         result:
           `"${ns}" is a namespace, not a method. Call list_methods({ namespace: "${ns}" }) to see its methods, ` +
-          `then describe_method("${ns}.<method>"). These methods take POSITIONAL args (an array).`,
+          `then docs(["${ns}.<method>"]). These methods take POSITIONAL args (an array).`,
       }
     }
     // Otherwise treat it as a v1 method name and look it up in the registry/skill.
@@ -347,7 +347,7 @@ const snapshot: ToolHandler = async (input, ctx) => {
   try {
     const session = browserSession(ctx.drawingId)
     if (renderOptions.recalc === true) {
-      if (drawingUsedSolidApi(ctx.drawingId)) throw new Error('Regeneration would destroy injected bodies; omit recalc')
+      if (drawingUsedSolidApi(ctx.drawingId)) throw new Error('Regeneration can destroy injected bodies and invalidates curve shape ids; omit recalc')
       const result = await session.execute({ 'v1.common.recalc': [{}] })
       if ((result.maxLevel ?? 0) >= 51) throw new Error('Snapshot regeneration failed')
     }

@@ -7610,7 +7610,8 @@
         "name": "param.id",
         "text": "id of the sketch to split all curves"
       }
-    ]
+    ],
+    "deprecated": "Use preTrim instead. splitAllCurves does not support subset splitting via curveIds and returns a flat array instead of structured per-curve results."
   },
   "v1.sketch.splitCurve": {
     "domain": "sketch",
@@ -7664,7 +7665,8 @@
         "name": "param.splits.values",
         "text": "split values for the curve to be split. values are in range of [0,1]. value represents position on the curve from its start to the end (or from 0 to 2*PI for circles)"
       }
-    ]
+    ],
+    "deprecated": "Use splitCurve instead (singular). This function returns a flat array. splitCurve returns a structured result with sourceId and intervals per curve."
   },
   "v1.sketch.splitCurvesMergeBack": {
     "domain": "sketch",
@@ -7679,7 +7681,8 @@
         "name": "param.id",
         "text": "id of the sketch to merge back splitted curves"
       }
-    ]
+    ],
+    "deprecated": "Use postTrim from trimming workflow instead."
   },
   "v1.sketch.trim": {
     "domain": "sketch",
@@ -7717,7 +7720,8 @@
         "name": "param.curveIds",
         "text": "ids of sketch curves to be trimmed away"
       }
-    ]
+    ],
+    "deprecated": "Use trim from trimming workflow instead."
   },
   "v1.sketch.undoFillet": {
     "domain": "sketch",

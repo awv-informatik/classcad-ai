@@ -11,7 +11,8 @@ ClassCAD is a headless, programmable parametric CAD engine driven entirely throu
 - [`SKILL.md`](SKILL.md) — entry point: domain index, all 264 APIs with one-line summaries, cross-cutting guides
 - `references/api/*.md` — source API documentation per domain (signatures, parameter tables, return types)
 - `references/<domain>/*.md` — per-API LLM docs: gotchas, dead ends, common errors, working examples
-- `recipes/*.md` — end-to-end verified workflow guides incl. `constrained-sketching.md`; the data contract (`DATA`/`STRUCTURE`/`GRAPHICS`) ships with [`@classcad/script`](https://www.npmjs.com/package/@classcad/script)
+- `recipes/*.md` — end-to-end workflow guides incl. `constrained-sketching.md`
+- `references/DATA.md`, `STRUCTURE.md`, `GRAPHICS.md` — the data contract: what `api.tree()` / `api.graphic()` return (served as `DATA`, `STRUCTURE`, `GRAPHICS`)
 - `method-registry.json` / `bundle.json` — build artifacts: the full v1 method registry (generated from engine JSDoc) and every doc bundled as JSON (browser-safe, no filesystem)
 
 Every per-API doc is **battle-tested**: the documented behavior was observed by executing real API calls against a live ClassCAD server — including the failure modes, silent no-ops, and doc discrepancies that source documentation doesn't cover.
@@ -43,11 +44,8 @@ discovery tools from this module — same code, same behavior, verbatim.
 import { createDiscovery, DOCS_TOOL } from '@classcad/skill/discovery'
 import registry from '@classcad/skill/method-registry.json' with { type: 'json' }
 import bundle from '@classcad/skill/bundle.json' with { type: 'json' }
-// The DATA/STRUCTURE/GRAPHICS contract docs are owned by the script medium —
-// hosts merge them in via `extraDocs` (the skill alone doesn't carry them):
-import { docs as scriptDocs } from '@classcad/script/docs'
 
-const discovery = createDiscovery({ registry, bundle, extraDocs: scriptDocs })
+const discovery = createDiscovery({ registry, bundle })
 const { text } = await discovery.bulkDocs(['DATA', 'v1.part.extrusion', 'v1.part.chamfer'])
 ```
 

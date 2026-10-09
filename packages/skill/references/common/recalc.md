@@ -8,13 +8,14 @@ Forces a full recalculation of the entire drawing. No parameters (`recalc()` ≡
 
 ## When recalc is NOT needed
 
-These auto-recalculate: `part.closeFeature`, `part.updateExpression` (that part, then solves assemblies containing it), `part.linkWithExpression`, `part.unlinkExpression`, `sketch.updateDimension`, `sketch.updateGeometry`, `common.load` (OFB — drawing is consistent), feature creation (box, extrusion, …).
+These auto-recalculate: `part.closeFeature`, `part.updateExpression` (that part, then solves assemblies containing it), `part.linkWithExpression`, `part.unlinkExpression`, `sketch.updateGeometry`, `common.load` (OFB — drawing is consistent), feature creation (box, extrusion, …). `sketch.updateDimension` re-solves its sketch at once — but see below for a sketch an extrusion consumes.
 
 ## When recalc IS useful
 
 - After manual state manipulation where consistency may be lost (e.g. batch operations modifying multiple features without close cycles).
 - As a "just in case" call when unsure whether an operation recalculated — it is idempotent.
 - In batch calls, to force a recalc between operations.
+- **After `sketch.updateDimension` on a sketch an extrusion consumes.** The sketch re-solves at once, but `part.calculateMassProperties` kept the extrusion's old volume (width 80 → 100: still 80 000) until `common.recalc()` (→ 100 000).
 - **After changing a value other parts read by path** (e.g. `Params.ExpressionSet.W`). `part.updateExpression` only regenerates the part it targets; `recalc()` re-evaluates every part. Each call is one pass, so a part reading a value through another consuming part needs a second call. See `recipes/assembly-parameters`.
 
 ## What recalc does not do
@@ -24,7 +25,8 @@ These auto-recalculate: `part.closeFeature`, `part.updateExpression` (that part,
 ## Gotchas
 
 - **Invalidates curve shape IDs.** After `recalc()`, all shape IDs from `curve.shape()` are invalid; `curve.translateShape` / `rotateShape` / `scaleShape` / `transformShape` with them fail with 1006. **Do all shape transforms BEFORE recalc** — and before any visualization/export step, since render/export pipelines often recalc internally.
-- Solid, sketch, feature and part IDs survive recalc; the invalidation is specific to curve shape IDs.
+- **Renumbers brep and graphic ids of feature-built bodies.** After `recalc()` every face/edge id (`getGeometryIds`, graphic `edges`/`meshes`) and every graphic container id (`part.solids`) is new; an old edge id throws "invalid id". Re-query them. `CC_Solid`, sketch, feature and part ids survive.
+- **Can destroy injected bodies.** In complex EIF sessions a recalc has destroyed the body (a sprocket blank minus many tools); a simple box − cylinder survived. Don't recalc in `solid.*` flows; keep `recalc: false` (the default) on `api.graphic()` and snapshots.
 
 ## Common Errors
 

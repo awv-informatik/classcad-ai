@@ -23,7 +23,7 @@ The session is shared. The CAD app, [Buerligons](https://buerligons.io), docks i
                                      wss, dialled out ──► share relay (Cloudflare) ◄── the app on any other machine, by share link
 ```
 
-- **Self-contained.** The MCP brings its own engine: the published ClassCAD WASM build, run in a worker thread of the daemon. No server and no key to configure (a six-month engine key is built in); one sign-in with a free classcad.ch account. On first use it downloads the release assets (about 16 MB) once and caches them.
+- **Self-contained.** The MCP brings its own engine: the published ClassCAD WASM build, run in a worker thread of the daemon. No server and no key to configure: the engine's key comes with one sign-in with a free classcad.ch account. On first use it downloads the release assets (about 16 MB) once and caches them.
 - Every host starts the MCP as a **stdio** child process (`npx -y @classcad/mcp@latest`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9097`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
 - The **daemon** is the actual MCP. It holds one MCP server instance **per session** (per tab: own engine, caches, tool queue, invites) and the one **listener sessions are joined on** (`127.0.0.1:9098`): the app docks into the MCP's sessions there, and apps that run the engine in their own page offer their sessions there. With no session left and no such app waiting it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
 - Why a daemon: the MCP *listens* on a port, and a port belongs to exactly one process. With one daemon, every session's app link has the same address, and an app that looks for the MCP finds it.
@@ -242,6 +242,7 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 | `tree` / `find` / `inspect` | Structure tree (cached, pulled on demand), search by class/name, full node detail with parent chain |
 | `snapshot`              | Render the drawing to PNG (iso/top/front/…, section cuts, four-view sheet, technical drawing with hidden lines, highlights, markers) |
 | `list_methods` / `describe_method` / `docs` | Method index, per-method reference with LLM-oriented gotchas, recipes                 |
+| `account`               | The signed-in account's plan and what it allows: commercial use, exports, where a web app may run (localhost, registered domains), the public access token for an app's page. Read-only; the first step of `recipes/buerli-app` |
 | `view`                  | The session's app: returns its link and brings it up (the host's browser pane, or the user's browser), unless the user already has it open. `local: true`: the link on this machine, for when the share link does not load |
 | `share`                 | The link to the session's app that works from anywhere, for somebody on another machine; `stop: true` takes it back |
 | `get_selection` / `set_selection` | What the user has selected in the app (faces, edges, vertices, tree objects), with the ids API calls take; and selecting something there to point it out |
@@ -261,7 +262,7 @@ The MCP runs its own sessions on one of two engines; the **engine policy** decid
 
 | Engine | What it is | How the MCP gets there |
 | --- | --- | --- |
-| **Local WASM** | The published ClassCAD WASM build, hosted by the MCP itself in a worker thread of the daemon. No server, no browser, works offline once the assets are cached. | Nothing to configure (a six-month key is built in); the policy (`auto`/`wasm`) or `use_session(engine="wasm")`. |
+| **Local WASM** | The published ClassCAD WASM build, hosted by the MCP itself in a worker thread of the daemon. No server, no browser, works offline once the assets are cached. | Nothing to configure (the key comes with the sign-in); the policy (`auto`/`wasm`) or `use_session(engine="wasm")`. |
 | **Worker (Drogon)** | A `classcad-cli worker` — a server on your machine, in Docker or hosted. | `CLASSCAD_WS_URL`, the policy (`auto`/`drogon`), `use_session(sessionId)`. |
 
 **Policy.** `CLASSCAD_ENGINE` (default `auto`) and the `engine` argument of `use_session`:

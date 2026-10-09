@@ -2,7 +2,9 @@
 // The client never configures the connection on its own (it may be docked
 // into a session shared with an interactive app); run_script suppresses per
 // script through @classcad/script's runScript, which is exercised here with
-// the same session adapter run_script uses.
+// the same session adapter run_script uses. The graphic database settings
+// renders need are the client's to keep: set before its first graphic, and
+// again after anyone else in the session ran a command.
 import { test } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { connect } from '../dist/client.js'
@@ -63,6 +65,57 @@ test('mcp client: engine defaults outside scripts, suppression scoped to a scrip
     const cfg = await c.getEmissionConfig()
     assert.equal(cfg.sendGraphic_Kernel, true)
     assert.equal(cfg.sendStructure, true)
+  } finally {
+    c.close()
+    await worker.close()
+  }
+})
+
+test('mcp client: the graphic settings are put back after anyone else in the session ran a command', async () => {
+  const worker = await startFakeWorker()
+  const c = await connect(worker.url, { debug: true })
+  const isSettings = f => f.command === 'Execute' && 'v1.common.setDatabaseSettings' in (f.task?.[0] ?? {})
+  const since = n => worker.frames.slice(n).map(f => (isSettings(f) ? 'settings' : f.command))
+  // What the server fans out of another participant's command: its frames, not its request
+  const sibling = async from => {
+    worker.sibling({ command: 'Result', _from_: from, _transactionID_: `sibling-${from}`, result: null, maxLevel: 31 })
+    await new Promise(r => setTimeout(r, 50))
+  }
+  try {
+    // A pull opens the connection (tree, snapshot): its own bootstrap pull must not wait for it
+    const opened = await Promise.race([c.getGraphic().then(() => true), new Promise(r => setTimeout(r, 5000, false))])
+    assert.ok(opened, 'the first pull of a connection settles')
+    assert.deepEqual(since(0), ['settings', 'GetTree'], 'set before the first pull of a connection')
+    let n = worker.frames.length
+    await c.execute({ 'v1.part.create': [{ name: 'P' }] })
+    await c.getGraphic()
+    assert.deepEqual(since(n), ['Execute', 'GetTree'])
+    n = worker.frames.length
+    await c.getGraphic()
+    await sibling('GetTree')
+    await c.getGraphic()
+    assert.deepEqual(since(n), [], 'nothing to send while the graphic is current, nor after an app\'s pull')
+
+    // An app's Execute may have been its own setDatabaseSettings (Buerligons sends one on every connect)
+    await sibling('Execute')
+    n = worker.frames.length
+    await c.getGraphic()
+    assert.deepEqual(since(n), ['settings', 'GetTree'])
+
+    // Whatever pulls next puts them back first: the graphic it brings is one of ours
+    await sibling('Execute')
+    n = worker.frames.length
+    await c.getTree()
+    await c.getGraphic()
+    assert.deepEqual(since(n), ['settings', 'GetTree'])
+
+    // Pulls asked for at once wait for the same settings
+    await sibling('Execute')
+    n = worker.frames.length
+    await Promise.all([c.getGraphic(), c.getTree()])
+    const sent = since(n)
+    assert.equal(sent[0], 'settings')
+    assert.equal(sent.filter(x => x === 'settings').length, 1)
   } finally {
     c.close()
     await worker.close()

@@ -69,17 +69,41 @@ export async function withEmissionConfig<T>(drawingId: DrawingID, partial: Recor
   return facadeWithConfig(drawingId, partial, fn)
 }
 
-// The engine omits brep EDGE data from graphic payloads until the graphic
-// database settings are enabled (same as the node session's lazy ensure) —
-// without them, snapshots render silhouettes with no edges. Once per drawing.
-const dbSettingsEnsured = new Set<string>()
-async function ensureGraphicSettings(drawingId: DrawingID): Promise<void> {
-  if (dbSettingsEnsured.has(String(drawingId))) return
-  dbSettingsEnsured.add(String(drawingId))
+/**
+ * The graphic database settings graphic reads are built on (brep edges as
+ * `edges` polylines, sketch and structure-object graphics). The same as the
+ * MCP's GRAPHIC_SETTINGS (packages/mcp/src/client.ts): keep the two in step.
+ */
+const GRAPHIC_SETTINGS = { isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true }
+
+// The engine omits brep EDGE data from graphic payloads until these settings
+// are on: with doCurveTessellation off a solid carries `lines`/`arcs` and no
+// `edges`, and a script that reads `container.edges` fails. The settings are
+// the engine's, shared by everyone on it, and others set their own: an app on
+// every connect (Buerligons: tessellation off), so after every reconnect, and
+// another participant of a shared session when it joins. The MCP client hears
+// every frame and ensures again after those. Here nothing tells: buerli
+// applies another participant's frames without a word, and a command that only
+// sets settings leaves no trace in the store. So a graphic read checks them
+// first (one small read), and when they had to be put back, the store's
+// graphic was made under the others and is pulled again.
+/** Puts GRAPHIC_SETTINGS back where they are not in place. True when it had to. */
+async function ensureGraphicSettings(drawingId: DrawingID): Promise<boolean> {
+  const common = (createApi(drawingId) as any)?.v1?.common
+  if (typeof common?.setDatabaseSettings !== 'function') return false
+  let current: Record<string, unknown> | undefined
   try {
-    await (createApi(drawingId) as any)?.v1?.common?.setDatabaseSettings?.({ isGraphicEnabled: true, isCCGraphicEnabled: true, isSketchGraphicEnabled: true, doCurveTessellation: true })
+    current = (await common.getDatabaseSettings?.())?.result
   } catch {
-    /* older engines — proceed without edges */
+    /* an engine that cannot tell: put them back all the same */
+  }
+  // Readback is 0/1.
+  if (current && Object.entries(GRAPHIC_SETTINGS).every(([key, on]) => Boolean(current[key]) === on)) return false
+  try {
+    await common.setDatabaseSettings({ ...GRAPHIC_SETTINGS })
+    return true
+  } catch {
+    return false /* older engines — proceed without edges */
   }
 }
 
@@ -177,7 +201,6 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
   let graphicStale = false
 
   async function execute(task: Task): Promise<Envelope> {
-    await ensureGraphicSettings(drawingId)
     const [key, args] = Object.entries(task)[0] ?? []
     const segments = (key ?? '').split('.')
     if (segments.length !== 3 || segments[0] !== 'v1') {
@@ -227,14 +250,16 @@ export function browserSession(drawingId: DrawingID, opts: BrowserSessionOptions
       return ((getDrawing(drawingId) as any)?.structure?.tree ?? {}) as import('@classcad/script').Tree
     },
     getGraphic: async (o?: { recalc?: boolean }) => {
-      await ensureGraphicSettings(drawingId)
+      // Settings put back: the store's graphic was made under others.
+      const settingsPutBack = await ensureGraphicSettings(drawingId)
+      if (settingsPutBack) graphicStale = true
       // Under suppression the store's graphic lags behind — pull once before
       // the script reads it, under a temporary graphic-enabled config (the
       // script's own config suppresses graphics, GetTree alone would bring
       // only the tree). Cached: a second graphic() without a mutation in
-      // between is a no-op. recalc only when explicitly requested (and never
+      // between pulls nothing. recalc only when explicitly requested (and never
       // after solid.* calls — it would destroy the injected bodies).
-      dbg('getGraphic', { stale: graphicStale, recalc: o?.recalc === true && !sawSolidCall })
+      dbg('getGraphic', { stale: graphicStale, settingsPutBack, recalc: o?.recalc === true && !sawSolidCall })
       if (graphicStale) {
         await refreshAfterScript(drawingId, { recalc: o?.recalc === true && !sawSolidCall, graphics: true })
         graphicStale = false

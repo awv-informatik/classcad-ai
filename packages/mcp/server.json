@@ -9,12 +9,12 @@
     "source": "github",
     "subfolder": "packages/mcp"
   },
-  "version": "0.3.4",
+  "version": "0.4.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@classcad/mcp",
-      "version": "0.3.4",
+      "version": "0.4.0",
       "transport": {
         "type": "stdio"
       }

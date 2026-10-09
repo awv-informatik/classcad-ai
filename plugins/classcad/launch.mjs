@@ -19,7 +19,7 @@ import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const PACKAGE = '@classcad/mcp@0.3.4'
+const PACKAGE = '@classcad/mcp@0.4.0'
 const NAME = PACKAGE.slice(0, PACKAGE.lastIndexOf('@'))
 const VERSION = PACKAGE.slice(PACKAGE.lastIndexOf('@') + 1)
 

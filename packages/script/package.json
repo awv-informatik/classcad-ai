@@ -1,6 +1,6 @@
 {
   "name": "@classcad/script",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Universal script executor for ClassCAD agents \u2014 model-written JavaScript against a session-abstracted API (api.v1.*, api.tree(), api.graphic()), identical in the browser (buerli), Node (MCP, harness) and CI.",
   "license": "MIT",
   "repository": {

@@ -15,6 +15,7 @@ import { registerSnapshotTool } from './tools/snapshot.js'
 import { registerScriptTool } from './tools/script.js'
 import { serializeTools } from './queue.js'
 import { registerAuthTool, requireSignIn, SIGN_IN_NOTE } from './tools/auth.js'
+import { registerAccountTool } from './tools/account.js'
 import { authStatus } from './auth.js'
 import { attachViewer, VIEWER_NOTE } from './tools/viewer.js'
 import { appNote, attachShare, registerSelectionTools, registerShareTool, registerViewTool } from './tools/share.js'
@@ -80,6 +81,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   // Registered after the queue patch, so the check runs before queueing.
   requireSignIn(server)
   registerAuthTool(server)
+  registerAccountTool(server)
   // The session's company: the app docked into it, whoever else is in it, and
   // what they have selected. Patched in last, so it sits innermost: it hears
   // of a change inside the queue, after the tool that made it.

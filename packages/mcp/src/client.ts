@@ -296,17 +296,25 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
    * Keeps the accumulated graphic in step with one reply of the local engine,
    * whoever asked. The engine never announces that a body is gone, so
    * containers are dropped here: all of them when the drawing is emptied
-   * (clear, load with doClear — a restored checkpoint included), and on every
-   * pull those whose owner left the model tree (a deleted feature, a clear
-   * that kept some ids). Without this a render shows bodies of earlier models
-   * next to the current one.
+   * (clear, load with doClear — a restored checkpoint included), a body's
+   * earlier tessellation when a new one arrives (a recalc, an expression
+   * change: same owner, new container id), and on every pull those
+   * whose owner left the model tree (a deleted feature, a clear that kept some
+   * ids). Without this a render shows bodies of earlier models next to the
+   * current one, and scripts read stale face and edge ids.
    */
   function absorb(req: Record<string, unknown>, res: EngineExecuteResult): void {
     if (res.decodeErrors?.length) log(`${String(req.command)}: dropped undecodable engine output (${res.decodeErrors.join('; ')})`)
     if (emptiesDrawing(req)) containers.clear()
     for (const pkg of res.binaryMessages ?? []) {
       for (const c of (pkg as any)?.containers ?? []) {
-        if (c && c.id != null) containers.set(String(c.id), c)
+        if (!c || c.id == null) continue
+        if (c.type === 1 && c.owner != null) {
+          for (const [key, old] of containers) {
+            if (key !== String(c.id) && old.type === 1 && old.owner === c.owner) containers.delete(key)
+          }
+        }
+        containers.set(String(c.id), c)
       }
     }
     for (const m of res.messages ?? []) {

@@ -114,7 +114,7 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         frame: z.object({ scale: z.number(), midX: z.number(), midY: z.number() }).optional()
           .describe('Pin the frame reported by an earlier snapshot (same view/size) for pixel-comparable before/after.'),
         recalc: z.boolean().optional()
-          .describe('Default false. Opt in only to regenerate; keep false for solid.*/entity-injection sessions — recalc destroys injected bodies.'),
+          .describe('Default false. Opt in only to regenerate; keep false for solid.*/entity-injection sessions — a recalc invalidates curve shape ids and can destroy injected bodies.'),
         source: z.enum(['graphic', 'stl']).optional()
           .describe('"stl": render the tessellated STL export instead of the engine graphic (explicit fallback; no brep edges).'),
       },

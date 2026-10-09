@@ -1,7 +1,7 @@
 // Discovery tools: list_methods, describe_method — thin MCP wrappers around the
 // shared @classcad/skill/discovery module (the SAME search/describe logic as
 // buerli-ai): CAD-synonym-expanded ranked search, fuzzy method resolution, and
-// whole-document serving (skill bundle + @classcad/script data-contract docs).
+// whole-document serving (the skill bundle, data-contract docs included).
 //
 // Dev override: with CLASSCAD_SKILL_PATH set, docs are read live from that
 // skill checkout instead of the built bundle — edits show up without a rebuild.
@@ -15,7 +15,6 @@ import { DEFAULT_DAEMON_PORT } from '../ports.js'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { RECIPES_POINTER, REFERENCE_IMAGE_POINTER } from '@classcad/skill/prompts'
 import { createDiscovery, DOCS_MAX_KEYS, DOCS_TOOL, type MethodRegistry } from '@classcad/skill/discovery'
-import { docs as scriptDocs } from '@classcad/script/docs'
 
 // Loaded at runtime, NOT as static imports: tsc otherwise ingests the multi-MB
 // bundle.json as a literal type — observed to OOM the compiler on some setups.
@@ -25,21 +24,12 @@ const bundle = requireJson('@classcad/skill/bundle.json') as Record<string, stri
 
 // Live-doc override (development): resolve doc keys against a skill checkout.
 function diskResolver(): ((key: string) => string | null) | undefined {
-  const override = process.env.CLASSCAD_SKILL_PATH
-  const root =
-    override ??
-    (() => {
-      try {
-        return dirname(createRequire(import.meta.url).resolve('@classcad/skill/package.json'))
-      } catch {
-        return undefined
-      }
-    })()
-  if (!override || !root) return undefined // no override → serve the built bundle
+  const root = process.env.CLASSCAD_SKILL_PATH
+  if (!root) return undefined // no override → serve the built bundle
   return (key: string) => {
     const safe = key.replace(/[^a-zA-Z0-9/_-]/g, '')
-    // Keys map to files: references/<domain>/<method>.md, or top-level dirs for
-    // prefixed keys (recipes/<name>.md lives at the package root).
+    // Keys map to files: references/<domain>/<method>.md, recipes/<name>.md at
+    // the package root, topics (DATA, STRUCTURE, GRAPHICS) at references/<KEY>.md.
     for (const c of [
       join(root, 'references', `${safe}.md`),
       join(root, `${safe}.md`),
@@ -54,7 +44,6 @@ function diskResolver(): ((key: string) => string | null) | undefined {
 const discovery = createDiscovery({
   registry: registry as MethodRegistry,
   bundle: bundle as Record<string, string>,
-  extraDocs: scriptDocs,
   resolveDoc: diskResolver(),
 })
 
@@ -84,7 +73,7 @@ export function serverInstructions(): string {
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
       'A NEW, unrelated model in the same session: call `clear` first, then part.create — the drawing outlives a request, and without clear the new model lands inside the old one. ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
-      'then request ALL their docs in ONE docs([...]) call, recipes first — include "DATA" whenever a script reads api.tree()/api.graphic(). ' +
+      'then request ALL their docs in ONE docs([...]) call, recipes first — include "DATA" whenever a script reads api.tree()/api.graphic() ("STRUCTURE" and "GRAPHICS" are the depth: history, sketches, assemblies, world transforms; the graphic payload). ' +
       'A docs response is size-capped: keys listed under "NOT included yet" at its top must be requested in a follow-up call before building. ' +
       RECIPES_POINTER +
       ' After that, build in a FEW substantial staged scripts — ' +
@@ -99,6 +88,10 @@ export function serverInstructions(): string {
       '"use WASM / local / offline" → engine "wasm"; "my Drogon/ClassCAD server" → "drogon". ' +
       'session_info shows what is in use.',
     '',
+    'OWN APP: when the user wants their own app, website or configurator around the model (the session\'s scripts or a saved OFB), ' +
+      'call `account` FIRST — the plan decides where the app may run (localhost on every plan; public domains only as registered on the account) ' +
+      'and it hands over the public token for the page — then follow docs(["recipes/buerli-app"]).',
+    '',
     DAEMON_NOTE,
     '',
     'Method Index (v1) — every method, one line. Pick directly from here; use docs([...]) for exact parameters ' +
@@ -106,7 +99,8 @@ export function serverInstructions(): string {
     '',
     discovery.methodIndex(),
     '',
-    'Document Index — recipes (composed workflows) and guides (cross-cutting behavior), key — title. ' +
+    'Document Index — the data contract (DATA, STRUCTURE, GRAPHICS: what api.tree()/api.graphic() return), ' +
+      'recipes (composed workflows) and guides (cross-cutting behavior), key — title. ' +
       'Fetch with docs([...]); list_methods({ search }) also ranks these by topic:',
     '',
     discovery.docIndex(),

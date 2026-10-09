@@ -50,23 +50,20 @@ async function main() {
   console.log(`matched ${lmd.count} methods`)
   console.log(lmd.methods.slice(0, 5).map(m => `  ${m.method} — ${m.summary}`).join('\n'))
 
-  console.log('\n--- describe_method v1.part.box (head only) ---')
-  const dm = await client.callTool({ name: 'describe_method', arguments: { method: 'v1.part.box' } })
+  console.log('\n--- docs ["v1.part.box", "DATA"] (head only) ---')
+  const dm = await client.callTool({ name: 'docs', arguments: { keys: ['v1.part.box', 'DATA'] } })
   console.log(dm.content[0].text.split('\n').slice(0, 12).join('\n'))
 
-  console.log('\n--- call_api: v1.part.create ---')
-  const ca1 = await client.callTool({ name: 'call_api', arguments: { method: 'v1.part.create', args: { name: 'PartViaMCP' } } })
-  const cad1 = JSON.parse(ca1.content[0].text)
-  console.log(`partId = ${cad1.result}, maxLevel = ${cad1.maxLevel}`)
-  const partId = cad1.result
-
-  console.log('\n--- call_api: v1.part.box on that part ---')
-  const ca2 = await client.callTool({ name: 'call_api', arguments: {
-    method: 'v1.part.box',
-    args: { id: partId, name: 'BoxViaMCP', length: 80, width: 60, height: 40 },
+  console.log('\n--- run_script: part.create + part.box ---')
+  const rs = await client.callTool({ name: 'run_script', arguments: {
+    label: 'smoke box',
+    script: `const { result: partId } = await api.v1.part.create({ name: 'PartViaMCP' })
+const { result: boxId } = await api.v1.part.box({ id: partId, name: 'BoxViaMCP', length: 80, width: 60, height: 40 })
+return { partId, boxId }`,
   }})
-  const cad2 = JSON.parse(ca2.content[0].text)
-  console.log(`boxId = ${cad2.result}, maxLevel = ${cad2.maxLevel}`)
+  if (rs.isError) throw new Error(`run_script failed: ${rs.content[0].text}`)
+  const { returned } = JSON.parse(rs.content[0].text)
+  console.log(`partId = ${returned.partId}, boxId = ${returned.boxId}`)
 
   console.log('\n--- find { type: "CC_Box" } after creation ---')
   const f1 = await client.callTool({ name: 'find', arguments: { type: 'CC_Box' } })

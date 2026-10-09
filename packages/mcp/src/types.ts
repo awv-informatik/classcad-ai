@@ -10,7 +10,7 @@ export type Message = {
 }
 
 // Structure tree — full snapshot delivered on every Result frame.
-// Format observed empirically; see classcad-skill/references/common/state-tree.md.
+// Shape documented in @classcad/script docs/STRUCTURE.md.
 export type StructureNode = {
   id: Id
   class: string

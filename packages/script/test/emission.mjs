@@ -135,3 +135,43 @@ test('node session: engine without the config commands still runs scripts', asyn
     await worker.close()
   }
 })
+
+test('node session: after anyone else in the session ran a command, the caches are stale and the graphic settings go back first', async () => {
+  const worker = await startFakeWorker()
+  const s = await connectSession(worker.url, { debug: true })
+  const isSettings = f => f.command === 'Execute' && 'v1.common.setDatabaseSettings' in (f.task?.[0] ?? {})
+  const since = n => worker.frames.slice(n).map(f => (isSettings(f) ? 'settings' : f.command))
+  // What the server fans out of another participant's command: its frames, not its request
+  const sibling = async from => {
+    worker.sibling({ command: 'Result', _from_: from, _transactionID_: `sibling-${from}`, result: null, maxLevel: 31 })
+    await new Promise(r => setTimeout(r, 50))
+  }
+  try {
+    await s.execute({ 'v1.part.create': [{ name: 'P' }] })
+    let n = worker.frames.length
+    await s.getGraphic()
+    assert.deepEqual(since(n), ['settings', 'GetTree'], 'set before the first pull')
+    n = worker.frames.length
+    await s.getGraphic()
+    await sibling('GetTree')
+    await s.getGraphic()
+    assert.deepEqual(since(n), [], 'nothing to send while current, nor after another participant\'s pull')
+
+    // An app's Execute may have changed the model, and may have been its own setDatabaseSettings
+    await sibling('Execute')
+    n = worker.frames.length
+    await s.getTree()
+    assert.deepEqual(since(n), ['settings', 'GetTree'], 'the tree is stale; the settings go back before the pull')
+
+    // Pulls asked for at once wait for the same settings
+    await sibling('Execute')
+    n = worker.frames.length
+    await Promise.all([s.getGraphic(), s.getTree()])
+    const sent = since(n)
+    assert.equal(sent[0], 'settings')
+    assert.equal(sent.filter(x => x === 'settings').length, 1)
+  } finally {
+    s.close()
+    await worker.close()
+  }
+})

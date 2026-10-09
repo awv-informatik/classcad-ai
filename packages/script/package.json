@@ -27,20 +27,15 @@
     "./node": {
       "types": "./dist/node.d.ts",
       "default": "./dist/node.js"
-    },
-    "./docs": {
-      "types": "./dist/docs.d.ts",
-      "default": "./dist/docs.js"
     }
   },
   "files": [
     "dist",
-    "docs",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && node scripts/build-docs.mjs",
+    "build": "tsc -p tsconfig.json",
     "test": "npm run build && node test/unit.mjs && node test/emission-live.mjs",
     "prepare": "npm run build",
     "postbuild": "node --test test/emission.mjs"

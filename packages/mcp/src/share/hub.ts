@@ -26,9 +26,10 @@
 //   • Database settings are the engine's, shared by all: the ones the MCP's
 //     renders need stay on, whatever a guest sets.
 //
-// A session that runs on a ClassCAD worker needs none of this: the server
-// speaks the protocol itself. Guests of such a session are piped through to
-// it (pipe()), so the app's link is the same for both engines.
+// A session that runs on a ClassCAD worker needs none of this but the last
+// point: the server speaks the protocol itself. Guests of such a session are
+// piped through to it (pipe()), so the app's link is the same for both
+// engines; their frames pass as they came, but for their database settings.
 //
 // An engine that runs in the page of an app is served the same way by that
 // page: session/host.ts in @buerli.io/classcad is this module's twin (the same
@@ -179,6 +180,22 @@ function keepGraphicSettings(req: Record<string, any>): void {
     const args = task['v1.common.setDatabaseSettings']
     const params = Array.isArray(args) ? args[0] : args
     if (params && typeof params === 'object') Object.assign(params, GRAPHIC_SETTINGS)
+  }
+}
+
+/**
+ * A piped guest's frame on its way to the server: a command that sets the
+ * database settings goes up with keepGraphicSettings applied, anything else
+ * (binary frames included) exactly as it came.
+ */
+function upward(data: WebSocket.RawData, isBinary: boolean): WebSocket.RawData | string {
+  if (isBinary || !Buffer.isBuffer(data) || !data.includes('v1.common.setDatabaseSettings')) return data
+  try {
+    const req = JSON.parse(data.toString())
+    keepGraphicSettings(req)
+    return JSON.stringify(req)
+  } catch {
+    return data
   }
 }
 
@@ -409,7 +426,7 @@ export function createSessionHub(opts: HubOptions): SessionHub {
     const base = client.url.split('?')[0].replace(/\/+$/, '')
     const upstream = new WebSocket(`${base}/?invite=${encodeURIComponent(token)}`)
     const forward = (data: WebSocket.RawData, isBinary: boolean) => {
-      if (upstream.readyState === WebSocket.OPEN) upstream.send(data, { binary: isBinary })
+      if (upstream.readyState === WebSocket.OPEN) upstream.send(upward(data, isBinary), { binary: isBinary })
     }
     upstream.on('open', () => {
       ws.off('message', buffer)

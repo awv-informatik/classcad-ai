@@ -8,6 +8,7 @@
 //   aud  = the Firebase project      iss = https://securetoken.google.com/<project>
 //   exp  in the future               sub = the account
 //   plan = the account's plan, a claim the ClassCAD backend keeps on every account
+//   guests = how many guests its shared sessions take (the plan's or contract's shareGuests, set by admins)
 
 /** Google's keys for Firebase ID tokens, as a JWK set. They rotate: the answer says for how long it holds. */
 const JWKS_URL = 'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com'
@@ -55,7 +56,10 @@ const decode = (part: string): Uint8Array => {
 const json = (part: string): Record<string, unknown> => JSON.parse(new TextDecoder().decode(decode(part)))
 
 /** The account behind an `Authorization: Bearer <Firebase ID token>` header, or null when it does not hold. */
-export async function verify(authorization: string | null, env: AuthEnv): Promise<{ uid: string; plan: string | null } | null> {
+export async function verify(
+  authorization: string | null,
+  env: AuthEnv,
+): Promise<{ uid: string; plan: string | null; guests: number | null } | null> {
   const token = /^Bearer\s+(\S+)$/i.exec(authorization ?? '')?.[1]
   const parts = token?.split('.') ?? []
   if (parts.length !== 3) return null
@@ -73,7 +77,8 @@ export async function verify(authorization: string | null, env: AuthEnv): Promis
     if (!key) return null
     const signed = new TextEncoder().encode(`${parts[0]}.${parts[1]}`)
     const plan = typeof claims.plan === 'string' ? claims.plan : null
-    return (await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, decode(parts[2]), signed)) ? { uid: claims.sub, plan } : null
+    const guests = typeof claims.guests === 'number' && Number.isInteger(claims.guests) && claims.guests >= 0 ? claims.guests : null
+    return (await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, decode(parts[2]), signed)) ? { uid: claims.sub, plan, guests } : null
   } catch {
     return null
   }

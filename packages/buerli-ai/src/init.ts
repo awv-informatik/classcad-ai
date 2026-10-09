@@ -1,7 +1,7 @@
 // ─── Convenience initializer — loads bundled skill + registry ─────────────────
 //
 // Call this once at app startup to load the bundled classcad-skill documentation
-// and method registry so the describe_method and list_methods tools work.
+// and method registry so the docs and list_methods tools work.
 
 import { setMethodRegistry } from './tools/registry'
 import { setSkillBundle } from './tools/skill'

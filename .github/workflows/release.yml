@@ -2,9 +2,10 @@
 #
 #   1. builds and tests the monorepo at the tag
 #   2. checks that the MCP's versions agree with the tag (scripts/release-check.mjs)
-#   3. publishes to npm every @classcad package whose version is not there yet,
-#      in dependency order (skill, script, renderer, mcp) — through npm's trusted
-#      publishing: no token and no 2FA prompt, with provenance
+#   3. publishes to npm every package whose version is not there yet, in
+#      dependency order (@classcad/skill, script, renderer, @buerli.io/ai,
+#      @classcad/mcp) — through npm's trusted publishing: no token and no 2FA
+#      prompt, with provenance
 #   4. publishes packages/mcp/server.json to the official MCP Registry,
 #      authenticated by this workflow's GitHub OIDC identity (io.github.awv-informatik/*)
 #

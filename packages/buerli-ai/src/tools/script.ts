@@ -6,8 +6,8 @@
 // browser additionally injects buerli's facade/structure/selection namespaces
 // (see ./session.ts).
 //
-// Trust boundary: the script runs with exactly the capabilities the model
-// already has through call_api — it adds compute, not reach. Global shadowing
+// Trust boundary: the script reaches exactly the API the host hands the model
+// — it adds compute, not reach. Global shadowing
 // in the executor is defense-in-depth, not a security sandbox.
 
 import { runScript, isSessionBusy } from '@classcad/script'

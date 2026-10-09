@@ -309,7 +309,7 @@ export const TOOL_SCHEMAS: McpToolSchema[] = [
         },
         recalc: {
           type: 'boolean',
-          description: 'Default false. MUST stay false for solid.*/entity-injection sessions (recalc destroys injected bodies).',
+          description: 'Default false. MUST stay false for solid.*/entity-injection sessions (a recalc invalidates curve shape ids and can destroy injected bodies).',
         },
       },
     },

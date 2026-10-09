@@ -2,8 +2,8 @@
 //
 // Thin ToolResult wrappers around the shared @classcad/skill/discovery module
 // (the SAME logic as the ClassCAD MCP). The skill bundle (domain/method →
-// markdown) is supplied at init time; the @classcad/script data-contract docs
-// (DATA, STRUCTURE, GRAPHICS) are always available. Whole-document serving goes
+// markdown, the data-contract docs DATA/STRUCTURE/GRAPHICS included) is
+// supplied at init time. Whole-document serving goes
 // through the bulk `docs` tool (executor → discovery.bulkDocs).
 
 import { configureDiscovery, currentBundle, getDiscovery } from './discovery'
@@ -22,7 +22,7 @@ export async function loadSkillBundle(jsonModule: Promise<{ default: SkillBundle
   setSkillBundle(mod.default ?? (mod as unknown as SkillBundle))
 }
 
-/** True once a bundle has been supplied (the script docs are available regardless). */
+/** True once a bundle has been supplied. */
 export function hasSkillBundle(): boolean {
   return currentBundle() !== null
 }

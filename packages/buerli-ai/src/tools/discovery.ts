@@ -4,7 +4,6 @@
 // search, describe and doc-serving logic.
 
 import { createDiscovery, type Discovery, type MethodRegistry } from '@classcad/skill/discovery'
-import { docs as scriptDocs } from '@classcad/script/docs'
 
 let registry: MethodRegistry | null = null
 let bundle: Record<string, string> | null = null
@@ -28,12 +27,12 @@ export function currentBundle(): Record<string, string> | null {
 }
 
 /**
- * The discovery instance over registry + bundle + the @classcad/script
- * data-contract docs (DATA/STRUCTURE/GRAPHICS — always available).
+ * The discovery instance over registry + bundle (the bundle carries the
+ * data-contract docs DATA/STRUCTURE/GRAPHICS too).
  */
 export function getDiscovery(): Discovery {
   if (!cached) {
-    cached = createDiscovery({ registry: registry ?? {}, bundle: bundle ?? {}, extraDocs: scriptDocs })
+    cached = createDiscovery({ registry: registry ?? {}, bundle: bundle ?? {} })
   }
   return cached
 }

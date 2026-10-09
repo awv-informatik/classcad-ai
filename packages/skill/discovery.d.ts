@@ -5,6 +5,8 @@ export interface RegistryEntry {
   method: string
   summary?: string
   params?: Array<{ name: string; text: string }>
+  /** The @deprecated tag's text ("Use preTrim instead. …") — set only on deprecated methods. */
+  deprecated?: string
 }
 export type MethodRegistry = Record<string, RegistryEntry>
 
@@ -62,7 +64,7 @@ export interface Discovery {
   /** Search recipes, topic docs and guides by topic (not per-method notes, not api/* overviews). */
   searchDocs(opts?: { search?: string | string[]; limit?: number; budget?: number }): DocSearchResult
   methodIndex(): string
-  /** Compact `key — title` index of recipes and guides. */
+  /** Compact `key — title` index of topic docs (DATA, STRUCTURE, GRAPHICS), recipes and guides. */
   docIndex(): string
   /** Bulk documentation — the single source for every host's `docs` tool. Size-budgeted, oversized docs paged. */
   bulkDocs(keys: unknown, resolveOne?: ResolveOne, opts?: { budget?: number }): Promise<BulkDocsResult>

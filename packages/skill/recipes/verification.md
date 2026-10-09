@@ -232,9 +232,9 @@ const pos = await api.v1.part.getGeometryPositions({ elems: [...] })
 - Entries for types with no match come back as **empty arrays (truthy!)** —
   flatten and keep numbers: `ids.flat().filter(x => typeof x === 'number')`
   ([part/getGeometryIds](../references/part/getGeometryIds.md)).
-- **Full-circle edges are seam-split into 2 arcs** — a bore rim yields two
-  arc ids, and after regeneration the seam azimuth can move. To collect a
-  full rim, sweep candidate edges by position instead of assuming one id.
+- **A full circle is one closed edge; a rim another cut interrupts (a keyway,
+  a cross hole) is several.** To collect such a rim, sweep candidate edges by
+  position instead of assuming one id.
 - Cylindrical faces (`cylinders`) are often easier to find than their rim
   arcs — probe the face radius/axis instead.
 - A probe point comparison: compute the expected coordinate analytically,
@@ -268,7 +268,7 @@ The mesh you probe is faceted at the drawing's chord tolerance — **default
 - Cure 1 (exact): probe the BREP, not the mesh — `getGeometryIds` +
   `getGeometryPositions` return analytic positions.
 - Cure 2 (mesh): `common.setFacetingParameters({ angleTol: 0, chordHeightTol:
-<bboxDiag/3000> })` + `recalc`, probe, then RESTORE the previous values —
+<bboxDiag/3000> })` (the payload re-tessellates, no recalc), probe, then RESTORE the previous values —
   the setting persists worker-globally across sessions.
 - Snapshots are already safe: the renderer applies adaptive fine faceting for
   the image and restores the params (`quality: 'fast'` opts out).

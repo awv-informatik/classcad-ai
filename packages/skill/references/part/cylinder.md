@@ -10,7 +10,7 @@ Parametric cylinder feature in a part's feature tree (unlike `solid.cylinder`, d
 - `height` — along Z, default 100, > 0
 - `references` — array of **workCSys IDs only**; cylinder placed at the csys origin. Empty/omitted = drawing origin
 
-Dimensions accept numbers or expression strings (`'@expr.D'`, `'4*20'`, `'sqrt(100)'`). With `@expr.` references, changing the expression + recalc updates the cylinder.
+Dimensions accept numbers or expression strings (`'@expr.D'`, `'4*20'`, `'sqrt(100)'`). With `@expr.` references, `part.updateExpression` updates the cylinder at once (no recalc).
 
 ## Return Value
 
@@ -24,7 +24,7 @@ Feature ID (numeric), maxLevel 31. Pass it to `updateCylinder`, `openFeature`, `
 
 ## Gotchas
 
-- **Unknown parameters are SILENTLY IGNORED**: `xPosition`/`zPosition`/`translation` do not exist — cylinder lands at the origin with no warning (COG-verified). Position only via `references: [workCSysId]`.
+- **Unknown parameters are SILENTLY IGNORED**: `xPosition`/`zPosition`/`translation` do not exist — cylinder lands at the origin with no warning. Position only via `references: [workCSysId]`.
 - **`references` only accepts `workcsys` IDs** ("reference of the work coordinate system" means literally a workCSys). Work plane/axis/point → error 1001.
 - **The cylinder follows the workCSys ORIENTATION**: axis = csys z. `rotation: [0, Math.PI/2, 0]` (z → world +X) gives a cylinder along +X. Measured: csys `offset [30,40,20]` + `rotation [0,π/2,0]`, d=12 h=50 → COG (54.96, 40.01, 20.01), i.e. base at the offset point, axis +X. `offset` is in WORLD coordinates (rotation pivots about the csys origin, it does not rotate the offset).
 - **`workCSys` takes `offset` + `rotation` (Euler radians) — NOT `origin`/`xDirection`/`yDirection`.** Those are silently ignored (no error, maxLevel 31), leaving an identity csys at the world origin — the mistake is invisible until you measure. See `workCSys.md`.

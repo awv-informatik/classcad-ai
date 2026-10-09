@@ -50,4 +50,4 @@ const center = (await api.v1.sketch.getPositions({ id: centerId })).result // { 
 
 ## Related
 
-`sketch.getPoints` · `sketch.getGeometry` · `sketch.updateGeometry` · `sketch.moveGeometry`
+`sketch.getPoints` · `sketch.getGeometry` · [`sketch.getObjectInfo`](getObjectInfo.md) (kind, circle/arc radius, solver status) · `sketch.updateGeometry` · `sketch.moveGeometry`

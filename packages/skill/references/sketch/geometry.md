@@ -29,7 +29,7 @@ All arrays optional, any combination; `{ id }` alone or empty arrays return all-
 ## Gotchas
 
 - **No degenerate-geometry validation.** Zero/negative-radius circles and zero-length lines are accepted silently (maxLevel 31) and may break extrusion or solving downstream.
-- **`r.structure` contains the whole drawing** (all parts/sketches), not just new items — compare constraint effects in isolated parts/scripts.
+- **The structure tree (`api.tree()`) holds the whole drawing** (all parts/sketches), not just the new items — compare constraint effects in isolated parts/scripts.
 
 ## Working Example
 

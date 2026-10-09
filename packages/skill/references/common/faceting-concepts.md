@@ -10,14 +10,14 @@ Sphere r=20, angleTol=0:
 
 | chordHeightTol | Vertices | Visual quality |
 |---|---|---|
-| 0.001 | 115,461 | Ultra-fine, indistinguishable from smooth |
-| 0.01 | 8,385 | Very smooth |
-| 0.05 | 2,017 | Smooth, faint facets |
-| **0.1 (default)** | **1,697** | **Good balance** |
-| 0.5 | 277 | Facets visible on curves |
-| 1 | 153 | Clearly faceted |
-| 5 | 85 | Low-poly |
-| 10 | 45 | Very coarse polyhedron |
+| 0.001 | 114,951 | Ultra-fine, indistinguishable from smooth |
+| 0.01 | 8,131 | Very smooth |
+| 0.05 | 1,923 | Smooth, faint facets |
+| **0.1 (default)** | **1,635** | **Good balance** |
+| 0.5 | 247 | Facets visible on curves |
+| 1 | 123 | Clearly faceted |
+| 5 | 55 | Low-poly |
+| 10 | 31 | Very coarse polyhedron |
 
 100× tighter tolerance → ~50–70× more vertices on curved surfaces (sphere r=20: 1 → 0.01 gives 123 → 8,131; 0.1 → 0.001 gives 1,635 → 114,951).
 
@@ -25,11 +25,11 @@ Sphere r=20, angleTol=0:
 
 Max angle (degrees) between normals of adjacent triangles. Lower = more gradual normal changes = more triangles = smoother shading. **0 = disabled** (only chord matters). A fully independent constraint, not a chord modifier.
 
-Sphere r=20, chord effectively disabled:
+Sphere r=20, chord effectively disabled (chordHeightTol 1000):
 
 | angleTol (°) | 1 | 3 | 5 | 10 | 15 | 30 | 60 | 90 | 180 |
 |---|---|---|---|---|---|---|---|---|---|
-| Vertices | 131,845 | 8,385 | 8,385 | 2,145 | 561 | 154 | 45 | 20 | 0 (degenerate, no mesh) |
+| Vertices | 130,823 | 8,131 | 8,131 | 2,019 | 499 | 123 | 31 | 14 | 0 (degenerate, no mesh) |
 
 ## How They Interact
 
@@ -37,10 +37,10 @@ Both constraints are satisfied; the one demanding more triangles decides: `final
 
 | Scenario (sphere r=20) | cht | at | Verts | Dominates |
 |---|---|---|---|---|
-| Chord tight, angle loose | 0.1 | 30° | 1,697 | Chord (1697 vs 154) |
-| Chord loose, angle tight | 1 | 5° | 8,385 | Angle (8385 vs 153) |
-| Both tight | 0.01 | 5° | 8,385 | Tie (~8385 each) |
-| Both loose | 5 | 30° | 153 | Angle (154 vs 85) |
+| Chord tight, angle loose | 0.1 | 30° | 1,635 | Chord (1635 vs 123) |
+| Chord loose, angle tight | 1 | 5° | 8,131 | Angle (8131 vs 123) |
+| Both tight | 0.01 | 5° | 8,131 | Tie (8131 vs 8131) |
+| Both loose | 5 | 30° | 123 | Angle (123 vs 55) |
 
 chordHeightTol = geometric accuracy, angleTol = shading smoothness. For most applications chordHeightTol alone (angleTol=0) suffices.
 
@@ -52,9 +52,9 @@ Planar faces always use the minimum triangles — a box has 24 vertices (8 corne
 |---|---|---|---|---|---|
 | Box | None | 24 | 24 | 24 | 24 |
 | Cylinder/Cone | Single | 514 | 258 | 66 | 34 |
-| Sphere | Double | 8,385 | 1,697 | 153 | 85 |
+| Sphere | Double | 8,131 | 1,635 | 123 | 55 |
 
-Doubly-curved surfaces give 6-16× more vertices than singly-curved at the same tolerance (curvature in U and V).
+At fine tolerances (cht 0.01–0.1) doubly-curved surfaces give 6–16× more vertices than singly-curved ones (curvature in U and V); at coarse ones (1–5) the gap shrinks to under 2×.
 
 ## Edge Tessellation
 

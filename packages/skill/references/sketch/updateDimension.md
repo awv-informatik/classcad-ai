@@ -9,17 +9,17 @@ Requires a sketch created with `planeId` — otherwise the solver is disabled an
 - **`id`** (required) — the `CC_*FeatureDimension` ID from `sketch.dimension` (not the sketch ID). When recovering from `api.tree()`, pick the feature-dimension node, not the identically named `CC_2D*Constraint` referenced by `members.master.value`; constraint IDs → 1001. See [dimension](dimension.md#return-value).
 - **`value`** (required):
   - numbers `50`, `0`; formulas `'50+70'`, `'sqrt(2)*50'`; angles `'30deg'`
-  - **`'@expr.NAME'`** or prefixed formula (`'@expr.W*2'`) — LIVE binding (result 2); a later `updateExpression` moves geometry with no further calls. ANGLE dims: expression in radians (`C:PI/6` or a number), see `dimension.md`. The expression must EXIST — create via `part.expression({toCreate: [...]})`; the direct `{id,name,value}` form is a SILENT NO-OP (result=1), and `@expr` on it then fails with result=0 — check `getExpression` first. No prefix and `$NAME` fail (result=0).
+  - **`'@expr.NAME'`** or prefixed formula (`'@expr.W*2'`) — LIVE binding; a later `updateExpression` moves geometry with no further calls. ANGLE dims: expression in radians (`C:PI/6` or a number), see `dimension.md`. The expression must EXIST — create via `part.expression({toCreate: [...]})`; the direct `{id,name,value}` form is a SILENT NO-OP (result=1), and `@expr` on it then fails with result=0 — check `getExpression` first. No prefix and `$NAME` fail (result=0).
 
 ## Return Value
 
-`{ result: 0 | 1 | 2, messages?, maxLevel?, structure: {...}, graphic: null }` — a solver state, **not a boolean** (despite API docs). Check `result > 0`.
+`{ result: 0 | 1 | 2, messages?, maxLevel? }` — a solver state, **not a boolean** (despite API docs). Check `result > 0`; it mirrors [getGlobalState](getGlobalState.md)'s status, so ask that call for "fully constrained?".
 
 | Value | Meaning | When |
 |-------|---------|------|
-| `0` | Not solved | Over-constrained, negative value, conflicts, no `planeId` |
-| `1` | Solved, under-constrained | DOF remain (e.g. RADIUS dim, unconstrained center) |
-| `2` | Well-constrained | Fully determined |
+| `0` | Not solved (`NOT_SOLVED`) | Over-constrained, negative value, conflicts — incl. an unsatisfied constraint ELSEWHERE in the sketch (the value may still apply: 70→80 measured 80.000), no `planeId` |
+| `1` | Solved | Under-constrained OR fully constrained (`OK` / `FULLY_CONSTRAINED`), numeric and `@expr` alike |
+| `2` | Solved, over-determined | A consistent redundancy exists (`OVERDEFINED`) |
 
 **result=0 is not an error:** maxLevel stays 31, no messages.
 
@@ -51,11 +51,10 @@ const partId = (await api.v1.part.create({ name: 'Demo' })).result
 const planeId = (await api.v1.part.getWorkGeometry({ id: partId, name: 'Top' })).result
 const skId = (await api.v1.sketch.create({ id: partId, planeId })).result
 const rectIds = (await api.v1.sketch.rectangle({ id: skId, startPos: [0, 0, 0], endPos: [80, 50, 0] })).result
-const pts = (await api.v1.sketch.getPoints({ id: rectIds[0] })).result
-await api.v1.sketch.constraint({ id: skId, type: 'FIXATION', geomIds: [pts.startId] })
+// the corner at the origin already carries Auto_Fix — no FIXATION needed
 const dimId = (await api.v1.sketch.dimension({ id: skId, type: 'OFFSET', geomIds: [rectIds[0]] })).result // auto-value 80
 
-const r = await api.v1.sketch.updateDimension({ id: dimId, value: 120 }) // r.result 2, now 120 wide
+const r = await api.v1.sketch.updateDimension({ id: dimId, value: 120 }) // r.result 1 (height still free), now 120 wide
 await api.v1.sketch.updateDimension({ id: dimId, value: 'sqrt(2)*100' }) // ~141.4 wide
 ```
 

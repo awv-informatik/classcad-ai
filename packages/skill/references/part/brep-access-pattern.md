@@ -14,16 +14,15 @@ How to find edge and face IDs for `fillet`, `chamfer`, `workPlane`, `workAxis`, 
 ## The Core Pattern
 
 ```
-create geometry → recalc → find edges → fillet/chamfer → recalc → find edges → next operation
+create geometry → find edges → fillet/chamfer → re-query edges → next operation
 ```
 
-Every topology-changing operation (fillet, chamfer, boolean) invalidates all brep IDs:
+A body-building feature (fillet, chamfer, boolean) renumbers the faces and edges it changes; untouched faces and edges keep their ids. A `common.recalc` renumbers ALL brep ids and graphic containers; a work plane changes none. No recalc is needed before a lookup — ids queried right after `part.box` chamfer fine:
 
 ```js
 const partId = (await api.v1.part.create({ name: 'Part' })).result
 // 1. Create geometry
 const boxId = (await api.v1.part.box({ id: partId, length: 80, width: 60, height: 40 })).result
-await api.v1.common.recalc({})
 
 // 2. Find edges by position
 const edges = (await api.v1.part.getGeometryIds({
@@ -37,15 +36,14 @@ const edges = (await api.v1.part.getGeometryIds({
 // 3. Apply operation
 const filletId = (await api.v1.part.fillet({ id: partId, references: edges, radius: 8 })).result
 
-// 4. Next operation: recalc, then re-query
-await api.v1.common.recalc({})
+// 4. Next operation: re-query by position, never reuse ids from before the fillet
 const newEdges = (await api.v1.part.getGeometryIds({
   id: partId,
   lines: [{ pos: [40, 0, 0] }],
 })).result.lines
 ```
 
-**Never cache brep IDs across topology changes.** Always recalc + re-query. The chain repeats for any number of steps (fillet → chamfer → fillet …) with no special handling between steps; position-based lookup reliably finds edges across multiple topology changes.
+**Never cache brep IDs across topology changes.** Re-query after each feature. The chain repeats for any number of steps (fillet → chamfer → fillet …) with no special handling between steps; position-based lookup reliably finds edges across multiple topology changes.
 
 ## Position-Based vs Index-Based
 
@@ -128,7 +126,7 @@ Vertical: [0,0,H/2], [L,0,H/2], [L,W,H/2], [0,W,H/2]
 
 1. **Using ids from before a later feature change** — query brep ids after the feature they belong to exists; ids from an earlier state can go stale. (A `recalc()` is not required: a TWO_DISTANCES chamfer on ids queried right after `part.box` works.)
 2. **Using `circles` for boolean hole edges** — use `arcs`. Circle/arc type depends on edge origin, not shape.
-3. **Caching brep IDs across topology changes** — fillet, chamfer, boolean, and other topology operations invalidate them. Re-query.
+3. **Caching brep IDs across topology changes** — fillet, chamfer, boolean and other topology operations renumber what they change, a recalc renumbers everything. Re-query.
 4. **Using an earlier feature ID for `getBrepGeometryByIndex`** — stale brep. Use the latest feature.
 5. **Finding fillet arcs by position** — their midpoints are at unpredictable parametric positions. Use `arcIndex`.
 

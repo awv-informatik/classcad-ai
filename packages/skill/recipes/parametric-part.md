@@ -1,7 +1,7 @@
 # Recipe: A truly parametric part (expressions + constrained sketches)
 
 How to build a model that **regenerates in-tree** when a master parameter changes —
-not a script that must be re-run. Verified end-to-end on a 21→24-tooth sprocket
+not a script that must be re-run. Works end-to-end on a 21→24-tooth sprocket
 (tooth form, bore, keyway, hub, tapers, chamfer — all live).
 
 Parameters shared by several parts of an assembly: `recipes/assembly-parameters`.
@@ -51,9 +51,9 @@ and bind dimensions to expressions:
 const sk = (await api.v1.sketch.create({ id: partId, planeId: topPlaneId })).result
 const c  = (await api.v1.sketch.circle({ id: sk, centerPos: [0, 0, 0], radius: 10 })).result
 await api.v1.sketch.dimension({
-  id: sk, type: 'DIAMETER', geomIds: [c],
-  value: '@expr.boreDia',            // ← live binding; regenerates on updateExpression
-})
+  id: sk, type: 'RADIUS', geomIds: [c],
+  value: '@expr.boreDia/2',          // ← live binding; regenerates on updateExpression
+})                                   // a Ø is a RADIUS of half the value — a DIAMETER call can stall the script
 ```
 
 - `@expr.NAME` works at creation AND via `updateDimension` — for length, distance, radius,

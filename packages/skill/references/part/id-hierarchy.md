@@ -45,7 +45,7 @@ An EI can contain multiple solids and multiple shapes simultaneously.
 ## Two IDs Per Solid
 
 1. **Feature-level ID** — returned by `solid.box()`, `solid.cylinder()`, etc.; lives in `EI.children`. Use it for all `solid.*` calls (`deleteSolid`, `copy`, boolean `target`/`tools`).
-2. **Geometry-level ID** — in the `part.solids` array and `CC_Solid.geometryIdList`. Internal reference, not what the API returns — don't use it.
+2. **Graphic container ID** — the `container.id` of each unconsumed body's graphic, listed in the part node's `solids` array (= `CC_Solid.geometryIdList[0]`). It is renumbered whenever the body is re-tessellated. `common.requestVisualisation` accepts it; `solid.*` calls don't — use the feature-level ID there.
 
 ## Curve IDs
 

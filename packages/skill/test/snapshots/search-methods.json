@@ -374,8 +374,8 @@
     "circle": {
       "count": 5,
       "top": [
-        "v1.curve.circle",
         "v1.sketch.circle",
+        "v1.curve.circle",
         "v1.sketch.getPoints",
         "v1.sketch.getPositions",
         "v1.part.getGeometryPositions"
@@ -569,8 +569,8 @@
     "dimension": {
       "count": 9,
       "top": [
-        "v1.drawing2d.dimension",
         "v1.sketch.dimension",
+        "v1.drawing2d.dimension",
         "v1.sketch.updateDimensionPosition",
         "v1.sketch.updateDimension",
         "v1.drawing2d.deleteDimension"
@@ -701,9 +701,9 @@
       "top": [
         "v1.sketch.geometry",
         "v1.sketch.getGeometry",
-        "v1.sketch.copyGeometry",
         "v1.sketch.moveGeometry",
-        "v1.part.getWorkGeometry"
+        "v1.sketch.referenceGeometry",
+        "v1.sketch.changeReferenceGeometry"
       ]
     },
     "getAppVersion": {
@@ -1063,8 +1063,8 @@
       "count": 4,
       "top": [
         "v1.solid.merge",
-        "v1.sketch.splitCurvesMergeBack",
         "v1.sketch.postTrim",
+        "v1.sketch.splitCurvesMergeBack",
         "v1.sketch.splitAllCurves"
       ]
     },
@@ -1155,8 +1155,8 @@
         "v1.sketch.point",
         "v1.part.workPoint",
         "v1.sketch.getPoints",
-        "v1.curve.polyline2d",
-        "v1.curve.bezierCurve"
+        "v1.curve.bezierCurve",
+        "v1.curve.arcBy3Points"
       ]
     },
     "polyline2d": {
@@ -1285,7 +1285,7 @@
         "v1.solid.intersection",
         "v1.curve.intersection2d",
         "v1.solid.slice",
-        "v1.sketch.splitCurve"
+        "v1.part.slice"
       ]
     },
     "setAppearance": {
@@ -1526,8 +1526,8 @@
         "v1.sketch.trim",
         "v1.sketch.postTrim",
         "v1.sketch.preTrim",
-        "v1.sketch.trimCurves",
-        "v1.sketch.splitCurve"
+        "v1.sketch.splitCurve",
+        "v1.sketch.trimCurves"
       ]
     },
     "trimCurves": {
@@ -1895,10 +1895,10 @@
       "count": 30,
       "top": [
         "v1.assembly.instance",
+        "v1.assembly.getProduct",
         "v1.assembly.setCurrentInstance",
         "v1.assembly.deleteInstance",
-        "v1.assembly.convertToTemplate",
-        "v1.assembly.setCurrentProduct"
+        "v1.assembly.convertToTemplate"
       ]
     },
     "attribute": {
@@ -1936,8 +1936,8 @@
         "v1.solid.merge",
         "v1.solid.union",
         "v1.curve.union2d",
-        "v1.sketch.splitCurvesMergeBack",
-        "v1.sketch.postTrim"
+        "v1.sketch.postTrim",
+        "v1.sketch.splitAllCurves"
       ]
     },
     "constraint": {
@@ -1983,8 +1983,8 @@
     "drill": {
       "count": 7,
       "top": [
-        "v1.solid.subtraction",
         "v1.part.boolean",
+        "v1.solid.subtraction",
         "v1.part.cylinder",
         "v1.solid.cylinder",
         "v1.part.updateCylinder"
@@ -2013,8 +2013,8 @@
     "extrude": {
       "count": 3,
       "top": [
-        "v1.part.extrusion",
         "v1.solid.extrusion",
+        "v1.part.extrusion",
         "v1.part.updateExtrusion"
       ]
     },
@@ -2076,8 +2076,8 @@
         "v1.solid.merge",
         "v1.solid.union",
         "v1.curve.union2d",
-        "v1.sketch.splitCurvesMergeBack",
-        "v1.sketch.postTrim"
+        "v1.sketch.postTrim",
+        "v1.sketch.splitAllCurves"
       ]
     },
     "joint": {
@@ -2109,8 +2109,8 @@
       "count": 48,
       "top": [
         "v1.assembly.getFastened",
-        "v1.assembly.update3DConstraintValue",
         "v1.assembly.parallel",
+        "v1.assembly.update3DConstraintValue",
         "v1.assembly.spherical",
         "v1.assembly.group"
       ]
@@ -2158,20 +2158,20 @@
       "count": 84,
       "top": [
         "v1.part.expression",
-        "v1.part.unlinkExpression",
         "v1.part.getExpression",
         "v1.part.deleteExpression",
-        "v1.part.renameExpression"
+        "v1.part.renameExpression",
+        "v1.part.unlinkExpression"
       ]
     },
     "parametric": {
       "count": 24,
       "top": [
         "v1.part.expression",
-        "v1.part.rotation",
         "v1.part.cone",
         "v1.part.sphere",
-        "v1.part.revolve"
+        "v1.part.rotation",
+        "v1.part.translation"
       ]
     },
     "pattern": {
@@ -2229,7 +2229,7 @@
         "v1.solid.intersection",
         "v1.curve.intersection2d",
         "v1.solid.slice",
-        "v1.sketch.splitCurve"
+        "v1.part.slice"
       ]
     },
     "shared": {
@@ -2258,19 +2258,19 @@
       "count": 14,
       "top": [
         "v1.sketch.splitCurve",
-        "v1.sketch.splitCurves",
-        "v1.sketch.splitAllCurves",
         "v1.sketch.preTrim",
-        "v1.sketch.splitCurvesMergeBack"
+        "v1.sketch.splitCurves",
+        "v1.sketch.postTrim",
+        "v1.sketch.splitAllCurves"
       ]
     },
     "step": {
       "count": 10,
       "top": [
         "v1.common.save",
+        "v1.common.load",
         "v1.sketch.trim",
         "v1.sketch.postTrim",
-        "v1.common.load",
         "v1.part.importFeature"
       ]
     },
@@ -2426,9 +2426,9 @@
     "all": {
       "count": 18,
       "top": [
-        "v1.sketch.splitAllCurves",
         "v1.common.clear",
-        "v1.common.clearUserData"
+        "v1.common.clearUserData",
+        "v1.common.getUserDataKeys"
       ]
     },
     "allows": {
@@ -2455,7 +2455,7 @@
       "top": [
         "v1.assembly.instance",
         "v1.assembly.setCurrentInstance",
-        "v1.sketch.referenceGeometry"
+        "v1.curve.advancedPolyline"
       ]
     },
     "and": {
@@ -2541,17 +2541,17 @@
     "arc": {
       "count": 15,
       "top": [
+        "v1.curve.ellipticArc",
         "v1.sketch.arcByCenter",
-        "v1.sketch.arcBy3Points",
-        "v1.curve.arcByCenter"
+        "v1.sketch.arcBy3Points"
       ]
     },
     "arcs": {
       "count": 15,
       "top": [
+        "v1.curve.ellipticArc",
         "v1.sketch.arcByCenter",
-        "v1.sketch.arcBy3Points",
-        "v1.curve.arcByCenter"
+        "v1.sketch.arcBy3Points"
       ]
     },
     "are": {
@@ -2587,8 +2587,8 @@
       "count": 30,
       "top": [
         "v1.assembly.instance",
-        "v1.assembly.setCurrentInstance",
-        "v1.assembly.deleteInstance"
+        "v1.assembly.getProduct",
+        "v1.assembly.setCurrentInstance"
       ]
     },
     "attempts": {
@@ -2643,9 +2643,9 @@
     "back": {
       "count": 5,
       "top": [
-        "v1.sketch.splitCurvesMergeBack",
         "v1.part.closeFeature",
-        "v1.sketch.postTrim"
+        "v1.sketch.postTrim",
+        "v1.sketch.splitCurvesMergeBack"
       ]
     },
     "backwards": {
@@ -2912,7 +2912,7 @@
       "top": [
         "v1.sketch.changeReferenceGeometry",
         "v1.part.operationMoveToEnd",
-        "v1.part.operationMoveBefore"
+        "v1.solid.offset"
       ]
     },
     "changes": {
@@ -2920,22 +2920,22 @@
       "top": [
         "v1.sketch.changeReferenceGeometry",
         "v1.part.operationMoveToEnd",
-        "v1.part.operationMoveBefore"
+        "v1.solid.offset"
       ]
     },
     "circle": {
       "count": 5,
       "top": [
-        "v1.curve.circle",
         "v1.sketch.circle",
+        "v1.curve.circle",
         "v1.sketch.getPoints"
       ]
     },
     "circles": {
       "count": 5,
       "top": [
-        "v1.curve.circle",
         "v1.sketch.circle",
+        "v1.curve.circle",
         "v1.sketch.getPoints"
       ]
     },
@@ -3254,16 +3254,16 @@
       "count": 14,
       "top": [
         "v1.sketch.preTrim",
-        "v1.part.compositeCurve",
-        "v1.sketch.splitAllCurves"
+        "v1.sketch.splitCurve",
+        "v1.part.compositeCurve"
       ]
     },
     "curves": {
       "count": 14,
       "top": [
         "v1.sketch.preTrim",
-        "v1.part.compositeCurve",
-        "v1.sketch.splitAllCurves"
+        "v1.sketch.splitCurve",
+        "v1.part.compositeCurve"
       ]
     },
     "custom": {
@@ -3306,9 +3306,9 @@
     "data": {
       "count": 14,
       "top": [
+        "v1.common.getDatabaseSettings",
         "v1.common.setUserData",
-        "v1.common.clearUserData",
-        "v1.common.removeUserData"
+        "v1.common.clearUserData"
       ]
     },
     "database": {
@@ -3435,8 +3435,8 @@
     "dimension": {
       "count": 9,
       "top": [
-        "v1.drawing2d.dimension",
         "v1.sketch.dimension",
+        "v1.drawing2d.dimension",
         "v1.sketch.updateDimensionPosition"
       ]
     },
@@ -3451,8 +3451,8 @@
     "dimensions": {
       "count": 9,
       "top": [
-        "v1.drawing2d.dimension",
         "v1.sketch.dimension",
+        "v1.drawing2d.dimension",
         "v1.sketch.updateDimensionPosition"
       ]
     },
@@ -3567,7 +3567,7 @@
       "top": [
         "v1.sketch.referenceGeometry",
         "v1.part.getBrepGeometryIndex",
-        "v1.part.getGeometryIds"
+        "v1.part.getBrepGeometryByIndex"
       ]
     },
     "elements": {
@@ -3575,7 +3575,7 @@
       "top": [
         "v1.sketch.referenceGeometry",
         "v1.part.getBrepGeometryIndex",
-        "v1.part.getGeometryIds"
+        "v1.part.getBrepGeometryByIndex"
       ]
     },
     "ellipse": {
@@ -3609,16 +3609,16 @@
     "entities": {
       "count": 10,
       "top": [
-        "v1.part.entityInjection",
         "v1.part.entityDeletion",
+        "v1.part.entityInjection",
         "v1.part.updateEntityDeletion"
       ]
     },
     "entity": {
       "count": 10,
       "top": [
-        "v1.part.entityInjection",
         "v1.part.entityDeletion",
+        "v1.part.entityInjection",
         "v1.part.updateEntityDeletion"
       ]
     },
@@ -3661,10 +3661,9 @@
       ]
     },
     "examples": {
-      "count": 1,
-      "top": [
-        "v1.curve.advancedPolyline"
-      ]
+      "count": 0,
+      "top": [],
+      "note": "No method matched (synonyms tried). Do NOT assume the operation doesn't exist — browse a domain instead (domains: assembly, common, curve, drawing2d, part, sketch, solid)."
     },
     "exist": {
       "count": 4,
@@ -3804,16 +3803,16 @@
       "count": 64,
       "top": [
         "v1.part.openFeature",
-        "v1.part.deleteFeature",
-        "v1.part.operationMoveBefore"
+        "v1.part.operationMoveBefore",
+        "v1.part.updateImportFeature"
       ]
     },
     "features": {
       "count": 64,
       "top": [
         "v1.part.openFeature",
-        "v1.part.deleteFeature",
-        "v1.part.operationMoveBefore"
+        "v1.part.operationMoveBefore",
+        "v1.part.updateImportFeature"
       ]
     },
     "file": {
@@ -3865,9 +3864,9 @@
     "first": {
       "count": 5,
       "top": [
-        "v1.part.transformationByCSys",
         "v1.part.updateTransformationByCSys",
-        "v1.sketch.preTrim"
+        "v1.solid.rotation",
+        "v1.part.transformationByCSys"
       ]
     },
     "fits": {
@@ -3971,7 +3970,7 @@
       "top": [
         "v1.sketch.geometry",
         "v1.sketch.getGeometry",
-        "v1.sketch.copyGeometry"
+        "v1.sketch.moveGeometry"
       ]
     },
     "geometry": {
@@ -3979,15 +3978,15 @@
       "top": [
         "v1.sketch.geometry",
         "v1.sketch.getGeometry",
-        "v1.sketch.copyGeometry"
+        "v1.sketch.moveGeometry"
       ]
     },
     "get": {
       "count": 42,
       "top": [
         "v1.sketch.getPoints",
-        "v1.sketch.getGeometry",
-        "v1.sketch.getPositions"
+        "v1.sketch.getPositions",
+        "v1.sketch.getTopologyInfo"
       ]
     },
     "ghost": {
@@ -4084,9 +4083,9 @@
     "ids": {
       "count": 6,
       "top": [
+        "v1.sketch.trim",
         "v1.sketch.preTrim",
-        "v1.part.getGeometryIds",
-        "v1.sketch.getObjectsLists"
+        "v1.part.getGeometryIds"
       ]
     },
     "ignored": {
@@ -4357,8 +4356,8 @@
       "count": 4,
       "top": [
         "v1.part.getGeometryIds",
-        "v1.part.entityInjection",
-        "v1.part.importFeature"
+        "v1.part.importFeature",
+        "v1.part.entityInjection"
       ]
     },
     "limited": {
@@ -4395,16 +4394,16 @@
       "count": 4,
       "top": [
         "v1.part.unlinkExpression",
-        "v1.part.linkWithExpression",
-        "v1.sketch.changeReferenceGeometry"
+        "v1.sketch.unlinkReferenceGeometry",
+        "v1.part.linkWithExpression"
       ]
     },
     "links": {
       "count": 4,
       "top": [
         "v1.part.unlinkExpression",
-        "v1.part.linkWithExpression",
-        "v1.sketch.changeReferenceGeometry"
+        "v1.sketch.unlinkReferenceGeometry",
+        "v1.part.linkWithExpression"
       ]
     },
     "lists": {
@@ -4548,16 +4547,16 @@
       "count": 4,
       "top": [
         "v1.solid.merge",
-        "v1.sketch.splitCurvesMergeBack",
-        "v1.sketch.postTrim"
+        "v1.sketch.postTrim",
+        "v1.sketch.splitCurvesMergeBack"
       ]
     },
     "merges": {
       "count": 4,
       "top": [
         "v1.solid.merge",
-        "v1.sketch.splitCurvesMergeBack",
-        "v1.sketch.postTrim"
+        "v1.sketch.postTrim",
+        "v1.sketch.splitCurvesMergeBack"
       ]
     },
     "method": {
@@ -4690,8 +4689,8 @@
     "mutual": {
       "count": 2,
       "top": [
-        "v1.sketch.splitAllCurves",
-        "v1.sketch.preTrim"
+        "v1.sketch.preTrim",
+        "v1.sketch.splitAllCurves"
       ]
     },
     "name": {
@@ -4751,9 +4750,9 @@
     "not": {
       "count": 85,
       "top": [
-        "v1.part.updateWorkPoint",
         "v1.solid.merge",
-        "v1.part.rotation"
+        "v1.part.rotation",
+        "v1.part.workAxis"
       ]
     },
     "note": {
@@ -4783,7 +4782,7 @@
       "top": [
         "v1.common.setObjectName",
         "v1.common.setObjectCoordSystem",
-        "v1.sketch.deleteObject"
+        "v1.common.transformObjectWithMatrix"
       ]
     },
     "objects": {
@@ -4791,7 +4790,7 @@
       "top": [
         "v1.common.setObjectName",
         "v1.common.setObjectCoordSystem",
-        "v1.sketch.deleteObject"
+        "v1.common.transformObjectWithMatrix"
       ]
     },
     "ofb": {
@@ -4817,16 +4816,16 @@
       "count": 24,
       "top": [
         "v1.curve.line",
-        "v1.curve.arcBy3Points",
-        "v1.sketch.line"
+        "v1.sketch.line",
+        "v1.curve.circle"
       ]
     },
     "only": {
       "count": 5,
       "top": [
-        "v1.part.createUncommitedObject",
-        "v1.assembly.createUncommitedObject",
-        "v1.common.save"
+        "v1.common.save",
+        "v1.solid.offset",
+        "v1.sketch.preTrim"
       ]
     },
     "open": {
@@ -4899,7 +4898,7 @@
       "top": [
         "v1.assembly.deleteInstance",
         "v1.solid.useSolid",
-        "v1.common.save"
+        "v1.part.importFeature"
       ]
     },
     "over": {
@@ -4929,8 +4928,8 @@
       "count": 84,
       "top": [
         "v1.part.expression",
-        "v1.part.unlinkExpression",
-        "v1.part.getExpression"
+        "v1.part.getExpression",
+        "v1.part.deleteExpression"
       ]
     },
     "parameterization": {
@@ -4942,8 +4941,8 @@
     "parameterized": {
       "count": 2,
       "top": [
-        "v1.sketch.splitCurves",
-        "v1.sketch.splitCurve"
+        "v1.sketch.splitCurve",
+        "v1.sketch.splitCurves"
       ]
     },
     "parameters": {
@@ -5050,9 +5049,9 @@
     "plane": {
       "count": 17,
       "top": [
-        "v1.part.workPlane",
         "v1.part.sketch",
-        "v1.sketch.create"
+        "v1.sketch.create",
+        "v1.part.workPlane"
       ]
     },
     "pld": {
@@ -5109,16 +5108,16 @@
       "count": 12,
       "top": [
         "v1.sketch.getPositions",
-        "v1.drawing2d.updateDimensionPosition",
-        "v1.part.getGeometryPositions"
+        "v1.sketch.updateDimensionPosition",
+        "v1.drawing2d.updateDimensionPosition"
       ]
     },
     "positions": {
       "count": 12,
       "top": [
         "v1.sketch.getPositions",
-        "v1.drawing2d.updateDimensionPosition",
-        "v1.part.getGeometryPositions"
+        "v1.sketch.updateDimensionPosition",
+        "v1.drawing2d.updateDimensionPosition"
       ]
     },
     "positive": {
@@ -5189,16 +5188,16 @@
       "count": 15,
       "top": [
         "v1.assembly.setCurrentProduct",
-        "v1.assembly.loadProduct",
-        "v1.assembly.getProduct"
+        "v1.assembly.getProduct",
+        "v1.assembly.loadProduct"
       ]
     },
     "products": {
       "count": 15,
       "top": [
         "v1.assembly.setCurrentProduct",
-        "v1.assembly.loadProduct",
-        "v1.assembly.getProduct"
+        "v1.assembly.getProduct",
+        "v1.assembly.loadProduct"
       ]
     },
     "projected": {
@@ -5593,9 +5592,9 @@
     "second": {
       "count": 3,
       "top": [
+        "v1.part.transformationByCSys",
         "v1.part.updateTransformationByCSys",
-        "v1.sketch.trim",
-        "v1.part.transformationByCSys"
+        "v1.sketch.trim"
       ]
     },
     "section": {
@@ -5677,16 +5676,16 @@
       "count": 90,
       "top": [
         "v1.sketch.rigidSet",
-        "v1.assembly.setCurrentInstance",
-        "v1.assembly.setIdent"
+        "v1.assembly.setIdent",
+        "v1.common.setUserData"
       ]
     },
     "sets": {
       "count": 90,
       "top": [
         "v1.sketch.rigidSet",
-        "v1.assembly.setCurrentInstance",
-        "v1.assembly.setIdent"
+        "v1.assembly.setIdent",
+        "v1.common.setUserData"
       ]
     },
     "settings": {
@@ -5789,17 +5788,17 @@
     "solid": {
       "count": 7,
       "top": [
+        "v1.part.entityInjection",
         "v1.part.calculateMassProperties",
-        "v1.part.setAppearance",
-        "v1.common.setAppearance"
+        "v1.part.setAppearance"
       ]
     },
     "solids": {
       "count": 7,
       "top": [
+        "v1.part.entityInjection",
         "v1.part.calculateMassProperties",
-        "v1.part.setAppearance",
-        "v1.common.setAppearance"
+        "v1.part.setAppearance"
       ]
     },
     "specific": {
@@ -5807,7 +5806,7 @@
       "top": [
         "v1.sketch.getPoints",
         "v1.sketch.getPositions",
-        "v1.part.setAppearance"
+        "v1.common.setAppearance"
       ]
     },
     "specified": {
@@ -5838,16 +5837,16 @@
       "count": 14,
       "top": [
         "v1.sketch.splitCurve",
-        "v1.sketch.splitCurves",
-        "v1.sketch.splitAllCurves"
+        "v1.sketch.preTrim",
+        "v1.sketch.splitCurves"
       ]
     },
     "splits": {
       "count": 6,
       "top": [
         "v1.sketch.splitCurve",
-        "v1.sketch.splitCurves",
-        "v1.sketch.splitAllCurves"
+        "v1.sketch.preTrim",
+        "v1.sketch.postTrim"
       ]
     },
     "splitted": {
@@ -5875,8 +5874,8 @@
       "count": 10,
       "top": [
         "v1.common.save",
-        "v1.sketch.trim",
-        "v1.sketch.postTrim"
+        "v1.common.load",
+        "v1.sketch.trim"
       ]
     },
     "still": {
@@ -6011,8 +6010,8 @@
       "count": 7,
       "top": [
         "v1.common.setObjectCoordSystem",
-        "v1.part.workCSys",
-        "v1.part.updateWorkCSys"
+        "v1.part.updateWorkCSys",
+        "v1.part.workCSys"
       ]
     },
     "tan": {
@@ -6038,16 +6037,16 @@
       "count": 12,
       "top": [
         "v1.assembly.deleteTemplate",
-        "v1.assembly.instance",
-        "v1.assembly.getPartTemplate"
+        "v1.assembly.getPartTemplate",
+        "v1.assembly.assemblyTemplate"
       ]
     },
     "templates": {
       "count": 12,
       "top": [
         "v1.assembly.deleteTemplate",
-        "v1.assembly.instance",
-        "v1.assembly.getPartTemplate"
+        "v1.assembly.getPartTemplate",
+        "v1.assembly.assemblyTemplate"
       ]
     },
     "tessellate": {
@@ -6084,16 +6083,16 @@
     "their": {
       "count": 2,
       "top": [
-        "v1.sketch.splitAllCurves",
-        "v1.sketch.preTrim"
+        "v1.sketch.preTrim",
+        "v1.sketch.splitAllCurves"
       ]
     },
     "them": {
       "count": 4,
       "top": [
         "v1.drawing2d.centerView",
-        "v1.assembly.transformInstance",
-        "v1.sketch.preTrim"
+        "v1.sketch.preTrim",
+        "v1.assembly.instance"
       ]
     },
     "then": {
@@ -6171,9 +6170,9 @@
     "transform": {
       "count": 6,
       "top": [
+        "v1.curve.transformShape",
         "v1.assembly.transformInstance",
-        "v1.assembly.transformInstanceTo",
-        "v1.curve.transformShape"
+        "v1.assembly.transformInstanceTo"
       ]
     },
     "transformation": {
@@ -6199,9 +6198,9 @@
     "transforms": {
       "count": 6,
       "top": [
+        "v1.curve.transformShape",
         "v1.assembly.transformInstance",
-        "v1.assembly.transformInstanceTo",
-        "v1.curve.transformShape"
+        "v1.assembly.transformInstanceTo"
       ]
     },
     "transition": {
@@ -6250,9 +6249,9 @@
     "trimming": {
       "count": 3,
       "top": [
-        "v1.sketch.trimCurves",
         "v1.sketch.postTrim",
-        "v1.sketch.preTrim"
+        "v1.sketch.preTrim",
+        "v1.sketch.trimCurves"
       ]
     },
     "trims": {
@@ -6281,9 +6280,9 @@
     "two": {
       "count": 6,
       "top": [
-        "v1.sketch.fillet",
         "v1.curve.union2d",
-        "v1.sketch.rectangle"
+        "v1.sketch.fillet",
+        "v1.curve.subtraction2d"
       ]
     },
     "type": {
@@ -6364,7 +6363,7 @@
       "top": [
         "v1.assembly.update3DConstraintValue",
         "v1.part.updateBox",
-        "v1.part.updateMirror"
+        "v1.part.updateCone"
       ]
     },
     "update3": {
@@ -6386,7 +6385,7 @@
       "top": [
         "v1.assembly.update3DConstraintValue",
         "v1.part.updateBox",
-        "v1.part.updateMirror"
+        "v1.part.updateCone"
       ]
     },
     "url": {
@@ -6576,7 +6575,7 @@
       "top": [
         "v1.sketch.splitCurve",
         "v1.solid.scale",
-        "v1.curve.rotateShape"
+        "v1.solid.offset"
       ]
     },
     "whether": {
@@ -6685,8 +6684,8 @@
         "v1.assembly.create",
         "v1.assembly.convertToTemplate",
         "v1.assembly.createUncommitedObject",
-        "v1.assembly.from",
-        "v1.assembly.gear"
+        "v1.assembly.partTemplate",
+        "v1.assembly.from"
       ]
     },
     "assembly:update": {
@@ -6880,10 +6879,10 @@
       "count": 28,
       "top": [
         "v1.part.updateBox",
-        "v1.part.updateMirror",
-        "v1.part.updateBoolean",
-        "v1.part.updateCylinder",
-        "v1.part.updateExpression"
+        "v1.part.updateCone",
+        "v1.part.updateSlice",
+        "v1.part.updateTwist",
+        "v1.part.updateFillet"
       ]
     },
     "part:delete": {
@@ -6899,8 +6898,8 @@
         "v1.part.getSketch",
         "v1.part.getFeature",
         "v1.part.getExpression",
-        "v1.part.getGeometryIds",
-        "v1.part.getBrepGeometryIndex"
+        "v1.part.getBrepGeometryIndex",
+        "v1.part.getGeometryPositions"
       ]
     },
     "part:box": {
@@ -6957,9 +6956,9 @@
       "count": 9,
       "top": [
         "v1.sketch.getPoints",
-        "v1.sketch.getGeometry",
         "v1.sketch.getPositions",
-        "v1.sketch.getObjectsLists",
+        "v1.sketch.getTopologyInfo",
+        "v1.sketch.getGeometry",
         "v1.sketch.getObjectInfo"
       ]
     },
@@ -7034,11 +7033,11 @@
         "v1.assembly.instance",
         "v1.assembly.setCurrentInstance",
         "v1.assembly.deleteInstance",
+        "v1.assembly.setCurrentProduct",
         "v1.assembly.loadProduct",
         "v1.assembly.partTemplate",
-        "v1.assembly.assemblyTemplate",
-        "v1.assembly.convertToTemplate",
-        "v1.assembly.setCurrentProduct"
+        "v1.assembly.deleteTemplate",
+        "v1.assembly.assemblyTemplate"
       ]
     },
     "global dimension drives several parts": {
@@ -7046,25 +7045,25 @@
       "top": [
         "v1.sketch.dimension",
         "v1.drawing2d.dimension",
+        "v1.sketch.getGlobalState",
         "v1.part.linkWithExpression",
         "v1.part.box",
         "v1.part.cone",
         "v1.part.cylinder",
-        "v1.part.updateBox",
-        "v1.part.updateCylinder"
+        "v1.part.updateBox"
       ]
     },
     "constrained sketch from a drawing": {
       "count": 14,
       "top": [
         "v1.part.sketch",
-        "v1.assembly.moveUnderConstraints",
-        "v1.assembly.startMovingUnderConstraints",
-        "v1.assembly.finishMovingUnderConstraints",
         "v1.common.load",
         "v1.part.create",
         "v1.common.clear",
-        "v1.common.recalc"
+        "v1.common.recalc",
+        "v1.common.setFacetingParameters",
+        "v1.assembly.moveUnderConstraints",
+        "v1.assembly.startMovingUnderConstraints"
       ]
     },
     "dimensioned technical drawing": {
@@ -7148,7 +7147,7 @@
         "v1.sketch.constraint",
         "v1.part.getBrepGeometryByIndex",
         "v1.curve.line",
-        "v1.curve.arcBy3Points"
+        "v1.part.entityInjection"
       ]
     },
     "entity injection direct modeling": {
@@ -7170,11 +7169,11 @@
         "v1.sketch.trim",
         "v1.sketch.preTrim",
         "v1.sketch.postTrim",
-        "v1.sketch.trimCurves",
         "v1.sketch.splitCurve",
+        "v1.sketch.trimCurves",
         "v1.sketch.splitAllCurves",
         "v1.part.sketch",
-        "v1.sketch.splitCurves"
+        "v1.sketch.splitCurvesMergeBack"
       ]
     },
     "fillet edges": {
@@ -7194,13 +7193,13 @@
       "count": 78,
       "top": [
         "v1.assembly.update3DConstraintValue",
+        "v1.assembly.getProduct",
         "v1.assembly.deleteTemplate",
         "v1.assembly.assemblyTemplate",
         "v1.assembly.group",
         "v1.sketch.constraint",
-        "v1.assembly.circularPattern",
-        "v1.assembly.spherical",
-        "v1.assembly.linearPattern"
+        "v1.assembly.linearPattern",
+        "v1.assembly.circularPattern"
       ]
     },
     "kinematic joint": {
@@ -7223,10 +7222,10 @@
         "v1.assembly.setCurrentInstance",
         "v1.assembly.deleteInstance",
         "v1.assembly.deleteTemplate",
+        "v1.assembly.getProduct",
         "v1.assembly.getInstance",
         "v1.assembly.exportNode",
-        "v1.assembly.convertToTemplate",
-        "v1.assembly.transformInstance"
+        "v1.assembly.convertToTemplate"
       ]
     },
     "save and load files": {
@@ -7310,20 +7309,20 @@
         "v1.sketch.linearPattern",
         "v1.sketch.mirrorPattern",
         "v1.sketch.circularPattern",
-        "v1.part.deleteFeature"
+        "v1.part.updateImportFeature"
       ]
     },
     "split a solid": {
       "count": 21,
       "top": [
-        "v1.solid.slice",
         "v1.solid.section",
+        "v1.solid.slice",
         "v1.part.slice",
-        "v1.sketch.splitCurve",
         "v1.part.sliceBySheet",
-        "v1.sketch.splitCurves",
-        "v1.sketch.splitAllCurves",
-        "v1.sketch.preTrim"
+        "v1.sketch.splitCurve",
+        "v1.sketch.preTrim",
+        "v1.solid.intersection",
+        "v1.sketch.splitCurves"
       ]
     }
   },
@@ -7348,8 +7347,8 @@
             "v1.assembly.instance",
             "v1.assembly.setCurrentInstance",
             "v1.assembly.deleteInstance",
-            "v1.assembly.loadProduct",
-            "v1.assembly.partTemplate"
+            "v1.assembly.setCurrentProduct",
+            "v1.assembly.loadProduct"
           ],
           "note": "No method covers all of these words — likely a workflow, not a single method: see `recipes/assembly-parameters`."
         },
@@ -7391,9 +7390,9 @@
           "methods": [
             "v1.assembly.fastened",
             "v1.assembly.getFastened",
-            "v1.assembly.fastenedOrigin",
             "v1.assembly.updateFastened",
-            "v1.assembly.getFastenedOrigin"
+            "v1.assembly.getFastenedOrigin",
+            "v1.assembly.fastenedOrigin"
           ],
           "note": "showing 5 of 48"
         },
@@ -7410,8 +7409,8 @@
           "count": 24,
           "methods": [
             "v1.assembly.instance",
-            "v1.assembly.setCurrentInstance",
             "v1.assembly.getProduct",
+            "v1.assembly.setCurrentInstance",
             "v1.assembly.setCurrentProduct",
             "v1.assembly.deleteInstance"
           ],
@@ -7469,8 +7468,8 @@
           "search": "circle",
           "count": 5,
           "methods": [
-            "v1.curve.circle",
             "v1.sketch.circle",
+            "v1.curve.circle",
             "v1.sketch.getPoints",
             "v1.sketch.getPositions",
             "v1.part.getGeometryPositions"
@@ -7492,8 +7491,8 @@
           "search": "dimension",
           "count": 9,
           "methods": [
-            "v1.drawing2d.dimension",
             "v1.sketch.dimension",
+            "v1.drawing2d.dimension",
             "v1.sketch.updateDimensionPosition",
             "v1.sketch.updateDimension",
             "v1.drawing2d.deleteDimension"
@@ -7579,10 +7578,10 @@
           "count": 30,
           "methods": [
             "v1.assembly.instance",
+            "v1.assembly.getProduct",
             "v1.assembly.setCurrentInstance",
             "v1.assembly.deleteInstance",
-            "v1.assembly.getInstance",
-            "v1.assembly.transformInstance"
+            "v1.assembly.getInstance"
           ],
           "note": "showing 5 of 30"
         },
@@ -7591,8 +7590,8 @@
           "count": 24,
           "methods": [
             "v1.assembly.instance",
-            "v1.assembly.setCurrentInstance",
             "v1.assembly.getProduct",
+            "v1.assembly.setCurrentInstance",
             "v1.assembly.setCurrentProduct",
             "v1.assembly.deleteInstance"
           ],
@@ -7656,11 +7655,11 @@
           "search": "split solid",
           "count": 21,
           "methods": [
-            "v1.solid.slice",
             "v1.solid.section",
+            "v1.solid.slice",
             "v1.part.slice",
-            "v1.sketch.splitCurve",
-            "v1.part.sliceBySheet"
+            "v1.part.sliceBySheet",
+            "v1.sketch.splitCurve"
           ],
           "note": "No method covers all of these words — likely a workflow, not a single method: see `recipes/constrained-sketching`."
         },
@@ -7779,7 +7778,7 @@
             "v1.part.updateWorkPoint",
             "v1.sketch.point",
             "v1.part.workCSys",
-            "v1.part.getWorkGeometry"
+            "v1.part.workAxis"
           ],
           "note": "showing 5 of 35"
         },
@@ -7824,7 +7823,7 @@
             "v1.part.box",
             "v1.part.updateBox",
             "v1.drawing2d.centerView",
-            "v1.part.calculateMassProperties"
+            "v1.drawing2d.getBoundaryBoxFromView"
           ],
           "note": "showing 5 of 12"
         }
@@ -7909,12 +7908,12 @@
               "summary": "Creates instances of products and adds them to root assembly, assembly instance or assem…"
             },
             {
-              "method": "v1.assembly.setCurrentInstance",
-              "summary": "Sets the given instance or root assembly as the current."
+              "method": "v1.assembly.getProduct",
+              "summary": "Returns the product id from a given instance."
             },
             {
-              "method": "v1.assembly.deleteInstance",
-              "summary": "Deletes instances from root assembly, other instances or assembly templates."
+              "method": "v1.assembly.setCurrentInstance",
+              "summary": "Sets the given instance or root assembly as the current."
             }
           ],
           "note": "showing 3 of 30"
@@ -7928,12 +7927,12 @@
               "seeAbove": "assembly instance"
             },
             {
-              "method": "v1.assembly.setCurrentInstance",
+              "method": "v1.assembly.getProduct",
               "seeAbove": "assembly instance"
             },
             {
-              "method": "v1.assembly.getProduct",
-              "summary": "Returns the product id from a given instance."
+              "method": "v1.assembly.setCurrentInstance",
+              "seeAbove": "assembly instance"
             }
           ],
           "note": "showing 3 of 24"
@@ -7960,6 +7959,7 @@
         "v1.solid.union",
         "v1.curve.circle",
         "v1.part.boolean",
+        "v1.part.chamfer",
         "v1.sketch.point",
         "v1.solid.sphere",
         "v1.curve.ellipse",
@@ -7967,8 +7967,7 @@
         "v1.sketch.circle",
         "v1.solid.revolve",
         "v1.solid.cylinder",
-        "v1.part.expression",
-        "v1.sketch.geometry"
+        "v1.part.expression"
       ]
     },
     "defaultLimitArray": {
@@ -7995,12 +7994,12 @@
           "methods": [
             "v1.assembly.update3DConstraintValue",
             "v1.part.updateBox",
+            "v1.part.updateCone",
+            "v1.part.updateSlice",
+            "v1.part.updateTwist",
+            "v1.part.updateFillet",
             "v1.part.updateMirror",
-            "v1.part.updateBoolean",
-            "v1.part.updateCylinder",
-            "v1.part.updateExpression",
-            "v1.sketch.updateGeometry",
-            "v1.sketch.updateDimension"
+            "v1.part.updateSphere"
           ],
           "note": "showing 8 of 47"
         }

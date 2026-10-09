@@ -6,7 +6,7 @@ Parametric box feature in a part's feature tree (unlike `solid.box`, direct geom
 
 - `id` — **part ID** (not entity injection ID — that's `solid.box`)
 - `name` — feature name (default: "Box")
-- `length`, `width`, `height` — X, Y, Z dimensions. Default 100 each. Numbers or expression strings: `'@expr.W'`, inline math `'3*25'`, `'sqrt(100)'`. With `@expr.` references, changing the expression + recalc updates the box.
+- `length`, `width`, `height` — X, Y, Z dimensions. Default 100 each. Numbers or expression strings: `'@expr.W'`, inline math `'3*25'`, `'sqrt(100)'`. With `@expr.` references, `part.updateExpression` updates the box at once (no recalc).
 - `references` — array of **workCSys IDs only**; box placed at the csys origin. Empty/omitted = drawing origin
 
 ## Return Value
@@ -21,7 +21,7 @@ Feature ID (numeric), maxLevel 31. Pass it to `updateBox`, `openFeature`, `close
 
 ## Gotchas
 
-- **Unknown parameters are SILENTLY IGNORED**: `xPosition`/`zPosition`/`translation` do not exist — box lands at the origin with no warning (COG-verified). Position only via `references: [workCSysId]`.
+- **Unknown parameters are SILENTLY IGNORED**: `xPosition`/`zPosition`/`translation` do not exist — box lands at the origin with no warning. Position only via `references: [workCSysId]`.
 - **`references` only accepts `workcsys` IDs** ("reference of the work coordinate system" means literally a workCSys). Work plane/axis/point ID → error 1001.
 - **Zero/negative dimensions create degenerate features**: returns a feature ID with maxLevel 51 and error 1122; the feature exists but has no valid geometry. Validate dims > 0.
 - Multiple boxes in one part are fine — each is a separate feature with its own body (renderer colors each body distinctly).

@@ -191,6 +191,11 @@ function buildMethodBM25(registry, notesFor = () => null) {
   }
 }
 
+/** One listing line for a method: its brief summary, or for a deprecated method what replaces it. */
+function indexLine(entry) {
+  return entry.deprecated ? `(deprecated) ${brief(entry.deprecated)}` : brief(entry.summary)
+}
+
 /** First sentence of a summary, collapsed and capped, for compact listings. */
 function brief(summary) {
   const s = String(summary ?? '').replace(/\s+/g, ' ').trim()
@@ -224,8 +229,7 @@ function editDistanceAtMost(a, b, max) {
  *   The skill doc bundle (`@classcad/skill/bundle.json`): topic docs, `api/<domain>`
  *   overviews, `recipes/<name>`, per-method docs (`<domain>/<method>`).
  * @param {Record<string, string>} [opts.extraDocs]
- *   Additional docs merged UNDER the bundle (e.g. `@classcad/script/docs` — DATA,
- *   STRUCTURE, GRAPHICS).
+ *   Additional docs merged UNDER the bundle (a host's own documents).
  * @param {(key: string) => string | null} [opts.resolveDoc]
  *   Optional override consulted FIRST for any doc key ("part/box", "SKETCHING",
  *   "recipes/x") — lets Node hosts serve live files from disk during development.
@@ -322,7 +326,7 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
     searchMethods({ domain, search, withSummaries = true, limit } = {}) {
       let entries = Object.entries(registry)
       if (domain) entries = entries.filter(([, v]) => v.domain === domain)
-      const shape = ([name, v]) => (withSummaries ? { method: name, summary: brief(v.summary) } : name)
+      const shape = ([name, v]) => (withSummaries ? { method: name, summary: indexLine(v) } : name)
 
       const queries = (Array.isArray(search) ? search : [search]).map(q => String(q ?? '').trim()).filter(Boolean)
       if (queries.length === 0) {
@@ -373,6 +377,7 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
               score *= covered / direct.length // soft AND: matching half of the query words keeps half the score
               if (direct.includes(domainWord)) score += 1 // "part box" → part.box before solid.box
               if (direct.includes(stem(bare))) score += 3 // exact method name ("box" → part.box before updateBox)
+              if (v.deprecated) score /= 2 // the replacement ranks first
               score = Math.round(score * 4) / 4 // near-ties (summary length only) fall through to the name order below
             }
             return { name, v, score, full: nameHit && hitDirect.size === direct.length }
@@ -442,6 +447,7 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
       if (resolved) {
         const { key, entry } = resolved
         const parts = [`# ${key}`, '', `**Summary**: ${entry.summary ?? ''}`]
+        if (entry.deprecated) parts.push('', `**Deprecated**: ${entry.deprecated}`)
         const doc = lookupDoc(`${entry.domain}/${entry.method}`)
         if (entry.params?.length) {
           // Parameters the detailed notes already describe (`name` in backticks)
@@ -534,12 +540,19 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
     },
 
     /**
-     * Compact index of the workflow documents (recipes + guides, `key — title`),
-     * for system prompts / MCP instructions next to methodIndex().
+     * Compact index of the readable documents (topic docs, recipes, guides —
+     * `key — title`), for system prompts / MCP instructions next to methodIndex().
+     * A title that repeats its key ("Structure — the model tree") is shortened.
      */
     docIndex() {
-      const { recipes, guides } = listDocs()
-      return [...recipes, ...guides].map(k => `${k} — ${docTitle(docs[k])}`).join('\n')
+      const { topics, recipes, guides } = listDocs()
+      return [...topics, ...recipes, ...guides]
+        .map(k => {
+          const title = docTitle(docs[k])
+          const prefix = `${k.toLowerCase()} — `
+          return `${k} — ${title.toLowerCase().startsWith(prefix) ? title.slice(prefix.length) : title}`
+        })
+        .join('\n')
     },
 
     /**
@@ -552,7 +565,7 @@ export function createDiscovery({ registry = {}, bundle = {}, extraDocs = {}, re
       if (indexCache) return indexCache
       indexCache = Object.keys(registry)
         .sort()
-        .map(k => `${k}: ${brief(registry[k].summary)}`)
+        .map(k => `${k}: ${indexLine(registry[k])}`)
         .join('\n')
       return indexCache
     },
@@ -670,7 +683,7 @@ export const DOCS_TOOL = {
     'unique bare name), topic docs ("DATA", "STRUCTURE", "GRAPHICS"), recipes ' +
     '("recipes/verification" — MANDATORY in every build fetch, "recipes/constrained-sketching", ' +
     '"recipes/parametric-part", "recipes/assembly-parameters", "recipes/pattern-then-subtract", ' +
-    '"recipes/direct-modeling-eif"), guides ("part/expression-workflow", "assembly/generic", …) and domain ' +
+    '"recipes/direct-modeling-eif", "recipes/buerli-app"), guides ("part/expression-workflow", "assembly/generic", …) and domain ' +
     'overviews ("api/part"). PLAN FIRST: pick every method you will need from the method index, then request ' +
     `them plus the matching recipe/guide docs in ONE call (up to ${DOCS_MAX_KEYS} keys), recipes first. ` +
     `Each response is capped at ~${Math.round(DOCS_RESPONSE_BUDGET / 1000)}k chars: docs that don't fit are ` +
@@ -688,6 +701,7 @@ export const DOC_ALIASES = {
   SKETCHING: 'recipes/constrained-sketching',
   'recipes/verify-numerically': 'recipes/verification',
   'recipes/drawing-reproduction': 'recipes/verification',
+  'common/state-tree': 'STRUCTURE',
 }
 
 /** The CAD synonym table behind both searches (read-only; exported for tests and tooling). */

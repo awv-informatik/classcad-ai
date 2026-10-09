@@ -45,7 +45,7 @@ a solid profile as a separate, explicitly-requested artifact.
 0. Classify → 1. Analyze → 2. Checklist → 3. Recognize Shapes → 4. Constrain & Dimension → 5. Trim (conditional) → 6. Evaluate
 ```
 
-**The sketch is a conditioned model, not a coordinate dump.** Analysis (Steps 1–2) tells you the drawing's dimension _scheme_; constraints and dimensions (Step 4) hand that scheme to ClassCAD so the solver computes the layout. Hardcoding every coordinate works for a one-shot reproduction, but the result can't adapt — change one value and nothing follows. A constrained sketch re-solves (verified: re-dimensioning a boss Ø45→Ø60 moved its tangent fillet to the new exact position automatically).
+**The sketch is a conditioned model, not a coordinate dump.** Analysis (Steps 1–2) tells you the drawing's dimension _scheme_; constraints and dimensions (Step 4) hand that scheme to ClassCAD so the solver computes the layout. Hardcoding every coordinate works for a one-shot reproduction, but the result can't adapt — change one value and nothing follows. A constrained sketch re-solves (re-dimensioning a boss Ø45→Ø60 moves its tangent fillet to the new exact position automatically).
 
 ---
 
@@ -124,7 +124,7 @@ If a dimension doesn't fit, the interpretation is wrong. Keep trying until all d
 Before writing any code, create a checklist. Every dimension annotation in the drawing gets a row:
 
 ```markdown
-- [ ] D1: Ø38 — DIAMETER — [hub outer circle] — hub bore
+- [ ] D1: Ø38 — RADIUS 19 — [hub outer circle] — hub bore
 - [ ] D2: 48 — HORIZONTAL_DISTANCE — [hub center → boss center] — boss position
 - [ ] D3: 14° — ANGLE — [arm axis ↔ horizontal centerline] — arm angle
       ...
@@ -192,7 +192,7 @@ Don't draw trimmed arcs or hand-compute tangent points upfront. Place every circ
 await api.v1.sketch.circle({ id: skId, centerPos: [cx, cy, 0], radius: r })
 ```
 
-**The sketch MUST be created with `planeId`** (`sketch.create({ id: partId, planeId })`). Without it the constraint solver is silently disabled — constraints and dimensions are accepted (maxLevel 31, IDs returned) but never enforced, which makes the whole of Step 4 dead weight. This is the #1 trap (see `sketch/create.md`).
+**The sketch MUST be created with `planeId`** (`sketch.create({ id: partId, planeId })`). Without it the constraint solver is silently disabled — constraints are accepted (maxLevel 31, IDs returned) but never enforced, every value dimension fails 51 while staying stored, and `getGlobalState` reads `UNDEFINED`, which makes the whole of Step 4 dead weight. This is the #1 trap (see `sketch/create.md`).
 
 **Leave the `gen*` auto-constraint flags ON (the defaults)** when you rely on autos to wire
 the profile. Auto-incidence wires endpoint-matching geometry together (`Auto_Coinc`),
@@ -223,11 +223,11 @@ This gives you a "skeleton" of overlapping shapes. Snapshot and compare against 
 
 ## Step 4 — Constrain & Dimension — let the solver lay out the sketch
 
-Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces them immediately, physically moving and resizing geometry (COINCIDENT snaps points, TANGENT moves to exact tangency, HORIZONTAL rotates preserving length, `DIAMETER value: 45` resizes an r=20 circle to r=22.5 at creation, HD/VD dimensions land a circle center on exact offsets). Declare the drawing's relationships and values; don't hand-compute what the solver can derive.
+Constraints and dimensions are ACTIVE. On a `planeId` sketch the solver enforces them immediately, physically moving and resizing geometry (COINCIDENT snaps points, TANGENT moves to exact tangency, HORIZONTAL rotates preserving length, `RADIUS value: 22.5` resizes an r=20 circle at creation, HD/VD dimensions land a circle center on exact offsets). Declare the drawing's relationships and values; don't hand-compute what the solver can derive.
 
 ### Order of operations
 
-1. **Anchor the datum** — `FIXATION` on reference geometry first; without an anchor the solver chooses what to move. Place the datum point EXACTLY at its drawing coordinates before fixing — FIXATION freezes the current position, it doesn't know where the point "should" be. One exactly-placed fixed point per sketch is enough; everything else can be seeded rough. To lock a line completely, fix its two **endpoints** individually: FIXATION on the line itself locks position/direction but NOT length — the solver will happily stretch a "fixed" line to satisfy a COINCIDENT or EQUAL_LENGTH elsewhere (verified).
+1. **Anchor the datum** — `FIXATION` on reference geometry first; without an anchor the solver chooses what to move. Place the datum point EXACTLY at its drawing coordinates before fixing — FIXATION freezes the current position, it doesn't know where the point "should" be. One exactly-placed fixed point per sketch is enough; everything else can be seeded rough. A point drawn at the origin already carries `Auto_Fix` — don't fix it again (the duplicate reads `OVERDEFINED`). To lock a line completely, fix its two **endpoints** individually: FIXATION on the line itself locks position/direction but NOT length — the solver will happily stretch a "fixed" line to satisfy a COINCIDENT or EQUAL_LENGTH elsewhere.
 2. **Relate** — COINCIDENT (connect), TANGENT (tangency), CONCENTRIC, PARALLEL / PERPENDICULAR, HORIZONTAL / VERTICAL, SYMMETRY (axis FIRST in geomIds). Full tables in `sketch/constraint.md`.
 3. **Dimension** — drive sizes/distances to the drawing's values. `value` at creation WORKS; omit `value` to lock the current measurement instead. Formulas (`'60+10'`) work; angles need the `'45deg'` suffix; `@expr.NAME` binds linear, radial and angle dims to expressions LIVE (updateExpression → sketch re-solves); angle expressions are radians (`'C:PI/6'`).
 
@@ -257,9 +257,9 @@ await api.v1.sketch.constraint([
   { id: skId, type: 'FIXATION', geomIds: [p2] },
 ])
 await api.v1.sketch.dimension([
-  // drawing values
-  { id: skId, type: 'DIAMETER', geomIds: [c1], value: 45 },
-  { id: skId, type: 'DIAMETER', geomIds: [c2], value: 45 },
+  // drawing values: Ø45 → RADIUS 22.5 (never DIAMETER, see Dimension API notes)
+  { id: skId, type: 'RADIUS', geomIds: [c1], value: 22.5 },
+  { id: skId, type: 'RADIUS', geomIds: [c2], value: 22.5 },
 ])
 const cf = (await api.v1.sketch.circle({ id: skId, centerPos: [58, 60, 0], radius: 8 })).result // rough!
 await api.v1.sketch.dimension({ id: skId, type: 'RADIUS', geomIds: [cf], value: 10 })
@@ -277,7 +277,7 @@ Seed rough geometry on the correct SIDE of the intended solution (here: above th
 ### Chain vs trim — pick by topology knowledge
 
 - **Profile topology known** (you can list the arcs/lines and their adjacency — the normal case after Step 1 analysis): build the closed CHAIN directly from rough segments with COINCIDENT + TANGENT at each join. No trim phase at all. The liquid-mixer block (4 lines + 2 corner arcs), boss peanut (4-arc chain), and cutout (4 lines + 2 ear arcs) all build this way — every join and center solved exactly from the drawing's dimension scheme.
-- **Topology to be discovered** (overlapping shapes whose intersections define the outline): place full circles/lines, solve the layout, then Step 5's split/trim workflow. Verified end-to-end on constrained sketches — the trimmed profile keeps its constraints and re-solves on dimension changes (see Step 5 trim rules).
+- **Topology to be discovered** (overlapping shapes whose intersections define the outline): place full circles/lines, solve the layout, then Step 5's split/trim workflow. Works end-to-end on constrained sketches — the trimmed profile keeps its constraints and re-solves on dimension changes (see Step 5 trim rules).
 
 ### Diagnosing an under-constrained scheme
 
@@ -290,8 +290,8 @@ Dimensions created WITHOUT `value` double as measurements: their auto-calculated
 ### Dimension patterns
 
 ```js
-// Diameter on a circle
-await api.v1.sketch.dimension({ id: skId, type: 'DIAMETER', geomIds: [circleId] })
+// Diameter (Ø) on a circle: dimension the radius
+await api.v1.sketch.dimension({ id: skId, type: 'RADIUS', geomIds: [circleId] })
 
 // Distance between two circle centers (extract point IDs first)
 const ptA = (await api.v1.sketch.getPoints({ id: circleA })).result.centerId
@@ -328,8 +328,9 @@ await api.v1.sketch.dimension({
 - `ANGLE` works with non-intersecting lines — the solver extends them to their virtual intersection.
 - `OFFSET` between two parallel lines measures perpendicular distance, even if the lines don't overlap in projection.
 - `value` at creation drives the solver. On a PLANELESS sketch the same call errors without resizing — a dead solver masquerading as a broken param. Anchor a datum first or the solver picks what to move.
-- `updateDimension` re-solves the system: `result: 1|2` = solved (2 = well-constrained), `0` = unsolved. A 0 usually means a planeless sketch or a conflicting constraint.
+- `updateDimension` re-solves the system: `result` `1` = solved (under- or fully constrained), `2` = solved but over-determined by a consistent redundancy, `0` = unsolved. A 0 means a planeless sketch or an unsatisfied constraint ANYWHERE in the sketch (the value may still apply) — `getDiagnosticsInfo` names it. "Fully constrained?" is `getGlobalState().status === 'FULLY_CONSTRAINED'`, not the update result.
 - `dimPos` for ANGLE selects which of the 4 angle sectors to constrain.
+- **Dimension a Ø as RADIUS with half the value, never `DIAMETER`.** In a sketch with solved content (other dims, a fixed center) a DIAMETER call can go unanswered until the 30 s timeout.
 
 ### Solver facts
 
@@ -348,9 +349,9 @@ small`, `SetSE NullMem`) mean your explicit wiring contradicts the autos' seed-d
 - **Encode "2×" annotations as ONE driving dimension + EQUAL_RADIUS/EQUAL_LENGTH**, not two dims. `updateDimension` has NO batch form (an array param throws an error and updates nothing), so twin dims must be updated sequentially — and for symmetric schemes the intermediate state is unsolvable (result 0), which can leave a **stale arc `bulge`** in the structure tree even after the pair completes and all positions solve exactly (server bug, TODO #174 — see `sketch/updateDimension.md`). With EQUAL\_\*, one update re-solves both sides in a single solvable step and the trap never triggers.
 - **Don't pass `dimPos` at dimension creation** (except for ANGLE sector selection) — on HD/VD point pairs it throws `InitDimensionByPosition not found`. Create dims bare, then place text via `updateDimensionPosition` (see `sketch/dimension.md`).
 - Rotational constraints preserve line length (HORIZONTAL on a 50-long tilted line keeps it 50).
-- Conflicts and redundancies are accepted SILENTLY (maxLevel 31) even with an active solver. Geometry follows the earlier constraint; the losing constraint carries `lgsState: 0` in the structure tree — check that when a layout won't converge.
+- Conflicts and redundancies are accepted SILENTLY by the creating call (maxLevel 31) even with an active solver; geometry follows the earlier constraint. Gate every constraint/dimension batch: `sketch.getGlobalState` must read `FULLY_CONSTRAINED` (or `OK` where DOF are intended; conflict → `NOT_SOLVED`, consistent redundancy → `OVERDEFINED`) and `sketch.getDiagnosticsInfo` must return both arrays empty — on a failure it names the culprits.
 - Deleting a constraint does NOT revert geometry.
-- **Trim is safe on constrained sketches:** constraints and dimensions survive `preTrim → trim → postTrim`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every `postTrim`** — re-fetch them by name from the structure tree before updating.
+- **Trim is safe on constrained sketches:** constraints and dimensions survive `preTrim → trim → postTrim`, the system auto-wires cut points with `Auto_Coinc`, and the trimmed profile stays CONDITIONED — `updateDimension` re-solves it (even through an extrusion: a trimmed-then-extruded peanut regenerated to the analytic volume after re-dimensioning and `common.recalc`, Δ 0.002%). One hard rule: **all constraint/dimension handles are recreated with new IDs on every `postTrim`** — re-fetch them by name from the structure tree before updating.
   - ⚠️ One unresolved incident: a whole-sketch `preTrim` on a constrained tangent-junction profile hung a LONG-LIVED worker terminally (100% CPU until process death). The exact sequence replays clean on a fresh worker, so the trigger is worker state, not the sketch — but when the profile topology is known, prefer the chain path above (no trim phase) and you are immune either way.
 
 ---
@@ -373,8 +374,8 @@ await api.v1.sketch.circle({ id: skId, centerPos: [0, 0, 0], radius: 40, isConst
   both ways; also circles/arcs).
 
 **What it's for — a first-class constraint reference.** Construction curves participate fully in the solver. Drop a
-construction axis and make real geometry `TANGENT`/`SYMMETRIC`/`COINCIDENT` to it; the solver enforces it (verified:
-a real circle made tangent to a construction axis at x=0 solved its center onto the tangent). Use it as the skeleton
+construction axis and make real geometry `TANGENT`/`SYMMETRIC`/`COINCIDENT` to it; the solver enforces it (a
+real circle made tangent to a construction axis at x=0 solves its center onto the tangent). Use it as the skeleton
 the drawing's dimension scheme hangs off — exactly the dashed centerlines/reference axes from Step 1.
 
 **Hard rules:**
@@ -382,7 +383,8 @@ the drawing's dimension scheme hangs off — exactly the dashed centerlines/refe
 - **Never feed construction curves to an operation.** `part.extrusion` on a normal profile builds a solid; passing
   construction-only curves to a region op (`part.extrusion`/`part.revolve`/`part.twist`) returns an error
   (`maxLevel 51`, "No usable (non-construction) geometry was selected for this operation."), not a solid — they form
-  no extrudable profile. Construction geometry is skeleton, not material.
+  no extrudable profile. Mixed with profile curves in `references` they still raise 51 ("Selection of construction geometry is
+  not allowed.") although the solid is built — don't retry on that error; pass `getObjectsLists().solidGeometry`. Construction geometry is skeleton, not material.
 - **`getGeometry` lumps construction curves into its `lines`/`circles`/`arcs` arrays** — you can't tell them apart
   from it. To identify construction geometry use `getObjectInfo` (`isConstruction: 0|1`), `getObjectsLists`
   (`constructionGeometry: id[]`), or `getGlobalState` (`constructionCount`).
@@ -442,8 +444,8 @@ structure tree and branch on its class:
 - **`CC_Arc`** — derive it from the segment's signed **`bulge`** (`members.bulge.value`, = tan(includedAngle/4))
   and its endpoints `s,e`: `θ = 4·atan(bulge)`, `R = |s−e|/(2·sin(θ/2))`, center = chord-midpoint offset by
   `R·cos(θ/2)` along the chord's left-normal, arc-midpoint at start-angle `+ θ/2`, normal radial. This is the same
-  math the arc renderer uses, and it is **robust for a circle cut any number of times** — verified on
-  8 staged segments incl. a 286° major sub-arc (center/radius recovered to 1e-15; cos(θ/2)'s sign handles >180°).
+  math the arc renderer uses, and it is **robust for a circle cut any number of times** — on
+  8 staged segments incl. a 286° major sub-arc it recovers center/radius to 1e-15 (cos(θ/2)'s sign handles >180°).
   Staged sub-arcs are **CCW-normalized**: positive bulge, endpoints reordered, regardless of the parent
   circle/arc's direction — read each segment's own bulge + endpoints, never assume the parent's sign survived.
 
@@ -455,8 +457,8 @@ structure tree and branch on its class:
 **The naive rule fails.** "Trim iff the midpoint is inside another shape" has no _both-sides_ notion: it keeps
 **dangling stubs** that lie outside every shape (e.g. a line overhanging past all the circles it crosses), and it
 mis-handles segments that are interior to the target region yet outside every individual placed shape. The XOR
-boundary test handles all of these uniformly. (Verified: on two circles + a diameter line overhanging both ends,
-the naive rule left two dangling line stubs; the boundary test produced the clean 2-arc union outline.)
+boundary test handles all of these uniformly. (On two circles + a diameter line overhanging both ends,
+the naive rule leaves two dangling line stubs; the boundary test produces the clean 2-arc union outline.)
 
 **Operational rules.** Several `preTrim→trim→postTrim` cycles in one sketch work; always take `curveIds` from the
 current cycle's `preTrim` result (a new `preTrim` invalidates earlier segment ids). Trimming a circle down to arcs can leave the
@@ -490,6 +492,7 @@ trim, `postTrim`, and check the realized geometry matches — a falsifiable test
 - `preTrim → postTrim` without trimming is a safe no-op for GEOMETRY ids (round-trip restore) — but constraint/dimension nodes are recreated with new IDs anyway
 - **Constrained sketches trim safely** — constraints/dimensions survive, `Auto_Coinc` appears at cut points, and the profile stays re-solvable. Re-fetch dimension/constraint handles by NAME after `postTrim` (dimension names preserved; constraint names suffix-renamed `Fix`→`Fix0`)
 - **Contiguous kept segments coalesce** into a single curve on `postTrim` — keeping 3 adjacent segments of a circle yields 1 arc
+- **Acceptance check after `postTrim`:** `sketch.getTopologyInfo` must return empty `intersectingCurves` and `nearCoincidence` before extruding. It does not change between `preTrim` and `postTrim` — never run it mid-workflow.
 - Tangent-only contacts: a singly-tangent circle stays whole (staged as one full-circle part); a doubly-tangent circle (fillet between two shapes) splits into 2 arcs at the tangent points
 - **Drawing-faithful ≠ extrudable.** A sketch that keeps its boss/eye circles FULL (as drawings
   draw them) with the profile tangent to them is NOT a valid region: `part.extrusion` fails
@@ -562,7 +565,7 @@ function outerTangent(A, B, r) {
 
 ## Reference: Deriving Circle Centers from Tangency
 
-**Prefer the solver:** TANGENT constraints + a RADIUS/DIAMETER dimension derive these centers for you (see the worked example in Step 4). The math below remains useful for pre-planning and for cross-checking solver output against the drawing.
+**Prefer the solver:** TANGENT constraints + a RADIUS dimension derive these centers for you (see the worked example in Step 4). The math below remains useful for pre-planning and for cross-checking solver output against the drawing.
 
 When explicit coordinates aren't given, derive centers from tangency conditions between shapes:
 
@@ -631,9 +634,10 @@ const bossPt = add(offset, scale(dir, tBoss))
 
 ### Common pitfalls
 
-- **A sketch without `planeId` has a DEAD solver** — constraints and dimensions are accepted (maxLevel 31, IDs returned!) but never enforced; `updateDimension` returns 0; `dimension` with `value` errors (51) without resizing. Always pass `planeId` to `sketch.create` — and verify the id you pass actually resolved (an undefined lookup is accepted silently). This silent mode makes constraints look like inert metadata and value-dims look broken; both work on a properly created sketch.
+- **A sketch without `planeId` has a DEAD solver** — constraints are accepted (maxLevel 31, IDs returned!) but never enforced; `dimension` with `value` errors (51) without resizing yet its solver constraint is stored; `updateDimension` returns 0; `getGlobalState` reads `UNDEFINED`. Always pass `planeId` to `sketch.create` — and verify the id you pass actually resolved (an undefined lookup is accepted silently). This silent mode makes constraints look like inert metadata and value-dims look broken; both work on a properly created sketch.
 - **Z must be 0** for all 2D sketch coordinates — non-zero Z is a hard error (code 1014)
 - **FIXATION on a line does not lock its length** — fix both endpoints individually for a true datum
+- **Never close a COINCIDENT cycle** (p–q, q–r, then p–r): the next geometry call hangs the worker at 100 % CPU for every session. Leave the implied third coincidence out.
 - **`getPositions` fails on circle IDs** — use `getPoints` → `centerId` → `getPositions`
 - **`preTrim` ≠ `splitCurve`** — completely different operations: `preTrim` splits at all mutual intersections (the trim workflow); `splitCurve` splits one curve at explicit normalized parameter values
 

@@ -2,7 +2,7 @@
 
 Finds brep elements (edges, faces, vertices) from positions on or near them. The primary way to get brep IDs for `fillet`, `chamfer`, `workPlane`, `workAxis`, `compositeCurve`, and other APIs taking brep references.
 
-**No `recalc()` needed before querying.** Ids queried right after creating a feature work with fillet and all chamfer types. Re-query after later geometry changes.
+**No `recalc()` needed before querying.** Ids queried right after creating a feature work with fillet and all chamfer types. Re-query after later geometry changes: a feature renumbers the faces and edges it changes, a `common.recalc` renumbers all.
 
 ## Key Parameters
 
@@ -48,7 +48,7 @@ Querying `arcs`+`circles`+`lines` at one position can return `{ arcs: [6513], ci
 
 ### Circles vs arcs
 
-- **`circles`** — circular/near-full-circle edges on cylinders, cones, spheres. Finds them even though the brep stores them as arcs (seam lines).
+- **`circles`** — circular/near-full-circle edges on cylinders, cones, spheres (a full circle is one closed edge; `arcs` does not find it).
 - **`arcs`** — non-circular/partial arcs only (fillet arcs). Does NOT find circular edges on cylinders/cones.
 
 ### Seam avoidance

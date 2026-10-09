@@ -13,11 +13,11 @@ Creates a sketch inside a part; returns the `CC_Sketch` ID (maxLevel 31). Alias:
 
 ## Critical: Always Pass `planeId`
 
-**Without `planeId` the 2D solver is disabled.** Constraints and dimensions are stored but never enforced: `updateDimension` returns `result: 0` and geometry doesn't move, no error. With `planeId` (work plane or face), `updateDimension` returns `result: 1` and repositions geometry, geometric constraints enforce, `moveGeometry` respects constraints.
+**Without `planeId` the 2D solver is disabled.** Constraints are accepted (maxLevel 31, ids returned) but never enforced; a dimension WITH a `value` fails (error signature below) while its solver constraint is stored anyway; `updateDimension` returns `result: 0` and geometry doesn't move. With `planeId` (work plane or face), `updateDimension` re-solves and repositions geometry, geometric constraints enforce, `moveGeometry` respects constraints.
 
 Use a standard plane (Top=38, Front=42, Right=46 on a fresh part; look up via `part.getWorkGeometry({ id, name: 'Top' })`), a `part.workPlane`, or a face ID.
 
-**Error signature:** on a planeless sketch, `sketch.dimension`/`updateDimension` with a `value` fail with maxLevel 51 `"Couldn't set the value for dimension $N"` — for @expr AND numeric values. If the sketch "should" have a plane, check that `planeId` actually resolved: a `planes['Front']` lookup on a map lacking the key passes `undefined` SILENTLY, and `sketch.create` still returns maxLevel 31 with a valid-looking id.
+**Error signature:** on a planeless sketch, `sketch.dimension`/`updateDimension` with a `value` fail with maxLevel 51 `"Couldn't set the value for dimension $N"` — for @expr AND numeric values. One-call checks: `sketch.getGlobalState` stays `UNDEFINED` with geometry present, and `sketch.getDiagnosticsInfo` lists EVERY constraint as `unsatisfied`. If the sketch "should" have a plane, check that `planeId` actually resolved: a `planes['Front']` lookup on a map lacking the key passes `undefined` SILENTLY, and `sketch.create` still returns maxLevel 31 with a valid-looking id.
 
 ## What Gets Created
 

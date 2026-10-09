@@ -17,7 +17,7 @@ Cuts tool solids from a target (boolean subtract). Shared rules (keepTools, empt
 
 ## Gotchas
 
-- **Skip `common.recalc` after direct solid booleans** — results are already current. A recalc can destroy the EIF body in complex cases: a sprocket blank − many tools subtraction went from healthy to `calculateMassProperties` null (NullMem) after `common.recalc({})`. A simple 40×40×20 box − Ø10 cylinder subtraction survived a recalc, volume unchanged.
+- **Skip `common.recalc` after direct solid booleans** — results are already current. A recalc invalidates `curve.*` shape ids and has destroyed bodies in complex EIF sessions: a sprocket blank − many tools subtraction went from healthy to `calculateMassProperties` null (NullMem) after `common.recalc({})`. A simple 40×40×20 box − Ø10 cylinder subtraction survived a recalc, volume unchanged. Keep `recalc: false` (the default) on `api.graphic()` and snapshots.
 - **Consumed tool IDs are rejected cleanly** — any later solid op on them (`solid.translation`, `solid.copy`, `solid.subtraction`, …) returns maxLevel 51, `"...has an invalid id!"` (code 1006), same as a never-existing ID; no hang.
 - **Non-overlapping tools are silent no-ops** — target unchanged, but the tool is still consumed (unless `keepTools: true`).
 

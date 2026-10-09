@@ -12,8 +12,8 @@ ClassCAD assemblies use a **template/instance** architecture: templates define r
 
 ### Instances
 
-- **Lightweight references**, not geometry copies: `CC_ProductReference` nodes under `CC_AssemblyRoot` or inside assembly templates, with NO children in the structure tree.
-- Tree members: `productId` (template link), `isDirty`, `localPath`, `ownPart`, `productRefsET`, `_VERSION`. Placement is a node field, not a member: `(await api.tree())[instanceId].coordinateSystem` → `[origin, xDir, yDir, zDir]` in assembly coordinates. Read it to verify where constraints put an instance.
+- **Lightweight references**, not geometry copies: `CC_ProductReference` nodes under `CC_AssemblyRoot` or inside assembly templates. A root instance of an assembly template has its expanded `CC_ProductReferenceET` nodes as children; part instances have none.
+- Tree members: `productId` (template link — `assembly.getProduct({ instanceId })` returns it; the node field `link` exists only when the product is a part), `isDirty`, `localPath`, `ownPart`, `productRefsET`, `_VERSION`. Placement is a node field, not a member: `(await api.tree())[instanceId].coordinateSystem` → `[origin, xDir, yDir, zDir]` in assembly coordinates. Read it to verify where constraints put an instance.
 - Querying `getInstance({ ownerId: templateId })` returns template-scope CC_ProductReference IDs; `getInstance({ ownerId: instanceId })` returns **different** expanded-tree CC_ProductReferenceET IDs for the same logical instances.
 
 ```

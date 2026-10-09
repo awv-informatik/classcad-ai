@@ -7,8 +7,8 @@ Every call returns an envelope. The docs describe `{ result, messages?, maxLevel
   result:    any,          // payload — see Result Types
   messages:  Array,        // always an array ([] on success)
   maxLevel:  number,       // highest severity — 31 (info) is the clean baseline
-  structure: object|null,  // full scene graph — ignore for API scripting
-  graphic:   object|null,  // rendering data for clients — ignore for API scripting
+  structure: object|null,  // scene graph — null inside run_script (MCP, buerli-ai): use api.tree()
+  graphic:   object|null,  // rendering data — null inside run_script: use api.graphic()
 }
 ```
 
@@ -85,8 +85,8 @@ See `common.batch`. Outer `messages` re-attribute job errors to `api: "v1.common
 
 ## Structure and Graphic Fields
 
-- **`structure`:** full scene graph (every object's ID, name, class, parent, children, members), updated after every mutating call. Massive — use `result` instead. Shape and caching: `state-tree.md`. `structure.root` gives the part ID, `structure.tree[String(id)]` any object.
-- **`graphic`:** tessellation data for clients. Usually `null` in API scripting.
+- **`structure`:** the scene graph (every object's ID, name, class, parent, children, members). Inside `run_script` (MCP, buerli-ai) it is `null` on every call — read the model with `api.tree()`; outside a script (the training harness, an app's connection) every Result carries it. `structure.root` is the root product (the part; 1 while the drawing is empty), `structure.tree[String(id)]` any object. Shape: the `STRUCTURE` doc.
+- **`graphic`:** tessellation data — `null` inside `run_script` (use `api.graphic()`), except on `common.requestVisualisation`, which always fills it. Shape: the `GRAPHICS` doc.
 
 ## Expression Engine
 
@@ -182,7 +182,7 @@ Right-handed: **X** right (Right plane normal), **Y** forward (Front plane norma
 
 ## Angles
 
-**All angles are radians** — revolve, twist, chamfer, circular patterns, rotation vectors, `workCSys` rotation, expression trig. No degree mode (expressions: `Ndeg` suffix). No `atan2` function — two-argument `atan(y, x)` is atan2 (`atan(1,-1)` = 2.356).
+**All angles are radians** — revolve, twist, chamfer, circular patterns, rotation vectors, `workCSys` rotation, expression trig. The one exception: the tessellation `angleTol` (`setDatabaseSettings`, `setFacetingParameters`) is in degrees. No degree mode (expressions: `Ndeg` suffix). No `atan2` function — two-argument `atan(y, x)` is atan2 (`atan(1,-1)` = 2.356).
 
 ## Rotation Vectors
 
@@ -205,4 +205,4 @@ matrix: [
 
 ## Related
 
-`common.batch` · `common.evaluateExpression` · `common.getAppVersion` / `common.getClassFileVersion` · `expression-syntax.md` · `state-tree.md`
+`common.batch` · `common.evaluateExpression` · `common.getAppVersion` / `common.getClassFileVersion` · `expression-syntax.md` · `STRUCTURE` / `GRAPHICS` / `DATA` (the data-contract docs)

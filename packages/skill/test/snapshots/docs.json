@@ -1,4 +1,144 @@
 {
+  "DATA": {
+    "read": {
+      "chars": 8788,
+      "sha": "69d6fa2b2f59",
+      "headings": [
+        "# DATA — the tree & graphic contract for scripts",
+        "## `api.tree({ refresh? })` → the model",
+        "## `api.graphic({ recalc? })` → the geometry",
+        "## Which source for which question"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 8788,
+      "sha": "69d6fa2b2f59",
+      "headings": [
+        "# DATA — the tree & graphic contract for scripts",
+        "## `api.tree({ refresh? })` → the model",
+        "## `api.graphic({ recalc? })` → the geometry",
+        "## Which source for which question"
+      ]
+    }
+  },
+  "GRAPHICS": {
+    "read": {
+      "chars": 9629,
+      "sha": "67273e8013b5",
+      "headings": [
+        "# Graphics — the graphic payload (protocol version 11)",
+        "## Top-level shape",
+        "## GraphicContainer",
+        "### Container `type` (runtime field, **not in schema**)",
+        "## Material & properties",
+        "## Payload buckets",
+        "### `meshes` — tessellated faces (solids)",
+        "### `Surface` (mesh sub-record)",
+        "### `edges` — brep edges as polylines",
+        "### `lines` — straight edges (curve tessellation off)",
+        "### `arcs` — circular / arc geometry",
+        "### `cones` — analytic cones / cylinders",
+        "### `vertices` — discrete 3D points",
+        "### `namedPoints` — labeled anchor points",
+        "### `labels` — text annotations",
+        "### `coordinateSystems` — work coordinate systems",
+        "## Live access from the WS protocol",
+        "## Tessellation knobs",
+        "## Identifying object provenance"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 9629,
+      "sha": "67273e8013b5",
+      "headings": [
+        "# Graphics — the graphic payload (protocol version 11)",
+        "## Top-level shape",
+        "## GraphicContainer",
+        "### Container `type` (runtime field, **not in schema**)",
+        "## Material & properties",
+        "## Payload buckets",
+        "### `meshes` — tessellated faces (solids)",
+        "### `Surface` (mesh sub-record)",
+        "### `edges` — brep edges as polylines",
+        "### `lines` — straight edges (curve tessellation off)",
+        "### `arcs` — circular / arc geometry",
+        "### `cones` — analytic cones / cylinders",
+        "### `vertices` — discrete 3D points",
+        "### `namedPoints` — labeled anchor points",
+        "### `labels` — text annotations",
+        "### `coordinateSystems` — work coordinate systems",
+        "## Live access from the WS protocol",
+        "## Tessellation knobs",
+        "## Identifying object provenance"
+      ]
+    }
+  },
+  "PLANS": {
+    "read": {
+      "chars": 2284,
+      "sha": "a3605cd7a8d1",
+      "headings": [
+        "# PLANS — what a ClassCAD plan enables",
+        "## Plans",
+        "## How an app gets the engine",
+        "## When the engine does not start"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 2284,
+      "sha": "a3605cd7a8d1",
+      "headings": [
+        "# PLANS — what a ClassCAD plan enables",
+        "## Plans",
+        "## How an app gets the engine",
+        "## When the engine does not start"
+      ]
+    }
+  },
+  "STRUCTURE": {
+    "read": {
+      "chars": 19005,
+      "sha": "9618babecf08",
+      "headings": [
+        "# Structure — the model tree",
+        "## The envelope",
+        "### When it arrives",
+        "## Classes form a hierarchy",
+        "## StructureObject",
+        "## Part anatomy",
+        "## Features and history",
+        "### Solids, `consumed`, and the id spaces",
+        "## Sketch anatomy",
+        "## Assembly anatomy",
+        "### World transforms: accumulate along the reference chain",
+        "## Selection ids (apps in the session)",
+        "## Live access"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 19005,
+      "sha": "9618babecf08",
+      "headings": [
+        "# Structure — the model tree",
+        "## The envelope",
+        "### When it arrives",
+        "## Classes form a hierarchy",
+        "## StructureObject",
+        "## Part anatomy",
+        "## Features and history",
+        "### Solids, `consumed`, and the id spaces",
+        "## Sketch anatomy",
+        "## Assembly anatomy",
+        "### World transforms: accumulate along the reference chain",
+        "## Selection ids (apps in the session)",
+        "## Live access"
+      ]
+    }
+  },
   "api/assembly": {
     "read": {
       "chars": 241866,
@@ -673,8 +813,8 @@
   },
   "assembly/assemblyTemplate": {
     "read": {
-      "chars": 3607,
-      "sha": "d25837a0301a",
+      "chars": 3652,
+      "sha": "c0a5b3d8cefc",
       "headings": [
         "# assembly.assemblyTemplate",
         "## Prerequisites",
@@ -689,8 +829,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3607,
-      "sha": "d25837a0301a",
+      "chars": 3652,
+      "sha": "c0a5b3d8cefc",
       "headings": [
         "# assembly.assemblyTemplate",
         "## Prerequisites",
@@ -764,8 +904,8 @@
   },
   "assembly/convertToTemplate": {
     "read": {
-      "chars": 2869,
-      "sha": "a2f3df849f0d",
+      "chars": 2938,
+      "sha": "a87d54eda523",
       "headings": [
         "# assembly.convertToTemplate",
         "## Key Parameters",
@@ -779,8 +919,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2869,
-      "sha": "a2f3df849f0d",
+      "chars": 2938,
+      "sha": "a87d54eda523",
       "headings": [
         "# assembly.convertToTemplate",
         "## Key Parameters",
@@ -1166,8 +1306,8 @@
   },
   "assembly/generic": {
     "read": {
-      "chars": 5456,
-      "sha": "d9b8d7cc9819",
+      "chars": 5655,
+      "sha": "fd07d1b6eeff",
       "headings": [
         "# Assembly: Template vs Instance Paradigm",
         "## Key Concepts",
@@ -1183,8 +1323,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5456,
-      "sha": "d9b8d7cc9819",
+      "chars": 5655,
+      "sha": "fd07d1b6eeff",
       "headings": [
         "# Assembly: Template vs Instance Paradigm",
         "## Key Concepts",
@@ -1335,6 +1475,31 @@
         "## Key Parameters",
         "## Return Value",
         "## Gotchas",
+        "## Working Example",
+        "## Related"
+      ]
+    }
+  },
+  "assembly/getProduct": {
+    "read": {
+      "chars": 6468,
+      "sha": "e6b52fd9679c",
+      "headings": [
+        "# assembly.getProduct",
+        "## Traps",
+        "## Errors",
+        "## Working Example",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 6468,
+      "sha": "e6b52fd9679c",
+      "headings": [
+        "# assembly.getProduct",
+        "## Traps",
+        "## Errors",
         "## Working Example",
         "## Related"
       ]
@@ -2116,8 +2281,8 @@
   },
   "common/faceting-concepts": {
     "read": {
-      "chars": 4764,
-      "sha": "1968565c5b16",
+      "chars": 4855,
+      "sha": "1a754c44299b",
       "headings": [
         "# Faceting Concepts — chordHeightTol, angleTol, Quality vs Performance",
         "## chordHeightTol",
@@ -2134,8 +2299,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4764,
-      "sha": "1968565c5b16",
+      "chars": 4855,
+      "sha": "1a754c44299b",
       "headings": [
         "# Faceting Concepts — chordHeightTol, angleTol, Quality vs Performance",
         "## chordHeightTol",
@@ -2186,8 +2351,8 @@
   },
   "common/generic": {
     "read": {
-      "chars": 11297,
-      "sha": "3b5db7b8ac4f",
+      "chars": 11732,
+      "sha": "f9663dc17b4c",
       "headings": [
         "# Protocol Envelope",
         "## Result Types",
@@ -2215,8 +2380,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 11297,
-      "sha": "3b5db7b8ac4f",
+      "chars": 11732,
+      "sha": "f9663dc17b4c",
       "headings": [
         "# Protocol Envelope",
         "## Result Types",
@@ -2442,8 +2607,8 @@
   },
   "common/recalc": {
     "read": {
-      "chars": 2775,
-      "sha": "3fcf3246d5cb",
+      "chars": 3552,
+      "sha": "f4efd04e3863",
       "headings": [
         "# common.recalc",
         "## Return Value",
@@ -2458,8 +2623,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2775,
-      "sha": "3fcf3246d5cb",
+      "chars": 3552,
+      "sha": "f4efd04e3863",
       "headings": [
         "# common.recalc",
         "## Return Value",
@@ -2504,8 +2669,8 @@
   },
   "common/requestVisualisation": {
     "read": {
-      "chars": 3948,
-      "sha": "c16b2cf04646",
+      "chars": 4277,
+      "sha": "e68f92e7d0ea",
       "headings": [
         "# common.requestVisualisation",
         "## Key Parameters",
@@ -2522,8 +2687,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3948,
-      "sha": "c16b2cf04646",
+      "chars": 4277,
+      "sha": "e68f92e7d0ea",
       "headings": [
         "# common.requestVisualisation",
         "## Key Parameters",
@@ -2606,7 +2771,7 @@
   "common/setDatabaseSettings": {
     "read": {
       "chars": 4725,
-      "sha": "a9c4e67876eb",
+      "sha": "367e0727e498",
       "headings": [
         "# common.setDatabaseSettings",
         "## Key Parameters",
@@ -2623,7 +2788,7 @@
     "describe": {
       "kind": "doc",
       "chars": 4725,
-      "sha": "a9c4e67876eb",
+      "sha": "367e0727e498",
       "headings": [
         "# common.setDatabaseSettings",
         "## Key Parameters",
@@ -2758,35 +2923,6 @@
       ]
     }
   },
-  "common/state-tree": {
-    "read": {
-      "chars": 4434,
-      "sha": "bdb87c7081fa",
-      "headings": [
-        "# Structure tree (server state model)",
-        "## Configuration handshake",
-        "## Snapshot shape",
-        "## Parent chain",
-        "## Client caching strategy",
-        "## Querying the cached tree",
-        "## Findings & gotchas"
-      ]
-    },
-    "describe": {
-      "kind": "doc",
-      "chars": 4434,
-      "sha": "bdb87c7081fa",
-      "headings": [
-        "# Structure tree (server state model)",
-        "## Configuration handshake",
-        "## Snapshot shape",
-        "## Parent chain",
-        "## Client caching strategy",
-        "## Querying the cached tree",
-        "## Findings & gotchas"
-      ]
-    }
-  },
   "common/transformObjectWithMatrix": {
     "read": {
       "chars": 3608,
@@ -2822,8 +2958,8 @@
   },
   "common/userData": {
     "read": {
-      "chars": 2781,
-      "sha": "0179a3bbeacc",
+      "chars": 2803,
+      "sha": "a675c7ab2ada",
       "headings": [
         "# common.setUserData / getUserData / removeUserData / clearUserData / getUserDataKeys",
         "## Key Parameters",
@@ -2837,8 +2973,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2781,
-      "sha": "0179a3bbeacc",
+      "chars": 2803,
+      "sha": "a675c7ab2ada",
       "headings": [
         "# common.setUserData / getUserData / removeUserData / clearUserData / getUserDataKeys",
         "## Key Parameters",
@@ -3543,8 +3679,8 @@
   },
   "part/box": {
     "read": {
-      "chars": 4168,
-      "sha": "809dc0b5e25a",
+      "chars": 4164,
+      "sha": "0d90757491f8",
       "headings": [
         "# part.box",
         "## Key Parameters",
@@ -3560,8 +3696,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4168,
-      "sha": "809dc0b5e25a",
+      "chars": 4164,
+      "sha": "0d90757491f8",
       "headings": [
         "# part.box",
         "## Key Parameters",
@@ -3578,8 +3714,8 @@
   },
   "part/brep-access-pattern": {
     "read": {
-      "chars": 6575,
-      "sha": "eebd1bd71a53",
+      "chars": 6808,
+      "sha": "832aaffd5f79",
       "headings": [
         "# Brep Geometry Access Pattern",
         "## The Four APIs",
@@ -3596,8 +3732,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 6575,
-      "sha": "eebd1bd71a53",
+      "chars": 6808,
+      "sha": "832aaffd5f79",
       "headings": [
         "# Brep Geometry Access Pattern",
         "## The Four APIs",
@@ -3648,8 +3784,8 @@
   },
   "part/chamfer": {
     "read": {
-      "chars": 4660,
-      "sha": "874af4950558",
+      "chars": 4979,
+      "sha": "531eb0477eac",
       "headings": [
         "# part.chamfer",
         "## Key Parameters",
@@ -3662,8 +3798,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4660,
-      "sha": "874af4950558",
+      "chars": 4979,
+      "sha": "531eb0477eac",
       "headings": [
         "# part.chamfer",
         "## Key Parameters",
@@ -3737,8 +3873,8 @@
   },
   "part/cone": {
     "read": {
-      "chars": 3480,
-      "sha": "141bcc2c84da",
+      "chars": 3491,
+      "sha": "71ba2c312fad",
       "headings": [
         "# part.cone",
         "## Key Parameters",
@@ -3753,8 +3889,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3480,
-      "sha": "141bcc2c84da",
+      "chars": 3491,
+      "sha": "71ba2c312fad",
       "headings": [
         "# part.cone",
         "## Key Parameters",
@@ -3770,8 +3906,8 @@
   },
   "part/create": {
     "read": {
-      "chars": 2121,
-      "sha": "d8bf5357ac34",
+      "chars": 2189,
+      "sha": "d2b0b474c14b",
       "headings": [
         "# part.create",
         "## Key Parameters",
@@ -3784,8 +3920,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2121,
-      "sha": "d8bf5357ac34",
+      "chars": 2189,
+      "sha": "d2b0b474c14b",
       "headings": [
         "# part.create",
         "## Key Parameters",
@@ -3830,8 +3966,8 @@
   },
   "part/cylinder": {
     "read": {
-      "chars": 4629,
-      "sha": "0ab9cdef922c",
+      "chars": 4625,
+      "sha": "5d783318ac39",
       "headings": [
         "# part.cylinder",
         "## Key Parameters",
@@ -3847,8 +3983,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4629,
-      "sha": "0ab9cdef922c",
+      "chars": 4625,
+      "sha": "5d783318ac39",
       "headings": [
         "# part.cylinder",
         "## Key Parameters",
@@ -3966,8 +4102,8 @@
   },
   "part/entityInjection": {
     "read": {
-      "chars": 3743,
-      "sha": "cb797bb58fb9",
+      "chars": 3917,
+      "sha": "0bd61f9457c2",
       "headings": [
         "# part.entityInjection",
         "## Key Parameters",
@@ -3982,8 +4118,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3743,
-      "sha": "cb797bb58fb9",
+      "chars": 3917,
+      "sha": "0bd61f9457c2",
       "headings": [
         "# part.entityInjection",
         "## Key Parameters",
@@ -4063,8 +4199,8 @@
   },
   "part/extrusion": {
     "read": {
-      "chars": 7709,
-      "sha": "cdfbb607be7d",
+      "chars": 8327,
+      "sha": "a32517eb3e0a",
       "headings": [
         "# part.extrusion",
         "## Prerequisites",
@@ -4080,8 +4216,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 7709,
-      "sha": "cdfbb607be7d",
+      "chars": 8327,
+      "sha": "a32517eb3e0a",
       "headings": [
         "# part.extrusion",
         "## Prerequisites",
@@ -4286,8 +4422,8 @@
   },
   "part/getGeometryIds": {
     "read": {
-      "chars": 6560,
-      "sha": "0fd5b7834353",
+      "chars": 6639,
+      "sha": "ed4bd87d305d",
       "headings": [
         "# part.getGeometryIds",
         "## Key Parameters",
@@ -4307,8 +4443,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 6560,
-      "sha": "0fd5b7834353",
+      "chars": 6639,
+      "sha": "ed4bd87d305d",
       "headings": [
         "# part.getGeometryIds",
         "## Key Parameters",
@@ -4449,8 +4585,8 @@
   },
   "part/id-hierarchy": {
     "read": {
-      "chars": 2970,
-      "sha": "5f1792270ae3",
+      "chars": 3135,
+      "sha": "02a14b1940a6",
       "headings": [
         "# Entity Injection ID Hierarchy",
         "## The Chain",
@@ -4463,8 +4599,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2970,
-      "sha": "5f1792270ae3",
+      "chars": 3135,
+      "sha": "02a14b1940a6",
       "headings": [
         "# Entity Injection ID Hierarchy",
         "## The Chain",
@@ -4910,8 +5046,8 @@
   },
   "part/sphere": {
     "read": {
-      "chars": 2923,
-      "sha": "a6bf0d956854",
+      "chars": 2934,
+      "sha": "9e9618e4412a",
       "headings": [
         "# part.sphere",
         "## Key Parameters",
@@ -4926,8 +5062,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2923,
-      "sha": "a6bf0d956854",
+      "chars": 2934,
+      "sha": "9e9618e4412a",
       "headings": [
         "# part.sphere",
         "## Key Parameters",
@@ -5786,10 +5922,37 @@
       ]
     }
   },
+  "recipes/buerli-app": {
+    "read": {
+      "chars": 3226,
+      "sha": "3e15095e5b0f",
+      "headings": [
+        "# Recipe — your own app around the model (buerli + React)",
+        "## 1. The account first",
+        "## 2. Pick the path",
+        "## 3. How such an app works",
+        "## 4. Run it, then check it",
+        "## 5. Put it online"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 3226,
+      "sha": "3e15095e5b0f",
+      "headings": [
+        "# Recipe — your own app around the model (buerli + React)",
+        "## 1. The account first",
+        "## 2. Pick the path",
+        "## 3. How such an app works",
+        "## 4. Run it, then check it",
+        "## 5. Put it online"
+      ]
+    }
+  },
   "recipes/constrained-sketching": {
     "read": {
-      "chars": 42766,
-      "sha": "783da065311a",
+      "chars": 44296,
+      "sha": "c329692cc7ae",
       "headings": [
         "# Sketching Guide — Reproducing Technical Drawings in ClassCAD",
         "## Sketch-plane local→world mappings",
@@ -5838,8 +6001,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 42766,
-      "sha": "783da065311a",
+      "chars": 44296,
+      "sha": "c329692cc7ae",
       "headings": [
         "# Sketching Guide — Reproducing Technical Drawings in ClassCAD",
         "## Sketch-plane local→world mappings",
@@ -5889,8 +6052,8 @@
   },
   "recipes/direct-modeling-eif": {
     "read": {
-      "chars": 4780,
-      "sha": "c6c97acdb9d3",
+      "chars": 4847,
+      "sha": "40985ffbd0b7",
       "headings": [
         "# Recipe: Direct modeling with solid.\\* inside an Entity Injection Feature (EIF)",
         "## Operation order — the rule that shapes everything",
@@ -5904,8 +6067,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4780,
-      "sha": "c6c97acdb9d3",
+      "chars": 4847,
+      "sha": "40985ffbd0b7",
       "headings": [
         "# Recipe: Direct modeling with solid.\\* inside an Entity Injection Feature (EIF)",
         "## Operation order — the rule that shapes everything",
@@ -5920,8 +6083,8 @@
   },
   "recipes/parametric-part": {
     "read": {
-      "chars": 5226,
-      "sha": "3ac4726971c5",
+      "chars": 5331,
+      "sha": "98cbc62ac3b6",
       "headings": [
         "# Recipe: A truly parametric part (expressions + constrained sketches)",
         "## The architecture",
@@ -5935,8 +6098,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5226,
-      "sha": "3ac4726971c5",
+      "chars": 5331,
+      "sha": "98cbc62ac3b6",
       "headings": [
         "# Recipe: A truly parametric part (expressions + constrained sketches)",
         "## The architecture",
@@ -5978,8 +6141,8 @@
   },
   "recipes/verification": {
     "read": {
-      "chars": 16749,
-      "sha": "ee46b47f8555",
+      "chars": 16750,
+      "sha": "a4e9b152d40c",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",
@@ -5998,8 +6161,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 16749,
-      "sha": "ee46b47f8555",
+      "chars": 16750,
+      "sha": "a4e9b152d40c",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",
@@ -6178,8 +6341,8 @@
   },
   "sketch/constraint": {
     "read": {
-      "chars": 7638,
-      "sha": "4b7200e7447d",
+      "chars": 9041,
+      "sha": "0f3f29b7a167",
       "headings": [
         "# sketch.constraint",
         "## Key Parameters",
@@ -6197,8 +6360,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 7638,
-      "sha": "4b7200e7447d",
+      "chars": 9041,
+      "sha": "0f3f29b7a167",
       "headings": [
         "# sketch.constraint",
         "## Key Parameters",
@@ -6275,8 +6438,8 @@
   },
   "sketch/create": {
     "read": {
-      "chars": 3102,
-      "sha": "7824b556a69f",
+      "chars": 3355,
+      "sha": "8b20e6189240",
       "headings": [
         "# sketch.create",
         "## Key Parameters",
@@ -6289,8 +6452,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3102,
-      "sha": "7824b556a69f",
+      "chars": 3355,
+      "sha": "8b20e6189240",
       "headings": [
         "# sketch.create",
         "## Key Parameters",
@@ -6362,8 +6525,8 @@
   },
   "sketch/dimension": {
     "read": {
-      "chars": 7013,
-      "sha": "a005c750fe7a",
+      "chars": 8908,
+      "sha": "ba42a3d8fde6",
       "headings": [
         "# sketch.dimension",
         "## Key Parameters",
@@ -6378,8 +6541,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 7013,
-      "sha": "a005c750fe7a",
+      "chars": 8908,
+      "sha": "ba42a3d8fde6",
       "headings": [
         "# sketch.dimension",
         "## Key Parameters",
@@ -6453,8 +6616,8 @@
   },
   "sketch/geometry": {
     "read": {
-      "chars": 3779,
-      "sha": "251646d7ea17",
+      "chars": 3800,
+      "sha": "15ab2e26f962",
       "headings": [
         "# sketch.geometry",
         "## Key Parameters",
@@ -6467,8 +6630,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3779,
-      "sha": "251646d7ea17",
+      "chars": 3800,
+      "sha": "15ab2e26f962",
       "headings": [
         "# sketch.geometry",
         "## Key Parameters",
@@ -6476,14 +6639,45 @@
         "## Auto-constraints",
         "## Gotchas",
         "## Working Example",
+        "## Related"
+      ]
+    }
+  },
+  "sketch/getDiagnosticsInfo": {
+    "read": {
+      "chars": 8126,
+      "sha": "c1862619ef9b",
+      "headings": [
+        "# sketch.getDiagnosticsInfo",
+        "## Ids",
+        "## Traps",
+        "## Repair",
+        "## Right check for \"my sketch solved as declared\"?",
+        "## Errors (`id` = sketch id; numeric string `'52'` works)",
+        "## Working example",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 8126,
+      "sha": "c1862619ef9b",
+      "headings": [
+        "# sketch.getDiagnosticsInfo",
+        "## Ids",
+        "## Traps",
+        "## Repair",
+        "## Right check for \"my sketch solved as declared\"?",
+        "## Errors (`id` = sketch id; numeric string `'52'` works)",
+        "## Working example",
         "## Related"
       ]
     }
   },
   "sketch/getGeometry": {
     "read": {
-      "chars": 2303,
-      "sha": "80499c786658",
+      "chars": 2366,
+      "sha": "c8205f44d0e3",
       "headings": [
         "# sketch.getGeometry",
         "## Key Parameters",
@@ -6496,8 +6690,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2303,
-      "sha": "80499c786658",
+      "chars": 2366,
+      "sha": "c8205f44d0e3",
       "headings": [
         "# sketch.getGeometry",
         "## Key Parameters",
@@ -6509,22 +6703,88 @@
       ]
     }
   },
-  "sketch/getObjectsLists": {
+  "sketch/getGlobalState": {
     "read": {
-      "chars": 1985,
-      "sha": "4a1fa68d8314",
+      "chars": 8708,
+      "sha": "cf677ce95ccd",
       "headings": [
-        "# sketch.getObjectsLists",
-        "## Traps"
+        "# sketch.getGlobalState",
+        "## status",
+        "## Traps",
+        "## With getDiagnosticsInfo",
+        "## Working example — gate before extruding",
+        "## Related"
       ]
     },
     "describe": {
       "kind": "doc",
-      "chars": 1985,
-      "sha": "4a1fa68d8314",
+      "chars": 8708,
+      "sha": "cf677ce95ccd",
+      "headings": [
+        "# sketch.getGlobalState",
+        "## status",
+        "## Traps",
+        "## With getDiagnosticsInfo",
+        "## Working example — gate before extruding",
+        "## Related"
+      ]
+    }
+  },
+  "sketch/getObjectInfo": {
+    "read": {
+      "chars": 9620,
+      "sha": "f0a572ff26a1",
+      "headings": [
+        "# sketch.getObjectInfo",
+        "## Result by kind (live, trimmed)",
+        "## status",
+        "## Compared with the other getters",
+        "## Traps",
+        "## Errors (maxLevel 51; the call throws in scripts)",
+        "## Working example: find the losing constraint and the free points",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 9620,
+      "sha": "f0a572ff26a1",
+      "headings": [
+        "# sketch.getObjectInfo",
+        "## Result by kind (live, trimmed)",
+        "## status",
+        "## Compared with the other getters",
+        "## Traps",
+        "## Errors (maxLevel 51; the call throws in scripts)",
+        "## Working example: find the losing constraint and the free points",
+        "## Related"
+      ]
+    }
+  },
+  "sketch/getObjectsLists": {
+    "read": {
+      "chars": 7841,
+      "sha": "45c616aef286",
       "headings": [
         "# sketch.getObjectsLists",
-        "## Traps"
+        "## Result",
+        "## Traps",
+        "## Errors",
+        "## Working example",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 7841,
+      "sha": "45c616aef286",
+      "headings": [
+        "# sketch.getObjectsLists",
+        "## Result",
+        "## Traps",
+        "## Errors",
+        "## Working example",
+        "## Related"
       ]
     }
   },
@@ -6559,8 +6819,8 @@
   },
   "sketch/getPositions": {
     "read": {
-      "chars": 2531,
-      "sha": "63c07ebf626c",
+      "chars": 2617,
+      "sha": "f09b3ab279e6",
       "headings": [
         "# sketch.getPositions",
         "## Key Parameters",
@@ -6573,8 +6833,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2531,
-      "sha": "63c07ebf626c",
+      "chars": 2617,
+      "sha": "f09b3ab279e6",
       "headings": [
         "# sketch.getPositions",
         "## Key Parameters",
@@ -6611,6 +6871,35 @@
         "## Gotchas",
         "## Common Errors",
         "## Working Example",
+        "## Related"
+      ]
+    }
+  },
+  "sketch/getTopologyInfo": {
+    "read": {
+      "chars": 7418,
+      "sha": "e725442b42a7",
+      "headings": [
+        "# sketch.getTopologyInfo",
+        "## What each list reports",
+        "## Prediction vs. extrusion (`sketchRegion` + `part.extrusion` limit2 10)",
+        "## Traps",
+        "## Errors (maxLevel 51; scripts throw)",
+        "## Working example",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 7418,
+      "sha": "e725442b42a7",
+      "headings": [
+        "# sketch.getTopologyInfo",
+        "## What each list reports",
+        "## Prediction vs. extrusion (`sketchRegion` + `part.extrusion` limit2 10)",
+        "## Traps",
+        "## Errors (maxLevel 51; scripts throw)",
+        "## Working example",
         "## Related"
       ]
     }
@@ -6824,8 +7113,8 @@
   },
   "sketch/preTrim": {
     "read": {
-      "chars": 6218,
-      "sha": "0e8b419d8706",
+      "chars": 6329,
+      "sha": "3b8de01d6f4e",
       "headings": [
         "# sketch.preTrim",
         "## Key Parameters",
@@ -6842,8 +7131,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 6218,
-      "sha": "0e8b419d8706",
+      "chars": 6329,
+      "sha": "3b8de01d6f4e",
       "headings": [
         "# sketch.preTrim",
         "## Key Parameters",
@@ -7008,8 +7297,8 @@
   },
   "sketch/sketchRegion": {
     "read": {
-      "chars": 2706,
-      "sha": "5eedb4e0bdf6",
+      "chars": 2827,
+      "sha": "04833c3c14d5",
       "headings": [
         "# sketch.sketchRegion",
         "## Key Parameters",
@@ -7022,8 +7311,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2706,
-      "sha": "5eedb4e0bdf6",
+      "chars": 2827,
+      "sha": "04833c3c14d5",
       "headings": [
         "# sketch.sketchRegion",
         "## Key Parameters",
@@ -7035,10 +7324,33 @@
       ]
     }
   },
+  "sketch/splitAllCurves": {
+    "read": {
+      "chars": 2181,
+      "sha": "e398a6095d9d",
+      "headings": [
+        "# sketch.splitAllCurves",
+        "## Differences from preTrim",
+        "## Replacement",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 2181,
+      "sha": "e398a6095d9d",
+      "headings": [
+        "# sketch.splitAllCurves",
+        "## Differences from preTrim",
+        "## Replacement",
+        "## Related"
+      ]
+    }
+  },
   "sketch/splitCurve": {
     "read": {
-      "chars": 5133,
-      "sha": "b870702853e4",
+      "chars": 5164,
+      "sha": "3622d4b5872c",
       "headings": [
         "# sketch.splitCurve",
         "## Key Parameters",
@@ -7053,8 +7365,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5133,
-      "sha": "b870702853e4",
+      "chars": 5164,
+      "sha": "3622d4b5872c",
       "headings": [
         "# sketch.splitCurve",
         "## Key Parameters",
@@ -7064,14 +7376,60 @@
         "## Gotchas — NO input validation",
         "## Common Errors (maxLevel 51, whole call fails)",
         "## Working example",
+        "## Related"
+      ]
+    }
+  },
+  "sketch/splitCurves": {
+    "read": {
+      "chars": 1427,
+      "sha": "ea92debd5b35",
+      "headings": [
+        "# sketch.splitCurves",
+        "## Differences from splitCurve",
+        "## Replacement",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 1427,
+      "sha": "ea92debd5b35",
+      "headings": [
+        "# sketch.splitCurves",
+        "## Differences from splitCurve",
+        "## Replacement",
+        "## Related"
+      ]
+    }
+  },
+  "sketch/splitCurvesMergeBack": {
+    "read": {
+      "chars": 1352,
+      "sha": "690ca5ea8580",
+      "headings": [
+        "# sketch.splitCurvesMergeBack",
+        "## Same result as postTrim",
+        "## Replacement",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 1352,
+      "sha": "690ca5ea8580",
+      "headings": [
+        "# sketch.splitCurvesMergeBack",
+        "## Same result as postTrim",
+        "## Replacement",
         "## Related"
       ]
     }
   },
   "sketch/trim": {
     "read": {
-      "chars": 4103,
-      "sha": "ebaf2c9fa536",
+      "chars": 4392,
+      "sha": "4e662f1b163c",
       "headings": [
         "# sketch.trim",
         "## Key Parameters",
@@ -7085,8 +7443,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4103,
-      "sha": "ebaf2c9fa536",
+      "chars": 4392,
+      "sha": "4e662f1b163c",
       "headings": [
         "# sketch.trim",
         "## Key Parameters",
@@ -7095,6 +7453,29 @@
         "## Gotchas",
         "## Scale / hang",
         "## Working example",
+        "## Related"
+      ]
+    }
+  },
+  "sketch/trimCurves": {
+    "read": {
+      "chars": 1520,
+      "sha": "a7df1f05e72f",
+      "headings": [
+        "# sketch.trimCurves",
+        "## Behaviour (same as trim)",
+        "## Replacement",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 1520,
+      "sha": "a7df1f05e72f",
+      "headings": [
+        "# sketch.trimCurves",
+        "## Behaviour (same as trim)",
+        "## Replacement",
         "## Related"
       ]
     }
@@ -7157,8 +7538,8 @@
   },
   "sketch/updateDimension": {
     "read": {
-      "chars": 5131,
-      "sha": "8781ba03533e",
+      "chars": 5309,
+      "sha": "4eee08d0250d",
       "headings": [
         "# sketch.updateDimension",
         "## Key Parameters",
@@ -7171,8 +7552,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5131,
-      "sha": "8781ba03533e",
+      "chars": 5309,
+      "sha": "4eee08d0250d",
       "headings": [
         "# sketch.updateDimension",
         "## Key Parameters",
@@ -7796,8 +8177,8 @@
   },
   "solid/slice": {
     "read": {
-      "chars": 2662,
-      "sha": "55246a4406a9",
+      "chars": 2714,
+      "sha": "5e8471cd4648",
       "headings": [
         "# solid.slice",
         "## Key Parameters",
@@ -7811,8 +8192,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2662,
-      "sha": "55246a4406a9",
+      "chars": 2714,
+      "sha": "5e8471cd4648",
       "headings": [
         "# solid.slice",
         "## Key Parameters",
@@ -7860,8 +8241,8 @@
   },
   "solid/subtraction": {
     "read": {
-      "chars": 3578,
-      "sha": "8f9476fd4444",
+      "chars": 3686,
+      "sha": "0f9a88ff474b",
       "headings": [
         "# solid.subtraction",
         "## Key Parameters",
@@ -7875,8 +8256,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3578,
-      "sha": "8f9476fd4444",
+      "chars": 3686,
+      "sha": "0f9a88ff474b",
       "headings": [
         "# solid.subtraction",
         "## Key Parameters",

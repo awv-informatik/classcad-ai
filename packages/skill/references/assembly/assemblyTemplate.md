@@ -43,7 +43,7 @@ AllObjects (id=1)
 │       ├── CC_GeometrySet (id=28)
 │       └── CC_ProductReference (id=123, link=32)  ← "Plate" inside sub-assembly
 └── CC_AssemblyRoot (id=12)
-    └── CC_ProductReference (id=125, link=22)  ← "Bracket" in root
+    └── CC_ProductReference (id=125, productId=22)  ← "Bracket" in root (no `link`: the product is an assembly)
 ```
 
 ## Working Example

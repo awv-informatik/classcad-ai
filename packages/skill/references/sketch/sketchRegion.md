@@ -14,7 +14,7 @@ The region ID. Tree: under `CC_GeometrySet`, members `sketch` (parent sketch ID)
 
 ## Gotchas
 
-- **No closure validation.** A single line, disconnected or open geometry all create regions silently (maxLevel 31) and may fail downstream. `geomIds: []` creates an empty region, no error.
+- **No closure validation.** A single line, disconnected or open geometry all create regions silently (maxLevel 31) and may fail downstream. `geomIds: []` creates an empty region, no error. [`getTopologyInfo`](getTopologyInfo.md) catches crossings and near-miss endpoints before you extrude, but not open gaps.
 - **Extrusion needs a planed sketch** — without `planeId`, extrusion fails with `"CCObject can not be opened"`.
 - **Name collisions are auto-suffixed silently.** A `name` matching an existing drawing object (default planes "Top", "Front", "Right") gets "0" appended ("Right" → "Right0") — look up the stored name with `getSketchRegion`.
 

@@ -1,5 +1,61 @@
 {
   "perKey": {
+    "DATA": {
+      "found": [
+        "DATA"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 8804,
+      "sha": "f0e8f4cee1ba",
+      "sections": [
+        "# ═══ DATA ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "GRAPHICS": {
+      "found": [
+        "GRAPHICS"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 9649,
+      "sha": "5b2a2f864e35",
+      "sections": [
+        "# ═══ GRAPHICS ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "PLANS": {
+      "found": [
+        "PLANS"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 2301,
+      "sha": "6e627c5fa2a5",
+      "sections": [
+        "# ═══ PLANS ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "STRUCTURE": {
+      "found": [
+        "STRUCTURE"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 19026,
+      "sha": "cab2ecf12aa9",
+      "sections": [
+        "# ═══ STRUCTURE ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
     "api/assembly": {
       "found": [
         "api/assembly"
@@ -334,14 +390,28 @@
       "footers": [],
       "underBudget": true
     },
+    "recipes/buerli-app": {
+      "found": [
+        "recipes/buerli-app"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 3256,
+      "sha": "ad7d51dfe0ed",
+      "sections": [
+        "# ═══ recipes/buerli-app ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
     "recipes/constrained-sketching": {
       "found": [
         "recipes/constrained-sketching"
       ],
       "missing": [],
       "deferred": [],
-      "chars": 42807,
-      "sha": "802b8f837094",
+      "chars": 44337,
+      "sha": "7756aa8e5d75",
       "sections": [
         "# ═══ recipes/constrained-sketching ═══"
       ],
@@ -354,8 +424,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4819,
-      "sha": "427164bc54fd",
+      "chars": 4886,
+      "sha": "8322c6276d6f",
       "sections": [
         "# ═══ recipes/direct-modeling-eif ═══"
       ],
@@ -368,8 +438,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5261,
-      "sha": "8fa7c7e5f11b",
+      "chars": 5366,
+      "sha": "d91ebe94ba86",
       "sections": [
         "# ═══ recipes/parametric-part ═══"
       ],
@@ -396,8 +466,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 16781,
-      "sha": "7e3fb4508c30",
+      "chars": 16782,
+      "sha": "aa8676b9b33b",
       "sections": [
         "# ═══ recipes/verification ═══"
       ],
@@ -410,8 +480,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5484,
-      "sha": "35b00035b7d9",
+      "chars": 5683,
+      "sha": "ffe67a7cd257",
       "sections": [
         "# ═══ assembly/generic ═══"
       ],
@@ -466,8 +536,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4800,
-      "sha": "8f91637f63c7",
+      "chars": 4891,
+      "sha": "20fd43d2c93c",
       "sections": [
         "# ═══ common/faceting-concepts ═══"
       ],
@@ -494,24 +564,10 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 11323,
-      "sha": "26de4969d28e",
+      "chars": 11758,
+      "sha": "a085eecab3a5",
       "sections": [
         "# ═══ common/generic ═══"
-      ],
-      "footers": [],
-      "underBudget": true
-    },
-    "common/state-tree": {
-      "found": [
-        "common/state-tree"
-      ],
-      "missing": [],
-      "deferred": [],
-      "chars": 4463,
-      "sha": "205c12b933b2",
-      "sections": [
-        "# ═══ common/state-tree ═══"
       ],
       "footers": [],
       "underBudget": true
@@ -522,8 +578,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2808,
-      "sha": "15f0c8552d68",
+      "chars": 2830,
+      "sha": "b06b5a533b51",
       "sections": [
         "# ═══ common/userData ═══"
       ],
@@ -536,8 +592,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 6611,
-      "sha": "53b70037e9db",
+      "chars": 6844,
+      "sha": "7467e0efdd80",
       "sections": [
         "# ═══ part/brep-access-pattern ═══"
       ],
@@ -578,8 +634,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2999,
-      "sha": "fed3d32e936f",
+      "chars": 3164,
+      "sha": "40158e851ea3",
       "sections": [
         "# ═══ part/id-hierarchy ═══"
       ],
@@ -648,8 +704,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3942,
-      "sha": "aa4eb9b691a2",
+      "chars": 3987,
+      "sha": "416bc9b7c70c",
       "sections": [
         "# ═══ v1.assembly.assemblyTemplate ═══"
       ],
@@ -690,8 +746,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3235,
-      "sha": "a6ec477498a6",
+      "chars": 3304,
+      "sha": "90e1ea5f8d40",
       "sections": [
         "# ═══ v1.assembly.convertToTemplate ═══"
       ],
@@ -1040,8 +1096,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 328,
-      "sha": "9be323961670",
+      "chars": 6721,
+      "sha": "dcd44a92d009",
       "sections": [
         "# ═══ v1.assembly.getProduct ═══"
       ],
@@ -1684,8 +1740,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2924,
-      "sha": "daf223a1c323",
+      "chars": 3701,
+      "sha": "952e17832ce7",
       "sections": [
         "# ═══ v1.common.recalc ═══"
       ],
@@ -1712,8 +1768,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4241,
-      "sha": "7c705ee1276c",
+      "chars": 4570,
+      "sha": "d6e4575afd99",
       "sections": [
         "# ═══ v1.common.requestVisualisation ═══"
       ],
@@ -1755,7 +1811,7 @@
       "missing": [],
       "deferred": [],
       "chars": 5167,
-      "sha": "a0d840ba0a00",
+      "sha": "176c32acb3ea",
       "sections": [
         "# ═══ v1.common.setDatabaseSettings ═══"
       ],
@@ -2300,8 +2356,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4513,
-      "sha": "c46b703fc8c6",
+      "chars": 4509,
+      "sha": "ce763993ca93",
       "sections": [
         "# ═══ v1.part.box ═══"
       ],
@@ -2328,8 +2384,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5020,
-      "sha": "67f7d735f3a8",
+      "chars": 5339,
+      "sha": "08d29c5fb351",
       "sections": [
         "# ═══ v1.part.chamfer ═══"
       ],
@@ -2384,8 +2440,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3824,
-      "sha": "be0627b8d098",
+      "chars": 3835,
+      "sha": "b8594ea7a80e",
       "sections": [
         "# ═══ v1.part.cone ═══"
       ],
@@ -2398,8 +2454,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2348,
-      "sha": "a1d4ba78e36e",
+      "chars": 2416,
+      "sha": "b86c1a2fe30c",
       "sections": [
         "# ═══ v1.part.create ═══"
       ],
@@ -2426,8 +2482,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4971,
-      "sha": "c9f376d23140",
+      "chars": 4967,
+      "sha": "ee1270f35033",
       "sections": [
         "# ═══ v1.part.cylinder ═══"
       ],
@@ -2482,8 +2538,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4097,
-      "sha": "58931e3f2d6b",
+      "chars": 4271,
+      "sha": "8ad9bc6f0a3e",
       "sections": [
         "# ═══ v1.part.entityInjection ═══"
       ],
@@ -2510,8 +2566,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 8099,
-      "sha": "a2b789b6564d",
+      "chars": 8717,
+      "sha": "aab8d6da33c7",
       "sections": [
         "# ═══ v1.part.extrusion ═══"
       ],
@@ -2594,8 +2650,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 7166,
-      "sha": "8305e2090739",
+      "chars": 7245,
+      "sha": "d72fd72f0efa",
       "sections": [
         "# ═══ v1.part.getGeometryIds ═══"
       ],
@@ -2860,8 +2916,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3247,
-      "sha": "edc5522fe871",
+      "chars": 3258,
+      "sha": "57982aea0aeb",
       "sections": [
         "# ═══ v1.part.sphere ═══"
       ],
@@ -3420,8 +3476,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 7921,
-      "sha": "d01a3805fd26",
+      "chars": 9324,
+      "sha": "b224311ced50",
       "sections": [
         "# ═══ v1.sketch.constraint ═══"
       ],
@@ -3462,8 +3518,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3515,
-      "sha": "f7f2a409f2aa",
+      "chars": 3768,
+      "sha": "675a7750ad47",
       "sections": [
         "# ═══ v1.sketch.create ═══"
       ],
@@ -3504,8 +3560,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 7335,
-      "sha": "062acb73fe80",
+      "chars": 9230,
+      "sha": "b25e95f3b6e2",
       "sections": [
         "# ═══ v1.sketch.dimension ═══"
       ],
@@ -3546,8 +3602,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4892,
-      "sha": "a0cde70cff8d",
+      "chars": 4913,
+      "sha": "5b8afc381085",
       "sections": [
         "# ═══ v1.sketch.geometry ═══"
       ],
@@ -3560,8 +3616,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 300,
-      "sha": "20624b8e2d2c",
+      "chars": 8394,
+      "sha": "0f4e441bb1dd",
       "sections": [
         "# ═══ v1.sketch.getDiagnosticsInfo ═══"
       ],
@@ -3574,8 +3630,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2566,
-      "sha": "007469723513",
+      "chars": 2629,
+      "sha": "81555b542d43",
       "sections": [
         "# ═══ v1.sketch.getGeometry ═══"
       ],
@@ -3588,8 +3644,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 270,
-      "sha": "cfeb72df8bda",
+      "chars": 8946,
+      "sha": "578a63c024be",
       "sections": [
         "# ═══ v1.sketch.getGlobalState ═══"
       ],
@@ -3602,8 +3658,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 279,
-      "sha": "09db8951ddb3",
+      "chars": 9860,
+      "sha": "36834173029e",
       "sections": [
         "# ═══ v1.sketch.getObjectInfo ═══"
       ],
@@ -3616,8 +3672,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2233,
-      "sha": "00d5b875fe4d",
+      "chars": 8089,
+      "sha": "3ee5f75f24df",
       "sections": [
         "# ═══ v1.sketch.getObjectsLists ═══"
       ],
@@ -3644,8 +3700,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2787,
-      "sha": "0511ca1f4ab9",
+      "chars": 2873,
+      "sha": "c7f78a5bcca7",
       "sections": [
         "# ═══ v1.sketch.getPositions ═══"
       ],
@@ -3672,8 +3728,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 273,
-      "sha": "9ddbff8cd364",
+      "chars": 7659,
+      "sha": "98ec1fb887d9",
       "sections": [
         "# ═══ v1.sketch.getTopologyInfo ═══"
       ],
@@ -3784,8 +3840,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 6704,
-      "sha": "e609319da0e4",
+      "chars": 6815,
+      "sha": "a4bbc7a400de",
       "sections": [
         "# ═══ v1.sketch.preTrim ═══"
       ],
@@ -3868,8 +3924,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2988,
-      "sha": "a29b2bcdfe05",
+      "chars": 3109,
+      "sha": "9bb1f8ffd404",
       "sections": [
         "# ═══ v1.sketch.sketchRegion ═══"
       ],
@@ -3882,8 +3938,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 386,
-      "sha": "817e956a9a49",
+      "chars": 2681,
+      "sha": "ab97f184ec40",
       "sections": [
         "# ═══ v1.sketch.splitAllCurves ═══"
       ],
@@ -3896,8 +3952,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5930,
-      "sha": "46bac32553f2",
+      "chars": 5961,
+      "sha": "e0b9c81291b8",
       "sections": [
         "# ═══ v1.sketch.splitCurve ═══"
       ],
@@ -3910,8 +3966,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 596,
-      "sha": "7ebcfe20cd9e",
+      "chars": 2101,
+      "sha": "885dee85695c",
       "sections": [
         "# ═══ v1.sketch.splitCurves ═══"
       ],
@@ -3924,8 +3980,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 309,
-      "sha": "f69d17cddc38",
+      "chars": 1661,
+      "sha": "42d241b49d2e",
       "sections": [
         "# ═══ v1.sketch.splitCurvesMergeBack ═══"
       ],
@@ -3938,8 +3994,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4502,
-      "sha": "70190a6a222c",
+      "chars": 4791,
+      "sha": "d5ffe66f3f03",
       "sections": [
         "# ═══ v1.sketch.trim ═══"
       ],
@@ -3952,8 +4008,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 371,
-      "sha": "f05006d24164",
+      "chars": 1894,
+      "sha": "531ac27c4f82",
       "sections": [
         "# ═══ v1.sketch.trimCurves ═══"
       ],
@@ -3994,8 +4050,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5414,
-      "sha": "ccbf43e9ead5",
+      "chars": 5592,
+      "sha": "665ed7fbc99f",
       "sections": [
         "# ═══ v1.sketch.updateDimension ═══"
       ],
@@ -4260,8 +4316,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 2987,
-      "sha": "10c06e3813aa",
+      "chars": 3039,
+      "sha": "f475737ca0dd",
       "sections": [
         "# ═══ v1.solid.slice ═══"
       ],
@@ -4288,8 +4344,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3842,
-      "sha": "4122bbeb64c0",
+      "chars": 3950,
+      "sha": "c31d7ca64bfd",
       "sections": [
         "# ═══ v1.solid.subtraction ═══"
       ],
@@ -4379,8 +4435,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4513,
-      "sha": "c46b703fc8c6",
+      "chars": 4509,
+      "sha": "ce763993ca93",
       "sections": [
         "# ═══ v1.part.box ═══"
       ],
@@ -4397,8 +4453,8 @@
         "recipes/verification#99"
       ],
       "deferred": [],
-      "chars": 4796,
-      "sha": "8678ad9b9f28",
+      "chars": 4856,
+      "sha": "565bca90074f",
       "sections": [
         "# ═══ v1.part.box ═══",
         "# ═══ not found ═══"
@@ -4427,10 +4483,11 @@
       "missing": [],
       "deferred": [
         "recipes/verify-numerically",
-        "recipes/drawing-reproduction"
+        "recipes/drawing-reproduction",
+        "common/state-tree"
       ],
-      "chars": 42964,
-      "sha": "223ca0ec7cfc",
+      "chars": 44514,
+      "sha": "e9dddac06376",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ SKETCHING ═══"
@@ -4441,6 +4498,7 @@
     "allRecipes": {
       "found": [
         "recipes/assembly-parameters",
+        "recipes/buerli-app",
         "recipes/direct-modeling-eif",
         "recipes/parametric-part",
         "recipes/pattern-then-subtract",
@@ -4450,11 +4508,12 @@
       "deferred": [
         "recipes/constrained-sketching"
       ],
-      "chars": 37342,
-      "sha": "0ce9e735c3b8",
+      "chars": 40773,
+      "sha": "ab37db9749a5",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
+        "# ═══ recipes/buerli-app ═══",
         "# ═══ recipes/direct-modeling-eif ═══",
         "# ═══ recipes/parametric-part ═══",
         "# ═══ recipes/pattern-then-subtract ═══",
@@ -4466,11 +4525,11 @@
     "recipesAndOverviews": {
       "found": [
         "recipes/assembly-parameters",
+        "recipes/buerli-app",
         "recipes/direct-modeling-eif",
         "recipes/parametric-part",
         "recipes/pattern-then-subtract",
-        "recipes/verification",
-        "api/expressions"
+        "recipes/verification"
       ],
       "missing": [],
       "deferred": [
@@ -4479,20 +4538,21 @@
         "api/common",
         "api/curve",
         "api/drawing2d",
+        "api/expressions",
         "api/part",
         "api/sketch",
         "api/solid"
       ],
-      "chars": 46501,
-      "sha": "4acc8ad9edb2",
+      "chars": 40884,
+      "sha": "0bb415b8bd5d",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
+        "# ═══ recipes/buerli-app ═══",
         "# ═══ recipes/direct-modeling-eif ═══",
         "# ═══ recipes/parametric-part ═══",
         "# ═══ recipes/pattern-then-subtract ═══",
-        "# ═══ recipes/verification ═══",
-        "# ═══ api/expressions ═══"
+        "# ═══ recipes/verification ═══"
       ],
       "footers": [],
       "underBudget": true
@@ -4533,8 +4593,8 @@
         "v1.assembly.getProduct",
         "v1.assembly.getRevolute"
       ],
-      "chars": 48327,
-      "sha": "ee8263f29e0b",
+      "chars": 48441,
+      "sha": "89d6d7db558f",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ v1.assembly.assemblyTemplate ═══",
@@ -4565,8 +4625,8 @@
         "api/part#-1"
       ],
       "deferred": [],
-      "chars": 46405,
-      "sha": "a95c65a355eb",
+      "chars": 46437,
+      "sha": "74d8c4d80193",
       "sections": [
         "# ═══ api/part (page 1/6) ═══",
         "# ═══ not found ═══"
@@ -4607,8 +4667,8 @@
       "deferred": [
         "api/part"
       ],
-      "chars": 7673,
-      "sha": "5e3b0fe7d143",
+      "chars": 7669,
+      "sha": "219bc0be3a99",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/verification (page 1/4) ═══",
@@ -4628,8 +4688,8 @@
         "v1.part.box",
         "api/part"
       ],
-      "chars": 16923,
-      "sha": "3c491b9e1af6",
+      "chars": 16924,
+      "sha": "752f31ab093a",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/verification ═══"
@@ -4647,8 +4707,8 @@
       "LIVE"
     ],
     "deferred": [],
-    "chars": 4586,
-    "sha": "c4baf028e0a6",
+    "chars": 4582,
+    "sha": "3f09ee218c72",
     "sections": [
       "# ═══ DATA ═══",
       "# ═══ v1.part.box ═══",

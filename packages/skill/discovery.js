@@ -681,9 +681,10 @@ export const DOCS_TOOL = {
   description:
     'Fetch documentation in BULK — one call, many documents. Keys can be: v1 methods ("v1.part.box" or a ' +
     'unique bare name), topic docs ("DATA", "STRUCTURE", "GRAPHICS"), recipes ' +
-    '("recipes/verification" — MANDATORY in every build fetch, "recipes/constrained-sketching", ' +
-    '"recipes/parametric-part", "recipes/assembly-parameters", "recipes/pattern-then-subtract", ' +
-    '"recipes/direct-modeling-eif", "recipes/buerli-app"), guides ("part/expression-workflow", "assembly/generic", …) and domain ' +
+    '("recipes/verification" — MANDATORY in every build fetch, "recipes/clean-construction" — every assembly and ' +
+    'multi-part model, "recipes/constrained-sketching", "recipes/parametric-part", "recipes/assembly-parameters", ' +
+    '"recipes/pattern-then-subtract", "recipes/direct-modeling-eif", "recipes/buerli-app"), guides ' +
+    '("part/expression-workflow", "assembly/generic", …) and domain ' +
     'overviews ("api/part"). PLAN FIRST: pick every method you will need from the method index, then request ' +
     `them plus the matching recipe/guide docs in ONE call (up to ${DOCS_MAX_KEYS} keys), recipes first. ` +
     `Each response is capped at ~${Math.round(DOCS_RESPONSE_BUDGET / 1000)}k chars: docs that don't fit are ` +
@@ -701,6 +702,7 @@ export const DOC_ALIASES = {
   SKETCHING: 'recipes/constrained-sketching',
   'recipes/verify-numerically': 'recipes/verification',
   'recipes/drawing-reproduction': 'recipes/verification',
+  'recipes/cleanup': 'recipes/clean-construction',
   'common/state-tree': 'STRUCTURE',
 }
 

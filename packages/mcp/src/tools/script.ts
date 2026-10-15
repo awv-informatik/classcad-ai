@@ -10,6 +10,7 @@ import { createRequire } from 'module'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { runScript, isSessionBusy, type MethodRegistry, type ScriptSession, type Task } from '@classcad/script'
 import type { Client } from '../client.js'
+import { MATERIALIZED_NOTE, materializedInstances } from './instances.js'
 
 // Runtime require — keeps the registry JSON out of tsc's type space (OOM risk).
 const REGISTRY = createRequire(import.meta.url)('@classcad/skill/method-registry.json') as MethodRegistry
@@ -77,6 +78,7 @@ export function registerScriptTool(server: McpServer, client: Client): void {
     async ({ script, timeoutMs }, extra) => {
       let operationCount = 0
       const session = sessionFor(client)
+      const materializedBefore = new Set(materializedInstances(client.getStructure()?.tree))
       const res = await runScript(script, session, { registry: REGISTRY, timeoutMs, strict: true, signal: extra.signal,
         onOperation: event => {
           if (extra._meta?.progressToken !== undefined && event.phase === 'start') {
@@ -97,12 +99,15 @@ export function registerScriptTool(server: McpServer, client: Client): void {
       } catch {
         /* the tools pull again on demand */
       }
+      const materialized = materializedInstances(client.getStructure()?.tree).filter(id => !materializedBefore.has(id))
+      const warnings = materialized.length ? [`This script materialized ${materialized.length} instance(s): ${MATERIALIZED_NOTE}`] : []
       if (!res.ok) {
         const tail = res.logs.length ? `\nConsole output before the error:\n${res.logs.slice(-20).join('\n')}` : ''
-        return { content: [{ type: 'text' as const, text: `${res.error}${tail}` }], isError: true }
+        const warn = warnings.length ? `\nWarning: ${warnings[0]}` : ''
+        return { content: [{ type: 'text' as const, text: `${res.error}${tail}${warn}` }], isError: true }
       }
       return {
-        content: [{ type: 'text' as const, text: JSON.stringify({ returned: res.returned, logs: res.logs }) }],
+        content: [{ type: 'text' as const, text: JSON.stringify({ returned: res.returned, logs: res.logs, ...(warnings.length ? { warnings } : {}) }) }],
       }
     },
   )

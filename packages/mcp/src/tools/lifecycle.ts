@@ -7,6 +7,13 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, isAbsolute } from 'node:path'
 import { buildScene, sceneToGlb } from '../viewer/scene.js'
 import { exportAllowed } from '../engine/key.js'
+import { MATERIALIZED_NOTE, materializedInstances } from './instances.js'
+
+/** OFB/JSON keep the instance state: warn when instances would reopen invisible (see instances.ts). */
+async function materializedWarning(client: Client): Promise<{ warning?: string }> {
+  const n = materializedInstances((await client.getTree()) as Record<string, { class?: string }>).length
+  return n ? { warning: `${n} instance(s) are materialized: ${MATERIALIZED_NOTE}` } : {}
+}
 
 export function registerLifecycleTools(server: McpServer, client: Client): void {
   server.registerTool(
@@ -50,6 +57,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
     async ({ format, path, analytic }) => {
       const allowed = exportAllowed(format)
       if (!allowed.ok) return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ format, success: false, error: allowed.message }) }] }
+      const warning = format === 'OFB' || format === 'JSON' ? await materializedWarning(client) : {}
       let data: Buffer | null = null
       let maxLevel = 0
       if (format === 'GLB') {
@@ -71,12 +79,12 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
         if (!isAbsolute(path)) return { isError: true, content: [{ type: 'text' as const, text: JSON.stringify({ format, success: false, error: `path must be absolute: ${path}` }) }] }
         mkdirSync(dirname(path), { recursive: true })
         writeFileSync(path, data)
-        return { content: [{ type: 'text' as const, text: JSON.stringify({ format, success: true, path, bytes: data.length, maxLevel }) }] }
+        return { content: [{ type: 'text' as const, text: JSON.stringify({ format, success: true, path, bytes: data.length, maxLevel, ...warning }) }] }
       }
       return {
         content: [{
           type: 'text' as const,
-          text: JSON.stringify({ format, success: true, bytes: data.length, content: data.toString('base64'), maxLevel }),
+          text: JSON.stringify({ format, success: true, bytes: data.length, content: data.toString('base64'), maxLevel, ...warning }),
         }],
       }
     },
@@ -181,6 +189,7 @@ export function registerLifecycleTools(server: McpServer, client: Client): void 
             size: Math.floor((r.result.content.length * 3) / 4),
             stored: [...m.keys()],
             note: `Drawing state saved server-side. restore({ label: "${name}" }) brings it back exactly.`,
+            ...(await materializedWarning(client)),
           }),
         }],
       }

@@ -21,7 +21,7 @@ Instance ID (CC_ProductReference); array call → `Array<id>` in input order.
 
 ## Spatial Verification
 
-`world_COG = R × template_local_COG + translation_origin`. Verify with `calculateMassProperties({ id: rootAssemblyId })`. **Do NOT use `calculateMassProperties({ id: instanceId })` for routine checks** — it materializes all instances of that template, breaking template propagation (see `assembly/generic`).
+`world_COG = R × template_local_COG + translation_origin`. Verify with `calculateMassProperties({ id: rootAssemblyId })` and the template's own COG transformed by the instance's `coordinateSystem`. **Do NOT use `calculateMassProperties({ id: instanceId })`** — it materializes every instance of the assembly, and after an OFB save/load the apps no longer draw them (see `assembly/generic`).
 
 ## Common Errors
 

@@ -10,12 +10,12 @@ Center of gravity (COG) and volume of an assembly, instance, part template, or s
 |---|---|
 | Assembly root | All instances recursively, volume-weighted `COG = Σ(Vi·COGi) / Σ(Vi)`, assembly coordinates |
 | Part template | Template geometry, part-local coordinates |
-| Instance (part or sub-assembly) | That instance, assembly coordinates (instance translation + rotation applied); sub-assembly instances recurse into nested instances |
+| Instance (part or sub-assembly) | That instance, assembly coordinates (instance translation + rotation applied); sub-assembly instances recurse into nested instances. ⚠ **Materializes every instance of the assembly** — see below; compute instance COGs instead |
 | Solid ID (`solid.box`, `solid.sphere`, …) | Single solid, part-local coordinates |
 
 | Rejected | Error |
 |---|---|
-| Assembly template | "Getting model information of assembly templates is not supported yet!" (code 0) — measure an instance instead |
+| Assembly template | "Getting model information of assembly templates is not supported yet!" (code 0) — measure the root, or compute it from the member templates (transform · template COG, below) |
 | Feature (`part.box`, `part.extrusion`, …), sketch, work geometry, entity injection IDs | 1001 "wrong id type" |
 | Unexpanded sub-instance IDs (instance B inside sub-assembly template S, passed directly) | "use objects from expanded tree!" (code 0) — pass the instance A of S instead |
 | Nonexistent ID | 1006 "invalid id" |
@@ -47,9 +47,28 @@ const inst2 = (await api.v1.assembly.instance({
 
 const rAsm = await api.v1.assembly.calculateMassProperties({ id: asmId })
 // { cog: { x: 80, y: 20, z: 15 }, volume: 144000 }
-const rInst = await api.v1.assembly.calculateMassProperties({ id: inst2 })
-// { cog: { x: 130, y: 20, z: 15 }, volume: 72000 }
+const rTpl = await api.v1.assembly.calculateMassProperties({ id: tplId })
+// { cog: { x: 30, y: 20, z: 15 }, volume: 72000 } — part-local
+
+// The COG of instance B without measuring the instance: world = transform · template COG
+const [o, x, y, z] = (await api.tree({ refresh: true }))[inst2].coordinateSystem
+const c = rTpl.result.cog
+const cogB = [0, 1, 2].map(i => o[i] + x[i] * c.x + y[i] * c.y + z[i] * c.z) // [130, 20, 15]
 ```
+
+## Measuring an instance materializes the assembly
+
+`calculateMassProperties({ id: instanceId })` is not read-only. Every instance of the assembly — of
+every template, not only the measured one's — gets `isDirty` 0 and its own `geometryIdList` (probe:
+measuring A1 materialized A2 and B1 of a second template too). After an OFB save and load those
+lists read `[0]`. Buerligons and buerli apps draw an instance from its `geometryIdList` when it has
+one, so the instances are invisible in the app, and buerli-modeler hung on such a file ("Maximum
+update depth exceeded"). Measuring the root (it clears `isDirty`, attaches no list) or a template is
+harmless; so are `api.tree()` and `api.graphic()`.
+
+- Verify placement arithmetically (above), the whole by the root, single parts by their template.
+- Repair a materialized model before saving: delete the instances and re-create them with the same
+  `transformation` and name (loop in `recipes/clean-construction`, section 4).
 
 ## Related
 

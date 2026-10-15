@@ -700,10 +700,10 @@
       "count": 24,
       "top": [
         "v1.sketch.geometry",
-        "v1.sketch.getGeometry",
         "v1.sketch.moveGeometry",
-        "v1.sketch.referenceGeometry",
-        "v1.sketch.changeReferenceGeometry"
+        "v1.sketch.changeReferenceGeometry",
+        "v1.sketch.unlinkReferenceGeometry",
+        "v1.sketch.getGeometry"
       ]
     },
     "getAppVersion": {
@@ -3969,16 +3969,16 @@
       "count": 24,
       "top": [
         "v1.sketch.geometry",
-        "v1.sketch.getGeometry",
-        "v1.sketch.moveGeometry"
+        "v1.sketch.moveGeometry",
+        "v1.sketch.changeReferenceGeometry"
       ]
     },
     "geometry": {
       "count": 24,
       "top": [
         "v1.sketch.geometry",
-        "v1.sketch.getGeometry",
-        "v1.sketch.moveGeometry"
+        "v1.sketch.moveGeometry",
+        "v1.sketch.changeReferenceGeometry"
       ]
     },
     "get": {
@@ -6010,8 +6010,8 @@
       "count": 7,
       "top": [
         "v1.common.setObjectCoordSystem",
-        "v1.part.updateWorkCSys",
-        "v1.part.workCSys"
+        "v1.part.workCSys",
+        "v1.part.updateWorkCSys"
       ]
     },
     "tan": {
@@ -6684,8 +6684,8 @@
         "v1.assembly.create",
         "v1.assembly.convertToTemplate",
         "v1.assembly.createUncommitedObject",
-        "v1.assembly.partTemplate",
-        "v1.assembly.from"
+        "v1.assembly.from",
+        "v1.assembly.gear"
       ]
     },
     "assembly:update": {
@@ -7324,6 +7324,45 @@
         "v1.solid.intersection",
         "v1.sketch.splitCurves"
       ]
+    },
+    "clean up a messy assembly": {
+      "count": 32,
+      "top": [
+        "v1.assembly.getWorkGeometry",
+        "v1.assembly.instance",
+        "v1.assembly.getProduct",
+        "v1.assembly.setCurrentInstance",
+        "v1.assembly.deleteInstance",
+        "v1.assembly.setCurrentProduct",
+        "v1.curve.cleanShape",
+        "v1.assembly.exportNode"
+      ]
+    },
+    "reuse templates instead of duplicate parts": {
+      "count": 21,
+      "top": [
+        "v1.assembly.partTemplate",
+        "v1.assembly.getPartTemplate",
+        "v1.assembly.exportNode",
+        "v1.assembly.deleteTemplate",
+        "v1.assembly.assemblyTemplate",
+        "v1.assembly.instance",
+        "v1.assembly.transformInstance",
+        "v1.assembly.calculateMassProperties"
+      ]
+    },
+    "vendor part from a step file": {
+      "count": 25,
+      "top": [
+        "v1.common.load",
+        "v1.assembly.exportNode",
+        "v1.common.save",
+        "v1.part.importFeature",
+        "v1.assembly.loadProduct",
+        "v1.assembly.setCurrentProduct",
+        "v1.sketch.loadFrom",
+        "v1.common.getClassFileVersion"
+      ]
     }
   },
   "conceptSets": [
@@ -7617,7 +7656,7 @@
             "v1.assembly.updateRevolute",
             "v1.assembly.deleteConstraint"
           ],
-          "note": "No method covers all of these words — likely a workflow, not a single method: see `assembly/movingUnderConstraints`."
+          "note": "No method covers all of these words — likely a workflow, not a single method: see `recipes/clean-construction`."
         },
         {
           "search": "gear",
@@ -7661,7 +7700,7 @@
             "v1.part.sliceBySheet",
             "v1.sketch.splitCurve"
           ],
-          "note": "No method covers all of these words — likely a workflow, not a single method: see `recipes/constrained-sketching`."
+          "note": "No method covers all of these words — likely a workflow, not a single method: see `recipes/clean-construction`."
         },
         {
           "search": "boolean subtraction",

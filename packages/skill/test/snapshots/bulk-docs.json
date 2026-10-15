@@ -382,8 +382,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 7293,
-      "sha": "90a97e0f4340",
+      "chars": 7409,
+      "sha": "a7753cf7b3f1",
       "sections": [
         "# ═══ recipes/assembly-parameters ═══"
       ],
@@ -400,6 +400,20 @@
       "sha": "ad7d51dfe0ed",
       "sections": [
         "# ═══ recipes/buerli-app ═══"
+      ],
+      "footers": [],
+      "underBudget": true
+    },
+    "recipes/clean-construction": {
+      "found": [
+        "recipes/clean-construction"
+      ],
+      "missing": [],
+      "deferred": [],
+      "chars": 23658,
+      "sha": "663f1657ff93",
+      "sections": [
+        "# ═══ recipes/clean-construction ═══"
       ],
       "footers": [],
       "underBudget": true
@@ -438,8 +452,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5366,
-      "sha": "d91ebe94ba86",
+      "chars": 5503,
+      "sha": "0f43472a68a8",
       "sections": [
         "# ═══ recipes/parametric-part ═══"
       ],
@@ -452,8 +466,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3031,
-      "sha": "33022b7ff55e",
+      "chars": 3085,
+      "sha": "e0b5a93e115f",
       "sections": [
         "# ═══ recipes/pattern-then-subtract ═══"
       ],
@@ -466,8 +480,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 16782,
-      "sha": "aa8676b9b33b",
+      "chars": 17175,
+      "sha": "14fb77f14c11",
       "sections": [
         "# ═══ recipes/verification ═══"
       ],
@@ -480,8 +494,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 5683,
-      "sha": "ffe67a7cd257",
+      "chars": 6361,
+      "sha": "771bd842d85a",
       "sections": [
         "# ═══ assembly/generic ═══"
       ],
@@ -718,8 +732,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3130,
-      "sha": "b235d3b0869d",
+      "chars": 4566,
+      "sha": "5ada811718ea",
       "sections": [
         "# ═══ v1.assembly.calculateMassProperties ═══"
       ],
@@ -1180,8 +1194,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4279,
-      "sha": "a130f0292bf0",
+      "chars": 4362,
+      "sha": "086c72dafb16",
       "sections": [
         "# ═══ v1.assembly.instance ═══"
       ],
@@ -1250,8 +1264,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 3709,
-      "sha": "cbe87b986339",
+      "chars": 3702,
+      "sha": "d057af187e9c",
       "sections": [
         "# ═══ v1.assembly.partTemplate ═══"
       ],
@@ -2370,8 +2384,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4410,
-      "sha": "656e62a63d07",
+      "chars": 4731,
+      "sha": "c347bd3e2110",
       "sections": [
         "# ═══ v1.part.calculateMassProperties ═══"
       ],
@@ -2958,8 +2972,8 @@
       ],
       "missing": [],
       "deferred": [],
-      "chars": 4771,
-      "sha": "7e31184cdab9",
+      "chars": 5369,
+      "sha": "292073b86c63",
       "sections": [
         "# ═══ v1.part.twist ═══"
       ],
@@ -4484,10 +4498,11 @@
       "deferred": [
         "recipes/verify-numerically",
         "recipes/drawing-reproduction",
+        "recipes/cleanup",
         "common/state-tree"
       ],
-      "chars": 44514,
-      "sha": "e9dddac06376",
+      "chars": 44532,
+      "sha": "7957be156091",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ SKETCHING ═══"
@@ -4499,25 +4514,26 @@
       "found": [
         "recipes/assembly-parameters",
         "recipes/buerli-app",
+        "recipes/clean-construction",
         "recipes/direct-modeling-eif",
         "recipes/parametric-part",
-        "recipes/pattern-then-subtract",
-        "recipes/verification"
+        "recipes/pattern-then-subtract"
       ],
       "missing": [],
       "deferred": [
-        "recipes/constrained-sketching"
+        "recipes/constrained-sketching",
+        "recipes/verification"
       ],
-      "chars": 40773,
-      "sha": "ab37db9749a5",
+      "chars": 47979,
+      "sha": "3308d2934154",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
         "# ═══ recipes/buerli-app ═══",
+        "# ═══ recipes/clean-construction ═══",
         "# ═══ recipes/direct-modeling-eif ═══",
         "# ═══ recipes/parametric-part ═══",
-        "# ═══ recipes/pattern-then-subtract ═══",
-        "# ═══ recipes/verification ═══"
+        "# ═══ recipes/pattern-then-subtract ═══"
       ],
       "footers": [],
       "underBudget": true
@@ -4526,14 +4542,15 @@
       "found": [
         "recipes/assembly-parameters",
         "recipes/buerli-app",
+        "recipes/clean-construction",
         "recipes/direct-modeling-eif",
         "recipes/parametric-part",
-        "recipes/pattern-then-subtract",
-        "recipes/verification"
+        "recipes/pattern-then-subtract"
       ],
       "missing": [],
       "deferred": [
         "recipes/constrained-sketching",
+        "recipes/verification",
         "api/assembly",
         "api/common",
         "api/curve",
@@ -4543,19 +4560,19 @@
         "api/sketch",
         "api/solid"
       ],
-      "chars": 40884,
-      "sha": "0bb415b8bd5d",
+      "chars": 48090,
+      "sha": "ec9128c2c0f6",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/assembly-parameters ═══",
         "# ═══ recipes/buerli-app ═══",
+        "# ═══ recipes/clean-construction ═══",
         "# ═══ recipes/direct-modeling-eif ═══",
         "# ═══ recipes/parametric-part ═══",
-        "# ═══ recipes/pattern-then-subtract ═══",
-        "# ═══ recipes/verification ═══"
+        "# ═══ recipes/pattern-then-subtract ═══"
       ],
       "footers": [],
-      "underBudget": true
+      "underBudget": false
     },
     "overMaxKeys": {
       "found": [
@@ -4570,20 +4587,20 @@
         "v1.assembly.deleteInstance",
         "v1.assembly.deleteTemplate",
         "v1.assembly.exportNode",
-        "v1.assembly.fastened",
-        "v1.assembly.finishMovingUnderConstraints",
-        "v1.assembly.getCircularPattern",
-        "v1.assembly.getCylindrical",
-        "v1.assembly.getGear"
+        "v1.assembly.fastened"
       ],
       "missing": [],
       "deferred": [
         "v1.assembly.fastenedOrigin",
+        "v1.assembly.finishMovingUnderConstraints",
         "v1.assembly.from",
         "v1.assembly.gear",
         "v1.assembly.getAssemblyTemplate",
+        "v1.assembly.getCircularPattern",
+        "v1.assembly.getCylindrical",
         "v1.assembly.getFastened",
         "v1.assembly.getFastenedOrigin",
+        "v1.assembly.getGear",
         "v1.assembly.getGroup",
         "v1.assembly.getInstance",
         "v1.assembly.getLinearPattern",
@@ -4593,8 +4610,8 @@
         "v1.assembly.getProduct",
         "v1.assembly.getRevolute"
       ],
-      "chars": 48441,
-      "sha": "89d6d7db558f",
+      "chars": 48431,
+      "sha": "8e576d9d5615",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ v1.assembly.assemblyTemplate ═══",
@@ -4608,11 +4625,7 @@
         "# ═══ v1.assembly.deleteInstance ═══",
         "# ═══ v1.assembly.deleteTemplate ═══",
         "# ═══ v1.assembly.exportNode ═══",
-        "# ═══ v1.assembly.fastened ═══",
-        "# ═══ v1.assembly.finishMovingUnderConstraints ═══",
-        "# ═══ v1.assembly.getCircularPattern ═══",
-        "# ═══ v1.assembly.getCylindrical ═══",
-        "# ═══ v1.assembly.getGear ═══"
+        "# ═══ v1.assembly.fastened ═══"
       ],
       "footers": [],
       "underBudget": false
@@ -4688,8 +4701,8 @@
         "v1.part.box",
         "api/part"
       ],
-      "chars": 16924,
-      "sha": "752f31ab093a",
+      "chars": 17317,
+      "sha": "7611ec19ea63",
       "sections": [
         "# ═══ response budget reached ═══",
         "# ═══ recipes/verification ═══"

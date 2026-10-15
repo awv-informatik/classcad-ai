@@ -195,9 +195,13 @@ script from the design math — blank minus holes, etc.). Rules of thumb:
 - N patterned cuts → missing instances show up as `+1/N` volume steps.
 - Tolerance: planar solids match exactly; curved solids deviate slightly from the analytic
   value (cylinder ≈ −0.002 %, sphere ≈ +0.014 %) — that is the kernel's volume integration,
-  not a modeling error. Compare with a relative tolerance around 0.05 %.
+  not a modeling error. Compare with a relative tolerance around 0.05 %; many curved faces add
+  up (a rail with 168 holes read −0.096 %).
 - Null mass properties on a body that existed a step earlier = the body was
   destroyed (e.g. a failed or degenerate boolean).
+- Assemblies: measure the templates and the root, NEVER a single instance — that materializes
+  every instance of the assembly, and after an OFB save/load the apps draw none of them.
+  Placement: instance transform · template COG (`recipes/clean-construction`, section 4).
 - Photo-input case: no absolute volume to check — verify RATIOS (feature
   size vs overall extent) and counts against the image instead.
 
@@ -279,4 +283,5 @@ The mesh you probe is faceted at the drawing's chord tolerance — **default
 [part/getGeometryIds](../references/part/getGeometryIds.md) ·
 [recipes/parametric-part](parametric-part.md) ·
 [recipes/pattern-then-subtract](pattern-then-subtract.md) ·
-[recipes/constrained-sketching](constrained-sketching.md)
+[recipes/constrained-sketching](constrained-sketching.md) ·
+[recipes/clean-construction](clean-construction.md)

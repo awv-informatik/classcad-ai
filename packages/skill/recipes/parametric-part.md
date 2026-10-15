@@ -4,7 +4,9 @@ How to build a model that **regenerates in-tree** when a master parameter change
 not a script that must be re-run. Works end-to-end on a 21→24-tooth sprocket
 (tooth form, bore, keyway, hub, tapers, chamfer — all live).
 
-Parameters shared by several parts of an assembly: `recipes/assembly-parameters`.
+Parameters shared by several parts of an assembly: `recipes/assembly-parameters`. Feature
+structure (one sketch per shape, one feature per operation, design values instead of
+coordinates): `recipes/clean-construction`.
 
 ## The architecture
 

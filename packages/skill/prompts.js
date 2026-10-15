@@ -16,7 +16,10 @@ export const RECIPES_POINTER =
   'drawing, a fetched or attached drawing image, a spec with values, whatever the part type — is ' +
   '"recipes/constrained-sketching" territory (dimension checklist → constraints + dimensions; the solver ' +
   'lays out the sketch). A hardcoded coordinate layout is dead geometry: it passes shape checks and cannot ' +
-  'regenerate. "recipes/parametric-part" adds expressions + regeneration across features; ' +
+  'regenerate. Every assembly and every model of several parts — new, from STEP or vendor parts, or a ' +
+  'cleanup — follows "recipes/clean-construction": one template per distinct shape, one feature per ' +
+  'operation, design values not coordinates, no scaffolding or placement-only mates, never measure an ' +
+  'instance; its audit gates delivery. "recipes/parametric-part" adds expressions + regeneration across features; ' +
   '"recipes/assembly-parameters" covers values shared by several parts of an assembly (assemblies host no ' +
   'expressions — parameter part, refresh, constraints that follow parameters); ' +
   '"recipes/pattern-then-subtract" covers N cutouts around an axis; "recipes/direct-modeling-eif" is for ' +

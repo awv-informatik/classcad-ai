@@ -63,6 +63,7 @@ const TASK_QUERIES = [
   'entity injection direct modeling', 'trim sketch curves', 'fillet edges', 'assembly constraints', 'kinematic joint',
   'template vs instance', 'save and load files', 'faceting quality', 'user data on objects', 'expression syntax',
   'sprocket', 'gear teeth', 'handedness mirror', 'rollback feature order', 'split a solid',
+  'clean up a messy assembly', 'reuse templates instead of duplicate parts', 'vendor part from a step file',
 ]
 
 // ── cases ──────────────────────────────────────────────────────────────────

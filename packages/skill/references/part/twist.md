@@ -37,6 +37,7 @@ Feature ID (numeric), maxLevel 31. Works with `openFeature`, `closeFeature`, `up
 
 - **`twistCenter` and `direction` are silently ignored** for UP/DOWN/SYMMETRIC — no error, no effect.
 - **Offset twist axis → orbital path.** If the axis does not pass through the profile center, the profile orbits the axis, producing curved/banana-shaped bodies; through the center, the twist is purely in place. Easy to trigger accidentally with the default `[0,0,0]` when the profile isn't centered at the origin.
+- **UP/DOWN/SYMMETRIC twist the profile about its own center.** A profile that must orbit an axis — a helical gear's tooth space around the gear axis — needs `CUSTOM` with `direction: [0,0,1]` and `twistCenter` on that axis; with SYMMETRIC each tooth space becomes a slot twisted in place and the gear pair interferes at every phase. With CUSTOM the rotation is 0 at `limit1` and `twistAngle` at `limit2`: a cutter from `-L/2` to `+L/2` crosses the sketch plane turned by `twistAngle/2`. Check it: every edge running along a helical gear's face keeps a constant radius and turns by the full twist.
 
 ## Common Errors
 

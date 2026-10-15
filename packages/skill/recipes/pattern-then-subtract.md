@@ -60,4 +60,5 @@ the original's to prove the pattern actually cut everywhere —
 ## Related
 
 [part/circularPattern](../references/part/circularPattern.md) · [part/boolean](../references/part/boolean.md) ·
-[part/linearPattern](../references/part/linearPattern.md) · [recipes/parametric-part](parametric-part.md)
+[part/linearPattern](../references/part/linearPattern.md) · [recipes/parametric-part](parametric-part.md) ·
+[recipes/clean-construction](clean-construction.md)

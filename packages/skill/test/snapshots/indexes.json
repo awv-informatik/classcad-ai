@@ -19,6 +19,7 @@
     "recipes": [
       "recipes/assembly-parameters",
       "recipes/buerli-app",
+      "recipes/clean-construction",
       "recipes/constrained-sketching",
       "recipes/direct-modeling-eif",
       "recipes/parametric-part",
@@ -51,6 +52,7 @@
     "STRUCTURE — the model tree",
     "recipes/assembly-parameters — Shared parameters across the parts of an assembly",
     "recipes/buerli-app — Recipe — your own app around the model (buerli + React)",
+    "recipes/clean-construction — Clean construction — one template per shape, one feature per operation (parts and assembly models without clutter, duplication or feature creep)",
     "recipes/constrained-sketching — Sketching Guide — Reproducing Technical Drawings in ClassCAD",
     "recipes/direct-modeling-eif — Direct modeling with solid.\\* inside an Entity Injection Feature (EIF)",
     "recipes/parametric-part — A truly parametric part (expressions + constrained sketches)",
@@ -256,6 +258,7 @@
     "part/workPoint",
     "recipes/assembly-parameters",
     "recipes/buerli-app",
+    "recipes/clean-construction",
     "recipes/constrained-sketching",
     "recipes/direct-modeling-eif",
     "recipes/parametric-part",
@@ -343,6 +346,7 @@
       "SKETCHING": "recipes/constrained-sketching",
       "recipes/verify-numerically": "recipes/verification",
       "recipes/drawing-reproduction": "recipes/verification",
+      "recipes/cleanup": "recipes/clean-construction",
       "common/state-tree": "STRUCTURE"
     },
     "SEARCH_SYNONYMS": {

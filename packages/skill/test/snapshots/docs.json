@@ -846,25 +846,27 @@
   },
   "assembly/calculateMassProperties": {
     "read": {
-      "chars": 2510,
-      "sha": "308e617ff2e3",
+      "chars": 3946,
+      "sha": "1ba96747ce34",
       "headings": [
         "# assembly.calculateMassProperties",
         "## Key Parameters",
         "## Return Value",
         "## Working Example",
+        "## Measuring an instance materializes the assembly",
         "## Related"
       ]
     },
     "describe": {
       "kind": "doc",
-      "chars": 2510,
-      "sha": "308e617ff2e3",
+      "chars": 3946,
+      "sha": "1ba96747ce34",
       "headings": [
         "# assembly.calculateMassProperties",
         "## Key Parameters",
         "## Return Value",
         "## Working Example",
+        "## Measuring an instance materializes the assembly",
         "## Related"
       ]
     }
@@ -1306,8 +1308,8 @@
   },
   "assembly/generic": {
     "read": {
-      "chars": 5655,
-      "sha": "fd07d1b6eeff",
+      "chars": 6333,
+      "sha": "a532b08541da",
       "headings": [
         "# Assembly: Template vs Instance Paradigm",
         "## Key Concepts",
@@ -1323,8 +1325,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5655,
-      "sha": "fd07d1b6eeff",
+      "chars": 6333,
+      "sha": "a532b08541da",
       "headings": [
         "# Assembly: Template vs Instance Paradigm",
         "## Key Concepts",
@@ -1573,8 +1575,8 @@
   },
   "assembly/instance": {
     "read": {
-      "chars": 3707,
-      "sha": "0342ba07f362",
+      "chars": 3790,
+      "sha": "4a7dc69e87be",
       "headings": [
         "# assembly.instance",
         "## Key Parameters",
@@ -1587,8 +1589,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3707,
-      "sha": "0342ba07f362",
+      "chars": 3790,
+      "sha": "4a7dc69e87be",
       "headings": [
         "# assembly.instance",
         "## Key Parameters",
@@ -1742,8 +1744,8 @@
   },
   "assembly/partTemplate": {
     "read": {
-      "chars": 3390,
-      "sha": "5fb6944150c0",
+      "chars": 3383,
+      "sha": "c7d268a50672",
       "headings": [
         "# assembly.partTemplate",
         "## Prerequisites",
@@ -1758,8 +1760,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3390,
-      "sha": "5fb6944150c0",
+      "chars": 3383,
+      "sha": "c7d268a50672",
       "headings": [
         "# assembly.partTemplate",
         "## Prerequisites",
@@ -3751,8 +3753,8 @@
   },
   "part/calculateMassProperties": {
     "read": {
-      "chars": 3798,
-      "sha": "4b39aede055f",
+      "chars": 4119,
+      "sha": "d58b3826bffe",
       "headings": [
         "# part.calculateMassProperties",
         "## Key Parameters",
@@ -3767,8 +3769,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 3798,
-      "sha": "4b39aede055f",
+      "chars": 4119,
+      "sha": "d58b3826bffe",
       "headings": [
         "# part.calculateMassProperties",
         "## Key Parameters",
@@ -5133,8 +5135,8 @@
   },
   "part/twist": {
     "read": {
-      "chars": 4379,
-      "sha": "b4f3feaa9223",
+      "chars": 4977,
+      "sha": "621ef4a71628",
       "headings": [
         "# part.twist",
         "## Prerequisites",
@@ -5149,8 +5151,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 4379,
-      "sha": "b4f3feaa9223",
+      "chars": 4977,
+      "sha": "621ef4a71628",
       "headings": [
         "# part.twist",
         "## Prerequisites",
@@ -5891,8 +5893,8 @@
   },
   "recipes/assembly-parameters": {
     "read": {
-      "chars": 7254,
-      "sha": "07ef6b94635c",
+      "chars": 7370,
+      "sha": "5dd9a1f7f24b",
       "headings": [
         "# Recipe: Shared parameters across the parts of an assembly",
         "## The one fact to know first",
@@ -5907,8 +5909,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 7254,
-      "sha": "07ef6b94635c",
+      "chars": 7370,
+      "sha": "5dd9a1f7f24b",
       "headings": [
         "# Recipe: Shared parameters across the parts of an assembly",
         "## The one fact to know first",
@@ -5946,6 +5948,39 @@
         "## 3. How such an app works",
         "## 4. Run it, then check it",
         "## 5. Put it online"
+      ]
+    }
+  },
+  "recipes/clean-construction": {
+    "read": {
+      "chars": 23620,
+      "sha": "0e59ea5ce12e",
+      "headings": [
+        "# Recipe: Clean construction — one template per shape, one feature per operation (parts and assembly models without clutter, duplication or feature creep)",
+        "## The rules",
+        "## 1. Audit first, audit last",
+        "## 2. Part construction",
+        "## 3. Assembly construction",
+        "### Joints that move",
+        "## 4. Verify without side effects",
+        "## 5. Cleaning up an existing model",
+        "## Related"
+      ]
+    },
+    "describe": {
+      "kind": "doc",
+      "chars": 23620,
+      "sha": "0e59ea5ce12e",
+      "headings": [
+        "# Recipe: Clean construction — one template per shape, one feature per operation (parts and assembly models without clutter, duplication or feature creep)",
+        "## The rules",
+        "## 1. Audit first, audit last",
+        "## 2. Part construction",
+        "## 3. Assembly construction",
+        "### Joints that move",
+        "## 4. Verify without side effects",
+        "## 5. Cleaning up an existing model",
+        "## Related"
       ]
     }
   },
@@ -6083,8 +6118,8 @@
   },
   "recipes/parametric-part": {
     "read": {
-      "chars": 5331,
-      "sha": "98cbc62ac3b6",
+      "chars": 5468,
+      "sha": "43c1e00cfccb",
       "headings": [
         "# Recipe: A truly parametric part (expressions + constrained sketches)",
         "## The architecture",
@@ -6098,8 +6133,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 5331,
-      "sha": "98cbc62ac3b6",
+      "chars": 5468,
+      "sha": "43c1e00cfccb",
       "headings": [
         "# Recipe: A truly parametric part (expressions + constrained sketches)",
         "## The architecture",
@@ -6114,8 +6149,8 @@
   },
   "recipes/pattern-then-subtract": {
     "read": {
-      "chars": 2990,
-      "sha": "67c6b265b3e4",
+      "chars": 3044,
+      "sha": "2298bb40c410",
       "headings": [
         "# Recipe: Pattern a cutting tool, then subtract (holes, teeth, slots on a circle)",
         "## The idiom",
@@ -6127,8 +6162,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 2990,
-      "sha": "67c6b265b3e4",
+      "chars": 3044,
+      "sha": "2298bb40c410",
       "headings": [
         "# Recipe: Pattern a cutting tool, then subtract (holes, teeth, slots on a circle)",
         "## The idiom",
@@ -6141,8 +6176,8 @@
   },
   "recipes/verification": {
     "read": {
-      "chars": 16750,
-      "sha": "a4e9b152d40c",
+      "chars": 17143,
+      "sha": "032539cb56f4",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",
@@ -6161,8 +6196,8 @@
     },
     "describe": {
       "kind": "doc",
-      "chars": 16750,
-      "sha": "a4e9b152d40c",
+      "chars": 17143,
+      "sha": "032539cb56f4",
       "headings": [
         "# Recipe — verification (mandatory for every build)",
         "## Which regime? — the INPUT TYPE decides",

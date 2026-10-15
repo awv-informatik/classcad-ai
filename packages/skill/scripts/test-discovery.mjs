@@ -1,5 +1,6 @@
 // Unit test for @classcad/skill/discovery against the real registry + bundle.
-import { createDiscovery } from '../discovery.js'
+import { createDiscovery, DOCS_TOOL } from '../discovery.js'
+import { RECIPES_POINTER } from '../prompts.js'
 import registry from '../method-registry.json' with { type: 'json' }
 import bundle from '../bundle.json' with { type: 'json' }
 
@@ -137,6 +138,16 @@ check('docIndex lists recipes and guides with titles', di.includes('recipes/asse
 for (const k of ['DATA', 'STRUCTURE', 'GRAPHICS']) check(`bundle carries the ${k} topic doc`, typeof bundle[k] === 'string' && bundle[k].startsWith('# '))
 check('removed common/state-tree answers as STRUCTURE', d.readDoc('common/state-tree')?.key === 'STRUCTURE')
 check('docIndex lists topic docs first, title not repeating the key', di.startsWith('DATA — ') && di.includes('\nSTRUCTURE — ') && !di.includes('STRUCTURE — Structure'))
+
+// clean-construction: found by the words agents use for messy models and multi-part builds, named wherever recipes are listed
+const firstDoc = q => d.searchDocs({ search: q, limit: 3 }).docs[0]?.key
+for (const q of ['clean up a messy assembly', 'reuse templates instead of duplicate parts', 'avoid clutter and feature creep',
+  'sanitize an imported step assembly'])
+  check(`searchDocs "${q}" → clean-construction first`, firstDoc(q) === 'recipes/clean-construction')
+check('searchDocs "shared parameters across assembly parts" still → assembly-parameters', firstDoc('shared parameters across assembly parts') === 'recipes/assembly-parameters')
+check('recipes/cleanup alias → clean-construction', d.readDoc('recipes/cleanup')?.key === 'recipes/clean-construction')
+check('docIndex lists clean-construction', di.includes('recipes/clean-construction — Clean construction'))
+check('DOCS_TOOL and RECIPES_POINTER name clean-construction', DOCS_TOOL.description.includes('"recipes/clean-construction"') && RECIPES_POINTER.includes('"recipes/clean-construction"'))
 
 console.log(`\n${pass} passed, ${fail} failed`)
 process.exit(fail ? 1 : 0)

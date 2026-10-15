@@ -29,15 +29,15 @@ AllObjects (id=1)
 
 ## Propagation Rules (CRITICAL)
 
-Template modifications **propagate** to existing instances by default. **But** `calculateMassProperties(instanceId)` **materializes** instances: they get independent geometry copies and stop receiving template updates.
+Template modifications **propagate** to existing instances by default. **But** `calculateMassProperties(instanceId)` **materializes** instances: every instance of the assembly — all templates, not only the measured one's — gets its own geometry copy (`isDirty` 0 and a `geometryIdList` on the node). This note used to say they then stop receiving template updates; in a local 21.2.1 build (Oct 2026) template edits still reached them in-session. The lasting damage is the file: after an OFB save and load the lists read `[0]`, and Buerligons and buerli apps — which draw an instance from its `geometryIdList` when it has one — show nothing for those instances.
 
 | Operation | Materializes? |
 |---|---|
-| `calculateMassProperties(instanceId)` | **YES** — ALL instances of that template |
-| `calculateMassProperties(rootAssemblyId)` / `(templateId)` | No |
-| `common.save`, `getInstance()`, `requestVisualisation({ ids: [instId] })`, fresh (no operation) | No |
+| `calculateMassProperties(instanceId)` | **YES** — every instance of the assembly |
+| `calculateMassProperties(rootAssemblyId)` / `(templateId)` | No (the root clears `isDirty`, attaches no list) |
+| `common.save`, `getInstance()`, `requestVisualisation({ ids: [instId] })`, `api.tree()`, `api.graphic()`, fresh (no operation) | No |
 
-Don't measure individual instances before modifying a template. Already materialized instances must be deleted and re-created (`deleteInstance`, then `instance` with the same transformation) to get the updated geometry.
+Never measure individual instances in a model that will be saved or whose templates will change; compute instance COGs as transform · template COG (`assembly/calculateMassProperties`). Already materialized instances must be deleted and re-created (`deleteInstance`, then `instance` with the same transformation and name) — the loop is in `recipes/clean-construction`, section 4.
 
 Modifying a template (reaches all unmaterialized instances):
 

@@ -23,7 +23,7 @@ ID of the `CC_Part` node (maxLevel 31); failure → null, maxLevel 51.
 ## Gotchas
 
 - **Duplicate names are renamed:** a second `partTemplate({ name: 'Bracket' })` becomes `"Bracket0"`. An unnamed instance takes the template name (`"Bracket"`), so name lookups like `productId: 'Bracket'` then fail with "name of the object is not unique". Pass template IDs, or give instances their own names.
-- **Template updates propagate to unmaterialized instances.** Instances start as live references — modifying a template (openFeature → updateBox → closeFeature → recalc) updates every instance not yet materialized. Calling `calculateMassProperties` directly on an instance ID materializes ALL instances of that template; they then keep their geometry independently. To apply changes to them, delete and re-create. Full rules: `assembly/generic`.
+- **Template updates propagate to instances.** Instances start as live references — modifying a template (openFeature → updateBox → closeFeature → recalc) updates every instance. Never call `calculateMassProperties` on an instance ID: it materializes every instance of the assembly (own `geometryIdList`), and after an OFB save/load the apps no longer draw them. Repair: delete and re-create the instances. Full rules: `assembly/generic`.
 - **Primitive alignment:** `part.box` is corner-aligned at origin, `part.cylinder` centered at base, `part.sphere` centered at origin. Instance COG = template local COG + instance origin (50×30×20 box, COG (25,15,10); instance at (60,0,0) → COG (85,15,10)).
 
 ## Structure Tree

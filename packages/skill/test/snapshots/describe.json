@@ -25,8 +25,8 @@
     },
     "v1.assembly.calculateMassProperties": {
       "full": {
-        "chars": 3083,
-        "sha": "31e2443e8ba6",
+        "chars": 4519,
+        "sha": "3b1f8226f9d0",
         "headings": [
           "# v1.assembly.calculateMassProperties",
           "# Detailed notes",
@@ -34,6 +34,7 @@
           "## Key Parameters",
           "## Return Value",
           "## Working Example",
+          "## Measuring an instance materializes the assembly",
           "## Related"
         ]
       },
@@ -657,8 +658,8 @@
     },
     "v1.assembly.instance": {
       "full": {
-        "chars": 4247,
-        "sha": "657a048b5464",
+        "chars": 4330,
+        "sha": "cdf289699bac",
         "headings": [
           "# v1.assembly.instance",
           "# Detailed notes",
@@ -760,8 +761,8 @@
     },
     "v1.assembly.partTemplate": {
       "full": {
-        "chars": 3673,
-        "sha": "0c203118047f",
+        "chars": 3666,
+        "sha": "c2c5747da04a",
         "headings": [
           "# v1.assembly.partTemplate",
           "# Detailed notes",
@@ -2308,8 +2309,8 @@
     },
     "v1.part.calculateMassProperties": {
       "full": {
-        "chars": 4367,
-        "sha": "2c66c95e3073",
+        "chars": 4688,
+        "sha": "cf1c8efc0ac7",
         "headings": [
           "# v1.part.calculateMassProperties",
           "# Detailed notes",
@@ -3225,8 +3226,8 @@
     },
     "v1.part.twist": {
       "full": {
-        "chars": 4746,
-        "sha": "d5764d8ced47",
+        "chars": 5344,
+        "sha": "3516ee74c33f",
         "headings": [
           "# v1.part.twist",
           "# Detailed notes",
@@ -5844,6 +5845,7 @@
     "\"SKETCHING\"": "doc: # Sketching Guide — Reproducing Technical Drawings in ClassCAD",
     "\"recipes/verify-numerically\"": "doc: # Recipe — verification (mandatory for every build)",
     "\"recipes/drawing-reproduction\"": "doc: # Recipe — verification (mandatory for every build)",
+    "\"recipes/cleanup\"": "doc: # Recipe: Clean construction — one template per shape, one feature per operation (parts and assembly models without clutter, duplication or feature creep)",
     "\"common/state-tree\"": "doc: # Structure — the model tree",
     "\"totally-unknown-xyz\"": "error: Unknown method or document \"totally-unknown-xyz\". Topic docs: DATA, GRAPHICS, PLANS, STRUCTURE. Recipes/overviews: use listDocs.",
     "\"v1.part.boxx\"": "error: Unknown method or document \"v1.part.boxx\". Topic docs: DATA, GRAPHICS, PLANS, STRUCTURE. Recipes/overviews: use listDocs."

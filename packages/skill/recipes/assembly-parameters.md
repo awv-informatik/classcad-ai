@@ -117,7 +117,8 @@ const wB = (await api.v1.part.getExpression({ id: B, name: 'W' })).result.value
 - Check the mirrored value in each consumer (`getExpression`), total volume on the **root
   assembly**, and instance placement from `coordinateSystem` — before and after a change.
 - Do not measure individual instances (`calculateMassProperties({ id: instanceId })`): that
-  materializes all instances of the template and they stop following template changes.
+  materializes every instance of the assembly, and after an OFB save/load the apps no longer draw
+  them. Compute an instance's COG as transform · template COG (`recipes/clean-construction`, section 4).
 - Full verification discipline: `recipes/verification`.
 
 ## Guidelines

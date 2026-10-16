@@ -43,7 +43,7 @@ npm run deploy -w @classcad/relay      # copies the app into public/ and publish
 
 It is deployed at `https://classcad-share.it-5ca.workers.dev`, which is what the MCP uses (`relayUrl` of the backend in `packages/mcp/src/backend.ts`; `CLASSCAD_RELAY_URL` names another one for a single installation). Deploy it from master, when the MCP is released.
 
-The develop relay, `https://classcad-share-develop.it-5ca.workers.dev`, is the same Worker under another name, for the MCP's develop and staging backends (`CLASSCAD_BACKEND=develop` or `staging`). Deploy it from the develop branch:
+The develop relay, `https://classcad-share-develop.it-5ca.workers.dev`, is the same Worker under another name, for the MCP's develop and staging backends (`CLASSCAD_BACKEND=develop` or `staging`). Deploy it from the next branch:
 
 ```bash
 npm run deploy:develop -w @classcad/relay

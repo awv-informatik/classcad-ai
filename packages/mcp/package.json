@@ -1,6 +1,6 @@
 {
   "name": "@classcad/mcp",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "mcpName": "io.github.awv-informatik/classcad",
   "description": "ClassCAD MCP server: build, verify and export 3D CAD parts and assemblies with the ClassCAD engine, running locally",
   "homepage": "https://classcad.ai",
@@ -59,6 +59,7 @@
     "@classcad/script": "^0.2.0"
   },
   "devDependencies": {
+    "@buerli.io/buerligons": "2.0.0-beta.20261016102111",
     "@types/node": "^22.0.0",
     "@types/ws": "^8.5.13",
     "typescript": "^5.6.0",

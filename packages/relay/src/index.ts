@@ -15,6 +15,15 @@
 //   https://<relay>/?invite=<invite>                  the app itself: static files (scripts/assets.mjs), served by
 //                                                     Cloudflare without running this Worker
 //
+// The host may also be a page: an app that runs the engine in its own tab
+// (buerli's WASMClient, Buerligons on buerligons.io) offers its invites here
+// the way it offers them on an MCP's listener. A browser's WebSocket cannot
+// send an Authorization header, so a page names the protocol PAGE_PROTOCOL and
+// carries its sign-in as a second one, `bearer.<Firebase ID token>`. Nor does a
+// browser show a WebSocket the status of a handshake that failed: a page is
+// refused with a close code instead, 4000 + the status (4401, 4403, 4409), and
+// the reason.
+//
 // One Durable Object per invite holds the sockets that belong to it. The
 // sockets are accepted for hibernation: an object nobody speaks through costs
 // nothing while its connections stay open, and what it needs to know about a
@@ -40,10 +49,13 @@ const MAX_GUESTS = 17
  * Free offers no sessions. A sign-in without either claim yet counts as the trial.
  */
 export const GUESTS_BY_PLAN: Record<string, number> = { free: 0, trial: 2, solo: 2, pro: 16, business: 16, contract: 16, staff: 16, admin: 16 }
-/** The host's own app comes in under the share link like a guest, so a session takes one more than its plan names. */
-export const guestsFor = (plan: string | null, claimed: number | null = null): number => {
+/**
+ * An MCP's own app comes in under the share link like a guest, so its session takes one more than its plan
+ * names. A page is the host's app itself (`page`): its session takes what the plan names.
+ */
+export const guestsFor = (plan: string | null, claimed: number | null = null, page = false): number => {
   const named = claimed != null ? claimed : plan && plan in GUESTS_BY_PLAN ? GUESTS_BY_PLAN[plan] : 2
-  return named === 0 ? 0 : Math.min(MAX_GUESTS, named + 1)
+  return named === 0 ? 0 : Math.min(MAX_GUESTS, page ? named : named + 1)
 }
 /** How much a guest may say before the host met it. */
 const MAX_EARLY_BYTES = 1024 * 1024
@@ -58,6 +70,35 @@ const GUESTS_HEADER = 'x-classcad-guests'
 
 const refuse = (status: number, reason: string): Response => new Response(reason, { status })
 
+/** The protocol a page names when it offers a session (see the top of this file); the relay answers with it. */
+const PAGE_PROTOCOL = 'classcad-session'
+/** The protocol that carries a page's sign-in: `bearer.<Firebase ID token>` (a JWT is made of characters a protocol may hold). */
+const BEARER = 'bearer.'
+
+/** The protocols a WebSocket named. */
+const protocols = (request: Request): string[] =>
+  (request.headers.get('sec-websocket-protocol') ?? '').split(',').map(p => p.trim()).filter(Boolean)
+/** Whether a page is asking (a browser, which names PAGE_PROTOCOL). */
+const fromPage = (request: Request): boolean => protocols(request).includes(PAGE_PROTOCOL)
+/** The sign-in an offer shows: the Authorization header (the MCP), or the bearer protocol (a page). */
+const authorization = (request: Request): string | null => {
+  const header = request.headers.get('authorization')
+  if (header) return header
+  const bearer = protocols(request).find(p => p.startsWith(BEARER))
+  return bearer ? `Bearer ${bearer.slice(BEARER.length)}` : null
+}
+/** What a page's handshake is answered with: the protocol it named, or the browser fails the connection. */
+const PAGE_HEADERS = { 'sec-websocket-protocol': PAGE_PROTOCOL }
+
+/** A refusal the caller sees: an HTTP status, or for a page a connection that closes at once with 4000 + the status and the reason. */
+function no(request: Request, status: number, reason: string): Response {
+  if (!fromPage(request)) return refuse(status, reason)
+  const { 0: client, 1: socket } = new WebSocketPair()
+  socket.accept()
+  shut(socket, 4000 + status, reason)
+  return new Response(null, { status: 101, webSocket: client, headers: PAGE_HEADERS })
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
@@ -66,18 +107,19 @@ export default {
     const hosted = url.searchParams.get('host')
     const token = hosted ?? url.searchParams.get('invite') ?? ''
     // Like a server: no invite, no session — the handshake just fails.
-    if (!TOKEN.test(token)) return refuse(403, 'Forbidden')
+    if (!TOKEN.test(token)) return no(request, 403, 'Forbidden')
     const headers = new Headers(request.headers)
     headers.delete(UID_HEADER)
     headers.delete(GUESTS_HEADER)
     // Offering a session is for signed-in machines, on a plan that shares. (Meeting a guest needs its id, which only the host was told.)
     if (hosted && !url.searchParams.get('guest')) {
-      const account = await verify(request.headers.get('authorization'), env)
-      if (!account) return refuse(401, 'Unauthorized')
-      const guests = guestsFor(account.plan, account.guests)
-      if (guests === 0) return refuse(403, 'Sharing a session is not part of your plan: https://classcad.ch/subscriptions')
+      const page = fromPage(request)
+      const account = await verify(authorization(request), env)
+      if (!account) return no(request, 401, 'Unauthorized')
+      const guests = guestsFor(account.plan, account.guests, page)
+      if (guests === 0) return no(request, 403, 'Sharing a session is not part of your plan: https://classcad.ch/subscriptions')
       // One line per offer: the logs count the shares per account
-      console.log(JSON.stringify({ event: 'offer', uid: account.uid, plan: account.plan, guests }))
+      console.log(JSON.stringify({ event: 'offer', uid: account.uid, plan: account.plan, guests, by: page ? 'page' : 'mcp' }))
       headers.set(UID_HEADER, account.uid)
       headers.set(GUESTS_HEADER, String(guests))
     }
@@ -116,7 +158,7 @@ export class Session extends DurableObject<Env> {
         // An invite is offered once — but a host that lost its connection (a closed laptop, another network) may
         // come back before anybody noticed that the old one is dead. Its guests stay: they are met on connections of their own.
         const was = before.deserializeAttachment() as Role | null
-        if (was?.as !== 'host' || was.uid !== uid) return refuse(409, 'Conflict')
+        if (was?.as !== 'host' || was.uid !== uid) return no(request, 409, 'Conflict')
         before.serializeAttachment({ as: 'replaced' } satisfies Role)
         shut(before, 1012, 'offered again on another connection')
       }
@@ -152,7 +194,7 @@ export class Session extends DurableObject<Env> {
         for (const message of waiting.early) socket.send(message)
       }
     }
-    return new Response(null, { status: 101, webSocket: client })
+    return new Response(null, { status: 101, webSocket: client, headers: fromPage(request) ? PAGE_HEADERS : undefined })
   }
 
   webSocketMessage(socket: WebSocket, message: string | ArrayBuffer): void {

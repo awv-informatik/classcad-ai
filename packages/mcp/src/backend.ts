@@ -23,7 +23,7 @@ const classcad: Backend = {
   relayUrl: 'https://classcad-share.it-5ca.workers.dev',
 }
 
-// packages/relay, `npm run deploy:develop` there, from the develop branch: develop work never runs on
+// packages/relay, `npm run deploy:develop` there, from the next branch: develop work never runs on
 // the relay that users share on
 const DEVELOP_RELAY_URL = 'https://classcad-share-develop.it-5ca.workers.dev'
 

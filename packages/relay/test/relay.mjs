@@ -116,8 +116,8 @@ after(async () => {
 })
 
 /** A WebSocket to the relay: what it was sent, whether the handshake held, and how it ended. */
-function socket(url, headers = {}) {
-  const ws = new WebSocket(url, { headers })
+function socket(url, headers = {}, protocols = undefined) {
+  const ws = new WebSocket(url, protocols, { headers })
   const got = []
   ws.on('message', (data, isBinary) => got.push(isBinary ? data : data.toString()))
   const opened = new Promise((resolve, reject) => {
@@ -130,6 +130,9 @@ function socket(url, headers = {}) {
   return { ws, got, opened, closed, json: () => got.filter(m => typeof m === 'string').map(m => JSON.parse(m)) }
 }
 const asHost = (token, account = {}) => socket(`${SESSION}/?host=${token}`, { authorization: `Bearer ${idToken(account)}` })
+// A page offers from a browser: no headers of its own, the sign-in rides as a protocol (and so does nothing, or junk).
+const PAGE = 'classcad-session'
+const asPage = (token, sign = idToken()) => socket(`${SESSION}/?host=${token}`, {}, sign ? [PAGE, `bearer.${sign}`] : [PAGE])
 // (Under `wrangler dev`, a connection that never said anything takes ten seconds to end when the relay closes it. Guests
 // and the connections they are met on always speak first, so the tests let theirs do the same and stay quick.)
 const invite = name => `${name}-0123456789abcdef`
@@ -199,6 +202,58 @@ test("the guests claim wins over the plan: the number admins set for the plan or
   await Promise.all(guests.map(g => g.closed))
   host.ws.close()
   await host.closed
+})
+
+test('a page offers with its sign-in as a protocol, and hears a refusal as a close code with the reason', { skip: OLD_NODE }, async () => {
+  const t = invite('page-auth')
+  // A browser sees neither the status of a failed handshake nor a header: the connection opens and closes at once.
+  for (const [sign, code, reason] of [
+    [null, 4401, 'Unauthorized'],
+    ['not.a.token', 4401, 'Unauthorized'],
+    [idToken({ exp: now() - 600 }), 4401, 'Unauthorized'],
+    [idToken({ plan: 'free' }), 4403, 'Sharing a session is not part of your plan: https://classcad.ch/subscriptions'],
+  ]) {
+    const refused = asPage(t, sign)
+    await refused.opened
+    assert.equal(refused.ws.protocol, PAGE, 'the relay answers with the protocol the page named, or the browser fails the connection')
+    assert.deepEqual(await refused.closed, { code, reason })
+  }
+  const bad = socket(`${SESSION}/?host=short`, {}, [PAGE, `bearer.${idToken()}`])
+  await bad.opened
+  assert.equal((await bad.closed).code, 4403, 'no invite, no session: for a page too')
+
+  const host = asPage(t)
+  await host.opened
+  assert.equal(host.ws.protocol, PAGE)
+  // An invite is offered once: another account's page is told so.
+  const other = asPage(t, idToken({ sub: 'uid-other' }))
+  await other.opened
+  assert.deepEqual(await other.closed, { code: 4409, reason: 'Conflict' })
+  // The MCP is answered as before: a status, no protocol.
+  await assert.rejects(asHost(t, { sub: 'uid-other' }).opened, /HTTP 409/)
+  host.ws.close()
+  await host.closed
+})
+
+test("a page is the host's app itself: its session takes the guests its plan names", { skip: OLD_NODE }, async () => {
+  const t = invite('page-solo')
+  const host = asPage(t, idToken({ plan: 'solo' }))
+  await host.opened
+  const guests = [socket(`${SESSION}/?invite=${t}`), socket(`${SESSION}/?invite=${t}`)]
+  await Promise.all(guests.map(g => g.opened))
+  await assert.rejects(socket(`${SESSION}/?invite=${t}`).opened, /HTTP 503/, 'a third guest finds the session full')
+
+  // Its guests are introduced as an MCP's are: the page meets them on connections of its own.
+  for (const g of guests) g.ws.send('{"command":"SetEmissionConfig","transactionID":"t1"}')
+  assert.ok(await until(() => host.got.length === 2))
+  const links = host.json().map(knock => socket(`${SESSION}/?host=${t}&guest=${knock.guest}`))
+  await Promise.all(links.map(l => l.opened))
+  assert.ok(await until(() => links.every(l => l.got.length === 1)), 'what each guest said before the page was there')
+  for (const l of links) l.ws.send('{"command":"SessionJoined","role":"edit","inviteName":""}')
+  assert.ok(await until(() => guests.every(g => g.got.length === 1)))
+
+  host.ws.close()
+  for (const g of guests) assert.equal((await g.closed).code, 1001, 'the page gone, the session is over')
 })
 
 test('host and guest are introduced, and each hears why the other went', { skip: OLD_NODE }, async () => {

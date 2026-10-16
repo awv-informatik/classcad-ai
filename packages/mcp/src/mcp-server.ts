@@ -20,11 +20,12 @@ import { authStatus } from './auth.js'
 import { attachViewer, VIEWER_NOTE } from './tools/viewer.js'
 import { appNote, attachShare, registerSelectionTools, registerShareTool, registerViewTool } from './tools/share.js'
 import { appAvailable, joinedHere, listen as listenForApps, waitForPage, SESSION_PATH } from './share/server.js'
+import { relayUrl } from './share/relay.js'
 import { sharingFromEnv, showFromEnv, type Show } from './share/session.js'
 
 export const VERSION = '0.5.2'
 
-/** True for the address sessions are joined on on this machine (share/server.ts): an app's own engine, or another agent's. */
+/** True for an address sessions are joined on (share/server.ts on this machine, or the share relay): an app's own engine, or another agent's. */
 const hostedOnThisMachine = (url: string): boolean => {
   try {
     return new URL(url).pathname.replace(/\/+$/, '') === SESSION_PATH
@@ -132,7 +133,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     {
       title: 'Switch session',
       description:
-        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its engine link lazily, so the first tool call decides which session is used. Modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (wss://host/?invite=…); connected VERBATIM. (3) an http(s):// APP SHARE LINK from a buerli app\'s Session Management (…?invite=…): the MCP joins the app\'s session as a guest, wherever its engine runs — on a ClassCAD server (the token is applied to the configured worker URL) or in the app\'s own page (WASM; the app must stay open, on this machine). Without a url the MCP runs its own session — and the user\'s app docks into THAT with the link `view` returns. (4) engine — WHICH ENGINE runs that own session: "drogon" = the configured ClassCAD worker (server), "wasm" = the MCP\'s OWN local engine (the published WASM build hosted in this process, no server and no browser needed; requires a configured key), "auto" (default) = the worker if reachable, otherwise the local engine. Use "drogon" when the user says to connect to their (Drogon/ClassCAD) server, "wasm" when they say WASM/local/offline; a token or URL always decides by itself. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
+        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its engine link lazily, so the first tool call decides which session is used. Modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (wss://host/?invite=…); connected VERBATIM. (3) an http(s):// APP SHARE LINK from a buerli app\'s Session Management (…?invite=…): the MCP joins the app\'s session as a guest, wherever its engine runs — on a ClassCAD server (the token is applied to the configured worker URL) or in the app\'s own page (WASM; the app must stay open: on this machine, or anywhere when it shares on the ClassCAD share relay, as buerligons.io does). Without a url the MCP runs its own session — and the user\'s app docks into THAT with the link `view` returns. (4) engine — WHICH ENGINE runs that own session: "drogon" = the configured ClassCAD worker (server), "wasm" = the MCP\'s OWN local engine (the published WASM build hosted in this process, no server and no browser needed; requires a configured key), "auto" (default) = the worker if reachable, otherwise the local engine. Use "drogon" when the user says to connect to their (Drogon/ClassCAD) server, "wasm" when they say WASM/local/offline; a token or URL always decides by itself. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
       inputSchema: {
         sessionId: z.string().optional()
           .describe('Target session id (named-session model, worker only). Empty string or omitted = no header (worker-assigned session).'),
@@ -167,8 +168,9 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
           }
           // Whose session the invite is for, the link does not say. An app that
           // runs the engine in its own page offers its invites on this machine's
-          // listener, and so does every MCP session; any other invite is a
-          // ClassCAD server's.
+          // listener or on the share relay (buerligons.io), and so does every MCP
+          // session; any other invite is a ClassCAD server's.
+          const relay = relayUrl()
           const local = async () => `ws://127.0.0.1:${(await listenForApps()).port}${SESSION_PATH}/?invite=${encodeURIComponent(invite)}`
           if (joinedHere(invite)) wsUrl = await local()
           else {
@@ -178,14 +180,23 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
               wsUrl = null
               joined = true
             } catch (err) {
-              // Not the server's: a page may be about to offer it (it finds a restarted MCP within seconds).
-              if (!(await waitForPage(invite, 8_000))) {
-                throw new Error(
-                  `Nobody shares a session under this invite: the ClassCAD server at ${base} refused it (${err instanceof Error ? err.message : err}), ` +
-                    'and no app on this machine offers it. Is the app still open, and is the invite still there in its session panel?',
-                )
+              // Not the server's. A page that shares on the relay (buerligons.io), or an MCP session shared with
+              // `share`, is joined there, from anywhere.
+              try {
+                if (!relay) throw new Error('no relay')
+                await client.reconnectUrl(`${relay.replace(/^http/i, 'ws')}${SESSION_PATH}/?invite=${encodeURIComponent(invite)}`)
+                wsUrl = null
+                joined = true
+              } catch {
+                // Nor the relay's: a page on this machine may be about to offer it (it finds a restarted MCP within seconds).
+                if (!(await waitForPage(invite, 8_000))) {
+                  throw new Error(
+                    `Nobody shares a session under this invite: the ClassCAD server at ${base} refused it (${err instanceof Error ? err.message : err}), ` +
+                      `${relay ? 'the share relay does not know it, ' : ''}and no app on this machine offers it. Is the app still open, and is the invite still there in its session panel?`,
+                  )
+                }
+                wsUrl = await local()
               }
-              wsUrl = await local()
             }
           }
         }

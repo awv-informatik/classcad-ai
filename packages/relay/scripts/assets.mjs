@@ -3,9 +3,9 @@
 //   node scripts/assets.mjs
 //
 // The app is the build @classcad/mcp carries (packages/mcp/app, built by its
-// scripts/build-app.mjs; APP_DIR names another one): Buerligons in its `mcp`
-// mode, which reaches ClassCAD on the address it was loaded from — here, the
-// relay's /session. The same build serves the user on 127.0.0.1 and a guest
+// scripts/build-app.mjs from packages/app; APP_DIR names another one): Buerligons
+// in a page that joins its session at /session on the address it was loaded
+// from — here, the relay's /session. The same build serves the user on 127.0.0.1 and a guest
 // here, so the two always fit the MCP that hosts their session.
 //
 // _headers says what the MCP's own listener says with every answer

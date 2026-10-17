@@ -370,7 +370,7 @@ The local engine always generates everything a command changed. A session the MC
 npm install                      # monorepo root
 npm run build                    # skill → script → renderer → mcp (+ buerli-ai)
 cd packages/mcp
-npm run build:app                # the app: Buerligons from npm (@buerli.io/buerligons, dist/mcp), or the build BUERLIGONS_DIST names → app/
+npm run build:app                # the app: packages/app (Buerligons from npm, @buerli.io/buerligons) built → app/
 npm run build                    # tsc, app/ → dist/app/; postbuild runs the contract tests (emission, daemon, sign-in, sharing, the relay)
 npm test                         # + the live tests: the local WASM engine, and a worker on CLASSCAD_WS_URL if one runs
 node dist/server.js              # the stdio shim by hand (starts/uses the daemon)

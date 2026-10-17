@@ -7,8 +7,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@buerli.io/buerligons": "0.1.0-beta.20261016190756",
-    "@buerli.io/classcad": "2.0.0-beta.20261016190756",
+    "@buerli.io/buerligons": "0.1.0-beta.20261017162640",
+    "@buerli.io/classcad": "2.0.0-beta.20261017162640",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "react": "^19.3.1",

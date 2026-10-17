@@ -31,8 +31,8 @@ jobs:
       - name: npm with trusted publishing (11.5.1 or later)
         run: npm install -g npm@^11.5.1
       - run: npm install
-      # The app the MCP carries: Buerligons from npm (@buerli.io/buerligons, at the version
-      # packages/mcp pins), built in its mcp mode.
+      # The app the MCP carries: packages/app, Buerligons from npm (@buerli.io/buerligons, at the
+      # version packages/app pins) in a page that joins its session, built into packages/mcp/app.
       - name: The app
         run: npm run build:app -w @classcad/mcp
       - run: npm run build

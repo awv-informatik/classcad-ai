@@ -23,9 +23,7 @@ import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js'
 import { CallToolRequestSchema, ListToolsRequestSchema, type CallToolResult, type Tool } from '@modelcontextprotocol/sdk/types.js'
 import { createMcpServer, VERSION, type McpServerOptions } from './mcp-server.js'
 import type { Client } from './client.js'
-
-/** Tools of the machine, not of a model: docs, sign-in, account. They take no drawing. */
-export const MACHINE_TOOLS = new Set(['docs', 'list_methods', 'describe_method', 'login', 'account'])
+import { MACHINE_TOOLS } from './machine-tools.js'
 /** Tools that answer for the MCP as a whole when no drawing is named. */
 const DRAWING_OPTIONAL = new Set(['session_info'])
 

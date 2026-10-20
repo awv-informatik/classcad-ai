@@ -1,7 +1,7 @@
 // The tests talk to the MCP as one conversation would (src/drawings.ts): the
 // first call that works on a model opens a drawing ("new"), every later call
 // names the id that answer gave.
-import { MACHINE_TOOLS } from '../dist/drawings.js'
+import { MACHINE_TOOLS } from '../dist/machine-tools.js'
 
 export const OPENED = /Drawing "(d-[a-z0-9]+)" is new/
 

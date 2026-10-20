@@ -13,6 +13,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import WebSocket from 'ws'
 import { fakeAuth } from './fake-auth.mjs'
+import { conversation } from './conversation.mjs'
 
 const url = process.env.CLASSCAD_URL ?? 'ws://localhost:9094/'
 const reachable = await new Promise(r => {
@@ -34,7 +35,7 @@ let buf = '', n = 0
 const waiters = new Map()
 p.stdout.on('data', d => { buf += d; let i; while ((i = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, i); buf = buf.slice(i + 1); try { const m = JSON.parse(line); if (m.id != null && waiters.has(m.id)) { waiters.get(m.id)(m); waiters.delete(m.id) } } catch {} } })
 const call = (method, params) => new Promise((resolve, reject) => { const id = ++n; const timer = setTimeout(() => reject(new Error('timeout ' + method)), 120000); waiters.set(id, m => { clearTimeout(timer); resolve(m) }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n') })
-const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: args }); const t = (m.result?.content || []).find(b => b.type === 'text')?.text; let value; try { value = JSON.parse(t) } catch { value = t } return { isError: !!m.result?.isError, text: t, value } }
+const conv = conversation(); const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: conv.args(name, args) }); conv.saw(m); const t = (m.result?.content || []).find(b => b.type === 'text')?.text; let value; try { value = JSON.parse(t) } catch { value = t } return { isError: !!m.result?.isError, text: t, value } }
 const dir = mkdtempSync(join(tmpdir(), 'classcad-materialized-'))
 
 try {

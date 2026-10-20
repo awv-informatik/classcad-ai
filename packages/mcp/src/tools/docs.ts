@@ -55,11 +55,11 @@ const CLI = `node "${fileURLToPath(new URL('../server.js', import.meta.url))}"`
  * hosts may cut long instructions, a tool description always arrives.
  */
 export const DAEMON_NOTE =
-  `DAEMON: every tab of this MCP is a session in ONE shared daemon process per machine (127.0.0.1:${DEFAULT_DAEMON_PORT}); it exits a minute after its last session. ` +
+  `DAEMON: every connection of a host to this MCP is a session in ONE shared daemon process per machine (127.0.0.1:${DEFAULT_DAEMON_PORT}), with the drawings its conversations opened; it exits a minute after its last session. ` +
   'Rebuilt MCP/renderer code only runs in a new daemon — an idle one is replaced automatically. Shell commands: ' +
   `\`${CLI} status\` (pid, build, sessions); ` +
   `\`${CLI} stop\` (stops it only when no session is active); ` +
-  `\`${CLI} stop --force\` (terminates it NOW — every connected tab, this one included, loses its drawing: ask the user first. ` +
+  `\`${CLI} stop --force\` (terminates it NOW — every connected host, this one included, loses its drawings: ask the user first. ` +
   'Tabs reconnect to a fresh daemon on their next tool call; tabs started before this MCP version need a host restart). Never kill daemon processes by hand.'
 
 /**
@@ -71,7 +71,7 @@ export function serverInstructions(): string {
   return [
     'ClassCAD MCP. run_script is the ONLY way to execute API calls (JavaScript against the live CAD session; ' +
       'state persists between scripts — follow-up scripts ATTACH via api.tree(), never part.create twice). ' +
-      'A NEW, unrelated model in the same session: call `clear` first, then part.create — the drawing outlives a request, and without clear the new model lands inside the old one. ' +
+      'A NEW, unrelated model: open a new drawing for it (drawing: "new") — a drawing holds one model and outlives a request, so part.create is refused in one that holds a model already. `clear` empties the drawing you name, to start over in it. ' +
       'PLAN FIRST, THEN FETCH ONCE: decide the whole build, pick every method you will need from the index below, ' +
       'then request ALL their docs in ONE docs([...]) call, recipes first — include "DATA" whenever a script reads api.tree()/api.graphic() ("STRUCTURE" and "GRAPHICS" are the depth: history, sketches, assemblies, world transforms; the graphic payload). ' +
       'A docs response is size-capped: keys listed under "NOT included yet" at its top must be requested in a follow-up call before building. ' +

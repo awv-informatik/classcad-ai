@@ -27,7 +27,7 @@ const OWN_PANE = 'your own browser pane, beside the conversation — in the Clau
 /** How the app reaches the user, as the agent is told from the first turn on: it depends on the host (Show in share/session.ts). */
 const REACH: Record<Show, string> = {
   host:
-    'SHOWING IT IS YOUR JOB HERE: your host has a browser pane of its own, and the app belongs there — not in the user\'s other browser. The result of the first script that makes a model ends with "App: <link>". Open that link in your browser pane right then, before your next step: in the Claude desktop app with `preview_start`, the Browser pane tool, and its `url` set to the link. Open it ONCE — the pane stays live and follows every change, so never open or reload it after later scripts. Then tell the user in a few words that the model is in the browser pane; the link need not be in your answer. Only if you have no browser pane tool: call `view` with open: true, which opens the user\'s default browser, and say so. ',
+    'SHOWING IT IS YOUR JOB HERE: your host has a browser pane of its own, and the app belongs there — not in the user\'s other browser. The result of the first script that makes a model ends with "App: <link>". Open that link in your browser pane right then, before your next step: in the Claude desktop app with `preview_start`, the Browser pane tool, and its `url` set to the link. Open it ONCE per drawing — the pane stays live and follows every change, so never open or reload it after later scripts. Then tell the user in a few words that the model is in the browser pane; the link need not be in your answer. Only if you have no browser pane tool: call `view` with open: true, which opens the user\'s default browser, and say so. ',
   browser:
     'With the first model it opens by itself in the user\'s default browser, where there is one: the result of that script ends with "App: <link>" and says whether it did. Tell the user ONCE that the app is there, with the link on its own line. ',
   off: 'The result of the first script that makes a model ends with "App: <link>": give the user that link ONCE, on its own line. ',
@@ -44,9 +44,9 @@ const SHARE_NOTE: Record<Sharing, string> = {
 
 /** The part of the server instructions about the app, written for the way this session's app reaches the user and for how it is shared. */
 export const appNote = (show: Show, sharing: Sharing = 'off'): string =>
-  'APP: every session has a live CAD app (Buerligons), docked into this session\'s engine. It shows every change as it happens, and the user can work in it too — turn the model, select, measure, edit sketches and features, export. ' +
+  'APP: every drawing has a live CAD app (Buerligons), docked into its engine. It shows every change as it happens, and the user can work in it too — turn the model, select, measure, edit sketches and features, export. ' +
   REACH[show] +
-  'Do NOT repeat the link unasked in later answers: it is said once per session. When the user asks where the model is, wants to see it again or asks for the link, call `view`: it knows whether they still have the app open, brings it up again if not, and returns the link. ' +
+  'Do NOT repeat the link unasked in later answers: it is said once per drawing. When the user asks where the model is, wants to see it again or asks for the link, call `view`: it knows whether they still have the app open, brings it up again if not, and returns the link. ' +
   SHARE_NOTE[sharing] +
   'The user and you work on the SAME model: what they change in the app is in the tree you read next, so read it again (api.tree(), `tree`) instead of trusting ids from before their turn. ' +
   'When the user points instead of naming ("this face", "the selected edges", "here"), call `get_selection`; `set_selection` highlights something for them.'

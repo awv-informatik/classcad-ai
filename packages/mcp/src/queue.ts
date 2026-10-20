@@ -1,10 +1,10 @@
 // queue.ts — one tool call at a time.
 //
-// Every MCP tool of this server shares ONE engine connection and ONE
+// Every MCP tool of this server instance shares ONE engine connection and ONE
 // drawing. The MCP SDK dispatches tool calls concurrently, and hosts do issue
 // them in parallel (Claude Code sends independent tool calls of one turn at
-// once; subagents spawned by a session talk to the SAME server process and
-// therefore the same drawing). Without serialization a `snapshot` issued next
+// once; a subagent handed its parent's drawing works on the same one).
+// Without serialization a `snapshot` issued next
 // to a `run_script` renders whatever the drawing looked like when its GetTree
 // happened to run - possibly before the script created anything - and two
 // scripts interleave their commands on one connection.
@@ -14,12 +14,13 @@
 // Pure lookups that never touch the engine (docs, method index) are exempt
 // and keep answering immediately.
 //
-// Subagents: they share this process and this queue with their parent. A
-// parent's tool call issued while a subagent runs a long script simply waits
-// for it - it would have to anyway, since both act on the same drawing. No
+// Subagents on their parent's drawing share this queue with it. A parent's
+// tool call issued while a subagent runs a long script simply waits for it -
+// it would have to anyway, since both act on the same drawing. No
 // tool waits on ANOTHER tool's completion inside its own handler, so the
-// queue cannot deadlock. Separate Claude sessions run separate MCP processes
-// and are unaffected.
+// queue cannot deadlock. The queue is a drawing's (drawings.ts): other
+// drawings, other conversations' included, run on engines of their own and
+// do not wait for it.
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 

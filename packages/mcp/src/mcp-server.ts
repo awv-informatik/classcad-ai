@@ -1,8 +1,7 @@
 // mcp-server.ts — one ClassCAD MCP server instance: an engine client plus
-// every tool, wired the same way whether the instance serves a stdio host
-// directly or one HTTP session of the daemon. The daemon creates one of these
-// per MCP session, so every Claude tab has its own engine connection,
-// emission config and tool queue.
+// every tool. It is ONE drawing: drawings.ts creates one per drawing a
+// conversation opens (and one for the machine tools), so every drawing has
+// its own engine connection, emission config, tool queue and app link.
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
@@ -23,7 +22,7 @@ import { appAvailable, joinedHere, listen as listenForApps, waitForPage, SESSION
 import { relayUrl } from './share/relay.js'
 import { sharingFromEnv, showFromEnv, type Show } from './share/session.js'
 
-export const VERSION = '0.5.4'
+export const VERSION = '0.6.0'
 
 /** True for an address sessions are joined on (share/server.ts on this machine, or the share relay): an app's own engine, or another agent's. */
 const hostedOnThisMachine = (url: string): boolean => {
@@ -46,10 +45,12 @@ export type McpServerOptions = {
   show?: Show
   /** Where the instance reports engine decisions. */
   log?: (msg: string) => void
+  /** The drawing this session is (drawings.ts); none for the session of the machine tools. */
+  drawing?: string
 }
 
 /** Builds a connected-ready MCP server: the engine client plus all tools. Nothing is opened yet. */
-export async function createMcpServer(opts: McpServerOptions): Promise<{ server: McpServer; client: Client }> {
+export async function createMcpServer(opts: McpServerOptions): Promise<{ server: McpServer; client: Client; instructions: string }> {
   // Build the client without opening the WS. The first tool call that needs
   // the worker will open it — either use_session (with a named session) or
   // any geometry tool (with no session header). This keeps the MCP passive
@@ -64,14 +65,15 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   // Whether, and when, the session gets a link that works beyond this machine: only the app can be shared.
   const sharing = withApp ? sharingFromEnv() : 'off'
 
+  // The initialize-handshake instructions carry the full v1 method index —
+  // hosts surface them to the agent, so it knows every method from turn one.
+  const instructions = `${SIGN_IN_NOTE}\n\n${withApp ? appNote(show, sharing) : VIEWER_NOTE}\n\n${serverInstructions()}`
   const server = new McpServer(
     {
       name: 'classcad',
       version: VERSION,
     },
-    // The initialize-handshake instructions carry the full v1 method index —
-    // hosts surface them to the agent, so it knows every method from turn one.
-    { instructions: `${SIGN_IN_NOTE}\n\n${withApp ? appNote(show, sharing) : VIEWER_NOTE}\n\n${serverInstructions()}` },
+    { instructions },
   )
 
   // One tool call at a time: every tool below shares this client's single
@@ -96,18 +98,33 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     'session_info',
     {
       title: 'Session info',
-      description: 'Return ClassCAD MCP session status: the link of the app docked into this session (app) or of the read-only 3D view (viewer), the link the session is shared with others under (shared; null while it is not), who else is in the session (peers), sign-in (auth), transport (ws = ClassCAD worker, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, the invite this session joined with (shareToken), connection state, package version. ' + DAEMON_NOTE,
+      description: 'Return ClassCAD MCP session status: the drawing\'s id, the link of the app docked into this session (app) or of the read-only 3D view (viewer), the link the session is shared with others under (shared; null while it is not), who else is in the session (peers), sign-in (auth), transport (ws = ClassCAD worker, wasm = the MCP\'s own local engine), engine policy, whether a local WASM engine is available, WS URL, current session id, the invite this session joined with (shareToken), connection state, package version. ' + DAEMON_NOTE,
       inputSchema: {},
     },
     async () => {
       const local = client.localEngine
       const auth = await authStatus()
+      const signedIn = auth.signedIn ? { signedIn: true, email: auth.account.email, ...(auth.offline ? { offline: true } : {}) } : { signedIn: false, reason: auth.reason }
+      if (!opts.drawing) {
+        // Asked without a drawing: the MCP as a whole. Links, engine and peers are a drawing's.
+        const version = opts.wasm?.version ?? DEFAULT_WASM_VERSION
+        const machine = {
+          drawing: null,
+          note: 'No drawing named: the app link, the engine in use and who is in the session belong to a drawing. Pass its id for those.',
+          auth: signedIn,
+          enginePolicy: client.engine,
+          wasm: { available: client.wasmAvailable, version, origin: opts.wasm?.origin ?? DEFAULT_WASM_ORIGIN, dir: opts.wasm?.dir ?? defaultWasmDir(version) },
+          version: VERSION,
+        }
+        return { content: [{ type: 'text', text: JSON.stringify(machine) }] }
+      }
       const info = {
+        drawing: opts.drawing ?? null,
         app: share.url,
         viewer: viewer?.url ?? null,
         shared: share.sharedUrl,
         peers: share.peers().map(p => ({ app: p.identity?.app ?? null, name: p.identity?.name ?? p.inviteName ?? null, kind: p.identity?.kind ?? null, role: p.role ?? null })),
-        auth: auth.signedIn ? { signedIn: true, email: auth.account.email, ...(auth.offline ? { offline: true } : {}) } : { signedIn: false, reason: auth.reason },
+        auth: signedIn,
         transport: client.transport,
         enginePolicy: client.engine,
         wsUrl: client.transport === 'ws' ? client.url : null,
@@ -117,6 +134,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
         wasm: {
           available: client.wasmAvailable,
           running: local !== null,
+          suspended: client.suspended,
           version: local?.version ?? opts.wasm?.version ?? DEFAULT_WASM_VERSION,
           origin: local?.origin ?? opts.wasm?.origin ?? DEFAULT_WASM_ORIGIN,
           dir: local?.dir ?? opts.wasm?.dir ?? defaultWasmDir(opts.wasm?.version ?? DEFAULT_WASM_VERSION),
@@ -133,7 +151,7 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
     {
       title: 'Switch session',
       description:
-        'Call this BEFORE any other classcad tool when the user names a session or hands you a session/token URL — the MCP opens its engine link lazily, so the first tool call decides which session is used. Modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (wss://host/?invite=…); connected VERBATIM. (3) an http(s):// APP SHARE LINK from a buerli app\'s Session Management (…?invite=…): the MCP joins the app\'s session as a guest, wherever its engine runs — on a ClassCAD server (the token is applied to the configured worker URL) or in the app\'s own page (WASM; the app must stay open: on this machine, or anywhere when it shares on the ClassCAD share relay, as buerligons.io does). Without a url the MCP runs its own session — and the user\'s app docks into THAT with the link `view` returns. (4) engine — WHICH ENGINE runs that own session: "drogon" = the configured ClassCAD worker (server), "wasm" = the MCP\'s OWN local engine (the published WASM build hosted in this process, no server and no browser needed; requires a configured key), "auto" (default) = the worker if reachable, otherwise the local engine. Use "drogon" when the user says to connect to their (Drogon/ClassCAD) server, "wasm" when they say WASM/local/offline; a token or URL always decides by itself. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
+        'Make this the FIRST call of a drawing (drawing: "new") when the user names a session or hands you a session/token URL — a drawing opens its engine link lazily, so its first tool call decides which session it is. Modes: (1) sessionId — attaches to a named ClassCAD session (ClassCAD-Session-Id header) on the configured worker; empty/omitted = fresh worker-assigned session. (2) url — a ws(s):// URL from a multi-client server, typically carrying an invite token (wss://host/?invite=…); connected VERBATIM. (3) an http(s):// APP SHARE LINK from a buerli app\'s Session Management (…?invite=…): the MCP joins the app\'s session as a guest, wherever its engine runs — on a ClassCAD server (the token is applied to the configured worker URL) or in the app\'s own page (WASM; the app must stay open: on this machine, or anywhere when it shares on the ClassCAD share relay, as buerligons.io does). Without a url the MCP runs its own session — and the user\'s app docks into THAT with the link `view` returns. (4) engine — WHICH ENGINE runs that own session: "drogon" = the configured ClassCAD worker (server), "wasm" = the MCP\'s OWN local engine (the published WASM build hosted in this process, no server and no browser needed; requires a configured key), "auto" (default) = the worker if reachable, otherwise the local engine. Use "drogon" when the user says to connect to their (Drogon/ClassCAD) server, "wasm" when they say WASM/local/offline; a token or URL always decides by itself. Reconnecting clears cached structure/graphic state — the next tool call repopulates it.',
       inputSchema: {
         sessionId: z.string().optional()
           .describe('Target session id (named-session model, worker only). Empty string or omitted = no header (worker-assigned session).'),
@@ -232,5 +250,5 @@ export async function createMcpServer(opts: McpServerOptions): Promise<{ server:
   registerSnapshotTool(server, client)
   registerScriptTool(server, client)
 
-  return { server, client }
+  return { server, client, instructions }
 }

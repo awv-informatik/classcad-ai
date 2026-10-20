@@ -10,16 +10,20 @@
 //   • several sessions starting at once ran several npx installs into one cache folder, which broke
 //     it (TAR_ENTRY_ERROR). Here one install runs at a time, under a lock, and the others wait;
 //   • an install counts only once it is complete and checked (a marker file written last), so a
-//     broken one is replaced by the next start.
+//     broken one is replaced by the next start;
+//   • a version is removed only once nothing used it for a week: a running server's launcher touches
+//     its marker every hour, and the version the daemon on this machine runs is kept as well (it
+//     serves sessions whose launcher is older than that).
 // stdin/stdout are passed straight through to the server: this process only waits for it to end.
 import { spawn } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
-import { existsSync, linkSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, linkSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs'
+import { get } from 'node:http'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const PACKAGE = '@classcad/mcp@0.6.0'
+const PACKAGE = '@classcad/mcp@0.6.1'
 const NAME = PACKAGE.slice(0, PACKAGE.lastIndexOf('@'))
 const VERSION = PACKAGE.slice(PACKAGE.lastIndexOf('@') + 1)
 
@@ -33,6 +37,8 @@ const packageDir = join(dir, 'node_modules', ...NAME.split('/'))
 const STALE_MS = 10 * 60 * 1000
 // this process, as the lock names the installer holding it
 const ID = randomUUID()
+// a version nobody used for this long goes when another one is installed
+const UNUSED_MS = 7 * 24 * 3600 * 1000
 
 const say = message => console.error(`[classcad] ${message}`)
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -49,6 +55,40 @@ function server() {
     // not installed, or not completely
   }
   return null
+}
+
+/** This version is in use: its marker's time says when it last was. */
+function touch() {
+  try {
+    const now = new Date()
+    utimesSync(marker, now, now)
+  } catch {
+    // gone, or a folder that cannot be written: nothing to keep
+  }
+}
+
+/**
+ * The version the MCP daemon on this machine runs, or null when none answers within a second. Its
+ * sessions use that version's files. Plain http, not fetch: fetch can stay pending for good when the
+ * other side hangs up (Node 20).
+ */
+function daemonVersion() {
+  return new Promise(resolve => {
+    const req = get({ host: '127.0.0.1', port: Number(process.env.CLASSCAD_MCP_PORT) || 9097, path: '/health', timeout: 1000, agent: false }, res => {
+      let body = ''
+      res.on('data', chunk => (body += chunk))
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(body).name === 'classcad-mcp' ? JSON.parse(body).version : null)
+        } catch {
+          resolve(null)
+        }
+      })
+      res.on('error', () => resolve(null))
+    })
+    req.on('timeout', () => req.destroy())
+    req.on('error', () => resolve(null))
+  })
 }
 
 /** The installer holding the lock ({ pid, id, at }), or null. */
@@ -141,13 +181,15 @@ async function install() {
     if (code !== 0 || !mine()) return
     writeFileSync(marker, JSON.stringify({ version: VERSION, at: new Date().toISOString() }))
     if (!server()) rmSync(marker, { force: true })
-    // other versions go once unused for a week (sessions started before an update may still run them)
+    // other versions go once unused for a week (sessions started before an update may still run them):
+    // the marker's time is when its launcher last ran it, and the daemon's version is in use now
+    const running = await daemonVersion()
     for (const name of readdirSync(runtime)) {
-      if (name === VERSION || name.endsWith('.lock')) continue
+      if (name === VERSION || name === running || name.endsWith('.lock')) continue
       try {
         const folder = join(runtime, name)
         const used = statSync(existsSync(join(folder, 'installed.json')) ? join(folder, 'installed.json') : folder).mtimeMs
-        if (statSync(folder).isDirectory() && Date.now() - used > 7 * 24 * 3600 * 1000) rmSync(folder, { recursive: true, force: true })
+        if (statSync(folder).isDirectory() && Date.now() - used > UNUSED_MS) rmSync(folder, { recursive: true, force: true })
       } catch {
         // in use, or gone already
       }
@@ -182,6 +224,9 @@ async function launch() {
       await pause(250)
     }
   }
+  // in use for as long as this session runs
+  touch()
+  setInterval(touch, 3600 * 1000).unref()
   const child = spawn(process.execPath, [entry, ...process.argv.slice(2)], { stdio: 'inherit', windowsHide: true })
   child.on('error', err => {
     say(`could not start the server (${err.message}).`)

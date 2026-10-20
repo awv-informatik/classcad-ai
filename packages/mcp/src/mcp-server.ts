@@ -22,7 +22,7 @@ import { appAvailable, joinedHere, listen as listenForApps, waitForPage, SESSION
 import { relayUrl } from './share/relay.js'
 import { sharingFromEnv, showFromEnv, type Show } from './share/session.js'
 
-export const VERSION = '0.6.0'
+export const VERSION = '0.6.1'
 
 /** True for an address sessions are joined on (share/server.ts on this machine, or the share relay): an app's own engine, or another agent's. */
 const hostedOnThisMachine = (url: string): boolean => {

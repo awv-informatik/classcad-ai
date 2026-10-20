@@ -16,21 +16,22 @@ The session is shared. The CAD app, [Buerligons](https://buerligons.io), docks i
  VS Code      ── stdio ──► classcad-mcp (shim) ──┘
                                                  ▼
                                    classcad-mcp daemon (ONE per machine)
-                                     session 1 ── worker thread ──► ClassCAD WASM (the MCP's own engine)
-                                     session 2 ── WebSocket ─────► ClassCAD worker (classcad-cli, optional)
-                                     session 3 ── WebSocket ─────► a session an app shares (by invite)
-                                     127.0.0.1:9098  ◄── the app, docked into a session · apps that host a session of their own
+                                     session (one per host connection), its drawings (one per model):
+                                       drawing d-… ── worker thread ──► ClassCAD WASM (the MCP's own engine)
+                                       drawing d-… ── WebSocket ─────► ClassCAD worker (classcad-cli, optional)
+                                       drawing d-… ── WebSocket ─────► a session an app shares (by invite)
+                                     127.0.0.1:9098  ◄── the app, docked into a drawing · apps that host a session of their own
                                      wss, dialled out ──► share relay (Cloudflare) ◄── the app on any other machine, by share link
 ```
 
 - **Self-contained.** The MCP brings its own engine: the published ClassCAD WASM build, run in a worker thread of the daemon. No server and no key to configure: the engine's key comes with one sign-in with a free classcad.ch account. On first use it downloads the release assets (about 16 MB) once and caches them.
 - Every host starts the MCP as a **stdio** child process (`npx -y @classcad/mcp@latest`). That process is a thin **shim**: it looks for the daemon on `127.0.0.1:9097`, starts it if none runs, and forwards its host's JSON-RPC to it. The first tab starts the daemon, every later tab reuses it.
-- The **daemon** is the actual MCP. It holds one MCP server instance **per session** (per tab: own engine, caches, tool queue, invites) and the one **listener sessions are joined on** (`127.0.0.1:9098`): the app docks into the MCP's sessions there, and apps that run the engine in their own page offer their sessions there. With no session left and no such app waiting it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
+- The **daemon** is the actual MCP. It holds one session **per host connection**, and in it one MCP server instance **per drawing** (own engine, caches, tool queue, invites; see [Drawings](#drawings)), and the one **listener sessions are joined on** (`127.0.0.1:9098`): the app docks into the MCP's sessions there, and apps that run the engine in their own page offer their sessions there. With no session left and no such app waiting it exits by itself after `CLASSCAD_DAEMON_IDLE_MS` (60 s). Nothing to install or manage: it is part of this package (`dist/daemon.js`) and lives only while it is used.
 - Why a daemon: the MCP *listens* on a port, and a port belongs to exactly one process. With one daemon, every session's app link has the same address, and an app that looks for the MCP finds it.
-- **Shared with the user.** Every session has a live CAD app, docked into the same engine: see [The app](#the-app). The session protocol is the one a ClassCAD server speaks, so any buerli app joins the same way: see [Sharing](#sharing-one-session-several-participants).
+- **Shared with the user.** Every drawing has a live CAD app, docked into the same engine: see [The app](#the-app). The session protocol is the one a ClassCAD server speaks, so any buerli app joins the same way: see [Sharing](#sharing-one-session-several-participants).
 - **Shared beyond the machine.** A session is also offered on the share relay ([`packages/relay`](../relay), a Cloudflare Worker), so the app's link works on any machine. The MCP dials out to it; nothing on the machine listens for the outside. See [Somebody elsewhere joins](#somebody-elsewhere-joins).
 - **Optional engines.** If a `classcad-cli worker` is reachable (`CLASSCAD_WS_URL`, default `ws://localhost:9094/`), the default policy `auto` uses it instead of the local engine. See [Engines](#engines-worker-or-local-wasm).
-- The engine is started lazily on the first tool call, so an idle session costs nothing.
+- The engine is started lazily on a drawing's first tool call, so an idle session costs nothing, and a drawing that is not used gives its engine up (it sleeps, see [Drawings](#drawings)).
 - Fallback: if `127.0.0.1:9097` is held by something that is not a classcad daemon, the shim serves the MCP in-process (with a listener of its own, on a free port if `9098` is taken) and says so on stderr.
 
 ---
@@ -99,7 +100,7 @@ The chat side of the desktop app has its **own** config and does not read `~/.cl
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the same `mcpServers` block as above. The app is not started from a shell, so it has no `PATH`: if it cannot start `npx`, use its absolute path as `command` (`which npx` tells you; macOS Homebrew: `/opt/homebrew/bin/npx`), and if it then cannot find `node`, add `"env": { "PATH": "<the folder that holds node>:/usr/bin:/bin" }`. Quit and reopen the app — it spawns MCP servers only at startup. The server then shows up under Settings → Developer, and the chat renders snapshot images inline.
+Add the same `mcpServers` block as above. The app runs one MCP connection for all its chats; every chat works on drawings of its own (see [Drawings](#drawings)), so one chat never touches another's model. The app is not started from a shell, so it has no `PATH`: if it cannot start `npx`, use its absolute path as `command` (`which npx` tells you; macOS Homebrew: `/opt/homebrew/bin/npx`), and if it then cannot find `node`, add `"env": { "PATH": "<the folder that holds node>:/usr/bin:/bin" }`. Quit and reopen the app — it spawns MCP servers only at startup. The server then shows up under Settings → Developer, and the chat renders snapshot images inline.
 
 ### Codex
 
@@ -147,19 +148,29 @@ Most hosts accept the Claude-style `mcpServers` JSON.
 
 ### First test
 
-In a new session, ask the agent to *make a box*. The first time, it shows a sign-in link: open it, sign in, and the agent carries on by itself. It should then call `run_script` and answer with a volume, and the app comes up with the box (in the desktop app's Browser pane, or in your browser); `session_info` shows `"transport": "wasm"` (or `"ws"` when a worker is running). The very first call takes a little longer while the WASM assets download.
+In a new session, ask the agent to *make a box*. The first time, it shows a sign-in link: open it, sign in, and the agent carries on by itself. It should then call `run_script` and answer with a volume, and the app comes up with the box (in the desktop app's Browser pane, or in your browser); `session_info` with the drawing the answer named shows `"transport": "wasm"` (or `"ws"` when a worker is running). The very first call takes a little longer while the WASM assets download.
 
 ---
 
+## Drawings
+
+Every tool that works on a model takes a `drawing`. The first call of a model passes `"new"`: the MCP opens a drawing — an engine session of its own, with its own tool queue, checkpoints and app — and the answer names its id (`d-k3v9q2xa`). Every later call about that model passes that id. A second, unrelated model is a second drawing. `docs`, `list_methods`, `describe_method`, `login` and `account` take no drawing, and `session_info` without one answers for the MCP as a whole.
+
+**Why.** Some hosts send many conversations through one connection: the Claude desktop chat app and Cowork start one MCP process for all their conversations, Cursor and VS Code one per window. Nothing in a request says which conversation sent it. With one drawing per connection, one conversation's `clear` or `load` is another one's lost model. A drawing's id is random, and only the conversation that opened it is told it, so no other conversation reaches it. A call without an id, or with one this connection does not know, is refused and changes nothing. Drawings run side by side: the scripts of two conversations do not wait for each other.
+
+Drawings end with their session (the host's connection). To keep a model beyond that, `save` it (OFB keeps its features).
+
+**Idle drawings sleep.** A local engine costs memory: the first one in the daemon about 850 MB, every further one about 350 MB. A drawing nobody used for `CLASSCAD_DRAWING_IDLE_MS` (10 minutes) gives its engine up: the drawing waits in the daemon as OFB, and its next call — or the next command of the app docked into it — starts an engine and loads it again, under the same ids and with its checkpoints. At most `CLASSCAD_DRAWINGS_AWAKE` (3) drawings of a connection stay awake; the least recently used one sleeps first. Waking takes a second or two. Drawings on a worker are the worker's sessions and do not sleep.
+
 ## The app
 
-Every session has a live CAD app: [Buerligons](https://buerligons.io), the buerli CAD app, docked into the session's own engine. The package carries a build of it and serves it itself, so there is nothing to install and it works offline.
+Every drawing has a live CAD app: [Buerligons](https://buerligons.io), the buerli CAD app, docked into the drawing's own engine. The package carries a build of it and serves it itself, so there is nothing to install and it works offline.
 
-- **It comes up with the first model** of a session and shows every change the agent makes as it happens. Where it comes up is the host's: in the **Claude desktop app** (Code tab) it is the app's own Browser pane, beside the conversation — the agent opens it there; everywhere else the MCP opens the user's default browser. The result of the script that makes the first model ends with the link (`App: …`), once per session: agents do not carry it into every answer. `session_info` names it, and `view` returns it and brings the app up again (unless the user already has it open: one tab per session is enough).
+- **It comes up with the first model** of a drawing and shows every change the agent makes as it happens. Where it comes up is the host's: in the **Claude desktop app** (Code tab) it is the app's own Browser pane, beside the conversation — the agent opens it there; everywhere else the MCP opens the user's default browser. The result of the script that makes the first model ends with the link (`App: …`), once per drawing: agents do not carry it into every answer. `session_info` names it, and `view` returns it and brings the app up again (unless the user already has it open: one tab per drawing is enough).
 - **The user works in it too.** Turn and zoom, measure, select; edit a feature's values, draw and constrain a sketch, add or delete features, start over or open a file. It is the same model: what the user changes is in the tree the agent reads next, and what the agent builds appears in the app at once. A command from the app waits for a running script to finish, so the two never interleave inside one.
 - **Pointing.** What the user has selected in the app, the agent reads with `get_selection` ("fillet *this* edge"); with `set_selection` the agent highlights something for the user.
 - **Files.** The app's File menu saves the model as OFB (ClassCAD's own format, with the features), STEP or STL, and opens such files into the session.
-- **One link per session, and it travels.** The link carries an invite to exactly one session, so several sessions (tabs, hosts) work side by side, each with its own app. By default it is a **share link**, `https://<relay>/?invite=…`: the same link works for a colleague, or on the user's tablet (see [Somebody elsewhere joins](#somebody-elsewhere-joins)). While the relay does not hold the session, or with `CLASSCAD_SHARE=ask` or `off`, it is the link on this machine, `http://127.0.0.1:9098/?invite=…`. When a session ends, or moves to another engine, the app says so and offers to join again.
+- **One link per drawing, and it travels.** The link carries an invite to exactly one drawing's session, so several drawings (conversations, tabs, hosts) work side by side, each with its own app. By default it is a **share link**, `https://<relay>/?invite=…`: the same link works for a colleague, or on the user's tablet (see [Somebody elsewhere joins](#somebody-elsewhere-joins)). While the relay does not hold the session, or with `CLASSCAD_SHARE=ask` or `off`, it is the link on this machine, `http://127.0.0.1:9098/?invite=…`. When a session ends, or moves to another engine, the app says so and offers to join again.
 - **Where the model is.** The session and its engine stay on the user's machine. The MCP serves the app on `127.0.0.1:9098` (`CLASSCAD_VIEWER_PORT`; another free port when that one is taken) and answers only requests that name it as their host: opened from there, nothing of the model leaves the machine. Opened under the share link, the app's frames pass through the relay, which keeps none of them. The invite is the key to the session, so the link is a secret: whoever has the share link is in.
 
 `CLASSCAD_VIEWER_OPEN` says where the app comes up: `browser` (the user's default browser), `host` (the agent opens it in its host's own browser pane — for any host that has one) or `0` (nowhere: the agent hands the link over). Unset, it is `host` in the Claude desktop app and `browser` everywhere else. `CLASSCAD_APP_URL` names an app that is hosted elsewhere instead of the one in this package: the link becomes `<url>?invite=…`, and the app has to join that invite on `ws://127.0.0.1:9098/session` (a Buerligons built for the engine in its page does). A page from a public site reaches `127.0.0.1` only if the browser lets it: see [the limit](#what-the-browser-has-to-allow) below. `CLASSCAD_VIEWER=readonly` shows the read-only 3D view instead of the app (a page that only turns and exports the model; a build of this package without the app has it too), `CLASSCAD_VIEWER=off` shows nothing.
@@ -195,6 +206,8 @@ From a terminal, the same flow and more (`node dist/server.js <command>` in a ch
 | `CLASSCAD_MCP_PORT`      | Port of the daemon's HTTP endpoint on `127.0.0.1`. Default `9097`. Shim and daemon must agree (the shim passes it on when it starts the daemon). |
 | `CLASSCAD_MCP_URL`       | Full daemon URL instead of `http://127.0.0.1:<port>` (rarely needed).                                             |
 | `CLASSCAD_DAEMON_IDLE_MS`| How long the daemon lives without any session, and without any app that offers a session of its own, before it exits. Default `60000`. |
+| `CLASSCAD_DRAWING_IDLE_MS` | How long a drawing on the local engine stays awake without being used before it gives its engine up ([Drawings](#drawings)). Default `600000` (10 minutes). |
+| `CLASSCAD_DRAWINGS_AWAKE` | How many drawings of one connection keep a local engine running; beyond that the least recently used one sleeps. Default `3`. |
 | `CLASSCAD_MCP_LOG`       | Daemon log file. Default `<tmpdir>/classcad-mcp/daemon.log` (the shim prints the path on stderr at startup).       |
 | `CLASSCAD_ENGINE`        | Engine policy when no token/URL decides: `auto` (default: the worker, else the local WASM engine), `drogon` (worker only), `wasm` (local engine only). |
 | `CLASSCAD_VIEWER`        | What a session shows the user. Default: the app. `readonly`: the read-only 3D view. `off`: nothing.               |
@@ -220,21 +233,23 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 
 ### The daemon in practice
 
-- **Which process is which:** `classcad-mcp` shim = the process your host started (`dist/server.js`), one per tab, exits with the tab. `dist/daemon.js` = the one long-lived process; `GET http://127.0.0.1:9097/health` shows its pid, version, active session count, the number of apps in a session (`apps`), the address sessions are joined on (`join`) and the log file.
-- **Multiple tabs:** each tab is one session in the same daemon. Sessions are independent (a script in tab A does not touch tab B's caches). `session_info` shows what a tab is attached to.
+- **Which process is which:** `classcad-mcp` shim = the process your host started (`dist/server.js`), one per tab, exits with the tab. `dist/daemon.js` = the one long-lived process; `GET http://127.0.0.1:9097/health` shows its pid, version, active session count, the drawings in them (`drawings`) and how many of those have an engine running (`awake`), the number of apps in a session (`apps`), the address sessions are joined on (`join`) and the log file.
+- **Multiple tabs:** each tab is one session in the same daemon, with the drawings its conversation opened. Sessions and drawings are independent (a script in one drawing does not touch another's engine or caches). `session_info` with a drawing shows what that drawing is attached to.
 - **Lifetime:** the daemon exits a minute after the last session closed, unless an app still offers a session of its own (a buerli app with the engine in its page keeps it alive, so the next tab joins it instantly). Such apps find a restarted daemon by themselves within 5 s; `use_session` waits 8 s for that. A shim exits when its host closes stdin or sends SIGTERM; the daemon drops that session immediately, and the app docked into it says that the session is over.
 - **Upgrades:** after `npm run build` (or a package update) the next shim notices the version or build-stamp mismatch (`/health` reports both; the stamp is taken when the daemon starts and covers `dist/daemon.js` plus the `@classcad/renderer` and `@classcad/script` builds). An idle old daemon is shut down and replaced. A busy one (other tabs) is told to *drain* — it takes no new sessions and exits when its last tab closes — and the new tab runs the current build **in-process** meanwhile (with a listener of its own for its app, on a free port). Old tabs keep their old code until they are restarted.
 - **Logs:** the shim writes one line per session start/end to stderr (visible in the host's MCP log); the daemon writes to `CLASSCAD_MCP_LOG`. Run it by hand to watch: `CLASSCAD_MCP_DAEMON=1 node dist/daemon.js` (logs to stderr when `CLASSCAD_MCP_LOG` is unset).
 - **Troubleshooting:** `curl http://127.0.0.1:9097/health` — no answer means no daemon (the next tool call starts one); a `join` address on another port than 9098 means that port is held by another program (usually an MCP process of an older build — close that tab): app links still work, but apps that host their own session will not find the MCP; a `name` other than `classcad-mcp` means a foreign program owns 9097 (set `CLASSCAD_MCP_PORT`). `classcad-mcp stop` stops an idle daemon (see below). Ports: 9094 worker (ws), 9095 worker (wss), 9097 daemon, 9098 the app and the sessions — all on `127.0.0.1` except the worker. The share relay is reached by an outgoing WebSocket (443); `session_info` shows under `shared` whether it holds the session.
 - **Stopping / restarting:** the package binary doubles as a small CLI (`node dist/server.js <command>` in a checkout):
-  - `classcad-mcp status` — the running daemon's `/health` (pid, build, sessions, apps, log file).
+  - `classcad-mcp status` — the running daemon's `/health` (pid, build, sessions, drawings, apps, log file).
   - `classcad-mcp stop` — stops the daemon when no session is active; refuses (exit 1) otherwise.
-  - `classcad-mcp stop --force` — SIGTERM (SIGKILL after 5 s) regardless of sessions, e.g. to load a rebuilt renderer right away. Every connected tab loses its drawing; its shim reconnects on the next tool call — it starts a fresh daemon and replays the host's `initialize`, so the host does not need a restart.
+  - `classcad-mcp stop --force` — SIGTERM (SIGKILL after 5 s) regardless of sessions, e.g. to load a rebuilt renderer right away. Every connected tab loses its drawings; its shim reconnects on the next tool call — it starts a fresh daemon and replays the host's `initialize`, so the host does not need a restart.
 - **Security:** the daemon binds `127.0.0.1` and refuses (403) every request that carries an `Origin` header or a `Host` other than `127.0.0.1` / `localhost` / `[::1]` — web pages cannot drive it, not even via DNS rebinding. The listener on 9098 is meant for browser apps: it answers only requests that name it as their host, and a session is joined only with its invite (a 122-bit random token) on a signed-in machine. Sharing a session beyond the machine opens no port: the MCP dials out to the relay, which takes the offer only with the machine's sign-in and lets in whoever has that session's share invite — an invite of its own, which the listener does not take and `share` takes back.
 
 ---
 
 ## Tools
+
+Every tool that works on a model takes `drawing`: `"new"`, or the id an earlier answer named ([Drawings](#drawings)).
 
 | Tool                    | Purpose                                                                                                   |
 | ----------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -252,7 +267,7 @@ None is required. Set them in the host's MCP config `env` block; the shim passes
 
 `snapshot` returns the PNG as an inline image block **for the model** and writes it to `CLASSCAD_SNAPSHOT_DIR`. Claude Code and the desktop app's Code tab do not show tool-result images to the user — the tool result says so and names the saved file, so the model can hand it over (Claude Code: `SendUserFile`). The desktop app's chat renders it directly. Claude Code only previews sent files that live in the session's own folders (scratchpad or project) — anything else arrives as a grey placeholder card — so the tool tells the model to pass `outDir` = its scratchpad.
 
-**Tool calls are serialized.** All tools share one engine connection and one drawing, so the server runs one tool call at a time (docs lookups excepted). A `snapshot` issued in parallel with a `run_script` waits for the script instead of rendering a half-built model. Subagents of a session use the same MCP process and therefore the same queue.
+**Tool calls are serialized per drawing.** All tools of a drawing share one engine connection, so the server runs one tool call of a drawing at a time (docs lookups excepted). A `snapshot` issued in parallel with a `run_script` waits for the script instead of rendering a half-built model. Other drawings do not wait. A subagent handed its parent's drawing shares that drawing's queue.
 
 ---
 

@@ -3,8 +3,9 @@
 //
 // It is a thin shim: it finds the ClassCAD MCP daemon on this machine (or
 // starts it, detached) and forwards its host's JSON-RPC to the daemon over
-// HTTP (MCP Streamable HTTP). Every tab therefore gets its own session in the
-// ONE daemon process — see daemon.ts for why.
+// HTTP (MCP Streamable HTTP). Every host connection therefore gets its own
+// session in the ONE daemon process — see daemon.ts for why — and every
+// drawing its conversations open its own engine (drawings.ts).
 //
 // If no daemon can be reached at all (the port is held by a foreign program
 // and cannot be freed), the shim serves the MCP in-process: the same MCP, with
@@ -19,7 +20,8 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
-import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
+import { DEFAULT_WS_URL, VERSION } from './mcp-server.js'
+import { createRouter } from './drawings.js'
 import { DAEMON_HOST, DEFAULT_DAEMON_PORT, defaultDaemonLogFile, daemonBuildStamp } from './daemon.js'
 import { wasmOptionsFromEnv } from './engine/wasm.js'
 import { showFromEnv } from './share/session.js'
@@ -337,18 +339,15 @@ async function proxyToDaemon(): Promise<void> {
 
 /** Last resort: the MCP in this process. */
 async function serveInProcess(): Promise<void> {
-  const { server, client } = await createMcpServer({ wsUrl: WS_URL, engine: ENGINE, wasm: WASM, log })
+  const router = await createRouter({ wsUrl: WS_URL, engine: ENGINE, wasm: WASM, log })
   const shutdown = () => {
-    try {
-      client.close()
-    } catch {}
-    process.exit(0)
+    void router.close().finally(() => process.exit(0))
   }
   process.on('SIGINT', shutdown)
   process.on('SIGTERM', shutdown)
   process.stdin.on('end', shutdown)
   process.stdin.on('close', shutdown)
-  await server.connect(new StdioServerTransport())
+  await router.server.connect(new StdioServerTransport())
 }
 
 async function main(): Promise<void> {
@@ -365,7 +364,7 @@ async function main(): Promise<void> {
 const USAGE = `classcad-mcp — ClassCAD MCP server (stdio). Hosts start it without arguments.
 
 Daemon commands:
-  classcad-mcp status          show the running daemon (pid, build, sessions, apps, log file)
+  classcad-mcp status          show the running daemon (pid, build, sessions, drawings, apps, log file)
   classcad-mcp stop            stop the daemon if no session is active
   classcad-mcp stop --force    terminate it now: EVERY connected tab loses its drawing and
                                reconnects to a fresh daemon on its next tool call

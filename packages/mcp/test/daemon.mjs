@@ -24,6 +24,7 @@ import { fakeAuth } from './fake-auth.mjs'
 import { tmpdir } from 'node:os'
 import { startFakeWorker } from '../../script/test/fake-worker.mjs'
 import WebSocket from 'ws'
+import { conversation } from './conversation.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
@@ -44,10 +45,10 @@ function shim(env) {
   p.stdout.on('data', d => { buf += d; let i; while ((i = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, i); buf = buf.slice(i + 1); try { const m = JSON.parse(line); if (m.id != null && waiters.has(m.id)) { waiters.get(m.id)(m); waiters.delete(m.id) } } catch {} } })
   const call = (method, params) => new Promise((resolve, reject) => { const id = ++n; const timer = setTimeout(() => { if (waiters.has(id)) { waiters.delete(id); reject(new Error('timeout ' + method)) } }, 15000); waiters.set(id, m => { clearTimeout(timer); resolve(m) }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n') })
   const init = async () => { const r = await call('initialize', { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'daemon-test', version: '0' } }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n'); return r }
-  const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: args }); const c = m.result?.content || []; return JSON.parse((c.find(b => b.type === 'text') || {}).text ?? 'null') }
+  const conv = conversation(); const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: conv.args(name, args) }); conv.saw(m); const c = m.result?.content || []; return JSON.parse((c.find(b => b.type === 'text') || {}).text ?? 'null') }
   // A shim that is gone already has nothing left to say: waiting for its exit would wait forever.
   const exit = () => new Promise(r => { if (p.exitCode !== null || p.signalCode !== null) return r(); p.once('exit', r); p.stdin.end() })
-  return { p, call, init, tool, exit, stderr: () => stderr.join('') }
+  return { p, call, init, tool, exit, conv, stderr: () => stderr.join('') }
 }
 
 test('daemon: one process per machine, one session per shim, idle exit', async () => {
@@ -81,8 +82,9 @@ test('daemon: one process per machine, one session per shim, idle exit', async (
     const h2 = await health(port)
     assert.equal(h2.pid, h.pid, 'no second daemon')
     assert.equal(h2.sessions, 2, 'two sessions')
-    const infoA = await a.tool('session_info')
-    const infoB = await b.tool('session_info')
+    // each opens a drawing of its own
+    const infoA = await a.tool('session_info', { drawing: 'new' })
+    const infoB = await b.tool('session_info', { drawing: 'new' })
     assert.equal(infoA.transport, 'ws')
     assert.equal(infoB.transport, 'ws')
     // a mutation in A does not touch B's session/caches (separate clients)
@@ -213,8 +215,8 @@ test('daemon: browser requests refused, CLI stop / stop --force', async () => {
     assert.equal(again.code, 0)
     assert.match(again.stdout, /no classcad-mcp daemon/)
 
-    // 9. the tab survives: its next call starts a fresh daemon and replays the handshake
-    const info = await a.tool('session_info')
+    // 9. the tab survives: its next call starts a fresh daemon and replays the handshake (its drawings are gone)
+    const info = await a.tool('session_info', { drawing: 'new' })
     assert.equal(info.transport, 'ws', 'tool call answered after the forced stop')
     const h2 = await health(port)
     assert.ok(h2 && h2.pid !== h.pid, 'a new daemon serves the tab')

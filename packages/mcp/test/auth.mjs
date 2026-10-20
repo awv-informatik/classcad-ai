@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { startFakeWorker } from '../../script/test/fake-worker.mjs'
 import { fakeAuth } from './fake-auth.mjs'
+import { conversation } from './conversation.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SERVER = join(here, '..', 'dist', 'server.js')
@@ -28,10 +29,10 @@ function shim(env) {
   p.stdout.on('data', d => { buf += d; let i; while ((i = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, i); buf = buf.slice(i + 1); try { const m = JSON.parse(line); if (m.id != null && waiters.has(m.id)) { waiters.get(m.id)(m); waiters.delete(m.id) } } catch {} } })
   const call = (method, params) => new Promise((resolve, reject) => { const id = ++n; const timer = setTimeout(() => { if (waiters.has(id)) { waiters.delete(id); reject(new Error('timeout ' + method)) } }, 60000); waiters.set(id, m => { clearTimeout(timer); resolve(m) }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n') })
   const init = async () => { const r = await call('initialize', { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'Auth Test', version: '0' } }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n'); return r }
-  const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: args }); const t = (m.result?.content?.find(b => b.type === 'text') || {}).text ?? ''; return { isError: !!m.result?.isError, text: t } }
+  const conv = conversation(); const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: conv.args(name, args) }); conv.saw(m); const t = (m.result?.content?.find(b => b.type === 'text') || {}).text ?? ''; return { isError: !!m.result?.isError, text: t } }
   // A shim that is gone already has nothing left to say: waiting for its exit would wait forever.
   const exit = () => new Promise(r => { if (p.exitCode !== null || p.signalCode !== null) return r(); p.once('exit', r); p.stdin.end() })
-  return { init, tool, exit }
+  return { init, tool, exit, conv }
 }
 
 const linkIn = text => {

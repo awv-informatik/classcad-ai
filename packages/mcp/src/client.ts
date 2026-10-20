@@ -189,6 +189,17 @@ export type Client = {
   readonly wasmAvailable: boolean
   /** The running local engine, if any. */
   readonly localEngine: LocalEngine | null
+  /**
+   * Puts the MCP's own engine to sleep: the drawing is kept here as OFB and
+   * the engine (its memory) goes; the next command starts a new engine with
+   * the drawing, under the same ids. False when it cannot now: not on the
+   * local engine, a command under way, or a drawing that does not save.
+   */
+  suspend: () => Promise<boolean>
+  /** True while the drawing waits as OFB for an engine (suspend). */
+  readonly suspended: boolean
+  /** When the engine was last asked anything, by the MCP or a docked app (ms since the epoch). */
+  readonly lastUse: number
   /** The invite token this client joined a server session with, or null (its own session). */
   readonly shareToken: string | null
   /** True while the engine link is usable. */
@@ -245,6 +256,11 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   // unreachable); kept for the client's lifetime — a restart costs seconds
   // and there is no other session to switch to. close() terminates it.
   let localEngine: LocalEngine | null = null
+  // The drawing of a suspended engine (OFB, base64; '' for an empty one), loaded into the next engine.
+  let asleep: string | null = null
+  let lastUse = Date.now()
+  // Commands of docked apps on the engine right now (relay): a suspend waits for none.
+  let guestsBusy = 0
   let policy: EnginePolicy = opts.engine ?? 'auto'
   // 'auto' landed on the local engine because no worker answered. The order is
   // token > worker > WASM, so a worker that comes up later takes over — while
@@ -337,9 +353,16 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
 
   /** A docked app's command on the MCP's own engine (see Client.relay). */
   async function relay(req: Record<string, unknown>): Promise<EngineExecuteResult> {
+    lastUse = Date.now()
     await ensureOpen()
     if (transport !== 'wasm' || !localEngine) throw new Error('this session does not run on the MCP\'s own engine')
-    const res = await localEngine.execute(req)
+    guestsBusy++
+    let res: EngineExecuteResult
+    try {
+      res = await localEngine.execute(req)
+    } finally {
+      guestsBusy--
+    }
     // Anything but a pull may have changed the model: the caches are stale, and
     // database settings an app set may have replaced the ones renders need.
     if (req.command !== 'GetTree' && req.command !== 'Sync') {
@@ -492,6 +515,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
 
   async function request<T = unknown>(command: string, extra: object = {}, o: { track?: boolean } = {}): Promise<ApiResult<T>> {
     if (outcomeUnknown) throw new Error('Session outcome unknown after request timeout; reconnect before further work')
+    lastUse = Date.now()
     await ensureOpen()
     if (o.track !== false) version++
     const transactionID = randomUUID()
@@ -520,6 +544,14 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     if (transport === 'wasm' && localEngine?.closed) {
       if (connectPromise) return connectPromise
       connectPromise = restartLocalEngine(localEngine.deathReason ?? 'closed').finally(() => {
+        connectPromise = null
+      })
+      return connectPromise
+    }
+    if (transport === 'wasm' && !localEngine && asleep !== null) {
+      // Suspended: the drawing lives on the local engine, whatever the policy would pick now.
+      if (connectPromise) return connectPromise
+      connectPromise = openWasm().finally(() => {
         connectPromise = null
       })
       return connectPromise
@@ -640,10 +672,59 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
       // resetCaches). Checkpoints (save payloads held here) stay valid:
       // restore loads them into this one.
       containers.clear()
+      // After a suspend the drawing comes back first: whoever is told of the new engine finds the model in it.
+      if (asleep) await wake(asleep)
+      asleep = null
       await bootstrapSession()
       for (const hear of engineStartListeners) hear()
     }
     for (const hear of sessionListeners) hear({ command: 'Connected', transport: 'wasm' })
+  }
+
+  /**
+   * A command for the local engine as it is: no move to a worker that came up
+   * meanwhile ('auto'), which would take a drawing that is half woken or half
+   * put aside for an empty one.
+   */
+  async function engineOnly<T>(work: () => Promise<T>): Promise<T> {
+    const was = probing
+    probing = true
+    try {
+      return await work()
+    } finally {
+      probing = was
+    }
+  }
+
+  /** Loads a suspended drawing into the new engine. Kept for the next try when it does not load. */
+  async function wake(data: string): Promise<void> {
+    const r = await engineOnly(() => request('Execute', { task: [{ 'v1.common.load': [{ format: 'OFB', encoding: 'base64', data, doClear: 1 }] }], options: { undoable: false } }))
+    if (r.maxLevel > 31) {
+      localEngine?.close('the suspended drawing did not load')
+      localEngine = null
+      throw new Error(`The drawing was put aside while idle and did not load again (${r.messages.map(m => m.message).join('; ') || `maxLevel ${r.maxLevel}`}). It is kept: the next call tries again.`)
+    }
+    log(`local WASM engine woken: the drawing is back (${Math.round((data.length * 3) / 4 / 1024)} KB)`)
+  }
+
+  async function suspend(): Promise<boolean> {
+    if (transport !== 'wasm' || !localEngine || localEngine.closed || connectPromise || pending.size > 0 || guestsBusy > 0) return false
+    const at = version
+    const r = await engineOnly(() => request<{ content?: string }>('Execute', { task: [{ 'v1.common.save': [{ format: 'OFB', encoding: 'base64' }] }], options: { undoable: false } }, { track: false }))
+    let data = r.result?.content
+    if (!data) {
+      // Nothing saves from an empty drawing; anything else that does not save stays awake.
+      const empty = !!lastStructure && Object.values(lastStructure.tree ?? {}).every((n: any) => n?.class === 'AllObjects')
+      if (!empty) return false
+      data = ''
+    }
+    // Somebody asked meanwhile: it is not idle.
+    if (version !== at || pending.size > 0 || guestsBusy > 0 || !localEngine || transport !== 'wasm') return false
+    asleep = data
+    localEngine.close('suspended while idle')
+    localEngine = null
+    log(`local WASM engine suspended while idle: the drawing waits here (${Math.round((data.length * 3) / 4 / 1024)} KB) for the next command`)
+    return true
   }
 
   /** Replaces a retired local engine (crash, trap, timeout) with a new one. */
@@ -659,6 +740,7 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
   }
 
   function close(): void {
+    asleep = null
     if (ws && ws.readyState <= WebSocket.OPEN) ws.close()
     if (localEngine) {
       localEngine.close()
@@ -968,11 +1050,18 @@ export async function connect(url: string = DEFAULT_URL, opts: ConnectOptions = 
     get localEngine() {
       return localEngine
     },
+    suspend,
+    get suspended() {
+      return asleep !== null && localEngine === null
+    },
+    get lastUse() {
+      return lastUse
+    },
     get shareToken() {
       return inviteToken
     },
     get connected() {
-      if (transport === 'wasm') return localEngine !== null
+      if (transport === 'wasm') return localEngine !== null || asleep !== null
       return !!ws && ws.readyState === WebSocket.OPEN
     },
     get sessionId() {

@@ -10,7 +10,8 @@
 // So the MCP itself is a thin stdio shim (server.ts) that finds or starts
 // this daemon and forwards its host's JSON-RPC to it over HTTP (MCP
 // Streamable HTTP transport). The daemon holds:
-//   • one MCP server instance PER SESSION — every tab gets its own engine
+//   • a router PER SESSION (drawings.ts) and in it one MCP server instance
+//     per drawing its conversations open — every drawing gets its own engine
 //     client, caches, tool queue and invites (mcp-server.ts),
 //   • the listener sessions are joined on (share/server.ts): apps dock into
 //     the MCP's sessions there, and pages that host a session of their own
@@ -37,11 +38,11 @@ import { homedir, tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { createMcpServer, DEFAULT_WS_URL, VERSION } from './mcp-server.js'
+import { DEFAULT_WS_URL, VERSION } from './mcp-server.js'
+import { createRouter, type Router } from './drawings.js'
 import { closeListener as closeShareListener, dockedApps, listen as listenForApps, offeringPages, SESSION_PATH } from './share/server.js'
 import { showFromEnv, type Show } from './share/session.js'
-import type { Client, EnginePolicy } from './client.js'
+import type { EnginePolicy } from './client.js'
 import { wasmOptionsFromEnv, type LocalWasmOptions } from './engine/wasm.js'
 import { DEFAULT_DAEMON_PORT } from './ports.js'
 
@@ -117,7 +118,7 @@ export type DaemonOptions = {
 
 export type DaemonHandle = { url: string; port: number; close: () => Promise<void> }
 
-type Session = { transport: StreamableHTTPServerTransport; server: McpServer; client: Client; createdAt: number }
+type Session = { transport: StreamableHTTPServerTransport; router: Router; createdAt: number }
 
 function makeLog(logFile?: string): (msg: string) => void {
   if (!logFile) return msg => process.stderr.write(`[classcad-mcp daemon] ${msg}\n`)
@@ -202,11 +203,7 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
     const s = sessions.get(id)
     if (!s) return
     sessions.delete(id)
-    try {
-      s.client.close()
-    } catch {
-      /* already closed */
-    }
+    s.router.close().catch(() => {})
     log(`session ${id} closed (${why}); ${sessions.size} left`)
     if (sessions.size === 0) {
       if (draining) {
@@ -231,6 +228,8 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
           build,
           pid: process.pid,
           sessions: sessions.size,
+          drawings: [...sessions.values()].reduce((n, s) => n + s.router.drawings, 0),
+          awake: [...sessions.values()].reduce((n, s) => n + s.router.awake, 0),
           draining,
           apps: dockedApps(),
           join: joinAddress,
@@ -317,19 +316,19 @@ export async function startDaemon(opts: DaemonOptions = {}): Promise<DaemonHandl
       const named = hdr('x-classcad-show')
       const show: Show = named === 'browser' || named === 'host' || named === 'off' ? named : showFromEnv()
       const sessionLog = (msg: string) => log(`[${transport.sessionId ?? 'new'}] ${msg}`)
-      const { server, client } = await createMcpServer({ wsUrl: sessionWsUrl, engine: enginePolicy, wasm: sessionWasm, show, log: sessionLog })
+      const router = await createRouter({ wsUrl: sessionWsUrl, engine: enginePolicy, wasm: sessionWasm, show, log: sessionLog })
       const transport: StreamableHTTPServerTransport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: id => {
           disarmIdle()
-          sessions.set(id, { transport, server, client, createdAt: Date.now() })
+          sessions.set(id, { transport, router, createdAt: Date.now() })
           log(`session ${id} opened (worker ${sessionWsUrl}, engine ${enginePolicy}, local wasm ${sessionWasm ? 'available' : 'no key'}, app shown by ${show}); ${sessions.size} active`)
         },
       })
       transport.onclose = () => {
         if (transport.sessionId) dropSession(transport.sessionId, 'transport closed')
       }
-      await server.connect(transport)
+      await router.server.connect(transport)
       await transport.handleRequest(req, res, body)
     } catch (err) {
       log(`request failed: ${err instanceof Error ? err.stack ?? err.message : err}`)

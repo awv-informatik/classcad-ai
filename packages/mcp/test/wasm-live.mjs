@@ -22,6 +22,7 @@ import { dirname, join } from 'node:path'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { fakeAuth } from './fake-auth.mjs'
+import { conversation } from './conversation.mjs'
 
 // The engine starts only with a valid key; the MCP carries none any more.
 const REAL_SIGN_IN = process.env.CLASSCAD_LIVE_AUTH_FILE
@@ -57,10 +58,10 @@ function shim(env) {
   p.stdout.on('data', d => { buf += d; let i; while ((i = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, i); buf = buf.slice(i + 1); try { const m = JSON.parse(line); if (m.id != null && waiters.has(m.id)) { waiters.get(m.id)(m); waiters.delete(m.id) } } catch {} } })
   const call = (method, params) => new Promise((resolve, reject) => { const id = ++n; const timer = setTimeout(() => { if (waiters.has(id)) { waiters.delete(id); reject(new Error('timeout ' + method)) } }, 180000); waiters.set(id, m => { clearTimeout(timer); resolve(m) }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n') })
   const init = async () => { const r = await call('initialize', { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'wasm-live', version: '0' } }); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n'); return r }
-  const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: args }); const c = m.result?.content || []; const t = (c.find(b => b.type === 'text') || {}).text; let parsed; try { parsed = JSON.parse(t) } catch { parsed = t } return { isError: !!m.result?.isError, text: t, value: parsed, content: c } }
+  const conv = conversation(); const tool = async (name, args = {}) => { const m = await call('tools/call', { name, arguments: conv.args(name, args) }); conv.saw(m); const c = m.result?.content || []; const t = (c.find(b => b.type === 'text') || {}).text; let parsed; try { parsed = JSON.parse(t) } catch { parsed = t } return { isError: !!m.result?.isError, text: t, value: parsed, content: c } }
   // A shim that is gone already has nothing left to say: waiting for its exit would wait forever.
   const exit = () => new Promise(r => { if (p.exitCode !== null || p.signalCode !== null) return r(); p.once('exit', r); p.stdin.end() })
-  return { p, call, init, tool, exit, stderr: () => stderr.join('') }
+  return { p, call, init, tool, exit, conv, stderr: () => stderr.join('') }
 }
 
 live('local WASM engine through the MCP (policy wasm / auto fallback / drogon)', async () => {
@@ -383,8 +384,9 @@ live('read-only 3D view: one link per session, live updates, exports, nothing sh
   try {
     await a.init()
     await b.init()
-    const ua = (await a.tool('session_info')).value.viewer
-    const ub = (await b.tool('session_info')).value.viewer
+    // A drawing is opened by any call that names "new": its view is there before a model is.
+    const ua = (await a.tool('session_info', { drawing: 'new' })).value.viewer
+    const ub = (await b.tool('session_info', { drawing: 'new' })).value.viewer
     assert.match(ua, /^http:\/\/127\.0\.0\.1:\d+\/v\/[A-Za-z0-9_-]{16,}$/)
     assert.notEqual(ua, ub, 'each session has a link of its own')
     assert.equal(new URL(ua).origin, new URL(ub).origin, 'one listener for the daemon')
@@ -418,7 +420,8 @@ live('read-only 3D view: one link per session, live updates, exports, nothing sh
     assert.ok(await until('event: hello'), 'the stream says hello')
 
     // a model in A: its result carries the link, its watchers are told, B sees nothing of it
-    const built = await a.call('tools/call', { name: 'run_script', arguments: { script: `const p = (await api.v1.part.create({ name: 'Seen' })).result; await api.v1.part.cylinder({ id: p, diameter: 40, height: 20 }); return p` } })
+    const built = await a.call('tools/call', { name: 'run_script', arguments: a.conv.args('run_script', { script: `const p = (await api.v1.part.create({ name: 'Seen' })).result; await api.v1.part.cylinder({ id: p, diameter: 40, height: 20 }); return p` }) })
+    a.conv.saw(built)
     const texts = built.result.content.filter(c => c.type === 'text').map(c => c.text)
     assert.ok(texts.some(t => t.includes('3D view') && t.includes(ua)), 'the result offers the view: ' + texts.join(' | '))
     assert.ok(await until('event: scene'), 'watchers hear of the change')
@@ -494,7 +497,8 @@ live('sharing: an app docks into the MCP\'s own engine, and an agent joins anoth
   let ws
   try {
     await a.init()
-    const built = await a.call('tools/call', { name: 'run_script', arguments: { script: `const p = (await api.v1.part.create({ name: 'Shared' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30, name: 'FromAgent' }); return p` } })
+    const built = await a.call('tools/call', { name: 'run_script', arguments: a.conv.args('run_script', { script: `const p = (await api.v1.part.create({ name: 'Shared' })).result; await api.v1.part.box({ id: p, length: 10, width: 20, height: 30, name: 'FromAgent' }); return p` }) })
+    a.conv.saw(built)
     const link = (await a.tool('session_info')).value.app
     assert.match(link, /^http:\/\/app\.test\/\?invite=[0-9a-f-]{36}$/, 'the app\'s link carries the session\'s invite')
     assert.ok(built.result.content.some(c => c.type === 'text' && c.text.includes(`App: ${link}`) && /Tell the user once that they can open the model there/.test(c.text)), 'the first model offers the app')
@@ -695,8 +699,9 @@ live('the app is offered once, where the host shows it: its own browser pane, or
     assert.ok(/SHOWING IT IS YOUR JOB HERE/.test(told) && /`preview_start`, the Browser pane tool/.test(told), 'the desktop agent is told that it opens the app, and with which tool')
     const toldTerminal = (await terminal.init()).result.instructions
     assert.ok(/it opens by itself in the user's default browser/.test(toldTerminal) && !/browser pane/.test(toldTerminal), 'the terminal agent is told nothing of panes')
-    const link = (await desktop.tool('session_info')).value.app
+    // The app is a drawing's: its link is there once the drawing is.
     const first = texts(await desktop.tool('run_script', { script: make }))
+    const link = (await desktop.tool('session_info')).value.app
     assert.ok(first.some(t => t.includes(`App: ${link}`) && /the user does not see it yet/.test(t) && /in your own browser pane/.test(t) && /preview_start/.test(t)), 'the agent is told to open the app in its own pane: ' + first.join(' | ').slice(0, 400))
     assert.ok(!texts(await desktop.tool('run_script', { script: more })).some(t => t.includes(link)), 'said once: the next result does not repeat the link')
     assert.ok(!texts(await desktop.tool('snapshot', {})).some(t => t.includes(link)), 'nor does a render')
@@ -710,5 +715,101 @@ live('the app is offered once, where the host shows it: its own browser pane, or
   } finally {
     await desktop.exit()
     await terminal.exit()
+  }
+})
+
+live('drawings: conversations on one connection never reach each other\'s; idle ones sleep and wake, docked apps included', async () => {
+  const { default: WebSocket } = await import('ws')
+  const { inflateRawSync } = await import('node:zlib')
+  const listener = await freePort()
+  const port = await freePort()
+  const env = {
+    CLASSCAD_MCP_PORT: String(port),
+    CLASSCAD_WS_URL: `ws://127.0.0.1:${await freePort()}/`,
+    CLASSCAD_DAEMON_IDLE_MS: '1500',
+    CLASSCAD_ENGINE: 'wasm',
+    CLASSCAD_VIEWER_PORT: String(listener),
+    CLASSCAD_APP_URL: 'http://app.test/',
+    // one engine awake per connection: a second drawing puts the first to sleep
+    CLASSCAD_DRAWINGS_AWAKE: '1',
+  }
+  // What the Claude desktop chat app does: one connection, every conversation's calls on it.
+  const host = shim(env)
+  const sleep = ms => new Promise(r => setTimeout(r, ms))
+  const health = async () => (await fetch(`http://127.0.0.1:${port}/health`)).json()
+  const until = async (ok, ms) => { const end = Date.now() + ms; while (Date.now() < end) { if (await ok()) return true; await sleep(100) } return false }
+  let ws
+  try {
+    await host.init()
+    const tools = (await host.call('tools/list', {})).result.tools
+    assert.ok(tools.find(t => t.name === 'run_script').inputSchema.required.includes('drawing'), 'a tool that works on a model needs a drawing')
+    assert.ok(!tools.find(t => t.name === 'docs').inputSchema.properties?.drawing, 'docs does not')
+    // Two conversations: each keeps the id its first call was given.
+    const one = conversation()
+    const two = conversation()
+    const say = async (conv, name, args = {}) => {
+      const m = await host.call('tools/call', { name, arguments: conv.args(name, args) })
+      conv.saw(m)
+      const texts = (m.result?.content ?? []).filter(c => c.type === 'text').map(c => c.text)
+      let value
+      try { value = JSON.parse(texts[0]) } catch { value = texts[0] }
+      return { isError: !!m.result?.isError, texts, value }
+    }
+    const parts = async conv => (await say(conv, 'tree', { refresh: true })).value.nodes.filter(n => n.class === 'CC_Part').map(n => n.name)
+
+    const built = await say(one, 'run_script', { script: `const p = (await api.v1.part.create({ name: 'Bracket' })).result; await api.v1.part.box({ id: p, length: 40, width: 40, height: 5 }); return p` })
+    assert.ok(!built.isError && one.drawing.startsWith('d-'), 'the first call opens a drawing and names it: ' + built.texts.join(' | '))
+    const partId = built.value.returned
+    assert.ok(!(await say(two, 'run_script', { script: `const p = (await api.v1.part.create({ name: 'Flange' })).result; await api.v1.part.cylinder({ id: p, diameter: 80, height: 10 }); return p` })).isError, 'the second conversation\'s part.create is not refused: it has a drawing of its own')
+    assert.notEqual(one.drawing, two.drawing)
+    assert.ok(!(await say(two, 'clear')).isError)
+    assert.deepEqual(await parts(one), ['Bracket'], 'the other conversation\'s clear left this model alone')
+    assert.deepEqual(await parts(two), [])
+    const missing = await host.call('tools/call', { name: 'clear', arguments: {} })
+    assert.ok(missing.result.isError && /works on a drawing/.test(missing.result.content[0].text), 'no drawing named: nothing done')
+    const madeUp = await host.call('tools/call', { name: 'clear', arguments: { drawing: 'd-aaaaaaaa' } })
+    assert.ok(madeUp.result.isError && /No drawing "d-aaaaaaaa"/.test(madeUp.result.content[0].text), 'an id nobody was given: nothing done')
+    assert.deepEqual(await parts(one), ['Bracket'])
+    const h = await health()
+    assert.equal(h.sessions, 1)
+    assert.equal(h.drawings, 2)
+
+    // An app docks into the first drawing, with that drawing's own link.
+    const link = (await say(one, 'session_info')).value.app
+    assert.notEqual(link, (await say(two, 'session_info')).value.app, 'each drawing has an app link of its own')
+    ws = new WebSocket(`ws://127.0.0.1:${listener}/session/?invite=${new URL(link).searchParams.get('invite')}`)
+    const frames = []
+    const waiters = new Map()
+    let n = 0
+    ws.on('message', (data, isBinary) => {
+      const frame = JSON.parse(isBinary ? inflateRawSync(data).toString() : data.toString())
+      frames.push(frame)
+      if (frame.command === 'Result' && waiters.has(frame._transactionID_)) { waiters.get(frame._transactionID_)(frame); waiters.delete(frame._transactionID_) }
+    })
+    await new Promise((resolve, reject) => { ws.once('open', resolve); ws.once('error', reject) })
+    const send = cmd => new Promise(resolve => { const transactionID = `app-${++n}`; waiters.set(transactionID, resolve); ws.send(JSON.stringify({ commandVersion: 'v1', transactionID, ...cmd })) })
+    await send({ command: 'SetEmissionConfig', config: { sendStructure: true, sendStructure_Patch: true, sendStructure_Immediately: true, sendGraphic_Kernel: true, sendGraphic_Immediately: true, sendGraphic_ImmediatelyBinary: true, sendMessages: true } })
+    assert.ok(Object.values((await send({ command: 'GetTree' })).structure.tree).some(node => node.name === 'Bracket'), 'the app sees its drawing\'s model')
+
+    // The second conversation works: the first drawing goes to sleep (one awake).
+    await say(two, 'run_script', { script: `const p = (await api.v1.part.create({ name: 'Washer' })).result; await api.v1.part.cylinder({ id: p, diameter: 20, height: 2 }); return p` })
+    assert.ok(await until(async () => (await say(one, 'session_info')).value.wasm.suspended === true, 5000), 'the first drawing sleeps')
+    assert.equal((await health()).awake, 1)
+
+    // The app asks: the drawing wakes, with its model, and the app is sent it anew.
+    frames.length = 0
+    const woken = await send({ command: 'GetTree' })
+    assert.ok(Object.values(woken.structure.tree).some(node => node.name === 'Bracket'), 'the app\'s next command wakes the drawing, model and all')
+    assert.equal((await say(one, 'session_info')).value.wasm.suspended, false)
+    // The agent goes on with the ids it had.
+    const grown = await say(one, 'run_script', { script: `await api.v1.part.box({ id: ${partId}, length: 5, width: 5, height: 30, name: 'Post' }); return 1` })
+    assert.ok(!grown.isError, 'the part id from before the sleep still names the part: ' + grown.texts.join(' | '))
+    for (let i = 0; i < 40 && !frames.some(f => f.command === 'StructurePatch' && JSON.stringify(f.structurePatch).includes('Post')); i++) await sleep(25)
+    assert.ok(frames.some(f => f.command === 'StructurePatch' && JSON.stringify(f.structurePatch).includes('Post')), 'and the app is sent the change')
+    assert.ok(await until(async () => (await say(two, 'session_info')).value.wasm.suspended === true, 5000), 'the second drawing sleeps in its place')
+    assert.deepEqual(await parts(two), ['Washer'])
+  } finally {
+    ws?.close()
+    await host.exit()
   }
 })

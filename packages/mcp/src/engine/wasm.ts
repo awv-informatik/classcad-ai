@@ -11,7 +11,7 @@
 //     for CLASSCAD_TOKEN on CI (engine/key.ts); keys for local use name
 //     `localhost`, which the engine matches on any port.
 //
-// One engine = one drawing = one MCP session. Apps dock into that session
+// One engine = one drawing (drawings.ts). Apps dock into that drawing's session
 // through share/hub.ts, which speaks a ClassCAD server's session protocol
 // for this engine.
 import { Worker } from 'node:worker_threads'

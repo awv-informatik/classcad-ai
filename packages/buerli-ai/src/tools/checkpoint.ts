@@ -31,6 +31,11 @@ export const checkpoint: ToolHandler = async (input, ctx) => {
   try {
     const save = (createApi(ctx.drawingId) as any)?.v1?.common?.save
     if (typeof save !== 'function') return { error: 'Checkpoint unavailable (v1.common.save not found).' }
+    // TODO(before an app with this panel takes an engine with classcad-cclasses PR 211): that engine refuses every
+    //   export its key's plan does not include, and Free keys export STL only. This OFB save would fail
+    //   for Free accounts, and checkpoint/restore with it. Move checkpoint and restore to a state save
+    //   the plan's export formats do not limit (the engine's StoreState/LoadState, which no v1 API
+    //   call reaches yet), before an app with this panel updates the engine.
     const raw = await save({ format: 'OFB', encoding: 'base64' })
     const data = extractBase64(raw)
     if (!data) return { error: 'Checkpoint failed: the engine returned no OFB data.' }

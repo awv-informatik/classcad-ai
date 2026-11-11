@@ -744,6 +744,10 @@ live('drawings: conversations on one connection never reach each other\'s; idle 
     const tools = (await host.call('tools/list', {})).result.tools
     assert.ok(tools.find(t => t.name === 'run_script').inputSchema.required.includes('drawing'), 'a tool that works on a model needs a drawing')
     assert.ok(!tools.find(t => t.name === 'docs').inputSchema.properties?.drawing, 'docs does not')
+    for (const t of tools.filter(t => t.inputSchema.properties?.drawing)) {
+      assert.deepEqual(t.inputSchema.properties.drawing.type, 'string', `${t.name}: \`drawing\` is the drawing id, a string (no tool option of that name replaces it)`)
+    }
+    assert.ok(tools.find(t => t.name === 'snapshot').inputSchema.properties.techDrawing, 'snapshot\'s technical drawing is `techDrawing`')
     // Two conversations: each keeps the id its first call was given.
     const one = conversation()
     const two = conversation()

@@ -170,6 +170,11 @@ export async function createRouter(opts: McpServerOptions): Promise<Router> {
     tools ??= (await (await machineTools()).client.listTools()).tools.map(tool => {
       if (MACHINE_TOOLS.has(tool.name)) return tool
       const schema = tool.inputSchema
+      // `drawing` is the router's: a tool's own `drawing` would replace the id in the
+      // schema (strict hosts then refuse every id) and never reach the tool (it is taken as the id).
+      if (schema.properties && 'drawing' in schema.properties) {
+        throw new Error(`Tool "${tool.name}" declares its own \`drawing\` parameter, which is the drawing id every tool takes. Rename it.`)
+      }
       const required = DRAWING_OPTIONAL.has(tool.name) ? schema.required : ['drawing', ...(schema.required ?? [])]
       return {
         ...tool,

@@ -53,7 +53,7 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
         'So when you intend to send the render, pass outDir = your scratchpad directory (or a folder in the project). ' +
         'Call after a meaningful geometry change, NOT after every parameter tweak. ' +
         'Verification options: section (cut through internals), sheet (four labeled views, shared ortho scale), ' +
-        'drawing (technical drawing: front/top/side with hidden lines dashed, placed first- or third-angle — compare against a reference drawing), ' +
+        'techDrawing (technical drawing: front/top/side with hidden lines dashed, placed first- or third-angle — compare against a reference drawing), ' +
         'lines (line style: visible edges solid, hidden dashed), ' +
         'highlight (face/edge/body ids in signal color), markers (probe crosshairs at world points), ' +
         'sketchOverlay (sketch curves on their real plane), annotate (extents + axes triad + scale bar), ' +
@@ -82,12 +82,13 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
           origin: z.array(z.number()).length(3),
           normal: z.array(z.number()).length(3),
           cap: z.boolean().optional(),
-        }).optional().describe('Cut the solids at a plane; the positive side of the normal is removed. The cut faces are filled and hatched like a drawing\'s section (wall thicknesses, bores and pockets read directly); cap: false leaves the cut open with interior walls shaded. Combine with drawing for a section view.'),
+        }).optional().describe('Cut the solids at a plane; the positive side of the normal is removed. The cut faces are filled and hatched like a drawing\'s section (wall thicknesses, bores and pockets read directly); cap: false leaves the cut open with interior walls shaded. Combine with techDrawing for a section view.'),
         sheet: z.union([z.boolean(), z.array(viewSchema).length(4), z.array(viewSchema).length(2)]).optional()
           .describe('Multi-view sheet in ONE image. true or 4 views = quadrants (default top/iso/front/right; ortho views share one scale). 2 views = side-by-side panels labeled A | B — use for the mirror check: [matched view, same view with negated azimuth] in a single render.'),
         lines: z.boolean().optional()
           .describe('Line style instead of shading: visible edges and silhouettes solid, hidden edges dashed. Hidden lines show bores, pockets, hollow vs solid. Works for the single view and every sheet panel.'),
-        drawing: z.union([
+        // Not `drawing`: that name is the router's drawing id, which every tool takes.
+        techDrawing: z.union([
           z.boolean(),
           z.enum(['first-angle', 'third-angle']),
           z.object({
@@ -120,7 +121,8 @@ export function registerSnapshotTool(server: McpServer, client: Client): void {
       },
     },
     async (input) => {
-      const { label, outDir, ...options } = input as Record<string, any>
+      const { label, outDir, techDrawing, ...rest } = input as Record<string, any>
+      const options = techDrawing === undefined ? rest : { ...rest, drawing: techDrawing }
       const safeLabel = ((label as string) ?? 'snapshot').replace(/[^a-zA-Z0-9_-]/g, '_')
       if (outDir !== undefined && !isAbsolute(outDir)) {
         return { content: [{ type: 'text' as const, text: `outDir must be an absolute path (the daemon's working directory is not yours): ${outDir}` }], isError: true }
